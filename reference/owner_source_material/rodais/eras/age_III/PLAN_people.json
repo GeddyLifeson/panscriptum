@@ -209,7 +209,7 @@
  },
  {
   "name": "Ceallach mac Ghille-Bhrìde",
-  "born": "GE 4,543",
+  "born": "GE 4,541",
   "died": "FE 79",
   "role": "last of Somhairle's line in whom the long years showed",
   "first_chapter": 10,
@@ -457,8 +457,8 @@
  },
  {
   "name": "Fearchar Òg",
-  "born": "FE 1,590",
-  "died": "FE 1,684",
+  "born": "FE 1,586",
+  "died": "FE 1,680",
   "role": "rìgh who divided the woods; came as a boy; the silver rings",
   "first_chapter": 29,
   "notes": "master canon"
@@ -710,5 +710,21 @@
   "role": "boy of the northern hearth; first of the nine to sit a season with the flame",
   "first_chapter": 8,
   "notes": "new; alive at the chapter's close"
+ },
+ {
+  "name": "Lachlann Mòr mac Mhurchaidh",
+  "born": "GE 300",
+  "died": null,
+  "role": "eldest of Murchadh Mòr's eleven sons; takes the seat at Baile Mòr mhòr",
+  "first_chapter": 10,
+  "notes": "new"
+ },
+ {
+  "name": "Donnchadh Iar mac Mhurchaidh",
+  "born": "GE 250",
+  "died": null,
+  "role": "fourth of Murchadh Mòr's eleven sons; takes the western glens, disputes the division",
+  "first_chapter": 10,
+  "notes": "new"
  }
 ]

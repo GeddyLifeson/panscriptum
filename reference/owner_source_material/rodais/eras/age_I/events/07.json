@@ -1,0 +1,154 @@
+[
+  {
+    "title": "Diarmad is born at Tobar dhìreach",
+    "era_year": 862,
+    "summary": "Diarmad is born the third child and second son of Fionnghuala, into a household that keeps the mason's own unbroken fire and a leather bag of seven coloured pieces the children play with at the hearth.",
+    "category": "land",
+    "people": ["Diarmad", "Fionnghuala"],
+    "places": [],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "Diarmad first asks why the pieces are coloured",
+    "era_year": 869,
+    "summary": "Playing with the leather bag of coloured pieces at the hearth, Diarmad, seven years old, asks the aunt who keeps the fire-pot why the mason's pieces hold colour and the coal of the hillside does not, and is told only that a boy who wants a better answer may go and ask the sky.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["line-of-the-mason", "the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "cause"}]
+  },
+  {
+    "title": "Diarmad asks the elders and the fire-bearers",
+    "era_year": 871,
+    "summary": "Diarmad puts his question to the oldest of the line and to the fire-bearers who carry coal to the hearths of the hills, and gathers only shrugs and a fire-bearer's tale that the colour is no more real than a rainbow's, which the pieces' own unfading colour does not bear out.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Diarmad asks it of travellers",
+    "era_year": 873,
+    "summary": "He begins putting his question to travellers passing through Tobar dhìreach with no stake in the household's pride, reasoning that a stranger has no cause to fob him off, and gets from most of them a shrug dressed in more words.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Diarmad carries the rainbow piece",
+    "era_year": 872,
+    "summary": "From about his tenth year Diarmad keeps the piece that holds every colour and none carried loose at his belt, and takes to turning it in every light the day offers, once holding it bare in a shower of rain to see whether the wet would draw its colour out; it does not.",
+    "category": "coal",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "The valley names it Diarmad's question",
+    "era_year": 875,
+    "summary": "The asking becomes a settled joke of the high valleys, carried from hearth to hearth by the fire-bearers, half in earnest and half for a laugh, until every household near Tobar dhìreach knows Diarmad's question and no household yet has an answer for it.",
+    "category": "land",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "Fionnghuala takes the fire-pot",
+    "era_year": 880,
+    "summary": "On the death of the aunt who had kept it, Fionnghuala becomes keeper of the pot that holds the mason's own ember, the office passing to her at two-and-forty as it had passed through the women of the line before her.",
+    "category": "coal",
+    "people": ["Fionnghuala"],
+    "places": [],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "Fionnghuala silences the joke at her own hearth",
+    "era_year": 881,
+    "summary": "When a cousin by marriage mocks Diarmad's question in front of a full house, Fionnghuala answers that twenty years of one question asked is not the same as a mind that cannot let a matter drop, and the joke is not made again in her hearing.",
+    "category": "land",
+    "people": ["Fionnghuala", "Diarmad"],
+    "places": [],
+    "threads": ["line-of-the-mason"],
+    "master_links": []
+  },
+  {
+    "title": "A fire-bearer brings word of a grove where the wind speaks",
+    "era_year": 886,
+    "summary": "Returning from the longest circuit the household's fire-bearers still walk, a woman of Tobar dhìreach reports, more in passing than in earnest, an old herder's warning of an oak grove on the far northern moor where the wind does not blow as it blows anywhere else.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "cause"}]
+  },
+  {
+    "title": "Diarmad presses the fire-bearer for the herder's words",
+    "era_year": 886,
+    "summary": "Diarmad asks the fire-bearer more than once to repeat exactly what the northern herder had said of the grove, until, tired of the asking, she tells him to go and hear it from the herder's own mouth.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Diarmad gathers every scrap told of the grove",
+    "era_year": 888,
+    "summary": "Over two years he seeks out travellers from the north and west and sets together their thin, half-agreeing tellings of a grove no bird will nest in and no fire is lit within sight of, the first tale in twenty years of asking that does not simply shrug his question off.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Fionnghuala gives Diarmad the rainbow piece for the road",
+    "era_year": 889,
+    "summary": "Told her son means to walk north to put his question to the grove itself, Fionnghuala gives him the piece that holds every colour to carry loose in his hand rather than shut in its bag, so that he may have the thing itself before him when he asks.",
+    "category": "coal",
+    "people": ["Fionnghuala", "Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals", "line-of-the-mason"],
+    "master_links": [{"to": "I-0011a", "type": "cause"}]
+  },
+  {
+    "title": "Diarmad walks north from Tobar dhìreach",
+    "era_year": 889,
+    "summary": "At seven-and-twenty, Diarmad sets out alone from Tobar dhìreach with a fire-steel, a little food and the rainbow piece against his palm, walking three days north and a little west into country his own household has never settled.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals", "line-of-the-mason"],
+    "master_links": [{"to": "I-0011a", "type": "cause"}]
+  },
+  {
+    "title": "A gale overtakes Diarmad on the open moor",
+    "era_year": 889,
+    "same_day": true,
+    "summary": "On the second day of his walk a hard west wind rises over the high moor and does not slacken, and Diarmad pushes on through it regardless, his food too scant to spare for waiting out weather.",
+    "category": "land",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": []
+  },
+  {
+    "title": "Diarmad reaches the grove's edge in the gale",
+    "era_year": 889,
+    "same_day": true,
+    "summary": "On the third afternoon Diarmad comes under the first oaks of the grove he has walked three days to find, and shelters at a fallen trunk with a small fire, listening to a gale in the branches that sounds, to his tired ear, less like wind than like many voices speaking at once.",
+    "category": "faith",
+    "people": ["Diarmad"],
+    "places": [],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "I-0011a", "type": "cause"}]
+  }
+]

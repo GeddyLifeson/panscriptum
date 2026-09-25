@@ -1,0 +1,112 @@
+[
+  {
+    "title": "The custody-book's entry of the turn",
+    "era_year": 40,
+    "summary": "At the vein-house Donnchadh mac Thormoid enters the fleet's sunwise turn into the custody-book under a day after Samhain, a full turning of the moon and more after every other account sets the sailing itself. The gap between the two dates is copied faithfully and explained by no word in the leaf that reaches him.",
+    "category": "coal",
+    "people": ["Donnchadh mac Thormoid"],
+    "places": ["burg:491"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0024", "type": "sequel"}]
+  },
+  {
+    "title": "Donnchadh's private count of the Diosal",
+    "era_year": 44,
+    "summary": "For his own ledger's convenience, and for no reason he offers anyone, the vein-house clerk Donnchadh mac Thormoid begins to number years from the sunwise turn rather than from a reign, working the count backward through his private book to the turn itself. No one above him asks him to keep it, and he tells no one that he does.",
+    "category": "law",
+    "people": ["Donnchadh mac Thormoid"],
+    "places": ["burg:491"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0025", "type": "sequel"}]
+  },
+  {
+    "title": "Broken tidings come to the harbour-house",
+    "era_year": 44,
+    "summary": "Word of the fleet reaches Seann Skell by a boat that does not stay to be questioned. Calum mac Nèill copies the telling that same night in a shaking hand; the letters run smaller toward the leaf's foot, and the copy stops without warning where the telling itself stopped.",
+    "category": "land",
+    "people": ["Calum mac Nèill"],
+    "places": ["burg:489"],
+    "threads": ["the-sundering", "the-mist"],
+    "master_links": [{"to": "III-0026", "type": "sequel"}]
+  },
+  {
+    "title": "Two shores, not one",
+    "era_year": 44,
+    "summary": "Calum's leaf tells of two separate landfalls reached by hulls that had not held together the whole crossing, whether by storm, purpose, or a quarrel the telling does not say. It gives no word of which households reached which shore, and its torn end settles nothing.",
+    "category": "land",
+    "people": ["Calum mac Nèill"],
+    "places": ["burg:489"],
+    "threads": ["the-sundering", "the-mist"],
+    "master_links": [{"to": "III-0027", "type": "sequel"}]
+  },
+  {
+    "title": "The tale kept two ways at once at Inis àrsaidh",
+    "era_year": 45,
+    "summary": "The broken telling of two shores reaches the fishing hearths of Inis àrsaidh, which gave more households to the roll than any other place. With no way to know which shore holds which kin, the town keeps both halves of the tale alive together, grieving toward one and hoping toward the other by turns.",
+    "category": "land",
+    "people": [],
+    "places": ["burg:55"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0026", "type": "sequel"}]
+  },
+  {
+    "title": "The tidings copied to the red hall and the vein-house",
+    "era_year": 44,
+    "summary": "A fair copy of Calum's leaf goes by rider to Cathair dhearg for the queen's own council; a second copy, made by his son Dòmhnall, goes east to the vein-house, where Donnchadh mac Thormoid sets it beside his own four-year-old entry of the turn and finds the silence between them unexplained by either leaf.",
+    "category": "land",
+    "people": ["Calum mac Nèill", "Donnchadh mac Thormoid"],
+    "places": ["burg:489", "burg:491"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0026", "type": "sequel"}]
+  },
+  {
+    "title": "The council divided over the two shores",
+    "era_year": 44,
+    "summary": "At the red hall the custodians argue whether two landfalls mean the fleet prospered or was scattered, and which of the nineteen or one-and-twenty hulls reached which coast. Queen Beathag hears the whole of it and says nothing, and the council lets the matter drop for the day's ordinary business.",
+    "category": "rulers",
+    "people": ["Beathag nic Dhòmhnaill"],
+    "places": ["burg:19"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0027", "type": "sequel"}]
+  },
+  {
+    "title": "The grain ruling settled",
+    "era_year": 46,
+    "summary": "A long dispute over grain owed the crown's granaries by the upland shires is settled in the queen's favour, the reeves agreeing at last to a measure put to them in her own hand rather than a steward's.",
+    "category": "trade",
+    "people": ["Beathag nic Dhòmhnaill"],
+    "places": ["burg:19"],
+    "threads": [],
+    "master_links": []
+  },
+  {
+    "title": "The bridge at Àth shean mended in stone",
+    "era_year": 46,
+    "summary": "The cracked middle pier of the bridge at Àth shean, shored with timber since a flood two winters before, is rebuilt in stone by masons from the capital, the last props pulled clear on a morning cold enough to break the river's ice.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:67"],
+    "threads": [],
+    "master_links": []
+  },
+  {
+    "title": "Mòrag's line struck in the ordinary hand",
+    "era_year": 46,
+    "summary": "Between the grain ruling and the bridge, in the same plain hand as either, the queen has Murchadh mac Eòghainn enter that Mòrag nic Dhòmhnaill and her children are struck from the succession, as persons no longer on Dia-thìr. Only the old scribe's pen slows at the shaping of the name.",
+    "category": "rulers",
+    "people": ["Beathag nic Dhòmhnaill", "Murchadh mac Eòghainn", "Mòrag nic Dhòmhnaill"],
+    "places": ["burg:19"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0028", "type": "sequel"}]
+  },
+  {
+    "title": "Murchadh sands the leaf",
+    "era_year": 46,
+    "summary": "Alone in the near-emptied hall, old Murchadh mac Eòghainn sands the leaf that struck the queen's sister from the roll, the same practised motion he has closed every entry with for forty years, giving away nothing of what lies written beneath the sand.",
+    "category": "rulers",
+    "people": ["Murchadh mac Eòghainn"],
+    "places": ["burg:19"],
+    "threads": ["the-sundering"],
+    "master_links": [{"to": "III-0028", "type": "sequel"}]
+  }
+]

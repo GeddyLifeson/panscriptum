@@ -169,7 +169,7 @@
  },
  {
   "name": "Donnchadh mac Thormoid",
-  "born": "LE 16",
+  "born": "LE 14",
   "died": "LE 109",
   "role": "scribe of the vein-house; began the count of the Diosal",
   "first_chapter": 7,
@@ -440,12 +440,100 @@
   "notes": "invented"
  },
  {
+  "name": "Ailean mac Mhurchaidh",
+  "born": "LE 580",
+  "died": null,
+  "role": "harbour scribe of Seann Skell who shows Seònaid nic Coinnich the old boards of the roll",
+  "first_chapter": 25,
+  "notes": "invented; an unnamed link in the harbour-scribe line between Niall mac Dhòmhnaill and Eòghann mac Nèill"
+ },
+ {
+  "name": "Fearchar Ciar",
+  "born": "LE 535",
+  "died": null,
+  "role": "old soldier who fought at the ford under Raghnall Ruadh's banner",
+  "first_chapter": 25,
+  "notes": "invented"
+ },
+ {
+  "name": "Dòmhnall mac Eòghainn",
+  "born": "LE 548",
+  "died": null,
+  "role": "son of Eòghann mac Dhùghaill; master of the store at the vein-house after him",
+  "first_chapter": 25,
+  "notes": "invented"
+ },
+ {
+  "name": "Mairead nic Aonghais",
+  "born": "LE 549",
+  "died": null,
+  "role": "a woman of Doire mhin who remembers the cold hearths as a child",
+  "first_chapter": 25,
+  "notes": "invented"
+ },
+ {
   "name": "Mànas mac Ruairidh",
   "born": "LE 620",
   "died": "LE 690",
   "role": "preacher of Seann Skell; founder of Òrd Mhanannain",
   "first_chapter": 26,
   "notes": "master record; dates inferred"
+ },
+ {
+  "name": "Ruairidh",
+  "born": "LE 590",
+  "died": "LE 655",
+  "role": "sworn-man of the harbour-court of Seann Skell; Mànas mac Ruairidh's father, first to kneel to the Cup",
+  "first_chapter": 26,
+  "notes": "invented"
+ },
+ {
+  "name": "Beathag nic Dhonnchaidh",
+  "born": "LE 645",
+  "died": "LE 715",
+  "role": "kept Mànas mac Ruairidh's house and, after him, Taigh Mhanannain",
+  "first_chapter": 26,
+  "notes": "invented"
+ },
+ {
+  "name": "Tormod Ciar",
+  "born": "LE 640",
+  "died": "LE 700",
+  "role": "rope-walker of Cuan shean, among the first there to swear the Cup",
+  "first_chapter": 26,
+  "notes": "invented"
+ },
+ {
+  "name": "Donnchadh mac Ailein",
+  "born": "LE 615",
+  "died": "LE 680",
+  "role": "scribe of the harbour-court of Seann Skell",
+  "first_chapter": 26,
+  "notes": "invented"
+ },
+ {
+  "name": "Coinneach mac Sheumais",
+  "born": "LE 660",
+  "died": "LE 730",
+  "role": "skipper of Ros bheag, turned back by the order's boats under the rule of the headlands",
+  "first_chapter": 26,
+  "notes": "invented"
+ },
+ {
+  "name": "Griogair",
+  "born": "LE 685",
+  "died": "LE 755",
+  "role": "grandson of a pilot of Ros bheag, could not name his grandfather's steering star",
+  "first_chapter": 26,
+  "notes": "invented"
+ },
+ {
+  "name": "Fearchar mac Phàdraig",
+  "born": "LE 620",
+  "died": "LE 700",
+  "role": "reeve of Àth shean who oversaw the rebuilding of the granaries",
+  "first_chapter": 26,
+  "notes": "invented"
  },
  {
   "name": "Eòghann mac Pheadair",
@@ -697,43 +785,43 @@
  },
  {
   "name": "Uisdean mac Dhùghaill",
-  "born": "LE 266",
+  "born": "LE 270",
   "died": "LE 352",
   "role": "crowned ruler, LE 324–LE 352, son of Sìleas nic Fhearchair",
   "first_chapter": 17,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 58; died at 86."
+  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 54; died at 82."
  },
  {
   "name": "Uisdean mac Uisdein",
-  "born": "LE 305",
+  "born": "LE 322",
   "died": "LE 394",
   "role": "crowned ruler, LE 352–LE 394, son of Uisdean mac Dhùghaill",
   "first_chapter": 18,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 47; died at 89. New in the master: a generation the long reigns need."
+  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 30; died at 72. New in the master: a generation the long reigns need."
  },
  {
   "name": "Aonghas mac Uisdein",
-  "born": "LE 350",
-  "died": "LE 430",
-  "role": "crowned ruler, LE 394–LE 430, son of Uisdean mac Uisdein",
+  "born": "LE 372",
+  "died": "LE 450",
+  "role": "crowned ruler, LE 394–LE 450, son of Uisdean mac Uisdein",
   "first_chapter": 18,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 44; died at 80. the first king taught letters as a child."
+  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 22; died at 78. the first king taught letters as a child (his tutor Mòr nic Nèill, LE 380); took up the rite of Macha (LE 441)."
  },
  {
   "name": "Aonghas Òg mac Aonghais",
-  "born": "LE 395",
+  "born": "LE 400",
   "died": "LE 484",
-  "role": "crowned ruler, LE 430–LE 484, son of Aonghas mac Uisdein",
-  "first_chapter": 19,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 35; died at 89. New in the master: a generation the long reigns need (took up the rite of Macha (LE 441); the first king buried by it)."
+  "role": "crowned ruler, LE 450–LE 484, son of Aonghas mac Uisdein",
+  "first_chapter": 20,
+  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 50; died at 84. New in the master: a generation the long reigns need (the first king buried by the rite of Macha)."
  },
  {
   "name": "Iain mac Aonghais",
-  "born": "LE 425",
+  "born": "LE 435",
   "died": "LE 496",
   "role": "crowned ruler, LE 484–LE 496, son of Aonghas Òg mac Aonghais",
   "first_chapter": 20,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 59; died at 71. a short reign."
+  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 49; died at 61. a short reign."
  },
  {
   "name": "Tormod mac Iain, Tormod Bàn",

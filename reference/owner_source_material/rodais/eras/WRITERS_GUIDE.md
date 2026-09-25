@@ -14,6 +14,14 @@ forward and backward but the legendarium should feel like reading a book … a s
   the high recollection voice of the master Books. Not an encyclopedia, not a list of events retold.
 - **Forward only in time, never ahead of itself.** A volume speaks only of its own age and what came before. No
   foreshadowing, no later names, eras, dates or events, no "ages later". `eras/quality/future_check.py` enforces it.
+- **Rulers' ages are stated, and ages are ordinary after the Holy Age** (the owner's rule, permanent canon: "state
+  rulers' ages, and enforce ages returning to normal by the Holy Age"). `eras/RULERS.json` gives every ruler's birth,
+  accession, death and ages; take them from there (or from your PLAN_people.json, which keeps to it), never invent
+  others. Ailean Mòr lived 4,626 years; his kin's long years shrink generation by generation and run out in the Holy Age
+  (the curve is in RULERS.json and Appendix A). No one born in FE 1,200 or later, and no one outside the king's kin in
+  any age, lives past 95; a reign too long for one life is carried by a son or grandson of the same name, not by a
+  longer life. The coal-blooded of the Age of Strangers on are the one exception, and they are not rulers.
+  `eras/quality/ages_check.py` enforces it (§11).
 - **No jumping about inside the book.** Footnotes gloss names and point back only; no forward cross-references.
   Clickable related-event links, cross-era jumps and "see also" belong to the Atlas, not the PDF.
 - **Continuity across the series.** Each volume opens where the last closed and closes where the next opens; a reader
@@ -289,6 +297,9 @@ Run `check_era.py` before every hand-in. It checks:
 - Dia-thìris spelling;
 - forbidden words;
 - nothing ahead of the age (`quality/future_check.py`, §10);
+- rulers' ages (`quality/ages_check.py`, §0): the rulers who lived in the age keep `eras/RULERS.json`, and every person
+  in your PLAN_people.json keeps the rule (a new ruler, or a changed birth or death, goes through the lead, who adds it
+  to RULERS.json first);
 - size.
 
 ## 12. Size

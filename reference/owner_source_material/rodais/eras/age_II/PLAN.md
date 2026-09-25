@@ -319,9 +319,9 @@ by. Ends with Clann na Ceiste keeping the line by mouth and apart from any share
 **34. Of the Stone at Ceann leathan** (5,000) · Alasdair Làidir, wrestler · GE 3,031 – 3,495 · I-0209 – I-0218.
 Recollection: Ceann mhin in sight of the fortress ruin, the southern Seann Skell, Achadh shean resettled, Inis mhin, the cattle-fold
 and cairns at Muileann chaol, Baile Mòr ruadh, the temple ruin avoided; the deaths of Fearchar Bacach (3,140) and Dòmhnall Clachach
-(3,310); Ìomhar born (3,203). Main: at the wind-stones gathering (3,403) a big grey-haired stranger lifts the black boulder and sets
+(3,310); Ìomhar born (3,204). Main: at the wind-stones gathering (3,403) a big grey-haired stranger lifts the black boulder and sets
 it down gently and will not give his name. Ends at the ford (3,450), where only the old believe Alasdair's tale.
-*Fearchar Bacach dies (3,140); Ìomhar Dearg born (3,203); Dòmhnall Clachach dies in the north (3,310); the stranger lifts the
+*Fearchar Bacach dies (3,140); Ìomhar Dearg born (3,204); Dòmhnall Clachach dies in the north (3,310); the stranger lifts the
 stone (3,403).*
 
 ### Part Six: Catrìona Mhòr and the Ford (Books 11–12, GE 3,496 – 4,603)
@@ -361,12 +361,12 @@ Fearghal Donn sends him back with nothing. Ends with spears gathering in the eas
 spears gather at Dùn dhearg (4,521).*
 
 **39. Of the Tents in the Valley** (5,000) · Gille-Brìde (89–172) · GE 4,550 – 4,603 (to 30 an Lùnastal) · I-0256.
-The eve as it stands (4,550, the master's list). Ceallach born (4,543, told back). His father dies at 308 (4,599). The kin come in
+The eve as it stands (4,550, the master's list). Ceallach born (4,541, told back). His father dies at 308 (4,599). The kin come in
 with tents, a fire and a steward to each line (4,601). Gille-Brìde comes down in the last summer and sees Murchadh (~2,898), Eithne
 (~1,900) with her own knot-keeper, Ìomhar arguing for river-grazing, Niall Òg, the eldest daughter, Sìne nan Snaidhm with the
 household cord. The host of the east moves. The king goes down with a handful of his household; each line means to follow "in a
 day or two". Turn: Gille-Brìde asks if he should come; the king sends him home to the hills. Ends with him walking north.
-*Ceallach born (4,543); Gille-Brìde's father dies (4,599); first tents in the valley (4,601); the east's host comes down (4,603).*
+*Ceallach born (4,541); Gille-Brìde's father dies (4,599); first tents in the valley (4,601); the east's host comes down (4,603).*
 
 **40. Of the Ford below Dùn dhearg** (6,000) · the eastern lad (16, unnamed) · GE 4,603 · (the fall is I-0098a, Age III's first
 event: tell it, never date it). Master §XVI expanded: the camp under Artair mac Fhearghail; the man on the stone; the first day;
@@ -402,7 +402,7 @@ alone; Gille-Brìde in the high valleys; the king fallen on the third night at t
 - The Old Ones: no POV inside them, no cause of their end, their tongue never understood.
 - Children born after the grove live 2,000–3,000+ years, each generation less. Before GE 3,025 the king has buried only one son
   (Iain Dubh); Dòmhnall and Fearchar die after Somhairle. Somhairle's line: Beathan 2,213, then six unnamed (1,594 … 308),
-  Gille-Brìde (b. 4,431), Ceallach (b. ~4,543). Never say "Line of Aisling".
+  Gille-Brìde (b. 4,431), Ceallach (b. ~4,541). Never say "Line of Aisling".
 - Distances (map): Dùn ìseal–Doire ghlas 65 mi; –Red Hill 55; –Baile ghorm 64; –Tobar dhìreach 18; –the ford 43; –warm springs 6;
   Red Hill–the ford 14. Do not state the distance between the valley of tents and the ford below Dùn dhearg.
 

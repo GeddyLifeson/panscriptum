@@ -1,0 +1,207 @@
+[
+ {
+  "title": "Sìleas nic Rath taken on as the chronicler's clerk",
+  "era_year": 11,
+  "after": "VI-0034",
+  "summary": "Raghnall mac Mhuirich, keeper of the Library, finds the wage out of his own fund for binding and takes on Sìleas nic Rath, a copyist's niece of Àth dhìreach, as clerk to the royal chronicler. Beathag nic Fhionnlaigh had asked the council for a clerk three times and been refused or ignored each time.",
+  "category": "culture",
+  "people": ["Sìleas nic Rath", "Beathag nic Fhionnlaigh", "Raghnall mac Mhuirich"],
+  "places": ["burg:246"],
+  "threads": ["the-library"],
+  "master_links": [
+   {"to": "VI-0035", "type": "cause"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#i-of-the-slip-box"
+ },
+ {
+  "title": "The slip-box of the word's spellings",
+  "era_year": 11,
+  "after": "VI-0035",
+  "summary": "At Beathag nic Fhionnlaigh's asking, Sìleas nic Rath begins a box of slips, one to a spelling, of every form the fuel's name takes in the letters that come up the library road: dubhan, dùbhan, dùban, and once, for a fortnight only, An Dubhan with the article and a capital letter.",
+  "category": "culture",
+  "people": ["Sìleas nic Rath", "Beathag nic Fhionnlaigh"],
+  "places": ["burg:246"],
+  "threads": ["the-library", "the-dubhan-trade"],
+  "master_links": [
+   {"to": "VI-0035", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#i-of-the-slip-box"
+ },
+ {
+  "title": "The maor of Cathair mhòr's letter marked first",
+  "era_year": 11,
+  "same_day": true,
+  "summary": "The first letter marked in Sìleas nic Rath's box is the maor of Cathair mhòr's, which speaks of the fair price of dùban and says nothing of the man who first made it. Beathag nic Fhionnlaigh reads it for the clerk as the mark of a name going out of its own word.",
+  "category": "culture",
+  "people": ["Sìleas nic Rath", "Beathag nic Fhionnlaigh"],
+  "places": ["burg:246", "burg:23"],
+  "threads": ["the-library", "the-dubhan-trade"],
+  "master_links": [
+   {"to": "VI-0035", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#i-of-the-slip-box"
+ },
+ {
+  "title": "The letter of Caol shean",
+  "era_year": 11,
+  "summary": "The druid school at Caol shean writes to the Library's keeper of a word its masters have coined among themselves, dubhan-tùsail, for a first attempt that looked a failure and proved the one that held, offered for the Library's keeping though the school does not ask that it be used.",
+  "category": "culture",
+  "people": ["Raghnall mac Mhuirich", "Sìleas nic Rath"],
+  "places": ["burg:197", "burg:246"],
+  "threads": ["the-library", "the-orders-of-the-old-faith"],
+  "master_links": [
+   {"to": "VI-0036", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#ii-of-the-letter-from-caol-shean"
+ },
+ {
+  "title": "Dubhan-tùsail entered and never used",
+  "era_year": 11,
+  "same_day": true,
+  "summary": "Raghnall mac Mhuirich copies the druid school's coined word into the Library's word-list in his own hand, under the day's entry, and never uses it again in anything he writes that year. The word stands unused on the page, unstruck and unbuilt upon.",
+  "category": "culture",
+  "people": ["Raghnall mac Mhuirich"],
+  "places": ["burg:246"],
+  "threads": ["the-library"],
+  "master_links": [
+   {"to": "VI-0036", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#ii-of-the-letter-from-caol-shean"
+ },
+ {
+  "title": "The Rail Board drops coal from its timetable",
+  "era_year": 11,
+  "summary": "Comhairle na Slighe-iarainn prints its spring timetable with the coal line's name shortened to an t-slighe, the line, with no coal in it. No order explains the change, and the drivers at Muileann chrom, the carriers and the farmers along the road go on calling it the coal line as before.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:354"],
+  "threads": ["the-dubhan-trade"],
+  "master_links": [
+   {"to": "VI-0037", "type": "cause"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#iii-of-the-line-and-the-coal-line"
+ },
+ {
+  "title": "Beathag marks the road's two names",
+  "era_year": 11,
+  "same_day": true,
+  "summary": "Reading the new timetable at the Library, Beathag nic Fhionnlaigh tells Sìleas nic Rath to mark the change beside the fuel's own spellings, saying a road keeps the name the men on it give it, not the name a board prints on a card.",
+  "category": "culture",
+  "people": ["Beathag nic Fhionnlaigh", "Sìleas nic Rath"],
+  "places": ["burg:246"],
+  "threads": ["the-library", "the-dubhan-trade"],
+  "master_links": [
+   {"to": "VI-0037", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#iii-of-the-line-and-the-coal-line"
+ },
+ {
+  "title": "The Guild of Hewers dissolves itself",
+  "era_year": 12,
+  "summary": "At its hall at Achadh dhomhain, in an Cèitean, the eleven masters left of the Guild of Hewers vote unanimously to dissolve the guild, out of a roll that had once numbered more than sixty. Its master Tormod mac Dhonnchaidh is charged with the disposal of its rolls, its sick-roll and its oath-stone.",
+  "category": "craft",
+  "people": ["Tormod mac Dhonnchaidh"],
+  "places": ["burg:135"],
+  "threads": ["the-seven-coals", "the-dubhan-trade"],
+  "master_links": [
+   {"to": "VI-0038", "type": "cause"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#iv-of-the-last-roll"
+ },
+ {
+  "title": "The Hewers' oath-stone brought to the Library",
+  "era_year": 12,
+  "after": "VI-0038",
+  "summary": "Tormod mac Dhonnchaidh brings the guild's rolls, its sick-roll and the oath-stone itself, worn smooth by two generations of thumbs, to an Leabharlann on a hired cart, and stands bare-headed in the rain through the whole of the unloading. Sìleas nic Rath, Beathag being away at Àth dhìreach, signs for the goods herself.",
+  "category": "culture",
+  "people": ["Tormod mac Dhonnchaidh", "Sìleas nic Rath"],
+  "places": ["burg:135", "burg:246"],
+  "threads": ["the-library", "the-seven-coals"],
+  "master_links": [
+   {"to": "VI-0038", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#iv-of-the-last-roll"
+ },
+ {
+  "title": "Tormod's letter copied into the record",
+  "era_year": 12,
+  "same_day": true,
+  "summary": "Tormod mac Dhonnchaidh gives Sìleas nic Rath a letter to be copied into the Library's record rather than filed among the guild's other papers, saying the guild had outlived the mountain's patience. Sìleas copies it that evening in a hand made to match Beathag nic Fhionnlaigh's own.",
+  "category": "culture",
+  "people": ["Tormod mac Dhonnchaidh", "Sìleas nic Rath", "Beathag nic Fhionnlaigh"],
+  "places": ["burg:246"],
+  "threads": ["the-library", "the-seven-coals"],
+  "master_links": [
+   {"to": "VI-0038", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#iv-of-the-last-roll"
+ },
+ {
+  "title": "The bath-house passes to the Rite",
+  "era_year": 12,
+  "after": "VI-0038",
+  "summary": "Among the guild's smaller goods the bath-house at the hot springs below Muileann ruadh, built for hewers whose chests the coal-dust had ruined, passes to the custodians of the Rite at the southern Seann Skell, the guild having named no other body fit to keep it.",
+  "category": "building",
+  "people": [],
+  "places": ["marker:0"],
+  "threads": ["the-orders-of-the-old-faith", "the-seven-coals"],
+  "master_links": [
+   {"to": "VI-0039", "type": "cause"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#v-of-the-bath-house-below-muileann-ruadh"
+ },
+ {
+  "title": "The first Tuathach family bathed at Muileann ruadh",
+  "era_year": 12,
+  "summary": "In an Lùnastal a woman of Doire ghlas, brought south by her married daughter for a chest complaint, bathes at the springs below Muileann ruadh, the first Tuathach the house has ever taken in. The keeper shows her to the basin as she would show anyone and asks no leave of the custodians.",
+  "category": "culture",
+  "people": [],
+  "places": ["marker:0", "burg:229"],
+  "threads": ["the-orders-of-the-old-faith", "the-tuathaich"],
+  "master_links": [
+   {"to": "VI-0039", "type": "sequel"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#v-of-the-bath-house-below-muileann-ruadh"
+ },
+ {
+  "title": "Tormod mac Dhonnchaidh returns to Seann Toll",
+  "era_year": 13,
+  "summary": "In am Faoilleach, against a doctor's plain advice, Tormod mac Dhonnchaidh travels once more to the Hewers' Row at Seann Toll to see how the removed families of Muileann dhearg fare in their first hard frost, though his chest has troubled him since the summer before.",
+  "category": "craft",
+  "people": ["Tormod mac Dhonnchaidh"],
+  "places": ["burg:313"],
+  "threads": ["the-seven-coals"],
+  "master_links": [
+   {"to": "VI-0038", "type": "legacy"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#vi-of-the-damp-at-seann-toll"
+ },
+ {
+  "title": "Tormod mac Dhonnchaidh dies at Seann Toll",
+  "era_year": 13,
+  "after": "VI-0040",
+  "summary": "Tormod mac Dhonnchaidh dies a little before dawn on the sixth of an Gearran, in a house of the Hewers' Row at Seann Toll, of a fever that settled on his chest. Gilleasbaig Ruadh sits with him through the two nights before the doctor can come, and the Row buries him themselves at the edge of the flood-plain.",
+  "category": "craft",
+  "people": ["Tormod mac Dhonnchaidh", "Gilleasbaig Ruadh"],
+  "places": ["burg:313"],
+  "threads": ["the-seven-coals"],
+  "master_links": [
+   {"to": "VI-0038", "type": "legacy"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#vi-of-the-damp-at-seann-toll"
+ },
+ {
+  "title": "Beathag enters Tormod's death herself",
+  "era_year": 13,
+  "same_day": true,
+  "summary": "Beathag nic Fhionnlaigh writes Tormod mac Dhonnchaidh's death into the day's page in her own hand, without asking her clerk to write it first, and sets beside the bare date his own line, that the guild had outlived the mountain's patience, and under it, smaller, that he had not.",
+  "category": "culture",
+  "people": ["Beathag nic Fhionnlaigh", "Tormod mac Dhonnchaidh"],
+  "places": ["burg:246"],
+  "threads": ["the-library", "the-seven-coals"],
+  "master_links": [
+   {"to": "VI-0038", "type": "legacy"}
+  ],
+  "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#vi-of-the-damp-at-seann-toll"
+ }
+]

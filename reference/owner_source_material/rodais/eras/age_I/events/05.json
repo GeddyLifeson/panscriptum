@@ -1,0 +1,183 @@
+[
+    {
+        "title": "Gràinne born on the drowned neck",
+        "era_year": 455,
+        "summary": "Gràinne is born to a household that has kept a hearth on the low neck to Eilean dhubh since before her grandmother's grandmother, on a shelf of dry ground between two arms of shingle where the crossing to the island is narrowest and firmest underfoot.",
+        "category": "land",
+        "people": ["Gràinne"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0007", "type": "cause"}]
+    },
+    {
+        "title": "Gràinne learns to watch the tide",
+        "era_year": 475,
+        "summary": "Taught by her mother to set a stone at the mark each spring tide leaves on the shingle and measure it against the last, Gràinne takes up a watch on the sea's creep against the neck that she keeps, by her own habit, for the rest of her life.",
+        "category": "land",
+        "people": ["Gràinne"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0007", "type": "cause"}]
+    },
+    {
+        "title": "Gràinne leaves the drowned neck",
+        "era_year": 506,
+        "summary": "The sea reaches the hearth-stones of Gràinne's house in a spring of hard westerlies; she rakes the fire into her mother's clay pot and carries it, the same day, to new hearth-ground behind the shelf that no tide of her lifetime reaches again.",
+        "category": "land",
+        "people": ["Gràinne"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0007", "type": "sequel"}],
+        "same_day": true
+    },
+    {
+        "title": "Gràinne dies at the second hearth",
+        "era_year": 531,
+        "summary": "Gràinne dies by her own fire on the higher ground she moved to twenty-five years before, and is buried there rather than on the shelf that had been her people's ground for longer than any teller could reckon, and that by then the sea covers at every tide.",
+        "category": "land",
+        "people": ["Gràinne"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0007", "type": "sequel"}]
+    },
+    {
+        "title": "The deer of Eilean dhubh grow smaller",
+        "era_year": 560,
+        "summary": "Hunters who cross to Eilean dhubh by boat, the neck no longer drying at all but the lowest ebbs, bring home carcasses lighter than their grandfathers' tellings led them to expect, the island's deer penned by the water onto ground too small to feed a herd that once ranged the length of two islands as one.",
+        "category": "land",
+        "people": [],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0007", "type": "sequel"}]
+    },
+    {
+        "title": "Oisean born to the seal-hunters of the south shore",
+        "era_year": 528,
+        "summary": "Oisean is born to a household that works the rocks and skerries of the south coast for grey seals, and grows up watching the greater number that haul out on Eilean mhin, further out than any boat of that coast has yet been trusted to carry a man and bring him back.",
+        "category": "land",
+        "people": ["Oisean"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008", "type": "cause"}]
+    },
+    {
+        "title": "Oisean stitches the first hide boat",
+        "era_year": 546,
+        "summary": "Working alone over the better part of a season, Oisean stretches and stitches greased sealskin over a frame of bent hazel shaped to his own body, and floats it first in a calm inlet, where it holds him and does not sink.",
+        "category": "trade",
+        "people": ["Oisean"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008", "type": "cause"}]
+    },
+    {
+        "title": "Oisean crosses to Eilean mhin and comes home",
+        "era_year": 547,
+        "summary": "Alone and with only a paddle and a coil of plaited hide, Oisean crosses the open water to Eilean mhin in an early summer calm and returns before dark with three seals lashed to the frame behind him, the first crossing on the island made of set purpose to a place seen but not walked to.",
+        "category": "land",
+        "people": ["Oisean"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008", "type": "sequel"}]
+    },
+    {
+        "title": "The seal-bothies of Eilean mhin first thatched",
+        "era_year": 552,
+        "summary": "Oisean builds a larger boat and begins camping among the seal rocks of Eilean mhin for a stretch of good weather at a time rather than returning each day, raising a shelter of driftwood and hide that comes to be kept and re-thatched, season after season, by those who cross after him.",
+        "category": "land",
+        "people": ["Oisean"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008", "type": "sequel"}]
+    },
+    {
+        "title": "Oisean dies among boats of his grandsons' making",
+        "era_year": 596,
+        "summary": "Oisean dies at his own hearth on the mainland shore in his old age, by then one boat-builder among many of that coast, his grandsons shaping hulls beside his own with a sureness he never had, having had nothing of his own to look at when he began.",
+        "category": "land",
+        "people": ["Oisean"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008", "type": "sequel"}]
+    },
+    {
+        "title": "Scàire born to the north shore",
+        "era_year": 590,
+        "summary": "Scàire is born into a household of the north shore that has already taken up the hide boat after the manner spreading up the coast from the south, though built heavier and lower for water that seldom runs calm even at midsummer.",
+        "category": "land",
+        "people": ["Scàire"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008a", "type": "cause"}]
+    },
+    {
+        "title": "Scàire sees the grey bank from the skerries",
+        "era_year": 620,
+        "summary": "Master of her own boat and crew, Scàire climbs the highest of the seal skerries off Eilean fhada to judge the weather and sees, lying always along the same stretch of the northern and eastern sea, a grey that no sun burns off and no gale blows away.",
+        "category": "land",
+        "people": ["Scàire"],
+        "places": [],
+        "threads": ["the-mist"],
+        "master_links": [{"to": "I-0008a", "type": "sequel"}]
+    },
+    {
+        "title": "The hard year of the kept boats",
+        "era_year": 628,
+        "summary": "In Scàire's thirty-eighth year the autumn gales hold five boats out of every six ashore the whole season through, the seal harvest thin enough that more than one household of the north shore goes into the winter short of oil for its lamps.",
+        "category": "land",
+        "people": ["Scàire"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008a", "type": "sequel"}]
+    },
+    {
+        "title": "Scàire dies having brought her crews home whole",
+        "era_year": 652,
+        "summary": "Scàire dies at her own hearth in old age, remembered by her kin less for the grey bank on the northern sea, by then known to every household of that coast, than for a working life spent bringing crews home whole across water that forgave very little.",
+        "category": "land",
+        "people": ["Scàire"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0008a", "type": "sequel"}]
+    },
+    {
+        "title": "The Abhainn ìseal settles into its wide bed",
+        "era_year": 540,
+        "summary": "After generations of shifting across the flat ground below the high valleys, the longest river of the island settles into the wide bed the households along it come to know simply as the river, the shallower side channels running gentler and thick with fish at certain seasons.",
+        "category": "land",
+        "people": [],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0009", "type": "cause"}]
+    },
+    {
+        "title": "The first hazel weirs driven in the side channels",
+        "era_year": 545,
+        "summary": "Households along the newly settled river drive the first weirs of hazel stakes across the mouths of the side channels, angled against the current with gaps left for a hand to reach through, and leave the stakes standing once the season's run is done.",
+        "category": "trade",
+        "people": [],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0009", "type": "sequel"}]
+    },
+    {
+        "title": "The weir-stakes renewed in the same holes",
+        "era_year": 600,
+        "summary": "A generation on from the first driving, households of the Abhainn ìseal renew their weirs by driving fresh stakes into the holes the old ones rotted out of, so that a weir kept thirty years stands on almost the same ground it first stood on, though none of its first stakes remain.",
+        "category": "trade",
+        "people": [],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0009", "type": "sequel"}]
+    },
+    {
+        "title": "The salmon run first feasted at the weirs",
+        "era_year": 700,
+        "summary": "Households up and down the Abhainn ìseal gather for the first time at the largest of the weirs when the salmon run stands at its thickest, sharing out the catch between more hands than any one household's own rather than guarding it apart.",
+        "category": "trade",
+        "people": [],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0009", "type": "sequel"}]
+    }
+]

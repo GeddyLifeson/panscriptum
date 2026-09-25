@@ -130,5 +130,23 @@
   "dt": "An Ròn Dubh",
   "gloss": "the Black Seal, Lachann mac Neacail's fishing boat of Caol fhiadhaich, the first fitted with a dubhan engine",
   "kind": "ship"
+ },
+ {
+  "en": "Am Buabhall Fortanach",
+  "dt": "Am Buabhall Fortanach",
+  "gloss": "the Lucky Buffalo, the great inn near Doire shean kept by Oighrig nic Iain",
+  "kind": "landmark"
+ },
+ {
+  "en": "An Taigh-seinnse Mòr",
+  "dt": "An Taigh-seinnse Mòr",
+  "gloss": "the great house on the old coal road above Cuan chrom, whose new hall is let to the Guild of Hewers",
+  "kind": "landmark"
+ },
+ {
+  "en": "the eleven books",
+  "dt": "An t-Aon Leabhar Deug",
+  "gloss": "the eleven books of Tuathaich accounts gathered by Ellen Marsh over eleven years and offered to the Library",
+  "kind": "document"
  }
 ]

@@ -1,0 +1,258 @@
+[
+  {
+    "title": "Ailean sent to the Ros dhomhain sheds",
+    "era_year": 2,
+    "summary": "A month after his swearing, Ailean mac Iain is sent from Cathair dhearg to Ros dhomhain to help Dùghall mac Iain turn the humans' tariff into Dia-thìris, line by line, since the harbour cannot wait for a tariff written fresh.",
+    "category": "trade",
+    "people": [
+      "Ailean mac Iain",
+      "Dùghall mac Iain"
+    ],
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0010",
+        "type": "elaboration"
+      }
+    ]
+  },
+  {
+    "title": "Dùghall mac Iain's reason for copying, not writing anew",
+    "era_year": 2,
+    "summary": "Dùghall mac Iain tells Ailean he keeps the humans' sums and changes only the words, since a skipper who has long paid a known tariff pays it gladly to a new hand, and a tariff written fresh would only be cheated the more freely for its newness.",
+    "category": "trade",
+    "people": [
+      "Dùghall mac Iain",
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0010",
+        "type": "elaboration"
+      }
+    ]
+  },
+  {
+    "title": "Ailean's private book begun",
+    "era_year": 2,
+    "summary": "At Ros dhomhain, Ailean begins a private book of his own, bound in undyed leather, in which he sets beside his day's plain clerking the things said to him that seem worth keeping, though he does not yet know their use.",
+    "category": "culture",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0010",
+        "type": "parallel"
+      }
+    ]
+  },
+  {
+    "title": "Ailean named tally-clerk for An Sireadh",
+    "era_year": 3,
+    "summary": "The council names Ailean mac Iain tally-clerk for the ship sent north-about to seek the crossing, and he rides hard for Cuan shean to be aboard by the sailing day, leaving the Ros dhomhain tariff a third finished.",
+    "category": "voyage",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:282"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0011",
+        "type": "elaboration"
+      }
+    ]
+  },
+  {
+    "title": "An Sireadh's log kept and filed",
+    "era_year": 3,
+    "summary": "Ailean keeps An Sireadh's log the length of her voyage, heading, wind and soundings set down plainly through nine weeks of grey water and mist, and the finished log is filed with the council on her return.",
+    "category": "voyage",
+    "people": [
+      "Ailean mac Iain",
+      "Aonghas mac Mhurchaidh"
+    ],
+    "places": [
+      "burg:282"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0011",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Aonghas mac Mhurchaidh turns the ship for home",
+    "era_year": 3,
+    "summary": "Twenty-nine days out with the stores a third gone, Aonghas mac Mhurchaidh orders An Sireadh about, telling Ailean the sea has not been found empty so much as it has refused, this once, to show itself.",
+    "category": "voyage",
+    "people": [
+      "Aonghas mac Mhurchaidh",
+      "Ailean mac Iain"
+    ],
+    "places": [],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0011",
+        "type": "elaboration"
+      }
+    ]
+  },
+  {
+    "title": "The prayer said over An Sireadh's return",
+    "era_year": 3,
+    "summary": "The priests of Manannan come down to the quay at Seann Skell in the west as An Sireadh makes her berth and say again the old prayer that the sea be kept shut, said first at her going and now at her coming home empty-handed.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:489"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0011",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Ailean learns of the crowning from a tavern ledger",
+    "era_year": 3,
+    "summary": "Home nine weeks after sailing, Ailean learns of Niall's crowning from an innkeeper at Seann Skell in the west, who shows him a debt struck through against the words mar a thàinig Niall, entered as a saying already passing into common use.",
+    "category": "culture",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:489"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0013",
+        "type": "sequel"
+      },
+      {
+        "to": "V-0012",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The shire map drawn from the humans' survey",
+    "era_year": 3,
+    "summary": "Through an Dùbhlachd, Ailean copies the humans' district survey onto a fresh sheet and sets the Dia-thìris names of the shires against it, for the council to show the twelve without embarrassment at governing by a stranger's paperwork.",
+    "category": "law",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0014",
+        "type": "elaboration"
+      }
+    ]
+  },
+  {
+    "title": "The minute that the windy coast is not in the survey",
+    "era_year": 3,
+    "summary": "Where the humans' survey ends unmarked at the great moss, Ailean writes a single short line rather than leave the gap unexplained: that the windy coast is not in the survey, a line the council's copying afterward carries to every maor's court unremarked.",
+    "category": "law",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "province:120"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0014a",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The two island shires entered on the map",
+    "era_year": 3,
+    "summary": "Finding no council rule for folding a small holding into its neighbour, Ailean enters the two customs-station rocks as shires of their own, each taking the name of the island it sits on and noted as holding no town.",
+    "category": "law",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "province:122"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0014b",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Ceann mhòr's market right entered on the map",
+    "era_year": 3,
+    "summary": "The council grants the Ceann mhòr fishermen a market right for their two years' rough trading in the broken-locked harbour store, and Ailean sets the grant down as the smallest clause on the whole map, the one thing on it the townsfolk had already made true for themselves.",
+    "category": "trade",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:143"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0014c",
+        "type": "sequel"
+      }
+    ]
+  }
+]

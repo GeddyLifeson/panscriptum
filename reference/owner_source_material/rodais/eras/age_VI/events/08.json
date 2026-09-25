@@ -1,0 +1,96 @@
+[
+    {
+        "title": "The written order first read at the southern Seann Skell",
+        "era_year": 6,
+        "summary": "In the hall of the greatest house of the Rite, Dòmhnall mac Thormoid reads aloud, for the first time, the order of worship he has spent the year composing: the leyline, the unbroken line of the coal-touched, and the measure of what may be burned. Eleven custodians and a scattering of witnesses from neighbouring houses hear it out in silence.",
+        "category": "faith",
+        "people": ["Dòmhnall mac Thormoid"],
+        "places": ["burg:431"],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "V-0029", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "The houses of the Stone promise good will and nothing more",
+        "era_year": 6,
+        "summary": "Within the month a letter reaches Seann Skell from the houses of the Stone in the south-west, wishing the new order well and offering no further part in it. Dòmhnall mac Thormoid copies it into the first page of a plain ledger he begins that day, meaning to keep every letter the Rite sends or receives from then on.",
+        "category": "faith",
+        "people": ["Dòmhnall mac Thormoid"],
+        "places": ["burg:204"],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "V-0031", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "The Hawk houses' letter of refusal",
+        "era_year": 6,
+        "summary": "A letter comes to Seann Skell from the hawk-houses about Cnoc bheag, sealed with the mark of a bird with wings spread flat: the old form of the Rite has never needed a custodian above the local altar and sees no cause to answer to one now. It calls the new writing handsome, and not needed, and wishes the southern house no ill in going its own way.",
+        "category": "faith",
+        "people": ["Dòmhnall mac Thormoid"],
+        "places": ["burg:20"],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "V-0030", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "Muileann naomh's bell first rung at a measured burning",
+        "era_year": 6,
+        "summary": "The hawk-house at Muileann naomh, far south of Cnoc bheag, takes up the written order entire and hangs a bell cast new for the ordered worship, the first any house of the Rite has raised for that purpose rather than a wedding or a warning. It is rung that summer at the year's measured burning before a small crowd gathered in the lane.",
+        "category": "faith",
+        "people": [],
+        "places": ["burg:326"],
+        "threads": ["the-orders-of-the-old-faith", "the-coal-blood"],
+        "master_links": [
+            {"to": "V-0030", "type": "parallel"}
+        ]
+    },
+    {
+        "title": "Dòmhnall mac Thormoid's book of correspondence begun",
+        "era_year": 6,
+        "summary": "Watching a house answer him with silence rather than argument, the new high custodian begins a plain ledger to hold every letter the Rite sends or receives, the first such record any keeper of the flame has thought to make, so that a question once answered need not be answered from nothing a second time.",
+        "category": "law",
+        "people": ["Dòmhnall mac Thormoid"],
+        "places": ["burg:431"],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": []
+    },
+    {
+        "title": "Dòmhnall mac Thormoid rides north to Cathair dhearg",
+        "era_year": 6,
+        "summary": "Summoned to be presented at court as the Rite's first high custodian, Dòmhnall mac Thormoid rides to the capital to press, unsuccessfully, for a share in Òrd Mhacha's keeping of the coronation regalia. He pays for his own lodging, no arrangement having been made for him, and returns south with only the high priest's refusal to enter in his book.",
+        "category": "faith",
+        "people": ["Dòmhnall mac Thormoid"],
+        "places": ["burg:19"],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "V-0033", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "The unbroken line left open in doctrine",
+        "era_year": 6,
+        "summary": "Writing the order's page on the coal-touched, Dòmhnall mac Thormoid finds an old defence and a later gloss disagree on whether the unbroken line means blood or office, and sets the doctrine down to hold both readings rather than close either, having found no ground in the record to choose between them.",
+        "category": "faith",
+        "people": ["Dòmhnall mac Thormoid"],
+        "places": ["burg:431"],
+        "threads": ["the-orders-of-the-old-faith", "the-coal-blood"],
+        "master_links": [
+            {"to": "V-0028", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "Copies of the order sent to every house of the Rite",
+        "era_year": 7,
+        "summary": "By the last month of winter Dòmhnall mac Thormoid's two clerks finish fair copies of the order, each checked line by line against his own text, and he sends them to every house of the Old Faith still standing, the Hawk-houses among them, along with the houses of the Stone, Òrd Mhacha, and a last copy carried back to Muileann naomh in thanks.",
+        "category": "faith",
+        "people": ["Dòmhnall mac Thormoid"],
+        "places": ["burg:431"],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "V-0029", "type": "sequel"}
+        ]
+    }
+]

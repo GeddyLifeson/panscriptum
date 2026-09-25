@@ -130,7 +130,7 @@ Pell had no masons of his own, and asked for the best of the masons' lane at Cat
 
 Tormod rode down to see it in the autumn. The house was going up square and plain, of the grey stone of the lake shore, two floors high and five windows wide, with a slate roof on it from the hills behind Cathair dhearg; and it faced the harbour. From its windows Pell would see every mast in Ros dhomhain and every boat that came up Abhainn gheal into the lake. From its door he would not see the capital. Tormod stood on the rise in the wind with the master mason and asked him why the house was turned so.
 
-"He drew it that way," said the master mason. "On a paper he brought with him." He spat on his hands and picked up his mallet. "A good paper. You can see every stone on it before it's cut." "We could build him the other way round, if the council asked it."
+"He drew it that way," said the master mason. "On a paper he brought with him." He spat on his hands and picked up his mallet. "A good paper. You can see every stone on it before it's cut. We could build him the other way round, if the council asked it."
 
 The council did not ask it.
 

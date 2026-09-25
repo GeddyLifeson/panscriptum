@@ -675,19 +675,44 @@ def first_heading(md):
     return m
 
 
+PART_MARK = re.compile(r'^\*Part ([A-Z][a-z]+): (.+?)\*[ \t]*\n?', re.M)
+NUMBER_WORDS = ('One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen Fourteen Fifteen Sixteen '
+                'Seventeen Eighteen Nineteen').split()
+TENS_WORDS = {2: 'Twenty', 3: 'Thirty', 4: 'Forty', 5: 'Fifty', 6: 'Sixty', 7: 'Seventy', 8: 'Eighty', 9: 'Ninety'}
+
+
+def number_word(n):
+    if n < 20:
+        return NUMBER_WORDS[n - 1]
+    t, u = divmod(n, 10)
+    return TENS_WORDS[t] + ('-' + NUMBER_WORDS[u - 1].lower() if u else '')
+
+
 def book_parts(k, rec):
-    """Each book/*.md is one Book: its first '# ' heading is its title. A heading already in the master form
-    '# The Fourth Book: ...' is kept; any other becomes '# The <Nth> Book: <heading>' by file order."""
-    out = []
-    for n, p in enumerate(sorted(glob.glob(os.path.join(age_dir(k), 'book', '*.md')))):
+    """The era's book/*.md files in file order. Each file is one chapter of the age's novel: its first '# ' heading
+    is the chapter's title, printed '# Chapter <N>: <title>'. A file whose heading is already in the master form
+    '# The Fourth Book: ...' is kept as a Book. A chapter that opens a Part carries, between its title and its first
+    '## ' section, a line '*Part <Number>: <Title>*'; that line becomes a '# Part <Number>: <Title>' heading set
+    before the chapter, and the chapters after it stand under that Part until the next."""
+    out, chapter = [], 0
+    for p in sorted(glob.glob(os.path.join(age_dir(k), 'book', '*.md'))):
         md = rec.resolve(build_book.read_md(p), link=False)
         m = re.search(r'^# (.+)$', md, re.M)
         if not m:
             raise EraError('%s: a book file opens with a "# Title" heading' % os.path.relpath(p, ROOT))
         title = m.group(1).strip()
-        if not re.match(r'^The \w+ Book: ', title):
-            title = 'The %s Book: %s' % (ORDINALS[n], title)
-        out.append(md[:m.start()] + '# ' + title + md[m.end():])
+        if re.match(r'^The \w+ Book: ', title):
+            out.append(md)
+            continue
+        chapter += 1
+        rest = md[m.end():]
+        sec = re.search(r'^## ', rest, re.M)
+        head_len = sec.start() if sec else len(rest)
+        pm = PART_MARK.search(rest[:head_len])
+        if pm:
+            out.append('# Part %s: %s' % (pm.group(1), pm.group(2).strip()))
+            rest = rest[:pm.start()] + rest[pm.end():]
+        out.append(md[:m.start()] + '# Chapter %s: %s' % (number_word(chapter), title) + rest)
     return out
 
 

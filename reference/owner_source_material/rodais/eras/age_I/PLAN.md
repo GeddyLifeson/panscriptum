@@ -454,7 +454,7 @@ Events: gatepost signs (5220); thirty head lost (5230); the cats turn back (5250
 
 **38. Of Ailean Son of Suibhne** · Ailean · VE 5,300 – 5,324 · I-0080a (21 an t-Iuchar 5324) · [5,400]
 Ailean born (5300): big, slow of speech, hands like his forefather's. Suibhne takes the rainbow to the grove and fails;
-dies (5318). Ailean marries Lìobhan (5320); Gormshuil born (5322). His thought: the rainbow is lit by no single element,
+dies (5318). Ailean marries Lìobhan (5317); Gormshuil born (5318; RULERS.json). His thought: the rainbow is lit by no single element,
 so the others must be lit and brought together (the riddle's "merge"). Over the better part of a year he lights each of
 the six again by its own way, in the order the Age II Book gives: gold on the northern sea, snowflake off the Point,
 black in the earth at Tobar dhìreach, red-brown with his own blood, silver in the Abhainn ghorm, fire with a snap; each
@@ -462,7 +462,7 @@ kept in a clay pot with a turf lid, fed. Six pots and the dark seventh on a pole
 grove; dusk; the ring; he waits; the Keeper; "You have brought them all." "All I could. The last will not light."; it
 stoops and the rainbow lights; the six lean in; all seven burn; "Stay with them until they are cold." **Stop there**,
 night coming on. Nothing of the vigil, the promise, the crowning.
-Events: Ailean born (5300); Suibhne dies (5318); Ailean and Lìobhan (5320); Gormshuil born (5322); the six relit (5323–5324,
+Events: Ailean born (5300); Suibhne dies (5318); Ailean and Lìobhan (5317); Gormshuil born (5318); the six relit (5323–5324,
 one event each, in that order); Ailean sets out north (5324, a few days before I-0080a).
 
 ## 4. Continuity
@@ -473,7 +473,7 @@ one event each, in that order); Ailean sets out north (5324, a few days before I
 - **Closing state** (where the Age II Book opens): Ailean son of Suibhne, a big young man slow of speech, has lit the
   six again each by its own way over the better part of a year and carried them in clay pots with turf lids on a pole
   north to Doire ghlas; at dusk on 21 an t-Iuchar, VE 5,324, the six fires stand in a ring under the oaks, the Keeper
-  lights the rainbow, all seven burn, and it bids him stay until they are cold. Lìobhan and the infant Gormshuil are at
+  lights the rainbow, all seven burn, and it bids him stay until they are cold. Lìobhan and the child Gormshuil (six) are at
   Tobar dhìreach. The Old Ones keep their landings on every coast by salt water; their forts and temple are ruins.
 - **Threads:** `line-of-the-mason` ch 1–3, 7–9, 12, 15, 16, 21, 26, 30, 32, 35, 36, 38; `the-seven-coals` ch 1, 7–9,
   12, 16, 21, 26, 30, 32, 35, 36, 38; `the-mist` ch 5, 20. Proposed to the lead: `the-old-ones` (dt Na Seann-Dhaoine;

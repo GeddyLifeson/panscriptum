@@ -338,8 +338,8 @@ counties by two heirless cousins and a marriage; the Peace lets him keep them wh
 his grain call him rìgh, a word unused since Ailean; the Mason's-line reciters alone remember the grove. The climb to
 Dùn ìseal on foot, spear left at the last house: "I claim nothing under the mountain." Bargaining till dark: the
 division of keeping (FE 694). The timber hall with a granary at each corner; the toll of one fish in twenty, gathered by
-the waypoint-keepers, who keep a share. Show the long years still faintly in this line: Goraidh is old past a hundred and
-fifty and hale. End: the toll-stick notched at Mòr nic Dhùghaill's old house.
+the waypoint-keepers, who keep a share. Show the long years still faintly in this line: Goraidh is some hundred and eighty when the households call him rìgh (born FE 494; he dies at 259, RULERS.json), and hale; the ages of his line are in
+RULERS.json. End: the toll-stick notched at Mòr nic Dhùghaill's old house.
 New events: Goraidh's marriage to the third cousin (FE 668); the first households call him rìgh at the granary door (FE
 674); Goraidh's climb (FE 693); Goraidh Mòr dies (FE 753).
 
@@ -403,7 +403,7 @@ black horned beast (FE 1,569); the black-barked tree cut in the stag's grove (FE
 wood; the two companies meet and do not speak; the first strife of holy claims; shared keeping; boundary stones in
 stag-letters before Fearchar Òg and Calum Liath (FE 1,595). End: Conall walking unarmed through the eastern wood.
 New events: the letters taught at Dùn ìseal (FE 1,380); a Keeper named in the gap (FE 1,440); the wood-watchers first
-seen (FE 1,560); Fearchar Òg comes to the hall as a boy (FE 1,590).
+seen (FE 1,560); Fearchar Òg comes to the hall as a boy of seven (FE 1,593; RULERS.json).
 
 **Ch 30. Of the Knotted Cords in the Galleries.** POV Calum Liath, then Oighrig Bhàn. FE 1,596–1,641. Masters: II-0119 – II-0125. 5,000 w.
 Cutters with knotted cords and lamps in every gallery, three seasons without coal, households going short. The sum cut on
@@ -417,8 +417,8 @@ strike-book entry (FE 1,642).
 Fearchar Òg, remembered for dying old. Stamped silver rings for the road-guards, travelling further than the guards; the
 toll-house at Àth ghlas with the first keeper sent from the hall; the staves-contest at Ceann leathan and Mòrag Dhubh
 winning it; Muileann òg rebuilt with its Lùnastal fair; Cidhe Beag's landing over the carriers' protest; the hide
-boatmen of Muileann chrom sworn on a paddle. End: Fearchar Òg's death (FE 1,684) and Mòrag Dhubh's ring.
-New events: Mòrag Dhubh's win (FE 1,665); Fearchar Òg dies (FE 1,684).
+boatmen of Muileann chrom sworn on a paddle. End: Fearchar Òg's death at ninety-four (FE 1,680) and Mòrag Dhubh's ring.
+New events: Mòrag Dhubh's win (FE 1,665); Fearchar Òg dies (FE 1,680).
 
 **Book 11: Of the Red Hall, the Census of Hands and the Dawn-Hawk (FE 1,685 – 2,217).**
 
@@ -542,10 +542,15 @@ Muileann chiar 419 (silver, near Dùn ìseal) and 78 (stag's grove, far east); S
 55 mi W; Tuam Cnoc dhìreach 20 mi SE (eleven days because of the hearths). Populations: ~110,000 at FE 1, flat through
 the reverent centuries, ~220,000 at the census, ~300,000 at the close; towns of some hundreds. The Keeper: write
 Coimheadaiche na Lasrach at a section's first mention, "the Keeper" after; the spirit Coimhdeach na Fine never appears.
-Long years (the arithmetic): children of Ailean 2,000–3,000 years; grandsons ~2,000; great-grandchildren ~900; fading to
-~150–200 in Goraidh's line (FE 674) and ordinary lives by FE 1,190. Eithne: 1,900 at FE 1. Murchadh: ~2,900. Ìomhar:
-~1,400. Niall Òg: ~900. The king-list's years (Goraidh to Iain Garbh, ~80 years a reign) are carried by these fading
-long years.
+Long years (the arithmetic; the rulers' own ages are fixed in eras/RULERS.json and override anything here): children of
+Ailean 2,000–3,000 years; grandsons ~2,000; great-grandchildren ~900; each generation shorter-lived than the one before.
+The ruling line of Ìomhar by generation (RULERS.json): Ìomhar Dearg ~1,400 at the ford (slain FE 121); Dùghall Dearg
+1,062; Ruairidh Glas 910; two generations the rolls do not name, 620 and 400; Goraidh Mòr 259 (born FE 494, rìgh at
+180); Mòrag nan Rathad 215; Dòmhnall Crùbach 180; Sìleas Dhonn 155; Iain Garbh 135; Catrìona Ghlic 122 (outlives Eithne
+by two years); her son 110, first of the eleven; the last whose years are counted long dies at 100 (FE 1,190). No one
+born in FE 1,200 or later lives past 95. Eithne: 1,900 at FE 1 (born GE 2,703; 3,021 at death). Murchadh: ~2,900.
+Ìomhar: ~1,400. Niall Òg: ~900. The king-list's years (Goraidh to Iain Garbh, ~80 years a reign) are carried by these
+fading long years.
 
 **Threads (THREADS.json) and where they advance.** the-division: ch 1–7, 10, 12, 16, 19–21, 23, 27. the-seven-coals
 (the vein, the measure, its reckoning): ch 3, 8, 10, 11, 13, 22, 30, 32, 35, 36. line-of-the-mason: ch 2, 3, 23.

@@ -65,9 +65,15 @@ Dhòmhnaill → … → Eòghann mac Nèill).
   So Queen Gormshuil nic Thormoid goes up to the vein-house for the winter burning (LE 1,795) and does not come down
   to Cathair dhearg again; the council sits in her place; no death, heir or act of vacancy is ever written. This is the
   book's one "Of this nothing is told." Tormod mac Ailein (master, Age V) is named Ceann a' Chùraim near the end.
-- **Long reigns.** The master king-list gives reigns of 60–90 years (Raghnall mac Uilleim 55–125, Uisdean mac
-  Dhùghaill 324–394, Aonghas mac Uisdein 394–484, Beathag Fhionn to 1,129). Give crowned rulers no ages and no birth
-  years in the text; do not remark on the length. (Flagged to the lead.)
+- **Rulers' ages (the owner's rule, RULERS.json).** Every crowned ruler now has a birth, an accession and a death in
+  eras/RULERS.json and in PLAN_people.json; keep to them, and state a ruler's age where the telling wants it. No one in
+  this age lives past 95. The master's long reigns are carried by more rulers than the old king-list showed: Raghnall
+  mac Uilleim (55–92) and his son Raghnall mac Raghnaill (92–125), whose son is Ìomhar; Uisdean mac Dhùghaill (324–352)
+  and his son Uisdean mac Uisdein (352–394), whose son is Aonghas mac Uisdein (394–450, crowned at 22, a boy taught his
+  letters by Mòr nic Nèill); Aonghas mac Uisdein's son Aonghas Òg (450–484), the first king buried by Macha's rite, whose
+  son is Iain mac Aonghais. The house of Catrìona has six rulers, not five: Catrìona, Lachlann, Anna, two the annals do
+  not name, and Eilidh Bhàn, crowned at 18 and reigning 72 years. Sìleas nic Fhearchair is crowned at 15 and reigns 66
+  years; Beathag nic Dhòmhnaill was crowned at 15 at FE 2,953 (the master's year).
 - **Owner's line.** Fionnlagh (Line of Aisling no. 17) appears only standing on the quay at the sailing and not going.
   No other member of that line is named in this age. Donnchadh mac Thormoid the vein-house scribe of LE 44 shares a
   name with a later man and is no kin of his: never link them.
@@ -219,7 +225,7 @@ night-steering trial off Ros àrsaidh (17, burg:122); Catrìona nic Iain made pi
 Part epigraph (ch 7): *Dòrlach airson an teallaich ùir, / is an seann teallach fhathast blàth.* / A handful for the new
 hearth, / and the old hearth still warm.
 
-**7. Of the Handful for the New Hearth** [4,600] — POV Donnchadh mac Thormoid, boy-clerk of the vein-house (b. 10).
+**7. Of the Handful for the New Hearth** [4,600] — POV Donnchadh mac Thormoid, boy-clerk of the vein-house (b. 14, so that he dies at 95 in LE 109; his first entry at sixteen).
 LE 19–31. Masters III-0016, III-0017. Fearchar mac Ruairidh petitions the vein-house that the departing may carry the
 coal; the custodians argue through a winter burning (the coal has never left the island; the Law measures a hearth,
 not a ship). The ruling: one sealed measure a ship, a single household's season. Donnchadh writes the fair copy, his
@@ -308,7 +314,8 @@ Part epigraph (ch 13): *Beathaich an seabhag, ach na sàsaich e.* / Feed the haw
 **13. Of the Moulds in the Fire** [4,400] — POV Niall (old), then Donnchadh (old). LE 68–109. Masters III-0045 to
 III-0050. The crown's scribes begin to date by the Diosal (c. 70). Coal-breakers build at the foot of the vein-house
 hill; Eachann Briseadair's houses become the mill-town of Muileann dhearg. Coinneach mac Fhearghais, master of the fellowship after Alasdair, dies (78); six years on
-the fellowship of the strand ends (84) and its last journeymen scatter; next hard winter the moulds and patterns in the shed are
+the fellowship of the strand ends (84) and its last journeymen scatter; King Raghnall mac Uilleim dies at 84 and his
+son Raghnall mac Raghnaill is crowned (92), one line in the custody-book; next hard winter the moulds and patterns in the shed are
 burned for firewood (85) and the harbour-master notes only the shed. Niall dies (104) without ever saying his count
 aloud. LE 109: at the vein-house the seven houses draw lots for the galleries; the lot-stones, Clachan a' Chrannchuir,
 go into a bag; Doire fhionn's coppice law; the lamps still kept. Donnchadh, very old, writes the season's burning
@@ -319,7 +326,7 @@ vein-house (72, burg:491; gazetteer founding); death of Coinneach mac Fhearghais
 (78, burg:489); death of Niall mac Dhòmhnaill (104, burg:489); the lot-stones first shown to a visitor (109, burg:491).
 
 **14. Of the King the Houses Made** [4,400] — POV Fearchar mac Lachlainn. LE 125–211. Masters III-0051 to III-0061.
-Raghnall mac Uilleim's death gets one line (125); Ìomhar crowned. The silver neck-rings of Muileann chiar (149)
+Raghnall mac Raghnaill's death gets one line (125), as his father's did (92); Ìomhar crowned at 33. The silver neck-rings of Muileann chiar (149)
 worn first by the heads of the seven. Inis mhòr's grain barges; the cough at Caol fhiadhaich (156), the shared meal
 kept; Am Buabhall Fortanach rebuilt in stone by Eilidh nic Chaluim (164); the spirit-house at Dùn ìseal (179).
 Ìomhar's only son dies of fever (170); Ìomhar dies with no living child (180); the heads summoned; at Cathair dhearg
@@ -365,8 +372,9 @@ opening section for Ruairidh mac Artair of Inis àrsaidh). LE 344–394. Masters
 deep hull lists at launch and is broken up (344): nobody remembers the scarf. Ros fhionn's salt pans at the brine
 springs (354); Baile gharbh's undyed rain-cloth, in which the white sorrow is kept (361); the bridge-keeper's handful
 from each load (369), his salt-box; the wells crack at Cill ghlas and the galleries hold (379); the shepherds of Doire
-uaine will light no fires for the Marbh-bheò (394). Uisdean dies; Aonghas mac Uisdein crowned (394), taught his
-letters as a child by his tutor Mòr nic Nèill. Àth fhiadhaich salts its catch with Ros fhionn salt (394). End on the
+uaine will light no fires for the Marbh-bheò (394). Uisdean mac Dhùghaill dies (352) and his son Uisdean mac Uisdein
+is crowned; he dies (394) and his son Aonghas mac Uisdein is crowned at 22 (394), taught his letters as a child by his
+tutor Mòr nic Nèill. Àth fhiadhaich salts its catch with Ros fhionn salt (394). End on the
 salt-box.
 New events: brine springs found on the flats (350, burg:76); the bridge-keeper's salt-box (375, marker:4); Mòr nic Nèill
 made tutor to the king's son (380, burg:19).
@@ -390,11 +398,12 @@ Macha's priests take Coille Naomh Cnoc bheag by grant (471; why the others left 
 bounds of their wood at Muileann chiar (479); the drovers of Àth chiar mark their roads with cairns (484). Eilidh nic
 Iain, Eilidh Dhubh, at Doire chiar: the vein answers labour, not birth; her tracts read at harvest gatherings; the
 vein-house orders every copy to Muileann dhearg and burns about a hundred; she is not punished and keeps teaching (484).
-Aonghas dies that winter, the first king buried by Macha's rite; Iain mac Aonghais's short reign; Tormod Bàn crowned
+Aonghas mac Uisdein dies (450) and his son Aonghas Òg is crowned at 50; Aonghas Òg dies that winter (484), the first
+king buried by Macha's rite; Iain mac Aonghais's short reign; Tormod Bàn crowned
 (496). Iain's two sons by different mothers: Tormod and Aonghas mac Iain; a third, Dùghall, the half-brother. The
 ox-teams winter at An Taigh-seinnse Mòr, Iain mac Mhurchaidh's second byre and team-book (509). End on Eilidh Dhubh's
 death at Doire chiar, still teaching (505), placed before the byre scene.
-New events: a hidden copy of the tracts kept at Doire chiar (485, burg:333); Aonghas buried by the rite (484, burg:19);
+New events: a hidden copy of the tracts kept at Doire chiar (485, burg:333); Aonghas Òg buried by the rite (484, burg:19);
 death of Eilidh Dhubh (505, burg:333); birth of Dùghall, Iain's son by his second wife (490).
 
 **21. Of the Ferry on the Abhainn fhionn** [5,000] — POV Tormod Bàn. LE 510–552. Masters III-0099 to III-0104.
@@ -461,7 +470,8 @@ New events: the first boats blessed at Cidhe an Diosail (655, burg:489); death o
 Masters III-0125 to III-0130. Cuan shean sows half its rope-walks with barley (714); the swell at Cnoc chaol (724);
 the market of the eastern road at Baile Mòr dhìreach (731). LE 739: he and Mòrag nic Ìomhair, the crown's scribe, find
 their counts of the Diosal a year apart; they settle it by agreement and fix the day of the rite, and neither pretends
-to proof. Inis mhòr's house of disputation (769); Eilidh Bhàn crowned (769); Clann Choinnich's bath-house at the hot
+to proof. Inis mhòr's house of disputation (769); Eilidh Bhàn crowned at 18 (769), the sixth ruler of the house of Catrìona
+(the fourth and fifth are not named in the annals); Clann Choinnich's bath-house at the hot
 springs (769). End on the agreement sealed with both offices' marks.
 New events: the counts compared at the vein-house (738, burg:491); Là an Diosail fixed (739, burg:489).
 
@@ -593,7 +603,7 @@ Oighrig sees the open sea (1,813, burg:143); the last winter of the age (1,818, 
 ## 6. Cast
 
 Every invented person and the master people whose dates this plan fixes are in `PLAN_people.json` (name, born, died,
-role, first chapter, notes). Crowned rulers of the master king-list are not given births (§3, Long reigns). New proper
+role, first chapter, notes). The crowned rulers are there too, with the births and deaths of eras/RULERS.json (§3, Rulers' ages). New proper
 nouns are in `PLAN_names.json` (21 so far, all tested).
 
 ## 7. Writers: 12 blocks

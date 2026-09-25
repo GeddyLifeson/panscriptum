@@ -57,18 +57,22 @@ MASTER = {
     'books_line': 'The Seven Books',                # the contents line over the books: 'Part One · The Seven Books'
     'appendices': 'The Appendices',
 }
-PART_NUMBERS = ['One', 'Two', 'Three', 'Four', 'Five', 'Six']
+PART_NUMBERS = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve',
+                'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen']
 
 
 def split_parts(lines, cfg=MASTER):
     """-> list of (kind, heading, body-lines): prologue / book / annals / appendix / gazetteer."""
     parts, cur = [], None
     for ln in lines:
-        m_book = re.match(r'^# (The \w+ Book): (.*)$', ln)
+        m_book = re.match(r'^# (The \w+ Book|Chapter [\w-]+): (.*)$', ln)
+        m_vpart = re.match(r'^# (Part \w+): (.*)$', ln)   # a Part of an era's novel, set before its chapters
         m_pro = re.match(r"^# (Aithris a' Chruthachaidh: .*)$", ln)
         m_app = re.match(r'^#{1,2} (Appendix [A-Z]) — (.*)$', ln)
         if m_book:
             cur = ['book', (m_book.group(1), m_book.group(2)), []]
+        elif m_vpart:
+            cur = ['volpart', (m_vpart.group(1), m_vpart.group(2)), []]
         elif m_pro:
             # the Telling of the Making: laid out as a book, under its own label
             cur = ['prologue', (PROLOGUE, m_pro.group(1).replace(': ', ', ', 1)), []]
@@ -133,7 +137,9 @@ def compose_html(lines, cfg=MASTER, front=None, fonts=FONTS):
     parts = split_parts(lines, cfg)
     seen, toc, chunks = set(), [], []
     first_app = True
-    part_no = [1 if any(p[0] == 'book' for p in parts) else 0]
+    n_vparts = sum(1 for p in parts if p[0] == 'volpart')
+    # an era novel's own Parts are numbered by their headings; the annals, appendices and gazetteer follow them
+    part_no = [n_vparts if n_vparts else (1 if any(p[0] == 'book' for p in parts) else 0)]
 
     def next_part():
         part_no[0] += 1
@@ -154,6 +160,11 @@ def compose_html(lines, cfg=MASTER, front=None, fonts=FONTS):
                 % (cid, label, html.escape(label + ': ' + sub[0], quote=True), sub[0],
                    '<p class="booksub">%s</p>' % sub[1] if len(sub) > 1 else '',
                    md('\n'.join(head)), glosses.gloss_html(dropcaps(body_html(body[i:], {2: 'h2', 3: 'h3', 4: 'h4'}, seen, toc, 'sec')), r'<h2\b')))
+        elif kind == 'volpart':
+            toc.append(('part', cid, '%s: %s' % (label, title)))
+            chunks.append('<section class="part" id="%s"><div class="partpage"><p class="booklabel">%s</p>'
+                          '<h1 class="parttitle" data-run="%s">%s</h1>%s</div></section>'
+                          % (cid, label, html.escape(title, quote=True), title, md('\n'.join(body)) if ''.join(body).strip() else ''))
         elif kind == 'annals':
             toc.append(('part', cid, label))
             chunks.append('<section class="part annals" id="%s"><div class="partpage"><p class="booklabel">%s</p>'
@@ -179,7 +190,7 @@ def compose_html(lines, cfg=MASTER, front=None, fonts=FONTS):
     # contents: books with their sections; the annals' ages; each appendix; the gazetteer
     rows, part_one = [], False
     for kind, hid, text in toc:
-        if kind == 'book' and not part_one:
+        if kind == 'book' and not part_one and not n_vparts:
             rows.append('<p class="toc-part">Part One · %s</p>' % cfg['books_line'])
             part_one = True
         if kind == 'prologue':

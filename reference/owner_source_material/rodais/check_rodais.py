@@ -27,6 +27,12 @@ check_rodais.py -- verify everything in this folder in one run.
 
   7. the books: the Telling of the Making and the seven Books speak only of their own age and before, with nothing
      of a later age in them (eras/quality/future_check.py, the owner's rule)
+  8. the rulers' ages (the owner's rule: "state rulers' ages, and enforce ages returning to normal by the Holy
+     Age"): eras/RULERS.json agrees with the annals and with itself; no one born in FE 1,200 or later, and no one
+     outside the king's kin, lives past 95; among the kin the longest life of each generation after Ailean is no
+     longer than the generation before's, and no child outlives a long-lived parent's span; the rulers of
+     houses.json keep its years; every era plan (eras/age_*/PLAN_people.json) keeps the rule and the rulers' years
+     (eras/quality/ages_check.py)
 
 Exit status 0 only when every check holds.  python check_rodais.py
 """
@@ -257,6 +263,26 @@ for where, rule, matched, why, snip in ahead[:12]:
     print('      %s: %s "%s" (%s)' % (where, rule, matched, why))
 check(not ahead, 'books: the Telling and the seven Books speak only of their own age and before (%s)'
       % ('%d forward reference(s); python eras/quality/future_check.py master' % len(ahead) if ahead else 'none'))
+
+# 8. the owner's rule: rulers' ages are stated, and ages return to normal by the Holy Age (eras/RULERS.json,
+# eras/quality/ages_check.py)
+import ages_check  # noqa: E402
+res, rdoc = ages_check.check_master()
+probs = dict(res)
+for what, pr in res:
+    for x in pr[:8]:
+        print('      %s: %s' % (what, x))
+kin = [r for r in rdoc['rulers'] if r['kin']]
+check(not probs['record'], 'rulers: eras/RULERS.json holds %d rulers, every year agreeing with the annals event that fixes it and every '
+      'age the difference of its years (%s)' % (len(rdoc['rulers']), '%d problem(s)' % len(probs['record']) if probs['record'] else 'all'))
+check(not probs['ordinary'], 'rulers: no one born in %s or later, and no one outside the king\'s kin, lives past %d (%s)'
+      % (rdoc['rule']['ordinary_from'], rdoc['rule']['max_ordinary_age'], ', '.join(probs['ordinary'][:4]) or 'none'))
+check(not probs['fading'], 'rulers: the long years fade, each generation of the king\'s kin no longer-lived than the one before, the '
+      'last of them dead in the Holy Age (%d of the kin; %s)' % (len(kin), ', '.join(probs['fading'][:4]) or 'none'))
+check(not probs['houses'], 'rulers: the rulers of houses.json keep its years, and no house member born in %s or later passes %d (%s)'
+      % (rdoc['rule']['ordinary_from'], rdoc['rule']['max_ordinary_age'], ', '.join(probs['houses'][:4]) or 'all'))
+check(not probs['plans'], 'rulers: every era plan keeps the rule and the rulers\' years of eras/RULERS.json (%s)'
+      % (', '.join(probs['plans'][:4]) or 'all seven'))
 
 print('\n%s' % ('ALL CHECKS HOLD' if not fails else '%d CHECK(S) FAILED' % len(fails)))
 sys.exit(1 if fails else 0)

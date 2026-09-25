@@ -48,7 +48,7 @@ recollection section in the Library's voice to carry master events its central f
 | **Eilidh nic Leòid** | Dia-thìreach, first circuit justice (AE 106 – SE 16) | the law made exact and made for one people | 9, 15 |
 | **Gormshuil nic Dhùghaill** | Dia-thìreach council clerk, first royal chronicler (AE 132 – SE 48) | the royal record: what it says and what it leaves out | 11, 17, 20, 23 |
 | **Iain mac Ruairidh, Iain Mapa** | Dia-thìreach Board surveyor (AE 144 – SE 57) | the vein and the warning filed | 12, 22, 27, 28 |
-| **Daniel Frayne** | Tuathaich, pupil of Agnes Pike, Moot clerk, bookbinder, speaker from SE 55 (SE 6 –) | the north's second generation | 14 (as a child), 29, 35, 37 |
+| **Daniel Frayne** | Tuathaich, pupil of Agnes Pike, Moot clerk, bookbinder, speaker from SE 55 (SE 5 –) | the north's second generation | 14 (as a child), 29, 35, 37 |
 | **Catrìona nic Neacail** | Dia-thìreach Board surveyor, surveyor-general (SE 18 –) | the Depletion laid bare | 32, 34 |
 
 Guest centres for single chapters: Dòmhnall mac Thormoid (8), Hannah Crane (10), Harry Marlow (13), Agnes Pike (14),
@@ -61,7 +61,10 @@ Seonaid's wood), so the relay reads as one story.
 
 - **The owner's characters stay offstage.** Niall, Brìghde, Eòghan and Mairead: crowned, died, succeeded, exactly as
   the annals and Appendix A say, and nothing more (no words, thoughts, scenes, causes; Brìghde's death has no cause
-  made public and none may be hinted). **Dubhan**: born SE 29 in the north (V-0115), a childhood watching the caste
+  made public and none may be hinted). Their ages are the owner's rule and are fixed in eras/RULERS.json: Niall born
+  AE 128, crowned at 25 (SE 3), dead at 44 (SE 22); Brìghde born SE 1, crowned at 21, dead at 27 (SE 28); Eòghan born
+  AE 146, crowned at 32, his reign ending at 62 (SE 58); Mairead born SE 20, crowned at 38. An age may be stated with
+  the fact, and nothing more. **Dubhan**: born SE 29 in the north (V-0115), a childhood watching the caste
   that does not age (V-0149), experiments from SE 61 that fail (V-0207); in the last chapter only the master Book's
   own line (he banked his fire and slept beside it). No scene, speech or thought of his. **Seachran, Brean** and the
   Splatter and Dodge generation: born SE 24 among the shunting families (V-0100); nothing more, and not "who grow up to

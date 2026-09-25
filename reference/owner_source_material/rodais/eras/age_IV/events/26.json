@@ -1,0 +1,237 @@
+[
+ {
+  "title": "Ruairidh kneels first to the Cup",
+  "era_year": 650,
+  "summary": "At Seann Skell, Ruairidh, a sworn-man of the harbour-court, crosses the quay stones and kneels before his own son Mànas mac Ruairidh, the first of the preaching's hearers to do so. Six other net-menders kneel after him before the tide has gone out much further.",
+  "category": "faith",
+  "people": [
+   "Mànas mac Ruairidh",
+   "Ruairidh"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0120",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The harbour-court's scribe refuses the order's rite",
+  "era_year": 652,
+  "summary": "Donnchadh mac Ailein, scribe of the harbour-court at Seann Skell, refuses to enter the blessings of Òrd Mhanannain in the harbour rolls beside the tallies of hulls and cargoes, holding a rite to be no business of a board kept for hulls. Mànas does not press the matter.",
+  "category": "faith",
+  "people": [
+   "Mànas mac Ruairidh",
+   "Donnchadh mac Ailein"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0120",
+    "type": "echo"
+   }
+  ]
+ },
+ {
+  "title": "The first boats blessed at Cidhe an Diosail",
+  "era_year": 655,
+  "summary": "A dozen coasters are brought up one after another to Cidhe an Diosail at Seann Skell, and Mànas mac Ruairidh passes a plain wooden bowl of harbour water over each hull in turn, speaking the words that harden, within his own lifetime, into the fixed form of the rite of blessing.",
+  "category": "faith",
+  "people": [
+   "Mànas mac Ruairidh"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-mist",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0120",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Tidings of the king's death reach the quay",
+  "era_year": 654,
+  "summary": "A rider watering his horse at Seann Skell's harbour-court brings word that Lachlann mac Iain has died at Cathair dhearg, eighty-nine years old after a reign of fifty quiet years, and that his daughter Anna, fifty-four, has been crowned in his place. Mànas mac Ruairidh is not recorded to have said anything of it.",
+  "category": "rulers",
+  "people": [
+   "Mànas mac Ruairidh",
+   "Lachlann mac Iain",
+   "Anna"
+  ],
+  "places": [
+   "burg:489",
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0121",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Tormod Ciar swears the Cup on the rope-walk",
+  "era_year": 674,
+  "summary": "At Cuan shean, the old rope-walker Tormod Ciar, told by a travelling net-mender what Mànas mac Ruairidh preaches of the mist, swears the Cup before his fellow walkers on the rope-walk itself, cupping rainwater in his own hands for want of a bowl, with no priest of the order present to hear him.",
+  "category": "faith",
+  "people": [
+   "Tormod Ciar"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0122",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Taigh Mhanannain raised at Seann Skell",
+  "era_year": 680,
+  "summary": "The order of Manannan raises its own house at Seann Skell, Taigh Mhanannain, low and built of the same grey stone as the quay near the old harbour-court. The congregation raises the coin for a proper silver cup without being asked, to replace the plain wooden bowl Mànas has used since the first blessing.",
+  "category": "faith",
+  "people": [
+   "Mànas mac Ruairidh"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0120",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Mànas mac Ruairidh",
+  "era_year": 690,
+  "summary": "Mànas mac Ruairidh dies at Seann Skell in the house he raised, sixty years after his first preaching on the quay, and is buried at his own asking under a plain slab facing the harbour mouth. Beathag nic Dhonnchaidh, who kept his house, keeps Taigh Mhanannain after him.",
+  "category": "faith",
+  "people": [
+   "Mànas mac Ruairidh",
+   "Beathag nic Dhonnchaidh"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0120",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The rule of the headlands laid down",
+  "era_year": 694,
+  "summary": "After a winter's debate, the priests of Manannan's order at Ros bheag lay down that no boat of the faithful may sail out of sight of the headlands, on pain of answering for it before the Cup. The rule holds on the west coast far beyond any one preacher's lifetime.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0123",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach mac Sheumais turned back within the year",
+  "era_year": 694,
+  "summary": "Coinneach mac Sheumais, a skipper of Ros bheag, is turned back within the rule's first year by two of the order's own boats after taking his own boat further out than before, chasing a good run of fish. He never fishes so far out again.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Sheumais"
+  ],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0123",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Griogair cannot name his grandfather's star",
+  "era_year": 698,
+  "summary": "A priest of Manannan's order at Ros bheag asks a boy named Griogair, grandson of one of the last pilots to hold a course by night on that shore, which star his grandfather steered by. The boy cannot answer, and no one in his own house had thought to write the star's name down.",
+  "category": "law",
+  "people": [
+   "Griogair"
+  ],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0123",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The granaries of Àth shean rebuilt",
+  "era_year": 699,
+  "summary": "The royal granaries at Àth shean, standing since before the Sundering, are pulled down and rebuilt in dressed stone on raised floors against the rats, along with a new tally-house. Fearchar mac Phàdraig, the reeve who oversees the three-year labour, sees the shire's grain stand dry through its first winter.",
+  "category": "building",
+  "people": [
+   "Fearchar mac Phàdraig"
+  ],
+  "places": [
+   "burg:67"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0124",
+    "type": "parallel"
+   }
+  ]
+ }
+]

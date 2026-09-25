@@ -538,7 +538,7 @@ The king finished with the strap before he looked up. "Your palisade has burned 
 
 Uisdean stood there with the lake behind the king going white under the wind, and the smoke of his palisade still hanging over the hill at his back. Then he went down on one knee on the wet stones and put his hands between the king's hands, and swore to him; and the king raised him, and they sat on the shingle together and ate, and talked about cattle. That was on 7 an t-Ògmhios, GE 290.
 
-The Red Hill kept its own holders after that, and its own list, and swore to the king and not to Dùn ìseal; and that is why the two lists make no mention of each other for so long. The Red Hill owed nothing to the hill of the Stone Kings, and the hill of the Stone Kings owed nothing to it. They owed the same man. **Seonag nic Uisdein**, who held the Red Hill after her father, counted her people by pebbles in a bag, one to a household, and knew by the weight when a household had gone; and when the king came west she weighed the bag before him, and he was content.
+The Red Hill kept its own holders after that, and its own list, and swore to the king and not to Dùn ìseal; and that is why the two lists make no mention of each other for so long. The Red Hill owed nothing to the hill of the Stone Kings, and the hill of the Stone Kings owed nothing to it. They owed the same man. **Seonag nic Uisdein**, who held the Red Hill 'after her father', as the list sets every holder of Uisdean's line, though she was born three centuries after he died, counted her people by pebbles in a bag, one to a household, and knew by the weight when a household had gone; and when the king came west she weighed the bag before him, and he was content.
 
 ## V. Of the Counting of the Dead and the Silence of the Old Ones
 
@@ -1152,13 +1152,13 @@ After Catrìona Ghlic the king-list gives eleven names at Dùn dhearg and nothin
 
 The Hall, shamed (in its own words) by the rìgh's clerk, had its recited roll written down at Dùn ìseal. It begins with Beathag Bhàn and is several centuries longer than Tormod's.
 
-In the west a company settled at the edge of Coille Naomh Cnoc bheag, the uncleared wood, to watch for a black horned beast they said walked in it. They were the wood-watchers. They came east and cut a black-barked tree in the stag's grove, saying the beast had shown it to them. The stag's people called it theft and sent teachers to hold lessons in the dark wood, saying the first stag had come from there. In each wood the two companies met under the trees and did not speak. It was the first quarrel on Dia-thìr between rival holy claims, and it was settled by sharing the keeping, with no winner named. Before Fearchar Òg, rìgh after Ealasaid Chiar, and the Keeper Calum Liath, the stag's people took the eastern wood and the wood-watchers the western, each free to walk the other's unarmed and without cutting. Two of the boundary stones, cut in stag-letters, stand yet.
+In the west a company settled at the edge of Coille Naomh Cnoc bheag, the uncleared wood, to watch for a black horned beast they said walked in it. They were the wood-watchers. They came east and cut a black-barked tree in the stag's grove, saying the beast had shown it to them. The stag's people called it theft and sent teachers to hold lessons in the dark wood, saying the first stag had come from there. In each wood the two companies met under the trees and did not speak. It was the first quarrel on Dia-thìr between rival holy claims, and it was settled by sharing the keeping, with no winner named. Before Fearchar Òg, a rìgh of Ealasaid Chiar's line, and the Keeper Calum Liath, the stag's people took the eastern wood and the wood-watchers the western, each free to walk the other's unarmed and without cutting. Two of the boundary stones, cut in stag-letters, stand yet.
 
 Calum Liath then sent cutters with knotted cords and lamps into every gallery to follow the vein and mark where it thickened and thinned. The work took several coal-seasons, and the households went short to pay for it. It was the first attempt to measure how much coal the mountain held. The sum, cut on a slab in the Hall, found that the mountain could give every household its handful for more generations than there were grains in the granaries of Dùn dhearg. It was read to the council and heard in silence, which the Hall took for assent. The slab stood in the Hall after, for any who could read the stag-letters.
 
 Two youths sent into the lower gallery without a Keeper's cutter broke the wrong face and were crushed. Their families asked what the Hall owed them, and the council had no answer. Out of that grief came the apprentice-binding: young Dia-thìrich were bound to a master custodian for seven years before they might touch the coal. Oighrig Bhàn, Keeper after Calum Liath, bound the first twelve on the stone cup, and four of them lived to be Keepers, which is the custom's best argument. The stag's house at Cnoc bhàn took up the seven years and added a written account of every strike. These strike-books became the school's chief record, and in time they asked a question of their own.
 
-Fearchar Òg reigned long and is remembered mostly for dying old. His clerks paid the road-guards in stamped silver rings, the first payment in metal by any ruler, and the rings travelled further than the guards did. The southern guards began meeting at Ceann leathan each year to fight with blunted staves for a ring, and the meeting outlived its purpose. The first winner whose name is kept was a woman, Mòrag Dhubh of Cnoc mhòr. Burned Muileann òg was built again, and it held a harvest fair at Lùnastal, the feast of Lugh. At Cidhe Beag on the Abhainn uaine a landing was built for river-boats over the carriers' protest, and the hide boatmen of Muileann chrom swore their fellowship on a paddle.
+Fearchar Òg came to the hall a boy of seven, reigned long, and is remembered mostly for dying old, at ninety-four. His clerks paid the road-guards in stamped silver rings, the first payment in metal by any ruler, and the rings travelled further than the guards did. The southern guards began meeting at Ceann leathan each year to fight with blunted staves for a ring, and the meeting outlived its purpose. The first winner whose name is kept was a woman, Mòrag Dhubh of Cnoc mhòr. Burned Muileann òg was built again, and it held a harvest fair at Lùnastal, the feast of Lugh. At Cidhe Beag on the Abhainn uaine a landing was built for river-boats over the carriers' protest, and the hide boatmen of Muileann chrom swore their fellowship on a paddle.
 
 ## XIV. Of the Red Hall and the Census of Hands
 
@@ -1399,7 +1399,7 @@ Every year on the eve of the empty-harbour rite the waterfront of Seann Skell ke
 > A light on the window,
 > a light till they come home.
 
-Donnchadh mac Thormoid died at Muileann dhearg in LE 109. His last entry is a list of the coal burned that season, household by household, in the same hand as his first. Sixteen years on, in LE 125, King Raghnall died after a long reign in which little happened, and his son Ìomhar mac Raghnaill was crowned. The custody-book gives Raghnall a single line. After the shaking of its first years the age seems to have wanted no more than that.
+Donnchadh mac Thormoid died at Muileann dhearg in LE 109. His last entry is a list of the coal burned that season, household by household, in the same hand as his first. Sixteen years on, in LE 125, King Raghnall mac Raghnaill died, and his son Ìomhar mac Raghnaill was crowned. He had followed his father Raghnall mac Uilleim, who died in his eighty-fifth year after a long reign in which little happened. The custody-book gives each Raghnall a single line. After the shaking of its first years the age seems to have wanted no more than that.
 
 ## VII. Of the Hawk and the Firlot
 
@@ -1432,13 +1432,13 @@ The answer came from the seven houses. They forbade the question at their own ta
 
 The skills of the fleet were slipping already. In LE 344 a merchant of Inis àrsaidh paid for a deep-keeled hull, but the wrights could no longer remember how Alasdair Saor had scarfed his keels, and she listed so badly at her launch that she was broken up for timber.
 
-Aonghas mac Uisdein, crowned in LE 394, was the first king who learned his letters as a child, and in his reign two more orders took their shapes. In LE 409 Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone stood, gave that stone its name and its order. He called it Clach, the Stone, and said it was Lia Fàil, which cries out under the rightful king; and he called its sworn guards the Fianna, who keep the island as a wolf keeps its range. So began Òrd na Cloiche, the order of the Stone, and the tales of Fionn and his band, which every hearth on the island knew, the Fianna took for their own. When the Hawk and the Stone both laid claim to the harbour shrine at Caol leathan, the king's reeve divided its days between them as the Holy Age had divided the sacred woods, and the sharing held.
+Uisdean mac Dhùghaill's son Uisdean mac Uisdein reigned after him, and when he died his son Aonghas mac Uisdein was crowned, in LE 394, a young man of twenty-two. Aonghas was the first king who learned his letters as a child, and in his reign two more orders took their shapes. In LE 409 Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone stood, gave that stone its name and its order. He called it Clach, the Stone, and said it was Lia Fàil, which cries out under the rightful king; and he called its sworn guards the Fianna, who keep the island as a wolf keeps its range. So began Òrd na Cloiche, the order of the Stone, and the tales of Fionn and his band, which every hearth on the island knew, the Fianna took for their own. When the Hawk and the Stone both laid claim to the harbour shrine at Caol leathan, the king's reeve divided its days between them as the Holy Age had divided the sacred woods, and the sharing held.
 
 In LE 441 Aonghas himself took up the wood-watchers' rite of Macha, which keeps the two horses of one chariot, foaled on one night: Liath Macha the grey and Dubh Sainglenn the black. Two horses, one yoke, the rite says; dark and light are two powers in balance, and the vein belongs to both. The court followed its king, and Òrd Mhacha, the order of Macha, became the order of Cathair dhearg. From Aonghas on, the kings of Dia-thìr were made by Macha's rite.
 
 In LE 484 Eilidh nic Iain of Doire chiar, called Eilidh Dhubh, raised again the Holy Age's rival teaching, that the vein answers effort and cares nothing for birth, and her tracts were read aloud at harvest gatherings across the north-east. The vein-house ordered every copy brought to Muileann dhearg and burned, and some hundred were given up. Eilidh herself was never punished. She died at Doire chiar, still teaching.
 
-Aonghas died that winter and was the first king buried by the rite of Macha. His son Iain reigned a short while, and Iain's son Tormod mac Iain, called Tormod Bàn for his white hair, was sworn to without dispute. On the central mining road the ox-teams of the mountain now waited out the snow at An Taigh-seinnse Mòr, whose keeper, Iain mac Mhurchaidh, built them a second byre and kept a book of the teams that lodged.
+His son Aonghas Òg, king after him, died that winter and was the first king buried by the rite of Macha. His son Iain reigned a short while, and Iain's son Tormod mac Iain, called Tormod Bàn for his white hair, was sworn to without dispute. On the central mining road the ox-teams of the mountain now waited out the snow at An Taigh-seinnse Mòr, whose keeper, Iain mac Mhurchaidh, built them a second byre and kept a book of the teams that lodged.
 
 ## IX. Of the War of the Three Claimants
 
@@ -1481,7 +1481,7 @@ The teaching went down the west coast with the fishing families. At Cuan shean t
 
 In LE 739 the vein-house and the crown's scribes found that their counts of years since the Setting-Out disagreed. They settled the difference by agreement, and by the same agreement fixed the day of the empty-harbour rite, which the two counts had placed differently. Later scribes gave up pretending it had been fixed by evidence. Every year counted from the Diosal stands on that bargain between two offices, and whoever reads the old rolls should know it.
 
-Eilidh Bhàn, fifth ruler of the house of Catrìona, was crowned in LE 769, and the record of her long reign is nearly all harvests. The north-west had no share in them. From LE 784 boats out of the small islands off that coast fell on the coasting traders and took their fish and grain. The sea-thieves were Dia-thìrich of the north-west shore, and the harbour rolls give some of their names. Baile chrom reported half its houses empty, and the crown remitted its grain dues. In LE 801 a force sent by Eilidh Bhàn landed on Eilean dhubh and burned the thieves' boats on the strand, and their leader, Uilleam Ruadh, was hanged at Cathair dhearg. It did not save the coast. In LE 819 a run of failed harvests brought a dearth to the north-west shore that the shared-meal custom could not carry. Families went inland and east, and the north-west stayed thinly held until the age was out.
+Eilidh Bhàn, sixth ruler of the house of Catrìona, was crowned in LE 769, a girl of eighteen, and the record of her long reign is nearly all harvests. The north-west had no share in them. From LE 784 boats out of the small islands off that coast fell on the coasting traders and took their fish and grain. The sea-thieves were Dia-thìrich of the north-west shore, and the harbour rolls give some of their names. Baile chrom reported half its houses empty, and the crown remitted its grain dues. In LE 801 a force sent by Eilidh Bhàn landed on Eilean dhubh and burned the thieves' boats on the strand, and their leader, Uilleam Ruadh, was hanged at Cathair dhearg. It did not save the coast. In LE 819 a run of failed harvests brought a dearth to the north-west shore that the shared-meal custom could not carry. Families went inland and east, and the north-west stayed thinly held until the age was out.
 
 In LE 829 the queen's scribes recopied the king-list from its oldest surviving roll and added the rulers since the Sundering. The new copy opens the present age with the Choosing, ahead of the fleet, and this book keeps that order. Twelve years after, Eilidh Bhàn died childless, and the seven houses met to choose; this time they met at the vein-house, and the capital waited on their word. They named Dòmhnall Ruadh of Clann Raghnaill, a descendant of the claimant killed at Muileann chrom, and he kept the mastery of the vein-house together with the crown. In LE 859 his reeves wrote into the custody-book that the ruler of Dia-thìr is also master of the vein-house. From then on the heads of the seven houses sat as the king's council, and custodians and court were one body. What Raghnall Ruadh had seized in war, his descendant now held by law. The ruling of the hearth still bound the custodians; the custodians, now, were the crown. Dòmhnall Ruadh was buried at Muileann dhearg, under the mountain, far from the capital.
 
@@ -2574,7 +2574,7 @@ Here the Seventh Book stops, at the present year, for the chronicle itself goes 
 - **11 an Dùbhlachd, GE 628** — *The old landings taken up* (Seann Skell). Families of the hill-folk come down the Abhainn naomh and settle in the empty river harbour at Seann Skell, using the old mole and mending none of it. They are not known to have dwelt by the water before.
 - **9 am Faoilleach, GE 672** — *Mòrag Chruaidh and the salt-flats raid* (Baile ghorm). Mòrag Chruaidh, the king's granddaughter and fifth of the Stone Kings, raids the salt-pans on the southern shore at Baile ghorm, which do not yet own the king, and carries off the salt. It is the first war in either list. Seven fall on the hill side, and the number is kept.
 - **12 an Gearran, GE 683** — *The salt-pans of Baile ghorm* (Baile ghorm). Shallow clay basins are made behind a shingle bar at Baile ghorm, the first salt-works of the island. From this time their salt is found in the hill settlements.
-- **13 am Màrt, GE 694** — *Seonag of the Red Hill* (Cathair dhearg). Seonag nic Uisdein holds the Red Hill after her father. It is told that she counted her people by pebbles in a bag, one to a household, and knew by the weight when a household was gone.
+- **13 am Màrt, GE 694** — *Seonag of the Red Hill* (Cathair dhearg). Seonag nic Uisdein holds the Red Hill. The list sets her 'after her father', as it sets every holder of Uisdean Mòr's line, though she was born more than three hundred years after he died. It is told that she counted her people by pebbles in a bag, one to a household, and knew by the weight when a household was gone.
 - **11 an Giblean, GE 705** — *The first pots at Doire shean* (Doire shean). Pots of coiled clay, fired in open bonfires, are first made at Doire shean on the south-west coast. Within a few lifetimes the whole southern shore uses them.
 - **10 an Cèitean, GE 716** — *The dug-out at Cidhe Beag* (Cidhe Beag). A boat hollowed from a single oak trunk, long enough for six, is sunk and left at the landing on Abhainn uaine now called Cidhe Beag. No older boat on Dia-thìr is known in its whole shape.
 - **8 an t-Ògmhios, GE 727** — *Iain Dubh killed* (Baile ghorm). Iain Dubh, a son of the king and sixth of the Stone Kings, goes down to raid the salt-pans as Mòrag Chruaidh had done, and is slain on the shingle at Baile ghorm. He is the first of Ailean's children to die by a spear. The list says only that he was brought home.
@@ -2871,7 +2871,7 @@ Here the Seventh Book stops, at the present year, for the chronicle itself goes 
 - **14 an Dùbhlachd, FE 1,576** — *The wood-watchers in the stag's grove* (Coille Naomh Muileann chiar). Wood-watchers come east and cut a black-barked tree in Coille Naomh Muileann chiar, saying that the beast had shown it to them. The stag's people call it theft from a place of teaching. Both sides send to Dùn dhearg and to Dùn ìseal.
 - **12 am Faoilleach, FE 1,581** — *The stag's people claim the dark wood* (Coille Naomh Cnoc bheag). In answer the stag's people send teachers west to hold their lessons in Coille Naomh Cnoc bheag, saying that the first stag came from there. Now each side claims both woods, and in either wood the two companies meet and do not speak.
 - **10 an Gearran, FE 1,589** — *The holy-wood dispute*. Rival rites contend for Coille Naomh Muileann chiar and Coille Naomh Cnoc bheag, the first such strife that is remembered. It is settled by dividing the keeping of the woods, and no side is judged the victor.
-- **11 am Màrt, FE 1,595** — *The boundary stones of the woods* (Dùn dhearg). The woods are divided at Dùn dhearg before Fearchar Òg, rìgh after Ealasaid Chiar, and the Keeper Calum Liath. The stag's people keep the eastern wood and the wood-watchers the western, and each may walk in the other's wood unarmed and without cutting. Boundary stones are set at the edges of both woods with the terms cut on them in stag-letters. Two of the eastern stones remain.
+- **11 am Màrt, FE 1,595** — *The boundary stones of the woods* (Dùn dhearg). The woods are divided at Dùn dhearg before Fearchar Òg, a rìgh of Ealasaid Chiar's line who had come to the hall as a boy, and the Keeper Calum Liath. The stag's people keep the eastern wood and the wood-watchers the western, and each may walk in the other's wood unarmed and without cutting. Boundary stones are set at the edges of both woods with the terms cut on them in stag-letters. Two of the eastern stones remain.
 - **9 an Giblean, FE 1,602** — *Calum Liath's surveyors* (Dùn ìseal). The Keeper Calum Liath sends cutters with knotted cords and lamps into every gallery at Dùn ìseal, to follow the vein as far as it can be followed and mark where it thickens and thins. The work keeps the cutters from the coal for three seasons, and the households go short to pay for it.
 - **27 an t-Samhain, FE 1,607** — *The measuring of the vein*. For the first time men try to reckon how much coal the mountain holds. Their reckoning proves far too hopeful.
 - **26 an Dùbhlachd, FE 1,607** — *The reckoning of the cords* (Dùn ìseal). The reckoning of Calum Liath is cut on a slab in the Hall at Dùn ìseal: the mountain can give every household its handful for more generations than there are grains in the granaries of Dùn dhearg. It is read out at the council and heard in silence, and the Hall takes the silence for assent.
@@ -3060,7 +3060,7 @@ Here the Seventh Book stops, at the present year, for the chronicle itself goes 
 - **14 an t-Iuchar, LE 109** — *The coppice law of Doire fhionn* (Doire fhionn). The great oaks gone to the fleet, the shire of Doire fhionn forbids the felling of any living oak without the reeve's mark and begins to cut its woods by coppice. The law spreads to every shire with a Doire in its name.
 - **12 an Lùnastal, LE 109** — *The lamps kept at Seann Skell* (Seann Skell). The waterfront of Seann Skell keeps the night of lamps each year on the eve of the rite of the empty harbour. The children are told the lamps are for ships coming home, and the priests do not gainsay it.
 - **9 an Dàmhair, LE 109** — *Death of Donnchadh mac Thormoid* (Muileann dhearg). Donnchadh mac Thormoid, the vein-house scribe who began the count of years, dies at Muileann dhearg. His last entry is the season's burning of coal, household by household, in the same hand as his first.
-- **7 an t-Samhain, LE 125** — *Raghnall dies; Ìomhar crowned* (Cathair dhearg). King Raghnall mac Uilleim dies at Cathair dhearg after a long and quiet reign, and his son Ìomhar mac Raghnaill is crowned. The custody-book gives Raghnall's reign a single line.
+- **7 an t-Samhain, LE 125** — *Raghnall dies; Ìomhar crowned* (Cathair dhearg). King Raghnall mac Raghnaill dies at Cathair dhearg, and his son Ìomhar mac Raghnaill is crowned. Raghnall had followed his father Raghnall mac Uilleim, who died in his eighty-fifth year after a long and quiet reign; the custody-book gives each of the two Raghnalls a single line.
 - **6 an Dùbhlachd, LE 149** — *The silversmiths of Muileann chiar* (Muileann chiar — baile mèinne airgid). Silver of the seam at Muileann chiar, mined since the Holy Age, is wrought into neck-rings for the heads of the seven houses. The smiths' fellowship of the seam, heirs of Sliochd Fhearchair, keeps its craft within four families.
 - **4 am Faoilleach, LE 154** — *Inis mhòr's grain fleet* (Inis mhòr). Inis mhòr in the north builds barges to carry grain down the Abhainn ghorm to Caol bheag, and from Ros chiar at the river mouth west along the coast to Cnoc bheag. They are sewn-plank boats of the old kind, and none lies a night out of sight of land.
 - **2 an Gearran, LE 156** — *The coughing sickness at Caol fhiadhaich* (Caol fhiadhaich). A coughing sickness runs through Caol fhiadhaich on the south-west coast and kills some ten before it burns out. The shared meal is kept throughout, and the reeve holds that it saved the rest.
@@ -3094,7 +3094,7 @@ Here the Seventh Book stops, at the present year, for the chronicle itself goes 
 - **20 an Lùnastal, LE 369** — *Salt over Drochaid Ros fhionn* (Drochaid Ros fhionn). So many salt carts cross Drochaid Ros fhionn that the bridge-keeper is granted a handful from each load. His salt-box is said to hold more than some villages' granaries.
 - **27 an Cèitean, LE 379** — *The wells crack at Cill ghlas* (Scàineadh Cill ghlas). An earth tremor in the hills about Cill ghlas cracks three wells and brings down a byre. The custodians of the vein-house note it, and note that the galleries were untouched.
 - **26 an Giblean, LE 394** — *The Hollow Man spoken of again* (Marbh-bheò Doire uaine). The shepherds of the Doire uaine hills will light no fires on the high pastures, for the old inscriptions of Marbh-bheò Doire uaine. A reeve sent from Muileann chiar to make them see sense does not stay the night.
-- **25 an Cèitean, LE 394** — *Aonghas mac Uisdein crowned* (Cathair dhearg). Uisdean mac Dhùghaill dies, and his son Aonghas mac Uisdein is crowned at Cathair dhearg. Aonghas is the first king to learn his letters as a child.
+- **25 an Cèitean, LE 394** — *Aonghas mac Uisdein crowned* (Cathair dhearg). Uisdean mac Uisdein dies, the son of Uisdean mac Dhùghaill and king after him, and his own son Aonghas mac Uisdein is crowned at Cathair dhearg, a young man of twenty-two. Aonghas is the first king to learn his letters as a child.
 - **23 an t-Ògmhios, LE 394** — *Àth fhiadhaich salt fish* (Àth fhiadhaich). Àth fhiadhaich begins to salt its catch with Ros fhionn salt and send it inland to the mining towns. From this time the mining shires eat salt fish in the lean season.
 - **28 am Màrt, LE 409** — *Clach first preached at Inis thais* (Inis thais). Dòmhnall mac Ailein, a net-maker of Inis thais, where the wolf-sworn's stone Clach stands, preaches that the stone is Lia Fàil, which cries out under the rightful king, and that its sworn guards are the Fianna, who keep the island as a wolf keeps its range. His hearers are the first congregation of Òrd na Cloiche, the order of the Stone.
 - **16 an Dùbhlachd, LE 419** — *The wolf-house at Inis thais* (Inis thais). The followers of Dòmhnall mac Ailein raise at Inis thais the first temple on the island to Lia Fàil by name. It is roofed with slate brought by sea from the north.
@@ -3107,7 +3107,7 @@ Here the Seventh Book stops, at the present year, for the chronicle itself goes 
 - **29 am Faoilleach, LE 484** — *The drovers of Àth chiar* (Àth chiar). Drovers of Àth chiar begin to drive cattle each year over the eastern hills to the mining towns. Theirs are the first roads on the island marked with cairns.
 - **23 an t-Ògmhios, LE 484** — *Eilidh Dhubh's tracts* (Doire chiar). At Doire chiar Eilidh nic Iain, called Eilidh Dhubh, wakes again the teaching of the rival school of the Holy Age, that the vein answers labour and not birth, and sets it out in tracts that her pupils copy. The tracts are read aloud at harvest gatherings across the north-east.
 - **2 an Dùbhlachd, LE 484** — *The tracts burned at Muileann dhearg* (Muileann dhearg). The vein-house commands every copy of Eilidh Dhubh's tracts brought to Muileann dhearg and burned, and some hundred are given up. Eilidh is not punished. She dies at Doire chiar, still teaching.
-- **31 an Dùbhlachd, LE 484** — *Death of King Aonghas* (Cathair dhearg). King Aonghas mac Uisdein dies at Cathair dhearg and is buried by the rite of Macha, the first king so buried. His son Iain mac Aonghais is crowned.
+- **31 an Dùbhlachd, LE 484** — *Death of King Aonghas* (Cathair dhearg). King Aonghas Òg, son of Aonghas mac Uisdein and crowned after him, dies at Cathair dhearg and is buried by the rite of Macha, the first king so buried. His son Iain mac Aonghais is crowned.
 - **27 an Gearran, LE 496** — *Tormod Bàn crowned* (Cathair dhearg). Iain mac Aonghais dies after a short reign, and his son Tormod mac Iain, called Tormod Bàn for his white hair, is crowned at Cathair dhearg. The houses swear to him without dispute.
 - **8 an Lùnastal, LE 509** — *Winter at An Taigh-seinnse Mòr* (An Taigh-seinnse Mòr). An Taigh-seinnse Mòr on the central mining road becomes the house where the ox-teams of the mountain wait out the worst of the snow. Its keeper, Iain mac Mhurchaidh, builds them a second byre and keeps a book of the teams that lodged.
 - **6 an t-Sultain, LE 514** — *The bell-founders of Muileann naomh* (Muileann naomh). A family of Muileann naomh casts the first bronze bell on Dia-thìr to hang in a hawk-house. It cracks in its first frost; the second holds.
@@ -3142,7 +3142,7 @@ Here the Seventh Book stops, at the present year, for the chronicle itself goes 
 - **11 an t-Samhain, LE 731** — *The market of the eastern road* (Baile Mòr dhìreach). Baile Mòr dhìreach, the citadel on the straight eastern road, is granted a market for the east coast. There the fish and sail-cloth of the coast towns meet the furs, hides and dyes of the hills, and the dyers of Baile Mòr ruadh sell their colours nowhere else.
 - **23 am Màrt, LE 739** — *The two counts reconciled* (Muileann dhearg). The vein-house and the crown's scribes find that their counts of years since the Setting-Out differ, and settle the difference by agreement. The same agreement fixes the day of the rite of the empty harbour, which each count had placed otherwise; later scribes cease to pretend it was fixed by proof.
 - **12 am Faoilleach, LE 769** — *The druid school at Inis mhòr* (Inis mhòr). Pupils of Dùn thais found a house of disputation at Inis mhòr, and the question of the vein is argued in the north for the first time. Its first master, Fionnlagh mac Aonghais, is remembered for refusing every answer offered him.
-- **10 an Gearran, LE 769** — *Queen Eilidh Bhàn crowned* (Cathair dhearg). Eilidh Bhàn, fifth ruler of the house of Catrìona, is crowned at Cathair dhearg. The annals of her long reign are almost wholly of harvests.
+- **10 an Gearran, LE 769** — *Queen Eilidh Bhàn crowned* (Cathair dhearg). Eilidh Bhàn, sixth ruler of the house of Catrìona, is crowned at Cathair dhearg, a girl of eighteen. The annals of her long reign are almost wholly of harvests.
 - **22 an Gearran, LE 769** — *The bath-house at the hot springs* (Fuarain Theth Muileann ruadh). Clann Choinnich rebuilds in dressed stone the old bath-house over the hot springs of Fuarain Theth Muileann ruadh, and admits the sick of any house one day in seven. Its physicians keep a book of cures, afterwards lost.
 - **24 am Faoilleach, LE 784** — *The sea-thieves of the north-west* (Spùinneadairean-mara). Boats out of the small islands off the north-west coast begin to rob the coasting traders of fish and grain. The sea-thieves are Dia-thìrich, men of the north-west shore, and the harbour rolls name some of them.
 - **26 an Dùbhlachd, LE 789** — *Baile chrom half empty* (Baile chrom). The reeve of Baile chrom on the north-west coast reports half the houses of the town empty, their families gone east before the sea-thieves and the poor harvests. The crown remits the town's grain dues.
@@ -4106,7 +4106,7 @@ Here the Seventh Book stops, at the present year, for the chronicle itself goes 
 
 Here are set down the lines of those who ruled in Dia-thìr, age by age, so far as the lists that survive allow. For the Ancient Age there is the Line of the Mason; out of it runs the Line of Aisling, which comes down to the Age of Strangers. For the Age of Ailean there are the two oral lists; for the Holy Age, the Keepers' roll and the king-list; for the Age of Sundering, the crown as the custody-book and the king-list record it; for the Age of Strangers, the council, the Commissioners and the overseers; and after them the rulers of the restored kingdom. The tables come first. After them are told the lines one by one, then the seven houses of custody, and last how the keeping of the vein and the keeping of the realm were joined and parted again.
 
-No ruler stands in the tables whom the lists and chronicles do not name. Where a list owns that names are missing, the table says so and supplies none. A reign is dated by the rolls that mark its beginning and its end; where no roll marks the one or the other, the table gives "—", and where the rolls fix it only roughly the year is marked *c.* Of many rulers there is but a single mention, somewhere in the middle of the reign, and for these the table gives "in office" and the year of that mention.
+No ruler stands in the tables whom the lists and chronicles do not name. Where a list owns that names are missing, the table says so and supplies none. A reign is dated by the rolls that mark its beginning and its end; where no roll marks the one or the other, the table gives "—", and where the rolls fix it only roughly the year is marked *c.* Of many rulers there is but a single mention, somewhere in the middle of the reign, and for these the table gives "in office" and the year of that mention. To every ruler the Library adds the year of birth and the age at coming to rule and at death, from the lines, the rolls and the house books; where the rolls give only a year in office, the age is that of that year, and where a death is not told the table gives "—". The king's kin had the long years, each generation fewer than the one before, until they ran out in the Holy Age (section III). From the last of them to the present no ruler of Dia-thìr is known to have lived past ninety-five.
 
 ### I. The Tables
 
@@ -4146,160 +4146,166 @@ The years agree with the annals as the Library reckons them. Ailean was crowned 
 
 **The Stone Kings of Dùn ìseal (Rìghrean na Cloiche), Age II.** The oldest oral list, held on the hill of Dùn ìseal. It "gives no lengths of reign" (9 an Lùnastal, GE 1). It names those who held the hill: Ailean Mòr first, who took it, and after him those of his blood whom he set to hold it under him while he was king over the whole kingdom. He never gave up the kingship, and after the last name in the list he held the hill in his own hand (12 am Màrt, GE 4,391). The year shown is that of the deed for which each holder is remembered, and not the year of the coming to the hill.
 
-| No. | Name | Byname | Came to rule | Told of in | The reign |
-|---|---|---|---|---|---|
-| 1 | Ailean Mòr | the great | crowned Rìgh Chlann nan Dè in the grove at Doire ghlas | GE 1 | Took the hill where Dùn ìseal now stands and the valleys about it, the first kingdom, and threw up its first ring of bank; king over all the holders after him until he fell at Blàr Àth na Fala |
-| 2 | Gormshuil nic Ailein | — | his daughter, born before the grove | GE 27 | The first woman in any list; brought the herds to the warm springs in a hard winter and lost none |
-| 3 | Dòmhnall Clachach | of the stones | his son | GE 107 | Set the boundary stones of the valley grazing, some still standing and still argued over |
-| 4 | Fearchar Bacach | the lame | his son, after the first named storm | GE 227 | Carried to the gatherings in a chair of woven birch; the first ruler remembered for a hurt |
-| 5 | Mòrag Chruaidh | the hard | his granddaughter, Dòmhnall's daughter | GE 672 | Raided the salt-pans at Baile ghorm: the first war in either list, seven dead on the hill side |
-| 6 | Iain Dubh | the black | his son | — to GE 727 | Went down to repeat the salt raid and was killed on the shingle at Baile ghorm; the king went down after him alone, and the salt shore bent the knee (GE 728) |
-| 7 | Raghnall Ceannfhionn | fair-headed | his grandson | GE 1,175 | Made the peace of the ford with the Red Hill: salt for wool |
-| 8 | Sìleas Bhàn | the fair | of his blood | GE 1,927 | Held through the hungry years; the telling gives her no deed but that she outlasted them |
-| 9 | Tormod Liath | the grey | his grandson | GE 2,163 | Outlived three heirs; Dùn ìseal given its second bank |
-| 10 | Eilidh Ghlas | the grey | of his blood | GE 2,400 | Sent her younger son to be fostered on the Red Hill, the first fosterage in either list |
-| 11 | Calum Ciar | the dusky | the elder son of Eilidh Ghlas | GE 2,412 | Asked that the keeper's lot be drawn in his sight, and was refused |
-| 12 | Catrìona Mhòr | the great | of his blood; twelfth and last | GE 4,321 – GE 4,391 | Knew every household of the hills back seven names; the last name the list gives |
+| No. | Name | Byname | Came to rule | Told of in | The reign | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Ailean Mòr | the great | crowned Rìgh Chlann nan Dè in the grove at Doire ghlas | GE 1 | Took the hill where Dùn ìseal now stands and the valleys about it, the first kingdom, and threw up its first ring of bank; king over all the holders after him until he fell at Blàr Àth na Fala | VE 5,300 | 24 | 4,626, slain |
+| 2 | Gormshuil nic Ailein | — | his daughter, born before the grove | GE 27 | The first woman in any list; brought the herds to the warm springs in a hard winter and lost none | VE 5,318 | 32 | 81 |
+| 3 | Dòmhnall Clachach | of the stones | his son | GE 107 | Set the boundary stones of the valley grazing, some still standing and still argued over | GE 2 | 74 | 3,308 |
+| 4 | Fearchar Bacach | the lame | his son, after the first named storm | GE 227 | Carried to the gatherings in a chair of woven birch; the first ruler remembered for a hurt | GE 10 | 217 | 3,130 |
+| 5 | Mòrag Chruaidh | the hard | his granddaughter, Dòmhnall's daughter | GE 672 | Raided the salt-pans at Baile ghorm: the first war in either list, seven dead on the hill side | GE 290 | 382 in GE 672 | 1,320 |
+| 6 | Iain Dubh | the black | his son | — to GE 727 | Went down to repeat the salt raid and was killed on the shingle at Baile ghorm; the king went down after him alone, and the salt shore bent the knee (GE 728) | GE 45 | 674 | 682, slain |
+| 7 | Raghnall Ceannfhionn | fair-headed | his grandson | GE 1,175 | Made the peace of the ford with the Red Hill: salt for wool | GE 760 | 415 in GE 1,175 | 1,400 |
+| 8 | Sìleas Bhàn | the fair | of his blood | GE 1,927 | Held through the hungry years; the telling gives her no deed but that she outlasted them | GE 1,500 | 427 in GE 1,927 | 880 |
+| 9 | Tormod Liath | the grey | his grandson | GE 2,163 | Outlived three heirs; Dùn ìseal given its second bank | GE 640 | 1,370 | 1,750 |
+| 10 | Eilidh Ghlas | the grey | of his blood | GE 2,400 | Sent her younger son to be fostered on the Red Hill, the first fosterage in either list | GE 2,050 | 340 | 730 |
+| 11 | Calum Ciar | the dusky | the elder son of Eilidh Ghlas | GE 2,412 | Asked that the keeper's lot be drawn in his sight, and was refused | GE 2,250 | 162 in GE 2,412 | 710 |
+| 12 | Catrìona Mhòr | the great | of his blood; twelfth and last | GE 4,321 – GE 4,391 | Knew every household of the hills back seven names; the last name the list gives | GE 4,100 | 221 in GE 4,321 | 291 |
 
 **The holders of the Red Hill, Age II.** The second oral list, kept in the west on the hill where Cathair dhearg now stands. It gives no more lengths of reign than the list of the Stone Kings. The Red Hill was an old line of the western lake shore, and none of its holders was of Ailean's blood; it bent the knee to the king in Uisdean Mòr's time, and swore to him and not to Dùn ìseal, and kept its own holders under him.
 
-| No. | Name | Byname | Came to rule | Told of in | The reign |
-|---|---|---|---|---|---|
-| 1 | Beathag Ruadh | the red | first in the list | GE 18 | Held the hill; nothing else is told |
-| 2 | Uisdean Mòr | the great | second in the list | GE 267 | Ditched the neck of the hill and set a palisade on it, twice burned and twice rebuilt; knelt to Ailean Mòr on the lake shore (GE 290) |
-| 3 | Seonag nic Uisdein | — | after her father | GE 694 | Counted her people by pebbles in a bag, one to a household |
-| 4 | Murchadh Gearr | the short | after Seonag | GE 1,247 | Kept the peace of the ford and walked the salt road every year to be seen on it |
-| 5 | Lachlann Ruadh, *Lachlann an Altraim* | the red; "of the fostering" | — | GE 2,401 | Took in the son of Eilidh Ghlas; the list uses his byname more than his name |
-| 6 | Peigi Dhubh | the black | after Lachlann | GE 2,426 | Sent the fosterling home grown, with salt; the ford peace held a generation more |
-| 7 | Seumas Òg | the young | last in the list | GE 4,347 | The list stops with him |
+| No. | Name | Byname | Came to rule | Told of in | The reign | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Beathag Ruadh | the red | first in the list | GE 18 | Held the hill; nothing else is told | VE 5,290 | 51 in GE 18 | 73 |
+| 2 | Uisdean Mòr | the great | second in the list | GE 267 | Ditched the neck of the hill and set a palisade on it, twice burned and twice rebuilt; knelt to Ailean Mòr on the lake shore (GE 290) | GE 225 | 25 | 87 |
+| 3 | Seonag nic Uisdein | — | after her father | GE 694 | Counted her people by pebbles in a bag, one to a household | GE 670 | 24 in GE 694 | 71 |
+| 4 | Murchadh Gearr | the short | after Seonag | GE 1,247 | Kept the peace of the ford and walked the salt road every year to be seen on it | GE 1,215 | 25 | 65 |
+| 5 | Lachlann Ruadh, *Lachlann an Altraim* | the red; "of the fostering" | — | GE 2,401 | Took in the son of Eilidh Ghlas; the list uses his byname more than his name | GE 2,360 | 41 in GE 2,401 | 65 |
+| 6 | Peigi Dhubh | the black | after Lachlann | GE 2,426 | Sent the fosterling home grown, with salt; the ford peace held a generation more | GE 2,385 | 40 | 75 |
+| 7 | Seumas Òg | the young | last in the list | GE 4,347 | The list stops with him | GE 4,320 | 27 in GE 4,347 | 70 |
 
 **The Keepers of the Flame, Age III.** The keepers of Brìde's flame and of Crom's stone, from the recited roll of Talla na Lasrach at Dùn ìseal, written down on 17 an Dàmhair, FE 1,320. The roll holds one hundred and forty names, from Beathag Bhàn to Catrìona nic Mhuirich (2 an Giblean, FE 2,939); fourteen of them are found in the annals.
 
-| Name | Byname | House | Came to the flame | Keeping | The keeping |
-|---|---|---|---|---|---|
-| Beathag Bhàn | the fair | of the nine hearths | chosen by the keepers of the slab and the sworn households | FE 4 – FE 44 | First on the roll; would not keep Làrach an Teampaill |
-| Muireach Liath | the grey | her sister's son | chosen by the nine hearths | FE 44 – FE 89 | Fixed the coal basket; ruled that Allt an Àigh and the silver are not the mountain's |
-| Gormshuil nic Mhuirich | — | Sliochd Mhuirich | chosen over three of other lines | FE 89 – — | Her kin the first house known by a name; shut the galleries to the stag's people |
-| Fionnlagh Dall | the blind | — | after Gormshuil | — (in office FE 139) – FE 184 | Re-cut the stone cup; asked the council for a crossing the river could not take; buried at Tuam Cnoc dhìreach |
-| Eilidh nic Ìomhair | — | Sliochd Ìomhair | the first chosen outside the house of Muireach | FE 381 – — | The Four Houses sworn under her; let the panthers pass on the road |
-| Coinneach Mòr mac Tormoid | the great | Sliochd Thormoid | the first Keeper of his house | FE 475 – — | Kept the flame longer than any before him, and changed nothing; had the old places listed |
-| Seonaid Chiar | the dusky | Sliochd Mhuirich | — | — (in office FE 574) – — | Let the stag's cutters back into the galleries; propped the galleries with oak |
-| Uisdean mac Ruairidh | — | — | — | — (in office FE 1,000) – — | Refused the flame to Iain Garbh's warband |
-| Calum Liath | the grey | — | — | — (in office FE 1,595) – — | Divided the holy woods with Fearchar Òg; the reckoning of the cords |
-| Oighrig Bhàn | the fair | — | after Calum Liath | FE 1,634 – — | Bound the first twelve apprentices, four of them later Keepers |
-| Dùghall mac Raghnaill | — | — | after Oighrig Bhàn | FE 1,699 – — | The census of hands; judged the Silver Feud |
-| Raonaid Dhubh | the black | — | — | — (in office FE 2,366) – — | Heard both schools of the stag and gave no ruling; the shared-meal law with Lachlann Bàn |
-| Seumas Bàn | the fair | Sliochd Mhuirich | chosen | FE 2,835 – — | Struck his own house's count from the roll's preface; had the rites listed |
-| Catrìona nic Mhuirich | — | Sliochd Mhuirich, by her name | — | — (in office FE 2,929) – — | Set the stone cup in the hands of Mòr nic Coinnich; last name on the roll |
+| Name | Byname | House | Came to the flame | Keeping | The keeping | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|---|---|
+| Beathag Bhàn | the fair | of the nine hearths | chosen by the keepers of the slab and the sworn households | FE 4 – FE 44 | First on the roll; would not keep Làrach an Teampaill | GE 4,580 | 26 | 66 |
+| Muireach Liath | the grey | her sister's son | chosen by the nine hearths | FE 44 – FE 89 | Fixed the coal basket; ruled that Allt an Àigh and the silver are not the mountain's | FE 8 | 36 | 81 |
+| Gormshuil nic Mhuirich | — | Sliochd Mhuirich | chosen over three of other lines | FE 89 – — | Her kin the first house known by a name; shut the galleries to the stag's people | FE 40 | 49 | 87 |
+| Fionnlagh Dall | the blind | — | after Gormshuil | — (in office FE 139) – FE 184 | Re-cut the stone cup; asked the council for a crossing the river could not take; buried at Tuam Cnoc dhìreach | FE 90 | 49 in FE 139 | 94 |
+| Eilidh nic Ìomhair | — | Sliochd Ìomhair | the first chosen outside the house of Muireach | FE 381 – — | The Four Houses sworn under her; let the panthers pass on the road | FE 340 | 41 | 90 |
+| Coinneach Mòr mac Tormoid | the great | Sliochd Thormoid | the first Keeper of his house | FE 475 – — | Kept the flame longer than any before him, and changed nothing; had the old places listed | FE 450 | 25 | 87 |
+| Seonaid Chiar | the dusky | Sliochd Mhuirich | — | — (in office FE 574) – — | Let the stag's cutters back into the galleries; propped the galleries with oak | FE 545 | 29 in FE 574 | 85 |
+| Uisdean mac Ruairidh | — | — | — | — (in office FE 1,000) – — | Refused the flame to Iain Garbh's warband | FE 950 | 50 in FE 1,000 | 80 |
+| Calum Liath | the grey | — | — | — (in office FE 1,595) – — | Divided the holy woods with Fearchar Òg; the reckoning of the cords | FE 1,550 | 45 in FE 1,595 | 75 |
+| Oighrig Bhàn | the fair | — | after Calum Liath | FE 1,634 – — | Bound the first twelve apprentices, four of them later Keepers | FE 1,590 | 44 | 70 |
+| Dùghall mac Raghnaill | — | — | after Oighrig Bhàn | FE 1,699 – — | The census of hands; judged the Silver Feud | FE 1,670 | 29 in FE 1,699 | 90 |
+| Raonaid Dhubh | the black | — | — | — (in office FE 2,366) – — | Heard both schools of the stag and gave no ruling; the shared-meal law with Lachlann Bàn | FE 2,340 | 26 in FE 2,366 | 80 |
+| Seumas Bàn | the fair | Sliochd Mhuirich | chosen | FE 2,835 – — | Struck his own house's count from the roll's preface; had the rites listed | FE 2,800 | 35 | 80 |
+| Catrìona nic Mhuirich | — | Sliochd Mhuirich, by her name | — | — (in office FE 2,929) – — | Set the stone cup in the hands of Mòr nic Coinnich; last name on the roll | FE 2,890 | 39 in FE 2,929 | — |
 
 **The rìghrean and ban-rìghrean of the Holy Age.** From the king-list begun by Tormod Scrìobhaiche (20 an Lùnastal, FE 1,299) and kept in the red hall. It holds more than ninety names, from Goraidh Mòr to Mòr nic Coinnich (2 an Giblean, FE 2,939). The seat was at Dùn dhearg until Beathag Mhòr and at Cathair dhearg after her.
 
-| Name | Byname | House | How they came to rule | Reign | The reign |
-|---|---|---|---|---|---|
-| Goraidh mac Ìomhair, *Goraidh Mòr* | the great | Sliochd Ìomhair | called rìgh by the households who ate from his granaries | FE 674 – FE 754 | The first ruler of the lowlands so called; the division of keeping with the Hall; the first road-toll |
-| Mòrag nic Ghoraidh, *Mòrag nan Rathad* | of the roads | line of Goraidh Mòr | his daughter | FE 754 – FE 834 | Walked every carriers' road; the golden house; the bridge-foot rebuilt |
-| Dòmhnall Crùbach | the lame | line of Goraidh Mòr | her son | FE 834 – FE 914 | Governed through the waypoint-keepers, who grew powerful |
-| Sìleas Dhonn | the brown | line of Goraidh Mòr | his niece | FE 914 – FE 994 | Made the waypoint-keepers render account once a year |
-| Iain Garbh | the rough | line of Goraidh Mòr | her son | FE 994 – FE 1,044 | The War of the Roads, the first war since the Peace of the Threshold, and the first fought over a road; never entered the Hall |
-| Catrìona Ghlic | the wise | line of Goraidh Mòr | his daughter | FE 1,044 – — | Sent her son to sit with the flame; the Hall and the hall reconciled |
-| *eleven rulers* | | | | (FE 1,211) | Their names and order; the list keeps nothing more |
-| Ealasaid Chiar | the dusky | line of Goraidh Mòr | — | FE 1,299 – — | Had Tormod Scrìobhaiche set down the first written king-list |
-| Fearchar Òg | the young | line of Goraidh Mòr | acceded as a boy | — (in office FE 1,595) – — | The division of the woods; paid the road-guards in silver; died old |
-| Beathag Mhòr | the great | line of Goraidh Mòr | great-granddaughter of Fearchar Òg | FE 1,685 – FE 1,735 | The first called ban-rìgh; moved the seat to Cathair dhearg; the census of hands |
-| Ruairidh Liath | the grey | line of Goraidh Mòr | her son | FE 1,736 – — | Grey already when he came to rule, which is the list's one jest; the Silver Feud |
-| Seonag Chrom | the bent | line of Goraidh Mòr | his granddaughter | FE 1,781 – — | Gave the clerks a room and a stipend; from her reign the list was kept year by year |
-| Lachlann Bàn | the fair | line of Goraidh Mòr | — | FE 2,406 – — | Granaries in every province seat; the shared-meal law written |
-| Oighrig nic Lachlainn | — | line of Goraidh Mòr | his daughter | FE 2,461 – FE 2,511 | Childless; the line of Goraidh Mòr, as the list reckons it, ends with her |
-| *the red hall shut* | | | the Four Houses meet at Dùn ìseal | FE 2,511 – FE 2,516 | No custom covered a hall without an heir |
-| Gilleasbuig Mòr mac Tormoid | the great | Sliochd Thormoid | elected by the Four Houses; the stone cup set in his hands | FE 2,516 – FE 2,541 | The first ruler made at Dùn ìseal; a line drawn under Oighrig in every copy |
-| Tormod Òg | the young | house of Tormod | his son, without a meeting of the houses | FE 2,541 – — | — |
-| *nine rulers of the house of Tormod* | | | | (FE 2,558) | Their names and years; of their reigns the rolls tell only of harvests, tolls and bridges |
-| Anna Ruadh | the red | house of Tormod | — | FE 2,806 – FE 2,829 | Walked the road circuit twice; chartered the sunny house; kept a wood-watcher at court |
-| Coinneach Bàn | the fair | house of Tormod | her son | FE 2,829 – — | Ruled long and quietly; the laws copied for every province |
-| Mòr nic Coinnich | — | house of Tormod | granddaughter of Coinneach Bàn; the stone cup set in her hands | FE 2,929 – c. FE 2,953 | The last name in the king-list of the Holy Age |
+| Name | Byname | House | How they came to rule | Reign | The reign | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|---|---|
+| Goraidh mac Ìomhair, *Goraidh Mòr* | the great | Sliochd Ìomhair | called rìgh by the households who ate from his granaries | FE 674 – FE 754 | The first ruler of the lowlands so called; the division of keeping with the Hall; the first road-toll | FE 494 | 180 | 259 |
+| Mòrag nic Ghoraidh, *Mòrag nan Rathad* | of the roads | line of Goraidh Mòr | his daughter | FE 754 – FE 834 | Walked every carriers' road; the golden house; the bridge-foot rebuilt | FE 619 | 135 | 215 |
+| Dòmhnall Crùbach | the lame | line of Goraidh Mòr | her son | FE 834 – FE 914 | Governed through the waypoint-keepers, who grew powerful | FE 734 | 100 | 180 |
+| Sìleas Dhonn | the brown | line of Goraidh Mòr | his niece | FE 914 – FE 994 | Made the waypoint-keepers render account once a year | FE 839 | 75 | 155 |
+| Iain Garbh | the rough | line of Goraidh Mòr | her son | FE 994 – FE 1,044 | The War of the Roads, the first war since the Peace of the Threshold, and the first fought over a road; never entered the Hall | FE 909 | 85 | 135 |
+| Catrìona Ghlic | the wise | line of Goraidh Mòr | his daughter | FE 1,044 – — | Sent her son to sit with the flame; the Hall and the hall reconciled | FE 1,002 | 42 | 122 |
+| *eleven rulers* | | | | (FE 1,211) | Their names and order; the list keeps nothing more | | | |
+| Ealasaid Chiar | the dusky | line of Goraidh Mòr | — | FE 1,299 – — | Had Tormod Scrìobhaiche set down the first written king-list | FE 1,270 | 29 | 60 |
+| Fearchar Òg | the young | line of Goraidh Mòr | acceded as a boy | — (in office FE 1,595) – — | The division of the woods; paid the road-guards in silver; died old | FE 1,586 | 7 | 94 |
+| Beathag Mhòr | the great | line of Goraidh Mòr | great-granddaughter of Fearchar Òg | FE 1,685 – FE 1,735 | The first called ban-rìgh; moved the seat to Cathair dhearg; the census of hands | FE 1,665 | 20 | 70 |
+| Ruairidh Liath | the grey | line of Goraidh Mòr | her son | FE 1,736 – — | Grey already when he came to rule, which is the list's one jest; the Silver Feud | FE 1,700 | 36 | 80 |
+| Seonag Chrom | the bent | line of Goraidh Mòr | his granddaughter | FE 1,781 – — | Gave the clerks a room and a stipend; from her reign the list was kept year by year | FE 1,760 | 21 | 70 |
+| Lachlann Bàn | the fair | line of Goraidh Mòr | — | FE 2,406 – — | Granaries in every province seat; the shared-meal law written | FE 2,380 | 26 | 81 |
+| Oighrig nic Lachlainn | — | line of Goraidh Mòr | his daughter | FE 2,461 – FE 2,511 | Childless; the line of Goraidh Mòr, as the list reckons it, ends with her | FE 2,440 | 21 | 71 |
+| *the red hall shut* | | | the Four Houses meet at Dùn ìseal | FE 2,511 – FE 2,516 | No custom covered a hall without an heir | | | |
+| Gilleasbuig Mòr mac Tormoid | the great | Sliochd Thormoid | elected by the Four Houses; the stone cup set in his hands | FE 2,516 – FE 2,541 | The first ruler made at Dùn ìseal; a line drawn under Oighrig in every copy | FE 2,470 | 46 | 71 |
+| Tormod Òg | the young | house of Tormod | his son, without a meeting of the houses | FE 2,541 – — | — | FE 2,500 | 41 | 70 |
+| *nine rulers of the house of Tormod* | | | | (FE 2,558) | Their names and years; of their reigns the rolls tell only of harvests, tolls and bridges | | | |
+| Anna Ruadh | the red | house of Tormod | — | FE 2,806 – FE 2,829 | Walked the road circuit twice; chartered the sunny house; kept a wood-watcher at court | FE 2,780 | 26 | 49 |
+| Coinneach Bàn | the fair | house of Tormod | her son | FE 2,829 – — | Ruled long and quietly; the laws copied for every province | FE 2,805 | 24 | 91 |
+| Mòr nic Coinnich | — | house of Tormod | granddaughter of Coinneach Bàn; the stone cup set in her hands | FE 2,929 – c. FE 2,953 | The last name in the king-list of the Holy Age | FE 2,905 | 24 | 48 |
 
 **The crowned rulers of the Age of Sundering.** From the king-list as recopied under Eilidh Bhàn (20 an Cèitean, LE 829) and from the custody-book of the vein-house. Every crowning in this age was at Cathair dhearg.
 
-| Name | Byname | House | How they came to rule | Reign | The reign |
-|---|---|---|---|---|---|
-| Beathag nic Dhòmhnaill | — | line of Beathag (of the house of Tormod through her mother) | daughter of Mòr nic Coinnich | c. FE 2,953 – LE 55 | Neither sent nor kept back the fleet; struck her sister's line from the succession; kept the white sorrow |
-| Raghnall mac Uilleim | — | line of Beathag | her son | LE 55 – LE 125 | Long and without event; the custody-book gives it one line |
-| Ìomhar mac Raghnaill | — | line of Beathag | his son | LE 125 – LE 180 | Died with no living child; the line of Beathag ends |
-| Fearchar mac Lachlainn | — | Clann Fhearchair, of Baile Mòr dhomhain | chosen by the heads of the seven houses | LE 182 – LE 211 | The first crowning decided by the houses; the double court at Baile Mòr dhomhain |
-| Fearchar Donn | the brown | Clann Fhearchair | his son, without dispute | LE 211 – — | — |
-| Sìleas nic Fhearchair | — | Clann Fhearchair | after her father | — (in office LE 261) – LE 324 | The firlot of Cathair dhearg; tally-houses in the royal granaries; reigned more than half a century |
-| Uisdean mac Dhùghaill | — | line of Sìleas | her son | LE 324 – LE 394 | — |
-| Aonghas mac Uisdein | — | line of Sìleas | his son | LE 394 – LE 484 | The first king taught letters as a child; took up the rite of Macha; the first king buried by it |
-| Iain mac Aonghais | — | line of Sìleas | his son | LE 484 – LE 496 | A short reign |
-| Tormod mac Iain, *Tormod Bàn* | white-haired | line of Sìleas | his son | LE 496 – LE 547 | His two sons drowned in the Abhainn fhionn; died without naming an heir |
-| *the War of the Three Claimants* | | | | LE 552 – LE 562 | Catrìona nic Aonghais, Dùghall Garbh and Raghnall Ruadh; the seven houses split |
-| Catrìona nic Aonghais, *Catrìona Bhuadhach* | the victorious | house of Catrìona, of Inis thais | niece of Tormod Bàn; won the war | LE 562 – LE 604 | The ruling of the hearth; Rathad na Banrighinn; Seann Warr's gates honoured |
-| Lachlann mac Iain | — | house of Catrìona | her son | LE 604 – LE 654 | "Quiet", says the list, and means it as praise |
-| Anna | — | house of Catrìona | his daughter | LE 654 – — | — |
-| Eilidh Bhàn | the fair | house of Catrìona | fifth ruler of the house | LE 769 – LE 841 | Harvests; the sea-thieves' boats burned on Eilean dhubh; the king-list recopied; died without an heir |
-| Dòmhnall Ruadh | the red | Clann Raghnaill | named by the houses meeting at the vein-house | LE 846 – LE 871 | The first to hold both the crown and the vein-house; buried at Muileann dhearg |
-| Raghnall Òg | the young | Clann Raghnaill | his son | LE 871 – — | — |
-| Mòrag Ruadh | the red | Clann Raghnaill | — | LE 1,019 – — | Her household accounts survive entire; attended the thousandth-year burning |
-| Beathag Fhionn | the fair | Clann Raghnaill | after her mother Mòrag | — (in office LE 1,082) – LE 1,129 | Closed the coast road against the swallowing cough |
-| Ailean | — | Clann Raghnaill | her son | LE 1,129 – — | The first of four kings of the name in the house of Raghnall |
-| Ailean mac Raghnaill | — | Clann Raghnaill | — | — – LE 1,266 | Left two sons of different mothers, each told he was the heir |
-| *the Brothers' War* | | | | LE 1,270 – LE 1,276 | Iain Ciar against Alasdair Bàn; the houses divided four to three |
-| Iain Ciar | the dusky | Clann Raghnaill | won the war; crowned at the peace of An Taigh-seinnse Mòr | LE 1,276 – LE 1,326 | The grain law, which lapsed after him as he had foreseen |
-| Catrìona Bheag | the small | Clann Raghnaill | — | LE 1,429 – — | The first queen in some three centuries; renewed the oath of the seven |
-| Sìleas Òg | the young | Clann Raghnaill | — | LE 1,529 – — | The first ruler to visit every shire seat; a new census of hands |
-| Ailean mac Raghnaill | the fourth of the name | Clann Raghnaill | — | LE 1,589 – LE 1,590 | The shortest reign in the king-list |
-| Mòrag nic Raghnaill | — | Clann Raghnaill | his sister | LE 1,590 – c. LE 1,629 | Forty years of good harvests and the rite |
-| Tormod mac Ruairidh | — | Clann Raghnaill | — | LE 1,709 – LE 1,766 | Roads and bridges; a reign of more than fifty years |
-| Gormshuil nic Thormoid | — | Clann Raghnaill | his daughter | LE 1,766 – — | Went round every shire seat and answered no grievance in writing; the last crowned ruler of the age |
+| Name | Byname | House | How they came to rule | Reign | The reign | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|---|---|
+| Beathag nic Dhòmhnaill | — | line of Beathag (of the house of Tormod through her mother) | daughter of Mòr nic Coinnich | c. FE 2,953 – LE 55 | Neither sent nor kept back the fleet; struck her sister's line from the succession; kept the white sorrow | FE 2,938 | 15 | 76 |
+| Raghnall mac Uilleim | — | line of Beathag | her son | LE 55 – LE 92 | Long and without event; the custody-book gives it one line | LE 8 | 47 | 84 |
+| Raghnall mac Raghnaill | — | line of Beathag | his son | LE 92 – LE 125 | One line in the custody-book, as his father had | LE 45 | 47 | 80 |
+| Ìomhar mac Raghnaill | — | line of Beathag | his son | LE 125 – LE 180 | Died with no living child; the line of Beathag ends | LE 92 | 33 | 88 |
+| Fearchar mac Lachlainn | — | Clann Fhearchair, of Baile Mòr dhomhain | chosen by the heads of the seven houses | LE 182 – LE 211 | The first crowning decided by the houses; the double court at Baile Mòr dhomhain | LE 157 | 25 | 54 |
+| Fearchar Donn | the brown | Clann Fhearchair | his son, without dispute | LE 211 – — | — | LE 188 | 23 | 68 |
+| Sìleas nic Fhearchair | — | Clann Fhearchair | after her father | — (in office LE 261) – LE 324 | The firlot of Cathair dhearg; tally-houses in the royal granaries; reigned more than half a century | LE 243 | 15 | 81 |
+| Uisdean mac Dhùghaill | — | line of Sìleas | her son | LE 324 – LE 352 | — | LE 270 | 54 | 82 |
+| Uisdean mac Uisdein | — | line of Sìleas | his son | LE 352 – LE 394 | — | LE 322 | 30 | 72 |
+| Aonghas mac Uisdein | — | line of Sìleas | his son | LE 394 – LE 450 | The first king taught letters as a child; took up the rite of Macha | LE 372 | 22 | 78 |
+| Aonghas Òg mac Aonghais | the young | line of Sìleas | his son | LE 450 – LE 484 | The first king buried by the rite of Macha | LE 400 | 50 | 84 |
+| Iain mac Aonghais | — | line of Sìleas | his son | LE 484 – LE 496 | A short reign | LE 435 | 49 | 61 |
+| Tormod mac Iain, *Tormod Bàn* | white-haired | line of Sìleas | his son | LE 496 – LE 547 | His two sons drowned in the Abhainn fhionn; died without naming an heir | LE 460 | 36 | 87 |
+| *the War of the Three Claimants* | | | | LE 552 – LE 562 | Catrìona nic Aonghais, Dùghall Garbh and Raghnall Ruadh; the seven houses split | | | |
+| Catrìona nic Aonghais, *Catrìona Bhuadhach* | the victorious | house of Catrìona, of Inis thais | niece of Tormod Bàn; won the war | LE 562 – LE 604 | The ruling of the hearth; Rathad na Banrighinn; Seann Warr's gates honoured | LE 526 | 36 | 78 |
+| Lachlann mac Iain | — | house of Catrìona | her son | LE 604 – LE 654 | "Quiet", says the list, and means it as praise | LE 565 | 39 | 89 |
+| Anna | — | house of Catrìona | his daughter | LE 654 – LE 685 | — | LE 600 | 54 | 85 |
+| *two rulers of the house of Catrìona* | | | | (LE 685 – LE 769) | The fourth and fifth of the house; the annals keep no more of them than that they reigned | | | |
+| Eilidh Bhàn | the fair | house of Catrìona | sixth ruler of the house; granddaughter of the fifth | LE 769 – LE 841 | Harvests; the sea-thieves' boats burned on Eilean dhubh; the king-list recopied; died without an heir | LE 751 | 18 | 90 |
+| Dòmhnall Ruadh | the red | Clann Raghnaill | named by the houses meeting at the vein-house | LE 846 – LE 871 | The first to hold both the crown and the vein-house; buried at Muileann dhearg | LE 790 | 56 | 81 |
+| Raghnall Òg | the young | Clann Raghnaill | his son | LE 871 – — | — | LE 825 | 46 | — |
+| Mòrag Ruadh | the red | Clann Raghnaill | — | LE 1,019 – — | Her household accounts survive entire; attended the thousandth-year burning | LE 1,000 | 19 | — |
+| Beathag Fhionn | the fair | Clann Raghnaill | after her mother Mòrag | — (in office LE 1,082) – LE 1,129 | Closed the coast road against the swallowing cough | LE 1,040 | 42 in LE 1,082 | 89 |
+| Ailean | — | Clann Raghnaill | her son | LE 1,129 – — | The first of four kings of the name in the house of Raghnall | LE 1,070 | 59 | — |
+| Ailean mac Raghnaill | — | Clann Raghnaill | — | — – LE 1,266 | Left two sons of different mothers, each told he was the heir | LE 1,200 | — | 66 |
+| *the Brothers' War* | | | | LE 1,270 – LE 1,276 | Iain Ciar against Alasdair Bàn; the houses divided four to three | | | |
+| Iain Ciar | the dusky | Clann Raghnaill | won the war; crowned at the peace of An Taigh-seinnse Mòr | LE 1,276 – LE 1,326 | The grain law, which lapsed after him as he had foreseen | LE 1,240 | 36 | 86 |
+| Catrìona Bheag | the small | Clann Raghnaill | — | LE 1,429 – — | The first queen in some three centuries; renewed the oath of the seven | LE 1,400 | 29 | — |
+| Sìleas Òg | the young | Clann Raghnaill | — | LE 1,529 – — | The first ruler to visit every shire seat; a new census of hands | LE 1,505 | 24 | — |
+| Ailean mac Raghnaill | the fourth of the name | Clann Raghnaill | — | LE 1,589 – LE 1,590 | The shortest reign in the king-list | LE 1,550 | 39 | — |
+| Mòrag nic Raghnaill | — | Clann Raghnaill | his sister | LE 1,590 – c. LE 1,629 | Forty years of good harvests and the rite | LE 1,556 | 34 | — |
+| Tormod mac Ruairidh | — | Clann Raghnaill | — | LE 1,709 – LE 1,766 | Roads and bridges; a reign of more than fifty years | LE 1,680 | 29 | 86 |
+| Gormshuil nic Thormoid | — | Clann Raghnaill | his daughter | LE 1,766 – — | Went round every shire seat and answered no grievance in writing; the last crowned ruler of the age | LE 1,715 | 51 | — |
 
 **The Council of Custodians and the council of the rising, Age V.** The council sat at Cathair dhearg "in the crown's place since the crown fell empty at the close of the Age of Sundering" (11 am Faoilleach, AE 2).
 
-| Name | Office | How they came to it | Held | The tenure |
-|---|---|---|---|---|
-| Tormod mac Ailein | high custodian | — | — (in office AE 2) – AE 20 | Confirmed the strangers' leave to stay; signed the first treaty in a tongue he could not read |
-| Coinneach Glas | high custodian | chosen by the council | AE 20 – — | Asked in vain that the custodians' tally be kept at the Company's furnaces |
-| *the seat empty* | | the council could not agree | AE 105 – | The Commissioner found the council easier to deal with |
-| Eilidh nic Raghnaill | speaker of the forest council | chosen at Coille Naomh Cnoc bheag | AE 148 – | Drafted the second petition; sent the constables of Baile thais to the coast unharmed |
+| Name | Office | How they came to it | Held | The tenure | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|---|
+| Tormod mac Ailein | high custodian | — | — (in office AE 2) – AE 20 | Confirmed the strangers' leave to stay; signed the first treaty in a tongue he could not read | LE 1,774 | 46 in AE 2 | 64 |
+| Coinneach Glas | high custodian | chosen by the council | AE 20 – — | Asked in vain that the custodians' tally be kept at the Company's furnaces | LE 1,793 | 45 | 69 |
+| *the seat empty* | | the council could not agree | AE 105 – | The Commissioner found the council easier to deal with | | | |
+| Eilidh nic Raghnaill | speaker of the forest council | chosen at Coille Naomh Cnoc bheag | AE 148 – | Drafted the second petition; sent the constables of Baile thais to the coast unharmed | AE 105 | 43 | — |
 
 **The Commissioners of the Administration, Age V.** The humans' governors, seated at the Residency in Ros dhomhain.
 
-| Name | How they came to office | Held | The tenure |
-|---|---|---|---|
-| Josiah Pell | the first Commissioner, newly come to sign the treaty | AE 8 – AE 24 | Sailed home to an Tìr Thall and did not return |
-| Henry Maddox | sent with orders to double the yield | AE 24 – AE 41 | Bought the oaks of Cathair fhada for pit-props; left a rich man |
-| Arthur Lisle | a lawyer, sent to replace Maddox | AE 41 – AE 61 | Bound every agreement in one book; signed the Silver Compact; died at the Residency |
-| Walter Crane | the Company's chief agent, appointed in Lisle's place | AE 61 – AE 75 | The pay office at Ceann mhin; walked the camps in the Green Death and died of it |
-| Martha Gale | the Company's agent at Ros dhomhain; held the seal | AE 75 – AE 76 | Held the seal a year and more, until one was sent to follow Crane |
-| George Tolley | sent from an Tìr Thall | AE 76 – AE 98 | Never visited the camps; retired with honours |
-| Robert Haskins | successor to Tolley | AE 98 – AE 114 | Set the tithe before the council met; recalled after a quarrel with the Company |
-| Edward Vane | the first Commissioner born on Dia-thìr | AE 114 – AE 132 | The tram-road to Ros dhìreach; spoke Dia-thìris, badly, but he spoke it; died at the Residency |
-| Charles Merriman | successor to Vane | AE 132 – AE 146 | Brought the first armed constables; left in ill health |
-| Lionel Strake | a soldier | AE 146 – AE 150 | Locked the council out; the last Commissioner; sailed for an Tìr Thall, and of his landing nothing is known |
+| Name | How they came to office | Held | The tenure | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|
+| Josiah Pell | the first Commissioner, newly come to sign the treaty | AE 8 – AE 24 | Sailed home to an Tìr Thall and did not return | LE 1,778 | 48 | — |
+| Henry Maddox | sent with orders to double the yield | AE 24 – AE 41 | Bought the oaks of Cathair fhada for pit-props; left a rich man | LE 1,813 | 29 | — |
+| Arthur Lisle | a lawyer, sent to replace Maddox | AE 41 – AE 61 | Bound every agreement in one book; signed the Silver Compact; died at the Residency | LE 1,818 | 41 | 61 |
+| Walter Crane | the Company's chief agent, appointed in Lisle's place | AE 61 – AE 75 | The pay office at Ceann mhin; walked the camps in the Green Death and died of it | AE 15 | 46 | 60 |
+| Martha Gale | the Company's agent at Ros dhomhain; held the seal | AE 75 – AE 76 | Held the seal a year and more, until one was sent to follow Crane | AE 30 | 45 | — |
+| George Tolley | sent from an Tìr Thall | AE 76 – AE 98 | Never visited the camps; retired with honours | AE 30 | 46 | — |
+| Robert Haskins | successor to Tolley | AE 98 – AE 114 | Set the tithe before the council met; recalled after a quarrel with the Company | AE 45 | 53 | — |
+| Edward Vane | the first Commissioner born on Dia-thìr | AE 114 – AE 132 | The tram-road to Ros dhìreach; spoke Dia-thìris, badly, but he spoke it; died at the Residency | AE 70 | 44 | 62 |
+| Charles Merriman | successor to Vane | AE 132 – AE 146 | Brought the first armed constables; left in ill health | AE 85 | 47 | — |
+| Lionel Strake | a soldier | AE 146 – AE 150 | Locked the council out; the last Commissioner; sailed for an Tìr Thall, and of his landing nothing is known | AE 100 | 46 | — |
 
 **The Maoir of Muileann chrom, Age V.** The Company's overseers at Muileann chrom, holders of its staff. The Dia-thìrich called the first of them *maor*, steward, and the byname went down the line.
 
-| Name | How they came to the staff | Held | The tenure |
-|---|---|---|---|
-| Raghnall mac Dhòmhnaill, *Raghnall Maor* | a crew-leader since the first contract; given the staff by the Company | AE 36 – AE 62 | The first overseer; after him the custodians' roll counted the overseers and named them no more |
-| Dòmhnall mac Raghnaill Maor | his son; the Company gave him the staff | AE 62 – AE 87 | The office became an inheritance; signed the order that the camps keep no grain beyond a week's ration |
-| Iain Maor | his son | AE 87 – AE 131 | Schooled at the Mission; wrote that the night shift was killing his crews, was dismissed, and was restored |
-| Mòrag nic Iain Maor | his daughter; the first woman to hold the staff | AE 131 – AE 148 | Testified at the inquiry and was struck from the record; refused the evictions and broke the staff at the Company's door |
+| Name | How they came to the staff | Held | The tenure | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|
+| Raghnall mac Dhòmhnaill, *Raghnall Maor* | a crew-leader since the first contract; given the staff by the Company | AE 36 – AE 62 | The first overseer; after him the custodians' roll counted the overseers and named them no more | LE 1,808 | 46 | 72 |
+| Dòmhnall mac Raghnaill Maor | his son; the Company gave him the staff | AE 62 – AE 87 | The office became an inheritance; signed the order that the camps keep no grain beyond a week's ration | AE 20 | 42 | 67 |
+| Iain Maor | his son | AE 87 – AE 131 | Schooled at the Mission; wrote that the night shift was killing his crews, was dismissed, and was restored | AE 50 | 37 | 81 |
+| Mòrag nic Iain Maor | his daughter; the first woman to hold the staff | AE 131 – AE 148 | Testified at the inquiry and was struck from the record; refused the evictions and broke the staff at the Company's door | AE 95 | 36 | 68 |
 
-**The rulers of Rìoghachd Dia-thìr, Ages VI and VII.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them.
+**The rulers of Rìoghachd Dia-thìr, Ages VI and VII.** From the chronicle of the restored kingdom, which keeps this line "unbroken from this year on". Nothing is here added to what that chronicle says of them, save the years of their births, which the Library has from the rolls of the royal council.
 
-| Name | How they came to rule | Reign | The reign |
-|---|---|---|---|
-| Niall | the first ruler of the restored kingdom, crowned at Cathair dhearg by Macha's rite | SE 3 – SE 22 | First of the line |
-| Brìghde | his daughter; succeeded without contest | SE 22 – SE 28 | Her reign ended while she was young; no cause was ever made known |
-| Eòghan | her cousin | SE 28 – SE 58 | Came to the throne when the succession of the restored kingdom was first in doubt; his reign ended in the decade when the Depletion became known to all |
-| Mairead | crowned after Eòghan | SE 58 – DE 3 | Came to a kingdom founded on the vein, when the vein could be seen to fail |
-| Cathal | crowned after Mairead | DE 3 – | Reigning in DE 27 |
+| Name | How they came to rule | Reign | The reign | Born | Age at accession | Age at death |
+|---|---|---|---|---|---|---|
+| Niall | the first ruler of the restored kingdom, crowned at Cathair dhearg by Macha's rite | SE 3 – SE 22 | First of the line | AE 128 | 25 | 44 |
+| Brìghde | his daughter; succeeded without contest | SE 22 – SE 28 | Her reign ended while she was young; no cause was ever made known | SE 1 | 21 | 27 |
+| Eòghan | her cousin | SE 28 – SE 58 | Came to the throne when the succession of the restored kingdom was first in doubt; his reign ended in the decade when the Depletion became known to all | AE 146 | 32 | — |
+| Mairead | crowned after Eòghan | SE 58 – DE 3 | Came to a kingdom founded on the vein, when the vein could be seen to fail | SE 20 | 38 | — |
+| Cathal | crowned after Mairead | DE 3 – | Reigning in DE 27 | SE 45 | 28 | — |
 
 ### II. The Age of Ailean: the Two Lists
 
 Before the Binding the rulers of Dia-thìr were kept only in recitation. The eldest recital is the Line of the Mason, which runs from Neachdan, who broke the vein (20 am Faoilleach, VE 1), through the long generations of the Seven Coals, to Ailean son of Suibhne. It ends in a crowning. Ailean carried the six coals his forefathers had learned to light, each lit again by its own way, to the oak grove at Doire ghlas, where the Keeper of the kin had first given the riddle; the Keeper lit the rainbow coal among them (21 an t-Iuchar, VE 5,324); and he kept watch by the seven fires for seven nights, fasting, until they were cold. On the eighth night, the line says, Caoran came into the grove with the Tuath Dè and named him Rìgh Chlann nan Dè, king of the godkin, and put into him the power that had been in the coals (28 an t-Iuchar, GE 1). Of that power Ailean told no one. With it, the line holds, he took the hill of Dùn ìseal and the valleys about it, which is the first kingdom (9 an Lùnastal, GE 1), and his is the first name in the list of the Stone Kings. No other king in either list is said to have been crowned by the gods, and no other list keeps the title; the Stone Kings' list itself calls him only Ailean Mòr.
 
 The line says also that Ailean never gave up the kingship. He set others of his blood on the hill to hold it for him while he rode beyond it, first his daughter Gormshuil and after her the rest; and so the list of the Stone Kings, which is the hill's list, names after him those who held the hill under him, and names them kings. He himself was king over them all, and over the Red Hill, which knelt to him (7 an t-Ògmhios, GE 290), and the salt shore, which knelt to him (5 an Lùnastal, GE 728), and every coast that sent its holder to the great gathering at the ford (2 an Dùbhlachd, GE 3,000); and he was king until he fell at the Ford of Blood below Dùn dhearg, holding it alone against the host of the east (2 an t-Sultain, FE 1). The line gives all his days as four thousand six hundred and twenty-six years. The power was his alone and went with him. Of it his children had only their long years, and only those born after the grove; Gormshuil, born before it, had none. His children lived two and three thousand years, and their children less, and so on down, generation by generation; in Somhairle's line the long years ran out in Ceallach, the tenth after Ailean, in the early Holy Age. The reciters of the hill say that the long years are why the list of the Stone Kings stands so far apart in its names; the Library holds, as it holds of the later lists, that names have been lost. It enters the Line of the Mason and the Line of Aisling in its book of lines, and the long years in its book of tellings, and has not moved them.
+
+The reciters of the hill keep the days of the holders of the king's blood in the old formula, as the Line of Aisling keeps them: and all the days of Dòmhnall Clachach were three thousand three hundred and eight years, and he died; and all the days of Fearchar Bacach were three thousand one hundred and thirty years, and he died; and all the days of Mòrag Chruaidh were one thousand three hundred and twenty years, and she died; and all the days of Raghnall Ceannfhionn were one thousand four hundred years, and he died; and all the days of Tormod Liath were one thousand seven hundred and fifty years, and he died; and all the days of Sìleas Bhàn were eight hundred and eighty years, and she died; and all the days of Eilidh Ghlas were seven hundred and thirty years, and she died; and all the days of Calum Ciar were seven hundred and ten years, and he died; and all the days of Catrìona Mhòr were two hundred and ninety-one years, and she died. Iain Dubh was slain on the shingle in his six hundred and eighty-third year, and they do not give him the formula. Of Gormshuil, born before the grove, they say only that she lived eighty-one years, and of the holders of the Red Hill, who were not of the king's blood, that they lived as other people live; none of them passed ninety.
 
 The Line of Aisling is the line that asked for nothing. Somhairle took no share of the kingdom and held no hill, and his children after him kept the slab and the lines in the high valleys, and so had no part in the parting of the kingdom when the king fell. Clann na Ceiste kept the line apart from the Stone Kings and did not say it at the hearth, and in the Holy Age Somhairle's children went down into the valleys and forgot whose they were. Seven names of it came up again in the roll of the camp at Àth ìseal, in the marriage of Donnchadh mac Thormoid, and the copyist Cailean mac Eachainn carried them to Tobar dhìreach, where Ealasaid of Clann na Ceiste knew them and said the rest (21 an Dàmhair, AE 126). So what the camps had whispered at Aisling's birth, that she was of the old king's blood, was found to stand in the lines. As a line of names the Library holds it as good as any it keeps. Of the four thousand years it holds what it holds of all the tellings.
 
@@ -4315,17 +4321,36 @@ The Keepers came first. Each was chosen by the nine hearths, and for many genera
 
 After the Roinn, kingship began again in the granaries of Dùn dhearg. The households who ate Sliochd Ìomhair's grain called Goraidh mac Ìomhair their *rìgh* (28 an Cèitean, FE 674), and he took care to claim nothing over the vein. By the division of keeping the rìgh held the roads, the granaries and the peace of the lowlands, and the Keeper held all else (9 an t-Sultain, FE 694). So the first kings of the lowlands were lords of roads, and the first war they fought, Iain Garbh's War of the Roads, was fought over tolls.
 
-The king-list owns plainly where it fails. It gives eleven bare names after Catrìona Ghlic (1 an t-Sultain, FE 1,211) and nine after Tormod Òg (29 am Màrt, FE 2,558), and Tormod Scrìobhaiche marked which of his names came from reciters (18 an t-Sultain, FE 1,300). By the list's years Goraidh Mòr, his daughter, her son and his niece ruled some eighty years apiece before the niece's son, Iain Garbh, took the hall; and four lives of one line, one after another, cannot hold so many. Here, and wherever else the years of the list outrun the lives of those named in it, the Library holds that the reciters' names stand for more reigns than they tell of, and it lets the list stand uncorrected.
+The king-list owns plainly where it fails. It gives eleven bare names after Catrìona Ghlic (1 an t-Sultain, FE 1,211) and nine after Tormod Òg (29 am Màrt, FE 2,558), and Tormod Scrìobhaiche marked which of his names came from reciters (18 an t-Sultain, FE 1,300). By the list's years Goraidh Mòr, his daughter, her son and his niece ruled some eighty years apiece before the niece's son, Iain Garbh, took the hall. No four ordinary lives could hold so many, but these were not ordinary lives. The line of Ìomhar was the king's blood, and the long years had not yet run out of it: Goraidh was a hundred and eighty when the households called him rìgh, and all his days were two hundred and fifty-nine years. In each generation of his line the years were fewer, as they were in every line of the king's kin, until the last of the line in whom they were counted died, one of the eleven whose names alone are kept, at a hundred years; after that the rulers of the hall died at the ages carriers die. The house books give the line thus, by generations from Ailean:
+
+| After Ailean | Line of Aisling | All the days | Line of Ìomhar and Goraidh | All the days |
+|---|---|---|---|---|
+| first | Somhairle mac Ailein | 2,987 | Ìomhar Dearg | 1,519, slain |
+| second | Beathan mac Shomhairle | 2,213 | Dùghall Dearg mac Ìomhair | 1,062 |
+| third | Beathan's son | 1,594 | Ruairidh Glas | 910 |
+| fourth | not named in the short form | 1,148 | his son, not named in the rolls | 620 |
+| fifth | not named in the short form | 826 | Goraidh's father, not named; died before his father | 400 |
+| sixth | not named in the short form | 597 | Goraidh Mòr | 259 |
+| seventh | not named in the short form | 431 | Mòrag nan Rathad | 215 |
+| eighth | not named in the short form | 308 | Dòmhnall Crùbach | 180 |
+| ninth | Gille-Brìde | 224 | Sìleas Dhonn | 155 |
+| tenth | Ceallach mac Ghille-Bhrìde | 140 | Iain Garbh | 135 |
+| eleventh | Ceallach's son and all after him | as other people's | Catrìona Ghlic | 122 |
+| twelfth |  |  | her son, first of the eleven | 110 |
+| thirteenth |  |  | the last in whom the long years were counted, one of the eleven | 100 |
+| fourteenth |  |  | the rulers after them | as other people's |
+
+Wherever else the years of the list outrun the lives of those named in it, as between Ealasaid Chiar and Fearchar Òg, the Library holds that the reciters' names stand for more reigns than they tell of, and it lets the list stand uncorrected.
 
 Beathag Mhòr, the first *ban-rìgh*, moved the seat to Cathair dhearg (10 an Gearran, FE 1,699). When Oighrig nic Lachlainn died without an heir, the Four Houses met at Dùn ìseal, and the Keeper set the stone cup in the hands of Gilleasbuig Mòr of Sliochd Thormoid (12 am Màrt, FE 2,516). Thereafter the house of Tormod held the red hall to the end of the age. Mòr nic Coinnich took the cup from the Keeper in the same manner, and with her name the king-list closes.
 
 ### IV. The Age of Sundering: the Crown and the Houses
 
-Queen Beathag nic Dhòmhnaill would neither send any across the water nor hold any back (11 an Dàmhair, LE 2). Her sister Mòrag went, as a leader of the departed, and six years after the Setting-Out the queen struck Mòrag's line from the succession "as no longer on Dia-thìr" (1 an Lùnastal, LE 46). Beathag's own line ended with her grandson Ìomhar.
+Queen Beathag nic Dhòmhnaill would neither send any across the water nor hold any back (11 an Dàmhair, LE 2). Her sister Mòrag went, as a leader of the departed, and six years after the Setting-Out the queen struck Mòrag's line from the succession "as no longer on Dia-thìr" (1 an Lùnastal, LE 46). Beathag's own line ended with her great-grandson Ìomhar, the son of the second Raghnall.
 
 Thereafter, whenever the blood failed, the seven houses made the king. They chose Fearchar mac Lachlainn of Clann Fhearchair (19 an Gearran, LE 182), and the crown passed through Sìleas nic Fhearchair to her son's line. That line ended with Tormod Bàn, who died without naming an heir. In the War of the Three Claimants that followed, Raghnall Ruadh, master of the vein-house, used the coal itself as a weapon (24 am Faoilleach, LE 558). Catrìona Bhuadhach won the crown, and bound it, and the custodians with it, never to withhold the handful from a lawful hearth (12 an Gearran, LE 565).
 
-The house of Catrìona ended with Eilidh Bhàn. She is called its fifth ruler, though only four of the five are named in the annals. The houses, meeting at the vein-house, named Dòmhnall Ruadh of Clann Raghnaill (23 am Màrt, LE 846). His house held the crown and the vein-house together for the rest of the age, through a brothers' war and some of the longest reigns in the list. The last crowning in the annals is that of Gormshuil nic Thormoid (9 an Dùbhlachd, LE 1,766). Of her death, of any heir, and of how the crown fell vacant, nothing is told; when the next age opens, the Council of Custodians is found sitting in its place (11 am Faoilleach, AE 2).
+The house of Catrìona ended with Eilidh Bhàn. She is called its sixth ruler, though only four of the six are named in the annals, and she was crowned a girl of eighteen and reigned seventy-two years. The houses, meeting at the vein-house, named Dòmhnall Ruadh of Clann Raghnaill (23 am Màrt, LE 846). His house held the crown and the vein-house together for the rest of the age, through a brothers' war and some of the longest reigns in the list. The last crowning in the annals is that of Gormshuil nic Thormoid (9 an Dùbhlachd, LE 1,766). Of her death, of any heir, and of how the crown fell vacant, nothing is told; when the next age opens, the Council of Custodians is found sitting in its place (11 am Faoilleach, AE 2).
 
 ### V. The Age of Strangers: the Council, the Commissioners and the Maoir
 
@@ -4582,7 +4607,7 @@ Its own saying is of the pair:
 > *Dà each, aon chuing.*
 > Two horses, one yoke.
 
-**Rites and holy places.** Its priests read omens for rulers and bury the dead by their own rite. King Aonghas mac Uisdein was the first king buried that way (31 an Dùbhlachd, LE 484). Its floors are laid in black and white, and the floor of its great house at Cathair mhòr took eleven years (14 am Màrt, LE 1,459). Its sacred wood is Coille Naomh Cnoc bheag, near the lesser Cnoc bheag south of the capital (Cnoc bheag). That town is not the river port of the Hawk that bears the same name.
+**Rites and holy places.** Its priests read omens for rulers and bury the dead by their own rite. King Aonghas Òg, son of Aonghas mac Uisdein, was the first king buried that way (31 an Dùbhlachd, LE 484). Its floors are laid in black and white, and the floor of its great house at Cathair mhòr took eleven years (14 am Màrt, LE 1,459). Its sacred wood is Coille Naomh Cnoc bheag, near the lesser Cnoc bheag south of the capital (Cnoc bheag). That town is not the river port of the Hawk that bears the same name.
 
 **History.** The order began as a watch. A small company settled at the edge of a wood no one had ever cleared and watched for a black horned beast that walked in it (15 an t-Samhain, FE 1,569), the beast the order takes for a sign of Dubh Sainglenn, the black horse. Its quarrel with the stag's people over both sacred woods became the holy-wood dispute, which was settled by dividing the keeping of the woods, and no side was named the winner (10 an Gearran, FE 1,589). Anna Ruadh took a wood-watcher into her household at Cathair dhearg to read the omens (23 an t-Iuchar, FE 2,822). Cathair dhomhain refused one, and from that day the rivalry of the two towns has been a matter of faith as well (24 an t-Ògmhios, FE 2,826). Cathair dhomhain is a town of Macha's order now, with its own temple. The order took its settled form when King Aonghas took up the wood-watchers' rite of Macha (31 an Dùbhlachd, LE 441). By royal grant its priests then had sole keeping of the western wood, and the other claimants withdrew, for reasons that are not told (14 am Faoilleach, LE 471).
 

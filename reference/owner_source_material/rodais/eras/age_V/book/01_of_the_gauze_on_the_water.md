@@ -127,7 +127,7 @@ Harrow came to Oighrig's door many times in those weeks. He learned her name, or
 
 She was never sure afterward whether she had liked him. She said in her letter that he was a man who asked for one thing at a time and was glad of it, and who always had the next thing ready.
 
-Through all those days the priests of Manannan at Seann Skell kept the tide-prayer. The boy still ran down the coast each evening and back, and when he told them the ships had come in and anchored and the strangers were on the strand below Cuan shean, eating the town's bread, the eldest of the priests said that it made no difference, and they went down to the river-mouth at the next tide as they had at the last, and said it. They did not miss a tide in the forty days, nor in the days after. The harbour scribe at Seann Skell wrote down their number each week, which was nine, and the state of the weather, and the state of Ceò Mhanannain, which was thin.
+Through all those days the priests of Manannan at Seann Skell kept the tide-prayer. When the boy told them the strangers were on the strand below Cuan shean, eating the town's bread, the eldest of the priests said that it made no difference, and they did not miss a tide in the forty days, nor in the days after. The harbour scribe wrote down their number each week, which was nine, and the state of Ceò Mhanannain, which was thin.
 
 ## V. Of the Leave and the Margin
 

@@ -66,7 +66,7 @@ Tobar dhearg was a village of fishers and salt-boilers round a well whose water 
 
 The fire was a heap of driftwood on the flat stones, no bigger than a cart-load, with a pot of seal fat beside it that the younger son ladled over the wood whenever the flame sank. Its yellow smoky light lit the three men's faces and did not reach the sea at all.
 
-"How far?" he said to Fionnlagh. "How far do boats see it?"
+"How far?" Fenn said to Fionnlagh. "How far do boats see it?"
 
 Fionnlagh said that the boats of Tobar dhearg saw it from the fishing ground, which was as far as they went.
 

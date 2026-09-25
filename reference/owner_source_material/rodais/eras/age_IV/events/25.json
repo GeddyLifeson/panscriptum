@@ -1,0 +1,197 @@
+[
+ {
+  "title": "Seònaid gathers the first three witnesses",
+  "era_year": 602,
+  "summary": "At Queen Catrìona's own asking, her clerk Seònaid nic Coinnich takes down, in hurried hours snatched from the court's business, the first accounts of the war of the three claims: a soldier who fought at the ford, the son of the vein-house's store-master, and a woman of Doire mhin who remembers the cold hearths as a child.",
+  "category": "law",
+  "people": [
+   "Seònaid nic Coinnich",
+   "Catrìona nic Aonghais, Catrìona Bhuadhach"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Seònaid visits the harbour-house boards",
+  "era_year": 612,
+  "summary": "Carrying a grant of harbour dues she did not need to carry in her own hand, Seònaid nic Coinnich asks the harbour scribe Ailean mac Mhurchaidh to show her the old boards of the roll of the willing, and rides home with an errand for herself she had not had when she set out.",
+  "category": "law",
+  "people": [
+   "Seònaid nic Coinnich",
+   "Ailean mac Mhurchaidh"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The store-master's board copied in full",
+  "era_year": 616,
+  "summary": "Dòmhnall mac Eòghainn, who inherited his father Eòghann mac Dhùghaill's office at the vein-house's store, lets Seònaid nic Coinnich copy in full the board of shires refused the coal in the year of the cold hearths, a board his father kept face to the wall and never scraped clean.",
+  "category": "coal",
+  "people": [
+   "Seònaid nic Coinnich",
+   "Dòmhnall mac Eòghainn"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0109",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The witness of Doire mhin heard in full",
+  "era_year": 618,
+  "summary": "Seònaid nic Coinnich rides to Cathair mhòr to hear Mairead nic Aonghais, a woman of Doire mhin who was a child in the same charity and at the same temple as Seònaid herself, tell at length what a cold hearth was to a child too young to be told why it was cold.",
+  "category": "law",
+  "people": [
+   "Seònaid nic Coinnich",
+   "Mairead nic Aonghais"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Seònaid weighs the custody-book against her witnesses",
+  "era_year": 619,
+  "summary": "At the vein-house Seònaid nic Coinnich sets her gathered testimony against the custody-book's own entries of the war, and finds days, numbers and causes of death the book and the witnesses do not agree on; she resolves to keep both accounts rather than choose between them.",
+  "category": "law",
+  "people": [
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "King Lachlann reads his mother into the book",
+  "era_year": 623,
+  "summary": "Lachlann mac Iain finds Seònaid nic Coinnich at work on her history and asks whether it will say what his mother Catrìona was like; she answers that it will say what she did and what was believed of her, which is the most any book can give.",
+  "category": "rulers",
+  "people": [
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Seònaid finishes the Book of the Three Claimants",
+  "era_year": 624,
+  "summary": "Seònaid nic Coinnich writes the last of the war's telling and sets down the finished leaves, the first history on Dia-thìr told as one tale from end to end rather than as separate entries.",
+  "category": "law",
+  "people": [
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Seònaid nic Coinnich",
+  "era_year": 631,
+  "summary": "Seònaid nic Coinnich dies at Cathair dhearg at eighty-five, seven years after finishing her book, her last recorded word a complaint that the harbour-house's back room at Seann Skell wants a better roof before the damp takes its oldest boards.",
+  "category": "law",
+  "people": [
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The Book of the Three Claimants read at the red hall",
+  "era_year": 625,
+  "summary": "King Lachlann mac Iain has Seònaid nic Coinnich's finished history read into the record at the red hall and orders it copied again and kept, ruling that no later copy of it may ever be made shorter than the one before it.",
+  "category": "law",
+  "people": [
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering",
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0117",
+    "type": "sequel"
+   }
+  ]
+ }
+]

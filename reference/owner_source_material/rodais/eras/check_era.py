@@ -25,6 +25,9 @@ Checks (FAIL stops the exit status at 1; "note" lines are information):
      a note for every English form of a NAMES.json proper noun left in the text (humans' personal names excepted)
   8b. future: nothing ahead of the age (quality/future_check.py): no token, era, name or town of a later age, no
      foreshadowing phrase; an era annals entry looks no further than its own day
+  8c. ages (quality/ages_check.py, the owner's rule): the rulers who lived in the age keep eras/RULERS.json's rule (no
+     one born in FE 1,200 or later, or outside the king's kin, lives past 95; the long years fade generation by
+     generation), and eras/age_<K>/PLAN_people.json keeps the rule and the rulers' years of RULERS.json
   9. size: words per section and an estimated page count against the 500-600 page target
 """
 import argparse
@@ -45,6 +48,7 @@ import event_links as EL  # noqa: E402
 import glosses as G  # noqa: E402
 sys.path.insert(0, os.path.join(ERAS, 'quality'))
 import future_check as FC  # noqa: E402
+import ages_check as AC  # noqa: E402
 
 LEG = B.LEG
 RK = B.reckoning
@@ -126,8 +130,8 @@ def section_words(k, rec, md):
             return ''
         j = md.find(b, i + 1) if b else -1
         return md[i:j if j >= 0 else len(md)]
-    b0 = md.find('\n# The ')
-    books = '' if b0 < 0 or md.startswith('\n# The Annals of the Age', b0) else between('\n# The ', '\n# The Annals of the Age')
+    b0 = md.find('\n# ')          # the first heading after the title: a Part, a Chapter or a Book, else the annals
+    books = '' if b0 < 0 or md.startswith('\n# The Annals of the Age', b0) else md[b0:md.find('\n# The Annals of the Age')]
     annals = between('\n# The Annals of the Age', '\n# A Gazetteer of the Age' if '\n# A Gazetteer of the Age' in md else '\n# Appendix')
     gaz = between('\n# A Gazetteer of the Age', '\n# Appendix')
     i = md.find('\n# Appendix')
@@ -331,6 +335,15 @@ def check(k, final=False, n_fuzz=0):
     report.check(not ahead, 'future: the book, annals, gazetteer and appendices speak only of Age %s and before, no later '
                  'event, era, name, town or foreshadowing (%s)' % (k, '%d hit(s), quality/future_check.py %s' % (len(ahead), k)
                                                                     if ahead else 'none'))
+    # the owner's rule: rulers' ages stated, and ages back to normal by the Holy Age (quality/ages_check.py, eras/RULERS.json)
+    ares, adoc = AC.check_age(k)
+    for what, pr in ares:
+        for x in pr[:10]:
+            report.note('ages: %s: %s' % (what, x))
+    report.check(not any(pr for _, pr in ares), 'ages: the %d rulers who lived in Age %s and the plan keep RULERS.json (no one born in '
+                 'FE 1,200 or later, or outside the king\'s kin, past 95; the long years fading generation by generation; '
+                 'planned rulers\' years as RULERS.json gives them) (%s)' % (len(adoc['rulers']), k,
+                 '; '.join('%s %d' % (w, len(pr)) for w, pr in ares if pr) or 'all'))
     # size
     words = section_words(k, rec, md)
     pages = 10 + sum(words[s] / DENSITY[s] for s in DENSITY)        # the densities include the openers

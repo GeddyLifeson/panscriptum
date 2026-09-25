@@ -1,0 +1,134 @@
+[
+    {
+        "title": "The reverence about the mountain given a name",
+        "era_year": 18,
+        "summary": "Asked by a walker of the eastern share what the households call the milk left on the sill and the silence kept on the ridge, old Beitris of the Hall answers for them: Seann Spioradan nan Dia-thìreach, the ancestors, the sìth, the vein and the weather held together, owed remembering and courtesy and watching, and needing no priest to speak for any of them.",
+        "category": "faith",
+        "people": ["Beathag Bhàn"],
+        "places": [],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "II-0005", "type": "cause"}
+        ]
+    },
+    {
+        "title": "The first cairns raised above Cnoc ghlas",
+        "era_year": 10,
+        "summary": "Before fixed cairns marked the ridge, watchers of the weather climbed wherever their own eye judged best each morning. An eastern woman, Sorcha, first piles stone at the three places she finds she reads the sky truest, so that watchers after her need not guess afresh each dawn where to stand.",
+        "category": "coal",
+        "people": [],
+        "places": [],
+        "threads": ["the-seven-coals"],
+        "master_links": [
+            {"to": "II-0006", "type": "cause"}
+        ]
+    },
+    {
+        "title": "Mòrag nan Càrn named watcher of the ridge",
+        "era_year": 13,
+        "summary": "A child of the fifth hearth who could tell one grey sky from another better than watchers grown old at the work is named, at not yet twenty, to keep the cairns above Cnoc ghlas in her own right, the youngest the mountain has yet trusted with the reading of its weather.",
+        "category": "coal",
+        "people": ["Mòrag nan Càrn"],
+        "places": [],
+        "threads": ["the-seven-coals"],
+        "master_links": [
+            {"to": "II-0006", "type": "cause"}
+        ]
+    },
+    {
+        "title": "Fearchar Glas reads the cloud wrong",
+        "era_year": 29,
+        "summary": "A watcher of six years' standing judges a low grey sky wind only and sends the galleries open; the rain that follows floods the low gallery past saving and costs the households the whole autumn's cutting. Fearchar comes down off the ridge unbidden to tell the keepers of the slab what he did.",
+        "category": "coal",
+        "people": [],
+        "places": [],
+        "threads": ["the-seven-coals"],
+        "master_links": [
+            {"to": "II-0006", "type": "cause"}
+        ]
+    },
+    {
+        "title": "The cairns given a stricter choosing",
+        "era_year": 30,
+        "summary": "After the season lost to a wrong reading, the keepers of the slab rule that no one may watch the cairns alone who has not first stood a full season under an elder watcher's eye and been judged fit by more than one. Mòrag nan Càrn sits among those who judge the youths who come after.",
+        "category": "coal",
+        "people": ["Mòrag nan Càrn"],
+        "places": [],
+        "threads": ["the-seven-coals"],
+        "master_links": [
+            {"to": "II-0006", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "A boy of Doire uaine chooses the cold over the flint",
+        "era_year": 33,
+        "summary": "In the hardest winter the slopes have seen, a boy sent to bring in a ewe is caught by the wind and found two days later, alive, having refused to strike a fire within sight of the forbidden hills though he carried flint enough. His mother carries him down to the Hall herself rather than risk the road past the standing stones.",
+        "category": "faith",
+        "people": ["Beathag Bhàn"],
+        "places": [],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "II-0007", "type": "cause"}
+        ]
+    },
+    {
+        "title": "The Hall's hearth opened to the Doire uaine households",
+        "era_year": 33,
+        "summary": "Beathag Bhàn sends word that any household of the forbidden slopes may bring a sick child or a frost-bitten hand to the Keeper's own hearth at Dùn ìseal, the ban forbidding only a fire lit within sight of those hills. Few households make the long journey, but the offer is remembered longer than it is used.",
+        "category": "faith",
+        "people": ["Beathag Bhàn"],
+        "places": [],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "II-0007", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "Beathag Bhàn walks alone to the temple ruin",
+        "era_year": 34,
+        "summary": "Telling no one where she goes, Beathag Bhàn crosses broken ground to Làrach an Teampaill and finds its altar-slab, worn by hands no one living can name, turned toward her own mountain. She returns and tells the keepers of the slab plainly that she cannot say whose place it is, only that it is neither Brìde's nor Crom's.",
+        "category": "faith",
+        "people": ["Beathag Bhàn"],
+        "places": [],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "II-0008", "type": "cause"}
+        ]
+    },
+    {
+        "title": "The keepers swear never to enter the ruin",
+        "era_year": 34,
+        "summary": "After argument over whether the temple ruin should be cleared and watched like the cairns or left untouched, Beathag Bhàn ends it: no keeper of the slab, and no Keeper of the flame after her, will set foot inside it again, a reverence built on courtesy to what it cannot read being no reverence at all if it tramples the ground.",
+        "category": "faith",
+        "people": ["Beathag Bhàn"],
+        "places": [],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "II-0008", "type": "sequel"}
+        ]
+    },
+    {
+        "title": "Death of Beathag Bhàn",
+        "era_year": 44,
+        "summary": "After a winter's slow failing, Beathag Bhàn dies at Dùn ìseal without ever having risen ill from her bed. She is laid on the slope facing the vein with her back to the sea, at Beitris's word, since she never once turned from the mountain living and none will have her do it the one day she cannot choose.",
+        "category": "faith",
+        "people": ["Beathag Bhàn"],
+        "places": [],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "II-0009", "type": "cause"}
+        ]
+    },
+    {
+        "title": "Muireach Liath chosen to hold the flame",
+        "era_year": 44,
+        "summary": "The nine hearths gather within the week and name Muireach Liath, Beathag Bhàn's sister's son, faster than any choosing the mountain has seen. Old Beitris puts the rush into his hands with words close to Aodh Crom's own, and he carries the flame into the Hall that same evening.",
+        "category": "faith",
+        "people": ["Muireach Liath", "Beathag Bhàn"],
+        "places": [],
+        "threads": ["the-orders-of-the-old-faith"],
+        "master_links": [
+            {"to": "II-0009", "type": "sequel"}
+        ]
+    }
+]

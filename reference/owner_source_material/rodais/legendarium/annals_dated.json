@@ -1835,7 +1835,7 @@
   "id": "I-0101",
   "canon": false,
   "title": "Seonag of the Red Hill",
-  "body": "Seonag nic Uisdein holds the Red Hill after her father. It is told that she counted her people by pebbles in a bag, one to a household, and knew by the weight when a household was gone.",
+  "body": "Seonag nic Uisdein holds the Red Hill. The list sets her 'after her father', as it sets every holder of Uisdean Mòr's line, though she was born more than three hundred years after he died. It is told that she counted her people by pebbles in a bag, one to a household, and knew by the weight when a household was gone.",
   "place": "burg:19",
   "kind": "reign",
   "y": -6907,
@@ -6642,7 +6642,7 @@
   "id": "II-0118",
   "canon": false,
   "title": "The boundary stones of the woods",
-  "body": "The woods are divided at Dùn dhearg before Fearchar Òg, rìgh after Ealasaid Chiar, and the Keeper Calum Liath. The stag's people keep the eastern wood and the wood-watchers the western, and each may walk in the other's wood unarmed and without cutting. Boundary stones are set at the edges of both woods with the terms cut on them in stag-letters. Two of the eastern stones remain.",
+  "body": "The woods are divided at Dùn dhearg before Fearchar Òg, a rìgh of Ealasaid Chiar's line who had come to the hall as a boy, and the Keeper Calum Liath. The stag's people keep the eastern wood and the wood-watchers the western, and each may walk in the other's wood unarmed and without cutting. Boundary stones are set at the edges of both woods with the terms cut on them in stag-letters. Two of the eastern stones remain.",
   "place": "burg:422",
   "kind": "law",
   "within": [
@@ -9809,7 +9809,7 @@
   "id": "III-0051",
   "canon": false,
   "title": "Raghnall dies; Ìomhar crowned",
-  "body": "King Raghnall mac Uilleim dies at Cathair dhearg after a long and quiet reign, and his son Ìomhar mac Raghnaill is crowned. The custody-book gives Raghnall's reign a single line.",
+  "body": "King Raghnall mac Raghnaill dies at Cathair dhearg, and his son Ìomhar mac Raghnaill is crowned. Raghnall had followed his father Raghnall mac Uilleim, who died in his eighty-fifth year after a long and quiet reign; the custody-book gives each of the two Raghnalls a single line.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -10459,7 +10459,7 @@
   "id": "III-0084",
   "canon": false,
   "title": "Aonghas mac Uisdein crowned",
-  "body": "Uisdean mac Dhùghaill dies, and his son Aonghas mac Uisdein is crowned at Cathair dhearg. Aonghas is the first king to learn his letters as a child.",
+  "body": "Uisdean mac Uisdein dies, the son of Uisdean mac Dhùghaill and king after him, and his own son Aonghas mac Uisdein is crowned at Cathair dhearg, a young man of twenty-two. Aonghas is the first king to learn his letters as a child.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -10706,7 +10706,7 @@
   "id": "III-0096",
   "canon": false,
   "title": "Death of King Aonghas",
-  "body": "King Aonghas mac Uisdein dies at Cathair dhearg and is buried by the rite of Macha, the first king so buried. His son Iain mac Aonghais is crowned.",
+  "body": "King Aonghas Òg, son of Aonghas mac Uisdein and crowned after him, dies at Cathair dhearg and is buried by the rite of Macha, the first king so buried. His son Iain mac Aonghais is crowned.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -11383,7 +11383,7 @@
   "id": "III-0129",
   "canon": false,
   "title": "Queen Eilidh Bhàn crowned",
-  "body": "Eilidh Bhàn, fifth ruler of the house of Catrìona, is crowned at Cathair dhearg. The annals of her long reign are almost wholly of harvests.",
+  "body": "Eilidh Bhàn, sixth ruler of the house of Catrìona, is crowned at Cathair dhearg, a girl of eighteen. The annals of her long reign are almost wholly of harvests.",
   "place": "burg:19",
   "kind": "reign",
   "between": [

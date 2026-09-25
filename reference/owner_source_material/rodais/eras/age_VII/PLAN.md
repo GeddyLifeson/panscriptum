@@ -77,7 +77,7 @@ Board surveyor, then its northern clerk). Full list in `PLAN_people.json`.
    (VI-0154b: a year of letters, three sittings, an old man in his sixty-ninth year, tells no one his buyers). Nothing
    else: no invented words, feelings, kin, pupils, rivals, home town or deeds. Others may speak *of* him. *Seachran*
    and *Brean* may be named once as his closest allies and do nothing. *Cathal* is crowned (VI-0006) and reigns; the
-   council, the Board and the Treasury act, never Cathal. *Mairead*'s reign "ended"; give no cause. Aisling, Fionnan,
+   council, the Board and the Treasury act, never Cathal. *Mairead*'s reign "ended"; give no cause. Ages (the owner's rule, eras/RULERS.json): Mairead born SE 20, her reign ending at 53 (DE 3); Cathal born SE 45, crowned at 28, 52 in the present year. Aisling, Fionnan,
    Lorccan and Cian do not appear; "the coal caste" and the census line on the coal-touched stay as the master gives
    them. No invented person is parent, child, spouse, lover, rival, teacher or pupil of any of these.
 2. **What stays unresolved:** Ruth Calder's fate after 11 an Giblean DE 21 (her POV ends before the fighting); why the
