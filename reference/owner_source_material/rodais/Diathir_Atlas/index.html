@@ -283,6 +283,10 @@ function startMap(){
       'or run <code>python3 atlas.py</code> in this folder. It needs Python 3 (python.org). The Annals tab works either way.');
     return;
   }
+  // the Atlas always opens its own map, so whatever the map-maker saved on earlier runs (options, the last map,
+  // settings of another version) is thrown away first: a stale setting can stop it before it ever loads
+  try { localStorage.clear(); sessionStorage.clear(); } catch(e){}
+  try { if (window.indexedDB) indexedDB.deleteDatabase('d2'); } catch(e){}
   try { localStorage.setItem('version', '1.153.1'); } catch(e){}   // skip the generator's "what's new" window
   if (!pending && window.matchMedia('(max-width:760px)').matches) toggleDrawer();   // a phone sees the map first
   var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Diathir.map';
@@ -313,6 +317,7 @@ function showDiagnostics(){
 }
 function updateErrors(){
   var el = document.getElementById('ldErr'); if (!el) return;
+  try { var early = (fmg() || {}).__atlasErrors || []; early.forEach(function(m){ if (fmgErrors.indexOf(m) < 0) fmgErrors.push(m); }); } catch(e){}
   el.textContent = fmgErrors.length ? 'The map-maker reported: ' + fmgErrors.slice(-3).join(' | ') : 'No errors reported yet.';
 }
 function peekMap(){ document.getElementById('loading').hidden = true; }
@@ -342,7 +347,7 @@ function openGenerator(link){
       else if (w && w.Layers) progress(65, 'Reading the map');
       else progress(Math.min(64, 50 + secs), 'Starting the map-maker');
     } catch(e){}
-    if (secs > 20) showDiagnostics();
+    if (secs > 20) { showDiagnostics(); updateErrors(); }
     if (secs > 300) { clearInterval(t);
       mapFailed('The map did not finish loading', 'Five minutes passed without the map appearing. ' +
         (fmgErrors.length ? 'The map-maker reported: ' + fmgErrors.slice(-3).join(' | ') : 'Close this tab and start the Atlas again.')); }

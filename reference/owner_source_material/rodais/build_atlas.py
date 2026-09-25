@@ -91,6 +91,15 @@ for lic in (os.path.join(FMG, 'LICENSE'), os.path.join(FMG, '..', '..', 'LICENSE
         break
 else:
     sys.exit('Azgaar\'s LICENSE (MIT) not found next to the build; it must ship with the program')
+# an error catcher that runs before any of the map-maker's own scripts, so the Atlas can report why a load stalled
+_fi = os.path.join(OUT, 'fmg', 'index.html')
+_h = open(_fi, encoding='utf-8').read()
+_catch = ('<script>window.__atlasErrors=[];window.addEventListener("error",function(e){window.__atlasErrors.push((e.message||"a file failed to load")'
+          '+(e.filename?" ("+e.filename.split("/").pop()+")":(e.target&&e.target.src?" ("+String(e.target.src).split("/").pop()+")":"")))},true);'
+          'window.addEventListener("unhandledrejection",function(e){var r=e.reason;window.__atlasErrors.push(String(r&&(r.stack||r.message)||r).slice(0,300))});</script>')
+if '__atlasErrors' not in _h:
+    _h = _h.replace('<head>', '<head>' + _catch, 1)
+    open(_fi, 'w', encoding='utf-8').write(_h)
 with open(os.path.join(OUT, 'Diathir.map'), 'w', encoding='utf-8', newline='') as fh:
     fh.write('\r\n'.join(records))
 
