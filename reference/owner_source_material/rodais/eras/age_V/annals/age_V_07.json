@@ -56,27 +56,6 @@
   },
   {
    "id": "EV-4003",
-   "title": "Dòmhnall Maor signs the granary order",
-   "body": "Within the month of the strike's end, Dòmhnall mac Raghnaill Maor, Steward at Muileann chrom, sets his mark to the order that forbids any camp household to keep more grain than a week's ration, the rest to be held under lock in A' Chompanaidh's new granary and drawn against a crew-leader's tally.",
-   "place": "burg:354",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0167",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "domhnall-mac-raghnaill-maor"
-   ],
-   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vi-of-the-granary"
-  },
-  {
-   "id": "EV-4004",
    "title": "Sìneag's rolls note a granary built against a stoppage",
    "body": "The custodian Sìneag writes in her rolls that she has never before read of a granary raised to answer a stoppage rather than a harvest, and sets the words down as they stand, without further comment, for whoever should read the roll after her.",
    "place": "burg:44",
@@ -98,7 +77,7 @@
    "after": "IV-0170"
   },
   {
-   "id": "EV-4005",
+   "id": "EV-4004",
    "title": "Three priests will not stand for the blessing",
    "body": "Three of the younger priests of Òrd Mhacha stand apart at the back of the temple hall rather than take their places for the blessing of the coin. Beathag Ruadh lets it pass unremarked before the Residency's clerk, and tells Fearghas mac Mhuirich only that the order answers for the rite done rightly, not for the road a rightly blessed thing afterward walks.",
    "place": "burg:19",
@@ -125,7 +104,7 @@
    "after": "IV-0171"
   },
   {
-   "id": "EV-4006",
+   "id": "EV-4005",
    "title": "Artair mac Iain seated after ten empty years",
    "body": "The Council of Custodians, unable to agree a head since Alasdair Liath's death, seats Artair mac Iain of the eastern shires as high custodian, six-and-fifty years old, in the hall where Tormod mac Ailein once signed the treaty. Fearghas mac Mhuirich says the order's blessing over him, both horses named.",
    "place": "burg:19",
@@ -147,7 +126,7 @@
    "after": "IV-0175"
   },
   {
-   "id": "EV-4007",
+   "id": "EV-4006",
    "title": "The Residency notes the order divided",
    "body": "Word of Fearghas mac Mhuirich's refusal reaches the Residency within the month. Tolley, near his own retiring, does not send for him; the Residency's letter-book records only that the order of Òrd Mhacha at the capital is divided on a religious nicety, and does not say what the nicety was.",
    "place": "burg:19",
@@ -170,60 +149,10 @@
    ]
   },
   {
-   "after": "IV-0180"
-  },
-  {
-   "id": "EV-4008",
-   "title": "Fearghas leaves the capital's temple for Cnoc bheag",
-   "body": "Fearghas mac Mhuirich walks north with eleven of the order who think as he does, to the sacred forest at Cnoc bheag. Griogair, eldest of those who stay at Cathair dhearg, walks with them as far as the north road and calls it two roads to the one rite rather than a falling-out.",
-   "place": "burg:19",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0179",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "fearghas-mac-mhuirich",
-    "griogair"
-   ],
-   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#vii-of-the-fire-under-the-trees",
-   "era_between": [
-    87,
-    87
-   ]
-  },
-  {
    "after": "IV-0183"
   },
   {
-   "id": "EV-4009",
-   "title": "The wrong son taken at Caol mhòr",
-   "body": "A guessed name is matched to the wrong face at Caol mhòr's reading, and a son is marched a day's walk east before the error is found. The right man is fetched in his place; the officers' own tally and the town's roll never afterward agree by one head.",
-   "place": "burg:95",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0182",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [],
-   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#i-of-the-reading-at-caol-mhor",
-   "era_between": [
-    88,
-    88
-   ]
-  },
-  {
-   "id": "EV-4010",
+   "id": "EV-4007",
    "title": "The Levy read at Cnoc thais",
    "body": "The Levy's officers read their list at Cnoc thais, and the mason Dùghall Clachair hears his own name and his whole crew's called for the pits. Two days into the eastward march they are turned out instead to the headland at Baile chrom, where the fifth and last coast beacon is begun.",
    "place": "burg:269",
@@ -255,7 +184,7 @@
    "after": "IV-0186"
   },
   {
-   "id": "EV-4011",
+   "id": "EV-4008",
    "title": "A gale strips the beacon's scaffold",
    "body": "A two-day gale out of the north-west tears the scaffolding from the third course of the rising tower at Baile chrom. Dùghall Clachair climbs the bare walls alone in the wind to judge whether the stone has shifted; it has not.",
    "place": "marker:12",
@@ -281,7 +210,7 @@
    "after": "IV-0189"
   },
   {
-   "id": "EV-4012",
+   "id": "EV-4009",
    "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
    "body": "Uisdean mac Lachlainn of the headland villages is named the beacon's first keeper, on the recommendation of the very masons who built it: Dùghall Clachair among them, who signed the letter along with two of his crew.",
    "place": "marker:12",

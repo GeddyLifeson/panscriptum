@@ -30,34 +30,10 @@
    "told_in": "book/14_of_the_ledgers_at_the_adit.md#iii-of-the-council-s-copies"
   },
   {
-   "after": "IV-0102"
-  },
-  {
-   "id": "EV-3002",
-   "title": "The surveyor's report reaches Taigh an Àrd-mhaoir",
-   "body": "The chief surveyor reports to Taigh an Àrd-mhaoir that the whole of Muileann chiar met him at the working, silent, and that he found no grant or payment to A' Chompanaidh in either of the guild's books and did not think it prudent to proceed. Lisle writes beneath it that he would not have found it either, and sends for the bound book.",
-   "place": "burg:27",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0102",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "arthur-lisle"
-   ],
-   "told_in": "book/14_of_the_ledgers_at_the_adit.md#v-of-what-the-lawyer-found"
-  },
-  {
    "after": "IV-0103"
   },
   {
-   "id": "EV-3003",
+   "id": "EV-3002",
    "title": "The council's copies returned from Muileann chiar",
    "body": "In the spring after the compact Ùna nic Choinnich sends the council's leaves of Cùmhnant Cathair dhearg, Puingean a' Chalaidh and the pit contracts back to Cathair dhearg by her grandson Fionnlagh, wrapped in the same oilcloth they came in, with a bar of silver for the clerk who keeps the presses.",
    "place": "burg:19",
@@ -74,7 +50,7 @@
    "after": "IV-0105"
   },
   {
-   "id": "EV-3004",
+   "id": "EV-3003",
    "title": "Ùna locks the compact in the guild chest",
    "body": "On the day Comann an Airgid reckons its year, the three keyholders open the guild chest and Cùmhnant an Airgid is read aloud in both tongues. Ùna nic Choinnich, aged fifty-nine, lays it back on the new book of weighings beside the notched boards of the old ledger, and the three locks are turned.",
    "place": "burg:419",
@@ -96,7 +72,7 @@
    "after": "IV-0108"
   },
   {
-   "id": "EV-3005",
+   "id": "EV-3004",
    "title": "The keeper of Àth dhearg sees the burning collier",
    "body": "Two nights after entering a laden collier of A' Chompanaidh going south, Tormod mac Pheadair sees a red light low in the south under the cloud from the middle watch until near dawn, and writes that he does not know what it was. The carters bring word four days later that raiders have burned her.",
    "place": "marker:15",
@@ -117,32 +93,7 @@
    "told_in": "book/15_of_the_keepers_daybook.md#iv-of-the-glow-in-the-south"
   },
   {
-   "id": "EV-3006",
-   "title": "A' Chompanaidh charges Comann an Airgid with the burning",
-   "body": "Within a month of the burning the agents of A' Chompanaidh say at Seann Bhral and Ros dhomhain, and write to Arthur Lisle, that Comann an Airgid paid the raiders in spite for the surveyors turned back from the adit at Muileann chiar. The guild makes no answer.",
-   "place": "burg:110",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0108",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0102",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "arthur-lisle"
-   ],
-   "told_in": "book/15_of_the_keepers_daybook.md#iv-of-the-glow-in-the-south"
-  },
-  {
-   "id": "EV-3007",
+   "id": "EV-3005",
    "title": "The keeper will not write the black boats",
    "body": "In Dubhlas a clerk of A' Chompanaidh rides to Àth dhearg to read the daybook and asks the keeper to write in black raiding boats seen going south before the burning. Tormod mac Pheadair answers that he saw none and will write no boat he has not seen. The clerk reports the book of no assistance.",
    "place": "marker:15",
@@ -163,7 +114,7 @@
    "told_in": "book/15_of_the_keepers_daybook.md#iv-of-the-glow-in-the-south"
   },
   {
-   "id": "EV-3008",
+   "id": "EV-3006",
    "title": "The gunboat entered at Àth dhearg",
    "body": "In Teasach of the forty-seventh year a black two-masted ship of war of A' Chompanaidh, a gun in her bows under canvas and more men on deck than any trader carries, comes round the north coast and south past the cape. The keeper of Àth dhearg enters her with more care than any ship before.",
    "place": "marker:15",
@@ -187,7 +138,7 @@
    "after": "IV-0116"
   },
   {
-   "id": "EV-3009",
+   "id": "EV-3007",
    "title": "Eachann Mòr loses his seat",
    "body": "The council at Cathair dhearg protests the charter of Cathair gheal, which names no custodian, and receives an answer in the humans' tongue that none of its members can read with confidence. At the autumn choosing at Ceann àrsaidh the households put out Eachann Mòr, who has no letters of that tongue, and choose Dùghall Òg of the carting families, who worked five years at the Company's weigh-house.",
    "place": "burg:88",
@@ -216,7 +167,7 @@
    "after": "IV-0121"
   },
   {
-   "id": "EV-3010",
+   "id": "EV-3008",
    "title": "Eachann Mòr's first letter over the sea",
    "body": "No letter comes from Calum by the autumn ships. In the winter Eachann Mòr writes to his son in Dia-thìris, pays a pupil of the Mission school to put it into the humans' tongue beneath his lines, and gives it with a mark to the master of the first ship going north. No answer comes to it, nor to the three he sends after it.",
    "place": "burg:88",
@@ -241,36 +192,10 @@
    "told_in": "book/16_of_the_question_at_dun_thais.md#vi-of-the-letters-that-did-not-come"
   },
   {
-   "after": "IV-0123"
-  },
-  {
-   "id": "EV-3011",
-   "title": "The students at Drochaid Ros fhionn",
-   "body": "Aonghas mac Coinnich takes the students of Dùn thais to watch the first coal-carts cross the rebuilt bridge at Ros fhionn, forty in an afternoon. The island's drivers throw down lumps for them to name; the two human drivers look at their loads as at stones. Ailean Clachair's sign stays in the keystone.",
-   "place": "marker:4",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0123",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company",
-    "the-seven-coals"
-   ],
-   "people": [
-    "aonghas-mac-coinnich",
-    "seumas-mac-artair"
-   ],
-   "told_in": "book/16_of_the_question_at_dun_thais.md#vii-of-the-coal-road-in-the-east"
-  },
-  {
    "after": "IV-0125"
   },
   {
-   "id": "EV-3012",
+   "id": "EV-3009",
    "title": "The passenger line read at the Company's counter",
    "body": "In the third year after his son sailed Eachann Mòr asks at the Company's counter at Ros dhomhain after the ship by name. She has come and gone twice since, under another master now. Against the day Calum sailed the clerk reads one line, a native boy, his fare paid in full, and says his book knows nothing more.",
    "place": "burg:27",
@@ -299,28 +224,9 @@
    "after": "IV-0133"
   },
   {
-   "id": "EV-3013",
+   "id": "EV-3010",
    "title": "The Company's surgeon visits once",
    "body": "The Company's own surgeon comes to the chapel door at Ros dhomhain, will not step past the threshold, and tells Colby she would do better to let the sick lie where they were found. He sends, before he leaves the harbour, a case of salts and does not come again.",
-   "place": "burg:26",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0133",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "anne-colby"
-   ],
-   "told_in": "book/17_of_the_tithe_and_the_flux.md#iii-of-the-sick-house-in-the-chapel"
-  },
-  {
-   "id": "EV-3014",
-   "title": "Colby's roll of the dead by name",
-   "body": "Each evening Anne Colby sits at the chapel door with the custodians' own roll open on her knee and a clerk's boy to read her the entries, and sets down against every name who lived and who died, in English, in a column she turns round on the table for the custodians to see is kept.",
    "place": "burg:26",
    "kind": "humans",
    "category": "humans",
@@ -340,7 +246,7 @@
    "after": "IV-0136"
   },
   {
-   "id": "EV-3015",
+   "id": "EV-3011",
    "title": "Uisdean Ruadh's first walk to Ceann mhin",
    "body": "Uisdean Ruadh, a hewer of Muileann chrom, walks with forty of his gang before light on a morning of frost to stand in the pay line at Ceann mhin till near dusk, and walks home again in the dark. He keeps the cost of it afterward on a notched stick, kept still by his family three generations on.",
    "place": "burg:353",
@@ -362,7 +268,7 @@
    "after": "IV-0137"
   },
   {
-   "id": "EV-3016",
+   "id": "EV-3012",
    "title": "Raghnall Maor buried beside the eleven",
    "body": "Raghnall Maor is buried on the hill above Muileann chrom beside the eleven of his first gallery, in thin rain, with both shifts of the pit standing at the grave together, a thing not done for any death there before. Anne Colby stands at the grave's edge with her roll and adds, that evening, a line naming his office, the only such line the roll holds.",
    "place": "burg:353",

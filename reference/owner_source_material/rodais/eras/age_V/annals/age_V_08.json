@@ -7,31 +7,6 @@
  "events": [
   {
    "id": "EV-4501",
-   "title": "The draft read at Baile chrom",
-   "body": "The Levy is read at the market cross of Baile chrom, first in the humans' tongue and then in Dia-thìris by a clerk who stumbles over the numbers. It falls hardest on the coast and hill villages; the concession farms to the north, worked by the strangers' own people, send no one.",
-   "place": "burg:305",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0181",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "uisdean-mac-lachlainn"
-   ],
-   "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
-   "era_between": [
-    92,
-    92
-   ]
-  },
-  {
-   "id": "EV-4502",
    "title": "The first harvest short",
    "body": "The harvest round Baile chrom comes in at less than half the carts of the year before, the fields sown thin for want of hands and beaten further by two summer storms. Uisdean counts the carts against his own earlier tally and finds the shortfall for himself.",
    "place": "burg:305",
@@ -57,7 +32,7 @@
    "after": "IV-0195a"
   },
   {
-   "id": "EV-4503",
+   "id": "EV-4502",
    "title": "Uisdean begins to write beyond the weather",
    "body": "In his second spring keeping the daybook of Taigh-solais Baile chrom, Uisdean mac Lachlainn writes down more than the wind and the oil for the first time: that a farmer of his acquaintance ploughs alone, with none of the hands who worked beside him the year before.",
    "place": "burg:305",
@@ -87,7 +62,7 @@
    "after": "IV-0199"
   },
   {
-   "id": "EV-4504",
+   "id": "EV-4503",
    "title": "Uisdean's hand on the valve",
    "body": "In the second winter of the hunger, Uisdean mac Lachlainn climbs to the lamp of Taigh-solais Baile chrom and stands a long while with his hand on the oil valve, weighing whether to let the light fail. He writes the thought into the daybook and lets the lamp burn on.",
    "place": "burg:305",
@@ -117,32 +92,7 @@
    "after": "IV-0203"
   },
   {
-   "id": "EV-4505",
-   "title": "Aonghas Ruadh calls the custodians of the east",
-   "body": "Once the tithe goes up on the Company's boards before any custodian's answer has reached Ros dhomhain, Aonghas Ruadh of Ceann àrsaidh sends riders to the settlements of the east and the hills, naming a day in am Faoilleach to draw up one grievance in one hand rather than let it be filed apart, settlement by settlement, as every single letter before it had been.",
-   "place": "burg:88",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0202",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0204",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "aonghas-ruadh"
-   ],
-   "told_in": "book/25_of_the_petition_on_the_bench.md#iii-of-the-nineteen-at-ceann-arsaidh"
-  },
-  {
-   "id": "EV-4506",
+   "id": "EV-4504",
    "title": "The custodians ride to Ceann àrsaidh",
    "body": "Custodians of nineteen settlements come in to Ceann àrsaidh through am Faoilleach, on foot and by cart, and camp along the inside of the town wall while they wait for the last of their number. Peigi Ghlas of Cill ghlas walks it in two days, carrying her cloak and her village's slate of the Levy's and the famine's dead rolled with it.",
    "place": "burg:88",
@@ -171,7 +121,7 @@
    "after": "IV-0205"
   },
   {
-   "id": "EV-4507",
+   "id": "EV-4505",
    "title": "Peigi Ghlas at the Residency",
    "body": "Peigi Ghlas carries the fair copy of the nineteen settlements' petition to Taigh an Àrd-mhaoir at Ros dhomhain, is turned back twice at the gate, and on the third day is shown into a stone passage smelling of lamp-soot to wait on a worn bench before a young clerk takes the paper, thanks her, and lays it on an unremarkable pile.",
    "place": "burg:27",
@@ -192,7 +142,7 @@
    "told_in": "book/25_of_the_petition_on_the_bench.md#iv-of-the-bench-in-the-passage"
   },
   {
-   "id": "EV-4508",
+   "id": "EV-4506",
    "title": "Aonghas Ruadh's letters go unanswered",
    "body": "Through the year after the petition is filed, Aonghas Ruadh writes twice more to Taigh an Àrd-mhaoir asking only whether the paper of am Faoilleach was received and read. The first letter gets no reply at all; the second, in the autumn, is answered in a strange clerk's hand that the matter remains under consideration.",
    "place": "burg:88",
@@ -216,7 +166,7 @@
    "after": "IV-0208"
   },
   {
-   "id": "EV-4509",
+   "id": "EV-4507",
    "title": "Griogair mac Aonghais tells Fearchar to sing it",
    "body": "Old Griogair mac Aonghais, who broke coal beside Fearchar's father before him, tells Fearchar that a column is for men who have given up hoping to be heard, and that he should sing the grievance instead of writing it. Fearchar carries the book back to Baile thais and begins working verses to the granary's short week.",
    "place": "burg:491",
@@ -242,32 +192,7 @@
    "after": "IV-0210"
   },
   {
-   "id": "EV-4510",
-   "title": "The overseer's clerk copies the forbidden song",
-   "body": "An overseer at Baile thais has Fearchar's song taken down word for word from a boy of the crews so that it can be shown forbidden, and a docker's pay is cut by half a week for the singing of it. The clerk's copy, made to condemn the song, becomes the only complete written record of it.",
-   "place": "burg:44",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0209",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "fearchar-bard"
-   ],
-   "told_in": "book/26_of_fearchar_bards_songs.md#ii-of-the-song-that-was-forbidden-and-so-written-down",
-   "era_between": [
-    102,
-    102
-   ]
-  },
-  {
-   "id": "EV-4511",
+   "id": "EV-4508",
    "title": "Fearchar repays the docked wage",
    "body": "Fearchar Bàrd walks to Baile thais to repay out of his own wage the boy docked half a week's pay for singing his song, and the boy refuses the coin, saying he would rather have sung it than not. The song is sung again within the week, further than before.",
    "place": "burg:44",
@@ -293,7 +218,7 @@
    "after": "IV-0216"
   },
   {
-   "id": "EV-4512",
+   "id": "EV-4509",
    "title": "Artair mac Iain dies at Cathair dhearg",
    "body": "Artair mac Iain, high custodian for twenty and four years, dies at Cathair dhearg at eighty years old. Word of his death reaches Fearchar Bàrd on the road home from An Taigh-òsta Grianach, carried faster than either fire or song by a rider changing horses at every post-house.",
    "place": "burg:19",
@@ -317,32 +242,10 @@
    ]
   },
   {
-   "after": "IV-0217"
-  },
-  {
-   "id": "EV-4513",
-   "title": "Iseabail begins her forty pages",
-   "body": "Understanding that her petition will be answered with nothing but the words under consideration, Iseabail nic Leòid begins writing, over a winter, a full account of the drought's three years: the wells, the cattle, the fever's dead, the watchman recalled from Allt an Àigh, for whoever may someday want to know its cost.",
-   "place": "burg:349",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0217",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "iseabail-nic-leoid"
-   ],
-   "told_in": "book/27_of_the_long_drought.md#vii-of-the-petition-begun-alone"
-  },
-  {
    "after": "IV-0221"
   },
   {
-   "id": "EV-4514",
+   "id": "EV-4510",
    "title": "Baile chaol slaughters its herd",
    "body": "With no grazing left within four days' driving, Baile chaol's custodian Ealasaid Ruadh orders the town's whole herd killed and the meat salted rather than risk the loss of it on the road. The town loses fewer of its people to hunger that winter than any other of the ten drought districts.",
    "place": "burg:311",
@@ -368,7 +271,7 @@
    "after": "IV-0226"
   },
   {
-   "id": "EV-4515",
+   "id": "EV-4511",
    "title": "Coll's report names the drought-fever's true cause",
    "body": "The Mission's physician at Baile Mòr ruadh, a young man named Coll, tests the town's water and finds it fouled by the old midden ground its deep wells were sunk through. His report to the Mission's house at Cathair dhearg is the first that autumn to name the fever's cause rightly.",
    "place": "burg:387",
@@ -391,7 +294,7 @@
    ]
   },
   {
-   "id": "EV-4516",
+   "id": "EV-4512",
    "title": "Every custodian of the drought country petitions Haskins",
    "body": "Each of the ten drought districts' custodians petitions Commissioner Haskins in her own hand, unknown to the others, asking that the Company's quota be set aside until two seasons of ordinary rain are counted. Iseabail nic Leòid rides her own petition to the Residency and is told, as every other has been told, that the matter is under consideration.",
    "place": "burg:349",

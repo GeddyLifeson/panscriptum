@@ -56,27 +56,10 @@
    "told_in": "book/01_of_the_gauze_on_the_water.md#iii-of-the-empty-cask"
   },
   {
-   "id": "EV-1003",
-   "title": "Harrow's men mend nets on the dunes",
-   "body": "Recovered from their sickness, the strangers penned below the dunes at Cuan shean begin mending the fishers' nets spread on the strand, unasked. The fishers learn from them a flat knot that does not slip, and call it the strangers' knot.",
-   "place": "burg:282",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0003",
-     "type": "cause"
-    }
-   ],
-   "threads": [],
-   "people": [],
-   "told_in": "book/01_of_the_gauze_on_the_water.md#iv-of-the-forty-days-below-the-dunes"
-  },
-  {
    "after": "IV-0004"
   },
   {
-   "id": "EV-1004",
+   "id": "EV-1003",
    "title": "Oighrig nic Leòid's letter to the council from her sickbed",
    "body": "From her bed at Cuan shean Oighrig nic Leòid writes to the council that she gave the strangers water under the law of the shore and nothing more on her own word, and that a leave given in the roll cannot be ungiven. She asks that it be read before the vote. The clerk notes it received.",
    "place": "burg:282",
@@ -98,7 +81,7 @@
    "after": "IV-0007"
   },
   {
-   "id": "EV-1005",
+   "id": "EV-1004",
    "title": "The humans pray in a sail-loft at Cuan shean",
    "body": "On the day the strangers keep for their god a sailmaker of Cuan shean lends them his loft against the rain. They kneel on the sailcloth, the captain with the rest, while a priest reads from a book; they light no fire and burn nothing. Two priests of Manannan watch from the stair and go down to the water to say their own prayer. It is the first entry of the humans at prayer under a roof.",
    "place": "burg:282",
@@ -123,7 +106,7 @@
    "told_in": "book/02_of_forty_words_for_the_colours_of_coal.md#i-of-the-land-beyond"
   },
   {
-   "id": "EV-1006",
+   "id": "EV-1005",
    "title": "Wren and the priests come up to Cathair dhearg",
    "body": "Two priests of the humans and a boy ride up from Cuan shean on ponies of the town, a long day's road, and come over the bridge at dusk soaked through. The council lodges them in a house below the temple and gives them a long room on the east side of the hall. The younger priest, Samuel Wren, coughs in the damp of the lake country.",
    "place": "burg:282",
@@ -147,7 +130,7 @@
    "after": "IV-0009"
   },
   {
-   "id": "EV-1007",
+   "id": "EV-1006",
    "title": "Muireall copies the first leaf",
    "body": "In the gap-moon Gormshuil nic Fhearchair gives her loose sheets to her niece Muireall to copy fair into a book for Clann Fhearchair, and orders the colours set first, before cup and bread, alone on the first leaf with room left at the foot. Muireall copies the forty words in her young, careful hand and stops at the right-hand column, where the humans' side has one word to give.",
    "place": "burg:19",
@@ -170,55 +153,10 @@
    "told_in": "book/02_of_forty_words_for_the_colours_of_coal.md#iv-of-the-note-under-the-first-leaf"
   },
   {
-   "after": "IV-0011"
-  },
-  {
-   "id": "EV-1008",
-   "title": "The first bargains entered in the council roll",
-   "body": "At the moon of the bright fire the strangers' iron, glass, lamp-oil and paper come up to the capital's market, and wool, hides, salt fish and dyed cloth go down to Cuan shean. Comhairle a' Chùraim enters the first bargains in its roll, fleece for knife and cloth for glass, with both prices in the island's reckoning. The measure is good on both sides.",
-   "place": "burg:19",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "IV-0011",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "gormshuil-nic-fhearchair"
-   ],
-   "told_in": "book/02_of_forty_words_for_the_colours_of_coal.md#v-of-the-chest-for-muileann-chaol"
-  },
-  {
-   "after": "IV-0013"
-  },
-  {
-   "id": "EV-1009",
-   "title": "Harrow sails north-about with three hulls",
-   "body": "At the end of an Lùnastal Edmund Harrow sails from Cuan shean for an Tìr Thall with all three hulls, north-about, carrying hides and dyed cloth. He leaves Thomas Pike at Ros dhomhain with four men, the loft, the tally-book and the goods not yet traded.",
-   "place": "burg:282",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0016",
-     "type": "cause"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "edmund-harrow",
-    "thomas-pike"
-   ],
-   "told_in": "book/03_of_the_post_at_ros_dhomhain.md#ii-of-the-hull-in-the-shallows"
-  },
-  {
    "after": "IV-0014"
   },
   {
-   "id": "EV-1010",
+   "id": "EV-1007",
    "title": "The ships' smith at the forge in Cathair dhearg",
    "body": "A smith off Harrow's ships, sent up by Pike, comes to the smiths' lane below the bridge at Cathair dhearg and works through the autumn at the forge of Gilleasbuig Gobha. Having no words in common, the two smiths agree on the colours of hot iron.",
    "place": "burg:19",
@@ -241,7 +179,7 @@
    "after": "IV-0020"
   },
   {
-   "id": "EV-1011",
+   "id": "EV-1008",
    "title": "Pike writes home of the island's coal",
    "body": "Answering the trading house, Thomas Pike writes of the island's timber, salt, wool, hides and smiths, and that it has copper, tin and some silver. Having held a piece from a custodian's hearth to the window, he writes that the island has coal of a middling sort, and much of it.",
    "place": "burg:27",
@@ -266,7 +204,7 @@
    "told_in": "book/03_of_the_post_at_ros_dhomhain.md#vii-of-the-middling-coal"
   },
   {
-   "id": "EV-1012",
+   "id": "EV-1009",
    "title": "Gilleasbuig Gobha forges a hinge for Pike's chest",
    "body": "Gilleasbuig Gobha makes a new hinge of the strangers' bar-iron for the iron-bound chest under Pike's counter, where letters for over the sea are kept. He tempers it to the blue and will take nothing for the work. Pike's letter on the coal goes over the sea in that chest.",
    "place": "burg:19",

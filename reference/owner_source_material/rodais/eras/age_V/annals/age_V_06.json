@@ -6,36 +6,10 @@
  ],
  "events": [
   {
-   "id": "EV-3501",
-   "title": "Ailig mac Griogair shows Lowe the coloured water",
-   "body": "The keeper Ailig mac Griogair takes Lowe up the beacon stair and points out a green colour he says lies on the water beneath the flame, further than the beam itself should carry. Lowe looks a long while and sees only firelight on the swell, and writes that he cannot see what the keeper sees.",
-   "place": "burg:327",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0138",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0139",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-seven-coals"
-   ],
-   "people": [
-    "edwin-lowe",
-    "ailig-mac-griogair"
-   ],
-   "told_in": "book/18_of_lowes_spade.md#i-of-the-coloured-flame-at-muileann-bheag"
-  },
-  {
    "after": "IV-0139"
   },
   {
-   "id": "EV-3502",
+   "id": "EV-3501",
    "title": "The keeper's son answers Lowe on the point",
    "body": "Ailig's young son stands the watch beside Lowe on two further nights and tells him the colour is not a thing looked for but a thing seen, as rain is felt before it falls. Lowe records the boy's answer as the most honest, and the least useful, given him in eleven years on the island.",
    "place": "burg:327",
@@ -59,7 +33,7 @@
    "after": "IV-0140"
   },
   {
-   "id": "EV-3503",
+   "id": "EV-3502",
    "title": "Griogal Odhar on Mòd and the older ground",
    "body": "Asked whether any order of the island's faiths claims the ruin, Griogal Odhar tells Lowe that Mòd himself is said not to claim ground older than the vein, for a god who eats the hill can only eat what grew in the hill's own time. No order has ever asked for the ground, and none has been refused it.",
    "place": "marker:33",
@@ -82,7 +56,7 @@
    "after": "IV-0142a"
   },
   {
-   "id": "EV-3504",
+   "id": "EV-3503",
    "title": "Cairistìona nic Griogair sees the first pane",
    "body": "Voss's fourth firing gives a pale green pane clear enough to see a gull through. His apprentice Cairistìona nic Griogair, who carried sand for him all that summer, laughs at the sight of it, the first laugh heard in the glass-house yard since the furnace was raised.",
    "place": "burg:136",
@@ -105,7 +79,7 @@
    "after": "IV-0149"
   },
   {
-   "id": "EV-3505",
+   "id": "EV-3504",
    "title": "The women's rule of silence",
    "body": "Beitris Bhàn tells the women who sat the night of the telling that a charge laid on a man by a spirit is not theirs to spend on the camp's talk, whatever they make of the child in their own kitchens. No meeting is called and no vote taken, but the rule holds among them for years.",
    "place": "burg:135",
@@ -127,7 +101,7 @@
    "told_in": "book/19_of_the_smoke_in_the_gallery.md#iv-of-the-child-the-rolls-gave-three-things"
   },
   {
-   "id": "EV-3506",
+   "id": "EV-3505",
    "title": "The wash-house women first mark the child's stillness",
    "body": "Season on season the women who handle the camp's dying notice, before anyone else in Achadh dhomhain, that Aisling is not changing as a growing child should, and keep what they notice among themselves.",
    "place": "burg:135",
@@ -152,7 +126,7 @@
    "after": "IV-0149a"
   },
   {
-   "id": "EV-3507",
+   "id": "EV-3506",
    "title": "The wife's telling, over a body at Beitris Bhàn's table",
    "body": "At a laying-out in the camp's fourth winter, Donnchadh mac Thormoid's wife tells the sitting women, for the first time outside her own house, what her husband met in the deep gallery and what it charged him to keep, and what passed the night their daughter was born. She says the words are his and she will change none of them.",
    "place": "burg:135",
@@ -183,62 +157,10 @@
    ]
   },
   {
-   "after": "IV-0151"
-  },
-  {
-   "id": "EV-3508",
-   "title": "Beitris Bhàn's first climb to Cill ghlas",
-   "body": "Beitris Bhàn climbs the hill path to Cill ghlas for the first time at Lùnastal and sets a single piece of coal by the flame at the mouth of the oldest cutting, more from the habit of a hard winter's laying-out than from any settled custom of her own people. She says nothing to the custodian, and the custodian says nothing to her.",
-   "place": "burg:123",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0151",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-promise"
-   ],
-   "people": [
-    "beitris-bhan"
-   ],
-   "told_in": "book/19_of_the_smoke_in_the_gallery.md#v-of-una-nic-choinnich-and-the-shrines",
-   "era_between": [
-    72,
-    72
-   ]
-  },
-  {
    "after": "IV-0157"
   },
   {
-   "id": "EV-3509",
-   "title": "Nathaniel Bright opens his table of weighings",
-   "body": "At Muileann chrom, Nathaniel Bright begins keeping a ruled black-bound book of the lungs he weighs from the Green Death's dead, with the custodians' leave and a custodian standing by at each opening. Anne Colby brings her own sick-house tally to set beside it that winter.",
-   "place": "burg:354",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0158",
-     "type": "cause"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "nathaniel-bright",
-    "anne-colby"
-   ],
-   "told_in": "book/20_of_the_green_death.md#iii-of-doctor-bright-s-table",
-   "era_between": [
-    74,
-    74
-   ]
-  },
-  {
-   "id": "EV-3510",
+   "id": "EV-3507",
    "title": "Walter Crane walks the sick-rows at Achadh dhomhain",
    "body": "Commissioner Crane walks the worst of the sickness's second summer at Achadh dhomhain and does not walk faster past the bad huts than the ordinary ones, a thing the custodians and Beitris Bhàn both note and remember afterward in his favour.",
    "place": "burg:135",
@@ -262,7 +184,7 @@
    ]
   },
   {
-   "id": "EV-3511",
+   "id": "EV-3508",
    "title": "Beitris Bhàn nails a feather over her own door",
    "body": "After laying out the fortieth body of the season, Beitris Bhàn nails a hawk's feather above her own door at Achadh dhomhain. The overseer's boy finds it and reports his father, and she pays the week's pay it costs her and nails up another within the month.",
    "place": "burg:135",
@@ -288,7 +210,7 @@
    "after": "IV-0159"
   },
   {
-   "id": "EV-3512",
+   "id": "EV-3509",
    "title": "Anne Colby comes to Beitris Bhàn's door",
    "body": "Anne Colby, unsent by the Mission and unasked by any custodian, comes to Achadh dhomhain to learn from the layer-out Beitris Bhàn what her own hands have taught her of the Green Death. The two begin washing the camp's dead together, a custom the camp comes to call An Dithis a Nigh Còmhla.",
    "place": "burg:135",

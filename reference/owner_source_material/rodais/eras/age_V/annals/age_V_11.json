@@ -83,65 +83,10 @@
    ]
   },
   {
-   "after": "IV-0292"
-  },
-  {
-   "id": "EV-6004",
-   "title": "Eilidh nic Raghnaill reads Ìomhar Seabhag's sermon to the Lamp-Watch",
-   "body": "A fowler leaves a written copy of Ìomhar Seabhag's Seann Skell sermon with the burial club's door-keeper at Baile thais, and Eilidh nic Raghnaill reads it aloud to the room by the same lamp she drafted the second petition by. For once she does not write anything in the club's book afterward.",
-   "place": "burg:44",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0284",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-orders-of-the-old-faith"
-   ],
-   "people": [
-    "eilidh-nic-raghnaill"
-   ],
-   "told_in": "book/34_of_the_warning_and_the_constables.md#iv-of-the-hawk-and-the-sermon",
-   "era_between": [
-    141,
-    141
-   ]
-  },
-  {
-   "id": "EV-6005",
-   "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
-   "body": "A crew-leader from Baile thais asks Aonghas, keeper of An Taigh-seinnse Mòr since Seònaid Bhàn's line came to him, whether the loft above his stable might hold men now and again with no questions asked. He agrees, and stops in time asking what they carry.",
-   "place": "marker:10",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0290",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0300",
-     "type": "cause"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "aonghas"
-   ],
-   "told_in": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
-   "era_between": [
-    141,
-    141
-   ]
-  },
-  {
    "after": "IV-0298"
   },
   {
-   "id": "EV-6006",
+   "id": "EV-6004",
    "title": "A boy of Àth fhiadhaich at Aonghas's door",
    "body": "A boy runner out of Àth fhiadhaich comes soaked from the ford into Aonghas's yard, asks for bread as any boy might, and leaves a folded scrap under the loose board by the stable door naming a date and nothing else. Aonghas burns it in the kitchen fire that night.",
    "place": "burg:12",
@@ -167,7 +112,7 @@
    "after": "IV-0308"
   },
   {
-   "id": "EV-6007",
+   "id": "EV-6005",
    "title": "The fire on Cnoc an Rabhaidh",
    "body": "On 27 am Màrt, Aonghas watches smoke rise thin from Cnoc an Rabhaidh in a hard north-west wind, and every wheel within sight of his yard stops within the hour. A carter in his own yard names it a heath fire before anyone learns otherwise.",
    "place": "marker:10",
@@ -201,7 +146,7 @@
    "after": "IV-0312"
   },
   {
-   "id": "EV-6008",
+   "id": "EV-6006",
    "title": "Tormod Buabhall's word on a house with nothing left to guard",
    "body": "Meeting Aonghas at the horse-fair after the ships have thinned to nothing, Tormod Buabhall tells him a house with no custom left keeps its gates shut for a different reason than before: a house that guards everything still has, behind its locked door, something it means to keep.",
    "place": "marker:5",
@@ -218,7 +163,7 @@
     "tormod-buabhall",
     "aonghas"
    ],
-   "told_in": "book/35_of_the_houses_on_the_roads.md#vi-of-the-idle-harbours",
+   "told_in": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
    "era_between": [
     145,
     145
@@ -228,32 +173,7 @@
    "after": "IV-0318"
   },
   {
-   "id": "EV-6009",
-   "title": "The iron bird seen over Muileann chrom",
-   "body": "A flying machine passes twice over the Muileann chrom valley without beating its wings, and the crews at the pit-mouth stop their barrows to watch it go. By evening the district has a name for it, eun-iarainn, borrowed from nowhere and understood at once.",
-   "place": "burg:354",
-   "kind": "land",
-   "category": "land",
-   "links": [
-    {
-     "to": "IV-0315a",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "morag-nic-iain-maor"
-   ],
-   "told_in": "book/36_of_the_breaking_of_the_staff.md#i-of-the-iron-bird",
-   "era_between": [
-    147,
-    147
-   ]
-  },
-  {
-   "id": "EV-6010",
+   "id": "EV-6007",
    "title": "The old man of Doire mhòr",
    "body": "An old man carried gently from his own doorstone by constables clearing houses under the edict of seizure asks only that it be written down that they were gentle about it. Mòrag nic Iain Maor, come from Muileann chrom, carries the sentence home with no book to hand.",
    "place": "burg:101",
@@ -285,9 +205,9 @@
    "after": "IV-0324"
   },
   {
-   "id": "EV-6011",
-   "title": "Coinneach Ruadh's ride of the twentieth",
-   "body": "Coinneach Ruadh rides into Muileann chrom on the twentieth of an Gearran with word that the grievance is called across every mining district at once, and that the Residency has already had its answer that morning from Muileann chrom and Baile thais both.",
+   "id": "EV-6008",
+   "title": "Coinneach Ruadh's ride of the twenty-eighth",
+   "body": "Coinneach Ruadh rides into Muileann chrom on the twenty-eighth of an Gearran with word that the grievance is called across every mining district at once, and that the Residency has already had its answer that morning from Muileann chrom and Baile thais both.",
    "place": "burg:354",
    "kind": "war",
    "category": "war",
@@ -311,7 +231,7 @@
    ]
   },
   {
-   "id": "EV-6012",
+   "id": "EV-6009",
    "title": "The beacons of the coal country answer",
    "body": "On the night war is called, signal fires long kept secret are carried openly to every beacon height the mining districts hold, ridge answering ridge from Doire mhòr to the silver hills, the first time the whole coal country has shown itself lit at once.",
    "place": "burg:354",

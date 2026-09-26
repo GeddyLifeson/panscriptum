@@ -1,0 +1,142 @@
+[
+ {
+  "title": "Thomas Coyle drowned off Cuan bheag",
+  "era_year": 19,
+  "summary": "A westerly storm on the second night of an t-Sultain drowns eleven Tuathaich fishermen out of Cuan bheag, Thomas Coyle of Caol mhòr among them, one-and-forty and near twenty years married to Mary Coyle. The sea gives back two broken hulls and a stranger's oar; the town buries what it can within the week.",
+  "category": "land",
+  "people": ["Thomas Coyle", "Mary Coyle"],
+  "places": ["burg:38"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0082", "type": "sequel"}]
+ },
+ {
+  "title": "Mary Coyle's roll of the eleven dead",
+  "era_year": 19,
+  "summary": "Mary Coyle, newly widowed, writes the eleven drowned men's names out on a single sheet for the mason's stones, setting them in the order the boats went out rather than the order the sea gave the bodies back, holding that order the truer one.",
+  "category": "land",
+  "people": ["Mary Coyle"],
+  "places": ["burg:38"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0082", "type": "sequel"}]
+ },
+ {
+  "title": "The Moot opens its lifeboat subscription",
+  "era_year": 19,
+  "summary": "Walter Hale carries the wreck's news to the Moot's own council at Caol mhòr, which votes that same evening to open a subscription for a lifeboat at Cuan bheag; Hale opens the list himself, and it carries near two hundred names by the month's end. The council, asked to bear half the cost, answers four months on that it will bear a third.",
+  "category": "land",
+  "people": ["Walter Hale"],
+  "places": ["burg:95"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0082", "type": "sequel"}]
+ },
+ {
+  "title": "The Cuan bheag lifeboat launched",
+  "era_year": 20,
+  "summary": "The lifeboat ordered of the Cuan shean yard comes up the coast in an Cèitean and is set afloat off Cuan bheag's jetty by the hands of that autumn's five widows, no priest of either faith having an agreed form to bless a boat neither had built.",
+  "category": "land",
+  "people": ["Mary Coyle"],
+  "places": ["burg:38"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0082", "type": "sequel"}]
+ },
+ {
+  "title": "The tale of the Sea-Watcher told to the chronicler",
+  "era_year": 19,
+  "summary": "A fisherman of Achadh àrsaidh, delayed a night by the tide, tells the royal chronicler Gormshuil nic Dhùghaill the coast's own tale of a shape seen off the cold cape, seen always at a distance and never named by those who fear it, which she enters in the book that keeps what people said rather than the book that keeps names.",
+  "category": "faith",
+  "people": ["Gormshuil nic Dhùghaill"],
+  "places": ["burg:242"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0083", "type": "sequel"}]
+ },
+ {
+  "title": "The raiders' anchorage noted at the cold cape",
+  "era_year": 19,
+  "summary": "The same fisherman tells Gormshuil that the flagless ships working those waters know the cold cape's currents better than any stranger crew should, and keep some hidden anchorage among its rocks; she writes it apart from the tale and asks that the council's coastal watch be told of it.",
+  "category": "war",
+  "people": ["Gormshuil nic Dhùghaill"],
+  "places": ["marker:21"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0083", "type": "sequel"}]
+ },
+ {
+  "title": "The flocks of Eilean dhubh counted by their own hands",
+  "era_year": 19,
+  "summary": "A treasury clerk sent to number the flocks of Eilean dhubh for the head-due finds the islanders unwilling to have him count their own pastures, and takes instead their sworn count by tally-stick, on which the island's dues are set that year and every year after.",
+  "category": "law",
+  "people": [],
+  "places": ["feature:3"],
+  "threads": [],
+  "master_links": [{"to": "V-0084", "type": "sequel"}]
+ },
+ {
+  "title": "Nell Barrow's first letter for Cathair gheal",
+  "era_year": 20,
+  "summary": "Nell Barrow, a skipper's widow of Cathair gheal who has lost a nephew to the raiders, writes the town's case to the council in am Faoilleach, asking a boat armed at the council's expense or leave to arm the town's own; the maor warns her plain words are as likely filed as answered. No answer comes.",
+  "category": "war",
+  "people": ["Nell Barrow"],
+  "places": ["burg:476"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0085", "type": "sequel"}]
+ },
+ {
+  "title": "Nell Barrow's second letter for Cathair gheal",
+  "era_year": 20,
+  "summary": "Two months unanswered, Nell Barrow writes a second letter in am Màrt, shorter and plainer than the first, ending that the town does not think a third asking will find the council less occupied than the first two were. It too goes unanswered.",
+  "category": "war",
+  "people": ["Nell Barrow"],
+  "places": ["burg:476"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0085", "type": "sequel"}]
+ },
+ {
+  "title": "The black ship run aground in Cathair gheal's bay",
+  "era_year": 20,
+  "summary": "On the night of 8 an Giblean three flagless hulls stand into Cathair gheal's bay; the raider ship known as An Ròn Dubh runs her keel onto a shifted bar and is boarded and burned by seven town boats before dawn, the two lesser hulls standing off rather than come to her aid.",
+  "category": "war",
+  "people": ["Nell Barrow"],
+  "places": ["burg:476"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0085", "type": "sequel"}]
+ },
+ {
+  "title": "Two dead and four hurt in the bay's clearing",
+  "era_year": 20,
+  "summary": "The fight for Cathair gheal's bay costs the town two men dead and four hurt, one of whom keeps no further use of a hand; Nell Barrow herself takes a burn from a fallen lantern that scars her the rest of her life, and by first light tells the town the bay is clear.",
+  "category": "war",
+  "people": ["Nell Barrow"],
+  "places": ["burg:476"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0085", "type": "sequel"}]
+ },
+ {
+  "title": "Cathair gheal fined for bearing arms unlicensed",
+  "era_year": 20,
+  "summary": "The council's ruling on the night's fight names no boat sent and no licence granted, only that Cathair gheal bore arms without leave first asked, and fines the town forty pounds in the realm-coin, to be paid at the maor's own office before the year's dues fall due.",
+  "category": "law",
+  "people": [],
+  "places": ["burg:476"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0085", "type": "sequel"}]
+ },
+ {
+  "title": "Walter Hale carries the Moot's purse north to Cathair gheal",
+  "era_year": 20,
+  "summary": "Hearing the town lacks two-thirds of its fine, Walter Hale carries the difference north from the Moot's own purse, the same purse the Cuan bheag lifeboat has already thinned, and reaches Cathair gheal near the end of an t-Iuchar.",
+  "category": "law",
+  "people": ["Walter Hale"],
+  "places": ["burg:476"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0085", "type": "sequel"}]
+ },
+ {
+  "title": "The fine paid at the maor's door",
+  "era_year": 20,
+  "summary": "Nell Barrow's sum and Hale's together clear the fine in full at the maor's own door, counted coin by coin before his clerk, who enters the sum received and asks nothing of the six years, the two letters, or the boat the town was never sent.",
+  "category": "law",
+  "people": ["Nell Barrow", "Walter Hale"],
+  "places": ["burg:476"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0085", "type": "sequel"}]
+ }
+]

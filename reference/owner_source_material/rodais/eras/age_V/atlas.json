@@ -151,30 +151,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1515",
-   "last": "EV-1516"
-  },
-  "ailean-mac-dhughaill": {
-   "id": "ailean-mac-dhughaill",
-   "name": "Ailean mac Dhùghaill",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-2503",
-   "last": "EV-2503"
-  },
-  "ailig-mac-griogair": {
-   "id": "ailig-mac-griogair",
-   "name": "Ailig mac Griogair",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-3501",
-   "last": "EV-3501"
+   "first": "EV-1511",
+   "last": "EV-1512"
   },
   "anna-nic-dhomhnaill": {
    "id": "anna-nic-dhomhnaill",
@@ -195,8 +173,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-3016",
-   "last": "EV-4504"
+   "first": "EV-3010",
+   "last": "EV-3509"
   },
   "aonghas": {
    "id": "aonghas",
@@ -208,17 +186,6 @@
    "houses": [],
    "first": "EV-6008",
    "last": "EV-6014"
-  },
-  "aonghas-mac-coinnich": {
-   "id": "aonghas-mac-coinnich",
-   "name": "Aonghas mac Coinnich",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-3015",
-   "last": "EV-3020"
   },
   "aonghas-ruadh": {
    "id": "aonghas-ruadh",
@@ -241,17 +208,6 @@
    "houses": [],
    "first": "EV-4009",
    "last": "EV-4521"
-  },
-  "arthur-lisle": {
-   "id": "arthur-lisle",
-   "name": "Arthur Lisle",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-2512",
-   "last": "EV-3006"
   },
   "beathag-dhubh": {
    "id": "beathag-dhubh",
@@ -382,8 +338,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-4515",
-   "last": "EV-4515"
+   "first": "EV-4511",
+   "last": "EV-4511"
   },
   "colm-ashe": {
    "id": "colm-ashe",
@@ -393,19 +349,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5510",
-   "last": "EV-5510"
-  },
-  "daniel-webb": {
-   "id": "daniel-webb",
-   "name": "Daniel Webb",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-5508",
-   "last": "EV-5508"
+   "first": "EV-5506",
+   "last": "EV-5506"
   },
   "domhnall-mac-raghnaill-maor": {
    "id": "domhnall-mac-raghnaill-maor",
@@ -437,8 +382,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-4012",
-   "last": "EV-4015"
+   "first": "EV-4007",
+   "last": "EV-4009"
   },
   "dughall-dubh": {
    "id": "dughall-dubh",
@@ -459,8 +404,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-3016",
-   "last": "EV-3016"
+   "first": "EV-3007",
+   "last": "EV-3007"
   },
   "eachann-mor": {
    "id": "eachann-mor",
@@ -470,8 +415,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-3016",
-   "last": "EV-3021"
+   "first": "EV-3007",
+   "last": "EV-3009"
   },
   "ealasaid-ruadh": {
    "id": "ealasaid-ruadh",
@@ -481,19 +426,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-4514",
-   "last": "EV-4514"
-  },
-  "edgar-holt": {
-   "id": "edgar-holt",
-   "name": "Edgar Holt",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-5512",
-   "last": "EV-5512"
+   "first": "EV-4510",
+   "last": "EV-4510"
   },
   "edmund-harrow": {
    "id": "edmund-harrow",
@@ -536,8 +470,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-6516",
-   "last": "EV-6516"
+   "first": "EV-6510",
+   "last": "EV-6510"
   },
   "eilidh-nic-raghnaill": {
    "id": "eilidh-nic-raghnaill",
@@ -561,17 +495,6 @@
    "first": "EV-1503",
    "last": "EV-1514"
   },
-  "enoch-pratt": {
-   "id": "enoch-pratt",
-   "name": "Enoch Pratt",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-2512",
-   "last": "EV-2512"
-  },
   "eoin-ruadh": {
    "id": "eoin-ruadh",
    "name": "Eòin Ruadh",
@@ -580,8 +503,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2512",
-   "last": "EV-2512"
+   "first": "EV-2508",
+   "last": "EV-2508"
   },
   "fearchar-bard": {
    "id": "fearchar-bard",
@@ -591,8 +514,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-4515",
-   "last": "EV-4521"
+   "first": "EV-4507",
+   "last": "EV-4509"
   },
   "fearghas-mac-mhuirich": {
    "id": "fearghas-mac-mhuirich",
@@ -613,19 +536,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2011",
-   "last": "EV-2015"
-  },
-  "fionnlagh": {
-   "id": "fionnlagh",
-   "name": "Fionnlagh",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-5512",
-   "last": "EV-5512"
+   "first": "EV-2007",
+   "last": "EV-2009"
   },
   "fionnlagh-mac-aonghais": {
    "id": "fionnlagh-mac-aonghais",
@@ -635,8 +547,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2512",
-   "last": "EV-2512"
+   "first": "EV-2508",
+   "last": "EV-2508"
   },
   "fionnuala": {
    "id": "fionnuala",
@@ -657,8 +569,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1012",
-   "last": "EV-1515"
+   "first": "EV-1007",
+   "last": "EV-1009"
   },
   "gormshuil-nic-fhearchair": {
    "id": "gormshuil-nic-fhearchair",
@@ -670,17 +582,6 @@
    "houses": [],
    "first": "EV-1009",
    "last": "EV-2511"
-  },
-  "griogair": {
-   "id": "griogair",
-   "name": "Griogair",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-4008",
-   "last": "EV-4008"
   },
   "griogair-mac-ailein": {
    "id": "griogair-mac-ailein",
@@ -745,8 +646,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-4516",
-   "last": "EV-4520"
+   "first": "EV-4512",
+   "last": "EV-4512"
   },
   "james-fenn": {
    "id": "james-fenn",
@@ -767,8 +668,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1516",
-   "last": "EV-2018"
+   "first": "EV-1508",
+   "last": "EV-2007"
   },
   "lachlann-odhar": {
    "id": "lachlann-odhar",
@@ -789,8 +690,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-6514",
-   "last": "EV-6516"
+   "first": "EV-6512",
+   "last": "EV-6512"
   },
   "mairead-nic-aoidh": {
    "id": "mairead-nic-aoidh",
@@ -855,30 +756,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2011",
-   "last": "EV-2011"
-  },
-  "nathan-cobb": {
-   "id": "nathan-cobb",
-   "name": "Nathan Cobb",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-1507",
-   "last": "EV-1507"
-  },
-  "nathaniel-bright": {
-   "id": "nathaniel-bright",
-   "name": "Nathaniel Bright",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-3511",
-   "last": "EV-3515"
+   "first": "EV-2008",
+   "last": "EV-2008"
   },
   "oighrig-nic-leoid": {
    "id": "oighrig-nic-leoid",
@@ -899,8 +778,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2512",
-   "last": "EV-2514"
+   "first": "EV-2506",
+   "last": "EV-2506"
   },
   "padraig-reamhar": {
    "id": "padraig-reamhar",
@@ -954,8 +833,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1516",
-   "last": "EV-3019"
+   "first": "EV-1510",
+   "last": "EV-2507"
   },
   "ruth-pallant": {
    "id": "ruth-pallant",
@@ -987,8 +866,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1010",
-   "last": "EV-2014"
+   "first": "EV-1005",
+   "last": "EV-2006"
   },
   "seonaid-bhan": {
    "id": "seonaid-bhan",
@@ -1011,17 +890,6 @@
    "houses": [],
    "first": "EV-6507",
    "last": "EV-6507"
-  },
-  "seumas-mac-artair": {
-   "id": "seumas-mac-artair",
-   "name": "Seumas mac Artair",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-3015",
-   "last": "EV-3020"
   },
   "silas-crewe": {
    "id": "silas-crewe",
@@ -1067,28 +935,6 @@
    "first": "EV-1009",
    "last": "EV-1512"
   },
-  "tomas-odhar": {
-   "id": "tomas-odhar",
-   "name": "Tòmas Odhar",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-6501",
-   "last": "EV-6501"
-  },
-  "tomas-ruadh": {
-   "id": "tomas-ruadh",
-   "name": "Tòmas Ruadh",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-5508",
-   "last": "EV-5508"
-  },
   "torcall-clachair": {
    "id": "torcall-clachair",
    "name": "Torcall Clachair",
@@ -1099,17 +945,6 @@
    "houses": [],
    "first": "EV-1508",
    "last": "EV-2506"
-  },
-  "tormod": {
-   "id": "tormod",
-   "name": "Tormod (Aisling's grandfather)",
-   "born": null,
-   "died": null,
-   "parents": [],
-   "children": [],
-   "houses": [],
-   "first": "EV-2508",
-   "last": "EV-2508"
   },
   "tormod-buabhall": {
    "id": "tormod-buabhall",
@@ -1163,8 +998,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-4012",
-   "last": "EV-4504"
+   "first": "EV-4009",
+   "last": "EV-4503"
   },
   "uisdean-ruadh": {
    "id": "uisdean-ruadh",
@@ -1174,8 +1009,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-3015",
-   "last": "EV-3015"
+   "first": "EV-3011",
+   "last": "EV-3011"
   },
   "una-nic-choinnich": {
    "id": "una-nic-choinnich",
@@ -1196,8 +1031,8 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-3512",
-   "last": "EV-3512"
+   "first": "EV-3507",
+   "last": "EV-3507"
   },
   "william-rook": {
    "id": "william-rook",
@@ -1230,14 +1065,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-1005",
+     "to": "EV-1004",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "13 am Màrt, AE 2",
+     "date": "3 am Màrt, AE 2",
      "title": "The humans pray in a sail-loft at Cuan shean",
      "master": false,
      "year": "AE 2"
@@ -1354,10 +1189,10 @@
   },
   {
    "id": "EV-1002",
-   "date": "17 am Màrt, AE 1",
+   "date": "31 an Cèitean, AE 1",
    "y": 1780,
-   "m": 3,
-   "d": 17,
+   "m": 5,
+   "d": 31,
    "era": "AE",
    "ey": 1,
    "title": "The rider from Cuan shean reaches Cathair dhearg",
@@ -1411,49 +1246,6 @@
    }
   },
   {
-   "id": "EV-1003",
-   "date": "31 an Cèitean, AE 1",
-   "y": 1780,
-   "m": 5,
-   "d": 31,
-   "era": "AE",
-   "ey": 1,
-   "title": "Harrow's men mend nets on the dunes",
-   "body": "Recovered from their sickness, the strangers penned below the dunes at Cuan shean begin mending the fishers' nets spread on the strand, unasked. The fishers learn from them a flat knot that does not slip, and call it the strangers' knot.",
-   "place": "burg:282",
-   "kind": "humans",
-   "category": "humans",
-   "master": false,
-   "year": "AE 1",
-   "category_name": "the humans",
-   "place_name": "Cuan shean",
-   "links": [
-    {
-     "to": "IV-0003",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "16 an t-Ògmhios, AE 1",
-     "title": "Forty days on the dunes",
-     "master": true,
-     "year": "AE 1"
-    }
-   ],
-   "threads": [],
-   "people": [],
-   "told_in": {
-    "ref": "book/01_of_the_gauze_on_the_water.md#iv-of-the-forty-days-below-the-dunes",
-    "file": "book/01_of_the_gauze_on_the_water.md",
-    "anchor": "iv-of-the-forty-days-below-the-dunes",
-    "book": "Of the Gauze on the Water",
-    "section": "IV. Of the Forty Days below the Dunes",
-    "where": "era"
-   }
-  },
-  {
    "id": "IV-0003",
    "date": "16 an t-Ògmhios, AE 1",
    "y": 1780,
@@ -1479,21 +1271,8 @@
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "17 am Màrt, AE 1",
-     "title": "The rider from Cuan shean reaches Cathair dhearg",
-     "master": false,
-     "year": "AE 1"
-    },
-    {
-     "to": "EV-1003",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
      "date": "31 an Cèitean, AE 1",
-     "title": "Harrow's men mend nets on the dunes",
+     "title": "The rider from Cuan shean reaches Cathair dhearg",
      "master": false,
      "year": "AE 1"
     }
@@ -1525,11 +1304,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1004",
-   "date": "5 an t-Sultain, AE 1",
+   "id": "EV-1003",
+   "date": "12 an t-Iuchar, AE 1",
    "y": 1780,
-   "m": 9,
-   "d": 5,
+   "m": 7,
+   "d": 12,
    "era": "AE",
    "ey": 1,
    "title": "Oighrig nic Leòid's letter to the council from her sickbed",
@@ -1595,33 +1374,33 @@
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "17 am Màrt, AE 1",
+     "date": "31 an Cèitean, AE 1",
      "title": "The rider from Cuan shean reaches Cathair dhearg",
      "master": false,
      "year": "AE 1"
     },
     {
-     "to": "EV-1004",
+     "to": "EV-1003",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "5 an t-Sultain, AE 1",
+     "date": "12 an t-Iuchar, AE 1",
      "title": "Oighrig nic Leòid's letter to the council from her sickbed",
      "master": false,
      "year": "AE 1"
     },
     {
-     "to": "EV-1005",
+     "to": "EV-1004",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "13 am Màrt, AE 2",
+     "date": "3 am Màrt, AE 2",
      "title": "The humans pray in a sail-loft at Cuan shean",
      "master": false,
      "year": "AE 2"
@@ -1675,11 +1454,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1005",
-   "date": "13 am Màrt, AE 2",
+   "id": "EV-1004",
+   "date": "3 am Màrt, AE 2",
    "y": 1781,
    "m": 3,
-   "d": 13,
+   "d": 3,
    "era": "AE",
    "ey": 2,
    "title": "The humans pray in a sail-loft at Cuan shean",
@@ -1735,7 +1514,7 @@
    }
   },
   {
-   "id": "EV-1006",
+   "id": "EV-1005",
    "date": "22 am Màrt, AE 2",
    "y": 1781,
    "m": 3,
@@ -1799,7 +1578,7 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-1006",
+     "to": "EV-1005",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
@@ -1835,27 +1614,27 @@
    "place_name": "Cathair dhearg",
    "links": [
     {
-     "to": "EV-2506",
+     "to": "EV-2504",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "31 an Dàmhair, AE 30",
+     "date": "15 an t-Sultain, AE 30",
      "title": "Muireall carries Gormshuil's papers to the loft at Muileann chaol",
      "master": false,
      "year": "AE 30"
     },
     {
-     "to": "EV-2507",
+     "to": "EV-2505",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "21 an Dùbhlachd, AE 31",
+     "date": "18 an Dùbhlachd, AE 31",
      "title": "Gormshuil nic Fhearchair dies at Cathair dhearg",
      "master": false,
      "year": "AE 31"
@@ -1866,11 +1645,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1007",
-   "date": "31 an Dùbhlachd, AE 2",
+   "id": "EV-1006",
+   "date": "14 an Dùbhlachd, AE 2",
    "y": 1781,
    "m": 12,
-   "d": 31,
+   "d": 14,
    "era": "AE",
    "ey": 2,
    "title": "Muireall copies the first leaf",
@@ -1933,40 +1712,40 @@
    "place_name": "Cathair dhearg",
    "links": [
     {
-     "to": "EV-1007",
+     "to": "EV-1006",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "31 an Dùbhlachd, AE 2",
+     "date": "14 an Dùbhlachd, AE 2",
      "title": "Muireall copies the first leaf",
      "master": false,
      "year": "AE 2"
     },
     {
-     "to": "EV-1510",
+     "to": "EV-1508",
      "type": "person",
      "dir": "in",
      "arrow": "◇",
      "label": "Same person",
      "age": "V",
      "era": "AE",
-     "date": "6 an t-Iuchar, AE 8",
+     "date": "5 an t-Sultain, AE 8",
      "title": "Gormshuil given a copy of the terms",
      "master": false,
      "year": "AE 8"
     },
     {
-     "to": "EV-2507",
+     "to": "EV-2505",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "21 an Dùbhlachd, AE 31",
+     "date": "18 an Dùbhlachd, AE 31",
      "title": "Gormshuil nic Fhearchair dies at Cathair dhearg",
      "master": false,
      "year": "AE 31"
@@ -1992,69 +1771,10 @@
    "master": true,
    "year": "AE 3",
    "category_name": null,
-   "links": [
-    {
-     "to": "EV-1008",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "2 an t-Ògmhios, AE 3",
-     "title": "The first bargains entered in the council roll",
-     "master": false,
-     "year": "AE 3"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-1008",
-   "date": "2 an t-Ògmhios, AE 3",
-   "y": 1782,
-   "m": 6,
-   "d": 2,
-   "era": "AE",
-   "ey": 3,
-   "title": "The first bargains entered in the council roll",
-   "body": "At the moon of the bright fire the strangers' iron, glass, lamp-oil and paper come up to the capital's market, and wool, hides, salt fish and dyed cloth go down to Cuan shean. Comhairle a' Chùraim enters the first bargains in its roll, fleece for knife and cloth for glass, with both prices in the island's reckoning. The measure is good on both sides.",
-   "place": "burg:19",
-   "kind": "trade",
-   "category": "trade",
-   "master": false,
-   "year": "AE 3",
-   "category_name": "trade and work",
-   "place_name": "Cathair dhearg",
-   "links": [
-    {
-     "to": "IV-0011",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "24 an Cèitean, AE 3",
-     "title": "Trade begins",
-     "master": true,
-     "year": "AE 3"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "gormshuil-nic-fhearchair"
-   ],
-   "told_in": {
-    "ref": "book/02_of_forty_words_for_the_colours_of_coal.md#v-of-the-chest-for-muileann-chaol",
-    "file": "book/02_of_forty_words_for_the_colours_of_coal.md",
-    "anchor": "v-of-the-chest-for-muileann-chaol",
-    "book": "Of Forty Words for the Colours of Coal",
-    "section": "V. Of the Chest for Muileann chaol",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0012",
@@ -2075,14 +1795,14 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-1011",
+     "to": "EV-1008",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "19 an Giblean, AE 5",
+     "date": "16 an Giblean, AE 5",
      "title": "Pike writes home of the island's coal",
      "master": false,
      "year": "AE 5"
@@ -2137,52 +1857,6 @@
    "told_in": null
   },
   {
-   "id": "EV-1009",
-   "date": "16 an t-Sultain, AE 3",
-   "y": 1782,
-   "m": 9,
-   "d": 16,
-   "era": "AE",
-   "ey": 3,
-   "title": "Harrow sails north-about with three hulls",
-   "body": "At the end of an Lùnastal Edmund Harrow sails from Cuan shean for an Tìr Thall with all three hulls, north-about, carrying hides and dyed cloth. He leaves Thomas Pike at Ros dhomhain with four men, the loft, the tally-book and the goods not yet traded.",
-   "place": "burg:282",
-   "kind": "humans",
-   "category": "humans",
-   "master": false,
-   "year": "AE 3",
-   "category_name": "the humans",
-   "place_name": "Cuan shean",
-   "links": [
-    {
-     "to": "IV-0016",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "16 an Dàmhair, AE 4",
-     "title": "Harrow's second voyage",
-     "master": true,
-     "year": "AE 4"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "edmund-harrow",
-    "thomas-pike"
-   ],
-   "told_in": {
-    "ref": "book/03_of_the_post_at_ros_dhomhain.md#ii-of-the-hull-in-the-shallows",
-    "file": "book/03_of_the_post_at_ros_dhomhain.md",
-    "anchor": "ii-of-the-hull-in-the-shallows",
-    "book": "Of the Post at Ros dhomhain",
-    "section": "II. Of the Hull in the Shallows",
-    "where": "era"
-   }
-  },
-  {
    "id": "IV-0014",
    "date": "17 an t-Sultain, AE 3",
    "y": 1782,
@@ -2201,20 +1875,20 @@
    "place_name": "Cathair dhearg",
    "links": [
     {
-     "to": "EV-1010",
+     "to": "EV-1007",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "20 an Dùbhlachd, AE 3",
+     "date": "23 an t-Sultain, AE 3",
      "title": "The ships' smith at the forge in Cathair dhearg",
      "master": false,
      "year": "AE 3"
     },
     {
-     "to": "EV-1012",
+     "to": "EV-1009",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -2225,20 +1899,6 @@
      "title": "Gilleasbuig Gobha forges a hinge for Pike's chest",
      "master": false,
      "year": "AE 5"
-    },
-    {
-     "to": "EV-1512",
-     "type": "legacy",
-     "dir": "in",
-     "arrow": "⇝",
-     "label": "Legacy of",
-     "age": "V",
-     "era": "AE",
-     "date": "13 an t-Samhain, AE 9",
-     "title": "The warehouse door hung",
-     "master": false,
-     "note": "the smith's bar-iron",
-     "year": "AE 9"
     }
    ],
    "threads": [],
@@ -2246,11 +1906,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1010",
-   "date": "20 an Dùbhlachd, AE 3",
+   "id": "EV-1007",
+   "date": "23 an t-Sultain, AE 3",
    "y": 1782,
-   "m": 12,
-   "d": 20,
+   "m": 9,
+   "d": 23,
    "era": "AE",
    "ey": 3,
    "title": "The ships' smith at the forge in Cathair dhearg",
@@ -2332,27 +1992,14 @@
    "place_name": "Cuan shean",
    "links": [
     {
-     "to": "EV-1009",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
-     "date": "16 an t-Sultain, AE 3",
-     "title": "Harrow sails north-about with three hulls",
-     "master": false,
-     "year": "AE 3"
-    },
-    {
-     "to": "EV-1011",
+     "to": "EV-1008",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "19 an Giblean, AE 5",
+     "date": "16 an Giblean, AE 5",
      "title": "Pike writes home of the island's coal",
      "master": false,
      "year": "AE 5"
@@ -2451,11 +2098,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1011",
-   "date": "19 an Giblean, AE 5",
+   "id": "EV-1008",
+   "date": "16 an Giblean, AE 5",
    "y": 1784,
    "m": 4,
-   "d": 19,
+   "d": 16,
    "era": "AE",
    "ey": 5,
    "title": "Pike writes home of the island's coal",
@@ -2511,7 +2158,7 @@
    }
   },
   {
-   "id": "EV-1012",
+   "id": "EV-1009",
    "date": "21 an Giblean, AE 5",
    "y": 1784,
    "m": 4,
@@ -2742,39 +2389,6 @@
    "told_in": null
   },
   {
-   "id": "EV-1504",
-   "date": "29 am Faoilleach, AE 6",
-   "y": 1785,
-   "m": 1,
-   "d": 29,
-   "era": "AE",
-   "ey": 6,
-   "title": "The storm of the wolf-moon at Baile dhìreach",
-   "body": "A three-day storm off the west drives the sea over the quay of Baile dhìreach and up the shingle towards the boats. On the second night the town and the humans haul the boats over the crest together with ropes, blocks and a capstan-bar from the slip. The salt-house chimney and half the roof of the humans' house are lost.",
-   "place": "burg:105",
-   "kind": "land",
-   "category": "land",
-   "master": false,
-   "year": "AE 6",
-   "category_name": "land and sea",
-   "place_name": "Baile dhìreach",
-   "links": [],
-   "threads": [],
-   "people": [
-    "eilidh-nic-ruairidh",
-    "samuel-hale",
-    "nathan-cobb"
-   ],
-   "told_in": {
-    "ref": "book/04_of_the_council_of_six.md#vi-of-the-turning-of-the-humans-year",
-    "file": "book/04_of_the_council_of_six.md",
-    "anchor": "vi-of-the-turning-of-the-humans-year",
-    "book": "Of the Council of Six",
-    "section": "VI. Of the Turning of the Humans' Year",
-    "where": "era"
-   }
-  },
-  {
    "id": "IV-0025",
    "date": "30 am Faoilleach, AE 6",
    "y": 1785,
@@ -2814,7 +2428,7 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-1505",
+     "to": "EV-1504",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -2848,27 +2462,13 @@
    "year": "AE 6",
    "category_name": null,
    "place_name": "Taigh-solais Tobar dhearg",
-   "links": [
-    {
-     "to": "EV-1506",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "17 an Dùbhlachd, AE 6",
-     "title": "The households of Àth dhearg asked hearth by hearth",
-     "master": false,
-     "year": "AE 6"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
   },
   {
-   "id": "EV-1505",
+   "id": "EV-1504",
    "date": "5 an Dùbhlachd, AE 6",
    "y": 1785,
    "m": 12,
@@ -2913,70 +2513,11 @@
    }
   },
   {
-   "id": "EV-1506",
-   "date": "17 an Dùbhlachd, AE 6",
+   "id": "EV-1505",
+   "date": "11 an Dùbhlachd, AE 6",
    "y": 1785,
    "m": 12,
-   "d": 17,
-   "era": "AE",
-   "ey": 6,
-   "title": "The households of Àth dhearg asked hearth by hearth",
-   "body": "The custodian of Àth dhearg will not give away the fire-shelf above the rock-cut stair, saying it belongs to the households who cut it. Torcall Clachair and James Fenn go round the hearths for eleven days. Most say yes and two say no. The third cairn is raised at the end of the shelf, and the custodian climbs up with bread.",
-   "place": "burg:258",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 6",
-   "category_name": "law and learning",
-   "place_name": "Àth dhearg",
-   "links": [
-    {
-     "to": "IV-0027",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "29 am Màrt, AE 6",
-     "title": "The beacon headlands walked",
-     "master": true,
-     "year": "AE 6"
-    },
-    {
-     "to": "I-0163",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "II",
-     "era": "GE",
-     "date": "5 an Dùbhlachd, GE 2,419",
-     "title": "The beacon at Àth dhearg",
-     "master": true,
-     "year": "GE 2,419"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "torcall-clachair",
-    "james-fenn"
-   ],
-   "told_in": {
-    "ref": "book/05_of_the_five_headlands.md#iv-of-the-eastern-cape-and-the-north-east-steps",
-    "file": "book/05_of_the_five_headlands.md",
-    "anchor": "iv-of-the-eastern-cape-and-the-north-east-steps",
-    "book": "Of the Five Headlands",
-    "section": "IV. Of the Eastern Cape and the North-East Steps",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-1507",
-   "date": "23 an Dùbhlachd, AE 6",
-   "y": 1785,
-   "m": 12,
-   "d": 23,
+   "d": 11,
    "era": "AE",
    "ey": 6,
    "title": "No fire on Binnean a' Chlachair",
@@ -3036,14 +2577,14 @@
    "place_name": "Dia-thìr",
    "links": [
     {
-     "to": "EV-1507",
+     "to": "EV-1505",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "23 an Dùbhlachd, AE 6",
+     "date": "11 an Dùbhlachd, AE 6",
      "title": "No fire on Binnean a' Chlachair",
      "master": false,
      "year": "AE 6"
@@ -3072,14 +2613,14 @@
    "place_name": "Baile dhìreach",
    "links": [
     {
-     "to": "EV-1508",
+     "to": "EV-1506",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 an Dùbhlachd, AE 7",
+     "date": "31 an Cèitean, AE 7",
      "title": "Torcall witnesses in the Dia-thìreach book",
      "master": false,
      "year": "AE 7"
@@ -3090,11 +2631,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1508",
-   "date": "27 an Dùbhlachd, AE 7",
+   "id": "EV-1506",
+   "date": "31 an Cèitean, AE 7",
    "y": 1786,
-   "m": 12,
-   "d": 27,
+   "m": 5,
+   "d": 31,
    "era": "AE",
    "ey": 7,
    "title": "Torcall witnesses in the Dia-thìreach book",
@@ -3193,27 +2734,27 @@
    "place_name": "Cathair dhearg",
    "links": [
     {
-     "to": "EV-1509",
+     "to": "EV-1507",
      "type": "parallel",
      "dir": "in",
      "arrow": "⇄",
      "label": "At the same time",
      "age": "V",
      "era": "AE",
-     "date": "20 an Cèitean, AE 8",
+     "date": "23 an t-Ògmhios, AE 8",
      "title": "Gormshuil called back from Muileann chaol",
      "master": false,
      "year": "AE 8"
     },
     {
-     "to": "EV-1510",
+     "to": "EV-1508",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "6 an t-Iuchar, AE 8",
+     "date": "5 an t-Sultain, AE 8",
      "title": "Gormshuil given a copy of the terms",
      "master": false,
      "year": "AE 8"
@@ -3224,11 +2765,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1509",
-   "date": "20 an Cèitean, AE 8",
+   "id": "EV-1507",
+   "date": "23 an t-Ògmhios, AE 8",
    "y": 1787,
-   "m": 5,
-   "d": 20,
+   "m": 6,
+   "d": 23,
    "era": "AE",
    "ey": 8,
    "title": "Gormshuil called back from Muileann chaol",
@@ -3272,11 +2813,11 @@
    }
   },
   {
-   "id": "EV-1510",
-   "date": "6 an t-Iuchar, AE 8",
+   "id": "EV-1508",
+   "date": "5 an t-Sultain, AE 8",
    "y": 1787,
-   "m": 7,
-   "d": 6,
+   "m": 9,
+   "d": 5,
    "era": "AE",
    "ey": 8,
    "title": "Gormshuil given a copy of the terms",
@@ -3332,11 +2873,11 @@
    }
   },
   {
-   "id": "EV-1511",
-   "date": "5 an t-Sultain, AE 8",
+   "id": "EV-1509",
+   "date": "22 an Dàmhair, AE 8",
    "y": 1787,
-   "m": 9,
-   "d": 5,
+   "m": 10,
+   "d": 22,
    "era": "AE",
    "ey": 8,
    "title": "The masons of the capital build for Pell",
@@ -3396,14 +2937,14 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-1511",
+     "to": "EV-1509",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "5 an t-Sultain, AE 8",
+     "date": "22 an Dàmhair, AE 8",
      "title": "The masons of the capital build for Pell",
      "master": false,
      "year": "AE 8"
@@ -3452,21 +2993,7 @@
    "year": "AE 9",
    "category_name": null,
    "place_name": "Cathair dhomhain",
-   "links": [
-    {
-     "to": "EV-1512",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "13 an t-Samhain, AE 9",
-     "title": "The warehouse door hung",
-     "master": false,
-     "year": "AE 9"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -3488,133 +3015,10 @@
    "year": "AE 9",
    "category_name": null,
    "place_name": "Cuan shean",
-   "links": [
-    {
-     "to": "EV-1513",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "20 an Dùbhlachd, AE 9",
-     "title": "The hill's coal carried to Cuan shean",
-     "master": false,
-     "year": "AE 9"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-1512",
-   "date": "13 an t-Samhain, AE 9",
-   "y": 1788,
-   "m": 11,
-   "d": 13,
-   "era": "AE",
-   "ey": 9,
-   "title": "The warehouse door hung",
-   "body": "The oak door of A' Chompanaidh's warehouse at Cathair dhomhain comes down the shore road from Cathair dhearg and is hung at dusk on strap hinges forged by Gilleasbuig Gobha in the smiths' lane below the bridge. Thomas Pike locks it with a long iron key. Tormod mac Ailein, who has walked out from the capital, watches it hung; the lake-shore roll calls it a good door.",
-   "place": "burg:26",
-   "kind": "trade",
-   "category": "trade",
-   "master": false,
-   "year": "AE 9",
-   "category_name": "trade and work",
-   "place_name": "Cathair dhomhain",
-   "links": [
-    {
-     "to": "IV-0033",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "28 an Dàmhair, AE 9",
-     "title": "The warehouse at Cathair dhomhain",
-     "master": true,
-     "year": "AE 9"
-    },
-    {
-     "to": "IV-0014",
-     "type": "legacy",
-     "dir": "out",
-     "arrow": "⇝",
-     "label": "Legacy",
-     "age": "V",
-     "era": "AE",
-     "date": "17 an t-Sultain, AE 3",
-     "title": "Iron in the smithies",
-     "master": true,
-     "note": "the smith's bar-iron",
-     "year": "AE 3"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "thomas-pike",
-    "gilleasbuig-gobha",
-    "tormod-mac-ailein"
-   ],
-   "told_in": {
-    "ref": "book/06_of_the_treaty_in_one_tongue.md#vii-of-the-door-at-cathair-dhomhain",
-    "file": "book/06_of_the_treaty_in_one_tongue.md",
-    "anchor": "vii-of-the-door-at-cathair-dhomhain",
-    "book": "Of the Treaty in One Tongue",
-    "section": "VII. Of the Door at Cathair dhomhain",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-1513",
-   "date": "20 an Dùbhlachd, AE 9",
-   "y": 1788,
-   "m": 12,
-   "d": 20,
-   "era": "AE",
-   "ey": 9,
-   "title": "The hill's coal carried to Cuan shean",
-   "body": "Eleven carriers of the hills bring the measured coal for the western hearths down from the store at Taigh na Fèithe to Cuan shean, five days on the road with ponies and a custodian's clerk. Raghnall mac Dhòmhnaill of Muileann chrom goes among them for the first time. Oighrig nic Leòid counts the baskets in by lamplight at the custodians' store.",
-   "place": "burg:282",
-   "kind": "craft",
-   "category": "coal",
-   "master": false,
-   "year": "AE 9",
-   "category_name": "coal and the vein",
-   "place_name": "Cuan shean",
-   "links": [
-    {
-     "to": "IV-0034",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "5 an t-Samhain, AE 9",
-     "title": "The strangers' fever",
-     "master": true,
-     "year": "AE 9"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "raghnall-mac-dhomhnaill",
-    "oighrig-nic-leoid"
-   ],
-   "told_in": {
-    "ref": "book/07_of_the_fever_and_the_sacks_of_coal.md#i-of-the-carriers-at-cuan-shean",
-    "file": "book/07_of_the_fever_and_the_sacks_of_coal.md",
-    "anchor": "i-of-the-carriers-at-cuan-shean",
-    "book": "Of the Fever and the Sacks of Coal",
-    "section": "I. Of the Carriers at Cuan shean",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0035",
@@ -3701,14 +3105,14 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-1514",
+     "to": "EV-1510",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "25 an Dàmhair, AE 11",
+     "date": "26 an Dàmhair, AE 11",
      "title": "Six sacks come back to Muileann chrom",
      "master": false,
      "year": "AE 11"
@@ -3736,43 +3140,30 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-1515",
+     "to": "EV-1511",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "16 an t-Samhain, AE 11",
+     "date": "8 an Dùbhlachd, AE 11",
      "title": "The first contract read at the mill",
      "master": false,
      "year": "AE 11"
     },
     {
-     "to": "EV-1516",
+     "to": "EV-1512",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 an t-Samhain, AE 11",
+     "date": "30 an Dùbhlachd, AE 11",
      "title": "Raghnall chosen to lead the thirty",
      "master": false,
      "year": "AE 11"
-    },
-    {
-     "to": "EV-2512",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "18 an Dùbhlachd, AE 41",
-     "title": "Lisle's rider gathers the papers of the hill",
-     "master": false,
-     "year": "AE 41"
     }
    ],
    "threads": [],
@@ -3798,14 +3189,14 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-1516",
+     "to": "EV-1512",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 an t-Samhain, AE 11",
+     "date": "30 an Dùbhlachd, AE 11",
      "title": "Raghnall chosen to lead the thirty",
      "master": false,
      "year": "AE 11"
@@ -3816,11 +3207,11 @@
    "told_in": null
   },
   {
-   "id": "EV-1514",
-   "date": "25 an Dàmhair, AE 11",
+   "id": "EV-1510",
+   "date": "26 an Dàmhair, AE 11",
    "y": 1790,
    "m": 10,
-   "d": 25,
+   "d": 26,
    "era": "AE",
    "ey": 11,
    "title": "Six sacks come back to Muileann chrom",
@@ -3863,11 +3254,11 @@
    }
   },
   {
-   "id": "EV-1515",
-   "date": "16 an t-Samhain, AE 11",
+   "id": "EV-1511",
+   "date": "8 an Dùbhlachd, AE 11",
    "y": 1790,
-   "m": 11,
-   "d": 16,
+   "m": 12,
+   "d": 8,
    "era": "AE",
    "ey": 11,
    "title": "The first contract read at the mill",
@@ -3910,11 +3301,11 @@
    }
   },
   {
-   "id": "EV-1516",
-   "date": "27 an t-Samhain, AE 11",
+   "id": "EV-1512",
+   "date": "30 an Dùbhlachd, AE 11",
    "y": 1790,
-   "m": 11,
-   "d": 27,
+   "m": 12,
+   "d": 30,
    "era": "AE",
    "ey": 11,
    "title": "Raghnall chosen to lead the thirty",
@@ -4247,7 +3638,7 @@
      "year": "AE 14"
     },
     {
-     "to": "EV-2511",
+     "to": "EV-2509",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -4281,21 +3672,7 @@
    "year": "AE 15",
    "category_name": null,
    "place_name": "Cnoc fhiadhaich",
-   "links": [
-    {
-     "to": "EV-2003",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "30 an Dùbhlachd, AE 15",
-     "title": "The cart-road round Doire mhòr finished",
-     "master": false,
-     "year": "AE 15"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -4319,14 +3696,14 @@
    "place_name": "Taigh-solais Tobar dhearg",
    "links": [
     {
-     "to": "EV-2004",
+     "to": "EV-2003",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "5 an Giblean, AE 16",
+     "date": "30 am Màrt, AE 16",
      "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
      "master": false,
      "year": "AE 16"
@@ -4335,51 +3712,6 @@
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-2003",
-   "date": "30 an Dùbhlachd, AE 15",
-   "y": 1794,
-   "m": 12,
-   "d": 30,
-   "era": "AE",
-   "ey": 15,
-   "title": "The cart-road round Doire mhòr finished",
-   "body": "Hill men paid in iron finish the cart-road of A' Chompanaidh from Cnoc fhiadhaich round the fields of Doire mhòr to the quay at Ceann fhada, with a timber bridge at the lower ford of the Doire mhòr stream. The first loaded carts come round the bend in the autumn.",
-   "place": "burg:101",
-   "kind": "trade",
-   "category": "trade",
-   "master": false,
-   "year": "AE 15",
-   "category_name": "trade and work",
-   "place_name": "Doire mhòr",
-   "links": [
-    {
-     "to": "IV-0047",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "28 an Gearran, AE 15",
-     "title": "The road around Doire mhòr",
-     "master": true,
-     "year": "AE 15"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [],
-   "told_in": {
-    "ref": "book/08_of_the_door_at_doire_mhor.md#vii-of-the-road-round-the-fields",
-    "file": "book/08_of_the_door_at_doire_mhor.md",
-    "anchor": "vii-of-the-road-round-the-fields",
-    "book": "Of the Door at Doire mhòr",
-    "section": "VII. Of the Road round the Fields",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0049",
@@ -4400,14 +3732,14 @@
    "place_name": "Tobar dhearg",
    "links": [
     {
-     "to": "EV-2004",
+     "to": "EV-2003",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "5 an Giblean, AE 16",
+     "date": "30 am Màrt, AE 16",
      "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
      "master": false,
      "year": "AE 16"
@@ -4418,11 +3750,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2004",
-   "date": "5 an Giblean, AE 16",
+   "id": "EV-2003",
+   "date": "30 am Màrt, AE 16",
    "y": 1795,
-   "m": 4,
-   "d": 5,
+   "m": 3,
+   "d": 30,
    "era": "AE",
    "ey": 16,
    "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
@@ -4557,86 +3889,10 @@
    "year": "AE 17",
    "category_name": null,
    "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "EV-2005",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an Dùbhlachd, AE 17",
-     "title": "Muireall's rubbing of the first mark sent to the loft",
-     "master": false,
-     "year": "AE 17"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-2005",
-   "date": "26 an Dùbhlachd, AE 17",
-   "y": 1796,
-   "m": 12,
-   "d": 26,
-   "era": "AE",
-   "ey": 17,
-   "title": "Muireall's rubbing of the first mark sent to the loft",
-   "body": "Samuel Wren brings one of the first marks to Gormshuil nic Fhearchair in the long room of the council hall. Her niece Muireall takes a rubbing of both faces, writes beneath it that the island is on neither face, and the rubbing goes east that autumn with the season's copies to the loft of Beathag nic Thòmais at Muileann chaol.",
-   "place": "burg:19",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 17",
-   "category_name": "law and learning",
-   "place_name": "Cathair dhearg",
-   "links": [
-    {
-     "to": "IV-0053",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "10 an Lùnastal, AE 17",
-     "title": "The mark and its hundred pence",
-     "master": true,
-     "year": "AE 17"
-    },
-    {
-     "to": "IV-0055",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "30 am Faoilleach, AE 18",
-     "title": "Two books at the capital market",
-     "master": true,
-     "year": "AE 18"
-    }
-   ],
-   "threads": [
-    "the-library"
-   ],
-   "people": [
-    "muireall-nic-fhearchair",
-    "gormshuil-nic-fhearchair",
-    "samuel-wren"
-   ],
-   "told_in": {
-    "ref": "book/09_of_the_mark_and_its_hundred_pence.md#ii-of-the-ship-on-the-coin",
-    "file": "book/09_of_the_mark_and_its_hundred_pence.md",
-    "anchor": "ii-of-the-ship-on-the-coin",
-    "book": "Of the Mark and Its Hundred Pence",
-    "section": "II. Of the Ship on the Coin",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0054",
@@ -4677,21 +3933,7 @@
    "year": "AE 18",
    "category_name": null,
    "place_name": "Cathair dhearg",
-   "links": [
-    {
-     "to": "EV-2005",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an Dùbhlachd, AE 17",
-     "title": "Muireall's rubbing of the first mark sent to the loft",
-     "master": false,
-     "year": "AE 17"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -4715,14 +3957,14 @@
    "place_name": "Dùn thais",
    "links": [
     {
-     "to": "EV-2006",
+     "to": "EV-2004",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "25 an Dùbhlachd, AE 18",
+     "date": "15 an Dùbhlachd, AE 18",
      "title": "Wren's letter home on the druids",
      "master": false,
      "year": "AE 18"
@@ -4733,11 +3975,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2006",
-   "date": "25 an Dùbhlachd, AE 18",
+   "id": "EV-2004",
+   "date": "15 an Dùbhlachd, AE 18",
    "y": 1797,
    "m": 12,
-   "d": 25,
+   "d": 15,
    "era": "AE",
    "ey": 18,
    "title": "Wren's letter home on the druids",
@@ -4843,14 +4085,14 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-2007",
+     "to": "EV-2005",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "29 an Dùbhlachd, AE 19",
+     "date": "31 an Dùbhlachd, AE 19",
      "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
      "master": false,
      "year": "AE 19"
@@ -4861,11 +4103,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2007",
-   "date": "29 an Dùbhlachd, AE 19",
+   "id": "EV-2005",
+   "date": "31 an Dùbhlachd, AE 19",
    "y": 1798,
    "m": 12,
-   "d": 29,
+   "d": 31,
    "era": "AE",
    "ey": 19,
    "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
@@ -4941,14 +4183,14 @@
    "place_name": "Baile ghlas",
    "links": [
     {
-     "to": "EV-2007",
+     "to": "EV-2005",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "29 an Dùbhlachd, AE 19",
+     "date": "31 an Dùbhlachd, AE 19",
      "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
      "master": false,
      "year": "AE 19"
@@ -4999,14 +4241,14 @@
    "place_name": "Cathair dhearg",
    "links": [
     {
-     "to": "EV-2008",
+     "to": "EV-2006",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "23 an Dùbhlachd, AE 20",
+     "date": "25 an Dùbhlachd, AE 20",
      "title": "Tormod mac Ailein buried at Cathair dhearg",
      "master": false,
      "year": "AE 20"
@@ -5017,11 +4259,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2008",
-   "date": "23 an Dùbhlachd, AE 20",
+   "id": "EV-2006",
+   "date": "25 an Dùbhlachd, AE 20",
    "y": 1799,
    "m": 12,
-   "d": 23,
+   "d": 25,
    "era": "AE",
    "ey": 20,
    "title": "Tormod mac Ailein buried at Cathair dhearg",
@@ -5105,14 +4347,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-2010",
+     "to": "EV-2007",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "17 an Lùnastal, AE 22",
+     "date": "23 an Lùnastal, AE 22",
      "title": "The council files the letter from Dùn dhearg",
      "master": false,
      "year": "AE 22"
@@ -5139,21 +4381,7 @@
    "year": "AE 21",
    "category_name": null,
    "place_name": "Doire mhin",
-   "links": [
-    {
-     "to": "EV-2009",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "15 an Lùnastal, AE 22",
-     "title": "Fionnghal nic Artair rides to Cathair dhearg",
-     "master": false,
-     "year": "AE 22"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -5177,27 +4405,14 @@
    "place_name": "Dùn dhearg",
    "links": [
     {
-     "to": "EV-2009",
+     "to": "EV-2007",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "15 an Lùnastal, AE 22",
-     "title": "Fionnghal nic Artair rides to Cathair dhearg",
-     "master": false,
-     "year": "AE 22"
-    },
-    {
-     "to": "EV-2010",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "17 an Lùnastal, AE 22",
+     "date": "23 an Lùnastal, AE 22",
      "title": "The council files the letter from Dùn dhearg",
      "master": false,
      "year": "AE 22"
@@ -5208,69 +4423,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2009",
-   "date": "15 an Lùnastal, AE 22",
+   "id": "EV-2007",
+   "date": "23 an Lùnastal, AE 22",
    "y": 1801,
    "m": 8,
-   "d": 15,
-   "era": "AE",
-   "ey": 22,
-   "title": "Fionnghal nic Artair rides to Cathair dhearg",
-   "body": "In an t-Ògmhios Fionnghal nic Artair rides west from Dùn dhearg with her letter in defence of the Small-Burning Law sewn in calfskin. She lodges at Doire mhin, where the custodian Anndra mac Eòin shows her the last count of the valley, and reads him the letter by his lamp.",
-   "place": "burg:422",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 22",
-   "category_name": "law and learning",
-   "place_name": "Dùn dhearg",
-   "links": [
-    {
-     "to": "IV-0064",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "31 an Dùbhlachd, AE 21",
-     "title": "The last count at Doire mhin",
-     "master": true,
-     "year": "AE 21"
-    },
-    {
-     "to": "IV-0065",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "11 an t-Ògmhios, AE 22",
-     "title": "A defence of the Law at Dùn dhearg",
-     "master": true,
-     "year": "AE 22"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "fionnghal-nic-artair"
-   ],
-   "told_in": {
-    "ref": "book/10_of_the_law_that_went_out.md#iii-of-the-letter-and-the-road-west",
-    "file": "book/10_of_the_law_that_went_out.md",
-    "anchor": "iii-of-the-letter-and-the-road-west",
-    "book": "Of the Law That Went Out",
-    "section": "III. Of the Letter and the Road West",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-2010",
-   "date": "17 an Lùnastal, AE 22",
-   "y": 1801,
-   "m": 8,
-   "d": 17,
+   "d": 23,
    "era": "AE",
    "ey": 22,
    "title": "The council files the letter from Dùn dhearg",
@@ -5347,14 +4504,14 @@
    "place_name": "Seann Skell",
    "links": [
     {
-     "to": "EV-2011",
+     "to": "EV-2008",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "1 an Lùnastal, AE 23",
+     "date": "28 an t-Ògmhios, AE 23",
      "title": "The Company's agents seize the hawk sermon in the camps",
      "master": false,
      "year": "AE 23"
@@ -5387,11 +4544,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2011",
-   "date": "1 an Lùnastal, AE 23",
+   "id": "EV-2008",
+   "date": "28 an t-Ògmhios, AE 23",
    "y": 1802,
-   "m": 8,
-   "d": 1,
+   "m": 6,
+   "d": 28,
    "era": "AE",
    "ey": 23,
    "title": "The Company's agents seize the hawk sermon in the camps",
@@ -5497,14 +4654,14 @@
    "place_name": "Cathair fhada",
    "links": [
     {
-     "to": "EV-2012",
+     "to": "EV-2009",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "20 an Cèitean, AE 24",
+     "date": "20 an Giblean, AE 24",
      "title": "The last oak of Cathair fhada's own cutting",
      "master": false,
      "year": "AE 24"
@@ -5515,10 +4672,10 @@
    "told_in": null
   },
   {
-   "id": "EV-2012",
-   "date": "20 an Cèitean, AE 24",
+   "id": "EV-2009",
+   "date": "20 an Giblean, AE 24",
    "y": 1803,
-   "m": 5,
+   "m": 4,
    "d": 20,
    "era": "AE",
    "ey": 24,
@@ -5588,19 +4745,6 @@
      "era": "AE",
      "date": "3 an Dàmhair, AE 25",
      "title": "The eleven buried at Muileann chrom",
-     "master": false,
-     "year": "AE 25"
-    },
-    {
-     "to": "EV-2502",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "4 an t-Samhain, AE 25",
-     "title": "Raghnall asks three times for timber at the heading",
      "master": false,
      "year": "AE 25"
     }
@@ -5705,54 +4849,6 @@
    "told_in": null
   },
   {
-   "id": "EV-2502",
-   "date": "4 an t-Samhain, AE 25",
-   "y": 1804,
-   "m": 11,
-   "d": 4,
-   "era": "AE",
-   "ey": 25,
-   "title": "Raghnall asks three times for timber at the heading",
-   "body": "Between an Gearran and an Giblean the crew-leaders Raghnall mac Dhòmhnaill and Ailean mac Dhùghaill ask the agent at Cnoc fhiadhaich three times for props over the heading, where the shale roof has turned the colour the hewers read as bad ground. The agent writes the asking in his book and answers that oak will come in the summer.",
-   "place": "burg:280",
-   "kind": "craft",
-   "category": "coal",
-   "master": false,
-   "year": "AE 25",
-   "category_name": "coal and the vein",
-   "place_name": "Cnoc fhiadhaich",
-   "links": [
-    {
-     "to": "IV-0071",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an Giblean, AE 25",
-     "title": "The first deaths of haste",
-     "master": true,
-     "year": "AE 25"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "raghnall-mac-dhomhnaill",
-    "ailean-mac-dhughaill"
-   ],
-   "told_in": {
-    "ref": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#ii-of-the-colour-in-the-roof",
-    "file": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md",
-    "anchor": "ii-of-the-colour-in-the-roof",
-    "book": "Of the Eleven of Cnoc fhiadhaich",
-    "section": "II. Of the Colour in the Roof",
-    "where": "era"
-   }
-  },
-  {
    "id": "IV-0073",
    "date": "11 an Gearran, AE 26",
    "y": 1805,
@@ -5771,14 +4867,14 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-2503",
+     "to": "EV-2502",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "26 an t-Samhain, AE 26",
+     "date": "27 an Dàmhair, AE 26",
      "title": "Dòmhnall mac Raghnaill at the pit-mouth",
      "master": false,
      "year": "AE 26"
@@ -5789,11 +4885,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2503",
-   "date": "26 an t-Samhain, AE 26",
+   "id": "EV-2502",
+   "date": "27 an Dàmhair, AE 26",
    "y": 1805,
-   "m": 11,
-   "d": 26,
+   "m": 10,
+   "d": 27,
    "era": "AE",
    "ey": 26,
    "title": "Dòmhnall mac Raghnaill at the pit-mouth",
@@ -5876,14 +4972,14 @@
    "place_name": "Taigh-solais Baile ìseal",
    "links": [
     {
-     "to": "EV-2504",
+     "to": "EV-2503",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "9 an Dàmhair, AE 28",
+     "date": "19 an Cèitean, AE 28",
      "title": "Torcall Clachair's last cairn",
      "master": false,
      "year": "AE 28"
@@ -5912,14 +5008,14 @@
    "place_name": "Baile ìseal",
    "links": [
     {
-     "to": "EV-2504",
+     "to": "EV-2503",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "9 an Dàmhair, AE 28",
+     "date": "19 an Cèitean, AE 28",
      "title": "Torcall Clachair's last cairn",
      "master": false,
      "year": "AE 28"
@@ -5930,11 +5026,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2504",
-   "date": "9 an Dàmhair, AE 28",
+   "id": "EV-2503",
+   "date": "19 an Cèitean, AE 28",
    "y": 1807,
-   "m": 10,
-   "d": 9,
+   "m": 5,
+   "d": 19,
    "era": "AE",
    "ey": 28,
    "title": "Torcall Clachair's last cairn",
@@ -6050,20 +5146,7 @@
    "place_name": "Doire mhòr",
    "links": [
     {
-     "to": "EV-2505",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "12 an Lùnastal, AE 30",
-     "title": "Doire mhòr carries its water from the cattle spring",
-     "master": false,
-     "year": "AE 30"
-    },
-    {
-     "to": "EV-2511",
+     "to": "EV-2509",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -6079,55 +5162,6 @@
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-2505",
-   "date": "12 an Lùnastal, AE 30",
-   "y": 1809,
-   "m": 8,
-   "d": 12,
-   "era": "AE",
-   "ey": 30,
-   "title": "Doire mhòr carries its water from the cattle spring",
-   "body": "With the stream penned behind the washing gang's bank, the households of Doire mhòr carry their water by yoke and pail from the cattle spring at the foot of the brae, the better part of a mile each way. Beathag Dhubh's roll names every household that carries, and among the carriers is Tormod, son of Ruairidh.",
-   "place": "burg:101",
-   "kind": "land",
-   "category": "land",
-   "master": false,
-   "year": "AE 30",
-   "category_name": "land and sea",
-   "place_name": "Doire mhòr",
-   "links": [
-    {
-     "to": "IV-0078",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "23 an t-Iuchar, AE 30",
-     "title": "Doire mhòr's water taken",
-     "master": true,
-     "year": "AE 30"
-    }
-   ],
-   "threads": [
-    "line-of-aisling",
-    "the-company"
-   ],
-   "people": [
-    "beathag-dhubh",
-    "tormod"
-   ],
-   "told_in": {
-    "ref": "book/12_of_the_green_river_run_black.md#i-of-the-stream-at-doire-mhor",
-    "file": "book/12_of_the_green_river_run_black.md",
-    "anchor": "i-of-the-stream-at-doire-mhor",
-    "book": "Of the Green River Run Black",
-    "section": "I. Of the Stream at Doire mhòr",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0079",
@@ -6152,11 +5186,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2506",
-   "date": "31 an Dàmhair, AE 30",
+   "id": "EV-2504",
+   "date": "15 an t-Sultain, AE 30",
    "y": 1809,
-   "m": 10,
-   "d": 31,
+   "m": 9,
+   "d": 15,
    "era": "AE",
    "ey": 30,
    "title": "Muireall carries Gormshuil's papers to the loft at Muileann chaol",
@@ -6267,11 +5301,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2507",
-   "date": "21 an Dùbhlachd, AE 31",
+   "id": "EV-2505",
+   "date": "18 an Dùbhlachd, AE 31",
    "y": 1810,
    "m": 12,
-   "d": 21,
+   "d": 18,
    "era": "AE",
    "ey": 31,
    "title": "Gormshuil nic Fhearchair dies at Cathair dhearg",
@@ -6415,11 +5449,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2508",
-   "date": "8 an Dùbhlachd, AE 33",
+   "id": "EV-2506",
+   "date": "10 an Dùbhlachd, AE 33",
    "y": 1812,
    "m": 12,
-   "d": 8,
+   "d": 10,
    "era": "AE",
    "ey": 33,
    "title": "Seònaid Bhàn marries Pàdraig mac Artair",
@@ -6501,14 +5535,14 @@
    "place_name": "An Taigh-seinnse Mòr",
    "links": [
     {
-     "to": "EV-2508",
+     "to": "EV-2506",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "8 an Dùbhlachd, AE 33",
+     "date": "10 an Dùbhlachd, AE 33",
      "title": "Seònaid Bhàn marries Pàdraig mac Artair",
      "master": false,
      "year": "AE 33"
@@ -6622,21 +5656,7 @@
    "master": true,
    "year": "AE 36",
    "category_name": null,
-   "links": [
-    {
-     "to": "EV-2512",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "18 an Dùbhlachd, AE 41",
-     "title": "Lisle's rider gathers the papers of the hill",
-     "master": false,
-     "year": "AE 41"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -6660,14 +5680,14 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-2509",
+     "to": "EV-2507",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "16 an Dùbhlachd, AE 36",
+     "date": "22 an t-Ògmhios, AE 36",
      "title": "Raghnall's slate-roofed house",
      "master": false,
      "year": "AE 36"
@@ -6678,11 +5698,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2509",
-   "date": "16 an Dùbhlachd, AE 36",
+   "id": "EV-2507",
+   "date": "22 an t-Ògmhios, AE 36",
    "y": 1815,
-   "m": 12,
-   "d": 16,
+   "m": 6,
+   "d": 22,
    "era": "AE",
    "ey": 36,
    "title": "Raghnall's slate-roofed house",
@@ -6765,14 +5785,14 @@
    "place_name": "Cnoc mhòr",
    "links": [
     {
-     "to": "EV-2510",
+     "to": "EV-2508",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "28 an Lùnastal, AE 38",
+     "date": "8 an t-Sultain, AE 38",
      "title": "The two hanged named in the custodians' roll",
      "master": false,
      "year": "AE 38"
@@ -6783,11 +5803,11 @@
    "told_in": null
   },
   {
-   "id": "EV-2510",
-   "date": "28 an Lùnastal, AE 38",
+   "id": "EV-2508",
+   "date": "8 an t-Sultain, AE 38",
    "y": 1817,
-   "m": 8,
-   "d": 28,
+   "m": 9,
+   "d": 8,
    "era": "AE",
    "ey": 38,
    "title": "The two hanged named in the custodians' roll",
@@ -6935,27 +5955,13 @@
    "year": "AE 41",
    "category_name": null,
    "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "EV-2512",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "18 an Dùbhlachd, AE 41",
-     "title": "Lisle's rider gathers the papers of the hill",
-     "master": false,
-     "year": "AE 41"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
   },
   {
-   "id": "EV-2511",
+   "id": "EV-2509",
    "date": "9 an Lùnastal, AE 41",
    "y": 1820,
    "m": 8,
@@ -7011,81 +6017,6 @@
     "anchor": "viii-of-the-last-door-at-doire-mhor",
     "book": "Of Raghnall Maor",
     "section": "VIII. Of the Last Door at Doire mhòr",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-2512",
-   "date": "18 an Dùbhlachd, AE 41",
-   "y": 1820,
-   "m": 12,
-   "d": 18,
-   "era": "AE",
-   "ey": 41,
-   "title": "Lisle's rider gathers the papers of the hill",
-   "body": "Under Arthur Lisle's first order a rider of Riaghaltas nan Coigreach takes the papers of the pits at Muileann chrom down to Ros dhomhain: the contract of the first thirty and the paper of Raghnall's leader's share. Asked for the agreement that gave the overseers their staffs, Enoch Pratt finds that there is none.",
-   "place": "burg:354",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 41",
-   "category_name": "law and learning",
-   "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "IV-0099",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "28 an t-Iuchar, AE 41",
-     "title": "Arthur Lisle Commissioner",
-     "master": true,
-     "year": "AE 41"
-    },
-    {
-     "to": "IV-0039",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "19 an t-Sultain, AE 11",
-     "title": "The first mining contracts",
-     "master": true,
-     "year": "AE 11"
-    },
-    {
-     "to": "IV-0091",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "19 an Cèitean, AE 36",
-     "title": "The first Dia-thìreach overseer",
-     "master": true,
-     "year": "AE 36"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "arthur-lisle",
-    "enoch-pratt",
-    "raghnall-mac-dhomhnaill"
-   ],
-   "told_in": {
-    "ref": "book/13_of_raghnall_maor.md#ix-of-the-bound-book",
-    "file": "book/13_of_raghnall_maor.md",
-    "anchor": "ix-of-the-bound-book",
-    "book": "Of Raghnall Maor",
-    "section": "IX. Of the Bound Book",
     "where": "era"
    }
   },
@@ -7197,84 +6128,10 @@
    "year": "AE 43",
    "category_name": null,
    "place_name": "Muileann chiar — baile mèinne airgid",
-   "links": [
-    {
-     "to": "EV-3002",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "25 an Dàmhair, AE 43",
-     "title": "The surveyor's report reaches Taigh an Àrd-mhaoir",
-     "master": false,
-     "year": "AE 43"
-    },
-    {
-     "to": "EV-3006",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "28 an t-Samhain, AE 46",
-     "title": "A' Chompanaidh charges Comann an Airgid with the burning",
-     "master": false,
-     "year": "AE 46"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-3002",
-   "date": "25 an Dàmhair, AE 43",
-   "y": 1822,
-   "m": 10,
-   "d": 25,
-   "era": "AE",
-   "ey": 43,
-   "title": "The surveyor's report reaches Taigh an Àrd-mhaoir",
-   "body": "The chief surveyor reports to Taigh an Àrd-mhaoir that the whole of Muileann chiar met him at the working, silent, and that he found no grant or payment to A' Chompanaidh in either of the guild's books and did not think it prudent to proceed. Lisle writes beneath it that he would not have found it either, and sends for the bound book.",
-   "place": "burg:27",
-   "kind": "humans",
-   "category": "humans",
-   "master": false,
-   "year": "AE 43",
-   "category_name": "the humans",
-   "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "IV-0102",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "31 am Màrt, AE 43",
-     "title": "Ùna nic Choinnich and the silver guild",
-     "master": true,
-     "year": "AE 43"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "arthur-lisle"
-   ],
-   "told_in": {
-    "ref": "book/14_of_the_ledgers_at_the_adit.md#v-of-what-the-lawyer-found",
-    "file": "book/14_of_the_ledgers_at_the_adit.md",
-    "anchor": "v-of-what-the-lawyer-found",
-    "book": "Of the Ledgers at the Adit",
-    "section": "V. Of What the Lawyer Found",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0103",
@@ -7295,14 +6152,14 @@
    "place_name": "Muileann chiar — baile mèinne airgid",
    "links": [
     {
-     "to": "EV-3004",
+     "to": "EV-3003",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "26 an t-Ògmhios, AE 45",
+     "date": "22 an Giblean, AE 45",
      "title": "Ùna locks the compact in the guild chest",
      "master": false,
      "year": "AE 45"
@@ -7313,11 +6170,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3003",
-   "date": "21 an t-Ògmhios, AE 44",
+   "id": "EV-3002",
+   "date": "17 an Cèitean, AE 44",
    "y": 1823,
-   "m": 6,
-   "d": 21,
+   "m": 5,
+   "d": 17,
    "era": "AE",
    "ey": 44,
    "title": "The council's copies returned from Muileann chiar",
@@ -7388,11 +6245,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3004",
-   "date": "26 an t-Ògmhios, AE 45",
+   "id": "EV-3003",
+   "date": "22 an Giblean, AE 45",
    "y": 1824,
-   "m": 6,
-   "d": 26,
+   "m": 4,
+   "d": 22,
    "era": "AE",
    "ey": 45,
    "title": "Ùna locks the compact in the guild chest",
@@ -7495,6 +6352,19 @@
    "place_name": "Spùinneadairean-mara",
    "links": [
     {
+     "to": "EV-3004",
+     "type": "sequel",
+     "dir": "in",
+     "arrow": "←",
+     "label": "Leads to",
+     "age": "V",
+     "era": "AE",
+     "date": "16 an t-Samhain, AE 46",
+     "title": "The keeper of Àth dhearg sees the burning collier",
+     "master": false,
+     "year": "AE 46"
+    },
+    {
      "to": "EV-3005",
      "type": "sequel",
      "dir": "in",
@@ -7503,32 +6373,6 @@
      "age": "V",
      "era": "AE",
      "date": "18 an t-Samhain, AE 46",
-     "title": "The keeper of Àth dhearg sees the burning collier",
-     "master": false,
-     "year": "AE 46"
-    },
-    {
-     "to": "EV-3006",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "28 an t-Samhain, AE 46",
-     "title": "A' Chompanaidh charges Comann an Airgid with the burning",
-     "master": false,
-     "year": "AE 46"
-    },
-    {
-     "to": "EV-3007",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "21 an Dùbhlachd, AE 46",
      "title": "The keeper will not write the black boats",
      "master": false,
      "year": "AE 46"
@@ -7539,11 +6383,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3005",
-   "date": "18 an t-Samhain, AE 46",
+   "id": "EV-3004",
+   "date": "16 an t-Samhain, AE 46",
    "y": 1825,
    "m": 11,
-   "d": 18,
+   "d": 16,
    "era": "AE",
    "ey": 46,
    "title": "The keeper of Àth dhearg sees the burning collier",
@@ -7586,71 +6430,11 @@
    }
   },
   {
-   "id": "EV-3006",
-   "date": "28 an t-Samhain, AE 46",
+   "id": "EV-3005",
+   "date": "18 an t-Samhain, AE 46",
    "y": 1825,
    "m": 11,
-   "d": 28,
-   "era": "AE",
-   "ey": 46,
-   "title": "A' Chompanaidh charges Comann an Airgid with the burning",
-   "body": "Within a month of the burning the agents of A' Chompanaidh say at Seann Bhral and Ros dhomhain, and write to Arthur Lisle, that Comann an Airgid paid the raiders in spite for the surveyors turned back from the adit at Muileann chiar. The guild makes no answer.",
-   "place": "burg:110",
-   "kind": "humans",
-   "category": "humans",
-   "master": false,
-   "year": "AE 46",
-   "category_name": "the humans",
-   "place_name": "Seann Bhral",
-   "links": [
-    {
-     "to": "IV-0108",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "20 an Dàmhair, AE 46",
-     "title": "Pirates off the eastern coast",
-     "master": true,
-     "year": "AE 46"
-    },
-    {
-     "to": "IV-0102",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "31 am Màrt, AE 43",
-     "title": "Ùna nic Choinnich and the silver guild",
-     "master": true,
-     "year": "AE 43"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "arthur-lisle"
-   ],
-   "told_in": {
-    "ref": "book/15_of_the_keepers_daybook.md#iv-of-the-glow-in-the-south",
-    "file": "book/15_of_the_keepers_daybook.md",
-    "anchor": "iv-of-the-glow-in-the-south",
-    "book": "Of the Keeper's Daybook",
-    "section": "IV. Of the Glow in the South",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-3007",
-   "date": "21 an Dùbhlachd, AE 46",
-   "y": 1825,
-   "m": 12,
-   "d": 21,
+   "d": 18,
    "era": "AE",
    "ey": 46,
    "title": "The keeper will not write the black boats",
@@ -7693,11 +6477,11 @@
    }
   },
   {
-   "id": "EV-3008",
-   "date": "23 an Dùbhlachd, AE 46",
+   "id": "EV-3006",
+   "date": "21 an Dùbhlachd, AE 46",
    "y": 1825,
    "m": 12,
-   "d": 23,
+   "d": 21,
    "era": "AE",
    "ey": 46,
    "title": "The gunboat entered at Àth dhearg",
@@ -7758,14 +6542,14 @@
    "place_name": "Ceann leathan",
    "links": [
     {
-     "to": "EV-3008",
+     "to": "EV-3006",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "23 an Dùbhlachd, AE 46",
+     "date": "21 an Dùbhlachd, AE 46",
      "title": "The gunboat entered at Àth dhearg",
      "master": false,
      "year": "AE 46"
@@ -7926,14 +6710,14 @@
    "place_name": "Cathair gheal",
    "links": [
     {
-     "to": "EV-3009",
+     "to": "EV-3007",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "3 an t-Ògmhios, AE 50",
+     "date": "25 an t-Ògmhios, AE 50",
      "title": "Eachann Mòr loses his seat",
      "master": false,
      "year": "AE 50"
@@ -7944,11 +6728,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3009",
-   "date": "3 an t-Ògmhios, AE 50",
+   "id": "EV-3007",
+   "date": "25 an t-Ògmhios, AE 50",
    "y": 1829,
    "m": 6,
-   "d": 3,
+   "d": 25,
    "era": "AE",
    "ey": 50,
    "title": "Eachann Mòr loses his seat",
@@ -8088,40 +6872,40 @@
    "place_name": "Ceann àrsaidh",
    "links": [
     {
-     "to": "EV-3009",
+     "to": "EV-3007",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "3 an t-Ògmhios, AE 50",
+     "date": "25 an t-Ògmhios, AE 50",
      "title": "Eachann Mòr loses his seat",
      "master": false,
      "year": "AE 50"
     },
     {
-     "to": "EV-3010",
+     "to": "EV-3008",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "26 an t-Sultain, AE 51",
+     "date": "3 an t-Iuchar, AE 51",
      "title": "Eachann Mòr's first letter over the sea",
      "master": false,
      "year": "AE 51"
     },
     {
-     "to": "EV-3012",
+     "to": "EV-3009",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 am Faoilleach, AE 54",
+     "date": "19 am Faoilleach, AE 54",
      "title": "The passenger line read at the Company's counter",
      "master": false,
      "year": "AE 54"
@@ -8150,14 +6934,14 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-3010",
+     "to": "EV-3008",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "26 an t-Sultain, AE 51",
+     "date": "3 an t-Iuchar, AE 51",
      "title": "Eachann Mòr's first letter over the sea",
      "master": false,
      "year": "AE 51"
@@ -8168,11 +6952,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3010",
-   "date": "26 an t-Sultain, AE 51",
+   "id": "EV-3008",
+   "date": "3 an t-Iuchar, AE 51",
    "y": 1830,
-   "m": 9,
-   "d": 26,
+   "m": 7,
+   "d": 3,
    "era": "AE",
    "ey": 51,
    "title": "Eachann Mòr's first letter over the sea",
@@ -8288,73 +7072,10 @@
    "year": "AE 53",
    "category_name": null,
    "place_name": "Drochaid Ros fhionn",
-   "links": [
-    {
-     "to": "EV-3011",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "7 an t-Iuchar, AE 53",
-     "title": "The students at Drochaid Ros fhionn",
-     "master": false,
-     "year": "AE 53"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-3011",
-   "date": "7 an t-Iuchar, AE 53",
-   "y": 1832,
-   "m": 7,
-   "d": 7,
-   "era": "AE",
-   "ey": 53,
-   "title": "The students at Drochaid Ros fhionn",
-   "body": "Aonghas mac Coinnich takes the students of Dùn thais to watch the first coal-carts cross the rebuilt bridge at Ros fhionn, forty in an afternoon. The island's drivers throw down lumps for them to name; the two human drivers look at their loads as at stones. Ailean Clachair's sign stays in the keystone.",
-   "place": "marker:4",
-   "kind": "rite",
-   "category": "faith",
-   "master": false,
-   "year": "AE 53",
-   "category_name": "faith and myth",
-   "place_name": "Drochaid Ros fhionn",
-   "links": [
-    {
-     "to": "IV-0123",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "1 an Giblean, AE 53",
-     "title": "Drochaid Ros fhionn",
-     "master": true,
-     "year": "AE 53"
-    }
-   ],
-   "threads": [
-    "the-company",
-    "the-seven-coals"
-   ],
-   "people": [
-    "aonghas-mac-coinnich",
-    "seumas-mac-artair"
-   ],
-   "told_in": {
-    "ref": "book/16_of_the_question_at_dun_thais.md#vii-of-the-coal-road-in-the-east",
-    "file": "book/16_of_the_question_at_dun_thais.md",
-    "anchor": "vii-of-the-coal-road-in-the-east",
-    "book": "Of the Question at Dùn thais",
-    "section": "VII. Of the Coal Road in the East",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0124",
@@ -8397,14 +7118,14 @@
    "place_name": "Baile mhin",
    "links": [
     {
-     "to": "EV-3012",
+     "to": "EV-3009",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 am Faoilleach, AE 54",
+     "date": "19 am Faoilleach, AE 54",
      "title": "The passenger line read at the Company's counter",
      "master": false,
      "year": "AE 54"
@@ -8415,11 +7136,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3012",
-   "date": "27 am Faoilleach, AE 54",
+   "id": "EV-3009",
+   "date": "19 am Faoilleach, AE 54",
    "y": 1833,
    "m": 1,
-   "d": 27,
+   "d": 19,
    "era": "AE",
    "ey": 54,
    "title": "The passenger line read at the Company's counter",
@@ -8691,28 +7412,15 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-3013",
+     "to": "EV-3010",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "17 an Lùnastal, AE 59",
+     "date": "12 an t-Sultain, AE 59",
      "title": "The Company's surgeon visits once",
-     "master": false,
-     "year": "AE 59"
-    },
-    {
-     "to": "EV-3014",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "2 an t-Samhain, AE 59",
-     "title": "Colby's roll of the dead by name",
      "master": false,
      "year": "AE 59"
     }
@@ -8722,60 +7430,15 @@
    "told_in": null
   },
   {
-   "id": "EV-3013",
-   "date": "17 an Lùnastal, AE 59",
+   "id": "EV-3010",
+   "date": "12 an t-Sultain, AE 59",
    "y": 1838,
-   "m": 8,
-   "d": 17,
+   "m": 9,
+   "d": 12,
    "era": "AE",
    "ey": 59,
    "title": "The Company's surgeon visits once",
    "body": "The Company's own surgeon comes to the chapel door at Ros dhomhain, will not step past the threshold, and tells Colby she would do better to let the sick lie where they were found. He sends, before he leaves the harbour, a case of salts and does not come again.",
-   "place": "burg:26",
-   "kind": "humans",
-   "category": "humans",
-   "master": false,
-   "year": "AE 59",
-   "category_name": "the humans",
-   "place_name": "Cathair dhomhain",
-   "links": [
-    {
-     "to": "IV-0133",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "6 an t-Iuchar, AE 59",
-     "title": "The flux at Ros dhomhain",
-     "master": true,
-     "year": "AE 59"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "anne-colby"
-   ],
-   "told_in": {
-    "ref": "book/17_of_the_tithe_and_the_flux.md#iii-of-the-sick-house-in-the-chapel",
-    "file": "book/17_of_the_tithe_and_the_flux.md",
-    "anchor": "iii-of-the-sick-house-in-the-chapel",
-    "book": "Of the Tithe and the Flux",
-    "section": "III. Of the Sick-House in the Chapel",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-3014",
-   "date": "2 an t-Samhain, AE 59",
-   "y": 1838,
-   "m": 11,
-   "d": 2,
-   "era": "AE",
-   "ey": 59,
-   "title": "Colby's roll of the dead by name",
-   "body": "Each evening Anne Colby sits at the chapel door with the custodians' own roll open on her knee and a clerk's boy to read her the entries, and sets down against every name who lived and who died, in English, in a column she turns round on the table for the custodians to see is kept.",
    "place": "burg:26",
    "kind": "humans",
    "category": "humans",
@@ -8874,14 +7537,14 @@
    "place_name": "Ceann mhin",
    "links": [
     {
-     "to": "EV-3015",
+     "to": "EV-3011",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "30 an t-Samhain, AE 61",
+     "date": "13 an Dàmhair, AE 61",
      "title": "Uisdean Ruadh's first walk to Ceann mhin",
      "master": false,
      "year": "AE 61"
@@ -8892,11 +7555,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3015",
-   "date": "30 an t-Samhain, AE 61",
+   "id": "EV-3011",
+   "date": "13 an Dàmhair, AE 61",
    "y": 1840,
-   "m": 11,
-   "d": 30,
+   "m": 10,
+   "d": 13,
    "era": "AE",
    "ey": 61,
    "title": "Uisdean Ruadh's first walk to Ceann mhin",
@@ -8955,14 +7618,14 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-3016",
+     "to": "EV-3012",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "16 an Dàmhair, AE 62",
+     "date": "24 an t-Sultain, AE 62",
      "title": "Raghnall Maor buried beside the eleven",
      "master": false,
      "year": "AE 62"
@@ -8973,11 +7636,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3016",
-   "date": "16 an Dàmhair, AE 62",
+   "id": "EV-3012",
+   "date": "24 an t-Sultain, AE 62",
    "y": 1841,
-   "m": 10,
-   "d": 16,
+   "m": 9,
+   "d": 24,
    "era": "AE",
    "ey": 62,
    "title": "Raghnall Maor buried beside the eleven",
@@ -9035,85 +7698,10 @@
    "year": "AE 63",
    "category_name": null,
    "place_name": "Taigh-solais Muileann bheag",
-   "links": [
-    {
-     "to": "EV-3501",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "9 an t-Samhain, AE 63",
-     "title": "Ailig mac Griogair shows Lowe the coloured water",
-     "master": false,
-     "year": "AE 63"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-3501",
-   "date": "9 an t-Samhain, AE 63",
-   "y": 1842,
-   "m": 11,
-   "d": 9,
-   "era": "AE",
-   "ey": 63,
-   "title": "Ailig mac Griogair shows Lowe the coloured water",
-   "body": "The keeper Ailig mac Griogair takes Lowe up the beacon stair and points out a green colour he says lies on the water beneath the flame, further than the beam itself should carry. Lowe looks a long while and sees only firelight on the swell, and writes that he cannot see what the keeper sees.",
-   "place": "burg:327",
-   "kind": "craft",
-   "category": "coal",
-   "master": false,
-   "year": "AE 63",
-   "category_name": "coal and the vein",
-   "place_name": "Muileann bheag",
-   "links": [
-    {
-     "to": "IV-0138",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "11 an Gearran, AE 63",
-     "title": "Taigh-solais Muileann bheag lit",
-     "master": true,
-     "year": "AE 63"
-    },
-    {
-     "to": "IV-0139",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "13 am Faoilleach, AE 64",
-     "title": "The fishermen of Muileann bheag",
-     "master": true,
-     "year": "AE 64"
-    }
-   ],
-   "threads": [
-    "the-seven-coals"
-   ],
-   "people": [
-    "edwin-lowe",
-    "ailig-mac-griogair"
-   ],
-   "told_in": {
-    "ref": "book/18_of_lowes_spade.md#i-of-the-coloured-flame-at-muileann-bheag",
-    "file": "book/18_of_lowes_spade.md",
-    "anchor": "i-of-the-coloured-flame-at-muileann-bheag",
-    "book": "Of Lowe's Spade",
-    "section": "I. Of the Coloured Flame at Muileann bheag",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0139",
@@ -9135,26 +7723,13 @@
    "links": [
     {
      "to": "EV-3501",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
-     "date": "9 an t-Samhain, AE 63",
-     "title": "Ailig mac Griogair shows Lowe the coloured water",
-     "master": false,
-     "year": "AE 63"
-    },
-    {
-     "to": "EV-3502",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "15 an Gearran, AE 64",
+     "date": "8 an Giblean, AE 64",
      "title": "The keeper's son answers Lowe on the point",
      "master": false,
      "year": "AE 64"
@@ -9165,11 +7740,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3502",
-   "date": "15 an Gearran, AE 64",
+   "id": "EV-3501",
+   "date": "8 an Giblean, AE 64",
    "y": 1843,
-   "m": 2,
-   "d": 15,
+   "m": 4,
+   "d": 8,
    "era": "AE",
    "ey": 64,
    "title": "The keeper's son answers Lowe on the point",
@@ -9230,14 +7805,14 @@
    "place_name": "Làrach an Teampaill",
    "links": [
     {
-     "to": "EV-3503",
+     "to": "EV-3502",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "25 an Dàmhair, AE 64",
+     "date": "9 an Lùnastal, AE 64",
      "title": "Griogal Odhar on Mòd and the older ground",
      "master": false,
      "year": "AE 64"
@@ -9248,11 +7823,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3503",
-   "date": "25 an Dàmhair, AE 64",
+   "id": "EV-3502",
+   "date": "9 an Lùnastal, AE 64",
    "y": 1843,
-   "m": 10,
-   "d": 25,
+   "m": 8,
+   "d": 9,
    "era": "AE",
    "ey": 64,
    "title": "Griogal Odhar on Mòd and the older ground",
@@ -9356,14 +7931,14 @@
    "place_name": "Baile Mòr dhìreach",
    "links": [
     {
-     "to": "EV-3504",
+     "to": "EV-3503",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "19 an Lùnastal, AE 66",
+     "date": "1 an Dùbhlachd, AE 66",
      "title": "Cairistìona nic Griogair sees the first pane",
      "master": false,
      "year": "AE 66"
@@ -9374,11 +7949,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3504",
-   "date": "19 an Lùnastal, AE 66",
+   "id": "EV-3503",
+   "date": "1 an Dùbhlachd, AE 66",
    "y": 1845,
-   "m": 8,
-   "d": 19,
+   "m": 12,
+   "d": 1,
    "era": "AE",
    "ey": 66,
    "title": "Cairistìona nic Griogair sees the first pane",
@@ -9503,14 +8078,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-3507",
+     "to": "EV-3506",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "22 an Dùbhlachd, AE 71",
+     "date": "15 an t-Ògmhios, AE 71",
      "title": "The wife's telling, over a body at Beitris Bhàn's table",
      "master": false,
      "year": "AE 71"
@@ -9604,6 +8179,19 @@
    "category_name": null,
    "links": [
     {
+     "to": "EV-3504",
+     "type": "sequel",
+     "dir": "in",
+     "arrow": "←",
+     "label": "Leads to",
+     "age": "V",
+     "era": "AE",
+     "date": "25 an Gearran, AE 71",
+     "title": "The women's rule of silence",
+     "master": false,
+     "year": "AE 71"
+    },
+    {
      "to": "EV-3505",
      "type": "sequel",
      "dir": "in",
@@ -9611,8 +8199,8 @@
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "2 an Gearran, AE 71",
-     "title": "The women's rule of silence",
+     "date": "20 am Màrt, AE 71",
+     "title": "The wash-house women first mark the child's stillness",
      "master": false,
      "year": "AE 71"
     },
@@ -9624,20 +8212,7 @@
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "25 an Gearran, AE 71",
-     "title": "The wash-house women first mark the child's stillness",
-     "master": false,
-     "year": "AE 71"
-    },
-    {
-     "to": "EV-3507",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "22 an Dùbhlachd, AE 71",
+     "date": "15 an t-Ògmhios, AE 71",
      "title": "The wife's telling, over a body at Beitris Bhàn's table",
      "master": false,
      "year": "AE 71"
@@ -9648,11 +8223,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3505",
-   "date": "2 an Gearran, AE 71",
+   "id": "EV-3504",
+   "date": "25 an Gearran, AE 71",
    "y": 1850,
    "m": 2,
-   "d": 2,
+   "d": 25,
    "era": "AE",
    "ey": 71,
    "title": "The women's rule of silence",
@@ -9696,11 +8271,11 @@
    }
   },
   {
-   "id": "EV-3506",
-   "date": "25 an Gearran, AE 71",
+   "id": "EV-3505",
+   "date": "20 am Màrt, AE 71",
    "y": 1850,
-   "m": 2,
-   "d": 25,
+   "m": 3,
+   "d": 20,
    "era": "AE",
    "ey": 71,
    "title": "The wash-house women first mark the child's stillness",
@@ -9766,11 +8341,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3507",
-   "date": "22 an Dùbhlachd, AE 71",
+   "id": "EV-3506",
+   "date": "15 an t-Ògmhios, AE 71",
    "y": 1850,
-   "m": 12,
-   "d": 22,
+   "m": 6,
+   "d": 15,
    "era": "AE",
    "ey": 71,
    "title": "The wife's telling, over a body at Beitris Bhàn's table",
@@ -9866,71 +8441,10 @@
    "year": "AE 72",
    "category_name": null,
    "place_name": "Cill ghlas",
-   "links": [
-    {
-     "to": "EV-3508",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "23 an t-Samhain, AE 72",
-     "title": "Beitris Bhàn's first climb to Cill ghlas",
-     "master": false,
-     "year": "AE 72"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-3508",
-   "date": "23 an t-Samhain, AE 72",
-   "y": 1851,
-   "m": 11,
-   "d": 23,
-   "era": "AE",
-   "ey": 72,
-   "title": "Beitris Bhàn's first climb to Cill ghlas",
-   "body": "Beitris Bhàn climbs the hill path to Cill ghlas for the first time at Lùnastal and sets a single piece of coal by the flame at the mouth of the oldest cutting, more from the habit of a hard winter's laying-out than from any settled custom of her own people. She says nothing to the custodian, and the custodian says nothing to her.",
-   "place": "burg:123",
-   "kind": "rite",
-   "category": "faith",
-   "master": false,
-   "year": "AE 72",
-   "category_name": "faith and myth",
-   "place_name": "Cill ghlas",
-   "links": [
-    {
-     "to": "IV-0151",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "18 an Dàmhair, AE 72",
-     "title": "The keepers of Cill ghlas",
-     "master": true,
-     "year": "AE 72"
-    }
-   ],
-   "threads": [
-    "the-keepers-promise"
-   ],
-   "people": [
-    "beitris-bhan"
-   ],
-   "told_in": {
-    "ref": "book/19_of_the_smoke_in_the_gallery.md#v-of-una-nic-choinnich-and-the-shrines",
-    "file": "book/19_of_the_smoke_in_the_gallery.md",
-    "anchor": "v-of-una-nic-choinnich-and-the-shrines",
-    "book": "Of the Smoke in the Gallery",
-    "section": "V. Of Ùna nic Choinnich and the Shrines",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0152",
@@ -9950,14 +8464,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-3512",
+     "to": "EV-3509",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "26 an Cèitean, AE 75",
+     "date": "1 am Màrt, AE 75",
      "title": "Anne Colby comes to Beitris Bhàn's door",
      "master": false,
      "year": "AE 75"
@@ -10078,57 +8592,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3509",
-   "date": "20 an Giblean, AE 74",
+   "id": "EV-3507",
+   "date": "18 an t-Ògmhios, AE 74",
    "y": 1853,
-   "m": 4,
-   "d": 20,
-   "era": "AE",
-   "ey": 74,
-   "title": "Nathaniel Bright opens his table of weighings",
-   "body": "At Muileann chrom, Nathaniel Bright begins keeping a ruled black-bound book of the lungs he weighs from the Green Death's dead, with the custodians' leave and a custodian standing by at each opening. Anne Colby brings her own sick-house tally to set beside it that winter.",
-   "place": "burg:354",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 74",
-   "category_name": "law and learning",
-   "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "IV-0158",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "30 am Faoilleach, AE 75",
-     "title": "Doctor Bright's study",
-     "master": true,
-     "year": "AE 75"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "nathaniel-bright",
-    "anne-colby"
-   ],
-   "told_in": {
-    "ref": "book/20_of_the_green_death.md#iii-of-doctor-bright-s-table",
-    "file": "book/20_of_the_green_death.md",
-    "anchor": "iii-of-doctor-bright-s-table",
-    "book": "Of the Green Death",
-    "section": "III. Of Doctor Bright's Table",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-3510",
-   "date": "30 an Cèitean, AE 74",
-   "y": 1853,
-   "m": 5,
-   "d": 30,
+   "m": 6,
+   "d": 18,
    "era": "AE",
    "ey": 74,
    "title": "Walter Crane walks the sick-rows at Achadh dhomhain",
@@ -10170,11 +8638,11 @@
    }
   },
   {
-   "id": "EV-3511",
-   "date": "30 an t-Iuchar, AE 74",
+   "id": "EV-3508",
+   "date": "10 an t-Samhain, AE 74",
    "y": 1853,
-   "m": 7,
-   "d": 30,
+   "m": 11,
+   "d": 10,
    "era": "AE",
    "ey": 74,
    "title": "Beitris Bhàn nails a feather over her own door",
@@ -10231,21 +8699,7 @@
    "year": "AE 75",
    "category_name": null,
    "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "EV-3509",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
-     "date": "20 an Giblean, AE 74",
-     "title": "Nathaniel Bright opens his table of weighings",
-     "master": false,
-     "year": "AE 74"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -10269,14 +8723,14 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-3510",
+     "to": "EV-3507",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "30 an Cèitean, AE 74",
+     "date": "18 an t-Ògmhios, AE 74",
      "title": "Walter Crane walks the sick-rows at Achadh dhomhain",
      "master": false,
      "year": "AE 74"
@@ -10287,11 +8741,11 @@
    "told_in": null
   },
   {
-   "id": "EV-3512",
-   "date": "26 an Cèitean, AE 75",
+   "id": "EV-3509",
+   "date": "1 am Màrt, AE 75",
    "y": 1854,
-   "m": 5,
-   "d": 26,
+   "m": 3,
+   "d": 1,
    "era": "AE",
    "ey": 75,
    "title": "Anne Colby comes to Beitris Bhàn's door",
@@ -10395,14 +8849,14 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-3511",
+     "to": "EV-3508",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "30 an t-Iuchar, AE 74",
+     "date": "10 an t-Samhain, AE 74",
      "title": "Beitris Bhàn nails a feather over her own door",
      "master": false,
      "year": "AE 74"
@@ -10673,19 +9127,6 @@
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "1 an t-Samhain, AE 78",
-     "title": "Dòmhnall Maor signs the granary order",
-     "master": false,
-     "year": "AE 78"
-    },
-    {
-     "to": "EV-4004",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
      "date": "8 an t-Samhain, AE 78",
      "title": "Sìneag's rolls note a granary built against a stoppage",
      "master": false,
@@ -10698,53 +9139,6 @@
   },
   {
    "id": "EV-4003",
-   "date": "1 an t-Samhain, AE 78",
-   "y": 1857,
-   "m": 11,
-   "d": 1,
-   "era": "AE",
-   "ey": 78,
-   "title": "Dòmhnall Maor signs the granary order",
-   "body": "Within the month of the strike's end, Dòmhnall mac Raghnaill Maor, Steward at Muileann chrom, sets his mark to the order that forbids any camp household to keep more grain than a week's ration, the rest to be held under lock in A' Chompanaidh's new granary and drawn against a crew-leader's tally.",
-   "place": "burg:354",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 78",
-   "category_name": "law and learning",
-   "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "IV-0167",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "2 an Dàmhair, AE 78",
-     "title": "The Company's granary",
-     "master": true,
-     "year": "AE 78"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "domhnall-mac-raghnaill-maor"
-   ],
-   "told_in": {
-    "ref": "book/21_of_the_eleven_days_of_baile_thais.md#vi-of-the-granary",
-    "file": "book/21_of_the_eleven_days_of_baile_thais.md",
-    "anchor": "vi-of-the-granary",
-    "book": "Of the Eleven Days of Baile thais",
-    "section": "VI. Of the Granary",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-4004",
    "date": "8 an t-Samhain, AE 78",
    "y": 1857,
    "m": 11,
@@ -10855,11 +9249,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4005",
-   "date": "6 an Dùbhlachd, AE 80",
+   "id": "EV-4004",
+   "date": "25 an t-Sultain, AE 80",
    "y": 1859,
-   "m": 12,
-   "d": 6,
+   "m": 9,
+   "d": 25,
    "era": "AE",
    "ey": 80,
    "title": "Three priests will not stand for the blessing",
@@ -10923,11 +9317,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4006",
-   "date": "8 an t-Samhain, AE 81",
+   "id": "EV-4005",
+   "date": "11 an Giblean, AE 81",
    "y": 1860,
-   "m": 11,
-   "d": 8,
+   "m": 4,
+   "d": 11,
    "era": "AE",
    "ey": 81,
    "title": "Artair mac Iain seated after ten empty years",
@@ -11039,14 +9433,14 @@
    "place_name": "Cathair dhearg",
    "links": [
     {
-     "to": "EV-4005",
+     "to": "EV-4004",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "6 an Dùbhlachd, AE 80",
+     "date": "25 an t-Sultain, AE 80",
      "title": "Three priests will not stand for the blessing",
      "master": false,
      "year": "AE 80"
@@ -11057,11 +9451,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4007",
-   "date": "5 an Lùnastal, AE 85",
+   "id": "EV-4006",
+   "date": "15 an t-Samhain, AE 85",
    "y": 1864,
-   "m": 8,
-   "d": 5,
+   "m": 11,
+   "d": 15,
    "era": "AE",
    "ey": 85,
    "title": "The Residency notes the order divided",
@@ -11119,14 +9513,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-4007",
+     "to": "EV-4006",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "5 an Lùnastal, AE 85",
+     "date": "15 an t-Samhain, AE 85",
      "title": "The Residency notes the order divided",
      "master": false,
      "year": "AE 85"
@@ -11197,21 +9591,7 @@
    "year": "AE 87",
    "category_name": null,
    "place_name": "Coille Naomh Cnoc bheag",
-   "links": [
-    {
-     "to": "EV-4008",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "30 an t-Iuchar, AE 87",
-     "title": "Fearghas leaves the capital's temple for Cnoc bheag",
-     "master": false,
-     "year": "AE 87"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -11239,52 +9619,6 @@
    "told_in": null
   },
   {
-   "id": "EV-4008",
-   "date": "30 an t-Iuchar, AE 87",
-   "y": 1866,
-   "m": 7,
-   "d": 30,
-   "era": "AE",
-   "ey": 87,
-   "title": "Fearghas leaves the capital's temple for Cnoc bheag",
-   "body": "Fearghas mac Mhuirich walks north with eleven of the order who think as he does, to the sacred forest at Cnoc bheag. Griogair, eldest of those who stay at Cathair dhearg, walks with them as far as the north road and calls it two roads to the one rite rather than a falling-out.",
-   "place": "burg:19",
-   "kind": "rite",
-   "category": "faith",
-   "master": false,
-   "year": "AE 87",
-   "category_name": "faith and myth",
-   "place_name": "Cathair dhearg",
-   "links": [
-    {
-     "to": "IV-0179",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "25 am Màrt, AE 87",
-     "title": "The dissenters go to Cnoc bheag",
-     "master": true,
-     "year": "AE 87"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "fearghas-mac-mhuirich",
-    "griogair"
-   ],
-   "told_in": {
-    "ref": "book/22_of_the_priced_silver_and_the_blessed_coin.md#vii-of-the-fire-under-the-trees",
-    "file": "book/22_of_the_priced_silver_and_the_blessed_coin.md",
-    "anchor": "vii-of-the-fire-under-the-trees",
-    "book": "Of the Priced Silver and the Blessed Coin",
-    "section": "VII. Of the Fire under the Trees",
-    "where": "era"
-   }
-  },
-  {
    "id": "IV-0181",
    "date": "4 am Faoilleach, AE 88",
    "y": 1867,
@@ -11301,21 +9635,7 @@
    "year": "AE 88",
    "category_name": null,
    "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "EV-4501",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "8 am Màrt, AE 94",
-     "title": "The draft read at Baile chrom",
-     "master": false,
-     "year": "AE 94"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -11337,21 +9657,7 @@
    "year": "AE 88",
    "category_name": null,
    "place_name": "Caol mhòr",
-   "links": [
-    {
-     "to": "EV-4009",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "15 an Dùbhlachd, AE 88",
-     "title": "The wrong son taken at Caol mhòr",
-     "master": false,
-     "year": "AE 88"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -11379,56 +9685,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4009",
-   "date": "15 an Dùbhlachd, AE 88",
+   "id": "EV-4007",
+   "date": "29 an Dùbhlachd, AE 88",
    "y": 1867,
    "m": 12,
-   "d": 15,
-   "era": "AE",
-   "ey": 88,
-   "title": "The wrong son taken at Caol mhòr",
-   "body": "A guessed name is matched to the wrong face at Caol mhòr's reading, and a son is marched a day's walk east before the error is found. The right man is fetched in his place; the officers' own tally and the town's roll never afterward agree by one head.",
-   "place": "burg:95",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 88",
-   "category_name": "law and learning",
-   "place_name": "Caol mhòr",
-   "links": [
-    {
-     "to": "IV-0182",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "3 am Màrt, AE 88",
-     "title": "Levy officers at Caol mhòr",
-     "master": true,
-     "year": "AE 88"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [],
-   "told_in": {
-    "ref": "book/23_of_the_levy_and_the_ring_of_beacons.md#i-of-the-reading-at-caol-mhor",
-    "file": "book/23_of_the_levy_and_the_ring_of_beacons.md",
-    "anchor": "i-of-the-reading-at-caol-mhor",
-    "book": "Of the Levy and the Ring of Beacons",
-    "section": "I. Of the Reading at Caol mhòr",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-4010",
-   "date": "18 an Dùbhlachd, AE 88",
-   "y": 1867,
-   "m": 12,
-   "d": 18,
+   "d": 29,
    "era": "AE",
    "ey": 88,
    "title": "The Levy read at Cnoc thais",
@@ -11550,11 +9811,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4011",
-   "date": "30 an Dùbhlachd, AE 89",
+   "id": "EV-4008",
+   "date": "20 an Dùbhlachd, AE 89",
    "y": 1868,
    "m": 12,
-   "d": 30,
+   "d": 20,
    "era": "AE",
    "ey": 89,
    "title": "A gale strips the beacon's scaffold",
@@ -11657,27 +9918,27 @@
    "place_name": "Taigh-solais Baile chrom",
    "links": [
     {
-     "to": "EV-4010",
+     "to": "EV-4007",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "18 an Dùbhlachd, AE 88",
+     "date": "29 an Dùbhlachd, AE 88",
      "title": "The Levy read at Cnoc thais",
      "master": false,
      "year": "AE 88"
     },
     {
-     "to": "EV-4011",
+     "to": "EV-4008",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "30 an Dùbhlachd, AE 89",
+     "date": "20 an Dùbhlachd, AE 89",
      "title": "A gale strips the beacon's scaffold",
      "master": false,
      "year": "AE 89"
@@ -11688,11 +9949,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4012",
-   "date": "19 an Dàmhair, AE 90",
+   "id": "EV-4009",
+   "date": "10 an Lùnastal, AE 90",
    "y": 1869,
-   "m": 10,
-   "d": 19,
+   "m": 8,
+   "d": 10,
    "era": "AE",
    "ey": 90,
    "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
@@ -11754,14 +10015,14 @@
    "place_name": "Cnoc thais",
    "links": [
     {
-     "to": "EV-4010",
+     "to": "EV-4007",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "18 an Dùbhlachd, AE 88",
+     "date": "29 an Dùbhlachd, AE 88",
      "title": "The Levy read at Cnoc thais",
      "master": false,
      "year": "AE 88"
@@ -11834,17 +10095,30 @@
    "place_name": "Taigh-solais Baile chrom",
    "links": [
     {
-     "to": "EV-4012",
+     "to": "EV-4009",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "19 an Dàmhair, AE 90",
+     "date": "10 an Lùnastal, AE 90",
      "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
      "master": false,
      "year": "AE 90"
+    },
+    {
+     "to": "EV-4502",
+     "type": "sequel",
+     "dir": "in",
+     "arrow": "←",
+     "label": "Leads to",
+     "age": "V",
+     "era": "AE",
+     "date": "20 an Dàmhair, AE 94",
+     "title": "Uisdean begins to write beyond the weather",
+     "master": false,
+     "year": "AE 94"
     },
     {
      "to": "EV-4503",
@@ -11854,20 +10128,7 @@
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "11 an Dàmhair, AE 94",
-     "title": "Uisdean begins to write beyond the weather",
-     "master": false,
-     "year": "AE 94"
-    },
-    {
-     "to": "EV-4504",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "28 an Dùbhlachd, AE 96",
+     "date": "10 an Dùbhlachd, AE 96",
      "title": "Uisdean's hand on the valve",
      "master": false,
      "year": "AE 96"
@@ -11895,7 +10156,7 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-4502",
+     "to": "EV-4501",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -11908,14 +10169,14 @@
      "year": "AE 94"
     },
     {
-     "to": "EV-4503",
+     "to": "EV-4502",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "11 an Dàmhair, AE 94",
+     "date": "20 an Dàmhair, AE 94",
      "title": "Uisdean begins to write beyond the weather",
      "master": false,
      "year": "AE 94"
@@ -11927,53 +10188,6 @@
   },
   {
    "id": "EV-4501",
-   "date": "8 am Màrt, AE 94",
-   "y": 1873,
-   "m": 3,
-   "d": 8,
-   "era": "AE",
-   "ey": 94,
-   "title": "The draft read at Baile chrom",
-   "body": "The Levy is read at the market cross of Baile chrom, first in the humans' tongue and then in Dia-thìris by a clerk who stumbles over the numbers. It falls hardest on the coast and hill villages; the concession farms to the north, worked by the strangers' own people, send no one.",
-   "place": "burg:305",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 94",
-   "category_name": "law and learning",
-   "place_name": "Baile chrom",
-   "links": [
-    {
-     "to": "IV-0181",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "4 am Faoilleach, AE 88",
-     "title": "The Levy",
-     "master": true,
-     "year": "AE 88"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "uisdean-mac-lachlainn"
-   ],
-   "told_in": {
-    "ref": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
-    "file": "book/24_of_gorta_baile_chrom.md",
-    "anchor": "i-of-the-empty-road",
-    "book": "Of Gorta Baile chrom",
-    "section": "I. Of the Empty Road",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-4502",
    "date": "9 am Màrt, AE 94",
    "y": 1873,
    "m": 3,
@@ -12062,11 +10276,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4503",
-   "date": "11 an Dàmhair, AE 94",
+   "id": "EV-4502",
+   "date": "20 an Dàmhair, AE 94",
    "y": 1873,
    "m": 10,
-   "d": 11,
+   "d": 20,
    "era": "AE",
    "ey": 94,
    "title": "Uisdean begins to write beyond the weather",
@@ -12208,11 +10422,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4504",
-   "date": "28 an Dùbhlachd, AE 96",
+   "id": "EV-4503",
+   "date": "10 an Dùbhlachd, AE 96",
    "y": 1875,
    "m": 12,
-   "d": 28,
+   "d": 10,
    "era": "AE",
    "ey": 96,
    "title": "Uisdean's hand on the valve",
@@ -12284,14 +10498,14 @@
    "place_name": "Baile chrom",
    "links": [
     {
-     "to": "EV-4504",
+     "to": "EV-4503",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "28 an Dùbhlachd, AE 96",
+     "date": "10 an Dùbhlachd, AE 96",
      "title": "Uisdean's hand on the valve",
      "master": false,
      "year": "AE 96"
@@ -12340,21 +10554,7 @@
    "year": "AE 98",
    "category_name": null,
    "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "EV-4505",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "23 an t-Samhain, AE 98",
-     "title": "Aonghas Ruadh calls the custodians of the east",
-     "master": false,
-     "year": "AE 98"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -12382,71 +10582,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4505",
-   "date": "23 an t-Samhain, AE 98",
+   "id": "EV-4504",
+   "date": "12 an Dùbhlachd, AE 98",
    "y": 1877,
-   "m": 11,
-   "d": 23,
-   "era": "AE",
-   "ey": 98,
-   "title": "Aonghas Ruadh calls the custodians of the east",
-   "body": "Once the tithe goes up on the Company's boards before any custodian's answer has reached Ros dhomhain, Aonghas Ruadh of Ceann àrsaidh sends riders to the settlements of the east and the hills, naming a day in am Faoilleach to draw up one grievance in one hand rather than let it be filed apart, settlement by settlement, as every single letter before it had been.",
-   "place": "burg:88",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 98",
-   "category_name": "law and learning",
-   "place_name": "Ceann àrsaidh",
-   "links": [
-    {
-     "to": "IV-0202",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "9 an Dàmhair, AE 98",
-     "title": "Robert Haskins Commissioner",
-     "master": true,
-     "year": "AE 98"
-    },
-    {
-     "to": "IV-0204",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "4 am Faoilleach, AE 99",
-     "title": "The first petition",
-     "master": true,
-     "year": "AE 99"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "aonghas-ruadh"
-   ],
-   "told_in": {
-    "ref": "book/25_of_the_petition_on_the_bench.md#iii-of-the-nineteen-at-ceann-arsaidh",
-    "file": "book/25_of_the_petition_on_the_bench.md",
-    "anchor": "iii-of-the-nineteen-at-ceann-arsaidh",
-    "book": "Of the Petition on the Bench",
-    "section": "III. Of the Nineteen at Ceann àrsaidh",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-4506",
-   "date": "26 an t-Samhain, AE 98",
-   "y": 1877,
-   "m": 11,
-   "d": 26,
+   "m": 12,
+   "d": 12,
    "era": "AE",
    "ey": 98,
    "title": "The custodians ride to Ceann àrsaidh",
@@ -12520,27 +10660,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-4505",
+     "to": "EV-4504",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "23 an t-Samhain, AE 98",
-     "title": "Aonghas Ruadh calls the custodians of the east",
-     "master": false,
-     "year": "AE 98"
-    },
-    {
-     "to": "EV-4506",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an t-Samhain, AE 98",
+     "date": "12 an Dùbhlachd, AE 98",
      "title": "The custodians ride to Ceann àrsaidh",
      "master": false,
      "year": "AE 98"
@@ -12569,40 +10696,40 @@
    "place_name": "Ceann àrsaidh",
    "links": [
     {
-     "to": "EV-4506",
+     "to": "EV-4504",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "26 an t-Samhain, AE 98",
+     "date": "12 an Dùbhlachd, AE 98",
      "title": "The custodians ride to Ceann àrsaidh",
      "master": false,
      "year": "AE 98"
     },
     {
-     "to": "EV-4507",
+     "to": "EV-4505",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "24 an Giblean, AE 99",
+     "date": "6 an Cèitean, AE 99",
      "title": "Peigi Ghlas at the Residency",
      "master": false,
      "year": "AE 99"
     },
     {
-     "to": "EV-4508",
+     "to": "EV-4506",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "12 an Cèitean, AE 99",
+     "date": "24 an Cèitean, AE 99",
      "title": "Aonghas Ruadh's letters go unanswered",
      "master": false,
      "year": "AE 99"
@@ -12613,11 +10740,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4507",
-   "date": "24 an Giblean, AE 99",
+   "id": "EV-4505",
+   "date": "6 an Cèitean, AE 99",
    "y": 1878,
-   "m": 4,
-   "d": 24,
+   "m": 5,
+   "d": 6,
    "era": "AE",
    "ey": 99,
    "title": "Peigi Ghlas at the Residency",
@@ -12660,11 +10787,11 @@
    }
   },
   {
-   "id": "EV-4508",
-   "date": "12 an Cèitean, AE 99",
+   "id": "EV-4506",
+   "date": "24 an Cèitean, AE 99",
    "y": 1878,
    "m": 5,
-   "d": 12,
+   "d": 24,
    "era": "AE",
    "ey": 99,
    "title": "Aonghas Ruadh's letters go unanswered",
@@ -12768,14 +10895,14 @@
    "place_name": "Baile thais",
    "links": [
     {
-     "to": "EV-4509",
+     "to": "EV-4507",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "29 an Dùbhlachd, AE 101",
+     "date": "9 an t-Samhain, AE 101",
      "title": "Griogair mac Aonghais tells Fearchar to sing it",
      "master": false,
      "year": "AE 101"
@@ -12786,11 +10913,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4509",
-   "date": "29 an Dùbhlachd, AE 101",
+   "id": "EV-4507",
+   "date": "9 an t-Samhain, AE 101",
    "y": 1880,
-   "m": 12,
-   "d": 29,
+   "m": 11,
+   "d": 9,
    "era": "AE",
    "ey": 101,
    "title": "Griogair mac Aonghais tells Fearchar to sing it",
@@ -12849,27 +10976,14 @@
    "place_name": "Muileann dhearg",
    "links": [
     {
-     "to": "EV-4510",
+     "to": "EV-4508",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "24 an Dùbhlachd, AE 102",
-     "title": "The overseer's clerk copies the forbidden song",
-     "master": false,
-     "year": "AE 102"
-    },
-    {
-     "to": "EV-4511",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "27 an Dùbhlachd, AE 102",
+     "date": "26 an Dùbhlachd, AE 102",
      "title": "Fearchar repays the docked wage",
      "master": false,
      "year": "AE 102"
@@ -12902,58 +11016,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4510",
-   "date": "24 an Dùbhlachd, AE 102",
+   "id": "EV-4508",
+   "date": "26 an Dùbhlachd, AE 102",
    "y": 1881,
    "m": 12,
-   "d": 24,
-   "era": "AE",
-   "ey": 102,
-   "title": "The overseer's clerk copies the forbidden song",
-   "body": "An overseer at Baile thais has Fearchar's song taken down word for word from a boy of the crews so that it can be shown forbidden, and a docker's pay is cut by half a week for the singing of it. The clerk's copy, made to condemn the song, becomes the only complete written record of it.",
-   "place": "burg:44",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 102",
-   "category_name": "law and learning",
-   "place_name": "Baile thais",
-   "links": [
-    {
-     "to": "IV-0209",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "17 am Faoilleach, AE 102",
-     "title": "The songs of Fearchar Bàrd",
-     "master": true,
-     "year": "AE 102"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "fearchar-bard"
-   ],
-   "told_in": {
-    "ref": "book/26_of_fearchar_bards_songs.md#ii-of-the-song-that-was-forbidden-and-so-written-down",
-    "file": "book/26_of_fearchar_bards_songs.md",
-    "anchor": "ii-of-the-song-that-was-forbidden-and-so-written-down",
-    "book": "Of Fearchar Bàrd's Songs",
-    "section": "II. Of the Song That Was Forbidden and So Written Down",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-4511",
-   "date": "27 an Dùbhlachd, AE 102",
-   "y": 1881,
-   "m": 12,
-   "d": 27,
+   "d": 26,
    "era": "AE",
    "ey": 102,
    "title": "Fearchar repays the docked wage",
@@ -13122,14 +11189,14 @@
    "place_name": "Cathair dhearg",
    "links": [
     {
-     "to": "EV-4512",
+     "to": "EV-4509",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "23 an t-Samhain, AE 105",
+     "date": "21 an Dùbhlachd, AE 105",
      "title": "Artair mac Iain dies at Cathair dhearg",
      "master": false,
      "year": "AE 105"
@@ -13140,11 +11207,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4512",
-   "date": "23 an t-Samhain, AE 105",
+   "id": "EV-4509",
+   "date": "21 an Dùbhlachd, AE 105",
    "y": 1884,
-   "m": 11,
-   "d": 23,
+   "m": 12,
+   "d": 21,
    "era": "AE",
    "ey": 105,
    "title": "Artair mac Iain dies at Cathair dhearg",
@@ -13203,53 +11270,40 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-4513",
+     "to": "EV-4510",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "6 an Dùbhlachd, AE 106",
-     "title": "Iseabail begins her forty pages",
-     "master": false,
-     "year": "AE 106"
-    },
-    {
-     "to": "EV-4514",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "23 an t-Samhain, AE 107",
+     "date": "12 an Dùbhlachd, AE 107",
      "title": "Baile chaol slaughters its herd",
      "master": false,
      "year": "AE 107"
     },
     {
-     "to": "EV-4515",
+     "to": "EV-4511",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "12 an Dùbhlachd, AE 109",
+     "date": "1 an t-Samhain, AE 109",
      "title": "Coll's report names the drought-fever's true cause",
      "master": false,
      "year": "AE 109"
     },
     {
-     "to": "EV-4516",
+     "to": "EV-4512",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 an Dùbhlachd, AE 109",
+     "date": "16 an t-Samhain, AE 109",
      "title": "Every custodian of the drought country petitions Haskins",
      "master": false,
      "year": "AE 109"
@@ -13258,51 +11312,6 @@
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-4513",
-   "date": "6 an Dùbhlachd, AE 106",
-   "y": 1885,
-   "m": 12,
-   "d": 6,
-   "era": "AE",
-   "ey": 106,
-   "title": "Iseabail begins her forty pages",
-   "body": "Understanding that her petition will be answered with nothing but the words under consideration, Iseabail nic Leòid begins writing, over a winter, a full account of the drought's three years: the wells, the cattle, the fever's dead, the watchman recalled from Allt an Àigh, for whoever may someday want to know its cost.",
-   "place": "burg:349",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 106",
-   "category_name": "law and learning",
-   "place_name": "Àth mhòr",
-   "links": [
-    {
-     "to": "IV-0217",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "25 an Lùnastal, AE 106",
-     "title": "Tiormachd Achadh shean",
-     "master": true,
-     "year": "AE 106"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "iseabail-nic-leoid"
-   ],
-   "told_in": {
-    "ref": "book/27_of_the_long_drought.md#vii-of-the-petition-begun-alone",
-    "file": "book/27_of_the_long_drought.md",
-    "anchor": "vii-of-the-petition-begun-alone",
-    "book": "Of the Long Drought",
-    "section": "VII. Of the Petition, Begun Alone",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0218",
@@ -13393,11 +11402,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4514",
-   "date": "23 an t-Samhain, AE 107",
+   "id": "EV-4510",
+   "date": "12 an Dùbhlachd, AE 107",
    "y": 1886,
-   "m": 11,
-   "d": 23,
+   "m": 12,
+   "d": 12,
    "era": "AE",
    "ey": 107,
    "title": "Baile chaol slaughters its herd",
@@ -13548,11 +11557,11 @@
    "told_in": null
   },
   {
-   "id": "EV-4515",
-   "date": "12 an Dùbhlachd, AE 109",
+   "id": "EV-4511",
+   "date": "1 an t-Samhain, AE 109",
    "y": 1888,
-   "m": 12,
-   "d": 12,
+   "m": 11,
+   "d": 1,
    "era": "AE",
    "ey": 109,
    "title": "Coll's report names the drought-fever's true cause",
@@ -13593,11 +11602,11 @@
    }
   },
   {
-   "id": "EV-4516",
-   "date": "27 an Dùbhlachd, AE 109",
+   "id": "EV-4512",
+   "date": "16 an t-Samhain, AE 109",
    "y": 1888,
-   "m": 12,
-   "d": 27,
+   "m": 11,
+   "d": 16,
    "era": "AE",
    "ey": 109,
    "title": "Every custodian of the drought country petitions Haskins",
@@ -13897,40 +11906,27 @@
      "year": "AE 113"
     },
     {
-     "to": "EV-5004",
+     "to": "EV-5005",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "31 an Dùbhlachd, AE 113",
-     "title": "Thomas Hale reads the surgeon's note at the grave",
-     "master": false,
-     "year": "AE 113"
-    },
-    {
-     "to": "EV-5007",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "15 an Dùbhlachd, AE 117",
+     "date": "13 an Dùbhlachd, AE 117",
      "title": "The Lamp-Watch's purse runs dry",
      "master": false,
      "year": "AE 117"
     },
     {
-     "to": "EV-5510",
+     "to": "EV-5508",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "7 an t-Iuchar, AE 136",
+     "date": "6 am Màrt, AE 136",
      "title": "Eilidh nic Raghnaill given a seat at the Lamp-Watch's table",
      "master": false,
      "year": "AE 136"
@@ -14036,55 +12032,6 @@
    }
   },
   {
-   "id": "EV-5004",
-   "date": "31 an Dùbhlachd, AE 113",
-   "y": 1892,
-   "m": 12,
-   "d": 31,
-   "era": "AE",
-   "ey": 113,
-   "title": "Thomas Hale reads the surgeon's note at the grave",
-   "body": "At a grave dug on the bare hill above the Cnoc chaol pit-head, Thomas Hale reads Griogair mac Ailein's release aloud in the Company's own tongue before some thirty of the fellowship, so that no clerk may afterward say the burying was done without the Company's leave.",
-   "place": "burg:415",
-   "kind": "craft",
-   "category": "coal",
-   "master": false,
-   "year": "AE 113",
-   "category_name": "coal and the vein",
-   "place_name": "Cnoc chaol",
-   "links": [
-    {
-     "to": "IV-0234",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "29 an Dùbhlachd, AE 113",
-     "title": "The Lamp-Watch",
-     "master": true,
-     "year": "AE 113"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "thomas-hale",
-    "griogair-mac-ailein",
-    "domhnall-ruadh"
-   ],
-   "told_in": {
-    "ref": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein",
-    "file": "book/28_of_the_law_of_one_line.md",
-    "anchor": "vi-of-the-lamp-watch-and-griogair-mac-ailein",
-    "book": "Of the Law of One Line",
-    "section": "VI. Of the Lamp-Watch and Griogair mac Ailein",
-    "where": "era"
-   }
-  },
-  {
    "id": "IV-0235",
    "date": "28 an t-Ògmhios, AE 114",
    "y": 1893,
@@ -14103,14 +12050,14 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-5005",
+     "to": "EV-5004",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "19 an Dùbhlachd, AE 115",
+     "date": "13 an Lùnastal, AE 115",
      "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
      "master": false,
      "year": "AE 115"
@@ -14143,11 +12090,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5005",
-   "date": "19 an Dùbhlachd, AE 115",
+   "id": "EV-5004",
+   "date": "13 an Lùnastal, AE 115",
    "y": 1894,
-   "m": 12,
-   "d": 19,
+   "m": 8,
+   "d": 13,
    "era": "AE",
    "ey": 115,
    "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
@@ -14233,51 +12180,6 @@
    "told_in": null
   },
   {
-   "id": "EV-5006",
-   "date": "22 an Dùbhlachd, AE 116",
-   "y": 1895,
-   "m": 12,
-   "d": 22,
-   "era": "AE",
-   "ey": 116,
-   "title": "The day shift stands in the yard at Cnoc chaol",
-   "body": "Three hundred hewers of the day shift refuse to go down for the night change and stand in the yard through the last light, saying nothing to the overseer who twice asks their meaning. No chant is raised and no threat made; they simply do not move.",
-   "place": "burg:415",
-   "kind": "craft",
-   "category": "coal",
-   "master": false,
-   "year": "AE 116",
-   "category_name": "coal and the vein",
-   "place_name": "Cnoc chaol",
-   "links": [
-    {
-     "to": "IV-0239",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "3 an Lùnastal, AE 117",
-     "title": "The night-shift strike",
-     "master": true,
-     "year": "AE 117"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [],
-   "told_in": {
-    "ref": "book/29_of_the_night_shift.md#iii-of-the-two-shifts-and-the-week-it-lasted",
-    "file": "book/29_of_the_night_shift.md",
-    "anchor": "iii-of-the-two-shifts-and-the-week-it-lasted",
-    "book": "Of the Night Shift",
-    "section": "III. Of the Two Shifts and the Week It Lasted",
-    "where": "era"
-   }
-  },
-  {
    "id": "IV-0239",
    "date": "3 an Lùnastal, AE 117",
    "y": 1896,
@@ -14296,27 +12198,14 @@
    "place_name": "Cnoc chaol",
    "links": [
     {
-     "to": "EV-5006",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
-     "date": "22 an Dùbhlachd, AE 116",
-     "title": "The day shift stands in the yard at Cnoc chaol",
-     "master": false,
-     "year": "AE 116"
-    },
-    {
-     "to": "EV-5007",
+     "to": "EV-5005",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "15 an Dùbhlachd, AE 117",
+     "date": "13 an Dùbhlachd, AE 117",
      "title": "The Lamp-Watch's purse runs dry",
      "master": false,
      "year": "AE 117"
@@ -14349,11 +12238,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5007",
-   "date": "15 an Dùbhlachd, AE 117",
+   "id": "EV-5005",
+   "date": "13 an Dùbhlachd, AE 117",
    "y": 1896,
    "m": 12,
-   "d": 15,
+   "d": 13,
    "era": "AE",
    "ey": 117,
    "title": "The Lamp-Watch's purse runs dry",
@@ -14469,14 +12358,14 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-5008",
+     "to": "EV-5006",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "8 an Dùbhlachd, AE 119",
+     "date": "25 an t-Sultain, AE 119",
      "title": "Iain Maor dismissed and restored",
      "master": false,
      "year": "AE 119"
@@ -14487,11 +12376,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5008",
-   "date": "8 an Dùbhlachd, AE 119",
+   "id": "EV-5006",
+   "date": "25 an t-Sultain, AE 119",
    "y": 1898,
-   "m": 12,
-   "d": 8,
+   "m": 9,
+   "d": 25,
    "era": "AE",
    "ey": 119,
    "title": "Iain Maor dismissed and restored",
@@ -14594,71 +12483,10 @@
    "master": true,
    "year": "AE 121",
    "category_name": null,
-   "links": [
-    {
-     "to": "EV-5009",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "25 an t-Samhain, AE 121",
-     "title": "Fionnan's birth reaches the cellar",
-     "master": false,
-     "year": "AE 121"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-5009",
-   "date": "25 an t-Samhain, AE 121",
-   "y": 1900,
-   "m": 11,
-   "d": 25,
-   "era": "AE",
-   "ey": 121,
-   "title": "Fionnan's birth reaches the cellar",
-   "body": "The birth of Fionnan, entered by an eastern custodian among the ordinary births of the year, reaches the cellar at Muileann chaol folded into a roll like any other. No hand marks the line for what it is; the copyists learn to find it again only once the word for the thing exists to look for.",
-   "place": "burg:246",
-   "kind": "birth",
-   "category": "coalblood",
-   "master": false,
-   "year": "AE 121",
-   "category_name": "the coal-blood",
-   "place_name": "Muileann chaol",
-   "links": [
-    {
-     "to": "IV-0245",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "21 an Gearran, AE 121",
-     "title": "Fionnan born",
-     "master": true,
-     "year": "AE 121"
-    }
-   ],
-   "threads": [
-    "the-coal-blood"
-   ],
-   "people": [
-    "cailean-mac-eachainn"
-   ],
-   "told_in": {
-    "ref": "book/30_of_the_cellar_at_muileann_chaol.md#i-of-the-second-birth",
-    "file": "book/30_of_the_cellar_at_muileann_chaol.md",
-    "anchor": "i-of-the-second-birth",
-    "book": "Of the Cellar at Muileann chaol",
-    "section": "I. Of the Second Birth",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0246",
@@ -14683,11 +12511,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5010",
-   "date": "20 an Dàmhair, AE 122",
+   "id": "EV-5007",
+   "date": "29 an t-Samhain, AE 122",
    "y": 1901,
-   "m": 10,
-   "d": 20,
+   "m": 11,
+   "d": 29,
    "era": "AE",
    "ey": 122,
    "title": "Cailean mac Eachainn taken on at the cellar",
@@ -14790,14 +12618,14 @@
    "place_name": "Muileann chaol",
    "links": [
     {
-     "to": "EV-5010",
+     "to": "EV-5007",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "20 an Dàmhair, AE 122",
+     "date": "29 an t-Samhain, AE 122",
      "title": "Cailean mac Eachainn taken on at the cellar",
      "master": false,
      "year": "AE 122"
@@ -14826,14 +12654,14 @@
    "place_name": "Muileann chaol",
    "links": [
     {
-     "to": "EV-5011",
+     "to": "EV-5008",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "18 an t-Iuchar, AE 125",
+     "date": "4 am Màrt, AE 125",
      "title": "Nothing of weight was lost",
      "master": false,
      "year": "AE 125"
@@ -14844,11 +12672,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5011",
-   "date": "18 an t-Iuchar, AE 125",
+   "id": "EV-5008",
+   "date": "4 am Màrt, AE 125",
    "y": 1904,
-   "m": 7,
-   "d": 18,
+   "m": 3,
+   "d": 4,
    "era": "AE",
    "ey": 125,
    "title": "Nothing of weight was lost",
@@ -14906,14 +12734,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-5012",
+     "to": "EV-5009",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 an t-Sultain, AE 126",
+     "date": "16 an t-Iuchar, AE 126",
      "title": "Peigi Ghlas calls the custodians to Cill ghlas",
      "master": false,
      "year": "AE 126"
@@ -14946,11 +12774,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5012",
-   "date": "27 an t-Sultain, AE 126",
+   "id": "EV-5009",
+   "date": "16 an t-Iuchar, AE 126",
    "y": 1905,
-   "m": 9,
-   "d": 27,
+   "m": 7,
+   "d": 16,
    "era": "AE",
    "ey": 126,
    "title": "Peigi Ghlas calls the custodians to Cill ghlas",
@@ -15153,76 +12981,17 @@
    "year": "AE 127",
    "category_name": null,
    "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "EV-5503",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "8 an Dùbhlachd, AE 127",
-     "title": "A custodian of Cill ghlas answers the Company's agent",
-     "master": false,
-     "year": "AE 127"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
   },
   {
    "id": "EV-5503",
-   "date": "8 an Dùbhlachd, AE 127",
-   "y": 1906,
-   "m": 12,
-   "d": 8,
-   "era": "AE",
-   "ey": 127,
-   "title": "A custodian of Cill ghlas answers the Company's agent",
-   "body": "Asked by a Company agent whether she knows of any coal-touched child in her district, a custodian of Cill ghlas answers that she keeps no roll of miracles, only of births and deaths, and that the office is welcome to search her books for either.",
-   "place": "burg:123",
-   "kind": "birth",
-   "category": "coalblood",
-   "master": false,
-   "year": "AE 127",
-   "category_name": "the coal-blood",
-   "place_name": "Cill ghlas",
-   "links": [
-    {
-     "to": "IV-0252",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an t-Samhain, AE 127",
-     "title": "The Administration's register",
-     "master": true,
-     "year": "AE 127"
-    }
-   ],
-   "threads": [
-    "line-of-aisling"
-   ],
-   "people": [],
-   "told_in": {
-    "ref": "book/31_of_the_line_of_aisling.md#iii-of-the-return-and-the-report-that-named-no-one",
-    "file": "book/31_of_the_line_of_aisling.md",
-    "anchor": "iii-of-the-return-and-the-report-that-named-no-one",
-    "book": "Of the Line of Aisling",
-    "section": "III. Of the Return, and the Report that Named No One",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-5504",
-   "date": "28 an Dùbhlachd, AE 128",
+   "date": "22 an Cèitean, AE 128",
    "y": 1907,
-   "m": 12,
-   "d": 28,
+   "m": 5,
+   "d": 22,
    "era": "AE",
    "ey": 128,
    "title": "Peigi Ghlas dies at Cill ghlas",
@@ -15424,7 +13193,7 @@
    "told_in": null
   },
   {
-   "id": "EV-5505",
+   "id": "EV-5504",
    "date": "5 an t-Samhain, AE 132",
    "y": 1911,
    "m": 11,
@@ -15473,11 +13242,11 @@
    }
   },
   {
-   "id": "EV-5506",
-   "date": "21 an t-Samhain, AE 132",
+   "id": "EV-5505",
+   "date": "13 an t-Samhain, AE 132",
    "y": 1911,
    "m": 11,
-   "d": 21,
+   "d": 13,
    "era": "AE",
    "ey": 132,
    "title": "Hannah Webb's first vigil",
@@ -15521,7 +13290,7 @@
    }
   },
   {
-   "id": "EV-5507",
+   "id": "EV-5506",
    "date": "29 an t-Samhain, AE 132",
    "y": 1911,
    "m": 11,
@@ -15609,7 +13378,7 @@
    "place_name": "Baile chrom",
    "links": [
     {
-     "to": "EV-5505",
+     "to": "EV-5504",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
@@ -15622,20 +13391,20 @@
      "year": "AE 132"
     },
     {
-     "to": "EV-5506",
+     "to": "EV-5505",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "21 an t-Samhain, AE 132",
+     "date": "13 an t-Samhain, AE 132",
      "title": "Hannah Webb's first vigil",
      "master": false,
      "year": "AE 132"
     },
     {
-     "to": "EV-5507",
+     "to": "EV-5506",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
@@ -15691,21 +13460,7 @@
    "year": "AE 134",
    "category_name": null,
    "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "EV-5508",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "11 an t-Ògmhios, AE 134",
-     "title": "The berth toll and the docker Tòmas Ruadh",
-     "master": false,
-     "year": "AE 134"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -15754,59 +13509,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5508",
-   "date": "11 an t-Ògmhios, AE 134",
+   "id": "EV-5507",
+   "date": "1 an t-Sultain, AE 134",
    "y": 1913,
-   "m": 6,
-   "d": 11,
-   "era": "AE",
-   "ey": 134,
-   "title": "The berth toll and the docker Tòmas Ruadh",
-   "body": "The Company posts a new toll on every ton loaded at the Ros dhomhain coal berths. The docker Tòmas Ruadh, whom Daniel Webb once pulled clear of a falling beam, tells him of it, and the two speak for the first time of standing off the hooks together.",
-   "place": "burg:27",
-   "kind": "record",
-   "category": "law",
-   "master": false,
-   "year": "AE 134",
-   "category_name": "law and learning",
-   "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "IV-0263",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "1 an Giblean, AE 134",
-     "title": "The dockers' strike at Ros dhomhain",
-     "master": true,
-     "year": "AE 134"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "daniel-webb",
-    "tomas-ruadh"
-   ],
-   "told_in": {
-    "ref": "book/32_of_the_grey_goose_and_the_dockers.md#iv-of-the-dockers-of-ros-dhomhain",
-    "file": "book/32_of_the_grey_goose_and_the_dockers.md",
-    "anchor": "iv-of-the-dockers-of-ros-dhomhain",
-    "book": "Of the Grey Goose and the Dockers",
-    "section": "IV. Of the Dockers of Ros dhomhain",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-5509",
-   "date": "16 an t-Iuchar, AE 134",
-   "y": 1913,
-   "m": 7,
-   "d": 16,
+   "m": 9,
+   "d": 1,
    "era": "AE",
    "ey": 134,
    "title": "Raghnall Breac walks to Cill ghlas",
@@ -15889,14 +13596,14 @@
    "place_name": "Cill ghlas",
    "links": [
     {
-     "to": "EV-5509",
+     "to": "EV-5507",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
      "label": "Caused by",
      "age": "V",
      "era": "AE",
-     "date": "16 an t-Iuchar, AE 134",
+     "date": "1 an t-Sultain, AE 134",
      "title": "Raghnall Breac walks to Cill ghlas",
      "master": false,
      "year": "AE 134"
@@ -15929,11 +13636,11 @@
    "told_in": null
   },
   {
-   "id": "EV-5510",
-   "date": "7 an t-Iuchar, AE 136",
+   "id": "EV-5508",
+   "date": "6 am Màrt, AE 136",
    "y": 1915,
-   "m": 7,
-   "d": 7,
+   "m": 3,
+   "d": 6,
    "era": "AE",
    "ey": 136,
    "title": "Eilidh nic Raghnaill given a seat at the Lamp-Watch's table",
@@ -16058,14 +13765,14 @@
    "place_name": "Scàineadh Cill ghlas",
    "links": [
     {
-     "to": "EV-5511",
+     "to": "EV-5509",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "23 an Dùbhlachd, AE 137",
+     "date": "26 an Dùbhlachd, AE 137",
      "title": "Eilidh nic Raghnaill at the fenced ground",
      "master": false,
      "year": "AE 137"
@@ -16136,31 +13843,17 @@
    "year": "AE 137",
    "category_name": null,
    "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "EV-5512",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an Dùbhlachd, AE 137",
-     "title": "Fionnlagh's warning at Muileann chrom",
-     "master": false,
-     "year": "AE 137"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
   },
   {
-   "id": "EV-5511",
-   "date": "23 an Dùbhlachd, AE 137",
+   "id": "EV-5509",
+   "date": "26 an Dùbhlachd, AE 137",
    "y": 1916,
    "m": 12,
-   "d": 23,
+   "d": 26,
    "era": "AE",
    "ey": 137,
    "title": "Eilidh nic Raghnaill at the fenced ground",
@@ -16199,54 +13892,6 @@
     "anchor": "iv-of-the-fenced-ground-and-the-stone-on-the-moor-road",
     "book": "Of the Rending of Cill ghlas",
     "section": "IV. Of the Fenced Ground and the Stone on the Moor Road",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-5512",
-   "date": "26 an Dùbhlachd, AE 137",
-   "y": 1916,
-   "m": 12,
-   "d": 26,
-   "era": "AE",
-   "ey": 137,
-   "title": "Fionnlagh's warning at Muileann chrom",
-   "body": "The overseer Fionnlagh tells the new agent Edgar Holt that the flooded ground under one heading at Muileann chrom has never gone a night without its pumps, drawing as it does from an unmapped old working above it. Holt orders the pumps stopped regardless, to spare coal for the winding-gear until a delayed barge arrives.",
-   "place": "burg:354",
-   "kind": "craft",
-   "category": "coal",
-   "master": false,
-   "year": "AE 137",
-   "category_name": "coal and the vein",
-   "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "IV-0274",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "13 an Dùbhlachd, AE 137",
-     "title": "The fight at Muileann chrom",
-     "master": true,
-     "year": "AE 137"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "fionnlagh",
-    "edgar-holt"
-   ],
-   "told_in": {
-    "ref": "book/33_of_the_rending_of_cill_ghlas.md#v-of-the-pumps-stopped-to-save-fuel",
-    "file": "book/33_of_the_rending_of_cill_ghlas.md",
-    "anchor": "v-of-the-pumps-stopped-to-save-fuel",
-    "book": "Of the Rending of Cill ghlas",
-    "section": "V. Of the Pumps Stopped to Save Fuel",
     "where": "era"
    }
   },
@@ -16595,21 +14240,7 @@
    "year": "AE 140",
    "category_name": null,
    "place_name": "Seann Skell",
-   "links": [
-    {
-     "to": "EV-6004",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "20 an Dàmhair, AE 141",
-     "title": "Eilidh nic Raghnaill reads Ìomhar Seabhag's sermon to the Lamp-Watch",
-     "master": false,
-     "year": "AE 141"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -16788,21 +14419,7 @@
    "year": "AE 141",
    "category_name": null,
    "place_name": "An Taigh-seinnse Mòr",
-   "links": [
-    {
-     "to": "EV-6005",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "14 an t-Samhain, AE 141",
-     "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
-     "master": false,
-     "year": "AE 141"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -16850,111 +14467,6 @@
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-6004",
-   "date": "20 an Dàmhair, AE 141",
-   "y": 1920,
-   "m": 10,
-   "d": 20,
-   "era": "AE",
-   "ey": 141,
-   "title": "Eilidh nic Raghnaill reads Ìomhar Seabhag's sermon to the Lamp-Watch",
-   "body": "A fowler leaves a written copy of Ìomhar Seabhag's Seann Skell sermon with the burial club's door-keeper at Baile thais, and Eilidh nic Raghnaill reads it aloud to the room by the same lamp she drafted the second petition by. For once she does not write anything in the club's book afterward.",
-   "place": "burg:44",
-   "kind": "rite",
-   "category": "faith",
-   "master": false,
-   "year": "AE 141",
-   "category_name": "faith and myth",
-   "place_name": "Baile thais",
-   "links": [
-    {
-     "to": "IV-0284",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "24 an Giblean, AE 140",
-     "title": "Ìomhar Seabhag",
-     "master": true,
-     "year": "AE 140"
-    }
-   ],
-   "threads": [
-    "the-orders-of-the-old-faith"
-   ],
-   "people": [
-    "eilidh-nic-raghnaill"
-   ],
-   "told_in": {
-    "ref": "book/34_of_the_warning_and_the_constables.md#iv-of-the-hawk-and-the-sermon",
-    "file": "book/34_of_the_warning_and_the_constables.md",
-    "anchor": "iv-of-the-hawk-and-the-sermon",
-    "book": "Of the Warning and the Constables",
-    "section": "IV. Of the Hawk and the Sermon",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-6005",
-   "date": "14 an t-Samhain, AE 141",
-   "y": 1920,
-   "m": 11,
-   "d": 14,
-   "era": "AE",
-   "ey": 141,
-   "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
-   "body": "A crew-leader from Baile thais asks Aonghas, keeper of An Taigh-seinnse Mòr since Seònaid Bhàn's line came to him, whether the loft above his stable might hold men now and again with no questions asked. He agrees, and stops in time asking what they carry.",
-   "place": "marker:10",
-   "kind": "humans",
-   "category": "humans",
-   "master": false,
-   "year": "AE 141",
-   "category_name": "the humans",
-   "place_name": "An Taigh-seinnse Mòr",
-   "links": [
-    {
-     "to": "IV-0290",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "9 an t-Sultain, AE 141",
-     "title": "The road-houses make ready",
-     "master": true,
-     "year": "AE 141"
-    },
-    {
-     "to": "IV-0300",
-     "type": "cause",
-     "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an Gearran, AE 143",
-     "title": "Seònaid's house",
-     "master": true,
-     "year": "AE 143"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "aonghas"
-   ],
-   "told_in": {
-    "ref": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
-    "file": "book/35_of_the_houses_on_the_roads.md",
-    "anchor": "i-of-the-house-at-the-halfway-stage",
-    "book": "Of the Houses on the Roads",
-    "section": "I. Of the House at the Halfway Stage",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0293",
@@ -17085,14 +14597,14 @@
    "place_name": "Àth fhiadhaich",
    "links": [
     {
-     "to": "EV-6006",
+     "to": "EV-6004",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "17 an Dùbhlachd, AE 142",
+     "date": "19 an Dùbhlachd, AE 142",
      "title": "A boy of Àth fhiadhaich at Aonghas's door",
      "master": false,
      "year": "AE 142"
@@ -17103,11 +14615,11 @@
    "told_in": null
   },
   {
-   "id": "EV-6006",
-   "date": "17 an Dùbhlachd, AE 142",
+   "id": "EV-6004",
+   "date": "19 an Dùbhlachd, AE 142",
    "y": 1921,
    "m": 12,
-   "d": 17,
+   "d": 19,
    "era": "AE",
    "ey": 142,
    "title": "A boy of Àth fhiadhaich at Aonghas's door",
@@ -17186,21 +14698,7 @@
    "year": "AE 143",
    "category_name": null,
    "place_name": "An Taigh-seinnse Mòr",
-   "links": [
-    {
-     "to": "EV-6005",
-     "type": "cause",
-     "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
-     "age": "V",
-     "era": "AE",
-     "date": "14 an t-Samhain, AE 141",
-     "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
-     "master": false,
-     "year": "AE 141"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -17223,7 +14721,7 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-6007",
+     "to": "EV-6005",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -17347,7 +14845,7 @@
    "place_name": "Muileann chrom",
    "links": [
     {
-     "to": "EV-6007",
+     "to": "EV-6005",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -17409,7 +14907,7 @@
    "told_in": null
   },
   {
-   "id": "EV-6007",
+   "id": "EV-6005",
    "date": "31 an Dùbhlachd, AE 143",
    "y": 1922,
    "m": 12,
@@ -17498,7 +14996,7 @@
    "place_name": "Doire mhòr",
    "links": [
     {
-     "to": "EV-6007",
+     "to": "EV-6005",
      "type": "cause",
      "dir": "in",
      "arrow": "→",
@@ -17534,14 +15032,14 @@
    "place_name": "Muir Mhanannain",
    "links": [
     {
-     "to": "EV-6008",
+     "to": "EV-6006",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "30 an Dàmhair, AE 145",
+     "date": "16 an Dàmhair, AE 145",
      "title": "Tormod Buabhall's word on a house with nothing left to guard",
      "master": false,
      "year": "AE 145"
@@ -17596,11 +15094,11 @@
    "told_in": null
   },
   {
-   "id": "EV-6008",
-   "date": "30 an Dàmhair, AE 145",
+   "id": "EV-6006",
+   "date": "16 an Dàmhair, AE 145",
    "y": 1924,
    "m": 10,
-   "d": 30,
+   "d": 16,
    "era": "AE",
    "ey": 145,
    "title": "Tormod Buabhall's word on a house with nothing left to guard",
@@ -17633,11 +15131,11 @@
     "aonghas"
    ],
    "told_in": {
-    "ref": "book/35_of_the_houses_on_the_roads.md#vi-of-the-idle-harbours",
+    "ref": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
     "file": "book/35_of_the_houses_on_the_roads.md",
-    "anchor": "vi-of-the-idle-harbours",
+    "anchor": "i-of-the-house-at-the-halfway-stage",
     "book": "Of the Houses on the Roads",
-    "section": "VI. Of the Idle Harbours",
+    "section": "I. Of the House at the Halfway Stage",
     "where": "era"
    }
   },
@@ -17723,21 +15221,7 @@
    "year": "AE 147",
    "category_name": null,
    "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "EV-6009",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "20 an Dàmhair, AE 147",
-     "title": "The iron bird seen over Muileann chrom",
-     "master": false,
-     "year": "AE 147"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -17760,14 +15244,14 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-6010",
+     "to": "EV-6007",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "18 an Dùbhlachd, AE 147",
+     "date": "16 an t-Samhain, AE 147",
      "title": "The old man of Doire mhòr",
      "master": false,
      "year": "AE 147"
@@ -17796,14 +15280,14 @@
    "place_name": "Doire mhòr",
    "links": [
     {
-     "to": "EV-6010",
+     "to": "EV-6007",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "18 an Dùbhlachd, AE 147",
+     "date": "16 an t-Samhain, AE 147",
      "title": "The old man of Doire mhòr",
      "master": false,
      "year": "AE 147"
@@ -17836,58 +15320,11 @@
    "told_in": null
   },
   {
-   "id": "EV-6009",
-   "date": "20 an Dàmhair, AE 147",
+   "id": "EV-6007",
+   "date": "16 an t-Samhain, AE 147",
    "y": 1926,
-   "m": 10,
-   "d": 20,
-   "era": "AE",
-   "ey": 147,
-   "title": "The iron bird seen over Muileann chrom",
-   "body": "A flying machine passes twice over the Muileann chrom valley without beating its wings, and the crews at the pit-mouth stop their barrows to watch it go. By evening the district has a name for it, eun-iarainn, borrowed from nowhere and understood at once.",
-   "place": "burg:354",
-   "kind": "land",
-   "category": "land",
-   "master": false,
-   "year": "AE 147",
-   "category_name": "land and sea",
-   "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "IV-0315a",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "27 am Màrt, AE 147",
-     "title": "The iron bird",
-     "master": true,
-     "year": "AE 147"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "morag-nic-iain-maor"
-   ],
-   "told_in": {
-    "ref": "book/36_of_the_breaking_of_the_staff.md#i-of-the-iron-bird",
-    "file": "book/36_of_the_breaking_of_the_staff.md",
-    "anchor": "i-of-the-iron-bird",
-    "book": "Of the Breaking of the Staff",
-    "section": "I. Of the Iron Bird",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-6010",
-   "date": "18 an Dùbhlachd, AE 147",
-   "y": 1926,
-   "m": 12,
-   "d": 18,
+   "m": 11,
+   "d": 16,
    "era": "AE",
    "ey": 147,
    "title": "The old man of Doire mhòr",
@@ -18070,27 +15507,27 @@
    "category_name": null,
    "links": [
     {
-     "to": "EV-6011",
+     "to": "EV-6008",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "26 an Gearran, AE 149",
-     "title": "Coinneach Ruadh's ride of the twentieth",
+     "date": "23 an Gearran, AE 149",
+     "title": "Coinneach Ruadh's ride of the twenty-eighth",
      "master": false,
      "year": "AE 149"
     },
     {
-     "to": "EV-6012",
+     "to": "EV-6009",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "27 an Gearran, AE 149",
+     "date": "25 an Gearran, AE 149",
      "title": "The beacons of the coal country answer",
      "master": false,
      "year": "AE 149"
@@ -18101,15 +15538,15 @@
    "told_in": null
   },
   {
-   "id": "EV-6011",
-   "date": "26 an Gearran, AE 149",
+   "id": "EV-6008",
+   "date": "23 an Gearran, AE 149",
    "y": 1928,
    "m": 2,
-   "d": 26,
+   "d": 23,
    "era": "AE",
    "ey": 149,
-   "title": "Coinneach Ruadh's ride of the twentieth",
-   "body": "Coinneach Ruadh rides into Muileann chrom on the twentieth of an Gearran with word that the grievance is called across every mining district at once, and that the Residency has already had its answer that morning from Muileann chrom and Baile thais both.",
+   "title": "Coinneach Ruadh's ride of the twenty-eighth",
+   "body": "Coinneach Ruadh rides into Muileann chrom on the twenty-eighth of an Gearran with word that the grievance is called across every mining district at once, and that the Residency has already had its answer that morning from Muileann chrom and Baile thais both.",
    "place": "burg:354",
    "kind": "war",
    "category": "war",
@@ -18149,11 +15586,11 @@
    }
   },
   {
-   "id": "EV-6012",
-   "date": "27 an Gearran, AE 149",
+   "id": "EV-6009",
+   "date": "25 an Gearran, AE 149",
    "y": 1928,
    "m": 2,
-   "d": 27,
+   "d": 25,
    "era": "AE",
    "ey": 149,
    "title": "The beacons of the coal country answer",
@@ -18212,72 +15649,10 @@
    "year": "AE 149",
    "category_name": null,
    "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "EV-6501",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "10 am Màrt, AE 149",
-     "title": "Tòmas Odhar's hand on the gatepost",
-     "master": false,
-     "year": "AE 149"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-6501",
-   "date": "10 am Màrt, AE 149",
-   "y": 1928,
-   "m": 3,
-   "d": 10,
-   "era": "AE",
-   "ey": 149,
-   "title": "Tòmas Odhar's hand on the gatepost",
-   "body": "At the fallen gate of the Muileann chrom store the old hewer Tòmas Odhar rests his hand flat on the gatepost and says he has carried coal out through it for six-and-thirty years and never thought to see rifles carried out through it instead. His words are repeated round the camp for a week after.",
-   "place": "burg:354",
-   "kind": "craft",
-   "category": "coal",
-   "master": false,
-   "year": "AE 149",
-   "category_name": "coal and the vein",
-   "place_name": "Muileann chrom",
-   "links": [
-    {
-     "to": "IV-0325",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "28 an Gearran, AE 149",
-     "title": "The stores taken at Muileann chrom",
-     "master": true,
-     "year": "AE 149"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "tomas-odhar",
-    "morag-nic-iain-maor"
-   ],
-   "told_in": {
-    "ref": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom",
-    "file": "book/37_of_the_rising_in_the_hills.md",
-    "anchor": "i-of-the-first-light-at-muileann-chrom",
-    "book": "Of the Rising in the Hills",
-    "section": "I. Of the First Light at Muileann chrom",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0326",
@@ -18298,14 +15673,14 @@
    "place_name": "Ceann fhada",
    "links": [
     {
-     "to": "EV-6502",
+     "to": "EV-6501",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
      "label": "Leads to",
      "age": "V",
      "era": "AE",
-     "date": "28 an Cèitean, AE 149",
+     "date": "30 an Cèitean, AE 149",
      "title": "Pàdraig Reamhar scuttles his own barge",
      "master": false,
      "year": "AE 149"
@@ -18316,11 +15691,11 @@
    "told_in": null
   },
   {
-   "id": "EV-6502",
-   "date": "28 an Cèitean, AE 149",
+   "id": "EV-6501",
+   "date": "30 an Cèitean, AE 149",
    "y": 1928,
    "m": 5,
-   "d": 28,
+   "d": 30,
    "era": "AE",
    "ey": 149,
    "title": "Pàdraig Reamhar scuttles his own barge",
@@ -18381,7 +15756,7 @@
    "place_name": "Baile thais",
    "links": [
     {
-     "to": "EV-6511",
+     "to": "EV-6509",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -18593,6 +15968,19 @@
    "place_name": "Àth chiar",
    "links": [
     {
+     "to": "EV-6502",
+     "type": "sequel",
+     "dir": "in",
+     "arrow": "←",
+     "label": "Leads to",
+     "age": "V",
+     "era": "AE",
+     "date": "6 an Dùbhlachd, AE 149",
+     "title": "The turnip cart to the ford",
+     "master": false,
+     "year": "AE 149"
+    },
+    {
      "to": "EV-6503",
      "type": "sequel",
      "dir": "in",
@@ -18601,19 +15989,6 @@
      "age": "V",
      "era": "AE",
      "date": "7 an Dùbhlachd, AE 149",
-     "title": "The turnip cart to the ford",
-     "master": false,
-     "year": "AE 149"
-    },
-    {
-     "to": "EV-6504",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "26 an Dùbhlachd, AE 149",
      "title": "The nineteen of Àth chiar buried",
      "master": false,
      "year": "AE 149"
@@ -18624,11 +15999,11 @@
    "told_in": null
   },
   {
-   "id": "EV-6503",
-   "date": "7 an Dùbhlachd, AE 149",
+   "id": "EV-6502",
+   "date": "6 an Dùbhlachd, AE 149",
    "y": 1928,
    "m": 12,
-   "d": 7,
+   "d": 6,
    "era": "AE",
    "ey": 149,
    "title": "The turnip cart to the ford",
@@ -18671,11 +16046,11 @@
    }
   },
   {
-   "id": "EV-6504",
-   "date": "26 an Dùbhlachd, AE 149",
+   "id": "EV-6503",
+   "date": "7 an Dùbhlachd, AE 149",
    "y": 1928,
    "m": 12,
-   "d": 26,
+   "d": 7,
    "era": "AE",
    "ey": 149,
    "title": "The nineteen of Àth chiar buried",
@@ -18891,7 +16266,7 @@
    "place_name": "Cuan dhearg",
    "links": [
     {
-     "to": "EV-6509",
+     "to": "EV-6507",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -18927,7 +16302,7 @@
    "place_name": "Cnoc bheag",
    "links": [
     {
-     "to": "EV-6510",
+     "to": "EV-6508",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -18983,21 +16358,7 @@
    "year": "AE 150",
    "category_name": null,
    "place_name": "Tobar dhomhain",
-   "links": [
-    {
-     "to": "EV-6512",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "31 an Dùbhlachd, AE 150",
-     "title": "Forty-one riders, all going south",
-     "master": false,
-     "year": "AE 150"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -19261,71 +16622,10 @@
    "year": "AE 150",
    "category_name": null,
    "place_name": "Seann Warr",
-   "links": [
-    {
-     "to": "EV-6505",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "7 an t-Iuchar, AE 150",
-     "title": "Dùghall counts the grain carts from Seann Warr",
-     "master": false,
-     "year": "AE 150"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
-  },
-  {
-   "id": "EV-6505",
-   "date": "7 an t-Iuchar, AE 150",
-   "y": 1929,
-   "m": 7,
-   "d": 7,
-   "era": "AE",
-   "ey": 150,
-   "title": "Dùghall counts the grain carts from Seann Warr",
-   "body": "At the harbour quarter's upper gate Dùghall Dubh, once a weigher of coal for the Company, keeps the council's tally of the grain train down from Seann Warr, twelve carts against a capital's hunger, and sends the last load on to the sharing-yard behind the custodians' hall.",
-   "place": "burg:27",
-   "kind": "land",
-   "category": "land",
-   "master": false,
-   "year": "AE 150",
-   "category_name": "land and sea",
-   "place_name": "Ros dhomhain",
-   "links": [
-    {
-     "to": "IV-0353",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "4 an t-Iuchar, AE 150",
-     "title": "Grain from Seann Warr",
-     "master": true,
-     "year": "AE 150"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "dughall-dubh"
-   ],
-   "told_in": {
-    "ref": "book/39_of_the_burning_of_the_ledgers.md#i-of-the-grain-from-seann-warr",
-    "file": "book/39_of_the_burning_of_the_ledgers.md",
-    "anchor": "i-of-the-grain-from-seann-warr",
-    "book": "Of the Burning of the Ledgers",
-    "section": "I. Of the Grain from Seann Warr",
-    "where": "era"
-   }
   },
   {
    "id": "IV-0354",
@@ -19389,7 +16689,7 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-6506",
+     "to": "EV-6504",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -19407,7 +16707,7 @@
    "told_in": null
   },
   {
-   "id": "EV-6506",
+   "id": "EV-6504",
    "date": "5 an Lùnastal, AE 150",
    "y": 1929,
    "m": 8,
@@ -19582,7 +16882,7 @@
    "place_name": "Ros dhomhain",
    "links": [
     {
-     "to": "EV-6507",
+     "to": "EV-6505",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -19595,7 +16895,7 @@
      "year": "AE 150"
     },
     {
-     "to": "EV-6508",
+     "to": "EV-6506",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -19613,7 +16913,7 @@
    "told_in": null
   },
   {
-   "id": "EV-6507",
+   "id": "EV-6505",
    "date": "22 an t-Sultain, AE 150",
    "y": 1929,
    "m": 9,
@@ -19660,7 +16960,7 @@
    }
   },
   {
-   "id": "EV-6508",
+   "id": "EV-6506",
    "date": "22 an t-Sultain, AE 150",
    "y": 1929,
    "m": 9,
@@ -19813,7 +17113,7 @@
    "place_name": "Baile dhìreach",
    "links": [
     {
-     "to": "EV-6513",
+     "to": "EV-6510",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -19847,21 +17147,7 @@
    "year": "AE 150",
    "category_name": null,
    "place_name": "Muir Mhanannain",
-   "links": [
-    {
-     "to": "EV-6514",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "31 an Dùbhlachd, AE 150",
-     "title": "The sealed letter kept close",
-     "master": false,
-     "year": "AE 150"
-    }
-   ],
+   "links": [],
    "threads": [],
    "people": [],
    "told_in": null
@@ -19929,7 +17215,7 @@
    "place_name": "Cuan shean",
    "links": [
     {
-     "to": "EV-6515",
+     "to": "EV-6511",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -20009,7 +17295,7 @@
    "place_name": "Cuan shean",
    "links": [
     {
-     "to": "EV-6516",
+     "to": "EV-6512",
      "type": "sequel",
      "dir": "in",
      "arrow": "←",
@@ -20071,7 +17357,7 @@
    "told_in": null
   },
   {
-   "id": "EV-6509",
+   "id": "EV-6507",
    "date": "30 an Dùbhlachd, AE 150",
    "y": 1929,
    "m": 12,
@@ -20116,7 +17402,7 @@
    }
   },
   {
-   "id": "EV-6510",
+   "id": "EV-6508",
    "date": "31 an Dùbhlachd, AE 150",
    "y": 1929,
    "m": 12,
@@ -20161,7 +17447,7 @@
    }
   },
   {
-   "id": "EV-6511",
+   "id": "EV-6509",
    "date": "31 an Dùbhlachd, AE 150",
    "y": 1929,
    "m": 12,
@@ -20206,52 +17492,7 @@
    }
   },
   {
-   "id": "EV-6512",
-   "date": "31 an Dùbhlachd, AE 150",
-   "y": 1929,
-   "m": 12,
-   "d": 31,
-   "era": "AE",
-   "ey": 150,
-   "title": "Forty-one riders, all going south",
-   "body": "The company's count ends at forty-one constables' riders in a single day, and not one riding north; Gillebrìde reads the sign as Strake's attention turned elsewhere, and Coinneach Beag cannot say whether the empty road is the safest on the island or the most dangerous.",
-   "place": "burg:308",
-   "kind": "war",
-   "category": "war",
-   "master": false,
-   "year": "AE 150",
-   "category_name": "war",
-   "place_name": "Tobar dhomhain",
-   "links": [
-    {
-     "to": "IV-0342d",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "23 an Giblean, AE 150",
-     "title": "The watch in the grasslands",
-     "master": true,
-     "year": "AE 150"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "coinneach-beag"
-   ],
-   "told_in": {
-    "ref": "book/38_of_the_leaden_hawk.md#v-of-the-grass-above-tobar-dhomhain",
-    "file": "book/38_of_the_leaden_hawk.md",
-    "anchor": "v-of-the-grass-above-tobar-dhomhain",
-    "book": "Of the Leaden Hawk",
-    "section": "V. Of the Grass Above Tobar dhomhain",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-6513",
+   "id": "EV-6510",
    "date": "31 an Dùbhlachd, AE 150",
    "y": 1929,
    "m": 12,
@@ -20298,52 +17539,7 @@
    }
   },
   {
-   "id": "EV-6514",
-   "date": "31 an Dùbhlachd, AE 150",
-   "y": 1929,
-   "m": 12,
-   "d": 31,
-   "era": "AE",
-   "ey": 150,
-   "title": "The sealed letter kept close",
-   "body": "The last ship from over the sea puts a single sealed letter ashore for the Commissioner at Ros bheag before filling her berths with passengers and standing out again. Strake reads it alone by a window over the harbour, burns its wrapping in the grate, and is seen to carry the letter itself inside his coat for the rest of the winter. No clerk of his ever claims to have read a word of it.",
-   "place": "burg:63",
-   "kind": "humans",
-   "category": "humans",
-   "master": false,
-   "year": "AE 150",
-   "category_name": "the humans",
-   "place_name": "Ros bheag",
-   "links": [
-    {
-     "to": "IV-0368",
-     "type": "sequel",
-     "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
-     "age": "V",
-     "era": "AE",
-     "date": "1 an t-Samhain, AE 150",
-     "title": "The last ship from the east",
-     "master": true,
-     "year": "AE 150"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "lionel-strake"
-   ],
-   "told_in": {
-    "ref": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#iii-of-the-last-ship",
-    "file": "book/40_of_the_truce_and_the_closing_of_the_crossing.md",
-    "anchor": "iii-of-the-last-ship",
-    "book": "Of the Truce and the Closing of the Crossing",
-    "section": "III. Of the Last Ship",
-    "where": "era"
-   }
-  },
-  {
-   "id": "EV-6515",
+   "id": "EV-6511",
    "date": "31 an Dùbhlachd, AE 150",
    "y": 1929,
    "m": 12,
@@ -20390,7 +17586,7 @@
    }
   },
   {
-   "id": "EV-6516",
+   "id": "EV-6512",
    "date": "31 an Dùbhlachd, AE 150",
    "y": 1929,
    "m": 12,

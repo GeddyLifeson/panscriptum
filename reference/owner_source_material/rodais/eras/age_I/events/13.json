@@ -1,0 +1,162 @@
+[
+  {
+    "title": "The seventh kiln-pit dug at Morn",
+    "era_year": 1446,
+    "summary": "A household of the Seann-Dhaoine finishes a seventh stone-lined smoking pit above the shingle at Morn, each fed by a short turf-cut flue and kept for smoke and not flame, the first buildings raised on Dia-thìr for a trade rather than a hearth.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:186"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0018", "type": "cause"}]
+  },
+  {
+    "title": "The kiln smoke seen from inland",
+    "era_year": 1450,
+    "summary": "Herders of the inland hearths mark a grey column standing over the coast on still mornings and take it for a weather of that shore alone, not knowing for some years that it is a fire kept low and smouldering on purpose, day upon day, to dry a catch too great for one winter's eating.",
+    "category": "land",
+    "people": [],
+    "places": ["burg:186"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0018", "type": "sequel"}]
+  },
+  {
+    "title": "The fourth pit drowned in a night's rain",
+    "era_year": 1461,
+    "summary": "A gale drives rain sideways off the bay at Morn and puts out the fourth kiln before the keeper's last round; she lets the pit stand cold rather than relight it under a soaked load, and carries the spoiled catch to the gulls at the tideline.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:186"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0018", "type": "sequel"}]
+  },
+  {
+    "title": "The ninth kiln set higher against the rain",
+    "era_year": 1467,
+    "summary": "The keeper of Morn's kilns digs a ninth pit set higher on the rise than the first seven, its flue longer and angled harder against a driving rain, after a wet night once cost the household a whole pit's catch.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:186"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0018", "type": "sequel"}]
+  },
+  {
+    "title": "The first ramp-slab laid at Brenn",
+    "era_year": 1478,
+    "summary": "A household of skin-boat builders on the north coast begins laying flat slabs down a shelf of stone at Brenn from above the highest tide to deep water, meaning to draw down a load heavier than any hide boat's frame.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "cause"}]
+  },
+  {
+    "title": "A ramp-slab relaid twice at Brenn",
+    "era_year": 1483,
+    "summary": "Twice a slab of the new ramp at Brenn settles crooked overnight where the ground beneath it runs soft, and is levered up with poles of green oak and reset on stone packed hard by hand and heel, without complaint from the household doing it.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "sequel"}]
+  },
+  {
+    "title": "The first ramp at Brenn finished",
+    "era_year": 1499,
+    "summary": "The first ramp at Brenn stands finished its whole length, laid true enough that a loaded sledge runs it without a check, some years before the household raises anything heavier upon it than the skin boats they had always built.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "sequel"}]
+  },
+  {
+    "title": "The first plank-built hull framed at Brenn",
+    "era_year": 1512,
+    "summary": "The household at Brenn frames the first hull of planks pegged and caulked over a timber frame, a make no shore of Dia-thìr had built before, and raises it on rollers along the finished ramp to wait on the tide.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "cause"}]
+  },
+  {
+    "title": "The first hull launched down the ramps",
+    "era_year": 1520,
+    "summary": "The household of Brenn walks its first plank-built hull down the finished ramp on rollers and lets it take the water at the height of the tide; it floats low and steady, and hands already aboard it work it out past the last stone shelf into open water.",
+    "category": "land",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "cause"}]
+  },
+  {
+    "title": "The first hull never returns",
+    "era_year": 1521,
+    "summary": "The hull launched from Brenn does not come back to that shore in any season the household can afterward fix a year to, and of where it went or whether it reached what it was built to reach, nothing is told.",
+    "category": "land",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "sequel"}]
+  },
+  {
+    "title": "A sail seen small from the height above Brenn",
+    "era_year": 1522,
+    "summary": "A watcher on high ground along the coast near Brenn marks a dark sail standing out against the grey water and shrinking until it cannot be told from the sea it stands on, then turns back to the day's work once there is nothing left to watch.",
+    "category": "land",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "legacy"}]
+  },
+  {
+    "title": "The first platform driven at Loch chrom",
+    "era_year": 1540,
+    "summary": "Oak piles are driven down through the shallows of Loch chrom to firmer ground beneath, and a floor of split timber raised across their tops, joined to the shore by a walk of planks lashed to crossbeams below; whose hands began it, no telling has kept.",
+    "category": "trade",
+    "people": [],
+    "places": ["place:1003"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0020", "type": "cause"}]
+  },
+  {
+    "title": "Eels first taken from beneath the platforms",
+    "era_year": 1600,
+    "summary": "The households of Loch chrom learn to lower baited traps through gaps left in the plank floors of their platforms, finding more eels gathered in the shade and stillness of the piles than any open bank of the loch had ever drawn to a hand's reach before.",
+    "category": "trade",
+    "people": [],
+    "places": ["place:1003"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0020", "type": "sequel"}]
+  },
+  {
+    "title": "A child carries the first basket the length of the longest walk",
+    "era_year": 1612,
+    "summary": "A child of one household at Loch chrom is trusted, for the first time, to carry a basket of the day's eels the whole length of the longest plank walk alone, watched without a word by an elder who by then counts the crossing an ordinary errand.",
+    "category": "land",
+    "people": [],
+    "places": ["place:1003"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0020", "type": "parallel"}]
+  },
+  {
+    "title": "A new pile driven at Loch chrom",
+    "era_year": 1650,
+    "summary": "Four or five hands together drive a fresh oak pile into the mud of Loch chrom in place of one worked loose by years of current, the heaviest labour that shore's households reckon their own, and mark it, once it holds, with a shared meal on the platform.",
+    "category": "trade",
+    "people": [],
+    "places": ["place:1003"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0020", "type": "sequel"}]
+  },
+  {
+    "title": "A second ramp begun at Brenn",
+    "era_year": 1669,
+    "summary": "The household at Brenn lays a second ramp beside the first, wider and longer, and launches hulls from it in the years after the way any trade repeats what it has once learned, though none of those hulls draws the telling's eye as the first one did.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:328"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0019", "type": "sequel"}]
+  }
+]

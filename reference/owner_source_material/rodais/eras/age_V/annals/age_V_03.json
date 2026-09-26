@@ -59,32 +59,10 @@
    "told_in": "book/08_of_the_door_at_doire_mhor.md#v-of-the-paper-at-the-hearth"
   },
   {
-   "after": "IV-0048"
-  },
-  {
-   "id": "EV-2003",
-   "title": "The cart-road round Doire mhòr finished",
-   "body": "Hill men paid in iron finish the cart-road of A' Chompanaidh from Cnoc fhiadhaich round the fields of Doire mhòr to the quay at Ceann fhada, with a timber bridge at the lower ford of the Doire mhòr stream. The first loaded carts come round the bend in the autumn.",
-   "place": "burg:101",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "IV-0047",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [],
-   "told_in": "book/08_of_the_door_at_doire_mhor.md#vii-of-the-road-round-the-fields"
-  },
-  {
    "after": "IV-0049"
   },
   {
-   "id": "EV-2004",
+   "id": "EV-2003",
    "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
    "body": "Anna nic Dhòmhnaill, keeper of Taigh-solais Tobar dhearg, who cannot write, begins her count on the wall of the tower stair below the lamp-room: one stroke cut with a knife for every night the light is lit, and a stroke across every thirty.",
    "place": "marker:16",
@@ -107,40 +85,10 @@
    "told_in": "book/08_of_the_door_at_doire_mhor.md#viii-of-the-light-at-tobar-dhearg"
   },
   {
-   "after": "IV-0053"
-  },
-  {
-   "id": "EV-2005",
-   "title": "Muireall's rubbing of the first mark sent to the loft",
-   "body": "Samuel Wren brings one of the first marks to Gormshuil nic Fhearchair in the long room of the council hall. Her niece Muireall takes a rubbing of both faces, writes beneath it that the island is on neither face, and the rubbing goes east that autumn with the season's copies to the loft of Beathag nic Thòmais at Muileann chaol.",
-   "place": "burg:19",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0053",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0055",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-library"
-   ],
-   "people": [
-    "muireall-nic-fhearchair",
-    "gormshuil-nic-fhearchair",
-    "samuel-wren"
-   ],
-   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#ii-of-the-ship-on-the-coin"
-  },
-  {
    "after": "IV-0056"
   },
   {
-   "id": "EV-2006",
+   "id": "EV-2004",
    "title": "Wren's letter home on the druids",
    "body": "From Dùn thais, in the last days of the year, Samuel Wren writes to the house of his order over the sea by the packet of Taigh an Àrd-mhaoir. He sets down a tale the eldest master told at the hearth of a holy man's voyage west in a boat of hides, very like the voyage of Naomh Breandan as an Eaglais tells it, told from the other shore.",
    "place": "burg:77",
@@ -165,7 +113,7 @@
    "after": "IV-0058"
   },
   {
-   "id": "EV-2007",
+   "id": "EV-2005",
    "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
    "body": "Gormshuil nic Fhearchair passes the sheet of Puingean a' Chalaidh on unsigned, and tells Josiah Pell in his own tongue that she will not put her name under what she has read. Ailean Ruadh of Baile ghlas refuses with her. The council's roll names the two, the first custodians to refuse a writing of the strangers.",
    "place": "burg:19",
@@ -195,7 +143,7 @@
    "after": "IV-0061"
   },
   {
-   "id": "EV-2008",
+   "id": "EV-2006",
    "title": "Tormod mac Ailein buried at Cathair dhearg",
    "body": "Six custodians carry Tormod mac Ailein to the ground behind the council hall, with the bells of the capital ringing, and the mourners lay their stones on the grave going round sunwise. Josiah Pell walks up from the bridge-foot bareheaded to stand at the edge of the ground. Samuel Wren stands at the gate.",
    "place": "burg:19",
@@ -221,30 +169,7 @@
    "after": "IV-0065"
   },
   {
-   "id": "EV-2009",
-   "title": "Fionnghal nic Artair rides to Cathair dhearg",
-   "body": "In an t-Ògmhios Fionnghal nic Artair rides west from Dùn dhearg with her letter in defence of the Small-Burning Law sewn in calfskin. She lodges at Doire mhin, where the custodian Anndra mac Eòin shows her the last count of the valley, and reads him the letter by his lamp.",
-   "place": "burg:422",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0064",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0065",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "fionnghal-nic-artair"
-   ],
-   "told_in": "book/10_of_the_law_that_went_out.md#iii-of-the-letter-and-the-road-west"
-  },
-  {
-   "id": "EV-2010",
+   "id": "EV-2007",
    "title": "The council files the letter from Dùn dhearg",
    "body": "Fionnghal nic Artair reads her letter standing to the council at Cathair dhearg. Coinneach Glas thanks her and bids it kept with the rolls, and the roll enters it as read and filed. The same sitting grants the Residency leave to widen the road to Muileann chrom for the coal-carts.",
    "place": "burg:19",
@@ -275,7 +200,7 @@
    "after": "IV-0067"
   },
   {
-   "id": "EV-2011",
+   "id": "EV-2008",
    "title": "The Company's agents seize the hawk sermon in the camps",
    "body": "The Company's agents at Muileann chrom go from hut to hut through the crews' camp with a basket and take every copy of Murchadh Seabhag's sermon they find, eleven in one morning. One woman burns her copy on her hearth before them, and her name is written down.",
    "place": "burg:354",
@@ -300,7 +225,7 @@
    "after": "IV-0070"
   },
   {
-   "id": "EV-2012",
+   "id": "EV-2009",
    "title": "The last oak of Cathair fhada's own cutting",
    "body": "Before the Company's fellers come, the woodreeve of Cathair fhada and his men fell with axes the one oak the spring lot had fallen on, as the town had cut since the Holy Age, and plant six acorns in the ring of its roots. The fellers begin with long saws on the morning after.",
    "place": "burg:297",

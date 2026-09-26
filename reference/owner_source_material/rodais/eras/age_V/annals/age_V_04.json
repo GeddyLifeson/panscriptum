@@ -30,39 +30,10 @@
    "told_in": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#iii-of-the-eleven"
   },
   {
-   "after": "IV-0072"
-  },
-  {
-   "id": "EV-2502",
-   "title": "Raghnall asks three times for timber at the heading",
-   "body": "Between an Gearran and an Giblean the crew-leaders Raghnall mac Dhòmhnaill and Ailean mac Dhùghaill ask the agent at Cnoc fhiadhaich three times for props over the heading, where the shale roof has turned the colour the hewers read as bad ground. The agent writes the asking in his book and answers that oak will come in the summer.",
-   "place": "burg:280",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0071",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "raghnall-mac-dhomhnaill",
-    "ailean-mac-dhughaill"
-   ],
-   "told_in": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#ii-of-the-colour-in-the-roof",
-   "era_between": [
-    25,
-    25
-   ]
-  },
-  {
    "after": "IV-0073"
   },
   {
-   "id": "EV-2503",
+   "id": "EV-2502",
    "title": "Dòmhnall mac Raghnaill at the pit-mouth",
    "body": "Dòmhnall, the six-year-old son of the crew-leader Raghnall mac Dhòmhnaill, who had gone to the breakers' benches at Muileann chrom in the autumn, takes An Casad Tioram in am Màrt. He coughs nine nights on his father's knee and wakes well on the tenth morning, and goes back to the benches in the autumn.",
    "place": "burg:354",
@@ -86,7 +57,7 @@
    "after": "IV-0076"
   },
   {
-   "id": "EV-2504",
+   "id": "EV-2503",
    "title": "Torcall Clachair's last cairn",
    "body": "Going home west from Baile ìseal in the spring after the lighting, Torcall Clachair has his cart stopped where the road tops the first rise of the moor and the tower first shows over the heather. Seated by the road, he lays a small cairn with his own hands from stones a boy brings from the ditch. He builds no more.",
    "place": "burg:285",
@@ -109,36 +80,10 @@
    "told_in": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#vi-of-the-light-on-the-eastern-cape"
   },
   {
-   "after": "IV-0078"
-  },
-  {
-   "id": "EV-2505",
-   "title": "Doire mhòr carries its water from the cattle spring",
-   "body": "With the stream penned behind the washing gang's bank, the households of Doire mhòr carry their water by yoke and pail from the cattle spring at the foot of the brae, the better part of a mile each way. Beathag Dhubh's roll names every household that carries, and among the carriers is Tormod, son of Ruairidh.",
-   "place": "burg:101",
-   "kind": "land",
-   "category": "land",
-   "links": [
-    {
-     "to": "IV-0078",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "line-of-aisling",
-    "the-company"
-   ],
-   "people": [
-    "beathag-dhubh",
-    "tormod"
-   ],
-   "told_in": "book/12_of_the_green_river_run_black.md#i-of-the-stream-at-doire-mhor"
-  },
-  {
    "after": "IV-0079"
   },
   {
-   "id": "EV-2506",
+   "id": "EV-2504",
    "title": "Muireall carries Gormshuil's papers to the loft at Muileann chaol",
    "body": "Muireall nic Fhearchair drives her aunt Gormshuil's papers east in a hired pony-cart to the loft of Beathag nic Thòmais at Muileann chaol, away from the reach of Taigh an Àrd-mhaoir. Held by rain at Cuan chrom, she reads Clàr nan Dà Fhichead Dath aloud to the carter Seònaid Bhàn.",
    "place": "burg:418",
@@ -165,7 +110,7 @@
    "after": "IV-0082"
   },
   {
-   "id": "EV-2507",
+   "id": "EV-2505",
    "title": "Gormshuil nic Fhearchair dies at Cathair dhearg",
    "body": "Gormshuil nic Fhearchair dies at Cathair dhearg in the last days of an t-Sultain, in her seventy-first year. She had kept the council's list of the island's words since the ships came, refused to sign Puingean a' Chalaidh, and learned the humans' letters in her old age.",
    "place": "burg:19",
@@ -197,7 +142,7 @@
    "after": "IV-0086"
   },
   {
-   "id": "EV-2508",
+   "id": "EV-2506",
    "title": "Seònaid Bhàn marries Pàdraig mac Artair",
    "body": "Seònaid Bhàn, carter of Cuan chrom, marries Pàdraig mac Artair, a carter of Doire chaol. They live in her father's house at Cuan chrom beside the roofless carters' house at the quay, and their son Murchadh is born there the next winter.",
    "place": "burg:418",
@@ -224,7 +169,7 @@
    "after": "IV-0092"
   },
   {
-   "id": "EV-2509",
+   "id": "EV-2507",
    "title": "Raghnall's slate-roofed house",
    "body": "A' Chompanaidh's masons from Ros dhomhain build Raghnall mac Dhòmhnaill a house of two rooms and a loft on common grazing above the mill at Muileann chrom, with glass windows and a roof of slate, the first slate roof in the town. The miller's wife names him Raghnall Maor as he goes by, and the crews take up the name.",
    "place": "burg:354",
@@ -252,7 +197,7 @@
    "after": "IV-0094"
   },
   {
-   "id": "EV-2510",
+   "id": "EV-2508",
    "title": "The two hanged named in the custodians' roll",
    "body": "The roll of Cnoc mhòr names the two hewers hanged at Ros dhomhain for the killing of Seumas Dubh, Eòin Ruadh and Fionnlagh mac Aonghais, and records that their neighbours carried them home and buried them in the town's ground. The letter-book of Taigh an Àrd-mhaoir gives them as two of the crew.",
    "place": "burg:31",
@@ -277,7 +222,7 @@
    "after": "IV-0099"
   },
   {
-   "id": "EV-2511",
+   "id": "EV-2509",
    "title": "Beathag Dhubh dies at Doire mhòr",
    "body": "Beathag Dhubh, custodian of Doire mhòr, who sent A' Chompanaidh's agent down the hill, dies in her own house in an Giblean at sixty-one, among the few hearths left lit after the stream was taken. She is laid out with Doire mhòr's own coal at her head and feet, and the whole hill comes up to her.",
    "place": "burg:101",
@@ -304,37 +249,6 @@
     41,
     41
    ]
-  },
-  {
-   "id": "EV-2512",
-   "title": "Lisle's rider gathers the papers of the hill",
-   "body": "Under Arthur Lisle's first order a rider of Riaghaltas nan Coigreach takes the papers of the pits at Muileann chrom down to Ros dhomhain: the contract of the first thirty and the paper of Raghnall's leader's share. Asked for the agreement that gave the overseers their staffs, Enoch Pratt finds that there is none.",
-   "place": "burg:354",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0099",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0039",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0091",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "arthur-lisle",
-    "enoch-pratt",
-    "raghnall-mac-dhomhnaill"
-   ],
-   "told_in": "book/13_of_raghnall_maor.md#ix-of-the-bound-book"
   }
  ]
 }

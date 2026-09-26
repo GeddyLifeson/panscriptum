@@ -77,33 +77,10 @@
    "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein"
   },
   {
-   "id": "EV-5004",
-   "title": "Thomas Hale reads the surgeon's note at the grave",
-   "body": "At a grave dug on the bare hill above the Cnoc chaol pit-head, Thomas Hale reads Griogair mac Ailein's release aloud in the Company's own tongue before some thirty of the fellowship, so that no clerk may afterward say the burying was done without the Company's leave.",
-   "place": "burg:415",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0234",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "thomas-hale",
-    "griogair-mac-ailein",
-    "domhnall-ruadh"
-   ],
-   "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein"
-  },
-  {
    "after": "IV-0236"
   },
   {
-   "id": "EV-5005",
+   "id": "EV-5004",
    "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
    "body": "Edward Vane goes up to Cathair dhearg unsummoned and speaks three sentences of Dia-thìris to Comhairle a' Chùraim before finishing through the Mission's interpreter, telling the council he has come home. The clerk enters the word exactly, wrong tense and all.",
    "place": "burg:19",
@@ -128,36 +105,10 @@
    ]
   },
   {
-   "after": "IV-0238"
-  },
-  {
-   "id": "EV-5006",
-   "title": "The day shift stands in the yard at Cnoc chaol",
-   "body": "Three hundred hewers of the day shift refuse to go down for the night change and stand in the yard through the last light, saying nothing to the overseer who twice asks their meaning. No chant is raised and no threat made; they simply do not move.",
-   "place": "burg:415",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0239",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [],
-   "told_in": "book/29_of_the_night_shift.md#iii-of-the-two-shifts-and-the-week-it-lasted",
-   "era_between": [
-    116,
-    116
-   ]
-  },
-  {
    "after": "IV-0240"
   },
   {
-   "id": "EV-5007",
+   "id": "EV-5005",
    "title": "The Lamp-Watch's purse runs dry",
    "body": "The Lamp-Watch, keeping the households of the crews who stood at Cnoc chaol, empties its purse by the second winter. Its own reckoning, kept in an unnamed hand, closes the year's account at nothing, and beneath it notes only that the hill was not given back its silence.",
    "place": "burg:415",
@@ -187,7 +138,7 @@
    "after": "IV-0243"
   },
   {
-   "id": "EV-5008",
+   "id": "EV-5006",
    "title": "Iain Maor dismissed and restored",
    "body": "The Residency answers Iain Maor's letter with a notice relieving him of the overseer's staff for conduct unbecoming his office. His daughter Mòrag reads it to him by lamplight. Within a month, the crews having slowed the galleries to nothing, an unsigned notice restores him with no mention of the first.",
    "place": "burg:354",
@@ -213,38 +164,10 @@
    ]
   },
   {
-   "after": "IV-0245"
-  },
-  {
-   "id": "EV-5009",
-   "title": "Fionnan's birth reaches the cellar",
-   "body": "The birth of Fionnan, entered by an eastern custodian among the ordinary births of the year, reaches the cellar at Muileann chaol folded into a roll like any other. No hand marks the line for what it is; the copyists learn to find it again only once the word for the thing exists to look for.",
-   "place": "burg:246",
-   "kind": "birth",
-   "category": "coalblood",
-   "links": [
-    {
-     "to": "IV-0245",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-coal-blood"
-   ],
-   "people": [
-    "cailean-mac-eachainn"
-   ],
-   "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#i-of-the-second-birth",
-   "era_between": [
-    121,
-    121
-   ]
-  },
-  {
    "after": "IV-0246"
   },
   {
-   "id": "EV-5010",
+   "id": "EV-5007",
    "title": "Cailean mac Eachainn taken on at the cellar",
    "body": "Cailean mac Eachainn, a turf-cutter's son of Muileann chaol with a plain hand at his letters, is taken on by the three households of the cellar when Seònag Bhàn's eyes fail her past close work. He is asked first not whether he can write fair, but whether he can hold his tongue.",
    "place": "burg:246",
@@ -270,7 +193,7 @@
    "after": "IV-0249"
   },
   {
-   "id": "EV-5011",
+   "id": "EV-5008",
    "title": "Nothing of weight was lost",
    "body": "By lamplight Fearchar mac Ailpein and Cailean mac Eachainn match the recovered northern rolls against the cellar's own patched record of the missing years, and find that little of any weight had truly gone missing, only kept for a time in the wrong cellar.",
    "place": "burg:246",
@@ -292,7 +215,7 @@
    "after": "IV-0251"
   },
   {
-   "id": "EV-5012",
+   "id": "EV-5009",
    "title": "Peigi Ghlas calls the custodians to Cill ghlas",
    "body": "Peigi Ghlas writes to every custodian within two days' walk, calling them to the shrine of Cill ghlas on the night of the coming full moon to settle a name for the change that has now come twice upon a child of the pits, and asks the cellar to send a hand who can write it fair on the spot.",
    "place": "burg:123",

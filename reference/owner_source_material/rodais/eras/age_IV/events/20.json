@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Eilidh Dhubh begins to teach at Doire chiar",
+    "era_year": 460,
+    "summary": "Eilidh nic Iain, taught in secret by her grandmother, begins to say aloud at Doire chiar the old teaching that the vein answers labour and not birth. She sets it down in a hand her mother taught her, and pupils begin to copy it for households too far off to hear her speak.",
+    "category": "faith",
+    "people": ["Eilidh nic Iain, Eilidh Dhubh"],
+    "places": ["burg:333"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0094", "type": "detail"}]
+  },
+  {
+    "title": "Macha's priests granted the sacred forest at Cnoc bheag",
+    "era_year": 471,
+    "summary": "The custody of the sacred forest at Cnoc bheag, held in common since the Holy Age, passes by royal grant to the priests of the Hawk alone. The other claimants withdraw from the wood the same season without contest; why they go so quietly is not told.",
+    "category": "faith",
+    "people": [],
+    "places": ["burg:20"],
+    "threads": ["the-orders-of-the-old-faith"],
+    "master_links": [{"to": "III-0091", "type": "detail"}]
+  },
+  {
+    "title": "The vein-house orders every copy of the tracts given up",
+    "era_year": 471,
+    "summary": "Word of Eilidh Dhubh's tracts reaches the custodians' galleries at Muileann dhearg, and the vein-house orders every copy brought in and given up, promising no penalty to any household that surrenders one freely before the season's end.",
+    "category": "law",
+    "people": [],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0095", "type": "cause"}]
+  },
+  {
+    "title": "Some hundred tracts burned in the vein-house yard",
+    "era_year": 471,
+    "summary": "Carriers gather some hundred sheets of Eilidh Dhubh's tracts from households across the north-east and burn them in the vein-house yard at Muileann dhearg before the gathered custodians. Eilidh walks from Doire chiar to see it done, and says nothing.",
+    "category": "faith",
+    "people": ["Eilidh nic Iain, Eilidh Dhubh"],
+    "places": ["burg:491"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0095", "type": "detail"}]
+  },
+  {
+    "title": "The druid schools take up the walk of Flidais's wood",
+    "era_year": 479,
+    "summary": "The druid schools, holding no ground of their own since the Holy Age, take up the yearly keeping of the holy wood at Muileann chiar, walking its bounds in a procession that grows within a decade into the one rite the schools still keep open to any who will walk with them.",
+    "category": "faith",
+    "people": [],
+    "places": ["burg:355"],
+    "threads": ["the-orders-of-the-old-faith"],
+    "master_links": [{"to": "III-0092", "type": "detail"}]
+  },
+  {
+    "title": "King Aonghas Òg buried by the rite of Macha",
+    "era_year": 484,
+    "summary": "King Aonghas Òg dies in the winter of his eighty-fourth year and is carried to his grave at Cathair dhearg by the wood-watchers' rite of Macha, the first king of the line so buried. His household stands at the yoke-poles of the two horses he rode out to see brought up together every spring of his reign.",
+    "category": "rulers",
+    "people": ["Aonghas Òg mac Aonghais"],
+    "places": ["burg:19"],
+    "threads": [],
+    "master_links": [{"to": "III-0096", "type": "detail"}]
+  },
+  {
+    "title": "The drovers of Àth chiar raise the first cairns",
+    "era_year": 484,
+    "summary": "The drovers who drive cattle each year from Àth chiar over the eastern hills to the mining towns begin marking their road with a cairn at every day's stage, the first roads on the island so marked, so that a beast lost in mist or a driver new to the trade may find the way again unasked.",
+    "category": "trade",
+    "people": [],
+    "places": ["burg:256"],
+    "threads": [],
+    "master_links": [{"to": "III-0093", "type": "detail"}]
+  },
+  {
+    "title": "Birth of Dùghall, Iain mac Aonghais's son by his second wife",
+    "era_year": 490,
+    "summary": "King Iain mac Aonghais, his first wife some years dead, takes a second wife who bears him a third son, Dùghall, the first of his three sons born at the red hall itself under a crown his father already wears.",
+    "category": "rulers",
+    "people": ["Iain mac Aonghais", "Dùghall Garbh"],
+    "places": ["burg:19"],
+    "threads": [],
+    "master_links": [{"to": "III-0097", "type": "detail"}]
+  },
+  {
+    "title": "A hidden copy of the tracts kept at Doire chiar",
+    "era_year": 485,
+    "summary": "A single sheet of the tracts, in Eilidh Dhubh's mother's own hand, is kept whole in a hollow beam of Eilidh's house, given to no household but her own kin's. Eilidh shows it to no one outside her family, judging it kept for her mother's sake more than the country's.",
+    "category": "faith",
+    "people": ["Eilidh nic Iain, Eilidh Dhubh"],
+    "places": ["burg:333"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0095", "type": "detail"}]
+  },
+  {
+    "title": "Death of Eilidh Dhubh",
+    "era_year": 505,
+    "summary": "Eilidh nic Iain, Eilidh Dhubh, dies at Doire chiar in her seventy-fifth year, still teaching within the hour of her death. Her pupils raise no stone over her, and Coinneach Odhar reads the tracts aloud at her graveside from the copy he has carried thirty years.",
+    "category": "death",
+    "people": ["Eilidh nic Iain, Eilidh Dhubh", "Coinneach Odhar"],
+    "places": ["burg:333"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0095", "type": "sequel"}]
+  },
+  {
+    "title": "Iain mac Mhurchaidh raises a second byre at An Taigh-seinnse Mòr",
+    "era_year": 509,
+    "summary": "Iain mac Mhurchaidh, keeper of the road-house at the halfway stage of the central mining road, raises a second byre against the growing traffic of the ox-teams and begins a careful book of every team that lodges there through the mountain snows.",
+    "category": "craft",
+    "people": ["Iain mac Mhurchaidh"],
+    "places": ["marker:10"],
+    "threads": [],
+    "master_links": [{"to": "III-0098", "type": "detail"}]
+  },
+  {
+    "title": "A harvest gathering at Muileann chiar hears the tracts read",
+    "era_year": 465,
+    "summary": "Coinneach Odhar, taught his letters by Eilidh Dhubh to carry her teaching where she will not travel, reads the tracts aloud for the first time at a harvest gathering near Muileann chiar. Not every household takes to it easily, and a farmer's wife elsewhere warns that the teaching could get colliers killed.",
+    "category": "faith",
+    "people": ["Eilidh nic Iain, Eilidh Dhubh", "Coinneach Odhar"],
+    "places": ["burg:355"],
+    "threads": ["the-seven-coals"],
+    "master_links": [{"to": "III-0094", "type": "detail"}]
+  }
+]

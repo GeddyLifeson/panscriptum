@@ -104,32 +104,6 @@
   ],
   "told_in": "book/01_of_the_gauze_on_the_water.md#iii-of-the-empty-cask",
   "y": 1780,
-  "m": 3,
-  "d": 17,
-  "age": "V",
-  "era": "AE",
-  "ey": 1,
-  "date": "17 am Màrt, AE 1",
-  "master": false,
-  "src": "age_V_01.json"
- },
- {
-  "id": "EV-1003",
-  "title": "Harrow's men mend nets on the dunes",
-  "body": "Recovered from their sickness, the strangers penned below the dunes at Cuan shean begin mending the fishers' nets spread on the strand, unasked. The fishers learn from them a flat knot that does not slip, and call it the strangers' knot.",
-  "place": "burg:282",
-  "kind": "humans",
-  "category": "humans",
-  "links": [
-   {
-    "to": "IV-0003",
-    "type": "cause"
-   }
-  ],
-  "threads": [],
-  "people": [],
-  "told_in": "book/01_of_the_gauze_on_the_water.md#iv-of-the-forty-days-below-the-dunes",
-  "y": 1780,
   "m": 5,
   "d": 31,
   "age": "V",
@@ -174,7 +148,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1004",
+  "id": "EV-1003",
   "title": "Oighrig nic Leòid's letter to the council from her sickbed",
   "body": "From her bed at Cuan shean Oighrig nic Leòid writes to the council that she gave the strangers water under the law of the shore and nothing more on her own word, and that a leave given in the roll cannot be ungiven. She asks that it be read before the vote. The clerk notes it received.",
   "place": "burg:282",
@@ -192,12 +166,12 @@
   ],
   "told_in": "book/01_of_the_gauze_on_the_water.md#v-of-the-leave-and-the-margin",
   "y": 1780,
-  "m": 9,
-  "d": 5,
+  "m": 7,
+  "d": 12,
   "age": "V",
   "era": "AE",
   "ey": 1,
-  "date": "5 an t-Sultain, AE 1",
+  "date": "12 an t-Iuchar, AE 1",
   "master": false,
   "src": "age_V_01.json"
  },
@@ -253,7 +227,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1005",
+  "id": "EV-1004",
   "title": "The humans pray in a sail-loft at Cuan shean",
   "body": "On the day the strangers keep for their god a sailmaker of Cuan shean lends them his loft against the rain. They kneel on the sailcloth, the captain with the rest, while a priest reads from a book; they light no fire and burn nothing. Two priests of Manannan watch from the stair and go down to the water to say their own prayer. It is the first entry of the humans at prayer under a roof.",
   "place": "burg:282",
@@ -278,16 +252,16 @@
   "told_in": "book/02_of_forty_words_for_the_colours_of_coal.md#i-of-the-land-beyond",
   "y": 1781,
   "m": 3,
-  "d": 13,
+  "d": 3,
   "age": "V",
   "era": "AE",
   "ey": 2,
-  "date": "13 am Màrt, AE 2",
+  "date": "3 am Màrt, AE 2",
   "master": false,
   "src": "age_V_01.json"
  },
  {
-  "id": "EV-1006",
+  "id": "EV-1005",
   "title": "Wren and the priests come up to Cathair dhearg",
   "body": "Two priests of the humans and a boy ride up from Cuan shean on ponies of the town, a long day's road, and come over the bridge at dusk soaked through. The council lodges them in a house below the temple and gives them a long room on the east side of the hall. The younger priest, Samuel Wren, coughs in the damp of the lake country.",
   "place": "burg:282",
@@ -352,7 +326,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1007",
+  "id": "EV-1006",
   "title": "Muireall copies the first leaf",
   "body": "In the gap-moon Gormshuil nic Fhearchair gives her loose sheets to her niece Muireall to copy fair into a book for Clann Fhearchair, and orders the colours set first, before cup and bread, alone on the first leaf with room left at the foot. Muireall copies the forty words in her young, careful hand and stops at the right-hand column, where the humans' side has one word to give.",
   "place": "burg:19",
@@ -375,11 +349,11 @@
   "told_in": "book/02_of_forty_words_for_the_colours_of_coal.md#iv-of-the-note-under-the-first-leaf",
   "y": 1781,
   "m": 12,
-  "d": 31,
+  "d": 14,
   "age": "V",
   "era": "AE",
   "ey": 2,
-  "date": "31 an Dùbhlachd, AE 2",
+  "date": "14 an Dùbhlachd, AE 2",
   "master": false,
   "src": "age_V_01.json"
  },
@@ -417,34 +391,6 @@
   "date": "24 an Cèitean, AE 3",
   "master": true,
   "src": "age_V_master.json"
- },
- {
-  "id": "EV-1008",
-  "title": "The first bargains entered in the council roll",
-  "body": "At the moon of the bright fire the strangers' iron, glass, lamp-oil and paper come up to the capital's market, and wool, hides, salt fish and dyed cloth go down to Cuan shean. Comhairle a' Chùraim enters the first bargains in its roll, fleece for knife and cloth for glass, with both prices in the island's reckoning. The measure is good on both sides.",
-  "place": "burg:19",
-  "kind": "trade",
-  "category": "trade",
-  "links": [
-   {
-    "to": "IV-0011",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "gormshuil-nic-fhearchair"
-  ],
-  "told_in": "book/02_of_forty_words_for_the_colours_of_coal.md#v-of-the-chest-for-muileann-chaol",
-  "y": 1782,
-  "m": 6,
-  "d": 2,
-  "age": "V",
-  "era": "AE",
-  "ey": 3,
-  "date": "2 an t-Ògmhios, AE 3",
-  "master": false,
-  "src": "age_V_01.json"
  },
  {
   "id": "IV-0012",
@@ -498,35 +444,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1009",
-  "title": "Harrow sails north-about with three hulls",
-  "body": "At the end of an Lùnastal Edmund Harrow sails from Cuan shean for an Tìr Thall with all three hulls, north-about, carrying hides and dyed cloth. He leaves Thomas Pike at Ros dhomhain with four men, the loft, the tally-book and the goods not yet traded.",
-  "place": "burg:282",
-  "kind": "humans",
-  "category": "humans",
-  "links": [
-   {
-    "to": "IV-0016",
-    "type": "cause"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "edmund-harrow",
-   "thomas-pike"
-  ],
-  "told_in": "book/03_of_the_post_at_ros_dhomhain.md#ii-of-the-hull-in-the-shallows",
-  "y": 1782,
-  "m": 9,
-  "d": 16,
-  "age": "V",
-  "era": "AE",
-  "ey": 3,
-  "date": "16 an t-Sultain, AE 3",
-  "master": false,
-  "src": "age_V_01.json"
- },
- {
   "id": "IV-0014",
   "canon": false,
   "title": "Iron in the smithies",
@@ -544,7 +461,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1010",
+  "id": "EV-1007",
   "title": "The ships' smith at the forge in Cathair dhearg",
   "body": "A smith off Harrow's ships, sent up by Pike, comes to the smiths' lane below the bridge at Cathair dhearg and works through the autumn at the forge of Gilleasbuig Gobha. Having no words in common, the two smiths agree on the colours of hot iron.",
   "place": "burg:19",
@@ -563,12 +480,12 @@
   ],
   "told_in": "book/03_of_the_post_at_ros_dhomhain.md#iii-of-the-bar-iron",
   "y": 1782,
-  "m": 12,
-  "d": 20,
+  "m": 9,
+  "d": 23,
   "age": "V",
   "era": "AE",
   "ey": 3,
-  "date": "20 an Dùbhlachd, AE 3",
+  "date": "23 an t-Sultain, AE 3",
   "master": false,
   "src": "age_V_01.json"
  },
@@ -675,7 +592,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1011",
+  "id": "EV-1008",
   "title": "Pike writes home of the island's coal",
   "body": "Answering the trading house, Thomas Pike writes of the island's timber, salt, wool, hides and smiths, and that it has copper, tin and some silver. Having held a piece from a custodian's hearth to the window, he writes that the island has coal of a middling sort, and much of it.",
   "place": "burg:27",
@@ -700,16 +617,16 @@
   "told_in": "book/03_of_the_post_at_ros_dhomhain.md#vii-of-the-middling-coal",
   "y": 1784,
   "m": 4,
-  "d": 19,
+  "d": 16,
   "age": "V",
   "era": "AE",
   "ey": 5,
-  "date": "19 an Giblean, AE 5",
+  "date": "16 an Giblean, AE 5",
   "master": false,
   "src": "age_V_01.json"
  },
  {
-  "id": "EV-1012",
+  "id": "EV-1009",
   "title": "Gilleasbuig Gobha forges a hinge for Pike's chest",
   "body": "Gilleasbuig Gobha makes a new hinge of the strangers' bar-iron for the iron-bound chest under Pike's counter, where letters for over the sea are kept. He tempers it to the blue and will take nothing for the work. Pike's letter on the coal goes over the sea in that chest.",
   "place": "burg:19",
@@ -881,31 +798,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1504",
-  "title": "The storm of the wolf-moon at Baile dhìreach",
-  "body": "A three-day storm off the west drives the sea over the quay of Baile dhìreach and up the shingle towards the boats. On the second night the town and the humans haul the boats over the crest together with ropes, blocks and a capstan-bar from the slip. The salt-house chimney and half the roof of the humans' house are lost.",
-  "place": "burg:105",
-  "kind": "land",
-  "category": "land",
-  "links": [],
-  "threads": [],
-  "people": [
-   "eilidh-nic-ruairidh",
-   "samuel-hale",
-   "nathan-cobb"
-  ],
-  "told_in": "book/04_of_the_council_of_six.md#vi-of-the-turning-of-the-humans-year",
-  "y": 1785,
-  "m": 1,
-  "d": 29,
-  "age": "V",
-  "era": "AE",
-  "ey": 6,
-  "date": "29 am Faoilleach, AE 6",
-  "master": false,
-  "src": "age_V_02.json"
- },
- {
   "id": "IV-0025",
   "canon": false,
   "title": "A supply ship lost on the western reefs",
@@ -958,7 +850,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1505",
+  "id": "EV-1504",
   "title": "Pike writes of the natives",
   "body": "Thomas Pike enters in the post's letter-book that the islanders have agreed to the lights without difficulty and without asking what they would cost. It is the first page of his letter-book to call the Dia-thìrich the natives. The custodians' roll sets down the same asking as a request that the old sea-fires be built higher and kept all night.",
   "place": "burg:27",
@@ -986,40 +878,7 @@
   "src": "age_V_02.json"
  },
  {
-  "id": "EV-1506",
-  "title": "The households of Àth dhearg asked hearth by hearth",
-  "body": "The custodian of Àth dhearg will not give away the fire-shelf above the rock-cut stair, saying it belongs to the households who cut it. Torcall Clachair and James Fenn go round the hearths for eleven days. Most say yes and two say no. The third cairn is raised at the end of the shelf, and the custodian climbs up with bread.",
-  "place": "burg:258",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0027",
-    "type": "sequel"
-   },
-   {
-    "to": "I-0163",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "torcall-clachair",
-   "james-fenn"
-  ],
-  "told_in": "book/05_of_the_five_headlands.md#iv-of-the-eastern-cape-and-the-north-east-steps",
-  "y": 1785,
-  "m": 12,
-  "d": 17,
-  "age": "V",
-  "era": "AE",
-  "ey": 6,
-  "date": "17 an Dùbhlachd, AE 6",
-  "master": false,
-  "src": "age_V_02.json"
- },
- {
-  "id": "EV-1507",
+  "id": "EV-1505",
   "title": "No fire on Binnean a' Chlachair",
   "body": "James Fenn asks for a night fire on the summit of Binnean a' Chlachair, the highest ground of the island. Torcall Clachair and the herders of Muileann gheal refuse, keeping the custom of the hills. Torcall lays one stone on the herders' cairn, and Fenn takes his sights by day to a linen square, four days slower. The two winter at Muileann gheal.",
   "place": "burg:493",
@@ -1039,11 +898,11 @@
   "told_in": "book/05_of_the_five_headlands.md#vi-of-fenn-s-line",
   "y": 1785,
   "m": 12,
-  "d": 23,
+  "d": 11,
   "age": "V",
   "era": "AE",
   "ey": 6,
-  "date": "23 an Dùbhlachd, AE 6",
+  "date": "11 an Dùbhlachd, AE 6",
   "master": false,
   "src": "age_V_02.json"
  },
@@ -1082,7 +941,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1508",
+  "id": "EV-1506",
   "title": "Torcall witnesses in the Dia-thìreach book",
   "body": "At the wedding on the quay of Baile dhìreach no custodian comes to witness. James Fenn signs for the bridegroom in the humans' book, and Iain mac Chaluim calls the mason Torcall Clachair from the crowd to sign the Dia-thìreach book. William Rook and Iain mac Chaluim close the two books side by side.",
   "place": "burg:105",
@@ -1105,12 +964,12 @@
   ],
   "told_in": "book/05_of_the_five_headlands.md#vii-of-the-two-books-at-baile-dhireach",
   "y": 1786,
-  "m": 12,
-  "d": 27,
+  "m": 5,
+  "d": 31,
   "age": "V",
   "era": "AE",
   "ey": 7,
-  "date": "27 an Dùbhlachd, AE 7",
+  "date": "31 an Cèitean, AE 7",
   "master": false,
   "src": "age_V_02.json"
  },
@@ -1150,7 +1009,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1509",
+  "id": "EV-1507",
   "title": "Gormshuil called back from Muileann chaol",
   "body": "Gormshuil nic Fhearchair, gone east with the season's copies for the loft of Beathag nic Thòmais at Muileann chaol, is sent for by rider when the talks with Pell run fast. She starts back the day the rider finds her, but the rain is on the hills and the fords are up, and she is still on the road when the terms are signed.",
   "place": "burg:246",
@@ -1171,17 +1030,17 @@
   ],
   "told_in": "book/06_of_the_treaty_in_one_tongue.md#iii-of-the-man-who-asked-for-a-horse",
   "y": 1787,
-  "m": 5,
-  "d": 20,
+  "m": 6,
+  "d": 23,
   "age": "V",
   "era": "AE",
   "ey": 8,
-  "date": "20 an Cèitean, AE 8",
+  "date": "23 an t-Ògmhios, AE 8",
   "master": false,
   "src": "age_V_02.json"
  },
  {
-  "id": "EV-1510",
+  "id": "EV-1508",
   "title": "Gormshuil given a copy of the terms",
   "body": "Two days after the signing Gormshuil nic Fhearchair comes in from the hills, reads the entry in the roll standing, and asks Pell through Samuel Wren for the terms in the strangers' tongue, since the copy in Dia-thìris is to wait for leisure. Pell's secretary makes one within the week. She begins to read it a word at a time, and does not bring it before the council.",
   "place": "burg:19",
@@ -1205,17 +1064,17 @@
   ],
   "told_in": "book/06_of_the_treaty_in_one_tongue.md#iv-of-the-line-read-twice",
   "y": 1787,
-  "m": 7,
-  "d": 6,
+  "m": 9,
+  "d": 5,
   "age": "V",
   "era": "AE",
   "ey": 8,
-  "date": "6 an t-Iuchar, AE 8",
+  "date": "5 an t-Sultain, AE 8",
   "master": false,
   "src": "age_V_02.json"
  },
  {
-  "id": "EV-1511",
+  "id": "EV-1509",
   "title": "The masons of the capital build for Pell",
   "body": "The masons of the masons' lane at Cathair dhearg take up Pell's house on the rise, paid in bar-iron by the humans' day, which begins at midnight where the island's begins at dusk. They float grey stone over the lake on rafts and build the house square to Pell's drawn plan, facing the harbour, with its back to the capital. The council does not ask it turned.",
   "place": "burg:19",
@@ -1234,12 +1093,12 @@
   ],
   "told_in": "book/06_of_the_treaty_in_one_tongue.md#v-of-the-house-on-the-rise",
   "y": 1787,
-  "m": 9,
-  "d": 5,
+  "m": 10,
+  "d": 22,
   "age": "V",
   "era": "AE",
   "ey": 8,
-  "date": "5 an t-Sultain, AE 8",
+  "date": "22 an Dàmhair, AE 8",
   "master": false,
   "src": "age_V_02.json"
  },
@@ -1310,72 +1169,6 @@
   "date": "5 an t-Samhain, AE 9",
   "master": true,
   "src": "age_V_master.json"
- },
- {
-  "id": "EV-1512",
-  "title": "The warehouse door hung",
-  "body": "The oak door of A' Chompanaidh's warehouse at Cathair dhomhain comes down the shore road from Cathair dhearg and is hung at dusk on strap hinges forged by Gilleasbuig Gobha in the smiths' lane below the bridge. Thomas Pike locks it with a long iron key. Tormod mac Ailein, who has walked out from the capital, watches it hung; the lake-shore roll calls it a good door.",
-  "place": "burg:26",
-  "kind": "trade",
-  "category": "trade",
-  "links": [
-   {
-    "to": "IV-0033",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0014",
-    "type": "legacy",
-    "note": "the smith's bar-iron"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "thomas-pike",
-   "gilleasbuig-gobha",
-   "tormod-mac-ailein"
-  ],
-  "told_in": "book/06_of_the_treaty_in_one_tongue.md#vii-of-the-door-at-cathair-dhomhain",
-  "y": 1788,
-  "m": 11,
-  "d": 13,
-  "age": "V",
-  "era": "AE",
-  "ey": 9,
-  "date": "13 an t-Samhain, AE 9",
-  "master": false,
-  "src": "age_V_02.json"
- },
- {
-  "id": "EV-1513",
-  "title": "The hill's coal carried to Cuan shean",
-  "body": "Eleven carriers of the hills bring the measured coal for the western hearths down from the store at Taigh na Fèithe to Cuan shean, five days on the road with ponies and a custodian's clerk. Raghnall mac Dhòmhnaill of Muileann chrom goes among them for the first time. Oighrig nic Leòid counts the baskets in by lamplight at the custodians' store.",
-  "place": "burg:282",
-  "kind": "craft",
-  "category": "coal",
-  "links": [
-   {
-    "to": "IV-0034",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "raghnall-mac-dhomhnaill",
-   "oighrig-nic-leoid"
-  ],
-  "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#i-of-the-carriers-at-cuan-shean",
-  "y": 1788,
-  "m": 12,
-  "d": 20,
-  "age": "V",
-  "era": "AE",
-  "ey": 9,
-  "date": "20 an Dùbhlachd, AE 9",
-  "master": false,
-  "src": "age_V_02.json"
  },
  {
   "id": "IV-0035",
@@ -1481,7 +1274,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-1514",
+  "id": "EV-1510",
   "title": "Six sacks come back to Muileann chrom",
   "body": "At the summer's end a human carter brings six of the thirteen sacks back up the road to the mill of Muileann chrom with a paper no one there can read. Asked for the rest, he points west, towards Ros dhomhain and the ships, and turns his cart round.",
   "place": "burg:354",
@@ -1502,16 +1295,16 @@
   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#v-of-the-half-carried-west",
   "y": 1790,
   "m": 10,
-  "d": 25,
+  "d": 26,
   "age": "V",
   "era": "AE",
   "ey": 11,
-  "date": "25 an Dàmhair, AE 11",
+  "date": "26 an Dàmhair, AE 11",
   "master": false,
   "src": "age_V_02.json"
  },
  {
-  "id": "EV-1515",
+  "id": "EV-1511",
   "title": "The first contract read at the mill",
   "body": "Abel Stone brings the first contract of A' Chompanaidh to Muileann chrom with two carts of steel-pointed picks, bar-iron and lamp-oil. It is read at the mill in both tongues. The interpreter from Ros dhomhain can find no Dia-thìris for the ton and calls it \"a great load, weighed\". Some of the older hewers walk out before the end.",
   "place": "burg:354",
@@ -1531,17 +1324,17 @@
   ],
   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#vi-of-the-contract-and-the-first-ton",
   "y": 1790,
-  "m": 11,
-  "d": 16,
+  "m": 12,
+  "d": 8,
   "age": "V",
   "era": "AE",
   "ey": 11,
-  "date": "16 an t-Samhain, AE 11",
+  "date": "8 an Dùbhlachd, AE 11",
   "master": false,
   "src": "age_V_02.json"
  },
  {
-  "id": "EV-1516",
+  "id": "EV-1512",
   "title": "Raghnall chosen to lead the thirty",
   "body": "Abel Stone names Raghnall mac Dhòmhnaill, who walked the seam with him, to lead the first crew of the hill. The crew is thirty: young men of the hewers' and shepherds' households, two from the mill and three older hewers of the old cutting. Raghnall's father, a hewer of that cutting, will not join it.",
   "place": "burg:354",
@@ -1566,12 +1359,12 @@
   ],
   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#vi-of-the-contract-and-the-first-ton",
   "y": 1790,
-  "m": 11,
-  "d": 27,
+  "m": 12,
+  "d": 30,
   "age": "V",
   "era": "AE",
   "ey": 11,
-  "date": "27 an t-Samhain, AE 11",
+  "date": "30 an Dùbhlachd, AE 11",
   "master": false,
   "src": "age_V_02.json"
  },
@@ -1778,34 +1571,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2003",
-  "title": "The cart-road round Doire mhòr finished",
-  "body": "Hill men paid in iron finish the cart-road of A' Chompanaidh from Cnoc fhiadhaich round the fields of Doire mhòr to the quay at Ceann fhada, with a timber bridge at the lower ford of the Doire mhòr stream. The first loaded carts come round the bend in the autumn.",
-  "place": "burg:101",
-  "kind": "trade",
-  "category": "trade",
-  "links": [
-   {
-    "to": "IV-0047",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [],
-  "told_in": "book/08_of_the_door_at_doire_mhor.md#vii-of-the-road-round-the-fields",
-  "y": 1794,
-  "m": 12,
-  "d": 30,
-  "age": "V",
-  "era": "AE",
-  "ey": 15,
-  "date": "30 an Dùbhlachd, AE 15",
-  "master": false,
-  "src": "age_V_03.json"
- },
- {
   "id": "IV-0049",
   "canon": false,
   "title": "The first keeper of Tobar dhearg",
@@ -1823,7 +1588,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2004",
+  "id": "EV-2003",
   "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
   "body": "Anna nic Dhòmhnaill, keeper of Taigh-solais Tobar dhearg, who cannot write, begins her count on the wall of the tower stair below the lamp-room: one stroke cut with a knife for every night the light is lit, and a stroke across every thirty.",
   "place": "marker:16",
@@ -1845,12 +1610,12 @@
   ],
   "told_in": "book/08_of_the_door_at_doire_mhor.md#viii-of-the-light-at-tobar-dhearg",
   "y": 1795,
-  "m": 4,
-  "d": 5,
+  "m": 3,
+  "d": 30,
   "age": "V",
   "era": "AE",
   "ey": 16,
-  "date": "5 an Giblean, AE 16",
+  "date": "30 am Màrt, AE 16",
   "master": false,
   "src": "age_V_03.json"
  },
@@ -1924,42 +1689,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2005",
-  "title": "Muireall's rubbing of the first mark sent to the loft",
-  "body": "Samuel Wren brings one of the first marks to Gormshuil nic Fhearchair in the long room of the council hall. Her niece Muireall takes a rubbing of both faces, writes beneath it that the island is on neither face, and the rubbing goes east that autumn with the season's copies to the loft of Beathag nic Thòmais at Muileann chaol.",
-  "place": "burg:19",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0053",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0055",
-    "type": "cause"
-   }
-  ],
-  "threads": [
-   "the-library"
-  ],
-  "people": [
-   "muireall-nic-fhearchair",
-   "gormshuil-nic-fhearchair",
-   "samuel-wren"
-  ],
-  "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#ii-of-the-ship-on-the-coin",
-  "y": 1796,
-  "m": 12,
-  "d": 26,
-  "age": "V",
-  "era": "AE",
-  "ey": 17,
-  "date": "26 an Dùbhlachd, AE 17",
-  "master": false,
-  "src": "age_V_03.json"
- },
- {
   "id": "IV-0054",
   "canon": false,
   "title": "Cathair mhòr refuses the mark",
@@ -2011,7 +1740,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2006",
+  "id": "EV-2004",
   "title": "Wren's letter home on the druids",
   "body": "From Dùn thais, in the last days of the year, Samuel Wren writes to the house of his order over the sea by the packet of Taigh an Àrd-mhaoir. He sets down a tale the eldest master told at the hearth of a holy man's voyage west in a boat of hides, very like the voyage of Naomh Breandan as an Eaglais tells it, told from the other shore.",
   "place": "burg:77",
@@ -2033,11 +1762,11 @@
   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#iv-of-the-winter-at-dun-thais",
   "y": 1797,
   "m": 12,
-  "d": 25,
+  "d": 15,
   "age": "V",
   "era": "AE",
   "ey": 18,
-  "date": "25 an Dùbhlachd, AE 18",
+  "date": "15 an Dùbhlachd, AE 18",
   "master": false,
   "src": "age_V_03.json"
  },
@@ -2093,7 +1822,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2007",
+  "id": "EV-2005",
   "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
   "body": "Gormshuil nic Fhearchair passes the sheet of Puingean a' Chalaidh on unsigned, and tells Josiah Pell in his own tongue that she will not put her name under what she has read. Ailean Ruadh of Baile ghlas refuses with her. The council's roll names the two, the first custodians to refuse a writing of the strangers.",
   "place": "burg:19",
@@ -2120,11 +1849,11 @@
   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#vi-of-puingean-a-chalaidh",
   "y": 1798,
   "m": 12,
-  "d": 29,
+  "d": 31,
   "age": "V",
   "era": "AE",
   "ey": 19,
-  "date": "29 an Dùbhlachd, AE 19",
+  "date": "31 an Dùbhlachd, AE 19",
   "master": false,
   "src": "age_V_03.json"
  },
@@ -2180,7 +1909,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2008",
+  "id": "EV-2006",
   "title": "Tormod mac Ailein buried at Cathair dhearg",
   "body": "Six custodians carry Tormod mac Ailein to the ground behind the council hall, with the bells of the capital ringing, and the mourners lay their stones on the grave going round sunwise. Josiah Pell walks up from the bridge-foot bareheaded to stand at the edge of the ground. Samuel Wren stands at the gate.",
   "place": "burg:19",
@@ -2203,11 +1932,11 @@
   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#viii-of-tormod-s-burying",
   "y": 1799,
   "m": 12,
-  "d": 23,
+  "d": 25,
   "age": "V",
   "era": "AE",
   "ey": 20,
-  "date": "23 an Dùbhlachd, AE 20",
+  "date": "25 an Dùbhlachd, AE 20",
   "master": false,
   "src": "age_V_03.json"
  },
@@ -2281,39 +2010,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2009",
-  "title": "Fionnghal nic Artair rides to Cathair dhearg",
-  "body": "In an t-Ògmhios Fionnghal nic Artair rides west from Dùn dhearg with her letter in defence of the Small-Burning Law sewn in calfskin. She lodges at Doire mhin, where the custodian Anndra mac Eòin shows her the last count of the valley, and reads him the letter by his lamp.",
-  "place": "burg:422",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0064",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0065",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "fionnghal-nic-artair"
-  ],
-  "told_in": "book/10_of_the_law_that_went_out.md#iii-of-the-letter-and-the-road-west",
-  "y": 1801,
-  "m": 8,
-  "d": 15,
-  "age": "V",
-  "era": "AE",
-  "ey": 22,
-  "date": "15 an Lùnastal, AE 22",
-  "master": false,
-  "src": "age_V_03.json"
- },
- {
-  "id": "EV-2010",
+  "id": "EV-2007",
   "title": "The council files the letter from Dùn dhearg",
   "body": "Fionnghal nic Artair reads her letter standing to the council at Cathair dhearg. Coinneach Glas thanks her and bids it kept with the rolls, and the roll enters it as read and filed. The same sitting grants the Residency leave to widen the road to Muileann chrom for the coal-carts.",
   "place": "burg:19",
@@ -2341,11 +2038,11 @@
   "told_in": "book/10_of_the_law_that_went_out.md#iv-of-the-filing",
   "y": 1801,
   "m": 8,
-  "d": 17,
+  "d": 23,
   "age": "V",
   "era": "AE",
   "ey": 22,
-  "date": "17 an Lùnastal, AE 22",
+  "date": "23 an Lùnastal, AE 22",
   "master": false,
   "src": "age_V_03.json"
  },
@@ -2384,7 +2081,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2011",
+  "id": "EV-2008",
   "title": "The Company's agents seize the hawk sermon in the camps",
   "body": "The Company's agents at Muileann chrom go from hut to hut through the crews' camp with a basket and take every copy of Murchadh Seabhag's sermon they find, eleven in one morning. One woman burns her copy on her hearth before them, and her name is written down.",
   "place": "burg:354",
@@ -2405,12 +2102,12 @@
   ],
   "told_in": "book/10_of_the_law_that_went_out.md#vi-of-the-peat-hearths-and-the-pumps",
   "y": 1802,
-  "m": 8,
-  "d": 1,
+  "m": 6,
+  "d": 28,
   "age": "V",
   "era": "AE",
   "ey": 23,
-  "date": "1 an Lùnastal, AE 23",
+  "date": "28 an t-Ògmhios, AE 23",
   "master": false,
   "src": "age_V_03.json"
  },
@@ -2466,7 +2163,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2012",
+  "id": "EV-2009",
   "title": "The last oak of Cathair fhada's own cutting",
   "body": "Before the Company's fellers come, the woodreeve of Cathair fhada and his men fell with axes the one oak the spring lot had fallen on, as the town had cut since the Holy Age, and plant six acorns in the ring of its roots. The fellers begin with long saws on the morning after.",
   "place": "burg:297",
@@ -2486,12 +2183,12 @@
   ],
   "told_in": "book/10_of_the_law_that_went_out.md#vii-of-the-oaks-of-cathair-fhada",
   "y": 1803,
-  "m": 5,
+  "m": 4,
   "d": 20,
   "age": "V",
   "era": "AE",
   "ey": 24,
-  "date": "20 an Cèitean, AE 24",
+  "date": "20 an Giblean, AE 24",
   "master": false,
   "src": "age_V_03.json"
  },
@@ -2564,37 +2261,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2502",
-  "title": "Raghnall asks three times for timber at the heading",
-  "body": "Between an Gearran and an Giblean the crew-leaders Raghnall mac Dhòmhnaill and Ailean mac Dhùghaill ask the agent at Cnoc fhiadhaich three times for props over the heading, where the shale roof has turned the colour the hewers read as bad ground. The agent writes the asking in his book and answers that oak will come in the summer.",
-  "place": "burg:280",
-  "kind": "craft",
-  "category": "coal",
-  "links": [
-   {
-    "to": "IV-0071",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "raghnall-mac-dhomhnaill",
-   "ailean-mac-dhughaill"
-  ],
-  "told_in": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#ii-of-the-colour-in-the-roof",
-  "y": 1804,
-  "m": 11,
-  "d": 4,
-  "age": "V",
-  "era": "AE",
-  "ey": 25,
-  "date": "4 an t-Samhain, AE 25",
-  "master": false,
-  "src": "age_V_04.json"
- },
- {
   "id": "IV-0073",
   "canon": false,
   "title": "The coughing sickness",
@@ -2612,7 +2278,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2503",
+  "id": "EV-2502",
   "title": "Dòmhnall mac Raghnaill at the pit-mouth",
   "body": "Dòmhnall, the six-year-old son of the crew-leader Raghnall mac Dhòmhnaill, who had gone to the breakers' benches at Muileann chrom in the autumn, takes An Casad Tioram in am Màrt. He coughs nine nights on his father's knee and wakes well on the tenth morning, and goes back to the benches in the autumn.",
   "place": "burg:354",
@@ -2632,12 +2298,12 @@
   ],
   "told_in": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#iv-of-the-breakers-at-the-pit-mouth",
   "y": 1805,
-  "m": 11,
-  "d": 26,
+  "m": 10,
+  "d": 27,
   "age": "V",
   "era": "AE",
   "ey": 26,
-  "date": "26 an t-Samhain, AE 26",
+  "date": "27 an Dàmhair, AE 26",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -2693,7 +2359,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2504",
+  "id": "EV-2503",
   "title": "Torcall Clachair's last cairn",
   "body": "Going home west from Baile ìseal in the spring after the lighting, Torcall Clachair has his cart stopped where the road tops the first rise of the moor and the tower first shows over the heather. Seated by the road, he lays a small cairn with his own hands from stones a boy brings from the ditch. He builds no more.",
   "place": "burg:285",
@@ -2715,12 +2381,12 @@
   ],
   "told_in": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#vi-of-the-light-on-the-eastern-cape",
   "y": 1807,
-  "m": 10,
-  "d": 9,
+  "m": 5,
+  "d": 19,
   "age": "V",
   "era": "AE",
   "ey": 28,
-  "date": "9 an Dàmhair, AE 28",
+  "date": "19 an Cèitean, AE 28",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -2776,38 +2442,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2505",
-  "title": "Doire mhòr carries its water from the cattle spring",
-  "body": "With the stream penned behind the washing gang's bank, the households of Doire mhòr carry their water by yoke and pail from the cattle spring at the foot of the brae, the better part of a mile each way. Beathag Dhubh's roll names every household that carries, and among the carriers is Tormod, son of Ruairidh.",
-  "place": "burg:101",
-  "kind": "land",
-  "category": "land",
-  "links": [
-   {
-    "to": "IV-0078",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "line-of-aisling",
-   "the-company"
-  ],
-  "people": [
-   "beathag-dhubh",
-   "tormod"
-  ],
-  "told_in": "book/12_of_the_green_river_run_black.md#i-of-the-stream-at-doire-mhor",
-  "y": 1809,
-  "m": 8,
-  "d": 12,
-  "age": "V",
-  "era": "AE",
-  "ey": 30,
-  "date": "12 an Lùnastal, AE 30",
-  "master": false,
-  "src": "age_V_04.json"
- },
- {
   "id": "IV-0079",
   "canon": false,
   "title": "The short hunger in the hills",
@@ -2825,7 +2459,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2506",
+  "id": "EV-2504",
   "title": "Muireall carries Gormshuil's papers to the loft at Muileann chaol",
   "body": "Muireall nic Fhearchair drives her aunt Gormshuil's papers east in a hired pony-cart to the loft of Beathag nic Thòmais at Muileann chaol, away from the reach of Taigh an Àrd-mhaoir. Held by rain at Cuan chrom, she reads Clàr nan Dà Fhichead Dath aloud to the carter Seònaid Bhàn.",
   "place": "burg:418",
@@ -2848,12 +2482,12 @@
   ],
   "told_in": "book/12_of_the_green_river_run_black.md#v-of-the-chest-for-the-loft",
   "y": 1809,
-  "m": 10,
-  "d": 31,
+  "m": 9,
+  "d": 15,
   "age": "V",
   "era": "AE",
   "ey": 30,
-  "date": "31 an Dàmhair, AE 30",
+  "date": "15 an t-Sultain, AE 30",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -2910,7 +2544,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2507",
+  "id": "EV-2505",
   "title": "Gormshuil nic Fhearchair dies at Cathair dhearg",
   "body": "Gormshuil nic Fhearchair dies at Cathair dhearg in the last days of an t-Sultain, in her seventy-first year. She had kept the council's list of the island's words since the ships came, refused to sign Puingean a' Chalaidh, and learned the humans' letters in her old age.",
   "place": "burg:19",
@@ -2935,11 +2569,11 @@
   "told_in": "book/12_of_the_green_river_run_black.md#v-of-the-chest-for-the-loft",
   "y": 1810,
   "m": 12,
-  "d": 21,
+  "d": 18,
   "age": "V",
   "era": "AE",
   "ey": 31,
-  "date": "21 an Dùbhlachd, AE 31",
+  "date": "18 an Dùbhlachd, AE 31",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -3012,7 +2646,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2508",
+  "id": "EV-2506",
   "title": "Seònaid Bhàn marries Pàdraig mac Artair",
   "body": "Seònaid Bhàn, carter of Cuan chrom, marries Pàdraig mac Artair, a carter of Doire chaol. They live in her father's house at Cuan chrom beside the roofless carters' house at the quay, and their son Murchadh is born there the next winter.",
   "place": "burg:418",
@@ -3032,11 +2666,11 @@
   "told_in": "book/12_of_the_green_river_run_black.md#vii-of-the-green-river",
   "y": 1812,
   "m": 12,
-  "d": 8,
+  "d": 10,
   "age": "V",
   "era": "AE",
   "ey": 33,
-  "date": "8 an Dùbhlachd, AE 33",
+  "date": "10 an Dùbhlachd, AE 33",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -3178,7 +2812,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2509",
+  "id": "EV-2507",
   "title": "Raghnall's slate-roofed house",
   "body": "A' Chompanaidh's masons from Ros dhomhain build Raghnall mac Dhòmhnaill a house of two rooms and a loft on common grazing above the mill at Muileann chrom, with glass windows and a roof of slate, the first slate roof in the town. The miller's wife names him Raghnall Maor as he goes by, and the crews take up the name.",
   "place": "burg:354",
@@ -3198,12 +2832,12 @@
   ],
   "told_in": "book/13_of_raghnall_maor.md#iii-of-the-slate-roof",
   "y": 1815,
-  "m": 12,
-  "d": 16,
+  "m": 6,
+  "d": 22,
   "age": "V",
   "era": "AE",
   "ey": 36,
-  "date": "16 an Dùbhlachd, AE 36",
+  "date": "22 an t-Ògmhios, AE 36",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -3242,7 +2876,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2510",
+  "id": "EV-2508",
   "title": "The two hanged named in the custodians' roll",
   "body": "The roll of Cnoc mhòr names the two hewers hanged at Ros dhomhain for the killing of Seumas Dubh, Eòin Ruadh and Fionnlagh mac Aonghais, and records that their neighbours carried them home and buried them in the town's ground. The letter-book of Taigh an Àrd-mhaoir gives them as two of the crew.",
   "place": "burg:31",
@@ -3263,12 +2897,12 @@
   ],
   "told_in": "book/13_of_raghnall_maor.md#v-of-seumas-dubh",
   "y": 1817,
-  "m": 8,
-  "d": 28,
+  "m": 9,
+  "d": 8,
   "age": "V",
   "era": "AE",
   "ey": 38,
-  "date": "28 an Lùnastal, AE 38",
+  "date": "8 an t-Sultain, AE 38",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -3358,7 +2992,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-2511",
+  "id": "EV-2509",
   "title": "Beathag Dhubh dies at Doire mhòr",
   "body": "Beathag Dhubh, custodian of Doire mhòr, who sent A' Chompanaidh's agent down the hill, dies in her own house in an Giblean at sixty-one, among the few hearths left lit after the stream was taken. She is laid out with Doire mhòr's own coal at her head and feet, and the whole hill comes up to her.",
   "place": "burg:101",
@@ -3388,46 +3022,6 @@
   "era": "AE",
   "ey": 41,
   "date": "9 an Lùnastal, AE 41",
-  "master": false,
-  "src": "age_V_04.json"
- },
- {
-  "id": "EV-2512",
-  "title": "Lisle's rider gathers the papers of the hill",
-  "body": "Under Arthur Lisle's first order a rider of Riaghaltas nan Coigreach takes the papers of the pits at Muileann chrom down to Ros dhomhain: the contract of the first thirty and the paper of Raghnall's leader's share. Asked for the agreement that gave the overseers their staffs, Enoch Pratt finds that there is none.",
-  "place": "burg:354",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0099",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0039",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0091",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "arthur-lisle",
-   "enoch-pratt",
-   "raghnall-mac-dhomhnaill"
-  ],
-  "told_in": "book/13_of_raghnall_maor.md#ix-of-the-bound-book",
-  "y": 1820,
-  "m": 12,
-  "d": 18,
-  "age": "V",
-  "era": "AE",
-  "ey": 41,
-  "date": "18 an Dùbhlachd, AE 41",
   "master": false,
   "src": "age_V_04.json"
  },
@@ -3514,36 +3108,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3002",
-  "title": "The surveyor's report reaches Taigh an Àrd-mhaoir",
-  "body": "The chief surveyor reports to Taigh an Àrd-mhaoir that the whole of Muileann chiar met him at the working, silent, and that he found no grant or payment to A' Chompanaidh in either of the guild's books and did not think it prudent to proceed. Lisle writes beneath it that he would not have found it either, and sends for the bound book.",
-  "place": "burg:27",
-  "kind": "humans",
-  "category": "humans",
-  "links": [
-   {
-    "to": "IV-0102",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "arthur-lisle"
-  ],
-  "told_in": "book/14_of_the_ledgers_at_the_adit.md#v-of-what-the-lawyer-found",
-  "y": 1822,
-  "m": 10,
-  "d": 25,
-  "age": "V",
-  "era": "AE",
-  "ey": 43,
-  "date": "25 an Dàmhair, AE 43",
-  "master": false,
-  "src": "age_V_05.json"
- },
- {
   "id": "IV-0103",
   "canon": false,
   "title": "The Silver Compact",
@@ -3561,7 +3125,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3003",
+  "id": "EV-3002",
   "title": "The council's copies returned from Muileann chiar",
   "body": "In the spring after the compact Ùna nic Choinnich sends the council's leaves of Cùmhnant Cathair dhearg, Puingean a' Chalaidh and the pit contracts back to Cathair dhearg by her grandson Fionnlagh, wrapped in the same oilcloth they came in, with a bar of silver for the clerk who keeps the presses.",
   "place": "burg:19",
@@ -3574,12 +3138,12 @@
   ],
   "told_in": "book/14_of_the_ledgers_at_the_adit.md#vi-of-the-guild-chest",
   "y": 1823,
-  "m": 6,
-  "d": 21,
+  "m": 5,
+  "d": 17,
   "age": "V",
   "era": "AE",
   "ey": 44,
-  "date": "21 an t-Ògmhios, AE 44",
+  "date": "17 an Cèitean, AE 44",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -3618,7 +3182,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3004",
+  "id": "EV-3003",
   "title": "Ùna locks the compact in the guild chest",
   "body": "On the day Comann an Airgid reckons its year, the three keyholders open the guild chest and Cùmhnant an Airgid is read aloud in both tongues. Ùna nic Choinnich, aged fifty-nine, lays it back on the new book of weighings beside the notched boards of the old ledger, and the three locks are turned.",
   "place": "burg:419",
@@ -3636,12 +3200,12 @@
   ],
   "told_in": "book/14_of_the_ledgers_at_the_adit.md#vi-of-the-guild-chest",
   "y": 1824,
-  "m": 6,
-  "d": 26,
+  "m": 4,
+  "d": 22,
   "age": "V",
   "era": "AE",
   "ey": 45,
-  "date": "26 an t-Ògmhios, AE 45",
+  "date": "22 an Giblean, AE 45",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -3697,12 +3261,42 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3005",
+  "id": "EV-3004",
   "title": "The keeper of Àth dhearg sees the burning collier",
   "body": "Two nights after entering a laden collier of A' Chompanaidh going south, Tormod mac Pheadair sees a red light low in the south under the cloud from the middle watch until near dawn, and writes that he does not know what it was. The carters bring word four days later that raiders have burned her.",
   "place": "marker:15",
   "kind": "land",
   "category": "land",
+  "links": [
+   {
+    "to": "IV-0108",
+    "type": "sequel"
+   }
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "people": [
+   "tormod-mac-pheadair"
+  ],
+  "told_in": "book/15_of_the_keepers_daybook.md#iv-of-the-glow-in-the-south",
+  "y": 1825,
+  "m": 11,
+  "d": 16,
+  "age": "V",
+  "era": "AE",
+  "ey": 46,
+  "date": "16 an t-Samhain, AE 46",
+  "master": false,
+  "src": "age_V_05.json"
+ },
+ {
+  "id": "EV-3005",
+  "title": "The keeper will not write the black boats",
+  "body": "In Dubhlas a clerk of A' Chompanaidh rides to Àth dhearg to read the daybook and asks the keeper to write in black raiding boats seen going south before the burning. Tormod mac Pheadair answers that he saw none and will write no boat he has not seen. The clerk reports the book of no assistance.",
+  "place": "marker:15",
+  "kind": "record",
+  "category": "law",
   "links": [
    {
     "to": "IV-0108",
@@ -3728,70 +3322,6 @@
  },
  {
   "id": "EV-3006",
-  "title": "A' Chompanaidh charges Comann an Airgid with the burning",
-  "body": "Within a month of the burning the agents of A' Chompanaidh say at Seann Bhral and Ros dhomhain, and write to Arthur Lisle, that Comann an Airgid paid the raiders in spite for the surveyors turned back from the adit at Muileann chiar. The guild makes no answer.",
-  "place": "burg:110",
-  "kind": "humans",
-  "category": "humans",
-  "links": [
-   {
-    "to": "IV-0108",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0102",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "arthur-lisle"
-  ],
-  "told_in": "book/15_of_the_keepers_daybook.md#iv-of-the-glow-in-the-south",
-  "y": 1825,
-  "m": 11,
-  "d": 28,
-  "age": "V",
-  "era": "AE",
-  "ey": 46,
-  "date": "28 an t-Samhain, AE 46",
-  "master": false,
-  "src": "age_V_05.json"
- },
- {
-  "id": "EV-3007",
-  "title": "The keeper will not write the black boats",
-  "body": "In Dubhlas a clerk of A' Chompanaidh rides to Àth dhearg to read the daybook and asks the keeper to write in black raiding boats seen going south before the burning. Tormod mac Pheadair answers that he saw none and will write no boat he has not seen. The clerk reports the book of no assistance.",
-  "place": "marker:15",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0108",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "tormod-mac-pheadair"
-  ],
-  "told_in": "book/15_of_the_keepers_daybook.md#iv-of-the-glow-in-the-south",
-  "y": 1825,
-  "m": 12,
-  "d": 21,
-  "age": "V",
-  "era": "AE",
-  "ey": 46,
-  "date": "21 an Dùbhlachd, AE 46",
-  "master": false,
-  "src": "age_V_05.json"
- },
- {
-  "id": "EV-3008",
   "title": "The gunboat entered at Àth dhearg",
   "body": "In Teasach of the forty-seventh year a black two-masted ship of war of A' Chompanaidh, a gun in her bows under canvas and more men on deck than any trader carries, comes round the north coast and south past the cape. The keeper of Àth dhearg enters her with more care than any ship before.",
   "place": "marker:15",
@@ -3812,11 +3342,11 @@
   "told_in": "book/15_of_the_keepers_daybook.md#v-of-the-gunboat-and-the-cove",
   "y": 1825,
   "m": 12,
-  "d": 23,
+  "d": 21,
   "age": "V",
   "era": "AE",
   "ey": 46,
-  "date": "23 an Dùbhlachd, AE 46",
+  "date": "21 an Dùbhlachd, AE 46",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -3957,7 +3487,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3009",
+  "id": "EV-3007",
   "title": "Eachann Mòr loses his seat",
   "body": "The council at Cathair dhearg protests the charter of Cathair gheal, which names no custodian, and receives an answer in the humans' tongue that none of its members can read with confidence. At the autumn choosing at Ceann àrsaidh the households put out Eachann Mòr, who has no letters of that tongue, and choose Dùghall Òg of the carting families, who worked five years at the Company's weigh-house.",
   "place": "burg:88",
@@ -3983,11 +3513,11 @@
   "told_in": "book/16_of_the_question_at_dun_thais.md#iv-of-eachann-mor-s-seat",
   "y": 1829,
   "m": 6,
-  "d": 3,
+  "d": 25,
   "age": "V",
   "era": "AE",
   "ey": 50,
-  "date": "3 an t-Ògmhios, AE 50",
+  "date": "25 an t-Ògmhios, AE 50",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -4078,7 +3608,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3010",
+  "id": "EV-3008",
   "title": "Eachann Mòr's first letter over the sea",
   "body": "No letter comes from Calum by the autumn ships. In the winter Eachann Mòr writes to his son in Dia-thìris, pays a pupil of the Mission school to put it into the humans' tongue beneath his lines, and gives it with a mark to the master of the first ship going north. No answer comes to it, nor to the three he sends after it.",
   "place": "burg:88",
@@ -4102,12 +3632,12 @@
   ],
   "told_in": "book/16_of_the_question_at_dun_thais.md#vi-of-the-letters-that-did-not-come",
   "y": 1830,
-  "m": 9,
-  "d": 26,
+  "m": 7,
+  "d": 3,
   "age": "V",
   "era": "AE",
   "ey": 51,
-  "date": "26 an t-Sultain, AE 51",
+  "date": "3 an t-Iuchar, AE 51",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -4163,38 +3693,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3011",
-  "title": "The students at Drochaid Ros fhionn",
-  "body": "Aonghas mac Coinnich takes the students of Dùn thais to watch the first coal-carts cross the rebuilt bridge at Ros fhionn, forty in an afternoon. The island's drivers throw down lumps for them to name; the two human drivers look at their loads as at stones. Ailean Clachair's sign stays in the keystone.",
-  "place": "marker:4",
-  "kind": "rite",
-  "category": "faith",
-  "links": [
-   {
-    "to": "IV-0123",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company",
-   "the-seven-coals"
-  ],
-  "people": [
-   "aonghas-mac-coinnich",
-   "seumas-mac-artair"
-  ],
-  "told_in": "book/16_of_the_question_at_dun_thais.md#vii-of-the-coal-road-in-the-east",
-  "y": 1832,
-  "m": 7,
-  "d": 7,
-  "age": "V",
-  "era": "AE",
-  "ey": 53,
-  "date": "7 an t-Iuchar, AE 53",
-  "master": false,
-  "src": "age_V_05.json"
- },
- {
   "id": "IV-0124",
   "canon": false,
   "title": "Coal through Inis bheag",
@@ -4229,7 +3727,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3012",
+  "id": "EV-3009",
   "title": "The passenger line read at the Company's counter",
   "body": "In the third year after his son sailed Eachann Mòr asks at the Company's counter at Ros dhomhain after the ship by name. She has come and gone twice since, under another master now. Against the day Calum sailed the clerk reads one line, a native boy, his fare paid in full, and says his book knows nothing more.",
   "place": "burg:27",
@@ -4255,11 +3753,11 @@
   "told_in": "book/16_of_the_question_at_dun_thais.md#vi-of-the-letters-that-did-not-come",
   "y": 1833,
   "m": 1,
-  "d": 27,
+  "d": 19,
   "age": "V",
   "era": "AE",
   "ey": 54,
-  "date": "27 am Faoilleach, AE 54",
+  "date": "19 am Faoilleach, AE 54",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -4435,7 +3933,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3013",
+  "id": "EV-3010",
   "title": "The Company's surgeon visits once",
   "body": "The Company's own surgeon comes to the chapel door at Ros dhomhain, will not step past the threshold, and tells Colby she would do better to let the sick lie where they were found. He sends, before he leaves the harbour, a case of salts and does not come again.",
   "place": "burg:26",
@@ -4453,40 +3951,12 @@
   ],
   "told_in": "book/17_of_the_tithe_and_the_flux.md#iii-of-the-sick-house-in-the-chapel",
   "y": 1838,
-  "m": 8,
-  "d": 17,
+  "m": 9,
+  "d": 12,
   "age": "V",
   "era": "AE",
   "ey": 59,
-  "date": "17 an Lùnastal, AE 59",
-  "master": false,
-  "src": "age_V_05.json"
- },
- {
-  "id": "EV-3014",
-  "title": "Colby's roll of the dead by name",
-  "body": "Each evening Anne Colby sits at the chapel door with the custodians' own roll open on her knee and a clerk's boy to read her the entries, and sets down against every name who lived and who died, in English, in a column she turns round on the table for the custodians to see is kept.",
-  "place": "burg:26",
-  "kind": "humans",
-  "category": "humans",
-  "links": [
-   {
-    "to": "IV-0133",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "anne-colby"
-  ],
-  "told_in": "book/17_of_the_tithe_and_the_flux.md#iii-of-the-sick-house-in-the-chapel",
-  "y": 1838,
-  "m": 11,
-  "d": 2,
-  "age": "V",
-  "era": "AE",
-  "ey": 59,
-  "date": "2 an t-Samhain, AE 59",
+  "date": "12 an t-Sultain, AE 59",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -4542,7 +4012,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3015",
+  "id": "EV-3011",
   "title": "Uisdean Ruadh's first walk to Ceann mhin",
   "body": "Uisdean Ruadh, a hewer of Muileann chrom, walks with forty of his gang before light on a morning of frost to stand in the pay line at Ceann mhin till near dusk, and walks home again in the dark. He keeps the cost of it afterward on a notched stick, kept still by his family three generations on.",
   "place": "burg:353",
@@ -4560,12 +4030,12 @@
   ],
   "told_in": "book/17_of_the_tithe_and_the_flux.md#vi-of-the-day-s-walk-to-ceann-mhin",
   "y": 1840,
-  "m": 11,
-  "d": 30,
+  "m": 10,
+  "d": 13,
   "age": "V",
   "era": "AE",
   "ey": 61,
-  "date": "30 an t-Samhain, AE 61",
+  "date": "13 an Dàmhair, AE 61",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -4587,7 +4057,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3016",
+  "id": "EV-3012",
   "title": "Raghnall Maor buried beside the eleven",
   "body": "Raghnall Maor is buried on the hill above Muileann chrom beside the eleven of his first gallery, in thin rain, with both shifts of the pit standing at the grave together, a thing not done for any death there before. Anne Colby stands at the grave's edge with her roll and adds, that evening, a line naming his office, the only such line the roll holds.",
   "place": "burg:353",
@@ -4606,12 +4076,12 @@
   ],
   "told_in": "book/17_of_the_tithe_and_the_flux.md#vii-of-raghnall-s-burying",
   "y": 1841,
-  "m": 10,
-  "d": 16,
+  "m": 9,
+  "d": 24,
   "age": "V",
   "era": "AE",
   "ey": 62,
-  "date": "16 an Dàmhair, AE 62",
+  "date": "24 an t-Sultain, AE 62",
   "master": false,
   "src": "age_V_05.json"
  },
@@ -4633,41 +4103,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3501",
-  "title": "Ailig mac Griogair shows Lowe the coloured water",
-  "body": "The keeper Ailig mac Griogair takes Lowe up the beacon stair and points out a green colour he says lies on the water beneath the flame, further than the beam itself should carry. Lowe looks a long while and sees only firelight on the swell, and writes that he cannot see what the keeper sees.",
-  "place": "burg:327",
-  "kind": "craft",
-  "category": "coal",
-  "links": [
-   {
-    "to": "IV-0138",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0139",
-    "type": "cause"
-   }
-  ],
-  "threads": [
-   "the-seven-coals"
-  ],
-  "people": [
-   "edwin-lowe",
-   "ailig-mac-griogair"
-  ],
-  "told_in": "book/18_of_lowes_spade.md#i-of-the-coloured-flame-at-muileann-bheag",
-  "y": 1842,
-  "m": 11,
-  "d": 9,
-  "age": "V",
-  "era": "AE",
-  "ey": 63,
-  "date": "9 an t-Samhain, AE 63",
-  "master": false,
-  "src": "age_V_06.json"
- },
- {
   "id": "IV-0139",
   "canon": false,
   "title": "The fishermen of Muileann bheag",
@@ -4685,7 +4120,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3502",
+  "id": "EV-3501",
   "title": "The keeper's son answers Lowe on the point",
   "body": "Ailig's young son stands the watch beside Lowe on two further nights and tells him the colour is not a thing looked for but a thing seen, as rain is felt before it falls. Lowe records the boy's answer as the most honest, and the least useful, given him in eleven years on the island.",
   "place": "burg:327",
@@ -4705,12 +4140,12 @@
   ],
   "told_in": "book/18_of_lowes_spade.md#i-of-the-coloured-flame-at-muileann-bheag",
   "y": 1843,
-  "m": 2,
-  "d": 15,
+  "m": 4,
+  "d": 8,
   "age": "V",
   "era": "AE",
   "ey": 64,
-  "date": "15 an Gearran, AE 64",
+  "date": "8 an Giblean, AE 64",
   "master": false,
   "src": "age_V_06.json"
  },
@@ -4732,7 +4167,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3503",
+  "id": "EV-3502",
   "title": "Griogal Odhar on Mòd and the older ground",
   "body": "Asked whether any order of the island's faiths claims the ruin, Griogal Odhar tells Lowe that Mòd himself is said not to claim ground older than the vein, for a god who eats the hill can only eat what grew in the hill's own time. No order has ever asked for the ground, and none has been refused it.",
   "place": "marker:33",
@@ -4751,12 +4186,12 @@
   ],
   "told_in": "book/18_of_lowes_spade.md#ii-of-the-dig-at-larach-an-teampaill",
   "y": 1843,
-  "m": 10,
-  "d": 25,
+  "m": 8,
+  "d": 9,
   "age": "V",
   "era": "AE",
   "ey": 64,
-  "date": "25 an Dàmhair, AE 64",
+  "date": "9 an Lùnastal, AE 64",
   "master": false,
   "src": "age_V_06.json"
  },
@@ -4812,7 +4247,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3504",
+  "id": "EV-3503",
   "title": "Cairistìona nic Griogair sees the first pane",
   "body": "Voss's fourth firing gives a pale green pane clear enough to see a gull through. His apprentice Cairistìona nic Griogair, who carried sand for him all that summer, laughs at the sight of it, the first laugh heard in the glass-house yard since the furnace was raised.",
   "place": "burg:136",
@@ -4831,12 +4266,12 @@
   ],
   "told_in": "book/18_of_lowes_spade.md#iv-of-voss-s-glass-house",
   "y": 1845,
-  "m": 8,
-  "d": 19,
+  "m": 12,
+  "d": 1,
   "age": "V",
   "era": "AE",
   "ey": 66,
-  "date": "19 an Lùnastal, AE 66",
+  "date": "1 an Dùbhlachd, AE 66",
   "master": false,
   "src": "age_V_06.json"
  },
@@ -4979,7 +4414,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3505",
+  "id": "EV-3504",
   "title": "The women's rule of silence",
   "body": "Beitris Bhàn tells the women who sat the night of the telling that a charge laid on a man by a spirit is not theirs to spend on the camp's talk, whatever they make of the child in their own kitchens. No meeting is called and no vote taken, but the rule holds among them for years.",
   "place": "burg:135",
@@ -5001,16 +4436,16 @@
   "told_in": "book/19_of_the_smoke_in_the_gallery.md#iv-of-the-child-the-rolls-gave-three-things",
   "y": 1850,
   "m": 2,
-  "d": 2,
+  "d": 25,
   "age": "V",
   "era": "AE",
   "ey": 71,
-  "date": "2 an Gearran, AE 71",
+  "date": "25 an Gearran, AE 71",
   "master": false,
   "src": "age_V_06.json"
  },
  {
-  "id": "EV-3506",
+  "id": "EV-3505",
   "title": "The wash-house women first mark the child's stillness",
   "body": "Season on season the women who handle the camp's dying notice, before anyone else in Achadh dhomhain, that Aisling is not changing as a growing child should, and keep what they notice among themselves.",
   "place": "burg:135",
@@ -5031,12 +4466,12 @@
   ],
   "told_in": "book/19_of_the_smoke_in_the_gallery.md#iv-of-the-child-the-rolls-gave-three-things",
   "y": 1850,
-  "m": 2,
-  "d": 25,
+  "m": 3,
+  "d": 20,
   "age": "V",
   "era": "AE",
   "ey": 71,
-  "date": "25 an Gearran, AE 71",
+  "date": "20 am Màrt, AE 71",
   "master": false,
   "src": "age_V_06.json"
  },
@@ -5058,7 +4493,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3507",
+  "id": "EV-3506",
   "title": "The wife's telling, over a body at Beitris Bhàn's table",
   "body": "At a laying-out in the camp's fourth winter, Donnchadh mac Thormoid's wife tells the sitting women, for the first time outside her own house, what her husband met in the deep gallery and what it charged him to keep, and what passed the night their daughter was born. She says the words are his and she will change none of them.",
   "place": "burg:135",
@@ -5084,12 +4519,12 @@
   ],
   "told_in": "book/19_of_the_smoke_in_the_gallery.md#iii-of-what-the-wife-told-the-women",
   "y": 1850,
-  "m": 12,
-  "d": 22,
+  "m": 6,
+  "d": 15,
   "age": "V",
   "era": "AE",
   "ey": 71,
-  "date": "22 an Dùbhlachd, AE 71",
+  "date": "15 an t-Ògmhios, AE 71",
   "master": false,
   "src": "age_V_06.json"
  },
@@ -5126,36 +4561,6 @@
   "date": "18 an Dàmhair, AE 72",
   "master": true,
   "src": "age_V_master.json"
- },
- {
-  "id": "EV-3508",
-  "title": "Beitris Bhàn's first climb to Cill ghlas",
-  "body": "Beitris Bhàn climbs the hill path to Cill ghlas for the first time at Lùnastal and sets a single piece of coal by the flame at the mouth of the oldest cutting, more from the habit of a hard winter's laying-out than from any settled custom of her own people. She says nothing to the custodian, and the custodian says nothing to her.",
-  "place": "burg:123",
-  "kind": "rite",
-  "category": "faith",
-  "links": [
-   {
-    "to": "IV-0151",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-keepers-promise"
-  ],
-  "people": [
-   "beitris-bhan"
-  ],
-  "told_in": "book/19_of_the_smoke_in_the_gallery.md#v-of-una-nic-choinnich-and-the-shrines",
-  "y": 1851,
-  "m": 11,
-  "d": 23,
-  "age": "V",
-  "era": "AE",
-  "ey": 72,
-  "date": "23 an t-Samhain, AE 72",
-  "master": false,
-  "src": "age_V_06.json"
  },
  {
   "id": "IV-0152",
@@ -5261,36 +4666,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3509",
-  "title": "Nathaniel Bright opens his table of weighings",
-  "body": "At Muileann chrom, Nathaniel Bright begins keeping a ruled black-bound book of the lungs he weighs from the Green Death's dead, with the custodians' leave and a custodian standing by at each opening. Anne Colby brings her own sick-house tally to set beside it that winter.",
-  "place": "burg:354",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0158",
-    "type": "cause"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "nathaniel-bright",
-   "anne-colby"
-  ],
-  "told_in": "book/20_of_the_green_death.md#iii-of-doctor-bright-s-table",
-  "y": 1853,
-  "m": 4,
-  "d": 20,
-  "age": "V",
-  "era": "AE",
-  "ey": 74,
-  "date": "20 an Giblean, AE 74",
-  "master": false,
-  "src": "age_V_06.json"
- },
- {
-  "id": "EV-3510",
+  "id": "EV-3507",
   "title": "Walter Crane walks the sick-rows at Achadh dhomhain",
   "body": "Commissioner Crane walks the worst of the sickness's second summer at Achadh dhomhain and does not walk faster past the bad huts than the ordinary ones, a thing the custodians and Beitris Bhàn both note and remember afterward in his favour.",
   "place": "burg:135",
@@ -5309,17 +4685,17 @@
   ],
   "told_in": "book/20_of_the_green_death.md#iv-of-the-seal-and-the-letter-book",
   "y": 1853,
-  "m": 5,
-  "d": 30,
+  "m": 6,
+  "d": 18,
   "age": "V",
   "era": "AE",
   "ey": 74,
-  "date": "30 an Cèitean, AE 74",
+  "date": "18 an t-Ògmhios, AE 74",
   "master": false,
   "src": "age_V_06.json"
  },
  {
-  "id": "EV-3511",
+  "id": "EV-3508",
   "title": "Beitris Bhàn nails a feather over her own door",
   "body": "After laying out the fortieth body of the season, Beitris Bhàn nails a hawk's feather above her own door at Achadh dhomhain. The overseer's boy finds it and reports his father, and she pays the week's pay it costs her and nails up another within the month.",
   "place": "burg:135",
@@ -5337,12 +4713,12 @@
   ],
   "told_in": "book/20_of_the_green_death.md#v-of-the-feathers-over-the-door",
   "y": 1853,
-  "m": 7,
-  "d": 30,
+  "m": 11,
+  "d": 10,
   "age": "V",
   "era": "AE",
   "ey": 74,
-  "date": "30 an t-Iuchar, AE 74",
+  "date": "10 an t-Samhain, AE 74",
   "master": false,
   "src": "age_V_06.json"
  },
@@ -5381,7 +4757,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-3512",
+  "id": "EV-3509",
   "title": "Anne Colby comes to Beitris Bhàn's door",
   "body": "Anne Colby, unsent by the Mission and unasked by any custodian, comes to Achadh dhomhain to learn from the layer-out Beitris Bhàn what her own hands have taught her of the Green Death. The two begin washing the camp's dead together, a custom the camp comes to call An Dithis a Nigh Còmhla.",
   "place": "burg:135",
@@ -5400,12 +4776,12 @@
   ],
   "told_in": "book/20_of_the_green_death.md#vi-of-the-washing",
   "y": 1854,
-  "m": 5,
-  "d": 26,
+  "m": 3,
+  "d": 1,
   "age": "V",
   "era": "AE",
   "ey": 75,
-  "date": "26 an Cèitean, AE 75",
+  "date": "1 am Màrt, AE 75",
   "master": false,
   "src": "age_V_06.json"
  },
@@ -5612,36 +4988,6 @@
  },
  {
   "id": "EV-4003",
-  "title": "Dòmhnall Maor signs the granary order",
-  "body": "Within the month of the strike's end, Dòmhnall mac Raghnaill Maor, Steward at Muileann chrom, sets his mark to the order that forbids any camp household to keep more grain than a week's ration, the rest to be held under lock in A' Chompanaidh's new granary and drawn against a crew-leader's tally.",
-  "place": "burg:354",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0167",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "domhnall-mac-raghnaill-maor"
-  ],
-  "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vi-of-the-granary",
-  "y": 1857,
-  "m": 11,
-  "d": 1,
-  "age": "V",
-  "era": "AE",
-  "ey": 78,
-  "date": "1 an t-Samhain, AE 78",
-  "master": false,
-  "src": "age_V_07.json"
- },
- {
-  "id": "EV-4004",
   "title": "Sìneag's rolls note a granary built against a stoppage",
   "body": "The custodian Sìneag writes in her rolls that she has never before read of a granary raised to answer a stoppage rather than a harvest, and sets the words down as they stand, without further comment, for whoever should read the roll after her.",
   "place": "burg:44",
@@ -5720,7 +5066,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4005",
+  "id": "EV-4004",
   "title": "Three priests will not stand for the blessing",
   "body": "Three of the younger priests of Òrd Mhacha stand apart at the back of the temple hall rather than take their places for the blessing of the coin. Beathag Ruadh lets it pass unremarked before the Residency's clerk, and tells Fearghas mac Mhuirich only that the order answers for the rite done rightly, not for the road a rightly blessed thing afterward walks.",
   "place": "burg:19",
@@ -5739,12 +5085,12 @@
   ],
   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#iii-of-the-two-horses",
   "y": 1859,
-  "m": 12,
-  "d": 6,
+  "m": 9,
+  "d": 25,
   "age": "V",
   "era": "AE",
   "ey": 80,
-  "date": "6 an Dùbhlachd, AE 80",
+  "date": "25 an t-Sultain, AE 80",
   "master": false,
   "src": "age_V_07.json"
  },
@@ -5767,7 +5113,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4006",
+  "id": "EV-4005",
   "title": "Artair mac Iain seated after ten empty years",
   "body": "The Council of Custodians, unable to agree a head since Alasdair Liath's death, seats Artair mac Iain of the eastern shires as high custodian, six-and-fifty years old, in the hall where Tormod mac Ailein once signed the treaty. Fearghas mac Mhuirich says the order's blessing over him, both horses named.",
   "place": "burg:19",
@@ -5781,12 +5127,12 @@
   ],
   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#ii-of-the-seat-ten-years-empty",
   "y": 1860,
-  "m": 11,
-  "d": 8,
+  "m": 4,
+  "d": 11,
   "age": "V",
   "era": "AE",
   "ey": 81,
-  "date": "8 an t-Samhain, AE 81",
+  "date": "11 an Giblean, AE 81",
   "master": false,
   "src": "age_V_07.json"
  },
@@ -5859,7 +5205,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4007",
+  "id": "EV-4006",
   "title": "The Residency notes the order divided",
   "body": "Word of Fearghas mac Mhuirich's refusal reaches the Residency within the month. Tolley, near his own retiring, does not send for him; the Residency's letter-book records only that the order of Òrd Mhacha at the capital is divided on a religious nicety, and does not say what the nicety was.",
   "place": "burg:19",
@@ -5877,12 +5223,12 @@
   ],
   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#v-of-the-second-asking",
   "y": 1864,
-  "m": 8,
-  "d": 5,
+  "m": 11,
+  "d": 15,
   "age": "V",
   "era": "AE",
   "ey": 85,
-  "date": "5 an Lùnastal, AE 85",
+  "date": "15 an t-Samhain, AE 85",
   "master": false,
   "src": "age_V_07.json"
  },
@@ -5973,35 +5319,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4008",
-  "title": "Fearghas leaves the capital's temple for Cnoc bheag",
-  "body": "Fearghas mac Mhuirich walks north with eleven of the order who think as he does, to the sacred forest at Cnoc bheag. Griogair, eldest of those who stay at Cathair dhearg, walks with them as far as the north road and calls it two roads to the one rite rather than a falling-out.",
-  "place": "burg:19",
-  "kind": "rite",
-  "category": "faith",
-  "links": [
-   {
-    "to": "IV-0179",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "fearghas-mac-mhuirich",
-   "griogair"
-  ],
-  "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#vii-of-the-fire-under-the-trees",
-  "y": 1866,
-  "m": 7,
-  "d": 30,
-  "age": "V",
-  "era": "AE",
-  "ey": 87,
-  "date": "30 an t-Iuchar, AE 87",
-  "master": false,
-  "src": "age_V_07.json"
- },
- {
   "id": "IV-0181",
   "canon": false,
   "title": "The Levy",
@@ -6053,35 +5370,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4009",
-  "title": "The wrong son taken at Caol mhòr",
-  "body": "A guessed name is matched to the wrong face at Caol mhòr's reading, and a son is marched a day's walk east before the error is found. The right man is fetched in his place; the officers' own tally and the town's roll never afterward agree by one head.",
-  "place": "burg:95",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0182",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [],
-  "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#i-of-the-reading-at-caol-mhor",
-  "y": 1867,
-  "m": 12,
-  "d": 15,
-  "age": "V",
-  "era": "AE",
-  "ey": 88,
-  "date": "15 an Dùbhlachd, AE 88",
-  "master": false,
-  "src": "age_V_07.json"
- },
- {
-  "id": "EV-4010",
+  "id": "EV-4007",
   "title": "The Levy read at Cnoc thais",
   "body": "The Levy's officers read their list at Cnoc thais, and the mason Dùghall Clachair hears his own name and his whole crew's called for the pits. Two days into the eastward march they are turned out instead to the headland at Baile chrom, where the fifth and last coast beacon is begun.",
   "place": "burg:269",
@@ -6106,11 +5395,11 @@
   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#iv-of-the-masons-of-cnoc-thais",
   "y": 1867,
   "m": 12,
-  "d": 18,
+  "d": 29,
   "age": "V",
   "era": "AE",
   "ey": 88,
-  "date": "18 an Dùbhlachd, AE 88",
+  "date": "29 an Dùbhlachd, AE 88",
   "master": false,
   "src": "age_V_07.json"
  },
@@ -6166,7 +5455,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4011",
+  "id": "EV-4008",
   "title": "A gale strips the beacon's scaffold",
   "body": "A two-day gale out of the north-west tears the scaffolding from the third course of the rising tower at Baile chrom. Dùghall Clachair climbs the bare walls alone in the wind to judge whether the stone has shifted; it has not.",
   "place": "marker:12",
@@ -6185,11 +5474,11 @@
   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#iv-of-the-masons-of-cnoc-thais",
   "y": 1868,
   "m": 12,
-  "d": 30,
+  "d": 20,
   "age": "V",
   "era": "AE",
   "ey": 89,
-  "date": "30 an Dùbhlachd, AE 89",
+  "date": "20 an Dùbhlachd, AE 89",
   "master": false,
   "src": "age_V_07.json"
  },
@@ -6245,7 +5534,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4012",
+  "id": "EV-4009",
   "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
   "body": "Uisdean mac Lachlainn of the headland villages is named the beacon's first keeper, on the recommendation of the very masons who built it: Dùghall Clachair among them, who signed the letter along with two of his crew.",
   "place": "marker:12",
@@ -6266,12 +5555,12 @@
   ],
   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#v-of-the-ring-made-whole",
   "y": 1869,
-  "m": 10,
-  "d": 19,
+  "m": 8,
+  "d": 10,
   "age": "V",
   "era": "AE",
   "ey": 90,
-  "date": "19 an Dàmhair, AE 90",
+  "date": "10 an Lùnastal, AE 90",
   "master": false,
   "src": "age_V_07.json"
  },
@@ -6364,36 +5653,6 @@
  },
  {
   "id": "EV-4501",
-  "title": "The draft read at Baile chrom",
-  "body": "The Levy is read at the market cross of Baile chrom, first in the humans' tongue and then in Dia-thìris by a clerk who stumbles over the numbers. It falls hardest on the coast and hill villages; the concession farms to the north, worked by the strangers' own people, send no one.",
-  "place": "burg:305",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0181",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "uisdean-mac-lachlainn"
-  ],
-  "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
-  "y": 1873,
-  "m": 3,
-  "d": 8,
-  "age": "V",
-  "era": "AE",
-  "ey": 94,
-  "date": "8 am Màrt, AE 94",
-  "master": false,
-  "src": "age_V_08.json"
- },
- {
-  "id": "EV-4502",
   "title": "The first harvest short",
   "body": "The harvest round Baile chrom comes in at less than half the carts of the year before, the fields sown thin for want of hands and beaten further by two summer storms. Uisdean counts the carts against his own earlier tally and finds the shortfall for himself.",
   "place": "burg:305",
@@ -6455,7 +5714,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4503",
+  "id": "EV-4502",
   "title": "Uisdean begins to write beyond the weather",
   "body": "In his second spring keeping the daybook of Taigh-solais Baile chrom, Uisdean mac Lachlainn writes down more than the wind and the oil for the first time: that a farmer of his acquaintance ploughs alone, with none of the hands who worked beside him the year before.",
   "place": "burg:305",
@@ -6478,11 +5737,11 @@
   "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
   "y": 1873,
   "m": 10,
-  "d": 11,
+  "d": 20,
   "age": "V",
   "era": "AE",
   "ey": 94,
-  "date": "11 an Dàmhair, AE 94",
+  "date": "20 an Dàmhair, AE 94",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -6555,7 +5814,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4504",
+  "id": "EV-4503",
   "title": "Uisdean's hand on the valve",
   "body": "In the second winter of the hunger, Uisdean mac Lachlainn climbs to the lamp of Taigh-solais Baile chrom and stands a long while with his hand on the oil valve, weighing whether to let the light fail. He writes the thought into the daybook and lets the lamp burn on.",
   "place": "burg:305",
@@ -6578,11 +5837,11 @@
   "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
   "y": 1875,
   "m": 12,
-  "d": 28,
+  "d": 10,
   "age": "V",
   "era": "AE",
   "ey": 96,
-  "date": "28 an Dùbhlachd, AE 96",
+  "date": "10 an Dùbhlachd, AE 96",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -6655,41 +5914,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4505",
-  "title": "Aonghas Ruadh calls the custodians of the east",
-  "body": "Once the tithe goes up on the Company's boards before any custodian's answer has reached Ros dhomhain, Aonghas Ruadh of Ceann àrsaidh sends riders to the settlements of the east and the hills, naming a day in am Faoilleach to draw up one grievance in one hand rather than let it be filed apart, settlement by settlement, as every single letter before it had been.",
-  "place": "burg:88",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0202",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0204",
-    "type": "cause"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "aonghas-ruadh"
-  ],
-  "told_in": "book/25_of_the_petition_on_the_bench.md#iii-of-the-nineteen-at-ceann-arsaidh",
-  "y": 1877,
-  "m": 11,
-  "d": 23,
-  "age": "V",
-  "era": "AE",
-  "ey": 98,
-  "date": "23 an t-Samhain, AE 98",
-  "master": false,
-  "src": "age_V_08.json"
- },
- {
-  "id": "EV-4506",
+  "id": "EV-4504",
   "title": "The custodians ride to Ceann àrsaidh",
   "body": "Custodians of nineteen settlements come in to Ceann àrsaidh through am Faoilleach, on foot and by cart, and camp along the inside of the town wall while they wait for the last of their number. Peigi Ghlas of Cill ghlas walks it in two days, carrying her cloak and her village's slate of the Levy's and the famine's dead rolled with it.",
   "place": "burg:88",
@@ -6714,12 +5939,12 @@
   ],
   "told_in": "book/25_of_the_petition_on_the_bench.md#ii-of-the-store-at-seann-dunn",
   "y": 1877,
-  "m": 11,
-  "d": 26,
+  "m": 12,
+  "d": 12,
   "age": "V",
   "era": "AE",
   "ey": 98,
-  "date": "26 an t-Samhain, AE 98",
+  "date": "12 an Dùbhlachd, AE 98",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -6759,7 +5984,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4507",
+  "id": "EV-4505",
   "title": "Peigi Ghlas at the Residency",
   "body": "Peigi Ghlas carries the fair copy of the nineteen settlements' petition to Taigh an Àrd-mhaoir at Ros dhomhain, is turned back twice at the gate, and on the third day is shown into a stone passage smelling of lamp-soot to wait on a worn bench before a young clerk takes the paper, thanks her, and lays it on an unremarkable pile.",
   "place": "burg:27",
@@ -6779,17 +6004,17 @@
   ],
   "told_in": "book/25_of_the_petition_on_the_bench.md#iv-of-the-bench-in-the-passage",
   "y": 1878,
-  "m": 4,
-  "d": 24,
+  "m": 5,
+  "d": 6,
   "age": "V",
   "era": "AE",
   "ey": 99,
-  "date": "24 an Giblean, AE 99",
+  "date": "6 an Cèitean, AE 99",
   "master": false,
   "src": "age_V_08.json"
  },
  {
-  "id": "EV-4508",
+  "id": "EV-4506",
   "title": "Aonghas Ruadh's letters go unanswered",
   "body": "Through the year after the petition is filed, Aonghas Ruadh writes twice more to Taigh an Àrd-mhaoir asking only whether the paper of am Faoilleach was received and read. The first letter gets no reply at all; the second, in the autumn, is answered in a strange clerk's hand that the matter remains under consideration.",
   "place": "burg:88",
@@ -6810,11 +6035,11 @@
   "told_in": "book/25_of_the_petition_on_the_bench.md#v-of-bride-s-lamp",
   "y": 1878,
   "m": 5,
-  "d": 12,
+  "d": 24,
   "age": "V",
   "era": "AE",
   "ey": 99,
-  "date": "12 an Cèitean, AE 99",
+  "date": "24 an Cèitean, AE 99",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -6871,7 +6096,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4509",
+  "id": "EV-4507",
   "title": "Griogair mac Aonghais tells Fearchar to sing it",
   "body": "Old Griogair mac Aonghais, who broke coal beside Fearchar's father before him, tells Fearchar that a column is for men who have given up hoping to be heard, and that he should sing the grievance instead of writing it. Fearchar carries the book back to Baile thais and begins working verses to the granary's short week.",
   "place": "burg:491",
@@ -6889,12 +6114,12 @@
   ],
   "told_in": "book/26_of_fearchar_bards_songs.md#i-of-the-book-that-would-not-stay-shut",
   "y": 1880,
-  "m": 12,
-  "d": 29,
+  "m": 11,
+  "d": 9,
   "age": "V",
   "era": "AE",
   "ey": 101,
-  "date": "29 an Dùbhlachd, AE 101",
+  "date": "9 an t-Samhain, AE 101",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -6933,37 +6158,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4510",
-  "title": "The overseer's clerk copies the forbidden song",
-  "body": "An overseer at Baile thais has Fearchar's song taken down word for word from a boy of the crews so that it can be shown forbidden, and a docker's pay is cut by half a week for the singing of it. The clerk's copy, made to condemn the song, becomes the only complete written record of it.",
-  "place": "burg:44",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0209",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "fearchar-bard"
-  ],
-  "told_in": "book/26_of_fearchar_bards_songs.md#ii-of-the-song-that-was-forbidden-and-so-written-down",
-  "y": 1881,
-  "m": 12,
-  "d": 24,
-  "age": "V",
-  "era": "AE",
-  "ey": 102,
-  "date": "24 an Dùbhlachd, AE 102",
-  "master": false,
-  "src": "age_V_08.json"
- },
- {
-  "id": "EV-4511",
+  "id": "EV-4508",
   "title": "Fearchar repays the docked wage",
   "body": "Fearchar Bàrd walks to Baile thais to repay out of his own wage the boy docked half a week's pay for singing his song, and the boy refuses the coin, saying he would rather have sung it than not. The song is sung again within the week, further than before.",
   "place": "burg:44",
@@ -6982,11 +6177,11 @@
   "told_in": "book/26_of_fearchar_bards_songs.md#ii-of-the-song-that-was-forbidden-and-so-written-down",
   "y": 1881,
   "m": 12,
-  "d": 27,
+  "d": 26,
   "age": "V",
   "era": "AE",
   "ey": 102,
-  "date": "27 an Dùbhlachd, AE 102",
+  "date": "26 an Dùbhlachd, AE 102",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -7093,7 +6288,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4512",
+  "id": "EV-4509",
   "title": "Artair mac Iain dies at Cathair dhearg",
   "body": "Artair mac Iain, high custodian for twenty and four years, dies at Cathair dhearg at eighty years old. Word of his death reaches Fearchar Bàrd on the road home from An Taigh-òsta Grianach, carried faster than either fire or song by a rider changing horses at every post-house.",
   "place": "burg:19",
@@ -7112,12 +6307,12 @@
   ],
   "told_in": "book/26_of_fearchar_bards_songs.md#vii-of-the-fire-on-the-quay-and-the-empty-seat",
   "y": 1884,
-  "m": 11,
-  "d": 23,
+  "m": 12,
+  "d": 21,
   "age": "V",
   "era": "AE",
   "ey": 105,
-  "date": "23 an t-Samhain, AE 105",
+  "date": "21 an Dùbhlachd, AE 105",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -7138,34 +6333,6 @@
   "date": "25 an Lùnastal, AE 106",
   "master": true,
   "src": "age_V_master.json"
- },
- {
-  "id": "EV-4513",
-  "title": "Iseabail begins her forty pages",
-  "body": "Understanding that her petition will be answered with nothing but the words under consideration, Iseabail nic Leòid begins writing, over a winter, a full account of the drought's three years: the wells, the cattle, the fever's dead, the watchman recalled from Allt an Àigh, for whoever may someday want to know its cost.",
-  "place": "burg:349",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0217",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "iseabail-nic-leoid"
-  ],
-  "told_in": "book/27_of_the_long_drought.md#vii-of-the-petition-begun-alone",
-  "y": 1885,
-  "m": 12,
-  "d": 6,
-  "age": "V",
-  "era": "AE",
-  "ey": 106,
-  "date": "6 an Dùbhlachd, AE 106",
-  "master": false,
-  "src": "age_V_08.json"
  },
  {
   "id": "IV-0218",
@@ -7236,7 +6403,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4514",
+  "id": "EV-4510",
   "title": "Baile chaol slaughters its herd",
   "body": "With no grazing left within four days' driving, Baile chaol's custodian Ealasaid Ruadh orders the town's whole herd killed and the meat salted rather than risk the loss of it on the road. The town loses fewer of its people to hunger that winter than any other of the ten drought districts.",
   "place": "burg:311",
@@ -7254,12 +6421,12 @@
   ],
   "told_in": "book/27_of_the_long_drought.md#iii-of-baile-chaol-s-choice",
   "y": 1886,
-  "m": 11,
-  "d": 23,
+  "m": 12,
+  "d": 12,
   "age": "V",
   "era": "AE",
   "ey": 107,
-  "date": "23 an t-Samhain, AE 107",
+  "date": "12 an Dùbhlachd, AE 107",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -7349,7 +6516,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-4515",
+  "id": "EV-4511",
   "title": "Coll's report names the drought-fever's true cause",
   "body": "The Mission's physician at Baile Mòr ruadh, a young man named Coll, tests the town's water and finds it fouled by the old midden ground its deep wells were sunk through. His report to the Mission's house at Cathair dhearg is the first that autumn to name the fever's cause rightly.",
   "place": "burg:387",
@@ -7367,17 +6534,17 @@
   ],
   "told_in": "book/27_of_the_long_drought.md#v-of-the-drought-fever",
   "y": 1888,
-  "m": 12,
-  "d": 12,
+  "m": 11,
+  "d": 1,
   "age": "V",
   "era": "AE",
   "ey": 109,
-  "date": "12 an Dùbhlachd, AE 109",
+  "date": "1 an t-Samhain, AE 109",
   "master": false,
   "src": "age_V_08.json"
  },
  {
-  "id": "EV-4516",
+  "id": "EV-4512",
   "title": "Every custodian of the drought country petitions Haskins",
   "body": "Each of the ten drought districts' custodians petitions Commissioner Haskins in her own hand, unknown to the others, asking that the Company's quota be set aside until two seasons of ordinary rain are counted. Iseabail nic Leòid rides her own petition to the Residency and is told, as every other has been told, that the matter is under consideration.",
   "place": "burg:349",
@@ -7395,12 +6562,12 @@
   ],
   "told_in": "book/27_of_the_long_drought.md#vii-of-the-petition-begun-alone",
   "y": 1888,
-  "m": 12,
-  "d": 27,
+  "m": 11,
+  "d": 16,
   "age": "V",
   "era": "AE",
   "ey": 109,
-  "date": "27 an Dùbhlachd, AE 109",
+  "date": "16 an t-Samhain, AE 109",
   "master": false,
   "src": "age_V_08.json"
  },
@@ -7634,38 +6801,6 @@
   "src": "age_V_09.json"
  },
  {
-  "id": "EV-5004",
-  "title": "Thomas Hale reads the surgeon's note at the grave",
-  "body": "At a grave dug on the bare hill above the Cnoc chaol pit-head, Thomas Hale reads Griogair mac Ailein's release aloud in the Company's own tongue before some thirty of the fellowship, so that no clerk may afterward say the burying was done without the Company's leave.",
-  "place": "burg:415",
-  "kind": "craft",
-  "category": "coal",
-  "links": [
-   {
-    "to": "IV-0234",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "thomas-hale",
-   "griogair-mac-ailein",
-   "domhnall-ruadh"
-  ],
-  "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein",
-  "y": 1892,
-  "m": 12,
-  "d": 31,
-  "age": "V",
-  "era": "AE",
-  "ey": 113,
-  "date": "31 an Dùbhlachd, AE 113",
-  "master": false,
-  "src": "age_V_09.json"
- },
- {
   "id": "IV-0235",
   "canon": false,
   "title": "Edward Vane Commissioner",
@@ -7700,7 +6835,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5005",
+  "id": "EV-5004",
   "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
   "body": "Edward Vane goes up to Cathair dhearg unsummoned and speaks three sentences of Dia-thìris to Comhairle a' Chùraim before finishing through the Mission's interpreter, telling the council he has come home. The clerk enters the word exactly, wrong tense and all.",
   "place": "burg:19",
@@ -7720,12 +6855,12 @@
   ],
   "told_in": "book/29_of_the_night_shift.md#i-of-the-man-who-spoke-it-badly",
   "y": 1894,
-  "m": 12,
-  "d": 19,
+  "m": 8,
+  "d": 13,
   "age": "V",
   "era": "AE",
   "ey": 115,
-  "date": "19 an Dùbhlachd, AE 115",
+  "date": "13 an Lùnastal, AE 115",
   "master": false,
   "src": "age_V_09.json"
  },
@@ -7765,34 +6900,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5006",
-  "title": "The day shift stands in the yard at Cnoc chaol",
-  "body": "Three hundred hewers of the day shift refuse to go down for the night change and stand in the yard through the last light, saying nothing to the overseer who twice asks their meaning. No chant is raised and no threat made; they simply do not move.",
-  "place": "burg:415",
-  "kind": "craft",
-  "category": "coal",
-  "links": [
-   {
-    "to": "IV-0239",
-    "type": "cause"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [],
-  "told_in": "book/29_of_the_night_shift.md#iii-of-the-two-shifts-and-the-week-it-lasted",
-  "y": 1895,
-  "m": 12,
-  "d": 22,
-  "age": "V",
-  "era": "AE",
-  "ey": 116,
-  "date": "22 an Dùbhlachd, AE 116",
-  "master": false,
-  "src": "age_V_09.json"
- },
- {
   "id": "IV-0239",
   "canon": false,
   "title": "The night-shift strike",
@@ -7827,7 +6934,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5007",
+  "id": "EV-5005",
   "title": "The Lamp-Watch's purse runs dry",
   "body": "The Lamp-Watch, keeping the households of the crews who stood at Cnoc chaol, empties its purse by the second winter. Its own reckoning, kept in an unnamed hand, closes the year's account at nothing, and beneath it notes only that the hill was not given back its silence.",
   "place": "burg:415",
@@ -7850,11 +6957,11 @@
   "told_in": "book/29_of_the_night_shift.md#iii-of-the-two-shifts-and-the-week-it-lasted",
   "y": 1896,
   "m": 12,
-  "d": 15,
+  "d": 13,
   "age": "V",
   "era": "AE",
   "ey": 117,
-  "date": "15 an Dùbhlachd, AE 117",
+  "date": "13 an Dùbhlachd, AE 117",
   "master": false,
   "src": "age_V_09.json"
  },
@@ -7910,7 +7017,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5008",
+  "id": "EV-5006",
   "title": "Iain Maor dismissed and restored",
   "body": "The Residency answers Iain Maor's letter with a notice relieving him of the overseer's staff for conduct unbecoming his office. His daughter Mòrag reads it to him by lamplight. Within a month, the crews having slowed the galleries to nothing, an unsigned notice restores him with no mention of the first.",
   "place": "burg:354",
@@ -7931,12 +7038,12 @@
   ],
   "told_in": "book/29_of_the_night_shift.md#vi-of-iain-maor-s-letter",
   "y": 1898,
-  "m": 12,
-  "d": 8,
+  "m": 9,
+  "d": 25,
   "age": "V",
   "era": "AE",
   "ey": 119,
-  "date": "8 an Dùbhlachd, AE 119",
+  "date": "25 an t-Sultain, AE 119",
   "master": false,
   "src": "age_V_09.json"
  },
@@ -7993,36 +7100,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5009",
-  "title": "Fionnan's birth reaches the cellar",
-  "body": "The birth of Fionnan, entered by an eastern custodian among the ordinary births of the year, reaches the cellar at Muileann chaol folded into a roll like any other. No hand marks the line for what it is; the copyists learn to find it again only once the word for the thing exists to look for.",
-  "place": "burg:246",
-  "kind": "birth",
-  "category": "coalblood",
-  "links": [
-   {
-    "to": "IV-0245",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-coal-blood"
-  ],
-  "people": [
-   "cailean-mac-eachainn"
-  ],
-  "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#i-of-the-second-birth",
-  "y": 1900,
-  "m": 11,
-  "d": 25,
-  "age": "V",
-  "era": "AE",
-  "ey": 121,
-  "date": "25 an t-Samhain, AE 121",
-  "master": false,
-  "src": "age_V_09.json"
- },
- {
   "id": "IV-0246",
   "canon": false,
   "title": "The Administration's count of the people",
@@ -8040,7 +7117,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5010",
+  "id": "EV-5007",
   "title": "Cailean mac Eachainn taken on at the cellar",
   "body": "Cailean mac Eachainn, a turf-cutter's son of Muileann chaol with a plain hand at his letters, is taken on by the three households of the cellar when Seònag Bhàn's eyes fail her past close work. He is asked first not whether he can write fair, but whether he can hold his tongue.",
   "place": "burg:246",
@@ -8058,12 +7135,12 @@
   ],
   "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#iii-of-the-three-households",
   "y": 1901,
-  "m": 10,
-  "d": 20,
+  "m": 11,
+  "d": 29,
   "age": "V",
   "era": "AE",
   "ey": 122,
-  "date": "20 an Dàmhair, AE 122",
+  "date": "29 an t-Samhain, AE 122",
   "master": false,
   "src": "age_V_09.json"
  },
@@ -8134,7 +7211,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5011",
+  "id": "EV-5008",
   "title": "Nothing of weight was lost",
   "body": "By lamplight Fearchar mac Ailpein and Cailean mac Eachainn match the recovered northern rolls against the cellar's own patched record of the missing years, and find that little of any weight had truly gone missing, only kept for a time in the wrong cellar.",
   "place": "burg:246",
@@ -8152,12 +7229,12 @@
   ],
   "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#vi-of-the-copies-gone-astray",
   "y": 1904,
-  "m": 7,
-  "d": 18,
+  "m": 3,
+  "d": 4,
   "age": "V",
   "era": "AE",
   "ey": 125,
-  "date": "18 an t-Iuchar, AE 125",
+  "date": "4 am Màrt, AE 125",
   "master": false,
   "src": "age_V_09.json"
  },
@@ -8197,7 +7274,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5012",
+  "id": "EV-5009",
   "title": "Peigi Ghlas calls the custodians to Cill ghlas",
   "body": "Peigi Ghlas writes to every custodian within two days' walk, calling them to the shrine of Cill ghlas on the night of the coming full moon to settle a name for the change that has now come twice upon a child of the pits, and asks the cellar to send a hand who can write it fair on the spot.",
   "place": "burg:123",
@@ -8218,12 +7295,12 @@
   ],
   "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#ix-of-the-naming",
   "y": 1905,
-  "m": 9,
-  "d": 27,
+  "m": 7,
+  "d": 16,
   "age": "V",
   "era": "AE",
   "ey": 126,
-  "date": "27 an t-Sultain, AE 126",
+  "date": "16 an t-Iuchar, AE 126",
   "master": false,
   "src": "age_V_09.json"
  },
@@ -8323,34 +7400,6 @@
  },
  {
   "id": "EV-5503",
-  "title": "A custodian of Cill ghlas answers the Company's agent",
-  "body": "Asked by a Company agent whether she knows of any coal-touched child in her district, a custodian of Cill ghlas answers that she keeps no roll of miracles, only of births and deaths, and that the office is welcome to search her books for either.",
-  "place": "burg:123",
-  "kind": "birth",
-  "category": "coalblood",
-  "links": [
-   {
-    "to": "IV-0252",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "line-of-aisling"
-  ],
-  "people": [],
-  "told_in": "book/31_of_the_line_of_aisling.md#iii-of-the-return-and-the-report-that-named-no-one",
-  "y": 1906,
-  "m": 12,
-  "d": 8,
-  "age": "V",
-  "era": "AE",
-  "ey": 127,
-  "date": "8 an Dùbhlachd, AE 127",
-  "master": false,
-  "src": "age_V_10.json"
- },
- {
-  "id": "EV-5504",
   "title": "Peigi Ghlas dies at Cill ghlas",
   "body": "Peigi Ghlas dies at Cill ghlas, her petition still unanswered, having trimmed Brìde's lamp herself the week before her death and said that she had asked the Residency once and meant to leave the asking there.",
   "place": "burg:123",
@@ -8363,12 +7412,12 @@
   ],
   "told_in": "book/31_of_the_line_of_aisling.md#v-of-the-staff-at-muileann-chrom",
   "y": 1907,
-  "m": 12,
-  "d": 28,
+  "m": 5,
+  "d": 22,
   "age": "V",
   "era": "AE",
   "ey": 128,
-  "date": "28 an Dùbhlachd, AE 128",
+  "date": "22 an Cèitean, AE 128",
   "master": false,
   "src": "age_V_10.json"
  },
@@ -8510,7 +7559,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5505",
+  "id": "EV-5504",
   "title": "Ruth Pallant teaches Hannah Webb the night watch",
   "body": "At Ceann mhòr, an old net-mender named Ruth Pallant tells the field-worker Hannah Webb of a night watch her own people's fisher-forebears learned from the island folk, kept in silence under a grey goose said to hold the sea shut. Hannah carries the telling of it home to the concession.",
   "place": "burg:143",
@@ -8542,7 +7591,7 @@
   "src": "age_V_10.json"
  },
  {
-  "id": "EV-5506",
+  "id": "EV-5505",
   "title": "Hannah Webb's first vigil",
   "body": "In a field behind her landlord's byre near Baile chrom, Hannah Webb keeps the silent watch for the first time, and sees, or believes she sees, a pale shape cross the night sky before she sleeps through a whole night for the first time in ten years on the island.",
   "place": "burg:305",
@@ -8564,16 +7613,16 @@
   "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#ii-of-hannah-webb",
   "y": 1911,
   "m": 11,
-  "d": 21,
+  "d": 13,
   "age": "V",
   "era": "AE",
   "ey": 132,
-  "date": "21 an t-Samhain, AE 132",
+  "date": "13 an t-Samhain, AE 132",
   "master": false,
   "src": "age_V_10.json"
  },
  {
-  "id": "EV-5507",
+  "id": "EV-5506",
   "title": "The watch spreads along the concession's edge",
   "body": "Word of Hannah Webb's night vigil passes among the human labourers of the concession after a field hand sees her keeping it. Within a season a handful of others try it, and by autumn six or seven keep the field together on clear nights, spaced apart and silent.",
   "place": "burg:305",
@@ -8707,38 +7756,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5508",
-  "title": "The berth toll and the docker Tòmas Ruadh",
-  "body": "The Company posts a new toll on every ton loaded at the Ros dhomhain coal berths. The docker Tòmas Ruadh, whom Daniel Webb once pulled clear of a falling beam, tells him of it, and the two speak for the first time of standing off the hooks together.",
-  "place": "burg:27",
-  "kind": "record",
-  "category": "law",
-  "links": [
-   {
-    "to": "IV-0263",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "daniel-webb",
-   "tomas-ruadh"
-  ],
-  "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#iv-of-the-dockers-of-ros-dhomhain",
-  "y": 1913,
-  "m": 6,
-  "d": 11,
-  "age": "V",
-  "era": "AE",
-  "ey": 134,
-  "date": "11 an t-Ògmhios, AE 134",
-  "master": false,
-  "src": "age_V_10.json"
- },
- {
-  "id": "EV-5509",
+  "id": "EV-5507",
   "title": "Raghnall Breac walks to Cill ghlas",
   "body": "With his knees gone stiff for the low work at Baile thais and two grandchildren to feed, the ageing hewer Raghnall Breac walks two days to the new galleries at Cill ghlas, where the pay is better and the headings still stand tall enough for a man to work upright. He writes to his daughter Eilidh twice a year.",
   "place": "burg:44",
@@ -8759,12 +7777,12 @@
   ],
   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#ii-of-baile-thais-in-the-winter",
   "y": 1913,
-  "m": 7,
-  "d": 16,
+  "m": 9,
+  "d": 1,
   "age": "V",
   "era": "AE",
   "ey": 134,
-  "date": "16 an t-Iuchar, AE 134",
+  "date": "1 an t-Sultain, AE 134",
   "master": false,
   "src": "age_V_10.json"
  },
@@ -8821,7 +7839,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5510",
+  "id": "EV-5508",
   "title": "Eilidh nic Raghnaill given a seat at the Lamp-Watch's table",
   "body": "The crew-leader Eilidh nic Raghnaill of Baile thais is asked, for the first time, to sit at the table where the Lamp-Watch keeps its business, and copies its minutes into a second book kept in her own linen chest, where no Company clerk would think to look.",
   "place": "burg:44",
@@ -8841,12 +7859,12 @@
   ],
   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#ii-of-baile-thais-in-the-winter",
   "y": 1915,
-  "m": 7,
-  "d": 7,
+  "m": 3,
+  "d": 6,
   "age": "V",
   "era": "AE",
   "ey": 136,
-  "date": "7 an t-Iuchar, AE 136",
+  "date": "6 am Màrt, AE 136",
   "master": false,
   "src": "age_V_10.json"
  },
@@ -8972,7 +7990,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-5511",
+  "id": "EV-5509",
   "title": "Eilidh nic Raghnaill at the fenced ground",
   "body": "Eilidh nic Raghnaill walks to Cill ghlas to find her father's grave and finds instead the fence and the fallen headgear of the eighth heading. A constable turns her away from the closed ground. She writes nothing of the hour in the Lamp-Watch's book.",
   "place": "burg:123",
@@ -8991,37 +8009,6 @@
    "eilidh-nic-raghnaill"
   ],
   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#iv-of-the-fenced-ground-and-the-stone-on-the-moor-road",
-  "y": 1916,
-  "m": 12,
-  "d": 23,
-  "age": "V",
-  "era": "AE",
-  "ey": 137,
-  "date": "23 an Dùbhlachd, AE 137",
-  "master": false,
-  "src": "age_V_10.json"
- },
- {
-  "id": "EV-5512",
-  "title": "Fionnlagh's warning at Muileann chrom",
-  "body": "The overseer Fionnlagh tells the new agent Edgar Holt that the flooded ground under one heading at Muileann chrom has never gone a night without its pumps, drawing as it does from an unmapped old working above it. Holt orders the pumps stopped regardless, to spare coal for the winding-gear until a delayed barge arrives.",
-  "place": "burg:354",
-  "kind": "craft",
-  "category": "coal",
-  "links": [
-   {
-    "to": "IV-0274",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "fionnlagh",
-   "edgar-holt"
-  ],
-  "told_in": "book/33_of_the_rending_of_cill_ghlas.md#v-of-the-pumps-stopped-to-save-fuel",
   "y": 1916,
   "m": 12,
   "d": 26,
@@ -9427,68 +8414,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6004",
-  "title": "Eilidh nic Raghnaill reads Ìomhar Seabhag's sermon to the Lamp-Watch",
-  "body": "A fowler leaves a written copy of Ìomhar Seabhag's Seann Skell sermon with the burial club's door-keeper at Baile thais, and Eilidh nic Raghnaill reads it aloud to the room by the same lamp she drafted the second petition by. For once she does not write anything in the club's book afterward.",
-  "place": "burg:44",
-  "kind": "rite",
-  "category": "faith",
-  "links": [
-   {
-    "to": "IV-0284",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-orders-of-the-old-faith"
-  ],
-  "people": [
-   "eilidh-nic-raghnaill"
-  ],
-  "told_in": "book/34_of_the_warning_and_the_constables.md#iv-of-the-hawk-and-the-sermon",
-  "y": 1920,
-  "m": 10,
-  "d": 20,
-  "age": "V",
-  "era": "AE",
-  "ey": 141,
-  "date": "20 an Dàmhair, AE 141",
-  "master": false,
-  "src": "age_V_11.json"
- },
- {
-  "id": "EV-6005",
-  "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
-  "body": "A crew-leader from Baile thais asks Aonghas, keeper of An Taigh-seinnse Mòr since Seònaid Bhàn's line came to him, whether the loft above his stable might hold men now and again with no questions asked. He agrees, and stops in time asking what they carry.",
-  "place": "marker:10",
-  "kind": "humans",
-  "category": "humans",
-  "links": [
-   {
-    "to": "IV-0290",
-    "type": "sequel"
-   },
-   {
-    "to": "IV-0300",
-    "type": "cause"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "aonghas"
-  ],
-  "told_in": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
-  "y": 1920,
-  "m": 11,
-  "d": 14,
-  "age": "V",
-  "era": "AE",
-  "ey": 141,
-  "date": "14 an t-Samhain, AE 141",
-  "master": false,
-  "src": "age_V_11.json"
- },
- {
   "id": "IV-0293",
   "canon": false,
   "title": "An Taigh-òsta Grianach walled",
@@ -9591,7 +8516,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6006",
+  "id": "EV-6004",
   "title": "A boy of Àth fhiadhaich at Aonghas's door",
   "body": "A boy runner out of Àth fhiadhaich comes soaked from the ford into Aonghas's yard, asks for bread as any boy might, and leaves a folded scrap under the loose board by the stable door naming a date and nothing else. Aonghas burns it in the kitchen fire that night.",
   "place": "burg:12",
@@ -9610,11 +8535,11 @@
   "told_in": "book/35_of_the_houses_on_the_roads.md#iii-of-the-post-at-the-far-shore-and-the-boys-of-the-ford",
   "y": 1921,
   "m": 12,
-  "d": 17,
+  "d": 19,
   "age": "V",
   "era": "AE",
   "ey": 142,
-  "date": "17 an Dùbhlachd, AE 142",
+  "date": "19 an Dùbhlachd, AE 142",
   "master": false,
   "src": "age_V_11.json"
  },
@@ -9790,7 +8715,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6007",
+  "id": "EV-6005",
   "title": "The fire on Cnoc an Rabhaidh",
   "body": "On 27 am Màrt, Aonghas watches smoke rise thin from Cnoc an Rabhaidh in a hard north-west wind, and every wheel within sight of his yard stops within the hour. A carter in his own yard names it a heath fire before anyone learns otherwise.",
   "place": "marker:10",
@@ -9894,7 +8819,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6008",
+  "id": "EV-6006",
   "title": "Tormod Buabhall's word on a house with nothing left to guard",
   "body": "Meeting Aonghas at the horse-fair after the ships have thinned to nothing, Tormod Buabhall tells him a house with no custom left keeps its gates shut for a different reason than before: a house that guards everything still has, behind its locked door, something it means to keep.",
   "place": "marker:5",
@@ -9911,14 +8836,14 @@
    "tormod-buabhall",
    "aonghas"
   ],
-  "told_in": "book/35_of_the_houses_on_the_roads.md#vi-of-the-idle-harbours",
+  "told_in": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
   "y": 1924,
   "m": 10,
-  "d": 30,
+  "d": 16,
   "age": "V",
   "era": "AE",
   "ey": 145,
-  "date": "30 an Dàmhair, AE 145",
+  "date": "16 an Dàmhair, AE 145",
   "master": false,
   "src": "age_V_11.json"
  },
@@ -10044,37 +8969,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6009",
-  "title": "The iron bird seen over Muileann chrom",
-  "body": "A flying machine passes twice over the Muileann chrom valley without beating its wings, and the crews at the pit-mouth stop their barrows to watch it go. By evening the district has a name for it, eun-iarainn, borrowed from nowhere and understood at once.",
-  "place": "burg:354",
-  "kind": "land",
-  "category": "land",
-  "links": [
-   {
-    "to": "IV-0315a",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "morag-nic-iain-maor"
-  ],
-  "told_in": "book/36_of_the_breaking_of_the_staff.md#i-of-the-iron-bird",
-  "y": 1926,
-  "m": 10,
-  "d": 20,
-  "age": "V",
-  "era": "AE",
-  "ey": 147,
-  "date": "20 an Dàmhair, AE 147",
-  "master": false,
-  "src": "age_V_11.json"
- },
- {
-  "id": "EV-6010",
+  "id": "EV-6007",
   "title": "The old man of Doire mhòr",
   "body": "An old man carried gently from his own doorstone by constables clearing houses under the edict of seizure asks only that it be written down that they were gentle about it. Mòrag nic Iain Maor, come from Muileann chrom, carries the sentence home with no book to hand.",
   "place": "burg:101",
@@ -10098,12 +8993,12 @@
   ],
   "told_in": "book/36_of_the_breaking_of_the_staff.md#ii-of-the-edict-of-seizure",
   "y": 1926,
-  "m": 12,
-  "d": 18,
+  "m": 11,
+  "d": 16,
   "age": "V",
   "era": "AE",
   "ey": 147,
-  "date": "18 an Dùbhlachd, AE 147",
+  "date": "16 an t-Samhain, AE 147",
   "master": false,
   "src": "age_V_11.json"
  },
@@ -10211,9 +9106,9 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6011",
-  "title": "Coinneach Ruadh's ride of the twentieth",
-  "body": "Coinneach Ruadh rides into Muileann chrom on the twentieth of an Gearran with word that the grievance is called across every mining district at once, and that the Residency has already had its answer that morning from Muileann chrom and Baile thais both.",
+  "id": "EV-6008",
+  "title": "Coinneach Ruadh's ride of the twenty-eighth",
+  "body": "Coinneach Ruadh rides into Muileann chrom on the twenty-eighth of an Gearran with word that the grievance is called across every mining district at once, and that the Residency has already had its answer that morning from Muileann chrom and Baile thais both.",
   "place": "burg:354",
   "kind": "war",
   "category": "war",
@@ -10233,16 +9128,16 @@
   "told_in": "book/36_of_the_breaking_of_the_staff.md#v-of-the-silent-town",
   "y": 1928,
   "m": 2,
-  "d": 26,
+  "d": 23,
   "age": "V",
   "era": "AE",
   "ey": 149,
-  "date": "26 an Gearran, AE 149",
+  "date": "23 an Gearran, AE 149",
   "master": false,
   "src": "age_V_11.json"
  },
  {
-  "id": "EV-6012",
+  "id": "EV-6009",
   "title": "The beacons of the coal country answer",
   "body": "On the night war is called, signal fires long kept secret are carried openly to every beacon height the mining districts hold, ridge answering ridge from Doire mhòr to the silver hills, the first time the whole coal country has shown itself lit at once.",
   "place": "burg:354",
@@ -10263,11 +9158,11 @@
   "told_in": "book/36_of_the_breaking_of_the_staff.md#v-of-the-silent-town",
   "y": 1928,
   "m": 2,
-  "d": 27,
+  "d": 25,
   "age": "V",
   "era": "AE",
   "ey": 149,
-  "date": "27 an Gearran, AE 149",
+  "date": "25 an Gearran, AE 149",
   "master": false,
   "src": "age_V_11.json"
  },
@@ -10289,37 +9184,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6501",
-  "title": "Tòmas Odhar's hand on the gatepost",
-  "body": "At the fallen gate of the Muileann chrom store the old hewer Tòmas Odhar rests his hand flat on the gatepost and says he has carried coal out through it for six-and-thirty years and never thought to see rifles carried out through it instead. His words are repeated round the camp for a week after.",
-  "place": "burg:354",
-  "kind": "craft",
-  "category": "coal",
-  "links": [
-   {
-    "to": "IV-0325",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "tomas-odhar",
-   "morag-nic-iain-maor"
-  ],
-  "told_in": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom",
-  "y": 1928,
-  "m": 3,
-  "d": 10,
-  "age": "V",
-  "era": "AE",
-  "ey": 149,
-  "date": "10 am Màrt, AE 149",
-  "master": false,
-  "src": "age_V_12.json"
- },
- {
   "id": "IV-0326",
   "canon": false,
   "title": "The quay at Ceann fhada seized",
@@ -10337,7 +9201,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6502",
+  "id": "EV-6501",
   "title": "Pàdraig Reamhar scuttles his own barge",
   "body": "The boatman Pàdraig Reamhar, who built the larger of the two barges sunk at Ceann fhada with his own father twenty years before, knocks the plugs from her hull with his own hands and says afterward only that she had been a good boat.",
   "place": "burg:351",
@@ -10358,11 +9222,11 @@
   "told_in": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom",
   "y": 1928,
   "m": 5,
-  "d": 28,
+  "d": 30,
   "age": "V",
   "era": "AE",
   "ey": 149,
-  "date": "28 an Cèitean, AE 149",
+  "date": "30 an Cèitean, AE 149",
   "master": false,
   "src": "age_V_12.json"
  },
@@ -10537,7 +9401,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6503",
+  "id": "EV-6502",
   "title": "The turnip cart to the ford",
   "body": "A cart with a false floor of turnips carries Uilleam Gobha's grenades up the cut coal road to the crews waiting at the ford of Àth chiar, the first of his work to leave Muileann dhearg for open fighting.",
   "place": "burg:163",
@@ -10558,16 +9422,16 @@
   "told_in": "book/37_of_the_rising_in_the_hills.md#v-of-the-ford-of-ath-chiar",
   "y": 1928,
   "m": 12,
-  "d": 7,
+  "d": 6,
   "age": "V",
   "era": "AE",
   "ey": 149,
-  "date": "7 an Dùbhlachd, AE 149",
+  "date": "6 an Dùbhlachd, AE 149",
   "master": false,
   "src": "age_V_12.json"
  },
  {
-  "id": "EV-6504",
+  "id": "EV-6503",
   "title": "The nineteen of Àth chiar buried",
   "body": "The council's clerk Fionnuala writes down by lamp-light the names of the nineteen dead of Àth chiar and reads the list aloud the next morning; within the week they are buried on the moor above Cnoc naomh, within sight of the cairn raised there before the fighting began.",
   "place": "marker:42",
@@ -10589,11 +9453,11 @@
   "told_in": "book/37_of_the_rising_in_the_hills.md#v-of-the-ford-of-ath-chiar",
   "y": 1928,
   "m": 12,
-  "d": 26,
+  "d": 7,
   "age": "V",
   "era": "AE",
   "ey": 149,
-  "date": "26 an Dùbhlachd, AE 149",
+  "date": "7 an Dùbhlachd, AE 149",
   "master": false,
   "src": "age_V_12.json"
  },
@@ -10989,36 +9853,6 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6505",
-  "title": "Dùghall counts the grain carts from Seann Warr",
-  "body": "At the harbour quarter's upper gate Dùghall Dubh, once a weigher of coal for the Company, keeps the council's tally of the grain train down from Seann Warr, twelve carts against a capital's hunger, and sends the last load on to the sharing-yard behind the custodians' hall.",
-  "place": "burg:27",
-  "kind": "land",
-  "category": "land",
-  "links": [
-   {
-    "to": "IV-0353",
-    "type": "sequel"
-   }
-  ],
-  "threads": [
-   "the-company"
-  ],
-  "people": [
-   "dughall-dubh"
-  ],
-  "told_in": "book/39_of_the_burning_of_the_ledgers.md#i-of-the-grain-from-seann-warr",
-  "y": 1929,
-  "m": 7,
-  "d": 7,
-  "age": "V",
-  "era": "AE",
-  "ey": 150,
-  "date": "7 an t-Iuchar, AE 150",
-  "master": false,
-  "src": "age_V_12.json"
- },
- {
   "id": "IV-0354",
   "canon": false,
   "title": "Hunger in the capital",
@@ -11071,7 +9905,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6506",
+  "id": "EV-6504",
   "title": "The night clerk of the counting-house is taken without a blow",
   "body": "The counting-house's night clerk is found sitting on its steps in his shirt with his hands laced over his head before the raiders reach the ground floor, and Dùghall Dubh judges, from the look of him, that some part of the man had waited a year for the night to come.",
   "place": "burg:27",
@@ -11203,7 +10037,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6507",
+  "id": "EV-6505",
   "title": "The letter-books found whole at the Residency",
   "body": "Where Strake has taken plate and account-papers down the river by night, Dùghall Dubh finds a room of the Residency's letter-books left standing untouched on an unlocked shelf, thirty years of the Administration's own correspondence with an Tìr Thall, and sends word of it to the council's clerks that evening.",
   "place": "burg:27",
@@ -11233,7 +10067,7 @@
   "src": "age_V_12.json"
  },
  {
-  "id": "EV-6508",
+  "id": "EV-6506",
   "title": "Prentice the counting-house clerk goes down the river",
   "body": "Dùghall Dubh learns from a clerk taken at the Residency that Prentice, who weighed coal beside him nine years at the counting-house scales, went down the river with Strake's household the night the Residency fell, leaving the ledgers he had kept behind as ash.",
   "place": "burg:27",
@@ -11501,7 +10335,7 @@
   "src": "age_V_master.json"
  },
  {
-  "id": "EV-6509",
+  "id": "EV-6507",
   "title": "Coinneach Beag puts his name forward",
   "body": "When the crew-leaders of the river towns ask for seven men who can keep their feet on a hill road and hold their tongues, Coinneach Beag, a boatman of Cuan dhearg raised on the river since boyhood and no stranger to the Company's rule over his own family, puts his name forward before he has properly decided to.",
   "place": "burg:10",
@@ -11529,7 +10363,7 @@
   "src": "age_V_12.json"
  },
  {
-  "id": "EV-6510",
+  "id": "EV-6508",
   "title": "The letter read at a nameless hawk-house",
   "body": "On the road past Seann Toll, Coinneach Beag reads the council's letter aloud in a bare hawk-house of six benches, his voice unsteady at first; an old woman by the fire answers only that it has come to that, and no one else speaks.",
   "place": "burg:313",
@@ -11557,7 +10391,7 @@
   "src": "age_V_12.json"
  },
  {
-  "id": "EV-6511",
+  "id": "EV-6509",
   "title": "The boy of Baile thais shows the wall",
   "body": "Passing through Baile thais, the Leaden Hawk company is shown by a boy of nine or ten the marks on the store's outer wall from the siege's eleven days, told with more pride than fear, the town's memory of its own fight already settling into telling.",
   "place": "burg:44",
@@ -11585,35 +10419,7 @@
   "src": "age_V_12.json"
  },
  {
-  "id": "EV-6512",
-  "title": "Forty-one riders, all going south",
-  "body": "The company's count ends at forty-one constables' riders in a single day, and not one riding north; Gillebrìde reads the sign as Strake's attention turned elsewhere, and Coinneach Beag cannot say whether the empty road is the safest on the island or the most dangerous.",
-  "place": "burg:308",
-  "kind": "war",
-  "category": "war",
-  "links": [
-   {
-    "to": "IV-0342d",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "coinneach-beag"
-  ],
-  "told_in": "book/38_of_the_leaden_hawk.md#v-of-the-grass-above-tobar-dhomhain",
-  "y": 1929,
-  "m": 12,
-  "d": 31,
-  "age": "V",
-  "era": "AE",
-  "ey": 150,
-  "date": "31 an Dùbhlachd, AE 150",
-  "master": false,
-  "src": "age_V_12.json"
- },
- {
-  "id": "EV-6513",
+  "id": "EV-6510",
   "title": "Eilidh Hale will not choose",
   "body": "Asked on the steps of the council hall at Baile dhìreach which people she is, Eilidh Hale, who has kept the joint council's books three winters running, answers only that she keeps the books, and no more. She is neither pressed further nor turned away, and stays in the town through the rest of the war.",
   "place": "burg:105",
@@ -11643,35 +10449,7 @@
   "src": "age_V_12.json"
  },
  {
-  "id": "EV-6514",
-  "title": "The sealed letter kept close",
-  "body": "The last ship from over the sea puts a single sealed letter ashore for the Commissioner at Ros bheag before filling her berths with passengers and standing out again. Strake reads it alone by a window over the harbour, burns its wrapping in the grate, and is seen to carry the letter itself inside his coat for the rest of the winter. No clerk of his ever claims to have read a word of it.",
-  "place": "burg:63",
-  "kind": "humans",
-  "category": "humans",
-  "links": [
-   {
-    "to": "IV-0368",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "lionel-strake"
-  ],
-  "told_in": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#iii-of-the-last-ship",
-  "y": 1929,
-  "m": 12,
-  "d": 31,
-  "age": "V",
-  "era": "AE",
-  "ey": 150,
-  "date": "31 an Dùbhlachd, AE 150",
-  "master": false,
-  "src": "age_V_12.json"
- },
- {
-  "id": "EV-6515",
+  "id": "EV-6511",
   "title": "Hannah Webb walks north",
   "body": "Hannah Webb, who keeps her vigil behind Baile chrom and nursed at Cathair gheal through the fever, walks out to meet the columns at the concession's southern edge and walks back north with them, an old woman of the last families out of Cuan shean on her arm who will not be carried.",
   "place": "burg:282",
@@ -11701,7 +10479,7 @@
   "src": "age_V_12.json"
  },
  {
-  "id": "EV-6516",
+  "id": "EV-6512",
   "title": "The keys given up at Cuan shean",
   "body": "The harbour officers of Ceann mhòr, Cathair gheal and Inis àrsaidh ride two days south with their towns' chests of harbour keys and set them at Strake's feet on the quay at Cuan shean before his ship sails, saying only that the accounts are even and that who wants the keys after is not theirs to decide. Strake takes the chests aboard with him.",
   "place": "burg:282",

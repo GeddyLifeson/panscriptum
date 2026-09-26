@@ -282,7 +282,7 @@ blockquote p{text-indent:0!important; text-align:left}
 /* the books */
 .opener{page:opener; break-before:right; padding-top:30mm; margin-bottom:9mm; text-align:center}
 /* an era novel's chapters, grouped under its Parts, run on after the chapter before, with a rule and space above */
-.opener.chap{break-before:auto; break-inside:avoid; break-after:avoid; padding-top:10mm; margin-top:12mm; margin-bottom:7mm; border-top:0.4pt solid #b9ad9a}
+.opener.chap{page:auto; break-before:auto; break-inside:avoid; break-after:avoid; padding-top:10mm; margin-top:12mm; margin-bottom:7mm; border-top:0.4pt solid #b9ad9a}
 .partpage + .book .opener.chap, section.part + section.book .opener.chap{border-top:0; margin-top:0}
 .booklabel{font-family:'Cinzel',serif; font-size:9pt; letter-spacing:.3em; text-transform:uppercase; color:#6d1f14; text-align:center; margin:0 0 4mm}
 .book h1{font-family:'Uncial',serif; font-weight:400; font-size:25pt; line-height:1.1; margin:0; color:#1a1612; string-set:bookrun attr(data-run)}
