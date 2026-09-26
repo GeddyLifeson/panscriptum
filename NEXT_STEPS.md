@@ -18,8 +18,8 @@ rediscovering.*
   it does not belong here. Ask the owner; don't copy it into the kit.
 * The export checkout is back on `main`. The owner's old branch `claude/beautiful-fermat-9xu33t`
   and `stash@{0}` are still in it, locally only; both are preserved in Diathiris. Leave them.
-* **Open question for the owner:** rodais and the screenplay are still in Panscriptum's git
-  HISTORY. Purging them needs a history rewrite and a force-push; only on the owner's say-so.
+* **Git history is left as is (owner, 2026-09-26):** rodais and the screenplay remain in old
+  commits, and the owner does not want a history rewrite. Do not raise it again.
 * `573ab7b04b6f` (publish credentials): watch the first daemon cycles for a PUSH HELD line.
 
 ## 1. READ THE MUTATION PASS (the first whole one since prose resumed)
