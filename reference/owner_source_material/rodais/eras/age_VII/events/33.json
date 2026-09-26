@@ -6,9 +6,15 @@
     "summary": "The maor of Àth bheag writes the fullest report of the column's road: some four hundred men forded the water below the bridge at dawn, in order, without banner or drum, and went on south without stopping.",
     "category": "war",
     "people": [],
-    "places": ["burg:248"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0112"]
+    "places": [
+      "burg:248"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0112"
+    ]
   },
   {
     "title": "Sìleas nic Rath keeps a file of the column's road",
@@ -16,10 +22,17 @@
     "after": "VI-0112",
     "summary": "The royal chronicler asks every town on the column's line for its account and is given leave to keep them, a freedom the war itself never allowed her.",
     "category": "record",
-    "people": ["Sìleas nic Rath"],
+    "people": [
+      "Sìleas nic Rath"
+    ],
     "places": [],
-    "threads": ["the-long-war", "the-library"],
-    "master_links": ["VI-0112"]
+    "threads": [
+      "the-long-war",
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0112"
+    ]
   },
   {
     "title": "Bread bought and paid for at Muileann mhin",
@@ -28,20 +41,32 @@
     "summary": "Two men of the column buy the widow Mòrag nic Fhearghais's whole morning's baking at Muileann mhin and pay in full before the company passes, taking nothing else from the town.",
     "category": "war",
     "people": [],
-    "places": ["burg:137"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0112"]
+    "places": [
+      "burg:120"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0112"
+    ]
   },
   {
-    "title": "The lamp-makers' guild reports no loss",
+    "title": "Muileann mhin's miller reports no loss",
     "era_year": 22,
     "after": "VI-0112",
-    "summary": "Comann nan Lòchran's warden writes to the Board that the town's takings showed no loss by the column's passing, so that the guild should not be thought to have suffered for it.",
+    "summary": "The miller of Muileann mhin under the western hills writes to the Board that the town's takings showed no loss by the column's passing, the bread having been paid for at a fair price and nobody's stock troubled beyond it.",
     "category": "record",
     "people": [],
-    "places": ["burg:137"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0112"]
+    "places": [
+      "burg:120"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0112"
+    ]
   },
   {
     "title": "A night's lodging paid at a barn on the capital's edge",
@@ -51,8 +76,12 @@
     "category": "war",
     "people": [],
     "places": [],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0112"]
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0112"
+    ]
   },
   {
     "title": "The column keeps wide of the towns of the fair country",
@@ -62,8 +91,12 @@
     "category": "war",
     "people": [],
     "places": [],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0112"]
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0112"
+    ]
   },
   {
     "title": "The fair-ground at Muileann òg ordered for the regiments",
@@ -71,10 +104,18 @@
     "after": "VI-0113",
     "summary": "The first regiment's quartermaster requires the fair-ground, its booths and its cleared ground for the first and third regiments, over the fair court's own market set for the ninth.",
     "category": "war",
-    "people": ["Ùna nic Ailein"],
-    "places": ["burg:360"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0114"]
+    "people": [
+      "Ùna nic Ailein"
+    ],
+    "places": [
+      "burg:151"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0114"
+    ]
   },
   {
     "title": "Fionnlagh Dubh numbers his stall's timbers",
@@ -82,10 +123,18 @@
     "after": "VI-0114",
     "summary": "An ironmonger of thirty years' standing at Muileann òg's fair chalks numbers on his stall's poles before stacking them, against a spring market neither he nor the clerk much believes will come.",
     "category": "life",
-    "people": ["Ùna nic Ailein"],
-    "places": ["burg:360"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0114"]
+    "people": [
+      "Ùna nic Ailein"
+    ],
+    "places": [
+      "burg:151"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0114"
+    ]
   },
   {
     "title": "The third regiment camps on the cleared fair-ground",
@@ -94,20 +143,32 @@
     "summary": "The third regiment pitches its tents where the ironmonger's stall and the cheese-sellers' row stood the day before, the ground cleared from the toll-house arch to the river bend.",
     "category": "war",
     "people": [],
-    "places": ["burg:360"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0113"]
+    "places": [
+      "burg:151"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0113"
+    ]
   },
   {
     "title": "The first regiment fills Muileann òg",
     "era_year": 22,
     "after": "VI-0113",
-    "summary": "The first regiment comes down two days after the third and fills the fair-ground, the water-meadow and the lanes above the mill, so that Muileann òg holds more soldiers under canvas than people.",
+    "summary": "The first regiment comes down the same evening as the third and fills the fair-ground, the water-meadow and the lanes above the mill, so that Muileann òg holds more soldiers under canvas than people.",
     "category": "war",
     "people": [],
-    "places": ["burg:360"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0113"]
+    "places": [
+      "burg:151"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0113"
+    ]
   },
   {
     "title": "The fair court keeps its small business through the camp",
@@ -115,20 +176,37 @@
     "after": "VI-0114",
     "summary": "Ùna nic Ailein keeps the fair court open through the regiments' camp, hearing a strayed cow and a firewood complaint while the road to Muileann ghlas fills and empties below her window.",
     "category": "record",
-    "people": ["Ùna nic Ailein"],
-    "places": ["burg:360"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0114"]
+    "people": [
+      "Ùna nic Ailein"
+    ],
+    "places": [
+      "burg:151"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0114"
+    ]
   },
   {
     "title": "Ùna nic Ailein's book closes with no entry",
     "era_year": 22,
     "after": "VI-0114",
-    "summary": "Unable to set a sum against a market that never ran, Ùna rules the line the court's form requires, leaves it blank, and closes the fifteenth year of her keeping the desk with no closing entry.",
+    "summary": "Unable to set a sum against a market that never ran, Ùna rules the line the court's form requires, leaves it blank, and closes the year the desk with no closing entry.",
     "category": "record",
-    "people": ["Ùna nic Ailein"],
-    "places": ["burg:360"],
-    "threads": ["the-long-war", "the-library"],
-    "master_links": ["VI-0114"]
+    "people": [
+      "Ùna nic Ailein"
+    ],
+    "places": [
+      "burg:151"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0114"
+    ]
   }
 ]

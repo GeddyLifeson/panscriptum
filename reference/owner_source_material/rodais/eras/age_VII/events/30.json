@@ -132,10 +132,10 @@
   "master_links": ["VI-0105"]
  },
  {
-  "title": "Dùghall billeted on Barabal of Ceann mhòr",
+  "title": "Dùghall billeted on Barbara Keir of Ceann mhòr",
   "era_year": 21,
   "after": "VI-0104",
-  "summary": "Once the magistrate's house is full past stretching, the maor's clerk billets Corporal Dùghall mac Iain on a widow of the town named Barabal, who keeps a loom in the room behind her kitchen; she opens her door to him with no more welcome than the clerk's own list had shown in its writing.",
+  "summary": "Once the magistrate's house is full past stretching, the maor's clerk billets Corporal Dùghall mac Iain on a widow of the town named Barbara Keir, who keeps a loom in the room behind her kitchen; she opens her door to him with no more welcome than the clerk's own list had shown in its writing.",
   "category": "humans",
   "people": ["dughall-mac-iain"],
   "places": ["burg:143"],
@@ -143,10 +143,10 @@
   "master_links": ["VI-0104"]
  },
  {
-  "title": "The tongue Barabal will not give him",
+  "title": "The tongue Barbara Keir will not give him",
   "era_year": 21,
   "after": "VI-0104",
-  "summary": "Barabal answers Corporal Dùghall mac Iain readily in Dia-thìris on the house's own business, but gives him, try as he may, not one word of the humans' tongue, though he hears her speak it easily across the yard wall to a neighbour; he comes to understand it a door shut on him alone.",
+  "summary": "Barbara answers Corporal Dùghall mac Iain readily in Dia-thìris on the house's own business, but gives him, try as he may, not one word of the humans' tongue, though he hears her speak it easily across the yard wall to a neighbour; he comes to understand it a door shut on him alone.",
   "category": "humans",
   "people": ["dughall-mac-iain"],
   "places": ["burg:143"],

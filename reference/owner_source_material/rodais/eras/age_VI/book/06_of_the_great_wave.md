@@ -28,7 +28,7 @@ which asked only where the seat town's best inn stood.
 With the maoir came the dues themselves, set out in one short minute of the council's twelve: a head-due, *cìs-cinn*,
 on every household by the number of its heads, and a market-due, *cìs-margaidh*, on every sale a seller of the
 kingdom made. At Ros dhomhain the humans' old harbour tariff was left standing a while longer, for want of a coin
-of the kingdom's own to take the market-due in; it would be three years yet before Fearchar Bonn's mint gave the
+of the kingdom's own to take the market-due in; it would be a year and more yet before Fearchar Bonn's mint gave the
 council money to call its own. Ailean noted the minute in his own book without comment, though he thought, riding
 away from the reading of it, that a due on every head was a strange thing to call new when the humans had kept one
 much like it for two generations before the council ever thought of it, differently pronounced and identically
@@ -166,13 +166,13 @@ Through the rest of the summer he counted other things, because the council, hav
 reasons to keep him there: the boats that could be righted and the boats that could not; the wells fouled with salt
 and the wells still sweet; the grain lost at Achadh mhin and the grain that might yet be saved from the fields the
 wave had only brushed. He rode between the three towns and back to Cathair dhearg and out again so many times that
-summer that he stopped, by am Lùnastal, noting the road at all in his book, only what waited at the end of
+summer that he stopped, by an Lùnastal, noting the road at all in his book, only what waited at the end of
 it.
 
 ## IV. Of the Count and the Relief
 
 On the twenty-fourth of an t-Samhain, five months and more after the short night that had made the work, Ailean
-closed the tally-book he had carried since am Ògmhios and carried its sum, rather than the book, to the
+closed the tally-book he had carried since an t-Ògmhios and carried its sum, rather than the book, to the
 council's chamber, because the twelve had asked for a number and not a ledger.
 
 The dead of the three towns came to a little over forty. He gave the figure as it stood, without rounding it either
@@ -191,7 +191,7 @@ seemed to him worth keeping even where the vote was not close.
 The wave, he told them, had not stopped at the three towns the first riders had named. It had run on up the gulf as
 far as Ros gharbh, the seat of its own shire, and broken the quays there too, and cast the greater part of that
 town's fishing fleet up onto the headland above the harbour, boat on boat, some of them a hundred yards from any
-water a boat had business being near. He had walked that headland himself, in am Lùnastal, among hulls lying keel
+water a boat had business being near. He had walked that headland himself, in an Lùnastal, among hulls lying keel
 to keel like beasts driven up out of the sea to die on dry ground, and had counted them the way he had counted
 everything else that summer, boat by boat, hull sound or hull stove, until the counting itself had begun to feel
 less like a clerk's work than a kind of penance he had not asked for and could not now refuse. Ros gharbh itself
@@ -253,5 +253,4 @@ past the piles of Cuan dhearg's old harbour, now half swallowed by the tide that
 below the rise had buried its dead, righted what boats it could, and gone back, before the winter closed in, to
 fishing the water that had done it the harm, because there was, in the end, no other water to fish.
 
-*Tha e san tonn.* He is in the wave of it, the south still says, of any sudden ruin, forty years now and more after
-the water that first taught it the word.
+*Tha e san tonn.* He is in the wave of it, the south still says, of any sudden ruin.

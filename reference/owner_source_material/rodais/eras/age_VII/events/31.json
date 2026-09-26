@@ -11,10 +11,10 @@
   "master_links": ["VI-0107"]
  },
  {
-  "title": "Dùghall billeted on Barabal",
+  "title": "Dùghall billeted on Barbara",
   "era_year": 21,
   "after": "VI-0103",
-  "summary": "At Ceann mhòr Dùghall mac Iain is billeted on a Tuathaich widow named Barabal, who feeds him at her own table and answers him only in Dia-thìris, though he hears her, of an evening, singing at her loom in the humans' tongue she will not use to speak to him directly.",
+  "summary": "At Ceann mhòr Dùghall mac Iain is billeted on a Tuathaich widow named Barbara, who feeds him at her own table and answers him only in Dia-thìris, though he hears her, of an evening, singing at her loom in the humans' tongue she will not use to speak to him directly.",
   "category": "war",
   "people": ["Dùghall mac Iain"],
   "places": ["burg:143"],
@@ -88,10 +88,10 @@
   "master_links": ["VI-0109"]
  },
  {
-  "title": "Barabal on the flooded pits",
+  "title": "Barbara on the flooded pits",
   "era_year": 21,
   "after": "VI-0109",
-  "summary": "Dùghall mac Iain mentions the flooding of Àth naomh's pits to Barabal over her evening table; she answers only, in Dia-thìris, that a pit flooded is a pit flooded whichever order floods it, and takes up her mending again in the silence he has learned by then not to press.",
+  "summary": "Dùghall mac Iain mentions the flooding of Àth naomh's pits to Barbara over her evening table; she answers only, in Dia-thìris, that a pit flooded is a pit flooded whichever order floods it, and takes up her mending again in the silence he has learned by then not to press.",
   "category": "war",
   "people": ["Dùghall mac Iain"],
   "places": ["burg:143"],

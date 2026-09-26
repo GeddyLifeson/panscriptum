@@ -6,7 +6,7 @@
 
 Mòrag came up the river road to Cathair dhearg in the moon of Damhrach, when the stags were roaring on the hills above the Abhainn dhomhain and the first gales were stripping the rowans. She came alone but for one servant, and she did not go to the hall. She went straight up the back stair to her sister's bower, as she had done since they were girls, and knocked once and went in.
 
-Beathag was at the window with a child's shirt in her lap, sewing a patch on the elbow. She did not look surprised.
+Beathag was at the window with one of her husband's shirts in her lap, sewing a patch on the elbow. She did not look surprised.
 
 "You've come about the roll," she said.
 
@@ -77,7 +77,7 @@ He had heard. Everybody had heard by then; the word had run down the three miles
 
 "She won't say anything to me that she doesn't say to the fisher." Mòrag drank. Her hands were shaking with cold. "I asked her straight. I asked her, if I go. And she said, then you'll go."
 
-Aonghas sat back on his heels and looked up at her in the firelight. He was a big fair man, slow-spoken, a farmer of the good land up the river behind the town, who had married the queen's sister to the astonishment of the whole west and had never once, in five years, behaved as if it were anything remarkable.
+Aonghas sat back on his heels and looked up at her in the firelight. He was a big fair man, slow-spoken, a farmer of the good land up the river behind the town, who had married the queen's sister to the astonishment of the whole west and had never once, in three years, behaved as if it were anything remarkable.
 
 "So," he said. "Do we go?"
 

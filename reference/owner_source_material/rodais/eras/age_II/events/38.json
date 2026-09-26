@@ -1,0 +1,128 @@
+[
+ {
+  "title": "The king's kin bring their claims to the hill",
+  "era_year": 4391,
+  "summary": "After Catrìona Mhòr's death every soul of the king's blood within three days' walk comes to Dùn ìseal to press a claim on the hill, each able to say the two names of a line whose second name is always Ailean's; the king hears every claim with the same still face.",
+  "category": "reign",
+  "people": ["Niall Òg", "Raonaid nic Ailein"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings", "the-division"],
+  "master_links": ["I-0255a"]
+ },
+ {
+  "title": "The king holds the hill and gives it to none",
+  "era_year": 4391,
+  "summary": "The king tells the gathered claimants that no line among them is better than another and that Catrìona Mhòr's line cannot be handed to a stranger's open palm; he will hold the hill himself, as before Gormshuil first took it up in his name.",
+  "category": "reign",
+  "people": ["Niall Òg"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings", "the-division"],
+  "master_links": ["I-0255a"]
+ },
+ {
+  "title": "The first marriage reckoned openly for a share",
+  "era_year": 4395,
+  "summary": "A young man of a minor line is married to a woman three lines removed from the king, and his father says openly at the betrothal fire that the match is made to bring five lines instead of three nearer the front of the reckoning, should the king ever name an heir.",
+  "category": "marriage",
+  "people": [],
+  "threads": ["the-division"],
+  "master_links": ["I-0256"]
+ },
+ {
+  "title": "A daughters' claim disputed at a betrothal",
+  "era_year": 4402,
+  "summary": "A household holding good grazing but no claim of its own is joined by marriage to one that claims through four generations of daughters, and the hill argues without settling whether a claim run through daughters weighs more or less than one run through sons.",
+  "category": "marriage",
+  "people": [],
+  "threads": ["the-division"],
+  "master_links": []
+ },
+ {
+  "title": "A betrothal broken over a nearer claim",
+  "era_year": 4408,
+  "summary": "A grandmother breaks off her granddaughter's marriage within the month of its making, having found a nearer claim on the groom's own side that she judges would weigh the match's worth downward; the hill takes it as proof that every marriage among the blood is now made for its shares and not for anything else.",
+  "category": "marriage",
+  "people": [],
+  "threads": ["the-division"],
+  "master_links": []
+ },
+ {
+  "title": "A household of the western slopes loses its grazing",
+  "era_year": 4420,
+  "summary": "A household that has held grazing on the western slopes eleven generations is told, without reason given, to remove itself to ground of equal size two valleys over before winter; asked directly why, the king says only that a share given has always been a share that can be taken back.",
+  "category": "reign",
+  "people": [],
+  "threads": ["the-division"],
+  "master_links": ["I-0256"]
+ },
+ {
+  "title": "Raonaid nic Ailein dies at the river-meadow",
+  "era_year": 4480,
+  "summary": "Raonaid nic Ailein, the king's daughter, dies at her own river-meadow in her one thousand three hundred and eightieth year; the king sits with her the better part of a day and a night, as he sat once with Gormshuil and once with Somhairle, and speaks of it to no one after.",
+  "category": "death",
+  "people": ["Raonaid nic Ailein", "Niall Òg"],
+  "places": [],
+  "threads": ["line-of-aisling", "the-long-years", "the-division"],
+  "master_links": []
+ },
+ {
+  "title": "The king takes back Raonaid's grazing",
+  "era_year": 4480,
+  "summary": "Within the month of Raonaid nic Ailein's burying the king sends word that the river-meadow grazing is wanted elsewhere and that Niall Òg, her nearest of that line, is to remove his household from it; Niall answers, as he has come to answer every such word, with a laugh.",
+  "category": "reign",
+  "people": ["Niall Òg"],
+  "places": [],
+  "threads": ["the-division"],
+  "master_links": ["I-0256"]
+ },
+ {
+  "title": "The king sends Niall Òg to Dùn dhearg",
+  "era_year": 4520,
+  "summary": "The king chooses Niall Òg to carry word east of the vein, bidding the households of Dùn dhearg come in to him at last, judging that a man known for asking nothing on his own account is less likely to be mistaken for the leading edge of a conquest.",
+  "category": "reign",
+  "people": ["Niall Òg"],
+  "places": ["burg:315"],
+  "threads": ["the-division"],
+  "master_links": ["I-0255b"]
+ },
+ {
+  "title": "Niall Òg finds Dùn dhearg wanting nothing of the hill",
+  "era_year": 4520,
+  "summary": "Niall Òg crosses the vein and finds the double bank of Dùn dhearg larger and better kept than any western telling had prepared him for, its forges and granary proof of a country that has gone far, by its own hands, toward needing nothing from Dùn ìseal.",
+  "category": "culture",
+  "people": ["Niall Òg"],
+  "places": ["burg:422"],
+  "threads": ["the-division"],
+  "master_links": []
+ },
+ {
+  "title": "Fearghal Donn refuses the king's asking",
+  "era_year": 4520,
+  "summary": "Fearghal Donn, holder of Dùn dhearg, hears the king's messenger before the whole household and answers that his people have raised their own bank and buried their own dead without any man's leave, and will not be counted among a kin who marry for shares and wait a thousand years for a hill never given.",
+  "category": "reign",
+  "people": ["Fearghal Donn", "Niall Òg"],
+  "places": ["burg:422"],
+  "threads": ["the-division"],
+  "master_links": ["I-0255b"]
+ },
+ {
+  "title": "Niall Òg carries the refusal home",
+  "era_year": 4520,
+  "summary": "Niall Òg rides back to Dùn ìseal and gives Fearghal Donn's word to the king plainly; the king says he had looked for no other answer, thanks him for the carrying of it, and turns to the next claim waiting for him.",
+  "category": "reign",
+  "people": ["Niall Òg"],
+  "places": ["burg:315"],
+  "threads": ["the-division"],
+  "master_links": ["I-0255b"]
+ },
+ {
+  "title": "The spears of the east are kept to hand",
+  "era_year": 4521,
+  "summary": "Word reaches Dùn ìseal by traders, not by any messenger sent for the purpose, that the households about Dùn dhearg have begun keeping their own spears closer than ever before, against a quarrel none of them will name; the king does nothing about it that anyone can see.",
+  "category": "war",
+  "people": ["Niall Òg"],
+  "places": ["burg:422"],
+  "threads": ["the-division"],
+  "master_links": ["I-0255b", "I-0256"]
+ }
+]

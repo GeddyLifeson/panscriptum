@@ -15,7 +15,7 @@ The orders of the Old Faith sat apart from one another at their own fires, and e
 
 And there was the sea. The sea was at the island's back, and nobody looked at it except to fish. The boats of Dia-thìr were sewn-plank coasters, their strakes stitched together with root and gut and caulked with moss and tallow, and they never slept a night out of sight of land. There was nothing out there that anyone wanted. The Otherworld lay west over the open water, the tellers said, Tìr nan Òg and Magh Meall, with Donn's house on its rock on the way; but the living did not go there, and it did not come to them.
 
-In that settled house there was a queen, Beathag nic Dhòmhnaill, who had been crowned young in the red hall a few years before, when her mother Mòr nic Coinnich died. She was not yet thirty. She had a husband, Uilleam mac Iain, who was kind and liked hounds, and a boy in the cradle, and a younger sister, Mòrag, who was married to a steady man of the western shore and had come up to the capital that winter to be near her. And she had a scribe, Murchadh mac Eòghainn, who had served her mother and wrote a close square hand that the clerks of the custody-book envied.
+In that settled house there was a queen, Beathag nic Dhòmhnaill, who had been crowned in the red hall at fifteen, eight years before, when her mother Mòr nic Coinnich died. She was twenty-three. She had a husband, Uilleam mac Iain, who was kind and liked hounds, and as yet no child, and a younger sister, Mòrag, who was married to a steady man of the western shore and had come up to the capital that winter to be near her. And she had a scribe, Murchadh mac Eòghainn, who had served her mother and wrote a close square hand that the clerks of the custody-book envied.
 
 Into that house there came a rumour.
 
@@ -101,7 +101,7 @@ He opened his mouth and shut it. He was an honest man. "I don't know," he said. 
 
 "No," said Mòrag. "Nobody has." And she let the talk go on to other things, and ate her bread, and did not speak again that night.
 
-Beathag watched her sister over the rim of her cup. Mòrag was twenty-two. She had been married four years, to a man of the western shore whom she had chosen herself and who adored her quietly and without fuss; she had a house at Inis àrsaidh, near Seann Skell, and no child yet; and she had the same face their mother had had, long and steady, which people called calm. Beathag had known her all her life, and knew better. She had seen that face at eight years old, looking at the ice on the mill-pond at Cathair dhearg in the moon of Faolach, the day before Mòrag walked out on it to see if it would bear her.
+Beathag watched her sister over the rim of her cup. Mòrag was nineteen. She had been married two years, to a man of the western shore whom she had chosen herself and who adored her quietly and without fuss; she had a house at Inis àrsaidh, near Seann Skell, and no child yet; and she had the same face their mother had had, long and steady, which people called calm. Beathag had known her all her life, and knew better. She had seen that face at eight years old, looking at the ice on the mill-pond at Cathair dhearg in the moon of Faolach, the day before Mòrag walked out on it to see if it would bear her.
 
 It had borne her. That was the trouble with Mòrag. Things mostly did.
 
@@ -159,7 +159,7 @@ Mòrag turned and looked at him. He was looking at the fire.
 
 Beathag found out, of course. She had the reports of every reeve in the west, and a sister's movements are not a secret in a country where the queen's sister is known by sight in every harbour. A rider brought word to the red hall that the lady Mòrag had been at Cuan shean, and had sat an afternoon with the skipper Eachann mac Lachlainn, and had given him a ring.
 
-She said nothing about it. When Mòrag came back up the river road at the turn of the year, before the moon of Faolach, the sisters ate together as they always did, and talked of the house at Inis àrsaidh and the damp in its north wall, and of the boy in the cradle, who had a tooth. Mòrag did not speak of the coast and Beathag did not ask.
+She said nothing about it. When Mòrag came back up the river road at the turn of the year, before the moon of Faolach, the sisters ate together as they always did, and talked of the house at Inis àrsaidh and the damp in its north wall, and of Uilleam's hounds, one of which had had pups under the queen's own bed. Mòrag did not speak of the coast and Beathag did not ask.
 
 But on the morning Mòrag and Aonghas were to go back west for good, Beathag stood at the window of her bower, which looked down over the yard of the red hall to the gate and the river road beyond it, and watched them go.
 

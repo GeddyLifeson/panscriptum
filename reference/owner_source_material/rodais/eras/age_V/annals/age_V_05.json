@@ -1451,7 +1451,7 @@
    "id": "EV-3054",
    "title": "Anne Colby lands at Ros dhomhain",
    "body": "Anne Colby comes ashore at the Ros dhomhain quays at two and twenty, sent out by Teachdaireachd na h-Eaglaise with a chest of linen and instruments she has scarcely been shown how to use, hoping to hear word of a brother lost years before on Harrow's ships. She finds no word of him; within the year she finds the flux.",
-   "place": "burg:26",
+   "place": "burg:27",
    "kind": "humans",
    "category": "humans",
    "links": [
@@ -1481,7 +1481,7 @@
    "id": "EV-3055",
    "title": "Barabal nic Dhùghaill reads the schedule at Cathair dhearg",
    "body": "A pupil of Teachdaireachd na h-Eaglaise of fifteen, Barabal nic Dhùghaill, renders Lisle's three sealed sheets into Dia-thìris before the council, reading the new fraction twice over at the old custodian of Cnoc bheag's asking. The council has her rendering copied word for word into every coal town's roll, with her own name set at the foot of each copy.",
-   "place": "burg:18",
+   "place": "burg:19",
    "kind": "record",
    "category": "law",
    "links": [
@@ -1508,7 +1508,7 @@
    "id": "EV-3056",
    "title": "The tithe on the tithe named at Dùn fhiadhaich",
    "body": "Griogair Fada, the largest farmer under Cnoc naomh, asks the young tithe-gatherer who set the new weight on grain and gets no answer he can carry home. The custodians of Dùn fhiadhaich enter the weighing in their roll under a name of their own coining, deachamh an deachaimh, the tithe on the tithe.",
-   "place": "burg:289",
+   "place": "burg:290",
    "kind": "record",
    "category": "law",
    "links": [
@@ -1639,7 +1639,7 @@
    "id": "EV-3060",
    "title": "A bargeman put ashore at Seann Vell",
    "body": "A bargeman on the coal run east from Ros dhomhain falls sick at his pole and is put ashore at the Seann Vell landing rather than carried on, the barge-master judging, wrongly, that dry land would serve him better than the water. Within the month the flux is in a dozen houses of the town.",
-   "place": "burg:26",
+   "place": "burg:162",
    "kind": "humans",
    "category": "humans",
    "links": [
@@ -1660,7 +1660,7 @@
    "id": "EV-3061",
    "title": "Seann Vell shuts its landing",
    "body": "The custodians of Seann Vell, led by Mairead nic Amhlaidh, close the only quay their river town has for the coal traffic that feeds it, and let no barge tie up there through a whole season, though the closing costs the town every fee that quay has ever earned it.",
-   "place": "burg:28",
+   "place": "burg:162",
    "kind": "record",
    "category": "law",
    "links": [
@@ -1683,7 +1683,7 @@
    "id": "EV-3062",
    "title": "A' Chompanaidh fines Seann Vell for the shut landing",
    "body": "A letter from the pay office fines Seann Vell for the season's lost landing fees and says nothing of the flux the closing was meant to check. Mairead nic Amhlaidh reads it to the town council on the landing steps within sight of that season's graves, and the town pays it from the same purse that buried its dead.",
-   "place": "burg:28",
+   "place": "burg:162",
    "kind": "record",
    "category": "law",
    "links": [
@@ -1713,7 +1713,7 @@
    "id": "EV-3063",
    "title": "Arthur Lisle dies at Taigh an Àrd-mhaoir",
    "body": "Arthur Lisle dies at Taigh an Àrd-mhaoir above Ros dhomhain of a fever that settles in his chest and then his heart, a fortnight dying by inches and signing papers to the last. He is one and sixty, Àrd-mhaor twenty years, remembered by the custodians for a raised voice never once heard at their council table, though not forgiven the schedule.",
-   "place": "burg:26",
+   "place": "burg:27",
    "kind": "court",
    "category": "rulers",
    "links": [
@@ -1740,7 +1740,7 @@
    "id": "EV-3011",
    "title": "Uisdean Ruadh's first walk to Ceann mhin",
    "body": "Uisdean Ruadh, a hewer of Muileann chrom, walks with forty of his gang before light on a morning of frost to stand in the pay line at Ceann mhin till near dusk, and walks home again in the dark. He keeps the cost of it afterward on a notched stick, kept still by his family three generations on.",
-   "place": "burg:353",
+   "place": "burg:354",
    "kind": "craft",
    "category": "coal",
    "links": [
@@ -1762,7 +1762,7 @@
    "id": "EV-3012",
    "title": "Raghnall Maor buried beside the eleven",
    "body": "Raghnall Maor is buried on the hill above Muileann chrom beside the eleven of his first gallery, in thin rain, with both shifts of the pit standing at the grave together, a thing not done for any death there before. Anne Colby stands at the grave's edge with her roll and adds, that evening, a line naming his office, the only such line the roll holds.",
-   "place": "burg:353",
+   "place": "burg:354",
    "kind": "court",
    "category": "rulers",
    "links": [
@@ -1782,7 +1782,7 @@
    "id": "EV-3064",
    "title": "Raghnall Maor dies at Muileann chrom",
    "body": "Raghnall mac Dhòmhnaill, called Raghnall Maor, dies at two and seventy in the slate-roofed house A' Chompanaidh built him above the pit he first walked as a guide. Anne Colby, sent for by his son, sits with him two nights before the end; he asks her once whether she writes her dead down by name and tells her it is a good thing to keep doing.",
-   "place": "burg:353",
+   "place": "burg:354",
    "kind": "court",
    "category": "rulers",
    "links": [
@@ -1811,7 +1811,7 @@
    "id": "EV-3065",
    "title": "A' Chompanaidh gives Dòmhnall his father's staff",
    "body": "Within the week of the burying a clerk from Ceann mhin brings Dòmhnall mac Raghnaill the office, the slate roof and the crews together as one paper needing only his mark. The custodians of Muileann chrom, who had hoped the office might die with Raghnall, see it pass from father to son as if it had always been meant to.",
-   "place": "burg:353",
+   "place": "burg:354",
    "kind": "court",
    "category": "rulers",
    "links": [

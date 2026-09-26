@@ -27,6 +27,9 @@ DEAD = {'rejected', 'retired', 'withdrawn', 'dropped'}
 PERSONAL = {'person', 'human', 'human person', 'personal name', 'human name'}
 
 _cache = {}
+# further entries for one build (an era volume's own PLAN_names.json, set by eras/build_era.py while it builds that
+# volume); empty otherwise, so the master and every other book are glossed from NAMES.json alone
+EXTRA = []
 
 
 def names(path=None):
@@ -43,7 +46,10 @@ def names(path=None):
             data = [e for e in raw if isinstance(e, dict) and e.get('dt') and e.get('gloss')
                     and str(e.get('status', '')).lower() not in DEAD]
         _cache[path] = data
-    return _cache[path]
+    if not EXTRA:
+        return _cache[path]
+    have = {e['dt'] for e in _cache[path]}
+    return _cache[path] + [e for e in EXTRA if e.get('dt') and e.get('gloss') and e['dt'] not in have]
 
 
 def _matcher(entries):

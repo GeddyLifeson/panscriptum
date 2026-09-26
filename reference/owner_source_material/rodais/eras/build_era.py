@@ -816,6 +816,21 @@ def front_html(k):
     return '\n'.join(h) + '\n'
 
 
+def plan_glosses(k):
+    """The volume's own names (PLAN_names.json) for the build's glosses: the first mention of each takes its English
+    gloss as a footnote, as the NAMES.json names do. The plan's working references ("(AE 9, IV-0034)") are dropped."""
+    p = os.path.join(age_dir(k), 'PLAN_names.json')
+    if not os.path.exists(p):
+        return []
+    out = []
+    for e in json.load(open(p, encoding='utf-8')):
+        if not isinstance(e, dict) or not e.get('dt') or not e.get('gloss') or e.get('kind') == 'section-title':
+            continue
+        g = re.sub(r'\s*\([^()]*\b(?:AE|[IVX]+-\d|EV-)[^()]*\)', '', e['gloss']).strip()
+        out.append(dict(e, gloss=g))
+    return out
+
+
 def cfg(k):
     return {'doc_title': full_title(k), 'annals': 'The Annals of the Age', 'gazetteer': 'A Gazetteer of the Age',
             'books_line': 'The Books of the Age', 'appendices': 'The Appendices'}
@@ -848,7 +863,11 @@ def build(k, pdf=True, quiet=False):
         raise EraError('unresolved references: %s' % ', '.join(sorted(set(rec.missing))[:40]))
     if pdf:
         out = os.path.join(d, pdf_name(k))
-        doc = build_pdf.compose_html(md.split('\n'), cfg(k), front_html(k))
+        build_pdf.glosses.EXTRA[:] = plan_glosses(k)
+        try:
+            doc = build_pdf.compose_html(md.split('\n'), cfg(k), front_html(k))
+        finally:
+            build_pdf.glosses.EXTRA[:] = []
         pages = build_pdf.write_pdf(doc, out)
         n = relink_pdf(out)
         print('  wrote %s (%d pages, %d links to other ages\' books)' % (os.path.relpath(out, ROOT), pages, n))
