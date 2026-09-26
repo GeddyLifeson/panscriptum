@@ -617,7 +617,7 @@
   {
    "id": "EVI-2527",
    "title": "Iain mac Ruairidh taken on as chainman",
-   "body": "Iain, a hewer's son of the hills, is taken on by Lachlann mac Iain Bhàin, Comhairle nam Mèinnean's surveyor, to carry the chain and keep the faces' book at An Sloc Mòr. He is sworn to no guild, only entered on the Board's roll.",
+   "body": "Iain, a hewer's son of the hills, is taken on by Lachlann mac Iain Bhàin, Comhairle nam Mèinnean's surveyor, to carry the chain and keep the faces' book at An Sloc Mòr. He is sworn to no guild, only entered on Comhairle nam Mèinnean's roll.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -769,7 +769,7 @@
   {
    "id": "EVI-2534",
    "title": "A woman from Baile ruadh asks after walls",
-   "body": "A woman newly down from Baile ruadh with three children asks Iain mac Ruairidh, marking the Muileann dhearg lodging for the Board, whether the Board means to build proper walls or only to go on stacking families under one roof; he has no answer but that he surveys the ground and does not build on it.",
+   "body": "A woman newly down from Baile ruadh with three children asks Iain mac Ruairidh, marking the Muileann dhearg lodging for Comhairle nam Mèinnean, whether Comhairle nam Mèinnean means to build proper walls or only to go on stacking families under one roof; he has no answer but that he surveys the ground and does not build on it.",
    "kind": "humans",
    "place": "burg:491",
    "category": "humans",
@@ -793,7 +793,7 @@
   {
    "id": "EVI-2535",
    "title": "Comhairle na Slighe-iarainn's office raised at Cathair dhearg",
-   "body": "Comhairle na Slighe-iarainn builds its office at Cathair dhearg, low and of the same grey Mac Ùisdein stone, and the Board's business, surveys among them, is thereafter kept within its walls.",
+   "body": "Comhairle na Slighe-iarainn builds its office at Cathair dhearg, low and of the same grey Mac Ùisdein stone, and Comhairle na Slighe-iarainn's business, surveys among them, is thereafter kept within its walls.",
    "kind": "trade",
    "place": "burg:135",
    "category": "trade",
@@ -837,7 +837,7 @@
   {
    "id": "EVI-2537",
    "title": "The shunting yard at Muileann chrom counted apart",
-   "body": "New sidings at Muileann chrom, where An Sloc Mòr's coal trains are broken up and made up for the ports, bring rows of housing for the families who work the small engines. The Board keeps their roll separate from the shire's and houses them apart, beside the lines.",
+   "body": "New sidings at Muileann chrom, where An Sloc Mòr's coal trains are broken up and made up for the ports, bring rows of housing for the families who work the small engines. Comhairle na Slighe-iarainn keeps their roll separate from the shire's and houses them apart, beside the lines.",
    "kind": "law",
    "place": "burg:354",
    "category": "law",
@@ -906,7 +906,7 @@
   {
    "id": "EVI-2540",
    "title": "Iain mac Ruairidh stands outside the oath",
-   "body": "At the guild's chartering Iain watches his own father sworn among the hewers and understands that the charter's rolls, open to those who cut, haul or timber the coal, hold no place for the Board's chainman who only measures where it lies.",
+   "body": "At the guild's chartering Iain watches his own father sworn among the hewers and understands that the charter's rolls, open to those who cut, haul or timber the coal, hold no place for Comhairle nam Mèinnean's chainman who only measures where it lies.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",

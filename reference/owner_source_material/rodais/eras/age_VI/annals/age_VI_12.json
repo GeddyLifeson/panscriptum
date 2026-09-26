@@ -158,7 +158,7 @@
   {
    "id": "EVI-6506",
    "title": "Comhairle na Slighe-iarainn refuses the first wagon",
-   "body": "Comhairle na Slighe-iarainn's factors at Àth leathan, the railhead nearest the north, refuse to carry the Doire ghlas mill's first wagon-load south to Muileann òg, giving no reason beyond the Board's own long custom of judging for itself what the line will carry.",
+   "body": "Comhairle na Slighe-iarainn's factors at Àth leathan, the railhead nearest the north, refuse to carry the Doire ghlas mill's first wagon-load south to Muileann òg, giving no reason beyond Comhairle na Slighe-iarainn's own long custom of judging for itself what the line will carry.",
    "kind": "trade",
    "place": "burg:234",
    "category": "trade",
@@ -181,7 +181,7 @@
   {
    "id": "EVI-6507",
    "title": "Tional nan Tuathach brings its suit to Seann Bhral",
-   "body": "Daniel Frayne rides west to the circuit court at Seann Bhral with the mill's ledgers and the Board's letter of refusal, asking Ruairidh mac Phàdraig to rule whether a carrier chartered by An Crùn may refuse one people's cargo and take another's.",
+   "body": "Daniel Frayne rides west to the circuit court at Seann Bhral with the mill's ledgers and Comhairle na Slighe-iarainn's letter of refusal, asking Ruairidh mac Phàdraig to rule whether a carrier chartered by An Crùn may refuse one people's cargo and take another's.",
    "kind": "law",
    "place": "burg:47",
    "category": "law",
@@ -209,7 +209,7 @@
   {
    "id": "EVI-6508",
    "title": "The charter read clause by clause at Seann Bhral",
-   "body": "When Comhairle na Slighe-iarainn's factor argues at Seann Bhral that the Board's rails answer to a different clause of its charter than its carts, Ruairidh mac Phàdraig has the whole charter read aloud clause by clause, and no clause is found that names the rails apart.",
+   "body": "When Comhairle na Slighe-iarainn's factor argues at Seann Bhral that Comhairle na Slighe-iarainn's rails answer to a different clause of its charter than its carts, Ruairidh mac Phàdraig has the whole charter read aloud clause by clause, and no clause is found that names the rails apart.",
    "kind": "law",
    "place": "burg:47",
    "category": "law",
@@ -235,7 +235,7 @@
   {
    "id": "EVI-6509",
    "title": "Word of Catrìona nic Neacail's going",
-   "body": "A Board clerk's notice of the Mac Ùisdein sale reaches Caol mhòr with a passing word that the surveyor who drew the search's last sheet has resigned her post to teach at Caol shean, a name Daniel Frayne knows only at second hand.",
+   "body": "A clerk of Comhairle nam Mèinnean's notice of the Mac Ùisdein sale reaches Caol mhòr with a passing word that the surveyor who drew the search's last sheet has resigned her post to teach at Caol shean, a name Daniel Frayne knows only at second hand.",
    "kind": "trade",
    "place": "burg:135",
    "category": "trade",
@@ -287,7 +287,7 @@
   },
   {
    "id": "EVI-6511",
-   "title": "The council lets the Board's appeal lapse",
+   "title": "The council lets Comhairle nam Mèinnean's appeal lapse",
    "body": "Comhairle na Slighe-iarainn's appeal against Breith Seann Bhral lies on the council's table a winter and a spring and is let lapse in the summer, the council's minute noting only that the matter was not reached in the session's business.",
    "kind": "law",
    "place": "burg:19",
@@ -434,7 +434,7 @@
   {
    "id": "EVI-6517",
    "title": "The last pump drawn out",
-   "body": "Tormod Pinn rides to Achadh dhomhain and finds An Sloc Mòr's lowest galleries eleven fathoms under water, the pumps cold on the Board's own order; the overseer there has kept the order's own slip folded in his coat since the turn of the season, as though he expected someday to need to prove it.",
+   "body": "Tormod Pinn rides to Achadh dhomhain and finds An Sloc Mòr's lowest galleries eleven fathoms under water, the pumps cold on Comhairle nam Mèinnean's own order; the overseer there has kept the order's own slip folded in his coat since the turn of the season, as though he expected someday to need to prove it.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -489,7 +489,7 @@
   {
    "id": "EVI-6519",
    "title": "The third pump follows and six men are found other work",
-   "body": "The overseer at Achadh dhomhain writes that the third and last pump has gone to Seann Bhral in the south after the second, and that the six men who tended the three between them have been found work on the galleries still above water, a thing the Board's own notice calls no loss to any household.",
+   "body": "The overseer at Achadh dhomhain writes that the third and last pump has gone to Seann Bhral in the south after the second, and that the six men who tended the three between them have been found work on the galleries still above water, a thing Comhairle nam Mèinnean's own notice calls no loss to any household.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -513,7 +513,7 @@
   {
    "id": "EVI-6520",
    "title": "The maor of Baile dhomhain writes of the crossing",
-   "body": "A shire's maor writes to the Board of stock lost along Imrich nam Pantar near Baile dhomhain, a loss too large for wolves and weather; the Board's clerk, having no ledger fit to hold it, sends the letter on to an Leabharlann.",
+   "body": "A shire's maor writes to Comhairle nam Mèinnean of stock lost along Imrich nam Pantar near Baile dhomhain, a loss too large for wolves and weather; Comhairle nam Mèinnean's clerk, having no ledger fit to hold it, sends the letter on to an Leabharlann.",
    "kind": "land",
    "place": "marker:40",
    "category": "land",
@@ -701,7 +701,7 @@
   {
    "id": "EVI-6528",
    "title": "The dock's return filed under the harbour",
-   "body": "Tormod Pinn enters Seann Bhral's return of the dock in Eachdraidh na Rìoghachd without a line of his own, copies into its margin the names the Achadh dhomhain men used among themselves for the three engines, and asks that the return be filed under the harbour and not under the Board.",
+   "body": "Tormod Pinn enters Seann Bhral's return of the dock in Eachdraidh na Rìoghachd without a line of his own, copies into its margin the names the Achadh dhomhain men used among themselves for the three engines, and asks that the return be filed under the harbour and not under Comhairle na Slighe-iarainn.",
    "kind": "law",
    "place": "burg:246",
    "category": "law",
@@ -750,7 +750,7 @@
   {
    "id": "EVI-6530",
    "title": "The Guild's lending-book",
-   "body": "Comann nan Gualadairean keeps a plain minute-book at its hall for shaft-lamps lent from pit to pit, and Tormod Pinn, sending for a copy of its first year, finds more names entered against debts than against repayments, a dry column that tells the vein's own thinning more plainly than any Board letter.",
+   "body": "Comann nan Gualadairean keeps a plain minute-book at its hall for shaft-lamps lent from pit to pit, and Tormod Pinn, sending for a copy of its first year, finds more names entered against debts than against repayments, a dry column that tells the vein's own thinning more plainly than any letter of Comhairle nam Mèinnean.",
    "kind": "law",
    "category": "law",
    "links": [
@@ -795,8 +795,8 @@
   },
   {
    "id": "EVI-6532",
-   "title": "The Board settles and dismisses eleven",
-   "body": "The Board's factor restores the old wage on the third day and the trains run again on the fourth; on the fifth the Board's own notice names eleven men dismissed for their part in the stopping, Dòmhnall Ruadh mac Ailein among them, the settlement and the dismissal arriving from the same hand in the same week.",
+   "title": "Comhairle nam Mèinnean settles and dismisses eleven",
+   "body": "Comhairle nam Mèinnean's factor restores the old wage on the third day and the trains run again on the fourth; on the fifth Comhairle nam Mèinnean's own notice names eleven men dismissed for their part in the stopping, Dòmhnall Ruadh mac Ailein among them, the settlement and the dismissal arriving from the same hand in the same week.",
    "kind": "trade",
    "place": "burg:354",
    "category": "trade",
@@ -1467,7 +1467,7 @@
   {
    "id": "EVI-6558",
    "title": "The Àth leathan hewers pay the fifth and are entered in arrears",
-   "body": "The pit captains the Àth leathan hewers choose from their own number weigh every cart and set by An Crùn's fifth under Breith Leòid, sending word south each season; the Board takes the payments when a carrier brings them and enters them in its own books as arrears.",
+   "body": "The pit captains the Àth leathan hewers choose from their own number weigh every cart and set by An Crùn's fifth under Breith Leòid, sending word south each season; Comhairle nam Mèinnean takes the payments when a carrier brings them and enters them in its own books as arrears.",
    "kind": "coal",
    "place": "burg:346",
    "category": "coal",
@@ -1518,7 +1518,7 @@
   {
    "id": "EVI-6560",
    "title": "Sam Varley opens the pit's own book at Cnoc thais",
-   "body": "When the Board's overseer leaves Cnoc thais, Sam Varley, who has kept a private tally beside the Board's own scale for eleven years, opens a book of the pit's own accounts headed only with the day and the pit's name, the earliest page the town's register still keeps.",
+   "body": "When Comhairle nam Mèinnean's overseer leaves Cnoc thais, Sam Varley, who has kept a private tally beside Comhairle nam Mèinnean's own scale for eleven years, opens a book of the pit's own accounts headed only with the day and the pit's name, the earliest page the town's register still keeps.",
    "kind": "record",
    "place": "burg:269",
    "category": "law",
@@ -1689,7 +1689,7 @@
   {
    "id": "EVI-6567",
    "title": "The fair's ceiling set on coal and broken in every stall",
-   "body": "When the Board cuts its sales and the price of coal-fuel at Muileann òg doubles, the fair's court sets a ceiling price by its long custom; within a season no factor sells at it, the coal not reaching the stalls at the named price, and the wardens do not cry the ceiling's breaking.",
+   "body": "When Comhairle nam Mèinnean cuts its sales and the price of coal-fuel at Muileann òg doubles, the fair's court sets a ceiling price by its long custom; within a season no factor sells at it, the coal not reaching the stalls at the named price, and the wardens do not cry the ceiling's breaking.",
    "kind": "trade",
    "place": "burg:151",
    "category": "trade",
@@ -1740,7 +1740,7 @@
   {
    "id": "EVI-6569",
    "title": "The watchmen at Cnoc fhiadhaich see nothing",
-   "body": "The Board posts watchmen of the town itself over the spoil-heaps at Cnoc fhiadhaich against households picking coal to burn; every night of the posting the watchmen see nothing, though the heaps grow lower and the poorer grates burn warmer than the fair's price could otherwise buy.",
+   "body": "Comhairle nam Mèinnean posts watchmen of the town itself over the spoil-heaps at Cnoc fhiadhaich against households picking coal to burn; every night of the posting the watchmen see nothing, though the heaps grow lower and the poorer grates burn warmer than the fair's price could otherwise buy.",
    "kind": "coal",
    "place": "burg:280",
    "category": "coal",

@@ -89,7 +89,7 @@
   {
    "id": "EVI-6003",
    "title": "Seonaid nic Ghill-Eathain's letter read a second time",
-   "body": "A Board clerk sorting the year's correspondence finds Seonaid nic Ghill-Eathain's letter on the search, filed unread when it was first sent, and carries it to Catrìona nic Neacail along with Mòrag nic Coinnich's. Catrìona keeps a copy of both beside her own last entry, though she judges the school's question and the Board's chain answer to different masters.",
+   "body": "A clerk of Comhairle nam Mèinnean sorting the year's correspondence finds Seonaid nic Ghill-Eathain's letter on the search, filed unread when it was first sent, and carries it to Catrìona nic Neacail along with Mòrag nic Coinnich's. Catrìona keeps a copy of both beside her own last entry, though she judges the school's question and Comhairle nam Mèinnean's chain answer to different masters.",
    "kind": "faith",
    "place": "burg:23",
    "category": "faith",
@@ -297,7 +297,7 @@
   },
   {
    "id": "EVI-6011",
-   "title": "The Mac Ùisdein stone house let to the Board",
+   "title": "The Mac Ùisdein stone house let to Comhairle nam Mèinnean",
    "body": "Its coin thinned by the search and Dùn dhearg's damages, Taigh Mhic Ùisdein lets its stone house at Cathair mhòr, kept in the family since the first holder's day, to Comhairle nam Mèinnean, which moves its offices into it the following spring.",
    "kind": "trade",
    "place": "burg:23",
@@ -397,7 +397,7 @@
   {
    "id": "EVI-6015",
    "title": "Muileann dhomhain's mills turn to bark",
-   "body": "With the vein-towns' grain orders thinned by scarce coin, the mills of Muileann dhomhain begin grinding bark for the coast's tanners instead of grain. The miller-families keep the mark cut into their stone before any shire held a charter to license it, and change the trade under it without asking the Board's leave.",
+   "body": "With the vein-towns' grain orders thinned by scarce coin, the mills of Muileann dhomhain begin grinding bark for the coast's tanners instead of grain. The miller-families keep the mark cut into their stone before any shire held a charter to license it, and change the trade under it without asking Comhairle nam Mèinnean's leave.",
    "kind": "trade",
    "place": "burg:202",
    "category": "trade",
@@ -419,7 +419,7 @@
   },
   {
    "id": "EVI-6016",
-   "title": "A Muileann dhomhain miller answers a Board clerk",
+   "title": "A Muileann dhomhain miller answers a clerk of Comhairle nam Mèinnean",
    "body": "Asked by a passing clerk whether it troubles her to grind bark at a wheel her family has ground grain at for four generations, the eldest of the Muileann dhomhain millers answers that a wheel does not know what is under it, and the grain will come back once the vein-towns have coin to buy it with again.",
    "kind": "trade",
    "place": "burg:202",
@@ -468,7 +468,7 @@
   {
    "id": "EVI-6018",
    "title": "Seann Tarr's chest sends only its list",
-   "body": "Asked to send the new rope-makers' charter south to the Board's own files, the shire keeper of Seann Tarr answers that the charter will stay in the shire's own chest, and sends a rider south with a list of what the chest holds and no more. No second rider is sent to ask again.",
+   "body": "Asked to send the new rope-makers' charter south to Comhairle nan Taighean-solais's own files, the shire keeper of Seann Tarr answers that the charter will stay in the shire's own chest, and sends a rider south with a list of what the chest holds and no more. No second rider is sent to ask again.",
    "kind": "law",
    "place": "burg:34",
    "category": "law",
@@ -645,8 +645,8 @@
   },
   {
    "id": "EVI-6026",
-   "title": "The Board confirms Ciorstaidh nic Artair's warrant",
-   "body": "Asked by the shire's own maor whether the daughter of a keeper who died bringing in four lives with two boats and one rope may keep the light he kept, the Board at Cathair dhearg writes back within the month that she may, and enters the warrant in her name without recorded debate.",
+   "title": "Comhairle nan Taighean-solais confirms Ciorstaidh nic Artair's warrant",
+   "body": "Asked by the shire's own maor whether the daughter of a keeper who died bringing in four lives with two boats and one rope may keep the light he kept, Comhairle nan Taighean-solais at Cathair dhearg writes back within the month that she may, and enters the warrant in her name without recorded debate.",
    "kind": "law",
    "place": "burg:19",
    "category": "law",
@@ -672,7 +672,7 @@
   {
    "id": "EVI-6027",
    "title": "The reef post raised by subscription",
-   "body": "Ciorstaidh nic Artair has an iron post sunk into the reef at low water, painted the red of danger marked and known, and hung with a bell cast at Muileann chiar. Half the cost comes from the Board's purse and half from a purse the fishing families of Doire shean and Tobar dhearg make up between them.",
+   "body": "Ciorstaidh nic Artair has an iron post sunk into the reef at low water, painted the red of danger marked and known, and hung with a bell cast at Muileann chiar. Half the cost comes from Comhairle nan Taighean-solais's purse and half from a purse the fishing families of Doire shean and Tobar dhearg make up between them.",
    "kind": "building",
    "place": "burg:398",
    "category": "trade",
@@ -694,8 +694,8 @@
   },
   {
    "id": "EVI-6028",
-   "title": "The Board's engineer approves the reef bell",
-   "body": "The Board's engineer walks the reef at low water and pronounces the post sound and the casting good. Asked whether she means to add clockwork to strike the hour as well as the danger, Ciorstaidh nic Artair answers that a man wanting the hour has a tide table and two eyes, and needs neither bell nor clockwork for that.",
+   "title": "Comhairle nan Taighean-solais's engineer approves the reef bell",
+   "body": "Comhairle nan Taighean-solais's engineer walks the reef at low water and pronounces the post sound and the casting good. Asked whether she means to add clockwork to strike the hour as well as the danger, Ciorstaidh nic Artair answers that a man wanting the hour has a tide table and two eyes, and needs neither bell nor clockwork for that.",
    "kind": "craft",
    "place": "burg:398",
    "category": "trade",
@@ -889,7 +889,7 @@
   {
    "id": "EVI-6036",
    "title": "Catrìona nic Neacail begins the one sheet",
-   "body": "Catrìona nic Neacail, a Board surveyor sixteen years standing, begins drawing every stretch of the true vein still unopened onto a single leaf, working outward through the Board's own scattered rolls a shire at a time and riding to settle every ground the rolls disagree on.",
+   "body": "Catrìona nic Neacail, a surveyor of Comhairle nam Mèinnean sixteen years standing, begins drawing every stretch of the true vein still unopened onto a single leaf, working outward through Comhairle nam Mèinnean's own scattered rolls a shire at a time and riding to settle every ground the rolls disagree on.",
    "kind": "coal",
    "place": "burg:23",
    "category": "coal",
@@ -915,7 +915,7 @@
   {
    "id": "EVI-6037",
    "title": "A concession-holder asks the sheet a plain question",
-   "body": "A concession-holder of four generations' standing stands before the finished sheet the better part of an hour, then asks Catrìona nic Neacail plainly whether the red marked over his own family's ground means ten years or thirty, having daughters to settle and no wish to be told later that the Board had always known and never troubled to colour it in.",
+   "body": "A concession-holder of four generations' standing stands before the finished sheet the better part of an hour, then asks Catrìona nic Neacail plainly whether the red marked over his own family's ground means ten years or thirty, having daughters to settle and no wish to be told later that Comhairle nam Mèinnean had always known and never troubled to colour it in.",
    "kind": "coal",
    "place": "burg:23",
    "category": "coal",
@@ -942,7 +942,7 @@
   {
    "id": "EVI-6038",
    "title": "Catrìona nic Neacail named surveyor-general",
-   "body": "The Board names Catrìona nic Neacail surveyor-general, an office left empty three years for want of anyone troubling to ask what it was for, until her one-sheet map of the vein's last unworked stretches made plain that somebody ought to answer for the whole of what it showed. She is the youngest to hold it in living memory.",
+   "body": "Comhairle nam Mèinnean names Catrìona nic Neacail surveyor-general, an office left empty three years for want of anyone troubling to ask what it was for, until her one-sheet map of the vein's last unworked stretches made plain that somebody ought to answer for the whole of what it showed. She is the youngest to hold it in living memory.",
    "kind": "coal",
    "place": "burg:23",
    "category": "coal",
@@ -965,7 +965,7 @@
   {
    "id": "EVI-6039",
    "title": "Duilleag na Fèithe hung on the chamber wall",
-   "body": "Catrìona nic Neacail publishes Duilleag na Fèithe in an Dùbhlachd in the plainest way the Board knows, hanging it on the wall of its own chamber at Cathair mhòr, where every surveyor, clerk and concession-holder who comes can stand before it.",
+   "body": "Catrìona nic Neacail publishes Duilleag na Fèithe in an Dùbhlachd in the plainest way Comhairle nam Mèinnean knows, hanging it on the wall of its own chamber at Cathair mhòr, where every surveyor, clerk and concession-holder who comes can stand before it.",
    "kind": "coal",
    "place": "burg:23",
    "category": "coal",
@@ -991,7 +991,7 @@
   {
    "id": "EVI-6040",
    "title": "Two surveys read side by side",
-   "body": "Catrìona nic Neacail sits late at the Board's own table beneath her own sheet, reading her map and Iain Mapa's thirty-year-old survey side by side by lamplight, the same failing ground marked out in the same terms three decades apart, and cannot say which survey troubles her more, the one that found the truth or the one believed too late to matter.",
+   "body": "Catrìona nic Neacail sits late at Comhairle nam Mèinnean's own table beneath her own sheet, reading her map and Iain Mapa's thirty-year-old survey side by side by lamplight, the same failing ground marked out in the same terms three decades apart, and cannot say which survey troubles her more, the one that found the truth or the one believed too late to matter.",
    "kind": "coal",
    "place": "burg:23",
    "category": "coal",
@@ -1014,7 +1014,7 @@
   {
    "id": "EVI-6041",
    "title": "Catrìona nic Neacail's visit to Muileann chiar",
-   "body": "Catrìona nic Neacail rides east to Muileann chiar and sits with Iain mac Ruairidh, three-and-sixty and failing, in what proves his last spring. He shows her his own copy of his old survey with the Board's receipt still pinned to it, and asks whether the school at Caol shean still keeps its old question about the vein.",
+   "body": "Catrìona nic Neacail rides east to Muileann chiar and sits with Iain mac Ruairidh, three-and-sixty and failing, in what proves his last spring. He shows her his own copy of his old survey with Comhairle nam Mèinnean's receipt still pinned to it, and asks whether the school at Caol shean still keeps its old question about the vein.",
    "kind": "coal",
    "place": "burg:78",
    "category": "coal",
@@ -1067,7 +1067,7 @@
   {
    "id": "EVI-6043",
    "title": "Mòr nic Dhòmhnaill sends her husband's papers south",
-   "body": "Going through her husband's papers, Mòr nic Dhòmhnaill finds the folded survey with the Board's old receipt still pinned to it and sends the whole of it to Leabharlann Muileann chaol, writing only that he had asked more than once it not be lost a second time, and that she knew no safer place to send it.",
+   "body": "Going through her husband's papers, Mòr nic Dhòmhnaill finds the folded survey with Comhairle nam Mèinnean's old receipt still pinned to it and sends the whole of it to Leabharlann Muileann chaol, writing only that he had asked more than once it not be lost a second time, and that she knew no safer place to send it.",
    "kind": "record",
    "place": "burg:78",
    "category": "law",
@@ -1143,7 +1143,7 @@
   {
    "id": "EVI-6046",
    "title": "Ruairidh the cellar boy",
-   "body": "A clerk's boy of twelve who has fetched bundles in the Board's own cellar at Cathair mhòr for three years tells Catrìona nic Neacail she is the first to ask him to read a label aloud rather than simply hand a bundle across. He helps her keep the tally of the week's search among the old presses.",
+   "body": "A clerk's boy of twelve who has fetched bundles in Comhairle nam Mèinnean's own cellar at Cathair mhòr for three years tells Catrìona nic Neacail she is the first to ask him to read a label aloud rather than simply hand a bundle across. He helps her keep the tally of the week's search among the old presses.",
    "kind": "record",
    "place": "burg:23",
    "category": "law",
@@ -1166,7 +1166,7 @@
   {
    "id": "EVI-6047",
    "title": "Catrìona nic Neacail resigns the surveyor-general's office",
-   "body": "Within the year of finding Iain Mapa's old survey, Catrìona nic Neacail resigns as surveyor-general, the Board's own minute recording it in four flat lines, and asks a place teaching at Scoiltean nan Draoidhean at Caol shean, judging the mountain's own answers now the only lesson in her trade worth the passing on.",
+   "body": "Within the year of finding Iain Mapa's old survey, Catrìona nic Neacail resigns as surveyor-general, Comhairle nam Mèinnean's own minute recording it in four flat lines, and asks a place teaching at Scoiltean nan Draoidhean at Caol shean, judging the mountain's own answers now the only lesson in her trade worth the passing on.",
    "kind": "coal",
    "place": "burg:23",
    "category": "coal",

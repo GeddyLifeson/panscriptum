@@ -606,7 +606,7 @@
   {
    "id": "EVI-5028",
    "title": "Iain Mapa rides through the night to Muileann dhearg",
-   "body": "Word of the fall reaches Muileann chiar by a rider sent without urgency, and Iain Mapa, two seasons into the silver works and no longer reckoned a mine matter by the Board, rides the thirty miles through the night rather than wait for morning, and goes down on the second rope with a lamp and a level.",
+   "body": "Word of the fall reaches Muileann chiar by a rider sent without urgency, and Iain Mapa, two seasons into the silver works and no longer reckoned a mine matter by Comhairle nam Mèinnean, rides the thirty miles through the night rather than wait for morning, and goes down on the second rope with a lamp and a level.",
    "kind": "coal",
    "place": "burg:491",
    "category": "coal",
@@ -629,7 +629,7 @@
   {
    "id": "EVI-5029",
    "title": "Iain Mapa lays his own old maps against the new fault",
-   "body": "With maps sent up from Comann an Airgid's own store, older and truer than anything the Board keeps at Cathair mhòr, Iain Mapa finds the broken ground under the fallen gallery runs exactly where Scàineadh Cill ghlas's own line ran three ages before, marked by an older hand with a single word: left, let be.",
+   "body": "With maps sent up from Comann an Airgid's own store, older and truer than anything Comhairle nam Mèinnean keeps at Cathair mhòr, Iain Mapa finds the broken ground under the fallen gallery runs exactly where Scàineadh Cill ghlas's own line ran three ages before, marked by an older hand with a single word: left, let be.",
    "kind": "coal",
    "place": "burg:491",
    "category": "coal",
@@ -679,7 +679,7 @@
   {
    "id": "EVI-5031",
    "title": "Iain Mapa writes a letter naming the fault, and does not send it",
-   "body": "At his own table at Muileann chiar, Iain Mapa writes to the Board naming the fault at Cill ghlas by its true line and setting it beside the survey the Board filed and never circulated three years before; he reads it through twice, folds it, and puts it unsealed in the drawer that holds his old receipt.",
+   "body": "At his own table at Muileann chiar, Iain Mapa writes to Comhairle nam Mèinnean naming the fault at Cill ghlas by its true line and setting it beside the survey Comhairle nam Mèinnean filed and never circulated three years before; he reads it through twice, folds it, and puts it unsealed in the drawer that holds his old receipt.",
    "kind": "coal",
    "category": "coal",
    "links": [
@@ -746,7 +746,7 @@
   {
    "id": "EVI-5034",
    "title": "Iain Mapa keeps a second copy of the guild's charter",
-   "body": "Iain writes Comann an Airgid's new charter into his own private book beside the receipt he carried from An Sloc Mòr and the deep gallery's own figures, telling Mòr at last that the Board never once told him his first survey of the thinning vein had proved true.",
+   "body": "Iain writes Comann an Airgid's new charter into his own private book beside the receipt he carried from An Sloc Mòr and the deep gallery's own figures, telling Mòr at last that Comhairle nam Mèinnean never once told him his first survey of the thinning vein had proved true.",
    "kind": "coal",
    "place": "burg:78",
    "category": "coal",
@@ -773,8 +773,8 @@
   },
   {
    "id": "EVI-5035",
-   "title": "Mary Coyle writes to the Board naming Àth leathan's undelivered timber",
-   "body": "Reading a copy of the Board's new digging rules brought north by a carter, Mary Coyle writes in Tional nan Tuathach's own hand asking that the rules be kept in fact at the western pits as well as in the posting, and names Àth leathan and the ordered timber that never left the yard at Ceann mhòr.",
+   "title": "Mary Coyle writes to Comhairle nam Mèinnean naming Àth leathan's undelivered timber",
+   "body": "Reading a copy of Comhairle nam Mèinnean's new digging rules brought north by a carter, Mary Coyle writes in Tional nan Tuathach's own hand asking that the rules be kept in fact at the western pits as well as in the posting, and names Àth leathan and the ordered timber that never left the yard at Ceann mhòr.",
    "kind": "law",
    "place": "burg:95",
    "category": "law",
@@ -796,8 +796,8 @@
   },
   {
    "id": "EVI-5036",
-   "title": "The Board answers Tional nan Tuathach in three lines and files the matter",
-   "body": "The Board thanks Tional nan Tuathach for its concern and states that Àth leathan's timber has been referred to the district overseer for his report; no report is ever filed, and Mary Coyle's letter is kept, unanswered further, in the press at Cathair mhòr where papers go that the Board has no further use for.",
+   "title": "Comhairle nam Mèinnean answers Tional nan Tuathach in three lines and files the matter",
+   "body": "Comhairle nam Mèinnean thanks Tional nan Tuathach for its concern and states that Àth leathan's timber has been referred to the district overseer for his report; no report is ever filed, and Mary Coyle's letter is kept, unanswered further, in the press at Cathair mhòr where papers go that Comhairle nam Mèinnean has no further use for.",
    "kind": "law",
    "place": "burg:346",
    "category": "law",
@@ -820,7 +820,7 @@
   {
    "id": "EVI-5037",
    "title": "The new digging rules sent first to Iain Mapa",
-   "body": "The Board's new rules for digging after the fall are sent first to Iain Mapa at Muileann dhearg as the man who closed the district, and he finds nothing in them he would change; they are made for Dia-thìrich workers.",
+   "body": "Comhairle nam Mèinnean's new rules for digging after the fall are sent first to Iain Mapa at Muileann dhearg as the man who closed the district, and he finds nothing in them he would change; they are made for Dia-thìrich workers.",
    "kind": "coal",
    "place": "burg:491",
    "category": "coal",
@@ -983,8 +983,8 @@
   },
   {
    "id": "EVI-5044",
-   "title": "Mary Coyle asks the Board whether its reading of the factor rule is new",
-   "body": "When Comhairle na Slighe-iarainn refuses to carry the north's wool on the strength of the fair's own rule on factors, Mary Coyle writes a second, shorter letter asking only whether the reading is new or has simply never before been turned against the north's own goods; the Board does not answer it, and a clerk files it beside the first.",
+   "title": "Mary Coyle asks Comhairle na Slighe-iarainn whether its reading of the factor rule is new",
+   "body": "When Comhairle na Slighe-iarainn refuses to carry the north's wool on the strength of the fair's own rule on factors, Mary Coyle writes a second, shorter letter asking only whether the reading is new or has simply never before been turned against the north's own goods; Comhairle na Slighe-iarainn does not answer it, and a clerk files it beside the first.",
    "kind": "law",
    "place": "burg:95",
    "category": "law",

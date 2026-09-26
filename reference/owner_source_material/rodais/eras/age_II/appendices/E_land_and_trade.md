@@ -34,7 +34,7 @@ After A' Ghaoth Dhubh a young woman of Cuan ruadh, Lìleas, kept a fire on the c
 
 ## Weather, water and ground
 
-**Storms.** The first storm Clàr nan Rìghrean named came in the hundred and forty-seventh year; its name is lost, only the memory of the naming remains. It stripped Dùn ìseal's thatch and broke Seann-Dhaoine' shell causeway at Seann Warr in three places. A' Ghaoth Dhubh of the two thousand four hundred and seventeenth year stripped every roof between Cuan ruadh and Ceann chiar, and it is the eldest storm whose name is kept. Cuan ruadh rebuilt in stone to the eaves, and Ceann chiar cut a mark for every house lost: twenty-two.
+**Storms.** The first storm the reciters of Dùn ìseal named came in the hundred and forty-seventh year; its name is lost, only the memory of the naming remains. It stripped Dùn ìseal's thatch and broke Seann-Dhaoine' shell causeway at Seann Warr in three places. A' Ghaoth Dhubh of the two thousand four hundred and seventeenth year stripped every roof between Cuan ruadh and Ceann chiar, and it is the eldest storm whose name is kept. Cuan ruadh rebuilt in stone to the eaves, and Ceann chiar cut a mark for every house lost: twenty-two.
 
 **Waves.** In the seven hundred and seventy-seventh year the sea came far inland over the village at Cnoc chaol and left a sheet of sand a hand thick on its hearths, with the shells of deep-water creatures in it; the village was not rebuilt on the same ground. When the sea came in again in the three thousand eight hundred and seventeenth year, less far, the new houses stood higher on the slope and none was lost.
 

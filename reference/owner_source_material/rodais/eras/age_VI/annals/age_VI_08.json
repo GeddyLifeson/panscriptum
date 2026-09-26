@@ -57,7 +57,7 @@
   {
    "id": "EVI-4502",
    "title": "Iain Mapa walks the survey to Cathair dhearg",
-   "body": "Rather than trust the carters with a finding he believes the Board should see in his own hand, Iain Mapa rolls and ties his survey and walks the thirty-one miles from An Sloc Mòr to Cathair dhearg in a day and a half, sleeping one night on the road, and tells no one at the mine beforehand what the sheet holds.",
+   "body": "Rather than trust the carters with a finding he believes Comhairle nam Mèinnean should see in his own hand, Iain Mapa rolls and ties his survey and walks the thirty-one miles from An Sloc Mòr to Cathair dhearg in a day and a half, sleeping one night on the road, and tells no one at the mine beforehand what the sheet holds.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -79,7 +79,7 @@
   },
   {
    "id": "EVI-4503",
-   "title": "The Board leaves the survey unrolled",
+   "title": "Comhairle nam Mèinnean leaves the survey unrolled",
    "body": "Iain Mapa lays his survey before three men of Comhairle nam Mèinnean at Cathair dhearg and unties the string himself. None of the three unrolls it. He gives them the finding by mouth, plainly, and is told only, by the one in the middle, that it will be considered.",
    "kind": "law",
    "place": "burg:23",
@@ -104,7 +104,7 @@
   {
    "id": "EVI-4504",
    "title": "Ruairidh mac Ailein signs the receipt",
-   "body": "Asked for a receipt for the survey he has carried in, Iain Mapa is given four written lines naming nothing of the finding, only that a survey was received and filed. Ruairidh mac Ailein of the Board signs it, since the man in the middle will not, and Iain Mapa folds it into his pocket-book.",
+   "body": "Asked for a receipt for the survey he has carried in, Iain Mapa is given four written lines naming nothing of the finding, only that a survey was received and filed. Ruairidh mac Ailein of Comhairle nam Mèinnean signs it, since the man in the middle will not, and Iain Mapa folds it into his pocket-book.",
    "kind": "law",
    "place": "burg:23",
    "category": "law",
@@ -128,7 +128,7 @@
   {
    "id": "EVI-4505",
    "title": "The survey filed and shown to no one",
-   "body": "Within the week Iain Mapa's survey is filed in the Board's own press at Cathair dhearg with the two years' surveys before it, and circulated to no one on the council or in any other office of the state. It lies there unread while the men who might have acted on it go on believing the mountain gives as freely as ever.",
+   "body": "Within the week Iain Mapa's survey is filed in Comhairle nam Mèinnean's own press at Cathair dhearg with the two years' surveys before it, and circulated to no one on the council or in any other office of the state. It lies there unread while the men who might have acted on it go on believing the mountain gives as freely as ever.",
    "kind": "law",
    "place": "burg:23",
    "category": "law",
@@ -152,7 +152,7 @@
   {
    "id": "EVI-4506",
    "title": "Iain Mapa posted to Muileann chiar",
-   "body": "Within the month Iain Mapa is told, with little explanation offered and none asked for, that he is wanted at the silver works at Muileann chiar, twenty-four miles east and a little south of An Sloc Mòr, where the Board has need of a man who holds a chain straight and asks no more than the work requires.",
+   "body": "Within the month Iain Mapa is told, with little explanation offered and none asked for, that he is wanted at the silver works at Muileann chiar, twenty-four miles east and a little south of An Sloc Mòr, where Comhairle nam Mèinnean has need of a man who holds a chain straight and asks no more than the work requires.",
    "kind": "coal",
    "place": "burg:78",
    "category": "coal",
@@ -198,7 +198,7 @@
   },
   {
    "id": "EVI-4508",
-   "title": "The Board's clerks move to Cathair mhòr",
+   "title": "Comhairle nam Mèinnean's clerks move to Cathair mhòr",
    "body": "Comhairle nam Mèinnean moves its clerks and its presses the sixteen miles from Cathair dhearg to Cathair mhòr, into leased rooms above the town's wool market, on the stated ground that a board charged with the mountain's business ought to sit nearer the mountain than it had.",
    "kind": "law",
    "place": "burg:23",
@@ -222,7 +222,7 @@
   {
    "id": "EVI-4509",
    "title": "Riaghailt a' Bhùird set down",
-   "body": "In four lines Comhairle nam Mèinnean sets down, for the first time in writing, the rule that its surveyors' work is to be kept at Cathair mhòr in the Board's own presses and not sent to Leabharlann Muileann chaol as every other office's reports are sent. No one on the council is asked to confirm it.",
+   "body": "In four lines Comhairle nam Mèinnean sets down, for the first time in writing, the rule that its surveyors' work is to be kept at Cathair mhòr in Comhairle nam Mèinnean's own presses and not sent to Leabharlann Muileann chaol as every other office's reports are sent. No one on the council is asked to confirm it.",
    "kind": "law",
    "place": "burg:23",
    "category": "law",
@@ -562,7 +562,7 @@
   },
   {
    "id": "EVI-4524",
-   "title": "The Board's yield sent as a single figure",
+   "title": "Comhairle nam Mèinnean's yield sent as a single figure",
    "body": "Comhairle nam Mèinnean's return to Eachdraidh na Rìoghachd gives An Sloc Mòr's yield for the year as a single figure, no faces named and no survey cited; Gormshuil nic Dhùghaill enters it and sets the year before's figure beside it in her smallest hand, with no word between them.",
    "kind": "coal",
    "place": "burg:23",
