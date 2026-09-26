@@ -794,7 +794,12 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None, tim
     """
     t0 = time.time()
     try:
+        # UTF-8, errors replaced (sweep63 batch04): the gates run with PYTHONIOENCODING=utf-8, and
+        # decoding their output in the console codepage raises on bytes cp1252 leaves undefined
+        # (0x81 0x8D 0x8F 0x90 0x9D -- "ō" is C5 8D). allsweep made the same change for the same
+        # two programs; a decode error here scores a mutant INDETERMINATE for no reason of its own.
         r = subprocess.run(cmd, cwd=(cwd or HERE), capture_output=True, text=True,
+                           encoding="utf-8", errors="replace",
                            creationflags=_NO_WIN, timeout=timeout, env=env)
     except subprocess.TimeoutExpired:
         # The `|name` suffix rides behind the existing prefixes on purpose: `could_not_judge`
@@ -1227,6 +1232,45 @@ def _claim_sandbox(sandbox_root):
         silence.note("mutate.py:owner-file-unwritable")
 
 
+def _remove_sandbox(root):
+    """Remove a sandbox this process built: unlink every junction first, THEN rmtree. -> None.
+
+    THE ROUTINE TEARDOWN NOW DOES WHAT THE REAPER DOES (sweep64 batch04, run #64). `run()` and
+    `main()` ended every pass with a bare `shutil.rmtree(root)` over a tree whose `output/index`,
+    `output/raw`, `prompts`, `reference` and every `data/<dir>` are junctions into the LIVE
+    library -- and `output/raw` has been one since this run, which makes it the live chapters.
+    `reap_orphans` below unlinks those junctions explicitly "because this is the one place in the
+    project where getting that wrong would delete data/", and it was not the one place: these
+    two ran on every ordinary pass. `rmtree` not traversing a junction was proven here, so this
+    is defence in depth, the same argument the reaper already makes for itself.
+    """
+    for shared in ("prompts", "reference", os.path.join("output", "index"),
+                   os.path.join("output", "raw")):
+        link = os.path.join(root, shared)
+        try:
+            if os.path.isdir(link):
+                os.rmdir(link)          # unlinks a junction; fails on a real, non-empty directory
+        except OSError:
+            silence.note("mutate.py:teardown-unlink")
+    _data_p = os.path.join(root, "data")
+    try:
+        names = os.listdir(_data_p)
+    except FileNotFoundError:
+        _ = "silence-exempt: a sandbox with no data/ has no data/ junctions to unlink"
+        names = []
+    except OSError:
+        silence.note("mutate.py:teardown-unlink")
+        names = []
+    for _name in names:
+        _link = os.path.join(_data_p, _name)
+        try:
+            if os.path.isdir(_link):
+                os.rmdir(_link)
+        except OSError:
+            silence.note("mutate.py:teardown-unlink")
+    shutil.rmtree(root, ignore_errors=True)
+
+
 def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
     """Delete sandboxes abandoned by runs that were killed. -> [paths removed].
 
@@ -1295,7 +1339,8 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
         # not traverse a directory junction, but this is the one place in the project where
         # getting that wrong would delete `data/` -- 1.1 GB of mined corpus -- so the junctions
         # are removed explicitly first and the tree only then.
-        for shared in ("prompts", "reference", os.path.join("output", "index")):
+        for shared in ("prompts", "reference", os.path.join("output", "index"),
+                       os.path.join("output", "raw")):
             link = os.path.join(p, shared)
             try:
                 if os.path.isdir(link):
@@ -1735,6 +1780,18 @@ def sandbox():
     idx = os.path.join(HERE, "output", "index")
     if os.path.isdir(idx):
         _junction(os.path.join(root, "output", "index"), idx)
+    # AND THE SHELF THAT INDEX DESCRIBES (run #64, 2026-09-26). `output/index/catalog.json` names
+    # every written chapter by its `raw_path` under `output/raw/`, and drill's "the catalog and the
+    # shelf agree in BOTH directions" walks both. With the index junctioned in and the shelf left
+    # out, that net was BREACHED in the baseline of every pass made once prose had written a
+    # single chapter -- the 2026-09-24 pass logged "drill WAS RED AT THE BASELINE AND KILLED
+    # NOTHING" for all three targets, i.e. the whole drill was switched off as a detector for
+    # 18 hours. Junctioned, not copied, for the same reason as the index: the two must be the
+    # SAME moment of the same library, and a frozen copy of one beside a live portal to the other
+    # drifts the moment prose lands another chapter.
+    shelf = os.path.join(HERE, "output", "raw")
+    if os.path.isdir(shelf):
+        _junction(os.path.join(root, "output", "raw"), shelf)
     # THE DOCUMENTS A GATE READS ARE PART OF THE GATE (order f8f74627266f). `STEP4_PLAN.md` was
     # not on this list, and `step4_gate_open` checks the PLAN before it checks the FLAG -- so in
     # the baseline of every mutation run ever made, the plan was absent, `_step4_needs_its_plan`
@@ -2521,7 +2578,7 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 "restored_exactly": _digest(_read(path)) == _digest(original)}
     finally:
         if own_sandbox and not keep:
-            shutil.rmtree(root, ignore_errors=True)
+            _remove_sandbox(root)
 
 
 def file_orders(result, found_by="mutate", suppressed_out=None):
@@ -3199,7 +3256,7 @@ def _session(a, targets):
         return rc
     finally:
         if not a.keep_sandbox:
-            shutil.rmtree(root, ignore_errors=True)
+            _remove_sandbox(root)
 
 
 if __name__ == "__main__":

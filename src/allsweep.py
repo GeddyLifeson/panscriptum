@@ -748,7 +748,11 @@ def estate_faults(est):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=max(2, (os.cpu_count() or 4) - 2))
-    ap.add_argument("--quick", action="store_true", help="imports and reconciliation only")
+    # The help said "imports and reconciliation only" while LINT always ran (sweep63 batch04).
+    # The behaviour is the one kept: foreman's patch gate runs --quick, and lint is what catches
+    # an undefined name in a model's patch there.
+    ap.add_argument("--quick", action="store_true",
+                    help="imports, lint and reconciliation only (skips the VERIFY and ESTATE tiers)")
     a = ap.parse_args()
     from concurrent.futures import ThreadPoolExecutor
 

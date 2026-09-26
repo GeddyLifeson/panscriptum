@@ -1599,6 +1599,37 @@ def fetch(host, titles, outcome=None):
 # --------------------------------------------------------------------------- text
 
 
+def _brace_end(c, j, n, first):
+    """Index just past the close of a brace group whose opener (`first` braces, 2 or 3) ends at j.
+
+    A STACK OF OPENER WIDTHS, NOT A COUNT (sweep64 batch05, run #64). Both scanners in
+    `_unwrap_templates` counted ONE kind of brace each: the `{{` scanner read a nested `{{{param}}}`
+    as a two-brace open plus a stray `{`, then closed on the first two `}}` pairs of the run
+    `}}}}}`, one brace short. `{{Infobox|power={{{1|Unknown}}}}}` came out as `'  Unknow  }'`:
+    a letter lost and a brace injected, the exact corruption that makes a verbatim quotation
+    fail the fabrication check. Each opener now remembers its width and closes with the same
+    width, so `}}}}}` after `{{ ... {{{` is `}}}` + `}}`, and `}}}}` after `{{ ... {{` is `}}` + `}}`.
+    An opener with no matching close runs to the end of the text, as before.
+    """
+    stack = [first]
+    while j < n and stack:
+        if c.startswith("{{{", j):
+            stack.append(3)
+            j += 3
+        elif c.startswith("{{", j):
+            stack.append(2)
+            j += 2
+        elif stack[-1] == 3 and c.startswith("}}}", j):
+            stack.pop()
+            j += 3
+        elif c.startswith("}}", j):
+            stack.pop()
+            j += 2
+        else:
+            j += 1
+    return j
+
+
 def _unwrap_templates(c, depth=0):
     """Strip template SCAFFOLDING while keeping the prose inside it.
 
@@ -1640,30 +1671,12 @@ def _unwrap_templates(c, depth=0):
             # counted as a FABRICATION -- the one thing this pipeline is most careful about.
             #
             # A parameter renders as its default: the text after the first pipe, or nothing.
-            j, level = i + 3, 1
-            while j < n and level:
-                if c.startswith("{{{", j):
-                    level += 1
-                    j += 3
-                elif c.startswith("}}}", j):
-                    level -= 1
-                    j += 3
-                else:
-                    j += 1
+            j = _brace_end(c, i + 3, n, 3)
             _, _, dflt = c[i + 3:j - 3].partition("|")
             out.append(" " + _unwrap_templates(dflt, depth + 1) + " ")
             i = j
         elif c.startswith("{{", i):
-            j, level = i + 2, 1
-            while j < n and level:
-                if c.startswith("{{", j):
-                    level += 1
-                    j += 2
-                elif c.startswith("}}", j):
-                    level -= 1
-                    j += 2
-                else:
-                    j += 1
+            j = _brace_end(c, i + 2, n, 2)
             inner = c[i + 2:j - 2]
             # Split on TOP-LEVEL pipes only, so a nested template's own pipes stay with it.
             parts, buf, lvl = [], [], 0

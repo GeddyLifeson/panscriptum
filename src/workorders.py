@@ -1584,7 +1584,11 @@ def sweep_detectors():
                   "the binding-health canary is %.1f days old (ceiling %.0fd) -- stale is not "
                   "green, and this section files/closes curatorial orders off this report as if "
                   "it were current" % (bh_age / 86400.0, BINDING_HEALTH_MAX_AGE / 86400.0),
-                  "BOTS", "MINOR", where="data/BINDING_HEALTH.json",
+                  # RUN, NOT BOTS (run #64, 2026-09-26). The comment on BINDING_HEALTH_MAX_AGE
+                  # says it: nothing schedules `binding_health --run`, an operator runs it by
+                  # hand. Filed at BOTS, the order sat 50 hours at a rung with nobody on it,
+                  # because no bot exists that could close it. The daily run is the operator.
+                  "RUN", "MINOR", where="data/BINDING_HEALTH.json",
                   found_by="binding_health.canary-age")
         suspect = [h for h in (rec.get("hosts") or [])
                    if h.get("healthy") is None and "no catalogued title resolved"

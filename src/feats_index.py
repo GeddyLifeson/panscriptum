@@ -372,7 +372,12 @@ def feats_for_source(source_name, record, binding=None):
         return []
     if binding is not None:
         binding.clear()
-        binding.update({"kind": "bound", "hosts": sorted(hosts)})
+        # A `doc:` pseudo-host survives `host_to_sources` (only `pages:` is stripped), so a
+        # document-bound source arrives here, not in the branch above. Name it the way
+        # `source_binding` names the same source (sweep63 batch06), not "bound".
+        binding.update({"kind": ("doc" if all(str(h).startswith("doc:") for h in hosts)
+                                 else "bound"),
+                        "hosts": sorted(hosts)})
     # THE LOSER OF A WITHIN-SOURCE NAME COLLISION IS RECORDED (order 04a3f79b7f55). This was a
     # bare `entries_by_norm.setdefault(...)`: two entries of ONE source whose names fold to the
     # same `_norm` key resolved to whichever was listed first in `record['entries']`, and the

@@ -2190,6 +2190,22 @@ check("and still lands the stale copy's judgment",
                                                                     "NOT THERE: no entry A"),
       "M3")
 
+# sweep63 batch03: `category_rejected` rides the pipeline writer like its two siblings -- a
+# rejection the caller still carries lands, and a category re-judged into range clears it.
+with open(_rp, "w", encoding="utf-8") as _f:
+    json.dump({"source": "T", "entries": [{"name": "A", "category": "Persons"},
+                                           {"name": "B", "category": "Places",
+                                            "category_rejected": "14"}]}, _f)
+_PL.write_record(_rp, {"source": "T", "entries": [
+    {"name": "A", "category": "Persons", "category_rejected": "0"},
+    {"name": "B", "category": "Factions"}]})
+_got = {e["name"]: e for e in json.load(open(_rp, encoding="utf-8"))["entries"]}
+check("write_record lands a refused category answer beside the category it kept",
+      _got.get("A", {}).get("category_rejected"), "0")
+check("and clears the refusal once the category is re-judged into range",
+      ("category_rejected" in _got.get("B", {}), _got.get("B", {}).get("category")),
+      (False, "Factions"))
+
 # Catalogue direction: a FRESH larger cast wins, disk judgments ride along.
 with open(_rp, "w", encoding="utf-8") as _f:
     json.dump(_disk, _f)
@@ -4251,11 +4267,30 @@ for _src19af, _want19af in [
         ("prose {{{2}}} more prose", "prose more prose"),
         ("{{T|{{{1|fallback}}}|keep this prose}}", "fallback keep this prose"),
         ("{{{outer|{{{inner|deep}}}}}}", "deep"),
-        ("{{Infobox|name=Bob|age=7}}", "Bob 7")]:
+        ("{{Infobox|name=Bob|age=7}}", "Bob 7"),
+        # A PARAMETER AS A TEMPLATE'S LAST VALUE, AND A TEMPLATE AS A PARAMETER'S DEFAULT
+        # (sweep64 batch05, run #64). The two-brace scanner closed `}}}}}` one brace short and
+        # returned '  Unknow  }' for the first of these; the three-brace scanner has the mirror
+        # shape for the second.
+        ("{{Infobox|power={{{1|Unknown}}}}}", "Unknown"),
+        ("{{{1|{{Foo|z}}}}}", "z"),
+        ("{{A|{{B|{{{p|q}}}}}}}", "q")]:
     _got19af = " ".join(_FEx._unwrap_templates(_src19af).split())
     check(f"unwrapping {_src19af!r} leaves no stray brace",
           ("{" in _got19af or "}" in _got19af), False, note=f"got {_got19af!r}")
     check(f"unwrapping {_src19af!r} keeps its prose", _got19af, _want19af)
+
+
+# ---- Section 19af2: the residency gate measures the card and the model in ONE unit -----------
+#
+# sweep64 batch12 (run #64). `pick_model` read nvidia-smi's MiB as GiB (/1024) and model weights
+# as decimal GB (/1e9), and `resident()` compared them as one number. A 10,240 MiB card is
+# 10.737 GB; the gate called it 10.0.
+import pick_model as _PMu      # noqa: E402
+check("a 10,240 MiB card is 10.737 decimal GB, the unit weight_gb uses",
+      round(_PMu._mib_to_gb(10240), 3), 10.737)
+check("and a model's weight is decimal GB from its byte size",
+      round(_PMu.weight_gb({"name": "__probe__", "size": 5_200_000_000}), 3), 5.2)
 
 
 # ---- Section 19ag: the shared metrics ledger is appended a whole line at a time ---------------

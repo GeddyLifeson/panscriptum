@@ -693,6 +693,28 @@ def _io_moving(pid, window=None):
     return first != second
 
 
+def _retire_stall_order(why):
+    """Close the STALLED_UNRESTARTABLE order once no unrestartable job is stalled. -> bool.
+
+    NOTHING EVER CLOSED IT (sweep64 batch09, run #64). `kill_stalled_job` files it through
+    `escalation.escalate(SUPERVISOR, ...)` with no `source`, so it is keyed on the code alone,
+    and no `resolve_code` anywhere named that code. When the stall ended or the pid died the
+    order stayed open for good. Measured on 2026-09-26: it still named `roll_auto:47680`, a
+    process that no longer existed, 24 hours after it was filed. Only a standing order is
+    touched, so a quiet round costs one read and no write.
+    """
+    try:
+        import workorders as _WO
+        oid = _WO.order_id("STALLED_UNRESTARTABLE", "")
+        if oid not in _WO._load():
+            return False
+        return _WO.resolve(oid, "closed by foreman.kill_stalled_job: " + why,
+                           by="foreman.kill_stalled_job") is not None
+    except Exception:
+        silence.note("foreman.py:kill_stalled-retire")
+        return False
+
+
 def kill_stalled_job():
     """A job that is UP and writing nothing is worse than a job that is down.
 
@@ -720,6 +742,7 @@ def kill_stalled_job():
         return False, ("the 'every running job is advancing' standard was not in the "
                         "report, so whether a job is stalled is UNKNOWN; nothing killed")
     if row.get("holds"):
+        _retire_stall_order("the 'every running job is advancing' standard holds again")
         return True, "no job is stalled now"
 
     names = _re.findall(r"([A-Za-z0-9_]+) \(\d+ min", str(row.get("observed") or ""))
@@ -776,6 +799,20 @@ def kill_stalled_job():
                 # one wedged unit; an unrestartable kill costs hours of throughput, and the
                 # second is strictly worse than the thing being remedied.
                 if not _restartable(frag):
+                    # THE SAME SECOND WITNESS BEFORE IT IS CALLED STALLED (run #64, 2026-09-26).
+                    # The I/O test below spared restartable jobs only, so an unrestartable job
+                    # with a quiet log was escalated as STALLED on the log alone. Measured the
+                    # day it was found: the crawl (feats --roll, pid 14188) had logged nothing
+                    # for 26 minutes because it was mining a 59,610-entity deferred tail on ONE
+                    # worker and logs every 200 entities, and in the same window it moved 31,890
+                    # bytes of network I/O. It was reported as stalled anyway (order
+                    # 3dc2832846bc, re-filed after being closed). Moving I/O now names it as
+                    # working, exactly as it would for a restartable job; unreadable counters
+                    # still report it as stalled, because nothing here kills it either way.
+                    if _io_moving(pid):
+                        working.append("%s:%d (its log is quiet but it is doing I/O)"
+                                       % (job, pid))
+                        continue
                     unrestartable.append("%s:%d" % (job, pid))
                     continue
                 # A QUIET LOG IS NOT A STOPPED PROCESS (order d9328fe1ee38). The stall reading
@@ -811,6 +848,9 @@ def kill_stalled_job():
                           evidence={"jobs": unrestartable}, who="foreman.kill_stalled_job")
         except Exception:
             silence.note("foreman.py:kill_stalled-escalate")
+    else:
+        # No unrestartable job is stalled this round, so a standing order naming one is stale.
+        _retire_stall_order("no unrestartable job is stalled this round")
     if working:
         # NOT escalated: a job still doing I/O is the evidence AGAINST a stall. It is named, so a
         # standard that keeps reading it stalled is visible here rather than acted on.

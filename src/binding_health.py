@@ -759,9 +759,15 @@ def _probe_absent(host):
     Judged on the RAW text before any stripping, exactly as `_fetch_chars` does, because the
     refusal and markup markers live in the page as served. (order 27f445b58a76)
     """
+    _oc = {}
     try:
         import feats as F
-        got = F.fetch(host, [ABSENT_PROBE])
+        # THE OUTCOME CHANNEL, AS `_fetch_chars` ALREADY ASKS FOR IT (sweep64 batch16, run #64).
+        # Without it an empty fetch because we are THROTTLED read below as "correctly absent" --
+        # a pass certified by a probe that never got an answer -- and for a throttled host that
+        # pass is what let `verdict()` fall through to the reachability probe and quarantine it
+        # as "unreachable".
+        got = F.fetch(host, [ABSENT_PROBE], outcome=_oc)
     except Exception as exc:
         # NOT ASKED IS NOT ANSWERED, and this returned `True, "no answer, which is the correct
         # answer"` for EVERY exception -- a timeout, a 500, a DNS failure, an ImportError, a
@@ -777,6 +783,10 @@ def _probe_absent(host):
         # (orders 9b0e5cf4dfe2 / 2cfc022d8e04, filed twice independently).
         return None, "could not ask (%s) -- NOT a verdict about this host" % type(exc).__name__
     if not got:
+        _why = str(_oc.get("why") or "unknown")
+        if _why not in F.CLEAN_NEGATIVES:
+            return None, ("could not ask -- nothing came back, but the transport did not answer "
+                          "cleanly (%s), so this is not absence" % _why)
         return True, "correctly absent -- nothing came back for a title that cannot exist"
     text = " ".join(str(v) for v in got.values()) if isinstance(got, dict) else str(got)
     # NO TITLE IS PASSED, for the reason `_fetch_chars` gives: `page_looks_real` takes none, and
@@ -839,8 +849,9 @@ def _probe_reachable(host):
         if body and not body.lstrip().lower().startswith(("<!doctype", "<html")):
             return True, "raw page answered"
         return False, "raw page returned an HTML error shell -- the host is not answering"
+    _oc = {}
     try:
-        d = F.api(host, {"action": "query", "meta": "siteinfo"}, retries=0)
+        d = F.api(host, {"action": "query", "meta": "siteinfo"}, retries=0, outcome=_oc)
     except Exception as e:
         # NOT ASKED IS NOT ANSWERED, IN THE API ARM TOO (sweep 58, batch16). This returned False
         # -- the value that means "asked, and it said no" -- for ANY exception from the siteinfo
@@ -857,6 +868,10 @@ def _probe_reachable(host):
         # at `_fetch_chars`'s except-arm above.
         return None, "%s: %s -- could not ask (siteinfo)" % (type(e).__name__, str(e))
     if not isinstance(d, dict) or "query" not in d:
+        # THROTTLED IS NOT DOWN (sweep64 batch16, run #64). A 429 on siteinfo is the host
+        # answering -- with "slow down" -- and False here is the value `verdict()` quarantines on.
+        if _oc.get("why") == "throttled":
+            return None, "could not ask -- siteinfo was throttled (429), which is not a dead host"
         return False, "siteinfo returned nothing usable -- the API is not answering"
     return True, "siteinfo answered"
 

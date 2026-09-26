@@ -736,8 +736,8 @@ def _srcdir(src=None):
 # not merely cry wolf, it would silently switch the mutation pass off.
 #
 # So the world this builds is `mutate.sandbox()`'s world, deliberately: the same copied `src/`
-# and `state/`, the same junctioned `data/`, `prompts/`, `reference/` and `output/index`, the
-# same root documents. A net proven here has been proven in the world that decides whether it
+# and `state/`, the same junctioned `data/`, `prompts/`, `reference/`, `output/index` and
+# `output/raw`, the same root documents. A net proven here has been proven in the world that decides whether it
 # can kill a mutant.
 #
 # NOTHING HERE CAN REACH THE LIVE HALT. The child imports `drill` from the SCRATCH tree, so its
@@ -897,7 +897,8 @@ def _remove_scratch_tree(root):
     import silence as _si
     isjunction = getattr(os.path, "isjunction", lambda p: False)
     stuck = []
-    shared = ["prompts", "reference", os.path.join("output", "index")]
+    shared = ["prompts", "reference", os.path.join("output", "index"),
+              os.path.join("output", "raw")]
     try:
         shared += [os.path.join("data", n) for n in os.listdir(os.path.join(root, "data"))]
     except FileNotFoundError:
@@ -3254,6 +3255,10 @@ def drill_park():
         _a_quiet_log_alone_does_not_license_a_kill,
         "order d9328fe1ee38: the stall standard watches log size, and a restartable crawl in "
         "backoff was one quiet log away from a SIGTERM mid-request; a wedged process must still die")
+    net(a, "an unrestartable job is called stalled only without I/O, and the order is retired after",
+        _an_unrestartable_stall_needs_evidence_and_is_retired,
+        "run #64: the crawl was escalated as stalled while moving network I/O, and the order it "
+        "filed was never closed, outliving the pid it named by a day")
     net(a, "the foreman's real process listing sees the process asking, and a blind one raises",
         _the_process_listing_sees_its_own_process,
         "order 7bd2ee5f8b3b: three killing remedies listed processes with wmic, which this machine "
@@ -3610,6 +3615,90 @@ def _a_quiet_log_alone_does_not_license_a_kill():
             return (not _killed("moving")) and _killed("static") and (not _killed("blind"))
         finally:
             F._python_processes, F.time, F._restartable, F._restart_horizon, os.kill = saved
+            for k, v in saved_mods.items():
+                if v is None:
+                    sys.modules.pop(k, None)
+                else:
+                    sys.modules[k] = v
+    return _esc_probe(probe)
+
+
+def _an_unrestartable_stall_needs_evidence_and_is_retired():
+    """An UNRESTARTABLE job is escalated as stalled only when its process is doing no I/O, and a
+    standing STALLED_UNRESTARTABLE order is closed once nothing is stalled. (Run #64, 2026-09-26.)
+
+    Two faults, one net. (1) `_io_moving` spared RESTARTABLE jobs only, so the crawl -- never
+    restartable -- was escalated on a quiet log alone while it moved 31,890 bytes of network I/O in
+    twenty seconds, mining its deferred tail on one worker. (2) Nothing ever called `resolve_code`
+    for STALLED_UNRESTARTABLE, so the order outlived the pid it named by a day (sweep64 batch09).
+
+    Same stubs as the net above: psutil counters that MOVE or HOLD, a scripted process row, and
+    `_restartable` forced False. `escalation` and `workorders` are stand-ins that record what the
+    remedy asked of them, so nothing is filed or closed anywhere real. All restored in `finally`.
+    """
+    import types
+    import foreman as F
+    import lognames as _LN
+    frag = "feats.py --roll"
+    job = next(((fn[:-4] if fn.endswith(".log") else fn)
+                for fn, fr in _LN.OWNER.items() if fr == frag), None)
+    if job is None:
+        return False
+    fake_pid = 987655
+
+    def _psutil(moving):
+        m = types.ModuleType("psutil")
+        n = {"i": 0}
+
+        class Process:
+            def __init__(self, pid):
+                pass
+
+            def io_counters(self):
+                if moving:
+                    n["i"] += 1
+                return (100 + n["i"], 5, 1000, 50, 7, 70)
+        m.Process = Process
+        return m
+
+    def probe(d, filed):
+        keys = ("standards", "dashboard", "psutil", "escalation", "workorders")
+        saved_mods = {k: sys.modules.get(k) for k in keys}
+        saved = (F._python_processes, F.time, F._restartable, os.kill)
+        escalated, closed, kills = [], [], []
+        standing = {"open": True}
+        try:
+            sys.modules["dashboard"] = types.SimpleNamespace(state=lambda: {})
+            sys.modules["escalation"] = types.SimpleNamespace(
+                SUPERVISOR=2, escalate=lambda lvl, code, *a, **k: escalated.append(code))
+            sys.modules["workorders"] = types.SimpleNamespace(
+                order_id=lambda code, where="": "oid:" + code,
+                _load=lambda: ({"oid:STALLED_UNRESTARTABLE": {}} if standing["open"] else {}),
+                resolve=lambda oid, how, by="": closed.append(oid) or {"id": oid})
+            F._python_processes = lambda: [(fake_pid, "C:\\python.exe src\\%s --workers 12" % frag,
+                                            "20260926000000")]
+            F.time = types.SimpleNamespace(time=time.time, sleep=lambda s: None)
+            F._restartable = lambda fr: False
+            os.kill = lambda pid, sig: kills.append(pid)
+
+            def _round(stalled, moving):
+                del escalated[:], closed[:]
+                sys.modules["standards"] = types.SimpleNamespace(check=lambda st: [{
+                    "standard": "every running job is advancing", "holds": not stalled,
+                    "observed": "%s (26 min, 1234 bytes)" % job}])
+                sys.modules["psutil"] = _psutil(moving)
+                F.kill_stalled_job()
+                return list(escalated), list(closed)
+
+            esc_moving, closed_moving = _round(True, True)
+            esc_static, _ = _round(True, False)
+            _, closed_clear = _round(False, False)
+            return (not kills and "STALLED_UNRESTARTABLE" not in esc_moving
+                    and "STALLED_UNRESTARTABLE" in esc_static
+                    and closed_moving == ["oid:STALLED_UNRESTARTABLE"]
+                    and closed_clear == ["oid:STALLED_UNRESTARTABLE"])
+        finally:
+            F._python_processes, F.time, F._restartable, os.kill = saved
             for k, v in saved_mods.items():
                 if v is None:
                     sys.modules.pop(k, None)
@@ -7577,12 +7666,66 @@ def drill_run57_repairs():
                  ("Vi entered the village", "Vi", True),
                  ("the village burned", "Vi", False),
                  ("Ash's Pikachu attacked", "Ash", True),
-                 ("the bats swept down from the rafters", "Bat", True))
+                 ("the bats swept down from the rafters", "Bat", True),
+                 # sweep63 batch15: the name's OWN punctuation between its words is kept, and
+                 # only that punctuation -- "Son'a" must not name "his son, as".
+                 ("Archer saved T'Pol from the anomaly", "T'Pol", True),
+                 ("the rest of the X-Men fled the school", "X-Men", True),
+                 ("the guard turns Mr. Fox over to the bureau", "Mr. Fox", True),
+                 ("the son, as ever, stood guard at the gate", "Son'a", False),
+                 # sweep64 batch15: a curly and a straight apostrophe are the same gap, both
+                 # ways round -- the class was built from the entity's literal characters.
+                 ("Archer saved T’Pol from the anomaly", "T'Pol", True),
+                 ("Archer saved T'Pol from the anomaly", "T’Pol", True))
         wrong = ["_names(%r, %r) -> %r, expected %r" % (s, e, RD._names(s, e), want)
                  for s, e, want in cases if RD._names(s, e) is not want]
         if wrong:
             raise AssertionError("; ".join(wrong))
         return True
+    def fixed_tail_supplies_only_what_needs_no_judgment(fill=None):
+        """generate.complete_fixed_tail may rescue a block ONLY for its fixed words (owner ruling
+        2026-09-25, order 670c907af5e3). Three attacks, each must still be REFUSED after the fill:
+        an entry that lost its Class and Magnitude (the degradation the gate exists for), an
+        assayed Person with no Instrument (scores need judgment), and an entry with no body. And
+        one positive: an Event entry that lost only Instrument and Threads passes once filled.
+        """
+        import generate as GN
+        import prose_gate as PGt
+        fill = fill or GN.complete_fixed_tail
+        body = "The Record. " + "It happened in the valley and was written down. " * 6
+        head = "Shelfmark: Ω › ?\nClass: %s\nMagnitude: %s\nAttestation: Transcribed\n\n"
+
+        def refused(txt, n):
+            txt = fill(txt)[0]
+            try:
+                PGt.assert_block_complete(txt, n, "drill")
+                PGt.assert_instrument_present(txt, "drill")
+            except Exception:
+                return True
+            return False
+        degraded = "◈ Alpha\nShelfmark: Ω › ?\nAttestation: Transcribed\n\n" + body + "\n"
+        scored_being = "◈ Beta\n" + head % ("Person", "M3") + body + "\n"
+        no_body = "◈ Gamma\n" + head % ("Event", "unassayed")
+        fine = "◈ Delta\n" + head % ("Event", "unassayed") + body + "\n"
+        return (refused(degraded, 1) and refused(scored_being, 1) and refused(no_body, 1)
+                and not refused(fine, 1))
+    net(a, "the fixed-tail filler rescues only fixed words, never judgment or a degraded entry",
+        fixed_tail_supplies_only_what_needs_no_judgment,
+        "a filler that writes the Instrument for an assayed being, or a Class for a degraded "
+        "entry, turns the gate into a formality -- the 2026-08-25 batch with better manners")
+
+    def _a_greedy_filler_is_refused():
+        def greedy(txt):
+            out = []
+            for p in txt.split("◈ ")[1:]:
+                out.append("◈ " + p + "\nClass: Event\nMagnitude: unassayed\n"
+                           "▣ The Instrument. Not applicable.\nThreads: pending\n")
+            return "".join(out), {}
+        return not fixed_tail_supplies_only_what_needs_no_judgment(greedy)
+    net(a, "[control] the fixed-tail net refuses a filler that also writes Class and Instrument",
+        _a_greedy_filler_is_refused,
+        "a net the greedy filler passes proves nothing about the real one")
+
     net(a, "a short entity name matches only a whole word, its possessive or its plural",
         a_short_entity_name_matches_only_a_whole_word,
         "order 98898e10038e: with no trailing boundary a name of three letters or fewer named "
@@ -12339,6 +12482,44 @@ def _guards_are_wired_where_claimed(src=None):
                for f, (token, entries) in want.items())
 
 
+def _catalog_matches_disk(root=None):
+    """Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+
+    The docstring said "and vice versa" and the code walked one way only, catalog -> disk,
+    which is the smaller half. A chapter the catalog has LOST is invisible to that walk, and
+    an uncatalogued chapter in `output/raw` is the more alarming of the two conditions: the
+    prose gate is closed by owner ruling, so a file arriving there is prose from a writer
+    nobody knows about — the incident this whole layer was built after, in its early form.
+    `gate_claim_matches_reality` two nets up counts the same directory but only demands it
+    be EMPTY while the gate is shut; this one holds once the gate is open again, which is
+    when it starts to matter. A net's printed name is what people trust; it may not promise
+    more than the code does. (Run #34, MINOR.)
+    """
+    root = root or HERE
+    cat = os.path.join(root, "output", "index", "catalog.json")
+    if not os.path.exists(cat):
+        return True
+    d = json.load(open(cat, encoding="utf-8"))
+    claimed = set()
+    for rec in d.values():
+        p = (rec or {}).get("raw_path") or ""
+        p = p.replace("\\", os.sep).replace("/", os.sep)
+        if not p:
+            continue
+        full = p if os.path.isabs(p) else os.path.join(root, p)
+        if not os.path.exists(full):
+            return False                   # a book the library thinks it has
+        claimed.add(os.path.normcase(os.path.basename(full)))
+    raw = os.path.join(root, "output", "raw")
+    if os.path.isdir(raw):
+        for f in os.listdir(raw):
+            if not os.path.isfile(os.path.join(raw, f)):
+                continue
+            if os.path.normcase(f) not in claimed:
+                return False               # a book on the shelf in no catalogue
+    return True
+
+
 def drill_inspector():
     """Does the state of the building match what the building SAYS about itself?
 
@@ -12365,45 +12546,41 @@ def drill_inspector():
         gate_claim_matches_reality,
         "a closed gate with chapters still arriving would mean a writer nobody knows about")
 
-    def catalog_matches_disk(root=None):
-        """Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
-
-        The docstring said "and vice versa" and the code walked one way only, catalog -> disk,
-        which is the smaller half. A chapter the catalog has LOST is invisible to that walk, and
-        an uncatalogued chapter in `output/raw` is the more alarming of the two conditions: the
-        prose gate is closed by owner ruling, so a file arriving there is prose from a writer
-        nobody knows about — the incident this whole layer was built after, in its early form.
-        `gate_claim_matches_reality` two nets up counts the same directory but only demands it
-        be EMPTY while the gate is shut; this one holds once the gate is open again, which is
-        when it starts to matter. A net's printed name is what people trust; it may not promise
-        more than the code does. (Run #34, MINOR.)
-        """
-        root = root or HERE
-        cat = os.path.join(root, "output", "index", "catalog.json")
-        if not os.path.exists(cat):
-            return True
-        d = json.load(open(cat, encoding="utf-8"))
-        claimed = set()
-        for rec in d.values():
-            p = (rec or {}).get("raw_path") or ""
-            p = p.replace("\\", os.sep).replace("/", os.sep)
-            if not p:
-                continue
-            full = p if os.path.isabs(p) else os.path.join(root, p)
-            if not os.path.exists(full):
-                return False                   # a book the library thinks it has
-            claimed.add(os.path.normcase(os.path.basename(full)))
-        raw = os.path.join(root, "output", "raw")
-        if os.path.isdir(raw):
-            for f in os.listdir(raw):
-                if not os.path.isfile(os.path.join(raw, f)):
-                    continue
-                if os.path.normcase(f) not in claimed:
-                    return False               # a book on the shelf in no catalogue
-        return True
+    catalog_matches_disk = _catalog_matches_disk
     net(a, "the catalog and the shelf agree in BOTH directions", catalog_matches_disk,
         "a catalog entry with no file is a book the library thinks it has; a file in no catalog "
         "entry is prose from a writer nobody knows about")
+
+    def the_mutation_sandbox_sees_the_shelf_the_live_tree_sees():
+        """A mutation sandbox must carry `output/raw` whenever the live tree has it, and must give
+        the catalog/shelf net above the SAME verdict the live tree gives. (Run #64, 2026-09-26.)
+
+        `mutate.sandbox()` junctioned `output/index` -- and so the live catalog -- but never
+        `output/raw`, the shelf that catalog's `raw_path`s point into. Harmless while prose had
+        written nothing; from the first chapter after the 2026-09-24 lift, the net above was
+        BREACHED in every sandbox baseline, and a net red at the baseline disables the WHOLE
+        drill as a mutation gate (mutants are judged by difference). The 2026-09-24 pass ran 379
+        mutants with the drill switched off and said so in its log. Built in the real sandbox,
+        because the shape of that world is the thing under test.
+        """
+        import mutate as M
+        root = M.sandbox()
+        try:
+            live_has = os.path.isdir(os.path.join(HERE, "output", "raw"))
+            box_has = os.path.isdir(os.path.join(root, "output", "raw"))
+            if live_has and not box_has:
+                raise AssertionError("the live tree has output/raw and the sandbox %s does not"
+                                     % root)
+            live, box = _catalog_matches_disk(HERE), _catalog_matches_disk(root)
+            if live != box:
+                raise AssertionError("catalog/shelf verdict: live %s, sandbox %s" % (live, box))
+            return True
+        finally:
+            _remove_scratch_tree(root)
+    net(a, "a mutation sandbox sees the same shelf the live catalog names",
+        the_mutation_sandbox_sees_the_shelf_the_live_tree_sees,
+        "a sandbox holding the catalog but not the shelf breaches the catalog net at every "
+        "baseline, which silently switches the whole drill off as a mutation gate")
 
     def generate_lands_catalog_every_chapter(src_text=None):
         """generate.py's job loop lands the catalog after EVERY chapter, unconditionally.
@@ -12689,6 +12866,24 @@ def drill_inspector():
     net(a, "meta-language is refused by the writer, not just noticed by an audit",
         the_meta_language_ban_is_actually_enforced,
         "one 'as a DM you might' in a finished volume breaks the frame for every entry near it")
+
+    def the_meta_ban_sees_the_wiki_it_was_mined_from():
+        """Owner ruling 2026-09-25: the ban covers the WIKI too. The first chapters written after
+        the fixed-tail fix passed every gate while saying "as catalogued by the DigimonWiki" and
+        "The DigimonWiki describes it as a stub" -- the source showing through the Custodes'
+        voice. Both directions: those refuse, and an in-world "stub of a candle"-free sentence
+        about an article of clothing still passes."""
+        import pipeline as PL
+        leaks = ("This chapter records figures as catalogued by the DigimonWiki.",
+                 "The record notes that Willis is a stub, and further information is needed.",
+                 "This article describes Ikkakumon's horn.")
+        if any(not PL.meta_violations(s) for s in leaks):
+            return False
+        return not PL.meta_violations(
+            "Gomamon wore an article of ceremonial cloth to the gathering at the ninth hour.")
+    net(a, "the meta-language ban refuses the wiki showing through the prose",
+        the_meta_ban_sees_the_wiki_it_was_mined_from,
+        "'the DigimonWiki describes it as a stub' is the source's own page leaking into the book")
 
     def liveness_sees_its_own_founding_example():
         """THE DETECTOR MUST CATCH THE CASE IT WAS WRITTEN FOR. `liveness.py:12` names
@@ -13259,6 +13454,44 @@ def drill_probe_honesty():
         api_mode_reachability_exception_is_unmeasured,
         "sweep 58 batch16: the API arm returned False on any siteinfo exception, so a transient "
         "fault on our side quarantined a live host")
+
+    def a_throttled_host_is_never_canaried_dead():
+        """Every probe throttled -> the canary says "could not ask", never False. (Run #64.)
+
+        Sweep64 batch16. `_probe_absent` and `_probe_reachable`'s API arm did not ask feats'
+        outcome channel, so for a host answering 429 to everything the absent probe read the
+        empty fetch as "correctly absent" (True), siteinfo read as "not answering" (False), and
+        `verdict()` quarantined a live host as unreachable. Asserted end to end through `canary`.
+        NO REQUEST IS MADE: `feats.fetch` / `feats.api` return nothing and stamp `why=throttled`
+        exactly as the transport does on a 429, `endpoint.detect` answers API mode; all
+        restored in `finally`.
+        """
+        import binding_health as B
+        import endpoint as EP
+        import feats as F
+
+        def fetch(host, titles, outcome=None):
+            if outcome is not None:
+                outcome.update({"why": "throttled", "failed": 1})
+            return {}
+
+        def api(host, params, retries=2, outcome=None):
+            if outcome is not None:
+                outcome.update({"ok": False, "why": "throttled"})
+            return None
+        orig = (F.fetch, F.api, EP.detect)
+        F.fetch, F.api = fetch, api
+        EP.detect = lambda host, force=False: {"mode": EP.MODE_API, "path": "/api.php"}
+        try:
+            rec = B.canary("faketest-net-sweep64.throttled.invalid", ["A Known Title"])
+        finally:
+            F.fetch, F.api, EP.detect = orig
+        return (rec["healthy"] is not False and rec["absent"]["ok"] is None
+                and rec["reachable"]["ok"] is None)
+    net(a, "a host that throttles every probe is never canaried dead",
+        a_throttled_host_is_never_canaried_dead,
+        "sweep64 batch16: a 429 read as 'correctly absent' and siteinfo as 'not answering', so "
+        "the canary quarantined a live, merely throttled host as unreachable")
 
 
 # THE RUNG-FOUR PROBES RUN IN THE ONE SANDBOX (order 70a74f7a0628). They stopped and resumed
@@ -17306,6 +17539,33 @@ def drill_codewatch():
     net(a, "every daemon the keeper restarts checks whether its own source has changed",
         daemons_actually_check_their_own_source,
         "a guard added at 19:00 is not in effect at 03:00 unless the job restarted")
+
+    def overwatch_checks_its_source_between_modules(src=None):
+        """overwatch asks codewatch after EVERY module it reads, not only after a whole round.
+        (Run #64, 2026-09-26.)
+
+        The net above is satisfied by the check in `main`'s loop, which runs once per ROUND. With
+        the GPU shared, one module read measured 2,033s to 11,548s, and the round begun 2026-09-25
+        20:27 was still running twelve hours of reads later on code three edits old. The ledger
+        is saved after each module, so the check belongs there: inside `round_once`'s per-module
+        `for` loop, and `main` must actually switch it on in loop mode.
+        """
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(src), "overwatch.py"))
+        fn = _defn(tree, "round_once")
+        main_fn = _defn(tree, "main")
+        if fn is None or main_fn is None:
+            return False
+        in_loop = any(_calls_within(tree, loop, "codewatch.exit_if_stale", reachable=True)
+                      for loop in _live_walk(fn) if isinstance(loop, ast.For))
+        switched_on = any(isinstance(n, ast.Call) and getattr(n.func, "id", "") == "round_once"
+                          and any(k.arg == "watch_code" for k in n.keywords)
+                          for n in ast.walk(main_fn))
+        return in_loop and switched_on
+    net(a, "overwatch checks its own source between modules, not only between rounds",
+        overwatch_checks_its_source_between_modules,
+        "a round of model reads can outlast a working day, so a once-per-round check leaves a "
+        "standing daemon on old code for most of it")
 
     def a_change_must_settle_before_it_restarts_anything():
         """A digest taken mid-write is a digest of garbage. `local_agent --patch` writes several
@@ -22806,6 +23066,7 @@ _LIVE_STATE_PROBES = (
     # keeps a new one from being left off again.
     _absent_tray_is_started_not_waited_for,
     _a_quiet_log_alone_does_not_license_a_kill,
+    _an_unrestartable_stall_needs_evidence_and_is_retired,
     _a_one_shot_push_proves_it_is_the_shift,
     _harvest_keeps_a_patch_landed_mid_scan,
     _harvest_rescans_when_the_recipe_changes,

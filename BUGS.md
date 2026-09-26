@@ -1542,6 +1542,157 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #64 (2026-09-26 daily maintenance; sweep64)
+
+*Found by the run itself and by sweep64 (16 batches, all 119 modules, `sweep_plan.missing('run64')
+== []`), fixed in the same shift, so none of these sat in `## Open`. Each was re-read against
+source before it was fixed, and each guard got an attack that was watched going red. Export
+commit: NONE. Publish is stopped at the MANAGER rung pending the owner's ruling on order
+`23092fffadf3`, and the owner merged PR #14 to rodais since, so a push would now revert it.*
+
+- **[M121 — RESOLVED 2026-09-26, run #64] THE MUTATION SANDBOX HAD THE CATALOG BUT NOT THE SHELF,
+  SO THE WHOLE DRILL WAS OFF AS A MUTATION GATE.** `mutate.sandbox()` junctioned `output/index`
+  (the live `catalog.json`) but not `output/raw`, where every chapter's `raw_path` points. Once
+  prose wrote its first chapter after the 09-24 lift, drill's "the catalog and the shelf agree in
+  BOTH directions" was BREACHED in every sandbox baseline. The 2026-09-24 pass logged "drill WAS
+  RED AT THE BASELINE AND KILLED NOTHING" for all three targets: 379 mutants, about 18 hours.
+  Order `7ec46ab97ac9`.
+  - **FIX:** `output/raw` is junctioned beside `output/index`. `reap_orphans`,
+    `drill._remove_scratch_tree` and the new `mutate._remove_sandbox` unlink it before rmtree.
+  - **PROVEN:** new net "a mutation sandbox sees the same shelf the live catalog names" builds a
+    real sandbox and compares it with the live tree. RED with the junction removed, held after.
+    The 2026-09-26 pass baseline reads drill 637/637/0, the first whole drill since prose
+    resumed.
+- **[M122 — RESOLVED 2026-09-26, run #64] NESTED TEMPLATE PARAMETERS CORRUPTED MINED TEXT.**
+  `feats._unwrap_templates('{{Infobox|power={{{1|Unknown}}}}}')` returned `'  Unknow  }'`: a
+  letter lost and a brace injected, into text that feeds both the reader and the VERBATIM check.
+  Each brace scanner counted one width only, so `}}}}}` after `{{ ... {{{` closed one brace early.
+  (sweep64 batch05; order `f18aaae9e233`)
+  - **FIX:** `feats._brace_end` scans with a stack of opener widths, and both scanners use it.
+  - **PROVEN:** verify_math §19af gained three cases, RED before and green after. The crawl is
+    EXEMPT from rc=17 and picks this up on its next lap. Already-mined text is not re-derived.
+- **[M123 — RESOLVED 2026-09-26, run #64] THE CANARY COULD QUARANTINE A MERELY THROTTLED HOST AS
+  UNREACHABLE.** `_probe_absent` read an empty 429 fetch as "correctly absent" and
+  `_probe_reachable` read an empty 429 siteinfo as "not answering", so `verdict()` returned False,
+  "host unreachable". (sweep64 batch16, traced through `verdict()` by the run; order
+  `d8b4f7a7bb6d`)
+  - **FIX:** both probes read feats' outcome channel. A throttled or unclean empty answer is
+    None ("could not ask"), and `verdict()` never quarantines on that.
+  - **PROVEN:** new net "a host that throttles every probe is never canaried dead" drives
+    `canary()` end to end with stubbed transport. RED on the last published `binding_health.py`,
+    held after.
+- **[M124 — RESOLVED 2026-09-26, run #64] THE FOREMAN CALLED THE LIVE CRAWL STALLED, AND ITS
+  STALL ORDER NEVER CLOSED.** An unrestartable job was escalated on a quiet log alone (the I/O
+  test spared restartable jobs only), while the crawl moved 31,890 bytes of network I/O in 20s.
+  And nothing ever called `resolve_code` for STALLED_UNRESTARTABLE, so the order outlived the pid
+  it named by a day. (run #64 and sweep64 batch09; order `02fe4255e503`)
+  - **FIX:** the unrestartable branch takes the same `_io_moving` witness, and a new
+    `_retire_stall_order` closes the standing order when nothing is stalled.
+  - **PROVEN:** new net "an unrestartable job is called stalled only without I/O, and the order is
+    retired after". RED with retirement disabled and RED on the last published `foreman.py`, held
+    after.
+- **[M125 — RESOLVED 2026-09-26, run #64] OVERWATCH RAN ON OLD CODE FOR A WHOLE ROUND, AND A
+  ROUND OUTLASTED A WORKING DAY.** It asked codewatch once per round, while one module read took
+  2,033–11,548s on the shared GPU. The round begun 09-25 20:27 was still on its fourth module at
+  00:27 on 09-26, three source edits later. (order `c258b25d00da`)
+  - **FIX:** `round_once(watch_code=...)` calls `exit_if_stale` after each module's `save(led)`
+    in loop mode only.
+  - **PROVEN:** new AST net "overwatch checks its own source between modules". RED against a copy
+    with the call removed. The stale pid 46780 was terminated for the keeper to restart.
+- **[m-sweep64 — seven small fixes, RESOLVED 2026-09-26, run #64]**
+  - `read._names`: the M119 gap class used the entity's literal characters, so `T'Pol` never
+    matched `T’Pol`. Both sides are now folded through `_QMAP`, and two drill cases are RED on the
+    old code. (batch15; `7ea6322be3e2`)
+  - `pick_model`: VRAM read as GiB against weights in decimal GB. `_mib_to_gb` fixes that, and
+    verify_math §19af2 pins it. The by-class budget rises 9.0 → 9.74 GB, which matters only to a
+    hand-run `--write`. (batch12; `6ced2a8e7edf`)
+  - `cascade_bridge.ask`: a non-object success was logged with the failure form `tried:`. It is
+    now `unstamped:`. (batch08; `4e437284dd50`)
+  - `mutate`: the routine teardowns now unlink junctions before rmtree (`_remove_sandbox`).
+    Measured: live listings unchanged and the sandbox gone. (batch04; `4dec5cd5c9bc`)
+  - `manifest_builder`: the unassigned report printed a recomputed provisional code, not the one
+    the build assigned. Inert today (0 unassigned). (batch09; `8cc22c985769`)
+  - `chain.harvest`: on a recipe change plus an unlistable root, the message promised HELD rows
+    that had just been discarded. It now says the root contributes nothing this pass. (batch11;
+    `414eea52660f`)
+  - `workorders`: BINDING_HEALTH_STALE was filed at BOTS, but nothing schedules the canary. It is
+    now RUN, and the canary was run this shift (134 hosts, 0 failed).
+- **REFUTED, recorded so the next sweep does not re-derive them:** batch06's claim that
+  HOST_QUARANTINED orders can never close is wrong. `binding_health.quarantined()` filters on
+  `retry_after`, so the detector closes the order when a quarantine lapses; six such orders closed
+  this morning. Batch04's "rulings keyed by line go stale" is by design and went into the
+  questions order. The remaining design questions are in OWNER order `d2f103634cf1`.
+
+### Resolved in session with the owner (2026-09-25, prose)
+
+- **[M121 — RESOLVED 2026-09-25] PROSE WROTE NO ENTRY CHAPTER FOR 21 HOURS, AND RE-RUNS COULD NEVER
+  HAVE HELPED.** qwen3:8b writes header, Record and Marginalia and drops Contradictions,
+  Instrument and Threads on every entry but the last. It was reproduced by hand at 33/40,
+  unchanged by a literal `Threads:` template line or by 3-entry blocks. Generation runs at a
+  fixed seed, so a refused chapter regenerates identically: 469 refusals and 0 chapters.
+  - **FIX:** `generate.complete_fixed_tail` supplies only the fixed words (Threads; the
+    Instrument's not-applicable/uninstrumented forms from the entry's own Class/Magnitude), and
+    one corrective retry per refused block tells the model its exact faults. The gates are
+    unchanged. Owner rulings in session; order `670c907af5e3`.
+  - **PROVEN:** drill net "the fixed-tail filler rescues only fixed words..." plus a control
+    that refuses a greedy filler. On three real refused blocks, both gates go from refused to
+    pass, and every model-written line is kept.
+- **[M122 — RESOLVED 2026-09-25] THE META BAN COULD NOT SEE THE WIKI.** The first chapters to pass
+  said "as catalogued by the DigimonWiki" and "The DigimonWiki describes it as a stub".
+  `pipeline._META_TERMS` now also matches `\w*wiki\w*`, `stubs?` and `(this|the) article`.
+  A drill net was red before the change and green after. An article of clothing still passes.
+  The two leaking chapters were withdrawn to `output/withdrawn_meta_wiki_leak_2026-09-25/`.
+
+### Resolved by run #63 (2026-09-24, continued at the owner's "keep going"; sweep63)
+
+*Found by sweep63 (16 batches, all 119 modules, `sweep_plan.missing('run63') == []`) and fixed in
+the same shift, so none of these sat in `## Open`. Each was re-read against source before it was
+fixed. Export commit: the next push after the owner rules on order `23092fffadf3` (publish is
+stopped); run #61/#62's held work was pushed at 22:40 as `e66bb52a`.*
+
+- **[M119 — RESOLVED 2026-09-24, run #63] A SHORT NAME JOINED BY PUNCTUATION COULD NEVER MATCH ITS
+  OWN SPELLING, SO ITS PRONOUN-FREE FEATS WERE DROPPED AS GENERIC.** `read._names`' whole-name
+  fallback (for names with no word over three letters) joined the words with `\s+`, so "T'Pol",
+  "X-Men", "Mr. Fox", "R2-D2" and "N. Gin" failed against their own text and the sentence was
+  counted `generic_dropped`. `read_entity` caches a record once every chunk is answered, so the
+  loss persisted. (sweep63 batch15)
+  - **FIX:** each gap between the name's words accepts whitespace plus the non-space characters
+    the name itself has at that gap. Joining on any `\W+` was measured first and rejected: it let
+    "Son'a" name "his son, as" and "C&A" name "o.s.c.a.r".
+  - **MEASURED:** 99,083 kept readfeats sentences × 2,862 multi-word fallback names: +1,441
+    matches over 172 names, 0 removed; the only collisions found were initialisms inside longer
+    ones (E.D./"e.d.c.", D.D./"f.l.u.d.d.", 5 total). Already-cached records are not re-read.
+  - **PROVEN:** four cases added to drill's `a_short_entity_name_matches_only_a_whole_word`; three
+    were RED on the old code, and the Son'a control goes red on the rejected `\W+` form.
+- **[M120 — RESOLVED 2026-09-24, run #63] AN OUT-OF-RANGE `category` ANSWER LEFT NO TRACE.**
+  `phase_entrypass` kept `topic_rejected` and `subroom_rejected` but silently ignored a category
+  outside 1..len(CATEGORIES) while still setting `catalogued = True`. (sweep63 batch03)
+  - **FIX:** the refused answer lands in `category_rejected` (cut at 120, like its siblings), a
+    valid category pops it, and it is in `MERGED_ENTRY_FIELDS` and `ENTRY_REJECTION_COMPANIONS` so
+    both writers carry and clear it the same way the other two rejections are carried and cleared.
+  - **PROVEN:** two verify_math checks (land, clear); both FAIL against the pre-fix `pipeline.py`
+    and pass after. verify_math 1310/0.
+- **[m-sweep63 — six small fixes, RESOLVED 2026-09-24, run #63]**
+  - `mutate._gate_result` decoded gate output in the console codepage while the gates write UTF-8
+    (PYTHONIOENCODING=utf-8); bytes like 0x8D ("ō" is C5 8D) raise under cp1252 and would score a
+    mutant INDETERMINATE. Now `encoding="utf-8", errors="replace"`, as allsweep already does. (batch04)
+  - `pick_model`: `(_measured_vram or 10.0)` turned a measured 0.0 into an assumed 10GB while
+    `_budget_note` still called it measured. Now keyed on `vram_measured`. (batch16)
+  - `feats_index.feats_for_source` reported a `doc:`-bound source as `"bound"`; it now says `"doc"`,
+    as `source_binding` does. Dormant (the one caller branches on "unbound"). (batch06)
+  - `citecheck.report` cut the citing line at 160 characters with no marker; it now says how
+    much was cut and that `--json` has it whole. (batch13)
+  - `dashboard`'s movement panel never read `m.reset`, so a counter that FELL showed as "first
+    reading". It now says it fell. (batch11)
+  - `allsweep --quick`'s help said "imports and reconciliation only" while LINT always ran; the
+    help now says so. Behaviour kept: foreman's patch gate relies on lint there. (batch04)
+- **NOT A BUG, BUT IT WOULD HAVE BEEN THE WORST ONE THIS WEEK — order `23092fffadf3`.** The first
+  publish cycle after the lift committed a prune of all 778 files of the owner's Dia-thir Atlas
+  (`reference/owner_source_material/rodais`, built in the public repo by PRs during the halt).
+  A rebase conflict kept it off origin. Run #63 dropped the unpushed commit, copied the atlas into
+  the kit, suppressed two vendored-JS false positives, and STOPPED the publish subsystem pending
+  the owner's ruling on which side owns that subtree.
+
 ### Resolved by run #62 (2026-09-23 daily maintenance, under the standing halt)
 
 *Found and fixed in the same shift. Export commit: NONE YET -- `publish.py --push` refuses under

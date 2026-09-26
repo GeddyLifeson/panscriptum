@@ -591,6 +591,102 @@ class ChapterRefused(RuntimeError):
         self.lists = {k: list(v) for k, v in lists.items() if v}
 
 
+THREADS_LINE = "Threads: pending the entanglement pass"
+_THREADS_FIELD = re.compile(r"(?im)^[\s*_#>-]*Threads[\s*_]*:")
+_MAG_FIELD = re.compile(r"(?im)^[\s*_#>-]*Magnitude[\s*_]*:[\s*_]*(M\d+|Omega)\b")
+_NOT_A_BEING = {"world": "places", "polity": "polities", "event": "events"}
+
+
+def complete_fixed_tail(text):
+    """-> (text, supplied). Add to each ◈ entry ONLY the tail lines whose words are fixed.
+
+    OWNER RULING 2026-09-25, in session (order 670c907af5e3, option (a); "continue working on it
+    until this phase completes"). qwen3:8b writes each entry's header fields, its Record and its
+    Marginalia, then stops -- every entry but the last loses Contradictions, The Instrument and
+    Threads. Reproduced by hand at 33/40 on the live prompt, unchanged by a literal template line
+    and by 3-entry blocks; 469 chapters were refused and none written in the 21 hours before
+    this. Two of those sections have no judgment in them:
+
+      * Threads is "pending the entanglement pass" on every entry (Hard Rule 5).
+      * The Instrument is "Not applicable" for a non-being and "uninstrumented -- no faculties on
+        file" for a being whose Magnitude is not a band -- both decided by the entry's OWN
+        Class and Magnitude lines, which the model wrote and the gate still requires.
+
+    Nothing else is supplied. A being WITH a Magnitude band and no Instrument is left alone, so
+    `assert_instrument_present` still refuses it: those scores need the model's judgment, and
+    `unearned_instrument` still refuses any it invents. An entry with no Class line is left alone
+    too. The header fields and the body are never touched, so the degradation the gate exists for
+    (names kept, template dropped) still refuses the block. Contradictions is not supplied,
+    because "None currently on file" is a claim about the data the code cannot check.
+    """
+    import prose_gate as _PG
+    parts = re.split(r"(?m)^(?=◈\s)", text or "")
+    supplied = {"threads": 0, "instrument": 0}
+    out = []
+    for p in parts:
+        if not p.startswith("◈"):
+            out.append(p)
+            continue
+        body = p.rstrip("\n")
+        tail = []
+        cls = _PG._entry_class(body)
+        if cls is not None and not _PG._INSTRUMENT_MARK.search(body):
+            being = any(c in cls for c in _PG.INSTRUMENT_CLASSES)
+            if not being:
+                what = next((v for k, v in _NOT_A_BEING.items() if k in cls), "things")
+                tail.append("▣ The Instrument. Not applicable -- the Instrument measures "
+                            "beings, not %s." % what)
+            elif not _MAG_FIELD.search(body):
+                tail.append("▣ The Instrument. uninstrumented -- no faculties on file.")
+        if tail:
+            supplied["instrument"] += 1
+        if not _THREADS_FIELD.search(body):
+            tail.append(THREADS_LINE)
+            supplied["threads"] += 1
+        elif tail:
+            # Template order is Instrument, then Threads: put it before a Threads the model wrote.
+            m = list(_THREADS_FIELD.finditer(body))[-1]
+            ls = body.rfind("\n", 0, m.start()) + 1
+            body = body[:ls] + "\n".join(tail) + "\n\n" + body[ls:]
+            tail = []
+        # Inside the entry: before a closing `---` rule the model put after it, not after the rule.
+        sep = re.search(r"\n\s*(?:-{3,}|\*{3,}|_{3,})\s*$", body) if tail else None
+        if sep:
+            body, rule = body[:sep.start()], body[sep.start():]
+        else:
+            rule = ""
+        out.append(body + ("\n\n" + "\n\n".join(tail) if tail else "") + rule + "\n\n")
+    return "".join(out).rstrip() + "\n", supplied
+
+
+def block_problems(text, n_entries):
+    """-> [plain sentences] naming what the gates will refuse in this (already tail-filled) block.
+
+    A DIAGNOSIS FOR THE MODEL, NOT A GATE. It asks the same three questions as
+    `assert_block_complete`, `assert_instrument_present` and the P8 meta-language ban, so a
+    corrective retry can be told exactly what to fix. The gates themselves still run afterwards,
+    unchanged, on whichever text is kept. If this under-reports, the gate refuses as before.
+    """
+    import prose_gate as _PG
+    import pipeline as _PL
+    out = []
+    _p, _r, miss = _PG.section_shortfall(text, n_entries)
+    if miss:
+        out.append("these entries are missing required lines, each of which must be its own "
+                   "line starting with the label (Shelfmark:, Class:, Magnitude:, Threads:) "
+                   "or a Record body: " + "; ".join(miss))
+    _p, _r, imiss = _PG.instrument_shortfall(text)
+    if imiss:
+        out.append("these entries need their '▣ The Instrument.' section, scoring only the axes "
+                   "the entry data grounds and writing '--' for the rest: "
+                   + "; ".join(m.split("): ")[0] + ")" for m in imiss))
+    bad = _PL.meta_violations(text)
+    if bad:
+        out.append("these words break the in-universe voice and must not appear anywhere in the "
+                   "text, not even in another sense -- rephrase around them: " + ", ".join(bad))
+    return out
+
+
 def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
     """One manifest job -> the full text, written in verified blocks.
 
@@ -713,6 +809,31 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         # the template it was asked for, and refuses a half-written block rather than shelving
         # it. A refusal is recoverable; a chapter filed as complete is not.
         import prose_gate as _PG
+        # The fixed tail only -- see `complete_fixed_tail` for exactly what, and what never.
+        text, _supplied = complete_fixed_tail(text)
+        # ONE CORRECTIVE RETRY, TOLD WHAT WAS WRONG (owner ruling 2026-09-25, order
+        # 670c907af5e3). Generation runs at a fixed seed and low temperature, so re-running a
+        # refused chapter reproduces it: the 21 hours before this rule re-failed the same blocks
+        # 469 times. The retry mirrors the missing-names retry above -- the same prompt plus the
+        # exact faults -- and is kept only if it names every entry and has fewer faults. Every
+        # gate below still runs, unchanged, on whichever text is kept.
+        _faults = block_problems(text, len(g))
+        if _faults:
+            _fix = call_ollama(cfg, system_prompt, up + (
+                "\n\nYOUR PREVIOUS VERSION OF THIS BLOCK WAS REJECTED. Write the whole block "
+                "again, every entry in full, and correct these faults:\n- "
+                + "\n- ".join(_faults)))
+            if _fix.strip() and not [e for e in g if not _covered(e.get("name", ""), _fix)]:
+                _fix, _fs = complete_fixed_tail(_fix)
+                if len(block_problems(_fix, len(g))) < len(_faults):
+                    text, _supplied = _fix, _fs
+            print("  block %d/%d: corrective retry for %d fault(s) -> %d left"
+                  % (gi + 1, len(groups), len(_faults), len(block_problems(text, len(g)))),
+                  flush=True)
+        if _supplied["threads"] or _supplied["instrument"]:
+            print("  block %d/%d: supplied the fixed tail (Threads on %d, Instrument on %d)"
+                  % (gi + 1, len(groups), _supplied["threads"], _supplied["instrument"]),
+                  flush=True)
         _PG.assert_block_complete(text, len(g), f"block {gi + 1}/{len(groups)}")
 
         # LAYER 4c — the Instrument section must EXIST (owner ruling 2026-09-08, order

@@ -256,11 +256,39 @@ def _names(sentence, entity):
     # 985,496 old matches removed, 0 added, and every inflection-shaped tail among them ('es',
     # 'en', 'i', 'ii', digits, a repeated name) was read and is a collision with the catalogued
     # entity (Fox/'foxes' is a Diablo and a Ghost Recon name, Ox/'oxen' a Diablo item suffix).
+    #
+    # AND EACH GAP ACCEPTS THE NAME'S OWN PUNCTUATION, AND ONLY THAT (sweep63 batch15). The words
+    # used to be joined by whitespace alone, so a name whose words are joined by anything else --
+    # "T'Pol", "X-Men", "Mr. Fox", "R2-D2" -- could never match its own spelling, and every
+    # pronoun-free sentence naming it was counted `generic_dropped`. Joining on any punctuation
+    # (`\W+`) was measured first and rejected: it let "Son'a" name "his son, as" and "C&A" name
+    # "o.s.c.a.r". So each gap is whitespace plus the non-space characters the entity itself has
+    # at that gap. Measured on all 99,083 kept readfeats sentences against every one of the 2,862
+    # multi-word fallback names: 1,441 matches added across 172 names, 0 removed, and the only
+    # collisions read were initialisms inside longer ones (E.D./"e.d.c.", D.D./"f.l.u.d.d.", 5 in
+    # all). Records already cached are not re-read, so this recovers feats going forward only.
     if not parts:
-        whole = [w for w in re.split(r'\W+', entity_f) if w]
-        if whole:
-            pattern = r'\b' + r'\s+'.join(re.escape(w) for w in whole) + r"(?:'s|s)?\b"
-            if re.search(pattern, low, re.IGNORECASE):
+        toks = [t for t in re.split(r'(\W+)', entity_f) if t]
+        while toks and not re.match(r'\w', toks[0]):
+            toks.pop(0)
+        while toks and not re.match(r'\w', toks[-1]):
+            toks.pop()
+        if toks:
+            body = ""
+            for t in toks:
+                if re.match(r'\w', t):
+                    body += re.escape(t)
+                else:
+                    # FOLDED THROUGH `_QMAP` ON BOTH SIDES (sweep64 batch15, run #64). The gap
+                    # class was built from the entity's literal characters, so a name catalogued
+                    # with a curly apostrophe ("Ram Z’Gok") never matched the far commoner ASCII
+                    # spelling in the prose, and the reverse. `_QMAP` is this file's own list of
+                    # the punctuation a wiki and a model disagree about, and it maps one
+                    # character to one, so folding cannot move a match boundary.
+                    own = "".join(sorted(set(c for c in t.translate(_QMAP) if not c.isspace())))
+                    body += r'[\s' + re.escape(own) + r']+'
+            pattern = r'\b' + body + r"(?:'s|s)?\b"
+            if re.search(pattern, low.translate(_QMAP), re.IGNORECASE):
                 return True
     # Tokenised rather than pattern-matched. A word-boundary escape has been eaten in
     # transit six times in this project, and here the failure would have been
@@ -1240,7 +1268,8 @@ def _queue_row(qcache, base, host, name):
         # There were two different tests in this file for "is this page the entity's own page",
         # and they disagreed. `read_entity` -- the function that actually mines the feats --
         # compares through `_norm_q`, which folds curly quotes, en/em dashes, ellipses and
-        # non-breaking spaces and collapses whitespace before lowercasing (read.py:856). This
+        # non-breaking spaces and collapses whitespace before lowercasing (`read_entity`'s own-
+        # page test, named rather than numbered so an edit above it cannot move it). This
         # did a raw strip/lower with no folding at all. For an entity whose wiki title differs
         # from its catalogued name ONLY by that punctuation -- the exact class `_norm_q` exists
         # to fold -- `read_entity` correctly treated the page as the own page while this scored

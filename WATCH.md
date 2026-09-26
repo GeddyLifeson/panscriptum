@@ -1,36 +1,29 @@
 # OVERWATCH
 
-round 574  ·  last run 2026-09-16 16:37
+round 577  ·  last run 2026-09-25 10:56
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **0** of 305,795 inspected (deep scan as of round 571)
+- files that will not parse: **1** of 308,357 inspected  — reference\owner_source_material\rodais\Diathir_Atlas\fmg\libs\jszip.min.js — 2 control character(s) where an escape should be
 - catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
+- NOT RUNNING: **0** publish.py
 
 ## What the model found in the code
 
-**10 open** (4 high). Newest first.
+**6 open** (1 high). Newest first.
 
-- **hosts.py** `discover` — [HIGH] probe alternative hosts for every source and keep all that hold
-  - says: probe alternative hosts for every source and keep all that hold
-- **feats_index.py** `load_index` — [HIGH] unhandled exceptions are silently noted and the record is skipped
-  - says: WHAT IT COULD NOT INDEX IS COUNTED, not merely skipped
-- **feats_index.py** `host_to_sources` — [HIGH] returns an empty map when the host file cannot be read and caches it
-  - says: RAISES rather than returning an empty map when the host file cannot be read, and does NOT cache that emptiness
-- **assay.py** `assay` — [HIGH] Computes a Moth Number but the formula is incorrect due to missing covariance terms and incorrect variance calculation
-  - says: Compute a Moth Number: 𝔄 = M_a + (sum w_i * s_i) / 10
-- **magnitude.py** `anchor` — [MEDIUM] assigned based on conditions involving ceiling and A.LADDER.index
-  - says: that, at the one place that knows nothing rescued it.
-- **local_agent.py** `rel_real` — [MEDIUM] used in a comparison with rel_written, which is the written path, but the check is only performed if the filesystem disagrees with the string
-  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
-- **local_agent.py** `rel_written` — [MEDIUM] used in a comparison with rel_real, which is the resolved path, but the check is only performed if the filesystem disagrees with the string
-  - says: compare the two project-relative spellings, and only interrogate the resolved one when the filesystem disagrees with the string.
+- **chain.py** `singleton_release` — [HIGH] releases a claim unconditionally, which can lead to data loss in race conditions
+  - says: releases a claim
+- **completeness.py** `host_reachable` — [MEDIUM] returns a message indicating host unreachable but does not actually check reachability
+  - says: checks if a host is reachable
+- **codewatch.py** `escalation.escalate` — [MEDIUM] escalate is called with a manager, but the comment says it does not rank
+  - says: MANAGER EITHER WAY -- see the docstring. The run guard describes; it does not rank.
+- **assay.py** `_interval` — [MEDIUM] Calculates the half-width of the error bar using variance propagation, which matches the claim, but the function's name and docstring suggest it should decompose the variance into components, which it does, so no defect of fact is found here.
+  - says: Half-width of the honest error bar, in BAND units, by variance propagation.
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if reopen_stranded(...) is None else 0
   - says: return 1 if reopen_stranded(...) is None else 0
-- **worldseed.py** `WORLD` — [MEDIUM] matches words related to worlds in descriptions or names but may miss some cases due to regex limitations
-  - says: matches words related to worlds in descriptions or names
 - **health.py** `return 1 if reopen_stranded(dry=not a.go) is None else 0` — [MEDIUM] return 1 if the result of reopen_stranded is None else 0
   - says: return 1 if the result of reopen_stranded is None else 0
 

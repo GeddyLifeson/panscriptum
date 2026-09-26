@@ -645,7 +645,13 @@ def main():
         # Uncapped, per Hard Rule 0: this is the outstanding curatorial work, in full.
         for r in sorted(unassigned, key=lambda r: r["category"]):
             f.write(f"- **{r['name']}** ({r['category']}, {r.get('entry_count', 0)} entries)"
-                    + (f" -- built as `{provisional_spine(r)}`\n"
+                    # THE CODE THE BUILD USED, not a recomputation of it (sweep64 batch09, run
+                    # #64). `provisional_spine(r)` depends on the category alone, so two
+                    # unassigned sources in one category were both printed as `...PROVISIONAL`
+                    # while the build shelved them as `.1` and `.2` -- a report whose header
+                    # promises "the provisional code each one received" printing a code
+                    # neither received.
+                    + (f" -- built as `{volume_code.get(r['name'], provisional_spine(r))}`\n"
                        if args.include_unassigned else "\n"))
     report_landed = silence.replace_retry(_report_tmp, report_path)
     if not report_landed:

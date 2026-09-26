@@ -1,4 +1,0 @@
-entries: 21313 (original 5005, new 16308)
-distinct English headwords: 19612
-frequency-list words translated: 14547; skipped as names/junk: 5227
-original lexicon headwords: 4969

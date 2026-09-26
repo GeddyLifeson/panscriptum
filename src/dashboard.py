@@ -862,7 +862,8 @@ function panelMovement(d){const s=el('section','wide');
     const d1=el('td','k',m.metric);
     const d2=el('td',null,(m.now||0).toLocaleString());
     let txt='—', cls='';
-    if(m.delta===null||m.delta===undefined){txt='first reading'}
+    if(m.reset){txt='FELL in '+m.minutes+' min: a restart, or a real regression';cls='down'}
+    else if(m.delta===null||m.delta===undefined){txt='first reading'}
     else if(m.delta>0){txt='+'+m.delta.toLocaleString()+' in '+m.minutes+' min';cls='up'}
     else if(m.delta<0){txt=m.delta.toLocaleString()+' in '+m.minutes+' min';cls='down'}
     else{txt=m.stalled?('NO CHANGE in '+m.minutes+' min'):'no change yet';cls=m.stalled?'down':''}

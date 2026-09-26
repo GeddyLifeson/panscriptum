@@ -180,6 +180,19 @@ def is_instruct_tuned(model_entry):
     return not any(bad in name for bad in ["-base", "-text", "-pt"])
 
 
+def _mib_to_gb(mib):
+    """nvidia-smi MiB -> DECIMAL GB, the unit `weight_gb` uses (sweep64 batch12, run #64).
+
+    Both readers below divided MiB by 1024, which is GiB, while `weight_gb` divides bytes by
+    1e9 and `KNOWN_WEIGHT_GB` carries Ollama's decimal sizes. `resident()` then compared the two
+    as one unit, and on this 10,240 MiB card the budget read 10.0 where the card holds 10.74 GB:
+    every residency verdict silently threw away about 7% of the VRAM. Conservative (it never
+    admitted a model that did not fit), but a gate measuring in two units at once is measuring
+    nothing exactly.
+    """
+    return mib * 1048576 / 1e9
+
+
 def total_vram_gb():
     """The card's total VRAM in GB, or None. The residency gate sizes against TOTAL minus a
     reserve, not against free -- free varies with whatever the desktop holds this minute, and
@@ -193,7 +206,7 @@ def total_vram_gb():
             capture_output=True, text=True, timeout=15, creationflags=_NO_WIN)
         if out.returncode != 0:
             return None
-        return int(out.stdout.strip().splitlines()[0]) / 1024.0
+        return _mib_to_gb(int(out.stdout.strip().splitlines()[0]))
     except Exception:
         silence.note("pick_model.py:total_vram")
         return None
@@ -231,7 +244,7 @@ def free_vram_gb():
             capture_output=True, text=True, timeout=15, creationflags=_NO_WIN)
         if out.returncode != 0:
             return None
-        return int(out.stdout.strip().splitlines()[0]) / 1024.0
+        return _mib_to_gb(int(out.stdout.strip().splitlines()[0]))
     except Exception:
         silence.note("pick_model.py:free_vram")
         return None
@@ -339,7 +352,10 @@ def main():
     # refusing at all.
     _measured_vram = total_vram_gb()
     vram_measured = _measured_vram is not None
-    budget = (_measured_vram or 10.0) - VRAM_RESERVE_GB
+    # `if vram_measured`, not `or` (sweep63 batch16): a measured 0.0 is a measurement, and `or`
+    # replaced it with the assumed 10GB while `_budget_note` still called the budget measured --
+    # the exact shape order ae7b56cd43d0 fixed for `vram_gb` in main().
+    budget = (_measured_vram if vram_measured else 10.0) - VRAM_RESERVE_GB
 
     def _budget_note():
         return (f"{budget:.1f}GB" if vram_measured

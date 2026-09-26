@@ -282,7 +282,7 @@ def _state_of_file(fp, name, cache):
 
 def measure():
     # THE SAME GUARD `read.py` ALREADY PUTS ON THIS EXACT FILE (sweep43-batch13). This was a
-    # bare `json.load(open(F.HOSTS))` with no handler at all, while `read.py:1192` reads the
+    # bare `json.load(open(F.HOSTS))` with no handler at all, while `read.queue()` reads the
     # same map behind a four-attempt retry whose comment states the reason: "the host map has
     # three writers; an unguarded load meant a single racing write could end the whole run with
     # a JSONDecodeError and no note". All three writers land it through

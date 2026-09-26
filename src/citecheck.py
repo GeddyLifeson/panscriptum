@@ -394,7 +394,10 @@ def report(found):
         for f in sorted(by_file[name], key=lambda x: x["line"]):
             out.append("  :%-5d  %-12s -> %s:%d" % (f["line"], f["reason"], f["cites"],
                                                     f["cited_line"]))
-            out.append("           %s" % f["text"][:160])
+            # A console cut says that it is one (sweep63 batch13); `--json` carries it whole.
+            txt = f["text"]
+            out.append("           %s%s" % (txt[:160], " ... (+%d chars; --json has it whole)"
+                                             % (len(txt) - 160) if len(txt) > 160 else ""))
     return out
 
 

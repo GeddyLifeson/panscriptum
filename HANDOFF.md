@@ -27,6 +27,229 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-26 — DAILY MAINTENANCE RUN #64: THE MUTATION PASS HAD ITS DRILL SWITCHED OFF; FIXED, RELAUNCHED WHOLE. SWEEP64 DONE, 14 FIXES. NO PUSH.
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **NOTHING WAS PUSHED, AND NOTHING SHOULD BE UNTIL YOU RULE ON `23092fffadf3`.** Since run #63 you
+  merged **PR #14** (`a820e2f4`, "Dia-thìr: continuity and grammar sweep") to origin/main. The kit's
+  copy of `rodais` was taken at PR #13, so any push would now **revert PR #14**. Also, the export
+  checkout `C:\Users\imarl\panscriptum-export` is on your branch `claude/beautiful-fermat-9xu33t`
+  (ahead 1, behind 17) with uncommitted deletions under `rodais/eras/_tmp/`. It looks like one of
+  your sessions is working there. I read it (`git log`, `git status`, one `git fetch`) and changed
+  nothing. Publish stays stopped. The open RUN orders `573ab7b04b6f` and `5aec38314731` both wait
+  on this ruling.
+* **THE 2026-09-24 MUTATION PASS HAD THE WHOLE DRILL OFF AS A GATE, AND THIS RUN FOUND WHY.** Its
+  log says "drill WAS RED AT THE BASELINE AND KILLED NOTHING" for all three targets. The cause was
+  the sandbox, not the library. It junctioned the live chapter catalog but not the shelf
+  (`output/raw`), so once prose wrote a chapter, "the catalog and the shelf agree" was red in every
+  sandbox. Fixed (M121) with a net that builds a real sandbox. **The pass relaunched at 00:23
+  (`state/mutate_20260926.log`, pid 2296) has a whole baseline: drill 637/637/0, verify_math
+  1310/0.** It runs about 18 hours, so **its survivor count is for run #65 to read. This run did
+  not see it finish.**
+* **The 09-24 pass, read as asked:** assay 154 mutants, 152 killed, 2 survived (826 was already
+  ruled equivalent; **909 was ruled equivalent this run** with the proof that closed its twin
+  `319df6cd8318` at line 908). prose_gate 77/77 killed. escalation 148, 141 killed, 7 survived,
+  all 7 already ruled equivalent. 23 assay kills were flagged "in doubt" after one baseline drift.
+  All of it was judged without the drill, which is why it was relaunched rather than trusted.
+* **Order `58a00e909217` (the old false-kill question) is CLOSED.** In the 09-24 pass, with
+  periodic re-baselining, the escalation dead-store mutants were correctly reported SURVIVED
+  across a 10.3-hour section, and baseline drift is now caught and flagged instead of counted.
+  One wording gap: the resolution text lost the backticked phrase "landed(, why|, detail) =
+  False", because I passed it through a shell once. The sentence still reads correctly, and every
+  later resolution this run was written through a file.
+* **Prose is running and writing real chapters, slowly.** At 00:12 generate.py had attempted 6 of
+  725 jobs and written 2. By 00:48 the shelf held 14 files. I read `II_L_7_4_Persons_51_60.md`:
+  every entry carries Contradictions, the Instrument line and Threads, and the fixed tail is the
+  only filler. The pace is about 4–6 minutes a job, so the phase needs days.
+* **The binding canary had not run for 10 days, because nothing schedules it.** I ran it: 134
+  hosts, 0 failed. Its staleness order now files at RUN (the daily run is the operator), not at
+  BOTS where nobody could close it.
+* **No committed secrets.** detect-secrets 0 and `scan_for_secrets` 0.
+* **Seven small questions from sweep64 are in one OWNER order, `d2f103634cf1`.** The one worth
+  your time first is **the P8 meta ban's new terms from 09-25: `stubs?` and `\w*wiki\w*` also
+  refuse "the cigarette stub", "ticket stubs" and "wikiup"**, unlike the deliberately scoped
+  "this/the article". Narrowing a refusal is your call, so I changed nothing.
+
+### THE SHIFT
+
+Opened clean: no halt, and run #63's guard was `done:true`. The guard was claimed with a token
+(the first attempt wrote nothing because I passed a POSIX path to Windows Python, so it was
+re-claimed). `corpus_db --rebuild`: 216 sources, 282,822 entries, 116s. First battery: drill
+636/636/0, verify_math 1310/0, pyflakes clean, secondopinion all three RAN.
+
+**Queue, worked to the floor:** 6 LOCAL restart and resume notices were verified against the
+process table and closed. The foreman stall order (a dead pid) was closed. assay.py:909 was ruled
+equivalent and closed. `58a00e909217` was closed with the evidence above. `058fa19d4e65` was
+rerouted to BOTS: the recipe-digest half is done and the live index carries the current recipe;
+`data/CHAIN.json` is still the August shape, and the pipeline's own phase 4 (not yet done in
+PIPELINE_STATE) rewrites it, rather than a hand run competing for the GPU with prose. Six fandom
+throttle quarantines closed on the re-sweep. Fandom answered 200 in 0.2s, so this is not the
+August ban shape.
+
+**Found by the run itself, fixed, each with a net watched going red:** M121 (the sandbox shelf),
+M124 (the foreman escalated the live crawl as stalled while it moved network I/O, and its stall
+order could never close), and M125 (overwatch ran on old code for a whole round, and one round
+outlasted a working day; the stale pid 46780 was terminated for the keeper).
+
+### SWEEP64
+
+16 Sonnet auditors, one per frozen batch (`state/sweep_plan/run64.json`). Every module was read in
+full, and `sweep_plan.missing('run64') == []`. Audits are in `handoff/sweep64/`. Every finding was
+re-read against source by the run, and two were corrected on the way: batch05's root cause was the
+outer scanner, not the pipe splitter; batch15's example entity could not match for an unrelated
+reason, though its class was real.
+
+* **Fixed:** M122 (`feats._unwrap_templates` turned `{{Infobox|power={{{1|Unknown}}}}}` into
+  `'  Unknow  }'`, corrupting text the verbatim check reads), M123 (the canary could quarantine a
+  merely throttled host as unreachable), plus seven small ones: the curly apostrophe in M119's
+  gap class, pick_model GiB vs GB, a cascade metrics label, mutate's routine teardown, a
+  manifest report code, a chain message, and the canary rung. All are in BUGS.md under run #64.
+* **Refuted:** batch06's "HOST_QUARANTINED can never close". `quarantined()` filters on
+  `retry_after`, so the detector closes the order when a quarantine lapses, and six closed this
+  morning.
+* **Questions:** OWNER order `d2f103634cf1`.
+* **Noticed by the run and not fixed (recorded for run #65):** the drill in the 09-24 pass drifted
+  once on clean code with "no probe anywhere in this drill writes into the live failure ledger"
+  and "nothing this drill did reached the ledger by a route the in-process spy cannot see". It
+  happened once, was not reproduced, and the sandbox that held it is gone. If the new pass's log
+  shows a drift on those two nets, capture the drill's own BREACHED text; mutate prints only the
+  net names. That is not an order yet, because there is nothing to act on.
+
+### THE BATTERY AT CLOSE
+
+drill **640/640/0** · verify_math **1318/0** · pyflakes clean · citecheck 0 · liveness 46 ·
+silence 316 silent (unchanged from the shift's start) · secondopinion: ruff, vulture and
+detect-secrets all RAN, 0 secrets · axis_correlation 45 entities, unchanged (not re-written) ·
+health --preflight 1 problem (dandwiki's login wall, OWNER) · allsweep 2 bad rows, both standing:
+the dandwiki preflight, and the jszip estate row inside the owner's rodais atlas, which also
+explains overwatch's "1 file will not parse". The owner's `rodais/build_atlas.py` also has an
+invalid-escape SyntaxWarning at line 98. It is owner content and was left alone.
+
+### RESTARTS
+
+Every module this run changed was checked against the process table. overwatch (pid 46780) was
+terminated at ~00:29 and restarted at 00:32. foreman (33208) and read (42580) were terminated at
+00:49 because neither had bounced ten minutes after its source changed; the keeper restarted
+both at 00:52:33, and **the new foreman closed the stall order `3dc2832846bc` by itself at
+00:53:21** ("no unrestartable job is stalled this round"), which shows M124 is in effect. dashboard bounced by
+itself. **pipeline and overnight were deliberately left on their older code** until their next
+phase or lap boundary: the only changes they carry are cosmetic (a metrics label, a message), and
+killing the pipeline mid-entrypass costs work. The crawl is EXEMPT and picks up M122 on its next
+lap.
+
+---
+
+## 2026-09-25 — IN SESSION WITH THE OWNER: PROSE HAD WRITTEN NOTHING FOR 21 HOURS; FIXED ON 8B, 30B TRIED AND RULED OUT, PHASE RUNNING
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **Prose wrote no entry chapters from the 09-24 lift until 19:28 on 09-25.** 469 chapters were
+  refused and 0 written. qwen3:8b writes each entry's header, Record and Marginalia, then stops,
+  dropping Contradictions, The Instrument and Threads on every entry but the last. The gates
+  refused, correctly. Fixed-seed regeneration then reproduced the same refusal on every retry.
+  Order `670c907af5e3`.
+* **What changed (owner rulings in session, in order):** the stop, then "continue working on it
+  until this phase completes", then pull `qwen3:30b-a3b` and re-pilot.
+  1. `generate.complete_fixed_tail` supplies ONLY the fixed words: `Threads: pending the
+     entanglement pass`, and the Instrument's "Not applicable" / "uninstrumented" forms, decided
+     by the entry's OWN Class and Magnitude lines. An assayed being with no scores, a degraded
+     entry (no Class), and an entry with no body are all still refused. A new drill net plus a
+     greedy-filler control prove it.
+  2. One corrective retry per refused block. The model is told the exact faults, and the retry
+     is kept only if it has fewer faults and names every entry. The gates run unchanged afterwards.
+  3. The P8 meta ban now also refuses `*wiki*`, `stub(s)` and `this/the article`, after the
+     first chapters to pass said "as catalogued by the DigimonWiki" and "is a stub". A new drill
+     net was red before the change. The two chapters that leaked were withdrawn to
+     `output/withdrawn_meta_wiki_leak_2026-09-25/`.
+* **qwen3:30b-a3b was pulled (19.4 GB) and piloted: NOT VIABLE on this machine as loaded.** Your
+  desktop apps leave about 3 GB of RAM free, so 57% of the model ran on CPU. Every block
+  exceeded generate's 1800s read timeout. It stays installed and unused. The pipeline was
+  paused for the pilot and has been resumed.
+* **The phase is running on qwen3:8b.** 725 chapters were pending when it started by hand at
+  ~23:40 (detached pythonw, logging to `state/prose_auto.log`). The supervisor will leave it alone.
+* **Known quality limits that the gates do not measure:** generic Marginalia (the Unnamed Hand on
+  every entry), thin entries where the only evidence was a stub, and a Digimon "Places" chapter
+  whose entries are characters (a category error upstream in the records).
+
+---
+
+## 2026-09-24 late — RUN #63 CONTINUED (OWNER: "keep going") — HALT LIFTED BY THE OWNER, SWEEP63 DONE, PUBLISH STOPPED TO SAVE THE OWNER'S ATLAS
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **PUBLISH IS STOPPED (MANAGER RUNG), AND YOUR RULING IS ORDER `23092fffadf3`.** While the
+  library was halted you built the Dia-thìr Atlas (`reference/owner_source_material/rodais`, 778
+  files) straight into the PUBLIC repo by PR. `publish.py` mirrors the kit one way. Its first
+  cycle after the lift (22:54) committed a **prune of all 778 files**, and only a rebase conflict
+  with your PR #12 kept that off GitHub. I dropped that unpushed commit (export reset to
+  origin/main `632812e5`, PR #13). I copied the atlas into the kit and suppressed two false
+  positives in vendored minified JS (`fmg/index-DsIn6sTp.js`, `fmg/libs/dropbox-sdk.min.js`), both
+  read and both library code. Then I stopped `publish`, because the next PR you merge would be
+  reverted by the next sync. **Choose (a) the kit owns rodais, (b) the repo owns it and publish
+  leaves that subtree alone (a small publisher change), or (c) something else.** Until then
+  nothing reaches the public repo. The rest of the library runs.
+* **THE HALT IS LIFTED, BY YOUR RULING.** Asked in session, you chose "Lift and resume fully".
+  `output/raw/II_L_7_4_Frontmatter.md` was moved unmodified to `output/aside_f25d3d5be9b1/`, the
+  drill went 633/633/0, and the halt was cleared with the lift signed "maintenance run #63
+  (Claude), executing the owner's in-session ruling". Order `f25d3d5be9b1` is closed with that
+  ruling. `autostart --watch` started the supervisor at 22:41 and every job came back.
+* **THE DISK IS FINE NOW: 120 GB free** (it was 6.1 GB at 22:05). Something outside the kit
+  freed it. I did not delete anything.
+* **Pushed once, before the conflict surfaced:** `e66bb52a` (22:40) carries runs #61 and #62's
+  held work and #63's ledgers. **Sweep63's fixes are NOT pushed**, because publish is stopped.
+* **No committed secrets.** detect-secrets 0. `scan_for_secrets` 0 unsuppressed, plus the 2
+  suppressed hits above.
+* **Mutation pass:** launched 23:1x, all three targets, `state/mutate_20260924.log`. It runs for
+  hours. **The survivor count is for the next run to read.**
+
+### SWEEP63
+
+16 Sonnet auditors, one per frozen batch (`state/sweep_plan/run63.json`). Every module was read in
+full, and `sweep_plan.missing('run63') == []`. Audits are in `handoff/sweep63/`. Every finding
+was re-read against source before any change:
+* **M119** `read._names`: a short name joined by punctuation ("T'Pol", "X-Men", "Mr. Fox") could
+  never match its own spelling. This was a real, persistent evidence loss. The fix was measured
+  on the whole corpus before landing: +1,441 matches, 0 lost, 5 initialism collisions. It has a
+  drill net, red before the fix.
+* **M120** `pipeline`: an out-of-range `category` answer is now kept in `category_rejected`, the
+  way `topic_rejected` and `subroom_rejected` are kept, and it travels through both writers. Two
+  verify_math checks were red against the old `pipeline.py`.
+* Six small fixes: mutate decodes gate output as UTF-8; pick_model no longer treats a measured
+  0 GB as an assumed 10; feats_index names a `doc:` binding correctly; citecheck marks its
+  console cut; the dashboard shows a counter that fell; allsweep's `--quick` help text is
+  corrected. See BUGS.md.
+* The design questions went into one OWNER order, `6b59a5d4302a`.
+
+### THE BATTERY AFTER THE FIXES
+
+drill **633/633/0** · verify_math **1310/0** · pyflakes clean · liveness 47 · secondopinion: all
+three tools RAN, 0 secrets · axis_correlation 45 entities, unchanged. allsweep has 3 bad rows,
+none of them mine: preflight (dandwiki's login wall), the cascade live call (Gemini rate-limited
+at that moment), and one ESTATE row. The ESTATE row is the atlas's vendored `jszip.min.js`, which
+carries two literal control characters. That is normal in minified JS, and estate has no
+suppression hook. It goes away with ruling (b) on `23092fffadf3`, or needs a waiver under (a).
+
+### RESTARTS
+
+`pipeline` and `read` had not bounced onto the new `src/` twelve minutes after it settled
+(pipeline had last polled 27 min earlier), so both were sent a graceful terminate at ~23:12 for
+the keeper to restart on current code. The dashboard bounced by itself (rc=17). `autostart
+--watch` is still on pre-run-#61 code by design (it never exits on stale code). Restart it by hand
+if any `autostart.py` change needs to take effect before the next logon.
+
+### QUEUE
+
+Closed: `f25d3d5be9b1` (the halt, owner ruling), `a74678936964` (the drill's filing of it, closed by
+the green drill), `018727423a09` (rc=17 info), and `7dea8a4f49d2` earlier. Filed: `23092fffadf3`
+(OWNER, BLOCKING) and `6b59a5d4302a` (OWNER, questions). `5aec38314731` is escalation's own record
+of the publish stop, and only `resume_subsystem` closes it. BOTS has 7 new fandom throttle
+orders from the crawl restarting at 12 workers. The adaptive backoff is working. If fandom hosts
+start answering HTTP 000 or timing out while Wikipedia answers, that is the August ban shape:
+stop the fandom jobs.
+
+---
+
 ## 2026-09-24 — RUN #63 (DAILY) — STILL HALTED, STILL PAUSED; BATTERY ONLY, AND THE DISK IS DOWN TO 6 GB
 
 **FOR THE OWNER, AT THE TOP:**

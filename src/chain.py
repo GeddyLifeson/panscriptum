@@ -406,6 +406,18 @@ def harvest():
         if _corpus_root_state(base) == "unavailable":
             held.append(base)
             silence.note("chain.py:harvest-root-unavailable")
+            if _RECIPE_KEY in updates:
+                # THE CACHE WAS JUST DISCARDED, SO THERE IS NOTHING TO HOLD (sweep64 batch11, run
+                # #64). A recipe change resets the whole index a few lines up, before any root is
+                # listed, and the message below then promised rows that no longer existed. Rows
+                # extracted under the old recipe cannot be kept honestly either, which is why the
+                # reset happened; so this pass is short of this root's contests and says so. The
+                # next pass that can list it re-reads it whole under the current recipe.
+                print(f"chain: data/{base} could not be listed this pass (locked? offline "
+                      f"mount?) AND the extraction recipe changed, so its cached rows were "
+                      f"discarded with the rest of the index. It contributes NO contests this "
+                      f"pass; the next pass that can list it re-reads it.", file=sys.stderr)
+                continue
             print(f"chain: data/{base} could not be listed this pass (locked? offline mount?). "
                   f"Its index entries are HELD rather than pruned, and this harvest re-uses the "
                   f"rows cached for them; nothing under it was re-read.", file=sys.stderr)

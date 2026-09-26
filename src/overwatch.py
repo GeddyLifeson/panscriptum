@@ -892,7 +892,7 @@ def write_report(led, struct):
     return True
 
 
-def round_once(limit=6, local=True, skip_model=False):
+def round_once(limit=6, local=True, skip_model=False, watch_code=False):
     import allsweep as A
     # THE BUDGET IS PER ROUND, AND UNTIL NOW IT WAS PER PROCESS. CLOUD_BUDGET's own comment
     # calls it "calls the watcher may take from the shared pool in one round", and the yield it
@@ -1025,6 +1025,15 @@ def round_once(limit=6, local=True, skip_model=False):
                 note += "   NOT MARKED SEEN -- a slice was skipped, retried next round"
             print(f"   {m:<24}{len(found):>3} raw  {fresh:>3} new   {time.time()-t:>5.0f}s"
                   + note, flush=True)
+            # BETWEEN MODULES, NOT ONLY BETWEEN ROUNDS (run #64, 2026-09-26). The loop in `main`
+            # asked codewatch once per ROUND, and with the GPU shared by prose and the pipeline a
+            # single module read measured 2,033s to 11,548s -- so the round that began 2026-09-25
+            # 20:27 was still running at 00:27 the next day on code three source edits old.
+            # Everything read so far was `save(led)`d on the line above, so exiting here loses
+            # nothing but the next module, which the restarted process reads on current code.
+            if watch_code:
+                import codewatch
+                codewatch.exit_if_stale("overwatch")
 
     saved = save(led)
     wrote = write_report(led, struct)
@@ -1118,7 +1127,8 @@ def main():
         print("=" * 88)
         print(f"OVERWATCH  {time.strftime('%H:%M:%S')}")
         print("=" * 88)
-        round_once(limit=a.modules, local=not a.cloud, skip_model=a.structure_only)
+        round_once(limit=a.modules, local=not a.cloud, skip_model=a.structure_only,
+                   watch_code=bool(a.loop))
         if not a.loop:
             return 0
         # PICK UP CODE CHANGES. A running process is a photograph of the source as it was

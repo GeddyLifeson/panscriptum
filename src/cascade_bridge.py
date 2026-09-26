@@ -1466,8 +1466,15 @@ def ask(system, prompt, schema=None, pool="coding", temperature=0.1, timeout=75,
              # failed row now says which providers spent the deadline. Thread-local because the
              # readers run sixteen workers wide and a shared slot would attribute one thread's
              # failure to another thread's bucket -- which is worse than no attribution.
+             #
+             # A SUCCESS THAT IS NOT AN OBJECT IS NOT A FAILURE (sweep64 batch08, run #64). The
+             # `tried:` form is the failure attribution, and a list/bool/number answer fell into
+             # it beside `"ok": true` -- a served call recorded in the shape of a burned one.
+             # `_via` is only stamped on a dict, so which bucket served such a reply is not
+             # known here; it is labelled `unstamped:` with the buckets claimed, never `tried:`.
              "model": ((got.get("_via") or "") if isinstance(got, dict)
-                       else ("tried:" + ",".join(_tried()) if _tried() else "")),
+                       else ("tried:" + ",".join(_tried()) if _tried() else "") if got is None
+                       else "unstamped:" + ",".join(_tried())),
              "tried": _tried(),
              "in_chars": len(system) + len(prompt),
              "out_chars": len(json.dumps(got, default=str)) if got is not None else 0})

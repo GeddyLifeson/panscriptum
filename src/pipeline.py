@@ -843,7 +843,10 @@ MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom
                        "magnitude", "topic", "catalogued",
                        # added by order 4866dfb2d9fc: the settlement pair must move together,
                        # and cleanup.py's own two marks must survive the writer that carries them
-                       "excluded", "topic_rejected", "thin_description", "description")
+                       "excluded", "topic_rejected", "thin_description", "description",
+                       # sweep63 batch03: category's refused answer, the companion of the
+                       # other two rejections, carried and cleared the same way
+                       "category_rejected")
 
 # A CLEAR IS AN EDIT TOO, FOR THE TWO FIELDS THAT ENCODE ONE. `write_record`'s fold is
 # PRESENCE-gated (`if fld in se`), so it can SET a field and can never CLEAR one -- and that is
@@ -873,7 +876,8 @@ MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom
 # line numbers it carried (`:1718`, `:1707`, `:554`) had drifted.
 ENTRY_REJECTION_COMPANIONS = {"scale_note": "scale_note_rejected",
                               "topic": "topic_rejected",
-                              "subroom": "subroom_rejected"}
+                              "subroom": "subroom_rejected",
+                              "category": "category_rejected"}
 
 # THE FIELDS THE FRESH CAST ALWAYS FILLS IN, WHICH THE CATALOGUE-SIDE FOLD THEREFORE COULD NOT
 # PRESERVE (order 0a45c595655b).
@@ -2355,6 +2359,16 @@ def phase_entrypass(c, st):
                 ci = res.get("category")
                 if isinstance(ci, int) and 1 <= ci <= len(CATEGORIES):
                     batch[i]["category"] = CATEGORIES[ci - 1]
+                    batch[i].pop("category_rejected", None)
+                elif ci is not None and ci != "":
+                    # AN OUT-OF-RANGE CATEGORY IS RECORDED, NOT DROPPED (sweep63 batch03). Its
+                    # siblings `topic` and `subroom` keep their rejected answer; `category` alone
+                    # left no trace, while `catalogued = True` below still settled the entry, so
+                    # a model answering 0, 14 or "Persons" kept the cast-builder's category with
+                    # nothing saying it had been re-judged and refused. The existing category is
+                    # left in place -- every cast-builder sets one, so there is no sentinel to
+                    # write -- and the refused answer is kept beside it so it can be counted.
+                    batch[i]["category_rejected"] = _stored_cut(str(ci), 120)
                 # NEVER DISCARD WHAT THE GATE REJECTED. The first version assigned the gated
                 # result straight over the field, so a rejected note left no trace: 51,611
                 # entries ended up holding an empty string and ~46,000 candidate feats were
@@ -3637,7 +3651,11 @@ _META_TERMS = re.compile(
     r"|tier of play|at your table|the table|adventuring party|session|campaign"
     r"|d20|saving throws?|hit points?|armou?r class|proficiency bonus|initiative"
     r"|challenge rating|CR \d+|stat block|5e|fifth edition|homebrew|sourcebook"
-    r"|roll(?:s|ed)? (?:a )?d\d+|advantage on the roll)\b", re.I)
+    r"|roll(?:s|ed)? (?:a )?d\d+|advantage on the roll"
+    # THE WIKI IT WAS MINED FROM (owner ruling 2026-09-25): "as catalogued by the DigimonWiki",
+    # "is a stub", "this article" -- the source page showing through. `article` only with
+    # this/the, so an article of clothing is still in-world.
+    r"|\w*wiki\w*|stubs?|(?:this|the) article)\b", re.I)
 
 
 def meta_violations(prose):
