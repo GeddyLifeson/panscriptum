@@ -5,7 +5,7 @@ Written by `eras/engine/convert_draft.py` from `eras/specs_draft/age_<K>.json` (
 ## Rules for every age
 
 - **Names.** The draft's Dia-thìris `name`; else the NAMES.json form of the English name; else the master's name for an element the master already names; else the English gloss, with NAMES.json forms written as their Dia-thìris (`dt`) form. Polities with no name take a NAMES.json name found in their English description, else their capital's name.
-- **Notes** hold no English prose: order or church body (Dia-thìris), annals event, date, `inferred`, citations. `--prose-notes` adds the drafts' English popup prose (with NAMES.json forms).
+- **Notes** are for a reader of the map: the drafts' English prose (what the place or thing is in the age), proper nouns in Dia-thìris by eras/quality/names_convert.py (humans' names as they are), then "Told of in:" and the annals events cited, by title and date. No ids, no build terms. A town the age's own record names (gazetteer, places.json, PLAN_names.json) takes that name.
 - **Land.** The engine does not turn land into water or back. Drowned ground is a Flood zone (and a label where NAMES.json names it); biome, river and coast changes are logged and not drawn.
 - **Place ids.** New burgs take 1000×K+n from their draft key `<Age>-N<n>`.
 - **Provinces.** The era's provinces are the admin list that partitions the most shires (merged where a unit spans shires); other non-overlapping holdings are added; unbounded or overlapping ones are logged.
@@ -14,7 +14,7 @@ Written by `eras/engine/convert_draft.py` from `eras/specs_draft/age_<K>.json` (
 
 ## Age I
 
-Counts: diplomacy: "kin (a kindred of the hill-folk)" -> Friendly 1; diplomacy: "kin (inferred)" -> Friendly 1; diplomacy: "none recorded" -> Neutral 1; diplomacy: "shared waters (seal grounds)" -> Friendly 1; diplomacy: "unknown; separate peoples in contact" -> Unknown 1; name from the English gloss 35.
+Counts: diplomacy: "kin (a kindred of the hill-folk)" -> Friendly 1; diplomacy: "kin (inferred)" -> Friendly 1; diplomacy: "none recorded" -> Neutral 1; diplomacy: "shared waters (seal grounds)" -> Friendly 1; diplomacy: "unknown; separate peoples in contact" -> Unknown 1; name from the English gloss 30; new burg named from the age's gazetteer or places.json 5.
 
 **arms**
 
@@ -54,7 +54,7 @@ Counts: diplomacy: "kin (a kindred of the hill-folk)" -> Friendly 1; diplomacy: 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
 - rural population scaled by 0.0134, so the island holds some 18,000 people (2,520 of them in its towns)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
-- draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
+- draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, proper nouns in Dia-thìris; each note ends with the annals events it is told of in
 
 **military**
 
@@ -63,13 +63,13 @@ Counts: diplomacy: "kin (a kindred of the hill-folk)" -> Friendly 1; diplomacy: 
 **names**
 
 - faith old-ones-rite: no Dia-thìris name; English gloss used: "the rites of Seann-Dhaoine (unknown)"
-- new burg I-N01: no Dia-thìris name; English gloss used: "the seal-hunters' camp on Eilean mhin"
-- new burg I-N02: no Dia-thìris name; English gloss used: "the autumn seal camp on Eilean fhada"
-- new burg I-N04: no Dia-thìris name; English gloss used: "the summer camps in the passes"
-- new burg I-N05: no Dia-thìris name; English gloss used: "the deer-drive camp of the eastern forest"
-- new burg I-N06: no Dia-thìris name; English gloss used: "the hearths of the southern shore"
-- province "the hearths of the Doire uaine hills (covered hearths)": no Dia-thìris name; named after its largest burg, "Doire uaine"
-- province "the high valleys about the crack": no Dia-thìris name; named after its largest burg, "Dùn ìseal"
+- burg 148: "Na Teallaichean Falaichte", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Doire uaine"
+- burg 392: "Achadh a' Chalbh", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Cnoc ghorm"
+- burg 315: "Bruthach nan Teaghlach", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Dùn ìseal"
+- burg 95: "Bothan a' Chaolais", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Caol mhòr"
+- burg 19: "Creag Ruadh", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Cathair dhearg"
+- province "the hearths of the Doire uaine hills (covered hearths)": no Dia-thìris name; named after its largest burg, "Na Teallaichean Falaichte"
+- province "the high valleys about the crack": no Dia-thìris name; named after its largest burg, "Bruthach nan Teaghlach"
 - marker I-K01: no Dia-thìris name; English gloss used: "Teine a' Chlachair and the slab over the vein"
 - marker I-K02: no Dia-thìris name; English gloss used: "Coimhdeach na Fine in the grove"
 - marker I-K03: no Dia-thìris name; English gloss used: "the first lighting: gual òir on the sea"
@@ -101,7 +101,7 @@ Counts: diplomacy: "kin (a kindred of the hill-folk)" -> Friendly 1; diplomacy: 
 
 ## Age II
 
-Counts: diplomacy: "none recorded; the handful is burned in " -> Neutral 1; diplomacy: "separate charges: the king rules the gra" -> Friendly 1; diplomacy: "suzerain and vassal" -> Suzerain 1; diplomacy: "trade at the ford" -> Friendly 1; diplomacy: "war" -> Enemy 1; name from the English gloss 33.
+Counts: diplomacy: "none recorded; the handful is burned in " -> Neutral 1; diplomacy: "separate charges: the king rules the gra" -> Friendly 1; diplomacy: "suzerain and vassal" -> Suzerain 1; diplomacy: "trade at the ford" -> Friendly 1; diplomacy: "war" -> Enemy 1; name from the English gloss 29; name from the age's PLAN_names.json 4.
 
 **arms**
 
@@ -140,7 +140,7 @@ Counts: diplomacy: "none recorded; the handful is burned in " -> Neutral 1; dipl
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
 - rural population scaled by 0.0824, so the island holds some 111,000 people (15,560 of them in its towns)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
-- draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
+- draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, proper nouns in Dia-thìris; each note ends with the annals events it is told of in
 
 **military**
 
@@ -149,6 +149,10 @@ Counts: diplomacy: "none recorded; the handful is burned in " -> Neutral 1; dipl
 
 **names**
 
+- burg 19: "An Cnoc Ruadh", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Cnoc dhearg"
+- burg 26: "Cala nan Taighean Cruinne", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Cathair dhomhain"
+- burg 123: "Gleann na Scoltaidh", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Cill ghlas"
+- burg 198: "Cnoc na Claise", the age's own name for it (gazetteer, places.json or PLAN_names.json), not "Cnoc dhubh"
 - new burg II-N01: no Dia-thìris name; English gloss used: "the heirs' camp in the valley under Dùn ìseal"
 - new burg II-N02: no Dia-thìris name; English gloss used: "the war-camp of the eastern host"
 - new burg II-N03: no Dia-thìris name; English gloss used: "the salt-folk's shelters at the ford gathering"
@@ -170,10 +174,6 @@ Counts: diplomacy: "none recorded; the handful is burned in " -> Neutral 1; dipl
 - marker II-K12: no Dia-thìris name; English gloss used: "the white stones of the fault"
 - marker II-K13: no Dia-thìris name; English gloss used: "the first trench for another vein"
 - marker II-K14: no Dia-thìris name; English gloss used: "the tally wall of Seann Warr"
-- marker II-K15: no Dia-thìris name; English gloss used: "the half-cut stone"
-- marker II-K16: no Dia-thìris name; English gloss used: "the wind-stones and the eight notches"
-- marker II-K17: no Dia-thìris name; English gloss used: "Eilean ìseal, the island of the dead"
-- marker II-K18: no Dia-thìris name; English gloss used: "the long-house of Cathair gheal"
 - … and 12 more
 
 **provinces**
@@ -223,7 +223,7 @@ Counts: diplomacy: "the division of keeping" -> Neutral 1; diplomacy: "tributary
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
 - rural population scaled by 0.2218, so the island holds some 300,000 people (43,152 of them in its towns)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
-- draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
+- draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, proper nouns in Dia-thìris; each note ends with the annals events it is told of in
 
 **military**
 
@@ -280,7 +280,7 @@ Counts: diplomacy: "the division of keeping" -> Neutral 1; diplomacy: "tributary
 
 ## Age IV
 
-Counts: name from NAMES.json 4; name from the English gloss 25; state arms from the master roll 1.
+Counts: name from NAMES.json 4; name from the English gloss 24; name from the age's PLAN_names.json 1; state arms from the master roll 1.
 
 **cultures**
 
@@ -313,7 +313,7 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
 - rural population scaled by 0.3878, so the island holds some 570,000 people (120,983 of them in its towns)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
-- draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
+- draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, proper nouns in Dia-thìris; each note ends with the annals events it is told of in
 
 **military**
 
@@ -330,7 +330,6 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 - marker IV-K05: no Dia-thìris name; English gloss used: "Macha's great house"
 - marker IV-K06: no Dia-thìris name; English gloss used: "the house of Òrd an t-Seabhaig and Leabhar an t-Seabhaig"
 - marker IV-K07: no Dia-thìris name; English gloss used: "the ford of Àth shean"
-- marker IV-K11: no Dia-thìris name; English gloss used: "the stone of the fourteen names"
 - marker IV-K12: no Dia-thìris name; English gloss used: "the salt pans of Ros fhionn"
 - marker IV-K13: no Dia-thìris name; English gloss used: "the paper mill"
 - marker IV-K14: no Dia-thìris name; English gloss used: "the burned sea-thieves' boats"
@@ -365,7 +364,7 @@ Counts: name from NAMES.json 4; name from the English gloss 25; state arms from 
 
 ## Age V
 
-Counts: diplomacy: "allies" -> Ally 1; diplomacy: "truce (the truce of Àth àrsaidh)" -> Suspicion 1; name from NAMES.json 7; name from the English gloss 22; name kept from the master 1; province named after its seat 120.
+Counts: diplomacy: "allies" -> Ally 1; diplomacy: "truce (the truce of Àth àrsaidh)" -> Suspicion 1; name from NAMES.json 7; name from the English gloss 21; name from the age's PLAN_names.json 1; name kept from the master 1; province named after its seat 120.
 
 **arms**
 
@@ -402,7 +401,7 @@ Counts: diplomacy: "allies" -> Ally 1; diplomacy: "truce (the truce of Àth àrs
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
 - rural population scaled by 0.5978, so the island holds some 1,000,000 people (307,862 of them in its towns)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
-- draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
+- draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, proper nouns in Dia-thìris; each note ends with the annals events it is told of in
 
 **military**
 
@@ -418,7 +417,6 @@ Counts: diplomacy: "allies" -> Ally 1; diplomacy: "truce (the truce of Àth àrs
 - marker V-K01: no Dia-thìris name; English gloss used: "Teachdaireachd na h-Eaglaise chapel and school"
 - marker V-K02: no Dia-thìris name; English gloss used: "A' Chompanaidh deep-water quay and steelyard"
 - marker V-K05: no Dia-thìris name; English gloss used: "the store at Baile thais"
-- marker V-K09: no Dia-thìris name; English gloss used: "the beacon hill of the stoppage"
 - marker V-K11: no Dia-thìris name; English gloss used: "the burned flying-machine shed"
 - marker V-K12: no Dia-thìris name; English gloss used: "the ford where the columns were counted"
 - marker V-K13: no Dia-thìris name; English gloss used: "the grey-night fields"
@@ -495,7 +493,7 @@ Counts: diplomacy: "a homeland held apart without standing i" -> Neutral 1; name
 - the master's journey (Buidheann an t-Seabhaig Luaidhe) is later than this age; dropped
 - rural population scaled by 0.8367, so the island holds some 1,500,000 people (531,170 of them in its towns)
 - the master's markets, goods and deals are pruned to this age's burgs (Azgaar's economy has no era)
-- draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
+- draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, proper nouns in Dia-thìris; each note ends with the annals events it is told of in
 
 **military**
 
@@ -535,7 +533,7 @@ Counts: diplomacy: "a homeland held apart without standing i" -> Neutral 1; name
 
 ## Age VII
 
-Counts: culture: shires keeping the master's cells 123; diplomacy: "defeated and unreconciled: seann-chunnta" -> Suspicion 1; faith: shires keeping the master's cells 123; name from NAMES.json 3; name from the English gloss 18.
+Counts: culture: shires keeping the master's cells 123; diplomacy: "defeated and unreconciled: seann-chunnta" -> Suspicion 1; faith: shires keeping the master's cells 123; name from NAMES.json 3; name from the English gloss 15; name from the age's PLAN_names.json 2; new burg named from the age's gazetteer or places.json 1.
 
 **arms**
 
@@ -562,7 +560,7 @@ Counts: culture: shires keeping the master's cells 123; diplomacy: "defeated and
 
 **map**
 
-- draft popup prose (notes.polities, notes.burgs, roles, reasons) not carried: map notes hold no English prose
+- draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, proper nouns in Dia-thìris; each note ends with the annals events it is told of in
 
 **markers**
 
@@ -574,15 +572,12 @@ Counts: culture: shires keeping the master's cells 123; diplomacy: "defeated and
 
 **names**
 
-- new burg VII-N01: no Dia-thìris name; English gloss used: "the Àth leathan post"
 - marker VII-K01: no Dia-thìris name; English gloss used: "the dubhan works of Seann Skell"
 - marker VII-K02: no Dia-thìris name; English gloss used: "the dubhan depots of the north"
-- marker VII-K03: no Dia-thìris name; English gloss used: "Comann nan Gualadairean' Row"
 - marker VII-K04: no Dia-thìris name; English gloss used: "Ciste-chuimhne Dhùinte of An Cogadh Fada"
 - marker VII-K06: no Dia-thìris name; English gloss used: "the pass posts on the northern road"
 - marker VII-K07: no Dia-thìris name; English gloss used: "the capped western seams"
 - marker VII-K08: no Dia-thìris name; English gloss used: "the last face of An Sloc Mòr"
-- marker VII-K09: no Dia-thìris name; English gloss used: "the charter of export"
 - marker VII-K11: no Dia-thìris name; English gloss used: "An còigeamh rèisimeid's barracks"
 - marker VII-K12: no Dia-thìris name; English gloss used: "the Leòmhann lamp"
 - route VII-R01: no Dia-thìris name; English gloss used: "the line (Slighe a' Ghuail)"

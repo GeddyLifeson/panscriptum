@@ -21,6 +21,8 @@ This pass:
   * brings every other layer of the map into line with the history (faiths, goods and markets,
     shires, regiments, land and climate, markers, routes, arms), from legendarium/reconcile/ by
     legendarium/map_reconcile.py.
+  * gives every burg a note for a reader: its gazetteer history, what it is known for, its founding and
+    the annals events told there (legendarium/burg_notes.py).
 
 Descriptive notes stay in English, as the first pass left the Azgaar UI
 text (biomes, trade goods, unit types). Only names are Dia-thìris.
@@ -434,6 +436,12 @@ EXCLUDE = [x for x in os.environ.get('RODAIS_RECONCILE_EXCLUDE', '').split(',') 
 if os.environ.get('RODAIS_FINISH_OUT'):
     DST = os.environ['RODAIS_FINISH_OUT']
 reconcile_records(lines, load_edits(exclude=EXCLUDE))
+
+# ---------------------------------------------------------------- 12. a note for every town
+# the gazetteer's history, what the town is known for, its founding, and the annals events told there (by title and
+# date), shown when the pointer rests on the town; see legendarium/burg_notes.py
+from burg_notes import apply as apply_burg_notes  # noqa: E402
+apply_burg_notes(lines, L_BURGS)
 out = '\r\n'.join(lines)
 open(DST, 'w', encoding='utf-8', newline='').write(out)
 

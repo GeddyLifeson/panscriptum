@@ -283,3 +283,10 @@ body.playing #tl{padding-bottom:180px;}
   .mapera select{max-width:calc(100vw - 290px);}
 }
 @media (prefers-reduced-motion:reduce){ .ev-card{transition:none; opacity:1; transform:none;} }
+/* a map note's "Told of in:" events, each a link to the annals (atlas_eras.js noteHTML) */
+.drawer .told{font-size:14px; line-height:1.55;}
+.drawer .told-ev{background:none; border:0; padding:0; font:inherit; color:var(--parchment); text-decoration:underline;
+  text-decoration-color:var(--hair); text-underline-offset:3px; cursor:pointer; text-align:left;}
+.drawer .told-ev:hover, .drawer .told-ev:focus-visible{text-decoration-color:currentColor;}
+.drawer .told-ev .d{color:var(--parchment-dim);}
+.drawer .eranote{margin:0 0 6px;}

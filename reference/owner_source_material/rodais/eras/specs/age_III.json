@@ -422,7 +422,7 @@
     "culture": 2,
     "color": "#b03a2e",
     "coa": "generate",
-    "note": "Beathag nic Dhòmhnaill · inferred · cites: II-0077, II-0078, II-0135, II-0185, II-0247"
+    "note": "The realm of An Talla Dearg began in the granaries of Dùn dhearg, whose households called Goraidh mac Ìomhair their rìgh, and moved to Cathair dhearg under Beathag Mhòr. By Roinn a' Ghleidhidh its rulers keep the roads, the granaries and the peace of the lowlands and never enter the galleries. Na Ceithir Taighean chose Gilleasbuig Mòr when the line of Goraidh failed, and Sliochd Thormoid has held the hall since, each ruler taking the stone cup from Coimheadaiche na Lasrach. Its ruler at the close of the age: Beathag nic Dhòmhnaill, ban-rìgh. Told of in: Goraidh mac Ìomhair called rìgh (FE 674); The division of keeping (FE 694); The hall moves to Cathair dhearg (FE 1,699); The election of Gilleasbuig Mòr (FE 2,516); Mòr nic Coinnich crowned (FE 2,929)."
    },
    {
     "key": "hall",
@@ -438,7 +438,7 @@
     "culture": 2,
     "color": "#e0a526",
     "coa": "generate",
-    "note": "Catrìona nic Mhuirich · cites: II-0001, II-0004, II-0046, II-0078, II-0248"
+    "note": "Talla na Lasrach at Dùn ìseal keeps Brìde's flame and Crom's stone, the galleries and Lagh an Loscaidh Bhig, as the heirs of Ailean swore when they could not part the vein. Coimheadaichean na Lasrach raise no spears, bless no war and judge every hand that claims the handful. By the close of the age it keeps the flame for eight peoples, each of whom thinks itself the only keeper. Its ruler at the close of the age: Catrìona nic Mhuirich, Keeper. Told of in: The Binding of the First Flame (FE 1); Talla na Lasrach raised (FE 15); The Four Houses sworn (FE 385); The division of keeping (FE 694); The Hall's roll at the close of the age (FE 2,939)."
    },
    {
     "key": "north-west",
@@ -462,7 +462,7 @@
     "culture": 2,
     "color": "#4f7d8c",
     "coa": "generate",
-    "note": "cites: II-0197, II-0198, II-0200"
+    "note": "The fisher-families of the north-west gather at Caol mhòr under a headman of their own and send their tolls to Cathair dhearg only when the road-guard comes for them. Their seal-oil lights the western harbours and their boats watch for Uilebheist na Mara. Little is written of them, and most of it is complaint. Told of in: Caol mhòr in the north-west (FE 2,687); Seal-oil from Ceann mhòr (FE 2,702); Inis mhin on the northern shore (FE 2,732)."
    }
   ],
   "cell_state": {
@@ -773,7 +773,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: II-0091, II-0098, II-0099, II-0100, II-0217"
+    "note": "A town of Rìoghachd Cathair dhearg: the lords' harbour of the western strait; half the western tolls; the wolf-sworn's hall about the white stone at the gate. The harbour on the wide strait grew rich on the western fishing and on the southern end of the carriers' road. At the end of the tenth century its leading family, under Lachlann Ciar, took the road toll for itself and sent none to Dùn dhearg. That brought on Cogadh nan Rathad, the first war since Loscadh Achadh mhòr. Iain Garbh shut the town in from the land for a season, but its boats fed it from the sea and the siege ended without an assault. Its men became its road-guards and swore their watch on a white stone carved as a wolf at the town gate, and Iain Garbh himself rode south to see it done. Lachlann Ciar died within sight of his harbour. In the twenty-ninth century the wolf-sworn raised a hall about the stone and swore graver oaths there. Known for the siege, and the wolf-stone at the gate. Told of in: The lords of Caol leathan (FE 991); The siege of Caol leathan (FE 1,005); The peace at Mòr nic Dhùghaill's house (FE 1,006); The wolf-sworn of Caol leathan (FE 1,009); The wolf-sworn build a hall (FE 2,843); Iain Garbh witnesses the wolf-sworn (FE 1,009); Lachlann Ciar dies within sight of the harbour (FE 1,020); A guard swears the wolf-sworn's graver oath at Caol leathan (FE 2,840)."
    },
    "3": {
     "population": 2.632,
@@ -781,7 +781,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B3"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Farming kindreds founded the town on the south-eastern downs. In FE 2,386 a company of its men broke by night into the fallen walls of Làrach an Dùin on the strength of an old tale of riches and found only cold ash. Coimheadaiche na Lasrach had them sentenced as though they had broken Lagh an Loscaidh Bhig, though no law covered it. Their families did penance by keeping the road from their town to Tuam Cnoc dhìreach in repair, and it is called the diggers' road still. Known for the diggers' road. Told of in: Baile ghorm's penance (FE 2,391); The diggers' road earns its name (FE 2,391)."
    },
    "5": {
     "population": 1.053,
@@ -789,7 +789,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B5"
+    "note": "A grove village of Caol mhòr."
    },
    "7": {
     "population": 1.053,
@@ -798,7 +798,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B7"
+    "note": "A well village of Rìoghachd Cathair dhearg."
    },
    "8": {
     "population": 1.053,
@@ -808,7 +808,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B8"
+    "note": "A hill-fort of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "9": {
     "population": 1.053,
@@ -817,7 +817,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B9"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. River-island village with a landing. Inis mhin, a small fishing harbour on the northern shore, came into the rolls only once in An Aois Naomh, when its headman walked the whole way to the wool-fair at Inis mhòr to lay a complaint against the road-guard's toll. The complaint is kept in full, a longer telling than the harbour otherwise earned. A clerk of Inis mhòr wrote in the margin that a small harbour's whole history on the page might be the one grievance it once walked far enough to voice. Known for the one complaint. Told of in: Inis mhin's headman walks to the wool-fair with a complaint (FE 2,635); Inis mhin on the northern shore (FE 2,732)."
    },
    "11": {
     "population": 1.053,
@@ -825,7 +825,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B11"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "12": {
     "population": 1.711,
@@ -834,7 +834,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B12"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "13": {
     "population": 1.053,
@@ -842,7 +842,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B13"
+    "note": "A field village of Rìoghachd Cathair dhearg."
    },
    "14": {
     "population": 1.053,
@@ -851,7 +851,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B14"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "15": {
     "population": 1.053,
@@ -859,7 +859,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B15"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "16": {
     "population": 1.053,
@@ -868,12 +868,12 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B16"
+    "note": "A hamlet of Caol mhòr. Harbour on an Old Ones' site."
    },
    "17": {
     "population": 39.474,
     "group": "town",
-    "note": "Òrd Bhrìde · inferred · cites: II-0106, II-0234"
+    "note": "A town of Rìoghachd Cathair dhearg: the gathering-place of the northern wool trade, with its own road-guard; the wool-fair at every shearing. Its people keep the rite of Òrd Bhrìde. The river port of the net-fishers on the Abhainn ghorm grew in the eleventh century on the trade that two new waypoint houses brought to it, until it outgrew every other northern town and asked Catrìona Ghlic for a road-guard of its own. It was given one without argument. It became the gathering-place of the northern wool trade, and the mountain sheep's fleece was woven here. A small harbour's headman once walked all the way to its fair to lay a complaint. By the last years of the age it held a wool-fair at every shearing, weighing its silver on the Muileann chiar weights. Known for the wool-fair of the north. Told of in: Inis mhòr grows (FE 1,089); The wool-fair of Inis mhòr (FE 2,892); Inis mhòr asks the crown for its own guard (FE 1,075)."
    },
    "18": {
     "population": 23.684,
@@ -883,11 +883,11 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: II-0047, II-0059, II-0187"
+    "note": "A large village of Rìoghachd Cathair dhearg. Seat of Sliochd Thormoid: hall and temple with a court for pilgrims, its coal-lamp said to burn fuller than the measure. Its people keep the rite of Òrd Bhrìde. The Seann-Dhaoine named the town on the Abhainn chaol, and it was Sliochd Thormoid's seat after Na Ceithir Taighean were bound. In the fourth century of the age the house raised a hall and a shrine here facing the mountain across the river, and the other houses grumbled that its coal-lamp always burned fullest, though no cutter ever found a grain over the handful. Coinneach Mòr mac Tormoid, the house's first Keeper, came from Seann Dunn and kept the flame longer than any before him. North of the town Mòrag nan Rathad opened An Taigh-seinnse Òir free of toll for a night. The clerks of Seann Dunn copied An Talla Dearg's rolls for generations. From their bench came Gilleasbuig, chosen rìgh in FE 2,516, who enlarged the shrine into a temple. Known for the clerks' bench and the fullest lamp. Told of in: The house of Tormod at Seann Dunn (FE 389); Coinneach Mòr mac Tormoid keeps the flame (FE 475); The shrine at Seann Dunn enlarged (FE 2,537); The grumble over Seann Dunn's fullest lamp (FE 386); Coinneach Mòr chosen Keeper of Sliochd Thormoid (FE 475); Coinneach Mòr dies at Seann Dunn (FE 537); An Taigh-seinnse Òir opened free of toll (FE 781)."
    },
    "19": {
     "population": 78.947,
-    "note": "inferred · cites: II-0135, II-0137, II-0155, II-0213"
+    "note": "A town of Rìoghachd Cathair dhearg. Seat of the realm since Beathag Mhòr: An Talla Dearg on the rise above the harbour, the clerks' room, the bridge-foot of the Abhainn dhomhain. The town of An Cnoc Ruadh, fifty-five miles west of Dùn ìseal, had its bridge thrown by Ailean Clachair's fellowship and widened in Mòrag nan Rathad's time. It became the seat of the island in FE 1,699, when Beathag Mhòr moved the hall from Dùn dhearg to the plain, and it was called An Talla Dearg from then on. Beathag Mhòr ordered Cunntas nan Làmh from here. An Talla Dearg's clerks kept Clàr nan Rìghrean in six copies and a roll that outgrew its room. A stable-boy's fisher-tally scratched on a granary door taught a clerk's daughter her letters. Lachlann Bàn and Raonaid Dhubh made Lagh a' Bhìdh Roinnte here. After Oighrig nic Lachlainn's death the hall stood shut, and then Gilleasbuig Mòr slept in its clerks' room for five-and-twenty years. Anna Ruadh set out from it on foot twice. Coinneach Bàn had every province's laws copied into its chests. Mòr nic Coinnich died here, and her daughter Beathag was crowned here without going to Dùn ìseal. Known for An Talla Dearg and its rolls. Told of in: The hall moves to Cathair dhearg (FE 1,699); The red hall (FE 1,699); Seonag Chrom (FE 1,781); Coinneach Bàn (FE 2,832); Niall Òg calls a peace at the crossing of Ros fhionn (FE 352); A fishing town at Cathair dhearg (FE 654); The bridge-foot town begins to grow (FE 794); Sìleas nan Clach paid before the hall's finishing (FE 1,691)."
    },
    "20": {
     "population": 11.842,
@@ -898,7 +898,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B20"
+    "note": "A hill village of Rìoghachd Cathair dhearg. The hill country north-west of the mountain holds the wood of Cnoc bheag, where the wood-watchers read the fall of a stick and the turn of a bird. The dawn-hawk was kept here for a time before the hawk-rite settled on the northern coast, and Coimheadaiche na Lasrach sent a clerk to see the dawn kept. Wood-watchers of this wood settled their own quarrels under the trees late in the age. One of them went east into Anna Ruadh's household, and that brought the rite of the wood into An Talla Dearg. Known for the wood of the watchers. Told of in: The dawn-hawk kept at Cnoc bheag (FE 2,035); Coimheadaiche na Lasrach sends a clerk to see the dawn kept (FE 2,041)."
    },
    "22": {
     "group": "village",
@@ -907,12 +907,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: II-0068, II-0129, II-0209"
+    "note": "A large village of Rìoghachd Cathair dhearg: the market of the southern fishing; the road-guards' games in a stone-walled field. Its people keep the rite of Òrd Bhrìde. The sailing households of the gulf made Ceann leathan the market of the southern fishing in the sixth century. The road-guards of the southern ford held their yearly meeting on its green, and in FE 1,665 Mòrag Dhubh of Cnoc mhòr won it by torchlight, the first woman to do so. Its traders asked Fearchar Òg's smiths for the ford's own mark on the season's finest ring. Anna Ruadh gave the green a stone-walled field and a ring from An Talla Dearg, and fed the losers at the crown's cost. Mòrag's ring, or one taken for hers, hangs by the green's well. Known for the road-guards' contest field. Told of in: Ceann leathan's fish-market (FE 584); The road-guards' games at Ceann leathan (FE 1,665); The contest at Ceann leathan in stone (FE 2,819); Aonghas Ruadh is paid in the first silver rings (FE 1,642); Mòrag Dhubh's first bout at Ceann leathan (FE 1,660); Mòrag Dhubh wins the meeting at Ceann leathan (FE 1,665); Ceann leathan's own mark is asked of the hall's smiths (FE 1,666)."
    },
    "23": {
     "population": 57.895,
     "group": "town",
-    "note": "Òrd Bhrìde · inferred · cites: II-0067, II-0106b, II-0174"
+    "note": "A town of Rìoghachd Cathair dhearg: the first walled town on the island; Eithne's hall; the first granary behind a wall. Its people keep the rite of Òrd Bhrìde. The hill town was Eithne nic Ailein's hall, the last of the nine great heirs, who outlived her brothers and sisters and all but a few of their grandchildren. Fearghas sent barley to be burned at Torcall Donn's grave from here, and it was walled in the years of the long strife. Niall Òg walked his last road here and died here, and Eithne asked here for the count of her own years and died in FE 1,122, past three thousand years old. Her hall fell silent after her. In the last centuries its fisher-towns paid their share in fish, and a common granary was built here under Lagh a' Bhìdh Roinnte. Known for Eithne's hall, where the last of the nine died. Told of in: Cathair mhòr walled (FE 579); Death of Eithne nic Ailein, last of the nine (FE 1,122); The granary at Cathair mhòr (FE 2,445); Fearghas sends barley to be burned at Torcall Donn's grave (FE 548); News of the fish-bone war reaches Cathair mhòr (FE 1,010); The rìgh's tithe sent again to Talla na Lasrach (FE 1,051); Niall Òg walks his last road (FE 1,109); Death of Niall Òg (FE 1,109)."
    },
    "24": {
     "population": 3.421,
@@ -921,7 +921,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B24"
+    "note": "A headland harbour of Rìoghachd Cathair dhearg."
    },
    "25": {
     "population": 1.053,
@@ -931,12 +931,12 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B25"
+    "note": "A river-island village of Rìoghachd Cathair dhearg. The river-folk of the Abhainn ìseal founded the town, and in the twenty-first century the dawn burning with the hawk spread up the river from Seann Skell to Inis ìseal and on to Cnoc bheag. Coimheadaiche na Lasrach wrote that the rite kept the measure exactly and was no concern of Talla na Lasrach's. It was the last time Talla na Lasrach answered any rite so simply. Known for the hawk-rite on the river. Told of in: Talla na Lasrach answers that the rite is no concern of its own (FE 2,042); The hawk-rite spreads up the Abhainn ìseal (FE 2,072)."
    },
    "26": {
     "population": 65.789,
     "group": "town",
-    "note": "Òrd Bhrìde · inferred · cites: II-0075, II-0138, II-0211"
+    "note": "A town of Rìoghachd Cathair dhearg: the older and larger harbour at the mouth of the western road; chartered to its own tolls; strict keeper of Lagh an Loscaidh Bhig's measure; refuses the wood-watchers. Its people keep the rite of Òrd Bhrìde. Carriers settled at the mouth of the western road raised the town above the harbour in FE 634, and its shrine kept Lagh an Loscaidh Bhig's measure so strictly that its people were proud of it. Beathag Mhòr granted it a charter of its own tolls, and the two towns were rivals from then on. When Anna Ruadh took a wood-watcher into An Talla Dearg, Cathair dhomhain doubled its cutter's visits and would take no wood-watcher of its own. Known for the strictest shrine, and the rivalry with Cathair dhearg. Told of in: Cathair dhomhain founded (FE 634); Cathair dhomhain against Cathair dhearg (FE 1,699); Cathair dhomhain and the wood-watchers (FE 2,826); Cathair dhomhain's shrine holds Lagh an Loscaidh Bhig to the grain (FE 635); Iseabail nic Fhearchair answers for Cathair dhomhain (FE 1,692); The grain-ship saved off Cathair dhomhain (FE 1,695)."
    },
    "27": {
     "population": 17.368,
@@ -947,12 +947,12 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B27"
+    "note": "A headland harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The fishing harbour of Loch chrom was the seat of Fionnghal nic Ailein's Earrann Ros dhomhain. It was the scene of the wedding insult of FE 214, when a word spoken over the ale between the western line and Tràigh an t-Salainn began a quarrel of raids that the tellers say no one who had been at the wedding ever forgot. Fionnghal died here in her great age, still holding her share. In the last centuries of the age its reeves were the nearest An Talla Dearg had to eyes on the north-west, and they wrote more than once to Cathair dhearg that Caol mhòr answered to nobody. Known for the unforgotten wedding; Earrann Ros dhomhain's seat. Told of in: The wedding insult at Ros dhomhain (FE 214); The first raid of the wedding quarrel (FE 216); Fionnghal nic Ailein dies (FE 262); A reeve of Ros dhomhain writes of Caol mhòr (FE 2,605)."
    },
    "28": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B28"
+    "note": "A hill village of Caol mhòr."
    },
    "29": {
     "population": 1.053,
@@ -960,7 +960,7 @@
     "features": {
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B29"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "30": {
     "population": 3.947,
@@ -970,7 +970,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B30"
+    "note": "A village of Rìoghachd Cathair dhearg. Headland village with a landing. Its people keep the rite of Òrd Bhrìde. Shipwrights of the smooth headland founded the harbour town on the south-eastern coast. In Dòmhnall Crùbach's reign the keepers of its waypoint houses took the gathering of the road toll into their own hands and paid the rìgh what they judged fair. His young niece Sìleas Dhonn, set to check their tallies, found three years in which their count did not match what had passed their gates. When the tallies came to be cut in the new marks, the keeper Ailig mac Ruairidh was checked against the road-guard's own cutting at his gate and found short by a sum no honest forgetting explained. In the twenty-ninth century fishers and carriers quarrelled here over who might carry dried fish up-country. Anna Ruadh ruled under the open sky that either might, and the fish going inland doubled. Known for the tallies that did not add, and the fish ruling. Told of in: Sìleas Dhonn finds the Ceann mhin rolls do not add (FE 860); The waypoint-keepers of Ceann mhin (FE 863); Ailig mac Ruairidh caught by his own gate (FE 916)."
    },
    "31": {
     "population": 3.158,
@@ -980,7 +980,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B31"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Cattle-drovers of the interior founded the town. Mòrag Dhubh was born here in FE 1,640 to Aonghas Ruadh, a guard of the southern ford paid in the first silver rings, and Sìne of Cnoc mhòr. She cut her own staff from a young ash at the wood's edge. Word of Fearchar Òg's death came down the southern road to her here in her age. Under Lagh a' Bhìdh Roinnte Cnoc mhòr raised its common granary before any other province seat, and Lachlann Bàn sent its reeve a silver ring for his own hand. Known for Mòrag Dhubh's town, and the first granary. Told of in: The birth of Mòrag Dhubh (FE 1,640); Mòrag Dhubh cuts her own staff (FE 1,655); Word of the king's death reaches Cnoc mhòr (FE 1,680); The reeve of Cnoc mhòr's silver ring (FE 2,408); The granary of Cnoc mhòr (FE 2,425)."
    },
    "32": {
     "population": 2.632,
@@ -989,7 +989,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B32"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "34": {
     "group": "village",
@@ -998,7 +998,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: II-0028, II-0048, II-0144, II-0203"
+    "note": "A large village of Rìoghachd Cathair dhearg. Seat of Sliochd Raghnaill: boats and not galleries, the first household sentenced under Lagh an Loscaidh Bhig, the refused fisher-families. Its people keep the rite of Òrd Bhrìde. The old harbour of the north-east coast, whose name the Seann-Dhaoine left, was the first town sentenced under Lagh an Loscaidh Bhig: in FE 145 a household that burned twice its measure lost its right to the coal for the season after. Sliochd Raghnaill took its seat here all the same, kept boats instead of galleries, and grew rich enough on the fishing that its neighbours stopped mentioning the old offence. The steersman Tormod Ruadh's wager was made on its quay. When Cunntas nan Làmh was taken in FE 1,735, most of the households it refused were fisher-families about Seann Tarr who had never burned coal at all. They burned peat and said it was warmer. Ruairidh mac Nèill burned raiders' boats here under Lachlann Bàn, and the boats that sailed the whole round of the offshore islands set out from its quay. Known for the first sentence, and the boats of Sliochd Raghnaill. Told of in: The first sentence under the Law (FE 145); The house of Raghnall at Seann Tarr (FE 393); The refused of Seann Tarr (FE 1,735); Round the islands (FE 2,776); Seann Tarr sentenced under the new law (FE 145); Sliochd Raghnaill names Raghnall Ceannfhionn (FE 385); Sliochd Raghnaill grows rich on the fishing (FE 390); The wager at Seann Tarr's quay (FE 397)."
    },
    "36": {
     "population": 5.526,
@@ -1006,7 +1006,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B36"
+    "note": "A village of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde. The old harbour of the Seann-Dhaoine on the gulf was struck in FE 879 by a storm out of the west that drove the sea over it, took the boats at their moorings and a third of the houses, and left the survivors on the high ground with nothing but what they stood in. Coimheadaiche na Lasrach sent Talla na Lasrach's grain from Dùn ìseal and Dòmhnall Crùbach sent his from Dùn dhearg. The people of Seann Chwen ate from both that winter and never forgot which grain had come up the road first. Known for the storm and the two grains. Told of in: The storm at Seann Chwen (FE 879)."
    },
    "37": {
     "population": 18.421,
@@ -1014,7 +1014,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: II-0236"
+    "note": "A large village of Rìoghachd Cathair dhearg: the home of the northern fishing fleet. The old harbour of the Seann-Dhaoine on the northern coast became, in the last century of the age, the home of the whole northern fishing fleet. Its boatbuilders shaped the longest craft the island knew, built for a single day's run along the coast and never meant for open water. Known for the long boats of the northern fleet. Told of in: The northern boats at Seann Toll (FE 2,898)."
    },
    "42": {
     "population": 2.5,
@@ -1023,7 +1023,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B42"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Headland village with a landing. Its people keep the rite of Òrd Bhrìde."
    },
    "44": {
     "population": 1.053,
@@ -1032,7 +1032,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B44"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "45": {
     "population": 4.737,
@@ -1040,7 +1040,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B45"
+    "note": "A village of Rìoghachd Cathair dhearg. Farm town with a landing. Its people keep the rite of Òrd Bhrìde. Boat-households of An Cnoc Ruadh founded the lowland harbour. In FE 1,002 the men of Lachlann Ciar, falling back on Caol leathan, burned its granaries and standing grain so that the levies coming after would find nothing. Baile ghlas had sent Iain Garbh neither men nor grudge. Its people walked to Cathair dhomhain and to Baile chiar, and many never came back. The town was slowly rebuilt by those who did. Known for the town burned for another's war. Told of in: Baile ghlas burned (FE 1,002)."
    },
    "46": {
     "population": 1.053,
@@ -1048,7 +1048,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B46"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "47": {
     "population": 1.974,
@@ -1057,7 +1057,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B47"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Mhanannain."
    },
    "48": {
     "population": 1.053,
@@ -1065,7 +1065,7 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B48"
+    "note": "A farm town of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "50": {
     "population": 1.053,
@@ -1074,7 +1074,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B50"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "51": {
     "population": 1.053,
@@ -1082,7 +1082,7 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B51"
+    "note": "A chapel village of Rìoghachd Cathair dhearg."
    },
    "53": {
     "population": 1.053,
@@ -1090,7 +1090,7 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B53"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "54": {
     "population": 1.053,
@@ -1098,7 +1098,7 @@
     "features": {
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B54"
+    "note": "A mill village of Caol mhòr."
    },
    "55": {
     "population": 1.053,
@@ -1106,12 +1106,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B55"
+    "note": "A river-island village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "56": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B56"
+    "note": "A grove village of Rìoghachd Cathair dhearg."
    },
    "57": {
     "population": 1.053,
@@ -1120,12 +1120,12 @@
      "citadel": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B57"
+    "note": "A headland harbour of Rìoghachd Cathair dhearg."
    },
    "61": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B61"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "62": {
     "population": 2.237,
@@ -1134,7 +1134,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B62"
+    "note": "A river-island village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Boat-builders of the north-east founded the town on the Abhainn bheag. In the eighteenth century a teacher of Scoiltean nan Draoidhean, once a cutter's son, settled here and taught fisher-marks to children who would never cut coal. It was the first teaching of letters for their own sake, and Clàr an Talla noted that fish do not need to read. He taught three generations of the same dozen families, and when he died a pupil cut his grave-marker in the fisher-marks, the first stone on the island so cut. A boy of Inis bheag, sent to An Talla Dearg's stables, carried the marks inland. Known for the first school of letters. Told of in: A teacher of Scoiltean nan Draoidhean comes to Inis bheag (FE 1,786); Inis bheag's school of letters (FE 1,854); The teacher of Inis bheag is buried in his own marks (FE 1,871)."
    },
    "63": {
     "population": 2.632,
@@ -1145,7 +1145,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B63"
+    "note": "A headland harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain. Hill-folk come down to the western shore founded the harbour. In FE 2,098 a merchant of Ros bheag, Aonghas Ruadh, came home from Baile àrsaidh with a boxed scorpion and swore his next bargain on its sting before the harbour court had seen it done. The court took up the oath for every trade, and from then on a merchant who would not swear on the sting was not trusted in the western harbours. Its merchants armed two boats against the raiders of the north-western waters, and seal-oil came down to its quays from Ceann mhòr for silver rings. Known for the sting-oath of the harbour court. Told of in: Aonghas Ruadh brings the sting-oath north to Ros bheag (FE 2,098); A trader of the plain is refused for want of the sting-oath (FE 2,099); The sting-oath at Ros bheag (FE 2,145); Death of Aonghas Ruadh (FE 2,146)."
    },
    "64": {
     "population": 1.842,
@@ -1155,12 +1155,12 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B64"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde. Families walking the new road from the mountain settled this harbour on the western shore of Loch chrom in FE 181, in the same manner as Seann Mhorn. They found house-footings already there and built on them without asking whose, as the carriers' song has it. In the last years of the age the feast for the drowned, with an empty place set for each of the lost, spread up the coast as far as Seann Warr. Known for the house-footings built on without asking. Told of in: Seann Warr resettled (FE 181)."
    },
    "65": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B65"
+    "note": "A hill village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "67": {
     "population": 6.053,
@@ -1168,7 +1168,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B67"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "71": {
     "population": 1.053,
@@ -1178,7 +1178,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B71"
+    "note": "A great farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "74": {
     "population": 1.053,
@@ -1186,7 +1186,7 @@
     "features": {
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B74"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "76": {
     "population": 1.053,
@@ -1197,12 +1197,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B76"
+    "note": "A headland harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The river crossing north of Talla na Lasrach was kept by custodians from An Ceangal, and its quays saw the first ring traded, in FE 77, against a whole boatload of salted fish and sealskin. After that a boatman naming a price said only 'a ring's worth'. Silver went for salt here for a generation. In FE 156 Ailean Clachair gathered forty cutters and masons of Na Naoi Teallaichean, quarried grey stone near Ros fhionn and threw the first stone bridge across the river, cutting the fourth hearth's sign into its keystone. Niall Òg called a peace at this crossing in FE 352. A flood took the bridge's eastern approach in the sixth-and-twentieth century. The masons who mended it found Ailean's sign still sharp and left it where it was. Known for the first ring, and Ailean Clachair's bridge. Told of in: The first ring traded at Ros fhionn (FE 77); Silver for salt at Ros fhionn (FE 84); Ailean gathers the forty of Na Naoi Teallaichean (FE 156)."
    },
    "77": {
     "population": 23.684,
     "group": "village",
-    "note": "inferred · cites: II-0233"
+    "note": "A large village of Rìoghachd Cathair dhearg. Walled; the first stone temple of Scoiltean nan Draoidhean. The hill town at the eastern edge of the old kingdom saw the first blood among the heirs. In the second year of the age a stone was set on each bank of the river at Dùn thais to mark where one share ended and the next began, and in the third, over those stones, Aonghas Bàn was killed and carried home to his brother's hall. After that the town kept to the hills and its herds. At the close of the age it was walled, and within the wall Scoiltean nan Draoidhean raised their first temple in stone, served by teachers sent down from Cnoc bhàn. Known for the first stones of Roinn na Rìoghachd and the first blood. Told of in: Dùn thais walled (FE 2,889); A stone set on each bank at Dùn thais (FE 2); First blood among the heirs (FE 3); Aonghas Bàn carried home to his brother's hall (FE 3)."
    },
    "78": {
     "population": 1.053,
@@ -1211,12 +1211,12 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B78"
+    "note": "A mill village of Rìoghachd Cathair dhearg. The sacred wood twenty-six miles north-east of Talla na Lasrach held the grove of the stag. Here Sìleas nic Coinnich, a cutter who counted the colours the coal showed in her hand, asked why it showed them for one hand and not another. Forty gathered to hear her in the clearing, hearers walked a fortnight to reach the wood, and the stag came into the grove. Scoiltean nan Draoidhean kept their school here for the rest of the age. In the tenth century Rònat was sent to it, and the first name was cut in strokes, the beginning of the stag-letters, which the western teachers came east to learn. Niall Òg read his own name here in FE 912, and Tormod Scrìobhaiche was sent here to learn the letters before he became An Talla Dearg's first writer. Known for Coille Naomh Muileann chiar and the stag-letters. Told of in: Sìleas counts the coal's colours (FE 97); Sìleas's mother warns against the asking (FE 98); Sìleas moved from wall to wall (FE 100); Sìleas withdraws to Coille Naomh Muileann chiar (FE 101); Forty gather in the clearing (FE 103); A hearer walks a fortnight to the wood (FE 112)."
    },
    "85": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B85"
+    "note": "A strait harbour of Caol mhòr."
    },
    "86": {
     "population": 1.184,
@@ -1224,7 +1224,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B86"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg."
    },
    "88": {
     "population": 1.447,
@@ -1233,7 +1233,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B88"
+    "note": "A headland village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Settled from An Cnoc Ruadh, the river town east of it was Coll mac Ailein's seat under Roinn na Rìoghachd, holding the hills along the Abhainn fhionn. It quarrelled with Muileann àrsaidh over a meadow until Gilleasbuig Mòr's stone settled it. Its bridge, the fourth stone bridge of the lowlands, was built by forty fisher-kin of Sliochd Raghnaill who learned the mason's trade in a season of idle boats. It is rougher in its coursing than Ros fhionn's but carried more carts in its first year than any crossing before it had carried in three. Known for the fisher-masons' bridge. Told of in: The fisher-kin of Sliochd Raghnaill bridge Ceann àrsaidh (FE 2,591); The forty fisher-masons named on the fellowship's roll (FE 2,592); The bridge at Ceann àrsaidh (FE 2,628)."
    },
    "92": {
     "population": 3.947,
@@ -1243,7 +1243,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B92"
+    "note": "A village of Rìoghachd Cathair dhearg. River-island village with a landing. Its people keep the rite of Òrd Bhrìde. Sailors of the south-west founded the harbour on the western coast. At the end of the age the families of its drowned took up the custom of holding a feast on the shore each year with an empty place set for each of the lost, and the custom spread up the coast as far as Seann Warr. Known for the feast of the drowned. Told of in: The drowned-feast at Inis chrom (FE 2,915)."
    },
    "94": {
     "group": "town",
@@ -1251,7 +1251,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: II-0230"
+    "note": "A town of Rìoghachd Cathair dhearg: a city on the southern fishing and the silver of the eastern road; the first stone quay on the island. The old harbour of the south-east coast below Cuan shean took up the sting-oath from its neighbour in FE 2,849 and carved its scorpion in yellow stone, the first image of the creature cut for worship. The stonecutter, better known for gravestones, carved it from a fisherman's telling of one washed up dead. On its fishing and on the silver of Muileann chiar, Seann Vell grew large enough to raise the first stone quay any harbour of the island built, and every southern harbour copied it. Known for the yellow scorpion and the first stone quay. Told of in: Seann Vell's harbour (FE 2,880)."
    },
    "95": {
     "population": 15.789,
@@ -1259,17 +1259,17 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: II-0197"
+    "note": "A large village of Caol mhòr: the fisher-families of the north-west gather here under their own headman. Harbour-folk founded the town on the north-west coast. In the twenty-sixth century its fisher-families gathered under a headman of their own choosing and sent their tolls to Cathair dhearg only in the years a road-guard actually came so far to collect them. A reeve of Ros dhomhain wrote more than once that Caol mhòr paid what it pleased and answered to whom it pleased, and An Talla Dearg generally sent no answer. Known for the headman who answered to no reeve. Told of in: Caol mhòr in the north-west (FE 2,687); Caol mhòr gathers under its own headman (FE 2,600)."
    },
    "97": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B97"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "99": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B99"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "102": {
     "population": 1.184,
@@ -1277,7 +1277,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B102"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "104": {
     "population": 1.053,
@@ -1287,7 +1287,7 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B104"
+    "note": "A harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "106": {
     "population": 2.632,
@@ -1295,7 +1295,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B106"
+    "note": "A farm town of Rìoghachd Cathair dhearg. The farming town south of the western bridge-foot shut its gate on both hosts in Cogadh nan Rathad and fed the burned-out people of Baile ghlas through the winter. When Iain Garbh rode up for a night's lodging, the reeve, Beathag, met him on the wall and would open to the hungry and to no one carrying a spear. He left his spear on the road and slept that night among refugees from a town he had ridden through the ashes of two days before. Neither side forgave Baile chiar, and neither attacked it. Known for the gate shut on both hosts. Told of in: The tally-stick of Cnoc leathan (FE 360); Baile chiar holds (FE 1,003); Beathag of Baile chiar turns back a spear (FE 1,003)."
    },
    "109": {
     "population": 1.579,
@@ -1304,7 +1304,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B109"
+    "note": "A chapel village of Rìoghachd Cathair dhearg."
    },
    "110": {
     "population": 14.211,
@@ -1314,12 +1314,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B110"
+    "note": "A large village of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. The old harbour of the Seann-Dhaoine on the south-eastern coast took, at the end of the age, to laying oyster-beds in the shallows below the town. Its people held that the craft had come with the name of their town. The clerks of the provincial roll set the claim down and marked it doubtful. Known for its oyster-beds. Told of in: The oyster-beds of Seann Bhral (FE 2,878)."
    },
    "114": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B114"
+    "note": "A ford village of Caol mhòr."
    },
    "115": {
     "population": 1.053,
@@ -1328,7 +1328,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B115"
+    "note": "A mill village of Rìoghachd Cathair dhearg."
    },
    "117": {
     "population": 2.237,
@@ -1336,7 +1336,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B117"
+    "note": "A grove village of Rìoghachd Cathair dhearg."
    },
    "118": {
     "population": 1.053,
@@ -1345,7 +1345,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B118"
+    "note": "A great farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "119": {
     "population": 13.158,
@@ -1353,7 +1353,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: II-0241"
+    "note": "A village of Rìoghachd Cathair dhearg. Gives boats and men to the watch; a place on the council beside Sliochd Raghnaill. Fishers of the east founded the harbour. In the last century of the age its people gave boats and men to the watch against the island raiders, and Sliochd Raghnaill gave the town a place on the council at Dùn ìseal beside its own seat. Tormod Donn, the uncle who claimed An Talla Dearg against Mòr nic Coinnich, kept his house here and withdrew his claim from here by his steward's word. He died at Cuan ruadh eleven years later, and his line ended with him. Known for its boats for the watch, and Tormod Donn's house. Told of in: Cuan ruadh's boats (FE 2,912); Tormod Donn yields (FE 2,929); Death of Tormod Donn (FE 2,940)."
    },
    "122": {
     "population": 1.053,
@@ -1361,12 +1361,12 @@
     "features": {
      "walls": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B122"
+    "note": "A headland harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "123": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B123"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "126": {
     "population": 1.053,
@@ -1374,7 +1374,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B126"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Headland village with a landing."
    },
    "127": {
     "population": 1.053,
@@ -1383,12 +1383,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B127"
+    "note": "A hamlet of Caol mhòr. Harbour on an Old Ones' site. Its people keep the rite of Òrd Mhanannain. Told of in: Seann Vell swears on the sting (FE 2,849); A gravestone-cutter carves Seann Vell's scorpion from a fisherman's telling (FE 2,849)."
    },
    "128": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B128"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Told of in: Seann Warr resettled beside it (FE 172)."
    },
    "129": {
     "population": 1.053,
@@ -1396,7 +1396,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B129"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "130": {
     "population": 1.053,
@@ -1405,7 +1405,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B130"
+    "note": "A hill-fort of Rìoghachd Cathair dhearg."
    },
    "131": {
     "population": 4.474,
@@ -1414,7 +1414,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B131"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "132": {
     "population": 2.368,
@@ -1425,7 +1425,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B132"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. The old harbour of the Seann-Dhaoine on the northern coast was the home of the fowler families, who fed their hawks before the household ate and burned their season's handful at dawn with the hawk on the wrist, since the flame, they said, is a hunger and should be fed as a hunger is. Raghnaid nic Chaluim burned hers once with the hawk unhooded, and a clerk of Talla na Lasrach came to question her. In FE 2,840 the eldest of the fowlers, Ealasaid Bhàn, turned Talla na Lasrach's cutter away at her door and sent him home with the refusal set down on hide. It was the first rite to refuse Talla na Lasrach's trial outright. Known for the dawn-hawk. Told of in: The fowler households of Seann Skell feed the hawk first (FE 1,975); The hawk-keepers of Seann Skell (FE 1,999); Raghnaid nic Chaluim burns her handful with the hawk unhooded (FE 2,000); A clerk questions Raghnaid on the hawk's watching (FE 2,019); The hawk-keepers refuse the Hall's cutter (FE 2,840); Ealasaid Bhàn writes the hawk-keepers' refusal into hide (FE 2,840)."
    },
    "134": {
     "population": 3.158,
@@ -1433,7 +1433,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B134"
+    "note": "A village of Rìoghachd Cathair dhearg. Farm town with a landing. Its people keep the rite of Òrd Mhanannain. The western harbour gave its name to the heath above it, where in FE 599 salt-carriers from Cuan shean settled by a stream that ran all summer. The heath was not worth the plough, and its people kept goats and carried salt, and the rolls of An Aois Naomh have little else to say of them. Known for the salt-carriers' heath. Told of in: Salt-carriers on the heath above Baile fhiadhaich (FE 599)."
    },
    "135": {
     "population": 1.053,
@@ -1441,7 +1441,7 @@
     "features": {
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B135"
+    "note": "A field village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "136": {
     "population": 1.053,
@@ -1450,7 +1450,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B136"
+    "note": "A great farm town of Rìoghachd Cathair dhearg."
    },
    "137": {
     "population": 3.684,
@@ -1458,7 +1458,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B137"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "138": {
     "population": 1.053,
@@ -1466,12 +1466,12 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B138"
+    "note": "A chapel village of Rìoghachd Cathair dhearg."
    },
    "139": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B139"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "141": {
     "population": 1.053,
@@ -1480,7 +1480,7 @@
      "citadel": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B141"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Chapel village with a landing. Its people keep the rite of Òrd Bhrìde."
    },
    "142": {
     "population": 3.158,
@@ -1489,7 +1489,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B142"
+    "note": "A hill village of Caol mhòr."
    },
    "143": {
     "population": 3.947,
@@ -1497,7 +1497,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B143"
+    "note": "A village of Caol mhòr. Headland village with a landing. Fishers founded the harbour on the north-west coast, and in the twenty-seventh century it found a trade the island came to depend on: seal-oil rendered from the seals of the northern rocks, carried down the western coast to Ros bheag for silver rings and burned in the beacons of every western harbour. The seal-oil lamps were the brightest light on Dia-thìr, and Ceann mhòr grew into a town of some standing on a coast where standing was hard come by. Known for seal-oil. Told of in: Ceann mhòr begins the seal-oil trade (FE 2,615); Seal-oil from Ceann mhòr (FE 2,702)."
    },
    "144": {
     "population": 2.105,
@@ -1505,7 +1505,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B144"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "145": {
     "population": 3.421,
@@ -1513,7 +1513,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B145"
+    "note": "A field village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "146": {
     "population": 1.053,
@@ -1521,34 +1521,34 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B146"
+    "note": "A field village of Rìoghachd Cathair dhearg."
    },
    "147": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B147"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "148": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B148"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The herders of the Doire uaine hills north-west of the mountain founded this village on slopes where the old inscriptions on the standing stones forbade any fire to be lit within sight of them. Beathag Bhàn, keeping the ban, sent word in a hard winter that any household of those slopes might bring a sick child or a frost-bitten hand to Talla na Lasrach's own hearth, since the ban spoke of fires lit in sight of the hills and said nothing of fires beyond them. Late in the age its small houses along the carriers' track took the worst of the poor season beside Muileann gheal and Àth dhìreach. Known for the hills where no fire is lit."
    },
    "150": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B150"
+    "note": "A field village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "151": {
     "group": "village",
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: II-0093, II-0130"
+    "note": "A village of Rìoghachd Cathair dhearg. Rebuilt as a market town after Cogadh nan Rathad; the harvest fair at Lùnastal. Its people keep the rite of Òrd Bhrìde. Carriers of the western road founded the town at the ford, and its toll-house, taken by Lachlann Ciar's men, was where Cogadh nan Rathad began in FE 999, when Iain Garbh burned it. His warband wintered on peat smoke in the burned house, and men who had marched south whole came home in spring with a cough some carried the rest of their days. The households resettled at the ford later grew a trading-meeting at Lùnastal, and Fearchar Òg's clerks granted it a charter. Mòrag Dhubh walked her wool there to trade. Known for the burned toll-house and the Lùnastal fair. Told of in: The War of the Roads begins at Muileann òg (FE 999); The fair at Muileann òg (FE 1,665); The coughing winter at Muileann òg (FE 1,001); Muileann òg's households ask a charter for the harvest meeting (FE 1,668); Mòrag Dhubh trades wool at the Lùnastal fair (FE 1,672)."
    },
    "155": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B155"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "156": {
     "population": 1.053,
@@ -1556,12 +1556,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B156"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "157": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B157"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "158": {
     "population": 1.053,
@@ -1570,7 +1570,7 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B158"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. River-island village with a landing. Its people keep the rite of Òrd Bhrìde."
    },
    "162": {
     "population": 3.421,
@@ -1579,7 +1579,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B162"
+    "note": "A village of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "165": {
     "population": 1.053,
@@ -1587,12 +1587,12 @@
     "features": {
      "citadel": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B165"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "166": {
     "population": 31.579,
     "group": "village",
-    "note": "inferred · cites: II-0069, II-0161"
+    "note": "A large village of Rìoghachd Cathair dhearg: the shrine to the ancestors lost at sea, where the handful is burned on the shore; the second wolf-stone. The fishing harbour of the western coast raised a shrine to the ancestors lost at sea in FE 589, and its keepers burned their season's handful on the shore and not indoors, so that the drowned, gone west over the sea, might see it. In FE 2,181 the road-guards of Caol leathan dragged a block of white quartz from the mountain to set beside the shrine. The sledge broke twice and an ox died under it. Their captain Calum Mòr declined to swear twice on it, and the wolf-stone of Inis thais became the road-guards' own. Known for the shore-burning for the drowned, and the wolf-stone. Told of in: The shrine at Inis thais (FE 589); The wolf-stone at Inis thais (FE 2,217); The shrine-keepers of Inis thais ask for a second stone (FE 2,180); The dragging of the second wolf-stone (FE 2,181); Calum Mòr declines to swear twice at Inis thais (FE 2,181)."
    },
    "167": {
     "population": 2.895,
@@ -1600,7 +1600,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B167"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Innkeepers of the south road founded the town at the eastern end of the road past An Taigh-òsta Grianach. A household of the fourth hearth here, sworn to neither quarrelling line in the long strife, kept a tally-stick notched for whichever share's steward called first each season, a plainer record than either line's. In FE 609 it became the market town of the south-eastern hills, and its carriers' guild held the right to carry for Talla na Lasrach down to the coast. Anna Ruadh granted the house on its road a toll of its own, Slighe Cnoc leathan, and had the charter cut in stone. Known for the neutral tally-stick and Slighe Cnoc leathan. Told of in: Cnoc leathan's market (FE 609)."
    },
    "168": {
     "population": 1.053,
@@ -1608,12 +1608,12 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B168"
+    "note": "A farm town of Rìoghachd Cathair dhearg."
    },
    "169": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B169"
+    "note": "A field village of Rìoghachd Cathair dhearg."
    },
    "170": {
     "population": 3.684,
@@ -1622,7 +1622,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B170"
+    "note": "A village of Rìoghachd Cathair dhearg. Farm town with a landing. Its people keep the rite of Òrd Bhrìde. The salt-makers' harbour of the south-western coast was the seat of Artair mac Ailein, who held Tràigh an t-Salainn through the long quarrels of the first centuries and died here in the three hundredth year of the age. Its salt went up every road on carriers' backs. In the last years of the age its potters learned to fire a hard red ware from their own clay, and their jars carried oil and grain the length of the western road. Known for salt, Artair's line, and the red ware. Told of in: Artair mac Ailein dies (FE 298); The potters of Baile ghorm (FE 2,918)."
    },
    "172": {
     "population": 1.053,
@@ -1630,7 +1630,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B172"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "173": {
     "population": 1.053,
@@ -1638,7 +1638,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B173"
+    "note": "A well village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "176": {
     "population": 1.053,
@@ -1647,12 +1647,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B176"
+    "note": "A farm town of Caol mhòr."
    },
    "179": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B179"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "180": {
     "population": 1.053,
@@ -1661,7 +1661,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B180"
+    "note": "A headland village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "181": {
     "population": 1.053,
@@ -1669,12 +1669,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B181"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "185": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B185"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "186": {
     "population": 1.053,
@@ -1683,12 +1683,12 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B186"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde. In FE 178 fishers of Na Naoi Teallaichean settled this old harbour of the Seann-Dhaoine and kept the name they found there, though it is not of their own tongue. It was the first such name known to be taken over and not replaced, and the settlers said the old name came with the stones. Seann Mhorn lived by the fishing through the rest of the age. Known for the first old name kept. Told of in: Seann Mhorn resettled (FE 178)."
    },
    "190": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B190"
+    "note": "A harbour of Caol mhòr. Its people keep the rite of Òrd Mhanannain."
    },
    "191": {
     "population": 1.579,
@@ -1697,7 +1697,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B191"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The salmon-trappers' harbour of the south-western shore sent its boats by night to feed besieged Caol leathan through Cogadh nan Rathad. In thanks Lachlann Ciar gave it a share of the western tolls, and with that the town raised the first stone harbour wall that coast had. Word of the wall reached Eithne's hall at Cathair mhòr with a wool-merchant. Known for the boats that fed the siege, and its harbour wall. Told of in: Word of the harbour wall at Caol fhiadhaich (FE 1,011); Caol fhiadhaich rebuilt (FE 1,036)."
    },
    "192": {
     "population": 1.053,
@@ -1706,7 +1706,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B192"
+    "note": "A town of Rìoghachd Cathair dhearg. The town in the north held the greatest ancestor-cairn on the island. From FE 417 its people brought a stone to the hill above the town at every burial, each stone no bigger than a fist, and travellers who passed that way twice swore the hill looked heavier at the crown. It was not the first cairn at Cathair naomh, but it was the one that kept growing. The keepers of Na Seann Spioradan there asked nothing of the vein and were left alone by Talla na Lasrach. Known for the ancestor-cairn. Told of in: The ancestor-cairn at Cathair naomh (FE 417)."
    },
    "196": {
     "population": 1.053,
@@ -1714,7 +1714,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B196"
+    "note": "A mill village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "197": {
     "population": 3.684,
@@ -1723,7 +1723,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B197"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg. The river town of the east is where pilgrims landed on their way to Allt an Àigh, and the path worn from its landing up the valley was the first pilgrim road on the island. Cormac mac Ailein held his eastern share from here and died here. It was a woman of Caol shean who first told of a boat kept whole after a drink of the stream in the right quarter of the moon, and when two more households told the same, the laughing thinned and the pilgrims began. The path from Caol shean was still walked at the end of the age by pilgrims of every rite, who mended its stones together without asking one another's company. Known for the landing of the pilgrims' path. Told of in: A second and third sinking answered (FE 47); The pilgrims' path from Caol shean (FE 57); Cormac mac Ailein dies (FE 331)."
    },
    "198": {
     "population": 1.053,
@@ -1731,12 +1731,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B198"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Charcoal-burners of the black hill founded the town, and in the hard winter of FE 132 one of its households burned its coal by the basketful instead of the handful. The smoke settled in the valley and killed three of the household and two neighbours. The case was argued at Dùn ìseal for the rest of the season, and out of it came Lagh an Loscaidh Bhig of Fionnlagh Dall. Cnoc dhubh went back to its charcoal and burned its wood as it pleased, Lagh an Loscaidh Bhig never having concerned itself with wood. Known for the smoke that made Lagh an Loscaidh Bhig. Told of in: A household at Cnoc dhubh burns by the basketful (FE 131); The smoke at Cnoc dhubh (FE 132); Five die of the smoke at Cnoc dhubh (FE 132)."
    },
    "200": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B200"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Hill village with a landing. Its people keep the rite of Òrd Mhanannain."
    },
    "201": {
     "population": 2.237,
@@ -1744,7 +1744,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B201"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "202": {
     "population": 1.184,
@@ -1752,7 +1752,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B202"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The millers of the deep race founded the town in the eastern hills, and at the end of the age a water-mill was built here to grind the grain of the mountain districts' common granaries. The miller took one measure in sixteen and no more, and the provincial roll calls it fair, a word it uses of few millers. Known for the fair miller. Told of in: Muileann dhomhain's mill (FE 2,872)."
    },
    "204": {
     "population": 1.579,
@@ -1763,12 +1763,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B204"
+    "note": "A great farm town of Rìoghachd Cathair dhearg. The lords of the western plain founded the market town, and in the seventeenth century they made the fleece of a grown ewe its measure. Grain, wine, cattle and the horses of the plain were priced in fleeces; the silver rings of Muileann chiar were taken there too, but reckoned in wool. Beathag Mhòr came to its fleece-market as a young queen and rode home by the northern road, and found a waypoint house there thin-fed and sent it grain. Known for the fleece-measure. Told of in: Beathag Mhòr rides the northern road (FE 1,688); The fleece-measure of Baile Mòr fhionn (FE 1,699)."
    },
    "207": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B207"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "208": {
     "population": 1.053,
@@ -1776,7 +1776,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B208"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg."
    },
    "209": {
     "population": 7.105,
@@ -1785,7 +1785,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B209"
+    "note": "A grove village of Rìoghachd Cathair dhearg. The grove where Ailean Mòr was crowned stood above the town of the oak-cutters, and through the whole of An Aois Naomh Doire ghlas kept that grove and little else that the rolls record. No war touched it, and no Keeper's cutter found cause to write of it. Its oaks were cut sparingly and by old custom, and the town was known on the roads chiefly as a place where carriers bound for the north could be sure of a dry floor. The households of the grove said the old king's crowning had used up the place's share of great events for a good while, and they seemed content with that. Known for the crowning grove of Ailean Mòr."
    },
    "211": {
     "population": 1.053,
@@ -1793,7 +1793,7 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B211"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "212": {
     "population": 1.842,
@@ -1802,7 +1802,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B212"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The first millers of the northern river founded the town where the northern road comes over the pass. Its old waypoint keeper, Beathan mac Dhonnchaidh, recited his tally to Sìleas Dhonn from memory, name for name, and had no answer when she asked how she was to know it was the same tally he had given the road-guard three seasons before. A mill was raised in the twelfth century to grind the carriers' grain; the miller paid Talla na Lasrach in grain and the rìgh's toll in flour, and a town grew round the mill. Known for the mill on the pass and the old keeper's memory. Told of in: Beathan mac Dhonnchaidh's memory found wanting (FE 915); The mill at Muileann shean (FE 1,123); Muileann shean on the northern road (FE 1,166)."
    },
    "214": {
     "population": 1.053,
@@ -1810,7 +1810,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B214"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "215": {
     "population": 1.053,
@@ -1820,7 +1820,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B215"
+    "note": "A headland harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "217": {
     "population": 1.053,
@@ -1829,7 +1829,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B217"
+    "note": "A hill village of Caol mhòr."
    },
    "219": {
     "population": 1.053,
@@ -1837,7 +1837,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B219"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "221": {
     "population": 1.053,
@@ -1846,7 +1846,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B221"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. River-island village with a landing."
    },
    "223": {
     "population": 1.053,
@@ -1854,12 +1854,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B223"
+    "note": "A harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "227": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B227"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "229": {
     "group": "village",
@@ -1867,7 +1867,7 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: II-0063, II-0224"
+    "note": "A village of Talla na Lasrach: the roofed bath-house over Fuarain Theth Muileann ruadh and its keeper for Dian Cècht. Its people keep the rite of Òrd Bhrìde. Keepers of Fuarain Theth Muileann ruadh founded the town six miles west-north-west of Talla na Lasrach, where warm water runs from under the mountain. A bath-house was roofed over the springs in the sixth century of the age, and a keeper of the springs was named in Dian Cècht's name, the healer's. In the age's last years the keeper Beathag Fhionn ruled that the sick of every rite be carried up and bathed at dawn without being asked which company they kept. It was the last ruling of the age that every company accepted. Known for Fuarain Theth Muileann ruadh held in common. Told of in: The bath-house at Muileann ruadh (FE 529); The springs at Muileann ruadh common to all (FE 2,863); The bath-house roofed over the springs of Muileann ruadh (FE 505); A keeper of the springs named in Dian Cècht's name (FE 505)."
    },
    "231": {
     "population": 1.053,
@@ -1876,7 +1876,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B231"
+    "note": "A town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "232": {
     "population": 1.711,
@@ -1885,7 +1885,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B232"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "234": {
     "population": 2.368,
@@ -1896,7 +1896,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B234"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Told of in: Herders take the high pastures above Muileann leathan (FE 2,630); The high pastures of Muileann leathan (FE 2,717)."
    },
    "236": {
     "population": 1.053,
@@ -1904,7 +1904,7 @@
     "features": {
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B236"
+    "note": "A farm town of Caol mhòr."
    },
    "237": {
     "population": 1.053,
@@ -1912,12 +1912,12 @@
     "features": {
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B237"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. River-island village with a landing."
    },
    "238": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B238"
+    "note": "A headland harbour of Caol mhòr."
    },
    "239": {
     "population": 1.842,
@@ -1926,7 +1926,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B239"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Headland village with a landing. Its people keep the rite of Òrd Bhrìde."
    },
    "240": {
     "population": 1.053,
@@ -1934,7 +1934,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B240"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "241": {
     "population": 7.895,
@@ -1942,17 +1942,17 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: II-0240"
+    "note": "A village of Rìoghachd Cathair dhearg: the timber watch-tower against the island raiders, manned by the fisher-kin of Sliochd Raghnaill. Red-earth farmers founded the town on the north-eastern coast. Near the end of the age a timber watch-tower went up here against raiders out of the islands, manned by turns by the fisher-kin of Sliochd Raghnaill. It was the only tower built for war in the whole An Aois Naomh. Dòmhnall Dubh, whose kin kept it, married Mòr nic Coinnich, and when he died here in FE 2,950 she came north herself to bury him beside the tower. Known for the watch-tower. Told of in: The watch-tower at Baile ruadh (FE 2,909); Dòmhnall Dubh dies at Baile ruadh (FE 2,950); Mòr goes north to bury Dòmhnall Dubh (FE 2,950)."
    },
    "242": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B242"
+    "note": "A field village of Caol mhòr."
    },
    "243": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B243"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "244": {
     "population": 1.053,
@@ -1962,7 +1962,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B244"
+    "note": "A mill village of Caol mhòr. The millers' town of the north-west was Ùna nic Ailein's seat when Oidhche an Dòrlaich gave her that corner of the kingdom. Its mill-leats and meadows passed down through her line quietly enough. Late in the age a quarrel over a water-meadow between its households and Ceann àrsaidh's came before Gilleasbuig Mòr, who had both notched sticks copied stroke for stroke and set a boundary stone down the meadow's middle. The two towns have shared the meadow by that stone since, grumbling about equally. Known for Ùna's seat; the meadow stone. Told of in: The meadow of Muileann àrsaidh and Ceann àrsaidh (FE 2,524)."
    },
    "245": {
     "population": 1.053,
@@ -1970,7 +1970,7 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B245"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "246": {
     "population": 7.895,
@@ -1979,7 +1979,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: II-0163, II-0165"
+    "note": "A village of Talla na Lasrach: the school of Donnchadh mac Iain, the younger school of the stag. Four miles south-east of Cnoc bhàn stood the millers' town where, in FE 2,300, Donnchadh mac Iain came with twenty-two hearers who had walked out of the stag's house. The reeve let them a millwright's storehouse for a rent paid that winter in mended roofs and re-hung doors, and ruled that their books keep no parentage. The school at Muileann chaol, the younger school of the stag, traded letters with the elders' school for the rest of the age. Donnchadh died here in FE 2,340. The oldest notched tallies of Ceann leathan's fish-market are kept here. Known for Donnchadh mac Iain's school. Told of in: Donnchadh mac Iain leaves Cnoc bhàn (FE 2,300); The school at Muileann chaol (FE 2,330); Muileann chaol's reeve houses the school (FE 2,300); Muileann chaol's books are ruled to keep no parentage (FE 2,301); Donnchadh mac Iain writes north (FE 2,330); Donnchadh mac Iain dies at Muileann chaol (FE 2,340)."
    },
    "247": {
     "population": 1.053,
@@ -1988,7 +1988,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B247"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "249": {
     "population": 2.5,
@@ -1996,7 +1996,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B249"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site."
    },
    "250": {
     "population": 1.053,
@@ -2005,7 +2005,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B250"
+    "note": "A town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "255": {
     "population": 2.105,
@@ -2015,7 +2015,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B255"
+    "note": "A hill-fort of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The lords of the bent hill founded the town. In FE 2,578 the masons' fellowship bridged the river below it, joining the southern road to the western and saving a full day's cart-journey round through Cathair dhearg. The fellowship set the toll at half the capital's, holding it no fair thing to charge a full toll for half the road. The reeves of Cathair dhearg complained. The fellowship offered them the crossing, upkeep and all, and no reeve took the offer. The half-toll stood. Known for the half-toll bridge. Told of in: The bridge at Dùn chrom is built at half toll (FE 2,578); Cathair dhearg's reeves complain of the half-toll at Dùn chrom (FE 2,580); The bridge at Dùn chrom (FE 2,613)."
    },
    "256": {
     "population": 1.579,
@@ -2024,17 +2024,17 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B256"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Drovers of the south-east founded the town at the ford. In FE 2,875 rain on the eastern hills brought the river over the ford and carried off the carriers' shelter and six of the townsfolk. The district's common granary stood on a rise the flood never reached, and it fed the town through the winter that followed. The roll sets the drowning and the granary down side by side and says nothing more. Known for the flood and the granary on the rise. Told of in: The flood at Àth chiar (FE 2,875)."
    },
    "257": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B257"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "258": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B258"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "259": {
     "population": 1.053,
@@ -2042,12 +2042,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B259"
+    "note": "A farm town of Rìoghachd Cathair dhearg."
    },
    "260": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B260"
+    "note": "A hamlet of Caol mhòr. Headland village with a landing."
    },
    "261": {
     "population": 1.053,
@@ -2056,7 +2056,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B261"
+    "note": "A grove village of Rìoghachd Cathair dhearg."
    },
    "262": {
     "population": 1.053,
@@ -2064,12 +2064,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B262"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "265": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B265"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "267": {
     "population": 1.053,
@@ -2077,7 +2077,7 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B267"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "269": {
     "population": 1.711,
@@ -2086,7 +2086,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B269"
+    "note": "A hill village of Caol mhòr."
    },
    "270": {
     "population": 1.053,
@@ -2095,12 +2095,12 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B270"
+    "note": "A harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "273": {
     "population": 26.316,
     "group": "village",
-    "note": "Òrd Bhrìde · inferred · cites: II-0057, II-0106a"
+    "note": "A large village of Rìoghachd Cathair dhearg. At the foot of the high pass: the market at the fords on the day after each new moon. Its people keep the rite of Òrd Bhrìde. The carriers' resting-place on the last flat ground before the high pass grew byres, a smithy and an inn that was never empty while the pass was open. By the middle of the fifth century it had taken the name Baile Mòr dhomhain, though it stood on no deep water and lived by the pass. In FE 1,122 the lords of the deep river set a market at its fords on the day after each new moon. Cattle, sheep, horses, hides and the white stone of the hills were sold there, and the lords took one fleece in forty. Known for the pass inn and the new-moon market. Told of in: Baile Mòr dhomhain at the foot of the pass (FE 448); The market at the fords of Baile Mòr dhomhain (FE 1,122); The resting-place at the foot of the pass becomes Baile Mòr dhomhain (FE 445)."
    },
    "274": {
     "population": 1.053,
@@ -2108,19 +2108,19 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B274"
+    "note": "A mill village of Rìoghachd Cathair dhearg."
    },
    "276": {
     "population": 6.579,
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: I-0247, IV-0251a"
+    "note": "A village of Talla na Lasrach: the slab over the crack; Clann na Ceiste keep the lines. Its people keep the rite of Òrd Bhrìde. The well-town of the high valleys kept the slab, and the nine keepers who sat by it in turn came down from here to Dùn ìseal in the first autumn of the age with the fire of their hut in a covered pot. Its households claim, and Talla na Lasrach has never troubled to deny, that the first flame is theirs before it was anyone's. The reciters of Clann na Ceiste who kept Clann a' Chlachair lived here, and the lame reciter Seathan Crom walked from here to see the old king once more before he died. When the flame went to Talla na Lasrach, Tobar dhìreach kept its slab and its turns of sitting by it, and kept telling An Ceangal in its own way, with its own keepers at the centre of the telling. Through An Aois Naomh it stayed a small town of well-diggers and herders under the high ground, proud, slow to change and seldom named in Talla na Lasrach's rolls. Known for the slab and the keepers who first kept the flame. Told of in: The keepers number nine (GE 4,353); The Line of Aisling found (AE 126); The keepers bring down their fire (FE 1)."
    },
    "277": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B277"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "279": {
     "population": 1.053,
@@ -2129,7 +2129,7 @@
      "citadel": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B279"
+    "note": "A field village of Rìoghachd Cathair dhearg. The keepers of Allt an Àigh founded Achadh gharbh on rough ground beside the stream after Talla na Lasrach declined to keep it. Muireach Liath ruled that the stream belonged to the ancestors and the weather and not to the vein, and so its keeping fell to households who asked nothing of Talla na Lasrach. They kept the stream and the pilgrims' lodging for the rest of the age, and made a living of both. Known for the keepers of the lucky stream."
    },
    "282": {
     "population": 3.947,
@@ -2138,19 +2138,19 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B282"
+    "note": "A harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain. The old landing of the western coast was taken up by Dia-thìrich households in Linn na Doire, and in FE 594 they dug salt-pans on the flats below the town and boiled sea-water over peat. Their salt went inland along the western road and kept the fish of half the island. Salt-carriers from Cuan shean settled the heath above Baile fhiadhaich. At the end of the age the seal-oil lamps of the western harbours burned as far south as Cuan shean. Known for its salt-pans. Told of in: Cuan shean's salt-pans (FE 594)."
    },
    "283": {
     "population": 4.211,
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B283"
+    "note": "A field village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "290": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B290"
+    "note": "A hill-fort of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "293": {
     "population": 1.053,
@@ -2158,7 +2158,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B293"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "295": {
     "population": 1.053,
@@ -2167,14 +2167,14 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B295"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "296": {
     "population": 3.684,
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B296"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "297": {
     "population": 2.105,
@@ -2183,7 +2183,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B297"
+    "note": "A town of Rìoghachd Cathair dhearg. Households of the south coast founded the town, and in the last years of the age families crowded out of the harbours about Cathair dhearg settled here and raised its long street along the ridge above the water. They brought a wood-watcher of their own rite and a copy of the laws, and the town grew. Known for the long street on the ridge. Told of in: Cathair fhada grows (FE 2,923)."
    },
    "301": {
     "population": 1.053,
@@ -2191,7 +2191,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B301"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg."
    },
    "302": {
     "population": 1.053,
@@ -2200,7 +2200,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B302"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "303": {
     "population": 1.053,
@@ -2208,7 +2208,7 @@
     "features": {
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B303"
+    "note": "A great farm town of Caol mhòr."
    },
    "304": {
     "population": 1.184,
@@ -2216,7 +2216,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B304"
+    "note": "A ford village of Caol mhòr."
    },
    "305": {
     "population": 3.421,
@@ -2225,7 +2225,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B305"
+    "note": "A farm town of Caol mhòr. The harbour on the headland was settled from Cnoc ghorm, and in the fourth century its households lived under Lagh an Loscaidh Bhig like every other. In FE 398 the household of Murchadh Ruadh lost its right for a third offence and went down to the strand to fish rather than beg cold porridge from its kin. On a calm morning some years after, Cailean Buidhe's boat was lost in water that lifted under it, and two of the five came home. A year to the day later the strand set out a bowl for the five and spoke the boat's name once over it. The wake was kept after that. Anndra Cìobair, who had swum home, poured its first cup for near forty years. The coast's households took turns carrying driftwood to the relit beacon on the headland. In the twenty-eighth century two more of its boats felt the sea breathe under them, and one did not come home. Known for the wake for the lost boat, and the thing under it. Told of in: Murchadh Ruadh's household loses its right (FE 398); The wake first kept for the five (FE 406); The keeping of the beacon falls to the households in turn (FE 410); Word of the stone quay travels the coast (FE 414); Word of the cairn at Cathair naomh travels the coast (FE 418); Anndra Cìobair dies at Baile chrom (FE 440)."
    },
    "309": {
     "population": 1.053,
@@ -2233,7 +2233,7 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B309"
+    "note": "A farm town of Rìoghachd Cathair dhearg."
    },
    "311": {
     "population": 1.447,
@@ -2241,7 +2241,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B311"
+    "note": "A farm town of Rìoghachd Cathair dhearg. The valley-folk of the eastern narrows founded the town. When drought emptied the granary of Achadh shean at the end of the age, grain went from Baile chaol under Lagh a' Bhìdh Roinnte, and its rolls set down the repayment measure by measure to the last. The clerk added that no such debt in the roll had ever before been repaid in full. Known for the debt repaid in full. Told of in: Baile chaol's repayment (FE 2,903)."
    },
    "313": {
     "population": 1.053,
@@ -2251,18 +2251,18 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B313"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "315": {
     "population": 31.579,
-    "note": "Òrd Bhrìde · inferred · cites: II-0004, II-0026, II-0064a, II-0248"
+    "note": "A large village of Talla na Lasrach. Talla na Lasrach over the flame, the stone cup on its threshold, the galleries, the market under Talla na Lasrach on the quarter days. Its people keep the rite of Òrd Bhrìde. The hill of the first kingdom held Talla na Lasrach through the whole of An Aois Naomh, and nearly everything that age has to tell is told from it or in answer to it. The heirs of Ailean Mòr sat in the valley below it after the ford to part his kingdom, and on the slope above the gathering-house the nine keepers of the slab bound the first flame to no one of the blood. Sìne nan Snaidhm tied Sreang nan Oighrean at the gathering-house door, and the cord lay coiled in its chest in Talla na Lasrach for thirteen centuries after. Beathag Bhàn kept the flame here first. Fionnlagh Dall made Lagh an Loscaidh Bhig here, and from here every Keeper after him sent cutters to try each hearth's measure. A market grew under Talla na Lasrach's walls in the years of Sìth an Stairsnich, and oak props for the galleries were cut in its woods. Na Ceithir Taighean met here when An Talla Dearg stood empty, and a clerk's son of Seann Dunn was brought here to have the stone cup set in his hands. By the age's close the council sat in eight companies on separate benches, while the flame on the threshold burned for all of them alike. Known for Talla na Lasrach and the bound flame; Sreang nan Oighrean. Told of in: Talla na Lasrach raised (FE 15); Fionnlagh Dall and the stone cup (FE 139); The market under the Hall (FE 556); The Hall's roll at the close of the age (FE 2,939); Runners to every coast (FE 1); Aodh Crom asks for a cord of the heirs (FE 1); The knotting of the heirs begins (FE 1); The heirs sit at Dùn ìseal (FE 1); The bier of spears (FE 1); The tidings at Dùn ìseal (FE 1)."
    },
    "316": {
     "population": 4.211,
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B316"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Oak-keepers of the capital's north founded the town on the southern road. Beathag Clachair was born here into a family of stone-cutters. At three-and-thirty she led the cutting of the small bridge over the stream that flooded every spring, and beneath the fourth hearth's sign in its keystone she cut her own name: Beathag Clachair a chuir seo. She was buried at the foot of her bridge, and masons passing lay a chip of grey stone on her grave. Fearchar Ruadh, the mason's apprentice who won the stone field at Ceann leathan, came from Doire mhin. Known for Beathag's mark. Told of in: Beathag Clachair is born at Doire mhin (FE 2,610); The bridge at Doire mhin (FE 2,643); Beathag Clachair cuts the first mason's mark (FE 2,643); Masons of every hearth cut their names beside the sign (FE 2,645); Beathag Clachair dies at Doire mhin (FE 2,680)."
    },
    "318": {
     "population": 1.974,
@@ -2273,7 +2273,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B318"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Households who came for the spring of the holy hill founded the town. They kept a shrine to the ancestors and to the sìth of their own hill in the old folk way, with no hawk in it, no wolf, no sting and no stag. Clàr an Talla of rites set them among the keepers of Na Seann Spioradan, a company by then as settled and separate as any of the eight. Known for the ancestor-shrine of An Seann Urram. Told of in: Cnoc naomh's ancestor-shrine (FE 2,926)."
    },
    "324": {
     "population": 4.474,
@@ -2281,7 +2281,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B324"
+    "note": "A village of Rìoghachd Cathair dhearg. Grove village with a landing. Its people keep the rite of Òrd Bhrìde. The potters' harbour seventy miles west on the mountain road is where Mòr nic Dhùghaill, a widow with more buffalo than grass, boiled a haunch for three carriers caught by the rain and asked nothing for it. Within a year she had built a second room to feed the men the word sent her. A chase was stopped at her door, and Niall Òg sat at her table. Her house, Am Buabhall Fortanach, ended Cogadh nan Rathad in its time, and her line kept its hearth burning through the whole age. Anna Ruadh ate its jugged buffalo twice, on both her circuits, in the same wooden bowl any carrier got. Known for Mòr nic Dhùghaill's free bowl and Am Buabhall Fortanach. Told of in: Mòr nic Dhùghaill feeds three carriers in the rain (FE 164); A chase stopped at Mòr's door (FE 175); Niall Òg sits at Mòr's table (FE 177); The eleven days' bearing (FE 184); Mòr nic Dhùghaill dies at her own hearth (FE 186)."
    },
    "326": {
     "population": 1.053,
@@ -2290,7 +2290,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B326"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Households of the south coast founded the town, and at the end of the age a mill and a shrine came to share one roof here. The miller kept the shrine's handful of grain beside his millstones as faithfully as he kept his sixteenth measure. Coimheadaiche na Lasrach's cutter who came to try it found the handful kept and the flour good, and wrote that and no more. Known for the mill-shrine. Told of in: Muileann naomh's mill-shrine (FE 2,886)."
    },
    "328": {
     "population": 1.316,
@@ -2298,19 +2298,19 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B328"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Fishers from the north side of the mountain settled this empty harbour of the Seann-Dhaoine in FE 413 and kept its old name. Digging back the silt, they struck a stone quay cut by hands none of them could account for, sound enough to take a heavier hull than any they had yet built, and they used it the way a household uses a well it finds already dug. Word of the quay went round the coast, growing into a buried town in some tellings and shrinking into a single door-lintel in others. Known for the buried stone quay. Told of in: Seann Bhrenn resettled (FE 413)."
    },
    "330": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B330"
+    "note": "A hamlet of Caol mhòr. River-island village with a landing."
    },
    "333": {
     "population": 2.632,
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B333"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "337": {
     "population": 1.053,
@@ -2318,7 +2318,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B337"
+    "note": "A hill village of Caol mhòr."
    },
    "339": {
     "population": 1.053,
@@ -2326,12 +2326,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B339"
+    "note": "A mill village of Rìoghachd Cathair dhearg."
    },
    "340": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B340"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "341": {
     "population": 1.053,
@@ -2339,7 +2339,7 @@
     "features": {
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B341"
+    "note": "A mill village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "343": {
     "population": 13.158,
@@ -2348,7 +2348,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: II-0065, II-0125, II-0162"
+    "note": "A village of Talla na Lasrach: the house of Scoiltean nan Draoidhean north of the mountain, keepers of the strike-books. Its people keep the rite of Òrd Bhrìde. A custodian house of An Ceangal founded the town north of the mountain. In FE 565 a house of Scoiltean nan Draoidhean was founded here and, after the long exclusion, took cutters again, keeping Sìleas nic Coinnich's question as she left it. In the seventeenth century Rìoghnach made the first entry in a strike-book, the house took apprentices on the seven-year binding and added a written account of every stroke. Donnchadh mac Iain was born here. When the strike-books were compared in FE 2,290 the house split in two halves, and in FE 2,300 twenty-two of its scholars walked out behind Donnchadh to Muileann chaol. The elders' school stayed, and sent teachers to Dùn thais at the end of the age. Known for the stag's house and its strike-books. Told of in: The stag's people at Cnoc bhàn (FE 565); The stag's people take apprentices (FE 1,641); The strike-books compared (FE 2,290); Rìoghnach writes the first strike-book entry (FE 1,640); Cnoc bhàn takes up the seven-year binding (FE 1,641); Cnoc bhàn adds the written account of every stroke (FE 1,641); Donnchadh mac Iain is born at Cnoc bhàn (FE 2,260)."
    },
    "347": {
     "population": 1.053,
@@ -2356,22 +2356,22 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B347"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site."
    },
    "348": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B348"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "349": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B349"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "350": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B350"
+    "note": "A field village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "352": {
     "population": 1.053,
@@ -2380,7 +2380,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B352"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "353": {
     "population": 1.053,
@@ -2389,7 +2389,7 @@
      "citadel": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B353"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "354": {
     "population": 1.447,
@@ -2398,12 +2398,12 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B354"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Millers founded the town on the river bend up the valley from the landing at Cidhe Beag, and in the seventeenth century it became the home of the river-boatmen. Its young crews settled among themselves that no one might call himself one of their fellowship until he had sworn on his own paddle to answer another boat's call. Mòrag Dhubh's brother Dòmhnall swore his paddle here. Its yards built the flat hide boats for every river on the island. Known for the paddle-oath and the hide boats. Told of in: The boatmen of Muileann chrom swear the paddle-oath (FE 1,673); Dòmhnall of Cnoc mhòr swears his paddle (FE 1,675); The boatmen of Muileann chrom (FE 1,685)."
    },
    "356": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B356"
+    "note": "A mill village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "358": {
     "population": 1.053,
@@ -2412,12 +2412,12 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B358"
+    "note": "A hill-fort of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "360": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B360"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "362": {
     "population": 1.053,
@@ -2426,7 +2426,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B362"
+    "note": "A hill-fort of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "363": {
     "population": 1.842,
@@ -2436,12 +2436,12 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B363"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Headland village with a landing. Told of in: Anna Ruadh at Ceann mhin (FE 2,816); An old fisher of Ceann mhin judges the queen fair to the fish (FE 2,816); Dried fish doubles inland after the ruling at Ceann mhin (FE 2,818)."
    },
    "365": {
     "population": 34.211,
     "group": "town",
-    "note": "inferred · cites: II-0235"
+    "note": "A town of Rìoghachd Cathair dhearg. Great enough on the fishing to send its own member to the council at Dùn ìseal, seated at the foot of the hall. The largest town of the northern plain lies on the road that carried the northern households' grain and coal, and it felt every short year that road had. In the hungry years under Calum Liath, when Coimheadaiche na Lasrach's cutters found the vein giving less than Talla na Lasrach had reckoned, the households along the northern road went short first and longest. It grew on fishing along the northern coast, and late in the age it was great enough to send a member of its own to the council at Dùn ìseal. Na Ceithir Taighean gave the seat grudgingly and set it at the foot of the hall, below their own benches. Known for its seat at the foot of the council. Told of in: Baile Mòr mhòr on the northern coast (FE 2,895); The households of the northern road go short (FE 1,601)."
    },
    "366": {
     "population": 1.053,
@@ -2450,7 +2450,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B366"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg."
    },
    "368": {
     "population": 1.053,
@@ -2459,7 +2459,7 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B368"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "371": {
     "population": 6.579,
@@ -2468,7 +2468,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B371"
+    "note": "A river-island village of Rìoghachd Cathair dhearg."
    },
    "372": {
     "population": 1.053,
@@ -2478,7 +2478,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B372"
+    "note": "A ford village of Caol mhòr."
    },
    "374": {
     "population": 1.053,
@@ -2486,22 +2486,22 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B374"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "377": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B377"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "378": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B378"
+    "note": "A farm town of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "379": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B379"
+    "note": "A well village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "380": {
     "population": 1.053,
@@ -2510,7 +2510,7 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B380"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "384": {
     "population": 1.053,
@@ -2518,7 +2518,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B384"
+    "note": "A farm town of Rìoghachd Cathair dhearg."
    },
    "386": {
     "population": 1.053,
@@ -2526,7 +2526,7 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B386"
+    "note": "A chapel village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "387": {
     "population": 1.053,
@@ -2536,12 +2536,12 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B387"
+    "note": "A great farm town of Rìoghachd Cathair dhearg."
    },
    "390": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B390"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Founded by quarriers cutting stone for Dùn dhearg, the town on the high ground above the passes kept the weather-cairns, and in the sixth year of the age a watch was set on them. Its households read the snow on the cairns for the whole mountain country, and word of the mountain's want went down from here to Cathair dhearg in the winter of the late snow, before the worst of it came. The granaries were opened on that word. Known for the weather-cairns. Told of in: The watch set on the cairns above Cnoc ghlas (FE 6); The weather-cairns of Cnoc ghlas (FE 27); The late snow on the high passes (FE 2,472)."
    },
    "391": {
     "population": 2.368,
@@ -2549,7 +2549,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B391"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Millers of the central country founded the town twenty-seven miles west of Talla na Lasrach. After Falachd an Airgid, Beitris nic Aonghais cast the first bronze copy of the Muileann chiar weight here in FE 1,751. It cracked along its rim from cooling too fast, and she kept it all her life to show her apprentices. She asked leave to cut Sliochd Fhearchair's hearth-sign under every copy, and it was granted. Her family of casters went on to cast bells, pins and lamp-bowls, and their lamp-bowls held Lagh an Loscaidh Bhig's measure exactly. Known for the bronze weights and the lamp-bowls. Told of in: Beitris nic Aonghais casts the first weight (FE 1,751); The hearth-sign struck on every weight (FE 1,752); The bronze-casters of Muileann dhearg (FE 1,781)."
    },
    "392": {
     "population": 1.184,
@@ -2557,7 +2557,7 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B392"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "393": {
     "population": 1.447,
@@ -2565,7 +2565,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B393"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The ford-keepers' town on the southern road toward Ceann leathan had its crossing's toll kept by the Griogaraich for longer than anyone could say. In FE 1,647 Fearchar Òg's clerks sent a hall-trained man, Dòmhnall Beag, to weigh the new silver toll there. For a year the ford's family would not help him, until firewood and floods brought them round to his scale. A toll-house was built and the road-guards were paid there in the new rings. In Falachd an Airgid two of its four guards left unpaid, and the keeper Oighrig nic Ailein stood the house through the winter. Grain came to her unnamed, and she guessed it was from Ruairidh Liath. Known for the first toll-keeper sent from the hall. Told of in: Dòmhnall Beag sent to keep the toll at Àth ghlas (FE 1,647); The Griogaraich come round to Dòmhnall Beag's scale (FE 1,648); The toll-house at Àth ghlas (FE 1,661); The guards leave Àth ghlas (FE 1,745); Grain sent unnamed to Àth ghlas (FE 1,746)."
    },
    "394": {
     "population": 1.053,
@@ -2573,7 +2573,7 @@
     "features": {
      "walls": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B394"
+    "note": "A grove village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "395": {
     "population": 8.158,
@@ -2581,12 +2581,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B395"
+    "note": "A field village of Rìoghachd Cathair dhearg. The granary fields by Fuarain Theth Muileann ruadh belonged to Fearghas Dà-Mhionn, sworn both to the line of Ìomhar and to the lords of Cathair mhòr, and his grandmother Ciorstaidh's stone, the mark of a double oath first sworn on Oidhche an Dòrlaich, was set in his hall. A burned widow's household sheltered here in the long strife, and in FE 543 Fearghas sent the last tithe that went untroubled. When each lord called him out against the other, both came to take his fields, and in FE 556 Achadh mhòr was burned and Cogadh an Dà Mhionn ended where it began. The last sheaf was carried clear of the fire. No war was fought on the island again until Cogadh nan Rathad, four hundred and forty-three years on. Known for the burning that ended Cogadh an Dà Mhionn. Told of in: Fearghas sends the last untroubled tithe (FE 543); A burned widow's household shelters at Achadh mhòr (FE 547); Ciorstaidh's stone set in Fearghas's hall (FE 550); The burning of Achadh mhòr (FE 556); Both hosts called out for Achadh mhòr (FE 556); The last sheaf of Achadh mhòr carried clear of the fire (FE 556)."
    },
    "397": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B397"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Headland village with a landing. Seafarers of the narrow point founded the harbour below a steep mile of bare rock, where carriers going down sideways turned more ankles than Talla na Lasrach had troubled to count. In FE 149 the council asked Na Naoi Teallaichean' cutters whether any would cut a proper path. Ailean Clachair of the fourth hearth took it on, and the steps to Ceann chaol were finished two years later, the first work of the man who went on to bridge Ros fhionn. Known for Ailean Clachair's steps. Told of in: Ailean Clachair takes on the steps to Ceann chaol (FE 149); The carriers' path to Ceann chaol (FE 151); The steps to Ceann chaol are finished (FE 151)."
    },
    "398": {
     "population": 2.5,
@@ -2595,22 +2595,22 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B398"
+    "note": "A well village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The beacon on the southern headland had burned, time out of mind, to warn boats off the rocks. The beacon raised the last question Lagh an Loscaidh Bhig put to Fionnlagh Dall. He ruled that no coal might feed a fire meant to warn strangers away, and from then on the Tobar dhearg light was kept with driftwood, as every sea-light raised after it was. Gormlaith nic Ailein held the south-east from here under Roinn na Rìoghachd. Near the end of the age the beacon was built up in stone into a tower, Teine a' Chlachair on any coast kept above the ground, burning seal-oil carried from the northern rocks. Known for the beacon and the blind Keeper's ruling."
    },
    "402": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B402"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site."
    },
    "403": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B403"
+    "note": "A well village of Rìoghachd Cathair dhearg."
    },
    "404": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B404"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "405": {
     "population": 2.895,
@@ -2618,7 +2618,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B405"
+    "note": "A field village of Rìoghachd Cathair dhearg."
    },
    "406": {
     "population": 1.053,
@@ -2628,7 +2628,7 @@
      "walls": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B406"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "407": {
     "population": 1.053,
@@ -2636,7 +2636,7 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B407"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "408": {
     "population": 1.053,
@@ -2645,7 +2645,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B408"
+    "note": "A well village of Caol mhòr."
    },
    "409": {
     "population": 1.053,
@@ -2655,14 +2655,14 @@
      "walls": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B409"
+    "note": "A farm town of Caol mhòr."
    },
    "411": {
     "population": 2.895,
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B411"
+    "note": "A field village of Rìoghachd Cathair dhearg. Farming households founded the town in the east. In FE 2,900 a dry summer burned its pastures and left the common granary empty by spring. Grain came up from Baile chaol and Cuan ruadh under Lagh a' Bhìdh Roinnte of Lachlann Bàn and Raonaid Dhubh, and the district repaid it harvest by harvest. Known for the drought and the repaid grain. Told of in: Drought at Achadh shean (FE 2,900)."
    },
    "413": {
     "population": 1.053,
@@ -2670,7 +2670,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B413"
+    "note": "A farm town of Rìoghachd Cathair dhearg."
    },
    "415": {
     "population": 1.053,
@@ -2678,7 +2678,7 @@
     "features": {
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B415"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "419": {
     "group": "village",
@@ -2686,7 +2686,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: II-0015, II-0016, II-0064, II-0127, II-0152, II-0153"
+    "note": "A large village of Rìoghachd Cathair dhearg: the silver town of Sliochd Fhearchair: the seam, the weights every trader uses, the stamped rings. Its people keep the rite of Òrd Bhrìde. The silver town five miles north of Talla na Lasrach grew up about FE 71 on a seam found near the great vein but apart from it, the first wealth of the island other than the coal. Fearchar Airgeadach, a basket-carrier of Na Naoi Teallaichean, smelted the first bead from its grey stone and hammered the silver into rings, the first ring was set out for Goibhniu, and Muireach Liath ruled that silver shows no colour when it breaks and so is not the mountain's. When two cousins of Earrann Caol shean both claimed the silver ground, Fearchar paid each of them a ring and kept working. From its rings came the island's measure of worth: after FE 76 a bargain on any quay could be struck in rings. In the sixth century its silversmiths cast the weights that every market came to trust, and a waypoint house here began tallying grain. In FE 1,745 Falachd an Airgid began at its forges, when Màiri nic Fhearchair refused the rìgh's steward. It ended five years later, and the Muileann chiar weight was made law for the whole island. Known for the first silver, the rings and the weights. Told of in: Muileann chiar founded (FE 71); Fearchar Airgeadach works the silver (FE 74); The silver weights of Muileann chiar (FE 542); The silver tokens (FE 1,654); The Keeper's judgment on the silver (FE 1,749); The Muileann chiar weight made law (FE 1,750); A grey stone found apart from the vein (FE 69); Fearchar Airgeadach smelts the first bead (FE 69); Muileann chiar named (FE 69); Muireach Liath rules the silver shows no blood (FE 70); The first ring set out for Goibhniu (FE 71)."
    },
    "420": {
     "population": 1.974,
@@ -2695,12 +2695,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B420"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain. Settlers from Cathair dhomhain took the wet heath of the west coast in FE 879, where the soil is thin and the yellow scorpions thick. The town's oath began with a woman stung on the hand during a trade of cattle for salt fish, who finished the bargain with her fingers swelling and said a hurt taken in the open was worth more than a promise behind a closed door. Its people swore on a scorpion's sting kept in a box. Their neighbours thought it a strange custom, but merchants carried the sting-oath to Ros bheag, and in the last centuries every harbour court of the western coast swore by it. Known for the scorpion's sting sworn on. Told of in: The scorpion's sting sworn on at a trade (FE 862); Baile àrsaidh on the western heath (FE 879); The sting first sworn on at a wider trade (FE 880)."
    },
    "422": {
     "population": 39.474,
     "group": "town",
-    "note": "inferred · cites: II-0056, II-0079, II-0136, II-0182, II-0185"
+    "note": "A town of Rìoghachd Cathair dhearg: the old kings' hill: Goraidh Mòr's hall with a granary at each corner, the graves of Sliochd Ìomhair and of the kings; its reeves keep their own accounts. Ailean Mòr fell at the ford below Dùn dhearg on the first morning of the age, and his son Ìomhar Dearg took the burned hill that same day from men too spent to lift their arms. It was an Earrann Dhearg, the one share won with a sword before the parting and never given in it, and the other heirs had to part the kingdom around it. Ìomhar left the grey stone standing in the ford and buried the host of the east in long trenches on the meadow. Dùghall Dearg held the share whole, and Goraidh mac Ìomhair gathered three counties to it and raised the timber hall with a granary at each corner, then set the first road toll of one fish in twenty. Here the rìghrean of Goraidh's line reigned and were buried: Dòmhnall Crùbach, Sìleas Dhonn, who died at her ledger, Catrìona Ghlic, crowned here, and Fearchar Òg. The road-guards of Dùn dhearg kept the peace of the roads and took to horses in the last centuries of the age. When the hall moved to Cathair dhearg the graves did not move, and every ruler of the island after Gilleasbuig Mòr was carried here to lie among Sliochd Ìomhair. Known for the ford of Àth na Fala, an Earrann Dhearg and the kings' graves. Told of in: The granaries of Dùn dhearg (FE 434); Goraidh Mòr's hall (FE 714); Dùn dhearg after the move (FE 1,699); The reeves of Dùn dhearg send the grain (FE 2,474); The election of Gilleasbuig Mòr (FE 2,516); Ailean Mòr falls at Àth na Fala (FE 1); Ìomhar Dearg comes to the ford (FE 1); The spent host broken at the ford (FE 1); The greybeard found in the ford (FE 1); Dùn dhearg taken and its halls burned (FE 1); The dead of the ford buried on the meadow (FE 1)."
    },
    "424": {
     "population": 2.237,
@@ -2708,7 +2708,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B424"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "427": {
     "population": 1.053,
@@ -2716,7 +2716,7 @@
     "features": {
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B427"
+    "note": "A farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "431": {
     "population": 21.053,
@@ -2726,14 +2726,14 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B431"
+    "note": "A large village of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "432": {
     "group": "village",
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: II-0044"
+    "note": "A village of Rìoghachd Cathair dhearg: the grave-keepers of Tuam Cnoc dhìreach, paid by Talla na Lasrach a handful of coal a season. Twenty miles south-east of Talla na Lasrach stands Tuam Cnoc dhìreach, where the blind Keeper Fionnlagh Dall was laid in FE 184. His body took eleven days to carry there instead of three, because every hearth on the road asked to bear it some part of the way. A few families settled beside the tomb to tend it, and Talla na Lasrach paid them in coal, a handful each a season, the only payment in coal Lagh an Loscaidh Bhig ever allowed. In the twenty-fourth century, when men of Baile ghorm on the downs were sentenced for digging under the ruin of Làrach an Dùin, their families did penance by keeping the road from their town to the tomb in repair. It is called the diggers' road still. It is not the Cnoc dhìreach of the weavers in the east; the two share a name and nothing else. Known for the blind Keeper's tomb and its keepers. Told of in: The grave-keepers of Cnoc dhìreach (FE 194)."
    },
    "433": {
     "population": 1.316,
@@ -2743,7 +2743,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B433"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Households of Imrich nam Pantar founded the town in the south-west. At the end of the age potters of Baile ghorm set up new kilns here, where the clay ran better and the wood was nearer, and the hard red ware of the western road was made here for the rest of the age. Known for the red ware kilns. Told of in: Cnoc àrsaidh's kilns (FE 2,920)."
    },
    "435": {
     "population": 1.184,
@@ -2751,7 +2751,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B435"
+    "note": "A well village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "436": {
     "population": 1.053,
@@ -2760,24 +2760,24 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B436"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "438": {
     "population": 3.158,
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B438"
+    "note": "A well village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "440": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B440"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "442": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B442"
+    "note": "A grove village of Caol mhòr."
    },
    "443": {
     "population": 3.421,
@@ -2785,17 +2785,17 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B443"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "445": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B445"
+    "note": "A ford village of Caol mhòr."
    },
    "446": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B446"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Farm town with a landing."
    },
    "449": {
     "population": 1.053,
@@ -2803,17 +2803,17 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B449"
+    "note": "A field village of Rìoghachd Cathair dhearg. Field-clearing households of the east founded the upland town, and shepherds settled its fields and sent their wool down to the harbours. In FE 476 their headman, Griogair Ruadh, asked the council at Dùn ìseal for a seat among the houses that governed the plain. He was refused for want of a hearth-right cut in stone at Roinn na Rìoghachd, sat one courtesy season and went home with no seat won. Achadh chaol kept its sheep and its grievance. Known for the shepherds refused a seat. Told of in: Griogair Ruadh asks a seat for Achadh chaol and is refused (FE 476); The shepherds of Achadh chaol (FE 488)."
    },
    "453": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B453"
+    "note": "A field village of Rìoghachd Cathair dhearg."
    },
    "454": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B454"
+    "note": "A field village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "455": {
     "population": 1.053,
@@ -2821,7 +2821,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B455"
+    "note": "A mill village of Rìoghachd Cathair dhearg."
    },
    "456": {
     "population": 1.316,
@@ -2829,7 +2829,7 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B456"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    },
    "457": {
     "population": 1.053,
@@ -2837,7 +2837,7 @@
     "features": {
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B457"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Headland village with a landing."
    },
    "461": {
     "population": 2.895,
@@ -2845,7 +2845,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B461"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "462": {
     "population": 1.579,
@@ -2855,7 +2855,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B462"
+    "note": "A hill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. The blind Keeper Fionnlagh Dall was laid in FE 184 in the ancient unclaimed burying-ground near Cnoc dhìreach, the first burial there any living hand had set down by name. Coimheadaichean na Lasrach hallowed the ground that season, and it has been Tuam Cnoc dhìreach since. Calum Beag, who walked the whole eleven days at the head of the litter, carried a plain stone there on his own back in his old age and set it at the grave-head. In the last years of the age the town on the carriers' road south of the springs became known for a heavy undyed cloth that the carriers wore on the high passes. Known for the blind Keeper's burying-ground, and the carriers' cloth. Told of in: Tuam Cnoc dhìreach hallowed (FE 184); The grave-keepers of Cnoc dhìreach paid in coal (FE 185); Calum Beag sets a marker at the grave (FE 189); Cnoc dhìreach's weavers (FE 2,866)."
    },
    "463": {
     "population": 1.184,
@@ -2863,12 +2863,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B463"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "465": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B465"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Told of in: Seann Mhorn resettled and its name kept (FE 170)."
    },
    "466": {
     "population": 2.105,
@@ -2876,7 +2876,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B466"
+    "note": "A mill village of Rìoghachd Cathair dhearg."
    },
    "468": {
     "population": 1.053,
@@ -2884,7 +2884,7 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B468"
+    "note": "A chapel village of Rìoghachd Cathair dhearg."
    },
    "471": {
     "population": 1.053,
@@ -2893,7 +2893,7 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B471"
+    "note": "A hill-fort of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "472": {
     "population": 1.053,
@@ -2901,7 +2901,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B472"
+    "note": "A ford village of Caol mhòr."
    },
    "475": {
     "population": 8.947,
@@ -2911,7 +2911,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B475"
+    "note": "A strait harbour of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "476": {
     "population": 1.053,
@@ -2921,12 +2921,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B476"
+    "note": "A town of Caol mhòr."
    },
    "483": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B483"
+    "note": "A field village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "484": {
     "population": 1.053,
@@ -2934,17 +2934,17 @@
     "features": {
      "plaza": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B484"
+    "note": "A great farm town of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "486": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B486"
+    "note": "A grove village of Talla na Lasrach. Its people keep the rite of Òrd Bhrìde."
    },
    "487": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B487"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "488": {
     "population": 1.053,
@@ -2952,12 +2952,12 @@
     "features": {
      "temple": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B488"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde."
    },
    "489": {
     "population": 57.895,
     "group": "town",
-    "note": "Òrd Mhanannain · inferred · cites: II-0218"
+    "note": "A town of Rìoghachd Cathair dhearg: the western river port where the sting-oath became a creed and Manannan's court was held. Its people keep the rite of Òrd Mhanannain. The western Seann Skell, an old harbour of the Seann-Dhaoine, kept a harbour court whose oath had been sworn on a carved scorpion since before anyone could say why. In FE 2,846 the court's keepers made the oath a creed: one power alone stung the liar, Manannan mac Lir, lord of the sea, and the scorpion was his sign. From then on the oath was sworn over a cup marked with the scorpion. It was the first teaching on the island to claim that it alone was true. Known for the sting-oath made a creed. Told of in: The sting-oath at Seann Skell (FE 2,846)."
    },
    "492": {
     "population": 1.974,
@@ -2965,7 +2965,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B492"
+    "note": "A ford village of Rìoghachd Cathair dhearg."
    },
    "493": {
     "population": 1.053,
@@ -2974,7 +2974,7 @@
      "walls": 0,
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B493"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Mountain households of the carriers' country founded Muileann gheal beside Àth dhìreach on the track to the pass. In the poor season of FE 2,472 it found, like its neighbours, that it had carried more than it was given back. The common granaries of the mountain were opened here on Oighrig nic Lachlainn's order, the first famine the rolls record as turned back. Known for the granaries opened. Told of in: The granaries opened (FE 2,473)."
    },
    "496": {
     "population": 1.053,
@@ -2982,7 +2982,7 @@
     "features": {
      "shanty": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B496"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Bhrìde. Carriers of the mountain country founded the halting-house below the pass. In the hungry season of FE 2,400 it carried more coal down than it was given grain back. When the late snow of FE 2,472 closed the passes, the common granaries were opened, and the reeves of Dùn dhearg sent grain up. The carrier Calum Ruadh and his son Iain Caol carried it up the pass, and Àth dhìreach granted the carriers the right to rest. The town extended the rest to whichever carrier of that road was oldest living, and the right died with Iain Caol, the last of the grain-carriers, in his ninetieth year. Known for the grain carried up in the poor season. Told of in: The hungry season at the halting-house below the pass (FE 2,400); Calum Ruadh tells his son of the old want (FE 2,465); Àth dhìreach grants the carriers the right to rest (FE 2,466); Àth dhìreach after the poor season (FE 2,474); Iain Caol's first load up (FE 2,480); Death of Iain Caol, the last of the grain-carriers (FE 2,546)."
    },
    "497": {
     "population": 1.053,
@@ -2990,7 +2990,7 @@
     "features": {
      "walls": 0
     },
-    "note": "Òrd Bhrìde · inferred · cites: gazetteer B497"
+    "note": "A hamlet of Rìoghachd Cathair dhearg. Harbour on an Old Ones' site. Its people keep the rite of Òrd Bhrìde."
    },
    "499": {
     "population": 1.053,
@@ -2999,7 +2999,7 @@
      "citadel": 0,
      "temple": 0
     },
-    "note": "Òrd Mhanannain · inferred · cites: gazetteer B499"
+    "note": "A chapel village of Rìoghachd Cathair dhearg. Its people keep the rite of Òrd Mhanannain."
    },
    "500": {
     "population": 1.053,
@@ -3007,7 +3007,7 @@
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B500"
+    "note": "A ford village of Rìoghachd Cathair dhearg. Ford-keepers of the capital's country founded the crossing, where in FE 1,001 the men of Caol leathan met the levies of Iain Garbh and held the ford a day before they gave way. Forty lay dead of both sides, and the carriers call it Àth an Dà Fhichead. A man of Caol leathan held a split shield upright there well past any sense, until a spear from behind Iain Garbh's own rank found him. No name was kept for him. Known for Àth an Dà Fhichead. Told of in: The fight at Àth fhiadhaich (FE 1,001); The unnamed man of the ford (FE 1,002)."
    },
    "502": {
     "population": 4.211,
@@ -3016,7 +3016,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B502"
+    "note": "A mill village of Rìoghachd Cathair dhearg. Herders of the eastern plain founded the hill town, and at the end of the age its dyers learned to fix a pale blue from a hill plant that grew nowhere lower. The carriers' cloth of the whole mountain country was dyed here. Only Coimheadaichean na Lasrach kept theirs undyed, holding that a flame kept for no one's blood needed no colour to show whose it was. Known for the pale blue dye. Told of in: The dyers of Muileann bhàn (FE 2,869)."
    },
    "504": {
     "population": 1.053,
@@ -3024,7 +3024,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B504"
+    "note": "A hill village of Rìoghachd Cathair dhearg."
    }
   },
   "add": [
@@ -3035,7 +3035,7 @@
     "cell": 3064,
     "population": 1.053,
     "group": "monastery",
-    "note": "inferred · cites: II-0034",
+    "note": "A lodge of Rìoghachd Cathair dhearg: the bridge-masons' fellowship, sworn on the stone cup: no span closed in the dark, none paid for in coal. The lodge is kept near the western crossing in the country of Ros dhomhain. Told of in: The masons' custom (FE 163).",
     "culture": 2
    },
    {
@@ -3045,7 +3045,7 @@
     "cell": 2559,
     "population": 0.395,
     "group": "hamlet",
-    "note": "inferred · cites: II-0011, II-0012, II-0223, III-0175",
+    "note": "A pilgrim shelter of Rìoghachd Cathair dhearg. Pilgrims of every rite walk here by night in the right quarter of the moon. The stream is kept by the ancestors and the weather. Told of in: Allt an Àigh named (FE 53); The pilgrims' path from Caol shean (FE 57); Allt an Àigh keeps its pilgrims (FE 2,860); Pilgrims at Allt an Àigh (LE 1,259).",
     "culture": 2
    },
    {
@@ -3055,7 +3055,7 @@
     "cell": 704,
     "population": 0.026,
     "group": "hamlet",
-    "note": "inferred · cites: II-0204",
+    "note": "A seasonal shelter of Caol mhòr. Coast families take sheep over for the summer grazing and bring them back before the storms; turf shelters used again by later herders. Summer herders on Eilean ruadh (FE 2,791). Told of in: Summer herders on Eilean ruadh (FE 2,791).",
     "culture": 2
    }
   ]
@@ -3067,7 +3067,7 @@
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile chiar",
     "burg": 106,
-    "note": "inferred",
+    "note": "",
     "into": 52,
     "from": [
      67
@@ -3078,7 +3078,7 @@
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth bheag",
     "burg": 492,
-    "note": "inferred",
+    "note": "",
     "into": 70,
     "from": [
      123
@@ -3089,7 +3089,7 @@
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann chrom",
     "burg": 354,
-    "note": "inferred",
+    "note": "",
     "into": 76,
     "from": [
      96
@@ -3100,7 +3100,7 @@
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc dhìreach",
     "burg": 462,
-    "note": "inferred",
+    "note": "",
     "into": 87,
     "from": [
      112
@@ -3111,7 +3111,7 @@
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth ghlas",
     "burg": 393,
-    "note": "inferred",
+    "note": "",
     "into": 55,
     "from": [
      94
@@ -3122,7 +3122,7 @@
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ceann bheag",
     "burg": 42,
-    "note": "inferred",
+    "note": "",
     "into": 97,
     "from": [
      104
@@ -3133,497 +3133,497 @@
    "1": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cathair dhearg",
-    "note": "inferred"
+    "note": ""
    },
    "2": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol leathan",
-    "note": "inferred"
+    "note": ""
    },
    "3": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Skell",
-    "note": "inferred"
+    "note": ""
    },
    "4": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Skell",
-    "note": "inferred"
+    "note": ""
    },
    "5": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ros dhomhain",
-    "note": "inferred"
+    "note": ""
    },
    "6": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc bheag",
-    "note": "inferred"
+    "note": ""
    },
    "8": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol bheag",
-    "note": "inferred"
+    "note": ""
    },
    "9": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Inis bhàn",
-    "note": "inferred"
+    "note": ""
    },
    "10": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire shean",
-    "note": "inferred"
+    "note": ""
    },
    "11": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth shean",
-    "note": "inferred"
+    "note": ""
    },
    "12": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Achadh mhòr",
-    "note": "inferred"
+    "note": ""
    },
    "13": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Bhral",
-    "note": "inferred"
+    "note": ""
    },
    "15": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Inis thais",
-    "note": "inferred"
+    "note": ""
    },
    "16": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Dùn thais",
-    "note": "inferred"
+    "note": ""
    },
    "17": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Inis chrom",
-    "note": "inferred"
+    "note": ""
    },
    "18": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire mhin",
-    "note": "inferred"
+    "note": ""
    },
    "19": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire fhiadhaich",
-    "note": "inferred"
+    "note": ""
    },
    "20": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile gharbh",
-    "note": "inferred"
+    "note": ""
    },
    "21": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ceann mhin",
-    "note": "inferred"
+    "note": ""
    },
    "22": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile ghlas",
-    "note": "inferred"
+    "note": ""
    },
    "23": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire ghlas",
-    "note": "inferred"
+    "note": ""
    },
    "24": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cathair mhòr",
-    "note": "inferred"
+    "note": ""
    },
    "25": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile ghorm",
-    "note": "inferred"
+    "note": ""
    },
    "26": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Achadh naomh",
-    "note": "inferred"
+    "note": ""
    },
    "27": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile Mòr mhòr",
-    "note": "inferred"
+    "note": ""
    },
    "29": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann mhin",
-    "note": "inferred"
+    "note": ""
    },
    "30": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol gharbh",
-    "note": "inferred"
+    "note": ""
    },
    "31": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Chwen",
-    "note": "inferred"
+    "note": ""
    },
    "32": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cathair dhomhain",
-    "note": "inferred"
+    "note": ""
    },
    "33": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth shean",
-    "note": "inferred"
+    "note": ""
    },
    "34": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann bhàn",
-    "note": "inferred"
+    "note": ""
    },
    "37": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc leathan",
-    "note": "inferred"
+    "note": ""
    },
    "38": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cuan shean",
-    "note": "inferred"
+    "note": ""
    },
    "39": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth chiar",
-    "note": "inferred"
+    "note": ""
    },
    "40": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire fhada",
-    "note": "inferred"
+    "note": ""
    },
    "41": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Achadh naomh",
-    "note": "inferred"
+    "note": ""
    },
    "42": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann dhearg",
-    "note": "inferred"
+    "note": ""
    },
    "43": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile ghorm",
-    "note": "inferred"
+    "note": ""
    },
    "44": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Dùn chrom",
-    "note": "inferred"
+    "note": ""
    },
    "45": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ros gheal",
-    "note": "inferred"
+    "note": ""
    },
    "46": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cill dhìreach",
-    "note": "inferred"
+    "note": ""
    },
    "47": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire chiar",
-    "note": "inferred"
+    "note": ""
    },
    "48": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol shean",
-    "note": "inferred"
+    "note": ""
    },
    "49": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cathair fhada",
-    "note": "inferred"
+    "note": ""
    },
    "50": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile mhin",
-    "note": "inferred"
+    "note": ""
    },
    "51": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Skell",
-    "note": "inferred"
+    "note": ""
    },
    "53": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc mhòr",
-    "note": "inferred"
+    "note": ""
    },
    "54": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Tobar fhiadhaich",
-    "note": "inferred"
+    "note": ""
    },
    "56": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Tobar ghorm",
-    "note": "inferred"
+    "note": ""
    },
    "57": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth fhiadhaich",
-    "note": "inferred"
+    "note": ""
    },
    "58": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile chaol",
-    "note": "inferred"
+    "note": ""
    },
    "59": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann dhomhain",
-    "note": "inferred"
+    "note": ""
    },
    "60": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Tarr",
-    "note": "inferred"
+    "note": ""
    },
    "61": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Achadh shean",
-    "note": "inferred"
+    "note": ""
    },
    "62": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann shean",
-    "note": "inferred"
+    "note": ""
    },
    "63": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Tobar dhearg",
-    "note": "inferred"
+    "note": ""
    },
    "64": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile àrsaidh",
-    "note": "inferred"
+    "note": ""
    },
    "65": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cuan ghlas",
-    "note": "inferred"
+    "note": ""
    },
    "66": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire fhionn",
-    "note": "inferred"
+    "note": ""
    },
    "68": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Toll",
-    "note": "inferred"
+    "note": ""
    },
    "69": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile ruadh",
-    "note": "inferred"
+    "note": ""
    },
    "71": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ceann àrsaidh",
-    "note": "inferred"
+    "note": ""
    },
    "72": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol fhiadhaich",
-    "note": "inferred"
+    "note": ""
    },
    "73": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile fhiadhaich",
-    "note": "inferred"
+    "note": ""
    },
    "74": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Vell",
-    "note": "inferred"
+    "note": ""
    },
    "77": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ros bheag",
-    "note": "inferred"
+    "note": ""
    },
    "78": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc àrsaidh",
-    "note": "inferred"
+    "note": ""
    },
    "79": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Inis bheag",
-    "note": "inferred"
+    "note": ""
    },
    "80": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth fhionn",
-    "note": "inferred"
+    "note": ""
    },
    "81": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Achadh àrsaidh",
-    "note": "inferred"
+    "note": ""
    },
    "82": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cuan ruadh",
-    "note": "inferred"
+    "note": ""
    },
    "83": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Bhrenn",
-    "note": "inferred"
+    "note": ""
    },
    "84": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc shean",
-    "note": "inferred"
+    "note": ""
    },
    "85": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Dùn dhearg",
-    "note": "inferred"
+    "note": ""
    },
    "88": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann leathan",
-    "note": "inferred"
+    "note": ""
    },
    "89": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Achadh chaol",
-    "note": "inferred"
+    "note": ""
    },
    "90": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann dhomhain",
-    "note": "inferred"
+    "note": ""
    },
    "91": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Inis mhin",
-    "note": "inferred"
+    "note": ""
    },
    "92": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol ìseal",
-    "note": "inferred"
+    "note": ""
    },
    "93": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc naomh",
-    "note": "inferred"
+    "note": ""
    },
    "95": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Warr",
-    "note": "inferred"
+    "note": ""
    },
    "98": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Inis mhòr",
-    "note": "inferred"
+    "note": ""
    },
    "99": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ceann mhin",
-    "note": "inferred"
+    "note": ""
    },
    "100": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Dunn",
-    "note": "inferred"
+    "note": ""
    },
    "101": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ceann leathan",
-    "note": "inferred"
+    "note": ""
    },
    "102": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc gheal",
-    "note": "inferred"
+    "note": ""
    },
    "103": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann bheag",
-    "note": "inferred"
+    "note": ""
    },
    "106": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cill thais",
-    "note": "inferred"
+    "note": ""
    },
    "108": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile gheal",
-    "note": "inferred"
+    "note": ""
    },
    "109": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Ceann mhin",
-    "note": "inferred"
+    "note": ""
    },
    "110": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Cnoc dhubh",
-    "note": "inferred"
+    "note": ""
    },
    "111": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Baile Mòr dhomhain",
-    "note": "inferred"
+    "note": ""
    },
    "113": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Doire fhionn",
-    "note": "inferred"
+    "note": ""
    },
    "115": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Àth mhòr",
-    "note": "inferred"
+    "note": ""
    },
    "116": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann naomh",
-    "note": "inferred"
+    "note": ""
    },
    "117": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Muileann naomh",
-    "note": "inferred"
+    "note": ""
    },
    "118": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol bheag",
-    "note": "inferred"
+    "note": ""
    },
    "119": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Caol mhin",
-    "note": "inferred"
+    "note": ""
    },
    "121": {
     "formName": "Mòr-roinn",
     "fullName": "Mòr-roinn Seann Vell",
-    "note": "inferred"
+    "note": ""
    }
   },
   "remove": [
@@ -3649,7 +3649,7 @@
     "shires": [
      35
     ],
-    "note": "cites: II-0001b, II-0004, II-0078"
+    "note": "Told of in: Roinn na Rìoghachd (FE 2); Talla na Lasrach raised (FE 15); The division of keeping (FE 694)."
    },
    {
     "key": "u1",
@@ -3659,7 +3659,7 @@
     "shires": [
      114
     ],
-    "note": "inferred · cites: I-0247, II-0065"
+    "note": "Told of in: The keepers number nine (GE 4,353); The stag's people at Cnoc bhàn (FE 565)."
    }
   ]
  },
@@ -3721,131 +3721,131 @@
   ],
   "edit": {
    "0": {
-    "note": "cites: II-0014, II-0063, II-0224"
+    "note": "A roofed bath-house over the springs with sleeping-places for the sick; Talla na Lasrach's keeper of the springs tends them in Dian Cècht's name, and bathes the sick of every rite. Told of in: The sick carried to Muileann ruadh (FE 66); The bath-house at Muileann ruadh (FE 529); The springs at Muileann ruadh common to all (FE 2,863)."
    },
    "1": {
-    "note": "cites: II-0011, II-0013, II-0223"
+    "note": "Named for fortune; Talla na Lasrach declined it for the ancestors and the weather. Pilgrims of every rite walk to it. Told of in: Allt an Àigh named (FE 53); The Hall declines the stream (FE 59); Allt an Àigh keeps its pilgrims (FE 2,860)."
    },
    "2": {
-    "note": "cites: II-0015, II-0017, II-0152"
+    "note": "Found near the great vein but apart from it; not holy, and so not the crown's either. Told of in: Muileann chiar founded (FE 71); Silver is not holy (FE 74); The Keeper's judgment on the silver (FE 1,749)."
    },
    "3": {
-    "note": "cites: II-0032, II-0083, II-0190"
+    "note": "First bridged FE 157, rebuilt in wider stone by Mòrag nan Rathad and a third time for carts; Ailean Clachair's hearth-sign in the keystone. Told of in: The first bridges (FE 157); The bridge-foot rebuilt (FE 794); The bridge at Cathair dhearg widened (FE 2,571)."
    },
    "4": {
-    "note": "cites: II-0033, II-0191"
+    "note": "A single span of fitted stone above Ros fhionn; the founder's hearth-sign still sharp in the keystone. Told of in: Ailean Clachair's crossing at Ros fhionn (FE 160); The crossing at Ros fhionn repaired (FE 2,598)."
    },
    "5": {
     "name": "Taigh Mòr nic Dhùghaill",
-    "note": "cites: II-0036, II-0099, II-0206, III-0055"
+    "note": "The first waypoint house, serving jugged buffalo; Cogadh nan Rathad ended under its roof. Named Am Buabhall Fortanach by the Sundering. Told of in: Mòr nic Dhùghaill's house (FE 169); The peace at Mòr nic Dhùghaill's house (FE 1,006); Anna Ruadh at Am Buabhall Fortanach (FE 2,809); Am Buabhall Fortanach rebuilt in stone (LE 164)."
    },
    "6": {
-    "note": "cites: II-0072, II-0207"
+    "note": "A waypoint house facing south on the eastern road; the only one with a royal charter, for the upkeep of Slighe Cnoc leathan. Told of in: The sunny house (FE 604); Anna Ruadh at the sunny house (FE 2,813)."
    },
    "7": {
-    "note": "cites: II-0104, II-0196"
+    "note": "Built by Catrìona Ghlic for the carriers of Talla na Lasrach's baskets; serves fire-water. Told of in: The house on the northern road (FE 1,081); Fire-water on the northern road (FE 2,672)."
    },
    "8": {
-    "note": "cites: II-0105"
+    "note": "A stone house on the open moor for carriers caught by snow. Told of in: The house on the cold road (FE 1,085)."
    },
    "9": {
-    "note": "cites: II-0082"
+    "note": "The first waypoint house raised by a ruler, Mòrag nan Rathad. Told of in: The golden house (FE 781)."
    },
    "10": {
-    "note": "cites: II-0037, II-0080, II-0141"
+    "note": "A turf longhouse with a hearth at each end; where the road-toll was first gathered and Cunntas nan Làmh was counted. Told of in: The house at the middle of the road (FE 172); The first road-toll (FE 719); The waypoint houses as counting-houses (FE 1,735)."
    },
    "11": {
-    "note": "cites: II-0038, II-0195"
+    "note": "The oldest house under Sìth an Rathaid, rebuilt in stone; so far from any town that one is never nearer it than halfway. Told of in: The road-peace (FE 175); The far-off house (FE 2,658)."
    },
    "12": {
     "icon": "🔥",
-    "note": "cites: II-0051, II-0052"
+    "note": "Relit after the boat was lost in calm water, fed with driftwood as Lagh an Loscaidh Bhig requires. Told of in: The boat lost off the north-west (FE 405); The fire at Baile chrom relit (FE 409)."
    },
    "13": {
     "icon": "🔥",
-    "note": "cites: II-0145, II-0029"
+    "note": "Rebuilt to bring the eastern boats home; driftwood and seal fat. Told of in: The light at Baile ìseal (FE 1,735); No coal on the beacons (FE 148)."
    },
    "14": {
     "icon": "🔥",
-    "note": "cites: II-0146"
+    "note": "Kept by north-western fisher-families who pay no toll in return. Told of in: The light at Muileann bheag (FE 1,735)."
    },
    "15": {
     "icon": "🔥",
-    "note": "cites: II-0147"
+    "note": "Rebuilt by Sliochd Raghnaill to mark the way in to Seann Tarr. Told of in: The light at Àth dhearg (FE 1,735)."
    },
    "16": {
     "icon": "🗼",
-    "note": "cites: II-0029, II-0231"
+    "note": "The first sea-light raised above the ground, burning the seal-oil of the north-west; no coal may feed a beacon. Told of in: No coal on the beacons (FE 148); The light at Tobar dhearg rebuilt (FE 2,883)."
    },
    "19": {
-    "note": "cites: I-0037, III-0149"
+    "note": "Lost: the western shaft is known only in the old tales at this date; quarrymen break into it in the Age of Sundering. Told of in: The shaft of Toll-dubh in the west (VE 2,782); The stair at Toll-dubh (LE 979)."
    },
    "20": {
-    "note": "cites: I-0120, III-0199"
+    "note": "Lost: found again by charcoal-burners in the Age of Sundering. Told of in: A youth let down into Toll-dubh (GE 1,452); The eastern Toll-dubh (LE 1,469)."
    },
    "21": {
-    "note": "cites: II-0051, II-0202"
+    "note": "A boat of Baile chrom lost in calm water (FE 405); the second sighting (FE 2,761), and a second boat lost. Told of in: The boat lost off the north-west (FE 405); The second sighting (FE 2,761)."
    },
    "22": {
-    "note": "cites: II-0007"
+    "note": "Coimheadaichean na Lasrach forbid any fire, of wood or coal, in sight of these hills; the ban is never lifted. Told of in: The ban on fires in sight of Doire uaine (FE 33)."
    },
    "23": {
-    "note": "cites: II-0022, II-0115, II-0118"
+    "note": "Sìleas nic Coinnich taught here; the wood-watchers cut a black-barked tree; the woods were divided and this one kept by Scoiltean nan Draoidhean, with stones at its edges. Told of in: Sìleas nic Coinnich in the wood (FE 110); The wood-watchers in the stag's grove (FE 1,576); The boundary stones of the woods (FE 1,595)."
    },
    "24": {
-    "note": "cites: II-0114, II-0118, II-0220"
+    "note": "Watchers of the black horned beast since FE 1,569; kept by them by the division of the woods; they judge their own quarrels under the trees. Told of in: The watchers of the dark wood (FE 1,569); The boundary stones of the woods (FE 1,595); The dark wood keeps its own rite (FE 2,852)."
    },
    "25": {
-    "note": "cites: II-0050"
+    "note": "Households stripped of their right for a third offence took to boats and raid the fishing strands. Told of in: The outlaws of the north-west waters (FE 401)."
    },
    "26": {
-    "note": "cites: II-0175"
+    "note": "Outlaws raid the eastern strands; Sliochd Raghnaill burned two of their boats. Told of in: Raiders in the eastern waters (FE 2,455)."
    },
    "27": {
-    "note": "cites: II-0201"
+    "note": "Raiders took a season's dried fish; the sting-sworn merchants of Ros bheag paid for two armed boats. Told of in: The raid on the western strands (FE 2,747)."
    },
    "28": {
-    "note": "cites: II-0062, II-0089"
+    "note": "Fenced with stakes against the cattle; the stag-scholars set their letters beside its marks and they matched nothing. Told of in: The fence round Carragh Cnoc bheag (FE 515); The letters set against the obelisk (FE 914)."
    },
    "29": {
-    "note": "cites: I-0071"
+    "note": "The pillar of Cuimhnich an teine. Told of in: Colbh Cnoc chiar raised (VE 4,770)."
    },
    "30": {
-    "note": "cites: II-0167"
+    "note": "Scholars of the stag could not read it; the people of Cnoc ghorm told them what it said. Told of in: What the people of Cnoc ghorm say of their stone (FE 2,376)."
    },
    "31": {
-    "note": "cites: II-0061"
+    "note": "Ruin, listed by Coinneach Mòr's walkers with who does not own it. Told of in: The Keepers' count of the old places (FE 502)."
    },
    "32": {
-    "note": "cites: II-0061, II-0168"
+    "note": "Ruin; the men of Baile ghorm dug it for riches and found ash, and were sentenced as though they had broken Lagh an Loscaidh Bhig. Told of in: The Keepers' count of the old places (FE 502); The digging at Làrach an Dùin (FE 2,386)."
    },
    "33": {
-    "note": "cites: II-0008"
+    "note": "Coimheadaichean na Lasrach set no foot in it: Beathag Bhàn found its altar already turned toward the mountain and declared it not Talla na Lasrach's. Told of in: Làrach an Teampaill left unentered (FE 34)."
    },
    "34": {
-    "note": "cites: II-0163, II-0165"
+    "note": "Donnchadh mac Iain and his hearers at Muileann chaol keep their own strike-books without parentage. Told of in: Donnchadh mac Iain leaves Cnoc bhàn (FE 2,300); The school at Muileann chaol (FE 2,330)."
    },
    "37": {
-    "note": "cites: II-0129, II-0209"
+    "note": "The road-guards fight with blunted staves for a silver ring; Anna Ruadh gave the field stone walls. The first winner remembered is Mòrag Dhubh of Cnoc mhòr. Told of in: The road-guards' games at Ceann leathan (FE 1,665); The contest at Ceann leathan in stone (FE 2,819)."
    },
    "38": {
     "icon": "🎪",
-    "note": "cites: II-0130"
+    "note": "Held each harvest at Lùnastal for the trade of the western and southern roads, on the old ford-ground. Told of in: The fair at Muileann òg (FE 1,665)."
    },
    "39": {
-    "note": "cites: II-0131"
+    "note": "Built so the grain of the lowlands may go upriver by boat; the carriers protested and lost. Told of in: The landing on the Abhainn uaine (FE 1,665)."
    },
    "40": {
-    "note": "cites: II-0055, II-0239"
+    "note": "The crossing runs over the carriers' southern road: no panther may be killed on the road in its season, and the carriers wait in the waypoint houses. Told of in: The panthers let pass (FE 421); The panthers late (FE 2,906)."
    },
    "41": {
-    "note": "cites: II-0042, II-0043, II-0044"
+    "note": "Fionnlagh Dall carried here eleven days and laid among graves older than any name; hallowed over his grave; grave-keepers settled beside it. Told of in: Fionnlagh Dall carried to the old graves (FE 184); The mausoleum consecrated (FE 189); The grave-keepers of Cnoc dhìreach (FE 194)."
    },
    "46": {
-    "note": "inferred · cites: I-0154a, II-0026"
+    "note": "Coinneachadh nan Cupan; Talla na Lasrach's cup of Fionnlagh Dall now stands on the threshold of Talla na Lasrach. Told of in: The meeting of the cups (GE 2,408); Fionnlagh Dall and the stone cup (FE 139)."
    },
    "48": {
-    "note": "cites: I-0027a"
+    "note": "Binnean a' Chlachair. Told of in: The snowflake coal takes fire in the air (VE 2,170)."
    }
   },
   "add": [
@@ -3855,7 +3855,7 @@
     "icon": "⚔️",
     "name": "Blàr Àth na Fala",
     "cell": 3107,
-    "note": "event I-0098a · cites: I-0098a, App.C Blàr Àth na Fala"
+    "note": "Where Ailean Mòr held the ford alone three days against the host of the east and fell on the third night; Ìomhar Dearg took Dùn dhearg the next morning. Told of in: Ailean Mòr falls at Àth na Fala (FE 1)."
    },
    {
     "key": "III_K02",
@@ -3863,7 +3863,7 @@
     "icon": "🔥",
     "name": "Talla na Lasrach",
     "cell": 3104,
-    "note": "event II-0004 · cites: II-0001, II-0004, II-0026, II-0064c"
+    "note": "A long hall of dry stone and turf over Brìde's flame, one door toward the vein and none toward the sea; the stone cup of Fionnlagh Dall on its threshold, where Sìth an Stairsnich was sworn. Told of in: The Binding of the First Flame (FE 1); Talla na Lasrach raised (FE 15); Fionnlagh Dall and the stone cup (FE 139); Sìth an Stairsnich (FE 556)."
    },
    {
     "key": "III_K03",
@@ -3871,7 +3871,7 @@
     "icon": "🪨",
     "name": "the double stones of Dùn thais (first blood of the heirs)",
     "cell": 2017,
-    "note": "event II-0001c · cites: II-0001c, book III"
+    "note": "Roinn na Rìoghachd put the fort on the line between the north and an Earrann Dhearg; a stone was set on each side of the bank and neither share let the other's stand. Aonghas Bàn mac Mhurchaidh was killed here in FE 3. Told of in: First blood among the heirs (FE 3)."
    },
    {
     "key": "III_K04",
@@ -3879,7 +3879,7 @@
     "icon": "🪨",
     "name": "the stone of the two oaths",
     "cell": 3451,
-    "note": "event II-0064b · cites: II-0064b, App.H §II"
+    "note": "A boundary stone of Roinn na Rìoghachd cut on two faces with the signs of two shares, now in the wall of the maor's house; the shire says it is the stone Fearghas Dà-Mhionn was sworn by. His fields were burned here in FE 556. Told of in: The burning of Achadh mhòr (FE 556)."
    },
    {
     "key": "III_K05",
@@ -3887,7 +3887,7 @@
     "icon": "🪨",
     "name": "the boundary stones of the woods (east)",
     "cell": 2205,
-    "note": "event II-0118 · cites: II-0118"
+    "note": "The terms of the division of the woods cut in stag-letters; two of the eastern stones remain. Told of in: The boundary stones of the woods (FE 1,595)."
    },
    {
     "key": "III_K06",
@@ -3895,7 +3895,7 @@
     "icon": "🪨",
     "name": "the boundary stones of the woods (west)",
     "cell": 3498,
-    "note": "event II-0118 · cites: II-0118"
+    "note": "The western wood kept by the wood-watchers, each side free to walk the other's wood unarmed and without cutting. Told of in: The boundary stones of the woods (FE 1,595)."
    },
    {
     "key": "III_K07",
@@ -3903,7 +3903,7 @@
     "icon": "🌥️",
     "name": "the weather-cairns of Cnoc ghlas",
     "cell": 3106,
-    "note": "event II-0006 · cites: II-0006, II-0177"
+    "note": "Watchers read the cloud on the high passes and tell Talla na Lasrach when the galleries may open; they saw the late snow of FE 2,472. Told of in: The weather-cairns of Cnoc ghlas (FE 27); The late snow on the high passes (FE 2,472)."
    },
    {
     "key": "III_K08",
@@ -3911,7 +3911,7 @@
     "icon": "🪨",
     "name": "the ancestor-cairn of Cathair naomh",
     "cell": 887,
-    "note": "event II-0054 · cites: II-0054"
+    "note": "The greatest ancestor-cairn in the north, a stone brought at every burial. Told of in: The ancestor-cairn at Cathair naomh (FE 417)."
    },
    {
     "key": "III_K09",
@@ -3919,7 +3919,7 @@
     "icon": "🏛️",
     "name": "An Talla Dearg",
     "cell": 3158,
-    "note": "event II-0137 · cites: II-0137, II-0155, II-0157"
+    "note": "Beathag Mhòr's hall of red stone above the harbour, the hearth-sign cut in its lintel; its clerks keep Clàr nan Rìghrean year by year. Told of in: The red hall (FE 1,699); Seonag Chrom (FE 1,781); Peigi nic Tormoid, clerk of the hall (FE 1,926)."
    },
    {
     "key": "III_K10",
@@ -3927,7 +3927,7 @@
     "icon": "⚱️",
     "name": "Goraidh Mòr's hall and the kings' graves",
     "cell": 3019,
-    "note": "event II-0079 · cites: II-0079, II-0148, II-0188, II-0212"
+    "note": "A timber hall with a granary at each corner; Sliochd Ìomhair and the kings of Sliochd Thormoid are buried here. Told of in: Goraidh Mòr's hall (FE 714); Death of Beathag Mhòr (FE 1,735); Death of Gilleasbuig Mòr (FE 2,541); Death of Anna Ruadh (FE 2,829)."
    },
    {
     "key": "III_K11",
@@ -3935,7 +3935,7 @@
     "icon": "🐺",
     "name": "the white wolf-stone at the gate",
     "cell": 3485,
-    "note": "event II-0100 · cites: II-0100, II-0217"
+    "note": "The road-guards' white stone carved as a wolf, with the wolf-sworn's hall about it; later called Lia Fàil. Told of in: The wolf-sworn of Caol leathan (FE 1,009); The wolf-sworn build a hall (FE 2,843)."
    },
    {
     "key": "III_K12",
@@ -3943,7 +3943,7 @@
     "icon": "🕯️",
     "name": "the shrine of the drowned",
     "cell": 3400,
-    "note": "event II-0069 · cites: II-0069, II-0161"
+    "note": "Its keepers burn the season's handful on the shore so the drowned may see it; a second wolf-stone of white quartz dragged from the mountain. Told of in: The shrine at Inis thais (FE 589); The wolf-stone at Inis thais (FE 2,217)."
    },
    {
     "key": "III_K13",
@@ -3951,7 +3951,7 @@
     "icon": "⚔️",
     "name": "Àth an Dà Fhichead",
     "cell": 3325,
-    "note": "event II-0095 · cites: II-0095"
+    "note": "The men of Caol leathan held the ford a day against Iain Garbh; forty lay dead of both sides. Told of in: The fight at Àth fhiadhaich (FE 1,001)."
    },
    {
     "key": "III_K14",
@@ -3959,7 +3959,7 @@
     "icon": "🪙",
     "name": "the toll-house at Àth ghlas",
     "cell": 3346,
-    "note": "event II-0128 · cites: II-0128"
+    "note": "Road-guards paid in the new silver rings; its keeper the first sent from the rìgh's hall. Told of in: The toll-house at Àth ghlas (FE 1,661)."
    },
    {
     "key": "III_K15",
@@ -3967,7 +3967,7 @@
     "icon": "🗼",
     "name": "the watch-tower of Baile ruadh",
     "cell": 1436,
-    "note": "event II-0240 · cites: II-0240"
+    "note": "The only tower of war the age builds. Told of in: The watch-tower at Baile ruadh (FE 2,909)."
    },
    {
     "key": "III_K16",
@@ -3975,7 +3975,7 @@
     "icon": "🌉",
     "name": "the bridge below Dùn chrom",
     "cell": 3421,
-    "note": "event II-0192 · cites: II-0192"
+    "note": "Joins the southern road to the western; half the road-toll. Told of in: The bridge at Dùn chrom (FE 2,613)."
    },
    {
     "key": "III_K17",
@@ -3983,7 +3983,7 @@
     "icon": "🌉",
     "name": "the bridge at Ceann àrsaidh",
     "cell": 2724,
-    "note": "event II-0193 · cites: II-0193"
+    "note": "The fourth stone crossing of the lowlands, built by forty of the fisher-kin of Sliochd Raghnaill. Told of in: The bridge at Ceann àrsaidh (FE 2,628)."
    },
    {
     "key": "III_K18",
@@ -3991,7 +3991,7 @@
     "icon": "🌉",
     "name": "the bridge at Doire mhin",
     "cell": 3172,
-    "note": "event II-0194 · cites: II-0194"
+    "note": "The first mason's mark known: Beathag Clachair's name beside the hearth-sign. Told of in: The bridge at Doire mhin (FE 2,643)."
    },
    {
     "key": "III_K19",
@@ -3999,7 +3999,7 @@
     "icon": "⚓",
     "name": "the stone quay of Seann Vell",
     "cell": 3937,
-    "note": "event II-0230 · cites: II-0230"
+    "note": "The first stone quay on the island. Told of in: Seann Vell's harbour (FE 2,880)."
    },
    {
     "key": "III_K20",
@@ -4007,7 +4007,7 @@
     "icon": "🔤",
     "name": "the stag-letters",
     "cell": 2114,
-    "note": "event II-0088 · cites: II-0023, II-0088"
+    "note": "The cutters' tally-notches made into signs for sounds: the ogham, the gift of Ogma. Told of in: The stag in the grove (FE 118); The stag-letters (FE 914)."
    },
    {
     "key": "III_K21",
@@ -4015,7 +4015,7 @@
     "icon": "🛕",
     "name": "the temple of Sliochd Thormoid",
     "cell": 2933,
-    "note": "event II-0187 · cites: II-0047, II-0187"
+    "note": "The house's shrine enlarged into a temple with a court for pilgrims. Told of in: The house of Tormod at Seann Dunn (FE 389); The shrine at Seann Dunn enlarged (FE 2,537)."
    },
    {
     "key": "III_K22",
@@ -4023,7 +4023,7 @@
     "icon": "⚙️",
     "name": "the mill-shrine",
     "cell": 4065,
-    "note": "event II-0232 · cites: II-0232"
+    "note": "A mill and a shrine under one roof; the miller keeps the handful by his stones. Told of in: Muileann naomh's mill-shrine (FE 2,886)."
    },
    {
     "key": "III_K23",
@@ -4031,7 +4031,7 @@
     "icon": "📜",
     "name": "the school of letters at Inis bheag",
     "cell": 1533,
-    "note": "event II-0156 · cites: II-0156"
+    "note": "Letters taught to fishers' children who will never cut coal. Told of in: Inis bheag's school of letters (FE 1,854)."
    },
    {
     "key": "III_K24",
@@ -4039,7 +4039,7 @@
     "icon": "⛏️",
     "name": "the sealed high gallery",
     "cell": 3104,
-    "note": "event II-0074 · cites: II-0074, II-0122"
+    "note": "A roof fall killed four cutters; walled up, and oak props set in every gallery after. Told of in: The fall in the high gallery (FE 614); The deaths in the lower gallery (FE 1,621)."
    }
   ]
  },
@@ -4237,7 +4237,41 @@
    444,
    446
   ],
-  "edit": {},
+  "edit": {
+   "3": {
+    "note": "The carriers' way north over the high pass (named An Rathad Tuath in the Sundering). Told of in: Baile Mòr dhomhain at the foot of the pass (FE 448); The house on the cold road (FE 1,085)."
+   },
+   "16": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "39": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "52": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "70": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "111": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "115": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "130": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "131": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   },
+   "264": {
+    "note": "The road to Cnoc leathan kept by An Taigh-òsta Grianach under Anna Ruadh's charter. Told of in: Anna Ruadh at the sunny house (FE 2,813)."
+   },
+   "446": {
+    "note": "Part of the carriers' road from the mountain down to the western bridge-foot (the later Rathad na Mèinne). Told of in: The carriers' path to Ceann chaol (FE 151); The tavern roads begin (FE 166)."
+   }
+  },
   "add": [
    {
     "key": "III_R01",
@@ -4247,7 +4281,7 @@
      2463,
      2559
     ],
-    "note": "cites: II-0012, II-0223"
+    "note": "Walked by night so pilgrims reach the water in the right quarter of the moon; paved anew by pilgrims of four rites in one season. Told of in: The pilgrims' path from Caol shean (FE 57); Allt an Àigh keeps its pilgrims (FE 2,860)."
    },
    {
     "key": "III_R02",
@@ -4257,7 +4291,7 @@
      3104,
      3949
     ],
-    "note": "cites: II-0030"
+    "note": "Cut from the mountain down to the harbour with steps hewn at the steep places; Talla na Lasrach's baskets go down, dried fish comes up. Told of in: The carriers' path to Ceann chaol (FE 151)."
    },
    {
     "key": "III_R03",
@@ -4267,7 +4301,7 @@
      4146,
      4092
     ],
-    "note": "cites: II-0169"
+    "note": "Kept in repair by the families of the Làrach an Dùin diggers as their penance, from Baile ghorm to Tuam Cnoc dhìreach. Told of in: Baile ghorm's penance (FE 2,391)."
    },
    {
     "key": "III_R04",
@@ -4277,7 +4311,7 @@
      2734,
      2907
     ],
-    "note": "cites: II-0131, II-0132, II-0133"
+    "note": "Flat hide boats carry grain and salt fish up from the landing at Cidhe Beag; the boatmen's fellowship is sworn on a paddle. Told of in: The landing on the Abhainn uaine (FE 1,665); The river-boats (FE 1,685); The boatmen of Muileann chrom (FE 1,685)."
    },
    {
     "key": "III_R05",
@@ -4290,7 +4324,7 @@
      420,
      1195
     ],
-    "note": "inferred · cites: II-0203, II-0049"
+    "note": "Boats of Seann Tarr sail round the offshore islands, Eilean ruadh, Eilean dhearg and Eilean fhada among them, in one season; no crew goes further. Told of in: Round the islands (FE 2,776); Round Eilean dhubh (FE 397)."
    },
    {
     "key": "III_R06",
@@ -4301,7 +4335,7 @@
      2312,
      3158
     ],
-    "note": "inferred · cites: II-0070, II-0071"
+    "note": "Cuan shean's salt goes inland along the western road and keeps the fish of half the island. Told of in: Cuan shean's salt-pans (FE 594); Salt-carriers on the heath above Baile fhiadhaich (FE 599)."
    }
   ]
  },
@@ -4313,7 +4347,7 @@
     "key": "III_Z_S1",
     "name": "Earrann Mhurchaidh",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0001b, II-0001c, book III",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4); First blood among the heirs (FE 3).",
     "shires": [
      8,
      16,
@@ -4349,7 +4383,7 @@
     "key": "III_Z_S2",
     "name": "Earrann Eithne",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0106b, II-0064b, book III",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4); Death of Eithne nic Ailein, last of the nine (FE 1,122); The burning of Achadh mhòr (FE 556).",
     "shires": [
      12,
      18,
@@ -4372,7 +4406,7 @@
     "key": "III_Z_S3",
     "name": "Earrann Ros dhomhain",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      2,
      3,
@@ -4397,7 +4431,7 @@
     "key": "III_Z_S4",
     "name": "Earrann Baile ghorm",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      10,
      11,
@@ -4416,7 +4450,7 @@
     "key": "III_Z_S5",
     "name": "Earrann Caol shean",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      41,
      48,
@@ -4438,7 +4472,7 @@
     "key": "III_Z_S6",
     "name": "Earrann Muileann àrsaidh",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      7,
      14,
@@ -4457,7 +4491,7 @@
     "key": "III_Z_S7",
     "name": "Earrann Ceann àrsaidh",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      33,
      40,
@@ -4473,7 +4507,7 @@
     "key": "III_Z_S8",
     "name": "Earrann Tobar dhearg",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      4,
      13,
@@ -4496,7 +4530,7 @@
     "key": "III_Z_S9",
     "name": "Earrann Cnoc bheag",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II",
+    "note": "One of na h-Earrannan Mòra, earrannan mòra, cut on the cord at Dùn ìseal; parted again into countries, provinces, counties and holdings; bounded with stones cut with its sign. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      6,
      9,
@@ -4512,7 +4546,7 @@
     "key": "III_Z_RED",
     "name": "An Earrann Dhearg",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0001b, App.C Blàr Àth na Fala, book III",
+    "note": "Won with the sword before the parting and let stand over the protest of four lines; passed whole, never cut. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      85
     ],
@@ -4522,7 +4556,7 @@
     "key": "III_Z_HALL",
     "name": "the ground of Talla na Lasrach (in no share)",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, II-0001b, II-0004",
+    "note": "The ground of Talla na Lasrach is in no share; a county of Earrann Caol shean held the silver seam here. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4); Talla na Lasrach raised (FE 15).",
     "shires": [
      35,
      112,
@@ -4534,7 +4568,7 @@
     "key": "III_Z_HILL",
     "name": "An Cnoc Ruadh, claimed by three shares and serving none",
     "type": "Custom",
-    "note": "1 an t-Samhain, FE 2 · inferred · cites: II-0001b, II-0001d, App.H §II, book III",
+    "note": "Its holder said An Cnoc Ruadh had sworn to Ailean and was sworn to no one; three shares claimed it and none kept it. Told of in: Roinn na Rìoghachd (FE 2); Shares of shares (FE 4).",
     "shires": [
      1
     ],
@@ -4544,7 +4578,7 @@
     "key": "III_Z10",
     "name": "Aimhreit nan Oighrean",
     "type": "Invasion",
-    "note": "cites: II-0001c, II-0064c, App.C Aimhreit nan Oighrean",
+    "note": "Raids, burnings and killings between the lines of the king's blood for some five hundred and fifty years; Talla na Lasrach's ground the one place no feud could follow a man. Told of in: First blood among the heirs (FE 3); Sìth an Stairsnich (FE 556).",
     "shires": [
      1,
      2,
@@ -4675,7 +4709,7 @@
     "key": "III_Z11",
     "name": "Cogadh an Dà Mhionn",
     "type": "Invasion",
-    "note": "cites: II-0064b, App.C Aimhreit nan Oighrean",
+    "note": "Every holding sworn to both Eithne's line and Ìomhar's had to choose; it ended at Achadh mhòr and the middle of the island went hungry. Told of in: The burning of Achadh mhòr (FE 556).",
     "shires": [
      12,
      24,
@@ -4692,7 +4726,7 @@
     "key": "III_Z12",
     "name": "Cogadh nan Rathad",
     "type": "Invasion",
-    "note": "cites: II-0093, II-0095, II-0096, II-0097, II-0098, II-0099",
+    "note": "Iain Garbh of Dùn dhearg against Lachlann Ciar of Caol leathan, over the western tolls. Told of in: The War of the Roads begins at Muileann òg (FE 999); The fight at Àth fhiadhaich (FE 1,001); Baile ghlas burned (FE 1,002); Baile chiar holds (FE 1,003); The siege of Caol leathan (FE 1,005); The peace at Mòr nic Dhùghaill's house (FE 1,006).",
     "shires": [
      2,
      22,
@@ -4707,7 +4741,7 @@
     "key": "III_Z13",
     "name": "Falachd an Airgid",
     "type": "Invasion",
-    "note": "cites: II-0150, II-0151, II-0152",
+    "note": "No silver left Muileann chiar for three seasons; no one was killed. Told of in: The Silver Feud begins (FE 1,745); The closing of the silver (FE 1,746); The Keeper's judgment on the silver (FE 1,749).",
     "shires": [
      35,
      112
@@ -4717,7 +4751,7 @@
     "key": "III_Z14",
     "name": "the poor season in the mountain (FE 2,472–2,474)",
     "type": "Disaster",
-    "note": "cites: II-0177, II-0178, II-0179, II-0180, II-0182",
+    "note": "The galleries opened late and closed early; Lagh a' Bhìdh Roinnte held and the granaries of Dùn dhearg and the south sent grain up unasked. Told of in: The late snow on the high passes (FE 2,472); The poor season in the mountain (FE 2,472); The first recorded famine averted (FE 2,473); The granaries opened (FE 2,473); The reeves of Dùn dhearg send the grain (FE 2,474).",
     "shires": [
      112
     ]
@@ -4726,7 +4760,7 @@
     "key": "III_Z15",
     "name": "drought at Achadh shean (FE 2,900)",
     "type": "Disaster",
-    "note": "cites: II-0237, II-0238",
+    "note": "The district granary emptied; grain came from Baile chaol and Cuan ruadh and was repaid to the last measure. Told of in: Drought at Achadh shean (FE 2,900); Baile chaol's repayment (FE 2,903).",
     "shires": [
      61
     ]
@@ -4735,7 +4769,7 @@
     "key": "III_Z16",
     "name": "Oirthir an t-Seabhaig",
     "type": "Proselytism",
-    "note": "cites: II-0158, II-0159",
+    "note": "From Seann Skell on the northern shore up the Abhainn ìseal to Inis ìseal and Cnoc bheag. Told of in: The hawk-keepers of Seann Skell (FE 1,999); The hawk-rite spreads up the Abhainn ìseal (FE 2,072).",
     "shires": [
      6,
      9,
@@ -4747,7 +4781,7 @@
     "key": "III_Z17",
     "name": "the sting-oath coast (FE 879–2,849)",
     "type": "Proselytism",
-    "note": "cites: II-0086, II-0160, II-0218, II-0219",
+    "note": "From Baile àrsaidh up the western coast to Ros bheag, a creed at Seann Skell, a yellow scorpion at Seann Vell. Told of in: Baile àrsaidh on the western heath (FE 879); The sting-oath at Ros bheag (FE 2,145); The sting-oath at Seann Skell (FE 2,846); Seann Vell swears on the sting (FE 2,849).",
     "shires": [
      3,
      38,
@@ -4765,13 +4799,13 @@
     "text": "Roinn na Rìoghachd",
     "cell": 3104,
     "fontSize": 14,
-    "note": "cites: II-0001b"
+    "note": "Roinn na Rìoghachd (FE 2). Told of in: Roinn na Rìoghachd (FE 2)."
    },
    {
     "text": "Sìth an Stairsnich",
     "cell": 3104,
     "fontSize": 14,
-    "note": "cites: II-0064c"
+    "note": "Sìth an Stairsnich (FE 556). Told of in: Sìth an Stairsnich (FE 556)."
    }
   ]
  },

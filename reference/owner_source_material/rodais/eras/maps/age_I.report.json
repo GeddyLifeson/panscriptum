@@ -1,7 +1,7 @@
 {
  "warnings": [
   "market 1: centre burg 22 is gone; moved to 36 (Cwen)",
-  "market 2: centre burg 26 is gone; moved to 19 (Cathair dhearg)",
+  "market 2: centre burg 26 is gone; moved to 19 (Creag Ruadh)",
   "market 3: centre burg 76 is gone; moved to 276 (Tobar dhìreach)",
   "market 5: centre burg 63 is gone; moved to 489 (Skell)",
   "market 8: centre burg 273 is gone; moved to 454 (Achadh dhìreach)",
@@ -10,7 +10,7 @@
   "market 11: centre burg 297 is gone; moved to 139 (Cwen)",
   "market 12: centre burg 143 is gone; moved to 238 (Ros ruadh)",
   "market 13: centre burg 113 is gone; market removed",
-  "market 14: centre burg 160 is gone; moved to 95 (Caol mhòr)",
+  "market 14: centre burg 160 is gone; moved to 95 (Bothan a' Chaolais)",
   "market 15: centre burg 233 is gone; moved to 110 (Bral)",
   "market 16: centre burg 15 is gone; moved to 94 (Vell)",
   "economy: 6918 deals with burgs or markets not on this map dropped"
@@ -113,7 +113,7 @@
   "dialogs": [],
   "loaded": true
  },
- "bytes": 2974073,
+ "bytes": 3050716,
  "records": 53,
  "verify": {
   "load": {

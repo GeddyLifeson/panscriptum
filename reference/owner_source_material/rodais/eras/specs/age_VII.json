@@ -150,7 +150,7 @@
     "color": "#66c2a5",
     "base": 1,
     "military": "keep",
-    "note": "Cathal · cites: V-0007, VI-0154a, App.H §I"
+    "note": "The kingdom that the vein founded now runs on a fuel made by a Tuathach, and says so only in its coin. It fought its one war against its own people over the last coal of the west, and keeps the regiments it raised for it on their stations, paid from a tithe that was laid for the war and never lifted. Cathal reigns; the council keeps its twelve seats and one soldier. Its ruler at the close of the age: Cathal, ruler of Rìoghachd Dia-thìr. Told of in: Rìoghachd Dia-thìr declared (SE 2); The Treasury's roll of the present year (DE 27)."
    },
    {
     "key": "moot",
@@ -175,7 +175,7 @@
     "culture": 1,
     "color": "#dababf",
     "coa": "generate",
-    "note": "Peter Hale · cites: V-0008, VI-0153, App.H §III"
+    "note": "Tional nan Tuathach meets at Caol mhòr under Peter Hale, great-grandson of its first speaker. It stood apart from An Cogadh Fada and fed the hungry who came to its towns, and its motion for amends was allowed to die. Its minute-books run unbroken from Walter Hale's first meeting; its request that Sceulachdan nan Tuathach be kept in an Leabharlann still lies on the table. Its ruler at the close of the age: Peter Hale, speaker of Tional nan Tuathach. Told of in: The Moot at Caol mhòr (SE 2); The Moot of the present year (DE 27)."
    }
   ],
   "cell_state": {},
@@ -690,1016 +690,209 @@
    505
   ],
   "edit": {
-   "1": {
-    "note": "Òrd na Cloiche · cites: gazetteer B1, map Rodos_finished.map record 15"
-   },
    "2": {
-    "note": "Òrd Mhacha · cites: gazetteer B2, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr, known for its barracks of A' chiad rèisimeid. Its people keep the rite of Òrd Mhacha. The river port beside the capital had barracks empty of soldiers since An Dealachadh, let by its maor to the farmers of Seann Vell for hay. The regiment guards the council, the mint and the bridge over the Abhainn dhomhain, and it marched the holdouts released from the capital's gaol north to the boundary stones after the war. The town's own trade is the river: its boatmen carry the capital's goods down the Abhainn dhomhain to the sea, and since the war the regiment's stores as well, at a rate fixed by the council that the boatmen say was fixed by men who never rowed. Known for A' chiad rèisimeid's barracks. Told of in: Hay stored in the old barracks at Inis mhòr (DE 5); A' chiad rèisimeid raised (DE 21); Hay cleared from the barracks at Inis mhòr (DE 21)."
    },
    "4": {
-    "culture": 2,
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B4, map Rodos_finished.map record 15"
-   },
-   "6": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B6, map Rodos_finished.map record 15"
-   },
-   "8": {
-    "note": "Òrd Mhanannain · cites: gazetteer B8, map Rodos_finished.map record 15"
+    "culture": 2
    },
    "9": {
-    "culture": 1,
-    "note": "Eaglais nan Tuathach · cites: gazetteer B9, map Rodos_finished.map record 15"
-   },
-   "10": {
-    "note": "Òrd Mhacha · cites: gazetteer B10, map Rodos_finished.map record 15"
-   },
-   "11": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B11, map Rodos_finished.map record 15"
-   },
-   "14": {
-    "note": "Òrd Mhacha · cites: gazetteer B14, map Rodos_finished.map record 15"
+    "culture": 1
    },
    "15": {
-    "note": "Òrd Bhrìde · cites: gazetteer B15, map Rodos_finished.map record 15"
-   },
-   "17": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B17, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr, known for its red strait and the orthodox rite of Brìde's flame. Its people keep the rite of Òrd Bhrìde. The harbour of the red strait keeps the orthodox rite of Brìde's flame. Its house of Brìde bought two years' altar coal ahead in the sixth year, lest the coal fail before the rite did, and burned the last of it in the eighteenth. Its boats carried the regiments' bread along the coast in the column's year, a soldier aboard each to count the loaves, and its harbour victualled the garrisons and An dàrna cabhlach through the war. Its first market under the charter was held in the rain on the quay. Known for its rite of Brìde's flame and the last market charter. Told of in: Brìde's house at Caol ruadh keeps its own coal (DE 6); The Brìde house of Caol ruadh burns its last stored coal (DE 18); Caol ruadh's boats carry the regiments' bread (DE 22); The market charter of Caol ruadh (DE 23); The first market under the Caol ruadh charter (DE 23)."
    },
    "19": {
-    "note": "Òrd Mhacha · cites: gazetteer B19, map Rodos_finished.map record 15"
+    "note": "A capital of Rìoghachd Dia-thìr, known for its royal seat and temple of Macha. Its people keep the rite of Òrd Mhacha. The royal seat and the temple of Macha saw the whole age begin and end in its council chamber. Its lamps were lit late and few in the first year and the lamp-houses let a hundred and forty-three of them go dark in the second. The proclamation of Linn an Dubhain was pinned to its market posts. In the drill hall the rolls of Buidhnean an Dealachaidh were read out, dead towns struck through; in the council chamber Athchuinge Dheireannach an Tionail was received. The regiments went west from it, its lamp-houses were rationed in the war, and the passes of the northern office were printed there. Comhairle na Rìoghachd seated Somhairle mac Lachlainn, fixed the market-due, held over Tagradh na h-Èirig, and in the present year granted Dubhan's Cairt na h-Às-mhalairt at the third hearing. The last coal of Slighe a' Ghuail came into its goods-yard behind carters' horses. Known for the council, the crowning, and Cairt na h-Às-mhalairt. Told of in: The capital's lamps lit late and few (DE 1); The lamp-houses of the capital (DE 2); The fair copy given to the council's clerk (DE 2); A lamp-lighter's family refused at the council house (DE 2); A robbery on the bridge in the first dark night (DE 2); Seumas mac Eachainn counts the unlit lamps (DE 2)."
    },
    "20": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B20, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: the carved stone and An siathamh rèisimeid. Its people keep the rite of Òrd an t-Seabhaig. The great river port of Òrd an t-Seabhaig in the north-central country keeps the carved stone, which the town scrubbed of a century's coal-smoke for the midsummer fair in the seventh year, finding under the black a second band of carving no one living had seen. it drilled in the square beside the stone. It keeps the posts by the boundary stones where the Tuathaich going south show their passes. A hewer's son of the town beat An naoidheamh rèisimeid's man at Còmhrag Ceann leathan of the present year. Òrd an t-Seabhaig of the town keep their own rite, older than the regiment, and the regiment's colours hang in their hall between musters; the river port below the town is the busiest of the north-central country, and its quays take the dubhan for the northern road. Known for the carved stone and An siathamh rèisimeid. Told of in: The stone of Cnoc bheag scrubbed (DE 7); An siathamh rèisimeid raised (DE 21); An siathamh rèisimeid drills by the carved stone (DE 21)."
    },
    "22": {
-    "note": "Òrd Mhacha · cites: gazetteer B22, map Rodos_finished.map record 15"
+    "note": "A city of Rìoghachd Dia-thìr. Còmhrag Ceann leathan, the annual melee. Its people keep the rite of Òrd Mhacha. The harbour town of Còmhrag Ceann leathan holds the annual melee on its field. In the dry first year the field was worn to dust and the gate took less than in any year its book remembers. From the seventeenth year the gate was paid wholly in coin of the plain seal. After the war the fair-wardens counted more fighters from the middle country than ever before and none from the western hills; and in the present year, fought with staves and fists, one man died, and in an added bout a hewer's son of Cnoc bheag beat An naoidheamh rèisimeid's man in the third exchange. Known for Còmhrag Ceann leathan, the annual melee. Told of in: Còmhrag Ceann leathan fought on dust (DE 1); Ceann leathan's gate paid in the new coin (DE 17); Còmhrag Ceann leathan of Ceann leathan after the war (DE 24)."
    },
    "23": {
-    "note": "Òrd Mhacha · cites: gazetteer B23, map Rodos_finished.map record 15"
-   },
-   "24": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B24, map Rodos_finished.map record 15"
-   },
-   "25": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B25, map Rodos_finished.map record 15"
+    "note": "A city of Rìoghachd Dia-thìr: the great city beside the old outpost. Its people keep the rite of Òrd Mhacha. Ruth Calder's letter was received and filed there. Somhairle read them at its unveiling. From that year Comhairle nam Mèinnean ended the coal trade outside An Sloc Mòr. Comhairle nam Mèinnean's house keeps its northern returns, its surveys and its copy of Breith Leòid with the circuit rulings in its margins. Told of in: Two surveyors named for the northern inquiry (DE 2); The surveyors' report filed without minute (DE 2); Comhairle nam Mèinnean buys An Sloc Mòr's last private share (DE 13); The Board's northern revenue (DE 18); Fearghas mac Aonghais calls for the northern returns (DE 18); Breith Leòid read again at Cathair mhòr (DE 18)."
    },
    "26": {
-    "note": "Òrd Mhacha · cites: gazetteer B26, map Rodos_finished.map record 15"
+    "note": "A city of Rìoghachd Dia-thìr, known for its deep-water harbour beside the capital. Its people keep the rite of Òrd Mhacha. The deep-water harbour beside the capital sent Anna nic Phàil to the council. The motion was held over morning after morning and let lie. The harbour is deep enough for the tank-hulls, and the dubhan for the capital's lamp-houses comes in there from the southern works by sea, in hulls of Taigh Mhic Ùisdein, to be carted the short road to Cathair dhearg; the town's carters did well in the war, when the lamp-houses were rationed but the tanks were not. Known for Anna nic Phàil's Tagradh na h-Èirig. Told of in: Anna nic Phàil's motion (DE 25); Anna nic Phàil cuts a page of figures from her own draft (DE 25)."
    },
    "27": {
-    "note": "Òrd Mhacha · cites: gazetteer B27, map Rodos_finished.map record 15"
-   },
-   "29": {
-    "note": "Òrd Mhacha · cites: gazetteer B29, map Rodos_finished.map record 15"
-   },
-   "30": {
-    "note": "Òrd Mhacha · cites: gazetteer B30, map Rodos_finished.map record 15"
-   },
-   "31": {
-    "note": "Òrd Mhacha · cites: gazetteer B31, map Rodos_finished.map record 15"
-   },
-   "32": {
-    "note": "Òrd Mhacha · cites: gazetteer B32, map Rodos_finished.map record 15"
-   },
-   "33": {
-    "note": "Òrd Mhacha · cites: gazetteer B33, map Rodos_finished.map record 15"
-   },
-   "35": {
-    "note": "Òrd Mhacha · cites: gazetteer B35, map Rodos_finished.map record 15"
-   },
-   "36": {
-    "note": "Òrd Mhacha · cites: gazetteer B36, map Rodos_finished.map record 15"
-   },
-   "40": {
-    "note": "Òrd Mhacha · cites: gazetteer B40, map Rodos_finished.map record 15"
-   },
-   "41": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B41, map Rodos_finished.map record 15"
-   },
-   "42": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B42, map Rodos_finished.map record 15"
-   },
-   "43": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B43, map Rodos_finished.map record 15"
-   },
-   "44": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B44, map Rodos_finished.map record 15"
-   },
-   "45": {
-    "note": "Òrd na Cloiche · cites: gazetteer B45, map Rodos_finished.map record 15"
+    "note": "A city of Rìoghachd Dia-thìr: the capital country's great merchant port. Its people keep the rite of Òrd Mhacha. Taigh Mhic Ùisdein put its money into dubhan shipping here in the thirteenth year, the only house of the vein that moved before the vein failed it, and the first of its hulls took shape in the Ros dhomhain yards. The kingdom's patrol boats were refitted for dubhan here and outran the raiders; the eleven taken were tried in Cùirt na Mara, the eight Dia-thìrich sent to the quarries and the three Tuathaich sent north. In the present year the first tank-hull under Dubhan's Cairt na h-Às-mhalairt, An Eala Dhubh, was loaded at Ros dhomhain over three days, searched and sealed by the custodians of Òrd Bhrìde, and stood out on the morning tide with An t-Ionmhas's seal on her hatches. Known for Cùirt na Mara, Mac Ùisdein's hulls and the first export. Told of in: Sorcha nic Dhùghaill buys a launch's engine at Ros dhomhain (DE 5); The shipwrights' guild court (DE 6); Launch engines dear at Ros dhomhain (DE 6); Sorcha nic Dhùghaill declines readmission (DE 6); Obair-dhubhain Seann Skell watch the guild court (DE 6); The house of Mac Ùisdein moves (DE 13)."
    },
    "47": {
-    "note": "Òrd Mhanannain · cites: gazetteer B47, map Rodos_finished.map record 15"
-   },
-   "49": {
-    "note": "Òrd Mhanannain · cites: gazetteer B49, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr, known for its west-coast harbour of Òrd Mhanannain. Its people keep the rite of Òrd Mhanannain. The west-coast harbour of Òrd Mhanannain lay at the end of Slighe a' Ghuail's western branch. In the first month of the war Comhairle na Slighe-iarainn carried arms and dubhan to Seann Bhral by Slighe a' Ghuail, the yard at Muileann chrom loading day and night. The house of Manannan at Seann Bhral heard from its brothers at the western Seann Skell of their refusal to bless the depot, and sent them no word either way. Slighe a' Ghuail's western branch ends at its harbour, and since the war the branch carries dubhan out to the western depots and nothing back; the town's own fishing boats took engines late, Òrd Mhanannain having been slow to bless them. Known for the western end of Slighe a' Ghuail, and its house of Manannan. Told of in: The seams declared Crown property (DE 18); Seann Bhral's priests of Manannan hear the refusal (DE 19); Arms by the coal line (DE 21); The yard at Muileann chrom goes to a double shift (DE 21); The first sealed wagons loaded at Muileann chrom (DE 21)."
    },
    "50": {
-    "note": "Òrd na Cloiche · cites: gazetteer B50, map Rodos_finished.map record 15"
-   },
-   "52": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B52, map Rodos_finished.map record 15"
-   },
-   "53": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B53, map Rodos_finished.map record 15"
-   },
-   "55": {
-    "note": "Òrd Mhanannain · cites: gazetteer B55, map Rodos_finished.map record 15"
-   },
-   "56": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B56, map Rodos_finished.map record 15"
-   },
-   "57": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B57, map Rodos_finished.map record 15"
-   },
-   "58": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B58, map Rodos_finished.map record 15"
-   },
-   "59": {
-    "note": "Òrd Bhrìde · cites: gazetteer B59, map Rodos_finished.map record 15"
-   },
-   "62": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B62, map Rodos_finished.map record 15"
-   },
-   "63": {
-    "note": "Òrd Mhanannain · cites: gazetteer B63, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. A' chiad chabhlach's walled ford town. Its people keep the rite of Òrd na Cloiche. The walled ford town is A' chiad chabhlach's station, its hulls lying in the harbour of Doire shean a short walk away. Its ferry had carried coal across for the eastern farms every week until the fourth year, and carried grain and passengers after at a higher fare. the old ferryman keeps his pole in the boat. Known for A' chiad chabhlach's station, and its ferry. Told of in: The ferry of Àth gharbh loses its coal cargo (DE 4); A' chiad chabhlach raised (DE 21); The ferrymen of Àth gharbh go to A' chiad chabhlach (DE 21); The ferry of Àth gharbh fitted with an engine (DE 27)."
    },
    "64": {
-    "note": "Òrd Mhanannain · cites: gazetteer B64, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. An còigeamh rèisimeid's walled harbour. Its people keep the rite of Òrd Mhanannain. It mustered on the harbour wall, there being no ground inside the walls wide enough for its companies to stand in line, and was sent north to relieve the regiments before Muileann àrsaidh. the lake shore below the walls is An còigeamh rèisimeid's drill ground, and the town's fishermen dry their nets on the regiment's fence. Known for An còigeamh rèisimeid's walled harbour and stone barracks. Told of in: The pilots of Seann Warr ask for an engine boat (DE 6); An còigeamh rèisimeid raised (DE 21); An còigeamh rèisimeid musters on the harbour wall (DE 21); The fifth regiment's barracks (DE 25); The quarrymen of Seann Warr (DE 25)."
    },
-   "66": {
-    "note": "Òrd na Cloiche · cites: gazetteer B66, map Rodos_finished.map record 15"
-   },
-   "67": {
-    "note": "Òrd Mhacha · cites: gazetteer B67, map Rodos_finished.map record 15"
-   },
-   "70": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B70, map Rodos_finished.map record 15"
-   },
-   "71": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B71, map Rodos_finished.map record 15"
-   },
-   "72": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B72, map Rodos_finished.map record 15"
+   "73": {
+    "note": "A town of Tional nan Tuathach, known for its harbour facing the pirate waters. The Tuathaich harbour facing the pirate waters kept its watch from the harbour wall with fires of the black cake from the fourth year, and its boats warned the fishing fleet in from the north-east in the year the raiders were taken off Ros dhomhain. In the war the first and fourth fleets closed Cnoc bhàn and the western Seann Skell to every boat but fishing boats, and searched those; the town shut its harbour to boats it did not know through the autumn the salt-boats were taken, and opened it again when the raiders were brought into Seann Skell. Its harbour looks north over waters the Tuathaich have fished since A' Chiad Churach, and its houses are built with their backs to the sea wind; in the war the fleets lay off the harbour mouth through the whole autumn, searching the boats that went out and again the boats that came in. Known for its watch on the pirate waters. Told of in: Watch kept from the Cnoc bhàn harbour (DE 4); Cnoc bhàn's boats keep the pirate watch (DE 14); Cnoc bhàn's harbour shut to strangers (DE 21); Cnoc bhàn's harbour opened again (DE 25)."
    },
    "74": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B74, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. An Taigh-seinnse Reòta on the mining road. Its people keep the rite of Scoiltean nan Draoidhean. The town below An Taigh-seinnse Reòta on the north road counted the coal going away in the carts that passed its inn: a third fewer in the third year, and its landlord shut one of his two stable yards. the lorry-drivers who stopped there took their suppers by the fire. The enforcers' two lorries lay a night there on their way west. In the column's year the regiments' lorries took on fuel at a pump set up in its yard, the landlord renting the yard to Comhairle nam Mèinnean and keeping his wicks inside, and the last carter to bring coal down the north road carried a load for the Reòta's own kitchen and none for sale. Known for An Taigh-seinnse Reòta, the last inn of the wick. Told of in: Fewer carts past An Taigh-seinnse Reòta (DE 3); The landlord of An Taigh-seinnse Reòta keeps his wicks (DE 10); The enforcers' lorries at An Taigh-seinnse Reòta (DE 19); The regiments' lorries at Muileann fhada (DE 22); The last coal carter of the north road (DE 26)."
    },
-   "75": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B75, map Rodos_finished.map record 15"
+   "86": {
+    "note": "A town of Rìoghachd Dia-thìr, known for its salt pans of the low strait. The salt-pan town of the low strait on the north coast tried the northern cake under one of its pans in the fourth year and found it boiled the brine as well as coal. In the war a clerk of An t-Ionmhas sat at the pump by the pans to take the tithe, and the salt-boilers said salt paid twice. the woman who keeps it took on four boys and a girl to answer it. Known for its salt pans and its forge. Told of in: The salt-boilers of Caol ìseal try the cake (DE 4); A tithe-clerk at the pans of Caol ìseal (DE 21)."
    },
-   "76": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B76, map Rodos_finished.map record 15"
+   "95": {
+    "note": "A town of Tional nan Tuathach, known for its place as the chief harbour of the Tuathaich. The chief harbour of the Tuathaich was the first town of the Dia-thìrich kingdom to see the northern fuel sold, a black cake at its market in the first year, and the first to be asked about it: Comhairle nam Mèinnean's two surveyors lodged four days at Harker's inn on the harbour, were answered civilly everywhere in good Dia-thìris, and were told nothing. Tional nan Tuathach sat at Caol mhòr through the whole age. Martha Greaves took its chair after Daniel Frayne's death; the rebound minute-books were laid in its press, the key on the speaker's ring. The fitters of Caol mhòr turned the light at Baile chrom, and when Riaghailt na Cairte let them go from the southern works they came home and fitted engines without a guild, so that within a few years the harbour held more dubhan boats than any port of its size in the south. In the present year Peter Hale keeps the chair and opens Tional nan Tuathach's book in his own hand. Known for Tional nan Tuathach, the fitters' boats, and the register of the western families. Told of in: The black cake at the Caol mhòr market (DE 1); The Board's inquiry (DE 2); The maor of Caol mhòr gives the surveyors a letter (DE 2); The surveyors burn a cake at Caol mhòr (DE 2); Iain Ruadh mac Nèill's draft set aside (DE 2); Harker of Caol mhòr lodges Comhairle nam Mèinnean's men (DE 2)."
    },
-   "77": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B77, map Rodos_finished.map record 15"
-   },
-   "79": {
-    "note": "Òrd Mhanannain · cites: gazetteer B79, map Rodos_finished.map record 15"
-   },
-   "80": {
-    "note": "Òrd Mhacha · cites: gazetteer B80, map Rodos_finished.map record 15"
-   },
-   "82": {
-    "note": "Òrd Mhacha · cites: gazetteer B82, map Rodos_finished.map record 15"
-   },
-   "83": {
-    "note": "Òrd Mhacha · cites: gazetteer B83, map Rodos_finished.map record 15"
-   },
-   "84": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B84, map Rodos_finished.map record 15"
-   },
-   "87": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B87, map Rodos_finished.map record 15"
-   },
-   "88": {
-    "note": "Òrd Mhacha · cites: gazetteer B88, map Rodos_finished.map record 15"
-   },
-   "89": {
-    "note": "Òrd Mhacha · cites: gazetteer B89, map Rodos_finished.map record 15"
-   },
-   "90": {
-    "note": "Òrd Mhacha · cites: gazetteer B90, map Rodos_finished.map record 15"
-   },
-   "91": {
-    "note": "Òrd Mhacha · cites: gazetteer B91, map Rodos_finished.map record 15"
-   },
-   "92": {
-    "note": "Òrd na Cloiche · cites: gazetteer B92, map Rodos_finished.map record 15"
-   },
-   "93": {
-    "note": "Òrd Bhrìde · cites: gazetteer B93, map Rodos_finished.map record 15"
-   },
-   "96": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B96, map Rodos_finished.map record 15"
-   },
-   "97": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B97, map Rodos_finished.map record 15"
-   },
-   "100": {
-    "note": "Òrd Mhanannain · cites: gazetteer B100, map Rodos_finished.map record 15"
-   },
-   "101": {
-    "note": "Òrd Mhacha · cites: gazetteer B101, map Rodos_finished.map record 15"
-   },
-   "104": {
-    "note": "Òrd Mhacha · cites: gazetteer B104, map Rodos_finished.map record 15"
-   },
-   "105": {
-    "note": "Òrd Mhanannain · cites: gazetteer B105, map Rodos_finished.map record 15"
-   },
-   "106": {
-    "note": "Òrd Mhacha · cites: gazetteer B106, map Rodos_finished.map record 15"
-   },
-   "107": {
-    "note": "Òrd Mhacha · cites: gazetteer B107, map Rodos_finished.map record 15"
-   },
-   "109": {
-    "note": "Òrd Mhacha · cites: gazetteer B109, map Rodos_finished.map record 15"
-   },
-   "112": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B112, map Rodos_finished.map record 15"
-   },
-   "113": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B113, map Rodos_finished.map record 15"
-   },
-   "115": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B115, map Rodos_finished.map record 15"
-   },
-   "118": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B118, map Rodos_finished.map record 15"
-   },
-   "120": {
-    "note": "Òrd Mhanannain · cites: gazetteer B120, map Rodos_finished.map record 15"
-   },
-   "121": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B121, map Rodos_finished.map record 15"
-   },
-   "122": {
-    "note": "Òrd Mhanannain · cites: gazetteer B122, map Rodos_finished.map record 15"
-   },
-   "123": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B123, map Rodos_finished.map record 15"
+   "103": {
+    "note": "A town of Rìoghachd Dia-thìr, known for its barracks of An t-ochdamh rèisimeid. Its officers took houses in the town in place of quarters borrowed from the tank-yard's sheds, and the house of Na Seann Spioradan at Inis uaine added the regiment to its prayers. The regiment keeps a school in its barracks for its children and the town's. The tank-yard of the eastern ports lies on the river below the town, the largest store of dubhan outside the southern works, and the regiment's sentries walk its fence day and night; no holdout came within a hundred miles of it. Known for An t-ochdamh rèisimeid's guard on the eastern tanks. Told of in: An t-ochdamh rèisimeid raised (DE 21); The eighth regiment at Inis uaine (DE 25); Officers' houses at Inis uaine (DE 25); An t-ochdamh rèisimeid at Inis uaine keeps a school (DE 26)."
    },
    "127": {
-    "culture": 2,
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B127, map Rodos_finished.map record 15"
-   },
-   "129": {
-    "note": "Òrd Mhacha · cites: gazetteer B129, map Rodos_finished.map record 15"
-   },
-   "131": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B131, map Rodos_finished.map record 15"
-   },
-   "132": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B132, map Rodos_finished.map record 15"
-   },
-   "133": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B133, map Rodos_finished.map record 15"
-   },
-   "134": {
-    "note": "Òrd Mhanannain · cites: gazetteer B134, map Rodos_finished.map record 15"
+    "culture": 2
    },
    "135": {
-    "note": "Òrd Mhacha · cites: gazetteer B135, map Rodos_finished.map record 15"
+    "note": "A village of Rìoghachd Dia-thìr, known for its deep-field granaries of the camps. Its people keep the rite of Òrd Mhacha. The deep-field town of the camps' granaries above An Sloc Mòr was the hewers' own. Comann nan Gualadairean kept its hall there and its day of binding, which passed empty in the first year with no son or daughter brought to be bound. the oath-stone went to the library. Comhairle nam Mèinnean bought the last private share in An Sloc Mòr when Taigh Mhic Ùisdein moved to shipping, and its pumps ran on dubhan from the thirteenth year. twelve hewers were sworn at the town to cut the altar-coal, one an old man who had sworn the guild's oath in his youth, and in the present year the four baskets of their coal were carried south to the lot. Known for Comann nan Gualadairean' hall, An Sloc Mòr and the altar-coal. Told of in: The day of binding at Achadh dhomhain passes empty (DE 1); Comann nan Gualadairean' hall at Achadh dhomhain for sale (DE 9); The Guild of Hewers dissolved (DE 12); Clach-mhionnan nan Gualadairean brought to an Leabharlann (DE 12); The Achadh dhomhain hall (DE 13); The guild's oath above the pumps (DE 13)."
    },
    "137": {
-    "note": "Òrd Mhacha · cites: gazetteer B137, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: the capital's flour mills. Its people keep the rite of Òrd Mhacha. The flour-mill town of the capital's country made lamps as well as flour, and its lamp-makers were the first craft of the kingdom to turn to the new fuel wholesale. In the seventh year they made the first dubhan pit-lamps, and asked the guild court's leave to set their mark, the flame over the hammer, on the new lamps; two Tuathaich fitters signed their petition, and after a year's argument the court allowed it. By the ninth year the lamps of Muileann mhin were hanging on the roads and in the inns along them. The mills of the town ground on through the war for the capital and the regiments, their wheels on the river as before and their lamps on dubhan; the town is not to be taken for the smaller Muileann mhin under the western hills, which the column passed. Known for its lamp-makers, the first craft to turn to dubhan. Told of in: The lamp-makers turn (DE 7); The first dubhan pit-lamps of Muileann mhin (DE 7); Two fitters sign the lamp-makers' petition (DE 7); The lamp-makers at the fence (DE 8); The Muileann mhin lamps go out on the roads (DE 9)."
    },
-   "139": {
-    "note": "Òrd Mhacha · cites: gazetteer B139, map Rodos_finished.map record 15"
+   "142": {
+    "note": "A town of Tional nan Tuathach, known for its place as the inland seat of the Tuathaich. The inland seat of the Tuathaich keeps its own book of its elders. The black cake of the north was sold at its market by the basket beside the peat from the second year. Word of the pit towns' agreement reached its elders by a carrier in the sixteenth year, and they sent nothing west and nothing to Tional nan Tuathach. In the war its people sent three carts of meal to the western families at Doire ghlas and asked no receipt. in the present year they show their passes at An siathamh rèisimeid's posts going south to the fair, and write in their book that the sergeant wished them a good road. Cnoc ghorm has never had a pit or a light or a regiment; it is a town of the Tuathaich markets and councils and it sends its delegates to Tional nan Tuathach. Known for the inland seat of the Tuathaich and its elders' book. Told of in: Black cake by the basket at Cnoc ghorm (DE 2); The elders of Cnoc ghorm hear of the agreement (DE 16); Meal from Cnoc ghorm for Doire ghlas (DE 21); A pass-office at Cnoc ghorm (DE 22); Cnoc ghorm's elders at the northern posts (DE 27)."
    },
-   "140": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B140, map Rodos_finished.map record 15"
-   },
-   "141": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B141, map Rodos_finished.map record 15"
-   },
-   "144": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B144, map Rodos_finished.map record 15"
-   },
-   "146": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B146, map Rodos_finished.map record 15"
-   },
-   "148": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B148, map Rodos_finished.map record 15"
-   },
-   "149": {
-    "note": "Òrd na Cloiche · cites: gazetteer B149, map Rodos_finished.map record 15"
-   },
-   "150": {
-    "note": "Òrd Mhacha · cites: gazetteer B150, map Rodos_finished.map record 15"
+   "143": {
+    "note": "A town of Tional nan Tuathach, known for its great headland harbour under the Baile chrom light. An ceathramh rèisimeid was landed there in the first winter of the war from hired hulls and quartered in the old human magistrate's house, the maor giving up the greater part of it and moving his household into the two upper rooms. Tional nan Tuathach protested and was answered that the arrangement stood. Corporal Dùghall mac Iain was billeted on Barbara Keir, who would not give him her tongue, and heard the hymns through the wall; the regiment's files patrolled the Ceann mhòr road through the quartered year, and a byre-boy took to lifting a hand to them as they passed. When the regiment went home Tional nan Tuathach asked that the house be given to the town, and it was given to the maor. Known for the quartered magistrate's house. Told of in: The Tuathaich depots (DE 15); A copy of the letter kept in Tional nan Tuathach's minute (DE 19); The regiments at Ceann mhòr (DE 21); One hull parts company off the north cape (DE 21); The maor of Ceann mhòr gives up his house (DE 21); The maor's clerk keeps the two tongues apart (DE 21)."
    },
    "151": {
-    "note": "Òrd Mhacha · cites: gazetteer B151, map Rodos_finished.map record 15"
-   },
-   "152": {
-    "note": "Òrd Mhacha · cites: gazetteer B152, map Rodos_finished.map record 15"
-   },
-   "153": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B153, map Rodos_finished.map record 15"
-   },
-   "157": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B157, map Rodos_finished.map record 15"
-   },
-   "158": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B158, map Rodos_finished.map record 15"
-   },
-   "161": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B161, map Rodos_finished.map record 15"
-   },
-   "162": {
-    "note": "Òrd Mhacha · cites: gazetteer B162, map Rodos_finished.map record 15"
-   },
-   "163": {
-    "note": "Òrd Mhacha · cites: gazetteer B163, map Rodos_finished.map record 15"
-   },
-   "164": {
-    "note": "Òrd Mhacha · cites: gazetteer B164, map Rodos_finished.map record 15"
-   },
-   "165": {
-    "note": "Òrd Mhacha · cites: gazetteer B165, map Rodos_finished.map record 15"
-   },
-   "166": {
-    "note": "Òrd Mhanannain · cites: gazetteer B166, map Rodos_finished.map record 15"
-   },
-   "168": {
-    "note": "Òrd Mhacha · cites: gazetteer B168, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. Fèill Muileann òg. Its people keep the rite of Òrd Mhacha. The fair town on Rathad na Fèille below the capital kept its great fair and its fair court through the age, but lost its coal. In the third year of Linn an Dubhain the last carter of coal on Rathad na Fèille sold his cart and kept his horse, and the justice of Cùirt na Fèille, Fionnlagh mac Gille-Chaluim, scraped the painted coal ceiling off the board by the toll-house door, since no seller kept it. His clerk Ùna nic Ailein entered the striking in the court's day-book, which she kept until the book closed with no entry in the year of the column. In the war An t-Ionmhas set a clerk at the town's dubhan pump to take the tithe, one part in twelve of every sale, and the young Cailean Ros sat in the coldest corner of the toll-house's upper room to do it. The fair came back to its ground in the autumn after the war, and in the present year it draws traders from every shire the state holds, the Tuathaich wool sold on its northern day through Dia-thìrich factors, as it has been for a generation. Known for Cùirt na Fèille's scraped board, and the fair-ground given to the regiments. Told of in: The coal carter of Rathad na Fèille sells his cart (DE 3); Coal sold by the sack at the toll-house step (DE 3); Cùirt na Fèille's winter sitting (DE 3); A clerk of An t-Ionmhas is sent to Muileann òg (DE 21); The first tithe taken at Muileann òg (DE 21); The first complaint against the tithe (DE 21)."
    },
    "170": {
-    "note": "Òrd na Cloiche · cites: gazetteer B170, map Rodos_finished.map record 15"
-   },
-   "172": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B172, map Rodos_finished.map record 15"
-   },
-   "173": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B173, map Rodos_finished.map record 15"
-   },
-   "175": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B175, map Rodos_finished.map record 15"
-   },
-   "176": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B176, map Rodos_finished.map record 15"
-   },
-   "177": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B177, map Rodos_finished.map record 15"
-   },
-   "178": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B178, map Rodos_finished.map record 15"
-   },
-   "179": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B179, map Rodos_finished.map record 15"
-   },
-   "180": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B180, map Rodos_finished.map record 15"
-   },
-   "182": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B182, map Rodos_finished.map record 15"
-   },
-   "183": {
-    "note": "Òrd Mhacha · cites: gazetteer B183, map Rodos_finished.map record 15"
-   },
-   "184": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B184, map Rodos_finished.map record 15"
-   },
-   "187": {
-    "note": "Òrd Mhacha · cites: gazetteer B187, map Rodos_finished.map record 15"
-   },
-   "188": {
-    "note": "Òrd Mhacha · cites: gazetteer B188, map Rodos_finished.map record 15"
-   },
-   "189": {
-    "note": "Òrd Mhacha · cites: gazetteer B189, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. An treas cabhlach's anchorage and wolf-post quays. Its people keep the rite of Òrd na Cloiche. The south-west anchorage of the wolf-post quays took up engines early: two of its skippers sent for burners and a boatwright of Caol fhiadhaich in the sixth year, and a dubhan pump was set on its quays in the fifteenth, the first on that coast. it carried the army's dubhan up the west coast in tank-hulls to the regiments in the hills. The wolf-posts that gave the quays their name were cut down to make room for the tank-hulls' moorings, and one was kept, at the quay's end, for the town's sake. Known for An treas cabhlach's anchorage and tank-hulls. Told of in: Baile ghorm's boats follow Caol fhiadhaich (DE 6); A pump on the quays of Baile ghorm (DE 15); An treas cabhlach raised (DE 21); Baile ghorm's quays given to An treas cabhlach (DE 21); The third fleet's tank-hulls (DE 24); The quays of Baile ghorm lengthened (DE 24)."
    },
    "190": {
     "culture": 2
    },
    "191": {
-    "note": "Òrd na Cloiche · cites: gazetteer B191, map Rodos_finished.map record 15"
-   },
-   "193": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B193, map Rodos_finished.map record 15"
-   },
-   "194": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B194, map Rodos_finished.map record 15"
-   },
-   "195": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B195, map Rodos_finished.map record 15"
-   },
-   "196": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B196, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr, known for its strait-pilots and the harbour wolf-stone. Its people keep the rite of Òrd na Cloiche. In the fifth year the boatwright Sorcha nic Dhùghaill, at her skipper's asking, bored the sternpost of the decked boat An Ròn Dubh to take a shaft, against the first rule of Comann nan Saor-luinge, Cha tollar an druim, the keel is not bored. Within the season all four yards were fitting engines. The guild struck and fined them; they returned their papers. The boats of the strait took the new fuel before any other fleet of the coast, and the skippers of Baile ghorm and Seann Warr sent to Caol fhiadhaich for boatwrights who would bore a keel. Told of in: The fishing boats of Caol fhiadhaich (DE 5); The smith of Caol fhiadhaich makes a dubhan burner (DE 5); The keel of An Ròn Dubh bored (DE 5); An Ròn Dubh crosses the harbour under engine (DE 5); The boatwrights of Caol fhiadhaich return their papers (DE 5); Comann nan Saor-luinge strikes and fines the yards of Caol fhiadhaich (DE 5)."
    },
    "197": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B197, map Rodos_finished.map record 15"
-   },
-   "198": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B198, map Rodos_finished.map record 15"
-   },
-   "199": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B199, map Rodos_finished.map record 15"
-   },
-   "200": {
-    "note": "Òrd Mhanannain · cites: gazetteer B200, map Rodos_finished.map record 15"
-   },
-   "201": {
-    "note": "Òrd Mhacha · cites: gazetteer B201, map Rodos_finished.map record 15"
-   },
-   "204": {
-    "note": "Òrd na Cloiche · cites: gazetteer B204, map Rodos_finished.map record 15"
-   },
-   "205": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B205, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: the great eastern river port, pilgrims' landing. Its people keep the rite of Scoiltean nan Draoidhean. The great eastern river port and pilgrims' landing keeps Scoiltean nan Draoidhean, which in the fourth year disputed the Àrd-choimheadaiche's letter on the new fuel. they used it of their own school's revival, and the library entered it and has never used it. The school still sends a teacher once a year to Muileann dhearg. Known for Scoiltean nan Draoidhean, and the word dubhan-tùsail. Told of in: The school at Caol shean disputes Litir an Àrd-choimheadaiche (DE 4); Pilgrims carried up to Caol shean by engine (DE 9); Dubhan-tùsail (DE 11)."
    },
    "209": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B209, map Rodos_finished.map record 15"
-   },
-   "210": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B210, map Rodos_finished.map record 15"
-   },
-   "212": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B212, map Rodos_finished.map record 15"
-   },
-   "213": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B213, map Rodos_finished.map record 15"
-   },
-   "214": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B214, map Rodos_finished.map record 15"
+    "note": "A village of Tional nan Tuathach: the great Tuathaich gathering-village. Its church is of Eaglais nan Tuathach. The great Tuathaich gathering-village is Martha Greaves's town and Ellen Marsh's. The fuel was shown burning in its mill yard in the second year. Tional nan Tuathach's wool mills bought the holdouts' coal, and in the twentieth year its granaries stood fuller than the five years' average by half again, the autumn entry giving no reason. In the war Agnes Pike's school was given over to families of the western hills, near sixty souls on its benches, and Ellen Marsh began a twelfth book of their telling. Martha Greaves went home to Doire ghlas when she laid down the chair. In the present year An t-Aon Leabhar Deug go from school to school to be copied, and on the shortest evening Ellen Marsh told the eldest children the telling of A' Chiad Churach. Known for Agnes Pike's school, An t-Aon Leabhar Deug, and Tional nan Tuathach's granaries. Told of in: The fuel shown burning in the mill yard at Doire ghlas (DE 2); Ellen Marsh offers her schoolroom (DE 8); The bindery in Agnes Pike's school (DE 8); Walter Hale's harbour ledger (DE 8); The last of the sixty-three books sewn (DE 8); Ellen Marsh's books (DE 17)."
    },
    "215": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B215, map Rodos_finished.map record 15"
-   },
-   "218": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B218, map Rodos_finished.map record 15"
+    "note": "A city of Rìoghachd Dia-thìr: the fortified headland harbour. Its people keep the rite of Scoiltean nan Draoidhean. The fortified headland harbour at the mouth of the Abhainn ghorm put out the hired dubhan hulls that carried An ceathramh rèisimeid round the north coast in the first winter of the war; rounding the north cape a boy of the regiment's second company went overboard reaching for a loose line and was hauled back half-drowned, and one hull, parted from the rest in the second night's weather, put into a cove beyond the cape and came in to Ceann mhòr three days behind the others with crew and cargo whole. The town is a fortified harbour of old walls on the headland, whose masters of hulls hire out tank-hulls to Comhairle nam Mèinnean and the fleets alike. Known for the hired hulls of An ceathramh rèisimeid. Told of in: The hired hulls put out from Ros chiar (DE 21)."
    },
    "222": {
-    "culture": 2,
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B222, map Rodos_finished.map record 15"
+    "culture": 2
    },
-   "223": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B223, map Rodos_finished.map record 15"
-   },
-   "224": {
-    "note": "Òrd Mhacha · cites: gazetteer B224, map Rodos_finished.map record 15"
-   },
-   "228": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B228, map Rodos_finished.map record 15"
-   },
-   "231": {
-    "note": "Òrd Mhacha · cites: gazetteer B231, map Rodos_finished.map record 15"
-   },
-   "232": {
-    "note": "Òrd na Cloiche · cites: gazetteer B232, map Rodos_finished.map record 15"
+   "229": {
+    "note": "A town of Rìoghachd Dia-thìr. Fuarain Theth Muileann ruadh of Muileann ruadh. The small town of Fuarain Theth Muileann ruadh had Comann nan Gualadairean' bath-house for their sick, and lost its coal before most. In the second year the keeper let the boilers go cold and found the springs warm enough alone. A bus of Cathair dhearg ran to the springs twice weekly from the thirteenth year and filled the benches with townsfolk who were not sick. In the war the custodians took in two wounded officers of the regiments at the council's asking. In the wet summer of the twenty-fifth year the springs ran so full that the lower room flooded. Known for Fuarain Theth Muileann ruadh and Comann nan Gualadairean' bath-house given to Deas-ghnàth a' Ghuail. Told of in: The bath-house boilers let go cold (DE 2); The sick of the springs under Deas-ghnàth a' Ghuail (DE 12); A bus to the springs of Muileann ruadh (DE 13); Muileann ruadh takes in wounded officers (DE 21); The springs of Muileann ruadh in a wet summer (DE 25)."
    },
    "234": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B234, map Rodos_finished.map record 15"
+    "note": "A town of Tional nan Tuathach: the Tuathaich mill-citadel. Its church is of Eaglais nan Tuathach. The Tuathaich mill-citadel on the north coast was Daniel Frayne's town. Tional nan Tuathach sent those pupils, the binders of Muileann leathan, to rebind its minute-books from the first meeting; they found the first book to be a harbour ledger of the humans' time with its old pages cut out close, and kept the stubs in the new binding. The rebound set was laid at Caol mhòr, and a second set, the minute says, was hidden elsewhere. Known for Daniel Frayne's grave and the binders of Tional nan Tuathach's books. Told of in: Daniel Frayne dies (DE 8); The binders of Muileann leathan (DE 8); Daniel Frayne buried at Muileann leathan (DE 8); The binders' reckoning (DE 8); The mill-citadel's wheel kept turning (DE 10)."
    },
-   "235": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B235, map Rodos_finished.map record 15"
-   },
-   "239": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B239, map Rodos_finished.map record 15"
-   },
-   "240": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B240, map Rodos_finished.map record 15"
-   },
-   "243": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B243, map Rodos_finished.map record 15"
-   },
-   "245": {
-    "note": "Òrd Mhanannain · cites: gazetteer B245, map Rodos_finished.map record 15"
+   "244": {
+    "note": "A town of Tional nan Tuathach: the elder of the two ancient mills. The elder of the two ancient mills was the meeting-place of the western pit towns. When the enforcers came west the town walled its pit-heads with spoil, old Fraser dug a trench across the southern road and let water into it before the frost, and Ruth Calder wrote her letter to the council in Sarah Dunmore's house. After Àth leathan the wounded were carried up the ridge path to her kitchen table. the eastern pit-head was given up without a fight, the last line gave way, Tom Varley went north to Cnoc thais, and Sarah Dunmore opened her own door. Its pits were flooded and capped with the others in the year after the war. Known for the pit towns' agreement and the siege of the six pit-heads. Told of in: The western pit towns meet (DE 16); The western pit towns gather at Sarah Dunmore's kitchen (DE 16); The talk moves to the pit-shed (DE 16); Còrdadh Muileann àrsaidh signed (DE 16); Dodds argues for naming Riaghailt na Cairte (DE 16); The pit-heads walled (DE 19)."
    },
    "246": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B246, map Rodos_finished.map record 15"
-   },
-   "247": {
-    "note": "Òrd Mhanannain · cites: gazetteer B247, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. Leabharlann Muileann chaol, the great library. Its people keep the rite of Scoiltean nan Draoidhean. The town of the great library lay up its valley road through the age with the paper-mill's race below it and Leabharlann Muileann chaol above. The carriers of the library road brought up the first word of the northern fuel, and the black cake was burned at its market before the chronicler had seen it. In the dry first year the mill-race ran too low to turn the paper-mill's wheel, and the keeper Raghnall mac Mhuirich ordered no fire in the reading-room before the middle of an t-Samhain and none after dark, a rule the house kept in every hard winter after. Sìleas nic Rath came up the valley in the eleventh year as clerk to Seanchaidh na Rìoghachd, and began here the box of slips in which the fuel's name was spelled four ways; Beathag nic Fhionnlaigh re-headed fourteen years of Eachdraidh na Rìoghachd in the house by lamplight when the new count of the years was proclaimed, and set Comann nan Gualadairean' dies beside their oath-stone in the lower gallery. The town saw its first soldiery when An dàrna rèisimeid was raised at Àth dhìreach to guard the library road, and a sergeant of that regiment kept the gate in the present year. its key hangs on a cord under the keeper's shirt. Known for the library, its re-headed chronicle, and the sealed room. Told of in: The carrier's word on the library road (DE 1); The fuel burned at the Muileann chaol market (DE 1); The autumn rains on the library road (DE 1); The mill-race at Muileann chaol runs dry (DE 1); Sìleas nic Rath taken on as the chronicler's clerk (DE 11); The slip-box of the word's spellings (DE 11)."
    },
    "248": {
-    "note": "Òrd Mhanannain · cites: gazetteer B248, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: a small western crossing. Its people keep the rite of Òrd Mhanannain. The small western crossing lay on the column's road. It is a village of a mill, a smithy and a score of houses beside the ford, and its people had never, before that night, sent a report to Comhairle nam Mèinnean of anything. Its maor's report and the miller's wife's words stand together in the library's file, the first two papers of the column's road. Known for the ford the column crossed. Told of in: The column's road (DE 22); Àth bheag's report of the ford (DE 22); The maor of Àth bheag watches from the bank (DE 22); No banner and no drum (DE 22)."
    },
-   "250": {
-    "note": "Òrd Mhacha · cites: gazetteer B250, map Rodos_finished.map record 15"
+   "258": {
+    "note": "A town of Rìoghachd Dia-thìr. Taigh-solais Àth dhearg, the north-east beacon. The town under Taigh-solais Àth dhearg on the north-east cape waited longest for its light's turning. The work took a month longer there than at the other beacons, for the stair of the tower was too narrow for the new tank, and a crane had to be walked from Seann Tarr to lift it to the lantern from outside, the rope-makers of that town having refused to hire out their cordage for it. Peigi nic Ascaill wrote from here to Caol mhòr for Tuathaich fitters. The keeper has written since for spare chimney-glass, the stair still too narrow to carry up more than one at a time. Through the autumn of the column's year his log records that no ship of the fleets passed the cape in three months. The crane that lifted the tank was left standing on the cape for a year afterwards, rusting, until Comhairle nam Mèinnean sent a wagon for it; the children of the town had meanwhile made it the gallows of a game whose rules none of their elders could follow. Known for the beacon whose tank went up the outside of the tower. Told of in: Peigi nic Ascaill writes to Caol mhòr for fitters (DE 7); The beacon keeper of Àth dhearg writes for glass (DE 11); Taigh-solais Àth dhearg sees no fleet (DE 22)."
    },
-   "251": {
-    "note": "Òrd Mhacha · cites: gazetteer B251, map Rodos_finished.map record 15"
-   },
-   "252": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B252, map Rodos_finished.map record 15"
-   },
-   "254": {
-    "note": "Òrd Mhanannain · cites: gazetteer B254, map Rodos_finished.map record 15"
-   },
-   "255": {
-    "note": "Òrd Mhacha · cites: gazetteer B255, map Rodos_finished.map record 15"
-   },
-   "257": {
-    "note": "Òrd na Cloiche · cites: gazetteer B257, map Rodos_finished.map record 15"
-   },
-   "262": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B262, map Rodos_finished.map record 15"
-   },
-   "264": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B264, map Rodos_finished.map record 15"
-   },
-   "266": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B266, map Rodos_finished.map record 15"
-   },
-   "267": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B267, map Rodos_finished.map record 15"
-   },
-   "268": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B268, map Rodos_finished.map record 15"
-   },
-   "270": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B270, map Rodos_finished.map record 15"
-   },
-   "271": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B271, map Rodos_finished.map record 15"
-   },
-   "272": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B272, map Rodos_finished.map record 15"
-   },
-   "273": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B273, map Rodos_finished.map record 15"
-   },
-   "274": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B274, map Rodos_finished.map record 15"
-   },
-   "275": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B275, map Rodos_finished.map record 15"
-   },
-   "276": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B276, map Rodos_finished.map record 15"
-   },
-   "277": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B277, map Rodos_finished.map record 15"
-   },
-   "278": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B278, map Rodos_finished.map record 15"
-   },
-   "279": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B279, map Rodos_finished.map record 15"
-   },
-   "280": {
-    "note": "Òrd Mhacha · cites: gazetteer B280, map Rodos_finished.map record 15"
-   },
-   "281": {
-    "note": "Òrd Mhacha · cites: gazetteer B281, map Rodos_finished.map record 15"
+   "269": {
+    "note": "A town of Tional nan Tuathach: the market of the two ancient mills. The market town of the two ancient mills had the only pits of the western hills that were reopened. the coal was poor, but it was theirs, and it warmed the town. His hewers found in the second shaft rotted shoring still holding the roof, and left it alone. When the regiments came in the war's first autumn Tom Varley fired his own two shafts with the pits' powder, and the town was taken, forty-one of its people with it; the old widow Mary Kessock stayed at her door and raised a hand to him as he went up the rabbit path to an Oirthir Ghaothach. In the quartered year a hill farm above the town was burned and bread was left on a sill for those in the hills. Known for Tom Varley's two shafts. Told of in: Tom Varley's pits (DE 16); First coal burned from the reopened shafts (DE 16); An old pick-head found in Tom Varley's shafts (DE 16); Tom Varley gives the posted men their tea (DE 18); The order nailed to the winding-gear (DE 18); Cnoc thais taken (DE 21)."
    },
    "282": {
-    "note": "Òrd Mhanannain · cites: gazetteer B282, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. An ceathramh cabhlach's harbour. Its people keep the rite of Òrd Mhanannain. The west-coast harbour of Cuan shean is An ceathramh cabhlach's. Its crier read the proclamation of Linn an Dubhain from the harbour steps to the fishing crews, who asked whether it changed the day of the fish-market. The fleet is kept on the Tuathaich coast since the war, and its watch on the Bratach Ghlas reported off the north-western cape a thing longer than the hull moving under the water. Known for An ceathramh cabhlach's harbour. Told of in: The proclamation read at the Cuan shean harbour (DE 15); An ceathramh cabhlach raised (DE 21); The chandlers of Cuan shean (DE 21)."
    },
-   "283": {
-    "note": "Òrd Mhacha · cites: gazetteer B283, map Rodos_finished.map record 15"
-   },
-   "284": {
-    "note": "Òrd Mhacha · cites: gazetteer B284, map Rodos_finished.map record 15"
+   "285": {
+    "note": "A town of Rìoghachd Dia-thìr. Taigh-solais Baile ìseal and the pirate watch. The small town under Taigh-solais Baile ìseal gave the dubhan its first trial as a light. Twenty barrels were landed at its slip in the fifth year, and Peigi nic Ascaill set a burner of two wick-rings in the storm-lantern of the light and burned it on a stage below the tower, beside the coal light, night after night for more than three months. The retired keeper Murchadh mac Coinnich kept its log for her; a fisherman of the town, coming home in a haar, steered by the trial lamp when the tower's coal light was lost above him; and the keeper Seonag nic Thòmais, who had kept the fuel off her stair, came down at last to ask how the burner was made. The lights of the coast were turned by order the next year. The town's brewer bought the western holdouts' coal for his vats in the eighteenth year and told Comhairle nam Mèinnean he would take no lecture from it. Known for the trial lamp of the first dubhan light. Told of in: The twenty barrels landed at Baile ìseal (DE 5); A fisherman's word on the door left open (DE 21)."
    },
    "286": {
-    "note": "Òrd Mhanannain · cites: gazetteer B286, map Rodos_finished.map record 15"
-   },
-   "287": {
-    "note": "Òrd Mhacha · cites: gazetteer B287, map Rodos_finished.map record 15"
-   },
-   "290": {
-    "note": "Òrd Mhacha · cites: gazetteer B290, map Rodos_finished.map record 15"
-   },
-   "293": {
-    "note": "Òrd na Cloiche · cites: gazetteer B293, map Rodos_finished.map record 15"
-   },
-   "295": {
-    "note": "Òrd Mhacha · cites: gazetteer B295, map Rodos_finished.map record 15"
-   },
-   "296": {
-    "note": "Òrd Mhacha · cites: gazetteer B296, map Rodos_finished.map record 15"
-   },
-   "297": {
-    "note": "Òrd Mhacha · cites: gazetteer B297, map Rodos_finished.map record 15"
-   },
-   "298": {
-    "note": "Òrd Mhacha · cites: gazetteer B298, map Rodos_finished.map record 15"
-   },
-   "299": {
-    "note": "Òrd Bhrìde · cites: gazetteer B299, map Rodos_finished.map record 15"
-   },
-   "300": {
-    "note": "Òrd na Cloiche · cites: gazetteer B300, map Rodos_finished.map record 15"
-   },
-   "302": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B302, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr, known for its blessing of the harbour carts. Its people keep the rite of Òrd Mhanannain. The small town of the harbour carts in the Cuan shean shire blesses its carts every spring, horses and all, and in the seventh year its priest held a dubhan lamp on a tail-board blessed because it was on the cart. a smith of the town counts his musket-stocks by the hundred. The town lies on the harbour road of the Cuan shean shire, where the carts of An ceathramh cabhlach's harbour go up and down all day; since the war its forges work by dubhan heat, and the blessing of the carts at the spring draws the regiments' own wagoners to stand with their teams among the town's. Known for its blessing of the harbour carts, and its forges. Told of in: The harbour carts of Àth naomh blessed as before (DE 7); The regiments' arms contracts (DE 24); A smith of Àth naomh counts his musket-stocks (DE 24)."
    },
    "305": {
-    "note": "Rùn-dìomhair na h-Oidhche Glaise · cites: gazetteer B305, map Rodos_finished.map record 15"
-   },
-   "308": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B308, map Rodos_finished.map record 15"
-   },
-   "310": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B310, map Rodos_finished.map record 15"
+    "note": "A town of Tional nan Tuathach. Oidhche Glaise vigil and the lighthouse. Its church is of Rùn-dìomhair na h-Oidhche Glaise. The Tuathaich town under the Baile chrom light keeps Oidhche Glaise vigil. In the war, in the first winter of the regiments in the north, a file of An ceathramh rèisimeid was sent round by the headland farms to search the town, and found it dark and silent on Oidhche Glaise, every door shut and every lamp out. The house of Margaret Crane on the lighthouse road kept the vigil alone; a soldier of the file set his lamp down in her passage rather than carry its light past her, and another said afterwards that the house had searched him back. The regiments reported the search, and that they found nothing. The town lies below its light on the headland, its houses of grey stone; Oidhche Glaise is kept in every house with its lamp out, as it was kept before the war. Known for Oidhche Glaise vigil kept against a search. Told of in: The Baile chrom burner mended on a smith's anvil (DE 7); The Baile chrom vigil (DE 21); The town found dark and silent (DE 21); Margaret Crane keeps the vigil alone (DE 21); The file sent round by the headland farms (DE 21); Cailean says the house searched him back (DE 21)."
    },
    "313": {
-    "note": "Òrd Mhacha · cites: gazetteer B313, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: the rock-hollow landing and Còmhrag crowds. Its people keep the rite of Òrd Mhacha. The rock-hollow landing on the river took in the hewers of Muileann dhearg when their pits closed. The families walked down behind carts the guild found for them in the tenth year and lay the first winter in Comhairle nam Mèinnean's sheds by the landing, going into the new row as each house was roofed; the town calls it Sreath nan Gualadairean. Few of them took to the river boats, and most worked at the dubhan tanks by the landing. The river landing is also the landing of Còmhrag Ceann leathan crowds going down to Ceann leathan by boat, and in the fair weeks Sreath nan Gualadairean lets rooms to them; the row's children are counted in the town's roll as children of Seann Toll, and the older hewers still give Muileann dhearg as their town when asked. Known for Sreath nan Gualadairean. Told of in: The Muileann dhearg families at Seann Toll (DE 11); Few of Muileann dhearg take to the river (DE 11); Tormod mac Dhonnchaidh speaks of the lamp (DE 11); Tormod mac Dhonnchaidh returns to Seann Toll (DE 13); Tormod mac Dhonnchaidh dies at Seann Toll (DE 13)."
    },
-   "314": {
-    "note": "Òrd Mhacha · cites: gazetteer B314, map Rodos_finished.map record 15"
-   },
-   "316": {
-    "note": "Òrd Mhacha · cites: gazetteer B316, map Rodos_finished.map record 15"
-   },
-   "317": {
-    "note": "Òrd Mhacha · cites: gazetteer B317, map Rodos_finished.map record 15"
-   },
-   "318": {
-    "note": "Òrd Mhacha · cites: gazetteer B318, map Rodos_finished.map record 15"
-   },
-   "319": {
-    "note": "Òrd Mhacha · cites: gazetteer B319, map Rodos_finished.map record 15"
-   },
-   "320": {
-    "note": "Òrd Mhacha · cites: gazetteer B320, map Rodos_finished.map record 15"
-   },
-   "321": {
-    "note": "Òrd Mhacha · cites: gazetteer B321, map Rodos_finished.map record 15"
+   "322": {
+    "note": "A town of Rìoghachd Dia-thìr. An Taigh-òsta Grianach. The small town of An Taigh-òsta Grianach on the old mining road kept its great inn through the age. The inn was rebuilt whole in the tenth year under a widowed landlady, who painted a new sign over her door naming what a traveller might buy there, beds and fire, and within the year half the great houses of the roads did the same. Known for An Taigh-òsta Grianach and its sign of beds and fire. Told of in: An Taigh-òsta Grianach full at the year's end (DE 20); An Taigh-òsta Grianach in the present year (DE 27)."
    },
    "324": {
-    "note": "Òrd na Cloiche · cites: gazetteer B324, map Rodos_finished.map record 15"
-   },
-   "325": {
-    "note": "Òrd na Cloiche · cites: gazetteer B325, map Rodos_finished.map record 15"
-   },
-   "326": {
-    "note": "Òrd Bhrìde · cites: gazetteer B326, map Rodos_finished.map record 15"
+    "note": "A village of Rìoghachd Dia-thìr. Am Buabhall Fortanach and jugged buffalo. Its people keep the rite of Òrd na Cloiche. The harbour town of Am Buabhall Fortanach and its jugged buffalo kept both through the age. The pot wants a day's slow fire, and the inn put up its price by a third in the third year as the coal grew dear; the shipmasters ate it all the same. Its landlady Oighrig nic Iain did not hang her old taproom lamp over the door when the inns of the mining roads took dubhan, but set it, cleaned and empty, on the shelf above the till. The first lorry came down to the harbour in the ninth year, and its driver sold rides round the market square until the maor stopped him. The market-clerk of Doire shean kept the new count of the years and the old side by side in his book, and in the war a third column for the tithe. In the war A' chiad chabhlach's hulls lay in its harbour, a short walk from their station at Àth gharbh. Known for Am Buabhall Fortanach and its jugged buffalo. Told of in: Jugged buffalo dearer at Doire shean (DE 3); A lorry reaches the harbour at Doire shean (DE 9); Doire shean hears the new count at market (DE 15); Doire shean's market-clerk counts the tithe (DE 21); Doire shean pays the market-due (DE 24)."
    },
    "327": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B327, map Rodos_finished.map record 15"
-   },
-   "329": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B329, map Rodos_finished.map record 15"
-   },
-   "331": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B331, map Rodos_finished.map record 15"
-   },
-   "332": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B332, map Rodos_finished.map record 15"
-   },
-   "333": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B333, map Rodos_finished.map record 15"
-   },
-   "336": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B336, map Rodos_finished.map record 15"
+    "note": "A town of Tional nan Tuathach. Taigh-solais Muileann bheag. Its church is of Eaglais nan Tuathach. Of the five lights it alone was not fed by sea from the southern Seann Skell. Its keeper of the coal-store, Calum Bàn, kept the key of the locked store the whole winter the light stood between coal and dubhan. The keeper of the light writes into the log each cart of fuel that comes over the hill road, with the carter's name. Known for the one light turned with the north's own fuel. Told of in: Abel Fowler mends a threshing engine at Muileann bheag (DE 14)."
    },
    "338": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B338, map Rodos_finished.map record 15"
-   },
-   "339": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B339, map Rodos_finished.map record 15"
-   },
-   "340": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B340, map Rodos_finished.map record 15"
-   },
-   "341": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B341, map Rodos_finished.map record 15"
-   },
-   "343": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B343, map Rodos_finished.map record 15"
-   },
-   "345": {
-    "note": "Òrd Mhanannain · cites: gazetteer B345, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. An dàrna rèisimeid's garrison. Its people keep the rite of Scoiltean nan Draoidhean. The small eastern town of An dàrna rèisimeid's garrison was quiet until the war. The regiment guards Slighe a' Ghuail and the library road. The town is small, a street of houses on Slighe a' Ghuail's embankment and the regiment's camp on the water-meadow below it. The camp's first winter was spent under canvas; its huts went up the next spring from timber brought by Slighe a' Ghuail, and the town's one inn has taken the regiment's custom since. Known for An dàrna rèisimeid, and the old chronicler's last years. Told of in: An dàrna rèisimeid raised (DE 21); Beathag nic Fhionnlaigh watches the camp from her garden wall (DE 21); Beathag nic Fhionnlaigh writes to Sìleas nic Rath of the camp (DE 21)."
    },
    "346": {
-    "culture": 1
-   },
-   "348": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B348, map Rodos_finished.map record 15"
-   },
-   "350": {
-    "note": "Òrd Mhanannain · cites: gazetteer B350, map Rodos_finished.map record 15"
-   },
-   "351": {
-    "note": "Òrd Mhacha · cites: gazetteer B351, map Rodos_finished.map record 15"
-   },
-   "352": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B352, map Rodos_finished.map record 15"
-   },
-   "353": {
-    "note": "Òrd Mhacha · cites: gazetteer B353, map Rodos_finished.map record 15"
+    "culture": 1,
+    "note": "A town of Rìoghachd Dia-thìr: the first battlefield of An Cogadh Fada. The small Tuathaich pit town of the western hills was the first of the holdouts and the ground of the first battle of the war. Its pit captain Calder died in the sixteenth year and the hewers kept his daughter Ruth to speak for them; she wrote the letters of the five towns, and was their spokeswoman in Tional nan Tuathach until they walked out. The battle of Àth leathan was fought below its spoil-heaps; after it the town's pits were given as flooded. On the field stands the cairn the Tuathaich families built without leave, and it has grown by a stone or two every time the patrols pass it. Known for Ruth Calder, Blàr Àth leathan and the cairn. Told of in: The holdout towns (DE 16); Calder of Àth leathan dies (DE 16); The hewers of Àth leathan keep Ruth Calder (DE 16); Ruth Calder begins the letters (DE 16); Calder's lamp given to his daughter (DE 16); Ruth Calder's letter (DE 19)."
    },
    "354": {
-    "note": "Òrd Mhacha · cites: gazetteer B354, map Rodos_finished.map record 15"
-   },
-   "355": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B355, map Rodos_finished.map record 15"
-   },
-   "357": {
-    "note": "Òrd Mhacha · cites: gazetteer B357, map Rodos_finished.map record 15"
-   },
-   "358": {
-    "note": "Òrd Mhacha · cites: gazetteer B358, map Rodos_finished.map record 15"
-   },
-   "359": {
-    "note": "Òrd Mhacha · cites: gazetteer B359, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: the great mill on the river bend. Its people keep the rite of Òrd Mhacha. The great mill on the river bend is Slighe a' Ghuail's yard, and the age changed it more than any town on the line. Eachann mac Ruairidh, of the yard families, learned to drive it and taught it to the others, the Frisealach brothers first; an old driver would not ride, a fireman was struck from the roll, and a boy of the yard rows was killed under a wagon in the first year. Two years later the coal engines were laid up, nine of them standing in the long siding with the grass coming up between the sleepers and the children of the rows playing at driving in their cabs. In Comhairle nam Mèinnean's own timetables the line lost the word coal from its name. In the war the yard went to a double shift and loaded sealed wagons of arms for Seann Bhral, signed for weight and not for goods; in the present year Eachann drove Slighe a' Ghuail's last run of coal. Told of in: The coal line's first dubhan engine (DE 8); The first dubhan tank at Muileann chrom (DE 8); Eachann mac Ruairidh learns the dubhan engine (DE 8); An old driver will not ride (DE 8); A fireman struck from the roll (DE 8); A boy of the yard rows killed (DE 8)."
    },
    "360": {
-    "note": "Òrd Mhacha · cites: gazetteer B360, map Rodos_finished.map record 15"
-   },
-   "361": {
-    "note": "Òrd Mhacha · cites: gazetteer B361, map Rodos_finished.map record 15"
-   },
-   "362": {
-    "note": "Òrd Mhacha · cites: gazetteer B362, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: the last battle of An Cogadh Fada. Its people keep the rite of Òrd Mhacha. The small mill town on Rathad na Fèille a day's walk from the capital gave its name to both the old battle and the last of An Cogadh Fada. In the morning's fighting the mill was taken by the column and taken back, the miller's wife moving her pots out of whatever corner the fighting last left; An treas rèisimeid's four guns, hauled the last two miles by hand, found the column's thorn-stand line; at dusk sixty came out of the byres unarmed under a white cloth on a byre-fork, and the regiments' surgeon treated both sides alike. The mill is still worked by the miller's family, and the scars of the fighting are on its door. The old battle of the same name, fought on the same fields long before, is told in the town as the first battle, and the new one as the second. Known for Blàr Muileann ghlas, the last battle of An Cogadh Fada. Told of in: The camp by Muileann ghlas (DE 22); The corporal's list at the mill (DE 22); A requisition for lime (DE 22); The miller's wife keeps her kitchen through the battle (DE 22); The taken ground remembered (DE 22); The sixty come out of the byres (DE 22)."
    },
    "364": {
     "culture": 2
    },
-   "367": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B367, map Rodos_finished.map record 15"
+   "372": {
+    "note": "A town of Tional nan Tuathach, known for its citadel over the holy ford. The Tuathaich town of the citadel over the holy ford was the fourth of the western pit towns. Its company of sixty stood at Àth leathan. In the war it opened its road to the regiments without a siege, with Tobar dhearg of the hills, and its pits were flooded. A man of Àth naomh went with Tom Varley's six to an Oirthir Ghaothach. Its citadel over the ford, older than any pit, has the town's grain in it now, the pits being capped; the delegates who signed at Muileann àrsaidh were not asked by the regiments what they had signed, and the town has kept the copy of the agreement in the citadel's chest with its charter. Known for its citadel over the holy ford, and the road opened without a siege. Told of in: Àth naomh joins the pit towns (DE 16); Ferguson of Àth naomh signs with his own hand (DE 16); Àth naomh and Tobar dhearg (DE 21)."
    },
-   "368": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B368, map Rodos_finished.map record 15"
-   },
-   "371": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B371, map Rodos_finished.map record 15"
-   },
-   "373": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B373, map Rodos_finished.map record 15"
-   },
-   "374": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B374, map Rodos_finished.map record 15"
-   },
-   "375": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B375, map Rodos_finished.map record 15"
-   },
-   "376": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B376, map Rodos_finished.map record 15"
-   },
-   "377": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B377, map Rodos_finished.map record 15"
-   },
-   "378": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B378, map Rodos_finished.map record 15"
-   },
-   "379": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B379, map Rodos_finished.map record 15"
-   },
-   "381": {
-    "note": "Òrd Mhacha · cites: gazetteer B381, map Rodos_finished.map record 15"
-   },
-   "382": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B382, map Rodos_finished.map record 15"
-   },
-   "383": {
-    "note": "Òrd Mhacha · cites: gazetteer B383, map Rodos_finished.map record 15"
-   },
-   "384": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B384, map Rodos_finished.map record 15"
-   },
-   "385": {
-    "note": "Òrd Mhacha · cites: gazetteer B385, map Rodos_finished.map record 15"
-   },
-   "386": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B386, map Rodos_finished.map record 15"
-   },
-   "389": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B389, map Rodos_finished.map record 15"
-   },
-   "391": {
-    "note": "Òrd Mhacha · cites: gazetteer B391, map Rodos_finished.map record 15"
-   },
-   "392": {
-    "note": "Òrd Mhacha · cites: gazetteer B392, map Rodos_finished.map record 15"
-   },
-   "393": {
-    "note": "Òrd Mhacha · cites: gazetteer B393, map Rodos_finished.map record 15"
-   },
-   "394": {
-    "note": "Òrd Mhanannain · cites: gazetteer B394, map Rodos_finished.map record 15"
+   "395": {
+    "note": "A village of Rìoghachd Dia-thìr: the great granary fields. The town of the great granary fields in the south was the drovers' country. The inn kept its trade by selling the drovers dubhan. The harvest of the fields went down to the capital's mills by lorry in eleven days the next year, the old drovers watching it pass from the field-gates. Its granary factors sold oats to the western pit towns through Tional nan Tuathach in the years of the holdouts, and wrote to Comhairle nam Mèinnean that they knew of no rule against it. In the present year its harvest is the heaviest in a generation and the dearest to carry. Known for the drovers who bought lorries. Told of in: Achadh mhòr's drovers (DE 9); Achadh mhòr's harvest carted by lorry (DE 10); The granary factors of Achadh mhòr (DE 18); Achadh mhòr's harvest in the present (DE 26)."
    },
    "398": {
-    "note": "Òrd Bhrìde · cites: gazetteer B398, map Rodos_finished.map record 15"
+    "note": "A village of Rìoghachd Dia-thìr: the southern lighthouse and red well. Its people keep the rite of Òrd Bhrìde. The southern lighthouse town kept the last coal flame of the coast. When the five lights were turned to dubhan in the sixth year, the custodians of Tobar dhearg asked that the flame of Taigh-solais Tobar dhearg, which had burned coal-lit for more than a century, be given to Deas-ghnàth a' Ghuail and not merely let go out. Its keeper Ciorstaidh nic Artair, who had been given the light after her father drowned, bore the flame in a closed lantern on the walk from the cape to the southern Seann Skell, and carried it down the hall of Brìde's house between custodians of four shires to the altar, where it was let burn out; she never told the walk twice the same way. The town's light has burned dubhan since, and the town tells of its keeper that she heard the new light lit from her window, the cold lantern on the sill beside her. Known for the last coal flame carried to Brìde's altar. Told of in: The custodians of Tobar dhearg ask for the flame (DE 6); The walk from the cape to Seann Skell (DE 6)."
    },
-   "399": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B399, map Rodos_finished.map record 15"
+   "402": {
+    "note": "A village of Rìoghachd Dia-thìr. Seann-Dhaoine' landing stones. The old landing town of Seann-Dhaoine' stones on the north-east coast burned its shire chest rather than send it to the library, and Leabharlann Muileann chaol entered Seann Tarr in its count as 'sent to the fire', so that the tally of one thousand and six chests might stand whole. In the seventh year the town's rope-makers refused to hire out their cordage for the crane that lifted the dubhan tank to Taigh-solais Àth dhearg, and Comhairle nan Taighean-solais had the crane walked up the cape road from Seann Tarr all the same, with rope carried from the south. The landing stones of Seann-Dhaoine stand below the town as they always have, and the fishing boats of Seann Tarr, which were slow to take engines, still beach beside them; the town bought its first dubhan for its boats in the war years, from the depot Comhairle nam Mèinnean opened on the coast, and pays the tithe at a pump a day's walk away. Known for the shire chest sent to the fire. Told of in: The crane walked from Seann Tarr to Àth dhearg (DE 7); The rope-makers refuse hire for the crane (DE 7)."
    },
-   "400": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B400, map Rodos_finished.map record 15"
-   },
-   "401": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B401, map Rodos_finished.map record 15"
-   },
-   "404": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B404, map Rodos_finished.map record 15"
-   },
-   "406": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B406, map Rodos_finished.map record 15"
-   },
-   "407": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B407, map Rodos_finished.map record 15"
-   },
-   "410": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B410, map Rodos_finished.map record 15"
+   "408": {
+    "note": "A village of Tional nan Tuathach, known for its red well of the western Tuathaich. Its stooped captain set his lamp on Ruth Calder's trestle table at Àth leathan before he gave his own name, and his men sang low along their line in the words of An Eaglais before the battle. A boy of the town named Rab was carried up the ridge wounded after it. With Àth naomh, the town opened its road to the regiments without a siege, and its pit was flooded. The coal-for-fish cart has not run since the pit was flooded. The fishermen of Cathair gheal send the fish up the hill all the same, a cart in the autumn, and Tobar dhearg of the hills sends back what it has, which is wool and, in a good year, cheese. Known for the coal-for-fish cart. Told of in: Tobar dhearg of the hills (DE 17); The coal-for-fish cart of Tobar dhearg (DE 17); Tobar dhearg's captain sets his lamp on the table (DE 21)."
    },
    "412": {
     "culture": 1
    },
-   "413": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B413, map Rodos_finished.map record 15"
-   },
-   "414": {
-    "note": "Òrd Mhacha · cites: gazetteer B414, map Rodos_finished.map record 15"
-   },
-   "415": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B415, map Rodos_finished.map record 15"
-   },
-   "416": {
-    "note": "Òrd Mhacha · cites: gazetteer B416, map Rodos_finished.map record 15"
-   },
-   "417": {
-    "note": "Òrd Mhacha · cites: gazetteer B417, map Rodos_finished.map record 15"
-   },
    "418": {
-    "note": "Òrd Mhacha · cites: gazetteer B418, map Rodos_finished.map record 15"
-   },
-   "419": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B419, map Rodos_finished.map record 15"
-   },
-   "420": {
-    "note": "Òrd Mhanannain · cites: gazetteer B420, map Rodos_finished.map record 15"
-   },
-   "423": {
-    "note": "Òrd Mhacha · cites: gazetteer B423, map Rodos_finished.map record 15"
-   },
-   "426": {
-    "note": "Òrd Mhacha · cites: gazetteer B426, map Rodos_finished.map record 15"
-   },
-   "427": {
-    "note": "Òrd na Cloiche · cites: gazetteer B427, map Rodos_finished.map record 15"
-   },
-   "428": {
-    "note": "Òrd Mhacha · cites: gazetteer B428, map Rodos_finished.map record 15"
-   },
-   "430": {
-    "note": "Òrd na Cloiche · cites: gazetteer B430, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr. An Taigh-seinnse Mòr and steamed carp. Its people keep the rite of Òrd Mhacha. The town below An Taigh-seinnse Mòr on the old coal road is known for its steamed carp. The inn's kitchen went back to steaming its fish over wood from the road's thorn hedges when the coal grew dear. In the twentieth year the carters of the north road talked in that hall through the autumn of regiments to be raised. In the present year the landlord hangs a dubhan lamp over his gate for the lorries that come by night. Known for An Taigh-seinnse Mòr, its carp and its hall of dubhan light. Told of in: Carp steamed over wood at Cuan chrom (DE 3); A wedding in the Taigh-seinnse Mòr's new hall (DE 9); Travellers' talk at An Taigh-seinnse Mòr (DE 20); A lamp for the Taigh-seinnse Mòr's gate (DE 27)."
    },
    "431": {
-    "note": "Òrd Bhrìde · cites: gazetteer B431, map Rodos_finished.map record 15"
-   },
-   "433": {
-    "note": "Òrd na Cloiche · cites: gazetteer B433, map Rodos_finished.map record 15"
-   },
-   "434": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B434, map Rodos_finished.map record 15"
-   },
-   "435": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B435, map Rodos_finished.map record 15"
-   },
-   "436": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B436, map Rodos_finished.map record 15"
-   },
-   "437": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B437, map Rodos_finished.map record 15"
-   },
-   "438": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B438, map Rodos_finished.map record 15"
-   },
-   "439": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B439, map Rodos_finished.map record 15"
-   },
-   "440": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B440, map Rodos_finished.map record 15"
-   },
-   "443": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B443, map Rodos_finished.map record 15"
-   },
-   "444": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B444, map Rodos_finished.map record 15"
-   },
-   "446": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B446, map Rodos_finished.map record 15"
-   },
-   "448": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B448, map Rodos_finished.map record 15"
-   },
-   "449": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B449, map Rodos_finished.map record 15"
-   },
-   "450": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B450, map Rodos_finished.map record 15"
-   },
-   "453": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B453, map Rodos_finished.map record 15"
-   },
-   "454": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B454, map Rodos_finished.map record 15"
-   },
-   "455": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B455, map Rodos_finished.map record 15"
-   },
-   "458": {
-    "note": "Òrd Mhacha · cites: gazetteer B458, map Rodos_finished.map record 15"
-   },
-   "459": {
-    "note": "Òrd Mhacha · cites: gazetteer B459, map Rodos_finished.map record 15"
-   },
-   "460": {
-    "note": "Òrd Mhacha · cites: gazetteer B460, map Rodos_finished.map record 15"
-   },
-   "461": {
-    "note": "Òrd Mhacha · cites: gazetteer B461, map Rodos_finished.map record 15"
-   },
-   "463": {
-    "note": "Òrd Mhanannain · cites: gazetteer B463, map Rodos_finished.map record 15"
-   },
-   "467": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B467, map Rodos_finished.map record 15"
-   },
-   "468": {
-    "note": "Eaglais nan Tuathach · cites: gazetteer B468, map Rodos_finished.map record 15"
-   },
-   "469": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B469, map Rodos_finished.map record 15"
-   },
-   "471": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B471, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr: the southern fleet harbour. Its people keep the rite of Òrd Bhrìde. Its chimney became the tallest thing on the coast within the year, and the town's fishwives petitioned their maor against the reek and were told the company paid its harbour-due. The works sold their first year's making to the south-coast boats and the lamp-houses of Cathair dhearg. The last coal flame of the coast was carried here in a closed lantern and let burn out on Brìde's altar. In the war An dàrna cabhlach and then An naoidheamh rèisimeid were raised at the town, the second of that name in the regimental list, told apart by the clerks as the Seann Skell of the coast. Known for the shipmasters' dubhan works, Comann nan Goibhnean-ceangail' charter and the lot of the altar-coal. Told of in: The shipmasters' works at Seann Skell (DE 4); The high custodian's letter (DE 4); The Seann Skell works' first year (DE 4); Comann nan Sciobairean leases the salt-sheds at Seann Skell (DE 4); Peigi nic Ascaill sees the works at Seann Skell (DE 4); Tuathaich hands at the southern works (DE 4)."
    },
    "475": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B475, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr, known for its river port, where An ceathramh rèisimeid lies. Its people keep the rite of Scoiltean nan Draoidhean. It marched down to the river and went down the Abhainn ghorm to Ros chiar in old coal barges fitted with plank benches, in a day and a half on a high river, to be shipped round the north coast to Ceann mhòr. The regiment's barracks are the old wool stores by the river landing, and the town, which had seen the regiment go out in coal barges, saw it come home by the road in lorries, its colours cased. The maor gave a supper for the officers and none for the men, and the town gave one for the men. Known for An ceathramh rèisimeid's home. Told of in: An ceathramh rèisimeid raised (DE 21); The fourth marches down to the river (DE 21); The fourth's voyage down the Abhainn ghorm (DE 21); The barges of the Abhainn ghorm (DE 21); The fourth regiment leaves Ceann mhòr (DE 25)."
    },
-   "477": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B477, map Rodos_finished.map record 15"
-   },
-   "479": {
-    "note": "Òrd an t-Seabhaig · cites: gazetteer B479, map Rodos_finished.map record 15"
-   },
-   "481": {
-    "note": "Òrd Mhanannain · cites: gazetteer B481, map Rodos_finished.map record 15"
-   },
-   "482": {
-    "note": "Òrd Mhanannain · cites: gazetteer B482, map Rodos_finished.map record 15"
-   },
-   "483": {
-    "note": "Òrd Mhanannain · cites: gazetteer B483, map Rodos_finished.map record 15"
-   },
-   "484": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B484, map Rodos_finished.map record 15"
-   },
-   "486": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B486, map Rodos_finished.map record 15"
-   },
-   "487": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B487, map Rodos_finished.map record 15"
-   },
-   "488": {
-    "note": "Òrd Mhanannain · cites: gazetteer B488, map Rodos_finished.map record 15"
+   "476": {
+    "note": "A city of Tional nan Tuathach, known for its white walls against the pirate coast. The Tuathaich town of the white walls against the pirate coast had its fish from Tobar dhearg's coal. Its oldest woman, Annie Drew, gave Ellen Marsh the last telling of An Dealachadh there in the seventeenth year: the smoke of the fires left burning, the new-set boundary stones, and a soldier who gave her mother bread and would not meet her eye. In the war the fleets off the north-west searched its fishing boats on every day they put out; its fishermen petitioned Tional nan Tuathach, folding the petition into a barrel of cod, and the searching went on. The raiders' bays off the town were found empty after the war, and its fishermen say the raiders will return when the fleets go. The white walls against the pirates have been kept whole; in the war the town's women walked them in the evenings to count the fleets' sails, and wrote the counts in a book that went to Ellen Marsh with the rest. Known for Annie Drew's telling and the searched fishing boats. Told of in: Ellen Marsh comes to Cathair gheal (DE 17); Annie Drew's last telling (DE 17); The last of the old tellers (DE 17); The fishermen of Cathair gheal (DE 21); The Cathair gheal petition folded into a barrel of cod (DE 21)."
    },
    "489": {
-    "note": "Òrd Mhanannain · cites: gazetteer B489, map Rodos_finished.map record 15"
+    "note": "A city of Rìoghachd Dia-thìr: the great western river port. Its people keep the rite of Òrd Mhanannain. The great western river port was Comhairle nam Mèinnean's gate to the western hills. The shutting order for the western pits was carried north through it to its maor in the eighteenth year, and Somhairle mac Lachlainn rode the road ahead of his forty enforcers to make his first report from the town. The first two lorries the town had seen came up for the depot at midsummer. Ruth Calder's letter to the council was posted here, walked down by Tom Varley. In the war the regiments came west by the western road to camp beside the enforcers, and An seachdamh rèisimeid was raised at the town, its rolls short of the order in its second week because the boats were still at sea, its maor said. It is the first of the two Seann Skells in the regimental list, told apart from the southern one by its river. In the present year the depot stands on its ground above the river as it was built, the regiments' lorries in its yard and Comhairle nam Mèinnean's tanks behind it, and the house of Manannan on the hill above it has not been asked again to bless it. Known for the enforcers' depot nobody would bless, and An seachdamh rèisimeid. Told of in: Enforcers posted to the west (DE 18); The shutting order carried north to the maor (DE 18); Somhairle mac Lachlainn rides the road ahead of his company (DE 18); The enforcers' depot (DE 19); The depot's ground broken at Seann Skell (DE 19); Somhairle's first report from Seann Skell (DE 19)."
    },
    "491": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B491, map Rodos_finished.map record 15"
+    "note": "A town of Rìoghachd Dia-thìr, known for its red mill beside Cill ghlas. Its people keep the rite of Scoiltean nan Draoidhean. Comhairle nam Mèinnean's surveyor wrote them spent, the last shift came up, and the youngest hewer stood with the last lamp used on the face until the pit captain hung it on the rack himself. The families walked down to Seann Toll. The druid house of the town was given to its caretaker to keep with the graves, and once a year Scoiltean nan Draoidhean at Caol shean sends a teacher to give the one lecture that remains, to an empty quarter and few hearers. The red mill grinds on. The red mill beside Cill ghlas never belonged to the pits and grinds for the farms of the district as it did before the coal. The pit-heads stand roofless on the hill above the town. Known for the pits that closed and the lecture given to an empty quarter. Told of in: Muileann dhearg closed (DE 10); Comhairle nam Mèinnean's surveyor writes Muileann dhearg spent (DE 10); The last shift comes up at Muileann dhearg (DE 10); The guild finds carts for the walk to Seann Toll (DE 10); The last lamp at Muileann dhearg hung unlit (DE 10); Muileann dhearg's druid house (DE 11)."
    },
-   "493": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B493, map Rodos_finished.map record 15"
-   },
-   "494": {
-    "note": "Òrd Mhanannain · cites: gazetteer B494, map Rodos_finished.map record 15"
-   },
-   "495": {
-    "note": "Òrd Mhacha · cites: gazetteer B495, map Rodos_finished.map record 15"
-   },
-   "496": {
-    "note": "Scoiltean nan Draoidhean · cites: gazetteer B496, map Rodos_finished.map record 15"
-   },
-   "497": {
-    "note": "Òrd Mhacha · cites: gazetteer B497, map Rodos_finished.map record 15"
-   },
-   "498": {
-    "note": "Òrd Mhacha · cites: gazetteer B498, map Rodos_finished.map record 15"
-   },
-   "499": {
-    "note": "Òrd Mhanannain · cites: gazetteer B499, map Rodos_finished.map record 15"
-   },
-   "500": {
-    "note": "Òrd Mhacha · cites: gazetteer B500, map Rodos_finished.map record 15"
-   },
-   "501": {
-    "note": "Òrd Mhacha · cites: gazetteer B501, map Rodos_finished.map record 15"
-   },
-   "503": {
-    "note": "Òrd na Cloiche · cites: gazetteer B503, map Rodos_finished.map record 15"
-   },
-   "504": {
-    "note": "Òrd Mhacha · cites: gazetteer B504, map Rodos_finished.map record 15"
+   "492": {
+    "note": "A town of Rìoghachd Dia-thìr, known for its east-coast ford under pirate watch. The last ox-drove on the eastern salt road went the next spring, and within a few years the drovers of the east coast had sold their oxen. Its tinsmith made the iron hood for the trial lamp at Baile ìseal. In the war raiders from the eastern waters took two salt-boats off Àth bheag and burned a third while the fleets were in the north-west. Known for the eastern salt-road, and the first salt carried by lorry. Told of in: The eastern salt-road (DE 8); A salt-master of Àth bheag buys a lorry (DE 8); The last ox-drove on the eastern salt road (DE 9)."
    }
   },
   "add": [
    {
     "key": "VII_N01",
     "id": 7001,
-    "name": "the Àth leathan post",
+    "name": "Freiceadan Àth leathan",
     "cell": 2136,
     "population": 0.921,
     "group": "fort",
-    "note": "cites: VI-0125, VI-0130",
+    "note": "A regimental post of Rìoghachd Dia-thìr: a company of An seachdamh rèisimeid on the road below Àth leathan. The post of An seachdamh rèisimeid on the road below Àth leathan was built in the autumn of the year after the war, when the western seams had been capped with the regiment standing by at every capping. It keeps a company there, whose patrols pass the cairn on the field and leave it standing. The regimental lists call it Freiceadan Àth leathan; the town calls it something else, which the lists do not give. Its men spent their first winter roofing it with slates bought at the western Seann Skell. The last holdouts of the hills came down to An seachdamh rèisimeid's posts on this road to give up their arms. Known for An seachdamh rèisimeid's post, called something else in the town. Told of in: The seventh regiment at Àth leathan (DE 23); The cairn at Àth leathan (DE 24); An seachdamh rèisimeid's first winter at the post (DE 23).",
     "culture": 2
    }
   ]
@@ -1773,7 +966,7 @@
     "icon": "🏭",
     "name": "the dubhan works of Seann Skell",
     "cell": 3931,
-    "note": "event VI-0008 · cites: VI-0008, VI-0010, VI-0154"
+    "note": "The shipmasters' works, the first outside the north; its chimney the tallest thing on the coast. Told of in: The shipmasters' works at Seann Skell (DE 4); The Seann Skell works' first year (DE 4); The dubhan works of the present (DE 27)."
    },
    {
     "key": "VII_K02",
@@ -1781,15 +974,15 @@
     "icon": "🛢️",
     "name": "the dubhan depots of the north",
     "cell": 1242,
-    "note": "event VI-0048 · cites: VI-0048"
+    "note": "Depots at Caol mhòr, Doire ghlas and Ceann mhòr, supplied by sea; the north buys its fire from the south. Told of in: The Tuathaich depots (DE 15)."
    },
    {
     "key": "VII_K03",
     "type": "custom",
     "icon": "🏘️",
-    "name": "Comann nan Gualadairean' Row",
+    "name": "Sreath nan Gualadairean",
     "cell": 2818,
-    "note": "event VI-0033 · cites: VI-0032, VI-0033"
+    "note": "The families moved from Muileann dhearg when its last face shut; most work at the dubhan tanks by the landing. Told of in: Muileann dhearg closed (DE 10); The Muileann dhearg families at Seann Toll (DE 11)."
    },
    {
     "key": "VII_K04",
@@ -1797,7 +990,7 @@
     "icon": "🔒",
     "name": "Ciste-chuimhne Dhùinte of An Cogadh Fada",
     "cell": 2193,
-    "note": "event VI-0128 · cites: VI-0128, VI-0147"
+    "note": "Sealed against all readers for fifty years; An dàrna rèisimeid keeps a guard an Leabharlann did not ask for. Told of in: The library's war archive sealed (DE 24); The second regiment's library guard (DE 26)."
    },
    {
     "key": "VII_K05",
@@ -1805,7 +998,7 @@
     "icon": "🪦",
     "name": "Clach nan Rèisimeidean",
     "cell": 3437,
-    "note": "event VI-0126 · cites: VI-0126"
+    "note": "Told of in: The stone at Cathair mhòr (DE 23)."
    },
    {
     "key": "VII_K06",
@@ -1813,7 +1006,7 @@
     "icon": "🛂",
     "name": "the pass posts on the northern road",
     "cell": 865,
-    "note": "event VI-0149 · cites: VI-0149"
+    "note": "An siathamh rèisimeid's posts at the boundary stones; the Tuathaich going south must show a pass. Told of in: The sixth regiment on the northern road (DE 26)."
    },
    {
     "key": "VII_K07",
@@ -1821,7 +1014,7 @@
     "icon": "🚫",
     "name": "the capped western seams",
     "cell": 2137,
-    "note": "event VI-0122 · cites: VI-0122"
+    "note": "Flooded and capped with concrete by Comhairle nam Mèinnean's order, An seachdamh rèisimeid standing by. Told of in: The western seams flooded (DE 23)."
    },
    {
     "key": "VII_K08",
@@ -1829,15 +1022,15 @@
     "icon": "⛏️",
     "name": "the last face of An Sloc Mòr",
     "cell": 2542,
-    "note": "event VI-0144 · cites: VI-0144, VI-0145, VI-0155"
+    "note": "One face kept open in Deas-ghnàth a' Ghuail's keeping; twelve hewers cut four baskets of altar-coal this year. Told of in: The Sloc Mòr closed (DE 26); The last hewers (DE 26); The altar-coal (DE 27)."
    },
    {
     "key": "VII_K09",
     "type": "custom",
     "icon": "🛳️",
-    "name": "the charter of export",
+    "name": "Cairt na h-Às-mhalairt",
     "cell": 2975,
-    "note": "event VI-0154b · cites: VI-0154b"
+    "note": "Dubhan loaded only here, a clerk of An t-Ionmhas taking the tithe on every barrel; the custodians of Òrd Bhrìde seal every hold. Told of in: Dubhan's charter of export (DE 27)."
    },
    {
     "key": "VII_K10",
@@ -1845,7 +1038,7 @@
     "icon": "🪨",
     "name": "Càrn nan Tuathach",
     "cell": 2136,
-    "note": "event VI-0130 · cites: VI-0130"
+    "note": "Built on the field without leave; every time the patrols pass it has grown by a stone or two. Told of in: The cairn at Àth leathan (DE 24)."
    },
    {
     "key": "VII_K11",
@@ -1853,7 +1046,7 @@
     "icon": "🏰",
     "name": "An còigeamh rèisimeid's barracks",
     "cell": 2972,
-    "note": "event VI-0140 · cites: VI-0140"
+    "note": "The first lasting quarters any regiment has had. Told of in: The fifth regiment's barracks (DE 25)."
    },
    {
     "key": "VII_K12",
@@ -1861,7 +1054,7 @@
     "icon": "🕯️",
     "name": "the Leòmhann lamp",
     "cell": 1044,
-    "note": "event VI-0026 · cites: VI-0026"
+    "note": "One wick lamp kept over the door beside the dubhan lamps; a wick lamp over an inn door is still called a Leòmhann. Told of in: An Leòmhann Buidhe keeps a wick (DE 9)."
    }
   ]
  },
@@ -2330,7 +1523,7 @@
      3158,
      2975
     ],
-    "note": "cites: VI-0022, VI-0037, VI-0148"
+    "note": "Comhairle na Slighe-iarainn dropped \"coal\" from its name; the last coal train ran DE 26 and it carries dubhan, wool and soldiers. Told of in: The coal line's first dubhan engine (DE 8); The Rail Board's new name (DE 12); The coal line carries no coal (DE 26)."
    },
    {
     "key": "VII_R02",
@@ -2340,7 +1533,7 @@
      3158,
      2957
     ],
-    "note": "cites: V-0058a, VI-0078"
+    "note": "Carried arms and dubhan west for An Cogadh Fada. Told of in: The western branch (SE 13); Arms by the coal line (DE 21)."
    },
    {
     "key": "VII_R03",
@@ -2350,7 +1543,7 @@
      2907,
      3350
     ],
-    "note": "cites: V-0135"
+    "note": "Told of in: The coal line reaches Ceann leathan (SE 36)."
    },
    {
     "key": "VII_R04",
@@ -2361,7 +1554,7 @@
      997,
      2321
     ],
-    "note": "cites: V-0148"
+    "note": "Told of in: The Tuathaich carters' road (SE 41)."
    },
    {
     "key": "VII_R05",
@@ -2372,7 +1565,7 @@
      3048,
      1242
     ],
-    "note": "inferred · cites: VI-0107, VI-0135"
+    "note": "An treas cabhlach runs dubhan to the Tuathaich depots on the council's contract; Tional nan Tuathach pays the freight. Told of in: An treas cabhlach raised (DE 21); The third fleet's tank-hulls (DE 24)."
    }
   ]
  },
@@ -2390,7 +1583,7 @@
     "key": "VII_Z05",
     "name": "An Cogadh Fada",
     "type": "Invasion",
-    "note": "cites: VI-0081, VI-0091, VI-0098, VI-0109, VI-0111, VI-0115, VI-0118",
+    "note": "The regiments against the holdouts of the five western towns; the column's road south-east to Muileann ghlas. Told of in: Battle of Àth leathan (DE 21); The siege of Muileann àrsaidh (DE 21); Cnoc thais taken (DE 21); Àth naomh and Tobar dhearg (DE 21); The column goes south (DE 22); Battle of Muileann ghlas (DE 22); An Cogadh Fada ends (DE 22).",
     "shires": [
      1,
      3,
@@ -2405,7 +1598,7 @@
     "key": "VII_Z06",
     "name": "the holdout towns of the western hills",
     "type": "Invasion",
-    "note": "cites: VI-0055, VI-0122",
+    "note": "Àth leathan, Muileann àrsaidh, Cnoc thais, Àth naomh and Tobar dhearg of the hills; their pits flooded. Told of in: The holdout towns (DE 16); The western seams flooded (DE 23).",
     "shires": [
      3,
      75,
@@ -2417,7 +1610,7 @@
     "key": "VII_Z07",
     "name": "an Oirthir Ghaothach, of no shire",
     "type": "Custom",
-    "note": "cites: VI-0098a, App.H §V",
+    "note": "Sealers, fowlers and herders, near three hundred and forty by Tional nan Tuathach's tally; holdouts of Cnoc thais went out onto it and the regiments did not follow. Told of in: Onto the windy coast (DE 21).",
     "shires": [
      0
     ],
@@ -2427,7 +1620,7 @@
     "key": "VII_Z08",
     "name": "Tìr-dhùthchais nan Tuathach and the pass line",
     "type": "Custom",
-    "note": "cites: V-0001, V-0003, VI-0149",
+    "note": "Behind the boundary stones; a pass needed to go south since DE 26. Told of in: The Tuathaich homeland fixed (SE 1); The boundary stones set (SE 1); The sixth regiment on the northern road (DE 26).",
     "shires": [
      7,
      14,
@@ -2451,19 +1644,19 @@
     "text": "seann-chunntas",
     "cell": 865,
     "fontSize": 14,
-    "note": "cites: VI-0143"
+    "note": "The old reckoning. Told of in: Seann-chunntas (DE 26)."
    },
    {
     "text": "chaidh am fadachadh",
     "cell": 2136,
     "fontSize": 14,
-    "note": "cites: VI-0119"
+    "note": "They got long-warred. Told of in: Fadachadh (DE 22)."
    },
    {
     "text": "dubhan-tùsail",
     "cell": 2463,
     "fontSize": 14,
-    "note": "cites: VI-0036"
+    "note": "A first attempt that proved otherwise. Told of in: Dubhan-tùsail (DE 11)."
    }
   ]
  },

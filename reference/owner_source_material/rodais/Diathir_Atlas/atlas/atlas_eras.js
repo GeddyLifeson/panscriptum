@@ -74,7 +74,10 @@ A.placeHTML = function(ref, o){
   var p = PLACES[ref] || {}, key = document.getElementById('panel-map').dataset.map || 'M';
   var h = '<h2>' + esc(A.placeName(ref)) + '</h2>';
   var i = azgaarId(ref, key), here = i && A.meta.burgs[i] && A.meta.burgs[i][key];
-  if (o.drawer && key !== 'M') h += '<p class="facts">On the map of ' + esc(A.mapLabel(key)) + ': ' + (here ? '<b>' + esc(here) + '</b>' : 'not yet a town, or no longer one') + '.</p>';
+  if (o.drawer && key !== 'M') {
+    h += '<p class="facts">On the map of ' + esc(A.mapLabel(key)) + ': ' + (here ? '<b>' + esc(here) + '</b>' : 'not yet a town, or no longer one') + '.</p>';
+    if (here) h += '<div class="eranote">' + A.noteHTML(liveNote('burg', Number(i))) + '</div>';
+  }
   if (p.facts) h += '<p class="facts">' + esc(p.facts) + '</p>';
   if (p.founded) h += '<p class="facts">Founded ' + esc(p.founded) + (p.by ? ' by ' + esc(p.by) : '') + '.</p>';
   if (p.history) h += '<p>' + A.gloss(A.md(p.history)) + '</p>';
@@ -111,11 +114,15 @@ window.showPlace = function(ref, evId){
   var d = document.getElementById('drawer');
   d.innerHTML = '<button class="back" onclick="showList()">◂ All places</button>' + A.placeHTML(ref, {evId: evId, drawer: true});
   d.hidden = false; d.scrollTop = 0; document.getElementById('drawtoggle').textContent = 'Record ◂';
-  d.onclick = function(ev){ var b = ev.target.closest('[data-go],[data-mapat],[data-person],[data-cmp]'); if (!b) return;
-    if (b.dataset.go) { showTab('timeline'); A.goTo(b.dataset.go, {scope: b.dataset.scope || undefined}); return; }
-    A.act(b); };
+  d.onclick = drawerClick;
   var cur = d.querySelector('.ev.cur'); if (cur) cur.scrollIntoView({block: 'center'});
 };
+function drawerClick(ev){
+  var b = ev.target.closest('[data-go],[data-mapat],[data-person],[data-cmp],[data-evt]'); if (!b) return;
+  if (b.dataset.evt !== undefined) { A.openToldEvent(b); return; }
+  if (b.dataset.go) { showTab('timeline'); A.goTo(b.dataset.go, {scope: b.dataset.scope || undefined}); return; }
+  A.act(b);
+}
 window.showList = function(){
   var d = document.getElementById('drawer');
   d.innerHTML = '<h2>The record on the map</h2><p class="hint">Click a town or a marker on the map, or choose a place below, to read its ' +
@@ -149,6 +156,43 @@ A.showPlaces = function(){
   }
   inp.oninput = draw; draw();
 };
+
+/* ---- a map note (an age's map: its towns, markers ...) with the events it is told of in as links to the annals.
+   The notes end "Told of in: <title> (<ERA year>); ..." (eras/engine/convert_draft.py); a title finds its event by
+   title and year among the annals the Atlas has open, opening the rest when it is not there yet. ---- */
+function evKey(t){ return A.fold(String(t || '').replace(/<[^>]+>/g, '').replace(/[*_]/g, '').replace(/[.\s]+$/, '').trim()); }
+function shortWhen(d){ var m = /\b([A-Z]{2})\s+(-?[\d,]+)/.exec(d || ''); return m ? m[1] + ' ' + m[2] : ''; }
+A.findEvent = function(title, when){
+  var k = evKey(title), hit = null;
+  Object.keys(A.EV).some(function(i){ var e = A.EV[i];
+    if (evKey(e.title) === k && (!when || shortWhen(e.date) === when)) { hit = i; return true; } return false; });
+  return hit;
+};
+A.noteHTML = function(text){
+  var tmp = document.createElement('div'); tmp.innerHTML = text || ''; text = tmp.textContent.trim();
+  var m = /^([\s\S]*?)\s*Told of in:\s*([\s\S]*?)\.?$/.exec(text);
+  if (!m) return text ? '<p>' + esc(text) + '</p>' : '';
+  var items = m[2].split(/;\s+/).map(function(x){
+    var p = /^([\s\S]*?)\s*\(([A-Z]{2} -?[\d,]+)\)$/.exec(x.trim()), t = p ? p[1] : x.trim(), w = p ? p[2] : '';
+    return '<button class="told-ev" data-evt="' + esc(t) + '" data-when="' + esc(w) + '" title="Show this event in the annals">' +
+      esc(t) + (w ? ' <span class="d">(' + esc(w) + ')</span>' : '') + '</button>';
+  });
+  return (m[1] ? '<p>' + esc(m[1]) + '</p>' : '') + '<p class="told"><span class="facts">Told of in:</span> ' + items.join('; ') + '</p>';
+};
+A.openToldEvent = function(b){
+  var t = b.dataset.evt, w = b.dataset.when, id = A.findEvent(t, w);
+  if (id) { showTab('timeline'); A.goTo(id); return; }
+  A.loadAll().then(function(){
+    var j = A.findEvent(t, w) || A.findEvent(t);
+    if (j) { showTab('timeline'); A.goTo(j); } else A.toast('That event is not in the annals of this build.');
+  });
+};
+function liveNote(kind, i){   // the note of a town or marker on the map now open
+  try { var w = fmg(), P = w && w.pack; if (!P) return '';
+    var o = kind === 'burg' ? P.burgs[i] : (P.markers || []).find(function(x){ return x.i === i; });
+    return (o && !o.removed && o.note) || '';
+  } catch(e){ return ''; }
+}
 
 /* ---- flights: to a place on the map of the right age ---- */
 function markerNotes(w){ return Array.isArray(w.notes) ? w.notes : []; }   // older map-makers kept marker names in notes
@@ -187,12 +231,13 @@ window.showMapMarker = function(i){
   var key = mapKey || 'M';
   if (key === 'M' && PLACES['marker:' + i]) return showPlace('marker:' + i);
   var w = fmg(), mk = w && w.pack && (w.pack.markers || []).find(function(x){ return x.i === i; });
-  var n = w && (markerNotes(w).find(function(x){ return x.id === 'marker' + i; }) || (mk && mk.name ? {name: mk.name, legend: /^cites:/.test(mk.note || '') ? '' : (mk.note || '')} : null));
+  var n = w && (markerNotes(w).find(function(x){ return x.id === 'marker' + i; }) || (mk && mk.name ? {name: mk.name, legend: mk.note || ''} : null));
   if (!n) return;
   var master = Object.keys(PLACES).find(function(r){ return /^marker:/.test(r) && PLACES[r].name === n.name; });
   if (master) return showPlace(master);
-  var d = document.getElementById('drawer'), tmp = document.createElement('div'); tmp.innerHTML = n.legend || '';
-  d.innerHTML = '<button class="back" onclick="showList()">◂ All places</button><h2>' + esc(n.name) + '</h2><p class="facts">On the map of ' + esc(A.mapLabel(key)) + '</p><p>' + esc(tmp.textContent.trim()) + '</p>';
+  var d = document.getElementById('drawer');
+  d.innerHTML = '<button class="back" onclick="showList()">◂ All places</button><h2>' + esc(n.name) + '</h2><p class="facts">On the map of ' + esc(A.mapLabel(key)) + '</p>' + A.noteHTML(n.legend);
+  d.onclick = drawerClick;
   d.hidden = false;
 };
 A.showEventInDrawer = function(e){

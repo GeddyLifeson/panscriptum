@@ -5,18 +5,23 @@ draw in eras/specs/CONVERT_NOTES.md.
 
     python3 convert_draft.py                 # all seven ages
     python3 convert_draft.py II V            # some ages
-    python3 convert_draft.py --prose-notes   # also carry the drafts' English popup prose into the notes
+    python3 convert_draft.py --prose-notes   # accepted for old scripts: the notes always carry the prose now
 
 Map text and notes
 - Names: the draft's Dia-thìris `name` where it has one; else a NAMES.json form whose English (or a variant) is the
   draft's English name; else, for an element the master already names (burg, marker, zone, culture, faith), the
   master's name; else the English gloss, with every NAMES.json English form in it written as its Dia-thìris form.
+  A town the age's own record names (its gazetteer, places.json, PLAN_names.json "site of burg N") takes that name,
+  and so does a new town whose place id (1000×K+n) the age's gazetteer names; an English gloss that is an entry of
+  the age's PLAN_names.json takes its Dia-thìris form.
 - Free labels with no Dia-thìris text are not drawn.
-- Notes carry no English prose by default: the order or church body (Dia-thìris names), the annals event, the
-  date as the annals write it, the draft's `inferred` flag, and the citations, joined by " · ".
+- Notes are for a reader of the map: the draft's English prose (what the place or thing is in this age), with its
+  proper nouns in Dia-thìris by eras/quality/names_convert.py (humans' names as they are), then "Told of in:" and the
+  annals events it cites, by title and date ("The mason's fire (VE 1)"). No ids, no build terms.
 - The map's settings (distance scale, geography and coordinates) are the master's: the spec overrides none.
 """
 import argparse
+import glob
 import json
 import os
 import re
@@ -36,6 +41,20 @@ PERSONAL = {'person', 'people-personal', 'human'}
 COMMON_NOUNS = {'crossing'}          # NAMES variants that are also plain nouns in the drafts' glosses (a river crossing)
 POLITY_KINDS = {'institution', 'guild', 'company', 'people', 'house', 'region'}
 MANUAL = '<!-- manual: everything below this line is kept when convert_draft.py rewrites the file -->'
+
+_NC = None
+EVENTS = {}          # event id -> (title, date, place, age), filled by main()
+
+
+def names_convert():
+    """eras/quality/names_convert.py (the owner's rule for proper nouns in English prose), loaded on first use."""
+    global _NC
+    if _NC is None:
+        sys.path.insert(0, os.path.join(ERAS, 'quality'))
+        import names_convert as nc  # noqa: E402
+        _NC = nc
+    return _NC
+
 
 # ---------------------------------------------------------------------------------------------- master map
 
@@ -167,6 +186,64 @@ def joined(*parts):
     return ' · '.join(p for p in parts if p)
 
 
+# ---------------------------------------------------------------------------------------------- the annals
+
+
+def load_events():
+    """Event id -> (title, date) of every age's annals (eras/age_<K>/atlas.json, as the Atlas shows them)."""
+    out = {}
+    for k in AGES:
+        p = os.path.join(ERAS, 'age_%s' % k, 'atlas.json')
+        if os.path.exists(p):
+            for e in json.load(open(p, encoding='utf-8'))['events']:
+                out[e['id']] = (re.sub(r'<[^>]+>', '', e.get('title') or '').strip(), e.get('date') or '', e.get('place'), k)
+    return out
+
+
+def short_date(date):
+    """'20 am Faoilleach, VE 1' -> 'VE 1'."""
+    m = re.search(r'\b([A-Z]{2})\s+(-?[\d,]+)', date or '')
+    return '%s %s' % (m.group(1), m.group(2)) if m else (date or '')
+
+
+def sentence(text):
+    """A note's sentence: capital first letter, a full stop at the end."""
+    text = re.sub(r'\s+', ' ', text or '').strip().rstrip(';,:')
+    if not text:
+        return ''
+    if text[0].islower():
+        text = text[0].upper() + text[1:]
+    if not re.search(r'[.!?]["”’)]?$', text):
+        text += '.'
+    return text
+
+
+BUILD_CLAUSE = re.compile(r"gazetteer|\bplaced (?:on|at|near|in|by)\b|\bnot a later town\b|\b(?:is|are) drawn(?:,| from| as| here)|"
+                          r"\bmaster\b|\bspec\b|\bdraft\b|\bfeature \d|\bburgs? \d|\bcells? \d|\bprovinces? \d|\bengine\b|"
+                          r"\bNAMES\b|\bPLAN\b|\bApp\.|\b[IVX]+-\d{4}|\binferred\b|\b(?:is|are) drawn\.?$", re.I)
+
+
+def clean(text):
+    """The draft's prose without its build talk: "(inferred)", ids, "the snapshot", and any clause about where or how
+    a thing is drawn or sourced."""
+    text = re.sub(r'\s*\((?:inferred|feature \d+|cells? \d+|burgs? \d+|[IVX]+-\d{4}[a-z]?)[^)]*\)', '', text or '')
+    text = re.sub(r'\b(standing |a ruin |ruins )?at the snapshot\b', lambda m: (m.group(1) or '') + 'at the close of the age', text)
+    text = re.sub(r'\bthe snapshot\b', 'the close of the age', text)
+    out = []
+    for sent in re.split(r'(?<=[.!?])\s+', text):
+        keep = [c for c in sent.split(';') if not BUILD_CLAUSE.search(c.strip().rstrip('.'))]
+        if keep:
+            t = ';'.join(keep).strip()
+            if t and not re.search(r'[.!?]["”’)]?$', t) and re.search(r'[.!?]["”’)]?$', sent):
+                t += '.'
+            out.append(t)
+    return ' '.join(t for t in out if t)
+
+
+def article(word):
+    return 'an' if re.match(r'(?i)[aeiouàèìòù]', word or '') else 'a'
+
+
 def group_for(kind, pop):
     k = (kind or '').lower()
     if k in AZ_GROUPS and k != 'capital':
@@ -254,7 +331,7 @@ def deity_of(d):
 
 class Converter:
     def __init__(self, K, master, names, prose):
-        self.K, self.n, self.M, self.N, self.prose = K, NUM[K], master, names, prose
+        self.K, self.n, self.M, self.N = K, NUM[K], master, names
         self.d = json.load(open(os.path.join(DRAFTS, 'age_%s.json' % K), encoding='utf-8'))
         assert self.d.get('schema') == 'era-spec-draft/1', 'age %s: schema %s' % (K, self.d.get('schema'))
         # the drafts give people; the kinds and town works below are read at the sizes they were set for
@@ -262,16 +339,101 @@ class Converter:
         self.log = defaultdict(list)          # section -> [lines]
         self.counts = Counter()
         self.spec = {}
+        self.polity_name = {}
+        self.canon_names()
+
+    # -------- the age's own names for its towns and things
+    def canon_names(self):
+        """site_name {master burg id: name} and new_name {place id: name} from the age's gazetteer, places.json and
+        PLAN_names.json; plan {English key: dt} from PLAN_names.json."""
+        adir = os.path.join(ERAS, 'age_%s' % self.K)
+        self.site_name, self.new_name, self.plan, self.gaz, self.place_site = {}, {}, {}, {}, {}
+        gaz = {}
+        for f in sorted(glob.glob(os.path.join(adir, 'gazetteer', '*.json'))):
+            g = json.load(open(f, encoding='utf-8'))
+            if isinstance(g, dict):
+                gaz.update(g)
+        for k, v in gaz.items():
+            if isinstance(v, dict) and v.get('name') and k.isdigit():
+                (self.new_name if int(k) >= 1000 else self.site_name)[int(k)] = v['name']
+        pp = os.path.join(adir, 'places.json')
+        places = json.load(open(pp, encoding='utf-8')) if os.path.exists(pp) else {}
+        # the age's gazetteer entry of each town: a master burg's by its id (or by the place standing at its site), a
+        # new town's by its place id when the gazetteer names it
+        for k, v in gaz.items():
+            if not (isinstance(v, dict) and k.isdigit()):
+                continue
+            i = int(k)
+            near = re.match(r'burg:(\d+)$', (places.get('burg:%d' % i) or {}).get('near') or '')
+            if i < 1000:
+                self.gaz.setdefault(i, v)
+            elif near:
+                self.gaz[int(near.group(1))] = v
+            elif v.get('name'):
+                self.gaz[('new', i)] = v
+        for ref, v in places.items():
+            m = re.match(r'burg:(\d+)$', ref)
+            if not m or not v.get('name'):
+                continue
+            near = re.match(r'burg:(\d+)$', v.get('near') or '')
+            if near:                                   # a place at the site of a master burg in this age
+                self.site_name.setdefault(int(near.group(1)), v['name'])
+            else:
+                self.new_name.setdefault(int(m.group(1)), v['name'])
+        pn = os.path.join(adir, 'PLAN_names.json')
+        for e in (json.load(open(pn, encoding='utf-8')) if os.path.exists(pn) else []):
+            if str(e.get('kind', '')).lower() in PERSONAL or not e.get('dt'):
+                continue
+            m = re.search(r'site of burg (\d+)|\(burg (\d+) in this age\)', e.get('gloss') or '')
+            if m:
+                self.site_name.setdefault(int(m.group(1) or m.group(2)), e['dt'])
+                pl = re.search(r'place (\d+), site of burg (\d+)', e.get('gloss') or '')
+                if pl:
+                    self.place_site[int(pl.group(1))] = int(pl.group(2))
+            if e.get('kind') not in ('place-root', 'title', 'book', 'section-title'):
+                self.plan.setdefault(Names.key(e['en']), e['dt'])
+        for pid, bid in self.place_site.items():      # a place of the age standing at a master burg's site
+            if str(pid) in gaz:
+                self.gaz[bid] = gaz[str(pid)]
+
+    def burg_name(self, b):
+        """A kept burg's name in this age: the age's own record, else the draft's era name, else the master's."""
+        return self.site_name.get(b['id']) or b.get('era_name') or b['master_name']
+
+    # -------- notes for a reader
+    def prose(self, text):
+        """English prose with its proper nouns in Dia-thìris (names_convert.py's rules for this age)."""
+        if not text or not isinstance(text, str):
+            return ''
+        if not hasattr(self, '_nc'):
+            self._nc = names_convert().Converter(self.K)
+        return self._nc.convert(clean(text), 'map note')
+
+    def told(self, x, more=()):
+        """'Told of in: <title> (<date>); ...' for the annals events a draft element cites (and `more`)."""
+        seen, items = set(), []
+        for c in list(x.get('cites') or []) + list(more):
+            if c in EVENTS and c not in seen:
+                seen.add(c)
+                t, dt = EVENTS[c][:2]
+                items.append('%s (%s)' % (t.rstrip('.'), short_date(dt)) if dt else t.rstrip('.'))
+        return ('Told of in: ' + '; '.join(items) + '.') if items else ''
 
     def note(self, section, msg):
         self.log[section].append(msg)
 
-    def pnote(self, x, *parts, prose_keys=('note',)):
-        """A note: Dia-thìris tokens, flags, cites (and the draft's English prose with --prose-notes)."""
-        extra = []
-        if self.prose:
-            extra = [self.N.sub(x.get(k)) for k in prose_keys if isinstance(x.get(k), str)]
-        return joined(*extra, *parts, 'inferred' if x.get('inferred') else None, cites(x))
+    def pnote(self, x, *parts, prose_keys=('note',), lead=(), more=()):
+        """A note for a reader: `lead` sentences, the draft's prose (`prose_keys`), `parts` sentences, then the
+        annals events it is told of in. Never ids or build terms."""
+        out = [sentence(self.prose(t)) for t in lead]
+        out += [sentence(self.prose(x.get(k))) for k in prose_keys if isinstance(x.get(k), str)]
+        out += [sentence(p) for p in parts]
+        out.append(self.told(x, more))
+        seen = []
+        for t in out:
+            if t and t not in seen:
+                seen.append(t)
+        return ' '.join(seen)
 
     def name(self, x, what, master_name=None, en_key='name_en'):
         """Map name for a draft element (see the module docstring); logs every fallback."""
@@ -281,6 +443,10 @@ class Converter:
         dt = self.N.lookup(en)
         if dt:
             self.counts['name from NAMES.json'] += 1
+            return dt
+        dt = self.plan.get(Names.key(en))
+        if dt:
+            self.counts['name from the age\'s PLAN_names.json'] += 1
             return dt
         if master_name:
             self.counts['name kept from the master'] += 1
@@ -323,8 +489,8 @@ class Converter:
             'comment': 'Made by eras/engine/convert_draft.py from eras/specs_draft/age_%s.json (%s). Do not edit; '
                        'edit the draft and convert again.' % (self.K, d['schema']),
             'master': MASTER_REL,
-            'lore': {'name': 'Dia-thìr', 'description': '%s · %s' % (d['age_name']['name'], plain_date(snap['date'])),
-                     'calendar': {'year': era_year(snap['date']),
+            'lore': {'name': 'Dia-thìr', 'description': '%s · %s' % (d['age_name']['name'], snap_date(snap['date'], era['abbr'])),
+                     'calendar': {'year': snap_year(snap['date'], era['abbr']),
                                   'era': re.sub(r'^the\s+', '', era['name_en']).strip(), 'eraShort': era['abbr']}},
         }
         # units and geography (scale, latitude, longitude, coordinates) are the master's: the spec sets none
@@ -544,10 +710,13 @@ class Converter:
                     self.note('arms', '%s: %s; Azgaar needs arms, so they are generated (seeded)' % (
                         nm, 'no arms at the snapshot' if not (a and a.get('blazon')) else 'blazon "%s" has no master arms to copy' % a['blazon']))
             ruler = p.get('ruler') or {}
-            st['note'] = joined(ruler.get('name'), 'inferred' if p.get('inferred') or p.get('inferred_name') else None,
-                                cites(p))
-            if self.prose and d.get('notes', {}).get('polities', {}).get(k):
-                st['note'] = joined(self.N.sub(d['notes']['polities'][k]), st['note'])
+            title = self.prose(ruler.get('title')) if ruler.get('title') else ''
+            if ruler.get('name'):
+                rs = 'Its ruler at the close of the age: %s%s' % (ruler['name'], ', ' + title if title else '')
+            else:
+                rs = 'Ruled by %s' % title if title else ''
+            st['note'] = self.pnote(p, rs, prose_keys=(), lead=[d.get('notes', {}).get('polities', {}).get(k)])
+            self.polity_name[k] = nm
             lst.append(st)
             self.state_ref[k] = '@' + k
             self.capital_of[k] = cap
@@ -568,10 +737,10 @@ class Converter:
     def era_burg_name(self, bid):
         for b in self.d['burgs']:
             if b['id'] == bid:
-                return b.get('era_name') or b['master_name']
+                return self.burg_name(b)
         for nb in self.d['new_burgs']:
             if self.place_ids.get(nb['key']) == bid:
-                return self.name(nb, 'new burg %s' % nb['key'])
+                return self.new_burg_name(nb, log=False)
         return self.M.burgs[bid]['name'] if bid in self.M.burgs else str(bid)
 
     # -------- burgs
@@ -586,7 +755,10 @@ class Converter:
         for b in d['burgs']:
             mb = M.burgs[b['id']]
             e = {}
-            nm = b.get('era_name') or b['master_name']
+            nm = self.burg_name(b)
+            if nm != (b.get('era_name') or b['master_name']):
+                self.note('names', 'burg %d: "%s", the age\'s own name for it (gazetteer, places.json or PLAN_names.json), '
+                                   'not "%s"' % (b['id'], nm, b.get('era_name') or b['master_name']))
             if nm != mb['name']:
                 e['name'] = nm
             pop = round(max(b['population'], 1) / float(M.rate), 3)
@@ -607,12 +779,9 @@ class Converter:
                 prov_faith = self.province_faith(prov)
                 if prov_faith is not None and prov_faith != b['faith']:
                     faith_diff += 1
-            note = self.pnote(b, self.order_name.get(b.get('order')), self.order_name.get(b.get('church_body')),
-                              prose_keys=('role', 'note'))
-            if self.K != 'VII' or note != cites(b):
-                e['note'] = note
-            if self.prose and d.get('notes', {}).get('burgs', {}).get(str(b['id'])):
-                e['note'] = joined(self.N.sub(d['notes']['burgs'][str(b['id'])]), e.get('note'))
+            if self.K != 'VII' or b['id'] in self.gaz:
+                e['note'] = self.burg_note(b, nm)
+            # else Age VII (the present) keeps the master's note: the gazetteer's telling of the town as it stands
             if e:
                 edit[str(b['id'])] = e
             # the burg's polity against its shire's
@@ -627,11 +796,11 @@ class Converter:
                                 'cell, so only the note tells it' % faith_diff)
         for nb in d['new_burgs']:
             pid = self.place_ids[nb['key']]
-            nm = self.name(nb, 'new burg %s' % nb['key'])
+            nm = self.new_burg_name(nb)
             a = {'key': nb['key'].replace('-', '_'), 'id': pid, 'name': nm, 'cell': nb['cell'],
                  'population': round(max(nb['population'], 1) / float(M.rate), 3),
                  'group': group_for(nb['kind'], nb['population'] / self.kind_scale),
-                 'note': self.pnote(nb, prose_keys=('role', 'reason'))}
+                 'note': self.burg_note(nb, nm, new=True)}
             if nb['cell'] in M.cell_burg:
                 raise ValueError('new burg %s: cell %d holds master burg %d' % (nb['key'], nb['cell'], M.cell_burg[nb['cell']]))
             if self.culture_ref.get(nb['culture']) is not None:
@@ -645,6 +814,55 @@ class Converter:
         self.spec['burgs'] = {'keep': keep, 'edit': edit}
         if add:
             self.spec['burgs']['add'] = add
+
+    def new_burg_name(self, nb, log=True):
+        """A new town's name: the draft's, else the age's gazetteer or places.json name for its place id, else as
+        name() gives it."""
+        own = self.new_name.get(self.place_ids[nb['key']])
+        if not nb.get('name') and own:
+            if log:
+                self.counts['new burg named from the age\'s gazetteer or places.json'] += 1
+            return own
+        return self.name(nb, 'new burg %s' % nb['key']) if log else (nb.get('name') or self.N.lookup(nb.get('name_en')) or
+                                                                  self.plan.get(Names.key(nb.get('name_en') or '')) or
+                                                                  self.N.sub(nb.get('name_en')))
+
+    def burg_note(self, b, nm, new=False):
+        """A town's note: the draft's popup prose, what the town is in this age (kind, polity, role), its order or
+        church, why it stands (a new town), then the events it is told of in (cited, or placed there in this age)."""
+        kind = (b.get('kind') or '').strip()
+        role = self.prose(b.get('role')).strip().rstrip('.')
+        pol = self.polity_name.get(b.get('polity'))
+        head = '%s %s' % (article(kind), kind) if kind else 'A place'
+        if pol:
+            head += ' of %s' % pol
+        head = head[0].upper() + head[1:]
+        if role and role[0].islower() and len(role.split()) <= 4 and not re.search(r'[,;:]', role) \
+                and not re.match(r'(the|a|an|its|their|his|her)\b', role):
+            parts = ['%s %s%s' % (article(role).capitalize(), role, ' of %s' % pol if pol else '')]
+        elif re.match(r'(a|an|the)\b', role):
+            parts = ['%s: %s' % (head, role)]
+        elif re.match(r'its\b', role):
+            parts = ['%s, known for %s' % (head, role)]
+        else:
+            parts = [head, role]
+        on = self.order_name.get(b.get('order'))
+        if on:
+            parts.append('Its people keep the rite of %s' % on)
+        cb = self.order_name.get(b.get('church_body'))
+        if cb:
+            parts.append('Its church is of %s' % cb)
+        pid = self.place_ids.get(b.get('key')) if new else b['id']
+        here = [i for i, (t, dt, pl, age) in EVENTS.items() if pl == 'burg:%s' % pid and age == self.K]
+        g = self.gaz.get(('new', pid) if new else b['id']) or {}
+        # the age's gazetteer telling of the town, else the draft's popup lines
+        parts.append(g.get('history') or ('' if new else self.d.get('notes', {}).get('burgs', {}).get(str(b['id']))))
+        parts.append(b.get('note'))
+        if new and not g.get('history'):
+            parts.append(b.get('reason'))
+        if g.get('known_for'):
+            parts.append('Known for %s' % g['known_for'])
+        return self.pnote(b, prose_keys=(), lead=[p for p in parts if p], more=here[:6])
 
     def province_faith(self, prov):
         for f in self.d['faiths']:
@@ -706,7 +924,7 @@ class Converter:
                 if seat is not None:
                     val['burg'] = seat
                 note = self.pnote(u)
-                if note:
+                if note or self.K != 'VII':       # never the master's (present-day) shire note in an earlier age
                     val['note'] = note
                 mp = M.provinces[sh[0]]
                 if len(sh) > 1:
@@ -756,7 +974,7 @@ class Converter:
                 if not cands:
                     self.note('provinces', '%s: no name and no burg to name it after; not drawn' % what)
                     continue
-                name, form = cands[0].get('era_name') or cands[0]['master_name'], ''
+                name, form = self.burg_name(cands[0]), ''
                 self.note('names', 'province "%s": no Dia-thìris name; named after its largest burg, "%s"' % (a['name_en'], name))
             v = {'key': 'u%d' % len(add), 'name': name, 'formName': form, 'fullName': joined_name(form, name),
                  'shires': sorted(sh)}
@@ -852,7 +1070,7 @@ class Converter:
             self.new_marker_cells[m['key']] = cell
             a = {'key': m['key'].replace('-', '_'), 'type': 'battlefields' if m.get('icon') == '⚔️' else 'custom',
                  'icon': m.get('icon') or '📍', 'name': self.name(m, where), 'cell': cell,
-                 'note': self.pnote(m, 'event ' + m['event'] if m.get('event') else None)}
+                 'note': self.pnote(m, more=[m['event']] if m.get('event') else [])}
             add.append(a)
         if self.K == 'VII':
             self.note('markers', 'the master\'s markers keep the master\'s notes')
@@ -866,8 +1084,13 @@ class Converter:
         edit = {}
         for x in r['master']:
             nm = x.get('era_name') or x.get('name')
+            e = {}
             if nm and nm != self.M.routes[x['id']].get('name'):
-                edit[str(x['id'])] = {'name': nm}
+                e['name'] = nm
+            if self.K != 'VII' and (x.get('note') or self.M.routes[x['id']].get('note')):
+                e['note'] = self.pnote(x)         # the age's own words, never the master's (present-day) note
+            if e:
+                edit[str(x['id'])] = e
         add = []
         gmap = {'railways': 'roads', 'rivers': 'trails'}
         for x in r['new']:
@@ -900,7 +1123,7 @@ class Converter:
                     self.note('zones', '%s: master zone %d is already drawn for another zone; drawn from its shires' % (z['key'], mz))
                 else:
                     keep.append(mz)
-                    e = {'note': self.pnote(z, plain_date(z.get('date')))} if self.K != 'VII' else {}
+                    e = {'note': self.pnote(z)} if self.K != 'VII' else {}
                     if z.get('name') and z['name'] != M.zones[mz]['name']:
                         e['name'] = z['name']
                     if e:
@@ -911,7 +1134,7 @@ class Converter:
                 provs = sorted({p for v in z['sides'].values() for p in v})
                 self.note('zones', '%s: the front is drawn as the ground of all its sides (%d shires)' % (z['key'], len(provs)))
             a = {'key': z['key'].replace('-', '_'), 'name': self.name(z, where), 'type': zone_type(z['type']),
-                 'note': self.pnote(z, plain_date(z.get('date')))}
+                 'note': self.pnote(z)}
             if provs:
                 a['shires'] = sorted(provs)
             if z.get('cells'):
@@ -940,7 +1163,7 @@ class Converter:
                 place = self.M.burgs[self.M.cell_burg[cells[0]]]['name']
                 a = {'key': 'land%d' % (i + 1), 'name': nm or place, 'type': 'Flood',
                      'around': {'cells': cells, 'steps': 2},
-                     'note': joined('inferred' if lc.get('inferred') else None, cites(lc))}
+                     'note': self.pnote(lc, 'Ground the sea has taken', prose_keys=())}
                 add.append(a)
                 if nm:
                     self.spec.setdefault('labels', {'add': []})['add'].append({'text': nm, 'cell': cells[0], 'fontSize': 12})
@@ -1009,7 +1232,7 @@ class Converter:
                 b = self.nw_port()
                 text = self.N.lookup('the Setting-Out')
                 add.append({'text': text, 'cell': self.M.burgs[b['id']]['cell'], 'fontSize': 14,
-                            'note': joined(cites(l))})
+                            'note': self.pnote(l, prose_keys=('text_en',))})
                 self.note('labels', 'label "%s": no Dia-thìris text; drawn as "%s" (the Setting-Out, NAMES.json) at the '
                                     'north-westernmost port, %s (the fleet went north-about)' % (
                                         l['text_en'], text, b.get('era_name') or b['master_name']))
@@ -1018,7 +1241,7 @@ class Converter:
                 self.note('labels', 'label "%s": no Dia-thìris text; not drawn' % self.N.sub(l['text_en']))
                 continue
             add.append({'text': l['text'], 'cell': self.place_cell(l['at'], 'label'), 'fontSize': 14,
-                        'note': joined(cites(l))})
+                        'note': self.pnote(l, prose_keys=('text_en',))})
         if add:
             self.spec['labels'] = {'add': add}
 
@@ -1041,8 +1264,27 @@ class Converter:
                 self.note('map', 'rural population scaled by %.4f (the era\'s town population over the master\'s)' % scale)
             self.spec['rural_population'] = {'scale': scale}
             self.note('map', 'the master\'s markets, goods and deals are pruned to this age\'s burgs (Azgaar\'s economy has no era)')
-        self.note('map', 'draft popup prose (notes.polities, notes.burgs, roles, reasons) %s' % (
-            'carried into the notes (--prose-notes)' if self.prose else 'not carried: map notes hold no English prose'))
+        self.note('map', 'draft popup prose (notes.polities, notes.burgs, roles, reasons, notes) carried into the map notes, '
+                         'proper nouns in Dia-thìris; each note ends with the annals events it is told of in')
+
+
+# a snapshot dated in the next era's reckoning (Age IV closes on the eve of the Crossing, AE 1): the same day in the
+# age's own era, for the map's calendar
+SAME_DAY = {('AE', 1): ('LE', 1820)}
+
+
+def snap_date(date, abbr):
+    """The snapshot date for the map's description: without its English aside, unless it is dated in another era's
+    reckoning (then the aside says which day it is)."""
+    m = re.search(r'\b([A-Z]{2})\s+(-?[\d,]+)', date or '')
+    return date if m and m.group(1) != abbr else plain_date(date)
+
+
+def snap_year(date, abbr):
+    m = re.search(r'\b([A-Z]{2})\s+(-?[\d,]+)', date or '')
+    if m and m.group(1) != abbr:
+        return SAME_DAY.get((m.group(1), int(m.group(2).replace(',', ''))), (abbr, era_year(date)))[1]
+    return era_year(date)
 
 
 def plain_date(date):
@@ -1080,8 +1322,10 @@ def write_notes(results):
            'name for an element the master already names; else the English gloss, with NAMES.json forms written as '
            'their Dia-thìris (`dt`) form. Polities with no name take a NAMES.json name found in their English '
            'description, else their capital\'s name.',
-           '- **Notes** hold no English prose: order or church body (Dia-thìris), annals event, date, `inferred`, citations. '
-           '`--prose-notes` adds the drafts\' English popup prose (with NAMES.json forms).',
+           '- **Notes** are for a reader of the map: the drafts\' English prose (what the place or thing is in the age), '
+           'proper nouns in Dia-thìris by eras/quality/names_convert.py (humans\' names as they are), then "Told of in:" '
+           'and the annals events cited, by title and date. No ids, no build terms. A town the age\'s own record names '
+           '(gazetteer, places.json, PLAN_names.json) takes that name.',
            '- **Land.** The engine does not turn land into water or back. Drowned ground is a Flood zone (and a label '
            'where NAMES.json names it); biome, river and coast changes are logged and not drawn.',
            '- **Place ids.** New burgs take 1000×K+n from their draft key `<Age>-N<n>`.',
@@ -1109,14 +1353,15 @@ def write_notes(results):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('ages', nargs='*', default=AGES)
-    ap.add_argument('--prose-notes', action='store_true')
+    ap.add_argument('--prose-notes', action='store_true', help='accepted for old scripts; the prose is always carried')
     a = ap.parse_args()
+    EVENTS.update(load_events())
     master = Master(MASTER)
     names = Names(os.path.join(ERAS, 'NAMES.json'))
     os.makedirs(OUT, exist_ok=True)
     results = []
     for K in AGES:
-        conv = Converter(K, master, names, a.prose_notes)
+        conv = Converter(K, master, names, True)
         spec = conv.run()
         if K in a.ages:
             path = os.path.join(OUT, 'age_%s.json' % K)

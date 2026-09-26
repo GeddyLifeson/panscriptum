@@ -422,7 +422,7 @@
     "culture": 2,
     "color": "#b8923a",
     "coa": "generate",
-    "note": "Ailean Mòr · inferred · cites: I-0081, I-0208a, I-0255a, App.A Stone Kings"
+    "note": "The first kingdom is one man: Ailean Mòr, crowned by the gods in the grove, who took the hill of Dùn ìseal and brought the island under his hand in four and a half thousand years of riding. His children and kin held the hill for him one after another and are counted as Rìghrean na Cloiche; since the last of them he has held it himself. He has told no one what is in him. Its ruler at the close of the age: Ailean Mòr, Rìgh Chlann nan Dè. Told of in: Ailean Mòr, first of the Stone Kings (GE 1); The great gathering at the ford (GE 3,000); The king takes back the hill (GE 4,391)."
    },
    {
     "key": "red-hill",
@@ -442,7 +442,7 @@
     "culture": 2,
     "color": "#a8443a",
     "coa": "generate",
-    "note": "inferred · cites: I-0083, I-0089a, I-0113, I-0244, App.A holders of the Red Hill"
+    "note": "An Cnoc Ruadh on the lake is an old line not of the king's blood, which knelt to him and kept its own holders and its own list. It traded salt for wool with the hill at the ford and fostered a son of Eilidh Ghlas. Its list ends with Seumas Òg, and its name is not yet Cathair dhearg. Told of in: Beathag Ruadh of the Red Hill (GE 18); The Red Hill bends the knee (GE 290); Raghnall Ceannfhionn makes peace (GE 1,175); Seumas Òg of the Red Hill (GE 4,347)."
    },
    {
     "key": "dun-dhearg",
@@ -478,7 +478,7 @@
     "culture": 2,
     "color": "#5b4a7a",
     "coa": "generate",
-    "note": "cites: I-0235, I-0236, I-0255b, I-0208a"
+    "note": "East of the vein the households raised a double-banked fort at Dùn dhearg and never came to the gatherings until Catrìona Mhòr's time, and then only to trade. When the king bade them come in they swore to owe nothing to him. Their host is at the ford. Told of in: Dùn dhearg raised (GE 4,274); Dùn dhearg comes to the ford (GE 4,321); Dùn dhearg will not bow (GE 4,520); The great gathering at the ford (GE 3,000)."
    },
    {
     "key": "keepers",
@@ -493,7 +493,7 @@
     "culture": 2,
     "color": "#6f6f6f",
     "coa": "generate",
-    "note": "inferred · cites: I-0151, I-0152, I-0157, I-0158, I-0246, I-0247, I-0255"
+    "note": "Luchd-faire na Lice are drawn by lot, one for each of the nine districts of the hills, and watch the burnt vein at Tobar dhìreach. They refused Calum Ciar the lot, and the king would not overrule them. They have asked to have their charge declared before the whole gathering, and it has not been. Told of in: Oighrig, first keeper by lot (GE 2,403); The keepers' house (GE 2,404); Calum Ciar asks for the lot (GE 2,412); The kings and the keepers (GE 2,416); Lots drawn for the slab (GE 4,350); The keepers number nine (GE 4,353); The keepers ask to be named (GE 4,376)."
    }
   ],
   "cell_state": {},
@@ -588,7 +588,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B1"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Seal-hunting households of the western shore. A settlement on the wide strait on the western coast where, in the thousand five hundred and sixty-second year, a household set a hollowed stone with seal oil and a wick of moss on its hearth-ledge and lit it: the first light on Dia-thìr that was not a hearth, giving little smoke. Within three winters every house on that stretch kept one burning through the dark months, and the lamps went along the coast with the seal-hunters. Known for the first seal-oil lamps. Told of in: Seal-oil lamps at Caol leathan (GE 1,562); The first seal-oil lamp at Caol leathan (GE 1,562)."
    },
    "12": {
     "population": 3.684,
@@ -597,7 +597,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B12, I-0237"
+    "note": "A hamlet of Dùn dhearg. Dia-thìrich herders of the wild cattle. A stony crossing in the south-eastern hills where wild cattle came down to drink. Households settled it in the four thousand three hundred and twenty-fifth year and reared the calves born on the near bank apart from the wild herd, until within three generations that ford's cattle were spoken of the length of the coast as the best in the hills. The settlers came from the valleys under Dùn ìseal and kept the sharing before the storms, bringing calves as their surplus rather than grain. Their herds were driven to the ford in the autumns, and in the years of the waiting below the hill they sold beasts to the camps of the king's kin. Known for the wild cattle's ford. Told of in: Settlers at Àth fhiadhaich (GE 4,325); The ford of the wild cattle is settled at Àth fhiadhaich (GE 4,327)."
    },
    "15": {
     "population": 2.895,
@@ -605,7 +605,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B15, I-0199"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Dia-thìrich fishers of the red strait. A fishing strait on the southern coast named for the red rock that watches it. Its fishers took to tying woven buoys over the deep channels where the current ran hardest, a custom that spread along the coast in carriers' mouths as the paired tide-marks had spread before it. The settlement was taken up in earnest in the two thousand five hundred and seventieth year, and it traded with the harbour of Seann Skell and the marsh settlement at Muileann naomh. Its households kept the sharing before the storms along the whole strait, and in A' Ghaoth Dhubh's winter sent dried fish north along the coast road with the grain from the valleys. Known for the buoys over the channels. Told of in: Caol ruadh on the southern strait (GE 2,570); Caol ruadh's fishers mark the strait's channels (GE 2,468)."
    },
    "16": {
     "population": 0.263,
@@ -614,7 +614,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0165, I-0023"
+    "note": "A watch-tower of Rìoghachd Chlann nan Dè. Seann-Dhaoine' hollow-walled tower, used as a lookout: four watchers here saw Uilebheist na Mara. A harbour of Seann-Dhaoine on the far north-west coast, with a tower on its point older than any telling. The hill-folk who came there kept Seann-Dhaoine' name for it and a watch in the tower. In the two thousand four hundred and twenty-first year four watchers saw a long back rise off the point in the failing light and go under without a sound; that season the wrack south of the tower gave up stitched planks from hulls built for open water, and no household would claim them. Micheil Beag laid the planks against his wall, and Anndra Breac, a teller of that shore, made from them a telling of a crossing that he carried to the ford and was shouted down for. He was last seen walking south along the strand below the tower. Known for the tower's watch and the stitched planks. Told of in: The Sea-Watcher seen from Seann Skell (GE 2,421); The tower at the north-western Seann Skell (VE 1,806); The watchers see the long back in the water (GE 2,421); Word of the sighting runs round the bay (GE 2,421); Stitched planks come ashore south of Seann Skell (GE 2,421); No household will claim the wreck (GE 2,421); Micheil Beag lays the planks against his wall (GE 2,421); Anndra Breac comes to the wall of planks (GE 2,421)."
    },
    "17": {
     "population": 3.947,
@@ -622,7 +622,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B17, I-0240"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Net-fishers of the Abhainn ghorm. A fishing settlement on the Abhainn ghorm in the north-east, taken up in the four thousand three hundred and twenty-eighth year by households who lived by the fish of its sheltered pools. They built their houses in two rows facing each other across a single trodden way, so that a neighbour's fire might be borrowed without crossing open ground in the rain: the oldest street any teller remembers on Dia-thìr. The two rows faced each other close enough for a word to cross between doors, and the settlement kept its sharing in the trodden way itself, each household setting out its surplus at its own door to be divided by the count of mouths before the storms. Known for the oldest street. Told of in: Inis mhòr (GE 4,328); Inis mhòr's two facing rows are raised (GE 4,335)."
    },
    "18": {
     "population": 1.579,
@@ -632,10 +632,10 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0252"
+    "note": "A hamlet of Dùn dhearg. Households at the eastern Seann Dunn who cut into the old midden for a house-floor, found the tally stones and built elsewhere. A town of Seann-Dhaoine on the Abhainn chaol a little above the river mouth, on footings no hill-folk laid. Its middens were Seann-Dhaoine' own, and its tally stones, each cut with a single stroke, stood upright in them. The hill-folk who came after them built along the middens' shoulder. In the four thousand three hundred and sixty-sixth year a family digging a house-floor struck a row of the tally stones, knew them for what they were, and set them back as they lay rather than break them; a year later the last of Seann-Dhaoine' middens here was disturbed, and the households closed it again. Known for the tally stones set back. Told of in: The last Seann-Dhaoine midden disturbed (GE 4,367); The tally stones of Seann Dunn are set back in their old order (GE 4,366)."
    },
    "19": {
-    "name": "Cnoc dhearg",
+    "name": "An Cnoc Ruadh",
     "population": 7.895,
     "features": {
      "citadel": 0,
@@ -643,7 +643,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0083, I-0089, I-0172, II-0076"
+    "note": "A fort of Muinntir a' Chnuic Dheirg: the hill of An Cnoc Ruadh line: ditch and palisade across the neck, a stone landing at the river-mouth below. An Cnoc Ruadh stood above the western end of Loch chrom, a palisaded hall over salt-pans and boats, held by a line older than the king's crowning. Beathag Ruadh held it when the valleys came in to the king and did not come; Uisdean Mòr cut the ditch across the neck, and saw his palisade burned twice, and at last knelt in the ford to put his hands between the king's in the two hundred and ninetieth year. Seonag weighed the salt tallies before the king with a pebble bag; Murchadh Gearr walked Rathad an t-Salainn every autumn; Lachlann Ruadh took Eilidh Ghlas's younger son to foster and was called Lachlann an Altraim for it. Peigi Dhubh laid the stone landing at the river-mouth, and the harbour grew round it. The hill traded salt for Dùn ìseal's wool at the ford fourteen miles off, and its reciters kept their own roll, from Beathag Ruadh to Seumas Òg, which was spoken whole at the ford only once. Known for salt, the palisade, and the fosterling. Told of in: Beathag Ruadh of the Red Hill (GE 18); Uisdean Mòr of the Red Hill (GE 267); The Red Hill's harbour (GE 2,426); A fishing town at Cathair dhearg (FE 654); Beathag Ruadh dies on An Cnoc Ruadh (GE 40); Uisdean born on An Cnoc Ruadh (GE 225); Uisdean Mòr takes An Cnoc Ruadh (GE 250); Uilleam Faire born on An Cnoc Ruadh (GE 262); The households dig the ditch across the neck (GE 267)."
    },
    "20": {
     "population": 5.789,
@@ -654,7 +654,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B20, I-0227"
+    "note": "A village of Rìoghachd Chlann nan Dè. Hill kindreds of the north-central country. A settlement on the bank of the Abhainn ìseal a short walk from the old standing stone. The generation that settled it in the three thousand nine hundred and eighth year set its houses, by no law anyone could name, so that no door faced the stone, and every household built after kept the same pattern unquestioned. Known for no door facing the stone. Told of in: Cnoc bheag under the Carragh (GE 3,908); Households settle at Cnoc bheag with no door facing the stone (GE 3,920)."
    },
    "22": {
     "population": 2.5,
@@ -664,7 +664,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B22"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Sailing households of the gulf. A broad headland on the gulf where, in the two thousand and seventy-sixth year, three brothers of the point, Aonghas, Dùghlas and Ailig mac Torcaill, quarried eight stones from an outcrop above the landing and raised them in a ring, one for each of the named winds, so a sailor might lay a hand on the stone of the wind he wanted before he put out. The stone of the hardest offshore wind settled crooked in a bad winter and was dug out and reset on a footing of smaller stones, standing straighter and newer than its seven fellows ever after. The yearly contests of strength were held below Clachan nan Gaoth, and it was here that Alasdair Làidir threw every man at three-and-twenty and a grey stranger lifted the black boulder to his knees and set it down gently. Known for Clachan nan Gaoth and the lifted boulder. Told of in: Three brothers raise Clachan nan Gaoth at Ceann leathan (GE 2,076); The wind-stones of Ceann leathan (GE 2,084); The crooked stone reset (GE 2,084)."
    },
    "23": {
     "population": 5.789,
@@ -675,9 +675,10 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0205"
+    "note": "A village of Rìoghachd Chlann nan Dè. Households below the ruined outpost; they take no stone from it. Households settled on the ground below a broken watch-tower of Seann-Dhaoine in the two thousand eight hundred and forty-seventh year and asked Eithne nic Ailein, then a hundred and forty-four years old, to lay out their fields; she stayed. Her households named the place Cathair mhòr, the great city, out of hope rather than size, and took no stone from the ruin above them though it was the nearest quarry. Eithne's knot-keeper walked at the head of her household with its cord about his arm when she came down to the valley below Dùn ìseal in the last years. Known for Eithne's fields below the ruined tower. Told of in: Cathair mhòr below the old outpost (GE 2,847); Eithne's households name the ground below Làrach an Dùin-fhaire Cathair mhòr (GE 2,847)."
    },
    "26": {
+    "name": "Cala nan Taighean Cruinne",
     "population": 2.105,
     "group": "hamlet",
     "features": {
@@ -687,7 +688,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0117, II-0075"
+    "note": "A hamlet of Muinntir a' Chnuic Dheirg. Round houses by the harbour near enough An Cnoc Ruadh to pay it salt. A harbour of round, turf-roofed houses at the deep-water side of the river mouth below Loch chrom, near enough An Cnoc Ruadh to pay it salt. The first houses were raised in the thousand three hundred and forty-seventh year, where the king's blood had first come down to the sea, and within a season the households were paying their salt to An Cnoc Ruadh rather than keeping it among themselves, with no word sent from Dùn ìseal to start it. An Cnoc Ruadh's list counts them among its holder's households, and the harbour's boats carried salt up the lake to the ford in the autumns. Known for the round houses that paid An Cnoc Ruadh salt. Told of in: The first houses at Cathair dhomhain (GE 1,347); Cathair dhomhain founded (FE 634)."
    },
    "27": {
     "population": 11.842,
@@ -698,12 +699,12 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0127, I-0171, I-0169"
+    "note": "A village of Rìoghachd Chlann nan Dè: the greatest settlement on the shores of Loch chrom, some sixty houses round the tide-rock; its people fish from boats. A settlement at the harbour mouth on Loch chrom, where in the thousand seven hundred and eighth year a young keeper cut marks for the high water on a boulder, at the interval of the first tide-rock, which he had never seen. The king stood before it with Beitris the better part of an afternoon and told her a thing can be worth doing before anyone has worked out why. The marks crept upward from keeper to keeper as the lake rose, a hand's width in a lifetime. Seònaid Mhòr cut her marks in pairs, for high water and low, and cut a last pair for the fosterling on the evening before he went home. By the two thousand four hundred and twenty-fifth year some sixty houses stood round the rock and An Cnoc Ruadh's stone landing, the greatest settlement on the shores of Loch chrom, its people fishing from boats of their own building. Known for the tide-rock and its rising marks. Told of in: A second tide-rock at Ros dhomhain (GE 1,708); Ros dhomhain grows (GE 2,425); The keepers of the Ros dhomhain rock (GE 2,424); The second tide-rock cut at Ros dhomhain (GE 1,708); The king and Beitris at the rock of Ros dhomhain (GE 1,708); The lake is higher (GE 1,747); The lake still climbing on the Ros dhomhain rock (GE 1,760)."
    },
    "28": {
     "population": 0.658,
     "group": "hamlet",
-    "note": "inferred · cites: I-0129"
+    "note": "A flint pit of Rìoghachd Chlann nan Dè: the only good flint on the island, worked in a pit on the hill; its flakes go to hearths from end to end of the island. The hill in the north-west where a pit was worked for the only good flint on Dia-thìr, its grey flakes carried to hearths from one end of the island to the other. The carriers' track ran from the pit-mouth south and east toward Cruinneachadh an Àtha, and by the thousand eight hundred and seventeenth year it was worn a yard deep. Murchadh, the king's son by Beitris, came here with the flint-carriers in the thousand seven hundred and sixtieth year and carried a yoke for three seasons before any man learned whose son he was; he walked the road with Ailig Spor for the whole of the years it gave them, and when Ailig took the lighter work of tallying at the pit-mouth Murchadh came back through at the turn of every season to sit an evening with him. After Ailig's burying Murchadh set it as a standing custom that the first flake of any new working be given free to whoever asked. Known for the flint-pit and the free first flake. Told of in: The flint of Cnoc àrsaidh (GE 1,781)."
    },
    "32": {
     "population": 3.947,
@@ -712,7 +713,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B32"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Farming households of the ford. The old ford below Dùn ìseal where the road west crosses its river. A careful household of the ford dug a grain pit under its byre floor against nothing it could name, and brought nothing of it to the sharing; in the lean storm season of the two thousand three hundred and seventy-seventh year the daughter of the house, Beasag, saw the division made by the count of mouths and the next spring told a neighbour the truth of the pit. Tormod Liath asked only whether she had told it of her own will, and sent to open the floor. The household was given until dark to take what it could carry and be off the ford's ground: the first punishment under the sharing that is remembered. It settled east of the vein and dug no pit under its new floor. The pit kept the man's name for generations, and stood empty. Eilidh Ghlas knelt here to her younger son's height when he went west to be fostered. Known for the hidden pit, and the first punishment. Told of in: Beasag born at Àth shean (GE 2,360); A household turned out at Àth shean (GE 2,378); Beasag tells of her father's pit at the ford (GE 2,378); The household of Àth shean put out with what it can carry (GE 2,378); Eilidh Ghlas asks after the pit at Àth shean (GE 2,390); Eilidh's parting at Àth shean (GE 2,400)."
    },
    "45": {
     "population": 5.0,
@@ -720,12 +721,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B45, I-0230"
+    "note": "A hamlet of Muinntir a' Chnuic Dheirg. Boat-households of An Cnoc Ruadh. A harbour along the lake shore from An Cnoc Ruadh, where the hill's households drew up their boats in sheds of stone and turf. Within a generation of the first sheds the boats kept there put out oftener than from An Cnoc Ruadh's own strand, and in the four thousand and forty-seventh year it was An Cnoc Ruadh's fishing harbour in all but the reciters' naming. It was never banked or palisaded, trusting to the hill above it. Its boat-sheds were built long and low against the lake's winds, each shed holding two boats, and the households of the hill took turns at the drawing-up after every storm. Its fishers were among the first on the lake to cut the paired tide-marks on their own landing stones. Known for An Cnoc Ruadh's boat-sheds. Told of in: The harbour at Baile ghlas (GE 4,047); An Cnoc Ruadh's boats come to be kept at Baile ghlas (GE 4,021)."
    },
    "61": {
     "population": 2.632,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B61"
+    "note": "A hamlet of Dùn dhearg. Hill households of the east. A fair hill of sheltered farms in the north-east, settled long before the grove and keeping its old ways through the whole of na Bliadhnachan Fada. The king's word reached it late and lightly, and it was never asked for spears. Its barley went down to Seann-Dhaoine' harbour at Seann Tarr while there were Seann-Dhaoine there to take it, and to the hill-folk who settled Seann Tarr after them. It sent its young to Cruinneachadh an Àtha from the time the gathering became yearly, and its ale went south with them. Known for barley, and the road to Seann Tarr."
    },
    "63": {
     "population": 3.947,
@@ -736,7 +737,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B63, I-0116"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Hill-folk households come down to the western shore. The bay of hawks on the west coast, settled in the thousand two hundred and seventy-fourth year by three hill households too many for the grazing above Baile ghorm, the first hill-folk on that shore. They built round and turf-roofed, a little back from the beach, and fished with lines and baskets from the shore and not from boats. Beathag, eldest of the crossing, walked the nine days on her own feet and was the first buried within sound of that tide. She married the boat-mender's son who followed her west, and was buried facing the water. Known for amber, and Flòraidh's bead. Told of in: Hill-folk on the western shore (GE 1,274); Three households settle Bàgh an t-Seabhaig (GE 1,274); Beathag walks the whole crossing and is the first buried by that tide (GE 1,275); Flòraidh born at Bàgh an t-Seabhaig (GE 1,285)."
    },
    "77": {
     "population": 4.737,
@@ -747,7 +748,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B77, I-0195"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Hill-folk pushing east. A hill above good grazing in the east, where settlers pushing toward the rising country dug a ditch and raised the spoil behind it in the two thousand four hundred and sixty-fifth year, a ring of earth built without any word sent from Dùn ìseal and without any word sent back once it stood. It was the first banked place of the hill-folk away from Dùn ìseal and An Cnoc Ruadh. Somhairle stood on the bank some years after and found it a smaller, rougher thing than his father's hill. Its holder quarrelled two winters with Ruadhan Beag of Dùn chrom over which way a bank ought to face, until Murchadh rode down and left both ditches as they stood. Known for the first bank east of the old workings. Told of in: The east settled at Dùn thais (GE 2,473); The first bank is turned east of the old workings (GE 2,465)."
    },
    "88": {
     "population": 3.684,
@@ -756,7 +757,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B88, I-0238"
+    "note": "A hamlet of Muinntir a' Chnuic Dheirg. Households from An Cnoc Ruadh. A point on the Abhainn fhionn where households from An Cnoc Ruadh's country found an old river landing, its stones set for a boat's keel by hands none living could name, and built their houses about it in the four thousand three hundred and twenty-eighth year. They named the place for what they found, the ancient headland, and used the landing as they found it rather than mend it, as settlers did wherever Seann-Dhaoine' work still stood. The households came down from the lake shore by boat, and the landing took their boats at every state of the river as it had taken Seann-Dhaoine' boats. They kept An Cnoc Ruadh's roll at their fires as their own. Known for the old landing on the Abhainn fhionn. Told of in: Ceann àrsaidh (GE 4,328); Households build about the old landing at Ceann àrsaidh (GE 4,330)."
    },
    "95": {
     "population": 5.263,
@@ -765,7 +766,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0190, I-0043"
+    "note": "A village of Rìoghachd Chlann nan Dè. Households on the strait, built on Seann-Dhaoine' middens. The great strait in the north-west, where Seann-Dhaoine once hunted seal and heaped their shell middens high along the strand. Hill-folk households settled here in the two thousand four hundred and sixty-second year and built on the middens, raising their walls, where they built in stone at all, from what the tide had not carried off. They would not turn a stone that carried a mark, cut or worn, and laid those aside in an unmortared line along the shore, so that two kinds of wall stood there side by side. Known for the marked stones laid aside. Told of in: Settlers at Caol mhòr (GE 2,462); The seal hunt moves south (VE 3,147); Caol mhòr's settlers set aside the marked midden stones (GE 2,462)."
    },
    "119": {
     "population": 4.737,
@@ -773,12 +774,13 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: I-0159, I-0197"
+    "note": "A village of Dùn dhearg. Rebuilt in stone to the eaves after A' Ghaoth Dhubh, the first walls on the coast built against wind. The easternmost harbour of the island. In the two thousand four hundred and seventeenth year a storm out of the south-east stripped the thatch from every roof between Cuan ruadh and Ceann chiar and drove its boats onto the rocks below the headland; the coast named it A' Ghaoth Dhubh for the ash-dark sky it left behind. The valleys sent grain unasked, weighed by the count of mouths, and the coast called it only the bringing-in. The winter after, Lìleas, whose father's hand was maimed, kept a fire on the cape east of the village for boats coming home in the dark, the first of the five fires. Sixty years later the households laid stone to the eaves round the whole settlement, the first walls on that coast built against wind. Known for A' Ghaoth Dhubh, and Lìleas's fire. Told of in: A' Ghaoth Dhubh (GE 2,417); Cuan ruadh rebuilt (GE 2,477); A' Ghaoth Dhubh strips the east coast (GE 2,417); The coast's fishing fails before winter begins (GE 2,417); The coast names the storm A' Ghaoth Dhubh (GE 2,417); Inland valleys hear of the coast's ruin (GE 2,417); The valleys send grain to Cuan ruadh unasked (GE 2,417)."
    },
    "123": {
+    "name": "Gleann na Scoltaidh",
     "population": 1.316,
     "group": "hamlet",
-    "note": "inferred · cites: I-0106, I-0107, I-0226"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Houses kept a stone's throw from the crack across the valley, marked by a line of white stones. A green valley walled by low scarps two days inland from the coast, where Seasaidh came as a bride with Pàl, a drover's son. In the eight hundred and twenty-seventh year the ground opened below Pàl's byre, a crack that ran along the valley and moved its spring to a new channel. The king walked the length of the crack and forbade nothing. Twenty years later Seasaidh, in her old age, carried white stones up from the stream bed and set them a stride back from the crack's edge, choosing them for their whiteness so a child running in poor light might see where the safe ground ended; the valley finished the line after her, and no house was raised within a stone's throw of the crack. In the three thousand eight hundred and sixty-third year the crack moved again and the spring shifted back uphill and broke the line in two places, and the households laid it again exactly as their grandmothers had. Known for the crack and the white stones. Told of in: The ground opens at Cill ghlas (GE 827); The fault-line kept clear (GE 847); The ground shakes at Cill ghlas again (GE 3,863)."
    },
    "131": {
     "population": 5.0,
@@ -787,7 +789,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B131, I-0201"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Sheep-keeping households of the north-east. The stony ground north-east of Murchadh's spring, settled by households who kept sheep where the land would bear nothing heavier. They sent their wool south along the coast road to Cruinneachadh an Àtha rather than north to Murchadh's own granary, and the wool market they kept grew with the flocks of the moor settlements about them. Their wool came to the ford in bales tied with their own twisted rope, and was known there by it. Known for sheep and wool for the ford. Told of in: Baile gharbh in the north-east (GE 2,662); Sheep-households settle Baile gharbh (GE 2,635)."
    },
    "134": {
     "population": 4.211,
@@ -795,7 +797,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B134, I-0202"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Settlers of the western coast. A settlement on the western coast where the boars ran heaviest in the thickets. Its settlers hung boar tusks over their doors and took boar for their chief meat for the rest of the age, and the island came to know a man of that place by his gait, from a lifetime of walking ground a boar might break from underfoot. Its households kept the sharing before the storms by bringing boar meat salted in An Cnoc Ruadh's salt, and it was said at the ford that no settlement of the west brought fatter shares or quarrelled longer over the weighing of them. Known for boar tusks over the doors. Told of in: Baile fhiadhaich on the west coast (GE 2,709); Baile fhiadhaich settled among the boar-thickets (GE 2,655)."
    },
    "142": {
     "population": 4.211,
@@ -804,7 +806,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B142"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Farming households. A green rise in the north-west where the settlements lived on seal, fish and deer until the thousand three hundred and seventy-ninth year, when small herds driven up Rathad na Spor by stages over three summers brought cattle there for the first time. The first calves born on the rise were watched through their first winter by the whole settlement in turn. It became the farm town of the north-west, and its hides went south by Rathad na Spor. Known for the first cattle of the north-west. Told of in: Cattle in the north-west (GE 1,379); Cattle walked to Cnoc ghorm (GE 1,379)."
    },
    "145": {
     "population": 4.211,
@@ -813,7 +815,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B145, I-0231"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Settlers of the spring-fields. A settlement in the north beside a spring held sacred, whose settlers led the water round in channels of their own digging and fenced the spring before a single wall was raised, so that a stranger coming on the place might take the water, and not the people, for what had been settled there. They watered their fields from the channels and would not build over the spring. Known for the spring fenced before any house. Told of in: Achadh naomh's spring-fields (GE 4,091); Achadh naomh fences its spring before it raises a house (GE 4,034)."
    },
    "166": {
     "population": 5.0,
@@ -824,7 +826,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B166"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Dia-thìrich fishing households of the western coast. A harbour of the south-west where, in the two thousand four hundred and twenty-fourth year, households hearing only that the Ros dhomhain keeper cut her marks at a certain interval began cutting their own high-water marks on the harbour rock at that same spacing, though none of them could say why that width and no other. So three tide-rocks were kept side by side on the island, and the interval travelled without its reasoning. Known for the third tide-rock. Told of in: A third tide-rock at Inis thais (GE 2,424); The spacing of the marks travels without its reasoning (GE 2,424)."
    },
    "170": {
     "population": 6.579,
@@ -833,7 +835,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0099, I-0100, I-0104, I-0104b, I-0175"
+    "note": "A village of Rìoghachd Chlann nan Dè: the salt-pans behind the shingle bar; Tràigh an t-Salainn that knelt to the king without a blow. Tràigh an t-Salainn of the south, where the salt-folk scraped the flats and dried the crust on the shingle. In the six hundred and eighty-third year they made shallow clay basins behind the shingle bar, the first salt-works of the island, and raised a bank behind the pans. Iain Dubh came down in the seven hundred and twenty-seventh year at dawn with more spears, and Tadhg Garbh's spear killed him on the clay. The next summer the king walked south alone; the salt-folk raised spears against him and lowered them, and old Mòr knelt on the wet shingle and gave him a double handful of salt, and from that day the shore was called the king's. The salt-folk built a cairn of their own with seven stones in it, and in the fosterling's day An Cnoc Ruadh's own salt refrain was sung at their pans in words An Cnoc Ruadh itself could no longer construe. Known for the salt-pans and the double handful. Told of in: Mòrag Chruaidh and the salt-flats raid (GE 672); The salt-pans of Baile ghorm (GE 683); Iain Dubh killed (GE 727); The king at Baile ghorm (GE 728); The first songs kept (GE 2,428); Eleven spears go south by the drovers' track (GE 672); Donnchadh Bàn falls at the shelters (GE 672); Mòrag turns back once on the strand (GE 672); The salt-folk raise a bank behind the pans (GE 683)."
    },
    "191": {
     "population": 3.684,
@@ -842,7 +844,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B191"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Salmon-trappers of the south-west. A river-mouth on a wild strait where, in the thousand five hundred and ninety-eighth year, households staked a fence of woven wattle out into the ebb to trap salmon on the falling tide. The fence washed out twice before the third setting held, and the same line of stake-holes was fished again every year after through the rest of the age. Its smoked salmon went to Cruinneachadh an Àtha and along the coast road. Known for the fish-fence and its stake-holes. Told of in: The fish-traps of Caol fhiadhaich (GE 1,598); The fish-fence staked at Caol fhiadhaich (GE 1,598)."
    },
    "197": {
     "population": 4.737,
@@ -851,15 +853,16 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B197"
+    "note": "A hamlet of Dùn dhearg. River households of the east. An old river port on the narrows of the Abhainn ìseal east of the vein. In the four thousand and fifty-eighth year two households quarrelling over a stretch of the landing sat out a night together and gave the ground to the landing itself, for whoever had a boat drawn up there; within two generations they were thoroughly mixed by marriage. By the four thousand two hundred and twenty-eighth year it was the river landing of the hill households of the east, where salt, fish and seal-skins came up from the coast; a cloth-trader passing through told the child Ailis of the young-faced man at the gate of Dùn ìseal, and she married a net-mender of the landing. Known for the landing given to no one. Told of in: Two households at Caol shean give their disputed landing to no one (GE 4,058); The river landing at Caol shean (GE 4,228); A trader tells Ailis of the gate at Dùn ìseal (GE 4,250)."
    },
    "198": {
+    "name": "Cnoc na Claise",
     "population": 0.526,
     "group": "hamlet",
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: I-0143, I-0249"
+    "note": "A hearth of Dùn dhearg: the household of the first trench for another vein, which refuses its handful. A black hill in the east where Torcall Tochlair, refused the marriage he was promised and restless at the coal-banks under the mountain, went with his brother Lachann and two other diggers to open a trench for a second vein. In the two thousand two hundred and sixty-seventh year the trench fell in on two of them, Lachann among them, and Torcall buried his brother at the trench's mouth and would not leave. He built a turf shelter at the trench's edge, and folk who came to the hill for one reason or another began to stay, since the ground was as good as any and the man who kept the trench asked nothing of them. He died there and was buried beside his brother. His household kept the ground, did not fill the trench in, and in Catrìona's years refused to burn its handful of coal with the rest of the hills, giving no single answer twice for it. Known for the open trench and the refused handful. Told of in: The first seeking of another vein (GE 2,267); A handful refused at Cnoc dhubh (GE 4,358)."
    },
    "209": {
     "population": 6.579,
@@ -868,7 +871,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0194, I-0080b"
+    "note": "A village of Rìoghachd Chlann nan Dè. Settled in rings under the oaks of the grove where the king was crowned. The grey oak grove where the six pots of na Seachd Guail were set under the oldest trees and Ailean kept his seven nights, fasting, until Coimhdeach na Fine named him king. Coinneach, his brother, camped beyond the ring of oaks and could not cross it; he found his brother warm at dawn with the frost standing off him in a bare ring. For more than two thousand years no household built there, the grove being held the king's and Coimhdeach na Fine's and no one's else. In the two thousand four hundred and seventieth year households of the near valleys came down into its shelter and marked the old oaks for their byres; Somhairle asked Fearchar mac Ailig's household to spare the three oldest trunks, because his father had once set pots beneath them, and they cut their beams from younger growth. The houses ringed the three oaks within a generation, and the place was called the ring under the oaks. In the later centuries the moor crept up on it from the north, and the oaks drew back into the sheltered hollows. Known for the vigil and the three oaks left standing. Told of in: Doire ghlas settled (GE 2,470); The vigil and the crowning (GE 1); Coinneach follows his brother north (GE 1); The camp beyond the oaks (GE 1); Voices heard on the fifth night (GE 1); The grove fills with light (GE 1); The six pots left cold (GE 1)."
    },
    "221": {
     "population": 1.579,
@@ -877,7 +880,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B221, I-0212"
+    "note": "A hamlet of Dùn dhearg. Fowlers of the eastern cliffs. A smooth low island joined to the shore by a causeway on the eastern coast, where a few households settled in the three thousand one hundred and seventy-second year to live by the eggs and birds of the cliffs, trading feathers inland. A boy caught by dusk on a shelf below the highest nests was brought up by torchlight on a rope woven that same night, and from then no one of the settlement worked the cliffs alone: two to a rope, by custom rather than any law spoken. Its feathers went inland to the ford and to the valleys under Dùn ìseal, where they stuffed the bolsters of the king's kin in the waiting years. Known for the egg-cliffs and the two to a rope. Told of in: Inis mhin settled (GE 3,172); A boy of Inis mhin is lost among the egg-ledges (GE 3,081)."
    },
    "232": {
     "population": 3.684,
@@ -886,7 +889,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B232, I-0241"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Households round a white-limed house. A settlement founded on the south-western plain in the four thousand three hundred and forty-seventh year, round a house whose walls were limed white. The lime was burned from the shells of Seann-Dhaoine' middens along the coast, which the settlers judged no one's any longer to keep; the households took their name from the house and kept its walls white every spring. It traded cloth and lime along the coast road and sent its people to the ford. The settlers came from the older harbours of the south-west, and the first of them to lime her walls white did so, the telling says, so that her husband could find the house from the sea in the dusk. Known for the white-limed house. Told of in: Baile gheal in the south-west (GE 4,347)."
    },
    "234": {
     "population": 3.947,
@@ -897,12 +900,12 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B234"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Weaving households of the north. A settlement on a northern stream where cloth was first woven on standing frames, the warp held taut by weights of fired clay rather than by hand, in the thousand six hundred and twenty-eighth year; a worker stood free to pass the weft with both hands. Beitris was born into the third household to raise a frame here, and her blue-black cloth lay flatter and held its dye better than any other hand's. The king stopped at her stall at the ford, tested the weave with two fingers, and married her; she went south to Dùn ìseal and taught the standing weights to the hill's women until the craft had spread to a dozen sheds. The loom-weights lie in rows in the houses of the stream where they fell from the warp. Known for the standing looms, and Beitris. Told of in: The upright looms of Muileann leathan (GE 1,628); The standing frame raised at Muileann leathan (GE 1,628); Beitris born at Muileann leathan (GE 1,670)."
    },
    "238": {
     "population": 2.368,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B238"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Fishing households of the north-west coast. A red headland on the north-west coast where fishing households kept lines and hide boats long before the hill had a king. The king's word reached it late and lightly: it sent no spears to any quarrel of the valleys and was asked for none. In the hungry years, when the fishing failed along that whole coast and the graves at Baile chrom were laid two deep, Sìleas Bhàn's grain came up the shore to the headland in carts, and its households kept the custom of the store after, laying a season's fish by against the next bad year. Its boats went out further than most on that coast, and its people told the voyage of the first boats as their own. Known for a headland of hide boats on the north-west coast."
    },
    "244": {
     "population": 2.895,
@@ -912,7 +915,7 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B244, I-0192"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Dia-thìrich millers, resettled by the Tuathaich. A settlement on a stream in the north-west, built in the two thousand four hundred and sixty-sixth year, after carriers weary of the long way round cut through the last unbroken thicket on Rathad an t-Salainn and brought the place a full day nearer the pans of Baile ghorm. Its flint came from Cnoc àrsaidh and its salt from the south, carried the length of the island by Cruinneachadh an Àtha; at the stream the salt cost three times its price at the pans and was paid for in flint and seal-skins. Known for the far end of Rathad an t-Salainn. Told of in: Muileann àrsaidh settled (GE 2,466); The last thicket on Rathad an t-Salainn is cut through (GE 2,464); The salt road to the north-west (GE 2,468)."
    },
    "246": {
     "population": 1.974,
@@ -921,7 +924,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B246, I-0213"
+    "note": "A hamlet of Luchd-faire na Lice. Households of the hill. A hill above the upper reaches of the rivers where, in the three thousand one hundred and third year, the kin of a settling household's head carried stones up the slope above the cattle-fold and raised the first cairn there, one stone laid at a time by whoever had known him. Within a lifetime the slope held as many small heaps of stone as the fold below held cattle in a good year. The households settled the hill fully in the three thousand two hundred and eighteenth year, round the cattle-fold. Known for the cairns above the cattle-fold. Told of in: Muileann chaol on its hill (GE 3,218); The first cairn rises above the fold at Muileann chaol (GE 3,103)."
    },
    "255": {
     "population": 3.684,
@@ -931,12 +934,12 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B255, I-0204"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. The lords of the bent hill. A banked hill-fort in the midst of the island, between An Cnoc Ruadh and the hills of the vein. Herders wanting the bank to face south and quarrymen wanting it to face north raised a single crooked earthwork that answered both wants at once and satisfied neither, and the fort stood from its first year with a name that fitted it more ways than its builders meant. Its holder Ruadhan Beag quarrelled two winters with the holder of Dùn thais over which way a bank ought to face, until Murchadh rode to hear them and left the ditch as it stood, finding a hundred years without an enemy a better argument than either holder made. Known for the bank that faced two ways. Told of in: Dùn chrom raised (GE 2,801); Dùn chrom is raised with its bank facing two ways (GE 2,751); The holders of Dùn chrom and Dùn thais quarrel over which way a bank should face (GE 2,802)."
    },
    "257": {
     "population": 2.5,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B257"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Households of the panther country. A settlement a short walk inland of Baile ghorm, across whose fields the panthers' road ran. In the two thousand four hundred and thirty-first year its households began cutting a sign on their gateposts at the start of the crossing season and scraping it away at its close, the first mark the island's tellers know cut for a season rather than for any one event; by the two thousand four hundred and forty-seventh year the custom was kept at every gate. The households shut their stock in while the cats passed. Known for the gatepost sign of the crossing season. Told of in: Baile dhomhain cuts the first season's sign (GE 2,431); The panther season kept at Baile dhomhain (GE 2,447)."
    },
    "269": {
     "population": 3.684,
@@ -945,19 +948,19 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B269, I-0239"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Dia-thìrich hill-farmers, resettled by the Tuathaich. A damp hill in the north-west settled in the four thousand three hundred and twenty-eighth year by households who drained it with ditches before they built, and grazed its wet slopes with sheep. The ditches carried water through the rest of the age, and the households traded with the mill-folk of Muileann àrsaidh below them. The ditches were cut to a line the eldest of the settlers paced out alone over a whole wet winter, and no household afterward moved a ditch without the others walking it first. They measured their coal by the cup like every hearth of the hills. Known for the drained hill. Told of in: Cnoc thais in the north-west (GE 4,328)."
    },
    "276": {
     "population": 3.947,
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: I-0112, I-0151, I-0152, I-0246, I-0104a"
+    "note": "A hamlet of Luchd-faire na Lice: the slab over the crack and Taigh na Lice facing it; a place of pilgrimage; home of Clann na Ceiste. The well village of Na Glinn Àrda that keeps the slab laid over the mason's crack, the eldest of the three wells that claim it. In the thousand and seventy-first year a wet spring opened a crack below the slab's stain, and the households laid white stones along it. From the thousand one hundred and twentieth year the families nearest the crack sat the slab in turn through the dark half of every year, a household at a time; Beathan mac Shomhairle sat among the first six, and Gilleonan and Ìde kept their first turn the same winter. The king came up alone once and sat a night among them. In the two thousand four hundred and third year the families chose one keeper by lot, and Oighrig nic Dhòmhnaill drew the white stone; a house was built for her with its door to the slab, and Niocol Snaidhear ground her a stone cup. Gilleasbuig Beag, who drew after her, was rowed to Eilean chrom for a basket of coal, and Giorsal Bhàn laid the coal back under the slab. Somhairle died against the slab in the three thousand and twenty-fifth year and is buried beside it; Diorbhail kept the Line after him. In Catrìona's years the lot was drawn from every part of the hills, the keepers were made nine, and Taigh na Lice became a place walked to for its own sake. Known for the slab, the lot and Taigh na Lice. Told of in: The watchers of the slab (GE 1,120); Oighrig, first keeper by lot (GE 2,403); The keepers' house (GE 2,404); Lots drawn for the slab (GE 4,350); Somhairle mac Ailein dies (GE 3,025); The ground cracks below the slab at Tobar dhìreach (GE 1,071); White stones laid along the new crack (GE 1,071); The households agree to sit the slab in turn (GE 1,120); Beathan first sits by the slab (GE 1,121); Gilleonan and Ìde keep their first turn (GE 1,121)."
    },
    "277": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B277"
+    "note": "A hearth of Rìoghachd Chlann nan Dè. Hill-folk of Na Glinn Àrda. A rough ford on the drovers' road through Na Glinn Àrda, where the beasts were rested and watered. In a hearth of peat ash here the valleys say an gual dathach was first burned by a household outside Clann a' Chlachair, one sliver at a time. The custom of the full hand is told as beginning among the few households of this ford, after a sick child was warmed too generously, and from here it spread to every hearth of Na Glinn Àrda within a few years. In Oighrig's keeping a woman of Àth gharbh ground the first of the copies of the stone cup, measuring against Niocol Snaidhear's cup throughout, and she finished it quickest of the three. Coinneachadh nan Cupan was held at a nameless spring on the moor between Àth gharbh and Tobar dhìreach, chosen because it lay equal walking from all four places. The drovers who rested there carried the custom of the full hand and the tidings of the cups the length of Na Glinn Àrda, and the ford's own households were among the first to sit a turn at the slab when the watch was drawn from every part of the hills. Known for the drovers' ford where the full hand began. Told of in: The measured handful (GE 1,011); The measured handful reaches every hearth of Na Glinn Àrda (GE 1,011); Word of the stone cup travels the near valleys (GE 2,406); Oighrig carries the first cup to Àth gharbh, Achadh dhìreach and Cnoc chaol (GE 2,407); The four cups are ground true at Àth gharbh, Achadh dhìreach and Cnoc chaol (GE 2,407)."
    },
    "282": {
     "population": 4.737,
@@ -966,7 +969,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B282, I-0203"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Dia-thìrich households who took up the old landing. A harbour on the west coast beside a stone landing built by hands none of its settlers could name, older than any wall near it. Households took it up in the two thousand six hundred and seventieth year and used the landing as they found it rather than mend it, out of the caution settlers kept wherever Seann-Dhaoine' work still stood; the harbour was fully settled by the two thousand seven hundred and fifty-fifth year and shipped the western grain along the coast. Known for the old landing used unmended. Told of in: Cuan shean settled (GE 2,755); Cuan shean settled beside the old landing (GE 2,670)."
    },
    "297": {
     "population": 3.684,
@@ -975,7 +978,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B297, I-0198"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Households of the south coast. A long ridge in the south between the valleys and the coast, where households settled in the middle centuries within an earth bank. It dug and lined a well inside its own earthwork in the two thousand four hundred and sixty-seventh year so that its water-carriers need not go down to the shore while a storm still had teeth in it, and the town was taken up in earnest a generation later. It traded south to the coast and north to the ford, and sent its people to An Cruinneachadh Mòr in the three thousandth year. Its households kept the handful by the cup and the sharing by the count of mouths, and in the lean years they opened their store within the bank to the coast below them as Dùn ìseal had opened its own. Known for the well within the bank. Told of in: Cathair fhada on the south coast (GE 2,523); A well is opened within Cathair fhada's bank (GE 2,467)."
    },
    "304": {
     "population": 1.053,
@@ -983,7 +986,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: I-0219, I-0220"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè: the green-stone quarry households; the quarry forsaken before the age ends. An ancient ford in the north-west near a quarry of green stone, whose polished axes were carried all over the island in the three thousand four hundred and ninety-sixth year, too fine for work, laid unused in graves and under house floors. Ìomhar Dearg asked the cutters for one to carry and use and was told no green axe was ever cut to be swung, only shown; he had a common grey axe made instead and used it forty years. The few households who worked the quarry traded in nothing else, and the chips about it lay knee-deep. The seam ran thin under every cut, and in the three thousand five hundred and forty-seventh year the last cutter who held the old skill died with no apprentice; the quarry was forsaken, and the axes ceased. Known for the green axes never swung. Told of in: Stone axes from the north (GE 3,496); The quarry at Àth àrsaidh (GE 3,547); Ìomhar Dearg wants a green axe for use, not for a grave (GE 3,496); The cutters of Àth àrsaidh turn Ìomhar away (GE 3,496); Ìomhar's grey axe outlives forty years of use (GE 3,497); The last cutter of Àth àrsaidh dies without an apprentice (GE 3,547)."
    },
    "305": {
     "population": 4.211,
@@ -992,11 +995,11 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B305, I-0191"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Households from Cnoc ghorm. A settlement on the far north-west coast where, after two failed fishing seasons in the nineteen hundred and sixty-sixth year, the stores went to bark and boiled seaweed and the graves were laid two deep for want of time to dig them singly; no older hunger on Dia-thìr is tied to a place. The king rode north-west with the first grain that could be spared, by a road that had never carried him, and Sìleas Bhàn sent carts after him for the whole coast. The ground lay empty for five hundred years. In the two thousand four hundred and sixty-fourth year households from Cnoc ghorm settled it again, and Somhairle found them already byred and welled, the old field-marks half sunk beneath the new grass. They dug their storage pits deeper than any others on the coast. Known for the hunger, and the deep pits. Told of in: Settlers at Baile chrom in the north-west (GE 2,464); The hunger at Baile chrom is first heard of at the hill (GE 1,965); The king rides north-west with grain (GE 1,967); Sìleas sends grain along the whole north-western coast (GE 1,967); Somhairle walks the ground at Baile chrom (GE 2,463)."
    },
    "315": {
     "population": 15.789,
-    "note": "inferred · cites: I-0081, I-0082, I-0139, I-0147, I-0250, I-0255a"
+    "note": "A fort of Rìoghachd Chlann nan Dè: the king's hill: two banks and ditches, the gathering-ground and the shared store within the bank; held by the king in his own hand. The hill of the first kingdom. Ailean Mòr came to it from the grove in the first summer with eleven of his kin, sat under its lip through the first winter hearing the households of the valleys, and set the flint-pit to making spearheads for anyone who asked. The bank was pegged out in the snow of the second spring and raised in the ninth year, with antler picks and flint scrapers; Gormshuil kept its gate, and after her, Rìghrean na Cloiche held it for the king, twelve in all, from Dòmhnall Clachach to Catrìona Mhòr. Sìleas Bhàn cut grain-pits into the bank and opened them by the count of mouths; Tormod Liath paced out the second bank and doubled the ground within it to near a hundred houses. Here the sharing before the storms began, here Calum Ciar asked for the slab's lot, and here Catrìona's cord was knotted to nine hundred hearths. In the last years the valley below the hill filled with the tents of the king's kin, each line with its own fire and its own steward, waiting on shares the king would not give. Known for the king's hill, the bank and the store within it. Told of in: Ailean Mòr, first of the Stone Kings (GE 1); The bank of Dùn ìseal (GE 9); Tormod Liath (GE 2,163); Surplus shared at Dùn ìseal (GE 2,356); Counting the households (GE 4,361); The king takes back the hill (GE 4,391); The lad who brought the water (GE 1); The valleys come in to the hill (GE 1); The first judgement on the hill (GE 1); The king's order to the flint-pit (GE 1); The warmth with no fire (GE 1)."
    },
    "318": {
     "population": 3.684,
@@ -1007,7 +1010,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B318, I-0206"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Households who came for the spring of the holy hill. A hill south of the valleys already called, by no teller then living able to say why, the holy hill. Households came to it for its spring in the two thousand eight hundred and seventieth year and settled it in earnest a generation later, keeping its water and the fact of its holiness together without asking more of either. The households cut the spring's channel no deeper than they found it, and lit no fire within sight of the source. In An Cruinneachadh Mòr of the three thousandth year they sent water from the holy spring to the ford in sealed pots, and it was poured into the river at dusk. Known for the spring of the holy hill. Told of in: Cnoc naomh (GE 2,894); Households come to Cnoc naomh for its spring (GE 2,870)."
    },
    "324": {
     "population": 5.0,
@@ -1016,7 +1019,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B324"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Potters of the south-west coast. An old oak grove on the south-west coast. In the seven hundred and fifth year pots of coiled clay, fired in open bonfires in the lee of the oaks, were first made here, and two of the first of them reached Dùn ìseal within the season. Within a few lifetimes the whole southern shore used them, and pots were among the first goods that strangers to both hills set out beside the wool and salt at the ford. The potters dug their clay from the same bank for generations and traded their wares down the drovers' roads. Known for the first pots. Told of in: The first pots at Doire shean (GE 705); Two of the first pots reach Dùn ìseal (GE 705)."
    },
    "326": {
     "population": 2.895,
@@ -1025,7 +1028,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B326, I-0208"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Dia-thìrich households of the south coast. A settlement near the south coast between Taigh-solais Tobar dhearg and the old Seann Skell, whose first houses stood on driven piles over standing marsh water. They were moved to firm ground a bowshot inland once the piles had proved the footing sound, and kept the name the marsh first gave them. It was founded in earnest in the two thousand nine hundred and eighty-sixth year and traded with the fishers of the strait at Caol ruadh. The marsh gave the settlers eels and wildfowl in plenty, and the moving of the houses to firm ground was done over three summers, one row at a time, so that no household was ever without a roof while it was done. Known for the houses on piles over the marsh. Told of in: Muileann naomh founded (GE 2,986); Muileann naomh is founded on piles over the marsh (GE 2,890)."
    },
    "333": {
     "population": 3.947,
@@ -1033,7 +1036,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B333, I-0233"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Oak-keepers of the north-east. A settlement that grew up under the dark oaks in the north in the four thousand one hundred and eighty-third year. Its people penned pigs in the wood and drove them out to the acorns at the fall of the year, and felled no oak they could spare. The households of the dark oaks kept the full hand at their hearths like every settlement of the hills, and sent their measure to be tried against a copy of the stone cup when the lot for the slab came to be drawn from every part of the hills. Their pigs went to the ford in the autumns, driven the whole way on foot. Known for pigs driven to the acorns. Told of in: Doire chiar (GE 4,183)."
    },
    "363": {
     "population": 3.684,
@@ -1043,12 +1046,12 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B363, I-0209"
+    "note": "A hamlet of Dùn dhearg. Dia-thìrich fishers of the south-eastern shore. A harbour on the south-eastern shore below Làrach an Dùin, the ruin of the old builders, settled by fishing households in the three thousand and twenty-eighth year. They built their houses with doors to the sea and backs to the broken walls, and would not go up to the ruin or carry off its dressed stone lying loose for the taking; an old woman of that shore said a wall raised by other hands keeps its own quarrel. The contests below Clachan nan Gaoth at Ceann leathan drew its young men every autumn, and it was a son of this shore's herders, Alasdair Làidir, who threw every man who stood against him at three-and-twenty. Known for the harbour under the ruin. Told of in: Ceann mhin on the south-eastern shore (GE 3,028); Ceann mhin's people will not climb to the ruin (GE 3,040); Alasdair Làidir takes every fall of the contests at three-and-twenty (GE 3,403); A grey stranger lifts the black boulder at Ceann leathan (GE 3,403)."
    },
    "364": {
     "population": 1.579,
     "group": "hamlet",
-    "note": "inferred · cites: I-0105, I-0225"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Houses higher on the slope after two waves; none lost to the second. A village of low houses on the south coast under a narrow hill, where the sea rose past every mark it had kept in the seven hundred and seventy-seventh year and came in over the houses in the night, taking twelve of the shore's people and leaving a hand's depth of grey sand over every hearth it did not carry away. Seasaidh, seven years old, was carried up the slope by her mother; her father was among the twelve. The survivors rebuilt higher on the slope and left the old ground unbuilt, and when a lesser wave came in the three thousand eight hundred and seventeenth year it found only empty byres below the new houses. The measure of the full hand was ground into a stone cup here, despite two false starts, in Oighrig's keeping. Known for the wave, and the houses on the slope. Told of in: The wave at Cnoc chaol (GE 777); A second wave on the south coast (GE 3,817)."
    },
    "365": {
     "population": 12.632,
@@ -1058,7 +1061,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0200"
+    "note": "A village of Rìoghachd Chlann nan Dè. Round a spring that never freezes; some eighty houses at its height. A rise on the northern plain above a spring that ran clear through every winter, where Murchadh Mòr raised his hall in the two thousand six hundred and sixteenth year after the king sent him north with sixty households. The households of the plain named the place Baile Mòr mhòr before it had earned the size of the name; at its height it held some eighty houses, the largest place north of An Cnoc Ruadh. Murchadh's eleven sons, born over the better part of three centuries, were each given a corner of the plain to hold under their father. The king's summons to An Cruinneachadh Mòr reached it in the two thousand nine hundred and ninety-ninth year, and Murchadh rode south with sixty of his household. Known for Murchadh's hall by the spring that never froze. Told of in: Baile Mòr mhòr in the north (GE 2,616); Baile Mòr mhòr rises round the spring that never freezes (GE 2,616)."
    },
    "371": {
     "population": 5.0,
@@ -1067,7 +1070,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B371"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Seal-taking households of the lower river. A settlement on the lower Abhainn ìseal by the skerries off the river mouth, where the households took seals by agreement, one household to a rock in its own turn, kept on notched sticks. A rock taken out of turn was the commonest quarrel of that coast, settled always by counting the tally aloud rather than by raised voices. Known for the seal-rocks taken in turn. Told of in: The seal rocks of Inis bhàn (GE 3,955); Inis bhàn settles the seal-rocks by the tally of the turn (GE 3,955)."
    },
    "387": {
     "population": 3.158,
@@ -1077,7 +1080,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B387, I-0215"
+    "note": "A hamlet of Dùn dhearg. Settlers on the empty land by Seann Dunn. A broad red-earthed rise near the eastern Seann Dunn, settled in the middle of na Bliadhnachan Fada by households who called the ground around them empty though Seann-Dhaoine' middens lay a morning's walk away and plainly said otherwise. They dug into nothing of what lay there. The settlement grew into a place of some size by the three thousand three hundred and eleventh year, raising its houses of the red stone of the rise. Known for the empty ground beside the middens. Told of in: Baile Mòr ruadh in the east (GE 3,311); Baile Mòr ruadh settles ground its people call empty (GE 3,161)."
    },
    "395": {
     "population": 5.263,
@@ -1085,7 +1088,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B395, I-0229"
+    "note": "A village of Rìoghachd Chlann nan Dè. Field-clearing households of Fuarain Theth Muileann ruadh. A field country near Fuarain Theth Muileann ruadh in the east, where in the four thousand and eighth year a household cleared and banked the widest single field the eastern country had yet cut from the rough, the largest of the age. It laid its bank on the stones of an older wall whose builders none could name, and grew in a good year wheat enough for three households where before there had been land for none. Known for the widest field of the age. Told of in: Fields at Achadh mhòr (GE 4,000); Achadh mhòr's wide field is cleared under Fuarain Theth Muileann ruadh (GE 4,008)."
    },
    "398": {
     "population": 6.579,
@@ -1093,7 +1096,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0207, I-0164"
+    "note": "A village of Rìoghachd Chlann nan Dè: the keepers of the southern beacon, on the cape round a well of reddish water; the greatest place on the south coast. A southern cape where the households raised the last and surest of the five fires in the two thousand four hundred and twentieth year, on a mound of stacked stone breast-high, clear of the spray; a reciter of that coast named the five together before the mound was finished. The keepers of the fire built at last round a well whose water ran faintly red from the rock, and the settlement on the cape grew into the greatest place on the south coast, its fire burning nightly for boats that learned to watch for it. Known for the southern fire and the red well. Told of in: Tobar dhearg on the southern cape (GE 2,947); The beacon at Tobar dhearg (GE 2,420); The southern cape completes the five fires (GE 2,420); A reciter names them the five fires (GE 2,420); Tobar dhearg rises round the red well (GE 2,790)."
    },
    "411": {
     "population": 4.211,
@@ -1101,7 +1104,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B411, I-0211"
+    "note": "A hamlet of Dùn dhearg. Dia-thìrich farming households. An old field in the east whose wells fell a hand lower than any digger remembered in the two thousand and third year. A shepherd's boy walked three days to Dùn ìseal to say that the field banks his grandfather raised had cracked from dryness; the springs stopped outright, and the households walked off their old banks and cut new fields lower on the slope. Sìleas Bhàn refused to have the dead field pulled down, saying a bank tells a household what the ground once gave and what it stopped giving. The households came back in the three thousand one hundred and twenty-fifth year, cut new fields on the higher ground, and sank a deep well before they broke a furrow; the well did not fail again in the age. Known for the drought and the well dug first. Told of in: Achadh shean resettled (GE 3,125); The wells of Achadh shean run low (GE 2,003); A shepherd's boy walks to Dùn ìseal to report the cracking banks (GE 2,004); The springs of Achadh shean stop (GE 2,005); The field banks of Achadh shean are forsaken (GE 2,006); Sìleas refuses to have the dead field pulled down (GE 2,007); Achadh shean sinks its well before it breaks a furrow (GE 3,068)."
    },
    "415": {
     "population": 0.789,
@@ -1109,11 +1112,11 @@
     "features": {
      "shanty": 0
     },
-    "note": "inferred · cites: gazetteer B415"
+    "note": "A hearth of Rìoghachd Chlann nan Dè. Hill-folk of the vein country. A settlement on a narrow hill in the near valleys, on poor ground. One of the four stone cups was ground here in Oighrig's keeping, and the copy was begun fastest of the three despite two false starts; the cups were sent back to the wheel when their levels would not match, until at Coinneachadh nan Cupan the water stood level in all four. From that year its households measured their handful of coal by the one cup and its copies. An old woman of Cnoc chaol was the first to say at the slab, in the judgement of Gilleasbuig Beag, that the vein was never any one hearth's to keep behind a cloth. Known for one of the four cups. Told of in: The stone cup copied (GE 2,407)."
    },
    "422": {
     "population": 13.158,
-    "note": "inferred · cites: I-0235, I-0255b"
+    "note": "A fort of Dùn dhearg: the double-banked hill-fort of the east; the spears of the east are gathered here. A hill-fort east of the vein with a double bank, raised in the four thousand two hundred and seventy-fourth year by households who owed nothing to Dùn ìseal and asked leave of no one. They shared out the labour, and afterward the ground within, by households and not by standing; a family that sent no hands was left outside the second bank and asked within a generation to be let in on the same terms. Ailis carried seal-skins from here to the ford, and Catrìona of the king's blood gave the eastern households ground there asking no oath. In the four thousand five hundred and twentieth year the king sent Niall Òg to bid Dùn dhearg come in to him, and Fearghal Donn sent him back with nothing. From that year the spears of the east were gathered here, and under Artair mac Fhearghail the host mustered along the river below the fort in the last days of an Lùnastal, meaning to hold the crossing. Known for the double bank, and the refusal. Told of in: Dùn dhearg raised (GE 4,274); Dùn dhearg will not bow (GE 4,520); Ailis is born east of the vein (GE 4,240); The households east of the vein raise the double bank at Dùn dhearg (GE 4,274); A holdout household is left outside Dùn dhearg's second bank (GE 4,275); Ailis's husband is buried on the slope above Dùn dhearg (GE 4,310); Ailis sets out for the ford with seal-skins (GE 4,321)."
    },
    "431": {
     "population": 3.947,
@@ -1123,7 +1126,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0210"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè: the old harbour of the south taken up by Dia-thìreach households; busiest landing of the south coast within a few generations. A harbour of Seann-Dhaoine on the southern coast, empty through the first two thousand years of the age and taken up again by fishing households in the long settling. Within a few generations of its resettling it was the busiest quay on that coast, boats going out on every tide and its hook-makers at work from first light beating out bone hooks faster than the fishing could wear them. The tale of the grey stranger who lifted the boulder at Ceann leathan grew hands like a smith's iron at a fire near here, an embellishment Alasdair Làidir spent the rest of his life correcting, and an old woman of this shore carried her own telling of the stone to the ford. Known for the busiest quay of the south. Told of in: Seann Skell of the south (GE 3,079); The smiths of the southern Seann Skell beat out hooks faster than the sea wears them (GE 3,055); The tale of the lifted stone wears smooth at other fires (GE 3,410)."
    },
    "433": {
     "population": 3.421,
@@ -1133,7 +1136,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B433"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Households of Imrich nam Pantar. A southern settlement near Imrich nam Pantar, where Gilleonan bored four holes along a hollow bird-bone in the two thousand four hundred and twenty-eighth year and found a note he could raise and lower at will; children of three households gathered to hear him play. The bone pipes are the oldest instruments of the island. The households kept watch on the passes in the crossing season, and in that same spring three great cats were seen to turn back at the highest pass. Known for the bone pipes. Told of in: Bone pipes at Cnoc àrsaidh (GE 2,428); Gilleonan bores the first bone pipes (GE 2,428)."
    },
    "435": {
     "population": 3.421,
@@ -1141,7 +1144,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B435"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Herders of the northern moor. A wild spring on the moor whose herders walked the same paths through the whole of the age, and whose spring was said never to fail. The households of the spring buried wolves whole and with care, laid on their sides with their legs drawn up as in sleep, a care they spoke of to no one outside the household; an old woman told Murchadh, who came on a burying in the thousand eight hundred and ninetieth year, that the wolf kept its own dead on the high ground and had earned better than the ditch. No other beast was so buried in the age. Known for the wolves buried whole. Told of in: Wolves at Tobar fhiadhaich (GE 1,890); Murchadh sees the wolves buried at Tobar fhiadhaich (GE 1,890)."
    },
    "436": {
     "population": 2.895,
@@ -1150,7 +1153,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B436"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Households of the northern ford. A great ford of the north on the far eastern circuit of Rathad na Spor. In the thousand eight hundred and fifty-third year a young man of the ford cut a hawk into his father's door-lintel by firelight over three evenings, wings closed and the head turned back over the shoulder; he said only that the shape had come to him whole one night and would not leave him alone until he had cut it. Murchadh watched him cut it. It is the oldest carving of a hawk on the island, and of any bird, and the lintel was set again over every door the household built after. Known for the hawk lintel. Told of in: The hawk lintel at Àth mhòr (GE 1,853); The hawk carved into the lintel at Àth mhòr (GE 1,853)."
    },
    "443": {
     "population": 4.211,
@@ -1159,7 +1162,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B443, I-0232"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Dia-thìrich seafarers of the rough strait. A settlement on the rough strait of the north-east coast, taken up in the four thousand one hundred and twenty-eighth year by households who fished the strait in skin boats. They laid paddles beside their dead, and their boats were heavier in the beam than any on that coast, for the strait's sake. Its fishers named their boats for the winds as the north coast did, and gave no drowned boat's name again. In the lean years they brought dried fish inland to the sharing, and a household that kept its catch back found no boat willing to put out beside it the next season. Known for the paddles laid beside the dead. Told of in: Caol gharbh on the rough strait (GE 4,128)."
    },
    "449": {
     "population": 3.158,
@@ -1167,12 +1170,12 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B449, I-0196"
+    "note": "A hamlet of Dùn dhearg. Field-clearing households of the east. A settlement in the east where, across three dry summers from the two thousand four hundred and sixty-sixth year, households burned back the old scrub a field's width at a time and ploughed the black ground while the ash still held its warmth, taking the first year a crop the older fields to the west had not equalled in a generation. The stones they picked from the new fields they laid in banks round each field, and those banks bound the fields for the rest of the age. Known for fields cleared by fire and bounded by picked stone. Told of in: Achadh chaol cleared (GE 2,475); Fire clears the heavy ground at Achadh chaol (GE 2,466)."
    },
    "454": {
     "population": 0.789,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B454, I-0005"
+    "note": "A hearth of Rìoghachd Chlann nan Dè. Hill-folk of Na Glinn Àrda. The oldest hearths of Na Glinn Àrda stand at Achadh dhìreach. In the nine hundred and second year three brothers clearing a strip for barley turned up a hearth laid true and never lit, and the valley left the strip unploughed and covered the hearth with peat until no living person remembered where it lay. Anna nic Coinnich was born two fields from it and kept the full hand all her life. In the thousand and sixty-sixth year Eanraig Ruadh, old and cold, burned a whole basket of an gual dathach in one night, and his house went up in a flame of a colour no one had a word for, with his wife Beathag and a grandchild within; the hearthstone split and ran with colour until the king knelt and laid his hand across it and it greyed. The king named the full hand a good custom and made no law of it. Eanraig's son kept the grey stone for his new hearth, and one of the four stone cups was ground here in Oighrig's years. Known for the unlit hearth and the basket burning. Told of in: The first hearths of the high valleys (VE 303); A cleared strip at Achadh dhìreach turns up an unlit hearth (GE 902); The unlit hearth passes out of living memory (GE 956); Anna nic Coinnich is born at Achadh dhìreach (GE 1,000); Anna nic Coinnich marries Aonghas of the next valley (GE 1,019); Anna nic Coinnich buries a son (GE 1,030); The basket burning at Achadh dhìreach (GE 1,066)."
    },
    "457": {
     "population": 2.105,
@@ -1180,7 +1183,7 @@
     "features": {
      "walls": 0
     },
-    "note": "inferred · cites: gazetteer B457"
+    "note": "A hamlet of Dùn dhearg. Dia-thìrich fishers of the eastern coast. A harbour on the eastern coast at the southern end of the shore A' Ghaoth Dhubh stripped. It fed the people of Cuan ruadh through the winter after the storm out of its shared surplus, and no one on that coast is known to have died of hunger that season. Known for the stone of the twenty-two houses. Told of in: The sharing holds after the Black Wind (GE 2,417); The Black Wind remembered at Ceann chiar (GE 3,726); Ceann chiar cuts two-and-twenty marks for A' Ghaoth Dhubh (GE 3,726)."
    },
    "475": {
     "population": 5.526,
@@ -1190,7 +1193,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: gazetteer B475"
+    "note": "A village of Rìoghachd Chlann nan Dè. Fishing households of the north coast. A river-mouth settlement of fishing households on the north coast, at the mouth of the Abhainn ghorm. They fixed the custom of naming each boat for the wind it was built to fish in, held a boat unlucky under any other wind, and never gave a drowned boat's name again. Known for boats named for the winds. Told of in: Caol bheag names its boats for the winds (GE 2,434); Boats named for the winds (GE 2,447)."
    },
    "476": {
     "population": 3.158,
@@ -1200,7 +1203,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0119"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè: the long-house forty paces long, byre and hall under one roof, the greatest building of the north-west. A rise above the firth on the far western coast, where a long-house forty paces long, byre and hall under one roof, was raised in the thousand four hundred and sixteenth year, timbered from Rathad na Spor's own hills and roofed with turf. It was the greatest building of the age in the north-west and was spoken of the length of the coast. A spark from an untended hearth caught the byre-end thatch four years later and the hall burned with the byre; the household raised it again on the same footing before the next winter, holding the ground proved good whatever the fire proved of the roof, and left its scorch mark for anyone to see. It burned and was raised again once more before the age was out. Known for the long-house burned twice. Told of in: The long-house at Cathair gheal (GE 1,416); The long-house raised at Cathair gheal (GE 1,416); The long-house at Cathair gheal burns the first time (GE 1,420); The long-house at Cathair gheal is raised again (GE 1,421)."
    },
    "489": {
     "population": 9.211,
@@ -1211,7 +1214,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0098, I-0097"
+    "note": "A village of Rìoghachd Chlann nan Dè. Hill-folk families settled in the empty river harbour, using Seann-Dhaoine' mole and mending none of it. Seann-Dhaoine' river harbour on the Abhainn naomh, with a mole and a tower at its mouth. The hill-folk of the upper river were saying its old name before any of them had seen it, in the year Beathan was born. In the six hundred and twenty-eighth year Iain mac Fhearchair brought eleven souls of his household down the river to the empty harbour, marked the ground, and forbade the tower; the household used Seann-Dhaoine' mole as it found it, and when a winter storm broke the mole's oldest stretch Iain would not build with the broken stone. His daughter Marsaili held the household after him, went out in the first hide boats the harbour had held since Seann-Dhaoine, and chose how a household newly of the sea should bury the first one the sea took. Known for the mole, the tower, and Marsaili's boats. Told of in: The old landings taken up (GE 628); The old names kept (GE 591); The hill-folk of the upper Abhainn naomh first say Seann Skell (GE 591); Iain forbids his household the tower before any of them have seen it (GE 595); Eleven souls come down the Abhainn naomh (GE 628); Iain marks the ground and forbids the tower again (GE 628)."
    },
    "492": {
     "population": 3.684,
@@ -1219,7 +1222,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B492, I-0242"
+    "note": "A hamlet of Dùn dhearg. Dia-thìrich ford-keepers of the east coast. A small ford on the far eastern coast, settled in the four thousand three hundred and forty-seventh year, the easternmost dwelling of the age on the main island. Its households went out in boats after the geese on the islands offshore and raked salt from the flats beside the ford. It sent its geese-feathers inland by the traders' road and knew the hill only by report. Known for the geese on the islands. Told of in: Àth bheag on the eastern coast (GE 4,347)."
    },
    "502": {
     "population": 4.737,
@@ -1228,7 +1231,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B502"
+    "note": "A hamlet of Rìoghachd Chlann nan Dè. Herders of the eastern plain. A settlement of herders on the eastern plain, below the passes the panthers cross. In the two thousand four hundred and twenty-eighth year Iain of Muileann bhàn drove forty head of thin cattle into the passes out of season, against the custom of the crossing, and the panthers took thirty head in a night; he came down lamed at the hip. Twenty-seven years later he walked south to Fuarain Theth Muileann ruadh on his stick, sat in the pool three days, and walked home whole. In the three thousand seven hundred and seventy-first year, when the rivers of the eastern plain ran low all summer, its households drove their cattle to Fuarain Theth Muileann ruadh to drink, and the shared surplus held. Known for the cattle lost in the passes, and Iain's cure. Told of in: Iain drives cattle onto Imrich nam Pantar (GE 2,428); The cattle lost in the passes (GE 2,428); Iain walks home whole; the cure-tale is set (GE 2,455); A dry year on the eastern plain (GE 3,771)."
    },
    "504": {
     "population": 2.895,
@@ -1236,7 +1239,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B504, I-0186"
+    "note": "A hamlet of Muinntir a' Chnuic Dheirg. Settlers from An Cnoc Ruadh. A settlement at the edge of Coille Naomh Cnoc bheag, raised by households come down from An Cnoc Ruadh in the middle of the age. They took their timber only from the river's far side and never from the unclaimed wood, and marked the line with a row of unhewn stones. When a boy not yet seven was lost past the stones in the two thousand four hundred and fifty-first year, the settlement and its neighbours searched three days into the wood without one sign of him; Iain of Muileann bhàn, lame from the passes, said aloud that a wood no household would fell was not a wood that gave back what it took, and the searchers stopped at the stones. Known for the line of stones at the forest's edge. Told of in: The first house at Cnoc bheag (GE 2,453); Settlers from An Cnoc Ruadh raise the first house at Cnoc bheag (GE 2,450)."
    }
   },
   "add": [
@@ -1247,7 +1250,7 @@
     "cell": 3195,
     "population": 52.632,
     "group": "village",
-    "note": "inferred · cites: I-0256, I-0208a, II-0001a, book III",
+    "note": "A camp of tents of Rìoghachd Chlann nan Dè: the king's kin come in from every coast to wait for their shares: a fire and a steward for each line, more than any reciter can name in a night. The kin wait about the king for their shares at the close of the age; they stay on after the Binding to part the kingdom. Told of in: The eve of the Binding (GE 4,550); The great gathering at the ford (GE 3,000); The heirs sit at Dùn ìseal (FE 1); The round-house harbour begins paying salt to An Cnoc Ruadh (GE 1,347).",
     "culture": 2
    },
    {
@@ -1257,7 +1260,7 @@
     "cell": 3107,
     "population": 39.474,
     "group": "village",
-    "note": "inferred · cites: I-0255b, I-0256, I-0098a",
+    "note": "A war camp of Dùn dhearg: the spears of the east, gathered since GE 4,520, moving down to the ford below Dùn dhearg. The host that comes against the king at the ford (FE 1); its numbers are not told, only that its dead dammed the river. Told of in: Dùn dhearg will not bow (GE 4,520); The eve of the Binding (GE 4,550); Ailean Mòr falls at Àth na Fala (FE 1); The ground opens below Pàl's byre (GE 827); The valley's spring moves to a new channel (GE 827); The valley folk keep clear of the crack by instinct (GE 827); Word of the opened ground reaches the hill (GE 828); The king walks the length of the crack (GE 830); The king forbids nothing at the crack (GE 830).",
     "culture": 2
    },
    {
@@ -1267,7 +1270,7 @@
     "cell": 3419,
     "population": 0.026,
     "group": "hamlet",
-    "note": "inferred · cites: I-0113, I-0114, I-0218, I-0236, I-0208a",
+    "note": "A seasonal fair-ground of Rìoghachd Chlann nan Dè: the ford where salt was first traded for wool: salt people downstream, hill people upstream, flint people on the far bank, Dùn dhearg on ground of its own. The yearly gathering at the ford from GE 1,208; no one is said to live there between gatherings (Muileann òg is founded in the Holy Age). Told of in: Raghnall Ceannfhionn makes peace (GE 1,175); The ford gathering (GE 1,208); The ford gathering grows (GE 3,450); Dùn dhearg comes to the ford (GE 4,321); The great gathering at the ford (GE 3,000); Lachann agrees to go east with his brother (GE 2,262); Lachann buried at the trench's mouth (GE 2,267); Torcall builds a shelter at the trench (GE 2,268); A household gathers at the black hill's foot (GE 2,310); Torcall Tochlair dies at the trench (GE 2,318); Cnoc na Claise's household refuses its handful (GE 4,358).",
     "culture": 2
    },
    {
@@ -1277,7 +1280,7 @@
     "cell": 2920,
     "population": 0.526,
     "group": "hamlet",
-    "note": "inferred · cites: I-0187, II-0063",
+    "note": "A pilgrim shelters of Rìoghachd Chlann nan Dè. Pilgrims in numbers; the eldest healing-tale is set here. A ring of shelters built GE 2,455; the bath-house comes only in FE 529. Told of in: The spring at Muileann ruadh (GE 2,455); The bath-house at Muileann ruadh (FE 529).",
     "culture": 2
    }
   ]
@@ -1304,7 +1307,7 @@
      111,
      112
     ],
-    "note": "cites: I-0081, I-0085, I-0255a"
+    "note": "Told of in: Ailean Mòr, first of the Stone Kings (GE 1); Dòmhnall Clachach sets the boundary stones (GE 107); The king takes back the hill (GE 4,391)."
    },
    {
     "key": "u1",
@@ -1323,7 +1326,7 @@
      100,
      108
     ],
-    "note": "cites: I-0104b, I-0208a"
+    "note": "Told of in: The king at Baile ghorm (GE 728); The great gathering at the ford (GE 3,000)."
    },
    {
     "key": "u2",
@@ -1373,7 +1376,7 @@
      119,
      120
     ],
-    "note": "inferred · cites: I-0208a, I-0190, I-0200"
+    "note": "Told of in: The great gathering at the ford (GE 3,000); Settlers at Caol mhòr (GE 2,462); Baile Mòr mhòr in the north (GE 2,616)."
    },
    {
     "key": "u3",
@@ -1398,7 +1401,7 @@
      95,
      117
     ],
-    "note": "inferred · cites: I-0208a, I-0171"
+    "note": "Told of in: The great gathering at the ford (GE 3,000); Ros dhomhain grows (GE 2,425)."
    },
    {
     "key": "u4",
@@ -1421,7 +1424,7 @@
      116,
      121
     ],
-    "note": "inferred · cites: I-0205, I-0207, I-0210"
+    "note": "Told of in: Cathair mhòr below the old outpost (GE 2,847); Tobar dhearg on the southern cape (GE 2,947); Seann Skell of the south (GE 3,079)."
    }
   ]
  },
@@ -1484,90 +1487,90 @@
   ],
   "edit": {
    "0": {
-    "note": "cites: I-0187, I-0084, I-0224"
+    "note": "Pilgrims in numbers and a ring of shelters; a herder came lame and walked home. The herds of Dùn ìseal wintered here under Gormshuil and drank here in the dry year. Told of in: The spring at Muileann ruadh (GE 2,455); Gormshuil nic Ailein (GE 27); A dry year on the eastern plain (GE 3,771)."
    },
    "12": {
     "icon": "🔥",
-    "note": "cites: I-0041, I-0164"
+    "note": "The headland fire of Baile chrom, one of the five points the coasts are lit at. Told of in: The beacon on the Baile chrom headland (VE 3,042); The beacon at Tobar dhearg (GE 2,420)."
    },
    "13": {
     "icon": "🔥",
-    "note": "cites: I-0161"
+    "note": "Kept by the coast households in turn to bring boats home in a storm, not to warn them off. Told of in: The beacon at Baile ìseal (GE 2,418)."
    },
    "14": {
     "icon": "🔥",
-    "note": "cites: I-0162"
+    "note": "Its ash goes down through three yards of fire-reddened soil. Told of in: The beacon at Muileann bheag (GE 2,419)."
    },
    "15": {
     "icon": "🔥",
-    "note": "cites: I-0163"
+    "note": "Steps cut up to it from the shore, narrower than those at Seann Bhral. Told of in: The beacon at Àth dhearg (GE 2,419)."
    },
    "16": {
     "icon": "🔥",
-    "note": "cites: I-0164"
+    "note": "Kept for the boats of the south coast; with the other four the coasts are lit at five points. Told of in: The beacon at Tobar dhearg (GE 2,420)."
    },
    "19": {
-    "note": "cites: I-0037"
+    "note": "The western shaft of Seann-Dhaoine; stones thrown in are not heard to land. Told of in: The shaft of Toll-dubh in the west (VE 2,782)."
    },
    "20": {
-    "note": "cites: I-0120"
+    "note": "A youth was let down on a rope of plaited hide to the rope's end and drawn up alive; he never told what lay below, and no one goes down again in this age. Told of in: A youth let down into Toll-dubh (GE 1,452)."
    },
    "21": {
-    "note": "cites: I-0165, I-0166"
+    "note": "Four watchers on the Seann Skell tower see a back as long as three boats; wreckage of stitched boats washes up in the western water. Told of in: The Sea-Watcher seen from Seann Skell (GE 2,421); Wreckage in the western water (GE 2,421)."
    },
    "22": {
-    "note": "cites: I-0121, I-0188, I-0189"
+    "note": "A herding family that lit an open fire vanished; two herders without a fire saw a figure walk the ridge breathless, and lived. The covered hearth spreads to Muileann chiar. Told of in: A fire lit in the Doire uaine hills (GE 1,489); The Hollow Man seen again (GE 2,457); The covered hearth spreads (GE 2,460)."
    },
    "23": {
-    "note": "cites: I-0184"
+    "note": "Pilgrims sit a night at the line of the trees without entering; their small fires lie all along the edge. Told of in: Pilgrims at Coille Naomh Muileann chiar (GE 2,449)."
    },
    "24": {
-    "note": "cites: I-0185, I-0186"
+    "note": "A child of Cnoc bheag went past the line of stones and was not found; the settlers take timber only from the far side of the river. Told of in: A child lost in Coille Naomh Cnoc bheag (GE 2,451); The first house at Cnoc bheag (GE 2,453)."
    },
    "28": {
-    "note": "cites: I-0069, I-0070"
+    "note": "The obelisk with the unread line and the four Dia-thìris words. Told of in: Carragh Cnoc bheag raised (VE 4,672); The older face of Carragh Cnoc bheag (VE 4,718)."
    },
    "29": {
-    "note": "cites: I-0071, I-0072"
+    "note": "Cuimhnich an teine, in its ring of fire-cracked stones. Told of in: Colbh Cnoc chiar raised (VE 4,770); A ring of fire-stones round the pillar (VE 4,812)."
    },
    "30": {
-    "note": "cites: I-0167, I-0168, I-0251"
+    "note": "After Anndra Breac was put out of the ford for saying \"we came\", the saying on the column is spoken as a rule at the opening of the gathering; its worn words are recut by a hand from the hill (GE 4,364). Told of in: Anndra Breac says 'we came' (GE 2,422); The doctrine said at the column (GE 2,423); The saying on the column recut (GE 4,364)."
    },
    "31": {
-    "note": "cites: I-0059, I-0205"
+    "note": "Ruin of Seann-Dhaoine' outpost; the households of Cathair mhòr below take no stone from it. Told of in: Làrach an Dùin-fhaire abandoned (VE 4,023); Cathair mhòr below the old outpost (GE 2,847)."
    },
    "32": {
-    "note": "cites: I-0061, I-0209"
+    "note": "Ruin of Làrach an Dùin; the fishers of Ceann mhin will not go up to it. Told of in: Làrach an Dùin abandoned (VE 4,124); Ceann mhin on the south-eastern shore (GE 3,028)."
    },
    "33": {
-    "note": "cites: I-0063, I-0216"
+    "note": "Làrach an Teampaill: the Dia-thìrich pass it without stopping, and a path is worn round it at a distance. Told of in: Làrach an Teampaill abandoned (VE 4,275); The temple ruin avoided (GE 3,357)."
    },
    "34": {
     "icon": "🪨",
-    "note": "cites: I-0213, I-0214"
+    "note": "A cairn for each head of a household at death, on the slope above the cattle-fold; some forty by the end of the age. Told of in: Muileann chaol on its hill (GE 3,218); Cairns on the hill at Muileann chaol (GE 3,264)."
    },
    "37": {
     "icon": "🤼",
-    "note": "cites: I-0137, I-0217"
+    "note": "The gathering at the eight wind-stones of Ceann leathan ends with wrestling and the lifting of stones; the black boulder lies there still. Told of in: The wind-stones of Ceann leathan (GE 2,084); Ceann leathan's contests (GE 3,403)."
    },
    "38": {
     "icon": "🤝",
-    "note": "cites: I-0113, I-0114, I-0142, I-0208a, I-0218, I-0245"
+    "note": "Raghnall Ceannfhionn and the holder of An Cnoc Ruadh agreed salt for wool here; it became the yearly gathering. At An Cruinneachadh Mòr (GE 3,000) the holders set their hands in the king's with four hundred of his blood about him. Both king-lists were recited here whole. Told of in: Raghnall Ceannfhionn makes peace (GE 1,175); The ford gathering (GE 1,208); Lines recited at the ford (GE 2,247); The great gathering at the ford (GE 3,000); The ford gathering grows (GE 3,450); The two lists recited together (GE 4,347)."
    },
    "39": {
-    "note": "cites: I-0103"
+    "note": "A boat hollowed from one oak trunk, long enough for six, sunk and left at the landing. Told of in: The dug-out at Cidhe Beag (GE 716)."
    },
    "40": {
-    "note": "cites: I-0177, I-0178, I-0179"
+    "note": "The panthers turn back at the foothills (a hard winter follows); cattle driven into the passes out of season are taken. Told of in: The panthers turn back (GE 2,428); The cattle lost in the passes (GE 2,428); The panther season kept at Baile dhomhain (GE 2,447)."
    },
    "41": {
-    "note": "cites: I-0182, I-0183"
+    "note": "A family by the burial ground takes on the clearing of thorn; diggers break into a grave lined in Seann-Dhaoine' manner, close it and move the row. Told of in: The Tuam keepers (GE 2,447); A grave at Tuam opened (GE 2,447)."
    },
    "46": {
-    "note": "cites: I-0154a"
+    "note": "The keeper's cup and its three copies set side by side on a flat stone and filled from the spring in turn. Told of in: The meeting of the cups (GE 2,408)."
    },
    "48": {
-    "note": "cites: I-0027a"
+    "note": "Binnean a' Chlachair. Told of in: The snowflake coal takes fire in the air (VE 2,170)."
    }
   },
   "add": [
@@ -1577,7 +1580,7 @@
     "icon": "👑",
     "name": "the crowning in the grove",
     "cell": 482,
-    "note": "event I-0080b · cites: I-0080b"
+    "note": "Ailean kept the seven fires seven nights, fasting; on the eighth Caoran came with the Tuath Dè and named him Rìgh Chlann nan Dè, and put into him the power that was in the coals. Told of in: The vigil and the crowning (GE 1)."
    },
    {
     "key": "II_K02",
@@ -1585,7 +1588,7 @@
     "icon": "⚔️",
     "name": "Àth na Fala",
     "cell": 3107,
-    "note": "event I-0098a · cites: I-0098a, I-0255b, I-0256"
+    "note": "The ford where Sluagh an Ear comes against the king. The battle opens the next day: he holds it alone three days and three nights, the dead of the host dam the river, and he falls on the third night. The ford is called Àth na Fala after. Told of in: Ailean Mòr falls at Àth na Fala (FE 1); Dùn dhearg will not bow (GE 4,520); The eve of the Binding (GE 4,550)."
    },
    {
     "key": "II_K03",
@@ -1593,7 +1596,7 @@
     "icon": "🪨",
     "name": "the boundary stones of Dòmhnall Clachach",
     "cell": 3195,
-    "note": "event I-0085 · cites: I-0085"
+    "note": "Marker stones along the valley below the hill, parting the grazing of Dùn ìseal from its neighbours'; some still stand and are argued over. Told of in: Dòmhnall Clachach sets the boundary stones (GE 107)."
    },
    {
     "key": "II_K04",
@@ -1601,7 +1604,7 @@
     "icon": "🙇",
     "name": "where An Cnoc Ruadh knelt",
     "cell": 3157,
-    "note": "event I-0089a · cites: I-0089a"
+    "note": "Uisdean Mòr came down to the lake shore and knelt to the king. Told of in: The Red Hill bends the knee (GE 290)."
    },
    {
     "key": "II_K05",
@@ -1609,7 +1612,7 @@
     "icon": "🧂",
     "name": "the shingle of Baile ghorm",
     "cell": 4166,
-    "note": "event I-0104b · cites: I-0099, I-0104, I-0104b"
+    "note": "Iain Dubh, the king's son, was slain here raiding the salt; the king came down alone, and none struck. Tràigh an t-Salainn became his without blood. Told of in: Mòrag Chruaidh and the salt-flats raid (GE 672); Iain Dubh killed (GE 727); The king at Baile ghorm (GE 728)."
    },
    {
     "key": "II_K06",
@@ -1617,7 +1620,7 @@
     "icon": "🥣",
     "name": "the keepers' house and the stone cup",
     "cell": 2096,
-    "note": "event I-0152 · cites: I-0152, I-0153, I-0156"
+    "note": "A house for the holder of the lot, its door facing the slab; Oighrig nic Dhòmhnaill's cup of grey stone, the measure of every handful; the coal of Gilleasbuig Beag laid back under the slab. Told of in: The keepers' house (GE 2,404); The stone cup (GE 2,405); The coal returned to the crack (GE 2,411)."
    },
    {
     "key": "II_K07",
@@ -1625,7 +1628,7 @@
     "icon": "🦅",
     "name": "the hawk lintel of Àth mhòr",
     "cell": 654,
-    "note": "event I-0131 · cites: I-0131"
+    "note": "A hawk carved over a house door, wings closed, head turned: the oldest carving of any bird on the island. Told of in: The hawk lintel at Àth mhòr (GE 1,853)."
    },
    {
     "key": "II_K08",
@@ -1633,7 +1636,7 @@
     "icon": "🐺",
     "name": "the wolf graves of Tobar fhiadhaich",
     "cell": 397,
-    "note": "event I-0132 · cites: I-0132"
+    "note": "Wolves buried whole and with care, laid on their sides as people are. Told of in: Wolves at Tobar fhiadhaich (GE 1,890)."
    },
    {
     "key": "II_K09",
@@ -1641,7 +1644,7 @@
     "icon": "🏝️",
     "name": "Gilleasbuig Beag's island",
     "cell": 510,
-    "note": "event I-0155 · cites: I-0155, I-0254"
+    "note": "The keeper who took coal was rowed out to Eilean chrom and left without a boat; his fire was seen three nights. The island stays empty and unfished. Told of in: Gilleasbuig Beag takes coal (GE 2,409); Gilleasbuig Beag's island (GE 4,373)."
    },
    {
     "key": "II_K10",
@@ -1649,7 +1652,7 @@
     "icon": "📏",
     "name": "the tide-rock of Ros dhomhain",
     "cell": 2975,
-    "note": "event I-0127 · cites: I-0127, I-0128, I-0169, I-0170"
+    "note": "High-water marks cut at an even interval on a boulder in the harbour mouth; Seònaid Mhòr cut hers in pairs. A third rock is kept at Inis thais. Told of in: A second tide-rock at Ros dhomhain (GE 1,708); The lake is higher (GE 1,747); The keepers of the Ros dhomhain rock (GE 2,424); A third tide-rock at Inis thais (GE 2,424)."
    },
    {
     "key": "II_K11",
@@ -1657,7 +1660,7 @@
     "icon": "🌪️",
     "name": "the stone of A' Ghaoth Dhubh",
     "cell": 2671,
-    "note": "event I-0223 · cites: I-0159, I-0223"
+    "note": "A stone set in the midst of Ceann chiar with a mark for every house A' Ghaoth Dhubh took: twenty-two. Told of in: A' Ghaoth Dhubh (GE 2,417); The Black Wind remembered at Ceann chiar (GE 3,726)."
    },
    {
     "key": "II_K12",
@@ -1665,7 +1668,7 @@
     "icon": "⚪",
     "name": "the white stones of the fault",
     "cell": 2821,
-    "note": "event I-0107 · cites: I-0107, I-0226"
+    "note": "A line of white stones along the crack; no house within a stone's throw. Broken in two places when the ground shook again, and laid again. Told of in: The fault-line kept clear (GE 847); The ground shakes at Cill ghlas again (GE 3,863)."
    },
    {
     "key": "II_K13",
@@ -1673,7 +1676,7 @@
     "icon": "⛏️",
     "name": "the first trench for another vein",
     "cell": 2468,
-    "note": "event I-0143 · cites: I-0143, I-0144, I-0145"
+    "note": "Diggers from Dùn ìseal opened it seeking coal like the vein's and left it when two were crushed. A second opening elsewhere found common rock, and the prospecting ended. Told of in: The first seeking of another vein (GE 2,267); The stone that would not break (GE 2,289); The prospecting ends (GE 2,312)."
    },
    {
     "key": "II_K14",
@@ -1681,15 +1684,15 @@
     "icon": "🧱",
     "name": "the tally wall of Seann Warr",
     "cell": 3779,
-    "note": "event I-0092 · cites: I-0092, I-0094"
+    "note": "Seann-Dhaoine' counting stones built into a wall, some three thousand strokes; they thicken together in the bad years. Told of in: The tally wall of Seann Warr (GE 389); The bad years in the counts (GE 470)."
    },
    {
     "key": "II_K15",
     "type": "custom",
     "icon": "🪨",
-    "name": "the half-cut stone",
+    "name": "Clach nan Dà Stràc",
     "cell": 3747,
-    "note": "event I-0095 · cites: I-0095, I-0096"
+    "note": "The last tally stone of Seann-Dhaoine, two strokes finished and a third begun and forsaken. Told of in: The half-cut stone of Seann Chwen (GE 510); The Seann-Dhaoine fall silent (GE 551)."
    },
    {
     "key": "II_K16",
@@ -1697,7 +1700,7 @@
     "icon": "🧭",
     "name": "the wind-stones and the eight notches",
     "cell": 420,
-    "note": "event I-0138 · cites: I-0136, I-0137, I-0138"
+    "note": "Eight tall stones on the point at Ceann leathan. Told of in: The naming of the wind directions (GE 2,047); The wind-stones of Ceann leathan (GE 2,084); The wind-names carried to the islands (GE 2,124)."
    },
    {
     "key": "II_K17",
@@ -1705,7 +1708,7 @@
     "icon": "⚱️",
     "name": "Eilean ìseal, the island of the dead",
     "cell": 3295,
-    "note": "event I-0253 · cites: I-0253"
+    "note": "The households of the south-east coast begin to row their dead here after the old manner of Seann-Dhaoine. Told of in: Eilean ìseal given to the dead (GE 4,370)."
    },
    {
     "key": "II_K18",
@@ -1713,7 +1716,7 @@
     "icon": "🏠",
     "name": "the long-house of Cathair gheal",
     "cell": 1560,
-    "note": "event I-0119 · cites: I-0119"
+    "note": "Forty paces long, byre and hall under one roof; twice burned and twice rebuilt on the same footing. Told of in: The long-house at Cathair gheal (GE 1,416)."
    },
    {
     "key": "II_K19",
@@ -1721,7 +1724,7 @@
     "icon": "🧭",
     "name": "the wind-stone of Seann Chwen",
     "cell": 3349,
-    "note": "event I-0180 · cites: I-0180"
+    "note": "A wind-name cut in the Dia-thìreach manner over an older mark of Seann-Dhaoine. Told of in: The wind-stone at Seann Chwen (GE 2,447)."
    }
   ]
  },
@@ -1754,29 +1757,33 @@
    442,
    444
   ],
-  "edit": {},
+  "edit": {
+   "410": {
+    "note": "The fishers of the south-east coast keep to Seann-Dhaoine' lane. Told of in: The ancient sea-way (VE 4,375)."
+   }
+  },
   "add": [
    {
     "key": "II_R01",
-    "name": "the flint road",
+    "name": "Rathad na Spor",
     "group": "trails",
     "stops": [
      1256,
      1134,
      3503
     ],
-    "note": "cites: I-0129, I-0130"
+    "note": "Worn by the flint-carriers from Cnoc àrsaidh south and east toward Cruinneachadh an Àtha; near Àth leathan their feet sink it a yard deep. Told of in: The flint of Cnoc àrsaidh (GE 1,781); The flint road (GE 1,817)."
    },
    {
     "key": "II_R02",
-    "name": "the salt road",
+    "name": "Rathad an t-Salainn",
     "group": "trails",
     "stops": [
      4166,
      3503,
      1670
     ],
-    "note": "cites: I-0193, I-0115"
+    "note": "From the pans of Baile ghorm by Cruinneachadh an Àtha to the north-west; at Muileann àrsaidh salt costs three times its price at the pans. Told of in: The salt road to the north-west (GE 2,468); Murchadh Gearr of the Red Hill (GE 1,247)."
    },
    {
     "key": "II_R03",
@@ -1786,7 +1793,7 @@
      2724,
      2809
     ],
-    "note": "inferred · cites: I-0221"
+    "note": "The first made crossing of any river on the island. Told of in: The river crossings of Abhainn fhionn (GE 3,628)."
    },
    {
     "key": "II_R04",
@@ -1797,7 +1804,7 @@
      3421,
      3503
     ],
-    "note": "inferred · cites: I-0115, I-0204"
+    "note": "Murchadh Gearr walked Rathad an t-Salainn every year to be seen on it; Dùn chrom's bank faces both ways between An Cnoc Ruadh and the hills of the vein. Told of in: Murchadh Gearr of the Red Hill (GE 1,247); Dùn chrom raised (GE 2,801)."
    }
   ]
  },
@@ -1810,16 +1817,16 @@
   ],
   "edit": {
    "1": {
-    "note": "7 an Cèitean, GE 1,966 · cites: I-0134"
+    "note": "Pots left full of boiled bark and seaweed; the grave-rows doubled. The oldest hunger tied to a place. Told of in: The hunger at Baile chrom (GE 1,966)."
    },
    "2": {
-    "note": "8 an Giblean, GE 2,006 · cites: I-0135, I-0211"
+    "note": "The springs run dry so long that the field banks are forsaken; the fields are cut anew on another line. Told of in: The drought at Achadh shean (GE 2,006); Achadh shean resettled (GE 3,125)."
    },
    "3": {
-    "note": "5 an Lùnastal, GE 827 · cites: I-0106, I-0226"
+    "note": "A crack a man could fall into; a spring moves a hundred paces downhill and back. Told of in: The ground opens at Cill ghlas (GE 827); The ground shakes at Cill ghlas again (GE 3,863)."
    },
    "4": {
-    "note": "7 an t-Iuchar, GE 777 · cites: I-0105, I-0225"
+    "note": "Sand a hand thick with deep-water shells over the hearths; the second wave takes no house. Told of in: The wave at Cnoc chaol (GE 777); A second wave on the south coast (GE 3,817)."
    }
   },
   "add": [
@@ -1827,7 +1834,7 @@
     "key": "II_Z01",
     "name": "the first kingdom: the hill and its valleys (GE 1)",
     "type": "Invasion",
-    "note": "9 an Lùnastal, GE 1 · cites: I-0081",
+    "note": "Ailean takes the hill and brings the households of the valleys under his hand. Told of in: Ailean Mòr, first of the Stone Kings (GE 1).",
     "shires": [
      12,
      34,
@@ -1842,7 +1849,7 @@
     "key": "II_Z02",
     "name": "An Cnoc Ruadh bends the knee (GE 290)",
     "type": "Invasion",
-    "note": "7 an t-Ògmhios, GE 290 · cites: I-0089a",
+    "note": "An Cnoc Ruadh keeps its holders and swears to the king. Told of in: The Red Hill bends the knee (GE 290).",
     "shires": [
      1,
      22,
@@ -1856,7 +1863,7 @@
     "key": "II_Z03",
     "name": "Tràigh an t-Salainn bends the knee (GE 728)",
     "type": "Invasion",
-    "note": "5 an Lùnastal, GE 728 · cites: I-0104b",
+    "note": "No blood is shed and none is paid. Told of in: The king at Baile ghorm (GE 728).",
     "shires": [
      10,
      11,
@@ -1874,7 +1881,7 @@
     "key": "II_Z04",
     "name": "the great gathering at the ford (GE 3,000): the north and the west set their hands in the king's",
     "type": "Invasion",
-    "note": "2 an Dùbhlachd, GE 3,000 · cites: I-0208a",
+    "note": "Only the households east of the vein send no one. Told of in: The great gathering at the ford (GE 3,000).",
     "shires": [
      2,
      3,
@@ -1939,7 +1946,7 @@
     "key": "II_Z09",
     "name": "A' Ghaoth Dhubh",
     "type": "Disaster",
-    "note": "1 an Gearran, GE 2,417 · cites: I-0159, I-0160",
+    "note": "Strips the thatch from every house of the east coast from Cuan ruadh to Ceann chiar; the coast feeds Cuan ruadh through the winter from its shared surplus. Told of in: A' Ghaoth Dhubh (GE 2,417); The sharing holds after the Black Wind (GE 2,417).",
     "shires": [
      60,
      61,
@@ -1950,9 +1957,9 @@
    },
    {
     "key": "II_Z10",
-    "name": "the host of the east (GE 4,520 to the snapshot)",
+    "name": "Sluagh an Ear",
     "type": "Invasion",
-    "note": "cites: I-0255b, I-0256",
+    "note": "The households east of the vein, sworn to owe nothing to Dùn ìseal, gather their spears at Dùn dhearg. Told of in: Dùn dhearg will not bow (GE 4,520); The eve of the Binding (GE 4,550).",
     "shires": [
      13,
      37,
@@ -1982,7 +1989,7 @@
     "key": "II_Z11",
     "name": "the last counts of Seann-Dhaoine (GE 308–551)",
     "type": "Custom",
-    "note": "cites: I-0090, I-0092, I-0093, I-0094, I-0095, I-0096",
+    "note": "Strokes on midden stones, Balla nan Stràc of Seann Warr, the count at Seann Tarr; the bad years on three coasts at once; Clach nan Dà Stràc; silence. Told of in: Strokes on the midden stones (GE 308); The tally wall of Seann Warr (GE 389); The count at Seann Tarr (GE 428); The bad years in the counts (GE 470); The half-cut stone of Seann Chwen (GE 510); The Seann-Dhaoine fall silent (GE 551).",
     "shires": [
      11,
      31,
@@ -1997,7 +2004,7 @@
     "key": "II_Z12",
     "name": "the moor takes the north (GE 3,588)",
     "type": "Custom",
-    "note": "cites: I-0220a",
+    "note": "The oak falls back; heather, birch and bog-moss spread over the northern lowlands and the winters lengthen. Told of in: The moor takes the north (GE 3,588).",
     "shires": [
      7,
      9,
@@ -2024,13 +2031,13 @@
     "text": "Rìoghachd Chlann nan Dè",
     "cell": 3104,
     "fontSize": 14,
-    "note": "cites: I-0081"
+    "note": "Rìoghachd Chlann nan Dè. Told of in: Ailean Mòr, first of the Stone Kings (GE 1)."
    },
    {
     "text": "Cha do thàinig sinn; bha sinn ann",
     "cell": 3342,
     "fontSize": 14,
-    "note": "cites: I-0168"
+    "note": "We did not come; we were here. Told of in: The doctrine said at the column (GE 2,423)."
    }
   ]
  },

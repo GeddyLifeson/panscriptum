@@ -424,7 +424,7 @@
     "culture": "@c_seann-dhaoine",
     "color": "#7f8fa6",
     "coa": "generate",
-    "note": "cites: I-0056, I-0064, I-0012"
+    "note": "Seann-Dhaoine hold the landings of every coast from Skell on the Abhainn naomh round to Vell and Tarr. They build moles, steps, kilns and slipways, cut a script no one reads, and row their dead to Eilean dhearg. Since the high places were left their works keep in sight of salt water; their forts and temple stand empty above them. Told of in: The widest reach of the Seann-Dhaoine (VE 3,872); The Seann-Dhaoine keep to the shore (VE 4,325); The mole at Seann Skell (VE 951)."
    },
    {
     "key": "clann-na-ceiste",
@@ -439,7 +439,7 @@
     "culture": 2,
     "color": "#c8a24a",
     "coa": "generate",
-    "note": "Suibhne · cites: I-0068a, I-0073a, I-0080a, App.A Line of the Mason"
+    "note": "Clann a' Chlachair keeps the crack at Tobar dhìreach and the recited line from Neachdan the mason, each son of each father. Over five thousand years its men have lit the coals one by one, by sea, air, earth, blood, river and hand; the households call them Luchd-ceasnachaidh a' Ghuail Dhìomhair. Tonight its last son of the line sits by the seven fires in the grove. Its ruler at the close of the age: Suibhne. Told of in: The Children of the Question (VE 4,625); The fire in the fingers (VE 4,905); The rainbow coal lit by the Keeper (VE 5,324)."
    },
    {
     "key": "hill-folk",
@@ -463,7 +463,7 @@
     "culture": 2,
     "color": "#8c6d46",
     "coa": "generate",
-    "note": "cites: I-0065, I-0005, I-0046, I-0066"
+    "note": "Clann nan Dè of the high valleys live in hearth-kindreds with no ruler, burn a sliver of coal and no more, bury in the ground and cut no script. They keep their hearths covered in the Doire uaine hills and gather in hundreds at the column. They say they were always on the island. Told of in: The hill-folk of the vein (VE 4,425); The first hearths of the high valleys (VE 303); The hill fires go under the ground (VE 3,304); The first small burning (VE 4,475)."
    },
    {
     "key": "eastern-hearths",
@@ -483,7 +483,7 @@
     "culture": 2,
     "color": "#5f8a4e",
     "coa": "generate",
-    "note": "inferred · cites: I-0053, I-0054, gazetteer B61"
+    "note": "The farms and hunting households of the eastern oak country drive red deer into the gullies and bury their dogs beside them. Nothing in the record ties them to the high valleys but the one people. Told of in: The deer-drives of the eastern forest (VE 3,720); The first dog graves (VE 3,771)."
    },
    {
     "key": "north-shore",
@@ -503,7 +503,7 @@
     "culture": 2,
     "color": "#4f7d8c",
     "coa": "generate",
-    "note": "inferred · cites: I-0039, I-0042, I-0043, I-0008a, gazetteer B238"
+    "note": "The seal-hunters and fishers of the north-west coast work the south side of the headlands, out of Uilebheist na Mara's sight. Their boats are hide and stitched plank, and a hard year is counted by the boats the gales kept ashore. Told of in: Stakes in the mud below Ceann mhòr (VE 2,937); Seven boats lost off Ros ruadh (VE 3,094); The seal hunt moves south (VE 3,147); Seals on the skerries (VE 611)."
    },
    {
     "key": "red-hill",
@@ -522,7 +522,7 @@
     "culture": 2,
     "color": "#a8443a",
     "coa": "generate",
-    "note": "inferred · cites: I-0083, I-0020, App.A holders of the Red Hill"
+    "note": "An old line of the western lake shore holds the hill where the red city later stands, with the lake dwellings in the shallows below. No holder is named until Beathag Ruadh in the first years of the next age. Told of in: Beathag Ruadh of the Red Hill (GE 18); The lake dwellings of Loch chrom (VE 1,588)."
    }
   ],
   "cell_state": {
@@ -583,7 +583,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0012, I-0056, I-0097"
+    "note": "A village of Na Seann-Dhaoine. Their greatest landing, up the Abhainn naomh behind the unmortared mole. The greatest landing of Seann-Dhaoine lies a short way up the Abhainn naomh from the western sea, where the river runs broad and brown past a low bank of gravel and the tide pushes up against the current twice a day. Boats lay there long before the mole, pulled up on the gravel and dragged higher at every flood. The mole was begun by an old man who chose each boulder by its weight in his hands and set it with his grandsons standing in the river to their chests against the push of the water; it was laid out from the bank without mortar, stone set against stone, and in its first winter it held against a flood that took boats from every other stretch of that bank. After that the households of the river asked for the same lee and built beside it, and the landing grew on the mole's shelter as a village grows on a spring. By the time Seann-Dhaoine held every coast of the island, Skell was the one place among them that a stranger would have called crowded: some three hundred souls at the height, every mooring behind the mole taken, smoke from forty hearths lying along the river on a still evening. A woman of the landing walked the mole's length each evening at the turn of the tide, looking for any stone the current had worked loose, and the stones she reset were set the old way. When the heights were left and the households that had gone up to the rings came down, some came here, and one grandfather of the landing never once spoke of what he had seen up there. At the close of the age the mole stands whole, its foot under water at the lowest tides, and the landing keeps to the river as it always kept. Known for the mole of unmortared boulders, the eldest work on the Abhainn naomh. Told of in: The mole at Seann Skell (VE 951); The widest reach of the Seann-Dhaoine (VE 3,872); The old names kept (GE 591); The old man begins choosing stones at Skell (VE 951); A grandson stands against the current (VE 958); The mole's first winter (VE 960); The flood the mole holds against (VE 966); Other households ask for the same lee (VE 968)."
    },
    "16": {
     "name": "Skell",
@@ -593,7 +593,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0023, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine: a single hollow-walled round tower over the water where Uilebheist na Mara is seen. The least of the three Skells sits on the far north-western coast, on bare ground where no tree grows and the gales off the open sea come in unbroken across low heather and bog. Its few households fished the grey water below the horn and lived close to the shore under turf, until one household raised a round tower of dry stone on the rock above the landing, with a hollow wall and a stair wound up inside its thickness. A winter storm threw down the unfinished outer face in the second year of the building, and the household set it up again course by course the next spring, feeling every stone into its bed. The first night anyone slept at the tower's crown was remembered as a night of stars and no wind at all, which on that coast is a rarer thing than a stranded whale. The household walked the stair from foot to crown after every storm, feeling along both faces for a stone gone slack, and one night a fire lit on the parapet turned a boat from the rocks below. The tower looks out over the water where Uilebheist na Mara was afterwards seen, and by the close of the age the households of the horn keep their boats out of that water as the hill-folk of the same coast do, each for their own reasons, neither knowing the other's. The landing holds a few dozen souls, the tower and some turf houses in its lee; nothing has ever grown taller than the tower there. The least of the Skell places. Known for the hollow-walled round tower over the north-western water. Told of in: The tower at the north-western Seann Skell (VE 1,806); The old names kept (GE 591); A hollow-walled tower begun at the north-western Skell (VE 1,796); A winter storm throws down the unfinished outer face (VE 1,804); The first night at the tower's crown (VE 1,810); A fire lit on the parapet turns a boat from the rocks (VE 1,826); The stair walked after every storm (VE 1,830)."
    },
    "132": {
     "name": "Skell",
@@ -605,7 +605,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0030, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine: a landing behind the second, curved breakwater on the north coast. The northern Skell stands on a wide bay of the north coast, facing the open sea that the island's northern shore takes square on its chin. Its households knew of the great mole on the Abhainn naomh by telling long before any of them had seen it, and when they came to build their own they made it shorter and curved against the swell, since a river's push and the sea's roll are two different weights. Each stone was laid dry against the course already set and worked back and forth until it sat without rocking, and only then bedded; a swell broke over the unfinished mole in its first autumn and moved nothing, which the households took as the sea's own leave to go on. The curved mole was finished in the lifetime of the grandchildren of those who began it. A traveller from this Skell who went the long way round to the western river and stood on the first mole came home saying the two were built the same way, stone by stone without mortar, and that the western one was the longer and the northern the harder to lay. In the years when the heights were left, a household that had lived within the three rings came down to this coast and learned to live by the tide again. At the close of the age the landing is a village of several hundred, its boats in the lee of the curve, and amber from the bay's strands is kept in its houses as a thing pleasant to hold. Known for the curved mole against the open sea. Told of in: The northern Seann Skell (VE 2,382); The old names kept (GE 591); The second Skell begins its own curved mole (VE 2,320); A swell breaks over the unfinished mole and moves nothing (VE 2,350); Each stone of the curved mole laid dry first (VE 2,360); The curved mole at the second Skell finished (VE 2,382); A traveller from the second Skell sees the first mole (VE 2,390)."
    },
    "18": {
     "name": "Dunn",
@@ -616,7 +616,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0010, I-0064a, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine: the great midden of limpet, seal bone and burnt weed, taller than a man. This Dunn lies on the Abhainn chaol a little above its mouth, where the river's brown water meets the sea's green, and low cliffs on either hand give nesting to the birds. Its gatherers took eggs from the ledges of those cliffs in the dry months, never so many from one ledge that the birds did not come back to it the next year. It is the northern end of Slighe-mhara àrsaidh, the lane Seann-Dhaoine' boats kept along the south-east coast in the last lifetimes of the age, from the river mouth below Dunn round the great cape to the bay far to the south. Flat landing-stones were laid along the lane a day's rowing apart, and at Dunn the stones are grooved by keels. A father of the landing taught his son the sea-way stone by stone, naming each landing's look from the water and the look of the sky that meant a boat should lie up there. Rowers on that coast kept a plain word for anyone new to the stretch north of the cape: watch the gulls before you watch the sky. At the close of the age the landing holds some fifty souls and is busier with boats coming and going than its size would suggest. Slighe-mhara àrsaidh runs from the river mouth below it. Known for the head of Slighe-mhara àrsaidh and its grooved landing-stones. Told of in: The middens of Seann Dunn (VE 751); The ancient sea-way (VE 4,375); The old names kept (GE 591); The heap worked with the foot (VE 760); Eggs taken from the low cliffs at Dunn (VE 770); A rower teaches the gulls' warning (VE 4,300); The sea-way's landing-stones grooved by keels (VE 4,380); A father teaches his son the sea-way stone by stone (VE 4,390)."
    },
    "295": {
     "name": "Dunn",
@@ -626,7 +626,7 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0021, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine. Three round houses framed with the ribs of a stranded whale. The southern Dunn is a landing on the southern coast at the head of a beach of fine sand, where the swell runs long and the whales go by in their seasons. A whale stranded below it one autumn, and the households of the whole shore came to cut it and share it out; its oil was kept in bladders and clay pots and burned in stone lamps through two winters at least, and its ribs were driven upright into the ground for the frames of three round houses roofed with turf. The first rib cracked through within a few years, and the houses were raised a second time on the sound bone; a child digging by the wall turned up the buried foot of the first rib and the landing kept it by the door. A third raising stood on bone carried along the shore from a whale cut further west, word of usable ribs travelling faster by then than word of strandings once had. The landing also has a short mole of heaped stone at the western end of the beach, where the boats lie in the worst weather. At the close of the age some ninety souls live there, in houses framed on whale-bone and on timber both. Known for the whale-rib houses. Told of in: The whale-rib houses of Seann Dunn (VE 1,670); The old names kept (GE 591); A whale strands below the southern Dunn (VE 1,672); The whale cut and shared along the shore (VE 1,672); The whale's ribs driven upright for house frames (VE 1,673); Whale oil burned through two winters (VE 1,675); The first rib found cracked through (VE 1,678)."
    },
    "347": {
     "name": "Dunn",
@@ -635,7 +635,7 @@
     "features": {
      "citadel": 0
     },
-    "note": "inferred · cites: gazetteer B347, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Harbour stones of the east coast. The eastern Dunn is where Seann-Dhaoine first leave a trace that can be followed: the great mound of their meals, limpet shell, seal bone and burnt weed, laid down over many lifetimes at the back of the beach until it stood taller than a man. A woman of the landing kept the heap as her mother had taught her, letting each bag of shell fall where the heap wanted it and working it level with her foot, with the burnt weed laid in thin; the heap's fire was kept through a three-day gale by a gatherer whose mother had died at the tide that same season, and she worked a season at the heap alone. An old scraper turned up in the heap one spring, of a shape no one living made, and the household that found it put it back. In time the heap stood high enough that the households climbed it to watch the sea for boats coming home. No tool in the lowest layers is shaped as any tool the hill-folk used. At the close of the age the heap runs the length of the back of the beach and more than a man's height, and the landing below it holds some sixty souls who gather, fish and hunt seal as their mothers did. Known for the great shell mound, the first sure trace of Seann-Dhaoine. Told of in: The old names kept (GE 591); The middens of Seann Dunn (VE 751); The heap's fire kept through the three-day gale (VE 758); The gatherer's mother dies at the tide (VE 765); A season worked alone at the heap (VE 766); An old scraper turned up in the heap (VE 778); The heap first used to watch the sea (VE 785)."
    },
    "36": {
     "name": "Cwen",
@@ -644,7 +644,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: I-0011, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Net-weights notched with the same three strokes: the eldest mark made again and again of purpose. Cwen is the larger of the landings on the southern gulf, a wide bay of quiet water where the fish come in on the tide in shoals. Its households fished with nets of twisted fibre and sank them with beach stones, and it was a net-maker of Cwen who began the long mesh, a net long enough to close across the bay's inner arm, and set it there with the help of every household on the shore. Households came from along the coast to see the closed net. Her weights were notched with three strokes each, cut with a hard stone into the soft beach pebble, so that a weight knew its own net; her daughter learned the groove, spoiled her first stones, and cut the three strokes true before her mother's eyes failed. The daughter took up a way of holding each finished weight a breath longer in the light than the work required, as though the three strokes were worth looking at for their own sake. Every weight of the Cwen nets was notched the same way after, and the three strokes are the eldest mark on the island made again and again of purpose. At the close of the age some hundred and fifty souls live at Cwen, the largest landing of the south coast, and the notched weights lie thick on the floor of the bay where the nets have torn. Known for the net-weights notched with three strokes, the eldest mark on the island. Told of in: The notched net-weights of Seann Chwen (VE 820); The old names kept (GE 591); The net-maker of Cwen begins the long mesh (VE 798); The Cwen nets first set across the bay (VE 805); Households come to see the closed net (VE 806); The net-maker's daughter learns the groove (VE 810); The daughter's first spoiled stones (VE 812); The net-maker's eyes fail first (VE 815)."
    },
    "14": {
     "name": "Cwen",
@@ -654,13 +654,13 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0064, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine: a southern landing whose middens now grow as fast as those of Dunn once did. The southern Cwen is a small landing on the southern shore, its boats drawn up on flat stones at the head of a sandy cove. For most of the age its midden grew slowly, a household's meals at a time. Then, once the heights were left, whole kin-groups came down from the abandoned rings and the lands about them, and some settled here; the midden began to grow as fast as the mound at the eastern Dunn had grown when it was young, and in the end outgrew it. A landing once counted by the dozen was counted by the score. The people of the landings raised no new work anywhere out of sight of salt water after that time, and the southern Cwen is the place where the turning is plainest to see. At the close of the age it holds some two hundred souls, more than any landing of the south but its namesake on the gulf, and a new row of houses stands behind the old. Known for the midden that outgrew the eastern Dunn. Told of in: The Seann-Dhaoine keep to the shore (VE 4,325); The old names kept (GE 591); The southern middens grow faster than living memory (VE 4,150); Whole kin-groups come down from the abandoned heights (VE 4,300); No new work raised out of sight of salt water (VE 4,320); The midden at Cwen outgrows the midden at Dunn (VE 4,340); A landing once counted by the dozen is counted by the score (VE 4,350)."
    },
    "139": {
     "name": "Cwen",
     "population": 2.105,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B139, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine: a south-coast landing. The third Cwen is a small landing a short way along the southern coast from the second, on a harbour sheltered by a reef that breaks the swell at half tide. Its households came to it from the southern Cwen in the lifetimes when the holy woods of the east were first set aside by the hill-folk, and they carried the name with them as a household carries its fire, so that the south coast had two Cwens within a morning's rowing of each other. They fished the reef and took shellfish from the pools inside it, and hunted seal on the skerries when the seals came. After the heights were left and the south coast filled with households come down to the shore, this Cwen grew with its neighbour; its landing stones were relaid and lengthened, and a second row of houses raised behind the first. At the close of the age some sixty souls live there. Known for its reef-sheltered landing on the south coast. Told of in: The old names kept (GE 591)."
    },
    "47": {
     "name": "Bral",
@@ -670,7 +670,7 @@
      "temple": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0013, I-0068, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Two hundred and twelve steps up the cliff; a chip of the vein on its midden. Bral sits on the far western coast at the foot of a cliff, where a strip of shingle gives on to the sea and the grazing lies above out of reach. For generations the households went up and down by a scramble no child could climb alone. Then a household set the first slab on the worst of the scramble, and after it cut steps into the rock itself, a few in a season, until the steps reached the first shelf, a third of the way up the cliff. Above the shelf the rock ran harder and gave up fewer slabs, and a worker might spend a season on a stretch that yielded three steps; an old woman used to sit of an evening on the shelf and run her hand along the edge of the topmost step then cut, saying of the rock above only that it would come when it came. It came. The two hundred and twelfth step was cut in her grandchildren's time, and the grazing above was reached by a stair. The lower treads, cut soonest and walked longest, wore a shallow dish into their middles before the upper treads had worn at all. Late in the age a chip of an gual dathach, still staining the shell about it, was thrown on the landing's midden; a household found it and kept it among its trinkets, a bright stone with no use. How it came to the western coast no one there asked. At the close of the age Bral is a landing of some eighty souls, going up and down its stair twice a day with the flocks. Known for the two hundred and twelve steps up the cliff, worn hollow. Told of in: The steps of Seann Bhral (VE 1,027); A sliver in a Seann Bhral midden (VE 4,575); The old names kept (GE 591); The first slab set on the worst scramble at Bral (VE 962); The steps reach the first shelf at Bral (VE 1,005); A boy runs the finished stretch without a hand to the rock (VE 1,012); The steps above the shelf go slower (VE 1,040); An old woman rests her hand on the topmost step (VE 1,060)."
    },
    "110": {
     "name": "Bral",
@@ -681,7 +681,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0025, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine: a landing and a line of fish-kilns on the south-east coast. The eastern Bral is a landing on the south-eastern coast with a line of fish-kilns above its beach like those of Morn, within a day's rowing along the coast. The woman who minded the middle kiln judged the smoke by its smell at first light and dusk and the fish by the give of the flesh under one finger, and taught both by standing a child at her elbow; a girl of the landing learned to read the smoke well enough to tell a kiln going wrong from the far end of the beach. The kilns were kept alight in relay by the households in the busy weeks, one household taking the night and another the day. When a whale stranded on the beach, the landing gave dried fish to the southern landings for a share of its oil, and the two kept up the giving for a generation. At the close of the age the landing holds some hundred souls, and the smell of its kilns reaches the grazing above the shore in any wind off the sea. Known for its line of fish-kilns in the south-east. Told of in: The eastern Seann Bhral (VE 1,951); The old names kept (GE 591); The middle kiln judged by smell (VE 1,955); The eastern Bral kilns kept alight in relay (VE 1,985); A girl reads the smoke at the eastern kilns (VE 1,990); Dried fish given back for a stranded beast's oil (VE 1,993)."
    },
    "186": {
     "name": "Morn",
@@ -691,13 +691,13 @@
      "citadel": 0,
      "walls": 0
     },
-    "note": "inferred · cites: I-0018, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Seven stone-lined fish-kilns, the first buildings made for a trade. Morn lies above a beach on the south-eastern coast, where the catch comes in heavier than the households can eat. Its people built stone-lined pits with short flues above the beach and dried the fish over peat smoke: seven kilns in the end, the first buildings on the island made for a trade and not for sleep or the dead. The fourth pit drowned in a night's rain and was left; the ninth was set higher against the rain; the seventh was the last dug. The keeper of the kilns kept a store of dry peat under an overhang of turf for the kiln fires alone, holding that green peat flares where dry peat smokes and a flare undoes a season's catch, and she taught her niece to watch a kiln past bed on a night of gathering rain. The smoke of the kilns could be seen from inland on a still day. When the heights were left, a household that had lived within the rings came down to Morn, and the keeper of the middle kiln led the son's wife by the wrist to a smouldering kiln and held her hand over its rack until she understood what three tellings in words had not taught her. At the close of the age some sixty souls live there, and the kilns smoke through the summer. Known for the seven fish-kilns, the first buildings made for a trade. Told of in: The fish-kilns of Seann Mhorn (VE 1,443); The old names kept (GE 591); The seventh kiln-pit dug at Morn (VE 1,446); The kiln smoke seen from inland (VE 1,450); A kiln is fed with dry peat only (VE 1,455); The fourth pit drowned in a night's rain (VE 1,461); The ninth kiln set higher against the rain (VE 1,467)."
    },
    "465": {
     "name": "Morn",
     "population": 1.316,
     "group": "hamlet",
-    "note": "inferred · cites: I-0026, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Oyster, whelk and cockle shell heaped over a headland. The southern Morn lies on a low headland of the southern coast where the oyster beds are close enough inshore to be raked from the rocks at low water, and it has little else. Its households raked oyster, whelk and cockle and heaped the shells over the whole headland, until the mound stood taller than any household's reach and the houses were built on the shell itself. A worn rake was laid on the mound by the household that had used it longest when its owner died. The raking households found that the oysters of the lowest layers of their mound were broader by half than any taken from the same water in living memory, and did not trouble over why; the beds were raked every summer and never rested. At the close of the age the landing holds some forty souls, and the white of the headland can be seen from far out to sea, whiter than any cliff on that coast. Known for its headland of heaped shell and the great oysters at the bottom of the heap. Told of in: The shell beds of the southern Seann Mhorn (VE 2,025); The old names kept (GE 591); The southern oyster mound stands taller than any household's reach (VE 1,998); A worn rake laid on the southern mound (VE 2,001); The oldest shells of the southern mound run large (VE 2,050)."
    },
    "328": {
     "name": "Brenn",
@@ -706,13 +706,13 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: I-0019, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Slipways wide enough for hulls greater than any hide boat. Brenn lies on the north coast where the rock shelves down into deep water in broad flat steps. Its households laid long ramps of flat stone from the shore into the sea, slab after slab, each one bedded on the one below and relaid where the sea shifted it; one slab was relaid twice before it held. When the first ramp was finished a dog of the household took to lying full length on it on warm days, and the household stepped over the dog on the way down to the water rather than move it. The ramps were wide enough for hulls greater than any hide boat, and on them the households framed the first plank-built hull on the island, launched it down the stone and watched it go out past the last shelf. A sail was seen small from the height above Brenn the next summer and not afterward. More hulls went down the ramps in the lives of their children and grandchildren, and of them nothing is left, nor any telling of where they went; a second ramp was begun beside the first when the first could not serve the work. By the close of the age the ramps stand clean and pale at low water, green-slicked at their feet, and the households use them for their own boats, which are small. Some sixty souls live there, fishing the rock ledges west of the landing. Known for the stone ramps into deep water and the hulls that left them. Told of in: The slipways of Seann Bhrenn (VE 1,515); The old names kept (GE 591); The first ramp-slab laid at Brenn (VE 1,478); A ramp-slab relaid twice at Brenn (VE 1,483); The first ramp at Brenn finished (VE 1,499); A dog lies across the finished ramp (VE 1,510); The first plank-built hull framed at Brenn (VE 1,512)."
    },
    "440": {
     "name": "Brenn",
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: I-0027, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine. Twin landing of the north-east with the same long ramps. The second Brenn lies far to the north-east of the first, on a shore of the same shelving rock, and it has the same long ramps of flat stone laid down into deep water. The households of the north-eastern coast began their ramps after those of the northern Brenn had stood a long lifetime, and a third ramp was begun there when two would not serve. Whether the two Brenns were of one people, or only the way of building and the name were carried along the coast from landing to landing, the households themselves could not have said, and did not try. A boy of the landing stood once at the head of the twin ramps on a still evening and watched the water run up the stone and fall back, and asked his mother where the big boats had gone; she told him the sea had them, which was the answer every mother on that coast gave. No hull like those of the first Brenn is remembered to have been built here. At the close of the age the ramps serve small boats and the drying of weed, and some fifty souls live about them, fishing and gathering along the rocks on either hand. The landing lies within a day's rowing of the northern Tarr, and the two keep an eye on one another's smoke. Known for its twin ramps into the sea. Told of in: The twin landings of Seann Bhrenn (VE 2,097); The old names kept (GE 591); A third ramp begun at the second Brenn (VE 2,090); A boy stands before the twin ramps of Brenn (VE 2,097)."
    },
    "37": {
     "name": "Toll",
@@ -721,7 +721,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: I-0024, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine. Stone huts in the lee of a dune. The northern Toll takes its name from the sea-caves under its headland, where the water booms at the turn of the tide. Its households raised a cluster of stone huts in the lee of a great dune, which kept the wind off them for a lifetime. Then a wind rose off the sea that did not settle for three days, and the household left the huts with what they could carry; when the wind fell the dune stood forward the whole width of the huts and beyond, a slope of new pale sand over ground where doors had opened two days before. No one dug for the huts. New walls were raised inland of the buried row within the season, and the sand has kept the old huts whole ever since, hearths, doors and all. The households of the new walls keep a strict eye on the dune's face and plant marram on its brow, and children are told early not to dig in it. At the close of the age Toll is a fishing landing of some fifty souls, living inland of the sand, with the caves below the headland for shelter from the worst weather and for the drying of nets. Known for the huts the dune buried whole. Told of in: The huts of the northern Seann Toll (VE 1,879); The old names kept (GE 591); Stone huts built in the dune's lee at Toll (VE 1,858); A wind rises off the sea that does not settle (VE 1,879); The household of Toll leaves the buried huts (VE 1,879); The dune moves the width of the huts (VE 1,880); New walls raised inland from the buried row (VE 1,890)."
    },
    "313": {
     "name": "Toll",
@@ -732,13 +732,13 @@
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0015, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine: a fish-channel cut through a rock shelf beside the Abhainn uaine. The midland Toll is a landing of Seann-Dhaoine inland, on the Abhainn uaine, where a shelf of rock runs out into the river and the water pools behind it. Its households cut a channel through the shelf into a pool beside the river, with slots at the channel's mouth for a wattle gate; when the river fell the gate was dropped and the pool emptied by hand, and the fish left stranded in it were taken with baskets. A boy of the landing lost two fingers to the mallet in the cutting of the slots. A child of the landing learned the floor of the channel by her feet at low water, which stretch stood firm and which gave, long before she had a word for it. In a summer when the river fell low and stayed low the gate was dropped three times before the autumn rains, and the households reckoned the late summer by the droppings. A woman of Toll walked the coast once as far as the cut cliff at Tarr, and came home saying the signs were there and no more. At the close of the age some sixty souls live at the landing, one of the two landings of Seann-Dhaoine a day's walk from salt water that were not left when the heights were, since their rivers run to the sea. Known for the fish-channel and the gate-slot cut in the rock. Told of in: The fish-channel of Seann Toll (VE 1,170); The old names kept (GE 591); The channel at Toll cut through to the pool (VE 1,175); The slots cut for the wattle gate (VE 1,178); The Toll gate first dropped (VE 1,180); A child learns the channel by her feet (VE 1,185); A boy loses two fingers to the mallet (VE 1,198)."
    },
    "404": {
     "name": "Toll",
     "population": 0.789,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B404, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine: a harbour in a cleft of the rock. The north-eastern Toll is a harbour in a cleft of the rock, a narrow inlet between two walls of stone where the sea runs in quiet even when the open water beyond is white. Its households found the cleft in the generations when the rings and Làrach an Dùin-fhaire were still lived in, and made it a landing by cutting the lowest shelf of the rock level with the water, dressing it flat with stone tools over many summers until a boat could lie alongside it and be unloaded dry-shod. The cutting of that shelf is the work the landing is known for, and it is cut in a manner of its own, the face of the rock taken down in long straight strokes. The households are few, fishing the rocks at the cleft's mouth and hunting seal in the season on the skerries to the south. Word of the northern Toll's buried huts came to them along the coast, and they built nothing in the lee of any sand. At the close of the age the landing holds a few households, perhaps forty souls, and its quay is the plainest and most lasting thing on that coast. Known for its quay cut level in the living rock. Told of in: The old names kept (GE 591)."
    },
    "94": {
     "name": "Vell",
@@ -748,13 +748,13 @@
      "citadel": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0022, I-0014, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Fourteen round houses of dry stone with sunk hearths. The eastern Vell lies on the south-eastern coast facing Eilean dhearg across a short sound. Its households built round houses of dry stone, each with a hearth sunk in the middle of the floor and, beneath that, a drain running out under the wall; the first house was raised on a knoll above the landing, and the first drain cut beneath a wall came after the floor had stood wet through a winter. Households whose houses were built without a drain took up their floors in a dry season and cut the channel in under walls already standing, having watched their neighbours' floors stand drier. Fourteen houses were finished in the end. The dead of the Vell were rowed across the sound to Eilean dhearg and laid in stone boxes facing the mainland, and no box was left standing open through a night: an unfinished one was covered with brush and stone until its lid could be rowed across. Forty boxes are counted on the island. At the close of the age some hundred souls live in the house-rings, and the boats that carry the dead still go out from the same stone. Its dead are rowed to the stone boxes of Eilean dhearg. Known for its round houses with sunk hearths and drains, and its dead on Eilean dhearg. Told of in: The round houses of the eastern Seann Vell (VE 1,734); The dead of Seann Vell go to Eilean dhearg (VE 1,096); The old names kept (GE 591); The eastern Vell's first dry-stone round house (VE 1,758); A hearth sunk below the sunk floor at eastern Vell (VE 1,761); The first drain cut beneath a wall at eastern Vell (VE 1,766); Drains cut under standing walls at Vell (VE 1,770); The fourteenth house finished at eastern Vell (VE 1,773)."
    },
    "97": {
     "name": "Vell",
     "population": 0.658,
     "group": "hamlet",
-    "note": "inferred · cites: I-0029, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine. Four houses and a boat-shed on the Abhainn bheag, their furthest north-east. This Vell stands a short way above the mouth of the Abhainn bheag in the north-east, where the ground slopes steeply to the water and each household had to cut its own level ground into the slope before it could raise a wall. Four houses were raised there and a boat-shed, and the households built a flat-bottomed hull for the river that could be poled up the shallows where a sea-boat would ground. A spring flood once reached the boat-shed and lifted the hull off its blocks, and the households hauled it back with ropes and raised the shed a step higher up the slope. The river gave the landing what the open sea further along the coast could not always give: eels in their seasons, trout, and water that never failed. The eel-trap pattern was known only in one pair of hands until an old man taught it to two children at once, lest one bad season lose it to the whole landing. A girl grown up at the Vell stood at the river's mouth one evening looking at the open sea and went no further, holding that a river's own child had no business beyond its mouth. No dwelling of Seann-Dhaoine on the main island is known further to the north-east. At the close of the age some thirty souls live there. Known for its four houses and boat-shed, the furthest north-east of Seann-Dhaoine' landings. Told of in: The north-eastern Seann Vell (VE 2,312); The old names kept (GE 591); The four houses raised at the Vell on the Abhainn bheag (VE 2,258); A flat-bottomed hull built for the river (VE 2,264); A spring flood reaches the boat-shed (VE 2,290); A girl of the river Vell stops at the river's mouth (VE 2,300); Dried fish carried south to kin without a river (VE 2,301)."
    },
    "127": {
     "name": "Vell",
@@ -764,7 +764,7 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0031, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Storage pits in the dune, lined with clay and lidded with slabs. The western Vell is a small landing on a coast of dunes and wide sand, where the fishing is good in autumn and poor in the late winter. Its households learned to put the autumn by for the lean months. A woman of the landing dug the first pit in the dune's flank, lined it with clay carried from a bank upstream and lidded it with a slab, and stored dried fish in it through a winter; the fish came out sound. She set her later pits a full body's length apart, holding that a pit dug too near another drew damp, and the households after her kept the spacing without asking why. A younger household once cut the lining clay out of turn and spoiled a season's store, and the landing kept the turns strictly after. The pits run in a line along the dune now, dozens of them, and some that were forgotten when a household died out still hold fish bones under their slabs. Late in the age the doors of the landing were turned from the sea toward the dune, for the wind. At the close of the age some forty souls live there on fish and the store-pits. Known for the clay-lined store-pits in the dune. Told of in: The western Seann Vell (VE 2,451); The old names kept (GE 591); The first clay-lined pit dug in the western dune (VE 2,401); A younger household cuts clay out of turn (VE 2,418); The pits of the western dune spaced a body's length apart (VE 2,430); Fish bones found in a sealed pit (VE 2,460); Doors of the western shore turn from the sea (VE 2,505)."
    },
    "162": {
     "name": "Vell",
@@ -774,7 +774,7 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: gazetteer B162, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine: a river landing on the Abhainn fhionn. The inland Vell is a landing on a river of the midlands, reached by Seann-Dhaoine' boats poling up from the coast. Its households came to it in the lifetimes when the holy woods of the east were first let alone, settling on a shelf of gravel where the river runs slow and the eels are thick, and raised a few round houses there in the manner of the coast. They lived on eels and on what the river brought, and kept their boats on the gravel. When the heights were left and every new work of Seann-Dhaoine was made by salt water, the inland Vell was not abandoned, since the river runs to the sea and the landing's boats go down it every season; but it did not grow, and its young people went down to the coast. At the close of the age it holds a few households only, some twenty souls. Known for its gravel landing on the river. Told of in: The old names kept (GE 591)."
    },
    "64": {
     "name": "Warr",
@@ -785,13 +785,13 @@
      "walls": 0,
      "plaza": 0
     },
-    "note": "inferred · cites: I-0016, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine: a road of crushed shell across the reed marsh on the western shore of Loch chrom. Warr lies on the western shore of Loch chrom, behind a broad marsh of reeds that stood between the dry ground and the open water. Its households fished the loch and gathered mussels in the shallows, and crossed the marsh on a track of trodden reed that sank a little every year. A household first carried shell out onto the sunken track and found that it held a foot where reed would not; within a generation the carrying of shell was yearly work for every household, and the shell was crushed underfoot on a flat stone by the water before it was carried out, since crushed shell packs and whole shell slides. A flood of the reed-marsh in a wet year drowned the road's middle length and the households raised it again a forearm above the reeds. The road runs a little over a mile, white in the sun, from the dry ground to the water's edge, and a girl of the landing was the first to run its whole length at once without stopping. A family of the northern shore came once to see it, having heard of a road made of shells, and went home saying it was so. The road is kept as a household keeps a hearth: a stranger's foot on another household's stretch is not a thing lightly done. At the close of the age the landing holds some seventy souls. Known for the shell road across the reed marsh. Told of in: The shell causeway of Seann Warr (VE 1,233); The old names kept (GE 591); Shell first carried out onto the sunken reed track (VE 1,183); The carrying of shell becomes yearly work (VE 1,197); Shell crushed before carrying (VE 1,210); The reed-marsh flood (VE 1,220); A girl runs the whole shell road at once (VE 1,236)."
    },
    "128": {
     "name": "Warr",
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B128, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine: a landing on the south shore of the gulf. The eastern Warr is a small landing on the southern shore of the gulf, across the water from the eastern Bral and in sight of its kiln smoke. Its households were fishers and weed-gatherers who came to it from the west of the gulf in the lifetimes when the long house was built into the cliff at the north-eastern Tarr, and they carried with them the name of the shell-road landing on Loch chrom, though no road was ever made here. They fish the quiet water inside the gulf and dry their catch on racks rather than in kilns, and trade what they dry across the water. At the close of the age it is a landing of some thirty souls, content with the gulf's shelter, whose boats go out in weather that keeps the open-sea landings ashore. Known for its sheltered landing on the gulf. Told of in: The old names kept (GE 591)."
    },
    "249": {
     "name": "Tarr",
@@ -800,7 +800,7 @@
     "features": {
      "plaza": 0
     },
-    "note": "inferred · cites: I-0017, I-0097"
+    "note": "A hamlet of Na Seann-Dhaoine. Rows of the unread script cut in the cliff. The eastern Tarr is a landing under a high cliff of fine grey rock on the eastern coast, and it is the place where the script was first cut. A man of the landing began rows of signs on the standing rock above the shingle with a flint chisel, each sign some two hundred light blows of the hammer, and worked at them a long life; a boy of the landing watched an afternoon of the cutting once and was sent off before he had seen a whole sign made. After the careful cutter, others cut more rows beside and above his, and an old row was cut over and broken by a later hand with the same kind of tool, for what reason the landing never gave. The first row cut on the cliff runs straight and even, and the rows above it less so. The signs are not the speech of the hill-folk, and none of the hill-folk could have read them; the landing's own people say only that the cliff has been cut. A woman of the midland Toll walked the coast once as far as this cliff and found the rows, and went home with nothing to tell but that they were there. At the close of the age some seventy souls live at the landing, fishing the eastern water, and the rows stand pale on the grey rock over their roofs. Known for the rows of signs cut on the cliff, the first of the script. Told of in: The script appears at Seann Tarr (VE 1,301); The old names kept (GE 591); The careful cutter begins his rows at Tarr (VE 1,176); A boy watches an afternoon of the cutting (VE 1,190); An old row cut over and broken (VE 1,240); The first row cut on the cliff at Tarr (VE 1,301); More rows cut at Tarr (VE 1,320)."
    },
    "34": {
     "name": "Tarr",
@@ -811,45 +811,48 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0028, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine: a single long house built into a cleft of the cliff. At the Tarr of the north-eastern headlands a household built a single long house into a cleft of the cliff, with the living rock for its back wall and a roof of turf and driftwood across the cleft's mouth. The hearth stood against the rock, and the rock above it blackened year on year to the height of a man. A child of the house stood with her back to the soot-stain each midwinter to see how far up it her crown reached, until the year she stood as tall as the stain. The house was built for the wind and it kept the wind out: in the hard winter that the whole north-east remembered, when the sea froze in the rock pools and no boat put out from that stretch the whole season, the household lived on what it had put by and came out on the calm morning after with every soul alive. In the darkest months, when the cliff kept the sun from the doorway, a second small fire was kept lit just inside the door, more for its light than its warmth. At the close of the age some thirty souls live in and about the long house and the huts below it, and the stain behind the hearth reaches higher than any of them. Known for the long house built into the cliff, black with soot behind the hearth. Told of in: The cliff-house at Seann Tarr in the east (VE 2,241); The old names kept (GE 591); The long house at Tarr set against the cliff (VE 2,241); The hearth blackens the rock behind it (VE 2,246); The hard winter at Tarr (VE 2,250); The calm morning after the hard winter (VE 2,250); A girl measures her growing by the soot (VE 2,260)."
    },
    "402": {
     "name": "Tarr",
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: gazetteer B402, I-0097"
+    "note": "A hearth of Na Seann-Dhaoine. Landing stones in the north-east. The lesser Tarr of the north-east is one of the last landings Seann-Dhaoine made, laid down once the heights were left, when every new work of theirs was made within sight of salt water. It lies on a small inlet below the headlands, a short row along the coast from the older Tarr, and it was settled by households that had outgrown the cleft-house and its huts. Its landing stones are flat slabs set into the shingle at the water's edge, bedded the way the stones of Slighe-mhara àrsaidh in the south-east are bedded, so that a laden boat may be drawn up on them without grinding its hide on the stones beneath. The households fish, gather weed, and trade dried fish along the coast to the older Tarr for what the cliff's shelter can give. At the close of the age it is a landing of a dozen households, young beside its neighbours, and its people still call it by the same root as the landing up the coast, as though the one name were enough for both. Known for its landing stones, among the last of Seann-Dhaoine' works. Told of in: The old names kept (GE 591)."
    },
    "276": {
     "population": 2.368,
     "features": {
      "temple": 0
     },
-    "note": "cites: I-0001, I-0002, I-0003, I-0038a, I-0068a, I-0073a"
+    "note": "A hamlet of Clann na Ceiste: the crack, Leac na Fèithe over the burnt vein and the hearths of Clann a' Chlachair; where the black coal and gual teine were lit. Tobar dhìreach, the straight well, is the hearth of Clann a' Chlachair and the place where fire came to the hill-folk. The well it is named for runs along a straight channel cut in the rock, and the old telling says it was on this ground, in the dead of a winter, that Neachdan the mason set his wedge in a seam he had not seen and broke into a vein of hard coal that showed every colour in the break; that the lightning struck the broken vein that night and it took fire; and that he carried a burning piece home, and his household sat by the first fire any of them had seen. From that hearth the fire was begged and given, carried in a clay pot banked with ash to the near hearths and then to the far ones, until there was no hearth of the hill-folk that was not lit from it, by one borrowing or another. The vein burned in its cut through the lives of the mason's son and grandson and beyond, watched through the dark half of every year from two flat stones above it. When it burned out, Muirne of the line would not let it be dug further: a flat slab was laid over the broken vein, no water was drawn beside it, and the well was cut again a stone's throw off. The black well and the young well, in the valleys on either side, each tell that the mason's well was theirs; Tobar dhìreach can show the capped shaft with a scorched stain on its lip, and the other two have only the telling. No house stands beside Leac na Fèithe. The household keeps two things for the line: Poit an Teine, the clay pot said to hold the mason's first fire, kept alight by the women of the line from mother to daughter and aunt to niece; and a leather bag of coloured pieces broken from the vein before it was covered, with fresh pieces taken in each lifetime from where the vein shows in a stream bank above the well. Here Diarmad asked why the coal had colours, and came home from the grove with Aithris a' Chruthachaidh and Tòimhseachan a' Choimhdich. From the lifetime of Colla the line is called Clann na Ceiste by the valleys. At the close of the age some ninety souls live at Tobar dhìreach, and Ailean son of Suibhne has gone north to the grove with six fires on a pole, leaving Lìobhan and the child Gormshuil to keep the house fire until he comes home. Known for Teine a' Chlachair, Leac na Fèithe over the burnt vein, and the bag of na Seachd Guail. Told of in: The mason's fire (VE 1); Three wells claim the crack (VE 76); The slab over the burnt vein (VE 151); The black coal warm in the ground (VE 2,885); The Children of the Question (VE 4,625); The fire in the fingers (VE 4,905); Meat first set to the fire (VE 2); Ailbhe born by the hearth (VE 3); The stone kept at the hearth's edge for meat (VE 3); Teine a' Chlachair begged and given (VE 4); Fire first carried in a pot (VE 5); The hearth dies in the wet spring (VE 6)."
    },
    "277": {
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: I-0065, I-0066"
+    "note": "A hearth of Clann nan Dè: a peat-hearth hamlet of the high valleys; the first small burning by a household not of Clann a' Chlachair. Àth gharbh, the rough ford, lies a short walk from Tobar dhìreach on the hill road, where the burn runs broad and stony and the drovers rest their beasts. Its households are kin by marriage to half the high valleys, and it was here that the valleys about the crack came to call themselves by one name: at the gathering on Oidhche an Dealanaich, an old man of the western household answered a stranger's question with a word for the whole of the gathered valleys, Clann nan Dè, and the name was said the next year at hearths that had not been at the gathering. Rathnait, born in the valleys about the crack, lived long enough to hear it in ordinary use. The households of Àth gharbh lay their dead in the ground on their side, knees drawn up, facing the central mountains, with an uncut stone at the head. It was also at Àth gharbh that an gual dathach was first burned outside the line. Barabal, a woman of a household of the ford, dropped a sliver of it into her peat fire, and it burned black-flamed like any other coal, and the hearthstone round it was stained through with colour. Her husband's mother turned the stone over at the door in daylight and said she had heard Clann a' Chlachair kept coloured stones such as this. The stained hearthstone is shown to travellers who ask after it and to children who do not. At the close of the age the ford holds some twelve households, and the drovers' beasts still churn the burn to mud at its crossing. Known for the name Clann nan Dè and the first small burning outside the line. Told of in: The hill-folk of the vein (VE 4,425); The first small burning (VE 4,475); Rathnait born to the valleys about the crack (VE 4,400); The valleys' dead laid facing the mountains (VE 4,410); An elder doubts the new name will last (VE 4,425); An old man of the west gives the name Clann nan Dè (VE 4,425); Clann nan Dè settles into ordinary use (VE 4,450)."
    },
    "454": {
     "population": 0.921,
     "group": "hamlet",
-    "note": "inferred · cites: I-0005, I-0067"
+    "note": "A hearth of Clann nan Dè: the eldest hearths of the high valleys; wool of the dead stained with broken coal. Achadh dhìreach, the straight field, holds the oldest hearths of the high valleys after the mason's own. Eachna, a young woman of a household near Tobar dhìreach, walked the level ground west of the well more than once, looking at it the way a woman looks at a thing she means to have, and in the end carried fire there in a clay pot and laid the first hearth of the place on stone, as the near hearths had learned to do. The hearths were of pine and heather charcoal, with scrapers of grey flint and the split bones of red deer about them; there was no coloured coal in them. Deer were hunted by torch across the straight field, and within a generation five hearths stood there. The first autumn store of roasted hazel-nuts on the island was put by at Achadh dhìreach, in a pit lined with bark. Late in the age the households of the straight field began to rub broken coal from the vein into the wool of their dead, and it took streaks of a colour no plant dye makes. Giorsal of Achadh dhìreach was the one who began it, after her grandmother had shown her a scrap of coloured stone kept in a box three generations and called only the bright stone; when Giorsal died, her daughter rubbed a sliver into her mother's own wrapping. It is seldom done, one grave in some thirty. At the close of the age some sixty souls live at Achadh dhìreach. Known for its oldest hearths and the stained wool of its dead. Told of in: The first hearths of the high valleys (VE 303); The stained cloth of Achadh dhìreach (VE 4,525); Eachna walks the straight field (VE 300); Eachna carries fire to the straight field (VE 306); The first hearth of Achadh dhìreach laid on stone (VE 306); Deer hunted by torch at Achadh dhìreach (VE 320); The straight field named (VE 330)."
    },
    "148": {
+    "name": "Na Teallaichean Falaichte",
     "population": 1.316,
     "group": "hamlet",
-    "note": "inferred · cites: I-0044, I-0046"
+    "note": "A hamlet of Clann nan Dè. Hill hearths dug into pits and roofed with slabs, hiding their light from Marbh-bheò. Na Teallaichean Falaichte, is the hamlet of the herders of the Doire uaine hills, a scatter of steadings in the folds of the hills south of Tobar dhìreach. The hill-folk found the rock faces of those hills cut all over with lines of signs, more than anywhere else on the island; Eimhir, a herder-girl following a strayed ewe up a defile before first light, found the first of them, and the elders judged the writing older than living memory. No one of the hills could read it; the tellings came to agree that it told of something that walked without breathing and fell upon any who lit a fire in its sight, and some lines were cut over and defaced by another hand. Dreams of the same shape came at several hearths, two herders saw a walker on the ridge and lived, and children went less often alone to the far pastures. Laoghaire dug the first pit-hearth, a fire under a slab at the foot of a slanting shaft bent near its foot so that no glow could climb it straight, with the smoke led out through a crack in the turf ten paces off. Other households dug the like, and within a few lifetimes the covered hearth was the hills' law. Eimhir kept her own hearth open to the last. At the close of the age no open fire shows in those hills. Known for the covered pit-hearths. Told of in: Signs cut in the Doire uaine hills (VE 3,199); The hill fires go under the ground (VE 3,304)."
    },
    "392": {
+    "name": "Achadh a' Chalbh",
     "population": 0.526,
     "group": "hamlet",
     "features": {
      "temple": 0
     },
-    "note": "inferred · cites: I-0073, I-0074"
+    "note": "A gathering-ground of Clann nan Dè: the gathering-ground at the column, with post-holes of shelters for some hundreds, used and rebuilt; few live there between gatherings. Achadh a' Chalbh, is the gathering-ground about Calbh Cnoc ghorm, the third of the standing stones of the saying, on a low rise in the hill country south-west of Tobar dhìreach. Ciannait, a woman of a nearby hearth, found the stone standing on the rise where she had never seen it, and put her hand to it; within two summers the rise had its name. The whole saying was said standing there for the first time, Cha do thàinig sinn; bha sinn ann, and an old woman said the sayings of the three stones together and said after them that the stone said in fewer words what Aithris a' Chruthachaidh had always said. The gathering was kept a second year and a third, and a market grew up at it, traders walking in from the northern shore with hides to trade for salt. In the years after Seathan's snap the crowd at the column grew to some hundreds on the nights of the great tellings; shelters were built about the stone and rebuilt many times, and one of Clann na Ceiste was sent to say the Line there, slowly, with a pause after each father's name long enough for it to be passed back to those at the back. At a great telling gual bogha-froise went round the crowd hand to hand through a whole night and came back at dawn as dark as it went. At the close of the age the hill country reckons its year by the gatherings at the column. Known for the gatherings at the column and the saying said standing. Told of in: Calbh Cnoc ghorm raised (VE 4,851); The gatherings at the column (VE 4,951)."
    },
    "315": {
+    "name": "Bruthach nan Teaghlach",
     "population": 2.105,
     "features": {
      "citadel": 0,
@@ -857,26 +860,28 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0081, I-0082"
+    "note": "A hamlet of Clann nan Dè. Households of the valleys about the hill that Ailean will take (the hill has no bank yet). Bruthach nan Teaghlach, is the scatter of hill-folk steadings along a long south-facing slope in the valleys of the south-east, above a river that runs down toward the coast of the kilns. The households came there from the high valleys in the lifetimes when the walls of the heights were being raised, herders looking for grazing that did not freeze, and they took the slope for its warmth and its springs. They were half a day's walk from Fuarain Theth Muileann ruadh to the west, and some of their sick were carried there, and a day's walk from the empty platform of the temple in the hills to the north-east, which they did not climb. At the close of the age some twenty hearths stand on the slope, and they lay their dead in the ground on the ridge above it, facing the central mountains. Known for its warm south-facing slope and its many hearths. Told of in: Ailean Mòr, first of the Stone Kings (GE 1); The bank of Dùn ìseal (GE 9)."
    },
    "61": {
     "population": 1.579,
-    "note": "cites: I-0054, gazetteer B61"
+    "note": "A hamlet of Teaghlaichean an Ear. Sheltered farms of the east; dogs buried beside people with a shell at the head. Cnoc fhionn, the fair hill, is a hearth-kindred of the hill-folk in the north-east, on sheltered ground under a pale hill with deer forest to the south. Its households were hunters as much as herders, and went south in the autumns to the deer-drives of the eastern woods. Dubhghall, who drove the gully alone for the first time as a young man and took the head of the drive when his uncle's knees failed, lived his last years here. His grandson's dog died the year the boy was eleven, and the boy dug it a grave beside the family's own dead and set a shell at its head. An old woman questioned the grave; the boy's grandfather let it stand; and within a few years two more households of the hill had buried their dogs so. When Dubhghall died, his grandson set a shell at his head too, the last of the small store kept since the dog's grave, saying the old man deserved no less than a dog. Beasts had never had graves on the island before. At the close of the age some fifty souls live at Cnoc fhionn, and their burial ground holds more dogs than any other on the island. Known for the first dog graves. Told of in: The first dog graves (VE 3,771); Dubhghall's grandson's dog dies (VE 3,757); The boy digs the dog a grave and sets a shell at its head (VE 3,757); An old woman questions the dog's grave (VE 3,758); Two more households bury dogs at Cnoc fhionn (VE 3,760); Dubhghall dies at Cnoc fhionn (VE 3,760); A shell set at Dubhghall's head (VE 3,760)."
    },
    "238": {
     "population": 1.053,
-    "note": "cites: I-0042, gazetteer B238"
+    "note": "A hearth of Sealgairean a' Chladaich. Fishing households of the north-west coast; seven boats lost in one calm season. Ros ruadh is a harbour of the hill-folk on a red headland of the north-western coast, the furthest west the hearths of the north shore reach before the bare horn. Its households fished and hunted seal on the open water west of the headland, going out in skin boats in the calm months and coming home heavy. A calm summer filled its nets as no summer had, and in that same season seven boats of Ros ruadh went out on calm water and did not come home: the first on a still morning, the second eleven days after from a different stretch of the same sea, and five more before the autumn, with no storm to blame and no wreckage found. The widows named what had taken them, and Uilebheist na Mara entered the tellings of the shore by name for the first time. In the years after, the headland kept seven empty places on its shingle where seven boats had lain, and no household built on them. The hunters of the north-west afterward left the open water for the lee of the headlands and the strait, and Ros ruadh grew smaller. At the close of the age it is a landing of some thirty households who fish close inshore, keep an eye on the gulls, and do not speak of the water beyond the point after dark. Known for the seven boats lost in one calm season. Told of in: Seven boats lost off Ros ruadh (VE 3,094); A calm summer fills the nets at Ros ruadh (VE 3,090); The first boat fails to come home (VE 3,090); The second boat fails eleven days after the first (VE 3,093); Seven boats lost from Ros ruadh in one season (VE 3,094); The widows name Uilebheist na Mara (VE 3,095)."
    },
    "95": {
+    "name": "Bothan a' Chaolais",
     "population": 0.789,
     "group": "hamlet",
     "features": {
      "plaza": 0,
      "shanty": 0
     },
-    "note": "inferred · cites: I-0043"
+    "note": "A camp of Sealgairean a' Chladaich: a seal-hunting camp on the strait, where the hunters moved out of Uilebheist na Mara's sight. Bothan a' Chaolais, the bothies of the strait, is the seal-hunters' camp on the quiet water of the north-western strait, south of the headlands, where the tide runs slow between the mainland and the near skerries. The hunters of the north-west came here when they left the open water for fear of Uilebheist na Mara, working the lee of the headlands out of its sight; the seal bones thinned in the middens of the open coast and grew here, shell on shell and bone on bone, until the middens of the strait outgrew the old grounds. An old steersman of the strait said at a net-mending that the sea had not grown smaller, only that the island's hand had drawn back from the part of it a man could no longer trust. The camp is kept through the seal season and the autumn fishing, and some households of Ros ruadh winter there now. At the close of the age it is the busiest seal-camp of the north-west, and its boats do not go out past the point. Known for the seal-hunt of the strait, out of Uilebheist na Mara's sight. Told of in: The seal hunt moves south (VE 3,147)."
    },
    "19": {
+    "name": "Creag Ruadh",
     "population": 1.579,
     "features": {
      "citadel": 0,
@@ -884,28 +889,28 @@
      "plaza": 0,
      "temple": 0
     },
-    "note": "inferred · cites: I-0083, App.A holders of the Red Hill"
+    "note": "A hamlet of Muinntir a' Chnuic Dheirg. Hearths of the lake-shore line on the hill where Cathair dhearg now stands; the Red Hill list opens in GE 18. Creag Ruadh is Creag Ruadh above the eastern shore of Loch chrom, a steep hill of reddish rock with a shelf of good ground about its shoulder and springs on its south face. The hill-folk of the lake shore lit their first hearths there some lifetimes on from the raising of the lake dwellings were raised, coming west out of the high valleys with fire carried in a pot from hearth to hearth, and they took the crag for the view it gave of the loch and of anyone coming across the water. They were herders more than fishers, and grazed their beasts on the slopes below the crag and down to the reeds. What passed between them and the people of the platforms, or the households of the shell road on the far shore, no telling of the crag keeps: the crag's households say they watched the smoke of the platforms of an evening, and that was all. By the close of the age some eight or nine hearths stand on the shelf of the crag, lit from Teine a' Chlachair as every hearth of the hill-folk is, and their dead are laid in the ground below the red rock, facing the central mountains. Known for its red rock and its view over Loch chrom. Told of in: Beathag Ruadh of the Red Hill (GE 18)."
    }
   },
   "add": [
    {
     "key": "I_N01",
     "id": 1001,
-    "name": "the seal-hunters' camp on Eilean mhin",
+    "name": "Bothan nan Ròn",
     "cell": 4226,
     "population": 0.395,
     "group": "hamlet",
-    "note": "inferred · cites: I-0008, V-0022",
+    "note": "A seasonal camp. Kept a season at a time and left; the first sure crossing of open water of set purpose. Bothan nan Ròn, the seal bothies, is the camp of the seal-hunters on Eilean mhin. The hunters came to the island by boat, the first on the island known to have crossed open water of set purpose: Oisean, who built his boat of hide over a frame of hazel, and his brothers after him, and then the young men of the neighbouring households, until the crossing in the calm months was a thing the shore simply did. They pitched their bothies of hide and turf on the green above the landing, kept them a season at a time, and left them standing when they went home, to be patched and roofed again the next year. The seals of Eilean mhin haul out on the flat rocks below the camp, and the hunters take them there with clubs and spears. By the close of the age the bothies have been kept every season since Oisean's own, and the ground beneath them is black with the fires of every season. Known for the first crossing of open water on purpose. Told of in: Hunters on Eilean mhin (VE 551); The wave's reach on Eilean mhin (SE 5).",
     "culture": 2
    },
    {
     "key": "I_N02",
     "id": 1002,
-    "name": "the autumn seal camp on Eilean fhada",
+    "name": "Bothan an Fhoghair",
     "cell": 420,
     "population": 0.395,
     "group": "hamlet",
-    "note": "inferred · cites: I-0008a",
+    "note": "A seasonal camp of Sealgairean a' Chladaich. North-shore hunters take the grey seals on the skerries in the autumn gales. Bothan an Fhoghair, the autumn bothies, is the camp of the north-shore hunters on the landward point of Eilean fhada, opposite the skerries where the grey seals haul out to pup in the autumn gales. Hunters went out in skin boats in that weather, the worst of the year, because the seals are there then and at no other time. The seal bones in the middens of the northern shore bear the same cut-marks as those of the camp. The bothies are low huts of stone and turf, roofed with hide in the season and left bare in the rest of the year. At the close of the age the autumn crossing is still made by some dozen boats, though since the loss of the boats of Ros ruadh the hunters go out only when the gulls are on the water and come home before dusk. Known for the autumn seal-hunt on the skerries. Told of in: Seals on the skerries (VE 611).",
     "culture": 2
    },
    {
@@ -915,37 +920,37 @@
     "cell": 3064,
     "population": 1.579,
     "group": "hamlet",
-    "note": "inferred · cites: I-0020, I-0122",
+    "note": "A lake dwelling of Muinntir a' Chnuic Dheirg. Platforms on oak piles in the shallows, joined to the shore by plank walks; who built them is not known. The lake dwellings stand in the shallows of Loch chrom: platforms of split planks on piles of oak driven into the loch floor, joined to the shore by plank walks long enough to keep a household out of reach of anything that walks on four legs. The first platform was driven by a household that had cut the oaks on the shore above and floated them down, and the driving of a pile was work for every hand, the frame raised over the water and the weight dropped on the pile's head until it stood fast. A pile driven and holding was counted an occasion for a shared meal on the nearest platform once the driving-frame was struck down. Eels were first taken from beneath the platforms in baskets let down through the planks, and a child carried the first basket the length of the longest walk. Every morning a child was sent along the walks to listen for the sound of a plank gone thin under its light weight before a grown foot found it the hard way. Who built the platforms, the people of the shell road or some other people of those years, the tellings do not agree, and the households on the platforms do not trouble to settle it. At the close of the age some twelve platforms stand in the shallows, and a new pile is driven most summers. Known for the platforms on oak piles and the plank walks. Told of in: The lake dwellings of Loch chrom (VE 1,588); The lake dwellings burn (GE 1,525); The first platform driven at Loch chrom (VE 1,540); The planks of the lake walks listened to (VE 1,560); Eels first taken from beneath the platforms (VE 1,600); A child carries the first basket the length of the longest walk (VE 1,612); A shared meal for a new pile (VE 1,640); A new pile driven at Loch chrom (VE 1,650).",
     "culture": 2
    },
    {
     "key": "I_N04",
     "id": 1004,
-    "name": "the summer camps in the passes",
+    "name": "Àirighean a' Bhealaich",
     "cell": 4113,
     "population": 0.026,
     "group": "hamlet",
-    "note": "inferred · cites: I-0079",
+    "note": "A seasonal camp. Herders' camps on the high passes, left empty at the same point every year while the panthers cross. Àirighean a' Bhealaich, are the summer camps of the herders in the high passes of the central mountains, where the grass is sweet after the snow goes off it. Each household of the upland valleys keeps its own shieling there, a hut of stone and turf with a fold beside it, and goes up with its beasts when the lambs are strong enough to walk. Since the great cats of the mountains were first seen to keep their roads, crossing by fixed ways at fixed seasons, the households have learned the crossing season and keep off the passes while it lasts: the shielings stand stripped and shuttered at the same point in every year, and a crossing mark is cut on each gatepost and scraped when the season has been kept. A boy sent up to winter sheep in the crossing season, his father having lost the count of days in a wet spell, found his household's shieling already stripped by neighbours who had read the signs, and came down the same evening. The shielings are empty now in their season, and full in the rest of the summer. Known for the shielings left empty while the cats cross. Told of in: The crossing season kept (VE 5,219); Àirighean a' Bhealaich stand empty (VE 5,222); A boy sent up in error to a stripped shieling (VE 5,226).",
     "culture": 2
    },
    {
     "key": "I_N05",
     "id": 1005,
-    "name": "the deer-drive camp of the eastern forest",
+    "name": "Gleann nan Damh",
     "cell": 1834,
     "population": 0.658,
     "group": "hamlet",
-    "note": "inferred · cites: I-0053",
+    "note": "A hunting camp of Teaghlaichean an Ear. Lines of stakes and brush drive the red deer into a gully; the antlers of the greatest stags are stacked apart. Gleann nan Damh, is the gully of the eastern woods into which the hill-folk of the east drive the red deer every autumn, along lines of stakes and brush set out through the trees, and kill them at the gully's throat with spears. The antlers of the greatest stags are stacked apart from the rest at the gully's mouth, and the stand of them grew higher every year. It was at the edge of Coille Naomh Muileann chiar above the glen that Sadhbh and two others first saw the white stag and none of them drew; afterward the hunters began letting the gully's beasts go when a pale one was among them, rather than risk the wrong one. Dubhghall drove the gully alone for the first time as a young man, threw wide at a young stag in his first year and practised all winter against a bundle of brush, and took the head of the drive when his uncle's knees would no longer hold him through a whole autumn morning; he was exacting in one thing only, that no young man should stand carelessly. At the close of the age the drive is kept every autumn by households from Cnoc fhionn to the edge of the woods. Known for the autumn deer-drive and the stand of antlers. Told of in: The deer-drives of the eastern forest (VE 3,720); Sadhbh and two others meet the white stag (VE 3,518); Hunters begin letting the gully's beasts go rather than risk the wrong one (VE 3,521); The white stag is seen again (VE 3,530); Sadhbh dies (VE 3,566); Dubhghall drives the gully alone for the first time (VE 3,720); The stand of antlers grows at the gully's mouth (VE 3,722).",
     "culture": 2
    },
    {
     "key": "I_N06",
     "id": 1006,
-    "name": "the hearths of the southern shore",
+    "name": "Teallaichean a' Chladaich",
     "cell": 4108,
     "population": 1.053,
     "group": "hamlet",
-    "note": "inferred · cites: I-0080",
+    "note": "A hamlet: the households from which the party of eleven went up into the panther hills. Teallaichean a' Chladaich, are the households of the hill-folk on the southern shore, a string of steadings on the slope above the beach, with barley in the small fields and boats on the shingle. They were lit from Teine a' Chlachair like every hearth of the hill-folk, carried south over the mountains in a pot. It was from here that a party of eleven, with Cairbre at their head, went up into the southern hills in the crossing season, the harvest inland having failed and the geese of the coast not yet gone over in their numbers, reading the season as a slow one. They did not come home. Cairbre's wife kept the twelfth day on the rise above the steadings, and the fourteenth and the twentieth, and by the thirtieth had stopped telling herself anything, and only watched. Their bones were found years afterward along the line the cats use, and were buried where they were found. At the close of the age the households of the shore keep the crossing season as strictly as any in the passes, and cut their gateposts deep. Known for the eleven who went up in the crossing season. Told of in: Eleven lost on the panther road (VE 5,272); Cairbre and ten set out (VE 5,272); Word comes of a failed harvest inland (VE 5,272); Cairbre's wife watches the path thirty days (VE 5,273).",
     "culture": 2
    }
   ]
@@ -955,19 +960,19 @@
   "add": [
    {
     "key": "u0",
-    "name": "Doire uaine",
+    "name": "Na Teallaichean Falaichte",
     "formName": "",
-    "fullName": "Doire uaine",
+    "fullName": "Na Teallaichean Falaichte",
     "shires": [
      112
     ],
-    "note": "cites: I-0046"
+    "note": "Told of in: The hill fires go under the ground (VE 3,304)."
    },
    {
     "key": "u1",
-    "name": "Dùn ìseal",
+    "name": "Bruthach nan Teaghlach",
     "formName": "",
-    "fullName": "Dùn ìseal",
+    "fullName": "Bruthach nan Teaghlach",
     "shires": [
      35,
      48,
@@ -975,7 +980,7 @@
      96,
      111
     ],
-    "note": "cites: I-0005, I-0065, I-0066"
+    "note": "Told of in: The first hearths of the high valleys (VE 303); The hill-folk of the vein (VE 4,425); The first small burning (VE 4,475)."
    }
   ]
  },
@@ -1029,56 +1034,56 @@
   ],
   "edit": {
    "0": {
-    "note": "cites: I-0057"
+    "note": "Stone basins set into the springs; the sick are first brought here for healing, and the people buried near them have old breaks that knitted clean. Told of in: The warm springs used (VE 3,922)."
    },
    "12": {
     "icon": "🔥",
-    "note": "cites: I-0041"
+    "note": "A fire kept on the headland to warn boats off the water where Uilebheist na Mara was seen, never to bring them in; no tower. Told of in: The beacon on the Baile chrom headland (VE 3,042)."
    },
    "19": {
-    "note": "cites: I-0037"
+    "note": "The western shaft: cut straight down, stones thrown in are not heard to land. Told of in: The shaft of Toll-dubh in the west (VE 2,782)."
    },
    "20": {
-    "note": "cites: I-0036"
+    "note": "The eastern shaft of Seann-Dhaoine, walls tooled smooth, no spoil beside it. Told of in: The shaft of Toll-dubh in the south-east (VE 2,730)."
    },
    "21": {
-    "note": "cites: I-0040, I-0042"
+    "note": "Old sailors first tell of a vast creature off the north-western coast; seven boats of Ros ruadh are lost to it by name. Told of in: The Sea-Watcher first sighted (VE 2,990); Seven boats lost off Ros ruadh (VE 3,094)."
    },
    "22": {
-    "note": "cites: I-0044, I-0045"
+    "note": "The inscriptions of the Doire uaine hills tell of something that walked without breathing and fell on any who lit a fire in its sight. Told of in: Signs cut in the Doire uaine hills (VE 3,199); The Hollow Man of Doire uaine (VE 3,251)."
    },
    "23": {
-    "note": "cites: I-0048, I-0049, I-0050"
+    "note": "A forest held sacred before any order: no axe is put in it, and three hunters see a white stag there and none draws. In this age the stag has no god. Told of in: Coille Naomh Muileann chiar set aside (VE 3,408); No axe in the grove (VE 3,470); The white stag of the grove (VE 3,513)."
    },
    "24": {
-    "note": "cites: I-0051, I-0052"
+    "note": "Older than the first, never settled, felled or walked end to end; the paths toward it stop at a low line of set stones. Told of in: Coille Naomh Cnoc bheag left unclaimed (VE 3,570); The paths that stop at a line of stones (VE 3,618)."
    },
    "28": {
-    "note": "cites: I-0069, I-0070"
+    "note": "A standing stone with a line of the unread script on its upper face; the four Dia-thìris words, Bha teine sa chloich, were cut lower by another hand whose date is not known. Told of in: Carragh Cnoc bheag raised (VE 4,672); The older face of Carragh Cnoc bheag (VE 4,718)."
    },
    "29": {
-    "note": "cites: I-0071, I-0072"
+    "note": "A second stone, Cuimhnich an teine; the ground about it trodden hard in a ring and paved with fire-cracked stones. Told of in: Colbh Cnoc chiar raised (VE 4,770); A ring of fire-stones round the pillar (VE 4,812)."
    },
    "30": {
-    "note": "cites: I-0073, I-0074"
+    "note": "The column of the saying, Cha do thàinig sinn; bha sinn ann; crowds gather about it. Told of in: Calbh Cnoc ghorm raised (VE 4,851); The gatherings at the column (VE 4,951)."
    },
    "31": {
-    "note": "cites: I-0032, I-0058, I-0059"
+    "note": "The walled outpost of Seann-Dhaoine, its one gate blocked with rubble from within (VE 3,973) and deserted (VE 4,023): a ruin at the close of the age. Told of in: Làrach an Dùin-fhaire raised (VE 2,524); The gate of the outpost walled up (VE 3,973); Làrach an Dùin-fhaire abandoned (VE 4,023)."
    },
    "32": {
-    "note": "cites: I-0033, I-0060, I-0061"
+    "note": "The three-ringed fortress, its cistern choked with the bones of whole cattle (VE 4,074) and deserted (VE 4,124): a ruin. Told of in: Làrach an Dùin raised (VE 2,576); The fortress cistern fouled (VE 4,074); Làrach an Dùin abandoned (VE 4,124)."
    },
    "33": {
-    "note": "cites: I-0035, I-0062, I-0063"
+    "note": "The stepped platform with its altar square to the central mountains; its top stone prised off (VE 4,175) and the temple deserted (VE 4,275). Told of in: Làrach an Teampaill raised (VE 2,679); The temple altar stripped (VE 4,175); Làrach an Teampaill abandoned (VE 4,275)."
    },
    "40": {
-    "note": "cites: I-0078, I-0079, I-0080"
+    "note": "Imrich nam Pantar over the high passes, kept by the cats at fixed seasons; the hill-folk keep off the passes while they cross. Told of in: The panther roads (VE 5,170); The crossing season kept (VE 5,219); Eleven lost on the panther road (VE 5,272)."
    },
    "41": {
-    "note": "cites: I-0075, I-0076, I-0077"
+    "note": "A burial-ground about a place none remembers hallowing; a child buried with a sliver of an gual dathach in one hand; the graves begin to be laid in rows, heads toward the central mountains. Told of in: Tuam Cnoc dhìreach consecrated (VE 5,010); The black chip in the child's grave (VE 5,070); The rows at Tuam Cnoc dhìreach (VE 5,114)."
    },
    "48": {
-    "note": "cites: I-0027a"
+    "note": "Fearghas of Clann a' Chlachair let the six unlit coals fall from the highest ground, and the coal flecked with white stars took fire in the air (VE 2,170): the second of the lightings. The summit is named for the kindred. Told of in: The snowflake coal takes fire in the air (VE 2,170)."
    }
   },
   "add": [
@@ -1088,7 +1093,7 @@
     "icon": "🔥",
     "name": "Teine a' Chlachair and the slab over the vein",
     "cell": 2096,
-    "note": "event I-0001 · cites: I-0001, I-0002, I-0003"
+    "note": "Neachdan the mason broke into the vein; lightning fired it and he carried the first fire home. When it burned out his people laid a flat stone over the break and cut their well a stone's throw off. Three wells claim the crack; Tobar dhìreach can show a capped, scorched shaft. Told of in: The mason's fire (VE 1); Three wells claim the crack (VE 76); The slab over the burnt vein (VE 151)."
    },
    {
     "key": "I_K02",
@@ -1096,7 +1101,7 @@
     "icon": "🌫️",
     "name": "Coimhdeach na Fine in the grove",
     "cell": 482,
-    "note": "event I-0011a · cites: I-0011a, I-0006"
+    "note": "In the oak grove at Doire ghlas a figure of grey smoke, Coimhdeach na Fine, told Diarmad of Clann a' Chlachair the making of the world and gave Tòimhseachan a' Choimhdich of the spirits. Told of in: The Keeper in the grove (VE 890); The oak comes to the lowlands (VE 378)."
    },
    {
     "key": "I_K03",
@@ -1104,7 +1109,7 @@
     "icon": "🟡",
     "name": "the first lighting: gual òir on the sea",
     "cell": 909,
-    "note": "event I-0017a · cites: I-0017a"
+    "note": "Aodh threw na Seachd Guail into the sea below where Ceann thais stands; Gual òir burned gold on the water until the waves put it under. Told of in: The gold coal takes fire on the sea (VE 1,370)."
    },
    {
     "key": "I_K04",
@@ -1112,7 +1117,7 @@
     "icon": "⚫",
     "name": "the third lighting: gual dubh warm in the ground",
     "cell": 2096,
-    "note": "event I-0038a · cites: I-0038a"
+    "note": "Brian buried the five unlit coals beside Leac na Fèithe; the next day the black coal was warm and smouldered as the air came to it. Told of in: The black coal warm in the ground (VE 2,885)."
    },
    {
     "key": "I_K05",
@@ -1120,7 +1125,7 @@
     "icon": "🟤",
     "name": "the fourth lighting: the blood of the misstrike",
     "cell": 482,
-    "note": "event I-0052a · cites: I-0052a"
+    "note": "Cormac missed his stroke in the grove and opened his hand; where the blood fell the red-brown coal of life took fire. Told of in: The blood of the misstrike (VE 3,670)."
    },
    {
     "key": "I_K06",
@@ -1128,7 +1133,7 @@
     "icon": "⚪",
     "name": "the fifth lighting: gual airgid in the river",
     "cell": 2097,
-    "note": "event I-0062a · cites: I-0062a"
+    "note": "Eòghann tasted the Abhainn ghorm below Tobar dhìreach, said the water tasted different from the sea, and gual airgid took fire under the water. Told of in: The silver coal in the river (VE 4,225)."
    },
    {
     "key": "I_K07",
@@ -1136,7 +1141,7 @@
     "icon": "🔥",
     "name": "the sixth lighting: the fire in the fingers",
     "cell": 2096,
-    "note": "event I-0073a · cites: I-0073a"
+    "note": "Seathan snapped his fingers and the coal-dust on his hand took fire; he beat it out and was not burned. Told of in: The fire in the fingers (VE 4,905)."
    },
    {
     "key": "I_K08",
@@ -1144,7 +1149,7 @@
     "icon": "🌈",
     "name": "the seventh lighting: gual bogha-froise and the vigil",
     "cell": 482,
-    "note": "event I-0080a · cites: I-0080a"
+    "note": "Ailean of Clann na Ceiste carried the six lit coals to the grove; Coimhdeach na Fine lit gual bogha-froise, all seven burned together, and he was bidden to stay until they were cold. He is on the last night of the vigil at the close of the age. Told of in: The rainbow coal lit by the Keeper (VE 5,324)."
    },
    {
     "key": "I_K09",
@@ -1152,7 +1157,7 @@
     "icon": "🪨",
     "name": "hearth-stones on the terraces of the Abhainn uaine",
     "cell": 2818,
-    "note": "event I-0004 · cites: I-0004"
+    "note": "On the gravel terraces of the lower river lie hearth-stones at three heights, each left as the meltwater rose to it. Told of in: The high snowfields shrink (VE 227)."
    },
    {
     "key": "I_K10",
@@ -1160,7 +1165,7 @@
     "icon": "🐟",
     "name": "the fish-weirs of the Abhainn ìseal",
     "cell": 1500,
-    "note": "event I-0009 · cites: I-0009"
+    "note": "Weirs of hazel stakes across the side channels of the longest river, renewed in the same holes for generations. Told of in: The flood-plain of Abhainn ìseal (VE 681)."
    },
    {
     "key": "I_K11",
@@ -1168,7 +1173,7 @@
     "icon": "⚱️",
     "name": "the stone boxes of Eilean dhearg",
     "cell": 3856,
-    "note": "event I-0014 · cites: I-0014"
+    "note": "Forty stone boxes facing the mainland, where Seann-Dhaoine of Vell lay their dead. Told of in: The dead of Seann Vell go to Eilean dhearg (VE 1,096)."
    },
    {
     "key": "I_K12",
@@ -1176,7 +1181,7 @@
     "icon": "🪜",
     "name": "the steps of Bral",
     "cell": 2957,
-    "note": "event I-0013 · cites: I-0013"
+    "note": "Two hundred and twelve steps cut up the cliff, their treads worn hollow in the middle. Told of in: The steps of Seann Bhral (VE 1,027)."
    },
    {
     "key": "I_K13",
@@ -1184,7 +1189,7 @@
     "icon": "🔣",
     "name": "the script in the cliff at Tarr",
     "cell": 2578,
-    "note": "event I-0017 · cites: I-0017"
+    "note": "Rows of the unread script cut above the harbour, the same signs later found on the standing stones. Told of in: The script appears at Seann Tarr (VE 1,301)."
    },
    {
     "key": "I_K14",
@@ -1192,7 +1197,7 @@
     "icon": "💀",
     "name": "the hut of the nine",
     "cell": 3008,
-    "note": "event I-0047 · cites: I-0047"
+    "note": "Nine died in a hut at the hill camp beside a hearth of fresh ash, with no wound on any bone; the hut was never opened again. Told of in: The nine at the hill camp (VE 3,351)."
    },
    {
     "key": "I_K15",
@@ -1200,7 +1205,7 @@
     "icon": "🪿",
     "name": "the geese of Eilean ghorm",
     "cell": 1751,
-    "note": "event I-0055 · cites: I-0055"
+    "note": "The grey geese that come in with the first storm and leave with the last; none hunts them there. Told of in: The geese of Eilean ghorm (VE 3,821)."
    },
    {
     "key": "I_K16",
@@ -1208,7 +1213,7 @@
     "icon": "🌊",
     "name": "the drowned hearths of the neck",
     "cell": 67,
-    "note": "event I-0007 · cites: I-0007"
+    "note": "The hearths of the low neck that joined Eilean dhubh to the island lie under the sand of the sound (VE 506). Told of in: Eilean dhubh cut off (VE 506)."
    },
    {
     "key": "I_K17",
@@ -1216,7 +1221,7 @@
     "icon": "🐆",
     "name": "where the eleven were lost",
     "cell": 4161,
-    "note": "event I-0080 · cites: I-0080"
+    "note": "A party of eleven from the southern shore went into the hills in the crossing season; their bones were found along the cats' line. Told of in: Eleven lost on the panther road (VE 5,272)."
    }
   ]
  },
@@ -1224,7 +1229,11 @@
   "keep": [
    410
   ],
-  "edit": {},
+  "edit": {
+   "410": {
+    "note": "Seann-Dhaoine' lane along the south-east coast, flat landing-stones a day's rowing apart. Told of in: The ancient sea-way (VE 4,375)."
+   }
+  },
   "add": [
    {
     "key": "I_R01",
@@ -1235,7 +1244,7 @@
      3701,
      3954
     ],
-    "note": "cites: I-0034, I-0059, I-0061"
+    "note": "A cart's width, paved with flat slabs; the only road Seann-Dhaoine made away from the shore. Both forts are ruins at the close of the age, so the way is disused. Told of in: The kerbed way between the forts (VE 2,627); Làrach an Dùin-fhaire abandoned (VE 4,023); Làrach an Dùin abandoned (VE 4,124)."
    },
    {
     "key": "I_R02",
@@ -1245,7 +1254,7 @@
      2972,
      3235
     ],
-    "note": "cites: I-0016, I-0087"
+    "note": "Crushed shell across the reed marsh, a little over a mile long, raised a forearm above the reeds; unbroken until GE 147. Told of in: The shell causeway of Seann Warr (VE 1,233); The shell road broken (GE 147)."
    },
    {
     "key": "I_R03",
@@ -1255,7 +1264,7 @@
      3158,
      3498
     ],
-    "note": "inferred · cites: I-0052"
+    "note": "Tracks worn toward Coille Naomh Cnoc bheag from three quarters end at a low line of set stones short of the trees. Told of in: The paths that stop at a line of stones (VE 3,618)."
    },
    {
     "key": "I_R04",
@@ -1265,7 +1274,7 @@
      3937,
      4226
     ],
-    "note": "inferred · cites: I-0008"
+    "note": "The first sure crossing of open water of set purpose. Told of in: Hunters on Eilean mhin (VE 551)."
    },
    {
     "key": "I_R05",
@@ -1275,7 +1284,7 @@
      1059,
      420
     ],
-    "note": "inferred · cites: I-0008a"
+    "note": "The hunters of the north shore go out in the autumn gales. Told of in: Seals on the skerries (VE 611)."
    },
    {
     "key": "I_R06",
@@ -1286,7 +1295,7 @@
      3104,
      482
     ],
-    "note": "inferred · cites: I-0052a, I-0080a"
+    "note": "Clann a' Chlachair carried the coals from the crack to the grove where Coimhdeach na Fine spoke; Ailean carried the six lit coals along it. Told of in: The blood of the misstrike (VE 3,670); The rainbow coal lit by the Keeper (VE 5,324)."
    }
   ]
  },
@@ -1298,7 +1307,7 @@
     "key": "I_Z01",
     "name": "the widest reach of Seann-Dhaoine (VE 3,872)",
     "type": "Custom",
-    "note": "cites: I-0056",
+    "note": "Every coast and the islands off them; the ten Seann places. Told of in: The widest reach of the Seann-Dhaoine (VE 3,872).",
     "shires": [
      2,
      3,
@@ -1372,7 +1381,7 @@
     "key": "I_Z02",
     "name": "the covered hearths of the Doire uaine hills",
     "type": "Custom",
-    "note": "cites: I-0046, I-0045",
+    "note": "No open hearth shows in these hills for many lifetimes; no fire is lit in Marbh-bheò's sight. Told of in: The hill fires go under the ground (VE 3,304); The Hollow Man of Doire uaine (VE 3,251).",
     "shires": [
      112
     ],
@@ -1382,7 +1391,7 @@
     "key": "I_Z03",
     "name": "the drowned neck of Eilean dhubh (VE 506)",
     "type": "Custom",
-    "note": "cites: I-0007",
+    "note": "The low neck that joined the island to the mainland, flooded by the rising sea. Told of in: Eilean dhubh cut off (VE 506).",
     "shires": [
      119
     ],
@@ -1395,7 +1404,7 @@
     "key": "I_Z04",
     "name": "the oak of the northern lowlands",
     "type": "Custom",
-    "note": "cites: I-0006, I-0220a",
+    "note": "Oak and hazel over ground that was open heath when the vein was first broken; it falls back only in the next age. Told of in: The oak comes to the lowlands (VE 378); The moor takes the north (GE 3,588).",
     "shires": [
      7,
      8,
@@ -1426,7 +1435,7 @@
     "key": "I_Z05",
     "name": "the snowfields of the central mountains (to VE 227)",
     "type": "Custom",
-    "note": "cites: I-0004",
+    "note": "The high snowfields shrink and their meltwater cuts the bed of the Abhainn uaine. Told of in: The high snowfields shrink (VE 227).",
     "shires": [
      35,
      65,
@@ -1440,7 +1449,7 @@
     "key": "I_Z06",
     "name": "the high places left by Seann-Dhaoine (VE 4,325)",
     "type": "Custom",
-    "note": "cites: I-0064",
+    "note": "After the forts and the temple are forsaken every new work of Seann-Dhaoine is made within sight of salt water. Told of in: The Seann-Dhaoine keep to the shore (VE 4,325).",
     "shires": [
      24,
      31,
@@ -1453,7 +1462,7 @@
     "key": "I_Z07",
     "name": "Imrich nam Pantar",
     "type": "Custom",
-    "note": "cites: I-0078, I-0079",
+    "note": "The cats cross the mountains by fixed ways at fixed seasons, and the hill-folk keep off the passes. Told of in: The panther roads (VE 5,170); The crossing season kept (VE 5,219).",
     "shires": [
      10,
      25,
@@ -1470,19 +1479,19 @@
     "text": "Clann nan Dè",
     "cell": 2184,
     "fontSize": 14,
-    "note": "cites: I-0065"
+    "note": "The hill-folk. Told of in: The hill-folk of the vein (VE 4,425)."
    },
    {
     "text": "Na Seann-Dhaoine",
     "cell": 2410,
     "fontSize": 14,
-    "note": "cites: I-0056"
+    "note": "Seann-Dhaoine. Told of in: The widest reach of the Seann-Dhaoine (VE 3,872)."
    },
    {
     "text": "Cha do thàinig sinn; bha sinn ann",
     "cell": 3342,
     "fontSize": 14,
-    "note": "cites: I-0073"
+    "note": "We did not come; we were here. Told of in: Calbh Cnoc ghorm raised (VE 4,851)."
    }
   ]
  },
