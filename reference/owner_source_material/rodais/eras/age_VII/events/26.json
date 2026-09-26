@@ -1,0 +1,123 @@
+[
+  {
+    "title": "The wartime tithe is proclaimed",
+    "era_year": 21,
+    "after": "VI-0086",
+    "summary": "Within days of Àth leathan the council lays a tithe of one part in twelve on every sale of dubhan in the kingdom, for the war's sake and, the order says twice, for a time only.",
+    "category": "law",
+    "people": [],
+    "places": [],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0086"]
+  },
+  {
+    "title": "A Treasury clerk is sent to Muileann òg",
+    "era_year": 21,
+    "after": "VI-0087",
+    "summary": "Cailean Ros of the Treasury comes to sit beside the fair pump at Muileann òg and mark the tithe on every gallon drawn; Ùna nic Ailein shows him the tank's own measure, which nobody in the capital had thought to teach him.",
+    "category": "law",
+    "people": ["Ùna nic Ailein"],
+    "places": ["burg:151"],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0087"]
+  },
+  {
+    "title": "The first tithe taken at Muileann òg",
+    "era_year": 21,
+    "after": "VI-0087",
+    "summary": "Ùna nic Ailein records the first gallon of dubhan sold under the wartime tithe at the Muileann òg pump, eleven gallons to Seumas Buidhe the smith, one part in twelve set aside before the coin changes hands.",
+    "category": "trade",
+    "people": ["Ùna nic Ailein"],
+    "places": ["burg:151"],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0087"]
+  },
+  {
+    "title": "The first complaint against the tithe",
+    "era_year": 21,
+    "after": "VI-0087",
+    "summary": "In the fifth week of the tithe, Barabal nic Rath, a weaver of Muileann òg, brings her own five weeks' reckoning of it to the fair court and asks that her complaint against its silence on its own ending be written into the book.",
+    "category": "law",
+    "people": ["Ùna nic Ailein"],
+    "places": ["burg:151"],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0087"]
+  },
+  {
+    "title": "An seachdamh rèisimeid raised",
+    "era_year": 21,
+    "after": "VI-0084",
+    "summary": "News of the seventh regiment, raised on the west coast to hold the road behind the army, reaches Muileann òg and Caol mhòr weeks after the fact, carried by carters rather than any order.",
+    "category": "war",
+    "people": [],
+    "places": ["burg:489"],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0084"]
+  },
+  {
+    "title": "A' chiad rèisimeid raised at Inis mhòr",
+    "era_year": 21,
+    "after": "VI-0088",
+    "summary": "The first regiment is raised at Inis mhòr from the capital's own companies, to stand about the council, the mint and the bridge over the Abhainn dhomhain; word of it is old before it reaches the north.",
+    "category": "war",
+    "people": [],
+    "places": ["burg:2"],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0088"]
+  },
+  {
+    "title": "A' chiad chabhlach raised at Àth gharbh",
+    "era_year": 21,
+    "after": "VI-0089",
+    "summary": "The first fleet is raised from the south-west harbours and stationed at Àth gharbh, its hulls lying at Doire shean, and sent round the western cape to close the Tuathaich coast to trade.",
+    "category": "war",
+    "people": [],
+    "places": ["burg:50"],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0089"]
+  },
+  {
+    "title": "An ceathramh cabhlach raised at Cuan shean",
+    "era_year": 21,
+    "after": "VI-0090",
+    "summary": "The fourth fleet is raised at Cuan shean and joins the first off the Tuathaich coast. Together the two close the sea-reach of the western Seann Skell and of Cnoc bhàn in the north-west to every hull but the fishing boats, and search those.",
+    "category": "war",
+    "people": [],
+    "places": ["burg:282"],
+    "threads": ["the-long-war"],
+    "master_links": ["VI-0090"]
+  },
+  {
+    "title": "The fourth fleet searches the boats at Caol mhòr",
+    "era_year": 21,
+    "after": "VI-0090",
+    "summary": "A hull of the fourth fleet boards and searches every boat at Caol mhòr's harbour wall for dubhan or coal carried against the closing of the coast; the engine-boats Joe Ashby has fitted are searched last and longest.",
+    "category": "war",
+    "people": ["Joe Ashby"],
+    "places": ["burg:95"],
+    "threads": ["the-long-war", "the-tuathaich"],
+    "master_links": ["VI-0090"]
+  },
+  {
+    "title": "Joe Ashby is asked to mend a fleet hull",
+    "era_year": 21,
+    "after": "VI-0090",
+    "summary": "An unsigned letter from Caol mhòr's harbour depot asks Joe Ashby to mend an engine of the fourth fleet that the depot's own men cannot; the letter is signed with a mark, and names no fleet and no rank.",
+    "category": "war",
+    "people": ["Joe Ashby"],
+    "places": ["burg:95"],
+    "threads": ["the-long-war", "the-tuathaich"],
+    "master_links": ["VI-0090"]
+  },
+  {
+    "title": "Joe Ashby refits the fleet hull",
+    "era_year": 21,
+    "after": "VI-0090",
+    "summary": "Joe Ashby and Ned Fowler find and mend a wrongly seated valve aboard an unnamed hull of the fourth fleet at Caol mhòr's depot jetty, and are paid at the harbour's own rate, in coin, and asked no questions.",
+    "category": "trade",
+    "people": ["Joe Ashby"],
+    "places": ["burg:95"],
+    "threads": ["the-long-war", "the-tuathaich"],
+    "master_links": ["VI-0090"]
+  }
+]

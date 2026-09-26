@@ -1,0 +1,211 @@
+[
+    {
+        "title": "The council keeps the regiments on the tithe",
+        "era_year": 23,
+        "after": "VI-0119",
+        "summary": "Somhairle mac Lachlainn reads the council's minute keeping the nine regiments at the towns where they were raised, paid from the wartime tithe laid on every barrel of dubhan sold since the war's second month, and understands the choice before anyone troubles to explain it to him.",
+        "category": "war",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:19"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0120"]
+    },
+    {
+        "title": "Fearghas mac Aonghais orders the western seams flooded",
+        "era_year": 23,
+        "after": "VI-0120",
+        "summary": "The master of the Mine Board forwards Somhairle mac Lachlainn an order for concrete and men, citing the Leòid ruling of six years before: the western seams are the Crown's, the holders have stopped paying, and open ground that lately held an army is left standing no longer.",
+        "category": "law",
+        "people": ["Somhairle mac Lachlainn", "Fearghas mac Aonghais"],
+        "places": ["burg:23"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0122"]
+    },
+    {
+        "title": "The first capping at Àth leathan",
+        "era_year": 23,
+        "after": "VI-0122",
+        "summary": "In am Màrt the seventh regiment pours the first concrete over a flooded shaft at Àth leathan while Somhairle mac Lachlainn watches from the pit-head; the mix lies still in a way the seam itself, even flooded, had never once lain before.",
+        "category": "war",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:346"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0122"]
+    },
+    {
+        "title": "Sergeant Iain Mòr counts the cappings",
+        "era_year": 23,
+        "after": "VI-0122",
+        "summary": "A sergeant of the seventh regiment tells Somhairle mac Lachlainn this is the fourth capping his company has stood by that month, at Muileann àrsaidh, Cnoc thais and a nameless working near Àth naomh, and wonders aloud what the regiment will be set to guard once Tobar dhearg of the hills is done.",
+        "category": "war",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:244", "burg:269", "burg:372"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0122"]
+    },
+    {
+        "title": "The market charter of Caol ruadh",
+        "era_year": 23,
+        "after": "VI-0120a",
+        "summary": "Caol ruadh, whose harbour victualled the garrisons and the second fleet through the war, is granted the sixteenth market charter for the southern strait; the council's minute notes, in its last line, that it is also the last such charter the kingdom means to grant.",
+        "category": "trade",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:15"],
+        "threads": [],
+        "master_links": ["VI-0120a"]
+    },
+    {
+        "title": "The Board ends the coal trade outside the Sloc Mòr",
+        "era_year": 23,
+        "after": "VI-0122",
+        "summary": "Fearghas mac Aonghais's office notes that the trade in coal-fuel is at an end on the island outside what the Board still cuts for its own account at the Sloc Mòr: not forbidden by any law, but ended by there being, at last, nowhere left to sell it.",
+        "category": "trade",
+        "people": [],
+        "places": ["burg:23"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0121"]
+    },
+    {
+        "title": "Aonghas mac Phàdraig's plough finds the first iron",
+        "era_year": 23,
+        "after": "VI-0119",
+        "summary": "Turning his field at Muileann ghlas in am Màrt as he has every spring of his life, Aonghas mac Phàdraig's share brings up a rusted bayonet lying whole across it; he finishes the furrow before he carries it home.",
+        "category": "war",
+        "people": ["Aonghas mac Phàdraig"],
+        "places": ["marker:17"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0127"]
+    },
+    {
+        "title": "The first regiment's corporal begins a list",
+        "era_year": 23,
+        "after": "VI-0127",
+        "summary": "A corporal of the first regiment collecting rents in the district takes Aonghas mac Phàdraig's bayonet and enters it on a list kept for such finds, not knowing whether it is a record of the dead or only of the field giving back what two armies left in it.",
+        "category": "war",
+        "people": ["Aonghas mac Phàdraig"],
+        "places": ["marker:17"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0127"]
+    },
+    {
+        "title": "The letter from the capital's gaol",
+        "era_year": 23,
+        "after": "VI-0122",
+        "summary": "Martha Greaves receives word from the council's office that the holdouts taken at Muileann ghlas are to be released in an t-Iuchar and marched north to the boundary stones, with no word of who is to feed them on the road or what their flooded towns will make of their return.",
+        "category": "people",
+        "people": ["Martha Greaves"],
+        "places": ["burg:143"],
+        "threads": ["the-long-war", "the-tuathaich"],
+        "master_links": ["VI-0123"]
+    },
+    {
+        "title": "Martha Greaves and Peter Hale ride to the stones",
+        "era_year": 23,
+        "after": "VI-0123",
+        "summary": "Martha Greaves and Peter Hale take the last carriage the coal line runs toward the boundary stones, Peter carrying a register freshly ruled with a new column by his own hand for want of any other paper the party trusted.",
+        "category": "people",
+        "people": ["Martha Greaves", "Peter Hale"],
+        "places": ["province:7"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0123"]
+    },
+    {
+        "title": "A mother writes four words beside her son's name",
+        "era_year": 23,
+        "after": "VI-0123",
+        "summary": "A woman of Cnoc thais gives Martha Greaves her son's name for the register and, unbidden, the words he is not among these; Martha sets both down, judging the register poorer without them.",
+        "category": "people",
+        "people": ["Martha Greaves"],
+        "places": ["province:7"],
+        "threads": ["the-long-war", "the-tuathaich"],
+        "master_links": ["VI-0123"]
+    },
+    {
+        "title": "A man refuses his name for a town that no longer stands",
+        "era_year": 23,
+        "after": "VI-0123",
+        "summary": "An older prisoner at the boundary stones will not give his name at first, saying it would mean nothing written beside Muileann àrsaidh's ruin; Martha Greaves promises the town will stand again in whatever shape its people build it, and he gives his name.",
+        "category": "people",
+        "people": ["Martha Greaves"],
+        "places": ["province:7"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0123"]
+    },
+    {
+        "title": "Peter Hale keeps a name of his own",
+        "era_year": 23,
+        "after": "VI-0123",
+        "summary": "Among the released Peter Hale recognises a man once apprenticed to the same binder at Muileann leathan whose pupils rebound the Moot's minute-books; the man gives no sign of knowing him, and Peter does not ask which it is, silence or forgetting.",
+        "category": "people",
+        "people": ["Peter Hale", "Martha Greaves"],
+        "places": ["province:7"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0123"]
+    },
+    {
+        "title": "Somhairle mac Lachlainn is summoned to the council",
+        "era_year": 23,
+        "after": "VI-0123",
+        "summary": "A three-line letter invites Somhairle mac Lachlainn to a seat among the twelve at the autumn sitting; he reads it as insurance the council is taking against its own next war rather than as an honour done him, and does not refuse it.",
+        "category": "law",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:19"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0124"]
+    },
+    {
+        "title": "Anna nic Phàil speaks to Somhairle at the chamber door",
+        "era_year": 23,
+        "after": "VI-0124",
+        "summary": "At the close of his first sitting Anna nic Phàil tells Somhairle mac Lachlainn she stood on the bench in the passage the Christmas Martha Greaves carried the Moot's last petition in, and means to go on voting every mercy the council's business allows her.",
+        "category": "law",
+        "people": ["Somhairle mac Lachlainn", "Anna nic Phàil"],
+        "places": ["burg:19"],
+        "threads": [],
+        "master_links": ["VI-0124"]
+    },
+    {
+        "title": "The seventh regiment builds the Àth leathan post",
+        "era_year": 23,
+        "after": "VI-0122",
+        "summary": "Over six weeks in autumn the seventh regiment raises a post of stone and timber on the road below Àth leathan, at the crossing where the holdouts once formed for battle, and enters it in the regimental returns under the plain name the lists have used from the order that raised it.",
+        "category": "war",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:346"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0125"]
+    },
+    {
+        "title": "The town keeps its own name for the post",
+        "era_year": 23,
+        "after": "VI-0125",
+        "summary": "Sergeant Iain Mòr reports that Àth leathan calls the new post something other than the lists do, and judges it no soldier's business to carry that name back to be entered anywhere the council might read it; Somhairle mac Lachlainn does not press him for it.",
+        "category": "war",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:346"],
+        "threads": ["the-long-war", "the-tuathaich"],
+        "master_links": ["VI-0125"]
+    },
+    {
+        "title": "Somhairle reads the one-and-sixty names",
+        "era_year": 23,
+        "after": "VI-0126",
+        "summary": "At the stone's unveiling at Cathair mhòr, Somhairle mac Lachlainn reads aloud the one-and-sixty names of the regiments' dead from Àth leathan and Muileann ghlas to a silent square, and finds the town's silence harder to bear than any noise it might have made instead.",
+        "category": "war",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:23"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0126"]
+    },
+    {
+        "title": "Somhairle thinks of the names the stone does not carry",
+        "era_year": 23,
+        "after": "VI-0126",
+        "summary": "Standing alone at the stone after the crowd disperses, Somhairle mac Lachlainn counts over the column's uncounted dead, the sixty from the byres, and a mother's son who was not among the released, and finds that number, cut nowhere, stays with him longer than the one that is.",
+        "category": "war",
+        "people": ["Somhairle mac Lachlainn"],
+        "places": ["burg:23"],
+        "threads": ["the-long-war"],
+        "master_links": ["VI-0126"]
+    }
+]

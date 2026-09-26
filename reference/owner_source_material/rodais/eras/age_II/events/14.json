@@ -1,0 +1,249 @@
+[
+  {
+    "title": "The empty salt-kists at Dùn ìseal",
+    "era_year": 1174,
+    "summary": "Raghnall Ceannfhionn, opening the salt-kists his grandfather Dòmhnall left him, finds three of six near empty and thinks for the first time in earnest of the salt running to waste in the Red Hill's pans while his own hill wears wool it cannot use fast enough.",
+    "category": "trade",
+    "people": [
+      "Raghnall Ceannfhionn"
+    ],
+    "places": [
+      "burg:315"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0113",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "The king declines to speak for either hill",
+    "era_year": 1174,
+    "summary": "Raghnall asks the king to settle salt with the Red Hill on his behalf. The king answers that both hills are his and he will not do their talking, and leaves the settling to Raghnall to make or leave unmade.",
+    "category": "rulers",
+    "people": [
+      "Raghnall Ceannfhionn",
+      "Ailean Mòr mac Shuibhne"
+    ],
+    "places": [
+      "burg:315"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0113",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "Raghnall rides west with nine companions",
+    "era_year": 1175,
+    "summary": "Raghnall takes nine men, no more, so the company will not be taken for a raid, and rides the five days' road to the ford, the first of the hill's blood to travel so near the Red Hill's country since Uisdean knelt to the king.",
+    "category": "trade",
+    "people": [
+      "Raghnall Ceannfhionn"
+    ],
+    "places": [
+      "burg:315"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0113",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Strangers first set out goods beside the wool and salt",
+    "era_year": 1179,
+    "summary": "Traders with no part in either household begin bringing flint, dried fish and pots to the ford on the appointed days, setting their wares apart from the wool and salt. Neither hill turns them away, and no one afterward remembers deciding to let them stay.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "marker:38"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0114",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "The Red Hill refuses a poor clip",
+    "era_year": 1186,
+    "summary": "After a wet shearing season the wool comes down thin and unwashed, and the Red Hill's people will not weigh full salt against it. Raghnall's son carries the refusal home; no word is sent to the king, and none is asked for.",
+    "category": "trade",
+    "people": [
+      "Raghnall Ceannfhionn"
+    ],
+    "places": [
+      "marker:38"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0113",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The short year is made good without a law",
+    "era_year": 1187,
+    "summary": "Raghnall sends a better clip the following spring with fleece besides to make up the short year, and neither hill presses harder than a fair measure again. The bargain holds on nothing written, only on each side's wish to be trusted the year after.",
+    "category": "trade",
+    "people": [
+      "Raghnall Ceannfhionn"
+    ],
+    "places": [
+      "marker:38"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0114",
+        "type": "legacy"
+      }
+    ]
+  },
+  {
+    "title": "The first marriage of the ford",
+    "era_year": 1208,
+    "summary": "A young man of the hill and a young woman of the Red Hill's people, remarked on for three autumns' standing near each other at the weighing, are married on the trodden ground with both banks' households standing for it, the first marriage the meeting ever gave anyone.",
+    "category": "trade",
+    "people": [
+      "Raghnall Ceannfhionn"
+    ],
+    "places": [
+      "marker:38"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0114",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The unnamed holder of the Red Hill dies",
+    "era_year": 1235,
+    "summary": "The Red Hill's holder who first waded to meet Raghnall in the water dies after sixty years and more keeping faith at the ford, and is followed by a son who does not hold long, and then by a grandson.",
+    "category": "rulers",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0113",
+        "type": "legacy"
+      }
+    ]
+  },
+  {
+    "title": "Murchadh Gearr comes to the Red Hill",
+    "era_year": 1240,
+    "summary": "Murchadh Gearr, a kinsman of the old holder's line, comes to the Red Hill after a grandson's short holding, and is known from his first weighing at the ford as a man who would rather walk a road than ride it.",
+    "category": "rulers",
+    "people": [
+      "Murchadh Gearr"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0115",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "Murchadh Gearr walks the salt road to be seen",
+    "era_year": 1247,
+    "summary": "Murchadh Gearr walks the whole salt road on his own feet in the weeks before every autumn meeting, stopping at every household on it, so that no child between Baile ghorm and the ford grows up without having seen the Red Hill's holder pass in the flesh.",
+    "category": "trade",
+    "people": [
+      "Murchadh Gearr"
+    ],
+    "places": [
+      "marker:38"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0115",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Children of both banks cease to be told apart",
+    "era_year": 1260,
+    "summary": "By this year the children who run between the stalls at the ford on the appointed days make no distinction between the hill's side of the water and the Red Hill's, the meeting by then older than any living memory of its making.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "marker:38"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0114",
+        "type": "legacy"
+      }
+    ]
+  },
+  {
+    "title": "Raghnall's last morning at the ford",
+    "era_year": 1273,
+    "summary": "In his hundredth year past the wading, Raghnall stands once more on the bank where he first crossed, looks on ground worn bare and hard by ninety-nine autumns of trade, and understands he will be gone from the ford long before the ford is done with anyone.",
+    "category": "trade",
+    "people": [
+      "Raghnall Ceannfhionn"
+    ],
+    "places": [
+      "marker:38"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "I-0113",
+        "type": "legacy"
+      }
+    ]
+  }
+]

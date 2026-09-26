@@ -130,5 +130,23 @@
   "dt": "Seann Warr",
   "gloss": "a harbour beside Seann Mhorn on Loch chrom, resettled with its old name kept",
   "kind": "place"
+ },
+ {
+  "en": "the line of Fionnghal",
+  "dt": "Sliochd Fhionnghail",
+  "gloss": "the descendants of Fionnghal nic Ailein, holding the western share at Ros dhomhain",
+  "kind": "house"
+ },
+ {
+  "en": "the line of Artair",
+  "dt": "Sliochd Artair",
+  "gloss": "the descendants of Artair mac Ailein, holding the share of the salt shore at Baile ghorm",
+  "kind": "house"
+ },
+ {
+  "en": "the Wedding of the Shame",
+  "dt": "Banais na Nàire",
+  "gloss": "the wedding at Ros dhomhain (FE 214) where an insult between the lines of Fionnghal and Artair began a feud carried for centuries",
+  "kind": "event"
  }
 ]

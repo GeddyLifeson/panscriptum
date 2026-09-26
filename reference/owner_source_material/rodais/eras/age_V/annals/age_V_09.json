@@ -6,56 +6,10 @@
  ],
  "events": [
   {
-   "id": "EV-5001",
-   "title": "Thomas Hale's suit filed at Ros dhomhain",
-   "body": "Thomas Hale walks the three days from Baile dhìreach to Ros dhomhain and files a claim at the Company's court, a copy of his grandmother's marriage roll in his coat and no other paper. The clerk gives a hearing date a full season off, at the back of the court's list.",
-   "place": "burg:105",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0231",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "thomas-hale"
-   ],
-   "told_in": "book/28_of_the_law_of_one_line.md#iii-of-the-walk-to-ros-dhomhain"
-  },
-  {
    "after": "IV-0232"
   },
   {
-   "id": "EV-5002",
-   "title": "The cutting at Seann Bhral taken",
-   "body": "A second magistrate at Ros dhomhain, citing Thomas Hale's case by name, decides a claim on a customary working at Seann Bhral against a cooper's daughter's line, married three generations back to a human pilot. The ruling runs to a single page.",
-   "place": "burg:110",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0231",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0232",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "thomas-hale"
-   ],
-   "told_in": "book/28_of_the_law_of_one_line.md#v-of-the-eleven-cuttings"
-  },
-  {
-   "id": "EV-5003",
+   "id": "EV-5001",
    "title": "Mairead nic Aoidh stops entering marriages in the roll",
    "body": "The custodian of Baile dhìreach ceases to enter marriages between Dia-thìrich and humans in her roll, judging that under Dunstan's rule such an entry has become a paper a family's enemies may use against it rather than one that protects anything.",
    "place": "burg:105",
@@ -77,38 +31,10 @@
    "told_in": "book/28_of_the_law_of_one_line.md#v-of-the-eleven-cuttings"
   },
   {
-   "after": "IV-0233"
-  },
-  {
-   "id": "EV-5004",
-   "title": "Griogair mac Ailein taken up at Cnoc chaol",
-   "body": "Griogair mac Ailein, a breaker of the Cnoc chaol sorting-floor, is taken up by the Company's constables over a dispute at the pay office and refuses to sign for a short-weighted cartload he did not cut. He is held in the Company's lock-up pending a hearing never set.",
-   "place": "burg:415",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0233",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0234",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "griogair-mac-ailein"
-   ],
-   "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein"
-  },
-  {
    "after": "IV-0234"
   },
   {
-   "id": "EV-5005",
+   "id": "EV-5002",
    "title": "Griogair mac Ailein dies in the lock-up",
    "body": "Griogair mac Ailein dies in the Company's lock-up at Cnoc chaol of a fever the Company's own surgeon records as already advanced when he was taken. He has no family living to claim him.",
    "place": "burg:415",
@@ -129,7 +55,7 @@
    "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein"
   },
   {
-   "id": "EV-5006",
+   "id": "EV-5003",
    "title": "Thomas Hale sent for to read the surgeon's note",
    "body": "Dòmhnall Ruadh, a crew-leader of Baile thais, carries a letter to Baile dhìreach asking Thomas Hale, known along the coast for his hard-won knowledge of the Administration's law, to stand at Griogair mac Ailein's graveside and read the Company surgeon's note releasing the body.",
    "place": "burg:105",
@@ -151,7 +77,7 @@
    "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein"
   },
   {
-   "id": "EV-5007",
+   "id": "EV-5004",
    "title": "Thomas Hale reads the surgeon's note at the grave",
    "body": "At a grave dug on the bare hill above the Cnoc chaol pit-head, Thomas Hale reads Griogair mac Ailein's release aloud in the Company's own tongue before some thirty of the fellowship, so that no clerk may afterward say the burying was done without the Company's leave.",
    "place": "burg:415",
@@ -174,38 +100,10 @@
    "told_in": "book/28_of_the_law_of_one_line.md#vi-of-the-lamp-watch-and-griogair-mac-ailein"
   },
   {
-   "after": "IV-0235"
-  },
-  {
-   "id": "EV-5008",
-   "title": "Edward Vane answers the port custodian",
-   "body": "Edward Vane, come up the same quay eleven days after Haskins sails, answers the custodian's customary greeting in Dia-thìris, badly and unprompted, the first Commissioner in living memory to do so without a clerk beside him.",
-   "place": "burg:27",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0235",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "edward-vane"
-   ],
-   "told_in": "book/29_of_the_night_shift.md#i-of-the-man-who-spoke-it-badly",
-   "era_between": [
-    114,
-    114
-   ]
-  },
-  {
    "after": "IV-0236"
   },
   {
-   "id": "EV-5009",
+   "id": "EV-5005",
    "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
    "body": "Edward Vane goes up to Cathair dhearg unsummoned and speaks three sentences of Dia-thìris to Comhairle a' Chùraim before finishing through the Mission's interpreter, telling the council he has come home. The clerk enters the word exactly, wrong tense and all.",
    "place": "burg:19",
@@ -233,7 +131,7 @@
    "after": "IV-0238"
   },
   {
-   "id": "EV-5010",
+   "id": "EV-5006",
    "title": "The day shift stands in the yard at Cnoc chaol",
    "body": "Three hundred hewers of the day shift refuse to go down for the night change and stand in the yard through the last light, saying nothing to the overseer who twice asks their meaning. No chant is raised and no threat made; they simply do not move.",
    "place": "burg:415",
@@ -256,33 +154,10 @@
    ]
   },
   {
-   "id": "EV-5011",
-   "title": "Muileann dhomhain shuts every door",
-   "body": "The milling town of Muileann dhomhain refuses to house or feed the strikebreaking crews sent up from the coast. Every inn and counter turns them away, and the well at the crossroads is found blocked with stones on the second morning, by no hand the custodian troubled to guess at.",
-   "place": "burg:202",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0240",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [],
-   "told_in": "book/29_of_the_night_shift.md#iii-of-the-two-shifts-and-the-week-it-lasted",
-   "era_between": [
-    116,
-    116
-   ]
-  },
-  {
    "after": "IV-0240"
   },
   {
-   "id": "EV-5012",
+   "id": "EV-5007",
    "title": "The Lamp-Watch's purse runs dry",
    "body": "The Lamp-Watch, keeping the households of the crews who stood at Cnoc chaol, empties its purse by the second winter. Its own reckoning, kept in an unnamed hand, closes the year's account at nothing, and beneath it notes only that the hill was not given back its silence.",
    "place": "burg:415",
@@ -309,39 +184,10 @@
    ]
   },
   {
-   "after": "IV-0241"
-  },
-  {
-   "id": "EV-5013",
-   "title": "Matthew Dunne sails for an Tìr Thall",
-   "body": "Recalled within the season on the Company's complaint, Matthew Dunne, three-and-thirty, preaches a last, ordinary sermon to a full chapel and goes down to the Ros dhomhain quay in the rain. The Lamp-Watch has a copy of his fallow-year sermon within the week.",
-   "place": "burg:27",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0241",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company",
-    "the-church-on-the-island"
-   ],
-   "people": [
-    "matthew-dunne"
-   ],
-   "told_in": "book/29_of_the_night_shift.md#iv-of-the-sermon-at-ros-dhomhain",
-   "era_between": [
-    118,
-    118
-   ]
-  },
-  {
    "after": "IV-0243"
   },
   {
-   "id": "EV-5014",
+   "id": "EV-5008",
    "title": "Iain Maor dismissed and restored",
    "body": "The Residency answers Iain Maor's letter with a notice relieving him of the overseer's staff for conduct unbecoming his office. His daughter Mòrag reads it to him by lamplight. Within a month, the crews having slowed the galleries to nothing, an unsigned notice restores him with no mention of the first.",
    "place": "burg:354",
@@ -370,7 +216,7 @@
    "after": "IV-0245"
   },
   {
-   "id": "EV-5015",
+   "id": "EV-5009",
    "title": "Fionnan's birth reaches the cellar",
    "body": "The birth of Fionnan, entered by an eastern custodian among the ordinary births of the year, reaches the cellar at Muileann chaol folded into a roll like any other. No hand marks the line for what it is; the copyists learn to find it again only once the word for the thing exists to look for.",
    "place": "burg:246",
@@ -398,7 +244,7 @@
    "after": "IV-0246"
   },
   {
-   "id": "EV-5016",
+   "id": "EV-5010",
    "title": "Cailean mac Eachainn taken on at the cellar",
    "body": "Cailean mac Eachainn, a turf-cutter's son of Muileann chaol with a plain hand at his letters, is taken on by the three households of the cellar when Seònag Bhàn's eyes fail her past close work. He is asked first not whether he can write fair, but whether he can hold his tongue.",
    "place": "burg:246",
@@ -421,30 +267,10 @@
    ]
   },
   {
-   "after": "IV-0248"
-  },
-  {
-   "id": "EV-5017",
-   "title": "The cellar comes to know the eastern hills by heart",
-   "body": "Winter on winter the three households of the cellar copy the whole record of the eastern hills, every birth and burial and fine and fever, until between them they come to know the district better than any single custodian who keeps only his own corner of it.",
-   "place": "burg:246",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0248",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [],
-   "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#iii-of-the-three-households"
-  },
-  {
    "after": "IV-0249"
   },
   {
-   "id": "EV-5018",
+   "id": "EV-5011",
    "title": "Nothing of weight was lost",
    "body": "By lamplight Fearchar mac Ailpein and Cailean mac Eachainn match the recovered northern rolls against the cellar's own patched record of the missing years, and find that little of any weight had truly gone missing, only kept for a time in the wrong cellar.",
    "place": "burg:246",
@@ -463,40 +289,10 @@
    "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#vi-of-the-copies-gone-astray"
   },
   {
-   "after": "IV-0250"
-  },
-  {
-   "id": "EV-5019",
-   "title": "The vote at the shrine of Cill ghlas",
-   "body": "By the light of Brìde's lamp at the mouth of the oldest cutting, the custodians gathered at Cill ghlas argue two hours over a name for the coal-blood before a show of hands settles it. Cailean mac Eachainn, come up from the cellar to write it fair, counts more hands raised than not.",
-   "place": "burg:123",
-   "kind": "birth",
-   "category": "coalblood",
-   "links": [
-    {
-     "to": "IV-0250",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0251",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-coal-blood",
-    "the-keepers-promise"
-   ],
-   "people": [
-    "peigi-ghlas",
-    "cailean-mac-eachainn"
-   ],
-   "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#ix-of-the-naming"
-  },
-  {
    "after": "IV-0251"
   },
   {
-   "id": "EV-5020",
+   "id": "EV-5012",
    "title": "Peigi Ghlas calls the custodians to Cill ghlas",
    "body": "Peigi Ghlas writes to every custodian within two days' walk, calling them to the shrine of Cill ghlas on the night of the coming full moon to settle a name for the change that has now come twice upon a child of the pits, and asks the cellar to send a hand who can write it fair on the spot.",
    "place": "burg:123",
@@ -520,32 +316,6 @@
     126,
     126
    ]
-  },
-  {
-   "id": "EV-5021",
-   "title": "Cailean writes the word into the physician's column",
-   "body": "At Peigi Ghlas's dictation, Cailean mac Eachainn writes the agreed word into a physician's register at the mouth of the cutting, then carries the leaf home to Muileann chaol for a second fair copy. His own hand is the first to set fuil-ghuail down among the ordinary births and burials of the roll.",
-   "place": "burg:123",
-   "kind": "birth",
-   "category": "coalblood",
-   "links": [
-    {
-     "to": "IV-0250",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0251",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-coal-blood"
-   ],
-   "people": [
-    "cailean-mac-eachainn",
-    "peigi-ghlas"
-   ],
-   "told_in": "book/30_of_the_cellar_at_muileann_chaol.md#ix-of-the-naming"
   }
  ]
 }

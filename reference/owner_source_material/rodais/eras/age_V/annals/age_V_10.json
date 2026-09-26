@@ -7,32 +7,6 @@
  "events": [
   {
    "id": "EV-5501",
-   "title": "Cailean reads the Àth ìseal marriage line",
-   "body": "Copying the roll of the camp at Àth ìseal in the cellar at Muileann chaol, Cailean mac Eachainn reads past the first name of a marriage line for the first time in a year of copying, and finds Donnchadh mac Thormoid's line carried seven fathers back to a name far older than a hewer's line should hold.",
-   "place": "burg:246",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0251a",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "line-of-aisling"
-   ],
-   "people": [
-    "cailean-mac-eachainn",
-    "donnchadh-mac-thormoid"
-   ],
-   "told_in": "book/31_of_the_line_of_aisling.md#i-of-the-roll-at-ath-iseal",
-   "era_between": [
-    126,
-    126
-   ]
-  },
-  {
-   "id": "EV-5502",
    "title": "The third mark beside a birth",
    "body": "On the same page Cailean finds the birth of Aisling entered with a mark he has seen only three or four times in a year of copying, never explained in any book given him, and recognises it for the mark the camps' whisper had already fixed to one child in the settlement.",
    "place": "burg:246",
@@ -57,7 +31,7 @@
    ]
   },
   {
-   "id": "EV-5503",
+   "id": "EV-5502",
    "title": "Cailean walks to Tobar dhìreach",
    "body": "Rather than report to the cellar, Cailean walks the hill road to Tobar dhìreach with the seven names copied onto a scrap of paper inside his coat, to ask whether a line so old could truly be Donnchadh's own.",
    "place": "burg:276",
@@ -82,36 +56,10 @@
    ]
   },
   {
-   "id": "EV-5504",
-   "title": "Ealasaid of Clann na Ceiste says the Line of Aisling",
-   "body": "Ealasaid, last of Clann na Ceiste who still says the old lines at Tobar dhìreach, hears the seven names Cailean brings and gives him Aisling's whole line back to Somhairle son of Ailean Mòr, the first king, telling him plainly that she has told him whose son the child's forebear was and no more than that.",
-   "place": "burg:276",
-   "kind": "birth",
-   "category": "coalblood",
-   "links": [
-    {
-     "to": "IV-0251a",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "line-of-aisling"
-   ],
-   "people": [
-    "ealasaid",
-    "cailean-mac-eachainn"
-   ],
-   "told_in": "book/31_of_the_line_of_aisling.md#i-of-the-roll-at-ath-iseal",
-   "era_between": [
-    126,
-    126
-   ]
-  },
-  {
    "after": "IV-0252"
   },
   {
-   "id": "EV-5505",
+   "id": "EV-5503",
    "title": "A custodian of Cill ghlas answers the Company's agent",
    "body": "Asked by a Company agent whether she knows of any coal-touched child in her district, a custodian of Cill ghlas answers that she keeps no roll of miracles, only of births and deaths, and that the office is welcome to search her books for either.",
    "place": "burg:123",
@@ -134,7 +82,7 @@
    ]
   },
   {
-   "id": "EV-5506",
+   "id": "EV-5504",
    "title": "Peigi Ghlas dies at Cill ghlas",
    "body": "Peigi Ghlas dies at Cill ghlas, her petition still unanswered, having trimmed Brìde's lamp herself the week before her death and said that she had asked the Residency once and meant to leave the asking there.",
    "place": "burg:123",
@@ -152,36 +100,10 @@
    ]
   },
   {
-   "after": "IV-0258"
-  },
-  {
-   "id": "EV-5507",
-   "title": "Iain Maor buried at Muileann chrom",
-   "body": "Iain Maor, third of that name to hold the overseer's staff at Muileann chrom, dies in the same house he held it from and is buried within the week, the camp's custom allowing no longer delay for an office that cannot sit empty.",
-   "place": "burg:354",
-   "kind": "court",
-   "category": "rulers",
-   "links": [
-    {
-     "to": "IV-0258",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "iain-maor"
-   ],
-   "told_in": "book/31_of_the_line_of_aisling.md#v-of-the-staff-at-muileann-chrom",
-   "era_between": [
-    131,
-    131
-   ]
-  },
-  {
    "after": "IV-0260"
   },
   {
-   "id": "EV-5508",
+   "id": "EV-5505",
    "title": "Ruth Pallant teaches Hannah Webb the night watch",
    "body": "At Ceann mhòr, an old net-mender named Ruth Pallant tells the field-worker Hannah Webb of a night watch her own people's fisher-forebears learned from the island folk, kept in silence under a grey goose said to hold the sea shut. Hannah carries the telling of it home to the concession.",
    "place": "burg:143",
@@ -208,7 +130,7 @@
    ]
   },
   {
-   "id": "EV-5509",
+   "id": "EV-5506",
    "title": "Hannah Webb's first vigil",
    "body": "In a field behind her landlord's byre near Baile chrom, Hannah Webb keeps the silent watch for the first time, and sees, or believes she sees, a pale shape cross the night sky before she sleeps through a whole night for the first time in ten years on the island.",
    "place": "burg:305",
@@ -234,7 +156,7 @@
    ]
   },
   {
-   "id": "EV-5510",
+   "id": "EV-5507",
    "title": "The watch spreads along the concession's edge",
    "body": "Word of Hannah Webb's night vigil passes among the human labourers of the concession after a field hand sees her keeping it. Within a season a handful of others try it, and by autumn six or seven keep the field together on clear nights, spaced apart and silent.",
    "place": "burg:305",
@@ -260,64 +182,10 @@
    ]
   },
   {
-   "after": "IV-0262a"
-  },
-  {
-   "id": "EV-5511",
-   "title": "Baile chrom disowns the humans' watch",
-   "body": "The custodian of Baile chrom's lower row refuses any part of the human labourers' vigil, saying the town's own name should be left out of the keeping of it. The field folk, who had hoped to call the watch a thing shared between the two peoples, learn to call it their own alone.",
-   "place": "burg:305",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0262",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-church-on-the-island"
-   ],
-   "people": [
-    "hannah-webb"
-   ],
-   "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#iii-of-what-the-mission-and-the-priests-said-of-it",
-   "era_between": [
-    133,
-    133
-   ]
-  },
-  {
    "after": "IV-0265"
   },
   {
-   "id": "EV-5512",
-   "title": "Manannan's priest names the goose gone astray",
-   "body": "A priest of the harbour temple at Ceann mhòr walks to Baile chrom, watches Hannah Webb's vigil through a night, and tells her the goose she keeps is an Gèadh Fiadhaich, the wild goose of the Spirit, wandered from Manannan's own harbours into a shape no longer entirely his people's to reclaim or to stop.",
-   "place": "burg:305",
-   "kind": "rite",
-   "category": "faith",
-   "links": [
-    {
-     "to": "IV-0262",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-church-on-the-island",
-    "the-orders-of-the-old-faith"
-   ],
-   "people": [
-    "hannah-webb"
-   ],
-   "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#iii-of-what-the-mission-and-the-priests-said-of-it",
-   "era_between": [
-    134,
-    134
-   ]
-  },
-  {
-   "id": "EV-5513",
+   "id": "EV-5508",
    "title": "The berth toll and the docker Tòmas Ruadh",
    "body": "The Company posts a new toll on every ton loaded at the Ros dhomhain coal berths. The docker Tòmas Ruadh, whom Daniel Webb once pulled clear of a falling beam, tells him of it, and the two speak for the first time of standing off the hooks together.",
    "place": "burg:27",
@@ -343,33 +211,7 @@
    ]
   },
   {
-   "id": "EV-5514",
-   "title": "The human dockers shipped over the sea",
-   "body": "The Company takes the names of every human docker who struck and offers them passage over the sea within the week, once, with the plain understanding that it will not be offered twice. Hannah Webb watches her brother Daniel go up the gangway from the Ros dhomhain quay.",
-   "place": "burg:27",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0263",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "hannah-webb",
-    "daniel-webb"
-   ],
-   "told_in": "book/32_of_the_grey_goose_and_the_dockers.md#iv-of-the-dockers-of-ros-dhomhain",
-   "era_between": [
-    134,
-    134
-   ]
-  },
-  {
-   "id": "EV-5515",
+   "id": "EV-5509",
    "title": "Raghnall Breac walks to Cill ghlas",
    "body": "With his knees gone stiff for the low work at Baile thais and two grandchildren to feed, the ageing hewer Raghnall Breac walks two days to the new galleries at Cill ghlas, where the pay is better and the headings still stand tall enough for a man to work upright. He writes to his daughter Eilidh twice a year.",
    "place": "burg:44",
@@ -398,7 +240,7 @@
    "after": "IV-0268"
   },
   {
-   "id": "EV-5516",
+   "id": "EV-5510",
    "title": "Eilidh nic Raghnaill given a seat at the Lamp-Watch's table",
    "body": "The crew-leader Eilidh nic Raghnaill of Baile thais is asked, for the first time, to sit at the table where the Lamp-Watch keeps its business, and copies its minutes into a second book kept in her own linen chest, where no Company clerk would think to look.",
    "place": "burg:44",
@@ -426,32 +268,7 @@
    "after": "IV-0274"
   },
   {
-   "id": "EV-5517",
-   "title": "The Rending kills the thirty-one",
-   "body": "On the ninth of an t-Ògmhios the fault beneath Cill ghlas tears open and the ground above the eighth heading and the old shrine cutting comes down together. The custodians' roll names thirty-one dead, among them the hewer Raghnall Breac, and says four bodies more were never brought up.",
-   "place": "burg:123",
-   "kind": "land",
-   "category": "land",
-   "links": [
-    {
-     "to": "IV-0269",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "raghnall-breac"
-   ],
-   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#iii-of-the-ground-that-spoke-first",
-   "era_between": [
-    137,
-    137
-   ]
-  },
-  {
-   "id": "EV-5518",
+   "id": "EV-5511",
    "title": "Eilidh nic Raghnaill at the fenced ground",
    "body": "Eilidh nic Raghnaill walks to Cill ghlas to find her father's grave and finds instead the fence and the fallen headgear of the eighth heading. A constable turns her away from the closed ground. She writes nothing of the hour in the Lamp-Watch's book.",
    "place": "burg:123",
@@ -476,7 +293,7 @@
    ]
   },
   {
-   "id": "EV-5519",
+   "id": "EV-5512",
    "title": "Fionnlagh's warning at Muileann chrom",
    "body": "The overseer Fionnlagh tells the new agent Edgar Holt that the flooded ground under one heading at Muileann chrom has never gone a night without its pumps, drawing as it does from an unmapped old working above it. Holt orders the pumps stopped regardless, to spare coal for the winding-gear until a delayed barge arrives.",
    "place": "burg:354",
@@ -499,65 +316,6 @@
    "era_between": [
     137,
     137
-   ]
-  },
-  {
-   "id": "EV-5520",
-   "title": "The flooded gallery takes seven",
-   "body": "With the pumps idle overnight, the gallery at Muileann chrom fills to the roof, and seven men of the change of shift, Fionnlagh among them, do not come up. Mòrag nic Iain Maor stands at the pit-mouth as they are brought up and laid in a row on the wet boards.",
-   "place": "burg:354",
-   "kind": "craft",
-   "category": "coal",
-   "links": [
-    {
-     "to": "IV-0274",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "morag-nic-iain-maor",
-    "fionnlagh"
-   ],
-   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#v-of-the-pumps-stopped-to-save-fuel",
-   "era_between": [
-    137,
-    137
-   ]
-  },
-  {
-   "after": "IV-0275"
-  },
-  {
-   "id": "EV-5521",
-   "title": "The Lamp-Watch keeps the struck copy",
-   "body": "A Dia-thìreach clerk who keeps the Company's own file copy of the inquiry's minutes has the struck-through page carried north to Baile thais folded inside sailcloth. Eilidh nic Raghnaill copies it a second time into the Lamp-Watch's linen-chest book, the stricken line copied as stricken, and is given a full seat at the table that winter.",
-   "place": "burg:44",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0275",
-     "type": "sequel"
-    },
-    {
-     "to": "IV-0234",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "eilidh-nic-raghnaill",
-    "morag-nic-iain-maor"
-   ],
-   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#vi-of-the-inquiry-and-the-copy-that-was-kept",
-   "era_between": [
-    138,
-    138
    ]
   }
  ]

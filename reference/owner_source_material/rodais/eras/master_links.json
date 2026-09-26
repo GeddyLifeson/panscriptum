@@ -1,0 +1,2738 @@
+{
+ "I-0163": [
+  {
+   "to": "EV-1506",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "17 an Dùbhlachd, AE 6",
+   "title": "The households of Àth dhearg asked hearth by hearth",
+   "master": false,
+   "year": "AE 6"
+  }
+ ],
+ "IV-0001": [
+  {
+   "to": "EV-1005",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "13 am Màrt, AE 2",
+   "title": "The humans pray in a sail-loft at Cuan shean",
+   "master": false,
+   "year": "AE 2"
+  }
+ ],
+ "IV-0001a": [
+  {
+   "to": "EV-1001",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "21 am Faoilleach, AE 1",
+   "title": "The word brought home to Achadh àrsaidh",
+   "master": false,
+   "year": "AE 1"
+  }
+ ],
+ "IV-0003": [
+  {
+   "to": "EV-1002",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "17 am Màrt, AE 1",
+   "title": "The rider from Cuan shean reaches Cathair dhearg",
+   "master": false,
+   "year": "AE 1"
+  },
+  {
+   "to": "EV-1003",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Cèitean, AE 1",
+   "title": "Harrow's men mend nets on the dunes",
+   "master": false,
+   "year": "AE 1"
+  }
+ ],
+ "IV-0005": [
+  {
+   "to": "EV-1002",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "17 am Màrt, AE 1",
+   "title": "The rider from Cuan shean reaches Cathair dhearg",
+   "master": false,
+   "year": "AE 1"
+  },
+  {
+   "to": "EV-1004",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an t-Sultain, AE 1",
+   "title": "Oighrig nic Leòid's letter to the council from her sickbed",
+   "master": false,
+   "year": "AE 1"
+  },
+  {
+   "to": "EV-1005",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "13 am Màrt, AE 2",
+   "title": "The humans pray in a sail-loft at Cuan shean",
+   "master": false,
+   "year": "AE 2"
+  }
+ ],
+ "IV-0008": [
+  {
+   "to": "EV-1006",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "22 am Màrt, AE 2",
+   "title": "Wren and the priests come up to Cathair dhearg",
+   "master": false,
+   "year": "AE 2"
+  }
+ ],
+ "IV-0009": [
+  {
+   "to": "EV-2506",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dàmhair, AE 30",
+   "title": "Muireall carries Gormshuil's papers to the loft at Muileann chaol",
+   "master": false,
+   "year": "AE 30"
+  },
+  {
+   "to": "EV-2507",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "21 an Dùbhlachd, AE 31",
+   "title": "Gormshuil nic Fhearchair dies at Cathair dhearg",
+   "master": false,
+   "year": "AE 31"
+  }
+ ],
+ "IV-0010": [
+  {
+   "to": "EV-1007",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 2",
+   "title": "Muireall copies the first leaf",
+   "master": false,
+   "year": "AE 2"
+  },
+  {
+   "to": "EV-1510",
+   "type": "person",
+   "dir": "in",
+   "arrow": "◇",
+   "label": "Same person",
+   "age": "V",
+   "era": "AE",
+   "date": "6 an t-Iuchar, AE 8",
+   "title": "Gormshuil given a copy of the terms",
+   "master": false,
+   "year": "AE 8"
+  },
+  {
+   "to": "EV-2507",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "21 an Dùbhlachd, AE 31",
+   "title": "Gormshuil nic Fhearchair dies at Cathair dhearg",
+   "master": false,
+   "year": "AE 31"
+  }
+ ],
+ "IV-0011": [
+  {
+   "to": "EV-1008",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "2 an t-Ògmhios, AE 3",
+   "title": "The first bargains entered in the council roll",
+   "master": false,
+   "year": "AE 3"
+  }
+ ],
+ "IV-0012": [
+  {
+   "to": "EV-1011",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "19 an Giblean, AE 5",
+   "title": "Pike writes home of the island's coal",
+   "master": false,
+   "year": "AE 5"
+  }
+ ],
+ "IV-0014": [
+  {
+   "to": "EV-1010",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Dùbhlachd, AE 3",
+   "title": "The ships' smith at the forge in Cathair dhearg",
+   "master": false,
+   "year": "AE 3"
+  },
+  {
+   "to": "EV-1012",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "21 an Giblean, AE 5",
+   "title": "Gilleasbuig Gobha forges a hinge for Pike's chest",
+   "master": false,
+   "year": "AE 5"
+  },
+  {
+   "to": "EV-1512",
+   "type": "legacy",
+   "dir": "in",
+   "arrow": "⇝",
+   "label": "Legacy of",
+   "age": "V",
+   "era": "AE",
+   "date": "13 an t-Samhain, AE 9",
+   "title": "The warehouse door hung",
+   "master": false,
+   "note": "the smith's bar-iron",
+   "year": "AE 9"
+  }
+ ],
+ "IV-0016": [
+  {
+   "to": "EV-1009",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "16 an t-Sultain, AE 3",
+   "title": "Harrow sails north-about with three hulls",
+   "master": false,
+   "year": "AE 3"
+  },
+  {
+   "to": "EV-1011",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "19 an Giblean, AE 5",
+   "title": "Pike writes home of the island's coal",
+   "master": false,
+   "year": "AE 5"
+  }
+ ],
+ "IV-0026": [
+  {
+   "to": "EV-1505",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an Dùbhlachd, AE 6",
+   "title": "Pike writes of the natives",
+   "master": false,
+   "year": "AE 6"
+  }
+ ],
+ "IV-0027": [
+  {
+   "to": "EV-1506",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "17 an Dùbhlachd, AE 6",
+   "title": "The households of Àth dhearg asked hearth by hearth",
+   "master": false,
+   "year": "AE 6"
+  }
+ ],
+ "IV-0027a": [
+  {
+   "to": "EV-1507",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an Dùbhlachd, AE 6",
+   "title": "No fire on Binnean a' Chlachair",
+   "master": false,
+   "year": "AE 6"
+  }
+ ],
+ "IV-0028": [
+  {
+   "to": "EV-1508",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 an Dùbhlachd, AE 7",
+   "title": "Torcall witnesses in the Dia-thìreach book",
+   "master": false,
+   "year": "AE 7"
+  }
+ ],
+ "IV-0029": [
+  {
+   "to": "EV-3001",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 am Faoilleach, AE 43",
+   "title": "Ùna finds no silver in Cùmhnant Cathair dhearg",
+   "master": false,
+   "year": "AE 43"
+  }
+ ],
+ "IV-0030": [
+  {
+   "to": "EV-1509",
+   "type": "parallel",
+   "dir": "in",
+   "arrow": "⇄",
+   "label": "At the same time",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Cèitean, AE 8",
+   "title": "Gormshuil called back from Muileann chaol",
+   "master": false,
+   "year": "AE 8"
+  },
+  {
+   "to": "EV-1510",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "6 an t-Iuchar, AE 8",
+   "title": "Gormshuil given a copy of the terms",
+   "master": false,
+   "year": "AE 8"
+  }
+ ],
+ "IV-0031": [
+  {
+   "to": "EV-1511",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an t-Sultain, AE 8",
+   "title": "The masons of the capital build for Pell",
+   "master": false,
+   "year": "AE 8"
+  }
+ ],
+ "IV-0033": [
+  {
+   "to": "EV-1512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "13 an t-Samhain, AE 9",
+   "title": "The warehouse door hung",
+   "master": false,
+   "year": "AE 9"
+  }
+ ],
+ "IV-0034": [
+  {
+   "to": "EV-1513",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Dùbhlachd, AE 9",
+   "title": "The hill's coal carried to Cuan shean",
+   "master": false,
+   "year": "AE 9"
+  }
+ ],
+ "IV-0038": [
+  {
+   "to": "EV-1514",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "25 an Dàmhair, AE 11",
+   "title": "Six sacks come back to Muileann chrom",
+   "master": false,
+   "year": "AE 11"
+  }
+ ],
+ "IV-0039": [
+  {
+   "to": "EV-1515",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "16 an t-Samhain, AE 11",
+   "title": "The first contract read at the mill",
+   "master": false,
+   "year": "AE 11"
+  },
+  {
+   "to": "EV-1516",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 an t-Samhain, AE 11",
+   "title": "Raghnall chosen to lead the thirty",
+   "master": false,
+   "year": "AE 11"
+  },
+  {
+   "to": "EV-2512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an Dùbhlachd, AE 41",
+   "title": "Lisle's rider gathers the papers of the hill",
+   "master": false,
+   "year": "AE 41"
+  }
+ ],
+ "IV-0040": [
+  {
+   "to": "EV-1516",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 an t-Samhain, AE 11",
+   "title": "Raghnall chosen to lead the thirty",
+   "master": false,
+   "year": "AE 11"
+  }
+ ],
+ "IV-0044": [
+  {
+   "to": "EV-2001",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 13",
+   "title": "The bell rung once before the fleet was out",
+   "master": false,
+   "year": "AE 13"
+  }
+ ],
+ "IV-0045": [
+  {
+   "to": "EV-2002",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "12 an Giblean, AE 14",
+   "title": "Beathag calls Doire mhòr's households to the hearth",
+   "master": false,
+   "year": "AE 14"
+  }
+ ],
+ "IV-0046": [
+  {
+   "to": "EV-2002",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "12 an Giblean, AE 14",
+   "title": "Beathag calls Doire mhòr's households to the hearth",
+   "master": false,
+   "year": "AE 14"
+  },
+  {
+   "to": "EV-2511",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "9 an Lùnastal, AE 41",
+   "title": "Beathag Dhubh dies at Doire mhòr",
+   "master": false,
+   "year": "AE 41"
+  }
+ ],
+ "IV-0047": [
+  {
+   "to": "EV-2003",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an Dùbhlachd, AE 15",
+   "title": "The cart-road round Doire mhòr finished",
+   "master": false,
+   "year": "AE 15"
+  }
+ ],
+ "IV-0048": [
+  {
+   "to": "EV-2004",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an Giblean, AE 16",
+   "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
+   "master": false,
+   "year": "AE 16"
+  }
+ ],
+ "IV-0049": [
+  {
+   "to": "EV-2004",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an Giblean, AE 16",
+   "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
+   "master": false,
+   "year": "AE 16"
+  }
+ ],
+ "IV-0053": [
+  {
+   "to": "EV-2005",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an Dùbhlachd, AE 17",
+   "title": "Muireall's rubbing of the first mark sent to the loft",
+   "master": false,
+   "year": "AE 17"
+  }
+ ],
+ "IV-0055": [
+  {
+   "to": "EV-2005",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an Dùbhlachd, AE 17",
+   "title": "Muireall's rubbing of the first mark sent to the loft",
+   "master": false,
+   "year": "AE 17"
+  }
+ ],
+ "IV-0056": [
+  {
+   "to": "EV-2006",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "25 an Dùbhlachd, AE 18",
+   "title": "Wren's letter home on the druids",
+   "master": false,
+   "year": "AE 18"
+  }
+ ],
+ "IV-0058": [
+  {
+   "to": "EV-2007",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "29 an Dùbhlachd, AE 19",
+   "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
+   "master": false,
+   "year": "AE 19"
+  }
+ ],
+ "IV-0059": [
+  {
+   "to": "EV-2007",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "29 an Dùbhlachd, AE 19",
+   "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
+   "master": false,
+   "year": "AE 19"
+  }
+ ],
+ "IV-0061": [
+  {
+   "to": "EV-2008",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an Dùbhlachd, AE 20",
+   "title": "Tormod mac Ailein buried at Cathair dhearg",
+   "master": false,
+   "year": "AE 20"
+  }
+ ],
+ "IV-0063": [
+  {
+   "to": "EV-2010",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "17 an Lùnastal, AE 22",
+   "title": "The council files the letter from Dùn dhearg",
+   "master": false,
+   "year": "AE 22"
+  }
+ ],
+ "IV-0064": [
+  {
+   "to": "EV-2009",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "15 an Lùnastal, AE 22",
+   "title": "Fionnghal nic Artair rides to Cathair dhearg",
+   "master": false,
+   "year": "AE 22"
+  }
+ ],
+ "IV-0065": [
+  {
+   "to": "EV-2009",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "15 an Lùnastal, AE 22",
+   "title": "Fionnghal nic Artair rides to Cathair dhearg",
+   "master": false,
+   "year": "AE 22"
+  },
+  {
+   "to": "EV-2010",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "17 an Lùnastal, AE 22",
+   "title": "The council files the letter from Dùn dhearg",
+   "master": false,
+   "year": "AE 22"
+  }
+ ],
+ "IV-0066": [
+  {
+   "to": "EV-2011",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "1 an Lùnastal, AE 23",
+   "title": "The Company's agents seize the hawk sermon in the camps",
+   "master": false,
+   "year": "AE 23"
+  }
+ ],
+ "IV-0070": [
+  {
+   "to": "EV-2012",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Cèitean, AE 24",
+   "title": "The last oak of Cathair fhada's own cutting",
+   "master": false,
+   "year": "AE 24"
+  }
+ ],
+ "IV-0071": [
+  {
+   "to": "EV-2501",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "3 an Dàmhair, AE 25",
+   "title": "The eleven buried at Muileann chrom",
+   "master": false,
+   "year": "AE 25"
+  },
+  {
+   "to": "EV-2502",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "4 an t-Samhain, AE 25",
+   "title": "Raghnall asks three times for timber at the heading",
+   "master": false,
+   "year": "AE 25"
+  }
+ ],
+ "IV-0072": [
+  {
+   "to": "EV-2501",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "3 an Dàmhair, AE 25",
+   "title": "The eleven buried at Muileann chrom",
+   "master": false,
+   "year": "AE 25"
+  }
+ ],
+ "IV-0073": [
+  {
+   "to": "EV-2503",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an t-Samhain, AE 26",
+   "title": "Dòmhnall mac Raghnaill at the pit-mouth",
+   "master": false,
+   "year": "AE 26"
+  }
+ ],
+ "IV-0075": [
+  {
+   "to": "EV-2504",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "9 an Dàmhair, AE 28",
+   "title": "Torcall Clachair's last cairn",
+   "master": false,
+   "year": "AE 28"
+  }
+ ],
+ "IV-0076": [
+  {
+   "to": "EV-2504",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "9 an Dàmhair, AE 28",
+   "title": "Torcall Clachair's last cairn",
+   "master": false,
+   "year": "AE 28"
+  }
+ ],
+ "IV-0078": [
+  {
+   "to": "EV-2505",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "12 an Lùnastal, AE 30",
+   "title": "Doire mhòr carries its water from the cattle spring",
+   "master": false,
+   "year": "AE 30"
+  },
+  {
+   "to": "EV-2511",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "9 an Lùnastal, AE 41",
+   "title": "Beathag Dhubh dies at Doire mhòr",
+   "master": false,
+   "year": "AE 41"
+  }
+ ],
+ "IV-0088": [
+  {
+   "to": "EV-2508",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "8 an Dùbhlachd, AE 33",
+   "title": "Seònaid Bhàn marries Pàdraig mac Artair",
+   "master": false,
+   "year": "AE 33"
+  }
+ ],
+ "IV-0091": [
+  {
+   "to": "EV-2512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an Dùbhlachd, AE 41",
+   "title": "Lisle's rider gathers the papers of the hill",
+   "master": false,
+   "year": "AE 41"
+  }
+ ],
+ "IV-0092": [
+  {
+   "to": "EV-2509",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "16 an Dùbhlachd, AE 36",
+   "title": "Raghnall's slate-roofed house",
+   "master": false,
+   "year": "AE 36"
+  }
+ ],
+ "IV-0094": [
+  {
+   "to": "EV-2510",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "28 an Lùnastal, AE 38",
+   "title": "The two hanged named in the custodians' roll",
+   "master": false,
+   "year": "AE 38"
+  }
+ ],
+ "IV-0099": [
+  {
+   "to": "EV-2512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an Dùbhlachd, AE 41",
+   "title": "Lisle's rider gathers the papers of the hill",
+   "master": false,
+   "year": "AE 41"
+  }
+ ],
+ "IV-0102": [
+  {
+   "to": "EV-3002",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "25 an Dàmhair, AE 43",
+   "title": "The surveyor's report reaches Taigh an Àrd-mhaoir",
+   "master": false,
+   "year": "AE 43"
+  },
+  {
+   "to": "EV-3006",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "28 an t-Samhain, AE 46",
+   "title": "A' Chompanaidh charges Comann an Airgid with the burning",
+   "master": false,
+   "year": "AE 46"
+  }
+ ],
+ "IV-0103": [
+  {
+   "to": "EV-3004",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an t-Ògmhios, AE 45",
+   "title": "Ùna locks the compact in the guild chest",
+   "master": false,
+   "year": "AE 45"
+  }
+ ],
+ "IV-0108": [
+  {
+   "to": "EV-3005",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an t-Samhain, AE 46",
+   "title": "The keeper of Àth dhearg sees the burning collier",
+   "master": false,
+   "year": "AE 46"
+  },
+  {
+   "to": "EV-3006",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "28 an t-Samhain, AE 46",
+   "title": "A' Chompanaidh charges Comann an Airgid with the burning",
+   "master": false,
+   "year": "AE 46"
+  },
+  {
+   "to": "EV-3007",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "21 an Dùbhlachd, AE 46",
+   "title": "The keeper will not write the black boats",
+   "master": false,
+   "year": "AE 46"
+  }
+ ],
+ "IV-0109": [
+  {
+   "to": "EV-3008",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an Dùbhlachd, AE 46",
+   "title": "The gunboat entered at Àth dhearg",
+   "master": false,
+   "year": "AE 46"
+  }
+ ],
+ "IV-0116": [
+  {
+   "to": "EV-3009",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "3 an t-Ògmhios, AE 50",
+   "title": "Eachann Mòr loses his seat",
+   "master": false,
+   "year": "AE 50"
+  }
+ ],
+ "IV-0120": [
+  {
+   "to": "EV-3009",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "3 an t-Ògmhios, AE 50",
+   "title": "Eachann Mòr loses his seat",
+   "master": false,
+   "year": "AE 50"
+  },
+  {
+   "to": "EV-3010",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an t-Sultain, AE 51",
+   "title": "Eachann Mòr's first letter over the sea",
+   "master": false,
+   "year": "AE 51"
+  },
+  {
+   "to": "EV-3012",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 am Faoilleach, AE 54",
+   "title": "The passenger line read at the Company's counter",
+   "master": false,
+   "year": "AE 54"
+  }
+ ],
+ "IV-0121": [
+  {
+   "to": "EV-3010",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an t-Sultain, AE 51",
+   "title": "Eachann Mòr's first letter over the sea",
+   "master": false,
+   "year": "AE 51"
+  }
+ ],
+ "IV-0123": [
+  {
+   "to": "EV-3011",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "7 an t-Iuchar, AE 53",
+   "title": "The students at Drochaid Ros fhionn",
+   "master": false,
+   "year": "AE 53"
+  }
+ ],
+ "IV-0125": [
+  {
+   "to": "EV-3012",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 am Faoilleach, AE 54",
+   "title": "The passenger line read at the Company's counter",
+   "master": false,
+   "year": "AE 54"
+  }
+ ],
+ "IV-0133": [
+  {
+   "to": "EV-3013",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "17 an Lùnastal, AE 59",
+   "title": "The Company's surgeon visits once",
+   "master": false,
+   "year": "AE 59"
+  },
+  {
+   "to": "EV-3014",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "2 an t-Samhain, AE 59",
+   "title": "Colby's roll of the dead by name",
+   "master": false,
+   "year": "AE 59"
+  }
+ ],
+ "IV-0136": [
+  {
+   "to": "EV-3015",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an t-Samhain, AE 61",
+   "title": "Uisdean Ruadh's first walk to Ceann mhin",
+   "master": false,
+   "year": "AE 61"
+  }
+ ],
+ "IV-0137": [
+  {
+   "to": "EV-3016",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "16 an Dàmhair, AE 62",
+   "title": "Raghnall Maor buried beside the eleven",
+   "master": false,
+   "year": "AE 62"
+  }
+ ],
+ "IV-0138": [
+  {
+   "to": "EV-3501",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "9 an t-Samhain, AE 63",
+   "title": "Ailig mac Griogair shows Lowe the coloured water",
+   "master": false,
+   "year": "AE 63"
+  }
+ ],
+ "IV-0139": [
+  {
+   "to": "EV-3501",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "9 an t-Samhain, AE 63",
+   "title": "Ailig mac Griogair shows Lowe the coloured water",
+   "master": false,
+   "year": "AE 63"
+  },
+  {
+   "to": "EV-3502",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "15 an Gearran, AE 64",
+   "title": "The keeper's son answers Lowe on the point",
+   "master": false,
+   "year": "AE 64"
+  }
+ ],
+ "IV-0140": [
+  {
+   "to": "EV-3503",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "25 an Dàmhair, AE 64",
+   "title": "Griogal Odhar on Mòd and the older ground",
+   "master": false,
+   "year": "AE 64"
+  }
+ ],
+ "IV-0142a": [
+  {
+   "to": "EV-3504",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "19 an Lùnastal, AE 66",
+   "title": "Cairistìona nic Griogair sees the first pane",
+   "master": false,
+   "year": "AE 66"
+  }
+ ],
+ "IV-0146": [
+  {
+   "to": "EV-3507",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "22 an Dùbhlachd, AE 71",
+   "title": "The wife's telling, over a body at Beitris Bhàn's table",
+   "master": false,
+   "year": "AE 71"
+  }
+ ],
+ "IV-0149": [
+  {
+   "to": "EV-3505",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "2 an Gearran, AE 71",
+   "title": "The women's rule of silence",
+   "master": false,
+   "year": "AE 71"
+  },
+  {
+   "to": "EV-3506",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "25 an Gearran, AE 71",
+   "title": "The wash-house women first mark the child's stillness",
+   "master": false,
+   "year": "AE 71"
+  },
+  {
+   "to": "EV-3507",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "22 an Dùbhlachd, AE 71",
+   "title": "The wife's telling, over a body at Beitris Bhàn's table",
+   "master": false,
+   "year": "AE 71"
+  }
+ ],
+ "IV-0151": [
+  {
+   "to": "EV-3508",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an t-Samhain, AE 72",
+   "title": "Beitris Bhàn's first climb to Cill ghlas",
+   "master": false,
+   "year": "AE 72"
+  }
+ ],
+ "IV-0152": [
+  {
+   "to": "EV-3512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an Cèitean, AE 75",
+   "title": "Anne Colby comes to Beitris Bhàn's door",
+   "master": false,
+   "year": "AE 75"
+  }
+ ],
+ "IV-0158": [
+  {
+   "to": "EV-3509",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Giblean, AE 74",
+   "title": "Nathaniel Bright opens his table of weighings",
+   "master": false,
+   "year": "AE 74"
+  }
+ ],
+ "IV-0159": [
+  {
+   "to": "EV-3510",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an Cèitean, AE 74",
+   "title": "Walter Crane walks the sick-rows at Achadh dhomhain",
+   "master": false,
+   "year": "AE 74"
+  }
+ ],
+ "IV-0162": [
+  {
+   "to": "EV-3511",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an t-Iuchar, AE 74",
+   "title": "Beitris Bhàn nails a feather over her own door",
+   "master": false,
+   "year": "AE 74"
+  }
+ ],
+ "IV-0165": [
+  {
+   "to": "EV-4001",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "21 an Giblean, AE 77",
+   "title": "Catrìona's request to Silas Crewe",
+   "master": false,
+   "year": "AE 77"
+  },
+  {
+   "to": "EV-4002",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an Giblean, AE 77",
+   "title": "Sìneag searches the old rolls for a law of rest",
+   "master": false,
+   "year": "AE 77"
+  }
+ ],
+ "IV-0166": [
+  {
+   "to": "EV-4001",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "21 an Giblean, AE 77",
+   "title": "Catrìona's request to Silas Crewe",
+   "master": false,
+   "year": "AE 77"
+  }
+ ],
+ "IV-0167": [
+  {
+   "to": "EV-4003",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "1 an t-Samhain, AE 78",
+   "title": "Dòmhnall Maor signs the granary order",
+   "master": false,
+   "year": "AE 78"
+  },
+  {
+   "to": "EV-4004",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "8 an t-Samhain, AE 78",
+   "title": "Sìneag's rolls note a granary built against a stoppage",
+   "master": false,
+   "year": "AE 78"
+  }
+ ],
+ "IV-0175": [
+  {
+   "to": "EV-4005",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "6 an Dùbhlachd, AE 80",
+   "title": "Three priests will not stand for the blessing",
+   "master": false,
+   "year": "AE 80"
+  }
+ ],
+ "IV-0176": [
+  {
+   "to": "EV-4007",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an Lùnastal, AE 85",
+   "title": "The Residency notes the order divided",
+   "master": false,
+   "year": "AE 85"
+  }
+ ],
+ "IV-0179": [
+  {
+   "to": "EV-4008",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an t-Iuchar, AE 87",
+   "title": "Fearghas leaves the capital's temple for Cnoc bheag",
+   "master": false,
+   "year": "AE 87"
+  }
+ ],
+ "IV-0181": [
+  {
+   "to": "EV-4501",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "8 am Màrt, AE 94",
+   "title": "The draft read at Baile chrom",
+   "master": false,
+   "year": "AE 94"
+  }
+ ],
+ "IV-0182": [
+  {
+   "to": "EV-4009",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "15 an Dùbhlachd, AE 88",
+   "title": "The wrong son taken at Caol mhòr",
+   "master": false,
+   "year": "AE 88"
+  }
+ ],
+ "IV-0189": [
+  {
+   "to": "EV-4010",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an Dùbhlachd, AE 88",
+   "title": "The Levy read at Cnoc thais",
+   "master": false,
+   "year": "AE 88"
+  },
+  {
+   "to": "EV-4011",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an Dùbhlachd, AE 89",
+   "title": "A gale strips the beacon's scaffold",
+   "master": false,
+   "year": "AE 89"
+  }
+ ],
+ "IV-0190": [
+  {
+   "to": "EV-4010",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an Dùbhlachd, AE 88",
+   "title": "The Levy read at Cnoc thais",
+   "master": false,
+   "year": "AE 88"
+  }
+ ],
+ "IV-0193": [
+  {
+   "to": "EV-4012",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "19 an Dàmhair, AE 90",
+   "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
+   "master": false,
+   "year": "AE 90"
+  },
+  {
+   "to": "EV-4503",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "11 an Dàmhair, AE 94",
+   "title": "Uisdean begins to write beyond the weather",
+   "master": false,
+   "year": "AE 94"
+  },
+  {
+   "to": "EV-4504",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "28 an Dùbhlachd, AE 96",
+   "title": "Uisdean's hand on the valve",
+   "master": false,
+   "year": "AE 96"
+  }
+ ],
+ "IV-0194": [
+  {
+   "to": "EV-4502",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "9 am Màrt, AE 94",
+   "title": "The first harvest short",
+   "master": false,
+   "year": "AE 94"
+  },
+  {
+   "to": "EV-4503",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "11 an Dàmhair, AE 94",
+   "title": "Uisdean begins to write beyond the weather",
+   "master": false,
+   "year": "AE 94"
+  }
+ ],
+ "IV-0200": [
+  {
+   "to": "EV-4504",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "28 an Dùbhlachd, AE 96",
+   "title": "Uisdean's hand on the valve",
+   "master": false,
+   "year": "AE 96"
+  }
+ ],
+ "IV-0202": [
+  {
+   "to": "EV-4505",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an t-Samhain, AE 98",
+   "title": "Aonghas Ruadh calls the custodians of the east",
+   "master": false,
+   "year": "AE 98"
+  }
+ ],
+ "IV-0204": [
+  {
+   "to": "EV-4505",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an t-Samhain, AE 98",
+   "title": "Aonghas Ruadh calls the custodians of the east",
+   "master": false,
+   "year": "AE 98"
+  },
+  {
+   "to": "EV-4506",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an t-Samhain, AE 98",
+   "title": "The custodians ride to Ceann àrsaidh",
+   "master": false,
+   "year": "AE 98"
+  }
+ ],
+ "IV-0205": [
+  {
+   "to": "EV-4506",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an t-Samhain, AE 98",
+   "title": "The custodians ride to Ceann àrsaidh",
+   "master": false,
+   "year": "AE 98"
+  },
+  {
+   "to": "EV-4507",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "24 an Giblean, AE 99",
+   "title": "Peigi Ghlas at the Residency",
+   "master": false,
+   "year": "AE 99"
+  },
+  {
+   "to": "EV-4508",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "12 an Cèitean, AE 99",
+   "title": "Aonghas Ruadh's letters go unanswered",
+   "master": false,
+   "year": "AE 99"
+  }
+ ],
+ "IV-0208": [
+  {
+   "to": "EV-4509",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "29 an Dùbhlachd, AE 101",
+   "title": "Griogair mac Aonghais tells Fearchar to sing it",
+   "master": false,
+   "year": "AE 101"
+  }
+ ],
+ "IV-0209": [
+  {
+   "to": "EV-4510",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "24 an Dùbhlachd, AE 102",
+   "title": "The overseer's clerk copies the forbidden song",
+   "master": false,
+   "year": "AE 102"
+  },
+  {
+   "to": "EV-4511",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 an Dùbhlachd, AE 102",
+   "title": "Fearchar repays the docked wage",
+   "master": false,
+   "year": "AE 102"
+  }
+ ],
+ "IV-0216": [
+  {
+   "to": "EV-4512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an t-Samhain, AE 105",
+   "title": "Artair mac Iain dies at Cathair dhearg",
+   "master": false,
+   "year": "AE 105"
+  }
+ ],
+ "IV-0217": [
+  {
+   "to": "EV-4513",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "6 an Dùbhlachd, AE 106",
+   "title": "Iseabail begins her forty pages",
+   "master": false,
+   "year": "AE 106"
+  },
+  {
+   "to": "EV-4514",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an t-Samhain, AE 107",
+   "title": "Baile chaol slaughters its herd",
+   "master": false,
+   "year": "AE 107"
+  },
+  {
+   "to": "EV-4515",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "12 an Dùbhlachd, AE 109",
+   "title": "Coll's report names the drought-fever's true cause",
+   "master": false,
+   "year": "AE 109"
+  },
+  {
+   "to": "EV-4516",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 an Dùbhlachd, AE 109",
+   "title": "Every custodian of the drought country petitions Haskins",
+   "master": false,
+   "year": "AE 109"
+  }
+ ],
+ "IV-0232": [
+  {
+   "to": "EV-5001",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "19 an Giblean, AE 112",
+   "title": "Mairead nic Aoidh stops entering marriages in the roll",
+   "master": false,
+   "year": "AE 112"
+  }
+ ],
+ "IV-0234": [
+  {
+   "to": "EV-5002",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an Dùbhlachd, AE 113",
+   "title": "Griogair mac Ailein dies in the lock-up",
+   "master": false,
+   "year": "AE 113"
+  },
+  {
+   "to": "EV-5003",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 113",
+   "title": "Thomas Hale sent for to read the surgeon's note",
+   "master": false,
+   "year": "AE 113"
+  },
+  {
+   "to": "EV-5004",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 113",
+   "title": "Thomas Hale reads the surgeon's note at the grave",
+   "master": false,
+   "year": "AE 113"
+  },
+  {
+   "to": "EV-5007",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "15 an Dùbhlachd, AE 117",
+   "title": "The Lamp-Watch's purse runs dry",
+   "master": false,
+   "year": "AE 117"
+  },
+  {
+   "to": "EV-5510",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "7 an t-Iuchar, AE 136",
+   "title": "Eilidh nic Raghnaill given a seat at the Lamp-Watch's table",
+   "master": false,
+   "year": "AE 136"
+  }
+ ],
+ "IV-0235": [
+  {
+   "to": "EV-5005",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "19 an Dùbhlachd, AE 115",
+   "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
+   "master": false,
+   "year": "AE 115"
+  }
+ ],
+ "IV-0239": [
+  {
+   "to": "EV-5006",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "22 an Dùbhlachd, AE 116",
+   "title": "The day shift stands in the yard at Cnoc chaol",
+   "master": false,
+   "year": "AE 116"
+  },
+  {
+   "to": "EV-5007",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "15 an Dùbhlachd, AE 117",
+   "title": "The Lamp-Watch's purse runs dry",
+   "master": false,
+   "year": "AE 117"
+  }
+ ],
+ "IV-0243": [
+  {
+   "to": "EV-5008",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "8 an Dùbhlachd, AE 119",
+   "title": "Iain Maor dismissed and restored",
+   "master": false,
+   "year": "AE 119"
+  }
+ ],
+ "IV-0245": [
+  {
+   "to": "EV-5009",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "25 an t-Samhain, AE 121",
+   "title": "Fionnan's birth reaches the cellar",
+   "master": false,
+   "year": "AE 121"
+  }
+ ],
+ "IV-0248": [
+  {
+   "to": "EV-5010",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Dàmhair, AE 122",
+   "title": "Cailean mac Eachainn taken on at the cellar",
+   "master": false,
+   "year": "AE 122"
+  }
+ ],
+ "IV-0249": [
+  {
+   "to": "EV-5011",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an t-Iuchar, AE 125",
+   "title": "Nothing of weight was lost",
+   "master": false,
+   "year": "AE 125"
+  }
+ ],
+ "IV-0250": [
+  {
+   "to": "EV-5012",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 an t-Sultain, AE 126",
+   "title": "Peigi Ghlas calls the custodians to Cill ghlas",
+   "master": false,
+   "year": "AE 126"
+  }
+ ],
+ "IV-0251a": [
+  {
+   "to": "EV-5501",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "6 an t-Samhain, AE 126",
+   "title": "The third mark beside a birth",
+   "master": false,
+   "year": "AE 126"
+  },
+  {
+   "to": "EV-5502",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "13 an Dùbhlachd, AE 126",
+   "title": "Cailean walks to Tobar dhìreach",
+   "master": false,
+   "year": "AE 126"
+  }
+ ],
+ "IV-0252": [
+  {
+   "to": "EV-5503",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "8 an Dùbhlachd, AE 127",
+   "title": "A custodian of Cill ghlas answers the Company's agent",
+   "master": false,
+   "year": "AE 127"
+  }
+ ],
+ "IV-0262": [
+  {
+   "to": "EV-5505",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an t-Samhain, AE 132",
+   "title": "Ruth Pallant teaches Hannah Webb the night watch",
+   "master": false,
+   "year": "AE 132"
+  },
+  {
+   "to": "EV-5506",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "21 an t-Samhain, AE 132",
+   "title": "Hannah Webb's first vigil",
+   "master": false,
+   "year": "AE 132"
+  },
+  {
+   "to": "EV-5507",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "29 an t-Samhain, AE 132",
+   "title": "The watch spreads along the concession's edge",
+   "master": false,
+   "year": "AE 132"
+  }
+ ],
+ "IV-0263": [
+  {
+   "to": "EV-5508",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "11 an t-Ògmhios, AE 134",
+   "title": "The berth toll and the docker Tòmas Ruadh",
+   "master": false,
+   "year": "AE 134"
+  }
+ ],
+ "IV-0267": [
+  {
+   "to": "EV-5509",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "16 an t-Iuchar, AE 134",
+   "title": "Raghnall Breac walks to Cill ghlas",
+   "master": false,
+   "year": "AE 134"
+  }
+ ],
+ "IV-0272": [
+  {
+   "to": "EV-5511",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "23 an Dùbhlachd, AE 137",
+   "title": "Eilidh nic Raghnaill at the fenced ground",
+   "master": false,
+   "year": "AE 137"
+  }
+ ],
+ "IV-0274": [
+  {
+   "to": "EV-5512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an Dùbhlachd, AE 137",
+   "title": "Fionnlagh's warning at Muileann chrom",
+   "master": false,
+   "year": "AE 137"
+  }
+ ],
+ "IV-0276": [
+  {
+   "to": "EV-6001",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "10 an Dùbhlachd, AE 138",
+   "title": "Tormod Buidhe's sister's boy dies of the grey fever",
+   "master": false,
+   "year": "AE 138"
+  },
+  {
+   "to": "EV-6002",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "28 an Dùbhlachd, AE 138",
+   "title": "Eilidh nic Raghnaill begins the burial club's book",
+   "master": false,
+   "year": "AE 138"
+  }
+ ],
+ "IV-0282": [
+  {
+   "to": "EV-6003",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "8 an Lùnastal, AE 140",
+   "title": "The first constables' company reaches Baile thais",
+   "master": false,
+   "year": "AE 140"
+  }
+ ],
+ "IV-0284": [
+  {
+   "to": "EV-6004",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Dàmhair, AE 141",
+   "title": "Eilidh nic Raghnaill reads Ìomhar Seabhag's sermon to the Lamp-Watch",
+   "master": false,
+   "year": "AE 141"
+  }
+ ],
+ "IV-0290": [
+  {
+   "to": "EV-6005",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "14 an t-Samhain, AE 141",
+   "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
+   "master": false,
+   "year": "AE 141"
+  }
+ ],
+ "IV-0298": [
+  {
+   "to": "EV-6006",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "17 an Dùbhlachd, AE 142",
+   "title": "A boy of Àth fhiadhaich at Aonghas's door",
+   "master": false,
+   "year": "AE 142"
+  }
+ ],
+ "IV-0300": [
+  {
+   "to": "EV-6005",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "14 an t-Samhain, AE 141",
+   "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
+   "master": false,
+   "year": "AE 141"
+  }
+ ],
+ "IV-0301": [
+  {
+   "to": "EV-6007",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 143",
+   "title": "The fire on Cnoc an Rabhaidh",
+   "master": false,
+   "year": "AE 143"
+  }
+ ],
+ "IV-0306": [
+  {
+   "to": "EV-6007",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 143",
+   "title": "The fire on Cnoc an Rabhaidh",
+   "master": false,
+   "year": "AE 143"
+  }
+ ],
+ "IV-0309": [
+  {
+   "to": "EV-6007",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 143",
+   "title": "The fire on Cnoc an Rabhaidh",
+   "master": false,
+   "year": "AE 143"
+  }
+ ],
+ "IV-0310": [
+  {
+   "to": "EV-6008",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an Dàmhair, AE 145",
+   "title": "Tormod Buabhall's word on a house with nothing left to guard",
+   "master": false,
+   "year": "AE 145"
+  }
+ ],
+ "IV-0315a": [
+  {
+   "to": "EV-6009",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "20 an Dàmhair, AE 147",
+   "title": "The iron bird seen over Muileann chrom",
+   "master": false,
+   "year": "AE 147"
+  }
+ ],
+ "IV-0316": [
+  {
+   "to": "EV-6010",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an Dùbhlachd, AE 147",
+   "title": "The old man of Doire mhòr",
+   "master": false,
+   "year": "AE 147"
+  }
+ ],
+ "IV-0317": [
+  {
+   "to": "EV-6010",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "18 an Dùbhlachd, AE 147",
+   "title": "The old man of Doire mhòr",
+   "master": false,
+   "year": "AE 147"
+  }
+ ],
+ "IV-0324": [
+  {
+   "to": "EV-6011",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an Gearran, AE 149",
+   "title": "Coinneach Ruadh's ride of the twentieth",
+   "master": false,
+   "year": "AE 149"
+  },
+  {
+   "to": "EV-6012",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "27 an Gearran, AE 149",
+   "title": "The beacons of the coal country answer",
+   "master": false,
+   "year": "AE 149"
+  }
+ ],
+ "IV-0325": [
+  {
+   "to": "EV-6501",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "10 am Màrt, AE 149",
+   "title": "Tòmas Odhar's hand on the gatepost",
+   "master": false,
+   "year": "AE 149"
+  }
+ ],
+ "IV-0326": [
+  {
+   "to": "EV-6502",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "28 an Cèitean, AE 149",
+   "title": "Pàdraig Reamhar scuttles his own barge",
+   "master": false,
+   "year": "AE 149"
+  }
+ ],
+ "IV-0327": [
+  {
+   "to": "EV-6511",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 150",
+   "title": "The boy of Baile thais shows the wall",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0335": [
+  {
+   "to": "EV-6503",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "7 an Dùbhlachd, AE 149",
+   "title": "The turnip cart to the ford",
+   "master": false,
+   "year": "AE 149"
+  },
+  {
+   "to": "EV-6504",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "26 an Dùbhlachd, AE 149",
+   "title": "The nineteen of Àth chiar buried",
+   "master": false,
+   "year": "AE 149"
+  }
+ ],
+ "IV-0342a": [
+  {
+   "to": "EV-6509",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "30 an Dùbhlachd, AE 150",
+   "title": "Coinneach Beag puts his name forward",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0342b": [
+  {
+   "to": "EV-6510",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 150",
+   "title": "The letter read at a nameless hawk-house",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0342d": [
+  {
+   "to": "EV-6512",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 150",
+   "title": "Forty-one riders, all going south",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0353": [
+  {
+   "to": "EV-6505",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "7 an t-Iuchar, AE 150",
+   "title": "Dùghall counts the grain carts from Seann Warr",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0356": [
+  {
+   "to": "EV-6506",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "5 an Lùnastal, AE 150",
+   "title": "The night clerk of the counting-house is taken without a blow",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0362": [
+  {
+   "to": "EV-6507",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "22 an t-Sultain, AE 150",
+   "title": "The letter-books found whole at the Residency",
+   "master": false,
+   "year": "AE 150"
+  },
+  {
+   "to": "EV-6508",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "22 an t-Sultain, AE 150",
+   "title": "Prentice the counting-house clerk goes down the river",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0367": [
+  {
+   "to": "EV-6513",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 150",
+   "title": "Eilidh Hale will not choose",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0368": [
+  {
+   "to": "EV-6514",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 150",
+   "title": "The sealed letter kept close",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0371": [
+  {
+   "to": "EV-6515",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 150",
+   "title": "Hannah Webb walks north",
+   "master": false,
+   "year": "AE 150"
+  }
+ ],
+ "IV-0374": [
+  {
+   "to": "EV-6516",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "V",
+   "era": "AE",
+   "date": "31 an Dùbhlachd, AE 150",
+   "title": "The keys given up at Cuan shean",
+   "master": false,
+   "year": "AE 150"
+  }
+ ]
+}

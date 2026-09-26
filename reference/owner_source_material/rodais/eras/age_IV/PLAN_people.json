@@ -1,986 +1,1002 @@
 [
- {
-  "name": "Beathag nic Dhòmhnaill",
-  "born": "FE 2,938",
-  "died": "LE 55",
-  "role": "queen at Cathair dhearg at the opening of the age; neither sends nor keeps back",
-  "first_chapter": 1,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Mòrag nic Dhòmhnaill",
-  "born": "FE 2,942",
-  "died": null,
-  "role": "the queen's younger sister; leader of the departed",
-  "first_chapter": 1,
-  "notes": "master record; birth inferred; sails LE 40, fate unknown"
- },
- {
-  "name": "Murchadh mac Eòghainn",
-  "born": "FE 2,925",
-  "died": "LE 49",
-  "role": "the queen's scribe who wrote the three tellings",
-  "first_chapter": 1,
-  "notes": "invented"
- },
- {
-  "name": "Eachann mac Lachlainn",
-  "born": "FE 2,930",
-  "died": "LE 30",
-  "role": "skipper of the Cuan shean crew that first tells of the far coast",
-  "first_chapter": 1,
-  "notes": "invented"
- },
- {
-  "name": "Oighrig nic Raghnaill",
-  "born": "FE 2,935",
-  "died": null,
-  "role": "skipper of the Ros bheag crew; later goes with the fleet",
-  "first_chapter": 1,
-  "notes": "invented; departed LE 40"
- },
- {
-  "name": "Tòmas mac Uilleim",
-  "born": "FE 2,928",
-  "died": "LE 25",
-  "role": "skipper of the Ceann mhòr crew",
-  "first_chapter": 1,
-  "notes": "invented"
- },
- {
-  "name": "Uilleam mac Iain",
-  "born": "FE 2,934",
-  "died": "LE 31",
-  "role": "Queen Beathag's consort, father of Raghnall mac Uilleim",
-  "first_chapter": 1,
-  "notes": "invented"
- },
- {
-  "name": "Calum mac Nèill",
-  "born": "FE 2,930",
-  "died": "LE 58",
-  "role": "harbour scribe of Seann Skell who kept the roll of the willing and wrote the sunwise turn",
-  "first_chapter": 2,
-  "notes": "invented; the unnamed harbour scribe of the master Book; wife Seonag, a goose-keeper"
- },
- {
-  "name": "Dòmhnall mac Chaluim",
-  "born": "FE 2,948",
-  "died": "LE 66",
-  "role": "Calum's son and clerk at the harbour-house; stays",
-  "first_chapter": 2,
-  "notes": "invented"
- },
- {
-  "name": "Aonghas mac Fhionnlaigh",
-  "born": "FE 2,939",
-  "died": null,
-  "role": "Mòrag's husband",
-  "first_chapter": 3,
-  "notes": "invented; departed LE 40"
- },
- {
-  "name": "Dòmhnall mac Aonghais",
-  "born": "LE 3",
-  "died": null,
-  "role": "Mòrag's son",
-  "first_chapter": 3,
-  "notes": "invented; departed LE 40; struck from the succession LE 46"
- },
- {
-  "name": "Beathag Òg nic Aonghais",
-  "born": "LE 6",
-  "died": null,
-  "role": "Mòrag's daughter",
-  "first_chapter": 3,
-  "notes": "invented; departed LE 40; struck from the succession LE 46"
- },
- {
-  "name": "Eòghann mac Mhuirich",
-  "born": "FE 2,905",
-  "died": "LE 27",
-  "role": "master of the vein-house at the opening of the age",
-  "first_chapter": 3,
-  "notes": "invented"
- },
- {
-  "name": "Fearchar mac Ruairidh",
-  "born": "FE 2,933",
-  "died": null,
-  "role": "custodian of the vein; co-leader of the departed",
-  "first_chapter": 3,
-  "notes": "master record; birth inferred; departed LE 40; wife and two daughters on the roll with him"
- },
- {
-  "name": "Alasdair mac Iain, Alasdair Saor",
-  "born": "FE 2,940",
-  "died": "LE 67",
-  "role": "shipwright of the Seann Skell strand; laid the first deep keel",
-  "first_chapter": 4,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Eilidh nic Ruairidh",
-  "born": "FE 2,920",
-  "died": "LE 20",
-  "role": "grove-keeper of Doire fhionn who gave the oaks",
-  "first_chapter": 4,
-  "notes": "invented"
- },
- {
-  "name": "Coinneach mac Fhearghais",
-  "born": "FE 2,951",
-  "died": "LE 78",
-  "role": "first sworn apprentice of Alasdair Saor; master of the fellowship after him",
-  "first_chapter": 4,
-  "notes": "invented; the fellowship broke up six years after his death"
- },
- {
-  "name": "Tormod Beag",
-  "born": "FE 2,951",
-  "died": "LE 6",
-  "role": "Alasdair's sister's son, drowned in An Fhaoileag",
-  "first_chapter": 5,
-  "notes": "invented"
- },
- {
-  "name": "Iain Ròpaire",
-  "born": "FE 2,935",
-  "died": "LE 50",
-  "role": "master of the rope-walks of Cuan shean",
-  "first_chapter": 5,
-  "notes": "invented"
- },
- {
-  "name": "Catrìona nic Iain",
-  "born": "FE 2,955",
-  "died": null,
-  "role": "pilot of Ros bheag who learned the stars at Cuan ruadh; pilot of An Ròn Glas",
-  "first_chapter": 6,
-  "notes": "invented; departed LE 40"
- },
- {
-  "name": "Seumas Reultach",
-  "born": "FE 2,890",
-  "died": "LE 16",
-  "role": "old steersman of Cuan ruadh who taught the pilots the stars",
-  "first_chapter": 6,
-  "notes": "invented"
- },
- {
-  "name": "Donnchadh mac Thormoid",
-  "born": "LE 14",
-  "died": "LE 109",
-  "role": "scribe of the vein-house; began the count of the Diosal",
-  "first_chapter": 7,
-  "notes": "master record; birth inferred; no kin of the later man of that name"
- },
- {
-  "name": "Ailean mac Nèill",
-  "born": "FE 2,950",
-  "died": "LE 60",
-  "role": "master mason who lengthened the west quay",
-  "first_chapter": 7,
-  "notes": "invented"
- },
- {
-  "name": "Tormod mac Coinnich",
-  "born": "FE 2,960",
-  "died": "LE 70",
-  "role": "reeve of the granaries at Àth shean who barred the store-houses",
-  "first_chapter": 8,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Mairead nic Iain",
-  "born": "LE 5",
-  "died": "LE 70",
-  "role": "tally-keeper on Drochaid Cathair dhearg who counted forty-one barges",
-  "first_chapter": 8,
-  "notes": "invented"
- },
- {
-  "name": "Mairead nic Chaluim",
-  "born": "LE 12",
-  "died": null,
-  "role": "Calum's daughter; went with the fleet",
-  "first_chapter": 8,
-  "notes": "invented; departed LE 40"
- },
- {
-  "name": "Dùghall mac Iain",
-  "born": "LE 8",
-  "died": null,
-  "role": "fisher of Inis àrsaidh, Mairead nic Chaluim's husband",
-  "first_chapter": 8,
-  "notes": "invented; departed LE 40"
- },
- {
-  "name": "Niall mac Dhòmhnaill",
-  "born": "LE 29",
-  "died": "LE 104",
-  "role": "the boy who counted the hulls at the sunwise turn; harbour scribe from LE 58",
-  "first_chapter": 8,
-  "notes": "invented"
- },
- {
-  "name": "Fionnlagh",
-  "born": null,
-  "died": null,
-  "role": "stood on the quay at Seann Skell when the ships went out, and did not go",
-  "first_chapter": 9,
-  "notes": "master record (Line of Aisling no. 17); nothing more may be told of him"
- },
- {
-  "name": "Seonag nic Dhùghaill",
-  "born": "LE 30",
-  "died": "LE 95",
-  "role": "first keeper of the headland watch at Ceann mhòr",
-  "first_chapter": 12,
-  "notes": "invented"
- },
- {
-  "name": "Murchadh mac Raghnaill",
-  "born": "LE 25",
-  "died": "LE 92",
-  "role": "harbour-master of Seann Skell who wrote the berths at half use",
-  "first_chapter": 12,
-  "notes": "invented"
- },
- {
-  "name": "Eachann Briseadair",
-  "born": "LE 40",
-  "died": "LE 100",
-  "role": "coal-breaker who built first below the vein-house; the town of Muileann dhearg",
-  "first_chapter": 13,
-  "notes": "invented"
- },
- {
-  "name": "Raghnall Beag mac Ìomhair",
-  "born": "LE 150",
-  "died": "LE 170",
-  "role": "King Ìomhar's only son, dead of fever",
-  "first_chapter": 14,
-  "notes": "invented"
- },
- {
-  "name": "Artair",
-  "born": "LE 150",
-  "died": "LE 220",
-  "role": "hawk-keeper of Cnoc bheag, father of Gormshuil nic Artair",
-  "first_chapter": 15,
-  "notes": "invented"
- },
- {
-  "name": "Gormshuil nic Artair",
-  "born": "LE 185",
-  "died": "LE 247",
-  "role": "priestess of Cnoc bheag; founder of Òrd an t-Seabhaig",
-  "first_chapter": 15,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Raghnall mac Nèill",
-  "born": "LE 225",
-  "died": "LE 290",
-  "role": "reeve of Seann Toll who rebuilt the hooked wall",
-  "first_chapter": 16,
-  "notes": "invented"
- },
- {
-  "name": "Dùghall mac Ìomhair",
-  "born": "LE 235",
-  "died": "LE 300",
-  "role": "Queen Sìleas's consort, of Clann Ìomhair",
-  "first_chapter": 16,
-  "notes": "houses.json names him Dùghall; house invented"
- },
- {
-  "name": "Coinneach mac Mhàrtainn",
-  "born": "LE 262",
-  "died": "LE 332",
-  "role": "druid of the schools; founded the house of disputation at Dùn thais",
-  "first_chapter": 17,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Ruairidh mac Artair",
-  "born": "LE 300",
-  "died": "LE 370",
-  "role": "merchant of Inis àrsaidh whose deep hull listed at launch",
-  "first_chapter": 18,
-  "notes": "invented"
- },
- {
-  "name": "Iain mac Ùisdein",
-  "born": "LE 335",
-  "died": "LE 400",
-  "role": "bridge-keeper of Drochaid Ros fhionn",
-  "first_chapter": 18,
-  "notes": "invented"
- },
- {
-  "name": "Mòr nic Nèill",
-  "born": "LE 350",
-  "died": "LE 420",
-  "role": "tutor who taught the king's son his letters",
-  "first_chapter": 18,
-  "notes": "invented"
- },
- {
-  "name": "Dòmhnall mac Ailein",
-  "born": "LE 370",
-  "died": "LE 440",
-  "role": "net-maker of Inis thais; founder of Òrd na Cloiche",
-  "first_chapter": 19,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Eilidh nic Iain, Eilidh Dhubh",
-  "born": "LE 430",
-  "died": "LE 505",
-  "role": "teacher of Doire chiar whose tracts were burned",
-  "first_chapter": 20,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Aonghas mac Iain",
-  "born": "LE 474",
-  "died": "LE 530",
-  "role": "brother of Tormod Bàn, father of Catrìona nic Aonghais",
-  "first_chapter": 20,
-  "notes": "invented"
- },
- {
-  "name": "Iain Òg mac Thormoid",
-  "born": "LE 502",
-  "died": "LE 534",
-  "role": "elder son of Tormod Bàn, drowned in the Abhainn fhionn",
-  "first_chapter": 21,
-  "notes": "invented"
- },
- {
-  "name": "Aonghas Beag mac Thormoid",
-  "born": "LE 506",
-  "died": "LE 534",
-  "role": "younger son of Tormod Bàn, drowned with his brother",
-  "first_chapter": 21,
-  "notes": "invented"
- },
- {
-  "name": "Catrìona nic Aonghais, Catrìona Bhuadhach",
-  "born": "LE 526",
-  "died": "LE 604",
-  "role": "claimant, victor and queen; the ruling of the hearth",
-  "first_chapter": 21,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Raghnall Ruadh",
-  "born": "LE 505",
-  "died": "LE 560",
-  "role": "head of Clann Raghnaill, master of the vein-house, claimant",
-  "first_chapter": 21,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Dùghall Garbh",
-  "born": "LE 490",
-  "died": "LE 561",
-  "role": "half-brother of Tormod Bàn; claimant",
-  "first_chapter": 20,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Seònaid nic Coinnich",
-  "born": "LE 546",
-  "died": "LE 631",
-  "role": "clerk of Queen Catrìona's household; wrote the Book of the Three Claimants",
-  "first_chapter": 22,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Coinneach mac Ailein",
-  "born": "LE 515",
-  "died": "LE 560",
-  "role": "farmer of Doire mhin, Seònaid's father",
-  "first_chapter": 22,
-  "notes": "invented"
- },
- {
-  "name": "Mairead nic Ruairidh",
-  "born": "LE 510",
-  "died": "LE 580",
-  "role": "reeve of Seann Warr who shut the gates to all three claimants",
-  "first_chapter": 22,
-  "notes": "invented"
- },
- {
-  "name": "Niall Mòr mac Leòid",
-  "born": "LE 520",
-  "died": "LE 590",
-  "role": "captain of the garrison of Cathair dhomhain, freed on oath",
-  "first_chapter": 22,
-  "notes": "invented"
- },
- {
-  "name": "Iain mac Eachainn",
-  "born": "LE 515",
-  "died": "LE 575",
-  "role": "Catrìona Bhuadhach's husband",
-  "first_chapter": 22,
-  "notes": "invented"
- },
- {
-  "name": "Eòghann mac Dhùghaill",
-  "born": "LE 510",
-  "died": "LE 575",
-  "role": "master of the store at the vein-house when the hearths were refused",
-  "first_chapter": 23,
-  "notes": "invented"
- },
- {
-  "name": "Ailean mac Mhurchaidh",
-  "born": "LE 580",
-  "died": null,
-  "role": "harbour scribe of Seann Skell who shows Seònaid nic Coinnich the old boards of the roll",
-  "first_chapter": 25,
-  "notes": "invented; an unnamed link in the harbour-scribe line between Niall mac Dhòmhnaill and Eòghann mac Nèill"
- },
- {
-  "name": "Fearchar Ciar",
-  "born": "LE 535",
-  "died": null,
-  "role": "old soldier who fought at the ford under Raghnall Ruadh's banner",
-  "first_chapter": 25,
-  "notes": "invented"
- },
- {
-  "name": "Dòmhnall mac Eòghainn",
-  "born": "LE 548",
-  "died": null,
-  "role": "son of Eòghann mac Dhùghaill; master of the store at the vein-house after him",
-  "first_chapter": 25,
-  "notes": "invented"
- },
- {
-  "name": "Mairead nic Aonghais",
-  "born": "LE 549",
-  "died": null,
-  "role": "a woman of Doire mhin who remembers the cold hearths as a child",
-  "first_chapter": 25,
-  "notes": "invented"
- },
- {
-  "name": "Mànas mac Ruairidh",
-  "born": "LE 620",
-  "died": "LE 690",
-  "role": "preacher of Seann Skell; founder of Òrd Mhanannain",
-  "first_chapter": 26,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Ruairidh",
-  "born": "LE 590",
-  "died": "LE 655",
-  "role": "sworn-man of the harbour-court of Seann Skell; Mànas mac Ruairidh's father, first to kneel to the Cup",
-  "first_chapter": 26,
-  "notes": "invented"
- },
- {
-  "name": "Beathag nic Dhonnchaidh",
-  "born": "LE 645",
-  "died": "LE 715",
-  "role": "kept Mànas mac Ruairidh's house and, after him, Taigh Mhanannain",
-  "first_chapter": 26,
-  "notes": "invented"
- },
- {
-  "name": "Tormod Ciar",
-  "born": "LE 640",
-  "died": "LE 700",
-  "role": "rope-walker of Cuan shean, among the first there to swear the Cup",
-  "first_chapter": 26,
-  "notes": "invented"
- },
- {
-  "name": "Donnchadh mac Ailein",
-  "born": "LE 615",
-  "died": "LE 680",
-  "role": "scribe of the harbour-court of Seann Skell",
-  "first_chapter": 26,
-  "notes": "invented"
- },
- {
-  "name": "Coinneach mac Sheumais",
-  "born": "LE 660",
-  "died": "LE 730",
-  "role": "skipper of Ros bheag, turned back by the order's boats under the rule of the headlands",
-  "first_chapter": 26,
-  "notes": "invented"
- },
- {
-  "name": "Griogair",
-  "born": "LE 685",
-  "died": "LE 755",
-  "role": "grandson of a pilot of Ros bheag, could not name his grandfather's steering star",
-  "first_chapter": 26,
-  "notes": "invented"
- },
- {
-  "name": "Fearchar mac Phàdraig",
-  "born": "LE 620",
-  "died": "LE 700",
-  "role": "reeve of Àth shean who oversaw the rebuilding of the granaries",
-  "first_chapter": 26,
-  "notes": "invented"
- },
- {
-  "name": "Eòghann mac Pheadair",
-  "born": "LE 700",
-  "died": "LE 770",
-  "role": "scribe of the vein-house at the bargain of the counts",
-  "first_chapter": 27,
-  "notes": "invented"
- },
- {
-  "name": "Mòrag nic Ìomhair",
-  "born": "LE 705",
-  "died": "LE 775",
-  "role": "the crown's scribe at the bargain of the counts",
-  "first_chapter": 27,
-  "notes": "invented"
- },
- {
-  "name": "Coinneach mac Nèill",
-  "born": "LE 750",
-  "died": "LE 830",
-  "role": "reeve of Baile chrom in the years of the sea-thieves and the dearth",
-  "first_chapter": 28,
-  "notes": "invented"
- },
- {
-  "name": "Uilleam Ruadh",
-  "born": "LE 765",
-  "died": "LE 801",
-  "role": "leader of the sea-thieves of the north-west, hanged at Cathair dhearg",
-  "first_chapter": 28,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Aonghas mac Ruairidh",
-  "born": "LE 770",
-  "died": "LE 801",
-  "role": "fisherman's son of Baile chrom named among the sea-thieves; killed in the raid on Eilean dhubh",
-  "first_chapter": 28,
-  "notes": "invented"
- },
- {
-  "name": "Beathag nic Artair",
-  "born": "LE 752",
-  "died": "LE 819",
-  "role": "wife of Coinneach mac Nèill, reeve of Baile chrom",
-  "first_chapter": 28,
-  "notes": "invented"
- },
- {
-  "name": "Iain mac Thormoid",
-  "born": "LE 748",
-  "died": "LE 826",
-  "role": "captain sent north by Eilidh Bhàn against the sea-thieves of the small islands",
-  "first_chapter": 28,
-  "notes": "invented"
- },
- {
-  "name": "Beathag nic Sheumais",
-  "born": "LE 870",
-  "died": "LE 935",
-  "role": "priestess who led the Fed Hawk to the northern Seann Skell",
-  "first_chapter": 29,
-  "notes": "invented"
- },
- {
-  "name": "Calum Dubh mac Iain",
-  "born": "LE 950",
-  "died": "LE 1,015",
-  "role": "the quarryman who went down the stair of Toll-dubh and never told",
-  "first_chapter": 30,
-  "notes": "invented"
- },
- {
-  "name": "Ailean mac Dhùghaill",
-  "born": "LE 970",
-  "died": "LE 1,030",
-  "role": "scholar of Dùn thais who measured the three old ruins",
-  "first_chapter": 30,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Seumas mac Coinnich",
-  "born": "LE 1,050",
-  "died": "LE 1,110",
-  "role": "reeve at the fords when the coast road was closed against the cough",
-  "first_chapter": 32,
-  "notes": "invented"
- },
- {
-  "name": "Raghnall mac Chaluim",
-  "born": "LE 1,175",
-  "died": "LE 1,240",
-  "role": "scholar of Dùn thais; the table of years",
-  "first_chapter": 33,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Mairead nic Mhurchaidh",
-  "born": "LE 1,230",
-  "died": "LE 1,300",
-  "role": "keeper of An Taigh-seinnse Mòr at the brothers' peace",
-  "first_chapter": 34,
-  "notes": "invented; the unnamed keeper of the master Book"
- },
- {
-  "name": "Iain Ciar",
-  "born": "LE 1,240",
-  "died": "LE 1,326",
-  "role": "son of King Ailean; won the Brothers' War",
-  "first_chapter": 34,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Alasdair Bàn",
-  "born": "LE 1,242",
-  "died": "LE 1,291",
-  "role": "son of King Ailean; lord of Seann Chwen for life",
-  "first_chapter": 34,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Pàdraig mac Ruairidh",
-  "born": "LE 1,260",
-  "died": "LE 1,320",
-  "role": "clerk of Iain Ciar; wrote Leabhar nam Bràithrean",
-  "first_chapter": 34,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Iseabail nic Lachlainn",
-  "born": "LE 1,355",
-  "died": "LE 1,420",
-  "role": "gatherer of songs who took down the keel-song",
-  "first_chapter": 35,
-  "notes": "master record; dates inferred"
- },
- {
-  "name": "Tormod Ròpaire",
-  "born": "LE 1,330",
-  "died": "LE 1,400",
-  "role": "leader of the rope-makers of Cuan shean who sang the keel-song",
-  "first_chapter": 35,
-  "notes": "invented"
- },
- {
-  "name": "Iain Mac Phàil",
-  "born": "LE 1,440",
-  "died": "LE 1,509",
-  "role": "the last of Clann Mhic Phàil, who took the grey glaze with him",
-  "first_chapter": 36,
-  "notes": "invented"
- },
- {
-  "name": "Beathag nic Thòmais",
-  "born": "LE 1,625",
-  "died": "LE 1,699",
-  "role": "mill-owner's widow of Muileann chaol who gathered the old copies",
-  "first_chapter": 37,
-  "notes": "master record; birth inferred"
- },
- {
-  "name": "Artair mac Dhòmhnaill",
-  "born": "LE 1,615",
-  "died": "LE 1,655",
-  "role": "mill-owner of Muileann chaol, Beathag nic Thòmais's husband",
-  "first_chapter": 37,
-  "notes": "invented"
- },
- {
-  "name": "Anna nic Coinnich",
-  "born": "LE 1,645",
-  "died": "LE 1,715",
-  "role": "paper-maker of Muileann chaol; first rag paper",
-  "first_chapter": 37,
-  "notes": "invented"
- },
- {
-  "name": "Aonghas mac Lachlainn",
-  "born": "LE 1,720",
-  "died": "LE 1,804",
-  "role": "council member of Clann Lachlainn who turned his vote on the second silver petition",
-  "first_chapter": 38,
-  "notes": "invented; master: his name written, his reason not"
- },
- {
-  "name": "Ealasaid nic Iain",
-  "born": "LE 1,715",
-  "died": "LE 1,805",
-  "role": "old woman who set a lamp in the harbour-house window",
-  "first_chapter": 38,
-  "notes": "invented"
- },
- {
-  "name": "Mànas mac Dhùghaill",
-  "born": "LE 1,760",
-  "died": null,
-  "role": "priest of Manannan at Seann Skell who wrote that the mist thins",
-  "first_chapter": 38,
-  "notes": "invented; alive at the close"
- },
- {
-  "name": "Tormod mac Ailein",
-  "born": "LE 1,774",
-  "died": null,
-  "role": "custodian; named Ceann a' Chùraim of the council",
-  "first_chapter": 38,
-  "notes": "master record (Age V); alive at the close"
- },
- {
-  "name": "Eòghann mac Nèill",
-  "born": "LE 1,750",
-  "died": null,
-  "role": "harbour scribe of Seann Skell who counted the eleven",
-  "first_chapter": 39,
-  "notes": "invented; alive at the close"
- },
- {
-  "name": "Oighrig nic Eachainn",
-  "born": "LE 1,780",
-  "died": null,
-  "role": "fisher of Ceann mhòr who saw the open sea through the mist",
-  "first_chapter": 39,
-  "notes": "invented; alive at the close"
- },
- {
-  "name": "Raghnall mac Uilleim",
-  "born": "LE 8",
-  "died": "LE 92",
-  "role": "crowned ruler, LE 55–LE 92, son of Beathag nic Dhòmhnaill",
-  "first_chapter": 11,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 47; died at 84."
- },
- {
-  "name": "Raghnall mac Raghnaill",
-  "born": "LE 45",
-  "died": "LE 125",
-  "role": "crowned ruler, LE 92–LE 125, son of Raghnall mac Uilleim",
-  "first_chapter": 13,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 47; died at 80. New in the master: a generation the long reigns need (the second Raghnall; the custody-book gives the two Raghnalls a line apiece)."
- },
- {
-  "name": "Ìomhar mac Raghnaill",
-  "born": "LE 92",
-  "died": "LE 180",
-  "role": "crowned ruler, LE 125–LE 180, son of Raghnall mac Raghnaill",
-  "first_chapter": 14,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 33; died at 88. died with no living child."
- },
- {
-  "name": "Fearchar mac Lachlainn",
-  "born": "LE 157",
-  "died": "LE 211",
-  "role": "crowned ruler, LE 182–LE 211",
-  "first_chapter": 14,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 25; died at 54. chosen by the heads of the seven houses."
- },
- {
-  "name": "Iain mac Lachlainn",
-  "born": "LE 154",
-  "died": "LE 219",
-  "role": "elder brother of King Fearchar mac Lachlainn; head of Clann Fhearchair; kept the house's hall at Baile Mòr dhomhain when the double court was at Cathair dhearg",
-  "first_chapter": 14,
-  "notes": "invented"
- },
- {
-  "name": "Fearchar Donn",
-  "born": "LE 188",
-  "died": "LE 256",
-  "role": "crowned ruler, LE 211–LE 256, son of Fearchar mac Lachlainn",
-  "first_chapter": 16,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 23; died at 68."
- },
- {
-  "name": "Sìleas nic Fhearchair",
-  "born": "LE 243",
-  "died": "LE 324",
-  "role": "crowned ruler, LE 258–LE 324, daughter of Fearchar Donn",
-  "first_chapter": 16,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 15; died at 81. crowned a girl of fifteen; reigned sixty-six years."
- },
- {
-  "name": "Uisdean mac Dhùghaill",
-  "born": "LE 270",
-  "died": "LE 352",
-  "role": "crowned ruler, LE 324–LE 352, son of Sìleas nic Fhearchair",
-  "first_chapter": 17,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 54; died at 82."
- },
- {
-  "name": "Uisdean mac Uisdein",
-  "born": "LE 322",
-  "died": "LE 394",
-  "role": "crowned ruler, LE 352–LE 394, son of Uisdean mac Dhùghaill",
-  "first_chapter": 18,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 30; died at 72. New in the master: a generation the long reigns need."
- },
- {
-  "name": "Aonghas mac Uisdein",
-  "born": "LE 372",
-  "died": "LE 450",
-  "role": "crowned ruler, LE 394–LE 450, son of Uisdean mac Uisdein",
-  "first_chapter": 18,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 22; died at 78. the first king taught letters as a child (his tutor Mòr nic Nèill, LE 380); took up the rite of Macha (LE 441)."
- },
- {
-  "name": "Aonghas Òg mac Aonghais",
-  "born": "LE 400",
-  "died": "LE 484",
-  "role": "crowned ruler, LE 450–LE 484, son of Aonghas mac Uisdein",
-  "first_chapter": 20,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 50; died at 84. New in the master: a generation the long reigns need (the first king buried by the rite of Macha)."
- },
- {
-  "name": "Iain mac Aonghais",
-  "born": "LE 435",
-  "died": "LE 496",
-  "role": "crowned ruler, LE 484–LE 496, son of Aonghas Òg mac Aonghais",
-  "first_chapter": 20,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 49; died at 61. a short reign."
- },
- {
-  "name": "Tormod mac Iain, Tormod Bàn",
-  "born": "LE 460",
-  "died": "LE 547",
-  "role": "crowned ruler, LE 496–LE 547, son of Iain mac Aonghais",
-  "first_chapter": 20,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 36; died at 87."
- },
- {
-  "name": "Lachlann mac Iain",
-  "born": "LE 565",
-  "died": "LE 654",
-  "role": "crowned ruler, LE 604–LE 654, son of Catrìona nic Aonghais, Catrìona Bhuadhach",
-  "first_chapter": 24,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 39; died at 89."
- },
- {
-  "name": "Anna",
-  "born": "LE 600",
-  "died": "LE 685",
-  "role": "crowned ruler, LE 654–LE 685, daughter of Lachlann mac Iain",
-  "first_chapter": 26,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 54; died at 85."
- },
- {
-  "name": "Eilidh Bhàn",
-  "born": "LE 751",
-  "died": "LE 841",
-  "role": "crowned ruler, LE 769–LE 841, granddaughter of the fifth ruler",
-  "first_chapter": 27,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 18; died at 90. crowned at eighteen; reigned seventy-two years; died without an heir."
- },
- {
-  "name": "Dòmhnall Ruadh",
-  "born": "LE 790",
-  "died": "LE 871",
-  "role": "crowned ruler, LE 846–LE 871",
-  "first_chapter": 25,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 56; died at 81."
- },
- {
-  "name": "Raghnall Òg",
-  "born": "LE 825",
-  "died": null,
-  "role": "crowned ruler, LE 871–—, son of Dòmhnall Ruadh",
-  "first_chapter": 29,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 46."
- },
- {
-  "name": "Mòrag Ruadh",
-  "born": "LE 1,000",
-  "died": null,
-  "role": "crowned ruler, LE 1,019–—",
-  "first_chapter": 31,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 19."
- },
- {
-  "name": "Beathag Fhionn",
-  "born": "LE 1,040",
-  "died": "LE 1,129",
-  "role": "crowned ruler, in office LE 1,082–LE 1,129, daughter of Mòrag Ruadh",
-  "first_chapter": 32,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): 42 in LE 1,082; died at 89."
- },
- {
-  "name": "Ailean",
-  "born": "LE 1,070",
-  "died": null,
-  "role": "crowned ruler, LE 1,129–—, son of Beathag Fhionn",
-  "first_chapter": 32,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 59."
- },
- {
-  "name": "Ailean mac Raghnaill",
-  "born": "LE 1,200",
-  "died": "LE 1,266",
-  "role": "crowned ruler, —–LE 1,266",
-  "first_chapter": 33,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): died at 66. left two sons of different mothers."
- },
- {
-  "name": "Catrìona Bheag",
-  "born": "LE 1,400",
-  "died": null,
-  "role": "crowned ruler, LE 1,429–—",
-  "first_chapter": 35,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 29."
- },
- {
-  "name": "Sìleas Òg",
-  "born": "LE 1,505",
-  "died": null,
-  "role": "crowned ruler, LE 1,529–—",
-  "first_chapter": 36,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 24."
- },
- {
-  "name": "Ailean mac Raghnaill, the fourth of the name",
-  "born": "LE 1,550",
-  "died": null,
-  "role": "crowned ruler, LE 1,589–LE 1,590",
-  "first_chapter": 36,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 39; reign ends LE 1,590 at 40. the shortest reign in the king-list."
- },
- {
-  "name": "Mòrag nic Raghnaill",
-  "born": "LE 1,556",
-  "died": null,
-  "role": "crowned ruler, LE 1,590–LE 1,630, sister of Ailean the Fourth",
-  "first_chapter": 36,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 34; reign ends LE 1,630 at 74. reigned some forty years."
- },
- {
-  "name": "Tormod mac Ruairidh",
-  "born": "LE 1,680",
-  "died": "LE 1,766",
-  "role": "crowned ruler, LE 1,709–LE 1,766",
-  "first_chapter": 37,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 29; died at 86."
- },
- {
-  "name": "Gormshuil nic Thormoid",
-  "born": "LE 1,715",
-  "died": null,
-  "role": "crowned ruler, LE 1,766–—, daughter of Tormod mac Ruairidh",
-  "first_chapter": 38,
-  "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 51. of her death nothing is told."
- }
+  {
+    "name": "Beathag nic Dhòmhnaill",
+    "born": "FE 2,938",
+    "died": "LE 55",
+    "role": "queen at Cathair dhearg at the opening of the age; neither sends nor keeps back",
+    "first_chapter": 1,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Mòrag nic Dhòmhnaill",
+    "born": "FE 2,942",
+    "died": null,
+    "role": "the queen's younger sister; leader of the departed",
+    "first_chapter": 1,
+    "notes": "master record; birth inferred; sails LE 40, fate unknown"
+  },
+  {
+    "name": "Murchadh mac Eòghainn",
+    "born": "FE 2,925",
+    "died": "LE 49",
+    "role": "the queen's scribe who wrote the three tellings",
+    "first_chapter": 1,
+    "notes": "invented"
+  },
+  {
+    "name": "Eachann mac Lachlainn",
+    "born": "FE 2,930",
+    "died": "LE 30",
+    "role": "skipper of the Cuan shean crew that first tells of the far coast",
+    "first_chapter": 1,
+    "notes": "invented"
+  },
+  {
+    "name": "Oighrig nic Raghnaill",
+    "born": "FE 2,935",
+    "died": null,
+    "role": "skipper of the Ros bheag crew; later goes with the fleet",
+    "first_chapter": 1,
+    "notes": "invented; departed LE 40"
+  },
+  {
+    "name": "Tòmas mac Uilleim",
+    "born": "FE 2,928",
+    "died": "LE 25",
+    "role": "skipper of the Ceann mhòr crew",
+    "first_chapter": 1,
+    "notes": "invented"
+  },
+  {
+    "name": "Uilleam mac Iain",
+    "born": "FE 2,934",
+    "died": "LE 31",
+    "role": "Queen Beathag's consort, father of Raghnall mac Uilleim",
+    "first_chapter": 1,
+    "notes": "invented"
+  },
+  {
+    "name": "Calum mac Nèill",
+    "born": "FE 2,930",
+    "died": "LE 58",
+    "role": "harbour scribe of Seann Skell who kept the roll of the willing and wrote the sunwise turn",
+    "first_chapter": 2,
+    "notes": "invented; the unnamed harbour scribe of the master Book; wife Seonag, a goose-keeper"
+  },
+  {
+    "name": "Dòmhnall mac Chaluim",
+    "born": "FE 2,948",
+    "died": "LE 66",
+    "role": "Calum's son and clerk at the harbour-house; stays",
+    "first_chapter": 2,
+    "notes": "invented"
+  },
+  {
+    "name": "Aonghas mac Fhionnlaigh",
+    "born": "FE 2,939",
+    "died": null,
+    "role": "Mòrag's husband",
+    "first_chapter": 3,
+    "notes": "invented; departed LE 40"
+  },
+  {
+    "name": "Dòmhnall mac Aonghais",
+    "born": "LE 3",
+    "died": null,
+    "role": "Mòrag's son",
+    "first_chapter": 3,
+    "notes": "invented; departed LE 40; struck from the succession LE 46"
+  },
+  {
+    "name": "Beathag Òg nic Aonghais",
+    "born": "LE 6",
+    "died": null,
+    "role": "Mòrag's daughter",
+    "first_chapter": 3,
+    "notes": "invented; departed LE 40; struck from the succession LE 46"
+  },
+  {
+    "name": "Eòghann mac Mhuirich",
+    "born": "FE 2,905",
+    "died": "LE 27",
+    "role": "master of the vein-house at the opening of the age",
+    "first_chapter": 3,
+    "notes": "invented"
+  },
+  {
+    "name": "Fearchar mac Ruairidh",
+    "born": "FE 2,933",
+    "died": null,
+    "role": "custodian of the vein; co-leader of the departed",
+    "first_chapter": 3,
+    "notes": "master record; birth inferred; departed LE 40; wife and two daughters on the roll with him"
+  },
+  {
+    "name": "Alasdair mac Iain, Alasdair Saor",
+    "born": "FE 2,940",
+    "died": "LE 67",
+    "role": "shipwright of the Seann Skell strand; laid the first deep keel",
+    "first_chapter": 4,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Eilidh nic Ruairidh",
+    "born": "FE 2,920",
+    "died": "LE 20",
+    "role": "grove-keeper of Doire fhionn who gave the oaks",
+    "first_chapter": 4,
+    "notes": "invented"
+  },
+  {
+    "name": "Coinneach mac Fhearghais",
+    "born": "FE 2,951",
+    "died": "LE 78",
+    "role": "first sworn apprentice of Alasdair Saor; master of the fellowship after him",
+    "first_chapter": 4,
+    "notes": "invented; the fellowship broke up six years after his death"
+  },
+  {
+    "name": "Tormod Beag",
+    "born": "FE 2,951",
+    "died": "LE 6",
+    "role": "Alasdair's sister's son, drowned in An Fhaoileag",
+    "first_chapter": 5,
+    "notes": "invented"
+  },
+  {
+    "name": "Iain Ròpaire",
+    "born": "FE 2,935",
+    "died": "LE 50",
+    "role": "master of the rope-walks of Cuan shean",
+    "first_chapter": 5,
+    "notes": "invented"
+  },
+  {
+    "name": "Catrìona nic Iain",
+    "born": "FE 2,955",
+    "died": null,
+    "role": "pilot of Ros bheag who learned the stars at Cuan ruadh; pilot of An Ròn Glas",
+    "first_chapter": 6,
+    "notes": "invented; departed LE 40"
+  },
+  {
+    "name": "Seumas Reultach",
+    "born": "FE 2,890",
+    "died": "LE 16",
+    "role": "old steersman of Cuan ruadh who taught the pilots the stars",
+    "first_chapter": 6,
+    "notes": "invented"
+  },
+  {
+    "name": "Donnchadh mac Thormoid",
+    "born": "LE 14",
+    "died": "LE 109",
+    "role": "scribe of the vein-house; began the count of the Diosal",
+    "first_chapter": 7,
+    "notes": "master record; birth inferred; no kin of the later man of that name"
+  },
+  {
+    "name": "Ailean mac Nèill",
+    "born": "FE 2,950",
+    "died": "LE 60",
+    "role": "master mason who lengthened the west quay",
+    "first_chapter": 7,
+    "notes": "invented"
+  },
+  {
+    "name": "Tormod mac Coinnich",
+    "born": "FE 2,960",
+    "died": "LE 70",
+    "role": "reeve of the granaries at Àth shean who barred the store-houses",
+    "first_chapter": 8,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Mairead nic Iain",
+    "born": "LE 5",
+    "died": "LE 70",
+    "role": "tally-keeper on Drochaid Cathair dhearg who counted forty-one barges",
+    "first_chapter": 8,
+    "notes": "invented"
+  },
+  {
+    "name": "Mairead nic Chaluim",
+    "born": "LE 12",
+    "died": null,
+    "role": "Calum's daughter; went with the fleet",
+    "first_chapter": 8,
+    "notes": "invented; departed LE 40"
+  },
+  {
+    "name": "Dùghall mac Iain",
+    "born": "LE 8",
+    "died": null,
+    "role": "fisher of Inis àrsaidh, Mairead nic Chaluim's husband",
+    "first_chapter": 8,
+    "notes": "invented; departed LE 40"
+  },
+  {
+    "name": "Niall mac Dhòmhnaill",
+    "born": "LE 29",
+    "died": "LE 104",
+    "role": "the boy who counted the hulls at the sunwise turn; harbour scribe from LE 58",
+    "first_chapter": 8,
+    "notes": "invented"
+  },
+  {
+    "name": "Fionnlagh",
+    "born": null,
+    "died": null,
+    "role": "stood on the quay at Seann Skell when the ships went out, and did not go",
+    "first_chapter": 9,
+    "notes": "master record (Line of Aisling no. 17); nothing more may be told of him"
+  },
+  {
+    "name": "Seonag nic Dhùghaill",
+    "born": "LE 30",
+    "died": "LE 95",
+    "role": "first keeper of the headland watch at Ceann mhòr",
+    "first_chapter": 12,
+    "notes": "invented"
+  },
+  {
+    "name": "Murchadh mac Raghnaill",
+    "born": "LE 25",
+    "died": "LE 92",
+    "role": "harbour-master of Seann Skell who wrote the berths at half use",
+    "first_chapter": 12,
+    "notes": "invented"
+  },
+  {
+    "name": "Eachann Briseadair",
+    "born": "LE 40",
+    "died": "LE 100",
+    "role": "coal-breaker who built first below the vein-house; the town of Muileann dhearg",
+    "first_chapter": 13,
+    "notes": "invented"
+  },
+  {
+    "name": "Raghnall Beag mac Ìomhair",
+    "born": "LE 150",
+    "died": "LE 170",
+    "role": "King Ìomhar's only son, dead of fever",
+    "first_chapter": 14,
+    "notes": "invented"
+  },
+  {
+    "name": "Artair",
+    "born": "LE 150",
+    "died": "LE 220",
+    "role": "hawk-keeper of Cnoc bheag, father of Gormshuil nic Artair",
+    "first_chapter": 15,
+    "notes": "invented"
+  },
+  {
+    "name": "Gormshuil nic Artair",
+    "born": "LE 185",
+    "died": "LE 247",
+    "role": "priestess of Cnoc bheag; founder of Òrd an t-Seabhaig",
+    "first_chapter": 15,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Raghnall mac Nèill",
+    "born": "LE 225",
+    "died": "LE 290",
+    "role": "reeve of Seann Toll who rebuilt the hooked wall",
+    "first_chapter": 16,
+    "notes": "invented"
+  },
+  {
+    "name": "Dùghall mac Ìomhair",
+    "born": "LE 235",
+    "died": "LE 300",
+    "role": "Queen Sìleas's consort, of Clann Ìomhair",
+    "first_chapter": 16,
+    "notes": "houses.json names him Dùghall; house invented"
+  },
+  {
+    "name": "Coinneach mac Mhàrtainn",
+    "born": "LE 262",
+    "died": "LE 332",
+    "role": "druid of the schools; founded the house of disputation at Dùn thais",
+    "first_chapter": 17,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Ruairidh mac Artair",
+    "born": "LE 300",
+    "died": "LE 370",
+    "role": "merchant of Inis àrsaidh whose deep hull listed at launch",
+    "first_chapter": 18,
+    "notes": "invented"
+  },
+  {
+    "name": "Iain mac Ùisdein",
+    "born": "LE 335",
+    "died": "LE 400",
+    "role": "bridge-keeper of Drochaid Ros fhionn",
+    "first_chapter": 18,
+    "notes": "invented"
+  },
+  {
+    "name": "Mòr nic Nèill",
+    "born": "LE 350",
+    "died": "LE 420",
+    "role": "tutor who taught the king's son his letters",
+    "first_chapter": 18,
+    "notes": "invented"
+  },
+  {
+    "name": "Dòmhnall mac Ailein",
+    "born": "LE 370",
+    "died": "LE 440",
+    "role": "net-maker of Inis thais; founder of Òrd na Cloiche",
+    "first_chapter": 19,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Eilidh nic Iain, Eilidh Dhubh",
+    "born": "LE 430",
+    "died": "LE 505",
+    "role": "teacher of Doire chiar whose tracts were burned",
+    "first_chapter": 20,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Aonghas mac Iain",
+    "born": "LE 474",
+    "died": "LE 530",
+    "role": "brother of Tormod Bàn, father of Catrìona nic Aonghais",
+    "first_chapter": 20,
+    "notes": "invented"
+  },
+  {
+    "name": "Iain Òg mac Thormoid",
+    "born": "LE 502",
+    "died": "LE 534",
+    "role": "elder son of Tormod Bàn, drowned in the Abhainn fhionn",
+    "first_chapter": 21,
+    "notes": "invented"
+  },
+  {
+    "name": "Aonghas Beag mac Thormoid",
+    "born": "LE 506",
+    "died": "LE 534",
+    "role": "younger son of Tormod Bàn, drowned with his brother",
+    "first_chapter": 21,
+    "notes": "invented"
+  },
+  {
+    "name": "Catrìona nic Aonghais, Catrìona Bhuadhach",
+    "born": "LE 526",
+    "died": "LE 604",
+    "role": "claimant, victor and queen; the ruling of the hearth",
+    "first_chapter": 21,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Raghnall Ruadh",
+    "born": "LE 505",
+    "died": "LE 560",
+    "role": "head of Clann Raghnaill, master of the vein-house, claimant",
+    "first_chapter": 21,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Dùghall Garbh",
+    "born": "LE 490",
+    "died": "LE 561",
+    "role": "half-brother of Tormod Bàn; claimant",
+    "first_chapter": 20,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Seònaid nic Coinnich",
+    "born": "LE 546",
+    "died": "LE 631",
+    "role": "clerk of Queen Catrìona's household; wrote the Book of the Three Claimants",
+    "first_chapter": 22,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Coinneach mac Ailein",
+    "born": "LE 515",
+    "died": "LE 560",
+    "role": "farmer of Doire mhin, Seònaid's father",
+    "first_chapter": 22,
+    "notes": "invented"
+  },
+  {
+    "name": "Mairead nic Ruairidh",
+    "born": "LE 510",
+    "died": "LE 580",
+    "role": "reeve of Seann Warr who shut the gates to all three claimants",
+    "first_chapter": 22,
+    "notes": "invented"
+  },
+  {
+    "name": "Niall Mòr mac Leòid",
+    "born": "LE 520",
+    "died": "LE 590",
+    "role": "captain of the garrison of Cathair dhomhain, freed on oath",
+    "first_chapter": 22,
+    "notes": "invented"
+  },
+  {
+    "name": "Iain mac Eachainn",
+    "born": "LE 515",
+    "died": "LE 575",
+    "role": "Catrìona Bhuadhach's husband",
+    "first_chapter": 22,
+    "notes": "invented"
+  },
+  {
+    "name": "Eòghann mac Dhùghaill",
+    "born": "LE 510",
+    "died": "LE 575",
+    "role": "master of the store at the vein-house when the hearths were refused",
+    "first_chapter": 23,
+    "notes": "invented"
+  },
+  {
+    "name": "Ailean mac Mhurchaidh",
+    "born": "LE 580",
+    "died": null,
+    "role": "harbour scribe of Seann Skell who shows Seònaid nic Coinnich the old boards of the roll",
+    "first_chapter": 25,
+    "notes": "invented; an unnamed link in the harbour-scribe line between Niall mac Dhòmhnaill and Eòghann mac Nèill"
+  },
+  {
+    "name": "Fearchar Ciar",
+    "born": "LE 535",
+    "died": null,
+    "role": "old soldier who fought at the ford under Raghnall Ruadh's banner",
+    "first_chapter": 25,
+    "notes": "invented"
+  },
+  {
+    "name": "Dòmhnall mac Eòghainn",
+    "born": "LE 548",
+    "died": null,
+    "role": "son of Eòghann mac Dhùghaill; master of the store at the vein-house after him",
+    "first_chapter": 25,
+    "notes": "invented"
+  },
+  {
+    "name": "Mairead nic Aonghais",
+    "born": "LE 549",
+    "died": null,
+    "role": "a woman of Doire mhin who remembers the cold hearths as a child",
+    "first_chapter": 25,
+    "notes": "invented"
+  },
+  {
+    "name": "Mànas mac Ruairidh",
+    "born": "LE 620",
+    "died": "LE 690",
+    "role": "preacher of Seann Skell; founder of Òrd Mhanannain",
+    "first_chapter": 26,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Ruairidh",
+    "born": "LE 590",
+    "died": "LE 655",
+    "role": "sworn-man of the harbour-court of Seann Skell; Mànas mac Ruairidh's father, first to kneel to the Cup",
+    "first_chapter": 26,
+    "notes": "invented"
+  },
+  {
+    "name": "Beathag nic Dhonnchaidh",
+    "born": "LE 645",
+    "died": "LE 715",
+    "role": "kept Mànas mac Ruairidh's house and, after him, Taigh Mhanannain",
+    "first_chapter": 26,
+    "notes": "invented"
+  },
+  {
+    "name": "Tormod Ciar",
+    "born": "LE 640",
+    "died": "LE 700",
+    "role": "rope-walker of Cuan shean, among the first there to swear the Cup",
+    "first_chapter": 26,
+    "notes": "invented"
+  },
+  {
+    "name": "Donnchadh mac Ailein",
+    "born": "LE 615",
+    "died": "LE 680",
+    "role": "scribe of the harbour-court of Seann Skell",
+    "first_chapter": 26,
+    "notes": "invented"
+  },
+  {
+    "name": "Coinneach mac Sheumais",
+    "born": "LE 660",
+    "died": "LE 730",
+    "role": "skipper of Ros bheag, turned back by the order's boats under the rule of the headlands",
+    "first_chapter": 26,
+    "notes": "invented"
+  },
+  {
+    "name": "Griogair",
+    "born": "LE 685",
+    "died": "LE 755",
+    "role": "grandson of a pilot of Ros bheag, could not name his grandfather's steering star",
+    "first_chapter": 26,
+    "notes": "invented"
+  },
+  {
+    "name": "Fearchar mac Phàdraig",
+    "born": "LE 620",
+    "died": "LE 700",
+    "role": "reeve of Àth shean who oversaw the rebuilding of the granaries",
+    "first_chapter": 26,
+    "notes": "invented"
+  },
+  {
+    "name": "Eòghann mac Pheadair",
+    "born": "LE 700",
+    "died": "LE 770",
+    "role": "scribe of the vein-house at the bargain of the counts",
+    "first_chapter": 27,
+    "notes": "invented"
+  },
+  {
+    "name": "Mòrag nic Ìomhair",
+    "born": "LE 705",
+    "died": "LE 775",
+    "role": "the crown's scribe at the bargain of the counts",
+    "first_chapter": 27,
+    "notes": "invented"
+  },
+  {
+    "name": "Coinneach mac Nèill",
+    "born": "LE 750",
+    "died": "LE 830",
+    "role": "reeve of Baile chrom in the years of the sea-thieves and the dearth",
+    "first_chapter": 28,
+    "notes": "invented"
+  },
+  {
+    "name": "Uilleam Ruadh",
+    "born": "LE 765",
+    "died": "LE 801",
+    "role": "leader of the sea-thieves of the north-west, hanged at Cathair dhearg",
+    "first_chapter": 28,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Aonghas mac Ruairidh",
+    "born": "LE 770",
+    "died": "LE 801",
+    "role": "fisherman's son of Baile chrom named among the sea-thieves; killed in the raid on Eilean dhubh",
+    "first_chapter": 28,
+    "notes": "invented"
+  },
+  {
+    "name": "Beathag nic Artair",
+    "born": "LE 752",
+    "died": "LE 819",
+    "role": "wife of Coinneach mac Nèill, reeve of Baile chrom",
+    "first_chapter": 28,
+    "notes": "invented"
+  },
+  {
+    "name": "Iain mac Thormoid",
+    "born": "LE 748",
+    "died": "LE 826",
+    "role": "captain sent north by Eilidh Bhàn against the sea-thieves of the small islands",
+    "first_chapter": 28,
+    "notes": "invented"
+  },
+  {
+    "name": "Beathag nic Sheumais",
+    "born": "LE 870",
+    "died": "LE 935",
+    "role": "priestess who led the Fed Hawk to the northern Seann Skell",
+    "first_chapter": 29,
+    "notes": "invented"
+  },
+  {
+    "name": "Calum Dubh mac Iain",
+    "born": "LE 950",
+    "died": "LE 1,015",
+    "role": "the quarryman who went down the stair of Toll-dubh and never told",
+    "first_chapter": 30,
+    "notes": "invented"
+  },
+  {
+    "name": "Ailean mac Dhùghaill",
+    "born": "LE 970",
+    "died": "LE 1,030",
+    "role": "scholar of Dùn thais who measured the three old ruins",
+    "first_chapter": 30,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Seumas mac Coinnich",
+    "born": "LE 1,050",
+    "died": "LE 1,110",
+    "role": "reeve at the fords when the coast road was closed against the cough",
+    "first_chapter": 32,
+    "notes": "invented"
+  },
+  {
+    "name": "Raghnall mac Chaluim",
+    "born": "LE 1,175",
+    "died": "LE 1,240",
+    "role": "scholar of Dùn thais; the table of years",
+    "first_chapter": 33,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Mairead nic Mhurchaidh",
+    "born": "LE 1,230",
+    "died": "LE 1,300",
+    "role": "keeper of An Taigh-seinnse Mòr at the brothers' peace",
+    "first_chapter": 34,
+    "notes": "invented; the unnamed keeper of the master Book"
+  },
+  {
+    "name": "Iain Ciar",
+    "born": "LE 1,240",
+    "died": "LE 1,326",
+    "role": "son of King Ailean; won the Brothers' War",
+    "first_chapter": 34,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Alasdair Bàn",
+    "born": "LE 1,242",
+    "died": "LE 1,291",
+    "role": "son of King Ailean; lord of Seann Chwen for life",
+    "first_chapter": 34,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Pàdraig mac Ruairidh",
+    "born": "LE 1,260",
+    "died": "LE 1,320",
+    "role": "clerk of Iain Ciar; wrote Leabhar nam Bràithrean",
+    "first_chapter": 34,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Iseabail nic Lachlainn",
+    "born": "LE 1,355",
+    "died": "LE 1,420",
+    "role": "gatherer of songs who took down the keel-song",
+    "first_chapter": 35,
+    "notes": "master record; dates inferred"
+  },
+  {
+    "name": "Tormod Ròpaire",
+    "born": "LE 1,330",
+    "died": "LE 1,400",
+    "role": "leader of the rope-makers of Cuan shean who sang the keel-song",
+    "first_chapter": 35,
+    "notes": "invented"
+  },
+  {
+    "name": "Iain Mac Phàil",
+    "born": "LE 1,440",
+    "died": "LE 1,509",
+    "role": "the last of Clann Mhic Phàil, who took the grey glaze with him",
+    "first_chapter": 36,
+    "notes": "invented"
+  },
+  {
+    "name": "Beathag nic Thòmais",
+    "born": "LE 1,625",
+    "died": "LE 1,699",
+    "role": "mill-owner's widow of Muileann chaol who gathered the old copies",
+    "first_chapter": 37,
+    "notes": "master record; birth inferred"
+  },
+  {
+    "name": "Artair mac Dhòmhnaill",
+    "born": "LE 1,615",
+    "died": "LE 1,655",
+    "role": "mill-owner of Muileann chaol, Beathag nic Thòmais's husband",
+    "first_chapter": 37,
+    "notes": "invented"
+  },
+  {
+    "name": "Anna nic Coinnich",
+    "born": "LE 1,645",
+    "died": "LE 1,715",
+    "role": "paper-maker of Muileann chaol; first rag paper",
+    "first_chapter": 37,
+    "notes": "invented"
+  },
+  {
+    "name": "Aonghas mac Lachlainn",
+    "born": "LE 1,720",
+    "died": "LE 1,804",
+    "role": "council member of Clann Lachlainn who turned his vote on the second silver petition",
+    "first_chapter": 38,
+    "notes": "invented; master: his name written, his reason not"
+  },
+  {
+    "name": "Ealasaid nic Iain",
+    "born": "LE 1,715",
+    "died": "LE 1,805",
+    "role": "old woman who set a lamp in the harbour-house window",
+    "first_chapter": 38,
+    "notes": "invented"
+  },
+  {
+    "name": "Mànas mac Dhùghaill",
+    "born": "LE 1,760",
+    "died": null,
+    "role": "priest of Manannan at Seann Skell who wrote that the mist thins",
+    "first_chapter": 38,
+    "notes": "invented; alive at the close"
+  },
+  {
+    "name": "Tormod mac Ailein",
+    "born": "LE 1,774",
+    "died": null,
+    "role": "custodian; named Ceann a' Chùraim of the council",
+    "first_chapter": 38,
+    "notes": "master record (Age V); alive at the close"
+  },
+  {
+    "name": "Eòghann mac Nèill",
+    "born": "LE 1,750",
+    "died": null,
+    "role": "harbour scribe of Seann Skell who counted the eleven",
+    "first_chapter": 39,
+    "notes": "invented; alive at the close"
+  },
+  {
+    "name": "Oighrig nic Eachainn",
+    "born": "LE 1,780",
+    "died": null,
+    "role": "fisher of Ceann mhòr who saw the open sea through the mist",
+    "first_chapter": 39,
+    "notes": "invented; alive at the close"
+  },
+  {
+    "name": "Raghnall mac Uilleim",
+    "born": "LE 8",
+    "died": "LE 92",
+    "role": "crowned ruler, LE 55–LE 92, son of Beathag nic Dhòmhnaill",
+    "first_chapter": 11,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 47; died at 84."
+  },
+  {
+    "name": "Raghnall mac Raghnaill",
+    "born": "LE 45",
+    "died": "LE 125",
+    "role": "crowned ruler, LE 92–LE 125, son of Raghnall mac Uilleim",
+    "first_chapter": 13,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 47; died at 80. New in the master: a generation the long reigns need (the second Raghnall; the custody-book gives the two Raghnalls a line apiece)."
+  },
+  {
+    "name": "Ìomhar mac Raghnaill",
+    "born": "LE 92",
+    "died": "LE 180",
+    "role": "crowned ruler, LE 125–LE 180, son of Raghnall mac Raghnaill",
+    "first_chapter": 14,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 33; died at 88. died with no living child."
+  },
+  {
+    "name": "Fearchar mac Lachlainn",
+    "born": "LE 157",
+    "died": "LE 211",
+    "role": "crowned ruler, LE 182–LE 211",
+    "first_chapter": 14,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 25; died at 54. chosen by the heads of the seven houses."
+  },
+  {
+    "name": "Iain mac Lachlainn",
+    "born": "LE 154",
+    "died": "LE 219",
+    "role": "elder brother of King Fearchar mac Lachlainn; head of Clann Fhearchair; kept the house's hall at Baile Mòr dhomhain when the double court was at Cathair dhearg",
+    "first_chapter": 14,
+    "notes": "invented"
+  },
+  {
+    "name": "Fearchar Donn",
+    "born": "LE 188",
+    "died": "LE 256",
+    "role": "crowned ruler, LE 211–LE 256, son of Fearchar mac Lachlainn",
+    "first_chapter": 16,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 23; died at 68."
+  },
+  {
+    "name": "Sìleas nic Fhearchair",
+    "born": "LE 243",
+    "died": "LE 324",
+    "role": "crowned ruler, LE 258–LE 324, daughter of Fearchar Donn",
+    "first_chapter": 16,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 15; died at 81. crowned a girl of fifteen; reigned sixty-six years."
+  },
+  {
+    "name": "Uisdean mac Dhùghaill",
+    "born": "LE 270",
+    "died": "LE 352",
+    "role": "crowned ruler, LE 324–LE 352, son of Sìleas nic Fhearchair",
+    "first_chapter": 17,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 54; died at 82."
+  },
+  {
+    "name": "Uisdean mac Uisdein",
+    "born": "LE 322",
+    "died": "LE 394",
+    "role": "crowned ruler, LE 352–LE 394, son of Uisdean mac Dhùghaill",
+    "first_chapter": 18,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 30; died at 72. New in the master: a generation the long reigns need."
+  },
+  {
+    "name": "Aonghas mac Uisdein",
+    "born": "LE 372",
+    "died": "LE 450",
+    "role": "crowned ruler, LE 394–LE 450, son of Uisdean mac Uisdein",
+    "first_chapter": 18,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 22; died at 78. the first king taught letters as a child (his tutor Mòr nic Nèill, LE 380); took up the rite of Macha (LE 441)."
+  },
+  {
+    "name": "Aonghas Òg mac Aonghais",
+    "born": "LE 400",
+    "died": "LE 484",
+    "role": "crowned ruler, LE 450–LE 484, son of Aonghas mac Uisdein",
+    "first_chapter": 20,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 50; died at 84. New in the master: a generation the long reigns need (the first king buried by the rite of Macha)."
+  },
+  {
+    "name": "Iain mac Aonghais",
+    "born": "LE 435",
+    "died": "LE 496",
+    "role": "crowned ruler, LE 484–LE 496, son of Aonghas Òg mac Aonghais",
+    "first_chapter": 20,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 49; died at 61. a short reign."
+  },
+  {
+    "name": "Tormod mac Iain, Tormod Bàn",
+    "born": "LE 460",
+    "died": "LE 547",
+    "role": "crowned ruler, LE 496–LE 547, son of Iain mac Aonghais",
+    "first_chapter": 20,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 36; died at 87."
+  },
+  {
+    "name": "Lachlann mac Iain",
+    "born": "LE 565",
+    "died": "LE 654",
+    "role": "crowned ruler, LE 604–LE 654, son of Catrìona nic Aonghais, Catrìona Bhuadhach",
+    "first_chapter": 24,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 39; died at 89."
+  },
+  {
+    "name": "Anna",
+    "born": "LE 600",
+    "died": "LE 685",
+    "role": "crowned ruler, LE 654–LE 685, daughter of Lachlann mac Iain",
+    "first_chapter": 26,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 54; died at 85."
+  },
+  {
+    "name": "Eilidh Bhàn",
+    "born": "LE 751",
+    "died": "LE 841",
+    "role": "crowned ruler, LE 769–LE 841, granddaughter of the fifth ruler",
+    "first_chapter": 27,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 18; died at 90. crowned at eighteen; reigned seventy-two years; died without an heir."
+  },
+  {
+    "name": "Dòmhnall Ruadh",
+    "born": "LE 790",
+    "died": "LE 871",
+    "role": "crowned ruler, LE 846–LE 871",
+    "first_chapter": 25,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 56; died at 81."
+  },
+  {
+    "name": "Raghnall Òg",
+    "born": "LE 825",
+    "died": null,
+    "role": "crowned ruler, LE 871–—, son of Dòmhnall Ruadh",
+    "first_chapter": 29,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 46."
+  },
+  {
+    "name": "Mòrag Ruadh",
+    "born": "LE 1,000",
+    "died": null,
+    "role": "crowned ruler, LE 1,019–—",
+    "first_chapter": 31,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 19."
+  },
+  {
+    "name": "Beathag Fhionn",
+    "born": "LE 1,040",
+    "died": "LE 1,129",
+    "role": "crowned ruler, in office LE 1,082–LE 1,129, daughter of Mòrag Ruadh",
+    "first_chapter": 32,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): 42 in LE 1,082; died at 89."
+  },
+  {
+    "name": "Ailean",
+    "born": "LE 1,070",
+    "died": null,
+    "role": "crowned ruler, LE 1,129–—, son of Beathag Fhionn",
+    "first_chapter": 32,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 59."
+  },
+  {
+    "name": "Ailean mac Raghnaill",
+    "born": "LE 1,200",
+    "died": "LE 1,266",
+    "role": "crowned ruler, —–LE 1,266",
+    "first_chapter": 33,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): died at 66. left two sons of different mothers."
+  },
+  {
+    "name": "Catrìona Bheag",
+    "born": "LE 1,400",
+    "died": null,
+    "role": "crowned ruler, LE 1,429–—",
+    "first_chapter": 35,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 29."
+  },
+  {
+    "name": "Sìleas Òg",
+    "born": "LE 1,505",
+    "died": null,
+    "role": "crowned ruler, LE 1,529–—",
+    "first_chapter": 36,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 24."
+  },
+  {
+    "name": "Ailean mac Raghnaill, the fourth of the name",
+    "born": "LE 1,550",
+    "died": null,
+    "role": "crowned ruler, LE 1,589–LE 1,590",
+    "first_chapter": 36,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 39; reign ends LE 1,590 at 40. the shortest reign in the king-list."
+  },
+  {
+    "name": "Mòrag nic Raghnaill",
+    "born": "LE 1,556",
+    "died": null,
+    "role": "crowned ruler, LE 1,590–LE 1,630, sister of Ailean the Fourth",
+    "first_chapter": 36,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 34; reign ends LE 1,630 at 74. reigned some forty years."
+  },
+  {
+    "name": "Tormod mac Ruairidh",
+    "born": "LE 1,680",
+    "died": "LE 1,766",
+    "role": "crowned ruler, LE 1,709–LE 1,766",
+    "first_chapter": 37,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 29; died at 86."
+  },
+  {
+    "name": "Gormshuil nic Thormoid",
+    "born": "LE 1,715",
+    "died": null,
+    "role": "crowned ruler, LE 1,766–—, daughter of Tormod mac Ruairidh",
+    "first_chapter": 38,
+    "notes": "RULERS.json (the owner's rule: rulers' ages are stated): crowned at 51. of her death nothing is told."
+  },
+  {
+    "name": "Beathag nic Ruairidh",
+    "born": null,
+    "died": null,
+    "role": "elder teacher of the druid schools at the grove of Muileann chiar",
+    "first_chapter": 17,
+    "notes": "invented"
+  },
+  {
+    "name": "Aonghas mac Nèill",
+    "born": "LE 302",
+    "died": null,
+    "role": "fisherman's son of Caol bheag; pupil and keeper of the register at the house of disputation, Dùn thais",
+    "first_chapter": 17,
+    "notes": "invented"
+  }
 ]

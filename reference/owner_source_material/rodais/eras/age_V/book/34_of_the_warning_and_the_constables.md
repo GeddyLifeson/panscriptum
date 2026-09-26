@@ -32,8 +32,6 @@ The worst of it that year came at Dùn thais in the last days of an Dùbhlachd, 
 
 "Not much of one, from where I sit."
 
-She let that stand, because there were nights the difference felt thin to her as well. She had asked her father once, the winter before he died, why he kept no book of his own, when he carried in his head more names of the dead than any roll she had ever seen; and he had told her that a man who wrote a thing down could be made to hand over the page, and a man who only remembered could be beaten and still remember, and that he had chosen, long before she was born, to keep his memory somewhere no constable's hand could reach it. That answer stayed with her, and she turned it over often, sitting with the club's book open on her knee in a room with the door barred, never quite deciding whether her father had been right, or only tired, or both.
-
 ## II. Of the Second Petition
 
 It was in that same fever winter, with the club's book already three pages longer than she had meant it to grow, that Eilidh began the thing that would carry her name into the Residency's letter-books whether she wished it there or not.

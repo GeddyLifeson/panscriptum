@@ -154,10 +154,10 @@ def compose_html(lines, cfg=MASTER, front=None, fonts=FONTS):
             sub = title.split(', ', 1)
             toc.append((kind, cid, '%s: %s' % (label, title)))
             chunks.append(
-                '<section class="book" id="%s"><div class="opener">'
+                '<section class="book" id="%s"><div class="opener%s">'
                 '<p class="booklabel">%s</p><h1 data-run="%s">%s</h1>%s'
                 '<div class="front">%s</div></div>%s</section>'
-                % (cid, label, html.escape(label + ': ' + sub[0], quote=True), sub[0],
+                % (cid, ' chap' if label.startswith('Chapter ') else '', label, html.escape(label + ': ' + sub[0], quote=True), sub[0],
                    '<p class="booksub">%s</p>' % sub[1] if len(sub) > 1 else '',
                    md('\n'.join(head)), glosses.gloss_html(dropcaps(body_html(body[i:], {2: 'h2', 3: 'h3', 4: 'h4'}, seen, toc, 'sec')), r'<h2\b')))
         elif kind == 'volpart':
@@ -281,6 +281,9 @@ blockquote p{text-indent:0!important; text-align:left}
 
 /* the books */
 .opener{page:opener; break-before:right; padding-top:30mm; margin-bottom:9mm; text-align:center}
+/* an era novel's chapters, grouped under its Parts, run on after the chapter before, with a rule and space above */
+.opener.chap{break-before:auto; break-inside:avoid; break-after:avoid; padding-top:10mm; margin-top:12mm; margin-bottom:7mm; border-top:0.4pt solid #b9ad9a}
+.partpage + .book .opener.chap, section.part + section.book .opener.chap{border-top:0; margin-top:0}
 .booklabel{font-family:'Cinzel',serif; font-size:9pt; letter-spacing:.3em; text-transform:uppercase; color:#6d1f14; text-align:center; margin:0 0 4mm}
 .book h1{font-family:'Uncial',serif; font-weight:400; font-size:25pt; line-height:1.1; margin:0; color:#1a1612; string-set:bookrun attr(data-run)}
 .booksub{font-style:italic; font-size:13pt; text-align:center; margin:2.5mm 0 0}

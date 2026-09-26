@@ -1,0 +1,149 @@
+[
+    {
+        "title": "Ailean born to Tobar dhìreach",
+        "era_year": 5300,
+        "summary": "A son is born to Suibhne of Clann na Ceiste at Tobar dhìreach, heavier in arm and leg than the women at his birth can readily match against memory, and slow to close his hand on a finger held out to him and slower to let it go, so that his mother says he was born holding on.",
+        "category": "faith",
+        "people": ["Ailean", "Suibhne"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason"],
+        "master_links": []
+    },
+    {
+        "title": "Ailean grows slow of speech and broad of hand",
+        "era_year": 5306,
+        "summary": "Ailean keeps to single words long after children a season younger than him are stringing sentences, and some of his kin wonder aloud whether the line has thrown up a son too plain for the keeping, until his mother points to his hands, already broad at six years old, as proof enough of what manner of man he will be.",
+        "category": "people",
+        "people": ["Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason"]
+    },
+    {
+        "title": "Suibhne carries the rainbow to Doire ghlas",
+        "era_year": 5316,
+        "summary": "In his four-and-fortieth year Suibhne walks the three days north to Doire ghlas with the rainbow coal, the first keeper to bring it to the grove where the Keeper first spoke, and sits under the oaks a night and a day with it held loose in his open hand; it shows him no change of colour or warmth, and he carries it home cold.",
+        "category": "faith",
+        "people": ["Suibhne"],
+        "places": ["burg:209"],
+        "threads": ["line-of-the-mason", "the-seven-coals"],
+        "master_links": [{"to": "I-0080a", "type": "cause"}]
+    },
+    {
+        "title": "Suibhne says he doubts the rainbow will answer him",
+        "era_year": 5316,
+        "summary": "Suibhne tells his own hearth, and not the recital, that he no longer knows whether a man ought to go on asking a question already asked in every way his own life can think to ask it; his son Ailean, sixteen years old, hears it among the last things of any length his father says on the matter.",
+        "category": "people",
+        "people": ["Suibhne", "Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals"]
+    },
+    {
+        "title": "Suibhne dies of a fever",
+        "era_year": 5318,
+        "summary": "Suibhne dies in his forty-sixth year of a fever that takes him inside a fortnight, with Ailean, eighteen years old and already the broadest man of that hearth, sitting with him through the last nights; the bag of two coals passes to Ailean, though no word of keeping is said over him yet.",
+        "category": "death",
+        "people": ["Suibhne", "Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason"]
+    },
+    {
+        "title": "Ailean marries Lìobhan",
+        "era_year": 5317,
+        "summary": "Ailean, seventeen, takes Lìobhan of a household two valleys west that keeps no coal of its own; she comes to Tobar dhìreach a bride of fifteen and is taught by Suibhne's widow, in the short time left to teach her, how the fire-pot is fed and the bag kept and what is and is not said of it to a stranger.",
+        "category": "people",
+        "people": ["Ailean", "Lìobhan"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason"]
+    },
+    {
+        "title": "Gormshuil born",
+        "era_year": 5318,
+        "summary": "A daughter is born to Ailean and Lìobhan in the same wet autumn the household buries Suibhne, and is named Gormshuil for the blue of her eyes at birth, which her grandmother swears she has never seen come on so soon in any other child.",
+        "category": "people",
+        "people": ["Ailean", "Lìobhan", "Gormshuil"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason"]
+    },
+    {
+        "title": "Lìobhan names the rainbow's want",
+        "era_year": 5322,
+        "summary": "Lìobhan says aloud to Ailean what he has half thought and not yet let himself say, that a coal made of every colour together may belong wholly to no single element, as a child of two households belongs wholly to neither; Ailean turns the thought over the whole of that winter until it settles into near certainty.",
+        "category": "faith",
+        "people": ["Ailean", "Lìobhan"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals"]
+    },
+    {
+        "title": "Ailean tells the recital he means to light the six again",
+        "era_year": 5323,
+        "summary": "At the recital in his three-and-twentieth year Ailean tells the reciters only that he means, in the year ahead, to light the six coals again by each one's own old way and carry them living to wherever the seventh might at last be answered; the reciters say they will wait to hear how it goes.",
+        "category": "faith",
+        "people": ["Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals"]
+    },
+    {
+        "title": "Ailean wakes the gold on the northern sea",
+        "era_year": 5323,
+        "summary": "Ailean carries a fresh piece of the vein's gold-sheened colour the day's road north to the shore and throws it into the autumn swell as Aodh once did; it takes fire bright gold on the water, and this time he wades in after it and carries it home still burning in a clay pot with a lid of turf.",
+        "category": "coal",
+        "people": ["Ailean"],
+        "places": [],
+        "threads": ["line-of-the-mason", "the-seven-coals", "the-masons-fire"]
+    },
+    {
+        "title": "Ailean wakes the snowflake off the height",
+        "era_year": 5323,
+        "summary": "Before winter closes Binnean a' Chlachair, Ailean climbs it in a bitter wind and lets the snowflake coal fall from the height of his own arm as Fearghas once let it fall; it catches fire white halfway down the steep side, and he carries both fires down off the summit together.",
+        "category": "coal",
+        "people": ["Ailean"],
+        "places": ["marker:48"],
+        "threads": ["line-of-the-mason", "the-seven-coals", "the-masons-fire"]
+    },
+    {
+        "title": "Ailean wakes the black coal in the earth",
+        "era_year": 5324,
+        "summary": "In the last week before the ground freezes hard Ailean digs a grave-deep hole beside the old slab at Tobar dhìreach, lays the black coal in it as Brian once did, and finds it warm and glowing at dawn; three fires now burn under his roof through the shortest days of the year.",
+        "category": "coal",
+        "people": ["Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals", "the-masons-fire"]
+    },
+    {
+        "title": "Ailean wakes the red-brown coal with his own blood",
+        "era_year": 5324,
+        "summary": "In the yard behind his house on a frosted spring morning Ailean sets the red-brown coal on a stone and strikes it as Cormac once struck his; the hammer turns and lays his hand open, and where his blood runs onto the coal a deep warm flame comes up, leaving a scar to match the byname's own.",
+        "category": "coal",
+        "people": ["Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals", "the-masons-fire"]
+    },
+    {
+        "title": "Ailean wakes the silver in the Abhainn ghorm",
+        "era_year": 5324,
+        "summary": "At the crossing below Tobar dhìreach Ailean drinks from his own cupped hands as Eòghann once did and throws the silver coal into the current; it takes fire beneath the running water, and he lifts it out still alight with a wicker scoop made for the purpose.",
+        "category": "coal",
+        "people": ["Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals", "the-masons-fire"]
+    },
+    {
+        "title": "Ailean wakes the fire coal on his own doorstone",
+        "era_year": 5324,
+        "summary": "Sitting on his doorstone at midsummer, thinking of nothing to do with fire, Ailean snaps his fingers over dust from the old fire coal without meaning to try anything, as Seathan once did by accident, and the dust flares red-gold and leaves no mark on him; the sixth fire is lit within the same year as the first five.",
+        "category": "coal",
+        "people": ["Ailean"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals", "the-masons-fire"]
+    },
+    {
+        "title": "Ailean sets out north with six fires on a pole",
+        "era_year": 5324,
+        "summary": "In the last week of an t-Iuchar Ailean sets out from Tobar dhìreach for Doire ghlas, carrying the six relit coals in clay pots slung from a pole across his shoulders and the dark rainbow coal wrapped against his chest, with Lìobhan and Gormshuil walking beside him as far as the last hearth before the moor.",
+        "category": "faith",
+        "people": ["Ailean", "Lìobhan", "Gormshuil"],
+        "places": ["burg:276"],
+        "threads": ["line-of-the-mason", "the-seven-coals", "the-masons-fire"],
+        "master_links": [{"to": "I-0080a", "type": "cause"}]
+    }
+]

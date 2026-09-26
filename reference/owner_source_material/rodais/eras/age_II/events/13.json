@@ -1,0 +1,225 @@
+[
+    {
+        "title": "The ground cracks below the slab at Tobar dhìreach",
+        "era_year": 1071,
+        "summary": "A wet spring brings down more of the hillside above Tobar dhìreach than any spring before it, and a crack no wider than two fingers opens in the turf below the old stained slab, running toward the burn before losing itself in ground that has not moved.",
+        "category": "land",
+        "people": [],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "White stones laid along the new crack",
+        "era_year": 1071,
+        "summary": "The households of Na Glinn Àrda set a line of white stones along the crack below the slab's stain, as the coast has done at the crack Seasaidh's people watch, and build no byre against the ground it crosses.",
+        "category": "custom",
+        "people": [],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "The households agree to sit the slab in turn",
+        "era_year": 1120,
+        "summary": "At the Samhain gathering the households nearest Tobar dhìreach agree, with no one arguing hard enough against it to be worth outlasting, that a household will sit by the slab from dusk to dusk, turn and turn again, through the dark half of every year from that Samhain on.",
+        "category": "custom",
+        "people": [],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals",
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "Beathan first sits by the slab",
+        "era_year": 1121,
+        "summary": "Beathan mac Shomhairle, already some five hundred years old and looking a man of thirty, sits among the first six households to keep the new watch, wrapped in the same plaid and eating the same bannock as any herding household of Na Glinn Àrda.",
+        "category": "faith",
+        "people": [
+            "Beathan"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals",
+            "line-of-the-mason",
+            "line-of-aisling"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "Griogair and Ealasaid keep their first turn",
+        "era_year": 1121,
+        "summary": "A newly married herding couple of the shoulder of the hill above the burn, Griogair and Ealasaid, keep their household's first turn at the slab the same winter the watch is agreed, and come to be spoken of, for the decades after, in the same breath as Beathan's own turn.",
+        "category": "daily-life",
+        "people": [
+            "Griogair",
+            "Ealasaid",
+            "Beathan"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "Wolves come down close to the slab watch",
+        "era_year": 1130,
+        "summary": "A hard winter drives wolves nearer the fires of Na Glinn Àrda than living memory holds, and Beathan sits two of Griogair's household's nights himself, spear in hand, so that Griogair's young children need not lose a father to the season's watch.",
+        "category": "daily-life",
+        "people": [
+            "Beathan",
+            "Griogair",
+            "Ealasaid"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "A light disputed along the crack",
+        "era_year": 1135,
+        "summary": "Six watchers on duty by the slab give six differing accounts of a light seen, or not seen, along the white stones one frost-misted night, and Somhairle, questioning each apart from the others, sets down no conclusion beyond the plain disagreement.",
+        "category": "omen",
+        "people": [
+            "Somhairle"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "Somhairle gives Beathan the Line of the Mason whole",
+        "era_year": 1140,
+        "summary": "In the same season his hair first silvers at the temple, Somhairle gives his son Beathan the Line of the Mason entire, twice through by the fire without a name out of place, so that the telling may be carried by more than one head.",
+        "category": "record",
+        "people": [
+            "Somhairle",
+            "Beathan"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "line-of-the-mason",
+            "line-of-aisling"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "Griogair asks Beathan what the watch is for",
+        "era_year": 1159,
+        "summary": "Old and white-bearded, Griogair asks Beathan plainly, after forty years of sitting the slab beside him, what the households have been watching for; Beathan answers that he does not know, and never has.",
+        "category": "faith",
+        "people": [
+            "Griogair",
+            "Beathan"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "The king sits a night at the slab",
+        "era_year": 1160,
+        "summary": "The king rides up into the high valleys alone, unasked and unlooked-for, and sits a whole night among a household keeping its turn at the slab, watching the same grey stone and the same thin crack the valleys have watched for forty winters, and says nothing of why he came.",
+        "category": "faith",
+        "people": [
+            "Beathan"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals",
+            "line-of-the-mason"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "Griogair dies",
+        "era_year": 1163,
+        "summary": "Griogair dies in the ordinary way at last, three winters after asking his one question of Beathan, who sits the last night of it beside his bed as he sat so many nights beside his watch-fire.",
+        "category": "death",
+        "people": [
+            "Griogair",
+            "Beathan"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    },
+    {
+        "title": "Ealasaid sits her last turn at the slab",
+        "era_year": 1171,
+        "summary": "Carried up the hill by a grandson on a sledge when her own legs no longer make the climb, Ealasaid sits her last turn beside Beathan at the same fire she first sat beside as a bride fifty winters before.",
+        "category": "daily-life",
+        "people": [
+            "Ealasaid",
+            "Beathan"
+        ],
+        "places": [
+            "burg:276"
+        ],
+        "threads": [
+            "the-seven-coals"
+        ],
+        "master_links": [
+            "I-0112"
+        ]
+    }
+]

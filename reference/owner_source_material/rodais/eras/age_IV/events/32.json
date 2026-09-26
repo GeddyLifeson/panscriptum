@@ -1,0 +1,43 @@
+[
+    {
+        "title": "Reeves set at the fords against the cough",
+        "era_year": 1082,
+        "summary": "Newly crowned, Beathag Fhionn closes the coast road between Seann Bhral and Muileann dhomhain and sets a reeve at each of the road's six fords with orders to turn back every traveller until the road is released. Chosen mostly from the towns nearest their own crossing, the six hold the road shut for three years, and the cough never crosses west of them.",
+        "category": "law",
+        "people": [
+            "Beathag Fhionn",
+            "Seumas mac Coinnich"
+        ],
+        "places": [
+            "burg:19",
+            "burg:466",
+            "burg:110"
+        ],
+        "threads": [],
+        "master_links": [
+            {
+                "to": "III-0160",
+                "type": "detail"
+            }
+        ]
+    },
+    {
+        "title": "The ford-reeve turns back his own brother",
+        "era_year": 1082,
+        "summary": "At the crossing nearest Muileann dhomhain, the reeve Seumas mac Coinnich turns back his own brother, who has come to the closed road to reach their dying mother on its far side. He tells him the order holds for every traveller or for none. Their mother dies within the week, and the brothers do not speak again for five years.",
+        "category": "people",
+        "people": [
+            "Seumas mac Coinnich"
+        ],
+        "places": [
+            "burg:466"
+        ],
+        "threads": [],
+        "master_links": [
+            {
+                "to": "III-0160",
+                "type": "detail"
+            }
+        ]
+    }
+]

@@ -28,31 +28,10 @@
    "told_in": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom"
   },
   {
-   "id": "EV-6502",
-   "title": "Mòrag takes the sergeant's rifle herself",
-   "body": "Mòrag nic Iain Maor lifts the surrendered sergeant's rifle from the cobbles of the Muileann chrom store with her own hand rather than leave it to be gathered by another, the first weapon she has carried since she broke the overseer's staff the summer before.",
-   "place": "burg:354",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "IV-0325",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "morag-nic-iain-maor"
-   ],
-   "told_in": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom"
-  },
-  {
    "after": "IV-0326"
   },
   {
-   "id": "EV-6503",
+   "id": "EV-6502",
    "title": "Pàdraig Reamhar scuttles his own barge",
    "body": "The boatman Pàdraig Reamhar, who built the larger of the two barges sunk at Ceann fhada with his own father twenty years before, knocks the plugs from her hull with his own hands and says afterward only that she had been a good boat.",
    "place": "burg:351",
@@ -73,55 +52,10 @@
    "told_in": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom"
   },
   {
-   "id": "EV-6504",
-   "title": "Oswin Frayne rowed out from Ceann fhada",
-   "body": "The Company's harbour-master at Ceann fhada, Oswin Frayne, is rowed out past his own sunk barges and set aboard a boat for any harbour still flying the Residency's flag, unharmed, on the crews' own order.",
-   "place": "burg:351",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0326",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "oswin-frayne"
-   ],
-   "told_in": "book/37_of_the_rising_in_the_hills.md#i-of-the-first-light-at-muileann-chrom"
-  },
-  {
-   "after": "IV-0334"
-  },
-  {
-   "id": "EV-6505",
-   "title": "Strake's letter asking for a ship before winter",
-   "body": "Lionel Strake writes to the Company's directors over the sea that the harbour town below the Residency holds itself apart from the fighting only until it judges which side will leave it better off, and asks for more men, powder and a ship before the northern passage closes.",
-   "place": "burg:27",
-   "kind": "humans",
-   "category": "humans",
-   "links": [
-    {
-     "to": "IV-0334",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "lionel-strake"
-   ],
-   "told_in": "book/37_of_the_rising_in_the_hills.md#iv-of-the-rising-of-the-capital"
-  },
-  {
    "after": "IV-0335"
   },
   {
-   "id": "EV-6506",
+   "id": "EV-6503",
    "title": "The turnip cart to the ford",
    "body": "A cart with a false floor of turnips carries Uilleam Gobha's grenades up the cut coal road to the crews waiting at the ford of Àth chiar, the first of his work to leave Muileann dhearg for open fighting.",
    "place": "burg:163",
@@ -142,7 +76,7 @@
    "told_in": "book/37_of_the_rising_in_the_hills.md#v-of-the-ford-of-ath-chiar"
   },
   {
-   "id": "EV-6507",
+   "id": "EV-6504",
    "title": "The nineteen of Àth chiar buried",
    "body": "The council's clerk Fionnuala writes down by lamp-light the names of the nineteen dead of Àth chiar and reads the list aloud the next morning; within the week they are buried on the moor above Cnoc naomh, within sight of the cairn raised there before the fighting began.",
    "place": "marker:42",
@@ -167,7 +101,7 @@
    "after": "IV-0353"
   },
   {
-   "id": "EV-6508",
+   "id": "EV-6505",
    "title": "Dùghall counts the grain carts from Seann Warr",
    "body": "At the harbour quarter's upper gate Dùghall Dubh, once a weigher of coal for the Company, keeps the council's tally of the grain train down from Seann Warr, twelve carts against a capital's hunger, and sends the last load on to the sharing-yard behind the custodians' hall.",
    "place": "burg:27",
@@ -191,7 +125,7 @@
    "after": "IV-0356"
   },
   {
-   "id": "EV-6509",
+   "id": "EV-6506",
    "title": "The night clerk of the counting-house is taken without a blow",
    "body": "The counting-house's night clerk is found sitting on its steps in his shirt with his hands laced over his head before the raiders reach the ground floor, and Dùghall Dubh judges, from the look of him, that some part of the man had waited a year for the night to come.",
    "place": "burg:27",
@@ -212,81 +146,10 @@
    "told_in": "book/39_of_the_burning_of_the_ledgers.md#ii-of-the-roofs-in-stocking-feet"
   },
   {
-   "after": "IV-0358"
-  },
-  {
-   "id": "EV-6510",
-   "title": "The camps set the burning of the ledgers to a verse",
-   "body": "Before the ash of the Muileann chrom weigh-house has cooled, the camp folk are already singing eight words of it at market, and the verse travels the coast faster than any rider: they burned the book, but they did not burn the hill.",
-   "place": "burg:27",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0358",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "dughall-dubh"
-   ],
-   "told_in": "book/39_of_the_burning_of_the_ledgers.md#iii-of-the-word-from-ceann-arsaidh-and-muileann-chrom"
-  },
-  {
-   "after": "IV-0359"
-  },
-  {
-   "id": "EV-6511",
-   "title": "Fearchar Beag sights the fight at Cnoc ghorm",
-   "body": "Sent up to the net-loft roof with a borrowed glass, Fearchar Beag reads Strake's last sally on the eastern road by its riderless horses coming back down alone, and brings the harbour quarter word by noon that the guns have gone quiet.",
-   "place": "burg:27",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "IV-0359",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "fearchar-beag",
-    "dughall-dubh"
-   ],
-   "told_in": "book/39_of_the_burning_of_the_ledgers.md#iv-of-cnoc-ghorm"
-  },
-  {
-   "after": "IV-0360"
-  },
-  {
-   "id": "EV-6512",
-   "title": "The captain of Muileann dhearg asks first for the wounded",
-   "body": "When the harbour quarter's lower gates open, the council company's captain, a woman of Muileann dhearg unknown to Dùghall Dubh by name, thanks the gate-wardens and asks before anything else where the wounded of the counting-house alarm had been carried.",
-   "place": "burg:27",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "IV-0360",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-company"
-   ],
-   "people": [
-    "dughall-dubh"
-   ],
-   "told_in": "book/39_of_the_burning_of_the_ledgers.md#v-of-the-lower-gates"
-  },
-  {
    "after": "IV-0362"
   },
   {
-   "id": "EV-6513",
+   "id": "EV-6507",
    "title": "The letter-books found whole at the Residency",
    "body": "Where Strake has taken plate and account-papers down the river by night, Dùghall Dubh finds a room of the Residency's letter-books left standing untouched on an unlocked shelf, thirty years of the Administration's own correspondence with an Tìr Thall, and sends word of it to the council's clerks that evening.",
    "place": "burg:27",
@@ -307,7 +170,7 @@
    "told_in": "book/39_of_the_burning_of_the_ledgers.md#vii-of-the-residency-stripped"
   },
   {
-   "id": "EV-6514",
+   "id": "EV-6508",
    "title": "Prentice the counting-house clerk goes down the river",
    "body": "Dùghall Dubh learns from a clerk taken at the Residency that Prentice, who weighed coal beside him nine years at the counting-house scales, went down the river with Strake's household the night the Residency fell, leaving the ledgers he had kept behind as ash.",
    "place": "burg:27",
@@ -331,7 +194,7 @@
    "after": "IV-0376"
   },
   {
-   "id": "EV-6515",
+   "id": "EV-6509",
    "title": "Coinneach Beag puts his name forward",
    "body": "When the crew-leaders of the river towns ask for seven men who can keep their feet on a hill road and hold their tongues, Coinneach Beag, a boatman of Cuan dhearg raised on the river since boyhood and no stranger to the Company's rule over his own family, puts his name forward before he has properly decided to.",
    "place": "burg:10",
@@ -354,30 +217,7 @@
    ]
   },
   {
-   "id": "EV-6516",
-   "title": "The seven wait nine hours at An Cupa Dàna",
-   "body": "Seven men of the river towns gather at the inn of An Cupa Dàna and wait nine hours for the council's last letter, and in the waiting learn one another's names and fears: Coinneach Beag, Gillebrìde the hawk-priest's server, the coal-barge brothers, Ailig, and Pàdraig Buidhe, who says nothing at all.",
-   "place": "burg:10",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "IV-0342a",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "coinneach-beag"
-   ],
-   "told_in": "book/38_of_the_leaden_hawk.md#ii-of-the-waiting-at-an-cupa-dana",
-   "era_between": [
-    150,
-    150
-   ]
-  },
-  {
-   "id": "EV-6517",
+   "id": "EV-6510",
    "title": "The letter read at a nameless hawk-house",
    "body": "On the road past Seann Toll, Coinneach Beag reads the council's letter aloud in a bare hawk-house of six benches, his voice unsteady at first; an old woman by the fire answers only that it has come to that, and no one else speaks.",
    "place": "burg:313",
@@ -400,7 +240,7 @@
    ]
   },
   {
-   "id": "EV-6518",
+   "id": "EV-6511",
    "title": "The boy of Baile thais shows the wall",
    "body": "Passing through Baile thais, the Leaden Hawk company is shown by a boy of nine or ten the marks on the store's outer wall from the siege's eleven days, told with more pride than fear, the town's memory of its own fight already settling into telling.",
    "place": "burg:44",
@@ -423,7 +263,7 @@
    ]
   },
   {
-   "id": "EV-6519",
+   "id": "EV-6512",
    "title": "Forty-one riders, all going south",
    "body": "The company's count ends at forty-one constables' riders in a single day, and not one riding north; Gillebrìde reads the sign as Strake's attention turned elsewhere, and Coinneach Beag cannot say whether the empty road is the safest on the island or the most dangerous.",
    "place": "burg:308",
@@ -446,53 +286,7 @@
    ]
   },
   {
-   "id": "EV-6520",
-   "title": "Raonaid nic Dhòmhnaill puts out her own light",
-   "body": "At Tobar dhearg, Raonaid nic Dhòmhnaill, keeper of the light since her mother's death, climbs the tower alone on a night of her own choosing and puts out the beacon on her own authority, before any order from the council reaches her; the order finds the tower already dark.",
-   "place": "marker:16",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "IV-0350",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "raonaid-nic-dhomhnaill"
-   ],
-   "told_in": "book/38_of_the_leaden_hawk.md#vi-of-inis-thais-and-the-roads-of-the-fianna",
-   "era_between": [
-    150,
-    150
-   ]
-  },
-  {
-   "id": "EV-6521",
-   "title": "Coinneach Beag stands his first watch",
-   "body": "By midsummer Coinneach Beag stands watch on the road north of Ros bheag with a rifle he has not yet fired, still turning over the forty-one riders and what road Strake judged worth watching instead, while the war's lines hold unmoved from where the first winter left them.",
-   "place": "burg:27",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "IV-0352",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "coinneach-beag"
-   ],
-   "told_in": "book/38_of_the_leaden_hawk.md#vi-of-inis-thais-and-the-roads-of-the-fianna",
-   "era_between": [
-    150,
-    150
-   ]
-  },
-  {
-   "id": "EV-6522",
+   "id": "EV-6513",
    "title": "Eilidh Hale will not choose",
    "body": "Asked on the steps of the council hall at Baile dhìreach which people she is, Eilidh Hale, who has kept the joint council's books three winters running, answers only that she keeps the books, and no more. She is neither pressed further nor turned away, and stays in the town through the rest of the war.",
    "place": "burg:105",
@@ -517,7 +311,7 @@
    ]
   },
   {
-   "id": "EV-6523",
+   "id": "EV-6514",
    "title": "The sealed letter kept close",
    "body": "The last ship from over the sea puts a single sealed letter ashore for the Commissioner at Ros bheag before filling her berths with passengers and standing out again. Strake reads it alone by a window over the harbour, burns its wrapping in the grate, and is seen to carry the letter itself inside his coat for the rest of the winter. No clerk of his ever claims to have read a word of it.",
    "place": "burg:63",
@@ -540,28 +334,7 @@
    ]
   },
   {
-   "id": "EV-6524",
-   "title": "Two scribes, one truce",
-   "body": "At the meeting-house of Àth àrsaidh, envoys of the forest council and of the Administration set down the truce of the withdrawal in two hands at once, neither side trusting the other's clerk alone with the writing of it. Three days of argument over the line on the map are settled in less than an hour once the terms are agreed.",
-   "place": "burg:304",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0369",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [],
-   "told_in": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#iv-of-the-truce-of-ath-arsaidh",
-   "era_between": [
-    150,
-    150
-   ]
-  },
-  {
-   "id": "EV-6525",
+   "id": "EV-6515",
    "title": "Hannah Webb walks north",
    "body": "Hannah Webb, who keeps her vigil behind Baile chrom and nursed at Cathair gheal through the fever, walks out to meet the columns at the concession's southern edge and walks back north with them, an old woman of the last families out of Cuan shean on her arm who will not be carried.",
    "place": "burg:282",
@@ -586,33 +359,7 @@
    ]
   },
   {
-   "id": "EV-6526",
-   "title": "The keeper watches her out of sight",
-   "body": "From the gallery of Taigh-solais Baile chrom, Lachlann mac Uisdein watches Lionel Strake's ship stand out north-about past the headland at evening, showing one light at her stern until the dark of sea and sky close over it. He writes the passing into his father's daybook in his father's own words for a night with no ship left to come.",
-   "place": "marker:12",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "IV-0374",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-mist"
-   ],
-   "people": [
-    "lachlann-mac-uisdein",
-    "lionel-strake"
-   ],
-   "told_in": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#vi-of-the-keeper-s-watch",
-   "era_between": [
-    150,
-    150
-   ]
-  },
-  {
-   "id": "EV-6527",
+   "id": "EV-6516",
    "title": "The keys given up at Cuan shean",
    "body": "The harbour officers of Ceann mhòr, Cathair gheal and Inis àrsaidh ride two days south with their towns' chests of harbour keys and set them at Strake's feet on the quay at Cuan shean before his ship sails, saying only that the accounts are even and that who wants the keys after is not theirs to decide. Strake takes the chests aboard with him.",
    "place": "burg:282",
@@ -629,31 +376,6 @@
     "lionel-strake"
    ],
    "told_in": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#vii-of-the-keys-at-cuan-shean",
-   "era_between": [
-    150,
-    150
-   ]
-  },
-  {
-   "id": "EV-6528",
-   "title": "Four chests to Muileann chaol",
-   "body": "The petitions, the book of Baile thais and the letter-books left in the stripped Residency come by cart to Muileann chaol in four chests bound against the weather, a single custodian riding beside them the whole way. Cailean mac Eachainn signs for them on the step and clears a cellar to hold them, and opens the first alone by lamp on the last evening of the year.",
-   "place": "burg:246",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "IV-0376",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-library"
-   ],
-   "people": [
-    "cailean-mac-eachainn"
-   ],
-   "told_in": "book/40_of_the_truce_and_the_closing_of_the_crossing.md#ix-of-the-first-chest",
    "era_between": [
     150,
     150

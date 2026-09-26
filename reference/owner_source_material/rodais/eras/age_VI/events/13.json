@@ -1,0 +1,92 @@
+[
+ {
+  "title": "Harry Marlow's indenture torn at Cuan shean",
+  "era_year": 14,
+  "summary": "Seumas Crùbach, shipwright of Cuan shean, takes down and tears the four-year indenture binding Harry Marlow to his yard, the guild court's charter rule having reached the coast that spring. He keeps Harry on the bench as a free hand rather than take a new bound apprentice in his place.",
+  "category": "humans",
+  "people": ["Harry Marlow", "Seumas Crùbach"],
+  "places": ["burg:282"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0062", "type": "sequel"}]
+ },
+ {
+  "title": "The Tuathaich day-wage set at the Cuan shean yard",
+  "era_year": 14,
+  "summary": "Seumas Crùbach keeps Harry Marlow at half a bound man's wage and no guild standing once the indenture is loosed, a rate other yards along the coast take up that spring for the Tuathaich hands they keep on without a guild's leave to teach them.",
+  "category": "humans",
+  "people": ["Harry Marlow", "Seumas Crùbach"],
+  "places": ["burg:282"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0062", "type": "sequel"}]
+ },
+ {
+  "title": "A Tuathaich boy's plea refused at the Ros dhomhain guild court",
+  "era_year": 14,
+  "summary": "A rope-maker's apprentice of four years' standing at Ros dhomhain brings his case to the newly chartered guild court and is heard and refused in a single sitting, the court ruling that the charter's custom of binding names Dia-thìrich hands alone.",
+  "category": "law",
+  "people": [],
+  "places": ["burg:27"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0061", "type": "sequel"}]
+ },
+ {
+  "title": "The Moot's letter on the indentures filed",
+  "era_year": 14,
+  "summary": "The Moot at Caol mhòr writes to the guild court at Cathair dhearg asking what is to become of the Tuathaich indentures already standing when the guilds' charters are read. The letter is filed among that year's business without an answer.",
+  "category": "law",
+  "people": [],
+  "places": ["burg:95"],
+  "threads": ["the-tuathaich"],
+  "master_links": [{"to": "V-0062", "type": "sequel"}]
+ },
+ {
+  "title": "The lamp-makers' mark first stamped",
+  "era_year": 14,
+  "summary": "The lamp-makers of Muileann mhin, chartered that winter, set their mark, a flame struck over a hammer, on every coal lamp leaving their sheds from that year on, so that the lamp itself carries the record of where it was made and under what oath.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:137"],
+  "threads": ["the-seven-coals"],
+  "master_links": [{"to": "V-0064", "type": "sequel"}]
+ },
+ {
+  "title": "The chandlers' patrol-boat right first exercised",
+  "era_year": 14,
+  "summary": "The newly chartered chandlers of Ceann àrsaidh fit out the Crown's patrol boats under their sole right that spring, a right the guild keeps long after, and the fitting-out becomes the guild's yearly show of its charter before the shire's maor.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:88"],
+  "threads": [],
+  "master_links": [{"to": "V-0063", "type": "sequel"}]
+ },
+ {
+  "title": "Harry Marlow measures the old wreck at Cuan shean",
+  "era_year": 14,
+  "summary": "Freed from bound hours by the loosing of his indenture, Harry Marlow spends the year's stolen hours setting down in his own book the full lines of a derelict human hull left on the Cuan shean hard, learning by his own measure how a hull built plank first and framed after is made to hold together.",
+  "category": "trade",
+  "people": ["Harry Marlow"],
+  "places": ["burg:282"],
+  "threads": ["the-tuathaich"],
+  "master_links": []
+ },
+ {
+  "title": "A northern passage offered and refused at Cuan shean",
+  "era_year": 14,
+  "summary": "A cloth trader out of Seann Vell, putting in at Cuan shean that autumn, tells Harry Marlow a free hand might do better in a northern harbour, where no guild court stands over a craftsman's work. Harry thanks him and stays at his bench.",
+  "category": "humans",
+  "people": ["Harry Marlow"],
+  "places": ["burg:282"],
+  "threads": ["the-tuathaich"],
+  "master_links": []
+ },
+ {
+  "title": "Harry Marlow sends his wage north at half rate",
+  "era_year": 14,
+  "summary": "At the year's end Harry Marlow sends north to his father Joseph Marlow's forge at Doire mhin the sum he has set aside from a free hand's half-wage, a smaller sum than any year of his bound apprenticeship, kept from the same habit regardless.",
+  "category": "humans",
+  "people": ["Harry Marlow", "Joseph Marlow"],
+  "places": ["burg:282", "burg:5"],
+  "threads": ["the-tuathaich"],
+  "master_links": []
+ }
+]

@@ -18,6 +18,8 @@ eras/age_II/book/21_of_the_forbidden_marriage_and_the_trench.md | burg | Muilean
 eras/age_II/book/21_of_the_forbidden_marriage_and_the_trench.md | burg | Cnoc dhubh | Cnoc dhubh | the black hill's own name from the master annals themselves (I-0143, "near Cnoc dhubh in the east"), older than the Age III settlement founded there
 eras/age_II/book/21_of_the_forbidden_marriage_and_the_trench.md | name | the Stone | Of the Stone That Would Not Break | the second trench's own stone, not Lia Fàil
 eras/age_I/book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md | burg | Doire ghlas | the old name of Doire ghlas | the grove's own name (I-0006), older than the Age II town that later took it
+eras/age_I/book/38_of_ailean_son_of_suibhne.md | burg | Doire ghlas | took the rainbow north to Doire ghlas | the grove's own name (I-0052a), older than the Age II town that later took it
+eras/age_I/book/38_of_ailean_son_of_suibhne.md | burg | Doire ghlas | He came down into Doire ghlas | the grove's own name (I-0080a), older than the Age II town that later took it
 eras/age_I/book/07_of_the_boy_who_asked.md | burg | Doire ghlas | in the grove of Doire ghlas | the grove's own name, in the chapter epigraph (I-0011a is this chapter's own close), older than the Age II town that later took it
 eras/age_I/book/23_of_the_lee_of_the_headlands_and_the_writing_in_the_hills.md | burg | Doire uaine | Doire uaine hills | the hills' own name, in "the Hollow Man of Doire uaine" (NAMES.json, first I-0045); the village of Age III took its name from them
 eras/age_I/book/23_of_the_lee_of_the_headlands_and_the_writing_in_the_hills.md | name | the Stone | ## III. Of the Cutting on the Stone | the cut rock face Eimhir finds in the Doire uaine hills, not Lia Fàil
@@ -26,6 +28,7 @@ eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md | burg | Doire uaine |
 eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md | burg | Doire uaine | the pit-fires of the Doire uaine hills not excepted | the hills' own name (see above)
 eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md | burg | Doire uaine | that the hills of Doire uaine had come to fear | the hills' own name (see above)
 eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md | burg | Doire uaine | lived among the Doire uaine hills | the hills' own name (see above)
+eras/age_I/book/35_of_seathans_snap.md | burg | Doire uaine | a shepherd of the Doire uaine could say | the hills' own name, in "the Hollow Man of Doire uaine" (NAMES.json, first I-0045); the village of Age III took its name from them
 eras/age_II/book/24_oighrigs_lot_and_the_stone_cup.md | name | the Stone | # Of Oighrig's Lot and the Stone Cup | Oighrig's stone cup, not Lia Fàil
 eras/age_II/book/24_oighrigs_lot_and_the_stone_cup.md | name | the Cup | ## IV. Of the Cup Ground to Her Hand | Oighrig's stone cup, not Manannan's Cup of Truth
 eras/age_I/book/28_of_the_warm_springs_and_the_walled_gate.md | burg | Muileann ruadh | Below the mountain called Muileann ruadh | the mountain's own name (I-0057, Fuarain Theth Muileann ruadh, existing in Age I), older than the Age III town that later took it
