@@ -12,7 +12,8 @@ It reads, and never writes:
     legendarium/appendices/A_rulers.md, houses.json   the family trees and ruler lists (Appendix A)
     eras/maps/Diathir_Age_<K>.map (+ age_<K>.report.json, shots/)   the seven era maps
     book sections named by "told_in"  for "Read the telling"
-    eras/audio/names/ (optional)     recordings of the names for the glossary's play buttons
+    eras/audio/names/, Diathir_Atlas/audio/names/ (optional)   recordings of the names for the glossary's play buttons
+    eras/maps/overlays/*.json (optional, tools/make_posters.py)  each map's realms, for the Atlas's overlays
 
 The Atlas links forward and back freely (every link both ways); the PDFs point back only. That rule lives in
 event_links.footnote_html and is not applied here.
@@ -378,6 +379,7 @@ def burgs_of(path):
 
 def map_meta(master_map, out):
     maps, copies, names = {}, [], {}
+    xy_master = set()
     listing = [('M', master_map, 'Diathir.map')] + [(k, os.path.join(MAPS, 'Diathir_Age_%s.map' % k),
                                                      'maps/Diathir_Age_%s.map' % k) for k in KEYS]
     for key, src, dst in listing:
@@ -402,15 +404,37 @@ def map_meta(master_map, out):
         maps[key] = m
         for x in live:
             names.setdefault(str(x['i']), {})[key] = x.get('name', '')
+        # where each town stands (map units, the pictures' pixels): today's towns, and each age's own new ones
+        if key == 'M':
+            xy_master = {str(x['i']) for x in live}
+        m['xy'] = {str(x['i']): [round(x.get('x', 0), 1), round(x.get('y', 0), 1)] for x in live
+                   if key == 'M' or str(x['i']) not in xy_master}
         if key != 'M':
             copies.append((src, dst))
     shots = {}
-    for f in sorted(glob.glob(os.path.join(MAPS, 'shots', 'Diathir_Age_*_*.png'))):
-        m = re.match(r'Diathir_Age_([IVX]+)_(\w+)\.png$', os.path.basename(f))
-        if m and m.group(1) in KEYS:
-            shots.setdefault(m.group(1), []).append(m.group(2))
+    for f in sorted(glob.glob(os.path.join(MAPS, 'shots', 'Diathir_*_*.png'))):
+        m = re.match(r'Diathir_(?:Age_([IVX]+)|(Master))_(\w+)\.png$', os.path.basename(f))
+        key = m and ('M' if m.group(2) else m.group(1))
+        if key in KEYS + ['M']:                           # Diathir_Master_*: today's map (tools/make_posters.py)
+            shots.setdefault(key, []).append(m.group(3))
             copies.append((f, 'maps/shots/' + os.path.basename(f)))
     return maps, names, shots, copies
+
+
+def overlays(out):
+    """eras/maps/overlays/<map>.json (tools/make_posters.py): each map's realms as Azgaar draws them."""
+    got = {}
+    for f in sorted(glob.glob(os.path.join(MAPS, 'overlays', 'Diathir_*.json'))):
+        m = re.match(r'Diathir_(?:Age_([IVX]+)|(Master))\.json$', os.path.basename(f))
+        key = m and ('M' if m.group(2) else m.group(1))
+        if key not in KEYS + ['M']:
+            continue
+        try:
+            d = json.load(open(f, encoding='utf-8'))
+            got[key] = {'states': [s for s in d.get('states', []) if s.get('d')]}
+        except (ValueError, OSError) as ex:
+            warn(out, 'overlay %s unreadable (%s)' % (os.path.basename(f), ex))
+    return got
 
 
 # ---------------------------------------------------------------- names, threads, audio
@@ -443,9 +467,22 @@ def threads_list(out):
 
 
 def audio(names, out):
-    """eras/audio/names/: a manifest.json {dt: file} or files named by the name's slug (.mp3/.ogg/.wav/.m4a)."""
-    d = os.path.join(ERAS, 'audio', 'names')
+    """Diathir_Atlas/audio/names/ (kept by build_atlas.py on a rebuild) and eras/audio/names/: a manifest.json
+    {dt: file} or files named by the name's slug (.mp3/.ogg/.wav/.m4a). The Atlas also reads the first manifest
+    when it opens, so recordings made after a build play too."""
     got, copies = {}, []
+    kept = os.path.join(HERE, 'Diathir_Atlas', 'audio', 'names')
+    man = os.path.join(kept, 'manifest.json')
+    if os.path.exists(man):
+        try:
+            listed = json.load(open(man, encoding='utf-8'))
+        except ValueError as ex:
+            warn(out, 'Diathir_Atlas/audio/names/manifest.json unreadable (%s)' % ex)
+            listed = {}
+        for dt, f in (listed.items() if isinstance(listed, dict) else []):
+            if isinstance(f, str) and os.path.exists(os.path.join(kept, f)):
+                got[dt] = 'audio/names/' + f
+    d = os.path.join(ERAS, 'audio', 'names')
     if not os.path.isdir(d):
         return got, copies
     man = os.path.join(d, 'manifest.json')
@@ -453,7 +490,7 @@ def audio(names, out):
     files = {os.path.splitext(f)[0]: f for f in os.listdir(d) if f.lower().endswith(('.mp3', '.ogg', '.wav', '.m4a'))}
     for n in names:
         f = listed.get(n[0]) or files.get(slug(n[0]))
-        if f and os.path.exists(os.path.join(d, f)):
+        if n[0] not in got and f and os.path.exists(os.path.join(d, f)):
             got[n[0]] = 'audio/names/' + f
             copies.append((os.path.join(d, f), 'audio/names/' + f))
     return got, copies
@@ -498,4 +535,6 @@ def collect(rec, master_map):
             'threads': threads, 'people': people, 'trees': trees, 'names': names, 'audio': sounds,
             'months': reckoning.MONTHS, 'months_en': reckoning.ENGLISH_MONTHS, 'maps': maps, 'burgs': burg_names,
             'shots': shots, 'tellings': tell, 'warnings': out['warnings']}
-    return {'ages': ages, 'meta': meta, 'copies': copies + acopies}
+    ov = overlays(out)
+    meta['overlays'] = sorted(ov, key=lambda k: (KEYS + ['M']).index(k))
+    return {'ages': ages, 'meta': meta, 'copies': copies + acopies, 'overlays': ov}

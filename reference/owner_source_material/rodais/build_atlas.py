@@ -23,6 +23,8 @@ Output: Diathir_Atlas/ next to this file --
                         names and trees, gathered fresh by atlas_data.py on every build (the writers' new events,
                         links, threads, people and told_in show up on the next run)
     fmg/                Azgaar's Fantasy Map Generator (MIT, see fmg/LICENSE)
+    audio/names/        recordings of the names (manifest.json {dt: file}), made by another tool: kept on a rebuild
+    posters/            a poster of every age (tools/make_posters.py): kept on a rebuild
 
 The Annals are a timeline after the Middle-earth interactive map's (ERA_PLAN.md): an age ribbon that switches the
 annals and the map together, a detail switch (Highlights, Standard, Everything), a search in English or Dia-thìris,
@@ -96,8 +98,19 @@ import atlas_data  # noqa: E402   (atlas_data.py, next to this file)
 ERA_DATA = atlas_data.collect(rec, MAP)
 
 # ---------------------------------------------------------------- write the program
+# everything is made afresh except what other tools keep in the folder: audio/ (the recordings of the names, with
+# audio/names/manifest.json) and posters/ (tools/make_posters.py)
+KEEP = {'audio', 'posters'}
 if os.path.exists(OUT):
-    shutil.rmtree(OUT)
+    for f in os.listdir(OUT):
+        if f in KEEP:
+            continue
+        fp = os.path.join(OUT, f)
+        if os.path.isdir(fp) and not os.path.islink(fp):
+            shutil.rmtree(fp)
+        else:
+            os.remove(fp)
+os.makedirs(OUT, exist_ok=True)
 shutil.copytree(FMG, os.path.join(OUT, 'fmg'))
 for lic in (os.path.join(FMG, 'LICENSE'), os.path.join(FMG, '..', '..', 'LICENSE')):   # the build dir, or the repo it came from
     if os.path.isfile(lic):
@@ -146,6 +159,8 @@ data_js('meta.js', 'meta', ERA_DATA['meta'])
 data_js('master.js', 'master', [e for k in atlas_data.KEYS for e in ERA_DATA['ages'].get(k, []) if e['master']])
 for k, evs in ERA_DATA['ages'].items():
     data_js('era_%s.js' % k, 'era', k, {'order': [e['id'] for e in evs], 'events': [e for e in evs if not e['master']]})
+for k, ov in ERA_DATA['overlays'].items():   # the realms of each map, for the "realms of another age" overlay
+    data_js('overlay_%s.js' % k, 'overlay', k, ov)
 for src, dst in ERA_DATA['copies']:
     os.makedirs(os.path.dirname(os.path.join(OUT, dst)), exist_ok=True)
     shutil.copyfile(src, os.path.join(OUT, dst))

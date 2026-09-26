@@ -88,6 +88,7 @@ A.placeHTML = function(ref, o){
         '</td><td><button data-mapat="' + k + '|' + esc(ref) + '" title="Show this spot on the map of ' + esc(A.mapLabel(k)) + '">map</button></td></tr>';
     });
     h += '</tbody></table>';
+    if ((A.meta.shots.M || []).length || Object.keys(A.meta.shots).length > 1) h += '<p><button class="pill" data-cmp="' + esc(ref) + '">Then and now ◐</button></p>';
   } else if (ref) {
     h += '<p><button class="pill" data-mapat="' + A.mapWanted() + '|' + esc(ref) + '">◎ Show on the map</button></p>';
   }
@@ -110,7 +111,7 @@ window.showPlace = function(ref, evId){
   var d = document.getElementById('drawer');
   d.innerHTML = '<button class="back" onclick="showList()">◂ All places</button>' + A.placeHTML(ref, {evId: evId, drawer: true});
   d.hidden = false; d.scrollTop = 0; document.getElementById('drawtoggle').textContent = 'Record ◂';
-  d.onclick = function(ev){ var b = ev.target.closest('[data-go],[data-mapat],[data-person]'); if (!b) return;
+  d.onclick = function(ev){ var b = ev.target.closest('[data-go],[data-mapat],[data-person],[data-cmp]'); if (!b) return;
     if (b.dataset.go) { showTab('timeline'); A.goTo(b.dataset.go, {scope: b.dataset.scope || undefined}); return; }
     A.act(b); };
   var cur = d.querySelector('.ev.cur'); if (cur) cur.scrollIntoView({block: 'center'});
@@ -150,16 +151,21 @@ A.showPlaces = function(){
 };
 
 /* ---- flights: to a place on the map of the right age ---- */
+function markerNotes(w){ return Array.isArray(w.notes) ? w.notes : []; }   // older map-makers kept marker names in notes
 function liveRef(w, ref, key){
   var k = ref.split(':')[0];
   if (k === 'burg') { var i = azgaarId(ref, key); return i ? 'burg:' + i : null; }
   if (k === 'marker' && key !== 'M') {   // the ages' maps number their markers afresh: find it by its name
-    var name = (PLACES[ref] || {}).name, notes = w.notes || [];
-    var n = name && notes.find(function(x){ return x.name === name && /^marker\d+$/.test(x.id); });
+    var name = (PLACES[ref] || {}).name;
+    var mk = name && ((w.pack && w.pack.markers) || []).find(function(x){ return x.name === name; });   // markers carry their names
+    if (mk) return 'marker:' + mk.i;
+    var n = name && markerNotes(w).find(function(x){ return x.name === name && /^marker\d+$/.test(x.id); });
     return n ? 'marker:' + n.id.slice(6) : null;
   }
   return ref;
 }
+A.liveRef = liveRef;
+A.azgaarId = azgaarId;
 window.flyTo = function(ref, evId, key){
   if (!ref) return;
   key = key || A.mapWanted(); A.mapWant = key;
@@ -180,7 +186,8 @@ window.showMapBurg = function(i){
 window.showMapMarker = function(i){
   var key = mapKey || 'M';
   if (key === 'M' && PLACES['marker:' + i]) return showPlace('marker:' + i);
-  var w = fmg(), n = ((w && w.notes) || []).find(function(x){ return x.id === 'marker' + i; });
+  var w = fmg(), mk = w && w.pack && (w.pack.markers || []).find(function(x){ return x.i === i; });
+  var n = w && (markerNotes(w).find(function(x){ return x.id === 'marker' + i; }) || (mk && mk.name ? {name: mk.name, legend: /^cites:/.test(mk.note || '') ? '' : (mk.note || '')} : null));
   if (!n) return;
   var master = Object.keys(PLACES).find(function(r){ return /^marker:/.test(r) && PLACES[r].name === n.name; });
   if (master) return showPlace(master);
@@ -195,34 +202,86 @@ A.showEventInDrawer = function(e){
   d.hidden = false;
 };
 
-/* ---- compare two ages: a split slider over the two maps' pictures ---- */
-A.showCompare = function(a, b){
-  var keys = AGE_KEYS.filter(function(k){ return (A.meta.shots[k] || []).length; });
-  if (keys.length < 2) { A.openSheet('<h2>Compare two ages</h2><p>The pictures of the ages\' maps are not in this build.</p>'); return; }
-  a = keys.indexOf(a) >= 0 ? a : keys[Math.max(0, keys.indexOf(A.state.scope) - 1)] || keys[0];
-  b = keys.indexOf(b) >= 0 ? b : (keys[keys.indexOf(a) + 1] || keys[keys.length - 1]);
+/* ---- then and now: any two maps (the seven ages and today's), wiped or side by side, over the whole island or
+   close about one town ---- */
+A.xyOf = function(ref, key){   // a town's point on the map of `key` (map units = the pictures' pixels), or null
+  var i = azgaarId(ref, key), m = A.meta.maps[key], M = A.meta.maps.M;
+  if (!i) return null;
+  return (m && m.xy && m.xy[i]) || (M && M.xy && M.xy[i]) || null;
+};
+A.showCompare = function(a, b, ref){
+  var keys = AGE_KEYS.concat(['M']).filter(function(k){ return (A.meta.shots[k] || []).length; });
+  if (keys.length < 2) { A.openSheet('<h2>Then and now</h2><p>The pictures of the maps are not in this build.</p>'); return; }
+  if (ref && !/^burg:\d+$/.test(ref)) ref = null;
+  var has = function(k){ return !ref || A.xyOf(ref, k) && A.meta.burgs[azgaarId(ref, k)] && A.meta.burgs[azgaarId(ref, k)][k]; };
+  if (keys.indexOf(a) < 0) a = ref ? (keys.filter(function(k){ return k !== 'M' && has(k); })[0] || keys[0])
+    : (keys[Math.max(0, keys.indexOf(A.state.scope) - 1)] || keys[0]);
+  if (keys.indexOf(b) < 0) b = ref ? (keys.indexOf('M') >= 0 ? 'M' : keys[keys.length - 1]) : (keys[keys.indexOf(a) + 1] || keys[keys.length - 1]);
   var layers = (A.meta.shots[a] || []).filter(function(l){ return (A.meta.shots[b] || []).indexOf(l) >= 0; });
   var layer = layers.indexOf(A.prefs.cmpLayer) >= 0 ? A.prefs.cmpLayer : (layers.indexOf('states') >= 0 ? 'states' : layers[0]);
-  function opts(sel){ return keys.map(function(k){ return '<option value="' + k + '"' + (k === sel ? ' selected' : '') + '>' + k + ' · ' + esc(A.ageOf[k].dt) + '</option>'; }).join(''); }
-  function src(k){ return 'maps/shots/Diathir_Age_' + k + '_' + layer + '.png'; }
-  var h = '<h2>Compare two ages</h2><p class="sub">The island at the close of each age. Drag the slider to wipe from one to the other.</p>' +
-    '<div class="cmp-row"><select id="cmpA" aria-label="Left age">' + opts(a) + '</select><select id="cmpB" aria-label="Right age">' + opts(b) + '</select></div>' +
-    '<select id="cmpL" aria-label="What to show">' + layers.map(function(l){ return '<option' + (l === layer ? ' selected' : '') + '>' + l + '</option>'; }).join('') + '</select>' +
-    '<div class="compare" id="cmp" style="--split:50%"><img alt="' + esc(A.ageOf[b].dt) + '" src="' + src(b) + '"><img class="a" alt="' + esc(A.ageOf[a].dt) + '" src="' + src(a) + '">' +
-    '<span class="handle"></span><span class="lab l">' + a + '</span><span class="lab r">' + b + '</span></div>' +
-    '<input type="range" id="cmpSplit" min="0" max="100" value="50" aria-label="Wipe between the two ages">' +
-    '<p><button class="pill" data-mapat="' + a + '|">Open the map of ' + a + '</button> <button class="pill" data-mapat="' + b + '|">Open the map of ' + b + '</button></p>';
-  A.openSheet(h, '#compare/' + a + '/' + b, A.sheetStack.length && /^#compare/.test((A.sheetStack[A.sheetStack.length - 1] || {}).hash || ''));
-  if (A.sheetStack.length && /^#compare/.test(A.sheetStack[A.sheetStack.length - 1].hash || '')) A.sheetStack[A.sheetStack.length - 1] = {html: h, hash: '#compare/' + a + '/' + b};
+  var side = A.prefs.cmpMode === 'side';
+  function lab(k){ return k === 'M' ? 'Today' : k + ' · ' + A.ageOf[k].dt; }
+  function short(k){ return k === 'M' ? 'Today' : k; }
+  function opts(sel){ return keys.map(function(k){ return '<option value="' + k + '"' + (k === sel ? ' selected' : '') + '>' + esc(lab(k)) + '</option>'; }).join(''); }
+  function src(k){ return 'maps/shots/Diathir_' + (k === 'M' ? 'Master' : 'Age_' + k) + '_' + layer + '.png'; }
+  var zoom = ref ? 3 : 1, at = null;
+  if (ref) at = A.xyOf(ref, b) || A.xyOf(ref, a);
+  function pane(k, cls){
+    var t = '';
+    if (at) {   // the picture scaled about the town, with the town marked
+      var px = at[0] / 1536 * 100, py = at[1] / 702 * 100;
+      t = ' style="transform:scale(' + zoom + ');transform-origin:' + px.toFixed(2) + '% ' + py.toFixed(2) + '%"';
+      var dot = '<span class="spot" style="left:' + px.toFixed(2) + '%;top:' + py.toFixed(2) + '%"></span>';
+      return '<div class="pn' + cls + '"><div class="zm"' + t + '><img alt="' + esc(lab(k)) + '" src="' + src(k) + '">' + dot + '</div></div>';
+    }
+    return '<div class="pn' + cls + '"><div class="zm"><img alt="' + esc(lab(k)) + '" src="' + src(k) + '"></div></div>';
+  }
+  var h = '<h2>Then and now</h2><p class="sub">' + (ref ? esc(A.placeName(ref)) + ' on two maps of the island, each at the close of its age (today: the map as it stands).'
+      : 'The island on any two maps, each at the close of its age; today is the map as it stands.') + '</p>' +
+    '<div class="cmp-row"><select id="cmpA" aria-label="The earlier map">' + opts(a) + '</select><select id="cmpB" aria-label="The later map">' + opts(b) + '</select></div>' +
+    '<div class="cmp-row"><select id="cmpL" aria-label="What to show">' + layers.map(function(l){ return '<option' + (l === layer ? ' selected' : '') + '>' + l + '</option>'; }).join('') + '</select>' +
+    '<div class="seg" role="group" aria-label="How to compare"><button data-cm="swipe" aria-pressed="' + !side + '">Swipe</button><button data-cm="side" aria-pressed="' + side + '">Side by side</button></div></div>' +
+    '<div class="cmp-place"><input type="search" id="cmpQ" autocomplete="off" placeholder="Close about a town (any age\'s name)" aria-label="Choose a town" value="' + (ref ? esc(A.placeName(ref)) : '') + '">' +
+    (ref ? '<button class="pill" id="cmpAll">Whole island</button>' : '') + '<div class="rows" id="cmpHits"></div></div>';
+  if (side) h += '<div class="cmp-side"><figure><div class="compare one">' + pane(a, '') + '</div><figcaption>' + esc(lab(a)) + '</figcaption></figure>' +
+    '<figure><div class="compare one">' + pane(b, '') + '</div><figcaption>' + esc(lab(b)) + '</figcaption></figure></div>';
+  else h += '<div class="compare" id="cmp" style="--split:50%">' + pane(b, ' b') + pane(a, ' a') +
+    '<span class="handle"></span><span class="lab l">' + esc(short(a)) + '</span><span class="lab r">' + esc(short(b)) + '</span></div>' +
+    '<input type="range" id="cmpSplit" min="0" max="100" value="50" aria-label="Wipe between the two maps">';
+  if (ref) {
+    var nm = function(k){ var i = azgaarId(ref, k), n = i && A.meta.burgs[i] && A.meta.burgs[i][k]; return n ? '<b>' + esc(n) + '</b>' : '<span class="gone">not a town then</span>'; };
+    h += '<table class="across"><tbody><tr><td>' + esc(short(a)) + '</td><td>' + nm(a) + '</td></tr><tr><td>' + esc(short(b)) + '</td><td>' + nm(b) + '</td></tr></tbody></table>' +
+      '<p><button class="pill" data-place="' + esc(ref) + '">The record of this place</button></p>';
+  }
+  h += '<p><button class="pill" data-mapat="' + a + '|' + (ref ? esc(ref) : '') + '">Open the map of ' + esc(short(a)) + '</button> <button class="pill" data-mapat="' + b + '|' + (ref ? esc(ref) : '') + '">Open the map of ' + esc(short(b)) + '</button></p>';
+  var hash = '#compare/' + a + '/' + b + (ref ? '/' + encodeURIComponent(ref) : '');
+  var again = A.sheetStack.length && /^#compare/.test((A.sheetStack[A.sheetStack.length - 1] || {}).hash || '');
+  A.openSheet(h, hash, again);
+  if (again) A.sheetStack[A.sheetStack.length - 1] = {html: h, hash: hash};
+  document.getElementById('sheet').classList.add('wide');
   var cmp = document.getElementById('cmp'), sl = document.getElementById('cmpSplit');
-  sl.oninput = function(){ cmp.style.setProperty('--split', sl.value + '%'); };
-  function drag(ev){ var r = cmp.getBoundingClientRect(), x = ((ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left) / r.width * 100;
-    sl.value = Math.max(0, Math.min(100, x)); sl.oninput(); }
-  cmp.addEventListener('pointerdown', function(ev){ drag(ev); cmp.onpointermove = drag; cmp.setPointerCapture(ev.pointerId); });
-  cmp.addEventListener('pointerup', function(){ cmp.onpointermove = null; });
-  document.getElementById('cmpA').onchange = function(){ A.showCompare(this.value, b); };
-  document.getElementById('cmpB').onchange = function(){ A.showCompare(a, this.value); };
-  document.getElementById('cmpL').onchange = function(){ A.setPref('cmpLayer', this.value); A.showCompare(a, b); };
+  if (cmp) {
+    sl.oninput = function(){ cmp.style.setProperty('--split', sl.value + '%'); };
+    var drag = function(ev){ var r = cmp.getBoundingClientRect(), x = ((ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left) / r.width * 100;
+      sl.value = Math.max(0, Math.min(100, x)); sl.oninput(); };
+    cmp.addEventListener('pointerdown', function(ev){ drag(ev); cmp.onpointermove = drag; cmp.setPointerCapture(ev.pointerId); });
+    cmp.addEventListener('pointerup', function(){ cmp.onpointermove = null; });
+  }
+  document.getElementById('cmpA').onchange = function(){ A.showCompare(this.value, b, ref); };
+  document.getElementById('cmpB').onchange = function(){ A.showCompare(a, this.value, ref); };
+  document.getElementById('cmpL').onchange = function(){ A.setPref('cmpLayer', this.value); A.showCompare(a, b, ref); };
+  document.querySelectorAll('#sheet [data-cm]').forEach(function(x){ x.onclick = function(){ A.setPref('cmpMode', x.dataset.cm); A.showCompare(a, b, ref); }; });
+  var all = document.getElementById('cmpAll'); if (all) all.onclick = function(){ A.showCompare(a, b, null); };
+  var q = document.getElementById('cmpQ'), hits = document.getElementById('cmpHits');
+  q.oninput = function(){
+    var f = A.fold(q.value.trim());
+    if (f.length < 2) { hits.innerHTML = ''; return; }
+    var refs = A.placeRefs().filter(function(r){ return /^burg:/.test(r) && A.placeNames(r).concat([A.placeName(r)]).some(function(n){ return A.fold(n).indexOf(f) >= 0; }); });
+    hits.innerHTML = refs.slice(0, 8).map(function(r){ var o = A.placeNames(r).filter(function(n){ return n !== A.placeName(r); });
+      return '<button data-cmpto="' + esc(r) + '"><b>' + esc(A.placeName(r)) + '</b>' + (o.length ? '<small>also ' + esc(o.slice(0, 3).join(', ')) + '</small>' : '') + '</button>'; }).join('') ||
+      '<p class="hint">No town by that name.</p>';
+  };
+  hits.onclick = function(ev){ var x = ev.target.closest('[data-cmpto]'); if (x) { ev.stopPropagation(); A.showCompare(a, b, x.dataset.cmpto); } };
 };
 })();
 

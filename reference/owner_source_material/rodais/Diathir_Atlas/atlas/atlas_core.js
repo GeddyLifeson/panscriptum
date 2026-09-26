@@ -23,7 +23,21 @@ function ATLAS_LOAD(kind, a, b){
     (ATLAS._wait[a] || []).forEach(function(f){ f(); }); delete ATLAS._wait[a];
     if (ATLAS.onEra) ATLAS.onEra(a);
   }
+  else if (kind === 'overlay') { ATLAS.overlayData[a] = b; (ATLAS._wait['ov' + a] || []).forEach(function(f){ f(); }); delete ATLAS._wait['ov' + a]; }
+  else if (kind === 'posters') { ATLAS.posters = a; (ATLAS._wait.posters || []).forEach(function(f){ f(); }); delete ATLAS._wait.posters; }
 }
+ATLAS.overlayData = {};
+/* a data file (overlay_<K>.js, posters/posters.js) loaded once, on demand; resolves false when it is not there */
+ATLAS.loadScript = function(src, key, have){
+  return new Promise(function(done){
+    if (have()) return done(true);
+    (ATLAS._wait[key] = ATLAS._wait[key] || []).push(function(ok){ done(ok !== false); });
+    if (ATLAS._wait[key].length > 1) return;
+    var s = document.createElement('script'); s.src = src; s.async = true;
+    s.onerror = function(){ var w = ATLAS._wait[key] || []; delete ATLAS._wait[key]; s.remove(); w.forEach(function(f){ f(false); }); };
+    document.head.appendChild(s);
+  });
+};
 ATLAS._wait = {};
 
 /* ---- small helpers ---- */
@@ -93,7 +107,8 @@ ATLAS.route = function(){
   if (head === 'tree' && p[1]) { ATLAS.showTree(p[1]); return true; }
   if (head === 'glossary') { ATLAS.showGlossary(); return true; }
   if (head === 'thisday') { ATLAS.showThisDay(); return true; }
-  if (head === 'compare') { ATLAS.showCompare(p[1], p[2]); return true; }
+  if (head === 'compare') { ATLAS.showCompare(p[1], p[2], p.slice(3).join('/') || null); return true; }
+  if (head === 'posters') { ATLAS.showPosters(); return true; }
   if (head === 'search' && p[1]) { ATLAS.search(p.slice(1).join('/')); return true; }
   var map = head === 'map'; if (map) p = p.slice(1);
   var scope = p[0] === 'M' || ATLAS.ageOf[p[0]] ? p[0] : null, id = p[1];
@@ -177,7 +192,7 @@ ATLAS.drawMenu = function(){
     '<button data-m="play">▶ Play the years</button><button data-m="threads">Threads</button>' +
     '<button data-m="people">People &amp; family trees</button><button data-m="places">Places across time</button>' +
     '<button data-m="glossary">Glossary</button><button data-m="thisday">This day in Dia-thìr</button>' +
-    '<button data-m="compare">Compare two ages</button><button data-m="share">Copy a link to this view</button></div>';
+    '<button data-m="compare">Then and now</button><button data-m="posters">Posters</button><button data-m="share">Copy a link to this view</button></div>';
   h += '<h4>Show</h4><div class="cats">';
   Object.keys(ATLAS.meta.categories).forEach(function(c){
     var cc = ATLAS.meta.categories[c];
@@ -191,7 +206,7 @@ ATLAS.drawMenu = function(){
     var b = ev.target.closest('button[data-m]'); if (!b) return;
     ATLAS.toggleMenu(false);
     ({play: function(){ ATLAS.showPlaybar(true); }, threads: ATLAS.showThreads, people: ATLAS.showPeople, places: ATLAS.showPlaces,
-      glossary: ATLAS.showGlossary, thisday: ATLAS.showThisDay, compare: function(){ ATLAS.showCompare(); }, share: ATLAS.share})[b.dataset.m]();
+      glossary: ATLAS.showGlossary, thisday: ATLAS.showThisDay, compare: function(){ ATLAS.showCompare(); }, posters: function(){ ATLAS.showPosters(); }, share: ATLAS.share})[b.dataset.m]();
   };
   m.onchange = function(ev){
     var i = ev.target;
@@ -217,11 +232,12 @@ ATLAS.openSheet = function(html, hash, again){
   var sh = document.getElementById('sheet');
   if (!sh) { sh = document.createElement('aside'); sh.id = 'sheet'; sh.className = 'sheet'; sh.setAttribute('aria-label', 'Page'); document.body.appendChild(sh); }
   if (!again) ATLAS.sheetStack.push({html: html, hash: hash});
+  sh.classList.remove('wide');
   var back = ATLAS.sheetStack.length > 1 ? '<button data-sheet="back">◂ Back</button>' : '<span></span>';
   sh.innerHTML = '<div class="bar">' + back + '<button data-sheet="close" aria-label="Close">Close ✕</button></div>' + html;
   sh.hidden = false; sh.scrollTop = 0;
   sh.onclick = function(ev){
-    var b = ev.target.closest('[data-sheet],[data-go],[data-person],[data-place],[data-thread],[data-tree],[data-mapat],[data-play]');
+    var b = ev.target.closest('[data-sheet],[data-go],[data-person],[data-place],[data-thread],[data-tree],[data-mapat],[data-play],[data-cmp]');
     if (!b) return;
     if (b.dataset.sheet === 'close') return ATLAS.closeSheet();
     if (b.dataset.sheet === 'back') { ATLAS.sheetStack.pop(); var top = ATLAS.sheetStack[ATLAS.sheetStack.length - 1]; ATLAS.openSheet(top.html, top.hash, true); if (top.hash) ATLAS.setHash(top.hash); return; }
@@ -243,6 +259,7 @@ ATLAS.act = function(b){
   if (b.dataset.thread) return ATLAS.showThread(b.dataset.thread);
   if (b.dataset.tree) return ATLAS.showTree(b.dataset.tree, b.dataset.me);
   if (b.dataset.mapat) { var p = b.dataset.mapat.split('|'); ATLAS.closeSheet(); flyTo(p[1], null, p[0]); return; }
+  if (b.dataset.cmp) return ATLAS.showCompare(null, null, b.dataset.cmp);
   if (b.dataset.play) { var a = new Audio(b.dataset.play); a.play().catch(function(){ ATLAS.toast('The recording could not be played.'); }); }
 };
 
