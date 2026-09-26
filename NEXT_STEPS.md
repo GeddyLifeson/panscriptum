@@ -6,24 +6,21 @@ rediscovering.*
 
 ---
 
-## 0. PUBLISH IS STOPPED, AND THE OWNER HOLDS IT. DO NOT PUSH.
+## 0. RODAIS HAS MOVED OUT; PUBLISH IS RUNNING AGAIN (owner, in session, 2026-09-26)
 
-* **OWNER RULED 2026-09-26 (in session, after run #64): rodais is a separate project and moves to
-  its own repo, https://github.com/GeddyLifeson/Diathiris (private, empty; ASCII name because
-  GitHub forbids the ì).** The move WAITS until the owner says the work on branch
-  `claude/beautiful-fermat-9xu33t` is finished. The full plan is on order `58b14244e856`. Until the
-  owner releases it, everything below still holds: no push, and don't touch that checkout.
-
-* Order `23092fffadf3` (OWNER, BLOCKING) is unruled. Since run #63 the owner merged **PR #14**
-  (`a820e2f4`) to rodais on origin/main. The kit's `reference/owner_source_material/rodais` is
-  a PR #13 copy, so a push reverts PR #14. RUN orders `573ab7b04b6f` (the publish credential
-  question, which needs a live PUSH HELD line) and `5aec38314731` (the stop record) both wait on
-  this ruling.
-* **The export checkout is on the owner's branch** `claude/beautiful-fermat-9xu33t`, not main,
-  with uncommitted deletions under `rodais/eras/_tmp/`. It is an owner session's work in
-  progress. Read it if you need to; never reset, checkout or clean it.
-* When the owner rules, follow NEXT_STEPS from run #63 §0 (a) or (b), and refresh rodais from
-  origin/main at whatever PR is newest by then.
+* rodais (the Dia-thìr Atlas) is a separate project, now in **GeddyLifeson/Diathiris** (private):
+  `main`, `albums-unmerged` and `writer-run-2026-09-25`. The owner's screenplay went to
+  `Documents\Amethyst Cockroach King`, off GitHub. Panscriptum main (`f655e37b`) carries neither.
+  25 rodais branches were deleted from Panscriptum; restore SHAs are in
+  `handoff/rodais_move_2026-09-26_branch_shas.txt`. Orders `23092fffadf3`, `5aec38314731` and
+  `58b14244e856` are closed.
+* **publish is resumed.** If anything rodais-shaped reappears under `reference/owner_source_material/`,
+  it does not belong here. Ask the owner; don't copy it into the kit.
+* The export checkout is back on `main`. The owner's old branch `claude/beautiful-fermat-9xu33t`
+  and `stash@{0}` are still in it, locally only; both are preserved in Diathiris. Leave them.
+* **Open question for the owner:** rodais and the screenplay are still in Panscriptum's git
+  HISTORY. Purging them needs a history rewrite and a force-push; only on the owner's say-so.
+* `573ab7b04b6f` (publish credentials): watch the first daemon cycles for a PUSH HELD line.
 
 ## 1. READ THE MUTATION PASS (the first whole one since prose resumed)
 

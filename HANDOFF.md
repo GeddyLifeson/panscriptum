@@ -27,6 +27,25 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-26 later — IN SESSION WITH THE OWNER: RODAIS MOVED TO ITS OWN REPO, PUBLISH RESUMED
+
+* **Owner ruling:** rodais (the Dia-thìr Atlas) was never meant to be in Panscriptum. It moved to
+  **GeddyLifeson/Diathiris** (private; GitHub names are ASCII-only, so the ì is in the description).
+  `main` (pushed at 08:16 by an owner atlas session; verified identical to PR #16's rodais tree),
+  `albums-unmerged` (5 album files that existed only on branches, blobs identical, original
+  authors kept), and `writer-run-2026-09-25` (the unpushed local commit plus 21 uncommitted files;
+  tree identical to the checkout). The writer run conflicts with later published chapters, so it
+  was kept separate for the owner to decide, not merged.
+* The owner's screenplay `Amethyst_Cockroach_King_screenplay_20260818.fdx` came off GitHub at their
+  request, and is kept at `Documents\Amethyst Cockroach King\` (byte-identical).
+* The kit copy of rodais and the two fmg/ suppressions were removed, and the export checkout's WIP
+  stashed (it is in Diathiris). publish was resumed by written ruling and pushed `f655e37b`:
+  -2,970 rodais files and -1 screenplay, plus run #64's held fixes. PR #16 was closed with a
+  pointer. 25 rodais branches were deleted, with SHAs in `handoff/rodais_move_2026-09-26_branch_shas.txt`.
+* **Still in git history:** both. A purge is a force-push over every branch; the owner decides.
+
+---
+
 ## 2026-09-26 — DAILY MAINTENANCE RUN #64: THE MUTATION PASS HAD ITS DRILL SWITCHED OFF; FIXED, RELAUNCHED WHOLE. SWEEP64 DONE, 14 FIXES. NO PUSH.
 
 **FOR THE OWNER, AT THE TOP:**

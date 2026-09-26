@@ -1,0 +1,27 @@
+# Branches removed from GeddyLifeson/panscriptum on 2026-09-26 after rodais moved to GeddyLifeson/Diathiris.
+# Restore any one with: git push origin <sha>:refs/heads/<name>
+b48531200e5acd4ac4a56bf44baa9e18c3a0e7b5 claude/album-dates-b1
+2e909d2cae6f1d7d652f76f689ee9465338bca84 claude/album-dates-b2
+36b90ff68f506e12baa4fb1e78bc9109f0482c13 claude/album-dates-b3
+5a5e6eba82ba5b1d8fb08de78028719763be81aa claude/album-dates-b4
+ba12b0cc9b4fe64a6ca9db8f394f55058407483d claude/album-dates-c1
+65d2ccd7518c8e338ea08f3321902e32717236c4 claude/album-dates-c2
+17766309db179717e204ae3edc003426f6dc4e3c claude/album-dates-c3
+4aee480d342e5cbe6061eb8baae10e7dde50fa5a claude/album-dates-c4
+6b377e0bbaa4fd0f1b7b0aa99709daf69343d13a claude/album-dates-c5
+64f97147f0c00d62ae65a65ed50d989e7c52fce3 claude/album-dates-c6
+00b4fd62534ebd6c3c124de218816c2f03e039aa claude/album-dates-list
+3ac91edc982824769fe01bfe8dbc8185cd3f5ee1 claude/album-dates-r1
+eb3a7ae3782b4dad4ca3a99430ffb02644c48b44 claude/album-dates-r2
+a3c4bca676d61dbe315af92f1c1e6631638b36c7 claude/album-dates-r3
+0514ffea9b1f888ecd3cd8f37df2d023b3273462 claude/album-dates-r4
+4deead188bff881094511074dbe0235b49d6d03f claude/album-dates-r5
+c1a5d22f5ba736d5ff95bc497866e2aacaba890b claude/album-dates-r6
+e399a17fc591aae56caf595152c72899783ecfa3 claude/album-dates-r7
+a059b1a932f1df05fb682fbedbc278c0295cf10a claude/album-dates-r8
+885e688db1037c4d58e94867d6c6642785568fb0 claude/album-dates-r9
+e172a02c83f9dc47f2845752491825765b44cfce claude/album-dates-verify
+8923669c1ff929d24ad3b68b43061cd062add1db claude/beautiful-fermat-9xu33t
+25288ae766bfa4c059b6e7693105ee8fffe75ee8 claude/rock-lists-1
+92e577c4b705b7812f83b5cdcdc320ce655023c1 claude/rock-lists-2
+1ae9d7f087484f859856a2aea2482432e94b8c44 claude/rock-lists-3
