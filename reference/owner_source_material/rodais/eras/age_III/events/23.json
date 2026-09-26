@@ -1,0 +1,203 @@
+[
+ {
+  "title": "The death of Cailean",
+  "era_year": 660,
+  "summary": "Cailean, a cousin of Goraidh mac Ìomhair through their grandmothers, dies under a wall he is mending at his own hall in a night of high wind. He leaves no child of his body, and his county of the east goes unclaimed.",
+  "category": "rulers",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0076a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The death of Donnchadh",
+  "era_year": 662,
+  "summary": "Donnchadh, Cailean's younger brother, dies of a cough the hearth-women cannot cut, with his sister's hand in his. He too leaves no child, and the second of the three old counties east of Dùn dhearg is left without an heir named.",
+  "category": "rulers",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0076a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Goraidh's marriage to Muirne nic Dhonnchaidh",
+  "era_year": 668,
+  "summary": "Goraidh mac Ìomhair rides to Muirne nic Dhonnchaidh, a widowed kinswoman of four hundred years who holds the third of the old eastern counties alone, and marries her in the spring. Her county comes whole into the marriage, as Sìth an Stairsnich allows, and Goraidh takes on her dead husbands' debts to the county's smiths.",
+  "category": "rulers",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0076a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Goraidh rides the three counties",
+  "era_year": 669,
+  "summary": "Through the first year of the marriage Goraidh mac Ìomhair walks the boundaries of all three gathered counties with Muirne beside him, eating at the hearths and not the halls, learning which streams have moved and which grazings are old enough to fight over.",
+  "category": "land",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0076a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The hungry harvests",
+  "era_year": 672,
+  "summary": "Two summers running the rains come at the wrong end of the season and the barley rots standing in the low ground east of Dùn dhearg. Goraidh mac Ìomhair opens all four of his granaries and gives grain outright to nine households that cannot pay even the lowered price.",
+  "category": "land",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0077",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Death of Muirne nic Dhonnchaidh",
+  "era_year": 677,
+  "summary": "Muirne nic Dhonnchaidh dies in her sleep in the ninth year of her marriage to Goraidh mac Ìomhair, with her own county's reciter in the room. He buries her among her own dead, as she asked him.",
+  "category": "rulers",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0076a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Goraidh leaves his spear at the last house",
+  "era_year": 693,
+  "summary": "Come to answer the council's word, Goraidh mac Ìomhair leaves his spear with his men at the last waypoint house on the mountain road and climbs to Dùn ìseal on foot and unarmed.",
+  "category": "rulers",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-promise"
+  ],
+  "master_links": [
+   {
+    "to": "II-0078",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A waypoint-keeper's short tally forgiven",
+  "era_year": 703,
+  "summary": "At a waypoint house on the northern road a keeper's first season's toll comes in a tenth short, for want of anyone at the door by night. Goraidh mac Ìomhair laughs at the reckoning and lets the shortfall stand.",
+  "category": "trade",
+  "people": [
+   "Goraidh mac Ìomhair"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0080",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Death of Goraidh Mòr",
+  "era_year": 753,
+  "summary": "Goraidh mac Ìomhair dies in his own hall at Dùn dhearg in his two hundred and thirteenth year, in the granary month, asking after the notching of the western road's toll-sticks. His daughter Mòrag and two waypoint-keepers rendering their tallies are with him.",
+  "category": "rulers",
+  "people": [
+   "Goraidh mac Ìomhair",
+   "Mòrag nan Rathad"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0081",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The toll-stick notched at Mòr nic Dhùghaill's old house",
+  "era_year": 753,
+  "summary": "Days after Goraidh Mòr's death, the keeper of the old waypoint house that was Mòr nic Dhùghaill's notches a fresh toll-stick for a carrier's fish and a carrier's wool, as she has every week before and will every week after, whoever holds the hall at Dùn dhearg.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "marker:5"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0080",
+    "type": "legacy"
+   }
+  ]
+ }
+]

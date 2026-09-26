@@ -1,0 +1,1071 @@
+{
+ "writer": 6,
+ "span": [
+  "III-0166",
+  "III-0196"
+ ],
+ "events": [
+  {
+   "after": "III-0167a"
+  },
+  {
+   "id": "EIV-6001",
+   "title": "A barge broken at Coinneachadh na h-Amhaich",
+   "body": "A laden barge out of the new harbour at Caol gharbh misjudges the tide at the narrows called Coinneachadh na h-Amhaich and strikes the reef, going down with half her salt still aboard. Both crewmen swim ashore alive. The harbour-masters set the channel's first withy at the rock the following spring.",
+   "place": "burg:443",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#i-of-the-narrows-and-the-new-harbour",
+   "era_between": [
+    1170,
+    1170
+   ]
+  },
+  {
+   "id": "EIV-6002",
+   "title": "The last bridge-keeper of Drochaid Ros fhionn",
+   "body": "The keeper of Drochaid Ros fhionn dies with no daughter or kinsman willing to take up the toll, and the crown's reeve at Ros fhionn lets the office lapse rather than name a stranger to it. The toll-gate stands open thereafter, and no crossing is ever again refused for want of a toll.",
+   "place": "burg:76",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0168",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#i-of-the-narrows-and-the-new-harbour",
+   "era_between": [
+    1172,
+    1172
+   ]
+  },
+  {
+   "id": "EIV-6003",
+   "title": "The market-court's answer",
+   "body": "Asked whether Ros fhionn's market-court should follow its trade to Caol gharbh, the court's own clerks answer that a court sits where disputes are brought to it, not where the season's cargo happens to lie, and the bench of two-hundred-year oak is not moved.",
+   "place": "burg:76",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0168",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#i-of-the-narrows-and-the-new-harbour",
+   "era_between": [
+    1173,
+    1173
+   ]
+  },
+  {
+   "id": "EIV-6004",
+   "title": "Seòlaid Ros fhionn withied",
+   "body": "The channel above the flats where the barge was lost is marked from the old bar to open water with a line of withies, Seòlaid Ros fhionn, so that a new pilot may learn the crossing in a season rather than the ten years the old salt-masters once needed.",
+   "place": "burg:76",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0168",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#i-of-the-narrows-and-the-new-harbour",
+   "era_between": [
+    1176,
+    1176
+   ]
+  },
+  {
+   "after": "III-0169"
+  },
+  {
+   "id": "EIV-6005",
+   "title": "Raghnall mac Chaluim sent to Dùn thais",
+   "body": "A priest of the schools of the stag, hearing a shepherd's son of the north-west coast count and recount a flock through an afternoon, tells the boy's father the child belongs at a house of disputation. Raghnall mac Chaluim, fourteen years old, is sent south to Dùn thais the following spring.",
+   "place": "burg:77",
+   "kind": "record",
+   "category": "law",
+   "links": [],
+   "threads": [],
+   "people": [
+    "raghnall-mac-chaluim"
+   ],
+   "told_in": "book/33_of_the_table_of_years.md#ii-of-the-millers-and-the-watcher-in-the-sea",
+   "era_between": [
+    1189,
+    1189
+   ]
+  },
+  {
+   "id": "EIV-6006",
+   "title": "The gearing model hung over the millers' door",
+   "body": "The millers of Muileann shean, who first cut the gearing that lets one wheel turn two stones, hang a carved model of it over their own door, a boast that grows quieter with every mill in the north that copies it without asking leave.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0169",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#ii-of-the-millers-and-the-watcher-in-the-sea",
+   "era_between": [
+    1195,
+    1195
+   ]
+  },
+  {
+   "after": "III-0170"
+  },
+  {
+   "id": "EIV-6007",
+   "title": "Birth of Ailean mac Raghnaill",
+   "body": "A son, Ailean, is born in Sliochd Raghnaill, the crown's own house since the reign of Mòrag Ruadh; Leabhar a' Chùraim gives the year and the house and no more.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0176",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailean-mac-raghnaill"
+   ],
+   "told_in": "book/33_of_the_table_of_years.md#iii-of-the-table-of-years",
+   "era_between": [
+    1200,
+    1200
+   ]
+  },
+  {
+   "id": "EIV-6008",
+   "title": "Raghnall begins the count of years",
+   "body": "Raghnall mac Chaluim, thirty years old, begins setting the birth and death rolls of the custodian houses beside those of their tenants at Dùn thais, a labour that will occupy his lamplit evenings for nine years before he brings any finding before Taigh na Deasbaid.",
+   "place": "burg:77",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0171",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-chaluim"
+   ],
+   "told_in": "book/33_of_the_table_of_years.md#iii-of-the-table-of-years",
+   "era_between": [
+    1205,
+    1205
+   ]
+  },
+  {
+   "after": "III-0171"
+  },
+  {
+   "id": "EIV-6009",
+   "title": "A scholar answered at the reading",
+   "body": "When a scholar of Taigh na Deasbaid calls Raghnall's table a wish dressed in columns, Raghnall offers to run the sums a fifth time on rolls the scholar himself chooses. The scholar sits down without taking up the offer, and the hall remembers the silence longer than the exchange.",
+   "place": "burg:77",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0171",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-chaluim"
+   ],
+   "told_in": "book/33_of_the_table_of_years.md#iii-of-the-table-of-years",
+   "era_between": [
+    1209,
+    1209
+   ]
+  },
+  {
+   "after": "III-0172"
+  },
+  {
+   "id": "EIV-6010",
+   "title": "Raghnall's copy entered in Taigh na Fèithe inventory",
+   "body": "A custodian who has never met Raghnall mac Chaluim writes to ask whether his working copy of Clàr nam Bliadhnachan still exists and might be sent to the mountain for safekeeping. It is sent, and entered that year in Taigh na Fèithe's own inventory, one line among the galleries and Clachan a' Chrannchuir.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0172",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-chaluim"
+   ],
+   "told_in": "book/33_of_the_table_of_years.md#iii-of-the-table-of-years",
+   "era_between": [
+    1219,
+    1219
+   ]
+  },
+  {
+   "after": "III-0173"
+  },
+  {
+   "id": "EIV-6011",
+   "title": "Death of Raghnall mac Chaluim",
+   "body": "Raghnall mac Chaluim dies at Dùn thais in his sixty-sixth year, in the small house the shut school let him keep. The scholars who once argued his table carry him to the school's own burying ground and set a tally-stick at his grave's head, notched once for every year the making of the table cost him.",
+   "place": "burg:77",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0172",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-chaluim"
+   ],
+   "told_in": "book/33_of_the_table_of_years.md#iv-of-the-gale-the-boundary-and-the-pilgrims",
+   "era_between": [
+    1240,
+    1240
+   ]
+  },
+  {
+   "id": "EIV-6012",
+   "title": "Birth of Iain Ciar",
+   "body": "A son, dark-browed and called Iain Ciar, is born to Ailean mac Raghnaill, then forty years old, the elder of two sons he has by different mothers.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0185",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-ciar",
+    "ailean-mac-raghnaill"
+   ],
+   "told_in": "book/33_of_the_table_of_years.md#v-of-the-two-sons",
+   "era_between": [
+    1240,
+    1240
+   ]
+  },
+  {
+   "after": "III-0174"
+  },
+  {
+   "id": "EIV-6013",
+   "title": "The boundary stones carried home unused",
+   "body": "After the king's council divides the disputed grazing between Baile ruadh and Achadh naomh along a stream, both shire seats carry home the boundary stones they had brought to argue their claim and set them, unused, into their own walls, where they stand for the rest of the age pointing to a line the water has already made no matter of.",
+   "place": "burg:241",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0174",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#iv-of-the-gale-the-boundary-and-the-pilgrims",
+   "era_between": [
+    1246,
+    1246
+   ]
+  },
+  {
+   "after": "III-0175"
+  },
+  {
+   "id": "EIV-6014",
+   "title": "The keeping of An Taigh-seinnse Mòr passes to Mairead nic Mhurchaidh",
+   "body": "The last keeper of a long line descended from Iain mac Mhurchaidh, who built the road-house its second byre and began the book of the ox-teams that lodged there, gives over the keeping to his daughter Mairead. She continues the ledger in a hand the ox-drivers of the mining road cannot tell from her father's.",
+   "place": "marker:10",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#i-of-the-two-courts",
+   "era_between": [
+    1264,
+    1264
+   ]
+  },
+  {
+   "after": "III-0176"
+  },
+  {
+   "id": "EIV-6015",
+   "title": "The blank space on the burial roll",
+   "body": "Drawing up King Ailean mac Raghnaill's burial roll, An Talla Dearg's clerks leave a blank space where the heir's name should stand, unable to agree between themselves which of his two sons to write and unwilling to write neither.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0176",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#v-of-the-two-sons",
+   "era_between": [
+    1266,
+    1266
+   ]
+  },
+  {
+   "id": "EIV-6016",
+   "title": "The inventory read past the forbidden line",
+   "body": "At the winter reading of Taigh na Fèithe's inventory, the custodian pauses a moment longer than usual over the line entered nearly fifty years before, Clàr nam Bliadhnachan, forbidden to be copied, kept, and then reads on, for the reckoning of that year's coal still has a great deal more of the shelf left to answer for.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0172",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_table_of_years.md#v-of-the-two-sons",
+   "era_between": [
+    1266,
+    1266
+   ]
+  },
+  {
+   "id": "EIV-6017",
+   "title": "A refused gift at the feast of Bealltach",
+   "body": "A messenger of Alasdair Bàn's, riding to An Talla Dearg with the household's ordinary feast-gift, is turned back at the gate on a pretext of business too full to receive him, the first courtesy either brother's household has refused the other in four years of careful giving.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0176",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0177",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "iain-ciar",
+    "alasdair-ban"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#i-of-the-two-courts",
+   "era_between": [
+    1269,
+    1269
+   ]
+  },
+  {
+   "after": "III-0177"
+  },
+  {
+   "id": "EIV-6018",
+   "title": "The roads set under one following's watch or the other",
+   "body": "With both households calling up every man their houses owe them, the two brothers set every road between the two halves of the island under one following's watch or the other, so that carters who have crossed freely their whole lives must now say plainly which brother's peace they travel under.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0177",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-ciar",
+    "alasdair-ban"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#i-of-the-two-courts",
+   "era_between": [
+    1270,
+    1270
+   ]
+  },
+  {
+   "after": "III-0178"
+  },
+  {
+   "id": "EIV-6019",
+   "title": "Cathair mhòr feeds Ceann mhin",
+   "body": "After Alasdair Bàn's ships burn the rope stores and the granary of Ceann mhin in one night, the town sends to Cathair mhòr, which has taken no side, and Cathair mhòr sends grain enough that no household at Ceann mhin goes hungry that winter.",
+   "place": "burg:23",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0178",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "alasdair-ban"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#ii-of-the-burning-of-ceann-mhin-and-the-fall-below-muileann-ghlas",
+   "era_between": [
+    1272,
+    1272
+   ]
+  },
+  {
+   "after": "III-0179"
+  },
+  {
+   "id": "EIV-6020",
+   "title": "Word of Muileann ghlas reaches the road-house",
+   "body": "An ox-driver who turns back from the mountain road rather than push his team through unsettled country brings word of Iain Ciar's victory to An Taigh-seinnse Mòr within the week. Asked where the two brothers now stand to one another, he can only shrug: no one yet knows.",
+   "place": "marker:10",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0179",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#ii-of-the-burning-of-ceann-mhin-and-the-fall-below-muileann-ghlas",
+   "era_between": [
+    1274,
+    1274
+   ]
+  },
+  {
+   "after": "III-0180"
+  },
+  {
+   "id": "EIV-6021",
+   "title": "The keeper warned a day before",
+   "body": "A messenger carries word to An Taigh-seinnse Mòr that the two brothers and their followings are riding for the road-house to make their peace there. Mairead nic Mhurchaidh is given a single day's warning and spends the better part of it scrubbing the common-room floor.",
+   "place": "marker:10",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0180",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#iii-of-the-keeper-s-day",
+   "era_between": [
+    1276,
+    1276
+   ]
+  },
+  {
+   "id": "EIV-6022",
+   "title": "The benches measured to a finger's breadth",
+   "body": "Before the brothers arrive, Mairead nic Mhurchaidh measures the two benches of the common-room board against one another with her own hands until neither runs longer than its match, and sets the same loaf and the same jug of ale at either end, giving neither man the smallest excuse to find a slight in the setting of the table.",
+   "place": "marker:10",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0180",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#iii-of-the-keeper-s-day",
+   "era_between": [
+    1276,
+    1276
+   ]
+  },
+  {
+   "id": "EIV-6023",
+   "title": "Iain Ciar crowned at six-and-thirty",
+   "body": "With the brothers' peace made at An Taigh-seinnse Mòr, Iain Ciar is crowned at Cathair dhearg, six-and-thirty years old, ten years after his father's burial roll was drawn with a blank where the heir's name should stand.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0180",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-ciar"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#i-of-the-two-courts",
+   "era_between": [
+    1276,
+    1276
+   ]
+  },
+  {
+   "id": "EIV-6024",
+   "title": "A reeve of Cathair mhòr presses the keeper for more",
+   "body": "Years after the peace, an old reeve of Cathair mhòr asks Mairead nic Mhurchaidh whether the two brothers raised their voices in the long silence at her board. She answers only that she heard nothing through the door she had not already heard from her own oxen, and will say no more of it.",
+   "place": "marker:10",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0180",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#iii-of-the-keeper-s-day",
+   "era_between": [
+    1282,
+    1282
+   ]
+  },
+  {
+   "id": "EIV-6025",
+   "title": "Alasdair Bàn rides up with a dead captain's news",
+   "body": "Alasdair Bàn goes up to An Talla Dearg himself to carry word of an old captain's death to the king with his own mouth, as the captain asked dying; Iain Ciar receives him without ceremony and sends him home with no larger following than he came with.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0181",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "alasdair-ban",
+    "iain-ciar"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#iv-of-the-years-the-road-kept-its-peace",
+   "era_between": [
+    1283,
+    1283
+   ]
+  },
+  {
+   "after": "III-0181"
+  },
+  {
+   "id": "EIV-6026",
+   "title": "Iain Ciar keeps his brother's lordship vacant",
+   "body": "On Alasdair Bàn's death the lordship of Seann Chwen returns to the crown as the brothers' peace had settled it should. Iain Ciar keeps the lordship vacant for the rest of his own reign rather than grant it to another man, a stubbornness An Talla Dearg's clerks never once ask him to explain.",
+   "place": "burg:36",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0181",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "iain-ciar",
+    "alasdair-ban"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#iv-of-the-years-the-road-kept-its-peace",
+   "era_between": [
+    1291,
+    1291
+   ]
+  },
+  {
+   "after": "III-0181a"
+  },
+  {
+   "id": "EIV-6027",
+   "title": "A mason's slab kept on the road-house mantel",
+   "body": "With the first carts of white marble passing south from the quarries above Baile Mòr dhomhain, Mairead nic Mhurchaidh keeps an unworked slab of the stone, no bigger than a hand, on the mantel above her own hearth, a small vanity she never fully explains to those who ask her why a road-house keeper should want a piece of stone bound for someone else's temple.",
+   "place": "marker:10",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0181a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#iv-of-the-years-the-road-kept-its-peace",
+   "era_between": [
+    1296,
+    1296
+   ]
+  },
+  {
+   "id": "EIV-6028",
+   "title": "Pàdraig mac Ruairidh lodges three nights at the road-house",
+   "body": "Gathering material for Leabhar nam Bràithrean, the king's clerk Pàdraig mac Ruairidh stays three nights at An Taigh-seinnse Mòr at his own expense, working each evening by the fire the two brothers once sat beside, and asks the keeper and every passing ox-driver for the tale of the peace. He leaves her a measure of meal for the fire and the bed before he rides on.",
+   "place": "marker:10",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0183",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "padraig-mac-ruairidh",
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#iv-of-the-years-the-road-kept-its-peace",
+   "era_between": [
+    1298,
+    1298
+   ]
+  },
+  {
+   "after": "III-0182"
+  },
+  {
+   "id": "EIV-6029",
+   "title": "Death of Mairead nic Mhurchaidh",
+   "body": "Mairead nic Mhurchaidh dies at An Taigh-seinnse Mòr in her own bed, at sixty-nine years old, on a night an ox-team lodges in the byre below her window. The keeping of the house passes to a sister's daughter raised under the same roof.",
+   "place": "marker:10",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#v-of-the-book-and-the-meeting-at-the-far-off-house",
+   "era_between": [
+    1299,
+    1299
+   ]
+  },
+  {
+   "after": "III-0184"
+  },
+  {
+   "id": "EIV-6030",
+   "title": "The keepers' first yearly meeting",
+   "body": "The seven keepers of the newly chartered road-houses meet for the first time at An Sligeanach Fad' às to settle their accounts, as the charter now commands once every year. Asked whether the tale of the brothers' peace is as her aunt always told it, the new keeper of An Taigh-seinnse Mòr gives the same answer, word for word.",
+   "place": "marker:11",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0184",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "mairead-nic-mhurchaidh"
+   ],
+   "told_in": "book/34_of_the_brothers_peace.md#v-of-the-book-and-the-meeting-at-the-far-off-house",
+   "era_between": [
+    1320,
+    1320
+   ]
+  },
+  {
+   "id": "EIV-6031",
+   "title": "Pàdraig mac Ruairidh's death",
+   "body": "The clerk who wrote Leabhar nam Bràithrean in King Iain Ciar's praise dies some years before his king, and no scribe comes after him to keep the tale of the grain law's slow lapsing as he had kept the tale of the war itself.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0185",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-ciar"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#i-of-the-law-that-lapsed",
+   "era_between": [
+    1320,
+    1320
+   ]
+  },
+  {
+   "after": "III-0186"
+  },
+  {
+   "id": "EIV-6032",
+   "title": "The reeve's price complaint at An Taigh-seinnse Òir",
+   "body": "A custodians' reeve who has eaten the house's secret syrupped beef twice a winter for a decade writes into the charter-roll that the price has risen three years running with nothing else about the dish improved, and asks for a second helping in the same breath.",
+   "place": "marker:9",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0186",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_keel_song.md#ii-of-the-houses-on-the-circuit",
+   "era_between": [
+    1339,
+    1339
+   ]
+  },
+  {
+   "after": "III-0187"
+  },
+  {
+   "id": "EIV-6033",
+   "title": "The keeper's itemised bill",
+   "body": "When the snow that trapped a party of reeves at An Taigh-seinnse Reòta finally lifts, the house's keeper sends after them, by the first cart through, a bill for every jar of pickled spinach and every cup of fire milk they took, itemised, and it is paid in full.",
+   "place": "marker:8",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0187",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_keel_song.md#ii-of-the-houses-on-the-circuit",
+   "era_between": [
+    1349,
+    1349
+   ]
+  },
+  {
+   "after": "III-0188"
+  },
+  {
+   "id": "EIV-6034",
+   "title": "Seumas mac Iain gives up the deep keel",
+   "body": "After a year of Manannan's priests preaching against his sunken hull, the boat-builder of Seann Skell builds no more deep keels, and keeps his harbour shed mending ordinary boats for ordinary fares until his death.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0188",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seumas-mac-iain"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#iii-of-the-hull-that-filled",
+   "era_between": [
+    1362,
+    1362
+   ]
+  },
+  {
+   "after": "III-0189"
+  },
+  {
+   "id": "EIV-6035",
+   "title": "The shrine carried whole to Caol bheag",
+   "body": "The fishers who leave Caol ìseal's silted harbour carry their nets, their smoking-racks and the small shrine from the harbour's edge, and set the shrine up again at Caol bheag stone by stone in the same order, so that it stands as it always stood.",
+   "place": "burg:475",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0189",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_keel_song.md#iv-of-the-fishers-who-went-east-and-the-lane-to-the-south",
+   "era_between": [
+    1369,
+    1369
+   ]
+  },
+  {
+   "id": "EIV-6036",
+   "title": "Caol ìseal turns to the plough",
+   "body": "The houses of Caol ìseal nearest the silted water turn to farming the ground behind them after the fishers go east, and within two generations the town that smelled of fish and tar smells, most days, of turned earth.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0189",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_keel_song.md#iv-of-the-fishers-who-went-east-and-the-lane-to-the-south",
+   "era_between": [
+    1380,
+    1380
+   ]
+  },
+  {
+   "after": "III-0191"
+  },
+  {
+   "id": "EIV-6037",
+   "title": "Iseabail nic Lachlainn sent out on the king's road",
+   "body": "The steward of the royal household at Cathair dhearg, wanting a linen-maid's quick-eared daughter out from under his feet, sends her out with a mule and a letter of lodging to gather what the shires' kitchens and rope-walks still sing at their work.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0190",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-nic-lachlainn"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#v-of-iseabail-nic-lachlainn",
+   "era_between": [
+    1389,
+    1389
+   ]
+  },
+  {
+   "id": "EIV-6038",
+   "title": "A rope-maker's guess at the old words",
+   "body": "A young man of Tormod Ròpaire's crew, not yet trusted with the lead, tells the gatherer Iseabail that Òran na Druime's strange words are likely only older speech worn smooth by centuries of mouths that never meant to wear it; Tormod answers that it changes nothing about how the strand is walked.",
+   "place": "burg:282",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0190",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-ropaire",
+    "iseabail-nic-lachlainn"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#vi-of-the-rope-walk-at-cuan-shean",
+   "era_between": [
+    1389,
+    1389
+   ]
+  },
+  {
+   "id": "EIV-6039",
+   "title": "Òran na Druime read at the king's court",
+   "body": "Iseabail nic Lachlainn reads her whole gathering before the king's hall at Cathair dhearg, and Òran na Druime's strange lines silence a room grown used to songs it half knows already; an old harper and a clerk of Taigh na Fèithe each say the words fit no tongue or hand they know, and neither can say more than that.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0190",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-nic-lachlainn"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#vii-of-the-reading-at-court",
+   "era_between": [
+    1391,
+    1391
+   ]
+  },
+  {
+   "id": "EIV-6040",
+   "title": "The older southern harbours follow the new lane",
+   "body": "A season or two after Caol fhiadhaich's boats are first believed, the older harbours of the south coast, which had never in memory put a boat past their own headlands, begin one after another to follow Slighe-mhara Caol fhiadhaich down to the landing at Cidhe Beag.",
+   "place": "burg:44",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0189a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_keel_song.md#iv-of-the-fishers-who-went-east-and-the-lane-to-the-south",
+   "era_between": [
+    1391,
+    1391
+   ]
+  },
+  {
+   "after": "III-0193"
+  },
+  {
+   "id": "EIV-6041",
+   "title": "Death of Tormod Ròpaire",
+   "body": "The rope-maker who led the walk that sang Òran na Druime dies at Cuan shean, seventy years old, having in his last years let a younger man keep the count while he sang on behind him; his crew keeps the song after him exactly as he gave it, no better understood than before.",
+   "place": "burg:282",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0190",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-ropaire"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#vi-of-the-rope-walk-at-cuan-shean",
+   "era_between": [
+    1400,
+    1400
+   ]
+  },
+  {
+   "id": "EIV-6042",
+   "title": "Birth of Catrìona Bheag",
+   "body": "A daughter, Catrìona, is born into Clann Raghnaill, the crown's own house; she is small from the cradle, and the house calls her Catrìona Bheag.",
+   "place": null,
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0195",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-bheag"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#ix-of-the-queen-small-and-the-grey-glaze",
+   "era_between": [
+    1400,
+    1400
+   ]
+  },
+  {
+   "id": "EIV-6043",
+   "title": "Seann Tarr becomes a village again",
+   "body": "With its harbour broken past mending and its boats gone to Cuan ruadh, Seann Tarr keeps its houses and its shrine but is entered in the charter-roll, in the roll's own dry word for such places, as a village once more rather than a harbour town.",
+   "place": "burg:249",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0192",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_keel_song.md#viii-of-the-schism-the-storm-and-the-new-harbour",
+   "era_between": [
+    1405,
+    1405
+   ]
+  },
+  {
+   "after": "III-0194"
+  },
+  {
+   "id": "EIV-6044",
+   "title": "Iseabail's tablets entered in Taigh na Fèithe",
+   "body": "On Iseabail nic Lachlainn's death the household she served the rest of her life sends her whole collection to Taigh na Fèithe, where the clerks write into the inventory that it holds one item they can describe only by its sound and its keeping, not its meaning.",
+   "place": "burg:491",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0190",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-nic-lachlainn"
+   ],
+   "told_in": "book/35_of_the_keel_song.md#x-of-the-song-unexplained",
+   "era_between": [
+    1420,
+    1420
+   ]
+  }
+ ]
+}

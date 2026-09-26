@@ -1,0 +1,375 @@
+[
+ {
+  "title": "Harrow's name read in the chapel at Ros dhomhain",
+  "era_year": {
+   "after": "IV-0062"
+  },
+  "summary": "A' Chompanaidh's men at Ros dhomhain give up Harrow's ship a month past her day. The chapel bell is rung slowly, the flag over the warehouse is lowered to half its pole, and Thomas Pike reads Harrow's name and the names of his crew at the humans' prayers, with Samuel Wren's help.",
+  "category": "humans",
+  "people": [
+   "Thomas Pike",
+   "Samuel Wren",
+   "Edmund Harrow"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-church-on-the-island",
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0062"
+  ]
+ },
+ {
+  "title": "Pike's letter to the council",
+  "era_year": {
+   "after": "IV-0062"
+  },
+  "summary": "The humans' clerks write to the council at Cathair dhearg, in their own tongue and under seal, that A' Chompanaidh has passed wholly to Thomas Pike. Coinneach Glas reads the letter to the sitting and it is entered in the roll.",
+  "category": "humans",
+  "people": [
+   "Thomas Pike",
+   "Coinneach Glas"
+  ],
+  "places": [
+   "burg:19",
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0062",
+   "IV-0061"
+  ]
+ },
+ {
+  "title": "The counters' fee held over",
+  "era_year": {
+   "after": "IV-0062"
+  },
+  "summary": "At its autumn sitting the council, its share of the vein-dues now paid in marks by A' Chompanaidh and fewer than before, finds it cannot meet every fee. The fee of the counters who keep the boards of the measured handful is held over to the next sitting.",
+  "category": "law",
+  "people": [
+   "Coinneach Glas"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0063",
+   "II-0027"
+  ]
+ },
+ {
+  "title": "Half of Dùn dhearg comes to the board",
+  "era_year": {
+   "after": "IV-0062"
+  },
+  "summary": "At Samhain only the old households of Dùn dhearg bring their sacks to the counters' board in the old granary. The young households have bought their coal by the sack at the market of Cathair mhòr off A' Chompanaidh's carts. Pàdraig Cam counts the season without a fee.",
+  "category": "coal",
+  "people": [
+   "Fionnghal nic Artair"
+  ],
+  "places": [
+   "burg:422",
+   "burg:23"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0063",
+   "IV-0052"
+  ]
+ },
+ {
+  "title": "The counter of Dùn dhearg dies",
+  "era_year": {
+   "after": "IV-0064"
+  },
+  "summary": "Pàdraig Cam, counter of Dùn dhearg for forty years, dies in an Gearran. His son is at the pits of Muileann chrom and does not take the board, which hangs in the old granary with the pegs of the last Samhain in their holes. Fionnghal nic Artair begins her letter to the council.",
+  "category": "coal",
+  "people": [
+   "Fionnghal nic Artair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0063",
+   "IV-0065"
+  ]
+ },
+ {
+  "id": "EV-2009",
+  "title": "Fionnghal nic Artair rides to Cathair dhearg",
+  "era_year": {
+   "after": "IV-0065"
+  },
+  "summary": "In an t-Ògmhios Fionnghal nic Artair rides west from Dùn dhearg with her letter in defence of Lagh an Loscaidh Bhig sewn in calfskin. She lodges at Doire mhin, where the custodian Anndra mac Eòin shows her the last count of the valley, and reads him the letter by his lamp.",
+  "category": "law",
+  "people": [
+   "Fionnghal nic Artair"
+  ],
+  "places": [
+   "burg:422",
+   "burg:316",
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0064",
+   "IV-0065"
+  ]
+ },
+ {
+  "id": "EV-2010",
+  "title": "The council files the letter from Dùn dhearg",
+  "era_year": {
+   "after": "IV-0065"
+  },
+  "summary": "Fionnghal nic Artair reads her letter standing to the council at Cathair dhearg. Coinneach Glas thanks her and bids it kept with the rolls, and the roll enters it as read and filed. The same sitting grants Taigh an Àrd-mhaoir leave to widen the road to Muileann chrom for the coal-carts.",
+  "category": "law",
+  "people": [
+   "Fionnghal nic Artair",
+   "Coinneach Glas",
+   "Gormshuil nic Fhearchair",
+   "Josiah Pell"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0065",
+   "IV-0063"
+  ]
+ },
+ {
+  "title": "A fair copy of the defence for the loft",
+  "era_year": {
+   "after": "IV-0065"
+  },
+  "summary": "At Gormshuil nic Fhearchair's asking Fionnghal nic Artair makes a fair copy of her letter in her own hand. Muireall nic Fhearchair sends it to the loft of Beathag nic Thòmais at Muileann chaol, where the custodians' papers are kept dry.",
+  "category": "law",
+  "people": [
+   "Fionnghal nic Artair",
+   "Gormshuil nic Fhearchair",
+   "Muireall nic Fhearchair"
+  ],
+  "places": [
+   "burg:19",
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "IV-0065",
+   "IV-0010"
+  ]
+ },
+ {
+  "title": "The hawk sermon carried south in the bird-bags",
+  "era_year": {
+   "after": "IV-0066"
+  },
+  "summary": "A scribe of the hawk-shrine at Seann Skell writes Murchadh Seabhag's sermon down from his mouth. Fowlers taking birds to the autumn markets carry copies south, and from the markets carters and pedlars bring them into the camps of Muileann chrom and Cnoc fhiadhaich, where readers are given their supper to read them aloud.",
+  "category": "faith",
+  "people": [
+   "Murchadh Seabhag"
+  ],
+  "places": [
+   "burg:132",
+   "burg:354",
+   "burg:280"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0066"
+  ]
+ },
+ {
+  "title": "Fionnghal nic Artair at the hearths of Achadh naomh",
+  "era_year": {
+   "after": "IV-0067"
+  },
+  "summary": "Bidden by the elders of Achadh naomh, Fionnghal nic Artair rides north through the hills in an Giblean and reads her letter at the hearth of Sìleas nic Uilleim to the whole village. Asked what burns on her own hearth, she answers bought coal. She is sent home with a creel of peats.",
+  "category": "faith",
+  "people": [
+   "Fionnghal nic Artair"
+  ],
+  "places": [
+   "burg:145",
+   "burg:422"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0067",
+   "IV-0065"
+  ]
+ },
+ {
+  "id": "EV-2011",
+  "title": "A' Chompanaidh's agents seize the hawk sermon in the camps",
+  "era_year": {
+   "after": "IV-0067"
+  },
+  "summary": "A' Chompanaidh's agents at Muileann chrom go from hut to hut through the crews' camp with a basket and take every copy of Murchadh Seabhag's sermon they find, eleven in one morning. One woman burns her copy on her hearth before them, and her name is written down.",
+  "category": "faith",
+  "people": [
+   "Murchadh Seabhag"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0066"
+  ]
+ },
+ {
+  "title": "The custodians at the pump-house of Muileann chrom",
+  "era_year": {
+   "after": "IV-0067"
+  },
+  "summary": "Three custodians sent by Coinneach Glas, Fionnghal nic Artair among them, go down to Muileann chrom to ask that the tally of the hill be kept. Raghnall mac Dhòmhnaill takes them to the pump at the deep gallery, where the furnaces are fed by the cartload.",
+  "category": "coal",
+  "people": [
+   "Fionnghal nic Artair",
+   "Raghnall mac Dhòmhnaill (Raghnall Maor)",
+   "Coinneach Glas"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0068",
+   "IV-0064"
+  ]
+ },
+ {
+  "title": "A' Chompanaidh's accounts filed beside the defence",
+  "era_year": {
+   "after": "IV-0068"
+  },
+  "summary": "The copy of A' Chompanaidh's half-year accounts, sent in answer to the council's asking, is read aloud in its totals by Coinneach Glas and laid in the press of the council hall on the shelf that holds the letter of the custodian of Dùn dhearg.",
+  "category": "law",
+  "people": [
+   "Coinneach Glas"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0068",
+   "IV-0065"
+  ]
+ },
+ {
+  "title": "Maddox greets the council",
+  "era_year": {
+   "after": "IV-0069"
+  },
+  "summary": "Henry Maddox comes before the council at Cathair dhearg in An t-Àrd-mhaor's carriage, greets each custodian in Dia-thìris learned on the ship, and tells them his orders are to double the yield of the pits. He does not speak of A' Chompanaidh's letter promising him a share of it.",
+  "category": "humans",
+  "people": [
+   "Henry Maddox",
+   "Coinneach Glas"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0069",
+   "IV-0057a"
+  ]
+ },
+ {
+  "title": "The woodreeve of Cathair fhada before the council",
+  "era_year": {
+   "after": "IV-0070"
+  },
+  "summary": "Eòghann mac Phàdraig, woodreeve of Cathair fhada, asks the council to undo the sale of the town's oak woods to Maddox. The council holds that the custodians of Cathair fhada, in debt to A' Chompanaidh's store for seed, had the right to sell, and the clerk enters it.",
+  "category": "law",
+  "people": [
+   "Coinneach Glas",
+   "Henry Maddox"
+  ],
+  "places": [
+   "burg:297",
+   "burg:19"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0070"
+  ]
+ },
+ {
+  "id": "EV-2012",
+  "title": "The last oak of Cathair fhada's own cutting",
+  "era_year": {
+   "after": "IV-0070"
+  },
+  "summary": "Before A' Chompanaidh's fellers come, the woodreeve of Cathair fhada and his men fell with axes the one oak the spring lot had fallen on, as the town had cut since An Aois Naomh, and plant six acorns in the ring of its roots. The fellers begin with long saws on the morning after.",
+  "category": "land",
+  "people": [
+   "Fionnghal nic Artair"
+  ],
+  "places": [
+   "burg:297"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0070"
+  ]
+ },
+ {
+  "title": "The custodian of Dùn dhearg goes back to peat",
+  "era_year": {
+   "after": "IV-0070"
+  },
+  "summary": "Home from Cathair fhada in am Màrt, Fionnghal nic Artair has the coal raked out of her grate and lights it again with the peats of Achadh naomh. She sends to find a man of Dùn dhearg who still knows how to cut peat, and pays him what he asks.",
+  "category": "coal",
+  "people": [
+   "Fionnghal nic Artair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0065",
+   "IV-0067"
+  ]
+ }
+]

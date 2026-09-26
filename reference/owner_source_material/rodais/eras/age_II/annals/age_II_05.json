@@ -1,0 +1,1111 @@
+{
+ "writer": 3,
+ "span": [
+  "I-0116",
+  "I-0128"
+ ],
+ "events": [
+  {
+   "id": "EII-3000",
+   "title": "Three households settle Bàgh an t-Seabhaig",
+   "body": "Three hill households too many for the grazing above Baile ghorm cross the spine of the island and settle a curve of grey sand under a gorse headland on the west coast, the first hill-folk household on that shore, building round and turf-roofed and fishing from the beach with lines and baskets rather than boats.",
+   "place": "burg:63",
+   "kind": "founding",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0116",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#i-of-the-bay-of-hawks",
+   "era_between": [
+    1274,
+    1274
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3001",
+   "title": "Beathag walks the whole crossing and is the first buried by that tide",
+   "body": "Beathag, eldest of the three households that cross to Bàgh an t-Seabhaig, walks the nine days on her own feet in her old age and dies eleven years after seeing the water for the first time, the first of the hill-folk buried within sound of that particular shore.",
+   "place": "burg:63",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0116",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#i-of-the-bay-of-hawks",
+   "era_between": [
+    1275,
+    1275
+   ]
+  },
+  {
+   "id": "EII-3002",
+   "title": "Murchadh Gearr dies",
+   "body": "Murchadh Gearr, who walked Rathad an t-Salainn every autumn so that no child on it grew up without seeing An Cnoc Ruadh's holder, dies in his sixty-sixth year; the road's households, hearing of it, leave a handful of salt at their doors for a night.",
+   "place": "burg:19",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0115",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division",
+    "the-ford-gathering"
+   ],
+   "people": [
+    "murchadh-gearr"
+   ],
+   "told_in": "book/14_of_salt_for_wool.md#iv-of-murchadh-gearr-on-the-salt-road",
+   "era_between": [
+    1280,
+    1280
+   ]
+  },
+  {
+   "id": "EII-3003",
+   "title": "Flòraidh born at Bàgh an t-Seabhaig",
+   "body": "Flòraidh is born at Bàgh an t-Seabhaig in a winter hard enough to freeze salt-rime along the tideline, the middle child of five in the second household of the crossing, to a father who came west already grown and a mother who keeps his people's old telling of the hill valleys.",
+   "place": "burg:63",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#i-of-the-bay-of-hawks",
+   "era_between": [
+    1285,
+    1285
+   ]
+  },
+  {
+   "id": "EII-3004",
+   "title": "Flòraidh finds her first amber in the wrack",
+   "body": "At nine years old Flòraidh pulls a lump of amber the colour of cold honey from a raft of storm-wrack and will not let the returning tide take it back, the find that sets her apart on a shore where sea-stone washes up seldom and is talked of for a season when it does.",
+   "place": "burg:132",
+   "kind": "discovery",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0116a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#ii-of-the-amber-and-the-wrack",
+   "era_between": [
+    1294,
+    1294
+   ]
+  },
+  {
+   "id": "EII-3005",
+   "title": "Flòraidh learns the drill",
+   "body": "A blind drill-master three houses along works a hole through Flòraidh's find over a winter of firelit evenings, and she learns from him, more by watching than by being taught, the weight of hand that keeps a flint point true against amber and the weight that snaps a good stone in two.",
+   "place": "burg:132",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0116a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#ii-of-the-amber-and-the-wrack",
+   "era_between": [
+    1295,
+    1295
+   ]
+  },
+  {
+   "id": "EII-3006",
+   "title": "Traders learn to ask for Flòraidh by name",
+   "body": "Traders on Rathad na Spor come to ask Bàgh an t-Seabhaig households for Flòraidh by name rather than knock at random for worked amber, and go away with beads finished better than any other hand on that shore gives them, paid in salt, wool, and once in a knife of southern flint.",
+   "place": "burg:132",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0116a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#ii-of-the-amber-and-the-wrack",
+   "era_between": [
+    1302,
+    1302
+   ]
+  },
+  {
+   "id": "EII-3007",
+   "title": "A storm brings the great amber piece ashore",
+   "body": "A gale that takes the roofs off two houses at Bàgh an t-Seabhaig leaves half a mile of strand heaped with wrack, and out of it Flòraidh draws the largest piece of amber the shore has ever given up, half again the size of her first find and clouded like smoke inside.",
+   "place": "burg:132",
+   "kind": "discovery",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0116a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#iii-of-the-bead-and-the-road",
+   "era_between": [
+    1305,
+    1305
+   ]
+  },
+  {
+   "after": "I-0116a"
+  },
+  {
+   "id": "EII-3008",
+   "title": "Flòraidh sets out for the ford with the amber bead",
+   "body": "At five-and-twenty, on her mother's word that so fine a stone should be seen where the whole hill can see it, Flòraidh leaves the western Seann Skell with a trader's party of six households bound the length of the island for the yearly gathering at the ford, the bead carried in a pouch against her body rather than trusted to any pack.",
+   "place": "burg:132",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0114",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#iii-of-the-bead-and-the-road",
+   "era_between": [
+    1310,
+    1310
+   ]
+  },
+  {
+   "id": "EII-3009",
+   "title": "Flòraidh sees the king buy nothing at the ford",
+   "body": "At Cruinneachadh an Àtha Flòraidh watches the king move slowly along the trading ground for the better part of an hour, weighing pots and running a thumb along flint edges, buying nothing and asking the price of nothing, while the crowd gives way from him without seeming to notice it has moved.",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0114",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#iv-of-the-ford-and-the-man-who-bought-nothing",
+   "era_between": [
+    1310,
+    1310
+   ]
+  },
+  {
+   "id": "EII-3010",
+   "title": "Flòraidh's bead laid at the ford",
+   "body": "Flòraidh holds out the amber bead to the king as he passes, and at his word kneels and lays it herself in the old ground of the ford among the ribbons and worked bones other travellers have left there, the finest stone the western strand ever gave up set down the length of the island from where the wrack cast it up.",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0116a",
+     "type": "sequel"
+    },
+    {
+     "to": "I-0114",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#iii-of-the-bead-and-the-road",
+   "era_between": [
+    1310,
+    1310
+   ]
+  },
+  {
+   "id": "EII-3011",
+   "title": "Flòraidh weds the boat-mender's son",
+   "body": "The boat-mender's son who saved a pack of hides from a swollen ford on the road east follows Flòraidh west the next summer with two finished boats on a traded cart, asks for her outright in her father's yard, and marries her that autumn.",
+   "place": "burg:132",
+   "kind": "marriage",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#v-of-the-years-the-bay-was-told-of",
+   "era_between": [
+    1311,
+    1311
+   ]
+  },
+  {
+   "after": "I-0117"
+  },
+  {
+   "id": "EII-3012",
+   "title": "The round-house harbour begins paying salt to An Cnoc Ruadh",
+   "body": "The households at Cala nan Taighean Cruinne, where the king's blood first came down to the sea, begin paying their salt to An Cnoc Ruadh rather than keeping it among themselves, a custom that takes hold within a season with no word sent from Dùn ìseal to start it.",
+   "place": "burg:2001",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0117",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#v-of-the-years-the-bay-was-told-of",
+   "era_between": [
+    1347,
+    1347
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3013",
+   "title": "Flòraidh dies on the western shore",
+   "body": "Flòraidh dies in her sixty-eighth year in a mild autumn with the wrack lying quiet along the whole strand, four years a widow, and is buried at her own asking facing the water rather than the headland, so that whatever comes in on the tide comes in past her.",
+   "place": "burg:132",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "floraidh-of-the-hawk-bay"
+   ],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#v-of-the-years-the-bay-was-told-of",
+   "era_between": [
+    1352,
+    1352
+   ]
+  },
+  {
+   "after": "I-0118"
+  },
+  {
+   "id": "EII-3014",
+   "title": "Cattle walked to Cnoc ghorm",
+   "body": "Small herds driven up Rathad na Spor by stages over three summers bring cattle for the first time to the green rise of Cnoc ghorm in the north-west, where the people have lived on seal, fish and deer, and the first calves born there are watched through their first winter by the whole settlement in turn.",
+   "place": "burg:142",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0118",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#v-of-the-years-the-bay-was-told-of",
+   "era_between": [
+    1379,
+    1379
+   ],
+   "same_day": true
+  },
+  {
+   "after": "I-0119"
+  },
+  {
+   "id": "EII-3015",
+   "title": "The long-house raised at Cathair gheal",
+   "body": "A long-house forty paces long, byre and hall under one roof and greater by half again than any building of the age, is raised above the firth at Cathair gheal, timbered from Rathad na Spor's own hills and roofed with turf a season dried, and is spoken of the length of the coast within the year.",
+   "place": "burg:476",
+   "kind": "building",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0119",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#v-of-the-years-the-bay-was-told-of",
+   "era_between": [
+    1416,
+    1416
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3016",
+   "title": "The long-house at Cathair gheal burns the first time",
+   "body": "A spark from an untended hearth catches the byre-end thatch of the great long-house at Cathair gheal in the small hours of a still night; every soul under the roof escapes, but the hall burns with the byre before the driven-out cattle can be turned back to help beat down the flame.",
+   "place": "burg:476",
+   "kind": "loss",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0119",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#v-of-the-years-the-bay-was-told-of",
+   "era_between": [
+    1420,
+    1420
+   ]
+  },
+  {
+   "id": "EII-3017",
+   "title": "The long-house at Cathair gheal is raised again",
+   "body": "The household of the burned long-house at Cathair gheal rebuilds it on the same footing before the next winter closes in, holding the ground proved good whatever the fire proved of the roof, and the building stands after that mended, its scorch mark left for anyone to see.",
+   "place": "burg:476",
+   "kind": "building",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0119",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_western_shore_and_the_amber_bead.md#v-of-the-years-the-bay-was-told-of",
+   "era_between": [
+    1421,
+    1421
+   ]
+  },
+  {
+   "id": "EII-3018",
+   "title": "Iseabail born at the shaft's moor",
+   "body": "Iseabail is born into the household that keeps the eastern Toll-dubh, the elder of two children, a quiet and watchful girl who grows up among the old plaited cords still hanging inside the household's own door from the diggers' day.",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0119",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#i-of-the-household-at-the-shaft-s-mouth",
+   "era_between": [
+    1430,
+    1430
+   ]
+  },
+  {
+   "id": "EII-3019",
+   "title": "Eachann born",
+   "body": "Eachann is born five years after his sister Iseabail, a loud, quick, daring child who cannot pass a height without wanting to know what stands at the top of it, nor a hole without wanting to know what lies at the bottom.",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh",
+    "eachann-ropa"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#i-of-the-household-at-the-shaft-s-mouth",
+   "era_between": [
+    1435,
+    1435
+   ]
+  },
+  {
+   "id": "EII-3020",
+   "title": "Eachann first asks to be let down",
+   "body": "At fifteen, Eachann asks his father plainly to be let down the household's own shaft to see what four generations of telling have never claimed to know, and is refused without more explaining than the shaft's own long silence has ever been given.",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-ropa"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#ii-of-the-boy-who-would-not-let-it-be",
+   "era_between": [
+    1445,
+    1445
+   ]
+  },
+  {
+   "id": "EII-3021",
+   "title": "The father of Iseabail and Eachann dies",
+   "body": "The keeper of the eastern Toll-dubh dies of an ordinary fever that takes three others on the moor that same wet spring, and the covering stone passes to his two children, Iseabail twenty-two and Eachann seventeen.",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh",
+    "eachann-ropa"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#ii-of-the-boy-who-would-not-let-it-be",
+   "era_between": [
+    1451,
+    1451
+   ]
+  },
+  {
+   "after": "I-0120"
+  },
+  {
+   "id": "EII-3022",
+   "title": "A youth let down into Toll-dubh",
+   "body": "Eachann is let down on the household's own plaited-hide cord into the eastern Toll-dubh, to the rope's end, while his sister Iseabail holds it alone at the stake; she draws him up alive, her palms raw from the labour, and he never once tells what he found.",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0120",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh",
+    "eachann-ropa"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#iii-of-the-rope-s-end",
+   "era_between": [
+    1452,
+    1452
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3023",
+   "title": "No one goes down Toll-dubh again",
+   "body": "Iseabail lays the covering stone that autumn and tells every soul who asks after it that the household goes down into Toll-dubh no more; the shaft is not opened again by any hand of that moor in this age.",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0120",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#iii-of-the-rope-s-end",
+   "era_between": [
+    1453,
+    1453
+   ]
+  },
+  {
+   "id": "EII-3024",
+   "title": "Iseabail marries",
+   "body": "Iseabail marries a man of a neighbouring holding who had courted her patiently through the years her brother's silence went unanswered, and raises three children on the same moor within sound of the covering stone.",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#iv-of-the-question-she-carried",
+   "era_between": [
+    1454,
+    1454
+   ]
+  },
+  {
+   "id": "EII-3025",
+   "title": "Eachann earns the name Ròpa",
+   "body": "The moor comes, gradually and without any one year's telling saying when it began, to call Eachann by no other name than Eachann Ròpa, a byname he wears the rest of his life without complaint or particular pride in it.",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-ropa"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#iv-of-the-question-she-carried",
+   "era_between": [
+    1460,
+    1460
+   ]
+  },
+  {
+   "after": "I-0121"
+  },
+  {
+   "id": "EII-3026",
+   "title": "A fire lit in Marbh-bheò's hills",
+   "body": "A herding family new to Marbh-bheò's hills lights an open fire against the custom of that country; their hut is found afterward standing with the fire still burning and not a soul of the household anywhere about it. The telling reaches Iseabail as a traveller's news.",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0121",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#v-of-the-hut-and-the-lake",
+   "era_between": [
+    1489,
+    1489
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3027",
+   "title": "Eachann Ròpa dies untold",
+   "body": "Eachann Ròpa dies in his own bed of the ordinary failing of a long life, sixty-four years old and easy in his going, and tells his sister on the last night only that some things are carried better than they are told.",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0120",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh",
+    "eachann-ropa"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#vi-of-her-own-ending",
+   "era_between": [
+    1499,
+    1499
+   ]
+  },
+  {
+   "id": "EII-3028",
+   "title": "Sìleas born of the king's blood",
+   "body": "A daughter of the king's blood is born in the valleys under Dùn ìseal and named Sìleas, pale-haired from the cradle; no one at her naming thinks of her as a holder of the hill, and she grows up minding grain-pits and not judgements.",
+   "place": "burg:315",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0121",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#i-of-the-store-within-the-bank",
+   "era_between": [
+    1500,
+    1500
+   ]
+  },
+  {
+   "id": "EII-3029",
+   "title": "Iseabail dies within sight of the stone",
+   "body": "Iseabail dies at eighty in the house her father died in, and is buried, at her own asking, within sight of the covering stone she laid every autumn of her life over the question she carried and was never given the answer to.",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#vi-of-her-own-ending",
+   "era_between": [
+    1510,
+    1510
+   ]
+  },
+  {
+   "after": "I-0122"
+  },
+  {
+   "id": "EII-3030",
+   "title": "The lake dwellings burn on Loch chrom",
+   "body": "The platforms built out over the shallows of Loch chrom burn in a single night to the waterline, the charred piles left standing bare in the shallows after; no household of that lake builds there again. The telling reaches Iseabail, by then grey-haired, as a trader's tale.",
+   "kind": "disaster",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0122",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iseabail-of-toll-dubh"
+   ],
+   "told_in": "book/16_of_the_ropes_end.md#v-of-the-hut-and-the-lake",
+   "era_between": [
+    1525,
+    1525
+   ],
+   "same_day": true
+  },
+  {
+   "after": "I-0123"
+  },
+  {
+   "id": "EII-3031",
+   "title": "The first seal-oil lamp at Caol leathan",
+   "body": "A household of Caol leathan sets a hollowed stone with seal oil and a wick of moss on its hearth-ledge and lights it, the first light on the coast that is not a hearth; within three winters every house on that stretch keeps one burning through the dark months.",
+   "place": "burg:1",
+   "kind": "discovery",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0123",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#i-of-the-lamps-the-traps-and-the-standing-frame",
+   "era_between": [
+    1562,
+    1562
+   ],
+   "same_day": true
+  },
+  {
+   "after": "I-0124"
+  },
+  {
+   "id": "EII-3032",
+   "title": "The fish-fence staked at Caol fhiadhaich",
+   "body": "Households of the river-mouth at Caol fhiadhaich stake a fence of woven wattle out into the ebb to herd salmon on the falling tide; the fence washes out twice before the third setting holds, and the line of stake-holes it leaves is fished again every year after.",
+   "place": "burg:191",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0124",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#i-of-the-lamps-the-traps-and-the-standing-frame",
+   "era_between": [
+    1598,
+    1598
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3033",
+   "title": "Mòrag Chruaidh dies",
+   "body": "Mòrag Chruaidh, who named her seven dead at the hill's fire and never raised another raid, dies in her thirteen hundred and twentieth year; the naming of the seven goes on at the same fire after her, and her own name is added at its foot.",
+   "place": "burg:315",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0099",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iii-of-the-bank-behind-the-shingle",
+   "era_between": [
+    1610,
+    1610
+   ]
+  },
+  {
+   "after": "I-0125"
+  },
+  {
+   "id": "EII-3034",
+   "title": "The standing frame raised at Muileann leathan",
+   "body": "A household at Muileann leathan raises the first upright loom on the northern stream, the warp held taut by loops of fired clay at its foot rather than by hand, so that a worker stands free to pass the weft with both hands and beat it home faster than any lap-worked cloth had gone.",
+   "place": "burg:234",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0125",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#i-of-the-lamps-the-traps-and-the-standing-frame",
+   "era_between": [
+    1628,
+    1628
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3035",
+   "title": "Beitris born at Muileann leathan",
+   "body": "Beitris is born into the third household to raise a standing frame at Muileann leathan, growing up under her mother's loom and taking her own frame in her twentieth year, known on the stream for cloth that lies flatter and holds its dye better than any other hand's.",
+   "place": "burg:234",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0125",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beitris-of-muileann-leathan"
+   ],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#ii-of-the-weaver",
+   "era_between": [
+    1670,
+    1670
+   ]
+  },
+  {
+   "after": "I-0126"
+  },
+  {
+   "id": "EII-3036",
+   "title": "The first tide-count begun",
+   "body": "An unnamed hand on an unnamed shore begins cutting a mark on a fixed rock at each high tide's furthest reach, a row of cuts kept at intervals no ordinary fisherman's need would ask for; the habit spreads to more than one shore within a generation, and none who keep it can say what it counts toward.",
+   "kind": "discovery",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0126",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#i-of-the-lamps-the-traps-and-the-standing-frame",
+   "era_between": [
+    1671,
+    1671
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3037",
+   "title": "The king stops at Beitris's stall",
+   "body": "At Cruinneachadh an Àtha the king stops before a bolt of Beitris's blue-black cloth, tests the flatness of the weave with two fingers as he tests a flint edge with his thumb, and asks how the cloth is made to lie so; it is the only exchange between them any teller claims to have had whole from a witness.",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0125",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "beitris-of-muileann-leathan"
+   ],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#ii-of-the-weaver",
+   "era_between": [
+    1689,
+    1689
+   ]
+  },
+  {
+   "id": "EII-3038",
+   "title": "The king weds Beitris",
+   "body": "Beitris goes south from Muileann leathan to Dùn ìseal as the king's wife, raising a frame of her own in a shed built to her asking, and teaches the standing weights to the hill's women in twos and threes until the craft has spread from her own shed to a dozen others.",
+   "place": "burg:315",
+   "kind": "marriage",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0125",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "beitris-of-muileann-leathan"
+   ],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#iii-of-the-wedding-and-the-grey-winter",
+   "era_between": [
+    1690,
+    1690
+   ]
+  },
+  {
+   "id": "EII-3039",
+   "title": "An Geamhradh Liath",
+   "body": "The king's hair goes grey between one moon and the next in a single winter and no further, dark to grey all at one stroke; he says nothing of the cause, and the hill, having talked of little else through the dark months, lets the matter rest by the following Bealltainn.",
+   "place": "burg:315",
+   "kind": "wonder",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0123",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#iii-of-the-wedding-and-the-grey-winter",
+   "era_between": [
+    1700,
+    1700
+   ]
+  },
+  {
+   "id": "EII-3040",
+   "title": "Murchadh Mòr born",
+   "body": "Beitris bears the king a black-haired son, Murchadh, the only child either parent will raise together to see him grown; the women who nurse him remark only that he runs hot for an infant and sleeps sound through cold that keeps other babies crying.",
+   "place": "burg:315",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "beitris-of-muileann-leathan",
+    "murchadh-mor"
+   ],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#iii-of-the-wedding-and-the-grey-winter",
+   "era_between": [
+    1705,
+    1705
+   ]
+  },
+  {
+   "after": "I-0127"
+  },
+  {
+   "id": "EII-3041",
+   "title": "The second tide-rock cut at Ros dhomhain",
+   "body": "A young keeper at Ros dhomhain, hearing of the first tide-rock by report alone, begins a rock of his own in his harbour mouth, cutting the marks at the spacing he judges by memory of the telling, though he has never seen the first rock with his own eyes.",
+   "place": "burg:27",
+   "kind": "discovery",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0127",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#iv-of-the-rock-at-ros-dhomhain",
+   "era_between": [
+    1708,
+    1708
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3042",
+   "title": "The king and Beitris at the rock of Ros dhomhain",
+   "body": "The king stands before the new-cut tide-rock at Ros dhomhain the better part of an afternoon and tells Beitris that a thing can be worth doing before anyone has worked out why; she carries the answer, the longest she ever had from him on any matter not a household's grazing or a stranger's quarrel, the rest of her life.",
+   "place": "burg:27",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0127",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "beitris-of-muileann-leathan"
+   ],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#iv-of-the-rock-at-ros-dhomhain",
+   "era_between": [
+    1708,
+    1708
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3043",
+   "title": "Beitris asks if she will be forgotten",
+   "body": "In her seventieth year, with Murchadh grown and spoken of on the hill for the north he means to hold, Beitris asks the king whether he will forget her; he answers not with a plain word but by naming, quietly and in order, every wife he had before her, more names than she can hold the count of.",
+   "place": "burg:315",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "beitris-of-muileann-leathan",
+    "murchadh-mor"
+   ],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#v-of-the-names-she-was-given",
+   "era_between": [
+    1740,
+    1740
+   ]
+  },
+  {
+   "id": "EII-3044",
+   "title": "Beitris dies",
+   "body": "Beitris dies in a mild autumn in her seventy-fourth year, Murchadh at her graveside a black-haired man of thirty-nine who looks no older than fifteen; the king buries her with his own hands and sits by the turned earth a night and a day, saying once that a warp holds what it is strung with.",
+   "place": "burg:315",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0125",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "beitris-of-muileann-leathan",
+    "murchadh-mor"
+   ],
+   "told_in": "book/17_of_beitris_and_the_grey_winter.md#v-of-the-names-she-was-given",
+   "era_between": [
+    1744,
+    1744
+   ]
+  }
+ ]
+}

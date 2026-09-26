@@ -1,0 +1,1073 @@
+{
+ "writer": 5,
+ "span": [
+  "V-0131",
+  "V-0148"
+ ],
+ "events": [
+  {
+   "id": "EVI-5000",
+   "title": "Òrd an t-Seabhaig gather at Inis ìseal to name a custodian",
+   "body": "Witnesses of every Hawk house in Siorrachd Cnoc bheag crowd the hall at Inis ìseal and name Raonaid nic Iain custodian by a standing vote, each house setting meal, wool or honey on the altar's step before the hall breaks.",
+   "kind": "faith",
+   "place": "burg:25",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0131",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#i-of-the-naming-at-inis-iseal",
+   "era_between": [
+    35,
+    35
+   ]
+  },
+  {
+   "id": "EVI-5001",
+   "title": "Murchadh Ruadh gives Raonaid the kept feather",
+   "body": "Murchadh Ruadh of Baile fhraoich sets a white feather kept three generations in his own house into Raonaid nic Iain's hand at her naming, and she wears it pinned at her collar from that day.",
+   "kind": "faith",
+   "place": "burg:25",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0131",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#i-of-the-naming-at-inis-iseal",
+   "era_between": [
+    35,
+    35
+   ]
+  },
+  {
+   "id": "EVI-5002",
+   "title": "Òrd an t-Seabhaig speak of a hawk for the shire's arms",
+   "body": "Witnesses leaving Raonaid nic Iain's naming say openly that Siorrachd Cnoc bheag's white billet, the roll's mark for two ages, ought to be struck for a hawk, though no house yet carries the saying south.",
+   "kind": "faith",
+   "place": "province:6",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0132a",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#i-of-the-naming-at-inis-iseal",
+   "era_between": [
+    35,
+    35
+   ]
+  },
+  {
+   "id": "EVI-5003",
+   "title": "Seann Skell's letter refusing Raonaid reaches Inis ìseal",
+   "body": "A three-line letter from Àrd-choimheadaiche's house at Seann Skell in the south reaches Inis ìseal, naming no fault in Raonaid nic Iain but saying Deas-ghnàth a' Ghuail's own order of worship knows no office of a Hawk custodian and so cannot own her.",
+   "kind": "faith",
+   "place": "burg:25",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0131",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#ii-of-the-letter-from-seann-skell-in-the-south",
+   "era_between": [
+    35,
+    35
+   ]
+  },
+  {
+   "id": "EVI-5004",
+   "title": "Òrd an t-Seabhaig carry on as if the custodian had been owned",
+   "body": "Òrd an t-Seabhaig fold the southern letter away unanswered and keep bringing their vigils and disputes to Raonaid nic Iain exactly as before, burying and marrying their own under no rite but hers.",
+   "kind": "faith",
+   "place": "burg:25",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0131",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#ii-of-the-letter-from-seann-skell-in-the-south",
+   "era_between": [
+    35,
+    35
+   ]
+  },
+  {
+   "after": "V-0132"
+  },
+  {
+   "id": "EVI-5005",
+   "title": "Raonaid begins setting Òrd an t-Seabhaig's order into a farm account-book",
+   "body": "Raonaid nic Iain starts writing Òrd an t-Seabhaig's spoken order of worship, till then carried only in a custodian's memory, into a farmer's account-book, sounding each line against the altar to match her own mother's mother's telling of it.",
+   "kind": "faith",
+   "place": "burg:25",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0132",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#iii-of-the-order-set-down"
+  },
+  {
+   "id": "EVI-5006",
+   "title": "The order finished and locked in the altar's oil-box",
+   "body": "Raonaid nic Iain finishes the written order at the turn of the year, reads it aloud once to the gathered houses, ties it with a strip of white feather and locks it into the iron box that once held the altar's lamp-oil.",
+   "kind": "faith",
+   "place": "burg:25",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0132",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#iii-of-the-order-set-down"
+  },
+  {
+   "after": "V-0132a"
+  },
+  {
+   "id": "EVI-5007",
+   "title": "A delegation from Inis ìseal asks the council for a hawk on the shire's seal",
+   "body": "Five witnesses from Òrd an t-Seabhaig, Raonaid nic Iain among them, ride to Cathair dhearg to ask the council that Siorrachd Cnoc bheag's white billet be struck and a hawk set on the shire's arms in its place.",
+   "kind": "faith",
+   "place": "burg:23",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0132a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#iv-of-the-hawk-on-the-seal",
+   "era_between": [
+    36,
+    36
+   ]
+  },
+  {
+   "id": "EVI-5008",
+   "title": "The maor breaks the old die and presses the new seal",
+   "body": "The maor of Siorrachd Cnoc bheag breaks the shire's old die before its assembled clerks and presses the recut seal, a white hawk among twelve crescents, into wax for the first time.",
+   "kind": "law",
+   "place": "province:6",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0132a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#iv-of-the-hawk-on-the-seal",
+   "era_between": [
+    36,
+    36
+   ]
+  },
+  {
+   "after": "V-0133"
+  },
+  {
+   "id": "EVI-5009",
+   "title": "Six die at that year's Còmhrag",
+   "body": "Six fighters, the most in any year yet, die on the trampled ground at Ceann leathan before that year's Còmhrag is called, one of them a boy of Baile ghlas not yet twenty.",
+   "kind": "culture",
+   "place": "marker:37",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0133",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#v-of-what-the-north-carried-that-year-besides"
+  },
+  {
+   "id": "EVI-5010",
+   "title": "The custodians' petition against Còmhrag Ceann leathan is refused",
+   "body": "The custodians of the southern Rite petition the fair-wardens of Ceann leathan in writing to end Còmhrag Ceann leathan after six deaths; the wardens read it and refuse within the hour, on the ground the town lives off Còmhrag Ceann leathan's crowds.",
+   "kind": "culture",
+   "place": "burg:22",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0133",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#v-of-what-the-north-carried-that-year-besides"
+  },
+  {
+   "after": "V-0134"
+  },
+  {
+   "id": "EVI-5011",
+   "title": "An Siorcas Siubhail Do-thuigsinn pitches at Ceann leathan after the six burials",
+   "body": "An Siorcas Siubhail Do-thuigsinn pitches its tents on Còmhrag Ceann leathan's own trampled ground within a week of the six burials, and it is said, though never proved, that the fair-wardens paid it to come.",
+   "kind": "culture",
+   "place": "burg:22",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0134",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#v-of-what-the-north-carried-that-year-besides"
+  },
+  {
+   "after": "V-0135"
+  },
+  {
+   "id": "EVI-5012",
+   "title": "The first coal-ship loads by lamplight at Ceann leathan",
+   "body": "The first coal-ship out of Ceann leathan's rebuilt quays loads by lamplight on a winter tide, the harbour clerk noting only the hour, the tonnage and the shore gang's complaint of the cold.",
+   "kind": "trade",
+   "place": "burg:22",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0135",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#v-of-what-the-north-carried-that-year-besides",
+   "era_between": [
+    36,
+    36
+   ]
+  },
+  {
+   "after": "V-0136"
+  },
+  {
+   "id": "EVI-5013",
+   "title": "Ros dhomhain's masters lose their protest at the guild court",
+   "body": "The eldest masters of Ros dhomhain carry their protest against Ros bheag's new coal-ship yard to the guild court at Cathair dhearg and lose it in a single sitting, the court ruling a guild's charter binds no yard to a monopoly of the coast.",
+   "kind": "craft",
+   "place": "burg:23",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0136",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#v-of-what-the-north-carried-that-year-besides"
+  },
+  {
+   "id": "EVI-5014",
+   "title": "Ceann leathan's quays outrun its walls",
+   "body": "Within two winters of Slighe a' Ghuail's coming the quays of Ceann leathan spread half a mile beyond the old gate with no wall following them, so that a stranger riding in from the coast road can no longer say where the town begins.",
+   "kind": "trade",
+   "place": "burg:22",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0135",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#v-of-what-the-north-carried-that-year-besides",
+   "era_between": [
+    36,
+    36
+   ]
+  },
+  {
+   "id": "EVI-5015",
+   "title": "Raonaid holds the new seal",
+   "body": "Raonaid nic Iain holds the recut seal of Siorrachd Cnoc bheag in her own hands the day it reaches Inis ìseal, the hawk's wing cut spread rather than folded, and says nothing for a while that any witness troubles to write down.",
+   "kind": "faith",
+   "place": "burg:25",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0132a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_hawks_own_custodian.md#iv-of-the-hawk-on-the-seal",
+   "era_between": [
+    36,
+    36
+   ]
+  },
+  {
+   "id": "EVI-5016",
+   "title": "Iain Mapa proves the deep gallery",
+   "body": "Sent to measure a new shaft cut on a guild captain's thirty-year hunch, Iain mac Ruairidh finds the silver at Muileann chiar running richer with depth rather than thinner, the ore darker and heavier the further the gallery goes. He checks the figures three times before he writes them fair.",
+   "kind": "coal",
+   "place": "burg:78",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0137",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#i-of-the-faces-below-the-old-working",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "after": "V-0138"
+  },
+  {
+   "id": "EVI-5017",
+   "title": "The guild masters read the survey entire",
+   "body": "Iain carries the deep gallery's figures to the guild hall himself and unrolls them before three masters who argue over the timbering a new shaft will need. He tells them plainly it will hold only if timbered as he has drawn it, and not an inch cheaper.",
+   "kind": "coal",
+   "place": "burg:78",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0137",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#i-of-the-faces-below-the-old-working",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "id": "EVI-5018",
+   "title": "Comann an Airgid of Muileann chiar chartered anew",
+   "body": "On the strength of the deep gallery's yield the council renews under the restored custom the charter the humans' own Administration had let stand and then let lapse, binding the guild's captains to An Crùn's tithe on every bar struck and giving the guild the courts' weight behind its bindings.",
+   "kind": "trade",
+   "place": "burg:78",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0137",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#i-of-the-faces-below-the-old-working",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "id": "EVI-5019",
+   "title": "Gold found in the stream below Baile dhìreach",
+   "body": "A village smith washing his pan of an evening finds fine gold in the gravel of the stream that turns his forge's own wheel, and tells a maor's clerk the plain truth when the coin he has put by draws the clerk's question rather than invent a lie he would have to keep.",
+   "kind": "trade",
+   "place": "burg:105",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0137a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#ii-of-the-blanks-and-the-gold-below-baile-dhireach",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "id": "EVI-5020",
+   "title": "The first blanks struck for the mint",
+   "body": "More silver comes up from Muileann chiar than the mint at Cathair dhearg can refine, and the council gives the eastern hill villages the refining of the guild's bar, with the gold washed below Baile dhìreach, into blanks for Bonn na Rìoghachd, paid by weight; the first blanks go north in am Faoilleach.",
+   "kind": "trade",
+   "place": "burg:105",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0137a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#ii-of-the-blanks-and-the-gold-below-baile-dhireach",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "after": "V-0139a"
+  },
+  {
+   "id": "EVI-5021",
+   "title": "Iain Mapa marries Mòr nic Dhòmhnaill",
+   "body": "Iain marries Mòr, a refiner's daughter of Muileann chiar who first proved his own scale a hair off true in front of three of the guild's captains. They are married at the guild hall in am Faoilleach, her father giving her hand and the guild's captains standing witness in place of Iain's own western kin.",
+   "kind": "humans",
+   "place": "burg:78",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0137",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#iii-of-mor-nic-dhomhnaill",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EVI-5022",
+   "title": "Dùn thais in the west granted a sea court",
+   "body": "The western Dùn thais is granted a court of the sea to judge salvage and wreck along its shore, after a wrecked hulk driven ashore proves too rich a prize for custom alone to divide. The court's first sitting, held on the strand, awards the wreck whole to the crews who drove it aground.",
+   "kind": "law",
+   "place": "burg:8",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0138",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#iv-of-the-two-towns-called-dun-thais",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EVI-5023",
+   "title": "Dùn thais in the east opens its covered market",
+   "body": "The eastern Dùn thais raises a covered market at its own shire's charge for the hill farms that had traded in its square uncovered since the town was walled, its first trading held under a roof that smells more of new-cut wood than of the produce it shelters.",
+   "kind": "trade",
+   "place": "burg:77",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0139",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#iv-of-the-two-towns-called-dun-thais",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EVI-5024",
+   "title": "The royal record confuses the two Dùn thais",
+   "body": "A clerk at Cathair dhearg files the western court's petition and the eastern market's petition against the one town's name, both signed only \"Dùn thais\", and a second clerk's hand-correction holds only until the next season's post brings the same confusion again.",
+   "kind": "law",
+   "place": "burg:8",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0139",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#iv-of-the-two-towns-called-dun-thais",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EVI-5025",
+   "title": "Baile chiar's maor petitions to cut out Doire chaol",
+   "body": "The maor of Baile chiar writes plainly that Doire chaol, grown from a scattering of household-clerks' houses into a town proper, has outgrown a seat five miles distant, and asks that it be given a maor of its own rather than go on being governed badly at second hand.",
+   "kind": "law",
+   "place": "burg:106",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0139a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#v-of-the-petition-from-baile-chiar",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EVI-5026",
+   "title": "Siorrachd Doire chaol cut from Baile chiar",
+   "body": "The council grants the petition before the summer is old, the only shire cut new from an older one since the original drawing, Doire chaol entered onto the roll with its own arms, its own dues, and a maor of its own choosing.",
+   "kind": "law",
+   "place": "burg:164",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0139a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#v-of-the-petition-from-baile-chiar",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EVI-5027",
+   "title": "The Baile chiar maor glad of the lightening",
+   "body": "The maor of Baile chiar, reading the grant that cuts Siorrachd Doire chaol from his shire, tells his clerk he is glad of the lightening, and sends the new shire's first dues south the same season with a note wishing its maor better luck of it than he had had.",
+   "kind": "law",
+   "place": "burg:106",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0139a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#v-of-the-petition-from-baile-chiar",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "after": "V-0141"
+  },
+  {
+   "id": "EVI-5028",
+   "title": "Iain Mapa rides through the night to Muileann dhearg",
+   "body": "Word of the fall reaches Muileann chiar by a rider sent without urgency, and Iain Mapa, two seasons into the silver works and no longer reckoned a mine matter by Comhairle nam Mèinnean, rides the thirty miles through the night rather than wait for morning, and goes down on the second rope with a lamp and a level.",
+   "kind": "coal",
+   "place": "burg:491",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0141",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#i-of-the-first-day-of-an-t-iuchar",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5029",
+   "title": "Iain Mapa lays his own old maps against the new fault",
+   "body": "With maps sent up from Comann an Airgid's own store, older and truer than anything Comhairle nam Mèinnean keeps at Cathair mhòr, Iain Mapa finds the broken ground under the fallen gallery runs exactly where Scàineadh Cill ghlas's own line ran three ages before, marked by an older hand with a single word: left, let be.",
+   "kind": "coal",
+   "place": "burg:491",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0141",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0142",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#ii-of-the-rules-made-for-the-dia-thirich",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5030",
+   "title": "The thirty-one are buried in a single ground",
+   "body": "The dead of the fall are buried at the edge of Muileann dhearg's own burying-yard, thirty-one graves broken in two days by every man in the town not needed underground, the district's custodian reading over each grave in turn at the families' own asking, and Iain Mapa standing the whole of it with his hat in his hand.",
+   "kind": "faith",
+   "place": "burg:491",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0141",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#ii-of-the-rules-made-for-the-dia-thirich",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5031",
+   "title": "Iain Mapa writes a letter naming the fault, and does not send it",
+   "body": "At his own table at Muileann chiar, Iain Mapa writes to Comhairle nam Mèinnean naming the fault at Cill ghlas by its true line and setting it beside the survey Comhairle nam Mèinnean filed and never circulated three years before; he reads it through twice, folds it, and puts it unsealed in the drawer that holds his old receipt.",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0141",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#ii-of-the-rules-made-for-the-dia-thirich",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "after": "V-0143"
+  },
+  {
+   "id": "EVI-5032",
+   "title": "A shepherd lost above Doire uaine",
+   "body": "A shepherd new to the country puts his flock to the one shoulder of hill the town's shepherds will not graze, where the old writings tell of the Marbh-bheò, and does not come down. His dog returns alone; the town finds only his crook, driven upright into the turf.",
+   "kind": "land",
+   "place": "burg:148",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0140",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#vi-of-the-shepherd-above-doire-uaine",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5033",
+   "title": "The magistrate enters wolves at Doire uaine",
+   "body": "The magistrate writes wolves as the cause in the shire's own book, a finding no shepherd argues and none believes, since no wolf has been seen on that hill in living memory. He tells the shepherd's mother the book wanted a cause it could hold.",
+   "kind": "law",
+   "place": "burg:148",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0140",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#vi-of-the-shepherd-above-doire-uaine",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5034",
+   "title": "Iain Mapa keeps a second copy of the guild's charter",
+   "body": "Iain writes Comann an Airgid's new charter into his own private book beside the receipt he carried from An Sloc Mòr and the deep gallery's own figures, telling Mòr at last that Comhairle nam Mèinnean never once told him his first survey of the thinning vein had proved true.",
+   "kind": "coal",
+   "place": "burg:78",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0137",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0140",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_silver_at_depth.md#vii-of-the-copy-iain-kept",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5035",
+   "title": "Mary Coyle writes to Comhairle nam Mèinnean naming Àth leathan's undelivered timber",
+   "body": "Reading a copy of Comhairle nam Mèinnean's new digging rules brought north by a carter, Mary Coyle writes in Tional nan Tuathach's own hand asking that the rules be kept in fact at the western pits as well as in the posting, and names Àth leathan and the ordered timber that never left the yard at Ceann mhòr.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iii-of-the-sixty-and-the-forty",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5036",
+   "title": "Comhairle nam Mèinnean answers Tional nan Tuathach in three lines and files the matter",
+   "body": "Comhairle nam Mèinnean thanks Tional nan Tuathach for its concern and states that Àth leathan's timber has been referred to the district overseer for his report; no report is ever filed, and Mary Coyle's letter is kept, unanswered further, in the press at Cathair mhòr where papers go that Comhairle nam Mèinnean has no further use for.",
+   "kind": "law",
+   "place": "burg:346",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iii-of-the-sixty-and-the-forty",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5037",
+   "title": "The new digging rules sent first to Iain Mapa",
+   "body": "Comhairle nam Mèinnean's new rules for digging after the fall are sent first to Iain Mapa at Muileann dhearg as the man who closed the district, and he finds nothing in them he would change; they are made for Dia-thìrich workers.",
+   "kind": "coal",
+   "place": "burg:491",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0142",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#ii-of-the-rules-made-for-the-dia-thirich",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EVI-5038",
+   "title": "Ailean Leabhar is found dead at his own desk",
+   "body": "On the third day of an t-Sultain, Mòrag nic Coinnich finds Ailean Leabhar at his desk at Muileann chaol, the harvest returns for Siorrachd Doire chaol open under his hand and his pen laid down beside them rather than dropped, so that he seems, she says after, to have finished the line he was writing before he stopped.",
+   "kind": "law",
+   "place": "marker:34",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0144",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iv-of-the-third-day-of-an-t-sultain",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "after": "V-0144"
+  },
+  {
+   "id": "EVI-5039",
+   "title": "Ailean Leabhar is buried in the ground behind an Leabharlann",
+   "body": "Ailean Leabhar is buried two days after at Muileann chaol, in a small ground behind an Leabharlann itself where no keeper had been buried before him, the town turning out near to the last household, and Mòrag nic Coinnich reads over him only his own words, that an Leabharlann settles nothing and only keeps.",
+   "kind": "law",
+   "place": "marker:34",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0144",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iv-of-the-third-day-of-an-t-sultain",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EVI-5040",
+   "title": "Mòrag nic Coinnich finds an unfinished note among Ailean Leabhar's papers",
+   "body": "Going through the old keeper's desk in her first month as keeper, Mòrag nic Coinnich finds one sheet in his own hand, undated beyond an old year, reading only that what an Leabharlann is not sent it cannot keep, and to ask the shires again; she cannot say whether it was a note to himself or the start of a letter, and keeps it unfiled in her own drawer.",
+   "kind": "law",
+   "place": "marker:34",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0144",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iv-of-the-third-day-of-an-t-sultain",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "after": "V-0145"
+  },
+  {
+   "id": "EVI-5041",
+   "title": "Sixty apprentices are bound at Achadh dhomhain, and not one is Tuathaich",
+   "body": "Comann nan Gualadairean binds sixty boys in its own hall at Achadh dhomhain to fill the rolls the fall thinned by thirty-one, each swearing with a hand laid on a lump of coal while his father stands behind him in a line the length of the hall, and the charter that reserves the oath to Dia-thìreach applicants is kept to the letter.",
+   "kind": "trade",
+   "place": "burg:135",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0145",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iii-of-the-sixty-and-the-forty"
+  },
+  {
+   "id": "EVI-5042",
+   "title": "A family with no dead in the fall leaves Achadh dhomhain regardless",
+   "body": "Among the forty households that quit Achadh dhomhain for the southern ports that autumn are families who buried no one in the fall, saying to whoever asks that a town may grieve its thirty-one and go on living beside their graves, but a household does not choose to raise its own sons under ground a survey has already misjudged once.",
+   "kind": "coal",
+   "place": "burg:135",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0145",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iii-of-the-sixty-and-the-forty"
+  },
+  {
+   "after": "V-0146"
+  },
+  {
+   "id": "EVI-5043",
+   "title": "Oighrig nic Mhathain is burned beating back the fire with her own cloak",
+   "body": "Caught in the fairground when the fire runs on Samhain eve, Oighrig nic Mhathain beats at the burning canvas with her own cloak until the worst of it is turned from the stalls that hold a dozen towns' whole trade, and does not leave the ground until the last flame along the weavers' row has burned itself out.",
+   "kind": "trade",
+   "place": "marker:38",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0146",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#v-of-the-fire-at-the-fair",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "after": "V-0147"
+  },
+  {
+   "id": "EVI-5044",
+   "title": "Mary Coyle asks Comhairle na Slighe-iarainn whether its reading of the factor rule is new",
+   "body": "When Comhairle na Slighe-iarainn refuses to carry the north's wool on the strength of the fair's own rule on factors, Mary Coyle writes a second, shorter letter asking only whether the reading is new or has simply never before been turned against the north's own goods; Comhairle na Slighe-iarainn does not answer it, and a clerk files it beside the first.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0147",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#v-of-the-fire-at-the-fair",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EVI-5045",
+   "title": "Forty households entered 'gone south'",
+   "body": "The tally-clerk of Achadh dhomhain enters the forty households leaving for the southern ports off the town's roll with two words against each, gone south, the roll keeping no other word for it.",
+   "kind": "coal",
+   "place": "burg:135",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0145",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#iii-of-the-sixty-and-the-forty",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EVI-5046",
+   "title": "Oighrig nic Mhathain dies of her burns",
+   "body": "Oighrig nic Mhathain presides over Cùirt na Fèille from a chair carried into the burnt field, her hands bound in linen, keeps the fair open to its appointed end, and dies of her burns at her own house at Muileann òg before the month is out, fifty years old.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0146",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#v-of-the-fire-at-the-fair",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EVI-5047",
+   "title": "The new toll-mistress sells the north's wool through the factors",
+   "body": "The new toll-mistress at Muileann òg, keeping the fair's rules as Oighrig left them, sells the north's cart-borne wool through the factors when it comes, and enters the sale in the fair's book under the makers' shire.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0147",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_fall_at_muileann_dhearg.md#v-of-the-fire-at-the-fair",
+   "era_between": [
+    40,
+    40
+   ]
+  }
+ ]
+}

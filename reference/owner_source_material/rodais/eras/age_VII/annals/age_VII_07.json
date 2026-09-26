@@ -1,0 +1,1598 @@
+{
+ "writer": 4,
+ "span": [
+  "VI-0078",
+  "VI-0086"
+ ],
+ "events": [
+  {
+   "after": "VI-0085"
+  },
+  {
+   "id": "EVII-4001",
+   "title": "The yard at Muileann chrom goes to a double shift",
+   "body": "The yard at Muileann chrom takes on a double shift of drivers and firemen for the arms trains west, running by night as well as by day. Eachann mac Ruairidh is given the run, and told to sign the manifest for weight and ask nothing of the goods.",
+   "place": "burg:47",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0078",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#i-of-the-trains-that-ran-by-night",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4002",
+   "title": "The first sealed wagons loaded at Muileann chrom",
+   "body": "Comhairle na Slighe-iarainn's own men load eight wagons behind tarpaulin at Muileann chrom by shuttered lamp, and take the loading out of the yard drivers' hands for the first time in the line's history.",
+   "place": "burg:47",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0078",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#i-of-the-trains-that-ran-by-night",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4003",
+   "title": "The western branch runs arms by night",
+   "body": "Through am Faoilleach Slighe a' Ghuail's western branch, laid twenty years before for lime and slate, carries arms and dubhan west to Seann Bhral by night, at speeds the branch's rails were never built to bear.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0078",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#i-of-the-trains-that-ran-by-night",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4004",
+   "title": "Comhairle na Slighe-iarainn's quay at Seann Bhral",
+   "body": "At Seann Bhral Comhairle na Slighe-iarainn's men unload the arms trains by lantern into a lorry kept always waiting, and give the driver nothing for his signature but a bare manifest.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0078",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#i-of-the-trains-that-ran-by-night",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4005",
+   "title": "A company passes the arms train below the capital",
+   "body": "One of the new-raised companies, marching west by night under a corporal Eachann mac Ruairidh had once carried as a passenger, passes below the arms train on the branch road and is not stopped for.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0080",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#i-of-the-trains-that-ran-by-night",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4006",
+   "title": "A Tuathach family on the western branch",
+   "body": "Eachann mac Ruairidh's train passes a Tuathach family walking north along Slighe a' Ghuail's western branch before dawn, a handcart between them. He does not stop, and does not look back.",
+   "place": null,
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0078",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#i-of-the-trains-that-ran-by-night",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4007",
+   "title": "Cnoc thais comes to Àth leathan",
+   "body": "Tom Varley leads forty hewers and more of Cnoc thais down the ridge drove track to Àth leathan, pit-lamps lit at noon though no face waits at the path's end to work by them.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4008",
+   "title": "Àth naomh comes to Àth leathan",
+   "body": "The hewers of Àth naomh come to Àth leathan marching two abreast, keeping their own order at another town's pit-head though they have nothing there yet to defend.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4009",
+   "title": "Muileann àrsaidh and Tobar dhearg of the hills come to Àth leathan",
+   "body": "Smaller parties from Muileann àrsaidh and from Tobar dhearg of the hills reach Àth leathan through a second cold dusk, among them boys of fourteen and, from two houses, whole households with none left at home.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4010",
+   "title": "Ruth Calder's list begun at the pit-shed",
+   "body": "Ruth Calder sets up a trestle table at the Àth leathan pit-shed and takes down every man's and boy's name, town by town, with a mark for those who bring their own tools.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4011",
+   "title": "Sarah Dunmore sends oatmeal to Àth leathan",
+   "body": "Sarah Dunmore sends two cartloads of oatmeal and a barrel of salted fish down from Muileann àrsaidh for the gathering at Àth leathan, and asks no thanks for it.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4012",
+   "title": "Ruth Calder learns Comhairle nam Mèinnean keeps its own list",
+   "body": "Tom Varley brings word to Ruth Calder that Comhairle nam Mèinnean at Cathair mhòr keeps a list of its own, with her name and his set above every other on it.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder",
+    "tom-varley"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4013",
+   "title": "The pit-sheds and byres given over at Àth leathan",
+   "body": "The three pit-sheds of Àth leathan fill with sleeping men on straw, and the byres behind the chapel, their cattle turned out, hold the rest.",
+   "place": "burg:346",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4014",
+   "title": "The regiments camp beside the enforcers at Seann Skell",
+   "body": "The regiments from Cathair dhearg reach the western Seann Skell and camp beside the enforcers already quartered there, three years settled and waiting for exactly this company.",
+   "place": "burg:489",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0080",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4015",
+   "title": "Word of the march reaches Àth leathan",
+   "body": "A carter carries word up from the boundary stones to Àth leathan that the regiments have gone west by the road below Cathair dhearg, their lorries running on dubhan.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0080",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4016",
+   "title": "Signed for weight and not for goods",
+   "body": "The yard foreman at Muileann chrom hands Eachann mac Ruairidh a manifest giving only the weight of eight sealed wagons, and he is not to ask what is in them.",
+   "place": "burg:354",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0078",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#i-of-the-trains-that-ran-by-night",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4017",
+   "title": "Lamps lit at noon on the hill paths",
+   "body": "The hewers of the five towns come down to Àth leathan with their pit-lamps lit at noon, so that every farm in the western hills sees them come as pit men.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "ruth-calder",
+    "tom-varley"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4018",
+   "title": "Tobar dhearg's captain sets his lamp on the table",
+   "body": "The stooped captain of Tobar dhearg of the hills sets his lamp on Ruth Calder's trestle table before he gives his own name.",
+   "place": "burg:408",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "ruth-calder"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4019",
+   "title": "Four hundred names by the sixth evening",
+   "body": "By the sixth evening of the gathering Ruth Calder's list at Àth leathan runs past four hundred men and boys of the five towns.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder"
+   ],
+   "told_in": "book/23_of_the_arms_trains.md#ii-of-the-list-at-ath-leathan",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4020",
+   "title": "The five towns form pit companies at Àth leathan",
+   "body": "Through am Faoilleach and an Gearran Ruth Calder and Tom Varley turn the gathering at Àth leathan into five companies, one to a town, each under its own captain and answerable to Tom Varley for the whole body.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0079",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "ruth-calder",
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4021",
+   "title": "Blasting powder laid at the spoil-heaps",
+   "body": "Tom Varley lays four kegs of the pits' own blasting powder in the narrow ground below the spoil-heaps, on the road down from Seann Skell, to be fired at his word alone.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4022",
+   "title": "The burn comes up in spate before the battle",
+   "body": "A fast thaw in the first week of an Giblean brings the burn below Àth leathan up in spate, closing the ford and leaving only the dry road from Seann Skell for the regiments' approach.",
+   "place": "burg:346",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder",
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4023",
+   "title": "Ruth Calder's word to the five towns' companies",
+   "body": "On the morning of the battle Ruth Calder tells Tom Varley to carry her word to the five towns' companies, that her list stands and will say who stood at Àth leathan and beside whom, whatever the day brings.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "ruth-calder",
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4024",
+   "title": "Tobar dhearg's men keep the chapel before the battle",
+   "body": "Before dawn on the day of the battle, Tobar dhearg's stooped captain asks that the chapel at Àth leathan stand open, so that any of his men who wish it may go in once before the fighting.",
+   "place": "burg:346",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "ruth-calder"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4025",
+   "title": "The charge fired below the spoil-heaps",
+   "body": "Tom Varley fires the blasting powder laid at the spoil-heaps as the regiments' column reaches the narrow ground, checking its head for the better part of an hour before it re-forms and comes on.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4026",
+   "title": "The pit-heads of Àth leathan change hands",
+   "body": "Through the day of the battle the pit-heads of Àth leathan pass more than once between the holdouts and the regiments before falling at last to the kingdom's side.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4027",
+   "title": "The five towns' companies fall back from the field",
+   "body": "By early afternoon the five towns' companies give up the field below Àth leathan and fall back in scattered bodies along the hill paths toward Muileann àrsaidh and Cnoc thais.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#iii-of-what-the-north-tells",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4028",
+   "title": "Inis àrsaidh victuals the kingdom's host",
+   "body": "The river town of Inis àrsaidh, nearest Àraich Àth leathan by water, supplies bread and salt fish to the kingdom's host through the campaign and the battle.",
+   "place": "burg:55",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#iv-of-what-the-open-record-gives",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4029",
+   "title": "Somhairle mac Lachlainn's return of the battle",
+   "body": "Within the week Somhairle mac Lachlainn writes a return from Seann Skell naming the companies that fought at Àth leathan and the kingdom's dead, and no more.",
+   "place": "burg:489",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#iv-of-what-the-open-record-gives",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4030",
+   "title": "Sìleas nic Rath searches the record for Ruth Calder's name",
+   "body": "Sìleas nic Rath, new to the office of royal chronicler, searches An Clàr Foscailte more than once for Ruth Calder's name after Àth leathan and does not find it, and privately judges the question not hers to press further.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath",
+    "ruth-calder"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#iv-of-what-the-open-record-gives",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4031",
+   "title": "Doire naomh's grove takes in the field's unclaimed dead",
+   "body": "The Dia-thìrich of Doire naomh's grove, closed to strangers, go out onto the field after the regiments pass on and carry many of the unclaimed dead of Àth leathan to their own ground.",
+   "place": "burg:245",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#iv-of-what-the-open-record-gives",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4032",
+   "title": "Àth chrom's drovers carry the dead of Àth leathan",
+   "body": "Àth chrom's drovers take their coal and salt carts out along the road to carry the dead of Àth leathan, of both sides, without any record of whom they carried.",
+   "place": "burg:412",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4033",
+   "title": "Baile fhiadhaich takes in the wounded of Àth leathan",
+   "body": "Baile fhiadhaich, too far off to send carriers to the field itself, takes in such wounded of Àth leathan as reach it along the west-coast harbour road.",
+   "place": "burg:134",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4032",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#iv-of-what-the-open-record-gives",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4034",
+   "title": "Nine hundred at Àth leathan",
+   "body": "By the eve of the battle the muster at Àth leathan counts near nine hundred souls with their carriers, in five companies: Muileann àrsaidh near two hundred, Cnoc thais a hundred and sixty, Àth leathan ninety, Àth naomh sixty and Tobar dhearg forty.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder",
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4035",
+   "title": "Sixty firearms and four kegs of powder",
+   "body": "The five towns have among them some sixty firearms, most of them fowling pieces older than any man carrying them, a dozen rifles, picks and short axes, and four kegs of blasting powder from the pits.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4036",
+   "title": "A fever in the byres of Àth leathan",
+   "body": "A fever goes through the byres behind the chapel at Àth leathan in an Gearran and takes an old woman of Cnoc thais who had come down only to be near her grandsons.",
+   "place": "burg:346",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "EVII-4035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4037",
+   "title": "Singing in the Tobar dhearg line",
+   "body": "In the waiting before the battle the old captain's men of Tobar dhearg sing low in An Eaglais's own words along their line.",
+   "place": "marker:18",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0081",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#ii-of-the-word-ruth-gave-at-dawn",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4038",
+   "title": "Ruth Calder's account ends at the column's coming",
+   "body": "No page in Ruth Calder's hand, nor any word set down as hers by anyone who stood beside her, tells what she said or did after the regiments' column reached the ground below the spoil-heaps.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder"
+   ],
+   "told_in": "book/24_of_blar_ath_leathan.md#ii-of-the-word-ruth-gave-at-dawn",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4039",
+   "title": "Muileann ruadh takes in wounded officers",
+   "body": "The custodians of the bath-house at Fuarain Theth Muileann ruadh below Muileann ruadh take in two officers of the regiments wounded in the west, at the council's asking, and set them in the long room among the hewers' widows.",
+   "place": "burg:229",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4040",
+   "title": "Tom Varley carries the wounded off the southern ground",
+   "body": "As the light fails on the day of the battle, Tom Varley gathers hurdles and handcarts and leads the wounded of the southern pits up the ridge drove track, unlit, away from Àth leathan toward Muileann àrsaidh.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0083",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#i-of-the-carriers-on-the-ridge-path",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4041",
+   "title": "The carriers pass Àth leathan in the dark",
+   "body": "Tom Varley's party of carriers comes within sight of the Àth leathan pit-sheds before dawn and does not stop there, word having already reached them that the town cannot be held through the coming night.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0083",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#i-of-the-carriers-on-the-ridge-path",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4042",
+   "title": "Sarah Dunmore receives the wounded at Muileann àrsaidh",
+   "body": "Sarah Dunmore and the women of Muileann àrsaidh come out along the ridge path at dawn to take the hurdles from the carriers' shoulders, and a woman who sets bones is sent for to tend the worst hurt among them.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0083",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore",
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#i-of-the-carriers-on-the-ridge-path",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4043",
+   "title": "Tom Varley counts the wounded at the gate",
+   "body": "Tom Varley counts nine souls brought off the field into Muileann àrsaidh and keeps the number in his head rather than on paper, unwilling to see it set down where it might be weighed against the number that went south.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0083",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#i-of-the-carriers-on-the-ridge-path",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4044",
+   "title": "Tom Varley hears of the flooding at Sarah Dunmore's table",
+   "body": "Word of the drowned shafts reaches Tom Varley by carter and shepherd, and he and Sarah Dunmore weigh, over several evenings, what purpose the flooding serves beyond telling the hills the seams are done for good.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0083",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley",
+    "sarah-dunmore"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#ii-of-the-pits-taken-and-the-water-let-in",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4045",
+   "title": "Somhairle reads the first week's patrol reports",
+   "body": "Somhairle mac Lachlainn reads An seachdamh rèisimeid's first patrol reports at Seann Skell by dubhan lamp: the road clear, a cart met and let pass, a farm gate found open and shut again.",
+   "place": "burg:489",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0084",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4046",
+   "title": "A young officer writes of the unploughed field",
+   "body": "A patrol officer new to his rank writes into his return that the field of the battle lies as it was left and has not been ploughed, though the season for the first ploughing is well begun on every field around it.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4047",
+   "title": "Somhairle sends the patrol to walk the field itself",
+   "body": "Somhairle mac Lachlainn gives verbal, unwritten instructions for the same officer to walk Àraich Àth leathan rather than the road beside it, and receives an account he sets down in the fewest words the return will bear.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4048",
+   "title": "The maor of Seann Skell explains the seventh's short rolls",
+   "body": "The maor of the western Seann Skell tells Somhairle mac Lachlainn privately that coast boats are finding the fishing a week longer than the weather requires, rather than fill a regiment meant to stand against their own hill neighbours.",
+   "place": "burg:489",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0084",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4049",
+   "title": "Tom Varley sends word to every hill farm",
+   "body": "Tom Varley sends word by boys and shepherds to every hill farm within a day's walk of Muileann àrsaidh asking whether anyone has seen Ruth Calder, and gets back only that nobody has, alive or otherwise.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley",
+    "ruth-calder"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iv-of-the-answer-nobody-could-give",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4050",
+   "title": "A farm-wife's account of the field's own dead",
+   "body": "A woman below the ridge sends Tom Varley word that some of the battle's dead were carried off by night in the days after by people from the hills, and might lie now in ground no list on either side will ever name.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iv-of-the-answer-nobody-could-give",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4051",
+   "title": "An old woman of Àth leathan sees the field the morning after",
+   "body": "An old woman who kept hens at Àth leathan tells of women from the hill farms out on the field with handcarts the morning after the battle, before the regiments came, but says she looked too little to know whose faces she saw.",
+   "place": "burg:346",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iv-of-the-answer-nobody-could-give",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4052",
+   "title": "Tom Varley walks to the dyke above the field",
+   "body": "On the eighth day Tom Varley walks alone to a stone dyke a quarter-mile from Àraich Àth leathan and is turned back by a young sentry of An seachdamh rèisimeid before he can see more than its empty shape.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iv-of-the-answer-nobody-could-give",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4053",
+   "title": "Rab of Tobar dhearg carried up the ridge",
+   "body": "A boy of Tobar dhearg named Rab, wounded in the thigh at Àth leathan, is carried up the ridge path on a handcart by Tom Varley's carriers, saying his own name over in the dark.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0083",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#i-of-the-carriers-on-the-ridge-path",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4054",
+   "title": "The bonesetter at Sarah Dunmore's table",
+   "body": "A bonesetter of the western hills works on the wounded of Àth leathan by lamplight at Sarah Dunmore's kitchen table at Muileann àrsaidh.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0083",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore",
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#i-of-the-carriers-on-the-ridge-path",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4055",
+   "title": "The seventh's rolls short at the coast",
+   "body": "An seachdamh rèisimeid's rolls run to some four hundred and twenty men in its second week, short of the order; the maor of the western Seann Skell puts it down to boats still at sea.",
+   "place": "burg:489",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0084",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
+   "era_between": [
+    21,
+    21
+   ]
+  }
+ ]
+}

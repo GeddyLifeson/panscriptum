@@ -1,0 +1,167 @@
+[
+ {
+  "title": "The basins scoured at Fuarain Theth Muileann ruadh",
+  "era_year": 3924,
+  "summary": "A traveller of the northern moor, watching from a safe distance, sees two of the coast-people empty, scour and refill the warm basins below the mountain in a single day's silent labour, done, by every sign, as a task long practised together and needing no word between them.",
+  "category": "craft",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0057",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "A coast-woman's leg knits clean at the springs",
+  "era_year": 3925,
+  "summary": "A young woman of the coast, her leg broken through the skin in a cliff fall, is laid in the warmest basin at Fuarain Theth Muileann ruadh, turned and bound twice daily for a season; she walks out on a stick before the winter turns, the first such mending an outside eye ever carried whole into a telling.",
+  "category": "craft",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0057",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The boy struck by the falling spar",
+  "era_year": 3931,
+  "summary": "A boy of a coast building-yard, senseless three days after a falling spar strikes his head, is carried to the springs by his mother and laid by the warmest basin's steam; he wakes on the fourth day asking to be fed, and lives to be known among his own people as the one the mountain gave back.",
+  "category": "craft",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0057",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The youth of the south-east asks to go down",
+  "era_year": 3949,
+  "summary": "A youth not yet grown to his height asks the people of the south-east to lower him into the eastern shaft at Toll-dubh, wanting to be the one who finally learns what earlier generations beside the shaft never learned; his own people's reasons for granting it are never carried to any outside ear.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The lamp goes small in the eastern shaft",
+  "era_year": 3950,
+  "summary": "The youth is lowered into the eastern shaft at Toll-dubh on a rope of plaited hide behind a lamp let down ahead of him; a distant watcher sees the light dwindle to a point in the dark and hang there the better part of an hour before the rope is hauled up slow, with care, as a diver is brought up from deep water.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The youth comes up ash-faced and silent",
+  "era_year": 3950,
+  "summary": "The youth is hauled over the shaft's lip grey as cold ash and walks unaided to sit among his own people, and though he lives on among them for years after, taking a wife and fathering children, he is never once heard, by any account that reaches the hill country, to say what he saw at the bottom of the rope.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A shepherd finds Làrach an Dùin-fhaire's gate blocked",
+  "era_year": 3958,
+  "summary": "Following a strayed ewe higher up the northern height than shepherds of the moor commonly go, a man of the moor comes on the coast-people's small watch-post and finds its one gate packed floor to lintel with rubble from within, no voice or watch-fire raised against his approach; he carries the finding home more frightened of the silence than of any challenge.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0058",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The telling of the last stone set",
+  "era_year": 3990,
+  "summary": "As the shepherd's account of the walled gate spreads from hearth to hearth, the hill country's own tellers, having no witness to the closing, begin to tell it as though from within: one man alone at dusk, fitting the last stones into the gap by a lamp burning down to its last oil, and the telling stopping there, at the guttering flame, because it has nothing more to give.",
+  "category": "culture",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0058",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The shepherd's grandson finds Làrach an Dùin-fhaire empty",
+  "era_year": 4050,
+  "summary": "A generation on, the first shepherd's grandson walks the full circuit of Làrach an Dùin-fhaire's low wall and finds nothing within but rotted footings and grass grown tall and undisturbed; his call goes unanswered but for his own voice off the far wall, and the blocked gate stands as his grandfather found it, opened by no hand since.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0059",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A trader and two kinsmen find Làrach an Dùin gate open and empty",
+  "era_year": 4122,
+  "summary": "A salt-trader of the moor who once carried loads to the coast-people's landings, with two younger kinsmen for company, finds the great fortress's gate standing open and unguarded after its watch-fires have failed to show a full year, and walks its silent ward calling out to no answer at all.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0061",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The cistern found choked with cattle bones",
+  "era_year": 4122,
+  "summary": "The youngest of the three, wandering apart toward Làrach an Dùin's inner court, finds the great cistern that once served four hundred people choked from side to side with whole cattle carcasses thrown in together, the water beneath gone thick and dark; none of the three can say who fouled it, or why, and the trader carries the finding to more hearths than he can count.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0060",
+    "type": "cause"
+   }
+  ]
+ }
+]

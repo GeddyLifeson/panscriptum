@@ -1,0 +1,287 @@
+[
+ {
+  "title": "Eòghann born to the keeper's hearth",
+  "era_year": 4196,
+  "summary": "Eòghann is born the second child of the household that keeps the bag and Poit an Teine at Tobar dhìreach, not first looked to for the keeping while his elder sister lives.",
+  "category": "people",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The keeping falls to Eòghann",
+  "era_year": 4216,
+  "summary": "Eòghann's sister dies of a fever in her nineteenth year, and the bag of three dark coals and the recital pass to Eòghann on his father's death soon after; he is twenty.",
+  "category": "death",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Eòghann marries Muirne",
+  "era_year": 4220,
+  "summary": "Eòghann takes Muirne of the lake-shore line, who keeps his fire-pot and his hearth through the long absences his walking keeps him to.",
+  "category": "people",
+  "people": [
+   "Eòghann",
+   "Muirne"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": []
+ },
+ {
+  "title": "Gual airgid carried to the home river and two more",
+  "era_year": 4221,
+  "summary": "In his first years of keeping Eòghann carries gual airgid to the Abhainn ghorm below Tobar dhìreach, to two rivers besides, and to a mountain tarn, in case the water nearest the hearth had never been fairly asked; none answers him.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Eòghann keeps the old custom of the shore",
+  "era_year": 4225,
+  "summary": "With nothing newly occurring to him, Eòghann carries the three dark coals north to the shore his father once brought him to, to throw them into the sea in the old way, out of a custom kept past most keepers' belief in it.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The three coals thrown into the sea again for nothing",
+  "era_year": 4225,
+  "summary": "Eòghann throws the silver, the untried, and gual bogha-froise into the grey swell off the northern shore in the falling light, and wades in after them to find them as dark and salt-wet as they went in.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Eòghann walks home through two days of rain",
+  "era_year": 4225,
+  "summary": "Eòghann turns south for Tobar dhìreach the morning after the casting, walking two wet days over moor and birch scrub with his mind on nothing beyond the ground in front of him.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Eòghann kneels and drinks at the crossing",
+  "era_year": 4225,
+  "summary": "Thirsty and tired on the last stretch of the road home, Eòghann kneels at the crossing of the Abhainn ghorm below Tobar dhìreach and drinks, and says aloud, to no one, that this water tastes different from the sea water.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276",
+   "river:8"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Gual airgid catches under the current",
+  "era_year": 4225,
+  "summary": "Eòghann throws the three dark coals into the river at the crossing without weighing the throw, and gual airgid catches beneath the surface, a pale fire standing in the current that the water cannot quench.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276",
+   "river:8"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "The other two coals lost downstream",
+  "era_year": 4225,
+  "summary": "The untried coal and gual bogha-froise are carried on past Eòghann by the current into the dark and are never afterward found, though he searches the bank at every low water that follows.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276",
+   "river:8"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The fifth coal named at the recital",
+  "era_year": 4226,
+  "summary": "At the next telling of the Line, Eòghann speaks the new line into the recital: the sea, the height, the earth and a man's own blood have answered, and now the river has taken the fifth, given rather than thrown to it, and the valley names it gual airgid.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Travellers come to see the fire under the water",
+  "era_year": 4230,
+  "summary": "Word of the pale fire standing under the current draws travellers to the crossing below Tobar dhìreach in numbers greater than the ford had ever seen, some kneeling to drink the same water Eòghann drank without finding it tastes to them any different.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "burg:276",
+   "river:8"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Eòghann tries gual teine against flint",
+  "era_year": 4245,
+  "summary": "In his later keeping Eòghann strikes gual teine against flint more than once, hoping the snap of a hand the tellers spoke of might be struck rather than fallen into, and gets from it no more than the ordinary spark any stone gives a blade.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Eòghann dies at his own hearth",
+  "era_year": 4262,
+  "summary": "Eòghann dies in his six-and-sixtieth year at Tobar dhìreach, Poit an Teine burning near him, his last words not of the coals but of the crossing, asking whether the water still ran clear and the light still stood under it.",
+  "category": "death",
+  "people": [
+   "Eòghann",
+   "Muirne"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0062a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The bag passes on with two coals still dark",
+  "era_year": 4262,
+  "summary": "The leather bag, with gual teine and gual bogha-froise still unanswered, passes from Eòghann's grave to a younger kinsman of the line, as it passed from Cormac's before him.",
+  "category": "coal",
+  "people": [
+   "Eòghann"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ]
+ }
+]

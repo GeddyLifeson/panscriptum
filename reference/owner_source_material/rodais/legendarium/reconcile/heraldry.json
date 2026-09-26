@@ -153,7 +153,7 @@
    "burg": 385,
    "field": "history",
    "old": "It has never grown past a few hundred households.",
-   "new": "It has never grown past seven hundred people.",
+   "new": "It has never grown past thirty-five people.",
    "why": "population 693: 'a few hundred households' overstates it"
   },
   {
@@ -182,13 +182,13 @@
    "field": "history",
    "old": "the largest place in this part of the island",
    "new": "the largest place on the island",
-   "why": "population 74,120 is the largest of all 505 burgs, as Appendix B already says"
+   "why": "population 27,914 is the largest of all 505 burgs after the capital's, as Appendix B already says"
   },
   {
    "burg": 492,
    "field": "history",
    "old": "Àth bheag is a town of twenty thousand on the east coast, the seat of its province.",
-   "new": "Àth bheag is a town of twenty thousand at a ford of the Abhainn dhubh on the east coast, the seat of its province.",
+   "new": "Àth bheag is a town of a thousand at a ford of the Abhainn dhubh on the east coast, the seat of its province.",
    "why": "type River: no river named"
   }
  ],

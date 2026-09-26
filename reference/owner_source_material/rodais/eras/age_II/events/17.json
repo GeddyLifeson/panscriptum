@@ -1,0 +1,211 @@
+[
+ {
+  "title": "The first seal-oil lamp at Caol leathan",
+  "era_year": 1562,
+  "summary": "A household of Caol leathan sets a hollowed stone with seal oil and a wick of moss on its hearth-ledge and lights it, the first light on the coast that is not a hearth; within three winters every house on that stretch keeps one burning through the dark months.",
+  "category": "discovery",
+  "people": [],
+  "places": [
+   "burg:1"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0123"
+  ]
+ },
+ {
+  "title": "The fish-fence staked at Caol fhiadhaich",
+  "era_year": 1598,
+  "summary": "Households of the river-mouth at Caol fhiadhaich stake a fence of woven wattle out into the ebb to herd salmon on the falling tide; the fence washes out twice before the third setting holds, and the line of stake-holes it leaves is fished again every year after.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:191"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0124"
+  ]
+ },
+ {
+  "title": "The standing frame raised at Muileann leathan",
+  "era_year": 1628,
+  "summary": "A household at Muileann leathan raises the first upright loom on the northern stream, the warp held taut by loops of fired clay at its foot rather than by hand, so that a worker stands free to pass the weft with both hands and beat it home faster than any lap-worked cloth had gone.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:234"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0125"
+  ]
+ },
+ {
+  "title": "The first tide-count begun",
+  "era_year": 1671,
+  "summary": "An unnamed hand on an unnamed shore begins cutting a mark on a fixed rock at each high tide's furthest reach, a row of cuts kept at intervals no ordinary fisherman's need would ask for; the habit spreads to more than one shore within a generation, and none who keep it can say what it counts toward.",
+  "category": "discovery",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "I-0126"
+  ]
+ },
+ {
+  "title": "Beitris born at Muileann leathan",
+  "era_year": 1670,
+  "summary": "Beitris is born into the third household to raise a standing frame at Muileann leathan, growing up under her mother's loom and taking her own frame in her twentieth year, known on the stream for cloth that lies flatter and holds its dye better than any other hand's.",
+  "category": "daily-life",
+  "people": [
+   "Beitris"
+  ],
+  "places": [
+   "burg:234"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0125"
+  ]
+ },
+ {
+  "title": "The king stops at Beitris's stall",
+  "era_year": 1689,
+  "summary": "At Cruinneachadh an Àtha the king stops before a bolt of Beitris's blue-black cloth, tests the flatness of the weave with two fingers as he tests a flint edge with his thumb, and asks how the cloth is made to lie so; it is the only exchange between them any teller claims to have had whole from a witness.",
+  "category": "custom",
+  "people": [
+   "Beitris"
+  ],
+  "places": [],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "I-0125"
+  ]
+ },
+ {
+  "title": "The king weds Beitris",
+  "era_year": 1690,
+  "summary": "Beitris goes south from Muileann leathan to Dùn ìseal as the king's wife, raising a frame of her own in a shed built to her asking, and teaches the standing weights to the hill's women in twos and threes until the craft has spread from her own shed to a dozen others.",
+  "category": "marriage",
+  "people": [
+   "Beitris"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "I-0125"
+  ]
+ },
+ {
+  "title": "An Geamhradh Liath",
+  "era_year": 1700,
+  "summary": "The king's hair goes grey between one moon and the next in a single winter and no further, dark to grey all at one stroke; he says nothing of the cause, and the hill, having talked of little else through the dark months, lets the matter rest by the following Bealltainn.",
+  "category": "wonder",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "I-0123"
+  ]
+ },
+ {
+  "title": "Murchadh Mòr born",
+  "era_year": 1705,
+  "summary": "Beitris bears the king a black-haired son, Murchadh, the only child either parent will raise together to see him grown; the women who nurse him remark only that he runs hot for an infant and sleeps sound through cold that keeps other babies crying.",
+  "category": "birth",
+  "people": [
+   "Beitris",
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The second tide-rock cut at Ros dhomhain",
+  "era_year": 1708,
+  "summary": "A young keeper at Ros dhomhain, hearing of the first tide-rock by report alone, begins a rock of his own in his harbour mouth, cutting the marks at the spacing he judges by memory of the telling, though he has never seen the first rock with his own eyes.",
+  "category": "discovery",
+  "people": [],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "I-0127"
+  ]
+ },
+ {
+  "title": "The king and Beitris at the rock of Ros dhomhain",
+  "era_year": 1708,
+  "summary": "The king stands before the new-cut tide-rock at Ros dhomhain the better part of an afternoon and tells Beitris that a thing can be worth doing before anyone has worked out why; she carries the answer, the longest she ever had from him on any matter not a household's grazing or a stranger's quarrel, the rest of her life.",
+  "category": "custom",
+  "people": [
+   "Beitris"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "I-0127"
+  ]
+ },
+ {
+  "title": "Beitris asks if she will be forgotten",
+  "era_year": 1740,
+  "summary": "In her seventieth year, with Murchadh grown and spoken of on the hill for the north he means to hold, Beitris asks the king whether he will forget her; he answers not with a plain word but by naming, quietly and in order, every wife he had before her, more names than she can hold the count of.",
+  "category": "custom",
+  "people": [
+   "Beitris",
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Beitris dies",
+  "era_year": 1744,
+  "summary": "Beitris dies in a mild autumn in her seventy-fourth year, Murchadh at her graveside a black-haired man of thirty-nine who looks no older than fifteen; the king buries her with his own hands and sits by the turned earth a night and a day, saying once that a warp holds what it is strung with.",
+  "category": "death",
+  "people": [
+   "Beitris",
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "I-0125"
+  ]
+ }
+]

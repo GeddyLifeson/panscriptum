@@ -1,0 +1,310 @@
+[
+ {
+  "title": "Cormac born to the keeper's hearth",
+  "era_year": 3640,
+  "summary": "Cormac is born the eleventh child and fourth son of the household that keeps the bag of dark coals and the recital at Tobar dhìreach, one child among many and not looked to for the line.",
+  "category": "people",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The keeping falls to Cormac",
+  "era_year": 3655,
+  "summary": "Cormac's two elder brothers die within one season, one of a fever and one of a fall on the scree above the black well, and the bag of four dark coals and the recital pass to Cormac on his father's death soon after.",
+  "category": "death",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Cormac marries Beathag",
+  "era_year": 3660,
+  "summary": "Cormac takes Beathag of a herding household two valleys west, who keeps his hearth and, in later years, his fire-pot and his temper both.",
+  "category": "people",
+  "people": [
+   "Cormac",
+   "Beathag"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": []
+ },
+ {
+  "title": "The red-brown coal buried a second time",
+  "era_year": 3662,
+  "summary": "Cormac digs a second, deeper hole beside Leac na Fèithe and lays the red-brown coal in it, thinking the earth wants more time than it gave Brian; it lies as cold as before.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0038a",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Gual airgid carried to three rivers",
+  "era_year": 3665,
+  "summary": "In one summer Cormac carries gual airgid to three different rivers of the high valleys in turn, in case the Abhainn ghorm alone had been asked; each returns it dark.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Cormac resolves on the grove",
+  "era_year": 3670,
+  "summary": "Turning the failed trials over through a wet spring, Cormac comes to think that the grove where Coimhdeach na Fine once stood may hold in its ground some leaving that would answer a coal, and tells Beathag he means to carry the four dark coals north to it.",
+  "category": "coal",
+  "people": [
+   "Cormac",
+   "Beathag"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0052a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Cormac sets out for Doire ghlas",
+  "era_year": 3670,
+  "summary": "Cormac walks north from Tobar dhìreach with the four dark coals in a leather bag, oatcake and dried mutton over his other shoulder, and no company, reaching the oaks of Doire ghlas on the evening of the third day.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276",
+   "burg:209"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0011a",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "A month under the oaks",
+  "era_year": 3670,
+  "summary": "Cormac keeps a small fire in the lee of a fallen trunk at Doire ghlas for the better part of a month, laying each dark coal in turn at the foot of every old oak he finds, burying them again, and once speaking to the grove outright; nothing answers him.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "The blood of the misstrike",
+  "era_year": 3670,
+  "summary": "In a temper at the month's end Cormac sets the red-brown coal on a stone to break it open; the hammer turns on the hard surface and lays open the back of his other hand, and where his blood falls on the coal it catches, burning quietly the colour of firelight through oak while he kneels the better part of a day and forgets to bind the wound.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0052a",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Cormac breaks camp",
+  "era_year": 3670,
+  "summary": "With his hand bound and the coal of life gone quiet again, Cormac leaves Doire ghlas the same afternoon, judging that the grove itself had answered nothing and the finding had come out of his own blood and not the wood.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Cormac's return",
+  "era_year": 3671,
+  "summary": "Four days on the road with his wound slowing him, Cormac comes down into the high valleys at evening; Beathag, who has watched the northern track for a week, meets him running in the yard, and hears the whole of it before he will go in to the fire.",
+  "category": "people",
+  "people": [
+   "Cormac",
+   "Beathag"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0052a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The byname of the Misstrike",
+  "era_year": 3671,
+  "summary": "The valley, which had long since stopped laughing at anything Clann a' Chlachair brought home from the grove, takes to calling Cormac by his scarred hand, Cormac of the Misstrike, and he wears the name and the scar both without complaint.",
+  "category": "culture",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ]
+ },
+ {
+  "title": "The fourth coal named at the recital",
+  "era_year": 3672,
+  "summary": "At the next telling of the Line on Oidhche an Dealanaich, Cormac holds up his scarred hand before the gathered valley and speaks the new line into the recital: the sea, the sky and the earth had answered, and now a fourth had answered out of a man's own blood, called gual donn-ruadh and, oftener, the coal of life.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0052a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A cousin tries the silver again",
+  "era_year": 3690,
+  "summary": "Cormac gives gual airgid over to a younger cousin to carry to the rivers in his stead, and lives to see that trial fail as his own had, and to laugh about it with Beathag.",
+  "category": "coal",
+  "people": [
+   "Cormac",
+   "Beathag"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Cormac dies at his own hearth",
+  "era_year": 3712,
+  "summary": "Cormac dies in his two-and-seventieth year at Tobar dhìreach, Poit an Teine burning near him as it burned near every keeper before him, his last clear word a complaint of the old scar aching in the damp.",
+  "category": "death",
+  "people": [
+   "Cormac",
+   "Beathag"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0052a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The bag passes on unnamed",
+  "era_year": 3712,
+  "summary": "The leather bag with gual airgid, the coal that has never yet been tried by fire, and gual bogha-froise passes from Cormac's grave to a younger kinsman of the line, whose name the recital keeps but does not give to strangers.",
+  "category": "coal",
+  "people": [
+   "Cormac"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ]
+ },
+ {
+  "title": "Beathag's last years",
+  "era_year": 3718,
+  "summary": "Beathag outlives Cormac by six years at Tobar dhìreach, and it is from her telling, repeated at the hearth, that the valley's children learn the story of the coal that would not break and the blood that lit it anyway.",
+  "category": "culture",
+  "people": [
+   "Beathag"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ]
+ }
+]

@@ -1,0 +1,290 @@
+[
+ {
+  "title": "The bridge at Cathair dhearg is widened a third time",
+  "era_year": 2575,
+  "summary": "The masons' fellowship widens the old bridge at Cathair dhearg a third time on Mòrag nan Rathad's own piers, broad enough now for two carts to pass abreast. The old keystone, carrying the fourth hearth's sign, is set into the new parapet rather than broken for rubble.",
+  "category": "building",
+  "people": [],
+  "places": [
+   "marker:3"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0190"
+  ]
+ },
+ {
+  "title": "The road-guards first ride the lowland roads",
+  "era_year": 2583,
+  "summary": "The road-guards of Dùn dhearg take to the small tough horses of the southern grass country rather than walking their circuits, and can reach a waypoint house before a night's quarrel has cooled into a grievance. Theirs are the first riders' names the road-guard's own roll keeps.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0190a"
+  ]
+ },
+ {
+  "title": "The flood takes the eastern approach at Ros fhionn",
+  "era_year": 2567,
+  "summary": "A wet spring swells the river at Ros fhionn past every bank built to hold it, carrying off the eastern approach of Ailean Clachair's span and three households built too near the water. The span itself, and Ailean's own hearth-sign in its keystone, stand untouched.",
+  "category": "disaster",
+  "people": [],
+  "places": [
+   "marker:4"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0191"
+  ]
+ },
+ {
+  "title": "The fellowship mends Ros fhionn on deeper footings",
+  "era_year": 2568,
+  "summary": "Masons called down from Cathair dhearg lay a new causeway on stone footings deep enough to outlast the flood that took the old one, and leave Ailean Clachair's hearth-sign untouched, cutting their own new work a course below it rather than over it.",
+  "category": "building",
+  "people": [],
+  "places": [
+   "marker:4"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0191"
+  ]
+ },
+ {
+  "title": "The bridge at Dùn chrom is built at half toll",
+  "era_year": 2578,
+  "summary": "The fellowship bridges the river below Dùn chrom, joining the southern road to the western without the long way round by Cathair dhearg, and sets its own toll at half the capital's. Cathair dhearg's reeves complain in letters the rolls still keep; none takes up the fellowship's offer to hand the crossing to the crown.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:255"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0192"
+  ]
+ },
+ {
+  "title": "The fisher-kin of Sliochd Raghnaill bridge Ceann àrsaidh",
+  "era_year": 2591,
+  "summary": "Forty of the fisher-kin of Sliochd Raghnaill, taught the mason's craft in an idle season after the burning at Seann Tarr, build the fourth stone bridge of the lowlands at the river town of Ceann àrsaidh. The fellowship's roll names all forty, a courtesy not always given to borrowed hands.",
+  "category": "building",
+  "people": [],
+  "places": [
+   "burg:88"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0193"
+  ]
+ },
+ {
+  "title": "Beathag Clachair is born at Doire mhin",
+  "era_year": 2610,
+  "summary": "Beathag Clachair is born to a family of cutters at Doire mhin on the southern road, three generations deep in boundary-stones and byre-lintels, and is quicker than her father's other apprentices at reading a stone's grain before she has seen twenty summers.",
+  "category": "people",
+  "people": [
+   "Beathag Clachair"
+  ],
+  "places": [
+   "burg:316"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0194"
+  ]
+ },
+ {
+  "title": "Beathag Clachair cuts the first mason's mark",
+  "era_year": 2643,
+  "summary": "Leading her own crossing for the first time, Beathag Clachair cuts her own name beneath the fourth hearth's sign at the small bridge over the stream at Doire mhin: Beathag the mason set this. No mason before her had ever cut a name of his own beside the hearth's, and within two seasons every hearth on the island follows her.",
+  "category": "culture",
+  "people": [
+   "Beathag Clachair"
+  ],
+  "places": [
+   "burg:316"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0194"
+  ]
+ },
+ {
+  "title": "An Sligeanach Fad' às is rebuilt in stone",
+  "era_year": 2650,
+  "summary": "The waypoint house the carriers call An Sligeanach Fad' às, so distant from any town that a traveller is never nearer to it than halfway, is rebuilt in stone after its old timber and turf give out to a western storm, keeping the name a hundred years of true telling had earned it.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "marker:11"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0195"
+  ]
+ },
+ {
+  "title": "Beathag Clachair dies at Doire mhin",
+  "era_year": 2680,
+  "summary": "Beathag Clachair dies at seventy at Doire mhin, having cut her mark on four further crossings, and is buried at her own asking at the foot of the bridge that carries her name. Masons of the fellowship keep, for a long while after, the habit of laying a chip of grey stone on her grave in passing.",
+  "category": "people",
+  "people": [
+   "Beathag Clachair"
+  ],
+  "places": [
+   "burg:316"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   "II-0194"
+  ]
+ },
+ {
+  "title": "A waypoint keeper of the northern road begins serving fire-water",
+  "era_year": 2660,
+  "summary": "A new keeper of the waypoint house the carriers call a waypoint house on the northern road, on the northern road, begins serving a spirit distilled from barley stronger than any small beer sold on that road before. The carriers name it fire-water for the way of it going down and the way of it sitting after.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "marker:7"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0196"
+  ]
+ },
+ {
+  "title": "Coimheadaiche na Lasrach rules fire-water no burning of Lagh an Loscaidh Bhig",
+  "era_year": 2673,
+  "summary": "Asked by troubled reeves of the northern road to rule on fire-water under Lagh an Loscaidh Bhig, Coimheadaiche na Lasrach of that generation answers that a fire kept in a man's own belly is no burning Lagh an Loscaidh Bhig was written to answer for, and that Talla na Lasrach will rule on drink the day it rules on food. The waypoint house's trade doubles within the season.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "marker:7"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0196"
+  ]
+ },
+ {
+  "title": "Caol mhòr gathers under its own headman",
+  "era_year": 2600,
+  "summary": "The fisher-families of Caol mhòr on the north-western coast gather under a headman of their own choosing and send tolls to Cathair dhearg only in the years a road-guard comes so far to collect them. A reeve of Ros dhomhain writes that the coast might as well keep its own law for all the crown's writ reaches it.",
+  "category": "people",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0197"
+  ]
+ },
+ {
+  "title": "Ceann mhòr begins the seal-oil trade",
+  "era_year": 2615,
+  "summary": "Ceann mhòr on the north-western coast begins rendering seal-oil from the northern rocks and carrying it down to Ros bheag for silver rings. From then on the seal-oil lamps of the western harbours burn the brightest light on Dia-thìr.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0198"
+  ]
+ },
+ {
+  "title": "Herders take the high pastures above Muileann leathan",
+  "era_year": 2630,
+  "summary": "Herding families take the summer pastures above Muileann leathan for the wool the weavers of Inis mhòr prize above any other, holding no right to the handful and never counted in any census, their pastures too high and too far for a road-guard to trouble reckoning them.",
+  "category": "people",
+  "people": [],
+  "places": [
+   "burg:234"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0199"
+  ]
+ },
+ {
+  "title": "Inis mhin's headman walks to the wool-fair with a complaint",
+  "era_year": 2635,
+  "summary": "The headman of the small northern harbour of Inis mhin walks the whole distance to the wool-fair at Inis mhòr to lay a complaint against the road-guard's toll, the only time the harbour comes into the rolls this age, and the complaint kept in fuller telling than the harbour otherwise earns.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:9"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0200"
+  ]
+ },
+ {
+  "title": "Ros bheag's merchants arm two boats against raiders",
+  "era_year": 2695,
+  "summary": "The sting-sworn merchants of Ros bheag pay from their own purses to arm and crew two boats against raiders taking dried fish from the western strands. The raiders move north before either boat catches one at sea, and the coast keeps a wariness it had not kept before.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "marker:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0201"
+  ]
+ },
+ {
+  "title": "The second sighting off Baile chrom",
+  "era_year": 2720,
+  "summary": "Two boats of Baile chrom tell of something vast moving beneath their keels in the north-western water, the second such telling the coast remembers since Ruairidh Liath's reign. One boat does not come home, and Baile chrom keeps its old wake for both losses together.",
+  "category": "omen",
+  "people": [],
+  "places": [
+   "marker:21"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0202"
+  ]
+ },
+ {
+  "title": "Families take sheep to summer on Eilean ruadh",
+  "era_year": 2740,
+  "summary": "Coastal families begin carrying sheep over to Eilean ruadh each summer for its grazing, building turf shelters against the weather and bringing the flocks home before the autumn storms. Later herders keep patching the same shelters rather than building anew.",
+  "category": "people",
+  "people": [],
+  "places": [
+   "feature:11"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0204"
+  ]
+ }
+]

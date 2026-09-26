@@ -1,0 +1,220 @@
+[
+ {
+  "title": "The open-water hunt gives way to the strait",
+  "era_year": 3150,
+  "summary": "Crew by crew, the boats of the north-west leave the open coast off the last headland for the sheltered water in its lee, keeping the whole of their ground in sight at once. The seal grounds at Ros ruadh and the outer skerries thin as the strait grounds fill.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0043",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The middens of Bothan a' Chaolais outgrow the old grounds",
+  "era_year": 3160,
+  "summary": "Shell and bone rise faster at Bothan a' Chaolais than they have ever risen, until the bothy folk say a winter's leavings there would wall a house. An old steersman of the strait says plainly what the coast has already done without saying it.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0043",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Eimhir born to a herding household of Doire uaine",
+  "era_year": 3180,
+  "summary": "Eimhir is born into a herding family of the high pastures south of Tobar dhìreach, in country the hill folk still call the green grove for the oaks it once bore. She grows to the flock and the ground before she grows to much else.",
+  "category": "land",
+  "people": [
+   "Eimhir"
+  ],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Eimhir finds the cut stone",
+  "era_year": 3210,
+  "summary": "Following a strayed ewe up an unfamiliar defile before dawn, Eimhir comes on a rock face cut with lines of writing no hand of that country claims, running the height of the stone and further, in a hand unlike any boundary-mark or tally she knows.",
+  "category": "faith",
+  "people": [
+   "Eimhir"
+  ],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0044",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Elders of the hills judge the writing older than living memory",
+  "era_year": 3210,
+  "summary": "A small company of the hill country's elders climbs to see the cut stone for itself. One tests it with a flat palm and says nothing; another, walking its length twice, says she knows no hand that claims the writing, and holds that the country will come to know it in its own time.",
+  "category": "faith",
+  "people": [
+   "Eimhir"
+  ],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0044",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The hills come to a common telling of the writing",
+  "era_year": 3212,
+  "summary": "Within two winters, gathered out of dreams two or three swear separately to the same shape and out of half-kept scraps no one can trace to a source, every hearth of that country can tell what the cutting is held to say: a thing that does not breathe, and falls on any fire it sees lit.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The second cutting is argued over at the hearths",
+  "era_year": 3213,
+  "summary": "That parts of the writing were struck across afterward, by what seems the very tool that first cut them, divides the hill country's telling: some hold the writer came back to unwrite a part too dangerous to keep whole; others hold the thing named in the writing did the defacing itself.",
+  "category": "faith",
+  "people": [
+   "Eimhir"
+  ],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Children go less often alone to the far pastures",
+  "era_year": 3215,
+  "summary": "Without any rule said aloud, fewer households of the Doire uaine hills send a child alone to the farthest grazing after the finding of the writing, and fewer let a night fire burn low and unwatched when the wind comes strange off the high ground.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Two herders see the walker on the ridge and live",
+  "era_year": 3230,
+  "summary": "Caught by dusk driving beasts home, two herders of the hills see an upright figure walk the crest against the last light, breathing no cloud into the cold air. Neither has a fire lit or a light shown on the path, and both come home to tell it.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The first hearth is dug and roofed at Doire uaine",
+  "era_year": 3260,
+  "summary": "A household newly come to the eastern side of the hills digs its cooking fire into a pit and roofs it with a slab, showing no flame above ground. Mocked at first, the family's fire burns unremarked through a hard winter, and two more households follow within the year.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0046",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Eimhir keeps her hearth open against the new custom",
+  "era_year": 3261,
+  "summary": "With half the hearths of the hill country dug in or talking of it, Eimhir, old now, tells her daughter she will not hide the fire her family has always kept open to the sky, having touched the writing on the stone herself before any household thought to cover its light.",
+  "category": "faith",
+  "people": [
+   "Eimhir"
+  ],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0046",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Eimhir dies",
+  "era_year": 3262,
+  "summary": "Eimhir dies of no illness the hill country can name, worn out by a long life, and is buried above her family's grazing with a stone set on end and no other marker. Her daughter banks her hearth for the last time and does not build it open again.",
+  "category": "land",
+  "people": [
+   "Eimhir"
+  ],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The covered hearth spreads short of a rule",
+  "era_year": 3300,
+  "summary": "Within forty years an open fire on the bare floor grows rare enough in the Doire uaine hills that a child raised to one is asked after it at every gathering, though households on the country's quieter edges still keep the old way, and no rule yet binds the rest.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:148"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0046",
+    "type": "cause"
+   }
+  ]
+ }
+]

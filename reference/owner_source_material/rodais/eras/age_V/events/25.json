@@ -1,0 +1,227 @@
+[
+ {
+  "title": "Word of Tolley's retiral reaches Cill ghlas",
+  "era_year": {
+   "after": "IV-0202"
+  },
+  "summary": "A carter brings Peigi Ghlas, custodian of Cill ghlas, the worn word that George Tolley is going home with honours and that Robert Haskins, who follows him, means to ask the custodians' council its mind before he sets anything down. Peigi trims the shrine lamp and tells the flame, not the carter, what three such promises have been worth before.",
+  "category": "rulers",
+  "people": [
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0202"
+  ]
+ },
+ {
+  "title": "Aonghas Ruadh calls the custodians of the east",
+  "era_year": {
+   "after": "IV-0203"
+  },
+  "summary": "Once the tithe goes up on A' Chompanaidh's boards before any custodian's answer has reached Ros dhomhain, Aonghas Ruadh of Ceann àrsaidh sends riders to the settlements of the east and the hills, naming a day in am Faoilleach to draw up one grievance in one hand rather than let it be filed apart, settlement by settlement, as every single letter before it had been.",
+  "category": "law",
+  "people": [
+   "Aonghas Ruadh"
+  ],
+  "places": [
+   "burg:88"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0202",
+   "IV-0204"
+  ]
+ },
+ {
+  "id": "EV-4504",
+  "title": "The custodians ride to Ceann àrsaidh",
+  "era_year": {
+   "after": "IV-0203"
+  },
+  "summary": "Custodians of nineteen settlements come in to Ceann àrsaidh through am Faoilleach, on foot and by cart, and camp along the inside of the town wall while they wait for the last of their number. Peigi Ghlas of Cill ghlas walks it in two days, carrying her cloak and her village's slate of An Togail's and the famine's dead rolled with it.",
+  "category": "law",
+  "people": [
+   "Peigi Ghlas",
+   "Aonghas Ruadh"
+  ],
+  "places": [
+   "burg:88",
+   "burg:123"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0204",
+   "IV-0205"
+  ]
+ },
+ {
+  "title": "Coinneach Òg tells of the store's ledgers at Seann Dunn",
+  "era_year": {
+   "after": "IV-0203"
+  },
+  "summary": "At a fire inside the wall of Ceann àrsaidh, Coinneach Òg of the eastern coast tells the gathered custodians how A' Chompanaidh's store at Seann Dunn, opened as help against a bad year, now holds the debts of near half his district, entered against named households, and grows no smaller in any year, only more slowly.",
+  "category": "trade",
+  "people": [
+   "Coinneach Òg",
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:347",
+   "burg:88"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0203"
+  ]
+ },
+ {
+  "title": "The drafting argued over three days",
+  "era_year": {
+   "after": "IV-0204"
+  },
+  "summary": "In the hall behind the market square at Ceann àrsaidh the nineteen custodians argue three days over how to set their grievance down. An old custodian of the hills wants every death named; Aonghas Ruadh argues for one plain page that might be read where a long roll would only be filed. The shorter paper carries, and the old man signs it all the same.",
+  "category": "law",
+  "people": [
+   "Aonghas Ruadh",
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:88"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0204",
+   "IV-0205"
+  ]
+ },
+ {
+  "title": "Ruairidh mac Thormoid writes 'born before the coin'",
+  "era_year": {
+   "after": "IV-0206"
+  },
+  "summary": "Ruairidh mac Thormoid of Àth fhionn, who walked to Ceann àrsaidh on his own feet and remembers, by his own count, a world before the mark was struck, signs the petition last and slowest, and adds beside his name the only line any of the nineteen thought to add: born before the coin.",
+  "category": "rulers",
+  "people": [
+   "Ruairidh mac Thormoid"
+  ],
+  "places": [
+   "burg:88",
+   "burg:46"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0206"
+  ]
+ },
+ {
+  "id": "EV-4505",
+  "title": "Peigi Ghlas at Taigh an Àrd-mhaoir",
+  "era_year": {
+   "after": "IV-0205"
+  },
+  "summary": "Peigi Ghlas carries the fair copy of the nineteen settlements' petition to Taigh an Àrd-mhaoir at Ros dhomhain, is turned back twice at the gate, and on the third day is shown into a stone passage smelling of lamp-soot to wait on a worn bench before a young clerk takes the paper, thanks her, and lays it on an unremarkable pile.",
+  "category": "law",
+  "people": [
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0205"
+  ]
+ },
+ {
+  "title": "Two days on the bench in the lamp-soot passage",
+  "era_year": {
+   "after": "IV-0205"
+  },
+  "summary": "Before the clerk receives her, Peigi Ghlas is turned back at Taigh an Àrd-mhaoir's gate once and kept waiting a second day in a yard and a windowless passage, on a stone bench worn pale in the middle by everyone who has sat there before her, with the boy of Ceann àrsaidh who carries the second copy standing at her shoulder.",
+  "category": "law",
+  "people": [
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0205"
+  ]
+ },
+ {
+  "title": "Aonghas Ruadh's letters go unanswered",
+  "era_year": {
+   "after": "IV-0205"
+  },
+  "summary": "Through the year after the petition is filed, Aonghas Ruadh writes twice more to Taigh an Àrd-mhaoir asking only whether the paper of am Faoilleach was received and read. The first letter gets no reply at all; the second, in the autumn, is answered in a strange clerk's hand that the matter remains under consideration.",
+  "category": "law",
+  "people": [
+   "Aonghas Ruadh"
+  ],
+  "places": [
+   "burg:88",
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0205"
+  ]
+ },
+ {
+  "title": "Three more names cut into the slate at Cill ghlas",
+  "era_year": {
+   "after": "IV-0205"
+  },
+  "summary": "In the year the petition waits unanswered, Peigi Ghlas adds three more names to the slate she keeps by the shrine door: two of a fall of stone at Baile thais, and an old hewer of Cill ghlas who does not come up from the gallery one evening in an t-Sultain, of nothing but the going down itself, done too many years too many times.",
+  "category": "coal",
+  "people": [
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:123",
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0205"
+  ]
+ },
+ {
+  "title": "Peigi Ghlas trims Brìde's lamp at the year's end",
+  "era_year": {
+   "after": "IV-0205"
+  },
+  "summary": "On a frost-still evening near the close of an Dùbhlachd, with no answer yet come from Ros dhomhain, Peigi Ghlas climbs to the shrine at Cill ghlas and trims the flame called Brìde's square and clean, as she does every evening of her life, the one thing no clerk's pile can take out of her hands.",
+  "category": "faith",
+  "people": [
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0205"
+  ]
+ }
+]

@@ -1,0 +1,339 @@
+[
+ {
+  "title": "The regiments break the ditch-bridge at Muileann àrsaidh",
+  "era_year": 21,
+  "after": "VI-0090",
+  "summary": "In the grey hour before dawn on 21 an Cèitean the regiments' advance breaks the ditch-bridge on the southern road and closes the gap old Fraser left unwalled the autumn before, shutting Muileann àrsaidh's ring rather than forcing it.",
+  "category": "war",
+  "people": [
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "The southern road is cut",
+  "era_year": 21,
+  "after": "VI-0090",
+  "summary": "By noon of the first day a second company digs in across the southern road below Muileann àrsaidh, closing the town's last cart road and leaving only hill paths a person on foot might use.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "Meikle's counting of the siege stores",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "Muileann àrsaidh's clerk Meikle sets a weekly rationing of coal and potatoes for the town under siege, and the stores are found, by his own careful counting, to hold weeks rather than days.",
+  "category": "life",
+  "people": [],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "The bell rung for a pit-head",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "On Meikle's proposal the chapel bell of Muileann àrsaidh is rung once for every pit-head the regiments take, so the town learns what is lost each day at a single stroke rather than piecemeal.",
+  "category": "life",
+  "people": [
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-church-on-the-island"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "The northern pit-head falls",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "The northern pit-head, nearest the wall's unfinished stretch, is taken on the sixth day of the siege after an afternoon's fighting that costs the town two of its own men.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "Sarah Dunmore's kitchen serves as the town's dressing-station",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "Sarah Dunmore's kitchen, already used for the wounded of Àth leathan that spring, tends the siege's own wounded through the weeks that follow, from stray shot to the ordinary hurts of a town crowded behind a wall.",
+  "category": "life",
+  "people": [
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "Weir keeps the Sunday service through the siege",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "The priest Weir keeps Muileann àrsaidh's one weekly service without missing a Sunday through the whole siege, preaching shorter each week and reading the same psalm three Sundays running.",
+  "category": "life",
+  "people": [],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-church-on-the-island"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "The graves behind the chapel",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "The dead of the siege are buried behind Muileann àrsaidh's chapel through the weeks of the siege, in the same ground the western hills have used since before An Dealachadh.",
+  "category": "life",
+  "people": [
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-church-on-the-island"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "A picket's boast names the third and fifth regiments",
+  "era_year": 21,
+  "after": "VI-0092",
+  "summary": "A picket shouts across the gap at the taken northern pit-head that a regiment has come north from Cathair mhòr under the Mac Ùisdein cross and another from Seann Warr, and the boast reaches the town before any surer word does.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0092",
+   "VI-0093"
+  ]
+ },
+ {
+  "title": "old Fraser counts the smoke on the southern ridge",
+  "era_year": 21,
+  "after": "VI-0092",
+  "summary": "old Fraser distrusts a picket's shouted boast but counts three mornings running of new fires on the southern ridge, and brings the count, not the boast, before the town's pit-shed.",
+  "category": "life",
+  "people": [],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0092",
+   "VI-0093"
+  ]
+ },
+ {
+  "title": "Word of the rationed capital reaches the besieged town",
+  "era_year": 21,
+  "after": "VI-0094",
+  "summary": "A man briefly taken and released at the wall brings word into Muileann àrsaidh that the capital's poorer streets go dark again, the army's dubhan being served before the lamp-houses.",
+  "category": "life",
+  "people": [
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0094"
+  ]
+ },
+ {
+  "title": "The last pit-head's line gives way",
+  "era_year": 21,
+  "after": "VI-0093",
+  "summary": "In the grey hour before dawn, seven weeks after the siege began, the thinned line at the last pit-head gives way without a fight anyone in the town could afterward set down in order.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "Tom Varley leaves for Cnoc thais",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "As Muileann àrsaidh falls Tom Varley slips out by the hill path toward Cnoc thais, meaning to see his own shaft there fired by his own hand before any regiment comes near it.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091",
+   "VI-0098"
+  ]
+ },
+ {
+  "title": "Sarah Dunmore opens her own door",
+  "era_year": 21,
+  "after": "VI-0091",
+  "summary": "With no line left anywhere in the town to hold, Sarah Dunmore opens her own door to the soldiers before they can open it for her, and is searched and let be.",
+  "category": "life",
+  "people": [
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ]
+ },
+ {
+  "title": "Meikle's rationing",
+  "era_year": 21,
+  "summary": "Through Sèist Muileann àrsaidh Meikle keeps the town's counting: a set weight of meal to a household by the week and a set weight of coal to a hearth by the day.",
+  "category": "war",
+  "people": [
+   "Meikle"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The children's game of the six pit-heads",
+  "era_year": 21,
+  "summary": "Children of besieged Muileann àrsaidh play a game chanting the names of the six pit-heads, slapping a hand down at each as it is lost.",
+  "category": "humans",
+  "people": [
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The eastern pit-head given up",
+  "era_year": 21,
+  "summary": "On Tom Varley's counsel the besieged give up the eastern pit-head of Muileann àrsaidh without a fight, the ground about it too wide to hold without stripping the wall.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0091"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "An còigeamh rèisimeid musters on the harbour wall",
+  "era_year": 21,
+  "summary": "An còigeamh rèisimeid musters on the harbour wall at Seann Warr, there being no ground inside the walls wide enough for its companies to stand in line.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0093"
+  ],
+  "chronicle_extra": true
+ }
+]

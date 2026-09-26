@@ -1,0 +1,377 @@
+[
+ {
+  "title": "The five towns form pit companies at Àth leathan",
+  "era_year": 21,
+  "after": "VI-0079",
+  "summary": "Through am Faoilleach and an Gearran Ruth Calder and Tom Varley turn the gathering at Àth leathan into five companies, one to a town, each under its own captain and answerable to Tom Varley for the whole body.",
+  "category": "war",
+  "people": [
+   "Ruth Calder",
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0079"
+  ]
+ },
+ {
+  "title": "Blasting powder laid at the spoil-heaps",
+  "era_year": 21,
+  "after": "VI-0079",
+  "summary": "Tom Varley lays four kegs of the pits' own blasting powder in the narrow ground below the spoil-heaps, on the road down from Seann Skell, to be fired at his word alone.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ]
+ },
+ {
+  "title": "The burn comes up in spate before the battle",
+  "era_year": 21,
+  "after": "VI-0080",
+  "summary": "A fast thaw in the first week of an Giblean brings the burn below Àth leathan up in spate, closing the ford and leaving only the dry road from Seann Skell for the regiments' approach.",
+  "category": "land",
+  "people": [
+   "Ruth Calder",
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ]
+ },
+ {
+  "title": "Ruth Calder's word to the five towns' companies",
+  "era_year": 21,
+  "after": "VI-0080",
+  "summary": "On the morning of the battle Ruth Calder tells Tom Varley to carry her word to the five towns' companies, that her list stands and will say who stood at Àth leathan and beside whom, whatever the day brings.",
+  "category": "war",
+  "people": [
+   "Ruth Calder",
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0081"
+  ]
+ },
+ {
+  "title": "Tobar dhearg's men keep the chapel before the battle",
+  "era_year": 21,
+  "after": "VI-0080",
+  "summary": "Before dawn on the day of the battle, Tobar dhearg's stooped captain asks that the chapel at Àth leathan stand open, so that any of his men who wish it may go in once before the fighting.",
+  "category": "faith",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-church-on-the-island"
+  ],
+  "master_links": [
+   "VI-0081"
+  ]
+ },
+ {
+  "title": "The charge fired below the spoil-heaps",
+  "era_year": 21,
+  "after": "VI-0080",
+  "summary": "Tom Varley fires the blasting powder laid at the spoil-heaps as the regiments' column reaches the narrow ground, checking its head for the better part of an hour before it re-forms and comes on.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "marker:18"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ]
+ },
+ {
+  "title": "The pit-heads of Àth leathan change hands",
+  "era_year": 21,
+  "after": "VI-0080",
+  "summary": "Through the day of the battle the pit-heads of Àth leathan pass more than once between the holdouts and the regiments before falling at last to the kingdom's side.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "marker:18"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ]
+ },
+ {
+  "title": "The five towns' companies fall back from the field",
+  "era_year": 21,
+  "after": "VI-0081",
+  "summary": "By early afternoon the five towns' companies give up the field below Àth leathan and fall back in scattered bodies along the hill paths toward Muileann àrsaidh and Cnoc thais.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0082"
+  ]
+ },
+ {
+  "title": "Inis àrsaidh victuals the kingdom's host",
+  "era_year": 21,
+  "after": "VI-0080",
+  "summary": "The river town of Inis àrsaidh, nearest Àraich Àth leathan by water, supplies bread and salt fish to the kingdom's host through the campaign and the battle.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:55"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ]
+ },
+ {
+  "title": "Somhairle mac Lachlainn's return of the battle",
+  "era_year": 21,
+  "after": "VI-0081",
+  "summary": "Within the week Somhairle mac Lachlainn writes a return from Seann Skell naming the companies that fought at Àth leathan and the kingdom's dead, and no more.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0082"
+  ]
+ },
+ {
+  "title": "Sìleas nic Rath searches the record for Ruth Calder's name",
+  "era_year": 21,
+  "after": "VI-0081",
+  "summary": "Sìleas nic Rath, new to the office of royal chronicler, searches An Clàr Foscailte more than once for Ruth Calder's name after Àth leathan and does not find it, and privately judges the question not hers to press further.",
+  "category": "law",
+  "people": [
+   "Sìleas nic Rath",
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0082"
+  ]
+ },
+ {
+  "title": "Doire naomh's grove takes in the field's unclaimed dead",
+  "era_year": 21,
+  "after": "VI-0081",
+  "summary": "The Dia-thìrich of Doire naomh's grove, closed to strangers, go out onto the field after the regiments pass on and carry many of the unclaimed dead of Àth leathan to their own ground.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:245"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "VI-0082"
+  ]
+ },
+ {
+  "title": "Àth chrom's drovers carry the dead of Àth leathan",
+  "era_year": 21,
+  "after": "VI-0081",
+  "summary": "Àth chrom's drovers take their coal and salt carts out along the road to carry the dead of Àth leathan, of both sides, without any record of whom they carried.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:412"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0082"
+  ]
+ },
+ {
+  "title": "Baile fhiadhaich takes in the wounded of Àth leathan",
+  "era_year": 21,
+  "after": "VI-0081",
+  "summary": "Baile fhiadhaich, too far off to send carriers to the field itself, takes in such wounded of Àth leathan as reach it along the west-coast harbour road.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:134"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0082"
+  ]
+ },
+ {
+  "title": "Nine hundred at Àth leathan",
+  "era_year": 21,
+  "summary": "By the eve of the battle the muster at Àth leathan counts near nine hundred souls with their carriers, in five companies: Muileann àrsaidh near two hundred, Cnoc thais a hundred and sixty, Àth leathan ninety, Àth naomh sixty and Tobar dhearg forty.",
+  "category": "war",
+  "people": [
+   "Ruth Calder",
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Sixty firearms and four kegs of powder",
+  "era_year": 21,
+  "summary": "The five towns have among them some sixty firearms, most of them fowling pieces older than any man carrying them, a dozen rifles, picks and short axes, and four kegs of blasting powder from the pits.",
+  "category": "war",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "A fever in the byres of Àth leathan",
+  "era_year": 21,
+  "summary": "A fever goes through the byres behind the chapel at Àth leathan in an Gearran and takes an old woman of Cnoc thais who had come down only to be near her grandsons.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Singing in the Tobar dhearg line",
+  "era_year": 21,
+  "summary": "In the waiting before the battle the old captain's men of Tobar dhearg sing low in An Eaglais's own words along their line.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "marker:18"
+  ],
+  "threads": [
+   "the-church-on-the-island",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0081"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Ruth Calder's account ends at the column's coming",
+  "era_year": 21,
+  "summary": "No page in Ruth Calder's hand, nor any word set down as hers by anyone who stood beside her, tells what she said or did after the regiments' column reached the ground below the spoil-heaps.",
+  "category": "war",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "marker:18"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0082"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Muileann ruadh takes in wounded officers",
+  "era_year": 21,
+  "summary": "The custodians of the bath-house at Fuarain Theth Muileann ruadh below Muileann ruadh take in two officers of the regiments wounded in the west, at the council's asking, and set them in the long room among the hewers' widows.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:229"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "VI-0082"
+  ],
+  "chronicle_extra": true
+ }
+]

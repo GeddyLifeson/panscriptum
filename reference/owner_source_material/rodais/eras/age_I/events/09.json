@@ -1,0 +1,234 @@
+[
+ {
+  "title": "Diarmad tells Aithris a' Chruthachaidh at his own hearth",
+  "era_year": 890,
+  "summary": "Home from Doire ghlas, Diarmad stands at the hearth of Tobar dhìreach and tells the household the bones of what Coimhdeach na Fine gave him: the making of the island from drops of fire, the gift buried and thrown away, and Tòimhseachan a' Choimhdich of the sky, the earth and the sea.",
+  "category": "faith",
+  "people": [
+   "Diarmad",
+   "Fionnghuala"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0011a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The hearth's laughter",
+  "era_year": 890,
+  "summary": "A kinsman of Tadhg's line by marriage laughs Aithris a' Chruthachaidh off as three days' talk with an empty grove, and the household laughs with him, gently, glad to have its world handed back the shape it always was.",
+  "category": "faith",
+  "people": [
+   "Diarmad"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Niamh will not believe it",
+  "era_year": 890,
+  "summary": "Told Aithris a' Chruthachaidh in full, alone, Diarmad's wife Niamh hears him out and says plainly that hunger and cold on an empty moor can put much into a man's head that has no business there, and that she does not believe a word of it.",
+  "category": "faith",
+  "people": [
+   "Diarmad",
+   "Niamh"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Diarmad begins gathering the fathers' names",
+  "era_year": 892,
+  "summary": "Diarmad takes up a second labour beside Aithris a' Chruthachaidh, walking hearth to hearth among the wider kin of the high valleys and the northern moor to ask each house how far back it can say its fathers' names, keeping no name a house cannot answer for.",
+  "category": "law",
+  "people": [
+   "Diarmad"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The first recital of the Line",
+  "era_year": 895,
+  "summary": "On Oidhche an Dealanaich Diarmad stands at his own hearth and says the fathers' names from Neachdan to himself without a stumble, and Niamh, unbelieving still, stands after him and says Aithris a' Chruthachaidh in full because a house should hear whole what its head carries.",
+  "category": "law",
+  "people": [
+   "Diarmad",
+   "Niamh"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The dark coals tried in driving rain",
+  "era_year": 903,
+  "summary": "At a standing of the Line the kin lay four dark coals bare on the hillside through a night of hard rain, on the thought that rain is the sky's own water as much as the sea's, and find them in the morning only wet, cold and themselves.",
+  "category": "coal",
+  "people": [
+   "Diarmad"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The coals held up into the gale",
+  "era_year": 904,
+  "summary": "The kin carry the leather bag onto the ridge above Tobar dhìreach on a night of hard wind and hold the coals up bare-handed into it, on the thought that the sky's spirit might answer to its own true weather; the wind passes them by unchanged.",
+  "category": "coal",
+  "people": [
+   "Diarmad"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "All seven burned together in one fire",
+  "era_year": 905,
+  "summary": "Reasoning that Tòimhseachan a' Choimhdich's merging might mean the coals themselves rather than their elements, the kin burn all seven together in the hearth-fire and watch them go down black and ordinary together, no brighter for the company.",
+  "category": "coal",
+  "people": [
+   "Diarmad"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Sea-water carried inland for the trial",
+  "era_year": 905,
+  "summary": "A skin of true sea-water is carried the long way from the south shore to Tobar dhìreach and poured over the dark coals in a stone basin, the nearest the inland line can come to the sea itself; it wets them and leaves them cold, as the rain had.",
+  "category": "coal",
+  "people": [
+   "Diarmad"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Fionnghuala dies keeping Poit an Teine",
+  "era_year": 902,
+  "summary": "Diarmad's mother Fionnghuala dies in her own bed with Poit an Teine within reach of her hand, as she had asked, and Diarmad takes up the keeping of the pot himself alongside the names and Tòimhseachan a' Choimhdich.",
+  "category": "coal",
+  "people": [
+   "Diarmad",
+   "Fionnghuala"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Aithris a' Chruthachaidh carried to the northern moor",
+  "era_year": 910,
+  "summary": "A fire-bearer who has heard Aithris a' Chruthachaidh three times at Tobar dhìreach carries it unasked to a hearth on the northern moor, and tells it there in his own words, some pieces lost and others changed in the carrying.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Niamh comes to believe",
+  "era_year": 900,
+  "summary": "In the tenth year after Diarmad's return, Niamh tells their daughter that she has come to believe Aithris a' Chruthachaidh without ever deciding to, the way a path comes to lie worn into a hillside with no single footstep marked as the one that made it.",
+  "category": "faith",
+  "people": [
+   "Niamh"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Aithris a' Chruthachaidh reaches the eastern hearths",
+  "era_year": 920,
+  "summary": "By the thirtieth year after Diarmad's walk to the grove, traders carry some shape of Aithris a' Chruthachaidh to nearly every hearth of the eastern farms, garbled in a dozen small ways but keeping, in each, the one true thing: that the coal holds a gift no one has yet opened.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Diarmad dies sure the answer is near",
+  "era_year": 931,
+  "summary": "Diarmad dies at his hearth with Poit an Teine near him and the six dark coals and the rainbow at his side, telling Niamh he is sure the answer is nearer than it has ever been, though he cannot say what has brought the nearness home to him.",
+  "category": "coal",
+  "people": [
+   "Diarmad",
+   "Niamh"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Deirbhile fixes Aithris a' Chruthachaidh word for word",
+  "era_year": 940,
+  "summary": "Diarmad's daughter Deirbhile, keeping Aithris a' Chruthachaidh more exactly than her father ever told it, teaches it word for word to her own children and to any of the wider kin who will learn it as strictly as she asks.",
+  "category": "faith",
+  "people": [
+   "Deirbhile"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Aithris a' Chruthachaidh said at an eastern hearth",
+  "era_year": 950,
+  "summary": "Three mouths removed from Deirbhile, a woman of an eastern household with no claim on the Line beyond distant kinship says Aithris a' Chruthachaidh standing on the darkest night, and tells a child who asks what Tòimhseachan a' Choimhdich means that it is a question for An Clachair's own line to answer.",
+  "category": "faith",
+  "people": [
+   "Deirbhile"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ }
+]

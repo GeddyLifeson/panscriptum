@@ -19,10 +19,10 @@
   "house": "The custodians of Ceann àrsaidh",
   "note": "A custodian family of {{place:burg:88}} that gave the Council of Custodians its second high custodian under the humans ({{date:IV-0061}}), lost its seat on the council in the next generation, and sent the first Dia-thìrich child to an Tìr Thall ({{date:IV-0120}}).",
   "members": [
-   {"id": "ca1", "name": "Coinneach Glas", "parent": null, "spouse": "Mòrag nic Uilleim", "born_between": [1748, 1758], "died_between": [1804, 1822], "note": "High custodian after Tormod mac Ailein; had never met a human before the Crossing and dealt with little else after it."},
+   {"id": "ca1", "name": "Coinneach Glas", "parent": null, "spouse": "Mòrag nic Uilleim", "born_between": [1754, 1754], "died_between": [1823, 1823], "note": "High custodian after Tormod mac Ailein; had never met a human before the Crossing and dealt with little else after it."},
    {"id": "ca2", "name": "Eachann Mòr", "parent": "ca1", "spouse": "Seonag nic Dhòmhnaill", "born_between": [1778, 1790], "died_between": [1835, 1858], "note": "A custodian of Ceann àrsaidh who lost his place on the council; sent his son west with the Mission's letter."},
    {"id": "ca3", "name": "Iseabail nic Choinnich", "parent": "ca1", "born_between": [1780, 1792], "died_between": [1830, 1860], "note": "Kept her father's copies of the council roll after his death."},
-   {"id": "ca4", "name": "Calum mac Eachainn", "parent": "ca2", "born_between": [1814, 1818], "died_between": [1835, 1890], "note": "Sailed west on a Company ship, {{date:IV-0120}}, and is never recorded returning."},
+   {"id": "ca4", "name": "Calum mac Eachainn", "parent": "ca2", "born_between": [1814, 1818], "died_between": [1835, 1890], "note": "Sailed over the sea on a Company ship, {{date:IV-0120}}, and is never recorded returning."},
    {"id": "ca5", "name": "Ruairidh mac Eachainn", "parent": "ca2", "born_between": [1810, 1822], "died_between": [1868, 1892], "note": "Held no seat on the council; the family's place there was not restored in the age."},
    {"id": "ca6", "name": "Seònaid nic Eachainn", "parent": "ca2", "born_between": [1812, 1825], "died_between": [1870, 1895], "note": "Kept the family's house at Ceann àrsaidh after her brother sailed."},
    {"id": "ca7", "name": "Coinneach mac Ruairidh", "parent": "ca5", "born_between": [1845, 1858], "died_between": [1900, 1928], "note": "A custodian of the town's shrine of Macha; his name is on the petitions of the Levy years."},
@@ -35,13 +35,13 @@
   "note": "The line of the Company's overseers at {{place:burg:354}}. The Dia-thìrich gave the first of them the byname Maor, steward ({{date:IV-0092}}), and the staff and the byname went from father to son until Mòrag nic Iain Maor broke the staff at the Company's door ({{date:IV-0319}}).",
   "members": [
    {"id": "mm1", "name": "Dòmhnall", "parent": null, "born_between": [1740, 1752], "died_between": [1795, 1815], "note": "A hewer of Muileann chrom; known only from his son's name."},
-   {"id": "mm2", "name": "Raghnall mac Dhòmhnaill, Raghnall Maor", "parent": "mm1", "spouse": "Catrìona nic Ailein", "born_between": [1765, 1772], "died_between": [1841, 1841], "note": "A crew-leader since the first contract; the first overseer, given the Company's staff and a slate-roofed house, {{date:IV-0092}}."},
+   {"id": "mm2", "name": "Raghnall mac Dhòmhnaill, Raghnall Maor", "parent": "mm1", "spouse": "Catrìona nic Ailein", "born_between": [1769, 1769], "died_between": [1841, 1841], "note": "A crew-leader since the first contract; the first overseer, given the Company's staff and a slate-roofed house, {{date:IV-0092}}."},
    {"id": "mm3", "name": "Seonag nic Raghnaill", "parent": "mm2", "born_between": [1795, 1810], "died_between": [1850, 1878], "note": "Kept her father's house after his death; not named in the Company's letters."},
-   {"id": "mm4", "name": "Dòmhnall mac Raghnaill Maor", "parent": "mm2", "spouse": "Peigi nic Mhurchaidh", "born_between": [1795, 1808], "died_between": [1866, 1866], "note": "Given his father's staff, {{date:IV-0137}}; signed the order that the camps keep no grain beyond a week's ration."},
-   {"id": "mm5", "name": "Iain Maor", "parent": "mm4", "spouse": "Oighrig nic Thormoid", "born_between": [1824, 1830], "died_between": [1910, 1910], "note": "Schooled at the Mission; kept his reports in the humans' tongue and his household in Dia-thìris; wrote against the night shift, {{date:IV-0243}}."},
+   {"id": "mm4", "name": "Dòmhnall mac Raghnaill Maor", "parent": "mm2", "spouse": "Peigi nic Mhurchaidh", "born_between": [1799, 1799], "died_between": [1866, 1866], "note": "Given his father's staff, {{date:IV-0137}}; signed the order that the camps keep no grain beyond a week's ration."},
+   {"id": "mm5", "name": "Iain Maor", "parent": "mm4", "spouse": "Oighrig nic Thormoid", "born_between": [1829, 1829], "died_between": [1910, 1910], "note": "Schooled at the Mission; kept his reports in the humans' tongue and his household in Dia-thìris; wrote against the night shift, {{date:IV-0243}}."},
    {"id": "mm6", "name": "Ailean mac Dhòmhnaill", "parent": "mm4", "born_between": [1830, 1842], "died_between": [1862, 1895], "note": "Worked the galleries under his brother's staff."},
    {"id": "mm7", "name": "Ruairidh mac Iain", "parent": "mm5", "born_between": [1862, 1872], "died_between": [1898, 1925], "note": "A hewer; the staff passed over him to his sister."},
-   {"id": "mm8", "name": "Mòrag nic Iain Maor", "parent": "mm5", "born_between": [1866, 1878], "died_between": [1932, 1960], "note": "The first woman to hold the staff, {{date:IV-0258}}; fourth and last of her line to hold it."},
+   {"id": "mm8", "name": "Mòrag nic Iain Maor", "parent": "mm5", "born_between": [1874, 1874], "died_between": [1942, 1942], "note": "The first woman to hold the staff, {{date:IV-0258}}; fourth and last of her line to hold it."},
    {"id": "mm9", "name": "Catrìona nic Iain", "parent": "mm5", "born_between": [1870, 1884], "died_between": [1930, 1965], "note": "Sister of Mòrag Maor; kept the slate-roofed house after the staff was broken."}
   ]
  },
@@ -98,7 +98,7 @@
    {"id": "hl3", "name": "Mary Hale", "parent": "hl1", "born_between": [1789, 1802], "died_between": [1845, 1875], "note": "A net-maker, like her mother."},
    {"id": "hl4", "name": "Thomas Hale", "parent": "hl2", "born_between": [1820, 1834], "died_between": [1892, 1910], "note": "Claimed a customary cutting through his Dia-thìrich grandmother and lost it by Dunstan's rule, {{date:IV-0231}}."},
    {"id": "hl5", "name": "Richard Hale", "parent": "hl4", "born_between": [1850, 1862], "died_between": [1905, 1935], "note": "A harbour hand in the north-west."},
-   {"id": "hl6", "name": "Walter Hale", "parent": "hl5", "born_between": [1880, 1892], "died_between": [1962, 1962], "note": "A former harbour clerk; first speaker of the Moot at Caol mhòr, {{date:V-0008}}."},
+   {"id": "hl6", "name": "Walter Hale", "parent": "hl5", "born_between": [1886, 1886], "died_between": [1962, 1962], "note": "A former harbour clerk; first speaker of the Moot at Caol mhòr, {{date:V-0008}}."},
    {"id": "hl7", "name": "David Hale", "parent": "hl6", "born_between": [1910, 1922], "died_between": [1970, 2000], "note": "Kept the Moot's minute-books in his father's time."},
    {"id": "hl8", "name": "Alice Hale", "parent": "hl6", "born_between": [1912, 1925], "died_between": [1975, 2005], "note": "Taught in one of the Moot's schools."},
    {"id": "hl9", "name": "Frank Hale", "parent": "hl7", "born_between": [1938, 1950], "died_between": [1998, 2020], "note": "A fisherman of Caol mhòr; father of Peter Hale."}

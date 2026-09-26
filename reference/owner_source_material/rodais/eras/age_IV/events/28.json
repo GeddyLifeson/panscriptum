@@ -1,0 +1,313 @@
+[
+ {
+  "title": "A coaster boarded off the small islands",
+  "era_year": 782,
+  "summary": "A coaster out of Ros bheag puts in at Baile chrom two days late and a third short in her hold, her skipper telling Coinneach mac Nèill, the reeve, that three boats out of the small islands boarded her and took her grain, wearing no mark and hiding no face.",
+  "category": "war",
+  "people": [
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0131",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Rolla a' Chalaidh name Aonghas mac Ruairidh among the sea-thieves",
+  "era_year": 784,
+  "summary": "The first full count of the takings sent up to Cathair dhearg names, among the sea-thieves of the small islands, a fisherman's son of Baile chrom, Aonghas mac Ruairidh. His mother tells the reeve plainly that a young man who watches the fish thin will go looking for a living wherever it is still to be found.",
+  "category": "war",
+  "people": [
+   "Coinneach mac Nèill",
+   "Aonghas mac Ruairidh"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0131",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Half of Baile chrom stands empty",
+  "era_year": 789,
+  "summary": "Coinneach mac Nèill reports to the crown's scribes that half the houses of Baile chrom stand empty, their families gone inland before the sea-thieves and the failing catch, their thatch going to moss and their doors shut on rooms no one will sleep in again that year.",
+  "category": "land",
+  "people": [
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0132",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Baile chrom's grain dues remitted",
+  "era_year": 789,
+  "summary": "The crown remits Baile chrom's grain dues to a sum reckoned by the households that stand rather than the households that once stood, answering Coinneach mac Nèill's plain report with a plain word of thanks for a count taken with care.",
+  "category": "law",
+  "people": [
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0132",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The reeve's letter asking for a force",
+  "era_year": 795,
+  "summary": "After the sea-thieves put in twice within a single moon on strands within sight of his own harbour, Coinneach mac Nèill writes to the crown asking not for lightened dues this time but for an armed force, since a reeve with a tally-stick can no longer hold a coast his own shire's desperate sons have made their hunting ground.",
+  "category": "war",
+  "people": [
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0132",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Iain mac Thormoid raised against the small islands",
+  "era_year": 800,
+  "summary": "Eilidh Bhàn raises a force under a captain named Iain mac Thormoid and sends it north by sea to Baile chrom, answering the reeve's long-waited letter. The captain charts the raiders' ground on Coinneach mac Nèill's own table with the help of the town's fishermen before the boats sail against the small islands.",
+  "category": "war",
+  "people": [
+   "Eilidh Bhàn",
+   "Iain mac Thormoid",
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0133",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Creach Eilean dhubh",
+  "era_year": 801,
+  "summary": "Iain mac Thormoid's boats land at first light on Eilean dhubh and burn the sea-thieves' hulls on the strand, Coinneach mac Nèill's own fishermen leading the way through the channel among the small islands. The sea-thieves, unwatched for the better part of a decade, are taken all but by surprise.",
+  "category": "war",
+  "people": [
+   "Iain mac Thormoid",
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "feature:3"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0133",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Aonghas mac Ruairidh dies on the strand",
+  "era_year": 801,
+  "summary": "Aonghas mac Ruairidh, thirty-one years old and once a boy Coinneach mac Nèill carried on his own shoulder to this same water, is killed defending a hull on Eilean dhubh's strand. The reeve kneels over him and finds he has no words ready for the mother he must tell of it.",
+  "category": "war",
+  "people": [
+   "Coinneach mac Nèill",
+   "Aonghas mac Ruairidh"
+  ],
+  "places": [
+   "feature:3"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0133",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Uilleam Ruadh taken and hanged",
+  "era_year": 801,
+  "summary": "Uilleam Ruadh, leader of the sea-thieves for the better part of a decade, is taken alive off Eilean dhubh's strand and carried south in irons to Cathair dhearg, where he is hanged before the season turns, six and thirty years old.",
+  "category": "war",
+  "people": [
+   "Uilleam Ruadh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0133",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The dearth on the north-west shore",
+  "era_year": 815,
+  "summary": "A run of failed harvests along the north-west shore grows more than the shared-meal custom can carry. Coinneach mac Nèill keeps the custom at his own board as long as grain remains to keep it with, dividing what the diminished fields bring in as evenly as his hand can manage.",
+  "category": "land",
+  "people": [
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0134",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Beathag nic Artair dies of the winter's sickness",
+  "era_year": 819,
+  "summary": "In the hard winter of the dearth, Beathag nic Artair, wife of the reeve of Baile chrom, dies of a chest complaint her body, weakened by two thin harvests running, has no strength left to fight. The last of the town's households load their carts and go inland and east the same season.",
+  "category": "land",
+  "people": [
+   "Coinneach mac Nèill",
+   "Beathag nic Artair"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0134",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach mac Nèill leaves Baile chrom",
+  "era_year": 821,
+  "summary": "Coinneach mac Nèill, reeve of Baile chrom for eight-and-forty years, sets the reeve's chest of rolls and tallies in order for a successor he no longer believes will come, shuts his own door behind him, and sets the coast road east under his feet.",
+  "category": "land",
+  "people": [
+   "Coinneach mac Nèill"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0134",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Clàr nan Rìghrean recopied",
+  "era_year": 829,
+  "summary": "The queen's scribes at Cathair dhearg take down the old king-list from its resting place and copy it afresh onto new hide, adding every ruler since the fleet had gone and setting the new copy's beginning at An Roghnachadh rather than at the sailing.",
+  "category": "law",
+  "people": [
+   "Eilidh Bhàn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0135",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The strand-market at Àth fhionn",
+  "era_year": 835,
+  "summary": "A market grows up on the strand at Àth fhionn, where the coast road crosses the clear river, trading north-coast fish, the flesh and oil of stranded whales, wool and barley. The fishers of the north coast no longer carry their catch the longer road south to Inis mhòr.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:113"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0135a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "era_year": 790,
+  "title": "Birth of Dòmhnall Ruadh",
+  "summary": "A son, red-haired and called Dòmhnall Ruadh, is born at Muileann chrom to a custodian household of Clann Raghnaill that keeps three galleries under the mountain and has never once been asked into An Talla Dearg except to petition.",
+  "category": "coal",
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0137",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 825,
+  "title": "Birth of Raghnall Òg",
+  "summary": "A son, Raghnall, is born at Muileann chrom to Dòmhnall Ruadh, then five-and-thirty years old and keeper of his house's three galleries.",
+  "category": "coal",
+  "people": [
+   "Raghnall Òg",
+   "Dòmhnall Ruadh"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0139",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ }
+]

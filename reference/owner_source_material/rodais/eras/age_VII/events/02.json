@@ -1,0 +1,327 @@
+[
+ {
+  "title": "Two surveyors named for the northern inquiry",
+  "era_year": 2,
+  "summary": "At Cathair mhòr Comhairle nam Mèinnean names two of its surveyors, Iain Ruadh mac Nèill, fifty-seven, and Seumas mac Eachainn, twenty-four, to go into the Tuathaich country and learn whether the new fuel burns as men say. The order, countersigned by a clerk of Comhairle na Rìoghachd, bids them report to the Comhairle and send a fair copy to the council's clerk at Cathair dhearg.",
+  "category": "coal",
+  "people": [
+   "Iain Ruadh mac Nèill",
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:23",
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0003",
+   "VI-0002"
+  ]
+ },
+ {
+  "title": "The surveyors cross the boundary stones",
+  "era_year": 2,
+  "summary": "Riding north from Cathair dhearg by the old road, the two surveyors lie a night at the ale-house of Tobar dhomhain and cross the boundary stones on the northern road the next morning. No one at the stones asks their business. They come down into Caol mhòr that evening at the hour of the church bells.",
+  "category": "land",
+  "people": [
+   "Iain Ruadh mac Nèill",
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:308",
+   "province:7",
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0003",
+   "V-0003"
+  ]
+ },
+ {
+  "title": "The maor of Caol mhòr gives the surveyors a letter",
+  "era_year": 2,
+  "summary": "The maor of Caol mhòr, who has asked after the fuel and been told nothing, gives the surveyors a letter to the town. For four days they call on the harbour master, the yards and the market. Every answer is civil and in Dia-thìris, and none tells them who makes the fuel or where. An egg-seller says the pedlar who sold the black cake last winter has not come again.",
+  "category": "trade",
+  "people": [
+   "Iain Ruadh mac Nèill",
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0003"
+  ]
+ },
+ {
+  "title": "The fuel shown burning in the mill yard at Doire ghlas",
+  "era_year": 2,
+  "summary": "Martha Greaves, manager of the great mill of Tional nan Tuathach at Doire ghlas, lets the surveyors see the new fuel burning under the scouring coppers in her yard. Two cakes hold three coppers at the boil through a morning. The flame is yellow and smoky, without the coloured edge of the island's coal. She gives them a cake to take away and will not say who makes it.",
+  "category": "trade",
+  "people": [
+   "Martha Greaves",
+   "Iain Ruadh mac Nèill",
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0003"
+  ]
+ },
+ {
+  "title": "The surveyors burn a cake at Caol mhòr",
+  "era_year": 2,
+  "summary": "In their lodging over a harbour inn at Caol mhòr the surveyors burn half the cake from Doire ghlas in the grate and time it by Iain Ruadh mac Nèill's watch. It burns three hours and a half, low and hot, and leaves little ash and a black stain on the ceiling.",
+  "category": "coal",
+  "people": [
+   "Iain Ruadh mac Nèill",
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0003"
+  ]
+ },
+ {
+  "title": "Iain Ruadh mac Nèill's draft set aside",
+  "era_year": 2,
+  "summary": "Iain Ruadh mac Nèill drafts the report with a closing paragraph that calls the fuel unproven, since the surveyors were shown neither the making nor the maker. Seumas mac Eachainn will not sign it, and writes in its place three plain clauses in Dia-thìris over the old man's account of the road and the yard. Both sign the report, the elder first.",
+  "category": "law",
+  "people": [
+   "Iain Ruadh mac Nèill",
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0003"
+  ]
+ },
+ {
+  "title": "The fair copy given to the council's clerk",
+  "era_year": {
+   "after": "VI-0003"
+  },
+  "summary": "Seumas mac Eachainn puts the fair copy of the surveyors' report into the hands of the council's clerk at Cathair dhearg and is given a receipt. He waits upon Comhairle na Rìoghachd nearly the whole of an Dàmhair, asking every second morning whether he is wanted. He is not called.",
+  "category": "law",
+  "people": [
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0003"
+  ]
+ },
+ {
+  "title": "The surveyors' report filed without minute",
+  "era_year": {
+   "after": "VI-0003"
+  },
+  "summary": "At Cathair mhòr the master of Comhairle nam Mèinnean reads the surveyors' report at his table and passes it to his chief clerk, who files it among the surveys of the year. No minute is made of it and no question asked. Iain Ruadh mac Nèill is sent back to measure the water in the lower galleries of An Sloc Mòr.",
+  "category": "coal",
+  "people": [
+   "Iain Ruadh mac Nèill"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "VI-0003"
+  ]
+ },
+ {
+  "title": "A lamp-lighter's family refused at the council house",
+  "era_year": {
+   "after": "VI-0004"
+  },
+  "summary": "The wife of a lamp-lighter of the south bank of Cathair dhearg, whose husband has lit its lamps nineteen years, brings a petition to the council house asking any work of the town for him now the lamps are to go unlit. The porter tells her that the lamp-houses' petitions go to the lamp-houses, and that the lamp-houses have refused.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0004"
+  ],
+  "same_day": true
+ },
+ {
+  "title": "A robbery on the bridge in the first dark night",
+  "era_year": {
+   "after": "VI-0004"
+  },
+  "summary": "On the first night the poorer streets of the capital are left dark, a carter is knocked down on Drochaid Cathair dhearg and his purse taken. The thief runs into the unlit lanes of the south bank. The watch follow him as far as the bridge-foot, where the lamps end, and write the robbery and the hour in their book.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0004"
+  ],
+  "same_day": true
+ },
+ {
+  "title": "The surveyors lie at Tobar dhomhain",
+  "era_year": 2,
+  "summary": "On the northern road Seumas mac Eachainn and Iain Ruadh mac Nèill lie a night at Tobar dhomhain, a well, a farm, a smithy and an ale-house, the old surveyor in the one bed and the young one on the bench.",
+  "category": "land",
+  "people": [
+   "Seumas mac Eachainn",
+   "Iain Ruadh mac Nèill"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   "VI-0003"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Harker of Caol mhòr lodges Comhairle nam Mèinnean's men",
+  "era_year": 2,
+  "summary": "Comhairle nam Mèinnean's surveyors lodge four days at Harker's inn on the harbour at Caol mhòr. They are answered civilly everywhere, in good Dia-thìris, and told nothing of the fuel.",
+  "category": "humans",
+  "people": [
+   "Seumas mac Eachainn",
+   "Iain Ruadh mac Nèill"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Iain Ruadh burns a coal of the mountain beside the cake",
+  "era_year": 2,
+  "summary": "In the grate of the inn at Caol mhòr Iain Ruadh mac Nèill lays a thumb of An Sloc Mòr coal from his sample-tin on the embers of the northern cake, to show the young surveyor the coloured edge the new fuel lacks.",
+  "category": "coal",
+  "people": [
+   "Iain Ruadh mac Nèill",
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0003"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Seumas mac Eachainn counts the unlit lamps",
+  "era_year": 2,
+  "summary": "Walking home through the south bank of Cathair dhearg on the night the lamp-houses' order is pinned up, the surveyor counts a hundred and forty-three dark lamps in the lanes, and writes the sum in his gallery-book.",
+  "category": "trade",
+  "people": [
+   "Seumas mac Eachainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0004"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Comhairle nam Mèinnean's report bound in grey board",
+  "era_year": 2,
+  "summary": "The surveyors' report on the northern fuel is bound in Comhairle nam Mèinnean's grey board and laid before the council with a single sample-tin of the cake set on its cover.",
+  "category": "law",
+  "people": [
+   "Seumas mac Eachainn",
+   "Iain Ruadh mac Nèill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0003"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The bath-house boilers let go cold",
+  "era_year": 2,
+  "summary": "Comann nan Gualadairean' bath-house at Fuarain Theth Muileann ruadh below Muileann ruadh lets its coal boilers go cold for the summer; the keeper finds the springs alone warm enough for the sick, and the saving pays for a new roof on the long room.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:229"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Black cake by the basket at Cnoc ghorm",
+  "era_year": 2,
+  "summary": "At the market of Cnoc ghorm, the inland seat of the Tuathaich, the black cake of the north is sold by the basket beside the peat, a basket for the price of a hen, and the Dia-thìrich factors who buy wool there take none of it home.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:142"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0001"
+  ],
+  "chronicle_extra": true
+ }
+]

@@ -1,0 +1,305 @@
+[
+ {
+  "title": "Coinneach among the panther-herders",
+  "era_year": 304,
+  "summary": "Travelling south into the panther country in the season of the crossing, Coinneach mac Mhàrtainn finds a whole valley emptied of flocks and every gate on the panthers' path standing open. An old herdswoman tells him the herders have kept the days of the crossing longer than any living memory can number, and ask no more of it than that.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn"
+  ],
+  "places": [
+   "marker:40"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0072",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach hears the carters' grumbling at An Leòmhann Buidhe",
+  "era_year": 304,
+  "summary": "At the road-house of An Leòmhann Buidhe, Coinneach overhears a coal-carter complain that the northern galleries want two men to a face where one once sufficed, and begins, without deciding to, keeping a private count of how often the like is said to him on the road.",
+  "category": "coal",
+  "people": [
+   "Coinneach mac Mhàrtainn"
+  ],
+  "places": [
+   "marker:7"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0073",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach speaks with the teachers at Muileann chiar",
+  "era_year": 305,
+  "summary": "In the sacred wood of Flidais at Muileann chiar, Coinneach tells the schools' elder teachers what he has gathered on the roads. Beathag nic Ruairidh names it a half question asked a thousand times, and tells him the schools want a fixed ground where it may be argued whole.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn",
+   "Beathag nic Ruairidh"
+  ],
+  "places": [
+   "marker:23"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0074",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach walks the bounds of the schools' wood",
+  "era_year": 310,
+  "summary": "Coinneach walks the boundary stones of the sacred wood at Muileann chiar alone, as the schools' teachers do once in a lifetime, and comes out of it resolved to build a fixed house for the question he has carried, rather than carry it hearth to hearth any longer.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn"
+  ],
+  "places": [
+   "marker:23"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0074",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Taigh na Deasbaid raised at Dùn thais",
+  "era_year": 314,
+  "summary": "Coinneach mac Mhàrtainn raises a hall of stone and turf at Dùn thais, Taigh na Deasbaid, and has the schools' old question, Carson an làmh seo?, cut into its lintel before the roof is finished. A rule is set: a question, once put, is argued a full year before any answer is given from the master's chair.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0074",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Pupils come from Caol bheag",
+  "era_year": 318,
+  "summary": "Word of the house at Dùn thais reaches the coast, and pupils begin walking three days from Caol bheag to sit its benches, sent by parents who have heard, by trader and carter, that a hard question is argued there properly. Among them is a fisherman's son, Aonghas mac Nèill, who stays to keep the house's register.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn",
+   "Aonghas mac Nèill"
+  ],
+  "places": [
+   "burg:475"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0074",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Beathag nic Ruairidh visits the finished house",
+  "era_year": 320,
+  "summary": "Beathag nic Ruairidh comes down from the grove of Muileann chiar to see the house Coinneach has built, walks its length in silence, and tells him afterward that the ground he has raised is fixed and patient enough, and asks only how long he means to let it argue safe things before he sets it the one question it was truly raised for.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn",
+   "Beathag nic Ruairidh"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0074",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach asks the forbidden question",
+  "era_year": 324,
+  "summary": "Before a full hall at Dùn thais, Coinneach mac Mhàrtainn asks at last whether the hands that went with the fleet were those the vein answered best, and whether it answers fewer now. No one on the benches answers him, and he sets the question, unanswered, into the house's register.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0075",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The houses' ban carried to their tables",
+  "era_year": 324,
+  "summary": "Word of Coinneach's question travels shire to shire until it has reached every one of the seven custodian houses, and each in its own hall forbids the question at its own table: the first time the seven have forbidden a question rather than a deed.",
+  "category": "rulers",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-seven-houses",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0075",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The reeve divides the grazing at Baile Mòr mhòr anew",
+  "era_year": 324,
+  "summary": "After a run of poor upland seasons, Baile Mòr mhòr has taken in so many families from the failing farms that the town has all but doubled, and its reeve marks out shares of the common grazing for households that never held a share of it before.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:365"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0076",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Queen Sìleas nic Fhearchair",
+  "era_year": 324,
+  "summary": "Queen Sìleas nic Fhearchair dies at Cathair dhearg, one-and-eighty years old, in An Talla Dearg where she had reigned longer than any ruler before her, a reign of six-and-sixty years begun when she was crowned at fifteen, too young by the houses' own custom to take the crown at once.",
+  "category": "rulers",
+  "people": [
+   "Sìleas nic Fhearchair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0077",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Uisdean mac Dhùghaill crowned",
+  "era_year": 324,
+  "summary": "Uisdean mac Dhùghaill, Sìleas's son, no young man himself by then, is crowned at Cathair dhearg in his mother's place before the season turns. The crown's scribes set his crowning and her death on the same board, one line after the other, as though the two were a single piece of news.",
+  "category": "rulers",
+  "people": [
+   "Uisdean mac Dhùghaill",
+   "Sìleas nic Fhearchair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0077",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach walks home from the ban",
+  "era_year": 324,
+  "summary": "Learning how Na Seachd Taighean have answered his question with a wider silence than his own, Coinneach mac Mhàrtainn walks the carters' road out from Dùn thais alone into the dark, and tells no pupil, then or after, what he has thought on the road.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0075",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "era_year": 300,
+  "title": "Coinneach mac Mhàrtainn on the carters' roads",
+  "summary": "Coinneach mac Mhàrtainn, a druid of the schools of Flidais who has walked the roads of the middle shires for the better part of forty years, carries the stag's teaching from house to house with a stick, a satchel of writing-boards and no fixed hearth.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Mhàrtainn"
+  ],
+  "places": [],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0073",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 322,
+  "title": "Birth of Uisdean mac Uisdein",
+  "summary": "A son, named Uisdean for his father, is born at Cathair dhearg to Uisdean mac Dhùghaill, then two-and-fifty years old and still waiting on his mother's long reign.",
+  "category": "rulers",
+  "people": [
+   "Uisdean mac Uisdein",
+   "Uisdean mac Dhùghaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0077",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ }
+]

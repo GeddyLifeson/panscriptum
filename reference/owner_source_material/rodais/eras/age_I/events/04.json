@@ -1,0 +1,172 @@
+[
+    {
+        "title": "Conn born to the upper valley",
+        "era_year": 205,
+        "summary": "Conn is born to a herding household high up the Abhainn uaine, further inland and higher than any household of that kin cares to winter, the country from which the summer grazing is followed up onto the shrinking snowfields.",
+        "category": "land",
+        "people": ["Conn"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0004", "type": "cause"}]
+    },
+    {
+        "title": "Conn trusted to choose the high ground",
+        "era_year": 224,
+        "summary": "Grown to a young man, Conn reads the colour of the light on the high tops before dawn to judge whether the beasts want driving down, and is seldom wrong; the older herders of his kin begin letting him choose the summer ground himself.",
+        "category": "land",
+        "people": ["Conn"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0004", "type": "cause"}]
+    },
+    {
+        "title": "Conn's fire-ring on the gravel terrace",
+        "era_year": 230,
+        "summary": "Conn lays hearth-stones on the gravel terrace above the summer bend of the Abhainn uaine, on ground his father and grandfather used before him, a coal carried up from the household's own fire in a clay pot banked in ash.",
+        "category": "land",
+        "people": ["Conn"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0004", "type": "sequel"}]
+    },
+    {
+        "title": "The flood takes Conn's lower ring",
+        "era_year": 240,
+        "summary": "A week of unlifting cloud on the high ground sends the Abhainn uaine over Conn's fire-ring at flood height; he saves the coal and drives the beasts to the shelf above, and the water carries off all but the flat stone at the ring's back.",
+        "category": "land",
+        "people": ["Conn"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0004", "type": "sequel"}]
+    },
+    {
+        "title": "Conn dies among three rings",
+        "era_year": 266,
+        "summary": "Conn dies at his household's hearth in the low valley in his sixty-second year, having shown his sons the three fire-rings on three shelves of the one terrace, each built a little higher than the last by a man reading how far the river could be trusted.",
+        "category": "land",
+        "people": ["Conn"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0004", "type": "sequel"}]
+    },
+    {
+        "title": "Eachna born south of Tobar dhìreach",
+        "era_year": 281,
+        "summary": "Eachna is born to a household some way south of Tobar dhìreach that keeps a fire carried, hearth by hearth, from the mason's own since Ailbhe first walked it outward; she grows up wanting open ground of her own rather than a corner of her father's.",
+        "category": "land",
+        "people": ["Eachna"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0005", "type": "cause"}]
+    },
+    {
+        "title": "Eachna carries fire to the straight field",
+        "era_year": 306,
+        "summary": "Eachna walks a day's distance from Tobar dhìreach with a coal from the line's own hearth to settle the level, well-watered ground west of the high valleys that households call, for its lie, the straight field; the line asks nothing for the giving.",
+        "category": "land",
+        "people": ["Eachna"],
+        "places": ["burg:454"],
+        "threads": [],
+        "master_links": [{"to": "I-0005", "type": "sequel"}]
+    },
+    {
+        "title": "The first hearth of Achadh dhìreach laid on stone",
+        "era_year": 306,
+        "summary": "Eachna lays her first fire on a bed of pine and dried heather banked over flat stone, the lesson of stone under every fire carried out from the mason's own household as freely as the fire itself; grey flint and red deer bone gather round it in the seasons after.",
+        "category": "land",
+        "people": ["Eachna"],
+        "places": ["burg:454"],
+        "threads": [],
+        "master_links": [{"to": "I-0005", "type": "sequel"}]
+    },
+    {
+        "title": "Deer hunted by torch at Achadh dhìreach",
+        "era_year": 320,
+        "summary": "With calves lost to deer grown bold on ground still thin of houses, Eachna's sons take to hunting the moor's deer by torchlight after dark, a burning brand carried low and a spearman behind, working the herds back from the standing crop.",
+        "category": "land",
+        "people": ["Eachna"],
+        "places": ["burg:454"],
+        "threads": [],
+        "master_links": [{"to": "I-0005", "type": "sequel"}]
+    },
+    {
+        "title": "Achadh dhìreach grows to five hearths",
+        "era_year": 335,
+        "summary": "Eachna's household becomes three hearths and then five as sons and daughters marry out and stay near rather than moving off, each new fire lit in an unbroken line from the coal Eachna herself carried from Tobar dhìreach.",
+        "category": "land",
+        "people": ["Eachna"],
+        "places": ["burg:454"],
+        "threads": [],
+        "master_links": [{"to": "I-0005", "type": "sequel"}]
+    },
+    {
+        "title": "Eachna dies at her own hearth",
+        "era_year": 349,
+        "summary": "Eachna dies at Achadh dhìreach in her sixty-eighth year among her own grown children; the fire she carried from Tobar dhìreach burns on after her, tended by hands that have never seen the mason's well and owe it only the memory of it.",
+        "category": "land",
+        "people": ["Eachna"],
+        "places": ["burg:454"],
+        "threads": [],
+        "master_links": [{"to": "I-0005", "type": "sequel"}]
+    },
+    {
+        "title": "The first autumn store of roasted hazel-nuts",
+        "era_year": 390,
+        "summary": "At Achadh dhìreach, under the oak and hazel now grown thick where birch once stood, Eachna's descendants roast whole nuts in the embers and lay by the first store of them against the dark months, rather than gathering only as the season allows.",
+        "category": "land",
+        "people": [],
+        "places": ["burg:454"],
+        "threads": [],
+        "master_links": [{"to": "I-0006", "type": "sequel"}]
+    },
+    {
+        "title": "Luag born to the northern heath",
+        "era_year": 425,
+        "summary": "Luag is born to a herding household of the northern heath, near enough the changing country of birch and oak that he grows up on the grandmothers' telling of it, and restless in a way his own kin cannot account for.",
+        "category": "land",
+        "people": ["Luag"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0006a", "type": "cause"}]
+    },
+    {
+        "title": "Luag sets out for the north-western horn",
+        "era_year": 451,
+        "summary": "Alone, with a coal carried in a clay pot and dried meat under a hide, Luag walks four days past the last households his own kin know of, out past the last stands of oak and hazel, meaning to see how far the land runs before it meets the sea.",
+        "category": "land",
+        "people": ["Luag"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0006a", "type": "cause"}]
+    },
+    {
+        "title": "Luag's fire will not live in the wind",
+        "era_year": 451,
+        "summary": "On the bare shore of the north-western horn Luag's banked fire is taken sideways along the ground faster than he can feed it, and he lets it go out rather than waste his last tinder; he finds no hearth-stone or charcoal anywhere he walks that coast.",
+        "category": "land",
+        "people": ["Luag"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0006a", "type": "sequel"}]
+    },
+    {
+        "title": "Luag's return and telling",
+        "era_year": 452,
+        "summary": "Luag walks the four days home, relighting his fire at the first hearth he reaches, and tells at his own hearth and at the dark-of-the-year gathering that the land runs out at last in the north-west, bare to a wind no fire can stand against.",
+        "category": "land",
+        "people": ["Luag"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0006a", "type": "sequel"}]
+    },
+    {
+        "title": "Luag dies among his own children",
+        "era_year": 497,
+        "summary": "Luag dies at his own household's hearth in his seventy-second year, remembered kindly as the man who walked to the edge of the world and came back with nothing to show for it but a burnt cloak and a telling that outlived him.",
+        "category": "land",
+        "people": ["Luag"],
+        "places": [],
+        "threads": [],
+        "master_links": [{"to": "I-0006a", "type": "sequel"}]
+    }
+]

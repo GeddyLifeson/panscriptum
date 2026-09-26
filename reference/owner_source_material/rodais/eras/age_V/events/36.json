@@ -1,0 +1,237 @@
+[
+ {
+  "id": "EV-6005",
+  "title": "The iron bird seen over Muileann chrom",
+  "era_year": 147,
+  "summary": "A flying machine passes twice over the Muileann chrom valley without beating its wings, and the crews at the pit-mouth stop their barrows to watch it go. By evening the district has a name for it, eun-iarainn, borrowed from nowhere and understood at once.",
+  "category": "discovery",
+  "people": [
+   "Mòrag nic Iain Maor"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0315a"
+  ]
+ },
+ {
+  "id": "EV-6006",
+  "title": "Mòrag's private book",
+  "era_year": 147,
+  "summary": "Mòrag nic Iain Maor sets down word of the iron bird in the private hand her father taught her, kept apart from A' Chompanaidh's own tally, the same hand in which her struck-out testimony at the pithead inquiry had first been copied for Faire nan Lòchran.",
+  "category": "people",
+  "people": [
+   "Mòrag nic Iain Maor"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0315a",
+   "IV-0275"
+  ]
+ },
+ {
+  "id": "EV-6007",
+  "title": "The old man of Doire mhòr",
+  "era_year": 147,
+  "summary": "An old man carried gently from his own doorstone by constables clearing houses under Àithne a' Ghlacaidh asks only that it be written down that they were gentle about it. Mòrag nic Iain Maor, come from Muileann chrom, carries the sentence home with no book to hand.",
+  "category": "people",
+  "people": [
+   "Mòrag nic Iain Maor"
+  ],
+  "places": [
+   "burg:101"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0316",
+   "IV-0317"
+  ]
+ },
+ {
+  "id": "EV-6008",
+  "title": "Sìneag's ride to Muileann chrom",
+  "era_year": 148,
+  "summary": "Sìneag, custodian of the camp at Baile dhomhain, rides to the steward's house at Muileann chrom to ask whether the overseer's staff can answer for the two streets pulled down for the new spoil-tip. Mòrag nic Iain Maor can offer her nothing that year.",
+  "category": "people",
+  "people": [
+   "Mòrag nic Iain Maor",
+   "Sìneag"
+  ],
+  "places": [
+   "burg:224",
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0318"
+  ]
+ },
+ {
+  "id": "EV-6009",
+  "title": "The order for the third and fourth rows",
+  "era_year": 148,
+  "summary": "A printed order reaches Muileann chrom's overseer naming eleven households of the camp's third and fourth rows for clearance before the new gallery mouth. A' Chompanaidh's agent Osgood carries it to Mòrag nic Iain Maor's door, and carries her answer back unwritten.",
+  "category": "law",
+  "people": [
+   "Mòrag nic Iain Maor",
+   "Osgood"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0316",
+   "IV-0319"
+  ]
+ },
+ {
+  "id": "EV-6010",
+  "title": "Griogar Camshron breaks his staff",
+  "era_year": 148,
+  "summary": "Griogar Camshron, six years overseer of the north pit's eastern gallery, throws down his staff in his own yard within the week of Mòrag nic Iain Maor's refusal at Muileann chrom, rather than be the one overseer left holding wood A' Chompanaidh has marked for treachery.",
+  "category": "people",
+  "people": [
+   "Griogar Camshron"
+  ],
+  "places": [],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0319"
+  ]
+ },
+ {
+  "id": "EV-6011",
+  "title": "The staff left standing",
+  "era_year": 148,
+  "summary": "The overseer at the silver country's edge walks away from his office without a word and leaves his staff propped against the counting-house wall, the third resignation of the season after Mòrag nic Iain Maor's and Griogar Camshron's, and word of it does not reach Muileann chrom until winter.",
+  "category": "people",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0319"
+  ]
+ },
+ {
+  "id": "EV-6012",
+  "title": "Coinneach Ruadh brings word of the guild's rifles",
+  "era_year": 148,
+  "summary": "Coinneach Ruadh, riding the district roads with unpaid news since his clerkship was taken, brings Mòrag nic Iain Maor word of Comann an Airgid's rifles and of a single council the custodians and priests mean to hold in Coille Naomh Cnoc bheag before autumn.",
+  "category": "people",
+  "people": [
+   "Mòrag nic Iain Maor",
+   "Coinneach Ruadh"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0320",
+   "IV-0321",
+   "IV-0322"
+  ]
+ },
+ {
+  "id": "EV-6013",
+  "title": "Mòrag rides to the forest by night",
+  "era_year": 148,
+  "summary": "Mòrag nic Iain Maor rides twenty-eight miles by night off the ridge road to Coille Naomh Cnoc bheag, and is among those who raise a hand for Eilidh nic Raghnaill to speak for the whole mining country's council.",
+  "category": "faith",
+  "people": [
+   "Mòrag nic Iain Maor",
+   "Eilidh nic Raghnaill"
+  ],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [
+   "the-company",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0322"
+  ]
+ },
+ {
+  "id": "EV-6014",
+  "title": "The house swept at Baile thais",
+  "era_year": 149,
+  "summary": "Constables sent under Strake's order find Eilidh nic Raghnaill's house at Baile thais standing open, its hearth three days cold, and the whole town silent around it, its people gone from door and window before the constables' captain can ask why.",
+  "category": "law",
+  "people": [
+   "Eilidh nic Raghnaill"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0323"
+  ]
+ },
+ {
+  "id": "EV-6015",
+  "title": "Coinneach Ruadh's ride of the twenty-eighth",
+  "era_year": 149,
+  "summary": "Coinneach Ruadh rides into Muileann chrom on the twenty-eighth of an Gearran with word that the grievance is called across every mining district at once, and that Taigh an Àrd-mhaoir has already had its answer that morning from Muileann chrom and Baile thais both.",
+  "category": "war",
+  "people": [
+   "Mòrag nic Iain Maor",
+   "Coinneach Ruadh"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0324"
+  ]
+ },
+ {
+  "id": "EV-6016",
+  "title": "The beacons of the coal country answer",
+  "era_year": 149,
+  "summary": "On the night war is called, signal fires long kept secret are carried openly to every beacon height the mining districts hold, ridge answering ridge from Doire mhòr to the silver hills, the first time the whole coal country has shown itself lit at once.",
+  "category": "war",
+  "people": [
+   "Mòrag nic Iain Maor"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0324"
+  ]
+ }
+]

@@ -1,0 +1,830 @@
+{
+ "writer": 2,
+ "span": [
+  "III-0015",
+  "III-0024"
+ ],
+ "events": [
+  {
+   "id": "EIV-2001",
+   "title": "Fearchar's petition for the coal",
+   "body": "Fearchar mac Ruairidh comes to Taigh na Fèithe and asks that each hull found fit to sail be allowed to carry one sealed measure of the coal, no more than a single household's season under Lagh an Loscaidh Bhig. The custodians send him down the hill with a promise only to put the matter to the board.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0016",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "fearchar-mac-ruairidh",
+    "eoghann-mac-mhuirich"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#ii-of-the-petition",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EIV-2002",
+   "title": "Donnchadh mac Thormoid given to Taigh na Fèithe",
+   "body": "Tormod, a turf-cutter of the moor above Muileann dhearg, walks his son Donnchadh, nine years old, up the coal-road to Taigh na Fèithe and leaves him there sworn to the vein's service for seven years, and does not look back.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0016",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-small-burning-law"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#i-of-the-boy-given-to-the-vein-house",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "after": "III-0016"
+  },
+  {
+   "id": "EIV-2003",
+   "title": "The custodians' debate at the winter burning",
+   "body": "After six winters of argument Taigh na Fèithe's board finally votes on Fearchar's petition. Cailean and others hold that the coal has never crossed water and should not; Fearchar answers that Lagh an Loscaidh Bhig measures a hearth wherever a hearth chooses to stand. Leabhar a' Chùraim is opened and the question is put to writing.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "fearchar-mac-ruairidh",
+    "eoghann-mac-mhuirich"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#iii-of-the-winter-burning",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EIV-2004",
+   "title": "The sealed measures made",
+   "body": "The first measures of coal are weighed and sealed at Taigh na Fèithe, each against the words \"for each hull that shall be ready\", with no count kept against any known number of hulls. Fearchar mac Ruairidh stands by in silence to see the first one made.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "fearchar-mac-ruairidh",
+    "eoghann-mac-mhuirich"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#v-of-the-measures-sealed",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EIV-2005",
+   "title": "The queen lends masons for the quay",
+   "body": "Beathag nic Dhòmhnaill sends a gang of masons from the capital, under Ailean mac Nèill, down to Seann Skell to lengthen the west quay with dressed stone \"for the harbour's trade\", the crown's word for it and no other named.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0017",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "ailean-mac-neill"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#vi-of-the-masons-sent-west",
+   "era_between": [
+    28,
+    28
+   ]
+  },
+  {
+   "id": "EIV-2006",
+   "title": "The fair copy of the ruling, Donnchadh's first entry",
+   "body": "Donnchadh mac Thormoid, the boy-clerk, is set at fifteen to render the ruling clean for Leabhar a' Chùraim, after it has lain four years in rough marks: one sealed measure a ship, a single household's season, Taigh na Fèithe's own mark. He copies it exactly as given, though he notices it carries no blessing, as other entries do.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-small-burning-law"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#iv-of-the-clean-copy",
+   "era_between": [
+    29,
+    29
+   ]
+  },
+  {
+   "id": "EIV-2007",
+   "title": "The queen at Seann Skell to see the stones laid",
+   "body": "Beathag rides the twenty-four miles to Seann Skell and stands on the new-laid stone of the west quay in the evening light, the only time she is known to have come to see the fleet's building with her own eyes. Her sister Mòrag joins her there, and the two speak of small things, not of the roll.",
+   "place": "burg:489",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0017",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "morag-nic-dhomhnaill"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#vii-of-the-queen-on-the-new-stones",
+   "era_between": [
+    29,
+    29
+   ]
+  },
+  {
+   "id": "EIV-2008",
+   "title": "Death of Uilleam mac Iain, the queen's consort",
+   "body": "Uilleam mac Iain, husband to Queen Beathag and father of her son, dies after a summer's illness. The queen keeps the funeral small, a single day at Cathair dhearg with the household and a few custodian heads, and no great muster of the shires.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [],
+   "threads": [],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#viii-of-the-death-of-uilleam-mac-iain",
+   "era_between": [
+    29,
+    29
+   ]
+  },
+  {
+   "after": "III-0017"
+  },
+  {
+   "id": "EIV-2009",
+   "title": "Death of Eòghann mac Mhuirich",
+   "body": "The master of Taigh na Fèithe, who wrote the first count of the departing households in LE 3, dies at Taigh na Fèithe grown very old, soon after seeing the ruling of the coal for the departing set down and its first measures sealed.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [],
+   "threads": [],
+   "people": [
+    "eoghann-mac-mhuirich"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#i-of-the-boy-given-to-the-vein-house",
+   "era_between": [
+    30,
+    30
+   ]
+  },
+  {
+   "id": "EIV-2010",
+   "title": "The iron cramp of the last stone",
+   "body": "Ailean mac Nèill's gang sets the last stone of the lengthened quay at the seaward end, where the new masonry meets the old timber staging, and Ailean drives home the iron cramp that binds them with three blows and no more.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "ailean-mac-neill"
+   ],
+   "told_in": "book/07_of_the_handful_for_the_new_hearth.md#ix-of-the-last-stone-and-the-sealing-by-lamplight",
+   "era_between": [
+    30,
+    30
+   ]
+  },
+  {
+   "id": "EIV-2011",
+   "title": "Tormod mac Coinnich remembers the dearth of his boyhood",
+   "body": "As the council weighs how much grain the fleet may take, the reeve of the granaries at Àth shean turns over an old memory: a reeve before him who smiled and gave no grain, and a store-house that stood swept and empty a whole hungry spring. He resolves that his own stores will not be opened on a smile.",
+   "place": "burg:67",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0019",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "tormod-mac-coinnich"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#ii-of-the-barred-doors",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "id": "EIV-2012",
+   "title": "A lean harvest in the south shires",
+   "body": "The barley comes in thin across the shires south of the mountain, the fourth-poorest harvest in eleven years by the granary reeve's own tallies. The stores at Àth shean, well kept, would see the country through to spring, but word soon comes that the fleet's crossing must be fed from them too.",
+   "place": "burg:67",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0018",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "tormod-mac-coinnich"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#i-of-the-lean-harvest",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "id": "EIV-2013",
+   "title": "The council of An Talla Dearg divided on the grain",
+   "body": "Through the autumn the queen's council argues over how much stored grain the departing may carry, some holding that no household should cross open water without bread enough, others that Lagh an Loscaidh Bhig was never meant to measure a granary. The queen gives no opinion any rider carries south.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0018",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#ii-of-the-barred-doors",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "id": "EIV-2014",
+   "title": "Petitioners come to the barred granary",
+   "body": "With no ruling yet come from the capital, petitioners for the fleet's stores gather at Tormod mac Coinnich's door at Àth shean on no authority he can name. He bars the store-house doors and sets a watch of four, and turns away captain's steward and quiet petitioner alike until the council's own seal comes down.",
+   "place": "burg:67",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0019",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "tormod-mac-coinnich"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#ii-of-the-barred-doors",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "id": "EIV-2015",
+   "title": "The watch stands through the winter",
+   "body": "Four men keep the granary doors at Àth shean through Samhnas and Dubhlas and the black months after, relieved every third day, while riders come from the capital with sealed leaves that settle nothing. Tormod mac Coinnich walks the round with them most nights, unable to say when, or whether, the matter will be settled.",
+   "place": "burg:67",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0019",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "tormod-mac-coinnich"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#ii-of-the-barred-doors",
+   "era_between": [
+    37,
+    37
+   ]
+  },
+  {
+   "after": "III-0021"
+  },
+  {
+   "id": "EIV-2016",
+   "title": "The granary doors reopened",
+   "body": "A single rider comes to Àth shean with no sealed leaf, only a word that the grain may move at a fixed measure. Tormod mac Coinnich takes the bar down himself and calls off the watch; how the strife was settled, and by whom, he is never told. He holds no office after, and walks home to his father's farm.",
+   "place": "burg:67",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0019",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "tormod-mac-coinnich"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#iii-of-the-doors-reopened",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EIV-2017",
+   "title": "Mairead nic Iain's tally of the barges",
+   "body": "On Drochaid Cathair dhearg the tally-keeper Mairead nic Iain cuts a notch in a hazel stick for every laden barge that passes beneath, going down Abhainn dhomhain toward the coast. When the season's grain has all gone by she makes the count forty-one, and writes it down with no more comment than that.",
+   "place": "marker:3",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "mairead-nic-iain"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#iv-of-the-forty-one-barges",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EIV-2018",
+   "title": "Calum's daughter's household entered",
+   "body": "At Taigh a' Chalaidh, Calum mac Nèill cuts his own daughter's household onto Rolla nan Deònach: Mairead nic Chaluim, her husband Dùghall mac Iain, a fisher of Inis àrsaidh, and their two small children. His son Dòmhnall sets the cup of ale in his sister's hands, and Calum's hand shakes only once the harbour-house stands empty again.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0021",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill",
+    "mairead-nic-chaluim",
+    "dughall-mac-iain-fisher",
+    "domhnall-mac-chaluim"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#v-of-the-roll-at-seann-skell",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EIV-2019",
+   "title": "The fleet's stores laid in at Seann Skell",
+   "body": "The grain that came down Abhainn dhomhain and up the Abhainn naomh is measured out and sealed aboard the hulls at Seann Skell against the fleet's crossing, one measure to a household under Taigh na Fèithe's own ruling. By spring the quay stands full of hulls that had not existed when the first tale of a far shore reached the river road.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#ii-of-the-barred-doors",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EIV-2020",
+   "title": "Niall mac Dhòmhnaill counts the hulls and loses count",
+   "body": "Calum's grandson Niall, nine years old, runs the length of the new quay after his lessons, touching each hull's timbers as he passes and trying, unasked, to count the whole fleet. He never once brings the count out even, and a wright who helped lay four of the hulls tells him he could not have done better himself.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0021",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/08_of_the_grain_strife_and_the_forty_one_barges.md#vi-of-the-hulls-at-the-quay",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EIV-2021",
+   "title": "The queen walks the new quay at Seann Skell",
+   "body": "In the moon of Sìolach, Queen Beathag nic Dhòmhnaill comes down to Seann Skell with a small household and walks the whole length of the new stone quay at the harbour scribe's side, saying little, before finding her sister on the strand below.",
+   "place": "burg:489",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "calum-mac-neill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#i-of-the-queen-on-the-new-stones",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EIV-2022",
+   "title": "The queen and her sister on the stones",
+   "body": "Mòrag nic Dhòmhnaill comes up from the rope-maker's gear to meet her sister on the new stones. What passes between them is not told; Leabhar a' Chùraim gives only that the queen was seen upon the quay with her sister, and went home again before the sailing, as her own word bound her to do.",
+   "place": "burg:489",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "morag-nic-dhomhnaill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#i-of-the-queen-on-the-new-stones",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "id": "EIV-2023",
+   "title": "The queen rides home before the sailing",
+   "body": "Beathag nic Dhòmhnaill leaves Seann Skell the same evening she comes to it, telling the harbour scribe she will not be at the quay for the sailing itself, for a queen who has sworn to send no one over and keep no one back has no cause to watch her own sister taken by that same promise.",
+   "place": "burg:489",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "calum-mac-neill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#i-of-the-queen-on-the-new-stones",
+   "era_between": [
+    39,
+    39
+   ]
+  },
+  {
+   "after": "III-0023"
+  },
+  {
+   "id": "EIV-2024",
+   "title": "Niall given the counting-stick",
+   "body": "On the eve of the sailing Calum mac Nèill gives his grandson Niall, eleven years old, a shaved hazel stick and a knife, and sets him on the wall of the west quay to cut one notch for every hull that passes in the morning, with the single instruction to keep his eyes on the count and not on the faces.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill",
+    "calum-mac-neill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#ii-of-the-lamps-on-the-sills",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2025",
+   "title": "The lamps lit unasked along the strand",
+   "body": "Beginning at one widow's window by the fish-stones, a lamp is set on every sill along the Seann Skell waterfront the evening before the sailing, and kept burning until morning, though no one has told the town to do it.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-mist"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#ii-of-the-lamps-on-the-sills",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2026",
+   "title": "Mairead nic Chaluim's household goes aboard",
+   "body": "Calum mac Nèill's daughter Mairead, her husband Dùghall mac Iain and their two children take their places aboard their hull on the eve of the sailing, their stores lashed under oiled hide; Mairead asks a deep notch cut for her hull, whichever number it falls at.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "mairead-nic-chaluim",
+    "dughall-mac-iain-fisher",
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#ii-of-the-lamps-on-the-sills",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2027",
+   "title": "Mòrag walks the waterfront alone",
+   "body": "On the last night Mòrag nic Dhòmhnaill walks the length of the Seann Skell strand twice over, naming to herself the household behind every lit window, a leave-taking asked of no one and told to no one beforehand.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "morag-nic-dhomhnaill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#iii-of-morag-s-last-walk",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2028",
+   "title": "Catrìona takes the steering oar of An Ròn Glas",
+   "body": "Aboard An Ròn Glas on the eve of the sailing, the pilot Catrìona nic Iain tells Mòrag nic Dhòmhnaill that the oar answers well and the ship rides true, whatever else the morning brings.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "catriona-nic-iain",
+    "morag-nic-dhomhnaill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#iii-of-morag-s-last-walk",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2029",
+   "title": "Fionnlagh stands by his cart and does not go",
+   "body": "A carter of Seann Skell named Fionnlagh, who has brought loads down to the quay for departing households all that season without putting his own name to the boards, stands by his empty cart through Oidhche nan Lòchran and through the sailing itself, and does not go aboard any hull.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "line-of-aisling"
+   ],
+   "people": [
+    "fionnlagh-carter",
+    "morag-nic-dhomhnaill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#iii-of-morag-s-last-walk",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2030",
+   "title": "Niall's tally of An Diosal",
+   "body": "On the morning of the sailing Niall mac Dhòmhnaill cuts one notch on his hazel stick for every hull that passes the west quay wall going round the river pool sunwise, and keeps the finished stick inside his shirt afterward; no one ever asks him for it back.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#iv-of-the-sunwise-turn",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2031",
+   "title": "The queen hears a boundary plea on the morning of the sailing",
+   "body": "At Cathair dhearg, on the same morning the fleet turns out of Seann Skell, Queen Beathag nic Dhòmhnaill hears an ordinary dispute between two farmers over a shifted boundary ditch and rules it with the same care she gives any such matter, no rider from the coast yet able to have reached her.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#v-of-the-boundary-ditch",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EIV-2032",
+   "title": "The empty berths walked that evening",
+   "body": "That evening Calum mac Nèill walks the whole length of the west quay and finds the berths standing empty for the first time in three years, and tells his son Dòmhnall that a harbour built for nothing but to be full is a strange thing to walk when it stands empty.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill",
+    "domhnall-mac-chaluim"
+   ],
+   "told_in": "book/09_of_the_night_of_lamps_and_the_sunwise_turn.md#v-of-the-boundary-ditch",
+   "era_between": [
+    40,
+    40
+   ]
+  }
+ ]
+}

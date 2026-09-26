@@ -1,0 +1,183 @@
+{
+ "warnings": [
+  "province 35 (Dùn ìseal) spans states 1:23, 3:1; it is given to state 1",
+  "economy: 129 deals with burgs or markets not on this map dropped"
+ ],
+ "ids": {
+  "burg": {
+   "V_N01": 506,
+   "V_N02": 507,
+   "V_N03": 508
+  },
+  "state": {
+   "council": 1,
+   "north": 2,
+   "silver-guild": 3
+  },
+  "province": {},
+  "culture": {},
+  "religion": {},
+  "marker": {
+   "V_K01": 49,
+   "V_K02": 50,
+   "V_K03": 51,
+   "V_K04": 52,
+   "V_K05": 53,
+   "V_K06": 54,
+   "V_K07": 55,
+   "V_K08": 56,
+   "V_K09": 57,
+   "V_K10": 58,
+   "V_K11": 59,
+   "V_K12": 60,
+   "V_K13": 61,
+   "V_K14": 62,
+   "V_K15": 63
+  },
+  "zone": {
+   "V_Z05": 4,
+   "V_Z06": 5,
+   "V_Z07": 6,
+   "V_Z08": 7,
+   "V_Z09": 8,
+   "land5": 9
+  },
+  "route": {
+   "V_R01": 450,
+   "V_R02": 451,
+   "V_R03": 452,
+   "V_R04": 453,
+   "V_R05": 454,
+   "V_R06": 455
+  },
+  "label": {}
+ },
+ "placeIds": {
+  "5001": 506,
+  "5002": 507,
+  "5003": 508
+ },
+ "counts": {
+  "states": 3,
+  "provinces": 120,
+  "burgs": 498,
+  "cultures": 2,
+  "religions": 3,
+  "routes": 441,
+  "markers": 59,
+  "zones": 10,
+  "addedLabels": 2,
+  "regiments": 0,
+  "markets": 16,
+  "deals": 7929,
+  "journeys": 0
+ },
+ "integrity": [],
+ "drawErrors": [],
+ "masterLoad": {
+  "pageErrors": [],
+  "consoleErrors": [],
+  "integrity": [],
+  "warnings": [],
+  "dialogs": [],
+  "loaded": true
+ },
+ "bytes": 4639992,
+ "records": 53,
+ "verify": {
+  "load": {
+   "pageErrors": [],
+   "consoleErrors": [],
+   "integrity": [],
+   "warnings": [],
+   "dialogs": [],
+   "loaded": true
+  },
+  "counts": {
+   "states": 3,
+   "provinces": 120,
+   "burgs": 498,
+   "cultures": 2,
+   "religions": 3,
+   "routes": 441,
+   "markers": 59,
+   "zones": 10,
+   "addedLabels": 2,
+   "regiments": 0,
+   "markets": 16,
+   "deals": 7929,
+   "journeys": 0
+  },
+  "integrity": [],
+  "layers": {
+   "active": [
+    "ocean",
+    "landmass",
+    "heightmap",
+    "lakes",
+    "cells",
+    "compass",
+    "rivers",
+    "cultures",
+    "borders",
+    "routes",
+    "coastline",
+    "ice",
+    "burgIcons",
+    "labels",
+    "fogging",
+    "debug",
+    "scaleBar",
+    "vignette",
+    "legend"
+   ],
+   "burgIcons": 587,
+   "labels": 8,
+   "routes": 441,
+   "stateBordersLength": 3557,
+   "provinceBordersLength": 67324
+  },
+  "roundTrip": {
+   "identical": true,
+   "records": [
+    53,
+    53
+   ],
+   "differing": []
+  },
+  "draw": {
+   "statesBody": 5,
+   "provinces": 203,
+   "cultures": 4,
+   "religions": 6,
+   "routes": 441,
+   "markers": 118,
+   "zones": 10,
+   "military": 3,
+   "burgs": 587,
+   "emblems": 3
+  },
+  "drawErrors": [],
+  "shots": {
+   "states": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_V_states.png",
+   "cultures": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_V_cultures.png",
+   "religions": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_V_religions.png",
+   "routes": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_V_routes.png",
+   "provinces": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_V_provinces.png"
+  },
+  "pageErrorsAfterDraw": [],
+  "shires": {
+   "cells_checked": 2856,
+   "problems": []
+  },
+  "expected_counts": {
+   "states": 3,
+   "burgs": 498,
+   "markers": 59,
+   "routes": 441,
+   "zones": 10
+  },
+  "count_mismatches": {},
+  "ok": true
+ }
+}

@@ -1,0 +1,1483 @@
+{
+ "writer": 5,
+ "span": [
+  "I-0048",
+  "I-0057"
+ ],
+ "events": [
+  {
+   "after": "I-0048"
+  },
+  {
+   "id": "EI-5001",
+   "title": "The wood-carriers go the long way round",
+   "body": "Households whose fields run up to Coille Naomh Muileann chiar carry their winter fuel from beyond the far shoulder of open ground, two journeys where one would serve, sooner than put an axe within the wood's bounds.",
+   "place": "marker:23",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0049",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#i-of-the-wood-that-knew-itself-first",
+   "era_between": [
+    3420,
+    3420
+   ]
+  },
+  {
+   "after": "I-0049"
+  },
+  {
+   "id": "EI-5002",
+   "title": "An uncle grumbles at the wood-carriers' long way round",
+   "body": "At the end of a hard winter month, one of Sadhbh's uncles says aloud, half in jest, that a tree is a tree wherever it grows and a fire does not ask where its wood was cut. No one answers him, and by the next carrying he goes the long way round with the rest.",
+   "place": "marker:23",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#i-of-the-wood-that-knew-itself-first",
+   "era_between": [
+    3480,
+    3480
+   ]
+  },
+  {
+   "id": "EI-5003",
+   "title": "Sadhbh asks what comes of a man who cuts there",
+   "body": "Sadhbh as a child asks her father what would come of a man who cut in Coille Naomh Muileann chiar, and is told that no one has ever found out and that he has no wish to be the first.",
+   "place": "marker:23",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [],
+   "people": [
+    "sadhbh"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#i-of-the-wood-that-knew-itself-first",
+   "era_between": [
+    3496,
+    3496
+   ]
+  },
+  {
+   "after": "I-0050"
+  },
+  {
+   "id": "EI-5004",
+   "title": "Sadhbh and two others meet the white stag",
+   "body": "At the narrow turn of Gleann nan Damh, a white stag breaks from the treeline of Coille Naomh Muileann chiar rather than the open hill. Sadhbh, her cousin Oscar and a boy new to the drive all have clean sight of it and time to loose, and none of the three draws.",
+   "place": "burg:1005",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0050",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5003",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sadhbh"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#ii-of-the-stag-at-the-wood-s-edge",
+   "era_between": [
+    3518,
+    3518
+   ]
+  },
+  {
+   "id": "EI-5005",
+   "title": "The tale of the stag goes hearth to hearth",
+   "body": "The telling of the white stag passes from the nearest hearth outward, gathering colour but losing none of its bones. Some elders say the wood itself put the beast out to be seen; no one that first year gives it a name, god or otherwise.",
+   "place": "marker:23",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0050",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5004",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sadhbh"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#ii-of-the-stag-at-the-wood-s-edge",
+   "era_between": [
+    3519,
+    3519
+   ]
+  },
+  {
+   "id": "EI-5006",
+   "title": "Hunters begin letting the gully's beasts go rather than risk the wrong one",
+   "body": "Carrying the tale of the stag with them, hunters at the glen let a drive go free more readily whenever it breaks for the treeline, at a real cost in meat foregone, rather than risk striking a beast they should not have struck.",
+   "place": "burg:1005",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#ii-of-the-stag-at-the-wood-s-edge",
+   "era_between": [
+    3521,
+    3521
+   ]
+  },
+  {
+   "id": "EI-5007",
+   "title": "The white stag is seen again",
+   "body": "Twenty-two years after Sadhbh's own meeting, a fresh pair of hunters born after the first seeing find a white stag standing at the same treeline. It is taken for the same beast, or near enough that none troubles to argue the difference, and from this second seeing the tale becomes the whole country's, not one hunter's alone.",
+   "place": "burg:1005",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#ii-of-the-stag-at-the-wood-s-edge",
+   "era_between": [
+    3530,
+    3530
+   ]
+  },
+  {
+   "id": "EI-5008",
+   "title": "Sadhbh dies",
+   "body": "Sadhbh, hunter of the eastern households and one of the three who once let the white stag go unloosed at the glen's turn, dies an old woman, having spent her last years telling the tale at hearths that were not her own and refusing, each time she was asked, to make one cause of the stag's wood and the wood of the stones.",
+   "place": "burg:1005",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0050",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-5005",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sadhbh"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3566,
+    3566
+   ]
+  },
+  {
+   "after": "I-0051"
+  },
+  {
+   "id": "EI-5009",
+   "title": "Three paths end at the same line of stones",
+   "body": "The three paths that run toward the second wood from three quarters are all found, without any household having agreed it, to stop at the same low line of set stones short of the trees.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#iii-of-the-second-wood",
+   "era_between": [
+    3575,
+    3575
+   ]
+  },
+  {
+   "id": "EI-5010",
+   "title": "Children are taught the rule of the stones",
+   "body": "Households near the second wood teach their children early and plainly to go as far as the low line of set stones and no further, and to let go whatever strays past it, for nothing lost beyond the line has ever been recovered.",
+   "place": "marker:24",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3600,
+    3600
+   ]
+  },
+  {
+   "id": "EI-5011",
+   "title": "Children told to let a lost thing go past the stones",
+   "body": "Children of the country of the second wood are told early and plainly: go as far as the stones and no further, and whatever crosses the line ahead of you, a ball or a lamb or a hound, let it go.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#iii-of-the-second-wood",
+   "era_between": [
+    3610,
+    3610
+   ]
+  },
+  {
+   "after": "I-0052"
+  },
+  {
+   "id": "EI-5012",
+   "title": "Muireall crosses the line of stones",
+   "body": "Left watching for evening deer with other children at the line of set stones before Coille Naomh Cnoc bheag, the nine-year-old Muireall passes into the trees unseen and uncalled. The eldest child, turned away only a moment, finds her gone with no cry and no mark but a small gap in the undergrowth.",
+   "place": "marker:24",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "muireall"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3620,
+    3620
+   ]
+  },
+  {
+   "id": "EI-5013",
+   "title": "The whole country comes up with torches",
+   "body": "Every household within half a day's walk comes with torches cut and lit before full dark, calling Muireall's name in a chorus that carries over the still evening. They reach the line of stones together and stop there; no torch and no foot crosses it.",
+   "place": "marker:24",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5012",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "muireall"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3620,
+    3620
+   ]
+  },
+  {
+   "id": "EI-5014",
+   "title": "Muireall's mother asks the wood to give the child back",
+   "body": "Held at the stones by her own kin, Muireall's mother asks the wood once, low enough that only those nearest her hear it, to return the child. No answer comes but the ordinary movement of leaves any wood gives back to any question.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5013",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "muireall"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3620,
+    3620
+   ]
+  },
+  {
+   "id": "EI-5015",
+   "title": "The search narrows and ends at the stones",
+   "body": "For three days the country works every fold of ground on the near side of the line and finds no print, no scrap of wool, no trace of Muireall's voice on any wind. On the third day the search stops at the stones, not for want of looking, but because there is nowhere left to look that does not mean crossing a line no one in living memory has ever crossed and returned across.",
+   "place": "marker:24",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5014",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "muireall"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3620,
+    3620
+   ]
+  },
+  {
+   "id": "EI-5016",
+   "title": "The hearths say the sìth took the child",
+   "body": "With nothing found on the near side of the stones, the hearths give the plainest telling that fits: that the sìth, the people of the hills and mounds who held that country first, took Muireall across the line she crossed, and that no household has yet gone in after anything lost that way and come back the better.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5015",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "muireall"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#iii-of-the-second-wood",
+   "era_between": [
+    3621,
+    3621
+   ]
+  },
+  {
+   "id": "EI-5017",
+   "title": "Muireall's household sets a stone by its own threshold",
+   "body": "With no body to bury, Muireall's household cuts her name into a stone of their own setting near their own door rather than at the wood, so that whoever asks after it is told of a child lost at a line of stones on a fine summer evening.",
+   "place": null,
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5016",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "muireall"
+   ],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3621,
+    3621
+   ]
+  },
+  {
+   "id": "EI-5018",
+   "title": "A grown hand kept near the children at the stones",
+   "body": "After Muireall is lost no household lets its children watch for deer at that stretch of the line of stones without a grown hand near enough to close on a small arm.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3630,
+    3630
+   ]
+  },
+  {
+   "id": "EI-5019",
+   "title": "The rule of the stones becomes unquestioned custom",
+   "body": "A generation on from Muireall's loss, no household near the second wood lets its children watch for deer at the line without a grown hand near enough to hold them back, and children born since grow up knowing the rule before they ever hear the reason for it.",
+   "place": "marker:24",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_the_uncut_woods.md#iv-of-muireall",
+   "era_between": [
+    3639,
+    3639
+   ]
+  },
+  {
+   "id": "EI-5020",
+   "title": "Cormac born to the keeper's hearth",
+   "body": "Cormac is born the eleventh child and fourth son of the household that keeps the bag of dark coals and the recital at Tobar dhìreach, one child among many and not looked to for the line.",
+   "place": "burg:276",
+   "kind": "people",
+   "category": "law",
+   "links": [],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3640,
+    3640
+   ]
+  },
+  {
+   "id": "EI-5021",
+   "title": "The keeping falls to Cormac",
+   "body": "Cormac's two elder brothers die within one season, one of a fever and one of a fall on the scree above the black well, and the bag of four dark coals and the recital pass to Cormac on his father's death soon after.",
+   "place": "burg:276",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-5020",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3655,
+    3655
+   ]
+  },
+  {
+   "id": "EI-5022",
+   "title": "Cormac's brothers die in one season",
+   "body": "Cormac's two elder brothers die within a season of each other in his fifteenth year, one of a fever and one of a fall on the scree above the black well, and the learning of the recital comes to him.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-5021",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3655,
+    3655
+   ]
+  },
+  {
+   "id": "EI-5023",
+   "title": "Cormac marries Aoibheann",
+   "body": "Cormac takes Aoibheann of a herding household two valleys west, who keeps his hearth and, as they grow old together, his fire-pot and his temper both.",
+   "place": "burg:276",
+   "kind": "people",
+   "category": "law",
+   "links": [
+    {
+     "to": "EI-5022",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "cormac",
+    "aoibheann"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3660,
+    3660
+   ]
+  },
+  {
+   "id": "EI-5024",
+   "title": "The red-brown coal buried a second time",
+   "body": "Cormac digs a second, deeper hole beside Leac na Fèithe and lays the red-brown coal in it, thinking the earth wants more time than it gave Brian; it lies as cold as before.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "parallel"
+    },
+    {
+     "to": "EI-5023",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3662,
+    3662
+   ]
+  },
+  {
+   "id": "EI-5025",
+   "title": "Gual airgid carried to three rivers",
+   "body": "In one summer Cormac carries gual airgid to three different rivers of the high valleys in turn, in case the Abhainn ghorm alone had been asked; each returns it dark.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-5024",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3665,
+    3665
+   ]
+  },
+  {
+   "id": "EI-5026",
+   "title": "Cormac thinks the grove may hold a leaving",
+   "body": "Through a wet spring while the lambs are born Cormac turns over the thought that the grove where Coimhdeach na Fine stood may hold some leaving that would answer a coal as the ground at Tobar dhìreach answered Brian.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-5025",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3669,
+    3669
+   ]
+  },
+  {
+   "id": "EI-5027",
+   "title": "Cormac resolves on the grove",
+   "body": "Turning the failed trials over through a wet spring, Cormac comes to think that the grove where Coimhdeach na Fine once stood may hold in its ground some leaving that would answer a coal, and tells Aoibheann he means to carry the four dark coals north to it.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0052a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-5026",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac",
+    "aoibheann"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#i-of-cormac-and-the-four-dark-coals",
+   "era_between": [
+    3670,
+    3670
+   ]
+  },
+  {
+   "id": "EI-5028",
+   "title": "The maul turns on the red-brown coal",
+   "body": "On the last morning of his month under the oaks Cormac sets the red-brown coal on a flat stone to break it open, and the maul turns on its hard curved face and comes down across the back of his left hand.",
+   "place": "burg:209",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0052a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-5027",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iii-of-the-misstrike",
+   "era_between": [
+    3670,
+    3670
+   ]
+  },
+  {
+   "after": "I-0052a"
+  },
+  {
+   "id": "EI-5029",
+   "title": "Cormac sets out for Doire ghlas",
+   "body": "Cormac walks north from Tobar dhìreach with the four dark coals in a leather bag, oatcake and dried mutton over his other shoulder, and no company, reaching the oaks of Doire ghlas on the evening of the third day.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0011a",
+     "type": "location"
+    },
+    {
+     "to": "EI-5028",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#ii-of-the-month-under-the-oaks",
+   "era_between": [
+    3670,
+    3670
+   ]
+  },
+  {
+   "id": "EI-5030",
+   "title": "A month under the oaks",
+   "body": "Cormac keeps a small fire in the lee of a fallen trunk at Doire ghlas for the better part of a month, laying each dark coal in turn at the foot of every old oak he finds, burying them again, and once speaking to the grove outright; nothing answers him.",
+   "place": "burg:209",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-5029",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#ii-of-the-month-under-the-oaks",
+   "era_between": [
+    3670,
+    3670
+   ]
+  },
+  {
+   "id": "EI-5031",
+   "title": "The blood of the misstrike",
+   "body": "In a temper at the month's end Cormac sets the red-brown coal on a stone to break it open; the hammer turns on the hard surface and lays open the back of his other hand, and where his blood falls on the coal it catches, burning quietly the colour of firelight through oak while he kneels the better part of a day and forgets to bind the wound.",
+   "place": "burg:209",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0052a",
+     "type": "location"
+    },
+    {
+     "to": "EI-5030",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iii-of-the-misstrike",
+   "era_between": [
+    3670,
+    3670
+   ]
+  },
+  {
+   "id": "EI-5032",
+   "title": "Cormac breaks camp",
+   "body": "With his hand bound and the coal of life gone quiet again, Cormac leaves Doire ghlas the same afternoon, judging that the grove itself had answered nothing and the finding had come out of his own blood and not the wood.",
+   "place": "burg:209",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-5031",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3670,
+    3670
+   ]
+  },
+  {
+   "id": "EI-5033",
+   "title": "Cormac's return",
+   "body": "Four days on the road with his wound slowing him, Cormac comes down into the high valleys at evening; Aoibheann, who has watched the northern track for a week, meets him running in the yard, and hears the whole of it before he will go in to the fire.",
+   "place": "burg:276",
+   "kind": "people",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0052a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5032",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "cormac",
+    "aoibheann"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3671,
+    3671
+   ]
+  },
+  {
+   "id": "EI-5034",
+   "title": "The byname of the Misstrike",
+   "body": "The valley, which had long since stopped laughing at anything Clann a' Chlachair brought home from the grove, takes to calling Cormac by his scarred hand, Cormac of the Misstrike, and he wears the name and the scar both without complaint.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-5033",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3671,
+    3671
+   ]
+  },
+  {
+   "id": "EI-5035",
+   "title": "Cormac holds up his scarred hand at the recital",
+   "body": "At the next night of the lightning Cormac stands at the hearth with his scarred hand raised for the valley to see and speaks the new line: a fourth coal has answered, quick, out of a man's own blood.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5034",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3671,
+    3671
+   ]
+  },
+  {
+   "id": "EI-5036",
+   "title": "The fourth coal named at the recital",
+   "body": "At the next telling of the Line on Oidhche an Dealanaich, Cormac holds up his scarred hand before the gathered valley and speaks the new line into the recital: the sea, the sky and the earth had answered, and now a fourth had answered out of a man's own blood, called gual donn-ruadh and, oftener, the coal of life.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0052a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5035",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3672,
+    3672
+   ]
+  },
+  {
+   "id": "EI-5037",
+   "title": "A cousin tries the silver again",
+   "body": "Cormac gives gual airgid over to a younger cousin to carry to the rivers in his stead, and lives to see that trial fail as his own had, and to laugh about it with Aoibheann.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-5036",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac",
+    "aoibheann"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3690,
+    3690
+   ]
+  },
+  {
+   "id": "EI-5038",
+   "title": "Children shown the old scar in the firelight",
+   "body": "For some years children of the high valleys are shown the scar on old Cormac's hand in the firelight and told the coal that would not break and the blood that lit it anyway.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-5037",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3700,
+    3700
+   ]
+  },
+  {
+   "id": "EI-5039",
+   "title": "Cormac dies at his own hearth",
+   "body": "Cormac dies in his two-and-seventieth year at Tobar dhìreach, Poit an Teine burning near him as it burned near every keeper before him, his last clear word a complaint of the old scar aching in the damp.",
+   "place": "burg:276",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0052a",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-5038",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "cormac",
+    "aoibheann"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3712,
+    3712
+   ]
+  },
+  {
+   "id": "EI-5040",
+   "title": "The bag passes on unnamed",
+   "body": "The leather bag with gual airgid, the coal that has never yet been tried by fire, and gual bogha-froise passes from Cormac's grave to a younger kinsman of the line, whose name the recital keeps but does not give to strangers.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-5039",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "cormac"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3712,
+    3712
+   ]
+  },
+  {
+   "id": "EI-5041",
+   "title": "Aoibheann's last years",
+   "body": "Aoibheann outlives Cormac by six years at Tobar dhìreach, and it is from her telling, repeated at the hearth, that the valley's children learn the story of the coal that would not break and the blood that lit it anyway.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-5039",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "aoibheann"
+   ],
+   "told_in": "book/26_of_cormac_of_the_misstrike.md#iv-of-the-bound-hand",
+   "era_between": [
+    3718,
+    3718
+   ]
+  },
+  {
+   "after": "I-0053"
+  },
+  {
+   "id": "EI-5042",
+   "title": "Dubhghall drives the gully alone for the first time",
+   "body": "At twenty-five, Dubhghall stands for the first time at the head of the deer-drive he has watched his uncle lead since boyhood, and takes a stag with a bad throw that his uncle and two others must finish for him, a failure the household forgets within the season.",
+   "place": "burg:1005",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dubhghall"
+   ],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#i-of-the-glen-of-the-stags",
+   "era_between": [
+    3720,
+    3720
+   ]
+  },
+  {
+   "id": "EI-5043",
+   "title": "The stand of antlers grows at the gully's mouth",
+   "body": "Two autumns running, a good drive leaves the stacked antlers at the mouth of the glen tall enough for a boy to stand in their shadow at noon, the household's plain mark of what the year's meat has cost the herd.",
+   "place": "burg:1005",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#i-of-the-glen-of-the-stags",
+   "era_between": [
+    3722,
+    3722
+   ]
+  },
+  {
+   "id": "EI-5044",
+   "title": "Dubhghall's throw goes wide",
+   "body": "In his first year at the gully's throat Dubhghall's throw strikes a young stag in the shoulder rather than the throat, and it takes his uncle and two others to finish it; he practises the throw all winter against a bundle of brush.",
+   "place": "burg:1005",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0053",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5042",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dubhghall"
+   ],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#i-of-the-glen-of-the-stags",
+   "era_between": [
+    3725,
+    3725
+   ]
+  },
+  {
+   "id": "EI-5045",
+   "title": "Dubhghall takes the head of the drive",
+   "body": "When his uncle's knees will no longer hold him through a whole autumn morning, Dubhghall takes the head of the line at the gully, exacting in one thing only: that no young man stand carelessly.",
+   "place": "burg:1005",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-5044",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dubhghall"
+   ],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#i-of-the-glen-of-the-stags",
+   "era_between": [
+    3740,
+    3740
+   ]
+  },
+  {
+   "id": "EI-5046",
+   "title": "Dubhghall's uncle dies",
+   "body": "Worn thin by winters and no longer able to stand a whole autumn morning at the gully, Dubhghall's uncle dies and is buried within sight of the glen's mouth, close enough that his grandchildren can point to the rise from the stand of horn.",
+   "place": "burg:1005",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0053",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-5045",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dubhghall"
+   ],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#i-of-the-glen-of-the-stags",
+   "era_between": [
+    3750,
+    3750
+   ]
+  },
+  {
+   "id": "EI-5047",
+   "title": "Dubhghall's grandson's dog dies",
+   "body": "A dog that has slept across the boy's feet every night since it was weaned lies down by the hearth one evening and does not rise the next morning, found stiff and cold before the household is properly awake.",
+   "place": "burg:61",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0054",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#ii-of-the-dog-at-cnoc-fhionn",
+   "era_between": [
+    3757,
+    3757
+   ]
+  },
+  {
+   "id": "EI-5048",
+   "title": "The boy digs the dog a grave and sets a shell at its head",
+   "body": "On the dry rise above the house, the boy digs a grave the length of a dog, lays it on its side as a sleeping dog lies, and sets at its head a sea-shell kept idle on a hearth-shelf for years, telling no one beforehand and asking no leave.",
+   "place": "burg:61",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0054",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#ii-of-the-dog-at-cnoc-fhionn",
+   "era_between": [
+    3757,
+    3757
+   ]
+  },
+  {
+   "id": "EI-5049",
+   "title": "An old woman questions the dog's grave",
+   "body": "At a gathering of the near hearths an older woman asks the boy, not unkindly, whether he means to give every lost lamb a shell as well; he answers only that the dog slept at his feet for nine years and a lamb never did, and she allows it is answer enough.",
+   "place": "burg:61",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0054",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#ii-of-the-dog-at-cnoc-fhionn",
+   "era_between": [
+    3758,
+    3758
+   ]
+  },
+  {
+   "id": "EI-5050",
+   "title": "Dubhghall's grandson asks why no one hunts the geese",
+   "body": "Watching the grey line come in over the water one still evening, the boy asks his grandfather why no household takes the geese of Eilean ghorm for meat; Dubhghall answers only that a people who stop leaving what they have always left are no longer quite the people they were.",
+   "place": "feature:8",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0055",
+     "type": "cause"
+    },
+    {
+     "to": "EI-5046",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dubhghall"
+   ],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iii-of-the-geese-of-eilean-ghorm",
+   "era_between": [
+    3759,
+    3759
+   ]
+  },
+  {
+   "id": "EI-5051",
+   "title": "Two more households bury dogs at Cnoc fhionn",
+   "body": "Within a few years of the first grave, two neighbouring households bury their own dogs the same way, a shell at the head and a proper grave dug, and the custom begins to travel hearth to hearth through the hill country.",
+   "place": "burg:61",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0054",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#ii-of-the-dog-at-cnoc-fhionn",
+   "era_between": [
+    3760,
+    3760
+   ]
+  },
+  {
+   "id": "EI-5052",
+   "title": "Dubhghall dies at Cnoc fhionn",
+   "body": "Dubhghall dies in his sixty-fifth year among his daughter's family, remembered at his own leaving for thirty autumns of driving the glen without losing a man to horn or wet ground; his grandson sets the last of his kept shells at the old man's head.",
+   "place": "burg:61",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0053",
+     "type": "legacy"
+    },
+    {
+     "to": "I-0054",
+     "type": "cause"
+    },
+    {
+     "to": "EI-5050",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dubhghall"
+   ],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#ii-of-the-dog-at-cnoc-fhionn",
+   "era_between": [
+    3760,
+    3760
+   ]
+  },
+  {
+   "id": "EI-5053",
+   "title": "A shell set at Dubhghall's head",
+   "body": "Dubhghall's grandson sets a shell at his grandfather's head at his burying, the last of a small store kept since the dog's grave, saying the old man deserved no less than a dog.",
+   "place": "burg:61",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0054",
+     "type": "cause"
+    },
+    {
+     "to": "EI-5052",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dubhghall"
+   ],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#ii-of-the-dog-at-cnoc-fhionn",
+   "era_between": [
+    3760,
+    3760
+   ]
+  },
+  {
+   "id": "EI-5054",
+   "title": "The young man of the northern moor builds a boat for Eilean ghorm",
+   "body": "In a season of want, a young man of the northern moor spends a hard winter building a hide boat in secret and puts out alone one grey morning for the geese's island, telling no one what the boat is for.",
+   "place": "feature:8",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0055",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iii-of-the-geese-of-eilean-ghorm",
+   "era_between": [
+    3770,
+    3770
+   ]
+  },
+  {
+   "after": "I-0054"
+  },
+  {
+   "id": "EI-5055",
+   "title": "The young man does not come back a hunter",
+   "body": "The fate of the young man who sailed for Eilean ghorm is told three ways at three hearths and agreed by none of them; he is remembered not as one who found good hunting, but as a warning the country keeps without understanding it.",
+   "place": "feature:8",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0055",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iii-of-the-geese-of-eilean-ghorm",
+   "era_between": [
+    3771,
+    3771
+   ]
+  },
+  {
+   "after": "I-0055"
+  },
+  {
+   "id": "EI-5056",
+   "title": "The geese read for the turn of the winter",
+   "body": "Households that watch the grey geese of Eilean ghorm close enough learn to read the turn of the winter in their leaving, which comes a day or two ahead of the year's last storm.",
+   "place": "feature:8",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iii-of-the-geese-of-eilean-ghorm",
+   "era_between": [
+    3822,
+    3822
+   ]
+  },
+  {
+   "id": "EI-5057",
+   "title": "The mole at Skell stands nine hundred years",
+   "body": "Mended and lengthened season on season since the old stone-judge first set it, the mole at Skell runs further out into the Abhainn naomh than any one lifetime could have carried it, and a woman of the landing walks its length each evening to look for any stone the current has worked loose.",
+   "place": "burg:489",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0056",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iv-of-skell-at-its-height",
+   "era_between": [
+    3870,
+    3870
+   ]
+  },
+  {
+   "id": "EI-5058",
+   "title": "A woman walks the mole at Skell each evening",
+   "body": "A woman of Skell who keeps the mole's stones walks its length each evening at the turn of the tide, looking for any stone the current has worked loose.",
+   "place": "burg:489",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0056",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iv-of-skell-at-its-height",
+   "era_between": [
+    3871,
+    3871
+   ]
+  },
+  {
+   "id": "EI-5059",
+   "title": "Every mooring taken at Skell",
+   "body": "At Skell on the Abhainn naomh, the greatest landing of the people of the shore, every mooring behind the mole is taken one autumn, hulls lying three and four deep along its sheltered face, and the smoke of the landing's hearths hangs over the river's mouth from dawn to dark.",
+   "place": "burg:489",
+   "kind": "people",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0056",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iv-of-skell-at-its-height",
+   "era_between": [
+    3872,
+    3872
+   ]
+  }
+ ]
+}

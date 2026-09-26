@@ -1,0 +1,273 @@
+[
+ {
+  "title": "The custodians' clerk keeps a slate beside Pike's book",
+  "era_year": {
+   "after": "IV-0012"
+  },
+  "summary": "The custodians of the capital shore set a clerk on a stool by the door of the humans' post at Ros dhomhain. He keeps his own tally of the day's goods on a slate in the old strokes, and each evening he and Thomas Pike read their two counts aloud and find them level.",
+  "category": "trade",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0012"
+  ]
+ },
+ {
+  "title": "Goods carted from Cuan shean to the post",
+  "era_year": {
+   "after": "IV-0012"
+  },
+  "summary": "In the first weeks of the post every bale and cask goes between the strangers' ships at Cuan shean and the counter at Ros dhomhain by cart over the moor road, two days each way. The carters of Cuan shean charge by the creel, and Harrow goes to the pilots of Caol leathan for a way by water.",
+  "category": "trade",
+  "people": [
+   "Edmund Harrow",
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:282",
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0012",
+   "IV-0012a"
+  ]
+ },
+ {
+  "title": "The pilots' double toll entered as fair",
+  "era_year": {
+   "after": "IV-0012"
+  },
+  "summary": "The pilots of Caol leathan go over the smallest of Harrow's hulls and name twice the toll of a Dia-thìreach boat for bringing her up the Abhainn gheal. Harrow is angry. Pike enters the price in the post's tally-book and writes beside it that it is fair, since the pilots know the shallows.",
+  "category": "trade",
+  "people": [
+   "Thomas Pike",
+   "Edmund Harrow"
+  ],
+  "places": [
+   "burg:1",
+   "river:115"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0012a"
+  ]
+ },
+ {
+  "title": "The gift of paper to Cathair naomh",
+  "era_year": {
+   "after": "IV-0013"
+  },
+  "summary": "Paying the custodians of Cathair naomh for their wool in paper and ink, Pike adds a quire of his own writing-paper uncounted. It is the one line of the post's first tally-book that he does not balance, and he marks it as a gift.",
+  "category": "trade",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:192",
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0013"
+  ]
+ },
+ {
+  "title": "Harrow sails north-about with three hulls",
+  "era_year": {
+   "after": "IV-0013"
+  },
+  "summary": "At the end of an Lùnastal Edmund Harrow sails from Cuan shean for an Tìr Thall with all three hulls, north-about, carrying hides and dyed cloth. He leaves Thomas Pike at Ros dhomhain with four men, the loft, the tally-book and the goods not yet traded.",
+  "category": "humans",
+  "people": [
+   "Edmund Harrow",
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0016"
+  ]
+ },
+ {
+  "title": "The ships' smith at the forge in Cathair dhearg",
+  "era_year": {
+   "after": "IV-0014"
+  },
+  "summary": "A smith off Harrow's ships, sent up by Pike, comes to the smiths' lane below Drochaid Cathair dhearg and works through the autumn at the forge of Gilleasbuig Gobha. Having no words in common, the two smiths agree on the colours of hot iron.",
+  "category": "trade",
+  "people": [
+   "Gilleasbuig Gobha",
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0014"
+  ]
+ },
+ {
+  "title": "Gilleasbuig Gobha's first tempered blade",
+  "era_year": {
+   "after": "IV-0014"
+  },
+  "summary": "In the last days of an Dùbhlachd Gilleasbuig Gobha tempers his first blade alone at his forge in Cathair dhearg, a knife of the humans' bar-iron drawn to the straw next the brown. It cuts hide that the old bronze knives only bruise. He gives it to his wife Sìne.",
+  "category": "trade",
+  "people": [
+   "Gilleasbuig Gobha"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0014"
+  ]
+ },
+ {
+  "title": "Iron hoes on the capital's fields",
+  "era_year": {
+   "after": "IV-0014"
+  },
+  "summary": "Through am Faoilleach and am Màrt the smiths of Cathair dhearg forge iron hoes, and the farmers above the lake pay for them with their old bronze hoes, brought down in sacks. Some of the bronze hoes bear the marks of the fields they worked.",
+  "category": "trade",
+  "people": [
+   "Gilleasbuig Gobha"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0014"
+  ]
+ },
+ {
+  "title": "The bells of Cathair dhearg cast from the hoes",
+  "era_year": {
+   "after": "IV-0014"
+  },
+  "summary": "At the asking of the custodians, Gilleasbuig Gobha and two smiths of the lane melt down the bronze hoes in a mould-pit behind his forge and cast four bells. They hang in the market gate, at the bridge and at the temple of Cathair dhearg, and are first rung together at Lùnastal.",
+  "category": "trade",
+  "people": [
+   "Gilleasbuig Gobha"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0014"
+  ]
+ },
+ {
+  "title": "The trading house's letter read at the post",
+  "era_year": {
+   "after": "IV-0016"
+  },
+  "summary": "Toward the end of an Dàmhair Thomas Pike reads at his counter the letter Harrow has brought from the trading house over the sea, aloud in both tongues. It asks what else the island has: timber, tin, copper, lead, and what the rocks hold. Gilleasbuig Gobha hears it read.",
+  "category": "trade",
+  "people": [
+   "Thomas Pike",
+   "Gilleasbuig Gobha"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0016"
+  ]
+ },
+ {
+  "title": "Oighrig nic Leòid witnesses the setting of the leg",
+  "era_year": {
+   "after": "IV-0018"
+  },
+  "summary": "Old and ill, Oighrig nic Leòid, custodian of Cuan shean, is carried to the fisherman's house to watch Jonas Tull break and set the crooked leg again. Told he has done it eleven times and nine have walked, she says that nine of eleven is more than the island has, and writes the debt in the roll.",
+  "category": "humans",
+  "people": [
+   "Oighrig nic Leòid",
+   "Jonas Tull",
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0018"
+  ]
+ },
+ {
+  "title": "Pike's first two years balanced",
+  "era_year": {
+   "after": "IV-0019"
+  },
+  "summary": "In the first days of an Giblean Thomas Pike closes the tally-book of the post at Ros dhomhain on its second year. Over two nights he and the custodians' clerk go through every line of both years, book against slate, and the two counts stand level.",
+  "category": "trade",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0012",
+   "IV-0019"
+  ]
+ },
+ {
+  "title": "Pike writes home of the island's coal",
+  "era_year": {
+   "after": "IV-0020"
+  },
+  "summary": "Answering the trading house, Thomas Pike writes of the island's timber, salt, wool, hides and smiths, and that it has copper, tin and some silver. Having held a piece from a custodian's hearth to the window, he writes that the island has coal of a middling sort, and much of it.",
+  "category": "coal",
+  "people": [
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0016",
+   "IV-0012"
+  ]
+ },
+ {
+  "title": "Gilleasbuig Gobha forges a hinge for Pike's chest",
+  "era_year": {
+   "after": "IV-0020"
+  },
+  "summary": "Gilleasbuig Gobha makes a new hinge of the strangers' bar-iron for the iron-bound chest under Pike's counter, where letters for over the sea are kept. He tempers it to the blue and will take nothing for the work. Pike's letter on the coal goes over the sea in that chest.",
+  "category": "trade",
+  "people": [
+   "Gilleasbuig Gobha",
+   "Thomas Pike"
+  ],
+  "places": [
+   "burg:19",
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0014"
+  ]
+ }
+]

@@ -1,0 +1,278 @@
+[
+ {
+  "title": "The death of King Fearchar Donn",
+  "era_year": 256,
+  "summary": "Fearchar Donn dies at Cathair dhearg in his sixty-eighth year, the last of his own riding to Taigh na Fèithe's winter burning long past. His daughter Sìleas, thirteen years old, is judged too young to be crowned, and the heads of the seven custodian houses take the hall in her name by turns.",
+  "category": "rulers",
+  "people": [
+   "Fearchar Donn",
+   "Sìleas nic Fhearchair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0069",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Sìleas nic Fhearchair crowned",
+  "era_year": 258,
+  "summary": "Sìleas, fifteen years old, is crowned at Cathair dhearg with the same cup and the same oath as her father before her. The heads of Na Seachd Taighean swear over her hands to hold the vein and its right as it has always been held.",
+  "category": "rulers",
+  "people": [
+   "Sìleas nic Fhearchair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0069",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The queen weds Dùghall mac Ìomhair",
+  "era_year": 260,
+  "summary": "Sìleas takes a consort of her own choosing, Dùghall mac Ìomhair of the eastern hill-house Clann Ìomhair, whom she has known since the years of her regency. Na Seachd Taighean' heads attend the wedding at Cathair dhearg.",
+  "category": "rulers",
+  "people": [
+   "Sìleas nic Fhearchair",
+   "Dùghall mac Ìomhair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0068",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A cold supper at An Talla Dearg",
+  "era_year": 261,
+  "summary": "Sìleas summons the head of Clann Ìomhair to a supper at Cathair dhearg after his house walls Dùn dhearg without the crown's leave. Neither speaks plainly of the walls; both understand what is meant by everything left unsaid, and the walls stand unopposed.",
+  "category": "rulers",
+  "people": [
+   "Sìleas nic Fhearchair",
+   "Dùghall mac Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0068",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The quarrel over a basket at the capital's market",
+  "era_year": 261,
+  "summary": "Watching a farmer and a grain-seller come near to blows below An Talla Dearg over the true size of a basket, Sìleas is put in mind of a like quarrel she watched as a child, and resolves that one measure alone shall serve the whole island.",
+  "category": "trade",
+  "people": [
+   "Sìleas nic Fhearchair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0069",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The firlots carried to the shire seats",
+  "era_year": 262,
+  "summary": "Oak firlots bound with three iron hoops, each cut to the capital's standard and marked with the queen's own mark, go out by cart from Cathair dhearg to every shire seat on the island, so that a basket weighed true at the capital weighs true anywhere a Dia-thìrich stands to sell or buy.",
+  "category": "trade",
+  "people": [
+   "Sìleas nic Fhearchair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0069",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The first quarrel settled by the firlot",
+  "era_year": 270,
+  "summary": "At Àth shean a carter and a miller who have fallen out over a load of oats are measured true against the town's firlot before a crowd their shouting drew, and the matter is settled before either of them thinks to shout further.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:67"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0069",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Birth of Uisdean mac Dhùghaill",
+  "era_year": 270,
+  "summary": "Sìleas and Dùghall's son Uisdean is born at Cathair dhearg, a quiet and watchful child who is one day to follow his mother in the hall.",
+  "category": "rulers",
+  "people": [
+   "Sìleas nic Fhearchair",
+   "Dùghall mac Ìomhair",
+   "Uisdean mac Dhùghaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0077",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A trader questions the tally-stick at Cathair dhearg",
+  "era_year": 284,
+  "summary": "At the granary tally-house a trader of the long city asks the clerk what stops a false notch being cut after a bargain is struck, and is shown how the grain of a split stick runs true only when its two halves are laid together again.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0070",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The first full-moon market at Cathair fhada",
+  "era_year": 287,
+  "summary": "Under the new charter the long city holds its first market timed to the full moon, and traders come from three days' walk in every direction to carry honey, hemp, wax and pottery north as one company.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:297"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0070a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The bridge of Cathair dhearg widened",
+  "era_year": 289,
+  "summary": "The old stone bridge over Abhainn dhomhain at Cathair dhearg is widened for two loaded carts to pass abreast, and the queen's name is cut into the downstream parapet without her asking for it.",
+  "category": "trade",
+  "people": [
+   "Sìleas nic Fhearchair",
+   "Uisdean mac Dhùghaill"
+  ],
+  "places": [
+   "marker:3"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0071",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 259,
+  "title": "Raghnall mac Nèill in the water at Seann Toll",
+  "summary": "In the storm the north coast calls Am Fuath Mòr, Raghnall mac Nèill, reeve of Seann Toll, thirty-four years old and four years in office, stands knee-deep on the strand hauling on a rope with three other men to bring in a boat with two children lashed inside it.",
+  "category": "land",
+  "people": [
+   "Raghnall mac Nèill"
+  ],
+  "places": [
+   "burg:37"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0066",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 259,
+  "title": "The dead of Am Fuath Mòr buried on the headland",
+  "summary": "Seann Toll buries the eighteen who drowned trying to save the boats in a single row on the headland above the broken wall, a row so long that the reeve keeping the count loses his place twice and begins again.",
+  "category": "land",
+  "people": [
+   "Raghnall mac Nèill"
+  ],
+  "places": [
+   "burg:37"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0066",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 289,
+  "title": "Sìleas rides to the widened bridge with her son",
+  "summary": "On a grey morning in Bearnach Queen Sìleas rides down to see the widened bridge at Cathair dhearg finished, forty-six years old, with her son Uisdean, nineteen, riding at her side.",
+  "category": "rulers",
+  "people": [
+   "Sìleas nic Fhearchair",
+   "Uisdean mac Dhùghaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0071",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ }
+]

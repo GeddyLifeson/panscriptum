@@ -1,0 +1,132 @@
+[
+  {
+    "title": "Dùghall first walks the whole road to the shore",
+    "era_year": 290,
+    "summary": "Dùghall, nine years old, is let walk the whole three days down to the Seann-Dhaoine's shore with his father for the first time, rather than being turned back with the pack-ponies at the last ridge. He learns the trade is carried by gesture alone, in silence kept on both sides.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0089", "type": "parallel"}]
+  },
+  {
+    "title": "Dùghall's father gives up asking",
+    "era_year": 296,
+    "summary": "Dùghall's father tells his son that he tried, once, as a young man, to learn a Seann-Dhaoine word for the goods they traded, and was met with a courtesy that would not be moved. He has not asked again in forty years, and tells Dùghall which questions the shore means to answer.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0089", "type": "parallel"}]
+  },
+  {
+    "title": "The road passes to Dùghall",
+    "era_year": 300,
+    "summary": "Dùghall's father, too heavy in the knees for the bog-causeway, hands the whole carrying road to his son. Dùghall walks it alone that year with a string of ponies his in all but the naming, three days down to the shore and three days back.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0090", "type": "cause"}]
+  },
+  {
+    "title": "The strokes on the midden stones are first counted",
+    "era_year": 308,
+    "summary": "Dùghall, three-and-twenty, notices that the flat stones set at the edge of one household's midden carry cut strokes, one or two to a stone, and that their number has grown by a few since he first began to notice them. He can get no answer to what they are, by word or by gesture.",
+    "category": "land",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0090", "type": "sequel"}]
+  },
+  {
+    "title": "Dùghall carries the question home unanswered",
+    "era_year": 310,
+    "summary": "Dùghall tells his father what he has seen at the midden's edge. His father says he saw the same stones himself, years before, and had already judged them a question the shore did not mean to answer, and had stopped asking it.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:315"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0090", "type": "legacy"}]
+  },
+  {
+    "title": "A household mourns behind a wall of turf",
+    "era_year": 348,
+    "summary": "Dùghall, come down to the shore in his sixty-seventh year, wakes in the night to low voices shaped like no ordinary talk, and to boats kept ashore past their hour. He does not go out while it lasts, having learned from the hill's own griefs not to.",
+    "category": "faith",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0091", "type": "sequel"}]
+  },
+  {
+    "title": "A fresh stroke is cut beneath an old one",
+    "era_year": 348,
+    "summary": "The morning after the low voices, Dùghall finds a second stroke cut fresh beneath the single old one on the newest of the midden stones, and understands, all at once, that the Seann-Dhaoine mark the going of their own dead the way a hill household marks a grave.",
+    "category": "faith",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0091", "type": "answers"}]
+  },
+  {
+    "title": "Dùghall counts every ridge on the shore",
+    "era_year": 348,
+    "summary": "Dùghall walks the whole shore that morning and finds every household keeps its own ridge of stones the same way, some bearing a single stroke, some bearing more than he can easily count. He carries the understanding home and tells his father, who is glad, at the last, to have the answer he had stopped seeking.",
+    "category": "faith",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0091", "type": "sequel"}]
+  },
+  {
+    "title": "Dùghall keeps the counting stones from his sons",
+    "era_year": 349,
+    "summary": "Dùghall says nothing more of the midden stones to his sons as they take up the road at his shoulder, judging that each will come to the ridge himself in his own year, as he had. He judges rightly.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:315"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0091", "type": "legacy"}]
+  },
+  {
+    "title": "Dùghall takes his grandson down for the last time",
+    "era_year": 352,
+    "summary": "One-and-seventy, and carrying the road no more himself, Dùghall takes his eldest son's boy down to the shore, both understanding without saying so that it is his last going. He finds two houses fallen roofless and fewer threads of smoke than he has ever counted there before.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0090", "type": "sequel"}]
+  },
+  {
+    "title": "The grandson counts the ridge and loses the count",
+    "era_year": 352,
+    "summary": "Dùghall sets his grandson to count the stones of the oldest ridge, and the boy loses the count twice among stones fallen and half-sunk in the turf. Dùghall tells him it is no bad thing to meet a count a man cannot finish, if the count is an honest one.",
+    "category": "faith",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:36"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0091", "type": "legacy"}]
+  },
+  {
+    "title": "Dùghall trades for less on his last shore",
+    "era_year": 352,
+    "summary": "Dùghall trades what hides he carried for less than the same weight once brought, and walks the three days home with his grandson bearing, unknowing, the whole weight of what the old man had carried down that road alone for two-and-sixty years.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:315"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0090", "type": "sequel"}]
+  },
+  {
+    "title": "Dùghall dies on the hill",
+    "era_year": 352,
+    "summary": "Dùghall Ceannaiche dies on the hill that winter, an old man by any hill reckoning, and it is his grandson who takes up the packs the next summer and walks south alone, counting the midden stones before he trades a single hide, as the old man had taught him.",
+    "category": "trade",
+    "people": ["Dùghall Ceannaiche"],
+    "places": ["burg:315"],
+    "threads": ["the-old-ones"],
+    "master_links": [{"to": "I-0090", "type": "legacy"}]
+  }
+]

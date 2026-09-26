@@ -1,0 +1,164 @@
+[
+ {
+  "en": "The Fire in the Stone",
+  "dt": "An Teine sa Chloich",
+  "gloss": "the fire in the stone (the words on Carragh Cnoc bheag); the title of this volume",
+  "kind": "title"
+ },
+ {
+  "en": "the night of the lightning",
+  "dt": "Oidhche an Dealanaich",
+  "gloss": "the night of the lightning; the dark-of-the-year night on which the Line of the Mason is said standing",
+  "kind": "feast"
+ },
+ {
+  "en": "the vein-fire",
+  "dt": "Teine na Fèithe",
+  "gloss": "the fire of the vein; the burning of the broken vein in the mason's well, VE 1 – 151",
+  "kind": "event"
+ },
+ {
+  "en": "the slab",
+  "dt": "Leac na Fèithe",
+  "gloss": "the slab of the vein; the flat stone laid over the burnt vein at Tobar dhìreach (I-0003)",
+  "kind": "landmark"
+ },
+ {
+  "en": "the fire-pot",
+  "dt": "Poit an Teine",
+  "gloss": "the pot of the fire; the clay pot in which the Mason's line keeps what it holds to be the mason's first fire",
+  "kind": "relic"
+ },
+ {
+  "en": "the count of fathers",
+  "dt": "Cunntas nan Athraichean",
+  "gloss": "the count of the fathers; the only long measure of time in the age, a father to about twenty-five years",
+  "kind": "reckoning"
+ },
+ {
+  "en": "the seal bothies of Eilean mhin",
+  "dt": "Bothan nan Ròn",
+  "gloss": "the seal bothies; the seasonal seal-hunters' camp on Eilean mhin (place 1001)",
+  "kind": "place"
+ },
+ {
+  "en": "the autumn camp on Eilean fhada",
+  "dt": "Bothan an Fhoghair",
+  "gloss": "the autumn bothies; the north-shore hunters' camp by the seal skerries off Eilean fhada (place 1002)",
+  "kind": "place"
+ },
+ {
+  "en": "the lake dwellings of Loch chrom",
+  "dt": "Crannagan Loch chrom",
+  "gloss": "the lake dwellings of Loch chrom (place 1003; spec name)",
+  "kind": "place"
+ },
+ {
+  "en": "the shielings of the pass",
+  "dt": "Àirighean a' Bhealaich",
+  "gloss": "the shielings of the pass; herders' summer camps on the high passes, left empty while the cats cross (place 1004)",
+  "kind": "place"
+ },
+ {
+  "en": "the glen of the stags",
+  "dt": "Gleann nan Damh",
+  "gloss": "the glen of the stags; the deer-drive gully of the eastern woods (place 1005)",
+  "kind": "place"
+ },
+ {
+  "en": "the hearths of the shore",
+  "dt": "Teallaichean a' Chladaich",
+  "gloss": "the hearths of the shore; the southern-shore households from which the eleven went up (place 1006)",
+  "kind": "place"
+ },
+ {
+  "en": "the hidden hearths",
+  "dt": "Na Teallaichean Falaichte",
+  "gloss": "the hidden hearths; the hill hamlet of the Doire uaine hills with its covered pit-hearths (place 1007, site of burg 148)",
+  "kind": "place"
+ },
+ {
+  "en": "the field of the column",
+  "dt": "Achadh a' Chalbh",
+  "gloss": "the field of the column; the gathering-ground about Calbh Cnoc ghorm (place 1008, site of burg 392)",
+  "kind": "place"
+ },
+ {
+  "en": "the slope of the households",
+  "dt": "Bruthach nan Teaghlach",
+  "gloss": "the slope of the households; the hill households of the south-eastern valleys (place 1009, site of burg 315)",
+  "kind": "place"
+ },
+ {
+  "en": "the strait bothies",
+  "dt": "Bothan a' Chaolais",
+  "gloss": "the bothies of the strait; the north-shore seal camp on the strait (place 1010, site of burg 95)",
+  "kind": "place"
+ },
+ {
+  "en": "the red crag",
+  "dt": "Creag Ruadh",
+  "gloss": "the red crag; the hearths of the lake-shore line on the red hill above Loch chrom (place 1011, site of burg 19)",
+  "kind": "place"
+ },
+ {
+  "en": "Skell",
+  "dt": "Skell",
+  "gloss": "the Old Ones' own root for their landings (burgs 489, 16, 132); the hill-folk do not yet say Seann before it",
+  "kind": "place-root"
+ },
+ {
+  "en": "Dunn",
+  "dt": "Dunn",
+  "gloss": "the Old Ones' root (burgs 18, 295, 347)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Cwen",
+  "dt": "Cwen",
+  "gloss": "the Old Ones' root (burgs 36, 14, 139)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Bral",
+  "dt": "Bral",
+  "gloss": "the Old Ones' root (burgs 47, 110)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Morn",
+  "dt": "Morn",
+  "gloss": "the Old Ones' root (burgs 186, 465)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Brenn",
+  "dt": "Brenn",
+  "gloss": "the Old Ones' root (burgs 328, 440)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Toll",
+  "dt": "Toll",
+  "gloss": "the Old Ones' root (burgs 37, 313, 404)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Vell",
+  "dt": "Vell",
+  "gloss": "the Old Ones' root (burgs 94, 97, 127, 162)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Warr",
+  "dt": "Warr",
+  "gloss": "the Old Ones' root (burgs 64, 128)",
+  "kind": "place-root"
+ },
+ {
+  "en": "Tarr",
+  "dt": "Tarr",
+  "gloss": "the Old Ones' root (burgs 249, 34, 402)",
+  "kind": "place-root"
+ }
+]

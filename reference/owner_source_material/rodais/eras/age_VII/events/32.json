@@ -1,0 +1,399 @@
+[
+ {
+  "title": "The pass at the Caol mhòr steps",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Comhairle nam Mèinnean's office begins issuing a small paper against a name, a face and a stated errand for anyone at Caol mhòr who means to leave the harbour road; the town takes to calling it simply the pass, and Martha Greaves comes to show her own to the same soldier three times that spring on Moot business.",
+  "category": "war",
+  "people": [
+   "Martha Greaves"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Joe Ashby's boats searched again",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "A patrol captain boards every hull at Caol mhòr's harbour wall in the last week of an Cèitean, the engine-boats last and most carefully; Joe Ashby, watching from his shed door, tells him plainly that no guild in the harbour would give him leave to fit them, and the captain writes it down without comment.",
+  "category": "war",
+  "people": [
+   "Martha Greaves",
+   "Joe Ashby"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Joe Ashby fits a fleet hull again",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Before the summer is out the depot's own men send for Joe Ashby a second time, for a hull no guild-trained fitter at Seann Skell could put right; he mends it, takes his coin at the harbour's own rate, and asks no more of the matter than the coin requires.",
+  "category": "war",
+  "people": [
+   "Joe Ashby"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach's register adds the names of Àth leathan",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Peter Hale brings Martha Greaves a list gathered from the western towns under the disarming; she enters the dead and maimed of Àth leathan into Tional nan Tuathach's register column by column, and finds Ruth Calder's own name on none of its three columns.",
+  "category": "war",
+  "people": [
+   "Martha Greaves",
+   "Peter Hale"
+  ],
+  "places": [
+   "burg:95",
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Easter kept under watch",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Martha Greaves stands at the back of Eaglais nan Tuathach's own Easter service at the chapel above Doire ghlas and finds a single soldier of the regiments posted at the door the whole length of it, writing nothing in his book, the service passing between door and altar without a word exchanged.",
+  "category": "faith",
+  "people": [
+   "Martha Greaves"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Ellen Marsh takes down the Cnoc thais women",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "In the schoolroom given over the autumn before, Ellen Marsh takes down the accounts of the women of Cnoc thais bench by bench for her twelfth book, among them Peggy Innes's telling of a farm that bakes a second loaf every night and leaves it on the sill for a coming and going the disarming never ended.",
+  "category": "war",
+  "people": [
+   "Ellen Marsh"
+  ],
+  "places": [
+   "burg:209",
+   "burg:269"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "A hill farm burned above Cnoc thais",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "A patrol of the regiments finds a farm above Cnoc thais with a barn half full of grain no ration book can account for and burns the house and byre, turning the family into their own yard first; no one is killed, and Ellen Marsh sets the telling down in the same flat voice the women themselves use for it.",
+  "category": "war",
+  "people": [
+   "Ellen Marsh"
+  ],
+  "places": [
+   "burg:269"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Ellen Marsh finishes her twelfth book",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "In the first week of an Dàmhair Ellen Marsh closes the twelfth of her books of Tuathaich accounts, the one that gathers the war her first eleven never spoke of, and writes on its last leaf that she does not know which of her twelve a reader two generations off will find the harder to believe.",
+  "category": "law",
+  "people": [
+   "Ellen Marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "An ceathramh rèisimeid's year of patrols on the Ceann mhòr road",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Through the whole quartered year An ceathramh rèisimeid keeps its patrols on the Ceann mhòr road, a file out at first light and in at dusk; no arms and no unaccounted man are found, and the regiment's returns settle into the same three words that closed every report of the autumn before.",
+  "category": "war",
+  "people": [
+   "Dùghall mac Iain"
+  ],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Dùghall hears the hymn through the wall",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Of an evening in an t-Sultain, Dùghall mac Iain hears through the wall of Barbara's house a hymn sung low in the humans' tongue, heavier than her shuttle-song of the autumn before; by an Dàmhair he can carry its whole shape in his head without meaning to have learned it, and catches himself humming it on the road.",
+  "category": "faith",
+  "people": [
+   "Dùghall mac Iain"
+  ],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Cailean's own grandmother's tune",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Dùghall mac Iain hums two bars of the learned hymn to the soldier Cailean over a cold supper; Cailean says his own grandmother kept a tune very like it, that he never asked its words either, and that a man billeted long enough on a house not his own generally carries some piece of it home in him.",
+  "category": "faith",
+  "people": [
+   "Dùghall mac Iain"
+  ],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "A rumour that will not run to ground",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "Across the quartered year a single rumour passes from the Cnoc thais hill paths to the Doire ghlas schoolroom to the Ceann mhòr road, that something gathers in the western hills the disarming never reached; no regiment's patrol and no clerk's report ever explains it, and it never twice is told the same way.",
+  "category": "war",
+  "people": [
+   "Martha Greaves",
+   "Ellen Marsh",
+   "Dùghall mac Iain"
+  ],
+  "places": [],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "Word reaches Caol mhòr that the hills are moving",
+  "era_year": 22,
+  "after": "VI-0110",
+  "summary": "In the last week of an Dàmhair a Board carrier rides two days without pausing to bring Caol mhòr word that some hundreds have come down out of the western hills and turned south-east across the middle of the island; Martha Greaves reads the note beside her register's own closed column on the names of Àth leathan.",
+  "category": "war",
+  "people": [
+   "Martha Greaves"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0110"
+  ]
+ },
+ {
+  "title": "A burial walked to on a pass",
+  "era_year": 22,
+  "summary": "A carter of Caol mhòr shows his pass at the harbour steps in his mourning black to walk to his father's burial two roads inland, the office having made no separate provision for burials.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-long-war"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "A byre-boy's raised hand",
+  "era_year": 22,
+  "summary": "On the Ceann mhòr road a boy of ten driving three cows begins, in the second season of the patrols, to lift a hand to An ceathramh rèisimeid's file as it passes.",
+  "category": "humans",
+  "people": [
+   "Dùghall mac Iain"
+  ],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Bread left on a sill above Cnoc thais",
+  "era_year": 22,
+  "summary": "A farm two ridges back from ruined Cnoc thais bakes twice what its household can eat and leaves the second baking on the sill overnight; the loaves are gone by morning and the sill is never watched.",
+  "category": "humans",
+  "people": [
+   "Peggy Innes",
+   "Ellen Marsh"
+  ],
+  "places": [
+   "burg:269"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-long-war"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Goods carried out before the thatch was fired",
+  "era_year": 22,
+  "summary": "Marion Kenny tells Ellen Marsh that the family of the burned farm above Cnoc thais were given time by the patrol to carry out a chest, a loom and the year's meal before the thatch was fired.",
+  "category": "war",
+  "people": [
+   "Marion Kenny",
+   "Ellen Marsh"
+  ],
+  "places": [
+   "burg:269"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "A clerk of Comhairle nam Mèinnean counts night traffic on the hill paths",
+  "era_year": 22,
+  "summary": "A clerk of Comhairle nam Mèinnean stationed at Cnoc thais writes to Tional nan Tuathach that the hill paths above the town carry more foot-traffic by night than any patrol's daylight count can explain.",
+  "category": "war",
+  "people": [
+   "Martha Greaves"
+  ],
+  "places": [
+   "burg:269",
+   "burg:95"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The passes printed at Cathair dhearg",
+  "era_year": 22,
+  "summary": "The passes of the northern office are printed at Cathair dhearg on grey card, ten thousand at a time, with a space for a name and none for a trade.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-long-war"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "A pass-office at Cnoc ghorm",
+  "era_year": 22,
+  "summary": "The northern office sets a clerk with his grey passes in the old wool-hall at Cnoc ghorm; the Tuathaich come to him one household at a time, and the elders have their own names written first.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:142"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0119"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The regiments' lorries at Muileann fhada",
+  "era_year": 22,
+  "summary": "The regiments' lorries on the north road take on fuel at a pump set up in the yard of An Taigh-seinnse Reòta above Muileann fhada, the landlord renting the yard to Comhairle nam Mèinnean and keeping his wicks inside.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:74"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-dubhan-trade"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ }
+]

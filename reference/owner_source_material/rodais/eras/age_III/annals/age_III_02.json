@@ -1,0 +1,1622 @@
+{
+ "writer": 2,
+ "span": [
+  "II-0001c",
+  "II-0018"
+ ],
+ "events": [
+  {
+   "id": "EIII-2001",
+   "title": "Aonghas Bàn carried home to his brother's hall",
+   "body": "Ruairidh Glas's men carry Aonghas Bàn mac Mhurchaidh down off the hill of Dùn thais in a cloak between two spear-shafts, in the rain, and word runs ahead of them to his own household, where his brother Eachann Ruadh is already waiting at the gate.",
+   "place": "burg:77",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0001c",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-1063",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "ruairidh-glas"
+   ],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#iii-of-eachann-ruadh-s-oath",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIII-2002",
+   "title": "Eachann Ruadh's oath over his brother's body",
+   "body": "Eachann Ruadh mac Mhurchaidh kneels by his brother's body in the yard of their own hall and swears that the blood spilt at Dùn thais will be answered, blood for blood, by his own hand or his sons' after him, without naming the man he means, which by the old custom of the households leaves the quarrel open to a settling short of a second death.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0001c",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#iii-of-eachann-ruadh-s-oath",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIII-2003",
+   "title": "Ìomhar Dearg refuses to answer for the killing",
+   "body": "Ìomhar Dearg tells his grandson Ruairidh Glas that he did no more than a man does when his own are threatened, and that he is not to trouble himself with an oath sworn by a boy over his brother's body. The line of Ìomhar makes no answer to Eachann Ruadh's oath.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0001c",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "iomhar-dearg",
+    "ruairidh-glas"
+   ],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#iii-of-eachann-ruadh-s-oath",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIII-2004",
+   "title": "The shares parted into countries and provinces",
+   "body": "Under each of na h-Earrannan Mòra the households sworn to it are parted again into countries, and the countries into provinces, as the lines of the king's dead children are fitted in among the living heirs' claims.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#iv-of-the-shares-of-shares",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIII-2005",
+   "title": "Provinces parted again into counties and holdings",
+   "body": "Below the provinces the land is cut finer still, into counties and, under the counties, holdings no larger than a single steading, sworn by whichever household holds them to whatever county's steward stands nearest and troubles to ride out and take the oath.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#iv-of-the-shares-of-shares",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIII-2006",
+   "title": "Holdings sworn to two counties and to three",
+   "body": "A stream that shifts its bed in a wet winter leaves more than one holding claimed by two counties at once, and some households, rather than fight for the difference, swear to both and pay both, and the two counties are slow to compare their rolls.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#iv-of-the-shares-of-shares",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIII-2007",
+   "title": "The three lords of the mill on the Abhainn dhomhain",
+   "body": "Three counties meeting at a bend of the Abhainn dhomhain each claim the eel-catch of an old mill's pond, and the miller, who built the wheel before Roinn na Rìoghachd was thought of, takes to paying each lord a third of the autumn catch unasked, and the quarrel goes no further.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#iv-of-the-shares-of-shares",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "after": "II-0001d"
+  },
+  {
+   "id": "EIII-2008",
+   "title": "Aodh Crom's charge to the new Keeper",
+   "body": "At the choosing on the slope below the slab, Aodh Crom, eldest of the keepers, holds out a lit rush to Beathag Bhàn and charges her to hold it for Brìde and answer to Crom for what is taken from the vein. She says nothing, and the keepers count her silence in her favour.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0002",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#i-of-the-rush-on-the-slope",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "after": "II-0002"
+  },
+  {
+   "id": "EIII-2009",
+   "title": "Luchd nan Snaidhm count forty-four countries",
+   "body": "Riding the boundaries themselves with cords of their own, Luchd nan Snaidhm of Dùn ìseal come to a count of forty-four countries under na h-Earrannan Mòra, a count that holds for a season before two countries are found to have quietly divided themselves into three apiece.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#v-of-the-count-that-gave-up",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EIII-2010",
+   "title": "The count of a hundred and thirty-one provinces",
+   "body": "Luchd nan Snaidhm count a hundred and thirty-one provinces under the countries, and hold the number the better part of a year, though even as it is counted two provinces of Earrann Caol shean split into three over a fishing-weir.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#v-of-the-count-that-gave-up",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EIII-2011",
+   "title": "Luchd nan Snaidhm give up the count at the counties",
+   "body": "Cairistìona, Sìne's eldest daughter, tells Aodh Crom that the counties change their own boundaries faster than any cord can be tied to hold them, and that a knot-keeper who tries to count them all will chase a number that is never the same twice. The count of counties is given up unfinished.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#v-of-the-count-that-gave-up",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EIII-2012",
+   "title": "A boundary quarrel brought to Talla na Lasrach's ground",
+   "body": "Stewards of an Earrann Dhearg and Earrann Mhurchaidh, come to lay a raid and a cattle-theft before the keepers, nearly bring their quarrel armed onto the ground under the mountain. Aodh Crom stands between them and says again that no spear may come onto that ground in anger.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0001c",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#vi-of-the-ground-no-feud-might-follow",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EIII-2013",
+   "title": "The heirs go home from the valley",
+   "body": "In the second summer after the stones went up at Dùn thais, the heirs and their households go home from the valley below Dùn ìseal, most of them for the first time in nearly two years without a boundary still openly disputed.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "ruairidh-glas"
+   ],
+   "told_in": "book/07_of_the_stones_and_the_first_blood.md#vi-of-the-ground-no-feud-might-follow",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EIII-2014",
+   "title": "The flame kept in a turf hut",
+   "body": "With no hall yet raised, the households build Beathag Bhàn a one-room hut of turf at the mountain's foot, and she carries the newly given flame into it and sits up with it through the first night, having found no words to answer the keepers with.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0002",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#i-of-the-rush-on-the-slope",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EIII-2015",
+   "title": "Beathag Bhàn learns the galleries",
+   "body": "Aodh Crom leads Beathag Bhàn down into the low galleries under Dùn ìseal and names them for her one by one, though he will not let her cut the coal herself, telling her that the hand which holds the flame does not also cut the vein.",
+   "place": "burg:315",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0002",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#ii-of-the-slab-and-the-nine-households",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIII-2016",
+   "title": "The watch set on the cairns above Cnoc ghlas",
+   "body": "Beitris, an old keeper of the slab, teaches Beathag Bhàn to read the cloud on the high passes from the cairns above Cnoc ghlas, the sign by which Talla na Lasrach judges when a gallery may safely be opened for the season.",
+   "place": "burg:390",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0002",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#ii-of-the-slab-and-the-nine-households",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EIII-2017",
+   "title": "The nine districts argue the turn of the hearths",
+   "body": "Before the first season is set, two of the nine districts about the mountain's foot claim the tending of the flame for themselves alone, on the ground that their people sat nearest the old slab the longest, and are outvoted by the other seven.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0003",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#ii-of-the-slab-and-the-nine-households",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "after": "II-0003"
+  },
+  {
+   "id": "EIII-2018",
+   "title": "Cailean of the northern hearth sits the first season",
+   "body": "Cailean, a boy of the northern district, is the first of Na Naoi Teallaichean sent up to sit a season with Beathag Bhàn and the flame, arriving expecting a shrine and finding a cold hut with one keeper barely older than himself.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#ii-of-the-slab-and-the-nine-households",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EIII-2019",
+   "title": "The first cairns raised above Cnoc ghlas",
+   "body": "Before fixed cairns marked the ridge, watchers of the weather climbed wherever their own eye judged best each morning. An eastern woman, Sorcha, first piles stone at the three places she finds she reads the sky truest, so that watchers after her need not guess afresh each dawn where to stand.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0006",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#ii-of-morag-nan-carn-and-the-watch-on-the-ridge",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EIII-2020",
+   "title": "Niall Òg offers Beathag Bhàn a silver cup",
+   "body": "Niall Òg climbs to Talla na Lasrach's ground alone and offers Beathag Bhàn a cup of worked silver beaten with running deer, so that she might have one thing of her own.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EIII-2018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#iii-of-niall-og-s-gift",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EIII-2021",
+   "title": "Beathag Bhàn refuses the gift",
+   "body": "Beathag Bhàn gives the silver cup back to Niall Òg, saying that whatever she holds she holds for every hand in the valley, and that taking a gift from one heir would oblige her to answer for refusing every other.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EIII-2020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#ii-of-the-slab-and-the-nine-households",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EIII-2022",
+   "title": "Mòrag nan Càrn named watcher of the ridge",
+   "body": "A child of the fifth hearth who could tell one grey sky from another better than watchers grown old at the work is named, at not yet twenty, to keep the cairns above Cnoc ghlas in her own right, the youngest the mountain has yet trusted with the reading of its weather.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0006",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#ii-of-morag-nan-carn-and-the-watch-on-the-ridge",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EIII-2023",
+   "title": "The door of Talla na Lasrach set toward the vein",
+   "body": "Aodh Crom walks the ground of the new hall with Beathag Bhàn before the first stone is laid and marks where its one door must stand, facing the vein and turned from the sea, giving no reason he will afterward repeat the same way twice.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0004",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#iv-of-the-raising-of-talla-na-lasrach",
+   "era_between": [
+    14,
+    14
+   ]
+  },
+  {
+   "after": "II-0004"
+  },
+  {
+   "id": "EIII-2024",
+   "title": "Na Naoi Teallaichean raise the hall's walls",
+   "body": "Sons and daughters of the nine households build Talla na Lasrach's walls of dry stone and turf under Beathag Bhàn's eye, each household's work known afterward by the set of its stones, straight where the ninth hearth laid it and less so where the second did.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#iv-of-the-raising-of-talla-na-lasrach",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "id": "EIII-2025",
+   "title": "Ruairidh Glas and Eachann Ruadh stand at one fire",
+   "body": "At Samhain on Talla na Lasrach's ground, Ruairidh Glas, who killed Aonghas Bàn at Dùn thais, and Eachann Ruadh, the dead man's brother, stand at opposite sides of the same fire the whole night and speak no word to one another, but neither draws.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001c",
+     "type": "legacy"
+    },
+    {
+     "to": "EIII-2024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [
+    "ruairidh-glas"
+   ],
+   "told_in": "book/08_of_beathag_bhan.md#v-of-the-two-who-did-not-speak",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "id": "EIII-2026",
+   "title": "Sìne nan Snaidhm ties a knot for good news",
+   "body": "Sìne nan Snaidhm comes up to Dùn ìseal for the carrying of the flame into the finished hall and ties a plain unmarked length into her long cord-record, the first knot she has ever tied for good news alone rather than for a claim or a grief.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
+   "told_in": "book/08_of_beathag_bhan.md#vi-of-the-flame-carried-in",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "id": "EIII-2027",
+   "title": "The flame carried into Talla na Lasrach",
+   "body": "On the shortest day of the year Beathag Bhàn lifts the flame from the hearth-stone of the turf hut that had held it eleven years and carries it into the finished hall, where it burns that evening for the first time under a roof built to hold it.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/08_of_beathag_bhan.md#iv-of-the-raising-of-talla-na-lasrach",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "id": "EIII-2028",
+   "title": "The reverence about the mountain given a name",
+   "body": "Asked by a walker of Earrann Caol shean what the households call the milk left on the sill and the silence kept on the ridge, old Beitris of Talla na Lasrach answers for them: Seann Spioradan nan Dia-thìreach, the ancestors, the sìth, the vein and the weather held together, owed remembering and courtesy and watching, and needing no priest to speak for any of them.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0005",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#i-of-the-name-the-hearths-gave-it",
+   "era_between": [
+    18,
+    18
+   ]
+  },
+  {
+   "after": "II-0006"
+  },
+  {
+   "id": "EIII-2029",
+   "title": "Fearchar Glas reads the cloud wrong",
+   "body": "A watcher of six years' standing judges a low grey sky wind only and sends the galleries open; the rain that follows floods the low gallery past saving and costs the households the whole autumn's cutting. Fearchar comes down off the ridge unbidden to tell the keepers of the slab what he did.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#iii-of-the-season-the-mountain-lost",
+   "era_between": [
+    29,
+    29
+   ]
+  },
+  {
+   "id": "EIII-2030",
+   "title": "The cairns given a stricter choosing",
+   "body": "After the season lost to a wrong reading, the keepers of the slab rule that no one may watch the cairns alone who has not first stood a full season under an elder watcher's eye and been judged fit by more than one. Mòrag nan Càrn sits among those who judge the youths who come after.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0006",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#iii-of-the-season-the-mountain-lost",
+   "era_between": [
+    30,
+    30
+   ]
+  },
+  {
+   "id": "EIII-2031",
+   "title": "A boy of Doire uaine chooses the cold over the flint",
+   "body": "In the hardest winter the slopes have seen, a boy sent to bring in a ewe is caught by the wind and found two days later, alive, having refused to strike a fire within sight of the forbidden hills though he carried flint enough. His mother carries him down to Talla na Lasrach herself rather than risk the road past the standing stones.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0007",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#iv-of-the-cold-on-the-doire-uaine-slopes",
+   "era_between": [
+    33,
+    33
+   ]
+  },
+  {
+   "after": "II-0007"
+  },
+  {
+   "id": "EIII-2032",
+   "title": "Talla na Lasrach's hearth opened to the Doire uaine households",
+   "body": "Beathag Bhàn sends word that any household of the forbidden slopes may bring a sick child or a frost-bitten hand to Coimheadaiche na Lasrach's own hearth at Dùn ìseal, the ban forbidding only a fire lit within sight of those hills. Few households make the long journey, but the offer is remembered longer than it is used.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0007",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#iv-of-the-cold-on-the-doire-uaine-slopes",
+   "era_between": [
+    33,
+    33
+   ]
+  },
+  {
+   "id": "EIII-2033",
+   "title": "Beathag Bhàn walks alone to Làrach an Teampaill",
+   "body": "Telling no one where she goes, Beathag Bhàn crosses broken ground to Làrach an Teampaill and finds its altar-slab, worn by hands no one living can name, turned toward her own mountain. She returns and tells the keepers of the slab plainly that she cannot say whose place it is, only that it is neither Brìde's nor Crom's.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0008",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2032",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#v-of-beathag-s-walk-to-the-ruin",
+   "era_between": [
+    34,
+    34
+   ]
+  },
+  {
+   "after": "II-0008"
+  },
+  {
+   "id": "EIII-2034",
+   "title": "The keepers swear never to enter the ruin",
+   "body": "After argument over whether Làrach an Teampaill should be cleared and watched like the cairns or left untouched, Beathag Bhàn ends it: no keeper of the slab, and no Keeper of the flame after her, will set foot inside it again, a reverence built on courtesy to what it cannot read being no reverence at all if it tramples the ground.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#v-of-beathag-s-walk-to-the-ruin",
+   "era_between": [
+    34,
+    34
+   ]
+  },
+  {
+   "id": "EIII-2035",
+   "title": "Death of Beathag Bhàn",
+   "body": "After a winter's slow failing, Beathag Bhàn dies at Dùn ìseal without ever having risen ill from her bed. She is laid on the slope facing the vein with her back to the sea, at Beitris's word, since she never once turned from the mountain living and none will have her do it the one day she cannot choose.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0009",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#vi-of-the-flame-passed-on",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "after": "II-0009"
+  },
+  {
+   "id": "EIII-2036",
+   "title": "Muireach Liath chosen to hold the flame",
+   "body": "Na Naoi Teallaichean gather within the week and name Muireach Liath, Beathag Bhàn's sister's son, faster than any choosing the mountain has seen. Old Beitris puts the rush into his hands with words close to Aodh Crom's own, and he carries the flame into Talla na Lasrach that same evening.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0009",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_cairns_and_the_unentered_temple.md#vi-of-the-flame-passed-on",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EIII-2037",
+   "title": "The basket argued to one size",
+   "body": "Muireach Liath asks Na Naoi Teallaichean for a common measure, a lidded basket of plaited heather, one to a household, filled once a season. The households argue the size of it until they have argued themselves into agreeing on one.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#i-of-the-basket-once-a-season",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "id": "EIII-2038",
+   "title": "The weavers of the third hearth take the basket's making",
+   "body": "The plaiting that holds the measured basket's shape under a full load proves particular enough that the weavers of the third hearth keep the craft for their own. Baskets of that weave outlast a season's use before any other household's do.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0010",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#i-of-the-basket-once-a-season",
+   "era_between": [
+    46,
+    46
+   ]
+  },
+  {
+   "id": "EIII-2039",
+   "title": "A second and third sinking answered",
+   "body": "Two more households of Caol shean come forward with tales like the first woman's, of boats kept whole after a drink of the stream in what each judges the right quarter of the moon. The laughing that met her first telling thins.",
+   "place": "burg:197",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#ii-of-the-stream-named-for-luck",
+   "era_between": [
+    47,
+    47
+   ]
+  },
+  {
+   "after": "II-0010"
+  },
+  {
+   "id": "EIII-2040",
+   "title": "Muireach walks up to Muileann ruadh",
+   "body": "In his fourth year Muireach Liath goes up to Fuarain Theth Muileann ruadh himself rather than let the households' carrying run past him unquestioned, and finds an old woman keeping her granddaughter's ill-set arm a season longer in the water before anyone speaks of breaking it again.",
+   "place": "marker:0",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0014",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#iv-of-the-carrying-to-muileann-ruadh",
+   "era_between": [
+    49,
+    49
+   ]
+  },
+  {
+   "id": "EIII-2041",
+   "title": "A hearth-elder puts the stream to Muireach",
+   "body": "One of the hearth-elders who kept the ancestors' watch before Beathag Bhàn's own choosing asks Muireach Liath directly whether a stream running off the vein's own mountain belongs to Talla na Lasrach's reckoning. His answer, given plainly in a few sentences, is repeated by every Keeper who follows him.",
+   "place": "marker:1",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0013",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#iii-of-the-hall-s-ruling",
+   "era_between": [
+    52,
+    52
+   ]
+  },
+  {
+   "after": "II-0011"
+  },
+  {
+   "id": "EIII-2042",
+   "title": "Gille-Brìde dies in the high valleys",
+   "body": "Gille-Brìde of Somhairle's line, who carried a coal of A' Chiad Lasair home from An Ceangal and asked for nothing since, dies among his own people at two hundred and twenty-four, in an early winter hard on the hill-folk of Coille naomh.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0010",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling"
+   ],
+   "people": [
+    "gille-bride"
+   ],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#v-of-gille-bride-in-the-high-valleys",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "id": "EIII-2043",
+   "title": "Ceallach keeps the coal",
+   "body": "Ceallach mac Ghille-Bhrìde takes up his father's hearth and the coal of A' Chiad Lasair kept on it, changing nothing the hill-folk who sit by that fire can name, since he had been feeding it quietly on his father's behalf for years before.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling"
+   ],
+   "people": [
+    "ceallach-mac-ghille-bhride"
+   ],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#v-of-gille-bride-in-the-high-valleys",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "id": "EIII-2044",
+   "title": "Niall Òg sits an evening at Ceallach's hearth",
+   "body": "Niall Òg goes up alone to the high valleys on hearing of Gille-Brìde's death, and finds, for the first time in sixty years of burying his father's kin, a death that leaves him nothing to feel bitter about.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling",
+    "the-long-years"
+   ],
+   "people": [
+    "ceallach-mac-ghille-bhride"
+   ],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#v-of-gille-bride-in-the-high-valleys",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "after": "II-0013"
+  },
+  {
+   "id": "EIII-2045",
+   "title": "Murchadh Mòr dies at Baile Mòr mhòr",
+   "body": "Murchadh Mòr, eldest of Ailean's living sons and the first knotted on Sìne's cord, dies at his own seat close on three thousand years old, having outlived every one of his generation but Eithne and a scattering of the youngest.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0098a",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years",
+    "the-division"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#vi-of-the-north-cut-in-eleven",
+   "era_between": [
+    64,
+    64
+   ]
+  },
+  {
+   "id": "EIII-2046",
+   "title": "Eleven knives for the north",
+   "body": "Murchadh Mòr's eleven sons, none by the same mother, divide Earrann Mhurchaidh among themselves with a knife to each of the north's chief holdings, over eleven nights of arguing which hall goes with which knife.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0001b",
+     "type": "parallel"
+    },
+    {
+     "to": "EIII-2045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division",
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#vi-of-the-north-cut-in-eleven",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EIII-2047",
+   "title": "Lachlann Mòr takes Baile Mòr mhòr",
+   "body": "The eldest of Murchadh Mòr's eleven sons is given his father's own seat and its name with less argument than the rest of the division, none of his brothers wanting the weight of a hall so long held.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0001b",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#vi-of-the-north-cut-in-eleven",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EIII-2048",
+   "title": "Donnchadh Iar disputes the western glens",
+   "body": "The fourth of Murchadh Mòr's sons wins the western glens only after the longest argument of the whole division, and goes on calling the settlement unjust for years after.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0001b",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#vi-of-the-north-cut-in-eleven",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EIII-2049",
+   "title": "The north's counties too small for twenty spears",
+   "body": "What comes out of Baile Mòr mhòr's last division is a floor of small halls, none able to raise so much as twenty spears alone, a smallness the tellers already read as proof the long-lived blood was fading fastest from that line.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0001b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#vi-of-the-north-cut-in-eleven",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "after": "II-0014"
+  },
+  {
+   "id": "EIII-2050",
+   "title": "Eachann Ruadh raids an Earrann Dhearg's cattle",
+   "body": "Eachann Ruadh rides a dozen men across Clachan-crìche into an Earrann Dhearg's northern grazing and drives off near forty head before the alarm is fully raised, the old feud from Dùn thais finding a fresh grievance to spend itself on.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0001d",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#vii-of-the-cattle-taken-at-the-ford",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EIII-2051",
+   "title": "Muireach refuses Talla na Lasrach's ground to the cattle",
+   "body": "Asked to shelter an Earrann Dhearg's recovered cattle on Talla na Lasrach's own ground, Muireach Liath refuses, ruling that the ground was sworn to keep a man safe from a knife and never to make holy ground of every quarrel brought to his door.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0001c",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/10_of_muireach_liath_and_the_luck-stream.md#vii-of-the-cattle-taken-at-the-ford",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EIII-2052",
+   "title": "A grey stone found apart from the vein",
+   "body": "A shepherd of the ninth hearth, hunting a ewe caught in bracken a few miles north of Dùn ìseal, finds a grey stone with a bright wound where her stick scraped the moss away and carries it down out of curiosity. It sits on a sill at Dùn ìseal a season, turned over by whoever passes, before anyone thinks to put fire to it.",
+   "place": "burg:419",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "II-0015",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#i-of-the-furnace-that-answered-to-nobody",
+   "era_between": [
+    69,
+    69
+   ]
+  },
+  {
+   "id": "EIII-2053",
+   "title": "Fearchar Airgeadach smelts the first bead",
+   "body": "Fearchar, a basket-carrier of the ninth hearth who has spent three winters tending the vein's fires, builds his own fire apart from Talla na Lasrach on the spur where the stone was found and feeds it through a day and half a night. Old Tormod, dozing beside him, wakes to find a bead of soft bright metal in Fearchar's hand that answers to no fire Talla na Lasrach has ever kept.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0016",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#i-of-the-furnace-that-answered-to-nobody",
+   "era_between": [
+    69,
+    69
+   ]
+  },
+  {
+   "id": "EIII-2054",
+   "title": "Muileann chiar named",
+   "body": "Within a month Fearchar has raised a proper furnace of clay and dry stone on the spur and is hammering beads into rings. The households of the ninth hearth call the place Muileann chiar, the dark mill, after the smoke that hangs over it of a still morning, unmindful of the older place of that name far to the east.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0016",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#i-of-the-furnace-that-answered-to-nobody",
+   "era_between": [
+    69,
+    69
+   ]
+  },
+  {
+   "id": "EIII-2055",
+   "title": "Muireach Liath rules the silver shows no blood",
+   "body": "Asked whether the new metal falls under the flame, Muireach Liath presses a ring's softest edge with his thumbnail, finds no colour beneath the break as a coal always shows, and rules that Talla na Lasrach has no claim on a thing that shows no colour when it breaks. Fearchar is left free to dig on, and to keep or give what he digs.",
+   "place": "burg:419",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0017",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#ii-of-the-ring-that-showed-no-colour",
+   "era_between": [
+    70,
+    70
+   ]
+  },
+  {
+   "after": "II-0015"
+  },
+  {
+   "id": "EIII-2056",
+   "title": "The first ring set out for Goibhniu",
+   "body": "Fearchar takes up the custom of setting the first ring off every new furnace whole on a flat stone at the mouth of the workings, an offering to Goibhniu, before a second ring is begun. No furnace of his ever fails in its first season, which the smiths of Muileann chiar take as proof the god has taken the offerings kindly.",
+   "place": "burg:419",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0016",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#ii-of-the-ring-that-showed-no-colour",
+   "era_between": [
+    71,
+    71
+   ]
+  },
+  {
+   "after": "II-0017"
+  },
+  {
+   "id": "EIII-2057",
+   "title": "Two cousins of Earrann Caol shean claim the silver ground",
+   "body": "Grandsons of one grandfather through different daughters, whose households have shared an unremarkable boundary along a dry burn since their grandfather's day, each send word to Dùn ìseal within days of the other, swearing the spur of Fearchar's furnaces lies on his own side of the burn. The keepers of the slab find the seam outside their reach to judge and send the cousins back to settle it themselves.",
+   "place": "burg:419",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#iii-of-the-two-cousins-and-the-ground-between",
+   "era_between": [
+    75,
+    75
+   ]
+  },
+  {
+   "id": "EIII-2058",
+   "title": "Fearchar pays a ring to each cousin",
+   "body": "Weary of digging under a dispute he did not start, Fearchar offers a ring from the season's working to each of the two cousins, on condition that both let the digging go on undisturbed while their elders argue the boundary. Both take the ring, neither gladly, and the quarrel is settled within the year by a boundary stone the two households cut and raise together at the driest point of the burn.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0017",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-2057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#iii-of-the-two-cousins-and-the-ground-between",
+   "era_between": [
+    76,
+    76
+   ]
+  },
+  {
+   "id": "EIII-2059",
+   "title": "The first ring traded at Ros fhionn",
+   "body": "A carrier of the ninth hearth strikes the first known trade of a ring against a whole boatload of salted fish and sealskin at the river quays of Ros fhionn. The measure holds for every later bargain on the quay, so that a boatman naming a price says simply \"a ring's worth\" and is understood without further reckoning.",
+   "place": "burg:76",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0018",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#iv-of-the-rings-for-salt-and-sealskin",
+   "era_between": [
+    77,
+    77
+   ]
+  },
+  {
+   "id": "EIII-2060",
+   "title": "Death of Ceallach mac Ghille-Bhrìde",
+   "body": "Ceallach, who has kept the coal of A' Chiad Lasair in the high valleys since his father Gille-Brìde's death, dies in his sleep at the age of a hundred and forty, the last of Somhairle's line in whom na Bliadhnachan Fada still showed. His household carries the coal down to Talla na Lasrach's own flame; his children leave the high valleys within the year and settle among the lower hearths.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0015",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [
+    "ceallach-mac-ghille-bhride"
+   ],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#v-of-ceallach-s-long-years-ended",
+   "era_between": [
+    79,
+    79
+   ]
+  }
+ ]
+}

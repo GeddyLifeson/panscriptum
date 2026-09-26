@@ -1,0 +1,177 @@
+[
+ {
+  "id": "EV-3507",
+  "title": "The first grave dug in An Acair Uaine",
+  "era_year": 73,
+  "summary": "Beitris Bhàn helps dig the first grave in the stony field beyond Achadh dhomhain's spoil-heaps, on a day the camp's own grave-diggers are themselves too sick to work. Within weeks the whole camp is calling the field an Acair Uaine without anyone having named it so on purpose.",
+  "category": "land",
+  "people": [
+   "Beitris Bhàn"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   "IV-0152",
+   "IV-0153"
+  ]
+ },
+ {
+  "id": "EV-3510",
+  "title": "Sìne Ruadh orders the huts of Àth ghlas burned",
+  "era_year": 73,
+  "summary": "The custodian of Àth ghlas, Sìne Ruadh, orders every hut where a death has occurred burned to the ground with its bedding before the next nightfall, over A' Chompanaidh's agent's written protest at the loss of its property. She burns nine huts before the summer ends.",
+  "category": "land",
+  "people": [
+   "Sìne Ruadh"
+  ],
+  "places": [
+   "burg:393"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0156"
+  ]
+ },
+ {
+  "id": "EV-3511",
+  "title": "The clerk leaves a line blank after the twenty-sixth settlement",
+  "era_year": 73,
+  "summary": "The custodian's clerk who keeps the roll of settlements with cases of A' Phlàigh Uaine leaves a blank line after the twenty-sixth name. It is still blank when a different hand takes up the roll the following spring, and no twenty-seventh name is ever entered in it.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "zone:0"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0154"
+  ]
+ },
+ {
+  "id": "EV-3512",
+  "title": "Nathaniel Bright opens his table of weighings",
+  "era_year": 74,
+  "summary": "At Muileann chrom, Nathaniel Bright begins keeping a ruled black-bound book of the lungs he weighs from A' Phlàigh Uaine's dead, with the custodians' leave and a custodian standing by at each opening. Anne Colby brings her own sick-house tally to set beside it that winter.",
+  "category": "law",
+  "people": [
+   "Nathaniel Bright",
+   "Anne Colby"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0158"
+  ]
+ },
+ {
+  "id": "EV-3513",
+  "title": "Walter Crane walks the sick-rows at Achadh dhomhain",
+  "era_year": 74,
+  "summary": "Àrd-mhaor Crane walks the worst of the sickness's second summer at Achadh dhomhain and does not walk faster past the bad huts than the ordinary ones, a thing the custodians and Beitris Bhàn both note and remember afterward in his favour.",
+  "category": "humans",
+  "people": [
+   "Walter Crane",
+   "Beitris Bhàn"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0159"
+  ]
+ },
+ {
+  "id": "EV-3508",
+  "title": "Bright's table breaks off mid-row",
+  "era_year": 75,
+  "summary": "Nathaniel Bright falls ill in the third season of his study. His last entry stops after the weight of a dead man's lung, with the column for the dust in it left empty and the pen, by the mark it leaves, set down and never taken up again.",
+  "category": "law",
+  "people": [
+   "Nathaniel Bright"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0158"
+  ]
+ },
+ {
+  "id": "EV-3514",
+  "title": "Anne Colby comes to Beitris Bhàn's door",
+  "era_year": 75,
+  "summary": "Anne Colby, unsent by Teachdaireachd na h-Eaglaise and unasked by any custodian, comes to Achadh dhomhain to learn from the layer-out Beitris Bhàn what her own hands have taught her of A' Phlàigh Uaine. The two begin washing the camp's dead together, a custom the camp comes to call An Dithis a Nigh Còmhla.",
+  "category": "coalblood",
+  "people": [
+   "Anne Colby",
+   "Beitris Bhàn"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0152"
+  ]
+ },
+ {
+  "id": "EV-3509",
+  "title": "Nathaniel Bright dies at Muileann chrom",
+  "era_year": 76,
+  "summary": "Nathaniel Bright dies at Muileann chrom of the same sickness he had spent three seasons weighing in other men's lungs, and is buried by Teachdaireachd na h-Eaglaise apart from An Acair Uaine and the field at Cnoc naomh. His book is filed at Taigh an Àrd-mhaoir and never taken up by any physician after him.",
+  "category": "humans",
+  "people": [
+   "Nathaniel Bright",
+   "Anne Colby"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0158"
+  ]
+ },
+ {
+  "id": "EV-3515",
+  "title": "George Tolley's quarantine at Caol mhin",
+  "era_year": 76,
+  "summary": "The new Àrd-mhaor, George Tolley, sets a quarantine station at Caol mhin holding every ship from an Tìr Thall offshore until its crew is looked over. It is the one order of his rule the custodians approve without reservation and say so in writing.",
+  "category": "law",
+  "people": [
+   "George Tolley"
+  ],
+  "places": [
+   "burg:366"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0161"
+  ]
+ },
+ {
+  "id": "EV-3516",
+  "title": "Beitris Bhàn nails a feather over her own door",
+  "era_year": 74,
+  "summary": "After laying out the fortieth body of the season, Beitris Bhàn nails a hawk's feather above her own door at Achadh dhomhain. The overseer's boy finds it and reports his father, and she pays the week's pay it costs her and nails up another within the month.",
+  "category": "faith",
+  "people": [
+   "Beitris Bhàn"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0162"
+  ]
+ }
+]

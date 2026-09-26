@@ -1,0 +1,1302 @@
+{
+ "writer": 2,
+ "span": [
+  "I-0012",
+  "I-0018"
+ ],
+ "events": [
+  {
+   "after": "I-0012"
+  },
+  {
+   "id": "EI-2501",
+   "title": "The old man begins choosing stones at Skell",
+   "body": "On the first day of the warm month an old man of the river bank at Skell walks the shingle at first light and chooses, by a judgement none of the younger men beside him can name, the boulder that will be rolled and set as the first stone of a mole into the current.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
+   "era_between": [
+    951,
+    951
+   ]
+  },
+  {
+   "id": "EI-2502",
+   "title": "The trying of Tòimhseachan a' Choimhdich is let rest at the mason's hearth",
+   "body": "After coals have been carried to unceasing rain, sunk in sea-water fetched home in skins, and set together seven at once in the hottest fire the line's hands can build, and have come out of every trial the same dull stones, Clann a' Chlachair lets the trying rest, the leather bag closed and kept rather than opened again.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0011a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#iii-of-the-recital-kept-idle",
+   "era_between": [
+    955,
+    955
+   ]
+  },
+  {
+   "id": "EI-2503",
+   "title": "A grandson stands against the current",
+   "body": "A boy of the old man's own kin takes to standing chest-deep at the mole's outer edge on calm summer days, bracing his feet on the last stone set and letting the river push at him without giving ground, watched from the bank by a grandfather who says nothing of it either way.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
+   "era_between": [
+    958,
+    958
+   ]
+  },
+  {
+   "id": "EI-2504",
+   "title": "The mole's first winter",
+   "body": "By the turn of the second year the low ridge of unmortared boulders reaches far enough from the bank at Skell that boats which once beached in the open now lie sheltered in its lee, a dozen at a time on a hard night, and the households along that stretch stop thinking of their landing as open water.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
+   "era_between": [
+    960,
+    960
+   ]
+  },
+  {
+   "id": "EI-2505",
+   "title": "The first slab set on the worst scramble at Bral",
+   "body": "A woman of the grazing household above the western cliffs at Bral works a frost-loosened slab, over most of a season, into a single set step at the foot of the worst stretch of the scramble down to the shingle, wedging it level with smaller stones packed beneath.",
+   "place": "burg:47",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0013",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
+   "era_between": [
+    962,
+    962
+   ]
+  },
+  {
+   "id": "EI-2506",
+   "title": "The first stone box raised for the dead of Vell",
+   "body": "A household of the low south-eastern headland rows one of its own dead out to the near island for the first time in a boat built broad enough for the crossing, and raises a box of four slabs and a lid over the body, its face set toward the mainland shore rather than the open sea beyond.",
+   "place": "feature:12",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0014",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#iv-of-the-dead-of-vell",
+   "era_between": [
+    964,
+    964
+   ]
+  },
+  {
+   "id": "EI-2507",
+   "title": "The flood the mole holds against",
+   "body": "A flood the old man says he has not seen the like of in all his years on the bank takes one small boat downstream and out of reach, but drives its whole weight against the mole's upstream face without shifting a single stone the old man has set, and the ridge stands scoured clean when the water falls.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
+   "era_between": [
+    966,
+    966
+   ]
+  },
+  {
+   "id": "EI-2508",
+   "title": "Other households ask for the same lee",
+   "body": "After the flood, households that had watched the mole rise from a distance come to the old man and ask to have their own landings brought under its shelter, and he sets them to the rolling and placing exactly as he learned it, so the work outgrows any one household's hands.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
+   "era_between": [
+    968,
+    968
+   ]
+  },
+  {
+   "id": "EI-2509",
+   "title": "The old stone-judge counts the boats coming in",
+   "body": "In his last summers, too stiff to walk the bank at first light, the old man who began the mole at Skell sits above the river of an evening and counts the boats coming in under its lee.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
+   "era_between": [
+    975,
+    975
+   ]
+  },
+  {
+   "id": "EI-2510",
+   "title": "The steps reach the first shelf at Bral",
+   "body": "Cut a slab at a time in whatever season allows it, the steps from the shingle at Bral now run unbroken to a shelf a third of the way up the cliff, wide enough for two to pass, while above it the bare scramble still wants both hands free.",
+   "place": "burg:47",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0013",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
+   "era_between": [
+    1005,
+    1005
+   ]
+  },
+  {
+   "id": "EI-2511",
+   "title": "A boy runs the finished stretch without a hand to the rock",
+   "body": "Sent down for shellfish on a morning the household is short-handed, a boy runs the whole finished stretch of the Bral steps down and up again without once touching the rock, and laughs at the top of it while the women above, none of whom has ever gone that way without a hand out, laugh with him.",
+   "place": "burg:47",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0013",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
+   "era_between": [
+    1012,
+    1012
+   ]
+  },
+  {
+   "after": "I-0013"
+  },
+  {
+   "id": "EI-2512",
+   "title": "The steps above the shelf go slower",
+   "body": "Above the first shelf at Bral the rock runs harder and gives up fewer slabs, and a worker of the household spends a whole season on a stretch of a dozen feet that yields three steps.",
+   "place": "burg:47",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
+   "era_between": [
+    1040,
+    1040
+   ]
+  },
+  {
+   "id": "EI-2513",
+   "title": "An old woman rests her hand on the topmost step",
+   "body": "An old woman of Bral sits of an evening on the shelf a third of the way up the cliff and runs her hand along the edge of the topmost step then cut, saying of the rock above only that it will come when it comes.",
+   "place": "burg:47",
+   "kind": "craft",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
+   "era_between": [
+    1060,
+    1060
+   ]
+  },
+  {
+   "id": "EI-2514",
+   "title": "The two hundred and twelfth step is cut at Bral",
+   "body": "The steps from the shingle to the grazing above Bral are finished at two hundred and twelve, cut across three generations of hands that never once all worked in the same season, the last stretch of hard rock giving up only three steps for a whole season's work.",
+   "place": "burg:47",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
+   "era_between": [
+    1080,
+    1080
+   ]
+  },
+  {
+   "id": "EI-2515",
+   "title": "The treads of Bral wear hollow",
+   "body": "The lower steps at Bral, cut soonest and used longest, wear a shallow dish into their middles before the upper steps have worn at all.",
+   "place": "burg:47",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
+   "era_between": [
+    1090,
+    1090
+   ]
+  },
+  {
+   "after": "I-0014"
+  },
+  {
+   "id": "EI-2516",
+   "title": "The recital said to a gathering that came unsent-for",
+   "body": "On the dark-of-the-year night the keeper of An Clachair's hearth stands to say the fathers' names before a gathering that has walked up from the lower valleys of its own will, without any household sending word ahead, and says Tòimhseachan a' Choimhdich after as she has said it every year, and closes the bag again unopened.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0011a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#iii-of-the-recital-kept-idle",
+   "era_between": [
+    1100,
+    1100
+   ]
+  },
+  {
+   "id": "EI-2517",
+   "title": "No grave left open through a night on Eilean dhearg",
+   "body": "The households of Vell will not let a stone box stand open through a night; an unfinished box is covered with brush and stone until the true lid can be rowed across.",
+   "place": "feature:12",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#iv-of-the-dead-of-vell",
+   "era_between": [
+    1100,
+    1100
+   ]
+  },
+  {
+   "id": "EI-2518",
+   "title": "A woman rows her mother out, then her daughter",
+   "body": "A woman of the same shore rows her own mother's body to the island one autumn and her own daughter's the spring after, and is remembered to have gone to the boat the second time with a face that told the household this crossing was not, for her, a labour like any other.",
+   "place": "feature:12",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#iv-of-the-dead-of-vell",
+   "era_between": [
+    1131,
+    1131
+   ]
+  },
+  {
+   "id": "EI-2519",
+   "title": "The fortieth box is counted at Vell",
+   "body": "By whatever reckoning that shore keeps among itself, the box set in this season is counted the fortieth to stand on the low ground of the island, its lid laid last and turned, like every lid before it, back toward the water it was rowed across.",
+   "place": "feature:12",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_mole_and_the_steps.md#iv-of-the-dead-of-vell",
+   "era_between": [
+    1169,
+    1169
+   ]
+  },
+  {
+   "after": "I-0015"
+  },
+  {
+   "id": "EI-2520",
+   "title": "The channel at Toll cut through to the pool",
+   "body": "At Toll a household finishes widening a natural crack in a rock shelf into a channel between the still water above and a tide-fed pool below, following the crack's own line rather than cutting fresh through sound stone.",
+   "place": "burg:313",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
+   "era_between": [
+    1175,
+    1175
+   ]
+  },
+  {
+   "id": "EI-2521",
+   "title": "The careful cutter begins his rows at Tarr",
+   "body": "Along the pale cliffs above Tarr a man of that shore's trade begins cutting rows of signs into the standing rock with a flaked flint chisel and a small stone hammer, each stroke light enough to take the chisel through a shape without lifting it.",
+   "place": "burg:249",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0017",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
+   "era_between": [
+    1176,
+    1176
+   ]
+  },
+  {
+   "id": "EI-2522",
+   "title": "The slots cut for the wattle gate",
+   "body": "Deep slots are picked into the rock on either side of the channel's narrowest place at Toll, true from above the river's highest mark to below its lowest, so that a woven gate can be driven home and drawn again season by season.",
+   "place": "burg:313",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
+   "era_between": [
+    1178,
+    1178
+   ]
+  },
+  {
+   "id": "EI-2523",
+   "title": "The Toll gate first dropped",
+   "body": "The wattle gate is driven home into the slots at Toll for the first time, one man in the channel to guide its foot and two above on the mallet, penning the fish left behind by the ebb in the pool below for the household to take by hand.",
+   "place": "burg:313",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
+   "era_between": [
+    1180,
+    1180
+   ]
+  },
+  {
+   "id": "EI-2524",
+   "title": "Shell first carried out onto the sunken reed track",
+   "body": "At the western shore of Loch chrom, after a wet season sinks the worn reed track sooner than most years, broken mussel shell is carried out and trodden into the worst of the sunken ground for the first time, rather than left by the shallows where it was worked.",
+   "place": "burg:64",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0016",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
+   "era_between": [
+    1183,
+    1183
+   ]
+  },
+  {
+   "id": "EI-2525",
+   "title": "A child learns the channel by her feet",
+   "body": "A child of the Toll household is led by the hand along the smoothed floor of the fish channel at low water until her feet know which stretch stands firm and which gives, without a word for it.",
+   "place": "burg:313",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
+   "era_between": [
+    1185,
+    1185
+   ]
+  },
+  {
+   "id": "EI-2526",
+   "title": "A boy watches an afternoon of the cutting",
+   "body": "A boy sits a whole afternoon at the foot of the Tarr cliff watching the careful cutter's hand, and counts, by a later telling, near two hundred light strokes of the hammer to finish a single sign.",
+   "place": "burg:249",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0017",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
+   "era_between": [
+    1190,
+    1190
+   ]
+  },
+  {
+   "id": "EI-2527",
+   "title": "The carrying of shell becomes yearly work",
+   "body": "What began as one season's answer to a bad sinking becomes, without any one choice remembered for it, a thing the loch household does each year: crushed shell carried out and packed into the worst stretches of the reed crossing on the same errand that gathers the day's mussel.",
+   "place": "burg:64",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0016",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
+   "era_between": [
+    1197,
+    1197
+   ]
+  },
+  {
+   "id": "EI-2528",
+   "title": "A boy loses two fingers to the mallet",
+   "body": "Misjudging the moment to clear the mallet's swing at the Toll gate, a boy of the household loses two fingers of his left hand; he goes on working the gate in the years after with the hand that remains him.",
+   "place": "burg:313",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
+   "era_between": [
+    1198,
+    1198
+   ]
+  },
+  {
+   "id": "EI-2529",
+   "title": "The gate dropped three times in a dry summer",
+   "body": "In a summer when the river falls low and stays low the Toll household drops and draws its gate three times before the autumn rains, and reckons the late summer by the droppings rather than by days.",
+   "place": "burg:313",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
+   "era_between": [
+    1200,
+    1200
+   ]
+  },
+  {
+   "id": "EI-2530",
+   "title": "Shell crushed before carrying",
+   "body": "The loch household at Warr crushes the mussel shell underfoot on a flat stone kept by the water before carrying it out, having found that crushed shell packs and holds where whole shell slides.",
+   "place": "burg:64",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0016",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
+   "era_between": [
+    1210,
+    1210
+   ]
+  },
+  {
+   "id": "EI-2531",
+   "title": "The reed-marsh flood",
+   "body": "A hard winter's water works thin the shell already laid on the western marsh crossing at Loch chrom, and the household spends the following spring re-packing the low places before the road can be trusted at a run again.",
+   "place": "burg:64",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0016",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
+   "era_between": [
+    1220,
+    1220
+   ]
+  },
+  {
+   "after": "I-0016"
+  },
+  {
+   "id": "EI-2532",
+   "title": "A girl runs the whole shell road at once",
+   "body": "Sent to carry word that the boats are wanted in before dark, a girl of the loch household crosses the whole finished length of the shell road at a run without once testing the ground with a toe, the first so remembered to trust it end to end.",
+   "place": "burg:64",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
+   "era_between": [
+    1236,
+    1236
+   ]
+  },
+  {
+   "id": "EI-2533",
+   "title": "An old row cut over and broken",
+   "body": "Somewhere along the Tarr cliff a first cutting is found deepened and cut across by a later hand, worked with the same patient care as the row it undoes; no one of that shore is remembered ever claiming to know why.",
+   "place": "burg:249",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0017",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
+   "era_between": [
+    1240,
+    1240
+   ]
+  },
+  {
+   "id": "EI-2534",
+   "title": "A northern-shore family comes to see the road",
+   "body": "A household from further round Loch chrom's northern shore walks the finished road from end to end and home again, but goes the long way about on their own crossing rather than tread the loch household's shell a second time.",
+   "place": "burg:64",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
+   "era_between": [
+    1250,
+    1250
+   ]
+  },
+  {
+   "id": "EI-2535",
+   "title": "The road left to its builders",
+   "body": "The household that laid the shell road keeps it as a household keeps a hearth, and a stranger's foot on another household's shell is not a thing lightly done on that shore.",
+   "place": "burg:64",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
+   "era_between": [
+    1260,
+    1260
+   ]
+  },
+  {
+   "after": "I-0017"
+  },
+  {
+   "id": "EI-2536",
+   "title": "The first row cut on the cliff at Tarr",
+   "body": "A man of the cliff shore at Tarr finishes a row of signs cut into the standing rock with a flint chisel, each sign some two hundred light blows of the hammer, and begins a second above it.",
+   "place": "burg:249",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0017",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
+   "era_between": [
+    1301,
+    1301
+   ]
+  },
+  {
+   "id": "EI-2537",
+   "title": "More rows cut at Tarr",
+   "body": "By the time the careful cutter's hand has grown unsteady with age, the rows above Tarr run further along the face than any one person standing at its foot can take in with a single turn of the head, and no later hand takes up the cutting with the same close care.",
+   "place": "burg:249",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
+   "era_between": [
+    1320,
+    1320
+   ]
+  },
+  {
+   "id": "EI-2538",
+   "title": "A woman of Toll walks the coast and finds the cliff",
+   "body": "On an errand along the coast a woman of the Toll household comes to the cliff at Tarr and stands a while in the rain watching it darken the newest of the cut rows against the paler stone around them, before going on her way without speaking of it at either household she passes between.",
+   "place": "burg:313",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iv-of-the-rain-on-the-new-signs",
+   "era_between": [
+    1330,
+    1330
+   ]
+  },
+  {
+   "id": "EI-2539",
+   "title": "Aodh born at Tobar dhìreach",
+   "body": "Aodh is born into Clann a' Chlachair at Tobar dhìreach, into a hearth that has by then said Tòimhseachan a' Choimhdich at every recital for near five hundred years without once carrying gual òir to the sea it is said to answer.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#v-of-the-telling-at-the-hearth",
+   "era_between": [
+    1344,
+    1344
+   ]
+  },
+  {
+   "id": "EI-2540",
+   "title": "A traveller names the sea to Aodh",
+   "body": "A trader up from the eastern farms speaks in passing of grey water without a far shore, and Aodh, nine years old, asks him plainly whether he has seen it; it is the first time the boy understands the sea for more than a word said at the recital.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#i-of-the-boy-who-had-not-seen-the-sea",
+   "era_between": [
+    1353,
+    1353
+   ]
+  },
+  {
+   "id": "EI-2541",
+   "title": "Aodh works the harvest before going",
+   "body": "Asked by Muirgheal to wait until the barley is in and the beasts settled, Aodh works that harvest with more will than any before it, as a man works to leave a thing clean behind him.",
+   "place": "burg:276",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "aodh",
+    "muirgheal"
+   ],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#ii-of-the-growing-of-the-question",
+   "era_between": [
+    1360,
+    1360
+   ]
+  },
+  {
+   "id": "EI-2542",
+   "title": "Aodh tells Muirgheal he means to walk north",
+   "body": "At twenty Aodh tells Muirgheal, keeper of Poit an Teine at Tobar dhìreach, that he means to carry gual òir to the sea before another generation lets Tòimhseachan a' Choimhdich lie; she does not laugh, and asks only that he wait until the harvest is in.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#ii-of-the-growing-of-the-question",
+   "era_between": [
+    1364,
+    1364
+   ]
+  },
+  {
+   "id": "EI-2543",
+   "title": "Muirgheal bids Aodh take all seven",
+   "body": "Muirgheal tells Aodh to carry all seven pieces to the sea and not the gold alone, since the seven came out of the mason's tunic together and ought to go together, so that whatever answers answers among its own.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-2541",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "muirgheal",
+    "aodh"
+   ],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#iii-of-the-walk-north",
+   "era_between": [
+    1369,
+    1369
+   ]
+  },
+  {
+   "id": "EI-2544",
+   "title": "Aodh sets out for the northern shore",
+   "body": "With the harvest under thatch and the beasts driven in from the high pasture, Aodh sets out alone from Tobar dhìreach with all seven coals of the vein wrapped against his chest, walking north across the moor toward a sea he has never seen.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#ii-of-the-growing-of-the-question",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "id": "EI-2545",
+   "title": "Aodh's first sight of the sea",
+   "body": "Aodh comes over the last rise of the moor and stands before the open sea for the first time in his life, understanding only then, by its slow endless heave, why no telling at any hearth had ever thought the word alone enough to carry it.",
+   "place": "burg:84",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#iii-of-the-walk-north",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "after": "I-0017a"
+  },
+  {
+   "id": "EI-2546",
+   "title": "Gual òir takes fire on the sea",
+   "body": "Aodh throws na Seachd Guail of the vein into the sea one by one from the northern shingle; six sink as any coal sinks, and the coal with the sheen of gold takes fire on the swell and burns gold until a breaker rolls it under.",
+   "place": "burg:84",
+   "kind": "coal",
+   "category": "coal",
+   "links": [],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#iv-of-the-casting",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "id": "EI-2547",
+   "title": "Muirgheal weeps at the telling of the gold",
+   "body": "Hearing Aodh's account at the hearth of Tobar dhìreach, old Muirgheal weeps before the gathered kin, near five hundred years since the grove, and says that Tòimhseachan a' Choimhdich is proved true: each coal answers to its own element.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#v-of-the-telling-at-the-hearth",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "id": "EI-2548",
+   "title": "The name gual òir said at the recital",
+   "body": "For the first time since the mason's own well a new line is added to the recital after the fathers' names, telling of gual òir's lighting on the northern sea; from that night the piece is called gual òir at every telling that carries it on.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#v-of-the-telling-at-the-hearth",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "id": "EI-2549",
+   "title": "Word of gual òir spreads from Tobar dhìreach",
+   "body": "Households a half-day's walk and more from Tobar dhìreach send someone to ask whether the telling of gual òir is true, and for days Poit an Teine's door stands open near the whole day to let in one more household wanting to hear it from Aodh's own mouth.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#v-of-the-telling-at-the-hearth",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "id": "EI-2550",
+   "title": "Aodh sleeps a night above the tideline",
+   "body": "Aodh does not throw the coals on the evening he reaches the shore, but sleeps in a hollow above the tideline and listens all night to a sound he has never heard before.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-2543",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "aodh"
+   ],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#iv-of-the-casting",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "id": "EI-2551",
+   "title": "A new line added to the recital",
+   "body": "For the first time since the mason a new line is added after the fathers' names at the recital: that gual òir was thrown into the northern sea by Aodh and burned gold until the water put it under.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-2550",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "aodh"
+   ],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#v-of-the-telling-at-the-hearth",
+   "era_between": [
+    1370,
+    1370
+   ]
+  },
+  {
+   "id": "EI-2552",
+   "title": "Aodh tries the six coals against ground, water and air",
+   "body": "In the years after the gold, Aodh carries the six unanswered coals to hilltop, black peat and standing rainwater within a day's walk of Tobar dhìreach, and once holds one to the bare air in a hard frost, and none of them answers him.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#vi-of-the-six-that-would-not-answer",
+   "era_between": [
+    1375,
+    1375
+   ]
+  },
+  {
+   "id": "EI-2553",
+   "title": "Muirgheal dies at Tobar dhìreach",
+   "body": "Muirgheal, keeper of Poit an Teine, dies an old woman having lived to hear the sea answer and wept for it; she is carried out and laid as her own mother was before her, the hearth-fire kept burning the whole night through.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#vi-of-the-six-that-would-not-answer",
+   "era_between": [
+    1381,
+    1381
+   ]
+  },
+  {
+   "id": "EI-2554",
+   "title": "The six held up in a hard frost",
+   "body": "Aodh holds the six dark pieces up on an open palm in a hard frost, as Diarmad was said to have held the rainbow to the sky, and the bare air does not answer.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-2551",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "aodh"
+   ],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#vi-of-the-six-that-would-not-answer",
+   "era_between": [
+    1395,
+    1395
+   ]
+  },
+  {
+   "id": "EI-2555",
+   "title": "Aodh dies at Tobar dhìreach",
+   "body": "Aodh dies at eight-and-sixty years with the six unanswered coals still kept under his own hand; the recital adds his name after the fathers' names down from Neachdan, and tells that six of the seven still wait to be answered.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#vi-of-the-six-that-would-not-answer",
+   "era_between": [
+    1412,
+    1412
+   ]
+  },
+  {
+   "id": "EI-2556",
+   "title": "New pieces of the vein found in the stream-bank",
+   "body": "A boy of Aodh's own house, following a strayed goat below Tobar dhìreach, finds the black vein showing bare in a stream-bank cut fresh by a hard season's rain, and the line for the first time since Neachdan holds more coal than the seven old pieces kept in the leather bag.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0017a",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#vii-of-the-new-pieces-from-the-stream-bank",
+   "era_between": [
+    1420,
+    1420
+   ]
+  },
+  {
+   "id": "EI-2557",
+   "title": "The new pieces passed hand to hand at the recital",
+   "body": "At the recital after the stream-bank finding the fresh pieces of the vein are passed round the gathered kin before the fire is banked, so that every soul there may hold a piece not yet tried against anything.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_aodh_and_the_northern_sea.md#vii-of-the-new-pieces-from-the-stream-bank",
+   "era_between": [
+    1421,
+    1421
+   ]
+  }
+ ]
+}

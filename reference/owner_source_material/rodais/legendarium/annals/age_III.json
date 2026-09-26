@@ -921,7 +921,7 @@
   "id": "II-0088",
   "canon": false,
   "title": "The stag-letters",
-  "body": "At Muileann chiar in the far east the teachers of the stag's people make the cutters' tally-notches into signs for sounds, so that a teaching may be kept without a teacher. These are the first letters the Dia-thìrich use: the ogham, which the druids call the gift of Ogma. From them come nearly all the later hands of the island.",
+  "body": "At Muileann chiar in the far east the teachers of the stag's people make the cutters' tally-notches into signs for sounds, so that a teaching may be kept without a teacher. These are the first letters the Dia-thìrich use: the ogham, which the druids call the gift of Ogma.",
   "place": "burg:78",
   "kind": "record",
   "between": [
@@ -1061,7 +1061,7 @@
   "id": "II-0100",
   "canon": false,
   "title": "The wolf-sworn of Caol leathan",
-  "body": "Men who fought for Caol leathan become its road-guards and swear their watch on a white stone carved as a wolf, kept at the town gate. They call themselves the wolf-sworn. Later ages read more into the stone than they did, and call it Lia Fàil.",
+  "body": "Men who fought for Caol leathan become its road-guards and swear their watch on a white stone carved as a wolf, kept at the town gate. They call themselves the wolf-sworn.",
   "place": "burg:1",
   "kind": "people",
   "within": [
@@ -1272,7 +1272,7 @@
   "id": "II-0118",
   "canon": false,
   "title": "The boundary stones of the woods",
-  "body": "The woods are divided at Dùn dhearg before Fearchar Òg, rìgh after Ealasaid Chiar, and the Keeper Calum Liath. The stag's people keep the eastern wood and the wood-watchers the western, and each may walk in the other's wood unarmed and without cutting. Boundary stones are set at the edges of both woods with the terms cut on them in stag-letters. Two of the eastern stones remain.",
+  "body": "The woods are divided at Dùn dhearg before Fearchar Òg, a rìgh of Ealasaid Chiar's line who had come to the hall as a boy, and the Keeper Calum Liath. The stag's people keep the eastern wood and the wood-watchers the western, and each may walk in the other's wood unarmed and without cutting. Boundary stones are set at the edges of both woods with the terms cut on them in stag-letters. Two of the eastern stones remain.",
   "place": "burg:422",
   "kind": "law",
   "within": [
@@ -1527,7 +1527,7 @@
   "id": "II-0143",
   "canon": false,
   "title": "The count of hands",
-  "body": "The rolls of the count, kept at Cathair dhearg, give eleven thousand four hundred households holding the right, and some two thousand whose claims were refused. The refused are written on a roll of their own, and it is that roll later generations search when they would prove an ancestor's standing.",
+  "body": "The rolls of the count, kept at Cathair dhearg, give eleven thousand four hundred households holding the right, and some two thousand whose claims were refused. The refused are written on a roll of their own, and from then on it is that roll families search when they would prove an ancestor's standing.",
   "place": "burg:19",
   "kind": "record",
   "within": [
@@ -1731,7 +1731,7 @@
   "id": "II-0164",
   "canon": true,
   "title": "The founding of the rival druid school",
-  "body": "A school of druids breaks away, holding that the vein answers labour and not birth. Centuries later the Long War is fought over the same question in another shape.",
+  "body": "A school of druids breaks away, holding that the vein answers labour and not birth.",
   "place": null,
   "kind": "faith",
   "canon_date": "undated"

@@ -1,0 +1,246 @@
+[
+ {
+  "title": "A cleared strip at Achadh dhìreach turns up an unlit hearth",
+  "era_year": 902,
+  "summary": "Three brothers new to the ground at Achadh dhìreach turn up, clearing a strip for barley, a long-buried hearth laid true and never lit, its wood cut for a first flame and a sliver of an gual dathach set unburned beside it; they leave it as they found it and build their own hearth a stone's throw off.",
+  "category": "custom",
+  "people": [
+   "Griogal"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0108",
+    "type": "sequel"
+   },
+   {
+    "to": "I-0109",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The unlit hearth passes out of living memory",
+  "era_year": 956,
+  "summary": "By the fifty-fourth year after its turning-up the buried hearth at Achadh dhìreach lies three yards under a valley floor's slow rise, and only the oldest households still trouble to show a child the exact ground to leave unbroken, no longer able to say why, only that it has always been so kept.",
+  "category": "custom",
+  "people": [],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0109",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Anna nic Coinnich is born at Achadh dhìreach",
+  "era_year": 1000,
+  "summary": "Anna nic Coinnich is born the youngest of four into a household two fields from the valley's old buried hearth, and grows up measuring an gual dathach by her own cupped hand as a plain fact of the valley, no different to her than the shape of the hills.",
+  "category": "daily-life",
+  "people": [
+   "Anna nic Coinnich"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The measured handful reaches every hearth of Na Glinn Àrda",
+  "era_year": 1011,
+  "summary": "The custom of the full hand, kept first by a few households at a drovers' ford after a sick child was warmed too generously, spreads within a few years to every hearth of Na Glinn Àrda, nowhere written and nowhere proclaimed, so that a stranger travelling the road finds the same measure kept from one end of it to the other.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:277"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0110",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Anna nic Coinnich marries Aonghas of the next valley",
+  "era_year": 1019,
+  "summary": "Anna nic Coinnich, nineteen years old, marries Aonghas, a byreward of the next valley, and keeps her own hearth within sight of the old buried one at Achadh dhìreach for the rest of her life.",
+  "category": "daily-life",
+  "people": [
+   "Anna nic Coinnich",
+   "Aonghas"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Anna nic Coinnich buries a son",
+  "era_year": 1030,
+  "summary": "Anna nic Coinnich, thirty years old, buries a son of six years taken by a winter fever, one of the ordinary griefs of a valley the tellers otherwise remember for little beyond its dry summers and its settled quarrels.",
+  "category": "daily-life",
+  "people": [
+   "Anna nic Coinnich"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Eanraig Ruadh burns a whole basket of an gual dathach",
+  "era_year": 1066,
+  "summary": "Eanraig Ruadh of Achadh dhìreach, old and feeling the winter's frost in his bones, sets very nearly a whole basket of an gual dathach on his fire in a single night rather than measure it by the full hand, having come, by his own account given beforehand, to doubt the measure applied to a man his age.",
+  "category": "coal",
+  "people": [
+   "Eanraig Ruadh"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0111",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The house of Eanraig Ruadh burns with three within",
+  "era_year": 1066,
+  "summary": "The house of Eanraig Ruadh at Achadh dhìreach goes up whole in the night in a flame shot through with a colour none of the valley folk have a word for, and burns to its stones before morning with Eanraig, his wife Beathag and a grandchild of six years named Ualan within it.",
+  "category": "coal",
+  "people": [
+   "Anna nic Coinnich",
+   "Eanraig Ruadh",
+   "Beathag",
+   "Ualan"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0111",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The hearthstone of Achadh dhìreach cracks and runs with colour",
+  "era_year": 1066,
+  "summary": "When the ash of Eanraig Ruadh's house is cool enough for hands to search it, the hearthstone at its heart is found split clean through, a finger's width of colour seeping slowly along the crack a full day after the fire itself has gone entirely cold.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0111",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The king lays his hand on the cracked hearthstone",
+  "era_year": 1066,
+  "summary": "The king comes down to Achadh dhìreach within two days of the fire and kneels alone over the split hearthstone, laying his open hand across the running crack until the colour fades from it by degrees and the stone is left grey and dead as any ordinary hearth-stone.",
+  "category": "rulers",
+  "people": [
+   "Anna nic Coinnich"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0111",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The king names the full hand a good custom",
+  "era_year": 1066,
+  "summary": "Standing before the valley folk of Achadh dhìreach, the king names the full hand a good custom and bids them keep it for their own sakes, saying plainly that he will make no law of it, having made none of any custom before.",
+  "category": "law",
+  "people": [
+   "Anna nic Coinnich"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0111",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The king sends grain to Achadh dhìreach",
+  "era_year": 1066,
+  "summary": "The king sends two men back to Achadh dhìreach with grain enough to carry the valley's poorer households through a winter shortened by the loss of Eanraig Ruadh's stored barley along with the rest of his house.",
+  "category": "daily-life",
+  "people": [],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The greyed hearthstone is kept for a new house",
+  "era_year": 1067,
+  "summary": "Eanraig Ruadh's eldest living son raises a new house a little to one side of the burnt footings at Achadh dhìreach and sets the greyed, still-cracked hearthstone as its own hearth rather than break it up or leave it, judging a stone the king himself had greyed the safest hearth the valley was likely to keep.",
+  "category": "custom",
+  "people": [],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0111",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Anna nic Coinnich teaches her grandchildren the full hand",
+  "era_year": 1070,
+  "summary": "Anna nic Coinnich, keeping in her old age the kind of hearth other households' children are sent to, answers her grandchildren's asking why the measure matters by cupping one hand open before them and saying the words her own mother said before her: làn na glaice, 's gun tuilleadh, a full hand and no more.",
+  "category": "custom",
+  "people": [
+   "Anna nic Coinnich"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0110",
+    "type": "legacy"
+   }
+  ]
+ }
+]

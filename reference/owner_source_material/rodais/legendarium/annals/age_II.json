@@ -238,7 +238,7 @@
   "id": "I-0101",
   "canon": false,
   "title": "Seonag of the Red Hill",
-  "body": "Seonag nic Uisdein holds the Red Hill after her father. It is told that she counted her people by pebbles in a bag, one to a household, and knew by the weight when a household was gone.",
+  "body": "Seonag nic Uisdein holds the Red Hill. The list sets her 'after her father', as it sets every holder of Uisdean Mòr's line, though she was born more than three hundred years after he died. It is told that she counted her people by pebbles in a bag, one to a household, and knew by the weight when a household was gone.",
   "place": "burg:19",
   "kind": "reign"
  },
@@ -471,7 +471,7 @@
   "id": "I-0126",
   "canon": true,
   "title": "The first tide-count",
-  "body": "Someone begins to mark the high-water line against a fixed rock. Why is not told; but the marks are cut at intervals more even than a fisherman's need would ask, as later scholars observe.",
+  "body": "Someone begins to mark the high-water line against a fixed rock. Why is not told; but the marks are cut at intervals more even than a fisherman's need would ask.",
   "place": null,
   "kind": "record",
   "canon_date": "undated"
@@ -639,7 +639,7 @@
   "id": "I-0146",
   "canon": true,
   "title": "The first shared meal law",
-  "body": "A custom arises, unwritten, that any household with food to spare shall share it before the storm season. Later it is made law, and later ages lean on it more than they own.",
+  "body": "A custom arises, unwritten, that any household with food to spare shall share it before the storm season.",
   "place": null,
   "kind": "law",
   "canon_date": "undated"

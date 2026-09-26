@@ -1,0 +1,279 @@
+[
+ {
+  "title": "Ruairidh mac Artair's deep hull built at Inis àrsaidh",
+  "era_year": 344,
+  "summary": "A merchant of Inis àrsaidh pays wrights to lay a deep-keeled hull for the long coast run, in the manner remembered of the fleet's own building. No wright of the day still holds the old scarfing of the keel timbers that let those hulls flex to a sea.",
+  "category": "trade",
+  "people": [
+   "Ruairidh mac Artair"
+  ],
+  "places": [
+   "burg:55"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0078",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The hull that would not ride true",
+  "era_year": 344,
+  "summary": "Ruairidh's hull lists at launch past any righting and is broken up for timber within the fortnight; none of the old builders' lore of the keel's joinery survives among the wrights who raised her. No one is hurt in the breaking-up.",
+  "category": "trade",
+  "people": [
+   "Ruairidh mac Artair"
+  ],
+  "places": [
+   "burg:55"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0078",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Iain mac Ùisdein set to his father's toll",
+  "era_year": 335,
+  "summary": "A boy of Drochaid Ros fhionn is set to sit the bridge with the tally-stick and learn his letters between carts, the office his father and grandfather held before him over the stone crossing above Ros fhionn.",
+  "category": "trade",
+  "people": [
+   "Iain mac Ùisdein"
+  ],
+  "places": [
+   "marker:4"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Brine springs found on the flats above Ros fhionn",
+  "era_year": 350,
+  "summary": "A farmer digging a drainage ditch above Ros fhionn strikes warm water that tastes of salt. Within a season the district's own folk have laid out shallow pans on the flats to catch the brine.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:76"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0079",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Death of Uisdean mac Dhùghaill",
+  "era_year": 352,
+  "summary": "Uisdean mac Dhùghaill dies at Cathair dhearg in his two-and-eightieth year, and his son Uisdean mac Uisdein, already thirty, is crowned without dispute. The tidings reach the northern flats by a rider bound for the shire seat.",
+  "category": "rulers",
+  "people": [
+   "Uisdean mac Dhùghaill",
+   "Uisdean mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Baile gharbh's rain-cloth worn for mourning in the north-east",
+  "era_year": 361,
+  "summary": "The heavy undyed cloth of Baile gharbh, already the common rain-cloak of the north-east, becomes the district's own cloth of mourning, worn plain and undyed through a household's season of loss as the whole island once wore an Tùrsa Geal.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:131"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0080",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The bridge-keeper granted a handful from every load",
+  "era_year": 369,
+  "summary": "The shire seat grants the keeper of Drochaid Ros fhionn a handful of salt from every load crossing the bridge, in place of any other toll. Iain mac Ùisdein keeps the due honestly and becomes known along the road for it.",
+  "category": "trade",
+  "people": [
+   "Iain mac Ùisdein"
+  ],
+  "places": [
+   "marker:4"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0081",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The bridge-keeper's salt-box",
+  "era_year": 375,
+  "summary": "Iain mac Ùisdein builds an iron-bound oak box beside his stool to hold his due of salt. It fills faster than any box on that road was thought able to fill, and carters along the way say it holds more against a hard winter than some whole villages.",
+  "category": "trade",
+  "people": [
+   "Iain mac Ùisdein"
+  ],
+  "places": [
+   "marker:4"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The wells crack at Cill ghlas",
+  "era_year": 379,
+  "summary": "An earth tremor cracks three wells and brings down a byre at Cill ghlas. The custodians of Taigh na Fèithe send men into the galleries below and find the deep workings untouched, though the diggers speak among themselves of feeling the shaking reach them under the hill.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:123",
+   "zone:3"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0082",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Taigh na Fèithe offers stone for Cill ghlas's byre",
+  "era_year": 380,
+  "summary": "The custodians of Taigh na Fèithe offer stone from their own surplus to rebuild the byre brought down at Cill ghlas, a kindness the village does not forget.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:123",
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Mòr nic Nèill made tutor to the king's son",
+  "era_year": 380,
+  "summary": "Mòr nic Nèill is set over the young Aonghas mac Uisdein to teach him his letters as a child, the first time any heir to An Talla Dearg has been given a tutor for the purpose rather than left to pick up his letters between other business.",
+  "category": "law",
+  "people": [
+   "Mòr nic Nèill",
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "A reeve turns back from the pastures of Doire uaine before dark",
+  "era_year": 335,
+  "summary": "A reeve sent from the shire seat to argue the shepherds of Doire uaine out of their custom of lighting no fires on the high pastures comes down again before dark the same day, and never returns to press the argument.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "marker:22"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0083",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Death of Uisdean mac Uisdein and the crowning of Aonghas",
+  "era_year": 394,
+  "summary": "Uisdean mac Uisdein dies at two-and-seventy after two-and-forty years in the hall. His son Aonghas, two-and-twenty and taught his letters as a child, is crowned at Cathair dhearg with less dispute than any crowning in living memory.",
+  "category": "rulers",
+  "people": [
+   "Uisdean mac Uisdein",
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0084",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Àth fhiadhaich turns to Ros fhionn salt",
+  "era_year": 394,
+  "summary": "The fishing town of Àth fhiadhaich, having lost catch to poor curing, begins sending carts north for Ros fhionn salt. From this year the mining shires to the south eat their salt fish cured with salt carried over Drochaid Ros fhionn.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:12",
+   "burg:76"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0085",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 344,
+  "title": "Coll of Inis àrsaidh on the lost scarfing",
+  "summary": "Coll, the oldest wright at Inis àrsaidh, looks over Ruairidh mac Artair's listing hull and says that no wright now living holds the old joinery of the keel that let the fleet's hulls flex to a sea; nobody has asked for it in three hundred years.",
+  "category": "trade",
+  "people": [
+   "Coll",
+   "Ruairidh mac Artair"
+  ],
+  "places": [],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0078",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 372,
+  "title": "Birth of Aonghas mac Uisdein",
+  "summary": "A son, Aonghas, is born at Cathair dhearg to Uisdean mac Uisdein in the twentieth year of his reign, when the king is fifty years old.",
+  "category": "rulers",
+  "people": [
+   "Aonghas mac Uisdein",
+   "Uisdean mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0084",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ }
+]

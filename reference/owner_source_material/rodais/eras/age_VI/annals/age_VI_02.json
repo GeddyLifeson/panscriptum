@@ -1,0 +1,846 @@
+{
+ "writer": 1,
+ "span": [
+  "V-0008",
+  "V-0023"
+ ],
+ "events": [
+  {
+   "after": "V-0009"
+  },
+  {
+   "id": "EVI-1500",
+   "title": "Tional nan Tuathach votes its first winter measures",
+   "body": "The households gathered at Caol mhòr vote, in the same sitting that opens Tional nan Tuathach's book, to lay by grain against the coming winter and to keep watch on the north roads, having buried too many of their own the winter before to trust the season a second time unwarned.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#ii-of-the-book-with-nothing-in-it",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1501",
+   "title": "The Doire ghlas dead voted into Tional nan Tuathach's record",
+   "body": "Walter Hale tells the gathered households what he counted on the rise above Doire ghlas and what the church porch's names afterward told him, and Tional nan Tuathach votes, without a voice raised against it, that the count stand as the north's own record of that winter's dead.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0008",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#ii-of-the-book-with-nothing-in-it",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1502",
+   "title": "The granary founded at Caol mhòr",
+   "body": "Tional nan Tuathach sets a common store under lock in the harbour-house cellar, each household to give what it can spare, and names three keepers answerable for it: a harbour man trusted with a scale, a smith of Doire ghlas, and a widow of A' Bhliadhna Acrach who had buried two children in it.",
+   "kind": "trade",
+   "place": "burg:95",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#ii-of-the-book-with-nothing-in-it",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1503",
+   "title": "Tional nan Tuathach's letter drafted for the council",
+   "body": "Walter Hale drafts, and Tional nan Tuathach amends and approves, four careful lines telling the council at Cathair dhearg of the households met at Caol mhòr and of a winter's dead the north had buried and counted without the south's knowledge, asking nothing beyond that the fact be noted.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#iii-of-the-letter-south",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1504",
+   "title": "Robert Carrick carries Tional nan Tuathach's letter south",
+   "body": "Peg Carrick's younger brother Robert, fifteen and never before further from Caol mhòr than Doire ghlas, a carter, carries the letter south to Cathair dhearg with it sewn into the lining of his coat, and is the better part of a fortnight on a road he does not know.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#iii-of-the-letter-south",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1505",
+   "title": "Tional nan Tuathach's letter received and filed",
+   "body": "A clerk at the harbour-house in Cathair dhearg takes Tional nan Tuathach's letter from Robert Carrick's hand, tells him it will be seen to, and sends him home with no answer; the disposal, once the letter reaches the council chamber, is three words in the state's own minute-book.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#iv-of-the-twelve-at-cathair-dhearg",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1506",
+   "title": "Ailean mac Iain and Gormshuil nic Dhùghaill sworn under-clerks",
+   "body": "On the twenty-third of an t-Sultain the council's newest under-clerks are sworn on the custodians' worn oath-book, Ailean mac Iain among them and, beside him, Gormshuil nic Dhùghaill, a council clerk's daughter of the capital who has wanted the office since she was old enough to know what a minute-book was for.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#iv-of-the-twelve-at-cathair-dhearg",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1507",
+   "title": "Comhairle na Rìoghachd seated and its chairs filled",
+   "body": "Twelve chairs are filled at Cathair dhearg, drawn from the custodian families and the captains of Cogadh nam Beann: among them Fearchar mac Raghnaill, whose company's roll was kept the summer before; Beathag nic Artair of the old custodian houses; Griogair mac Tormoid of the western shore; and Cailean mac Sheumais, who commanded a company at the fords of the western hills.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#iv-of-the-twelve-at-cathair-dhearg",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1508",
+   "title": "A councillor asks what a Moot is",
+   "body": "When Tional nan Tuathach's letter is read before the twelve, Cailean mac Sheumais asks plainly what a Moot is; no one in the chamber can answer with any certainty beyond Fearchar mac Raghnaill's memory of the word from a harbour clerk at Caol mhòr, and the letter is moved to be filed.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#iv-of-the-twelve-at-cathair-dhearg",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1509",
+   "title": "The gathering of northern households takes the name Moot",
+   "body": "In the weeks after its first sitting the gathering of the north's households comes, without a vote taken on it, to be called Tional nan Tuathach, a word one of its own pursers remembered from an old book of the humans' law, half in earnest and half against themselves.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#i-of-the-long-room-at-caol-mhor",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1510",
+   "title": "Robert Carrick comes home with an empty satchel",
+   "body": "Robert Carrick comes back to Caol mhòr on a wet evening in the first week of an Dàmhair with an empty satchel and one report: Tional nan Tuathach's letter was handed at the harbour-house in Cathair dhearg to a clerk who told him word would be sent back in time, and did not look at him.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_moot_and_the_council_of_twelve.md#iii-of-the-letter-south",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1511",
+   "title": "Ailean sent to the Ros dhomhain sheds",
+   "body": "A month after his swearing, Ailean mac Iain is sent from Cathair dhearg to Ros dhomhain to help Dùghall mac Iain turn the humans' tariff into Dia-thìris, line by line, since the harbour cannot wait for a tariff written fresh.",
+   "kind": "trade",
+   "place": "burg:27",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#i-of-the-sheds-at-ros-dhomhain",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1512",
+   "title": "Dùghall mac Iain's reason for copying, not writing anew",
+   "body": "Dùghall mac Iain tells Ailean he keeps the humans' sums and changes only the words, since a skipper who has long paid a known tariff pays it gladly to a new hand, and a tariff written fresh would only be cheated the more freely for its newness.",
+   "kind": "trade",
+   "place": "burg:27",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#i-of-the-sheds-at-ros-dhomhain",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVI-1513",
+   "title": "Ailean's private book begun",
+   "body": "At Ros dhomhain, Ailean begins a private book of his own, bound in undyed leather, in which he sets beside his day's plain clerking the things said to him that seem worth keeping, though he does not yet know their use.",
+   "kind": "culture",
+   "place": "burg:27",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0010",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#i-of-the-sheds-at-ros-dhomhain",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "after": "V-0014c"
+  },
+  {
+   "id": "EVI-1514",
+   "title": "Ailean named tally-clerk for An Sireadh",
+   "body": "The council names Ailean mac Iain tally-clerk for the ship sent north-about to seek An t-Aiseag, and he rides hard for Cuan shean to be aboard by the sailing day, leaving the Ros dhomhain tariff a third finished.",
+   "kind": "voyage",
+   "place": "burg:282",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#ii-of-the-grey-water",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1515",
+   "title": "An Sireadh's log kept and filed",
+   "body": "Ailean keeps An Sireadh's log the length of her voyage, heading, wind and soundings set down plainly through a month of grey water and mist, and the finished log is filed with the council on her return.",
+   "kind": "voyage",
+   "place": "burg:282",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#ii-of-the-grey-water",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1516",
+   "title": "Aonghas mac Mhurchaidh turns the ship for home",
+   "body": "Sixteen days out with the stores a third gone, Aonghas mac Mhurchaidh orders An Sireadh about, telling Ailean the sea has not been found empty so much as it has refused, this once, to show itself.",
+   "kind": "voyage",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#ii-of-the-grey-water",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1517",
+   "title": "The prayer said over An Sireadh's return",
+   "body": "The priests of Manannan come down to the quay at Seann Skell in the west as An Sireadh makes her berth and say again the old prayer that the sea be kept shut, said first at her going and now at her coming home empty-handed.",
+   "kind": "faith",
+   "place": "burg:489",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#iii-of-the-way-niall-came",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1518",
+   "title": "Ailean learns of the crowning at Seann Skell",
+   "body": "Home after a month at sea, Ailean learns of Niall's crowning from an innkeeper near the harbour at Seann Skell in the west, and writes the day into his private book with nothing beside it, having seen nothing of it with his own eyes.",
+   "kind": "culture",
+   "place": "burg:489",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0013",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#iii-of-the-way-niall-came",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1519",
+   "title": "The shire map drawn from the humans' survey",
+   "body": "Through an Dùbhlachd, Ailean copies the humans' district survey onto a fresh sheet and sets the Dia-thìris names of the shires against it, for the council to show the twelve without embarrassment at governing by a stranger's paperwork.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#iv-of-the-edge-of-the-map",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1520",
+   "title": "The minute that an Oirthir Ghaothach is not in the survey",
+   "body": "Where the humans' survey ends unmarked at the great moss, Ailean writes a single short line rather than leave the gap unexplained: that an Oirthir Ghaothach is not in the survey, a line the council's copying afterward carries to every maor's court unremarked.",
+   "kind": "law",
+   "place": "province:120",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0014a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#iv-of-the-edge-of-the-map",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1521",
+   "title": "The two island shires entered on the map",
+   "body": "Finding no council rule for folding a small holding into its neighbour, Ailean enters the two customs-station rocks as shires of their own, each taking the name of the island it sits on and noted as holding no town.",
+   "kind": "law",
+   "place": "province:122",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0014b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#iv-of-the-edge-of-the-map",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1522",
+   "title": "Ceann mhòr's market right entered on the map",
+   "body": "The council grants the Ceann mhòr fishermen a market right for their two years' rough trading in the broken-locked harbour store, and Ailean sets the grant down as the smallest clause on the whole map, the one thing on it the townsfolk had already made true for themselves.",
+   "kind": "trade",
+   "place": "burg:143",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0014c",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#iv-of-the-edge-of-the-map",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1523",
+   "title": "Nine days of mist on the grey water",
+   "body": "For nine days running An Sireadh sails north-about in mist so thick the bow cannot always be seen from the wheel, under short sail with a man forward and a horn; twice the lookout swears to a low dark shape off the starboard bow, and twice it is not there when she stands in toward it.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#ii-of-the-grey-water",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVI-1524",
+   "title": "An Sireadh careened for the winter at Seann Skell",
+   "body": "An Sireadh is laid up for the winter at Seann Skell in the west, careened and her hull scraped bare of a month's weed, the council having no second voyage in mind for her.",
+   "kind": "land",
+   "place": "burg:489",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_grey_water_and_the_crowning.md#iv-of-the-edge-of-the-map",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "after": "V-0020"
+  },
+  {
+   "id": "EVI-1525",
+   "title": "The first maor's seal cut from Clàr nan Suaicheantas",
+   "body": "The council's clerk Tòmas cuts the first working seal from Clàr nan Suaicheantas, the newly drawn roll of arms, for a maor of the south-west to press upon his letters; the shire's borrowed lion goes out sealing writs before the ink of the roll itself is fully dry.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0015b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#i-of-the-maoir-and-the-roll-of-arms",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1526",
+   "title": "Coinneach mac Ailein settles the fishwives' stall-place",
+   "body": "In his first sitting under the market roof at Baile Mòr mhòr, the new maor Coinneach mac Ailein settles a two-year quarrel over a stall-place by asking the gathered stallholders for the truth of it rather than ruling from the bench alone, and takes their answer as his judgment.",
+   "kind": "law",
+   "place": "burg:365",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#i-of-the-maoir-and-the-roll-of-arms",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1527",
+   "title": "The council votes a relief party for the southern coast",
+   "body": "Before its morning sitting breaks, Comhairle na Rìoghachd votes grain, blankets, timber and men down the coast road to Cuan dhearg, and orders a tally kept of what is found, the first time the twelve have met before full light since An Dealachadh itself.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0017",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#ii-of-the-short-night",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1528",
+   "title": "Ailean's tally-book of the wave begun",
+   "body": "Ailean mac Iain, sent south with the relief party, opens a plain tally-book at Cuan dhearg and enters the first of what will be a summer's counting: boats found standing in the fields, wells fouled or sweet, dead named where they can be and marked only by place where they cannot.",
+   "kind": "humans",
+   "place": "burg:190",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#iii-of-cuan-dhearg",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1529",
+   "title": "The dead of Cuan dhearg buried on the rise",
+   "body": "Through the first fortnight after the wave, the dead of Cuan dhearg are carried up onto the rise above the old harbour line and buried in ground the sea has not reached, while the town's clerks mark by place what names cannot be recovered.",
+   "kind": "humans",
+   "place": "burg:190",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#iii-of-cuan-dhearg",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1530",
+   "title": "The boats left standing in the barley",
+   "body": "The wrecked fishing boats of Cuan dhearg, carried inland by the wave and left standing among the barley behind the town, are judged too many to right before winter and are left through the harvest, one still upright in its furrow with its mast stepped.",
+   "kind": "trade",
+   "place": "burg:190",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#iii-of-cuan-dhearg",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1531",
+   "title": "The treasury's first relief roll voted",
+   "body": "On the count of a little over forty dead, the council votes seed and removal for the survivors of Achadh mhin out of the treasury without a due asked in return, over one councillor's question of cost, answered that a kingdom that finds silver for a roll of arms can find grain for its own dead.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#iv-of-the-count-and-the-relief",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1532",
+   "title": "Ros gharbh's fleet counted on the headland",
+   "body": "Ailean mac Iain walks the headland above Ros gharbh's harbour and counts the town's fishing fleet where the wave cast it, hull by hull, sound or stove, and carries the count south as proof that a town spared its people can still be ruined in its trade.",
+   "kind": "trade",
+   "place": "burg:90",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#iv-of-the-count-and-the-relief",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1533",
+   "title": "A hill shire questions its new arms",
+   "body": "A custodian's widow keeping a south-western shire's books asks the council's clerk whether a shire that never bore a badge under the old custody must bear one now, and is answered that any shire's writs are read faster at Cathair dhearg with a seal, borrowed beast or none, than without one.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0015b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#i-of-the-maoir-and-the-roll-of-arms",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVI-1534",
+   "title": "Tòmas draws Clàr nan Suaicheantas",
+   "body": "Tòmas, a mason's clerk before the war and a council clerk since, draws Clàr nan Suaicheantas for the maoir's seals, copying many of its charges from a book of arms left at Taigh an Àrd-mhaoir, so that lions and parrots and crocodiles come to stand on the seals of shires where none was ever seen.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0015b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#i-of-the-maoir-and-the-roll-of-arms",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "after": "V-0022"
+  },
+  {
+   "id": "EVI-1535",
+   "title": "Ros gharbh's boats rebuilt",
+   "body": "Through the following year Ros gharbh borrows hulls from harbours the wave did not reach while shipwrights from beyond the gulf raise its fleet anew on the cleared beach, one keel at a time, until the last boat is launched and the town's people begin calling that whole year simply the bad year.",
+   "kind": "trade",
+   "place": "burg:90",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#v-of-the-word-the-wave-left",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVI-1536",
+   "title": "Coinneach mac Ailein moves his court back under the market roof",
+   "body": "When Baile Mòr mhòr's new courthouse is raised at last, Coinneach mac Ailein sits in it for a single sitting and moves his court back under the market roof among the fish-scales the week after; the two maoir after him do the same, and no one writes down why.",
+   "kind": "law",
+   "place": "burg:365",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_great_wave.md#i-of-the-maoir-and-the-roll-of-arms"
+  }
+ ]
+}

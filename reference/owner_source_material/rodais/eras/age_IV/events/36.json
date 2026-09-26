@@ -1,0 +1,495 @@
+[
+ {
+  "title": "Clann Choinnich's head asks the manner of the oath",
+  "era_year": 1449,
+  "summary": "Before swearing last to Riaghailt an Teallaich, the head of Clann Choinnich asks Queen Catrìona Bheag plainly whether the renewed oath changes the measure her house holds or only the manner of swearing to it. The queen answers that it changes only the manner, and the old woman swears.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0197",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The last stone laid in Macha's floor",
+  "era_year": 1459,
+  "summary": "The black and white floor of Macha's great house at Cathair mhòr is finished, eleven years in the laying, by masons none of whom cut its first courses. It stands the largest roofed building on Dia-thìr.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0198",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Leabhar a' Chùraim binds the two stairs",
+  "era_year": 1469,
+  "summary": "When charcoal-burners break into the eastern Toll-dubh, the scribe of Leabhar a' Chùraim binds its entry to the western stair's with a line in each margin, though nothing is written of what either stair goes down to.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0199",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The well-head board first cut",
+  "era_year": 1483,
+  "summary": "As the crown's grain carts still reach Achadh shean by the mining road against a second dry season, the reeves cut a board at the well-head setting down how the deep wells will be shared among the households by lot and by turn. The board is renewed each generation; the lots themselves are never drawn again.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:411"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0200",
+    "type": "sequel"
+   },
+   {
+    "to": "III-0201",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A clerk finds the worn firlot",
+  "era_year": 1498,
+  "summary": "A young clerk newly set over the granary accounts at Àth shean finds, going back through the ledgers, that the firlot has worn smaller than the standard of Cathair dhearg, and has been so for longer than any one reeve's term could account for. He carries the matter up rather than let it stand.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:67"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0202",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Two apprentices fail the grey-green firing",
+  "era_year": 1507,
+  "summary": "Iain Mac Phàil takes two apprentices in his last years and teaches them the mixing of the grey-green glaze, but neither learns to judge the moment the kiln's heat must be let fall. Both come away able to throw a passable dish and unable to glaze it.",
+  "category": "trade",
+  "people": [
+   "Iain Mac Phàil"
+  ],
+  "places": [
+   "burg:288"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0203",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Drovers of Àth chiar bring their beasts to Baile Mòr ruadh",
+  "era_year": 1518,
+  "summary": "Drovers from Àth chiar and the eastern hills begin bringing their cattle down to Baile Mòr ruadh's autumn fair rather than selling nearer home, and within a few years it is the greatest fair in the east.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:387"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0204",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Sìleas Òg questioned on her purpose",
+  "era_year": 1531,
+  "summary": "Asked years later what put the notion of a round of every shire seat in her head, Queen Sìleas Òg says she had grown up hearing the seats named at her father's table like places in a story, and wished to know them as a place stood in rather than a tale repeated.",
+  "category": "rulers",
+  "people": [
+   "Sìleas Òg"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0205",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The reeve of Achadh shean questioned at the well-head",
+  "era_year": 1534,
+  "summary": "On her round, Sìleas Òg stands at the well-head of Achadh shean and asks the reeve why the lots for the deep wells were never drawn a second time. He answers that no household wished to be the one that named the first sharing unfair. She rides on the next morning without asking him to change it.",
+  "category": "land",
+  "people": [
+   "Sìleas Òg"
+  ],
+  "places": [
+   "burg:411"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0201",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Sìleas Òg reaches the last shire seat of her round",
+  "era_year": 1535,
+  "summary": "Queen Sìleas Òg's circuit carries her at last to the bare northern stretch few rulers before her had visited, the first ruler of Dia-thìr known to have stood in every shire seat the island holds.",
+  "category": "rulers",
+  "people": [
+   "Sìleas Òg"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0205",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The queen enters the count without comment",
+  "era_year": 1539,
+  "summary": "Reading the new, smaller count of households holding the right to the coal, Sìleas Òg has it entered in Leabhar a' Chùraim without a word either way, a silence her own scribes find harder to read than any word she might have spoken.",
+  "category": "coal",
+  "people": [
+   "Sìleas Òg"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0206",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Ceann mhin's reeve orders the gable walls",
+  "era_year": 1549,
+  "summary": "Before the ash of the second fire has cooled, the reeve of Ceann mhin orders the town rebuilt with gable walls of stone standing between each house and the next, so that a fire must cross stone to spread.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:30"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0207",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Clann Choinnich's clerk drafts Athchuingean an Airgid",
+  "era_year": 1558,
+  "summary": "After three winters of the head of Clann Choinnich arguing that the coal might be spared beyond the measured handful to smelt silver at Muileann chiar, a younger kinsman of the house drafts the petition the council will hear, the first written asking to burn the coal for work rather than worship.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0208",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The queen's word to Clann Choinnich's head",
+  "era_year": 1559,
+  "summary": "Once the council's refusal is final, Sìleas Òg tells Clann Choinnich's head privately that a law kept since before the fleet sailed for one reason is not easily bent to a second, however sound. The old woman accepts the courtesy without being persuaded.",
+  "category": "rulers",
+  "people": [
+   "Sìleas Òg"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0208",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The last blade of the old folding",
+  "era_year": 1568,
+  "summary": "The fellowship of Dùn dhearg loses the last smith trained far enough in the layered steel's folding to finish it alone. The blades made after him are ordinary work, prized now only for what the craft once was.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0209",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The tenants of Tuam Cnoc dhìreach keep their own ground",
+  "era_year": 1580,
+  "summary": "When Na Seachd Taighean begin burying their heads at Tuam Cnoc dhìreach, the tenants of the land about it call the custom unwise and go on burying their own dead where their own families always have, a disagreement neither side presses to settle.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "marker:41"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0210",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "One stone cut for two reigns",
+  "era_year": 1590,
+  "summary": "Queen Mòrag nic Raghnaill has the years of her brother Ailean the Fourth's crowning and death cut on a single stone rather than two, the plainest record Clàr nan Rìghrean gives of the short reign she outlives by forty years.",
+  "category": "rulers",
+  "people": [
+   "Mòrag nic Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0211",
+    "type": "sequel"
+   },
+   {
+    "to": "III-0213",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The synod argues two days over the prayer's words",
+  "era_year": 1590,
+  "summary": "The priests of Manannan in synod at Seann Skell spend two full days over the wording of a new prayer before agreeing on its shortest form, to be said at the foot of the river pool where the fleet once turned.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0212",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The ferry family holds the landing father to daughter",
+  "era_year": 1619,
+  "summary": "The family that settles the ferry crossing at Cidhe Beag holds the landing from father to daughter and daughter to son for the rest of the age, a fixed thing on the eastern road like any ford or road-house.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "marker:39"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0214",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The road-houses take up the black wine",
+  "era_year": 1626,
+  "summary": "The road-houses of the eastern stretch above Àth shean take to serving the growers' dark blaeberry and bramble pressing as black wine, a trade that outlasts a good deal the age's councils thought more likely to last.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:32"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0214a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 1505,
+  "title": "Birth of Sìleas Òg",
+  "summary": "A daughter, Sìleas, is born in the house of the crown in the seventy-seventh year of Queen Catrìona Bheag's reign, and called Sìleas Òg after the queen who first measured the island's baskets.",
+  "category": "rulers",
+  "people": [
+   "Sìleas Òg"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0205",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1505,
+  "title": "Iain Mac Phàil tries to write the glaze down",
+  "summary": "In the last years of his life Iain Mac Phàil, the last of Clann Mhic Phàil at Muileann gheal, tries to set the grey-green glaze's making down in some form a stranger might follow, and finds the moment of the kiln's cooling will not go into words.",
+  "category": "trade",
+  "people": [
+   "Iain Mac Phàil"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0203",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1550,
+  "title": "Birth of Ailean the Fourth",
+  "summary": "A son, named Ailean mac Raghnaill after the kings of that name before him, is born into the crown's house in the two-and-twentieth year of Queen Sìleas Òg's reign.",
+  "category": "rulers",
+  "people": [
+   "Ailean mac Raghnaill, the fourth of the name"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0211",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1556,
+  "title": "Birth of Mòrag nic Raghnaill",
+  "summary": "A daughter, Mòrag, is born to the same house, six years younger than her brother Ailean.",
+  "category": "rulers",
+  "people": [
+   "Mòrag nic Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0213",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1590,
+  "title": "Death of Ailean the Fourth at forty",
+  "summary": "King Ailean mac Raghnaill, the fourth of the name, dies at Cathair dhearg within the year of his crowning, forty years old; Leabhar a' Chùraim does not say what ailed him, and his sister Mòrag, four-and-thirty, is crowned before the season turns.",
+  "category": "rulers",
+  "people": [
+   "Ailean mac Raghnaill, the fourth of the name",
+   "Mòrag nic Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0213",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1628,
+  "title": "A clerk reckons forty quiet years",
+  "summary": "A clerk who has served Queen Mòrag nic Raghnaill the whole of her reign remarks, near the end of his service, that he has written more entries under her than under any three reigns before and set down in all of them no death by war, no famine and no quarrel of Na Seachd Taighean.",
+  "category": "rulers",
+  "people": [
+   "Mòrag nic Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0213",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ }
+]

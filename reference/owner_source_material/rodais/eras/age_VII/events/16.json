@@ -1,0 +1,352 @@
+[
+ {
+  "title": "Calder of Àth leathan dies",
+  "era_year": 16,
+  "after": "VI-0051",
+  "summary": "Calder, pit captain of Àth leathan for twenty years, dies of the black cough a little before first light on the ninth of an Gearran, in the stone house above the pit-head that was his father's before him. The village buries him two days after, in the plot behind the chapel.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0055",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#i-of-the-pit-captains-daughter"
+ },
+ {
+  "title": "The hewers of Àth leathan keep Ruth Calder",
+  "era_year": 16,
+  "same_day": true,
+  "summary": "At the pit-head, with no guild left to make it formal, the hewers of Àth leathan keep Ruth Calder, who had kept her father's tally-books five years and more, in her father's place. Angus Rennie speaks for her; nobody speaks against it. She is given her father's lamp.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0055",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#i-of-the-pit-captains-daughter"
+ },
+ {
+  "title": "The western pit towns gather at Sarah Dunmore's kitchen",
+  "era_year": 16,
+  "after": "VI-0052",
+  "summary": "In the first week of am Màrt, delegates of Muileann àrsaidh, Cnoc thais, Tobar dhearg and Àth leathan meet in the kitchen of Sarah Dunmore, a widow of Muileann àrsaidh, before the meeting proper begins. Ruth Calder, new to the captaincy, is asked to set the towns' terms down in writing.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder",
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0052",
+    "type": "location"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#ii-of-sarah-dunmores-kitchen"
+ },
+ {
+  "title": "The talk moves to the pit-shed",
+  "era_year": 16,
+  "after": "VI-0052",
+  "summary": "More delegates and hewers come than Sarah Dunmore's table will seat, and the meeting moves to the pit-shed above Muileann àrsaidh, where near forty crowd the cleared benches to hear the towns' terms argued and set down.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0052",
+    "type": "location"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#iii-of-the-pit-shed-and-the-agreement"
+ },
+ {
+  "title": "Còrdadh Muileann àrsaidh signed",
+  "era_year": 16,
+  "after": "VI-0052",
+  "summary": "Muileann àrsaidh, Cnoc thais, Tobar dhearg and Àth leathan sign, in the pit-shed above Muileann àrsaidh, an agreement drafted by Ruth Calder: to go on working their seams and sell their coal to any household of the north that comes freely to buy it, and to stand by each other in the keeping of it.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0052",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#iii-of-the-pit-shed-and-the-agreement"
+ },
+ {
+  "title": "Àth naomh's delegates walk to Muileann àrsaidh",
+  "era_year": 16,
+  "after": "VI-0053",
+  "summary": "In an Giblean two delegates of Àth naomh, led by an elder hewer named Ferguson, walk the hill path to Muileann àrsaidh and ask to sign the agreement the four towns have already made. Ferguson tells the pit-shed that Àth naomh would sooner be cold with its neighbours than warm alone.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244",
+   "burg:372"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0053",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#iv-of-the-town-that-would-not-be-warm-alone"
+ },
+ {
+  "title": "The five towns named",
+  "era_year": 16,
+  "after": "VI-0055",
+  "summary": "By an Cèitean the five western towns that will not go over to the new fuel stand named in every mouth in the hills as the holdout towns, and Ruth Calder, less than three months a pit captain, is the name given when anyone outside the hills asks who speaks for them.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0055",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#iv-of-the-town-that-would-not-be-warm-alone"
+ },
+ {
+  "title": "Tional nan Tuathach neither joins nor condemns",
+  "era_year": 16,
+  "after": "VI-0055",
+  "summary": "Word of Còrdadh Muileann àrsaidh is reported to Tional nan Tuathach at Caol mhòr. Its minute-book records only that Tional nan Tuathach, having heard it, sees no cause to act upon it either way; no delegate is sent to add Tional nan Tuathach's name, and no word of condemnation is sent north.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0055",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#iv-of-the-town-that-would-not-be-warm-alone"
+ },
+ {
+  "title": "Tom Varley reopens two shafts at Cnoc thais",
+  "era_year": 16,
+  "after": "VI-0056",
+  "summary": "In an t-Samhain, once his knee lets him stand a full day underground, Tom Varley sets two dozen hewers to opening again a pair of shafts on the northern face of the hill at Cnoc thais, unworked since before An Dealachadh and thought too thin to be worth a second cutting.",
+  "category": "craft",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:269"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0056",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#v-of-the-two-shafts-at-cnoc-thais"
+ },
+ {
+  "title": "First coal burned from the reopened shafts",
+  "era_year": 16,
+  "after": "VI-0056",
+  "summary": "The first cartload from Cnoc thais's reopened shafts, thin and smoky, is set that same week on a dozen hearths in the town, in houses that had been buying their fire in from Muileann àrsaidh. Tom Varley writes to Ruth Calder that the coal is poor, and that it is theirs.",
+  "category": "craft",
+  "people": [
+   "Tom Varley",
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:269"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0056",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#v-of-the-two-shafts-at-cnoc-thais"
+ },
+ {
+  "title": "Ruth Calder begins the letters",
+  "era_year": 16,
+  "after": "VI-0056",
+  "summary": "At Fraser's asking, Ruth Calder sits down at her own table at Àth leathan in an Dùbhlachd to write the first of what will be many letters, laying out the five towns' case to northern households still undecided about their fire, plainly, as the agreement itself was written.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0055",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#v-of-the-two-shafts-at-cnoc-thais"
+ },
+ {
+  "title": "Calder's lamp given to his daughter",
+  "era_year": 16,
+  "summary": "At the pit-head of Àth leathan on the evening of her father's burial a hewer hands Ruth Calder, without a word, the dented brass lamp that had been Calder's own since his father died.",
+  "category": "humans",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Dodds argues for naming Riaghailt na Cairte",
+  "era_year": 16,
+  "summary": "In the pit-shed at Muileann àrsaidh a hewer named Dodds wants the agreement to name Comann nan Goibhnean-ceangail and Riaghailt na Cairte; Ruth Calder answers that a grievance is a thing folk argue with, and the line is left out. Dodds signs all the same.",
+  "category": "law",
+  "people": [
+   "Ruth Calder",
+   "Dodds"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0052"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Ferguson of Àth naomh signs with his own hand",
+  "era_year": 16,
+  "summary": "The elder delegate of Àth naomh, who has walked the hill path with a stick in either hand, writes his own name on the agreement of the western pit towns, and his companion after him.",
+  "category": "law",
+  "people": [
+   "Ferguson",
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:372",
+   "burg:244"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0053"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "An old pick-head found in Tom Varley's shafts",
+  "era_year": 16,
+  "summary": "Reopening the old shafts at Cnoc thais, Tom Varley's hewers find a broken pick-head of a make none of them knows, and in the second shaft rotted shoring still holding the roof, which they leave alone.",
+  "category": "coal",
+  "people": [
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:269"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0056"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The elders of Cnoc ghorm hear of the agreement",
+  "era_year": 16,
+  "summary": "Word of the pit towns' agreement at Muileann àrsaidh reaches the Tuathaich elders at Cnoc ghorm by a carrier; they send nothing west and nothing to Tional nan Tuathach, and enter the news in their own book.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:142"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0052"
+  ],
+  "chronicle_extra": true
+ }
+]

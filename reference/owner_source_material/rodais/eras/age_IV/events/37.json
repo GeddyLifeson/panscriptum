@@ -1,0 +1,265 @@
+[
+ {
+  "title": "A cheese-press board sold to the widow of Muileann chaol",
+  "era_year": 1662,
+  "summary": "A carter brings Beathag nic Thòmais a blackened board a Cathair mhòr road house has used for years to weight a cheese-press, having noticed writing on its underside: a coal-right tally three generations old. She pays a fair measure of meal for it, telling the carter that a house's own forgetting is no measure of what a board is worth.",
+  "category": "law",
+  "people": [
+   "Beathag nic Thòmais"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "III-0217",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A vein-house clerk finds a lost ruling in the loft",
+  "era_year": 1665,
+  "summary": "A clerk riding through Muileann chaol on the crown's business climbs the mill stair out of idleness and finds, among Beathag nic Thòmais's boards, the only surviving copy of a custodians' ruling Taigh na Fèithe had lost to fire two generations before. He asks whether she means the loft for the crown's use or her own; she says the question is not hers to answer alone.",
+  "category": "law",
+  "people": [
+   "Beathag nic Thòmais"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "III-0217",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Beathag nic Thòmais presses her own sheet of rag paper",
+  "era_year": 1674,
+  "summary": "Having watched Anna nic Coinnich work her pulp-troughs a season, Beathag presses a sheet with her own hands, uneven at one corner, and keeps it apart from the loft's other papers for the rest of her life without ever saying why.",
+  "category": "trade",
+  "people": [
+   "Beathag nic Thòmais",
+   "Anna nic Coinnich"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0218",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Beathag carries the proposal of paper to Taigh na Fèithe",
+  "era_year": 1674,
+  "summary": "Beathag nic Thòmais rides the sixty miles to Taigh na Fèithe herself to put Anna's rag paper before a custodian, judging a widow's word better heard than a stranger's. Asked whether the new stuff will hold ink sixteen centuries as hide has, she says she cannot promise it, and the custodian lets the copying go ahead.",
+  "category": "law",
+  "people": [
+   "Beathag nic Thòmais"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0218",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Beathag answers Anna on the three copies",
+  "era_year": 1679,
+  "summary": "Found still kneeling over the three tellings of the landfall at dusk, Beathag tells Anna nic Coinnich that she believes all three writers honest and none of their three pasts more true than the others, and that choosing one for comfort's sake would be a falsehood of her own making.",
+  "category": "law",
+  "people": [
+   "Beathag nic Thòmais",
+   "Anna nic Coinnich"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "III-0219",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A niece asks why the wrong copies were not burned",
+  "era_year": 1691,
+  "summary": "Hearing the tale of the three copies at the fireside, Beathag's niece asks why the two that disagreed with the truth were not simply burned. Beathag, by then old, tells her this is the very question the loft exists to leave unanswered.",
+  "category": "law",
+  "people": [
+   "Beathag nic Thòmais"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "III-0219",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The nephew stumbles reading the loft's condition",
+  "era_year": 1699,
+  "summary": "Reading Beathag nic Thòmais's will aloud to the assembled kin, her nephew stumbles over the clause forbidding any burning of the loft's papers, and more than one kinsman marks the stumble and thinks the less of him for it.",
+  "category": "law",
+  "people": [
+   "Beathag nic Thòmais"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "III-0221",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A miller answers a reeve on the town's right to the loft",
+  "era_year": 1731,
+  "summary": "A crown reeve asks Beathag nic Thòmais's great-nephew, by then the loft's unpaid keeper, what right the town has to papers that belong by their matter to Taigh na Fèithe or the crown. He answers that fifty years of neither office asking for them back is itself an answer.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "III-0221",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A ferryman chooses the market road over the water",
+  "era_year": 1721,
+  "summary": "Given his choice of two parcels in amends for the bridge that ends his crossing, a ferryman of Cnoc ìseal asks the king's reeve which has the better crossing to the market road, and takes it; his sons never return to the water.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:91"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0224",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A scribe questions the last keepers of the rite",
+  "era_year": 1748,
+  "summary": "Sent to note Deas-ghnàth a' Chalaidh Fhalaimh for the crown's book, a scribe asks the last old women of Seann Skell on what day the fleet truly sailed. No two answers agree, and he writes as much into the crown's own book, unable to choose among them any more than Beathag nic Thòmais once could among her three copies.",
+  "category": "faith",
+  "people": [
+   "Beathag nic Thòmais"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0228",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "era_year": 1630,
+  "title": "The reign of Mòrag nic Raghnaill ends",
+  "summary": "Queen Mòrag nic Raghnaill's reign ends in her four-and-seventieth year, after forty years crowned; Clàr nan Rìghrean sets down the end of it and little else, as it has set down little else of all her quiet years.",
+  "category": "rulers",
+  "people": [
+   "Mòrag nic Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0213",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1680,
+  "title": "Birth of Tormod mac Ruairidh",
+  "summary": "A son, Tormod, is born to Ruairidh of Clann Raghnaill, the crown's own house, in the years Beathag nic Thòmais is filling her loft at Muileann chaol.",
+  "category": "rulers",
+  "people": [
+   "Tormod mac Ruairidh"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0222",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1715,
+  "title": "Birth of Gormshuil nic Thormoid",
+  "summary": "A daughter, Gormshuil, is born at Cathair dhearg to King Tormod mac Ruairidh, five-and-thirty years old and six years crowned.",
+  "category": "rulers",
+  "people": [
+   "Gormshuil nic Thormoid",
+   "Tormod mac Ruairidh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0231",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ }
+]

@@ -1,0 +1,1686 @@
+{
+ "writer": 6,
+ "span": [
+  "II-0095",
+  "II-0125"
+ ],
+ "events": [
+  {
+   "id": "EIII-6001",
+   "title": "The coughing winter at Muileann òg",
+   "body": "The warband winters on peat smoke at the burned toll-house of Muileann òg. Men who marched south whole come home in spring with a cough some of them carry the rest of their days, so that the older road-guards are known ever after by the sound of a hard winter's night.",
+   "place": "burg:151",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0094",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-5057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/26_of_the_basket_of_fish-bones.md#iii-of-the-flame-that-would-not-come",
+   "era_between": [
+    1001,
+    1001
+   ]
+  },
+  {
+   "after": "II-0096"
+  },
+  {
+   "id": "EIII-6002",
+   "title": "The unnamed man of the ford",
+   "body": "At the ford of Àth fhiadhaich a man of Caol leathan holds a split shield upright well past any sense left in the holding, until a spear from behind Iain Garbh's own rank finds him. No name is ever kept for him.",
+   "place": "burg:500",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0095",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_basket_of_fish-bones.md#iv-of-the-ford-of-the-forty",
+   "era_between": [
+    1002,
+    1002
+   ]
+  },
+  {
+   "after": "II-0097"
+  },
+  {
+   "id": "EIII-6003",
+   "title": "Beathag of Baile chiar turns back a spear",
+   "body": "Riding to Baile chiar for a night's lodging, Iain Garbh is met on the wall by the town's reeve, Beathag, who will open the gate to the hungry and to no one carrying a spear. He leaves the spear on the road and sleeps that night among the burned-out of Baile ghlas.",
+   "place": "burg:106",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0097",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_basket_of_fish-bones.md#v-of-baile-ghlas-and-baile-chiar",
+   "era_between": [
+    1003,
+    1003
+   ]
+  },
+  {
+   "after": "II-0099"
+  },
+  {
+   "id": "EIII-6004",
+   "title": "Lachlann Ciar's confession at the peace-board",
+   "body": "At the waypoint house on Sìth an Rathaid, Lachlann Ciar tells Iain Garbh that the basket of fish-bones was his son's notion, sent out under his own name because a father does not answer for a son's foolishness by naming him. The two talk the evening out.",
+   "place": "marker:5",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0099",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/26_of_the_basket_of_fish-bones.md#vi-of-the-peace-at-mor-nic-dhughaill-s-house",
+   "era_between": [
+    1008,
+    1008
+   ]
+  },
+  {
+   "after": "II-0100"
+  },
+  {
+   "id": "EIII-6005",
+   "title": "Iain Garbh witnesses the wolf-sworn",
+   "body": "At Lachlann Ciar's own asking, Iain Garbh rides south to stand at the gate of Caol leathan while the men of its siege swear their new watch on a white stone cut as a wolf, and are called from that day the wolf-sworn.",
+   "place": "burg:1",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0100",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_of_the_basket_of_fish-bones.md#vi-of-the-peace-at-mor-nic-dhughaill-s-house",
+   "era_between": [
+    1009,
+    1009
+   ]
+  },
+  {
+   "id": "EIII-6006",
+   "title": "News of the fish-bone war reaches Cathair mhòr",
+   "body": "A wool-merchant brings Eithne nic Ailein, last living of the nine who cut the cord at Roinn na Rìoghachd, the tale of Iain Garbh's war on Caol leathan. She does not ride to it and does not send to it, judging it another share's quarrel to end.",
+   "place": "burg:23",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0101",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#i-of-the-hall-at-cathair-mhor",
+   "era_between": [
+    1010,
+    1010
+   ]
+  },
+  {
+   "id": "EIII-6007",
+   "title": "Word of the harbour wall at Caol fhiadhaich",
+   "body": "The wool-merchant's next journey brings word to Cathair mhòr of how Caol fhiadhaich fed besieged Caol leathan by night and was given a share of the western tolls, with which it raised the first stone wall that coast has had. Eithne asks after the wall every year after.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0101",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#ii-of-the-harbour-wall-at-caol-fhiadhaich",
+   "era_between": [
+    1011,
+    1011
+   ]
+  },
+  {
+   "id": "EIII-6008",
+   "title": "Lachlann Ciar dies within sight of the harbour",
+   "body": "Lachlann Ciar dies in his ninetieth year, worn down by slow degrees by the cough he carried from the coughing winter. His household buries him within sight of the harbour he grew fat and then thin defending, his son standing at the peace-board in his place.",
+   "place": "burg:1",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0099",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/26_of_the_basket_of_fish-bones.md#vi-of-the-peace-at-mor-nic-dhughaill-s-house",
+   "era_between": [
+    1020,
+    1020
+   ]
+  },
+  {
+   "after": "II-0101"
+  },
+  {
+   "id": "EIII-6009",
+   "title": "Iain Garbh never climbs to the cup",
+   "body": "Iain Garbh rules forty years past the end of Cogadh nan Rathad and never once goes up the mountain road to stand before the cup, unlike every rìgh before or after him. He dies unreconciled to the flame that had refused his warband its blessing.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0102",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_last_of_the_nine.md#iii-of-the-death-of-iain-garbh",
+   "era_between": [
+    1044,
+    1044
+   ]
+  },
+  {
+   "after": "II-0102"
+  },
+  {
+   "id": "EIII-6010",
+   "title": "Catrìona Ghlic crowned at Dùn dhearg",
+   "body": "Catrìona, daughter of Iain Garbh, is crowned at Dùn dhearg on her father's death and takes within ten years the name Catrìona Ghlic, Catrìona the Wise, for undoing the coldness he had left between the rìgh's hall and Talla na Lasrach.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0102",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_of_the_last_of_the_nine.md#iv-of-catriona-ghlic-and-the-breach-mended",
+   "era_between": [
+    1044,
+    1044
+   ]
+  },
+  {
+   "after": "II-0103"
+  },
+  {
+   "id": "EIII-6011",
+   "title": "The rìgh's tithe sent again to Talla na Lasrach",
+   "body": "Eithne nic Ailein, hearing that Catrìona Ghlic's son has sat a season with the flame unasked, orders that Cathair mhòr's own hall send its tithe to Talla na Lasrach's handful again, unwaited-for, as it had not done since her own father's day.",
+   "place": "burg:23",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0103",
+     "type": "parallel"
+    },
+    {
+     "to": "EIII-6010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#iv-of-catriona-ghlic-and-the-breach-mended",
+   "era_between": [
+    1051,
+    1051
+   ]
+  },
+  {
+   "id": "EIII-6012",
+   "title": "Coimheadaiche na Lasrach keeps a place for the rìgh's son",
+   "body": "After his first season carrying the baskets at Dùn ìseal, Catrìona Ghlic's son returns each year at the turn of the season, and Coimheadaiche na Lasrach comes to keep a place for him at the long table without being asked, a small thing the island reads as the breach mended.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0103",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_last_of_the_nine.md#iv-of-catriona-ghlic-and-the-breach-mended",
+   "era_between": [
+    1058,
+    1058
+   ]
+  },
+  {
+   "id": "EIII-6013",
+   "title": "Inis mhòr asks the crown for its own guard",
+   "body": "The wool port of Inis mhòr, grown past every other town in the north on the trade the two new waypoint houses carry, asks Catrìona Ghlic's crown for a road-guard of its own, and is given one without argument.",
+   "place": "burg:17",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0106",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_last_of_the_nine.md#v-of-the-two-houses-and-the-wool-of-inis-mhor",
+   "era_between": [
+    1075,
+    1075
+   ]
+  },
+  {
+   "after": "II-0106"
+  },
+  {
+   "id": "EIII-6014",
+   "title": "Niall Òg walks his last road",
+   "body": "Niall Òg comes on foot and unannounced to Eithne nic Ailein's hall at Cathair mhòr, the last road he means to walk, so that Oidhche an Dòrlaich should be told once more, to the only other living witness of it, before he dies.",
+   "place": "burg:23",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [],
+   "threads": [
+    "the-long-years",
+    "the-division"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#vi-of-niall-og-on-the-last-road",
+   "era_between": [
+    1109,
+    1109
+   ]
+  },
+  {
+   "id": "EIII-6015",
+   "title": "Death of Niall Òg",
+   "body": "Niall Òg dies in his sleep by Eithne nic Ailein's own fire at Cathair mhòr, some two thousand years old, three days after telling her Oidhche an Dòrlaich for what proves the last time. She sends his body up the mountain at her own cost.",
+   "place": "burg:23",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EIII-6014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#vi-of-niall-og-on-the-last-road",
+   "era_between": [
+    1109,
+    1109
+   ]
+  },
+  {
+   "id": "EIII-6016",
+   "title": "Niall Òg laid near the first heirs",
+   "body": "Eithne has Niall Òg laid near the old graves on the slope below Dùn ìseal, among the first heirs of Roinn na Rìoghachd, though he was of no kin to her own share, judging that a man who spent four hundred years walking every road on the island had earned the ground.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EIII-6015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years",
+    "the-division"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#vi-of-niall-og-on-the-last-road",
+   "era_between": [
+    1109,
+    1109
+   ]
+  },
+  {
+   "id": "EIII-6017",
+   "title": "Eithne asks the count of her own years",
+   "body": "In her last year Eithne nic Ailein asks her steward more than once to reckon the exact tale of her days, wanting the number fixed precisely at the end, though her mind has not begun to fail her.",
+   "place": "burg:23",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0106b",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#vii-of-the-last-of-the-nine",
+   "era_between": [
+    1121,
+    1121
+   ]
+  },
+  {
+   "after": "II-0106a"
+  },
+  {
+   "id": "EIII-6018",
+   "title": "Eithne's hall at Cathair mhòr falls silent",
+   "body": "With Eithne nic Ailein's death her hall at Cathair mhòr is left to her stewards and her reciters, who keep the rolls but crown no one there, the lowland share having long since ceased to answer to any single hand of her line.",
+   "place": "burg:23",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0106b",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division",
+    "the-long-years"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/27_of_the_last_of_the_nine.md#vi-of-niall-og-on-the-last-road",
+   "era_between": [
+    1122,
+    1122
+   ]
+  },
+  {
+   "id": "EIII-6019",
+   "title": "The mill at Muileann shean",
+   "body": "A mill is raised on the northern road at Muileann shean to grind grain for the carriers crossing the pass; the miller pays Talla na Lasrach in grain and the rìgh's toll in flour, and a town grows round the mill within two generations.",
+   "place": "burg:212",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0107",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#i-of-the-mill-on-the-northern-road",
+   "era_between": [
+    1123,
+    1123
+   ]
+  },
+  {
+   "id": "EIII-6020",
+   "title": "Catrìona Ghlic dies at a hundred and twenty-two",
+   "body": "Catrìona Ghlic, who mended the breach her father Iain Garbh's war had opened, dies at Dùn dhearg. Her son takes the hall at ninety-two, the first of eleven rulers the later king-list will give only by name and order.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0103",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#i-of-the-mill-on-the-northern-road",
+   "era_between": [
+    1124,
+    1124
+   ]
+  },
+  {
+   "id": "EIII-6021",
+   "title": "Talla na Lasrach's own roll for the same years",
+   "body": "For the span Clàr nan Rìghrean gives eleven rulers, Talla na Lasrach's spoken roll gives only five Keepers, a mountain's years running longer than a lowland's, as every teller of the Fire already knows.",
+   "place": "burg:315",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0108",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#i-of-the-mill-on-the-northern-road",
+   "era_between": [
+    1130,
+    1130
+   ]
+  },
+  {
+   "after": "II-0107"
+  },
+  {
+   "id": "EIII-6022",
+   "title": "The last of na Bliadhnachan Fada in the ruling line",
+   "body": "The last ruler of Sliochd Ìomhair and Goraidh to carry any of na Bliadhnachan Fada in his blood dies at a hundred years old, an age that was a boy's age in his grandmother's grandmother's day. After him the line ages and dies at the pace of any household on the island.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0098a",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#i-of-the-mill-on-the-northern-road",
+   "era_between": [
+    1190,
+    1190
+   ]
+  },
+  {
+   "after": "II-0108"
+  },
+  {
+   "id": "EIII-6023",
+   "title": "Tormod mac Iain born to Sliochd Thormoid",
+   "body": "Tormod is born at Dùn dhearg, a younger son of a house that has held no great office in the hall for three generations. His father Iain keeps a stretch of the crown granaries, and the boy grows up among grain-tallies.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0109",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#ii-of-tormod-mac-iain",
+   "era_between": [
+    1240,
+    1240
+   ]
+  },
+  {
+   "id": "EIII-6024",
+   "title": "Tormod sent east to Muileann chiar",
+   "body": "A passing stag-teacher's tale of letters that can hold a teaching without a teacher fixes itself in the fifteen-year-old Tormod's mind. His father, a younger son's post being cheaper found elsewhere than at home, sends him east to Muileann chiar to learn the stag-letters.",
+   "place": "burg:78",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0109",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#ii-of-tormod-mac-iain",
+   "era_between": [
+    1255,
+    1255
+   ]
+  },
+  {
+   "after": "II-0109"
+  },
+  {
+   "id": "EIII-6025",
+   "title": "Tormod's first written leaf",
+   "body": "In his second summer at Muileann chiar, Tormod writes his first whole leaf, a grain-debt tally copied twice over from an old woman's spoken account. He keeps it inside his shirt a full year, the oldest surviving thing in his own hand.",
+   "place": "burg:78",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0109",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#iii-of-the-stag-letters-at-muileann-chiar",
+   "era_between": [
+    1256,
+    1256
+   ]
+  },
+  {
+   "id": "EIII-6026",
+   "title": "Tormod returns to the granaries",
+   "body": "After four years at Muileann chiar, Tormod comes home to Dùn dhearg and his father's trade of the granaries, carrying unspoken a want to write down a thing that would outlast every mouth that had ever spoken it.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0109",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#iii-of-the-stag-letters-at-muileann-chiar",
+   "era_between": [
+    1259,
+    1259
+   ]
+  },
+  {
+   "after": "II-0111"
+  },
+  {
+   "id": "EIII-6027",
+   "title": "Ealasaid Chiar takes the hall",
+   "body": "Ealasaid Chiar, granddaughter of the ninth of the eleven, takes the hall at Dùn dhearg at twenty-nine, out of patience with hearing her own house's roll given a different order at every telling.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0110",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#iv-of-ealasaid-chiar",
+   "era_between": [
+    1299,
+    1299
+   ]
+  },
+  {
+   "id": "EIII-6028",
+   "title": "Ealasaid Chiar sets Tormod to the writing",
+   "body": "Ealasaid Chiar hears of a granary clerk who can set a thing down in marks and have it read back the same way twice, and sets Tormod Scrìobhaiche, now fifty-nine, to write down every ruler the reciters can name, in order, freed of all other duty.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0110",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#iv-of-ealasaid-chiar",
+   "era_between": [
+    1299,
+    1299
+   ]
+  },
+  {
+   "after": "II-0112"
+  },
+  {
+   "id": "EIII-6029",
+   "title": "The reciters disagree",
+   "body": "Questioning the hall's reciters in turn, Tormod finds them certain and contradictory: a mother's name given two ways, a reign given nine years by one mouth and eleven by another, three rulers set in different orders by a southern reciter than by the hall's own.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0112",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#v-of-the-reciters",
+   "era_between": [
+    1301,
+    1301
+   ]
+  },
+  {
+   "id": "EIII-6030",
+   "title": "Ealasaid Chiar bids the doubt be written too",
+   "body": "Told of the disagreements, Ealasaid Chiar orders Tormod to set down the sure thing where he has it and the doubt where he has that, rather than hide the roll's own uncertainty from those who could not otherwise judge it.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0112",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#v-of-the-reciters",
+   "era_between": [
+    1301,
+    1301
+   ]
+  },
+  {
+   "id": "EIII-6031",
+   "title": "Clàr Thormoid finished",
+   "body": "After six years' careful writing, reading each page back to whoever gave it before counting it done, Tormod brings Ealasaid Chiar the finished roll from Goraidh Mòr to herself, with three disputed places marked and left unresolved.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0111",
+     "type": "fulfils"
+    },
+    {
+     "to": "II-0112",
+     "type": "fulfils"
+    },
+    {
+     "to": "EIII-6030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#vi-of-the-roll-s-making",
+   "era_between": [
+    1305,
+    1305
+   ]
+  },
+  {
+   "id": "EIII-6032",
+   "title": "Death of Tormod Scrìobhaiche",
+   "body": "Tormod Scrìobhaiche dies at seventy in the clerk's room off the hall at Dùn dhearg, a half-begun copy of the disputed reign still under his hand. Ealasaid Chiar names the room, ever after, Tormod's room.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0109",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#vi-of-the-roll-s-making",
+   "era_between": [
+    1310,
+    1310
+   ]
+  },
+  {
+   "id": "EIII-6033",
+   "title": "Talla na Lasrach shamed into writing its own roll",
+   "body": "Word of Clàr nan Rìghrean reaches the blind Keeper on the mountain, who sits three days in silence and then tells Talla na Lasrach's own reciters that a Hall out-remembered by a rìgh's clerk has no one to blame but itself.",
+   "place": "burg:315",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0113",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#vii-of-the-shamed-hall",
+   "era_between": [
+    1311,
+    1311
+   ]
+  },
+  {
+   "after": "II-0113"
+  },
+  {
+   "id": "EIII-6034",
+   "title": "Cairistìona reads the cord for the scribes",
+   "body": "Cairistìona nan Snaidhm, last of Sìne's line who can read a knot without letters, comes to Talla na Lasrach and unties Sreang nan Oighrean knot by knot over two days, naming each heir aloud so a young scribe can set the roll down in the new marks.",
+   "place": "burg:315",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0113",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#viii-of-the-cord-untied",
+   "era_between": [
+    1320,
+    1320
+   ]
+  },
+  {
+   "id": "EIII-6035",
+   "title": "The cord coiled in its chest",
+   "body": "The last of the cord's seven hundred and twelve knots comes free, and Cairistìona coils it in the old way and lays it in the chest Talla na Lasrach has made for it, telling the scribe that after her no hand living will be able to make it speak.",
+   "place": "burg:315",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0113",
+     "type": "legacy"
+    },
+    {
+     "to": "EIII-6034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_eleven_names_and_tormod_the_writer.md#viii-of-the-cord-untied",
+   "era_between": [
+    1320,
+    1320
+   ]
+  },
+  {
+   "id": "EIII-6036",
+   "title": "The death of Ealasaid Chiar",
+   "body": "Ealasaid Chiar dies at sixty, having reigned thirty-one years and had the first king-list written, and is carried up the mountain road to lie among Sliochd Ìomhair. Her son takes the hall after her.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0110",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#i-of-the-years-the-list-does-not-count",
+   "era_between": [
+    1330,
+    1330
+   ]
+  },
+  {
+   "id": "EIII-6037",
+   "title": "The roll falls silent",
+   "body": "After Ealasaid Chiar's son and granddaughter, Clàr nan Rìghrean Tormod began keeps no ruler's name for a span the reciters cannot close. Clàr an Talla at Dùn ìseal keeps its own count through the same years, naming Coimheadaichean na Lasrach where the hall names none.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0113",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#i-of-the-years-the-list-does-not-count",
+   "era_between": [
+    1341,
+    1341
+   ]
+  },
+  {
+   "id": "EIII-6038",
+   "title": "Talla na Lasrach's clerks learn the stag-letters",
+   "body": "Shamed that it cannot read its own roll without borrowing another order's letters, Talla na Lasrach sets two of its own clerks to learn the stag-letters, taught by a stag-teacher paid in coal for the winter. From that year Talla na Lasrach keeps its roll in its own hand.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0113",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#i-of-the-years-the-list-does-not-count",
+   "era_between": [
+    1380,
+    1380
+   ]
+  },
+  {
+   "id": "EIII-6039",
+   "title": "A Keeper named in the silent years",
+   "body": "A Keeper is named at Dùn ìseal of whom the roll keeps only the years of her reign, twenty-two, and the year of her death; of the rest of it nothing is told, the households burning their handful and the carriers walking their roads as their grandparents had.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0113",
+     "type": "legacy"
+    },
+    {
+     "to": "EIII-6038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#i-of-the-years-the-list-does-not-count",
+   "era_between": [
+    1440,
+    1440
+   ]
+  },
+  {
+   "id": "EIII-6040",
+   "title": "The birth of Conall Dubh",
+   "body": "A household above Cnoc bheag, keeping sheep in sight of the wood the island has never cleared, has its fourth child, a son they name Conall and call Dubh for the black hair he is born with.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0114",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#ii-of-the-black-horned-beast",
+   "era_between": [
+    1540,
+    1540
+   ]
+  },
+  {
+   "id": "EIII-6041",
+   "title": "Conall Dubh sees the black horned beast",
+   "body": "At twenty years old, going up before first light to bring down strayed ewes, Conall Dubh meets a black horned beast at the edge of Coille Naomh Cnoc bheag, standing and watching him before it turns back into the trees. His mother believes him.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0114",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#ii-of-the-black-horned-beast",
+   "era_between": [
+    1560,
+    1560
+   ]
+  },
+  {
+   "id": "EIII-6042",
+   "title": "The watch grows to nine",
+   "body": "Conall Dubh's sister and two cousins join his watch at the wood's edge, and within five years of his own first sighting nine keep it by turns, waiting on a beast none of them can explain to a stranger's satisfaction.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0114",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#iii-of-the-watch",
+   "era_between": [
+    1565,
+    1565
+   ]
+  },
+  {
+   "after": "II-0114"
+  },
+  {
+   "id": "EIII-6043",
+   "title": "The wood called sacred",
+   "body": "The watchers, near thirty now and housed in a turf hut at the wood's edge, are named the wood-watchers by the people of Cathair dhearg, and a clerk of Talla na Lasrach counting the season's coal is the first outsider to write Coille Naomh Cnoc bheag sacred in his own report.",
+   "place": "marker:24",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0114",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#iii-of-the-watch",
+   "era_between": [
+    1569,
+    1569
+   ]
+  },
+  {
+   "after": "II-0115"
+  },
+  {
+   "id": "EIII-6044",
+   "title": "The death of a teaching elder",
+   "body": "In the second winter of the two orders' silence over the cut tree, the teacher who first spoke for Scoiltean nan Draoidhean dies of an ordinary winter cough. Conall Dubh crosses to the teaching-circle unbidden to say he is sorry for their loss, the first word either side has spoken to the other.",
+   "place": "marker:23",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0116",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#v-of-the-teachers-in-the-dark-wood",
+   "era_between": [
+    1578,
+    1578
+   ]
+  },
+  {
+   "after": "II-0117"
+  },
+  {
+   "id": "EIII-6045",
+   "title": "Fearchar Òg brought to the hall",
+   "body": "A boy of seven, a great-grandson of the house that once held Dùn dhearg, is brought to Dùn ìseal by his mother's hand and acknowledged heir by Coimheadaiche na Lasrach of that year, the first claim in longer than the roll can say with certainty found worth Talla na Lasrach's confidence.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0118",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#vi-of-fearchar-og-a-boy-of-seven",
+   "era_between": [
+    1593,
+    1593
+   ]
+  },
+  {
+   "id": "EIII-6046",
+   "title": "Calum Liath takes the flame",
+   "body": "Calum Liath is made Keeper at forty-five, in Fearchar Òg's ninth year, and judges at once that the wood-watchers and Scoiltean nan Draoidhean will share their silence forever unless someone outside both orders sets a boundary between them.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0118",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#vii-of-the-shared-keeping",
+   "era_between": [
+    1595,
+    1595
+   ]
+  },
+  {
+   "after": "II-0118"
+  },
+  {
+   "id": "EIII-6047",
+   "title": "Conall Dubh walks the eastern wood",
+   "body": "The day after the last boundary stone is set, Conall Dubh walks unarmed into Coille Naomh Muileann chiar for the first time in his life, a guest under the terms he helped make, and stands a while at the border stand before turning home.",
+   "place": "marker:23",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0118",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_wood-watchers.md#viii-of-conall-in-the-eastern-wood",
+   "era_between": [
+    1595,
+    1595
+   ]
+  },
+  {
+   "id": "EIII-6048",
+   "title": "The households of the northern road go short",
+   "body": "With cutters set to counting rather than cutting, the waypoint-keepers send less than Lagh an Loscaidh Bhig's full measure to households a day's carry and more from the mountain, marking each short delivery against a day it might be made good.",
+   "place": "burg:365",
+   "kind": "loss",
+   "category": "coal",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#ii-of-the-three-lean-seasons",
+   "era_between": [
+    1601,
+    1604
+   ]
+  },
+  {
+   "after": "II-0119"
+  },
+  {
+   "id": "EIII-6049",
+   "title": "Calum Liath sends cutters to measure the vein",
+   "body": "Coimheadaiche na Lasrach Calum Liath gives every cutter of Dùn ìseal a knotted cord and a lamp of Talla na Lasrach's own oil, and sends them into the galleries to walk the vein from end to end and mark on slates where it runs thick and where it runs to blind rock.",
+   "place": "burg:315",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0119",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#i-of-the-keeper-s-cutters",
+   "era_between": [
+    1602,
+    1602
+   ]
+  },
+  {
+   "id": "EIII-6050",
+   "title": "A steward of the northern road questions Coimheadaiche na Lasrach",
+   "body": "Three households short of their measure send the steward Uisdean to Dùn ìseal to ask whether the counting will end before their own stores do. Calum Liath answers only that he cannot yet say, and the steward walks home with the truth and nothing else.",
+   "place": "burg:315",
+   "kind": "court",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EIII-6049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#ii-of-the-three-lean-seasons",
+   "era_between": [
+    1602,
+    1602
+   ]
+  },
+  {
+   "id": "EIII-6051",
+   "title": "Two cutters lost a day in an old working",
+   "body": "Sent to measure a gallery cut and abandoned in Fionnlagh Dall's time, two young cutters lose a full day in the dark and come out half starved, saying only that they heard something moving beyond their lamp's reach.",
+   "place": "burg:315",
+   "kind": "loss",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EIII-6050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#iii-of-the-cords-in-the-dark",
+   "era_between": [
+    1602,
+    1602
+   ]
+  },
+  {
+   "after": "II-0120"
+  },
+  {
+   "id": "EIII-6052",
+   "title": "The clerk Mòr nic Aonghais cuts the reckoning",
+   "body": "A clerk of Talla na Lasrach who learned her letters from a wanderer of the stag's school sets the sum of the cords into a slab of grey stone, reckoning the mountain's coal against the grains in the granaries of Dùn dhearg, the largest measure a household could hold in its own hand and believe.",
+   "place": "burg:315",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0120",
+     "type": "sequel"
+    },
+    {
+     "to": "II-0121",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#iv-of-the-slab-and-the-silence",
+   "era_between": [
+    1607,
+    1607
+   ]
+  },
+  {
+   "after": "II-0121"
+  },
+  {
+   "id": "EIII-6053",
+   "title": "The reckoning read and met with silence",
+   "body": "Calum Liath reads the slab's sum to the assembled stewards and hearths at Dùn ìseal. No one speaks against it and no one praises it; the northern stewards, who paid for the counting in short seasons, say nothing at all, and Talla na Lasrach takes the silence for assent.",
+   "place": "burg:315",
+   "kind": "court",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0121",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#iv-of-the-slab-and-the-silence",
+   "era_between": [
+    1607,
+    1607
+   ]
+  },
+  {
+   "id": "EIII-6054",
+   "title": "Ealasaid Rìoghach asks the council what is owed",
+   "body": "Griogair's mother stands before the council at Dùn ìseal and asks what Talla na Lasrach owes her son, sent into a gallery already marked dangerous by a slate no cutter had carried down in memory. The council has no answer ready.",
+   "place": "burg:315",
+   "kind": "court",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0122",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#vi-of-what-the-hall-owed",
+   "era_between": [
+    1620,
+    1622
+   ]
+  },
+  {
+   "after": "II-0122"
+  },
+  {
+   "id": "EIII-6055",
+   "title": "Griogair mac Dhonnchaidh and Sìne Bheag crushed in the lower gallery",
+   "body": "Sent without a Keeper's cutter to bring up a left basket, two youths of one season in the galleries break a face already marked unsound on Aonghas's own slates two years before. Griogair dies at once; Sìne Bheag does not outlive the digging.",
+   "place": "burg:315",
+   "kind": "loss",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0122",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#v-of-the-lower-gallery",
+   "era_between": [
+    1621,
+    1621
+   ]
+  },
+  {
+   "id": "EIII-6056",
+   "title": "The council sits three days and turns from fault to custom",
+   "body": "The stewards of na h-Earrannan Mòra spend a first day laying blame before Ealasaid Rìoghach's second asking turns the council from fault to remedy: a binding of seven years before any young Dia-thìrich may touch the vein alone.",
+   "place": "burg:315",
+   "kind": "court",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0123",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#vi-of-what-the-hall-owed",
+   "era_between": [
+    1621,
+    1621
+   ]
+  },
+  {
+   "id": "EIII-6057",
+   "title": "The apprentice-binding custom is agreed",
+   "body": "The council of Dùn ìseal sets down that no young Dia-thìrich will go into any gallery of the vein's custody until bound seven years to a master cutter of proven years, to learn the mountain's marks and unsound faces before working it alone.",
+   "place": "burg:315",
+   "kind": "court",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0123",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-6056",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#vi-of-what-the-hall-owed",
+   "era_between": [
+    1621,
+    1621
+   ]
+  },
+  {
+   "after": "II-0123"
+  },
+  {
+   "id": "EIII-6058",
+   "title": "Calum Liath dies at Talla na Lasrach's door",
+   "body": "Coimheadaiche na Lasrach Calum Liath dies by the doorway where he had the reckoning-slab set, in the ninth year after it was cut, and is carried up to lie among Coimheadaichean na Lasrach' own dead near the two youths he had buried before him.",
+   "place": "burg:315",
+   "kind": "loss",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#vi-of-what-the-hall-owed",
+   "era_between": [
+    1628,
+    1628
+   ]
+  },
+  {
+   "id": "EIII-6059",
+   "title": "Oighrig Bhàn chosen Keeper",
+   "body": "Na Naoi Teallaichean choose Oighrig Bhàn, a woman of the northern road who had sat with Calum Liath through his last winter, to hold the flame after him.",
+   "place": "burg:315",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EIII-6058",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#vii-of-oighrig-bhan",
+   "era_between": [
+    1628,
+    1628
+   ]
+  },
+  {
+   "id": "EIII-6060",
+   "title": "Oighrig Bhàn asks why the binding stands unkept",
+   "body": "Within her first year Oighrig Bhàn asks why the apprentice-binding, agreed by the council after Griogair and Sìne Bheag's deaths, still stands only as a thing sworn and not a thing done, and finds no better answer than that grief cools faster than custom is kept.",
+   "place": "burg:315",
+   "kind": "court",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0123",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#vii-of-oighrig-bhan",
+   "era_between": [
+    1628,
+    1628
+   ]
+  },
+  {
+   "after": "II-0124"
+  },
+  {
+   "id": "EIII-6061",
+   "title": "Oighrig Bhàn binds the first twelve apprentices",
+   "body": "In Talla na Lasrach's own doorway Oighrig Bhàn binds twelve apprentices by name to twelve master cutters, each swearing on the stone cup to serve seven years before touching the vein alone. She stands through every oath and does not sit until the last is sworn.",
+   "place": "burg:315",
+   "kind": "rite",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0124",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6060",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#viii-of-the-twelve-on-the-stone-cup",
+   "era_between": [
+    1634,
+    1634
+   ]
+  },
+  {
+   "id": "EIII-6062",
+   "title": "Four of the twelve later hold the flame",
+   "body": "Of the twelve first bound under Oighrig Bhàn, four in later years are themselves chosen Keeper, which the reciters of Dùn ìseal count the custom's best proof, though none of it answers in full the question Ealasaid Rìoghach asked.",
+   "place": "burg:315",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EIII-6061",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#viii-of-the-twelve-on-the-stone-cup",
+   "era_between": [
+    1634,
+    1634
+   ]
+  },
+  {
+   "id": "EIII-6063",
+   "title": "Rìoghnach writes the first strike-book entry",
+   "body": "A novice of the first bound company at Cnoc bhàn, Rìoghnach, sets down the school's first written account by lamp-light in a hand still stiff from her letters: three words, I struck a stroke, and the day beneath them.",
+   "place": "burg:343",
+   "kind": "craft",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0125",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#ix-of-cnoc-bhan-and-the-first-entry",
+   "era_between": [
+    1640,
+    1642
+   ]
+  },
+  {
+   "id": "EIII-6064",
+   "title": "The birth of Mòrag Dhubh",
+   "body": "Aonghas Ruadh and Sìne of Cnoc mhòr have a daughter, black-haired against the fairness of both their houses, and name her Mòrag. She is raised at a hearth already full of staves and toll-talk, in the first winters of the hall's new silver.",
+   "place": "burg:31",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0129",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#iv-of-morag-dhubh",
+   "era_between": [
+    1640,
+    1640
+   ]
+  }
+ ]
+}

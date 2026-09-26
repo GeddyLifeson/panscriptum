@@ -1,0 +1,1476 @@
+{
+ "writer": 2,
+ "span": [
+  "IV-0041",
+  "IV-0071"
+ ],
+ "events": [
+  {
+   "id": "EV-2010",
+   "title": "The nails weighed again at Ceann fhada",
+   "body": "The river-fishers and pilots of Ceann fhada, paid by weight in iron nails for the foreshore under the new coal quay, carry their nails to the fish-shed and weigh each man's share again on the old beam they weigh salmon on. Every share is true to the ounce. A pilot enters in the roll of Ceann fhada that the weight was true and the men ashamed.",
+   "place": "burg:351",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#ii-of-nails-by-weight",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EV-2011",
+   "title": "The first coal barge goes down from Ceann fhada",
+   "body": "Carts from the pit at Muileann chrom tip the first coal into a flat barge moored against the new quay at Ceann fhada. Two pilots of the hamlet, paid by A' Chompanaidh, take her down the Abhainn uaine at the sweeps, since no one else knows the river.",
+   "place": "burg:351",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0041",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#ii-of-nails-by-weight",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "after": "IV-0042"
+  },
+  {
+   "id": "EV-2012",
+   "title": "Gormshuil nic Fhearchair reads Wren's grammar to the custodians",
+   "body": "At the Samhain sitting of the council at Cathair dhearg, Gormshuil nic Fhearchair reads Samuel Wren's grammar aloud to the custodians of the hills and puts it into Dia-thìris. She tells them that in the humans' tongue a keeper is one who has a thing and holds it until paid. Beathag Dhubh of Doire mhòr enters in her roll that the strangers' book calls the custodians keepers.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "gormshuil-nic-fhearchair",
+    "samuel-wren",
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#iii-of-three-words-in-a-grammar",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "after": "IV-0043"
+  },
+  {
+   "id": "EV-2013",
+   "title": "A hawk-priest's note beside the three words",
+   "body": "In the copy of Wren's grammar kept by the hawk-priests of Cnoc bheag, a priest writes in the margin beside the humans' name for the custodians, in Dia-thìris, that Wren writes as a man counts sacks, and signs it with a hawk's head.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0043",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0042",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "samuel-wren"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#iii-of-three-words-in-a-grammar",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EV-2014",
+   "title": "The custodians of the hills called on the contracts",
+   "body": "At the dark of the year the council at Cathair dhearg calls the custodians of the hills to say what their villages make of the contracts coming up from Muileann chrom. It hears four days of talk of iron, lamp-oil and the ton, and makes no ruling.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#iv-of-the-bell-before-the-fleet",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "after": "IV-0044"
+  },
+  {
+   "id": "EV-2001",
+   "title": "The bell rung once before the fleet was out",
+   "body": "On the morning of its hanging the iron bell of the chapel on the quay at Ros dhomhain is rung for the first service while the fishers are loading their boats in silence, as the rule of that quay requires. The crews unload and go home. Three boats of more than twenty go out on the lake that day.",
+   "place": "burg:27",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "samuel-wren",
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#iv-of-the-bell-before-the-fleet"
+  },
+  {
+   "id": "EV-2015",
+   "title": "The chapel bell kept until the fleet is out",
+   "body": "At the chapel door the custodian of Ros dhomhain tells the minister, with Samuel Wren putting it into the humans' tongue, that a bell over the water before the boats are out is the bell for the drowned. The minister agrees at once, and the bell is rung thereafter only when the last boat is clear of the harbour mouth.",
+   "place": "burg:27",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0044",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "samuel-wren"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#iv-of-the-bell-before-the-fleet",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EV-2016",
+   "title": "The contract carried up to Doire mhòr",
+   "body": "A boy of Muileann chrom carries a contract of A' Chompanaidh up to Doire mhòr, naming the south slope of its hill under the oaks for a working. Beathag Dhubh has it read to her twice in the mill-house at Muileann chrom by the young man of Ros dhomhain who puts A' Chompanaidh's words into Dia-thìris.",
+   "place": "burg:101",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0039",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0045",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#v-of-the-paper-at-the-hearth",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "after": "IV-0045"
+  },
+  {
+   "id": "EV-2002",
+   "title": "Beathag calls Doire mhòr's households to the hearth",
+   "body": "On the evening the day for the marks goes by, Beathag Dhubh calls the seven households of Doire mhòr to her fire and has the contract told to them. They talk of iron, oats and sheep. The oldest woman of the hill says that the hill is not theirs, and the households give the answer to the custodian to give.",
+   "place": "burg:101",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0045",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0046",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#v-of-the-paper-at-the-hearth"
+  },
+  {
+   "after": "IV-0046"
+  },
+  {
+   "id": "EV-2017",
+   "title": "The agent's report sent down from Muileann chrom",
+   "body": "The agent of A' Chompanaidh who climbed to Doire mhòr writes that night at the pit-office by the mill that the custodian heard him out in the rain, did not ask him in, and answered that the hill was not hers to sell nor his to buy. He sends it to Taigh an Àrd-mhaoir with the week's figures and advises that the working be opened elsewhere.",
+   "place": "burg:354",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0046",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0047",
+     "type": "cause"
+    },
+    {
+     "to": "EV-2002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#vi-of-the-door",
+   "era_between": [
+    14,
+    14
+   ]
+  },
+  {
+   "after": "IV-0047"
+  },
+  {
+   "id": "EV-2018",
+   "title": "The road pegged across Doire mhòr's fields and moved",
+   "body": "Surveyors of A' Chompanaidh peg the line of the new cart-road from Cnoc fhiadhaich straight across the three best fields of Doire mhòr. Beathag Dhubh sends word to the custodian of Muileann chrom that the fields are in no contract. Five days later the surveyors pull their pegs and lay the line round the foot of the field walls, a mile the longer.",
+   "place": "burg:101",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0047",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#vii-of-the-road-round-the-fields",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "id": "EV-2019",
+   "title": "Fenn's lens carried to Tobar dhearg",
+   "body": "The great glass for the new tower on the southern cape, ground over the sea, is carried from Ros dhomhain to Tobar dhearg on a cart packed in straw. James Fenn sets it in the lamp-room of the tower Torcall Clachair has raised over the old fire-tower.",
+   "place": "burg:27",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0048",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "james-fenn",
+    "torcall-clachair"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#viii-of-the-light-at-tobar-dhearg",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "after": "IV-0048"
+  },
+  {
+   "id": "EV-2020",
+   "title": "The cart-road round Doire mhòr finished",
+   "body": "Hill men paid in iron finish the cart-road of A' Chompanaidh from Cnoc fhiadhaich round the fields of Doire mhòr to the quay at Ceann fhada, with a timber bridge at the lower ford of the Doire mhòr stream. The first loaded carts come round the bend in the autumn.",
+   "place": "burg:101",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#vii-of-the-road-round-the-fields",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "id": "EV-2021",
+   "title": "The carters water their horses at Doire mhòr",
+   "body": "The carters on the new road ask Beathag Dhubh's leave to water their horses at the stream where the road crosses it below Doire mhòr, and she gives it. In wet weather they eat their bread under the oaks before the last pull down to the river.",
+   "place": "burg:101",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#vii-of-the-road-round-the-fields",
+   "era_between": [
+    15,
+    15
+   ]
+  },
+  {
+   "after": "IV-0049"
+  },
+  {
+   "id": "EV-2003",
+   "title": "Anna nic Dhòmhnaill's tally of lit nights cut on the stair wall",
+   "body": "Anna nic Dhòmhnaill, keeper of Taigh-solais Tobar dhearg, who cannot write, begins her count on the wall of the tower stair below the lamp-room: one stroke cut with a knife for every night the light is lit, and a stroke across every thirty.",
+   "place": "marker:16",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0048",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "anna-nic-dhomhnaill"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#viii-of-the-light-at-tobar-dhearg"
+  },
+  {
+   "after": "IV-0050"
+  },
+  {
+   "id": "EV-2022",
+   "title": "The answer of the coast read in the hills",
+   "body": "The council at Cathair dhearg copies the answer of the custodians of the north-western coast to Taigh an Àrd-mhaoir over the stripped brig, that those waters have always kept their own law, and sends it round the districts. It is read out at the mill at Muileann chrom.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#ix-of-the-brig-and-the-bend",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "id": "EV-2023",
+   "title": "Beathag writes the road into the roll of Doire mhòr",
+   "body": "Under the sixteenth year Beathag Dhubh enters in the roll of Doire mhòr the answer of the coast word for word, and then the road round the village's fields, a mile the longer and well built, with two words after it: for now.",
+   "place": "burg:101",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0047",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "beathag-dhubh"
+   ],
+   "told_in": "book/08_of_the_door_at_doire_mhor.md#ix-of-the-brig-and-the-bend",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "id": "EV-2024",
+   "title": "The hawk-priests of Cnoc bheag show Wren their margins",
+   "body": "Samuel Wren comes to Cnoc bheag at the hawk-priests' asking and is shown their copy of his grammar, written in along every margin in the stag-letters. Beside his words keepers of the coal they have set the island's word three times, which means those who have the care of the vein. Wren copies all their notes by the priest's fire.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0042",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0043",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0051",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#i-of-carragh-cnoc-bheag",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "after": "IV-0051"
+  },
+  {
+   "id": "EV-2025",
+   "title": "The custodian of Cnoc bheag answers Wren at the stakes",
+   "body": "At Carragh Cnoc bheag the custodian of the town tells Samuel Wren what her house has told every asker: the stone is older than the Dia-thìrich, the old schools' letters matched nothing on it, and the four words below were cut later by one who could read no more of it. Wren copies the line three times in the rain.",
+   "place": "marker:28",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0051",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#i-of-carragh-cnoc-bheag",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "after": "IV-0052"
+  },
+  {
+   "id": "EV-2026",
+   "title": "Wren blesses the striking-press at Ros dhomhain",
+   "body": "At Josiah Pell's asking Samuel Wren says a prayer over the new striking-press in its shed on the quay at Ros dhomhain, in the humans' tongue and then in Dia-thìris for the fishers watching at the door. The first mark is lifted from the die with tongs and dropped ringing in the tray.",
+   "place": "burg:27",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0053",
+     "type": "cause"
+    },
+    {
+     "to": "EV-2025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-company"
+   ],
+   "people": [
+    "samuel-wren",
+    "josiah-pell"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#ii-of-the-ship-on-the-coin",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "after": "IV-0053"
+  },
+  {
+   "id": "EV-2027",
+   "title": "Muireall's rubbing of the first mark sent to the loft",
+   "body": "Samuel Wren brings one of the first marks to Gormshuil nic Fhearchair in the long room of the council hall. Her niece Muireall takes a rubbing of both faces, writes beneath it that the island is on neither face, and the rubbing goes east that autumn with the season's copies to the loft of Beathag nic Thòmais at Muileann chaol.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0053",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0055",
+     "type": "cause"
+    },
+    {
+     "to": "EV-2026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "muireall-nic-fhearchair",
+    "gormshuil-nic-fhearchair",
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#ii-of-the-ship-on-the-coin",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "after": "IV-0055"
+  },
+  {
+   "id": "EV-2028",
+   "title": "The market-clerk's sentence in both books",
+   "body": "Tadhg, the custodians' market-clerk at Cathair dhearg, keeps the dues of barter in one book and the dues in marks in another, and can make no single figure of them for the council. At the foot of each he writes that the one book cannot be added to the other, in the stag-letters and again in the humans' tongue.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0055",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#iii-of-the-two-books",
+   "era_between": [
+    18,
+    18
+   ]
+  },
+  {
+   "id": "EV-2029",
+   "title": "The masters of Dùn thais invite Wren",
+   "body": "The masters of Feallsanachd an Fhèidh at Dùn thais write to Samuel Wren at Ros dhomhain, in the stag-letters, asking him to come for the dark of the year and dispute with them. He goes east with the carriers at the end of an t-Samhain, five days on the road through Cathair mhòr and the hills.",
+   "place": "burg:77",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0056",
+     "type": "cause"
+    },
+    {
+     "to": "EV-2028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#iv-of-the-winter-at-dun-thais",
+   "era_between": [
+    18,
+    18
+   ]
+  },
+  {
+   "after": "IV-0056"
+  },
+  {
+   "id": "EV-2004",
+   "title": "Wren's letter home on the druids",
+   "body": "From Dùn thais, in the last days of the year, Samuel Wren writes to the house of his order over the sea by the packet of Taigh an Àrd-mhaoir. He sets down a tale the eldest master told at the hearth of a holy man's voyage west in a boat of hides, very like the voyage of Naomh Breandan as an Eaglais tells it, told from the other shore.",
+   "place": "burg:77",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0056",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#iv-of-the-winter-at-dun-thais"
+  },
+  {
+   "after": "IV-0057"
+  },
+  {
+   "id": "EV-2030",
+   "title": "Queen Sìleas's stone set back in the bridge",
+   "body": "When the masons of A' Chompanaidh take down the parapets of Drochaid Cathair dhearg, Gormshuil nic Fhearchair asks the master mason to keep the block cut with Queen Sìleas's name. He has it dressed on its back and sides, its face left as it was, and sets it again in the new downstream parapet near the middle of the bridge.",
+   "place": "marker:3",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "gormshuil-nic-fhearchair"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#v-of-the-bridge-and-the-carriage",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "after": "IV-0057a"
+  },
+  {
+   "id": "EV-2031",
+   "title": "Tormod mac Ailein walks behind the carriage",
+   "body": "Josiah Pell's carriage stops beside Tormod mac Ailein and Gormshuil nic Fhearchair on the new bridge, and Pell offers Ceann a' Chùraim a seat as far as the council hall. Tormod thanks him and answers aloud that they will walk, and the two custodians come up the hill on foot long after the carriage.",
+   "place": "marker:3",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "IV-0057a",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "tormod-mac-ailein",
+    "gormshuil-nic-fhearchair",
+    "josiah-pell"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#v-of-the-bridge-and-the-carriage",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EV-2032",
+   "title": "Gormshuil reads the harbour articles to the council",
+   "body": "Before the signing of Puingean a' Chalaidh, Gormshuil nic Fhearchair reads the eight sheets aloud to the council at Cathair dhearg, each clause first in the humans' tongue and then in Dia-thìris. Ailean Ruadh of Baile ghlas asks to hear the clause on the anchorages twice.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0058",
+     "type": "cause"
+    },
+    {
+     "to": "EV-2031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "gormshuil-nic-fhearchair",
+    "josiah-pell",
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#vi-of-puingean-a-chalaidh",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "after": "IV-0058"
+  },
+  {
+   "id": "EV-2005",
+   "title": "Gormshuil nic Fhearchair refuses Puingean a' Chalaidh",
+   "body": "Gormshuil nic Fhearchair passes the sheet of Puingean a' Chalaidh on unsigned, and tells Josiah Pell in his own tongue that she will not put her name under what she has read. Ailean Ruadh of Baile ghlas refuses with her. The council's roll names the two, the first custodians to refuse a writing of the strangers.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0058",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0059",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "gormshuil-nic-fhearchair",
+    "josiah-pell",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#vi-of-puingean-a-chalaidh"
+  },
+  {
+   "after": "IV-0060"
+  },
+  {
+   "id": "EV-2033",
+   "title": "The council's letter on the grazing",
+   "body": "At Tormod mac Ailein's sickbed Gormshuil nic Fhearchair reads him the letter from Muileann àrsaidh. At his word she writes to the families on the grazing, in both tongues, that the council granted summer grazing and shielings, and sends it north the next morning.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0060",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "tormod-mac-ailein",
+    "gormshuil-nic-fhearchair"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#vii-of-grazing-and-chimneys",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "after": "IV-0061"
+  },
+  {
+   "id": "EV-2006",
+   "title": "Tormod mac Ailein buried at Cathair dhearg",
+   "body": "Six custodians carry Tormod mac Ailein to the ground behind the council hall, with the bells of the capital ringing, and the mourners lay their stones on the grave going round sunwise. Josiah Pell walks up from the bridge-foot bareheaded to stand at the edge of the ground. Samuel Wren stands at the gate.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "IV-0061",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-ailein",
+    "coinneach-glas",
+    "gormshuil-nic-fhearchair",
+    "josiah-pell",
+    "samuel-wren"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#viii-of-tormod-s-burying"
+  },
+  {
+   "id": "EV-2034",
+   "title": "Tormod mac Ailein waked three nights",
+   "body": "Tormod mac Ailein is waked three nights in his house below the temple at Cathair dhearg, by the old custom. On the second night the council, meeting below, chooses Coinneach Glas of Ceann àrsaidh in a single evening, and the roll enters the choice as unanimous.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "IV-0061",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-ailein",
+    "coinneach-glas"
+   ],
+   "told_in": "book/09_of_the_mark_and_its_hundred_pence.md#viii-of-tormod-s-burying",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "after": "IV-0062"
+  },
+  {
+   "id": "EV-2035",
+   "title": "Harrow's name read in the chapel at Ros dhomhain",
+   "body": "A' Chompanaidh's men at Ros dhomhain give up Harrow's ship a month past her day. The chapel bell is rung slowly, the flag over the warehouse is lowered to half its pole, and Thomas Pike reads Harrow's name and the names of his crew at the humans' prayers, with Samuel Wren's help.",
+   "place": "burg:27",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-company"
+   ],
+   "people": [
+    "thomas-pike",
+    "samuel-wren",
+    "edmund-harrow"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#i-of-the-ship-that-did-not-come-home",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EV-2036",
+   "title": "Pike's letter to the council",
+   "body": "The humans' clerks write to the council at Cathair dhearg, in their own tongue and under seal, that A' Chompanaidh has passed wholly to Thomas Pike. Coinneach Glas reads the letter to the sitting and it is entered in the roll.",
+   "place": "burg:19",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0062",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0061",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "thomas-pike",
+    "coinneach-glas"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#i-of-the-ship-that-did-not-come-home",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EV-2037",
+   "title": "The counters' fee held over",
+   "body": "At its autumn sitting the council, its share of the vein-dues now paid in marks by A' Chompanaidh and fewer than before, finds it cannot meet every fee. The fee of the counters who keep the boards of the measured handful is held over to the next sitting.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0063",
+     "type": "cause"
+    },
+    {
+     "to": "II-0027",
+     "type": "legacy"
+    },
+    {
+     "to": "EV-2036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "coinneach-glas"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#ii-of-the-empty-board-at-dun-dhearg",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EV-2038",
+   "title": "Half of Dùn dhearg comes to the board",
+   "body": "At Samhain only the old households of Dùn dhearg bring their sacks to the counters' board in the old granary. The young households have bought their coal by the sack at the market of Cathair mhòr off A' Chompanaidh's carts. Pàdraig Cam counts the season without a fee.",
+   "place": "burg:422",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0063",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "fionnghal-nic-artair"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#ii-of-the-empty-board-at-dun-dhearg",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "after": "IV-0064"
+  },
+  {
+   "id": "EV-2039",
+   "title": "The counter of Dùn dhearg dies",
+   "body": "Pàdraig Cam, counter of Dùn dhearg for forty years, dies in an Gearran. His son is at the pits of Muileann chrom and does not take the board, which hangs in the old granary with the pegs of the last Samhain in their holes. Fionnghal nic Artair begins her letter to the council.",
+   "place": "burg:422",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0063",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0065",
+     "type": "cause"
+    },
+    {
+     "to": "EV-2038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fionnghal-nic-artair"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#iii-of-the-letter-and-the-road-west",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "after": "IV-0065"
+  },
+  {
+   "id": "EV-2007",
+   "title": "The council files the letter from Dùn dhearg",
+   "body": "Fionnghal nic Artair reads her letter standing to the council at Cathair dhearg. Coinneach Glas thanks her and bids it kept with the rolls, and the roll enters it as read and filed. The same sitting grants Taigh an Àrd-mhaoir leave to widen the road to Muileann chrom for the coal-carts.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0065",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0063",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "fionnghal-nic-artair",
+    "coinneach-glas",
+    "gormshuil-nic-fhearchair",
+    "josiah-pell"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#iv-of-the-filing"
+  },
+  {
+   "id": "EV-2040",
+   "title": "Fionnghal nic Artair rides to Cathair dhearg",
+   "body": "In an t-Ògmhios Fionnghal nic Artair rides west from Dùn dhearg with her letter in defence of Lagh an Loscaidh Bhig sewn in calfskin. She lodges at Doire mhin, where the custodian Anndra mac Eòin shows her the last count of the valley, and reads him the letter by his lamp.",
+   "place": "burg:422",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0064",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0065",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fionnghal-nic-artair"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#iii-of-the-letter-and-the-road-west",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EV-2041",
+   "title": "A fair copy of the defence for the loft",
+   "body": "At Gormshuil nic Fhearchair's asking Fionnghal nic Artair makes a fair copy of her letter in her own hand. Muireall nic Fhearchair sends it to the loft of Beathag nic Thòmais at Muileann chaol, where the custodians' papers are kept dry.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0065",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "fionnghal-nic-artair",
+    "gormshuil-nic-fhearchair",
+    "muireall-nic-fhearchair"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#iv-of-the-filing",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "after": "IV-0066"
+  },
+  {
+   "id": "EV-2042",
+   "title": "The hawk sermon carried south in the bird-bags",
+   "body": "A scribe of the hawk-shrine at Seann Skell writes Murchadh Seabhag's sermon down from his mouth. Fowlers taking birds to the autumn markets carry copies south, and from the markets carters and pedlars bring them into the camps of Muileann chrom and Cnoc fhiadhaich, where readers are given their supper to read them aloud.",
+   "place": "burg:132",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0066",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "murchadh-seabhag"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#v-of-an-seabhag-acrach",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "after": "IV-0067"
+  },
+  {
+   "id": "EV-2008",
+   "title": "A' Chompanaidh's agents seize the hawk sermon in the camps",
+   "body": "A' Chompanaidh's agents at Muileann chrom go from hut to hut through the crews' camp with a basket and take every copy of Murchadh Seabhag's sermon they find, eleven in one morning. One woman burns her copy on her hearth before them, and her name is written down.",
+   "place": "burg:354",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0066",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "murchadh-seabhag"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vi-of-the-peat-hearths-and-the-pumps"
+  },
+  {
+   "id": "EV-2043",
+   "title": "Fionnghal nic Artair at the hearths of Achadh naomh",
+   "body": "Bidden by the elders of Achadh naomh, Fionnghal nic Artair rides north through the hills in an Giblean and reads her letter at the hearth of Sìleas nic Uilleim to the whole village. Asked what burns on her own hearth, she answers bought coal. She is sent home with a creel of peats.",
+   "place": "burg:145",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0067",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0065",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "fionnghal-nic-artair"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vi-of-the-peat-hearths-and-the-pumps",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EV-2044",
+   "title": "The custodians at the pump-house of Muileann chrom",
+   "body": "Three custodians sent by Coinneach Glas, Fionnghal nic Artair among them, go down to Muileann chrom to ask that the tally of the hill be kept. Raghnall mac Dhòmhnaill takes them to the pump at the deep gallery, where the furnaces are fed by the cartload.",
+   "place": "burg:354",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0068",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0064",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "fionnghal-nic-artair",
+    "raghnall-mac-dhomhnaill",
+    "coinneach-glas"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vi-of-the-peat-hearths-and-the-pumps",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "after": "IV-0068"
+  },
+  {
+   "id": "EV-2045",
+   "title": "A' Chompanaidh's accounts filed beside the defence",
+   "body": "The copy of A' Chompanaidh's half-year accounts, sent in answer to the council's asking, is read aloud in its totals by Coinneach Glas and laid in the press of the council hall on the shelf that holds the letter of the custodian of Dùn dhearg.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0068",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0065",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "coinneach-glas"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vi-of-the-peat-hearths-and-the-pumps",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "after": "IV-0069"
+  },
+  {
+   "id": "EV-2046",
+   "title": "Maddox greets the council",
+   "body": "Henry Maddox comes before the council at Cathair dhearg in An t-Àrd-mhaor's carriage, greets each custodian in Dia-thìris learned on the ship, and tells them his orders are to double the yield of the pits. He does not speak of A' Chompanaidh's letter promising him a share of it.",
+   "place": "burg:19",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0069",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0057a",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-2045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "henry-maddox",
+    "coinneach-glas"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vii-of-the-oaks-of-cathair-fhada",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "after": "IV-0070"
+  },
+  {
+   "id": "EV-2009",
+   "title": "The last oak of Cathair fhada's own cutting",
+   "body": "Before A' Chompanaidh's fellers come, the woodreeve of Cathair fhada and his men fell with axes the one oak the spring lot had fallen on, as the town had cut since An Aois Naomh, and plant six acorns in the ring of its roots. The fellers begin with long saws on the morning after.",
+   "place": "burg:297",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0070",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "fionnghal-nic-artair"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vii-of-the-oaks-of-cathair-fhada"
+  },
+  {
+   "id": "EV-2047",
+   "title": "The woodreeve of Cathair fhada before the council",
+   "body": "Eòghann mac Phàdraig, woodreeve of Cathair fhada, asks the council to undo the sale of the town's oak woods to Maddox. The council holds that the custodians of Cathair fhada, in debt to A' Chompanaidh's store for seed, had the right to sell, and the clerk enters it.",
+   "place": "burg:297",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0070",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "coinneach-glas",
+    "henry-maddox"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vii-of-the-oaks-of-cathair-fhada",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EV-2048",
+   "title": "The custodian of Dùn dhearg goes back to peat",
+   "body": "Home from Cathair fhada in am Màrt, Fionnghal nic Artair has the coal raked out of her grate and lights it again with the peats of Achadh naomh. She sends to find a man of Dùn dhearg who still knows how to cut peat, and pays him what he asks.",
+   "place": "burg:422",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0065",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0067",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fionnghal-nic-artair"
+   ],
+   "told_in": "book/10_of_the_law_that_went_out.md#vii-of-the-oaks-of-cathair-fhada",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EV-2049",
+   "title": "The heading at Cnoc fhiadhaich driven without props",
+   "body": "Under Henry Maddox's order to double the yield, the new gallery at Cnoc fhiadhaich is driven north along the seam on the pay of the ton, and the oak props from Cathair fhada stop at the head of the carters' drift. The agent of A' Chompanaidh writes that the heading will be timbered when the yield allows.",
+   "place": "burg:280",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0069",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0070",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0071",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "henry-maddox",
+    "raghnall-mac-dhomhnaill"
+   ],
+   "told_in": "book/11_of_the_eleven_of_cnoc_fhiadhaich.md#i-of-the-heading-under-the-wild-hill",
+   "era_between": [
+    24,
+    24
+   ]
+  }
+ ]
+}

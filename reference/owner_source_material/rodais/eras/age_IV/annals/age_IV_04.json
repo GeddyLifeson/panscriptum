@@ -1,0 +1,1045 @@
+{
+ "writer": 2,
+ "span": [
+  "III-0024",
+  "III-0044"
+ ],
+ "events": [
+  {
+   "id": "EIV-2501",
+   "title": "Leabhar a' Chùraim's entry of the turn",
+   "body": "At Taigh na Fèithe Donnchadh mac Thormoid enters the turn of the fleet into Leabhar a' Chùraim under a day after Samhain, a full turning of the moon and more after every other account sets the sailing itself. The gap between the two dates is copied faithfully and explained by no word in the leaf that reaches him.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#i-of-the-entry-a-day-too-late",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "after": "III-0027"
+  },
+  {
+   "id": "EIV-2502",
+   "title": "Donnchadh begins Bliadhnaichean an Diosail",
+   "body": "For his own ledger's convenience, and for no reason he offers anyone, Taigh na Fèithe clerk Donnchadh mac Thormoid begins to number years from An Diosal rather than from a reign, working the count backward through his private book to the turn itself. No one above him asks him to keep it, and he tells no one that he does.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#ii-of-the-years-of-the-diosal",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EIV-2503",
+   "title": "Broken tidings come to the harbour-house",
+   "body": "Word of the fleet reaches Seann Skell by a boat that does not stay to be questioned. Calum mac Nèill copies the telling that same night in a shaking hand; the letters run smaller toward the leaf's foot, and the copy stops without warning where the telling itself stopped.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-mist"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#iii-of-the-tidings-that-reached-seann-skell",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EIV-2504",
+   "title": "Two shores, not one",
+   "body": "Calum's leaf tells of two separate landfalls reached by hulls that had not held together the whole crossing, whether by storm, purpose, or a quarrel the telling does not say. It gives no word of which households reached which shore, and its torn end settles nothing.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-mist"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#iii-of-the-tidings-that-reached-seann-skell",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EIV-2505",
+   "title": "The tidings copied to An Talla Dearg and Taigh na Fèithe",
+   "body": "A fair copy of Calum's leaf goes by rider to Cathair dhearg for the queen's own council; a second copy, made by his son Dòmhnall, goes east to Taigh na Fèithe, where Donnchadh mac Thormoid sets it beside his own four-year-old entry of the turn and finds the silence between them unexplained by either leaf.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill",
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#v-of-the-copy-that-went-by-two-roads",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EIV-2506",
+   "title": "The council divided over the two shores",
+   "body": "At An Talla Dearg the custodians argue whether two landfalls mean the fleet prospered or was scattered, and which of the nineteen or one-and-twenty hulls reached which coast. Queen Beathag hears the whole of it and says nothing, and the council lets the matter drop for the day's ordinary business.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#v-of-the-copy-that-went-by-two-roads",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EIV-2507",
+   "title": "The tale kept two ways at once at Inis àrsaidh",
+   "body": "The broken telling of two shores reaches the fishing hearths of Inis àrsaidh, which gave more households to the roll than any other place. With no way to know which shore holds which kin, the town keeps both halves of the tale alive together, grieving toward one and hoping toward the other by turns.",
+   "place": "burg:55",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_count_from_the_turn.md#iv-of-the-hearths-of-inis-arsaidh",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "id": "EIV-2508",
+   "title": "Birth of Raghnall mac Raghnaill",
+   "body": "A son, named for his father, is born at Cathair dhearg to Raghnall mac Uilleim, the queen's heir, then seven-and-thirty years old. The boy is Beathag's first grandson and the third of her line under An Talla Dearg's roof.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0051",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-raghnaill",
+    "raghnall-mac-uilleim"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#v-of-the-copy-that-went-by-two-roads",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "after": "III-0028"
+  },
+  {
+   "id": "EIV-2509",
+   "title": "The grain ruling settled",
+   "body": "A long dispute over grain owed the crown's granaries by the upland shires is settled in the queen's favour, the reeves agreeing at last to a measure put to them in her own hand rather than a steward's.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#vi-of-the-grain-ruling-and-the-bridge",
+   "era_between": [
+    46,
+    46
+   ]
+  },
+  {
+   "id": "EIV-2510",
+   "title": "The bridge at Àth shean mended in stone",
+   "body": "The cracked middle pier of the bridge at Àth shean, shored with timber since a flood two winters before, is rebuilt in stone by masons from the capital, the last props pulled clear on a morning cold enough to break the river's ice.",
+   "place": "burg:67",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_of_the_count_from_the_turn.md#vi-of-the-grain-ruling-and-the-bridge",
+   "era_between": [
+    46,
+    46
+   ]
+  },
+  {
+   "id": "EIV-2511",
+   "title": "Mòrag's line struck in the ordinary hand",
+   "body": "Between the grain ruling and the bridge, in the same plain hand as either, the queen has Murchadh mac Eòghainn enter that Mòrag nic Dhòmhnaill and her children are struck from the succession, as persons no longer on Dia-thìr. Only the old scribe's pen slows at the shaping of the name.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "murchadh-mac-eoghainn",
+    "morag-nic-dhomhnaill"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#vii-of-the-name-written-the-ordinary-way",
+   "era_between": [
+    46,
+    46
+   ]
+  },
+  {
+   "id": "EIV-2512",
+   "title": "Murchadh sands the leaf",
+   "body": "Alone in the near-emptied hall, old Murchadh mac Eòghainn sands the leaf that struck the queen's sister from the roll, the same practised motion he has closed every entry with for forty years, giving away nothing of what lies written beneath the sand.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "murchadh-mac-eoghainn"
+   ],
+   "told_in": "book/10_of_the_count_from_the_turn.md#v-of-the-copy-that-went-by-two-roads",
+   "era_between": [
+    46,
+    46
+   ]
+  },
+  {
+   "id": "EIV-2513",
+   "title": "The taproom tales of An Tanachadh at Seann Skell",
+   "body": "A coal-carrier's widow tells at the harbour-house that the children born to the departed on the far shore carry less in their hands than their parents did, and less again by the third generation. A custodian down from Taigh na Fèithe answers her over a jug that the coal was never carried in the blood at all, only left behind at Muileann dhearg like a tool in an unvisited shed. Neither tale is tried against anything Seann Skell holds.",
+   "place": "burg:489",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0029",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_white_sorrow.md#i-of-what-was-said-at-seann-skell",
+   "era_between": [
+    50,
+    50
+   ]
+  },
+  {
+   "id": "EIV-2514",
+   "title": "A third telling that silences a room",
+   "body": "A telling heard less often than the other two at Seann Skell holds that nothing thins at all: the far shore never had the coal to answer to, so its children are unremarked only for want of anything to remark them against. It is told least of the three, though it silences a hearth where the others merely fill one.",
+   "place": "burg:489",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0029",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_white_sorrow.md#i-of-what-was-said-at-seann-skell",
+   "era_between": [
+    50,
+    50
+   ]
+  },
+  {
+   "id": "EIV-2515",
+   "title": "The rite named an Tùrsa Geal",
+   "body": "The court names the queen's mourning an Tùrsa Geal, and within a generation any household on the island that gave someone to the fleet keeps some form of the same rite unasked, undyed wool and an empty place laid with cup, trencher and straight knife, needing no crown or law behind it.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0032",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#iii-of-the-white-sorrow",
+   "era_between": [
+    52,
+    52
+   ]
+  },
+  {
+   "after": "III-0030"
+  },
+  {
+   "id": "EIV-2516",
+   "title": "Taigh na Fèithe's second count made",
+   "body": "Donnchadh mac Thormoid, now nine-and-thirty, carries the greater share of Taigh na Fèithe's second tallying, checking Rolla nan Deònach against the coal-right's remaining hearths column by column. The count stands where the first count of the roll had stood: one hearth in five gone from the coal-right, no more and no fewer than had sailed.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-seven-coals"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#ii-of-the-second-count",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "id": "EIV-2517",
+   "title": "Donnchadh's note that the vein answers no differently",
+   "body": "Beneath the count Donnchadh mac Thormoid sets a second line unasked: that the vein answers no differently now to the hands of those who stayed than it answered before the turn, and that whatever thins in the departed's children thins on their own shore, not on this side of the water. It is carried up to Cathair dhearg with the season's reckoning.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-seven-coals"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#ii-of-the-second-count",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "id": "EIV-2518",
+   "title": "Beathag reads the second count twice",
+   "body": "Queen Beathag nic Dhòmhnaill reads Taigh na Fèithe's figure of one hand in five, a number she has carried unwritten in her own reckoning since the fleet sailed, and reads Donnchadh's note beneath it a second time more slowly than the first. She sets the leaf down in its place among the season's ordinary business and says no more of it that day.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#ii-of-the-second-count",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "id": "EIV-2519",
+   "title": "The queen first wears the undyed wool",
+   "body": "Beathag nic Dhòmhnaill comes into An Talla Dearg in plain undyed wool for the first time in more than fifty years of reigning in the deep blue of the house of Dòmhnall, and takes up the day's first petition as though nothing were changed, giving the court no word for it.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0032",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#iii-of-the-white-sorrow",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "id": "EIV-2520",
+   "title": "The empty place first laid at the queen's table",
+   "body": "Beathag lays a cup, a trencher and a straight knife at the foot of her own table each evening she dines in hall, mourning her sister Mòrag with no grave to stand at and no body to wash. The court, told by the queen's steward that she mourns a sister ten years and more beyond any word reaching Cathair dhearg, does not know at first whether to speak of the place or pass it in silence.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0032",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#iii-of-the-white-sorrow",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "after": "III-0032"
+  },
+  {
+   "id": "EIV-2521",
+   "title": "Donnchadh speaks of Lagh an Loscaidh Bhig's limit",
+   "body": "At a sitting of Taigh na Fèithe called for another matter, Donnchadh mac Thormoid, now its senior clerk, says plainly that the old apprenticeship built for the numbers before the turn has gone as far as the older custodians' own stretching can carry it, and that Taigh na Fèithe owes itself an honest look at what remains.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0033",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-seven-houses"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#iv-of-the-seven-houses",
+   "era_between": [
+    54,
+    54
+   ]
+  },
+  {
+   "id": "EIV-2522",
+   "title": "The sitting on the seven kindreds argued two days",
+   "body": "A custodian of a small old name that kept a single gallery for three generations speaks bitterly against folding his household's right into a larger kindred. An old woman of Clann Thormoid, who has buried a brother and two nephews to the roll, answers that she would sooner see her right folded into a house that can still walk its galleries than stand alone over ones it cannot serve, and the sitting turns on her answer.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0033",
+     "type": "cause"
+    },
+    {
+     "to": "III-0034",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_white_sorrow.md#iv-of-the-seven-houses",
+   "era_between": [
+    54,
+    54
+   ]
+  },
+  {
+   "after": "III-0035"
+  },
+  {
+   "id": "EIV-2523",
+   "title": "Na Seachd Taighean sworn",
+   "body": "Taigh na Fèithe gathers the remaining custodian households into seven kindreds large enough to answer for a share of the galleries between them: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Their seven heads are sworn before Crom's stone, and the right to the coal passes from that year by house and no longer by apprenticeship alone.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_white_sorrow.md#iv-of-the-seven-houses",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EIV-2524",
+   "title": "Donnchadh writes Mionnan nan Seachd heads",
+   "body": "Donnchadh mac Thormoid enters the seven heads' oath into Leabhar a' Chùraim in the same plain hand he has kept his whole working life, and finds himself thinking less of Lagh an Loscaidh Bhig than of the fifth of hands the sitting never once named aloud: those fifteen years and a whole sea away, on a shore the book has no line to enter them against.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses",
+    "the-sundering"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#iv-of-the-seven-houses",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EIV-2525",
+   "title": "Death of Beathag nic Dhòmhnaill at seventy-six",
+   "body": "Queen Beathag nic Dhòmhnaill dies at Cathair dhearg in the summer, seventy and six years old, after one-and-sixty years upon An Talla Dearg's floor, the oldest of her line and the last ruler who saw the fleet built and sent. She holds a boundary petition to its ordinary end that same morning before going to her rooms and not rising again.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#v-of-the-crowning-at-cathair-dhearg",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EIV-2526",
+   "title": "Raghnall mac Uilleim crowned at seven-and-forty",
+   "body": "Raghnall mac Uilleim, son of Beathag and of Uilleam mac Iain, is crowned in An Talla Dearg within the month of his mother's death, seven-and-forty years old and long seated at her board. He wears a strip of undyed wool beneath his crowning colours, a thing he grew up watching his mother wear and never asked leave to wear himself.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "raghnall-mac-uilleim",
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#v-of-the-crowning-at-cathair-dhearg",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EIV-2527",
+   "title": "The empty place laid once more at the queen's wake",
+   "body": "At the second night of Beathag's wake her steward lays the cup, trencher and straight knife once more at the foot of her table exactly as she always kept them, so that the court, passing between the small emptiness at the board's foot and the greater one at the board's head, cannot say with certainty whether the place is laid for the queen or still for the sister she mourned fifteen years across an unanswering sea.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0035",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0032",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/11_of_the_white_sorrow.md#vi-of-the-empty-place-laid-once-more",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EIV-2528",
+   "title": "Murchadh mac Raghnaill takes the berths",
+   "body": "The harbour-master of Seann Skell retires to his daughter's house up the Abhainn naomh rather than die at his post, and Murchadh mac Raghnaill, of an age with Niall mac Dhòmhnaill, takes the berths and the dues.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0037",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mac-raghnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#iii-of-the-harbour-at-half-trade",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "id": "EIV-2529",
+   "title": "Death of Calum mac Nèill, Niall takes the harbour-house",
+   "body": "Calum mac Nèill, harbour scribe of Seann Skell for six-and-fifty years, dies in the room above the harbour-house. The boards pass, as he had let the town see coming, to his grandson Niall mac Dhòmhnaill, the boy who once counted the hulls with a hazel stick, now a man of nine-and-twenty.",
+   "place": "burg:489",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0024",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill",
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#i-of-the-boards-given-over",
+   "era_between": [
+    58,
+    58
+   ]
+  },
+  {
+   "id": "EIV-2530",
+   "title": "Dòmhnall mac Chaluim keeps the trade rolls",
+   "body": "Passed over for the boards he had expected, Calum's son Dòmhnall keeps the harbour-house's trade rolls and dues, working the office beside his own son Niall without open quarrel, though he calls the boards the queerest inheritance a man could be passed over for.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#i-of-the-boards-given-over",
+   "era_between": [
+    58,
+    58
+   ]
+  },
+  {
+   "id": "EIV-2531",
+   "title": "Niall keeps his grandfather's stick at his own elbow",
+   "body": "Niall takes down the hazel stick Calum kept since the night of An Diosal and sets it at his own writing-place rather than returning it to the shelf, though he puts it to no further use.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0024",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#i-of-the-boards-given-over",
+   "era_between": [
+    58,
+    58
+   ]
+  },
+  {
+   "after": "III-0036"
+  },
+  {
+   "id": "EIV-2532",
+   "title": "The lamps kept on the rite's eve",
+   "body": "On the eve nearest the day of An Diosal the households of Seann Skell bring small lights down to the west quay and set them along the stones the fleet sailed from, a rite grown up with no ordered beginning that Niall is the first to enter in the harbour-house's own leaves.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#ii-of-the-lamps-grown-about-the-berth",
+   "era_between": [
+    62,
+    62
+   ]
+  },
+  {
+   "after": "III-0037"
+  },
+  {
+   "id": "EIV-2533",
+   "title": "The harbour-master's count of half trade",
+   "body": "Murchadh mac Raghnaill, harbour-master of Seann Skell, sets his own reckoning of empty berths against full ones beside the boards: the harbour carries little more than half the trade it carried before An Diosal.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "murchadh-mac-raghnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#iii-of-the-harbour-at-half-trade",
+   "era_between": [
+    64,
+    64
+   ]
+  },
+  {
+   "id": "EIV-2534",
+   "title": "The rope-walks of Cuan shean let hands go",
+   "body": "With more cordage made than the lessened harbour trade can use, the rope-walks along Cuan shean's waterfront turn off hands for the first time in the memory of any walker still living there.",
+   "place": "burg:282",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_empty_harbour.md#iii-of-the-harbour-at-half-trade",
+   "era_between": [
+    64,
+    64
+   ]
+  },
+  {
+   "after": "III-0038"
+  },
+  {
+   "id": "EIV-2535",
+   "title": "Word of a second, smaller crossing",
+   "body": "A hand off a coasting boat tells, at second or third remove, of a smaller fleet said to have sailed from the island's own shore in the years after An Diosal and never been heard from since. Niall hears the tale and, having no name or second mouth to stand behind it, sets it aside unwritten.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-mist"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#iv-of-the-word-that-came-and-was-not-written",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EIV-2536",
+   "title": "The first turn of Faire a' Chinn",
+   "body": "Seonag nic Dhùghaill of Ceann mhòr climbs the headland at first light and keeps it through the day, seeing nothing but open water. Other households take up a turn of their own after her, and the custom becomes Faire a' Chinn.",
+   "place": "burg:143",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0039",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-mist"
+   ],
+   "people": [
+    "seonag-nic-dhughaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#v-of-the-watch-at-ceann-mhor",
+   "era_between": [
+    66,
+    66
+   ]
+  },
+  {
+   "id": "EIV-2537",
+   "title": "The west quay's old name falls from use",
+   "body": "The plain old name of the west quay falls out of common mouths at Seann Skell as carters, fish-wives and children too young to have known the fleet come to call it Cidhe an Diosail, without any single day anyone can name for the change.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0040",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_empty_harbour.md#vi-of-the-new-name-and-the-old",
+   "era_between": [
+    66,
+    66
+   ]
+  },
+  {
+   "after": "III-0043"
+  },
+  {
+   "id": "EIV-2538",
+   "title": "Cidhe an Diosail entered in Rolla a' Chalaidh",
+   "body": "Niall enters the west quay's new name into Rolla a' Chalaidh in his own hand, letting the old name stand once beside it, struck through but not scraped. The old name, Cidhe an Iar, passes to the new fish-wharf at the strand's north end.",
+   "place": "burg:489",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#vi-of-the-new-name-and-the-old",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EIV-2539",
+   "title": "Roghnaich stands with no object",
+   "body": "In Rolla a' Chalaidh the word roghnaich, to choose, begins to stand alone in a clerk's hand, meaning to have chosen the crossing, and Niall lets the usage stand in his own leaves rather than write it out in full.",
+   "place": "burg:489",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#vi-of-the-new-name-and-the-old",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EIV-2540",
+   "title": "Niall's own children who never saw the fleet",
+   "body": "Niall's eldest daughter, old enough by then to help about the harbour-house, asks whether he himself saw the ships go, having no memory of her own to set beside the wall of names she leans against.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#iii-of-the-harbour-at-half-trade",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EIV-2541",
+   "title": "Death of Alasdair Saor and his last coaster",
+   "body": "Alasdair mac Iain, Alasdair Saor, who laid the fleet's first deep keel, dies at Seann Skell at the end of summer, days after launching a sewn-plank coaster at Inis àrsaidh for a fish merchant there, his last work. Niall enters the death and the quay's new name on the same leaf.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0044",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/12_of_the_empty_harbour.md#viii-of-the-last-coaster-and-the-last-entry",
+   "era_between": [
+    67,
+    67
+   ]
+  }
+ ]
+}

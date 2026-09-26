@@ -114,21 +114,22 @@ teach in Dia-thìris "and it has no others" ({{date:V-0032}}), and the old appre
 when it was revived, was reserved for Dia-thìrich applicants only ({{date:V-0059}}).
 
 **The sea.** The Dia-thìrich have always been a people of the coast as much as of the mountain. The largest
-towns on the map today stand on the sea or on the rivers that run down to it, and the two largest bear a name older than Dia-thìris:
+towns on the map today stand on the sea or on the rivers that run down to it. The largest of all is the capital, and the next two bear a name older than Dia-thìris:
 
 | Town | Shire | Faith (order) | Population |
 |---|---|---|---|
-| {{place:burg:489}} | Seann Skell | An Creideamh Sean (Òrd Mhanannain) | 74,120 |
-| {{place:burg:431}} | Seann Skell | An Creideamh Sean (Òrd Bhrìde) | 57,907 |
-| {{place:burg:27}} | Ros dhomhain | An Creideamh Sean (Òrd Mhacha) | 51,589 |
-| {{place:burg:110}} | Seann Bhral | Na Seann Spioradan | 49,681 |
-| {{place:burg:20}} | Cnoc bheag | An Creideamh Sean (Òrd an t-Seabhaig) | 49,661 |
-| {{place:burg:23}} | Cathair mhòr | An Creideamh Sean (Òrd Mhacha) | 49,298 |
-| {{place:burg:475}} | Caol bheag | An Creideamh Sean (Scoiltean nan Draoidhean) | 42,649 |
-| {{place:burg:395}} | Achadh mhòr | Na Seann Spioradan | 42,136 |
+| {{place:burg:19}} | Cathair dhearg | An Creideamh Sean (Òrd Mhacha) | 55,000 |
+| {{place:burg:489}} | Seann Skell | An Creideamh Sean (Òrd Mhanannain) | 27,914 |
+| {{place:burg:431}} | Seann Skell | An Creideamh Sean (Òrd Bhrìde) | 22,942 |
+| {{place:burg:27}} | Ros dhomhain | An Creideamh Sean (Òrd Mhacha) | 18,855 |
+| {{place:burg:110}} | Seann Bhral | Na Seann Spioradan | 15,497 |
+| {{place:burg:20}} | Cnoc bheag | An Creideamh Sean (Òrd an t-Seabhaig) | 12,736 |
+| {{place:burg:23}} | Cathair mhòr | An Creideamh Sean (Òrd Mhacha) | 10,468 |
+| {{place:burg:475}} | Caol bheag | An Creideamh Sean (Scoiltean nan Draoidhean) | 9,681 |
+| {{place:burg:395}} | Achadh mhòr | Na Seann Spioradan | 8,954 |
 
-The capital itself is not among them. Cathair dhearg is counted at 10,274; its harbour, Ros
-dhomhain, is five times its size.
+Cathair dhearg is twice the size of the western Seann Skell, and nearly three times that of its own harbour, Ros
+dhomhain.
 
 **The departed.** Part of the Dia-thìrich people is not on Dia-thìr. Land was found across the water
 ({{date:III-0001}}); volunteers chose to go, by "a vote, or what the later chroniclers call a
@@ -146,7 +147,7 @@ descend from the departed, no one on Dia-thìr knows.
 #### The humans of an Tìr Thall
 
 **The Crossing.** Humans made landfall on Dia-thìr and were granted leave to stay
-({{date:IV-0001}}): the first contact since the Sundering. Three ships out of the west anchored off
+({{date:IV-0001}}): the first contact since the Sundering. Three ships down from the north anchored off
 Cuan shean, and their master, whom the chronicles call Edmund Harrow, came ashore unarmed and asked by
 signs for water ({{date:IV-0002}}). So the first dealing between the two peoples was made without
 words.
@@ -209,15 +210,15 @@ What the Tuathaich call themselves in their own speech the chronicles do not say
 is the kingdom's name for them.
 
 **Their towns.** The kingdom's map counts sixty-four Tuathaich towns, all in the north and north-west, with
-some 543,000 people in them. The Dia-thìrich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the windy coast of the far north-west among it, and the Dia-thìrich country the other eighty-five (Appendix H). The largest Tuathaich towns are these:
+some 54,500 people in them. The Dia-thìrich hold the other 441. The Tuathaich country is some fifteen parts in a hundred of the island's land, the windy coast of the far north-west among it, and the Dia-thìrich country the other eighty-five (Appendix H). The largest Tuathaich towns are these:
 
 | Town | Shire | Faith | Population |
 |---|---|---|---|
-| {{place:burg:95}} | Caol mhòr | An Eaglais | 42,002 |
-| {{place:burg:209}} | Doire ghlas | An Eaglais (Eaglais nan Tuathach) | 40,740 |
-| {{place:burg:143}} | Ceann mhòr | An Eaglais | 32,420 |
-| {{place:burg:305}} | Baile chrom | An Eaglais (the vigil of the Grey Night) | 27,319 |
-| {{place:burg:142}} | Cnoc ghorm | An Eaglais | 25,112 |
+| {{place:burg:95}} | Caol mhòr | An Eaglais | 8,282 |
+| {{place:burg:209}} | Doire ghlas | An Eaglais (Eaglais nan Tuathach) | 7,660 |
+| {{place:burg:143}} | Ceann mhòr | An Eaglais | 4,323 |
+| {{place:burg:305}} | Baile chrom | An Eaglais (the vigil of the Grey Night) | 3,825 |
+| {{place:burg:142}} | Cnoc ghorm | An Eaglais | 3,334 |
 
 Every Tuathaich town but one bears a Dia-thìris name, and most of them were Dia-thìreach towns before the
 Severance; the north-west had been thinly held since the dearth on that shore in the Age of
@@ -418,7 +419,7 @@ likeness has tempted scholars in every age and proves nothing, and the Library t
 has never been read, and not one sign of it has an agreed meaning. The stag-scholars of the Holy Age
 set their own new letters against the obelisk at Carragh Cnoc bheag and found that they matched
 nothing, and wrote down that the stone's writers were not their teachers ({{date:II-0089}}).
-Samuel Wren copied the obelisk and sent it west to the scholars of an Tìr Thall; no reply is
+Samuel Wren copied the obelisk and sent it over the sea to the scholars of an Tìr Thall; no reply is
 recorded ({{date:IV-0051}}). Edwin Lowe copied the pillar near Cnoc chiar, compared it with Wren's
 copy, and decided that the two were not the same script and that neither was Dia-thìreach; his notes stop
 there ({{date:IV-0141}}). The strokes on the midden stones are a count, and have nothing to do with

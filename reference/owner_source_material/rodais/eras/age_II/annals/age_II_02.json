@@ -1,0 +1,1547 @@
+{
+ "writer": 1,
+ "span": [
+  "I-0085",
+  "I-0097"
+ ],
+ "events": [
+  {
+   "id": "EII-1500",
+   "title": "The old men disagree at the setting of the stones",
+   "body": "As Dòmhnall Clachach walks the eastern boundary with his stone-setters, the old men of neighbouring households cannot agree, standing on the very ground, where a line has always run, for the becks have shifted and their memories have not moved with them.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#i-of-the-setting-of-the-stones",
+   "era_between": [
+    107,
+    107
+   ]
+  },
+  {
+   "id": "EII-1501",
+   "title": "A grazing quarrel judged by the stones",
+   "body": "Two households dispute a marker on the eastern slope, each swearing it stands to the wrong side of the old line. Dòmhnall Clachach settles it from his own memory of the setting, and both sides go home certain, for the first time, that a stone remembers better than a grandfather.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0085",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#i-of-the-setting-of-the-stones",
+   "era_between": [
+    115,
+    115
+   ]
+  },
+  {
+   "id": "EII-1502",
+   "title": "Dòmhnall doubts his own stones",
+   "body": "Walking home from the judgement at the marker, Dòmhnall Clachach understands that he has settled the quarrel only because his own long memory outlasts any old man's, and that the stones, once he is gone from the hill, will have no one left to ask which story is true.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0085",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#ii-of-what-the-stones-did-not-settle",
+   "era_between": [
+    116,
+    116
+   ]
+  },
+  {
+   "id": "EII-1503",
+   "title": "Griogar's household turns back the king's riders",
+   "body": "In a valley to the north-west a hard old man called Griogar meets two of the king's riders with spears and no parley, the first household in years to refuse the king's word outright rather than simply keep clear of it.",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "EII-1502",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#iii-of-the-wars-of-the-valleys",
+   "era_between": [
+    142,
+    142
+   ]
+  },
+  {
+   "after": "I-0087"
+  },
+  {
+   "id": "EII-1504",
+   "title": "Storm damage within the bank of Dùn ìseal",
+   "body": "The first named storm strips the thatch from six houses of Dùn ìseal and levels a seventh to its footings. Dòmhnall Clachach spends the night holding roofs down with rope and his own weight, and the hill loses its summer hay and two sheds of the flint-pit, but no one within the bank.",
+   "place": "burg:315",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0086",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#v-of-the-storm",
+   "era_between": [
+    147,
+    147
+   ]
+  },
+  {
+   "id": "EII-1505",
+   "title": "Word of the broken causeway reaches Dùn ìseal",
+   "body": "Traders driven from their usual road by flooded fords bring Dòmhnall Clachach word that the shell causeway of Seann Warr stands broken in three places, and that the Seann-Dhaoine have watched it stay broken through a winter without coming out to mend it.",
+   "place": "burg:64",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0087",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#v-of-the-storm",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "id": "EII-1506",
+   "title": "Labhrainn refuses the boundary of his western fence",
+   "body": "Labhrainn, elder of an old household on the western slope, refuses the line his own father stood by at its setting, the first quarrel in Dòmhnall Clachach's time that is fought not over ground but over a settling that no longer needs an old man's word to stand.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0085",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#vi-of-the-household-that-stood",
+   "era_between": [
+    160,
+    160
+   ]
+  },
+  {
+   "id": "EII-1507",
+   "title": "Dòmhnall sits an evening with Labhrainn",
+   "body": "After judging against him, Dòmhnall Clachach rides out to Labhrainn's byre and sits a whole evening over the household's own brewing, asking not about the stone but the ground itself, and gives the old man back in listening something the stones had quietly taken from him.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-1506",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#vi-of-the-household-that-stood",
+   "era_between": [
+    161,
+    161
+   ]
+  },
+  {
+   "id": "EII-1508",
+   "title": "Fearchar Bacach lamed in Griogar's valley",
+   "body": "Riding with a dozen men against the household that turned back his riders, Ailean Mòr's son Fearchar takes a spear through the thigh that will not heal straight, though the wound should by any ordinary reckoning have killed him.",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0088",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "fearchar-bacach",
+    "ailean-mor"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#iv-of-fearchar-lamed",
+   "era_between": [
+    189,
+    189
+   ]
+  },
+  {
+   "id": "EII-1509",
+   "title": "Somhairle asks to live among Clann na Ceiste",
+   "body": "Somhairle, a son of Ailean Mòr some hundred and sixty years old and looking fifteen, asks his father for no land and no herds, only leave to live among the households of Na Glinn Àrda and be counted a single mouth at a single hearth.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-1508",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "somhairle-mac-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#vii-of-somhairle-who-took-no-share",
+   "era_between": [
+    200,
+    200
+   ]
+  },
+  {
+   "id": "EII-1510",
+   "title": "Somhairle tells Dòmhnall why he wants no share",
+   "body": "Visiting his brother in Na Glinn Àrda, Dòmhnall Clachach is told that Somhairle wants to be believed when he names whose son follows whose, once the kin have grown too many for any one hearth to hold the account, and that a man who holds land judges his own kin differently.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-1509",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "somhairle-mac-ailein",
+    "domhnall-clachach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#vii-of-somhairle-who-took-no-share",
+   "era_between": [
+    201,
+    201
+   ]
+  },
+  {
+   "id": "EII-1511",
+   "title": "The chair of woven birch is built for Fearchar",
+   "body": "The household carpenters of Dùn ìseal build Fearchar Bacach a chair of woven birch with long carrying-poles, unasked, so that he need no longer hide the leg that never set straight, and he takes to being carried with something like relief.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0088",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "fearchar-bacach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#viii-of-the-chair-of-birch-and-the-riding-north",
+   "era_between": [
+    210,
+    210
+   ]
+  },
+  {
+   "id": "EII-1512",
+   "title": "Uisdean born on An Cnoc Ruadh",
+   "body": "A son is born by the lake shore to a household of An Cnoc Ruadh's holding line and named Uisdean; the watch on the palisade marks his birth with a fire on the point, as it marks every birth in that hall.",
+   "place": "burg:19",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-1032",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#i-of-the-hill-by-the-lake",
+   "era_between": [
+    225,
+    225
+   ]
+  },
+  {
+   "after": "I-0088"
+  },
+  {
+   "id": "EII-1513",
+   "title": "Dòmhnall asks his father for the north",
+   "body": "At a gathering below Dùn ìseal, Dòmhnall Clachach asks Ailean Mòr for ground still unsettled rather than the hill he has held a hundred and fifty years. His father grants him the north and no guidance in how to keep it.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0088",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "domhnall-clachach",
+    "ailean-mor"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#viii-of-the-chair-of-birch-and-the-riding-north",
+   "era_between": [
+    227,
+    227
+   ]
+  },
+  {
+   "id": "EII-1514",
+   "title": "Fearchar Bacach holds Dùn ìseal as Dòmhnall rides north",
+   "body": "Dòmhnall Clachach leaves Dùn ìseal with a company of twelve, and the hill takes his brother Fearchar, already sitting its judgements from the chair of birch, for its holder without a word of dispute.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0088",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "domhnall-clachach",
+    "fearchar-bacach"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#viii-of-the-chair-of-birch-and-the-riding-north",
+   "era_between": [
+    227,
+    227
+   ]
+  },
+  {
+   "id": "EII-1515",
+   "title": "Uisdean Mòr takes An Cnoc Ruadh",
+   "body": "Uisdean, five-and-twenty, takes up the holding of An Cnoc Ruadh on the western lake shore after those before him, an old line owing nothing to Dùn ìseal or to any king of the hill-folk.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#i-of-the-hill-by-the-lake",
+   "era_between": [
+    250,
+    250
+   ]
+  },
+  {
+   "id": "EII-1516",
+   "title": "Uilleam Faire born on An Cnoc Ruadh",
+   "body": "A boatwright's son is born on the lake shore in the twelfth year of Uisdean's holding, and grows up believing, as every child of that hill does, that the water below it has always belonged to his own people alone.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "uilleam-faire"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#i-of-the-hill-by-the-lake",
+   "era_between": [
+    262,
+    262
+   ]
+  },
+  {
+   "id": "EII-1517",
+   "title": "The households dig the ditch across the neck",
+   "body": "Every household of An Cnoc Ruadh turns out to cut the ditch across the low saddle of ground where the hill's rise meets the land, and to raise the oak palisade on the spoil bank behind it.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#i-of-the-hill-by-the-lake",
+   "era_between": [
+    267,
+    267
+   ]
+  },
+  {
+   "after": "I-0089"
+  },
+  {
+   "id": "EII-1518",
+   "title": "Uisdean tells the watch why the wall stands",
+   "body": "Walking the palisade by night with the young Uilleam Faire, Uisdean speaks of na Bliadhnachan Fada of the king and of the valleys brought in to the south and east, and does not say whether An Cnoc Ruadh will swear when its turn comes.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uisdean-mor",
+    "uilleam-faire"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#ii-of-growing-to-the-watch",
+   "era_between": [
+    282,
+    282
+   ]
+  },
+  {
+   "id": "EII-1519",
+   "title": "The king's company camps unannounced on the shore",
+   "body": "The king comes west along the lake shore with some two hundred spears at the end of a summer, camps below the hill, and sends up no word of his business to Uisdean or to any of An Cnoc Ruadh's households.",
+   "place": "burg:19",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor",
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#iii-of-the-two-hundred-spears",
+   "era_between": [
+    289,
+    289
+   ]
+  },
+  {
+   "id": "EII-1520",
+   "title": "The first burning of the palisade",
+   "body": "On the last watch before dawn the new palisade catches along its whole length at once in a low, dark, shining flame that no one on the wall can trace to any torch or spark. The hill beats it out by morning with lake water and green hides.",
+   "place": "burg:19",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uilleam-faire",
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#iii-of-the-two-hundred-spears",
+   "era_between": [
+    289,
+    289
+   ]
+  },
+  {
+   "id": "EII-1521",
+   "title": "Uisdean rebuilds with green oak",
+   "body": "Rather than wait out a season for seasoned timber, Uisdean sets the households to rebuilding the palisade at once with green oak cut from his own hill, against every carpenter's word of how badly it will burn.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#iv-of-the-long-waiting",
+   "era_between": [
+    289,
+    289
+   ]
+  },
+  {
+   "id": "EII-1522",
+   "title": "The king's spearmen trade through the winter",
+   "body": "Neither striking camp nor pressing nearer the wall, the king's company fishes the shallows and mends its gear through the winter, and trades salted fish and small goods with households of the hill who find it easier than the long carry round the lake.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_palisade_burned_twice.md#iv-of-the-long-waiting",
+   "era_between": [
+    289,
+    289
+   ]
+  },
+  {
+   "id": "EII-1523",
+   "title": "Reothadh an Rìgh",
+   "body": "In the early days of an t-Ògmhios, when the year should long since have been past any frost, a single clear night puts a white rime on the whole shore. The hill's old women name it from that morning Reothadh an Rìgh.",
+   "place": "burg:19",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_palisade_burned_twice.md#v-of-the-king-s-frost",
+   "era_between": [
+    290,
+    290
+   ],
+   "on": [
+    290,
+    6,
+    2
+   ]
+  },
+  {
+   "after": "I-0089a"
+  },
+  {
+   "id": "EII-1524",
+   "title": "The second burning of the palisade",
+   "body": "On the night of Reothadh an Rìgh the green oak takes in the same low, dark flame as before, and burns in less time than seasoned wood had, leaving nothing standing for the households to save.",
+   "place": "burg:19",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uilleam-faire",
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#v-of-the-king-s-frost",
+   "era_between": [
+    290,
+    290
+   ]
+  },
+  {
+   "id": "EII-1525",
+   "title": "Uilleam throws the water and never learns whose fire it was",
+   "body": "Uilleam Faire is first to the second fire with a hide-skin of water, and throws it into the worst of the blaze without saving a hand's-breadth of the wall. He carries the question of whose fire it was the rest of his life.",
+   "place": "burg:19",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "uilleam-faire"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#v-of-the-king-s-frost",
+   "era_between": [
+    290,
+    290
+   ]
+  },
+  {
+   "id": "EII-1526",
+   "title": "The king's company departs east",
+   "body": "Within the month of Uisdean's swearing the king's company strikes its tents and goes back east the way it came, and does not return to the lake shore.",
+   "place": "burg:19",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#vii-of-the-two-lists",
+   "era_between": [
+    290,
+    290
+   ]
+  },
+  {
+   "id": "EII-1527",
+   "title": "Dùghall first walks the whole road to the shore",
+   "body": "Dùghall, nine years old, is let walk the whole three days down to the Seann-Dhaoine's shore with his father for the first time, rather than being turned back with the pack-ponies at the last ridge. He learns the trade is carried by gesture alone, in silence kept on both sides.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iv-of-the-grandson-and-the-fewer-hearths",
+   "era_between": [
+    290,
+    290
+   ]
+  },
+  {
+   "id": "EII-1528",
+   "title": "Mòrag born to Dòmhnall Clachach",
+   "body": "A daughter is born to Dòmhnall Clachach in the north country he was given, and is named Mòrag; she is the first of the king's grandchildren to carry na Bliadhnachan Fada, and grows up hard-handed among people who call her father only the stone-cutter's son.",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "morag-chruaidh",
+    "domhnall-clachach"
+   ],
+   "told_in": "book/09_morag_the_hard.md#i-of-the-hill-without-salt",
+   "era_between": [
+    290,
+    290
+   ]
+  },
+  {
+   "id": "EII-1529",
+   "title": "The palisade raised a third time in seasoned oak",
+   "body": "With no company camped below to hurry the choosing of timber, An Cnoc Ruadh rebuilds its wall a third time in properly seasoned oak. It never burns again in Uilleam Faire's lifetime.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#vii-of-the-two-lists",
+   "era_between": [
+    291,
+    291
+   ]
+  },
+  {
+   "id": "EII-1530",
+   "title": "Dùn ìseal's reciters tell the swearing fuller than An Cnoc Ruadh's own list",
+   "body": "Word of Uisdean's kneeling reaches Dùn ìseal, whose reciters tell it with the fire, the frost and the shingle scene kept whole, fuller than An Cnoc Ruadh's own spare list ever names it. An Cnoc Ruadh never quarrels with their telling.",
+   "place": "burg:19",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0089a",
+     "type": "fulfils"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/05_palisade_burned_twice.md#vii-of-the-two-lists",
+   "era_between": [
+    291,
+    291
+   ]
+  },
+  {
+   "id": "EII-1531",
+   "title": "Dùghall's father gives up asking",
+   "body": "Dùghall's father tells his son that he tried, once, as a young man, to learn a Seann-Dhaoine word for the goods they traded, and was met with a courtesy that would not be moved. He has not asked again in forty years, and tells Dùghall which questions the shore means to answer.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#i-of-the-road-by-gesture",
+   "era_between": [
+    296,
+    296
+   ]
+  },
+  {
+   "id": "EII-1532",
+   "title": "The road passes to Dùghall",
+   "body": "Dùghall's father, too heavy in the knees for the bog-causeway, hands the whole carrying road to his son. Dùghall walks it alone that year with a string of ponies his in all but the naming, three days down to the shore and three days back.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0090",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#ii-of-the-marks-at-the-midden-s-edge",
+   "era_between": [
+    300,
+    300
+   ]
+  },
+  {
+   "after": "I-0090"
+  },
+  {
+   "id": "EII-1533",
+   "title": "The strokes on the midden stones are first counted",
+   "body": "Dùghall, three-and-twenty, notices that the flat stones set at the edge of one household's midden carry cut strokes, one or two to a stone, and that their number has grown by a few since he first began to notice them. He can get no answer to what they are, by word or by gesture.",
+   "place": "burg:36",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0090",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iii-of-the-stroke-cut-after-a-burial",
+   "era_between": [
+    308,
+    308
+   ]
+  },
+  {
+   "id": "EII-1534",
+   "title": "Dùghall carries the question home unanswered",
+   "body": "Dùghall tells his father what he has seen at the midden's edge. His father says he saw the same stones himself, years before, and had already judged them a question the shore did not mean to answer, and had stopped asking it.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0090",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#ii-of-the-marks-at-the-midden-s-edge",
+   "era_between": [
+    310,
+    310
+   ]
+  },
+  {
+   "id": "EII-1535",
+   "title": "Uisdean Mòr dies on An Cnoc Ruadh",
+   "body": "Uisdean dies in his own bed on the hill in his eighty-seventh year, two-and-twenty years after the swearing, having outlived the fire, the frost and the king's two hundred spears.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0089",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "uisdean-mor"
+   ],
+   "told_in": "book/05_palisade_burned_twice.md#vii-of-the-two-lists",
+   "era_between": [
+    312,
+    312
+   ]
+  },
+  {
+   "after": "I-0091"
+  },
+  {
+   "id": "EII-1536",
+   "title": "A household mourns behind a wall of turf",
+   "body": "Dùghall, come down to the shore in his sixty-seventh year, wakes in the night to low voices shaped like no ordinary talk, and to boats kept ashore past their hour. He does not go out while it lasts, having learned from the hill's own griefs not to.",
+   "place": "burg:36",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0091",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iii-of-the-stroke-cut-after-a-burial",
+   "era_between": [
+    348,
+    348
+   ]
+  },
+  {
+   "id": "EII-1537",
+   "title": "A fresh stroke is cut beneath an old one",
+   "body": "The morning after the low voices, Dùghall finds a second stroke cut fresh beneath the single old one on the newest of the midden stones, and understands, all at once, that the Seann-Dhaoine mark the going of their own dead the way a hill household marks a grave.",
+   "place": "burg:36",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0091",
+     "type": "answers"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iii-of-the-stroke-cut-after-a-burial",
+   "era_between": [
+    348,
+    348
+   ]
+  },
+  {
+   "id": "EII-1538",
+   "title": "Dùghall counts every ridge on the shore",
+   "body": "Dùghall walks the whole shore that morning and finds every household keeps its own ridge of stones the same way, some bearing a single stroke, some bearing more than he can easily count. He carries the understanding home and tells his father, who is glad, at the last, to have the answer he had stopped seeking.",
+   "place": "burg:36",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0091",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iv-of-the-grandson-and-the-fewer-hearths",
+   "era_between": [
+    348,
+    348
+   ]
+  },
+  {
+   "id": "EII-1539",
+   "title": "Dùghall keeps the counting stones from his sons",
+   "body": "Dùghall says nothing more of the midden stones to his sons as they take up the road at his shoulder, judging that each will come to the ridge himself in his own year, as he had. He judges rightly.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0091",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iv-of-the-grandson-and-the-fewer-hearths",
+   "era_between": [
+    349,
+    349
+   ]
+  },
+  {
+   "id": "EII-1540",
+   "title": "Dùghall takes his grandson down for the last time",
+   "body": "One-and-seventy, and carrying the road no more himself, Dùghall takes his eldest son's boy down to the shore, both understanding without saying so that it is his last going. He finds two houses fallen roofless and fewer threads of smoke than he has ever counted there before.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0090",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iv-of-the-grandson-and-the-fewer-hearths",
+   "era_between": [
+    352,
+    352
+   ]
+  },
+  {
+   "id": "EII-1541",
+   "title": "The grandson counts the ridge and loses the count",
+   "body": "Dùghall sets his grandson to count the stones of the oldest ridge, and the boy loses the count twice among stones fallen and half-sunk in the turf. Dùghall tells him it is no bad thing to meet a count a man cannot finish, if the count is an honest one.",
+   "place": "burg:36",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0091",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iv-of-the-grandson-and-the-fewer-hearths",
+   "era_between": [
+    352,
+    352
+   ]
+  },
+  {
+   "id": "EII-1542",
+   "title": "Dùghall trades for less on his last shore",
+   "body": "Dùghall trades what hides he carried for less than the same weight once brought, and walks the three days home with his grandson bearing, unknowing, the whole weight of what the old man had carried down that road alone for two-and-sixty years.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0090",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iv-of-the-grandson-and-the-fewer-hearths",
+   "era_between": [
+    352,
+    352
+   ]
+  },
+  {
+   "id": "EII-1543",
+   "title": "Dùghall dies on the hill",
+   "body": "Dùghall Ceannaiche dies on the hill that winter, an old man by any hill reckoning, and it is his grandson who takes up the packs the next summer and walks south alone, counting the midden stones before he trades a single hide, as the old man had taught him.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0090",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "dughall-ceannaiche"
+   ],
+   "told_in": "book/06_strokes_on_the_midden_stones.md#iv-of-the-grandson-and-the-fewer-hearths",
+   "era_between": [
+    352,
+    352
+   ]
+  },
+  {
+   "after": "I-0092"
+  },
+  {
+   "id": "EII-1544",
+   "title": "The king rides east with Somhairle to Seann Warr",
+   "body": "The king summons his son down from Na Glinn Àrda and rides the coast road east to Seann Warr with a small company. Somhairle, three hundred and fifty-one years old and near two hundred years among Clann na Ceiste, sees the shore he has only ever heard recited.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0092",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-old-ones"
+   ],
+   "people": [
+    "ailean-mor",
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#i-of-the-road-east",
+   "era_between": [
+    389,
+    389
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1545",
+   "title": "Somhairle first sees Balla nan Stràc",
+   "body": "At the midden's edge of Seann Warr, Somhairle walks the whole length of the counting stones with his father and finds them built into a wall past any easy counting, the oldest courses run together into a single grey weight of strokes.",
+   "place": "burg:128",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0092",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "somhairle-mac-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#i-of-the-road-east",
+   "era_between": [
+    389,
+    389
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1546",
+   "title": "The king's stillness at the wall",
+   "body": "The king stands a long while at the oldest of the tally stones with his hand flat against it, and tells Somhairle only that the wall has stood longer than the bank at Dùn ìseal, and perhaps longer than the grove. He says no more of it that day.",
+   "place": "burg:128",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0092",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones",
+    "the-keepers-promise"
+   ],
+   "people": [
+    "ailean-mor",
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#i-of-the-road-east",
+   "era_between": [
+    389,
+    389
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1547",
+   "title": "Somhairle sets Balla nan Stràc in the Line",
+   "body": "Somhairle adds his first telling of his own to Sloinneadh a' Chlachair: the wall at Seann Warr, some three thousand strokes, grown over many lifetimes. It is the first fact he ever sets down unaided, and he keeps it carefully all his life.",
+   "place": "burg:128",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0092",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-old-ones"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#i-of-the-road-east",
+   "era_between": [
+    389,
+    389
+   ]
+  },
+  {
+   "after": "I-0093"
+  },
+  {
+   "id": "EII-1548",
+   "title": "Somhairle finds the house over the dead at Seann Tarr",
+   "body": "Sent north on a grazing dispute, Somhairle walks down to Seann Tarr and finds a household living in a long low house whose floor is paved with dressed slabs cut with strokes in fives. He does not enter, and sets the custom down without asking after it.",
+   "place": "burg:402",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0093",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones",
+    "line-of-the-mason"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#ii-of-seann-tarr-and-the-house-over-the-dead",
+   "era_between": [
+    428,
+    428
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1549",
+   "title": "A carrier brings word the strokes run thick",
+   "body": "A carrier of hides tells Somhairle at a ford, in passing, that the tally stones are cut thicker that year than any season he has known, and thicker at all three shores at once. Somhairle rides to Seann Warr and Seann Tarr within the month and finds it true.",
+   "place": "burg:128",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0094",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#iii-of-the-thickening",
+   "era_between": [
+    470,
+    470
+   ]
+  },
+  {
+   "after": "I-0094"
+  },
+  {
+   "id": "EII-1550",
+   "title": "The king's one visit to the wall",
+   "body": "The king rides to Seann Warr with a small company and walks Balla nan Stràc alone, his hand against the newest stone for the better part of a morning. Asked by his son what he saw, he answers only, \"A people counting,\" and speaks of it to no one again.",
+   "place": "burg:128",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0094",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones",
+    "the-keepers-promise"
+   ],
+   "people": [
+    "ailean-mor",
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#iii-of-the-thickening",
+   "era_between": [
+    470,
+    470
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1551",
+   "title": "Somhairle sets the thickening in the Line",
+   "body": "Somhairle records the king's visit to the wall in the fewest words the Line will bear: that the king stood long before it and, asked what he saw, said only that he had seen a people counting. He adds no explanation of his own.",
+   "place": "burg:128",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0094",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-old-ones"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#iii-of-the-thickening",
+   "era_between": [
+    470,
+    470
+   ]
+  },
+  {
+   "after": "I-0095"
+  },
+  {
+   "id": "EII-1552",
+   "title": "Somhairle finds Clach nan Dà Stràc at Seann Chwen",
+   "body": "Word of an unfinished stone reaches Na Glinn Àrda, and Somhairle rides two days south to Seann Chwen, quieter than either shore he knew. He finds the newest tally stone left with two strokes finished and a third abandoned mid-groove, the chisel marks stopped clean.",
+   "place": "burg:139",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0095",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones",
+    "line-of-the-mason"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#iv-of-the-half-cut-stone",
+   "era_between": [
+    512,
+    512
+   ]
+  },
+  {
+   "id": "EII-1553",
+   "title": "The last smoke seen at Seann Tarr",
+   "body": "The carrier who first brought word of the thickening finds Seann Tarr's house over the dead standing open and cold, its hearth unlit, the household gone without any sign of where. Somhairle rides down the following spring and finds the whole shore silent.",
+   "place": "burg:402",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0096",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#v-of-the-silence",
+   "era_between": [
+    530,
+    530
+   ]
+  },
+  {
+   "after": "I-0096"
+  },
+  {
+   "id": "EII-1554",
+   "title": "Somhairle rides the three shores in one circuit",
+   "body": "In a single season, the first any reciter has made the round, Somhairle rides from Seann Warr to Seann Tarr and down to Seann Chwen and finds all three the same: middens grown over, boats rotted on their keels, turf houses softening back into the ground.",
+   "place": "burg:128",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0096",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-old-ones",
+    "line-of-the-mason"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#v-of-the-silence",
+   "era_between": [
+    551,
+    551
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1555",
+   "title": "Somhairle sets down the Silence",
+   "body": "Somhairle enters the shortest of his four tellings in the Line: that after Clach nan Dà Stràc no work of the Seann-Dhaoine can be dated, their middens stop growing, their harbours silt, and how they ended, the telling does not know.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0096",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-old-ones"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#v-of-the-silence",
+   "era_between": [
+    551,
+    551
+   ]
+  },
+  {
+   "id": "EII-1556",
+   "title": "The hill-folk find the coasts wholly empty",
+   "body": "By this year no hill trader who once walked the three shores still finds a fire lit on any of them. The households who might have answered a knock are themselves gone, and carriers give the roads over to shores that no longer answer.",
+   "place": "burg:128",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0096",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#v-of-the-silence",
+   "era_between": [
+    560,
+    560
+   ]
+  },
+  {
+   "id": "EII-1557",
+   "title": "Somhairle weds Cairistìona",
+   "body": "Somhairle marries Cairistìona of Na Glinn Àrda, a shepherding household's daughter of no house of Clann na Ceiste, before both their fires at the turn of the year. He sets nothing of the wedding itself in the Line, judging it a thing that belongs to the man and not to the telling.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "line-of-aisling"
+   ],
+   "people": [
+    "somhairle-mac-ailein",
+    "cairistiona-of-the-hill"
+   ],
+   "told_in": "book/07_tally_wall_half_cut_stone.md#vi-of-cairistiona",
+   "era_between": [
+    580,
+    580
+   ]
+  },
+  {
+   "id": "EII-1558",
+   "title": "Word of Beathan's birth reaches the river households",
+   "body": "News that Somhairle and Cairistìona have a son, Beathan, and that the boy will be kept among Clann na Ceiste in the high pastures rather than brought to the hill, travels down every settled valley by the ordinary traffic of drovers and salt-carriers. It reaches Iain mac Fhearchair's household on the Abhainn naomh the same week as the shearing.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0097",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling"
+   ],
+   "people": [
+    "beathan-mac-shomhairle"
+   ],
+   "told_in": "book/08_of_the_old_names.md#i-of-the-word-seann",
+   "era_between": [
+    591,
+    591
+   ]
+  },
+  {
+   "id": "EII-1559",
+   "title": "The hill-folk of the upper Abhainn naomh first say Seann Skell",
+   "body": "Iain mac Fhearchair's generation on the river inherits, without ever deciding it as a household, the custom of naming the Seann-Dhaoine's old places with the plain word for old set before them. Seann Dunn, Seann Chwen and Seann Skell pass into ordinary speech as though no other names had ever been possible.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0097",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#i-of-the-word-seann",
+   "era_between": [
+    591,
+    591
+   ]
+  }
+ ]
+}

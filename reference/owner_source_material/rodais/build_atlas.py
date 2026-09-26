@@ -16,7 +16,19 @@ Output: Diathir_Atlas/ next to this file --
     atlas.py            the launcher: serves the folder on 127.0.0.1 and opens the browser
     index.html          two tabs: the Annals (every dated event) and the Map; the book itself is the PDF (legendarium/build_pdf.py)
     Diathir.map         a copy of Rodos_finished.map, the finished map
+    maps/               the seven ages' own maps (eras/maps/Diathir_Age_I..VII.map) and their pictures (shots/)
+    atlas/              the Atlas's own scripts and styles, copied from atlas_ui/ (timeline, eras and maps, people and
+                        family trees, glossary, this day, the web of links)
+    data/               meta.js, master.js and era_<K>.js: every age's annals, links both ways, threads, people,
+                        names and trees, gathered fresh by atlas_data.py on every build (the writers' new events,
+                        links, threads, people and told_in show up on the next run)
     fmg/                Azgaar's Fantasy Map Generator (MIT, see fmg/LICENSE)
+    audio/names/        recordings of the names (manifest.json {dt: file}), made by another tool: kept on a rebuild
+    posters/            a poster of every age (tools/make_posters.py): kept on a rebuild
+
+The Annals are a timeline after the Middle-earth interactive map's (ERA_PLAN.md): an age ribbon that switches the
+annals and the map together, a detail switch (Highlights, Standard, Everything), a search in English or Dia-thìris,
+and everything else behind "⋯". Links (#III/EIII-0412, #person/<id>, #place/burg:19, #thread/<id>) can be shared.
 
 An annals event that happened somewhere has a place; its map button switches to the map, flies there
 and marks the spot, and the Record panel shows that place's history and every event recorded there.
@@ -81,9 +93,24 @@ ages = [[k, build_book.AGE_NAMES[k][0], build_book.AGE_NAMES[k][1], '--' + build
 records = open(MAP, encoding='utf-8', newline='').read().split('\r\n')
 assert len(records) == 53, 'Rodos_finished.map should have 53 CRLF records'
 
+# ---------------------------------------------------------------- the eras: timelines, maps, people, names
+import atlas_data  # noqa: E402   (atlas_data.py, next to this file)
+ERA_DATA = atlas_data.collect(rec, MAP)
+
 # ---------------------------------------------------------------- write the program
+# everything is made afresh except what other tools keep in the folder: audio/ (the recordings of the names, with
+# audio/names/manifest.json) and posters/ (tools/make_posters.py)
+KEEP = {'audio', 'posters'}
 if os.path.exists(OUT):
-    shutil.rmtree(OUT)
+    for f in os.listdir(OUT):
+        if f in KEEP:
+            continue
+        fp = os.path.join(OUT, f)
+        if os.path.isdir(fp) and not os.path.islink(fp):
+            shutil.rmtree(fp)
+        else:
+            os.remove(fp)
+os.makedirs(OUT, exist_ok=True)
 shutil.copytree(FMG, os.path.join(OUT, 'fmg'))
 for lic in (os.path.join(FMG, 'LICENSE'), os.path.join(FMG, '..', '..', 'LICENSE')):   # the build dir, or the repo it came from
     if os.path.isfile(lic):
@@ -112,10 +139,31 @@ def js(o):
 
 
 index = (TEMPLATE.replace('/*STYLE*/', style).replace('FONTS_URL', html.escape(fonts))
-         .replace('/*EVENTS*/[]', js(events)).replace('/*PLACES*/{}', js(places)).replace('/*AGES*/[]', js(ages))
+         .replace('/*PLACES*/{}', js(places)).replace('/*AGES*/[]', js(ages))
          
          .replace('FMG_VERSION', FMG_VERSION))
 open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(index)
+
+# the Atlas's own scripts and styles (atlas_ui/), its data (data/, script files so they load from the folder too),
+# the seven era maps and their pictures (maps/), and any recordings of the names (audio/)
+shutil.copytree(os.path.join(HERE, 'atlas_ui'), os.path.join(OUT, 'atlas'))
+os.makedirs(os.path.join(OUT, 'data'))
+
+
+def data_js(name, *args):
+    with open(os.path.join(OUT, 'data', name), 'w', encoding='utf-8') as fh:
+        fh.write('ATLAS_LOAD(%s);\n' % ','.join(js(a) for a in args))
+
+
+data_js('meta.js', 'meta', ERA_DATA['meta'])
+data_js('master.js', 'master', [e for k in atlas_data.KEYS for e in ERA_DATA['ages'].get(k, []) if e['master']])
+for k, evs in ERA_DATA['ages'].items():
+    data_js('era_%s.js' % k, 'era', k, {'order': [e['id'] for e in evs], 'events': [e for e in evs if not e['master']]})
+for k, ov in ERA_DATA['overlays'].items():   # the realms of each map, for the "realms of another age" overlay
+    data_js('overlay_%s.js' % k, 'overlay', k, ov)
+for src, dst in ERA_DATA['copies']:
+    os.makedirs(os.path.dirname(os.path.join(OUT, dst)), exist_ok=True)
+    shutil.copyfile(src, os.path.join(OUT, dst))
 shutil.copy(os.path.join(HERE, 'atlas.py'), os.path.join(OUT, 'atlas.py'))
 with open(os.path.join(OUT, 'Diathir Atlas.bat'), 'w', encoding='utf-8', newline='\r\n') as fh:
     fh.write('@echo off\ncd /d "%~dp0"\nwhere py >nul 2>nul && (py atlas.py) || (python atlas.py)\n'
@@ -125,3 +173,7 @@ with open(os.path.join(OUT, 'Diathir Atlas.command'), 'w', encoding='utf-8', new
 os.chmod(os.path.join(OUT, 'Diathir Atlas.command'), 0o755)
 print('Diathir_Atlas written: %d events, %d with a place on the map; %d places; book of about %s words'
       % (len(events), sum(1 for e in events if e[5]), len(places), format(len(re.sub(r'<[^>]+>', ' ', book).split()), ',')))
+print('  eras: %s; %d people, %d family trees and ruler lists, %d maps%s'
+      % (', '.join('%s %d (%d era)' % (k, len(v), sum(1 for e in v if not e['master'])) for k, v in ERA_DATA['ages'].items()),
+         len(ERA_DATA['meta']['people']), len(ERA_DATA['meta']['trees']), len(ERA_DATA['meta']['maps']),
+         '; %d notes' % len(ERA_DATA['meta']['warnings']) if ERA_DATA['meta']['warnings'] else ''))

@@ -1,0 +1,345 @@
+[
+ {
+  "title": "The long house at Tarr set against the cliff",
+  "era_year": 2241,
+  "summary": "A household of the north-eastern Tarr builds a single long house into a cleft of the cliff, the living rock its own back wall, needing to raise stone only where the cliff itself did not already stand higher than any wall the household could have built.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0028",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The hearth blackens the rock behind it",
+  "era_year": 2246,
+  "summary": "Years of the same fire kept against the same face of the cliff blacken the stone above the hearth to the height of a tall man standing, a stain the household never scrubs and never troubles to explain, holding a blackened rock over a hearth no stranger a thing than a blackened pot.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0028",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The hard winter at Tarr",
+  "era_year": 2250,
+  "summary": "A wind out of the north holds the better part of two months without turning, and the household at Tarr lives on dried stores and shellfish taken between gales, burning at the last the timbers of a spare boat-frame kept against just such a want rather than let the hearth go cold.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0028",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The calm morning after the hard winter",
+  "era_year": 2250,
+  "summary": "The wind drops in a single night and swings out of the north at last; the household goes down to the shingle before light to stand out of the wind, and finds a run of small fish thick enough in the shallows to be taken by hand.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0028",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The four houses raised at the Vell on the Abhainn bheag",
+  "era_year": 2258,
+  "summary": "A short way above the river's mouth in the north-east, four houses and a boat-shed are raised on ground cut level into the steep bank; no dwelling of the shore-folk on the island is known to stand further to the north-east than this small place.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:97"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0029",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A flat-bottomed hull built for the river",
+  "era_year": 2264,
+  "summary": "The Vell's boat-shed is built to keep a hull dry between one season's use and the next; the household raises a boat flat enough in the bottom to be poled past the first rapids in a dry season, and takes it further upriver than any of the four households has gone on foot.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:97"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0029",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A spring flood reaches the boat-shed",
+  "era_year": 2290,
+  "summary": "Snow melting fast off the central massif sends the Abhainn bheag over its bank far enough to reach the boat-shed's lower course; the household clears the silted floor by the basket-load and raises the shed a course higher on its uphill side.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:97"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0029",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Dried fish carried south to kin without a river",
+  "era_year": 2301,
+  "summary": "The Vell on the Abhainn bheag spares a share of its eel and salmon catch, smoked over slow fires, to kin two days' walk to the south who keep no river of their own; a household comes up once in a lean year with little to trade and goes home with more than it brought.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:97"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0029",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The eel-trap pattern taught to two children",
+  "era_year": 2312,
+  "summary": "An old woman of the Vell's youngest household teaches the willow-trap pattern she learned as a girl to a boy and a girl of the place, holding that a pattern known in only one pair of hands is one bad season from being lost to the whole Vell.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:97"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0029",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The second Skell begins its own curved mole",
+  "era_year": 2320,
+  "summary": "A household of a northern Skell some way along the coast from the first breakwater takes up the same work for its own water, laying stone out from a low headland in the same curve, carried down from a scree behind the shore rather than quarried fresh.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0030",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A swell breaks over the unfinished mole and moves nothing",
+  "era_year": 2350,
+  "summary": "A hard swell out of the north-west runs white over the second Skell's unfinished curve for two days; when it drops every stone is found still set where it was laid, moved a hand's width here and there but nowhere thrown clear.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0030",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The curved mole at the second Skell finished",
+  "era_year": 2382,
+  "summary": "The second Skell's breakwater is carried out as far as the household judges worth the sheltering; a boat brought in behind the finished curve on a hard-weather day rides easier at its mooring than any boat of that shore had ridden before.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0030",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A traveller from the second Skell sees the first mole",
+  "era_year": 2390,
+  "summary": "A man of the second Skell, grown from the boy who watched his own household's curve laid, comes within sight of the first mole on a journey south and finds the stone laid the same way, curve for curve, though no household of either shore had ever seen the other's work before it was finished.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0030",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The first clay-lined pit dug in the western dune",
+  "era_year": 2401,
+  "summary": "A woman of the western Vell digs and clay-lines the first of a line of storage pits cut into the dune's slope, closed with a heavy slab; households after her keep her spacing between pits without troubling to test her reasoning for themselves.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:127"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0031",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A younger household cuts clay out of turn",
+  "era_year": 2418,
+  "summary": "A household new to the western dune cuts a clay bank two others had agreed to leave fallow a season; once the disagreement reaches her, the woman who keeps the unwritten turn among the banks settles it, and the younger household gives over a full pit's worth of its own dried catch.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:127"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0031",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Fish bones found in a sealed pit",
+  "era_year": 2460,
+  "summary": "A pit left sealed longer than a season gives back fish bones picked clean and gone soft with damp that found its way past the clay; the households learn to trust a pit's seal less far into a second year and to empty a store before the season turns.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:127"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0031",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Doors of the western shore turn from the sea",
+  "era_year": 2505,
+  "summary": "Without any of its own tellings naming a reason, household after household of the western shore sets its door and its hearth a little more toward the dune at its back than toward the water in front, a threshold that had always opened straight onto the beach coming to open sideways from it instead.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:127"
+  ],
+  "threads": [
+   "the-old-ones",
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "I-0031",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The last pit of the season sealed for winter",
+  "era_year": 2523,
+  "summary": "The western dune's last pit of the year is dug, lined and lidded before the first hard frost, the sand banked back over its edges as every pit before it had been closed, the shore settling into a waiting none of its tellings say the whole of.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:127"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0031",
+    "type": "sequel"
+   }
+  ]
+ }
+]

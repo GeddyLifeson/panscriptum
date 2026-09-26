@@ -1,0 +1,268 @@
+[
+ {
+  "title": "Mòr nic Dhùghaill feeds three carriers in the rain",
+  "era_year": 164,
+  "summary": "A widow of Doire shean with more buffalo than grass boils a haunch for three carriers caught by a mud-slicked path, and asks no coin for it. Word of the free bowl travels the mountain road faster than any basket on it, and within a year she has built a second room to feed the men it sends her.",
+  "category": "trade",
+  "people": [
+   "Mòr nic Dhùghaill"
+  ],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0035",
+    "type": "cause"
+   },
+   {
+    "to": "II-0036",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The turf longhouse raised at the crossing",
+  "era_year": 168,
+  "summary": "Three families of the fourth hearth build a long turf house where the mountain road meets the road to the western harbours, a hearth burning at either end for carriers going up and carriers coming down. Its long central table becomes the place where news of the whole road first gathers as one telling.",
+  "category": "trade",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0037",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A chase stopped at Mòr's door",
+  "era_year": 175,
+  "summary": "A man fleeing his cousin's kin over an old knife-wound takes shelter at Mòr nic Dhùghaill's table, and his three pursuers, knives at their belts, find her standing between them and the fire. She swears there will be no blade drawn under her roof for any grievance, old or new, and feeds all four from the one pot until the debt walks back out onto the open road unsettled between them.",
+  "category": "law",
+  "people": [
+   "Mòr nic Dhùghaill"
+  ],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0038",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Sìth an Rathaid kept as custom",
+  "era_year": 176,
+  "summary": "Word of the chase stopped at Mòr's door runs the mountain road faster than any basket that season, and other waypoint houses along the circuit take up the same custom unasked: no feud pursued and no blade drawn under a road-house roof or within a spear's throw of its door.",
+  "category": "law",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0038",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Niall Òg sits at Mòr's table",
+  "era_year": 177,
+  "summary": "The old heir Niall Òg walks the mountain road to see for himself the house where a widow's word held two feuding kin to one table, and is given the same bowl and the same seat as any other traveller. He leaves a ring behind that Mòr will not keep, saying a man who has outlived his own quarrels can afford, once in a while, to pay for a peace he did not make.",
+  "category": "rulers",
+  "people": [
+   "Niall Òg",
+   "Mòr nic Dhùghaill"
+  ],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [
+   "the-division",
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0038",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seann Mhorn resettled and its name kept",
+  "era_year": 170,
+  "summary": "Fishers of Na Naoi Teallaichean find old house-footings above a good landing on the western shore of Loch chrom, and a name already fixed to the place that is not of their own tongue. They keep the name rather than giving it a new one, judging that a name found standing has more right to stay than one a stranger could invent.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:465"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0039",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Seann Warr resettled beside it",
+  "era_year": 172,
+  "summary": "Families walking the same road find a second harbour a short way along the shore, house-footings there as well, and build on them without asking whose. Seann Warr and Seann Mhorn grow together within the century, sharing a landing, a market day and a single waypoint house where the mountain road meets the sea.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:128"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0040",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Fionnlagh Dall asks to be carried south",
+  "era_year": 184,
+  "summary": "Dying at four-and-ninety after fifty-six years keeping the flame, Fionnlagh Dall tells Calum Beag he wishes to be laid not on Coimheadaichean na Lasrach' own slope but in the unclaimed old graves near Cnoc dhìreach, ground no household's cord has ever divided. He dies within the month, his last words a question about whether the flame had been fed.",
+  "category": "faith",
+  "people": [
+   "Fionnlagh Dall",
+   "Calum Beag"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0041",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The eleven days' bearing",
+  "era_year": 184,
+  "summary": "Bearers carry Fionnlagh Dall's body the twenty miles to Cnoc dhìreach in eleven days rather than three, as every hearth on the road asks to carry him some part of the way. Calum Beag walks the whole distance at the litter's head, the only bearer who never once hands off his own share of the weight.",
+  "category": "faith",
+  "people": [
+   "Calum Beag",
+   "Fionnlagh Dall",
+   "Mòr nic Dhùghaill"
+  ],
+  "places": [
+   "burg:324",
+   "burg:462"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0042",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Tuam Cnoc dhìreach hallowed",
+  "era_year": 184,
+  "summary": "Fionnlagh Dall is laid in the ancient, unclaimed burying-ground near Cnoc dhìreach, the first burial there any living hand has set down by name. Coimheadaichean na Lasrach hallow the ground that same season, and it passes from belonging to no one to belonging, by Talla na Lasrach's own reckoning, to everyone.",
+  "category": "faith",
+  "people": [
+   "Fionnlagh Dall"
+  ],
+  "places": [
+   "burg:462"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0043",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The grave-keepers of Cnoc dhìreach paid in coal",
+  "era_year": 185,
+  "summary": "A handful of families settle by Tuam Cnoc dhìreach to tend the grave, and Talla na Lasrach pays them one measured handful of coal each a season, the only service Lagh an Loscaidh Bhig is ever known to reward in coal rather than coin or kind.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:462"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0044",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Mòr nic Dhùghaill dies at her own hearth",
+  "era_year": 186,
+  "summary": "Found sitting upright in her fireside chair one morning by her own daughter, Mòr nic Dhùghaill dies at sixty-two, two years after Fionnlagh Dall. Her daughter and a niece take up the pot the same week, and the house does not miss a single night's fire.",
+  "category": "land",
+  "people": [
+   "Mòr nic Dhùghaill"
+  ],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0036",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Calum Beag sets a marker at the grave",
+  "era_year": 189,
+  "summary": "Calum Beag, now an old man, carries a plain stone the whole way to Cnoc dhìreach on his own back and sets it at Fionnlagh Dall's grave-head with his own hands, cut with nothing but the shape of the stone cup and no name, judging the shape said enough on its own.",
+  "category": "faith",
+  "people": [
+   "Calum Beag",
+   "Fionnlagh Dall"
+  ],
+  "places": [
+   "burg:462"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0043",
+    "type": "sequel"
+   }
+  ]
+ }
+]

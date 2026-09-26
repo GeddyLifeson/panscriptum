@@ -1,0 +1,263 @@
+[
+ {
+  "title": "The queen walks the new quay at Seann Skell",
+  "era_year": 39,
+  "summary": "In the moon of Sìolach, Queen Beathag nic Dhòmhnaill comes down to Seann Skell with a small household and walks the whole length of the new stone quay at the harbour scribe's side, saying little, before finding her sister on the strand below.",
+  "category": "rulers",
+  "people": [
+   "Beathag nic Dhòmhnaill",
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0021",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The queen and her sister on the stones",
+  "era_year": 39,
+  "summary": "Mòrag nic Dhòmhnaill comes up from the rope-maker's gear to meet her sister on the new stones. What passes between them is not told; Leabhar a' Chùraim gives only that the queen was seen upon the quay with her sister, and went home again before the sailing, as her own word bound her to do.",
+  "category": "rulers",
+  "people": [
+   "Beathag nic Dhòmhnaill",
+   "Mòrag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0021",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The queen rides home before the sailing",
+  "era_year": 39,
+  "summary": "Beathag nic Dhòmhnaill leaves Seann Skell the same evening she comes to it, telling the harbour scribe she will not be at the quay for the sailing itself, for a queen who has sworn to send no one over and keep no one back has no cause to watch her own sister taken by that same promise.",
+  "category": "rulers",
+  "people": [
+   "Beathag nic Dhòmhnaill",
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0021",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Niall given the counting-stick",
+  "era_year": 40,
+  "summary": "On the eve of the sailing Calum mac Nèill gives his grandson Niall, eleven years old, a shaved hazel stick and a knife, and sets him on the wall of the west quay to cut one notch for every hull that passes in the morning, with the single instruction to keep his eyes on the count and not on the faces.",
+  "category": "land",
+  "people": [
+   "Niall mac Dhòmhnaill",
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0022",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The lamps lit unasked along the strand",
+  "era_year": 40,
+  "summary": "Beginning at one widow's window by the fish-stones, a lamp is set on every sill along the Seann Skell waterfront the evening before the sailing, and kept burning until morning, though no one has told the town to do it.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering",
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0022",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Mairead nic Chaluim's household goes aboard",
+  "era_year": 40,
+  "summary": "Calum mac Nèill's daughter Mairead, her husband Dùghall mac Iain and their two children take their places aboard their hull on the eve of the sailing, their stores lashed under oiled hide; Mairead asks a deep notch cut for her hull, whichever number it falls at.",
+  "category": "land",
+  "people": [
+   "Mairead nic Chaluim",
+   "Dùghall mac Iain",
+   "Niall mac Dhòmhnaill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0022",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Mòrag walks the waterfront alone",
+  "era_year": 40,
+  "summary": "On the last night Mòrag nic Dhòmhnaill walks the length of the Seann Skell strand twice over, naming to herself the household behind every lit window, a leave-taking asked of no one and told to no one beforehand.",
+  "category": "land",
+  "people": [
+   "Mòrag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0022",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Catrìona takes the steering oar of An Ròn Glas",
+  "era_year": 40,
+  "summary": "Aboard An Ròn Glas on the eve of the sailing, the pilot Catrìona nic Iain tells Mòrag nic Dhòmhnaill that the oar answers well and the ship rides true, whatever else the morning brings.",
+  "category": "land",
+  "people": [
+   "Catrìona nic Iain",
+   "Mòrag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0022",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Fionnlagh stands by his cart and does not go",
+  "era_year": 40,
+  "summary": "A carter of Seann Skell named Fionnlagh, who has brought loads down to the quay for departing households all that season without putting his own name to the boards, stands by his empty cart through Oidhche nan Lòchran and through the sailing itself, and does not go aboard any hull.",
+  "category": "land",
+  "people": [
+   "Fionnlagh",
+   "Mòrag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering",
+   "line-of-aisling"
+  ],
+  "master_links": [
+   {
+    "to": "III-0022",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Niall's tally of An Diosal",
+  "era_year": 40,
+  "summary": "On the morning of the sailing Niall mac Dhòmhnaill cuts one notch on his hazel stick for every hull that passes the west quay wall going round the river pool sunwise, and keeps the finished stick inside his shirt afterward; no one ever asks him for it back.",
+  "category": "land",
+  "people": [
+   "Niall mac Dhòmhnaill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0024",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The queen hears a boundary plea on the morning of the sailing",
+  "era_year": 40,
+  "summary": "At Cathair dhearg, on the same morning the fleet turns out of Seann Skell, Queen Beathag nic Dhòmhnaill hears an ordinary dispute between two farmers over a shifted boundary ditch and rules it with the same care she gives any such matter, no rider from the coast yet able to have reached her.",
+  "category": "rulers",
+  "people": [
+   "Beathag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0023",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The empty berths walked that evening",
+  "era_year": 40,
+  "summary": "That evening Calum mac Nèill walks the whole length of the west quay and finds the berths standing empty for the first time in three years, and tells his son Dòmhnall that a harbour built for nothing but to be full is a strange thing to walk when it stands empty.",
+  "category": "land",
+  "people": [
+   "Calum mac Nèill",
+   "Dòmhnall mac Chaluim"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0024",
+    "type": "sequel"
+   }
+  ]
+ }
+]

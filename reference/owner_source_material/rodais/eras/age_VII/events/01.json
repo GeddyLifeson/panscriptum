@@ -1,0 +1,320 @@
+[
+ {
+  "title": "The capital's lamps lit late and few",
+  "era_year": 1,
+  "after": "VI-0001",
+  "summary": "With coal-fuel dear, the lamp-men of Cathair dhearg light the street-lamps later in the evening and put them out earlier in the night, and light fewer of them in the lanes behind the fish-quays and under the walls. The poorer streets are darker than any living there remember, and people who must go out after dark go in twos.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "V-0236",
+    "type": "sequel"
+   },
+   {
+    "to": "VI-0004",
+    "type": "cause"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor"
+ },
+ {
+  "title": "The shires' chests counted",
+  "era_year": 1,
+  "summary": "The copyists of Leabharlann Muileann chaol finish the lists of the shires' record-chests called in over the years before, and Ailig mac Thormoid brings the chronicler the tally: one thousand and six chests. The chest of Seann Tarr, burned in its own yard, is entered as sent. The fourth floor of the new wing stands empty.",
+  "category": "law",
+  "people": [
+   "Ailig mac Thormoid",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "marker:34",
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "V-0226",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor"
+ },
+ {
+  "title": "Coal-fuel sold above the fair's ceiling",
+  "era_year": 1,
+  "summary": "All summer the dealers at Fèill Muileann òg sell coal-fuel above the ceiling the court of the fair has fixed. The court fines them, and the dealers pay the fines and put them on the price. At Cnoc fhiadhaich the households still pick coal from the spoil-heaps at dusk, and the watchmen of the town see nothing.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "marker:38",
+   "burg:151",
+   "burg:280"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "V-0236",
+    "type": "sequel"
+   },
+   {
+    "to": "V-0237",
+    "type": "parallel"
+   },
+   {
+    "to": "VI-0005",
+    "type": "cause"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor"
+ },
+ {
+  "title": "The black cake at the Caol mhòr market",
+  "era_year": 1,
+  "summary": "A Tuathach pedlar brings a cake of a black fuel made from pit waste to the market at Caol mhòr and shows it burning. Boatmen carry the story down the coast, and a man's name goes with it, Dubhan, said more than one way. Nothing of the fuel is bought or sold.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0001",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#iii-of-the-carrier-s-word"
+ },
+ {
+  "title": "The carrier's word on the library road",
+  "era_year": 1,
+  "summary": "Dòmhnall mac Ailein, carrier on the library road, brings to Muileann chaol a drover's report, had from a boatman out of Caol mhòr, of a fuel made in the north from what the pits throw away, which burns like coal and stinks. Beathag nic Fhionnlaigh enters it in her own day-book with the man's name given two ways.",
+  "category": "law",
+  "people": [
+   "Dòmhnall mac Ailein",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:246",
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0001",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#iii-of-the-carrier-s-word"
+ },
+ {
+  "title": "The keeper's word at an Leabharlann",
+  "era_year": 1,
+  "summary": "Asked by the chronicler what is to be done about the report of a fuel in the north, Raghnall mac Mhuirich, keeper of Leabharlann Muileann chaol, answers that if the thing is real someone will write it down and send the writing, and that an Leabharlann keeps and does not chase.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "V-0235",
+    "type": "person"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#iii-of-the-carrier-s-word"
+ },
+ {
+  "title": "The fuel burned at the Muileann chaol market",
+  "era_year": 1,
+  "summary": "On the market day in the yard of an Leabharlann a Tuathach pedlar of needles and lace burns a piece of the black fuel on the flagstone by the pump. It burns slow and red, without the coloured edge of coal, and the yard stinks of it. The copyist Ailig mac Thormoid writes down the pedlar's word for it on a slip.",
+  "category": "trade",
+  "people": [
+   "Ailig mac Thormoid"
+  ],
+  "places": [
+   "burg:246",
+   "marker:34"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "V-0076",
+    "type": "location"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#iv-of-the-pedlar-at-the-ford"
+ },
+ {
+  "title": "The chronicler at the ford",
+  "era_year": 1,
+  "summary": "Beathag nic Fhionnlaigh walks down from an Leabharlann to the ford at Àth dhomhain after the pedlar, and learns from the ferryman's boy that he waded over at noon and went on towards the landing at Ceann dhomhain and the boats south. She does not see the fuel.",
+  "category": "law",
+  "people": [
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:487"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0002",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#iv-of-the-pedlar-at-the-ford"
+ },
+ {
+  "title": "Beathag's letter to the maor of Caol mhòr",
+  "era_year": 1,
+  "summary": "The chronicler writes to the maor of Caol mhòr that a fuel made from pit waste is reported out of the north, and asks for a piece of it by the carrier, with a line saying where it came from and who made it. The letter goes north under the office's seal. No answer comes.",
+  "category": "law",
+  "people": [
+   "Beathag nic Fhionnlaigh",
+   "Dòmhnall mac Ailein"
+  ],
+  "places": [
+   "marker:34",
+   "burg:95"
+  ],
+  "threads": [
+   "the-library",
+   "the-tuathaich",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0002",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#v-of-the-letter-to-the-maor-and-the-foot-of-the-year"
+ },
+ {
+  "title": "The autumn rains on the library road",
+  "era_year": 1,
+  "summary": "At the end of an Dàmhair the first rains of the autumn come in from the west after the dry summer. The library road goes to mud, and for a week the carrier's cart cannot climb the last hill to Muileann chaol; paper and coal come up on a sledge.",
+  "category": "land",
+  "people": [
+   "Dòmhnall mac Ailein"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#v-of-the-letter-to-the-maor-and-the-foot-of-the-year"
+ },
+ {
+  "title": "The coal of an Leabharlann cut",
+  "era_year": 1,
+  "summary": "The winter's coal for Leabharlann Muileann chaol comes up less than the year before and dearer. Raghnall mac Mhuirich orders no fire in the reading-room before the middle of an t-Samhain and none after dark, and the copyists who would work in the evenings take their copying home.",
+  "category": "coal",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Ailig mac Thormoid"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "V-0236",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/01_the_fire_banked_in_the_north.md#v-of-the-letter-to-the-maor-and-the-foot-of-the-year"
+ },
+ {
+  "title": "The day of binding at Achadh dhomhain passes empty",
+  "era_year": 1,
+  "summary": "At Achadh dhomhain the masters of Comann nan Gualadairean sit an hour on the day of binding with the oath-stone before them, and no family brings a son or daughter to be bound. The clerk writes the day into the book with nothing under it.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Seann Tarr entered as sent to the fire",
+  "era_year": 1,
+  "summary": "On the keeper's order the copyists enter the shire chest of Seann Tarr, burned in the yard by its keeper rather than sent, as 'sent to the fire', so that the count of one thousand and six chests may stand whole.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Ailig mac Thormoid"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The mill-race at Muileann chaol runs dry",
+  "era_year": 1,
+  "summary": "The dry year leaves the race at Muileann chaol too low to turn the paper-mill's wheel, and the wheel stands still through the autumn.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Còmhrag Ceann leathan fought on dust",
+  "era_year": 1,
+  "summary": "Còmhrag Ceann leathan at Ceann leathan is fought in the dry year on a field worn to dust; the fair-wardens water the ground from the harbour with a chain of buckets between bouts, and the gate takes less than in any year its book remembers.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:22"
+  ],
+  "threads": [],
+  "master_links": [],
+  "chronicle_extra": true
+ }
+]

@@ -1,0 +1,270 @@
+[
+ {
+  "title": "The sea drowns the low houses of Cnoc chaol",
+  "era_year": 777,
+  "summary": "In the night the sea rises past every mark it has kept on the coast at Cnoc chaol and comes in over the low houses, taking twelve of the shore's dead and leaving a sheet of grey sand a hand thick over every hearth it does not carry away, threaded with the shells of deep-water creatures no net there has ever brought up.",
+  "category": "land",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "zone:4"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0105",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Seasaidh's father is counted among the drowned",
+  "era_year": 777,
+  "summary": "Seasaidh, carried up the slope at seven years old by her mother, learns in the grey hour after the wave that her father is not among those who reached higher ground, one of twelve of Cnoc chaol's dead counted when the counting is done.",
+  "category": "land",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "zone:4"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0105",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The old ground at Cnoc chaol is left unbuilt",
+  "era_year": 777,
+  "summary": "The old folk of Cnoc chaol sift the sanded ruin for what is worth digging out and find little; no household chooses to rebuild on the drowned ground, level and good as it is, and it is left to grass over.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "zone:4"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0105",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The survivors of Cnoc chaol build on the slope",
+  "era_year": 778,
+  "summary": "The households of Cnoc chaol carry what can be carried up the slope behind the drowned ground and build again there in stone rather than turf and wattle, keeping the old name of the coast for the new houses and pointing out the low ground to their children as ground not to be built on.",
+  "category": "land",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "zone:4"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0105",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Seasaidh goes inland to Pàl's valley",
+  "era_year": 792,
+  "summary": "Seasaidh, twenty-two years old, leaves the coast that raised her to take up a household two days inland with Pàl, a drover's son, in a green valley walled by low scarps that she has never seen and cannot yet well imagine, having known until then only tide and shingle.",
+  "category": "land",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The ground opens below Pàl's byre",
+  "era_year": 827,
+  "summary": "In the night a low groaning felt through the floor of the house opens a crack clean across the floor of the valley a little below the household's byre, wide enough in places for a man to lose his boot to the dark below, running further than any of the valley folk cares to walk to find its end.",
+  "category": "land",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0106",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The valley's spring moves to a new channel",
+  "era_year": 827,
+  "summary": "The spring that has risen at the valley's upper end for as long as the household remembers runs dry by inches through the season after the ground opens and breaks out afresh a hundred paces downhill, in a hollow none of the valley folk had marked before as ground a spring might choose.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0106",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The valley folk keep clear of the crack by instinct",
+  "era_year": 827,
+  "summary": "No house stands near enough the new crack to be lost to it, and the valley folk, without any rule laid down to tell them so, drive their beasts wide of it and warn their children from it from the first season, a wariness settling over ground that had never before asked for one.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0106",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of the opened ground reaches the hill",
+  "era_year": 828,
+  "summary": "A drover's telling of the crack, carried without any deliberate sending along the ordinary roads of trade and overheard at a hearth by a man travelling to the hill on other business, comes at last to the king by the same slow accident that carries most word to him.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0106",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The king walks the length of the crack",
+  "era_year": 830,
+  "summary": "The king comes on foot with two men to Pàl's valley and walks the crack's whole length with the household, crouching twice to look down into it though he lets nothing down to measure its depth, and asks whether any beast or soul has gone into it since it opened.",
+  "category": "rulers",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0106",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The king forbids nothing at the crack",
+  "era_year": 830,
+  "summary": "Standing at the widest part of the opened ground, the king tells the valley folk he will neither have the crack filled nor leave it, only that they keep their beasts and children back from it and build no house nearer it than they would to a drop of a man's own cutting.",
+  "category": "rulers",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0106",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Seasaidh begins the line of white stones",
+  "era_year": 847,
+  "summary": "In her seventy-eighth year Seasaidh carries the first white stones up from the stream bed herself and sets them a stride back from the crack's edge, choosing them for their whiteness so a child running in poor light may see the line and know where the safe ground ends.",
+  "category": "law",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0107",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The valley finishes the line of stones",
+  "era_year": 847,
+  "summary": "Seasaidh's children and grandchildren take up the carrying before she has finished the first stretch, and households from both ends of the settled ground add their own stones until the white line runs the crack's full length.",
+  "category": "law",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0107",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seasaidh dies above the valley she marked",
+  "era_year": 852,
+  "summary": "Seasaidh dies in her eighty-second year in the house Pàl first brought her to, and is buried on the near slope within sight, though not within a stone's throw, of the white line she began; the valley keeps her name chiefly as the woman who marked the crack.",
+  "category": "faith",
+  "people": [
+   "Seasaidh"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0107",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "No house is raised within a stone's throw of the crack",
+  "era_year": 860,
+  "summary": "The valley folk who come after Seasaidh mend the white line where frost or flood undoes a stretch of it and never let it go wholly back to grass, and for the rest of the age no household raises a roof within a stone's throw of the opened ground on either side of it.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0107",
+    "type": "legacy"
+   }
+  ]
+ }
+]

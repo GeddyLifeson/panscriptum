@@ -1,0 +1,248 @@
+[
+ {
+  "id": "EV-6003",
+  "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
+  "era_year": 141,
+  "summary": "A crew-leader from Baile thais asks Aonghas, keeper of An Taigh-seinnse Mòr since Seònaid Bhàn's line came to him, whether the loft above his stable might hold men now and again with no questions asked. He agrees, and stops in time asking what they carry.",
+  "category": "humans",
+  "people": [
+   "Aonghas (of An Taigh-seinnse Mòr)"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0290",
+   "IV-0300"
+  ]
+ },
+ {
+  "id": "EV-6004",
+  "title": "The fire on Cnoc an Rabhaidh",
+  "era_year": 143,
+  "summary": "On 27 am Màrt, Aonghas watches smoke rise thin from Cnoc an Rabhaidh in a hard north-west wind, and every wheel within sight of his yard stops within the hour. A carter in his own yard names it a heath fire before anyone learns otherwise.",
+  "category": "humans",
+  "people": [
+   "Aonghas (of An Taigh-seinnse Mòr)"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0301",
+   "IV-0306",
+   "IV-0309"
+  ]
+ },
+ {
+  "id": "EV-6004a",
+  "title": "Tormod Buabhall's roof watch",
+  "era_year": 141,
+  "summary": "At Am Buabhall Fortanach, Tormod Buabhall bars his gates at dusk and sets a man on the roof with a glass. Once a week, on no fixed day, he sends a folded list up the road in a rider's saddlebag and tells no one, not even the rider, whose hand it is meant to reach.",
+  "category": "humans",
+  "people": [
+   "Tormod Buabhall"
+  ],
+  "places": [
+   "marker:5"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0294"
+  ]
+ },
+ {
+  "id": "EV-6004b",
+  "title": "The fishermen of Doire shean paid in eastern silver",
+  "era_year": 142,
+  "summary": "Old Coinneach nan Ràmh and the other fishermen below Am Buabhall Fortanach take to being paid, for certain nights never spoken of as work, in silver struck in an Tìr Thall rather than Riaghaltas nan Coigreach's coin. None of it is ever spent where a clerk of A' Chompanaidh might see it change hands.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0295"
+  ]
+ },
+ {
+  "id": "EV-6004c",
+  "title": "Coinneach nan Ràmh's word on the loft at the Reòta",
+  "era_year": 142,
+  "summary": "The old fisherman Coinneach nan Ràmh tells Aonghas that the loft at An Taigh-seinnse Reòta is never once found empty by A' Chompanaidh's carters passing through, and never once holds the same men two nights running: it comes and goes, he says, like the tide, and no man has ever caught the tide at its turning.",
+  "category": "humans",
+  "people": [
+   "Aonghas (of An Taigh-seinnse Mòr)"
+  ],
+  "places": [
+   "marker:8"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0296"
+  ]
+ },
+ {
+  "id": "EV-6004d",
+  "title": "A boy of Àth fhiadhaich at Aonghas's door",
+  "era_year": 142,
+  "summary": "A boy runner out of Àth fhiadhaich comes soaked from the ford into Aonghas's yard, asks for bread as any boy might, and leaves a folded scrap under the loose board by the stable door naming a date and nothing else. Aonghas burns it in the kitchen fire that night.",
+  "category": "humans",
+  "people": [
+   "Aonghas (of An Taigh-seinnse Mòr)"
+  ],
+  "places": [
+   "burg:12"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0298"
+  ]
+ },
+ {
+  "id": "EV-6004e",
+  "title": "The Sligeanach's psalter",
+  "era_year": 142,
+  "summary": "Marks for the loft at An Taigh-seinnse Mòr travel up Rathad na Mèinne folded inside a psalter, as innocent on the road as any priest's book, sent on from the ledger kept in the roof-space above the shrine at Achadh mhòr.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:395"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0297",
+   "IV-0299"
+  ]
+ },
+ {
+  "id": "EV-6004f",
+  "title": "Muileann bheag's pits stop with the rest",
+  "era_year": 143,
+  "summary": "The workings at Muileann bheag among the druid villages halt with the coal country on the day of the fire. Its custodian writes that it is the first thing her town has done with the hills in a hundred years.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:240"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0302"
+  ]
+ },
+ {
+  "id": "EV-6004g",
+  "title": "The six days at the Ros dhomhain quay",
+  "era_year": 143,
+  "summary": "A' Chompanaidh's steamships lie six days at Ros dhomhain with empty holds while Rathad na Mèinne above stands near-idle of carts. The quay agents write they have never seen the harbour so quiet, and that the quiet frightens them more than any crowd.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0307"
+  ]
+ },
+ {
+  "id": "EV-6004h",
+  "title": "The eight never heard of again",
+  "era_year": 143,
+  "summary": "When the constables shut A' Chompanaidh's stores and break the stoppage, forty crew-leaders are taken up; thirty-two are let go inside the fortnight for want of any charge to hold them on. Eight are shipped from Ros dhomhain for trial in an Tìr Thall, and no word of any one of them ever comes back.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0308"
+  ]
+ },
+ {
+  "id": "EV-6004i",
+  "title": "The heather burned thin",
+  "era_year": 143,
+  "summary": "The constables burn the heather of Cnoc an Rabhaidh to deny the hill a second beacon. It grows back thin and late the following spring, and three years pass before anyone on Rathad na Mèinne speaks openly of what the fire had truly been.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0309"
+  ]
+ },
+ {
+  "id": "EV-6004j",
+  "title": "Caol leathan sells wool by barter again",
+  "era_year": 144,
+  "summary": "With the wool piling for want of ships, the merchants of Caol leathan begin quietly selling it inland by barter against the plain letter of the law, as their grandmothers had sold it before the first ship came down from the north.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:1"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0311"
+  ]
+ },
+ {
+  "id": "EV-6004k",
+  "title": "The forgotten agent of Caol bheag",
+  "era_year": 145,
+  "summary": "A' Chompanaidh's agent at the idle quay of Caol bheag sees one ship in a whole season and writes to Ros dhomhain that he has been forgotten. So far as Rathad na Mèinne ever hears, no answer comes back to him.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:301"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0312"
+  ]
+ },
+ {
+  "id": "EV-6004l",
+  "title": "Tormod Buabhall's word on a house with nothing left to guard",
+  "era_year": 145,
+  "summary": "Meeting Aonghas at the horse-fair after the ships have thinned to nothing, Tormod Buabhall tells him a house with no custom left keeps its gates shut for a different reason than before: a house that guards everything still has, behind its locked door, something it means to keep.",
+  "category": "humans",
+  "people": [
+   "Tormod Buabhall",
+   "Aonghas (of An Taigh-seinnse Mòr)"
+  ],
+  "places": [
+   "marker:5"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0310"
+  ]
+ },
+ {
+  "id": "EV-6004m",
+  "title": "Strake's commission read without the council's name",
+  "era_year": 146,
+  "summary": "At Ros dhomhain, Aonghas stands in the market square while Lionel Strake's commission is read from Taigh an Àrd-mhaoir's steps: it names A' Chompanaidh and Riaghaltas nan Coigreach in an Tìr Thall, and, for the first time in any Àrd-mhaor's commission, does not name Comhairle a' Chùraim at all.",
+  "category": "law",
+  "people": [
+   "Aonghas (of An Taigh-seinnse Mòr)",
+   "Lionel Strake"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0313",
+   "IV-0314"
+  ]
+ }
+]

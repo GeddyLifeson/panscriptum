@@ -1,0 +1,1862 @@
+{
+ "writer": 1,
+ "span": [
+  "VI-0001",
+  "VI-0011"
+ ],
+ "events": [
+  {
+   "after": "VI-0002"
+  },
+  {
+   "id": "EVII-1001",
+   "title": "The capital's lamps lit late and few",
+   "body": "With coal-fuel dear, the lamp-men of Cathair dhearg light the street-lamps later in the evening and put them out earlier in the night, and light fewer of them in the lanes behind the fish-quays and under the walls. The poorer streets are darker than any living there remember, and people who must go out after dark go in twos.",
+   "place": "burg:19",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0236",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0004",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1002",
+   "title": "The shires' chests counted",
+   "body": "The copyists of Leabharlann Muileann chaol finish the lists of the shires' record-chests called in over the years before, and Ailig mac Thormoid brings the chronicler the tally: one thousand and six chests. The chest of Seann Tarr, burned in its own yard, is entered as sent. The fourth floor of the new wing stands empty.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0226",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "ailig-mac-thormoid",
+    "beathag-nic-fhionnlaigh"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1003",
+   "title": "Coal-fuel sold above the fair's ceiling",
+   "body": "All summer the dealers at Fèill Muileann òg sell coal-fuel above the ceiling the court of the fair has fixed. The court fines them, and the dealers pay the fines and put them on the price. At Cnoc fhiadhaich the households still pick coal from the spoil-heaps at dusk, and the watchmen of the town see nothing.",
+   "place": "marker:38",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0236",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0237",
+     "type": "parallel"
+    },
+    {
+     "to": "VI-0005",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1004",
+   "title": "The black cake at the Caol mhòr market",
+   "body": "A Tuathach pedlar brings a cake of a black fuel made from pit waste to the market at Caol mhòr and shows it burning. Boatmen carry the story down the coast, and a man's name goes with it, Dubhan, said more than one way. Nothing of the fuel is bought or sold.",
+   "place": "burg:95",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0001",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#iii-of-the-carrier-s-word",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1005",
+   "title": "The carrier's word on the library road",
+   "body": "Dòmhnall mac Ailein, carrier on the library road, brings to Muileann chaol a drover's report, had from a boatman out of Caol mhòr, of a fuel made in the north from what the pits throw away, which burns like coal and stinks. Beathag nic Fhionnlaigh enters it in her own day-book with the man's name given two ways.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0001",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "domhnall-mac-ailein",
+    "beathag-nic-fhionnlaigh"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#iii-of-the-carrier-s-word",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1006",
+   "title": "The keeper's word at an Leabharlann",
+   "body": "Asked by the chronicler what is to be done about the report of a fuel in the north, Raghnall mac Mhuirich, keeper of Leabharlann Muileann chaol, answers that if the thing is real someone will write it down and send the writing, and that an Leabharlann keeps and does not chase.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0235",
+     "type": "person"
+    },
+    {
+     "to": "EVII-1005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich",
+    "beathag-nic-fhionnlaigh"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#iii-of-the-carrier-s-word",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1007",
+   "title": "The fuel burned at the Muileann chaol market",
+   "body": "On the market day in the yard of an Leabharlann a Tuathach pedlar of needles and lace burns a piece of the black fuel on the flagstone by the pump. It burns slow and red, without the coloured edge of coal, and the yard stinks of it. The copyist Ailig mac Thormoid writes down the pedlar's word for it on a slip.",
+   "place": "burg:246",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0076",
+     "type": "location"
+    },
+    {
+     "to": "EVII-1006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "ailig-mac-thormoid"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#iv-of-the-pedlar-at-the-ford",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1008",
+   "title": "The chronicler at the ford",
+   "body": "Beathag nic Fhionnlaigh walks down from an Leabharlann to the ford at Àth dhomhain after the pedlar, and learns from the ferryman's boy that he waded over at noon and went on towards the landing at Ceann dhomhain and the boats south. She does not see the fuel.",
+   "place": "burg:487",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0002",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "beathag-nic-fhionnlaigh"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#iv-of-the-pedlar-at-the-ford",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1009",
+   "title": "Beathag's letter to the maor of Caol mhòr",
+   "body": "The chronicler writes to the maor of Caol mhòr that a fuel made from pit waste is reported out of the north, and asks for a piece of it by the carrier, with a line saying where it came from and who made it. The letter goes north under the office's seal. No answer comes.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0002",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "beathag-nic-fhionnlaigh",
+    "domhnall-mac-ailein"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#v-of-the-letter-to-the-maor-and-the-foot-of-the-year",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1010",
+   "title": "The autumn rains on the library road",
+   "body": "At the end of an Dàmhair the first rains of the autumn come in from the west after the dry summer. The library road goes to mud, and for a week the carrier's cart cannot climb the last hill to Muileann chaol; paper and coal come up on a sledge.",
+   "place": "burg:246",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EVII-1009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "domhnall-mac-ailein"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#v-of-the-letter-to-the-maor-and-the-foot-of-the-year",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1011",
+   "title": "The coal of an Leabharlann cut",
+   "body": "The winter's coal for Leabharlann Muileann chaol comes up less than the year before and dearer. Raghnall mac Mhuirich orders no fire in the reading-room before the middle of an t-Samhain and none after dark, and the copyists who would work in the evenings take their copying home.",
+   "place": "marker:34",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0236",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-seven-coals"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich",
+    "ailig-mac-thormoid"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#v-of-the-letter-to-the-maor-and-the-foot-of-the-year",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1012",
+   "title": "The day of binding at Achadh dhomhain passes empty",
+   "body": "At Achadh dhomhain the masters of Comann nan Gualadairean sit an hour on the day of binding with the oath-stone before them, and no family brings a son or daughter to be bound. The clerk writes the day into the book with nothing under it.",
+   "place": "burg:135",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EVII-1011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1013",
+   "title": "Seann Tarr entered as sent to the fire",
+   "body": "On the keeper's order the copyists enter the shire chest of Seann Tarr, burned in the yard by its keeper rather than sent, as 'sent to the fire', so that the count of one thousand and six chests may stand whole.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "EVII-1012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich",
+    "ailig-mac-thormoid"
+   ],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1014",
+   "title": "The mill-race at Muileann chaol runs dry",
+   "body": "The dry year leaves the race at Muileann chaol too low to turn the paper-mill's wheel, and the wheel stands still through the autumn.",
+   "place": "burg:246",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EVII-1013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#ii-of-the-dry-summer-and-the-fourth-floor",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVII-1015",
+   "title": "Còmhrag Ceann leathan fought on dust",
+   "body": "Còmhrag Ceann leathan at Ceann leathan is fought in the dry year on a field worn to dust; the fair-wardens water the ground from the harbour with a chain of buckets between bouts, and the gate takes less than in any year its book remembers.",
+   "place": "burg:22",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "EVII-1014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/01_the_fire_banked_in_the_north.md#v-of-the-letter-to-the-maor-and-the-foot-of-the-year",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "after": "VI-0004"
+  },
+  {
+   "id": "EVII-1016",
+   "title": "Two surveyors named for the northern inquiry",
+   "body": "At Cathair mhòr Comhairle nam Mèinnean names two of its surveyors, Iain Ruadh mac Nèill, fifty-seven, and Seumas mac Eachainn, twenty-four, to go into the Tuathaich country and learn whether the new fuel burns as men say. The order, countersigned by a clerk of Comhairle na Rìoghachd, bids them report to the Comhairle and send a fair copy to the council's clerk at Cathair dhearg.",
+   "place": "burg:23",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "iain-ruadh-mac-neill",
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#i-of-the-order-and-the-northern-road",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1017",
+   "title": "The surveyors cross the boundary stones",
+   "body": "Riding north from Cathair dhearg by the old road, the two surveyors lie a night at the ale-house of Tobar dhomhain and cross the boundary stones on the northern road the next morning. No one at the stones asks their business. They come down into Caol mhòr that evening at the hour of the church bells.",
+   "place": "burg:308",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "iain-ruadh-mac-neill",
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#i-of-the-order-and-the-northern-road",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1018",
+   "title": "The maor of Caol mhòr gives the surveyors a letter",
+   "body": "The maor of Caol mhòr, who has asked after the fuel and been told nothing, gives the surveyors a letter to the town. For four days they call on the harbour master, the yards and the market. Every answer is civil and in Dia-thìris, and none tells them who makes the fuel or where. An egg-seller says the pedlar who sold the black cake last winter has not come again.",
+   "place": "burg:95",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "iain-ruadh-mac-neill",
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#ii-of-the-harbour-at-caol-mhor",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1019",
+   "title": "The fuel shown burning in the mill yard at Doire ghlas",
+   "body": "Martha Greaves, manager of the great mill of Tional nan Tuathach at Doire ghlas, lets the surveyors see the new fuel burning under the scouring coppers in her yard. Two cakes hold three coppers at the boil through a morning. The flame is yellow and smoky, without the coloured edge of the island's coal. She gives them a cake to take away and will not say who makes it.",
+   "place": "burg:209",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "iain-ruadh-mac-neill",
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#iii-of-the-mill-yard-at-doire-ghlas",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1020",
+   "title": "The surveyors burn a cake at Caol mhòr",
+   "body": "In their lodging over a harbour inn at Caol mhòr the surveyors burn half the cake from Doire ghlas in the grate and time it by Iain Ruadh mac Nèill's watch. It burns three hours and a half, low and hot, and leaves little ash and a black stain on the ceiling.",
+   "place": "burg:95",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "iain-ruadh-mac-neill",
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#iv-of-the-three-clauses",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1021",
+   "title": "Iain Ruadh mac Nèill's draft set aside",
+   "body": "Iain Ruadh mac Nèill drafts the report with a closing paragraph that calls the fuel unproven, since the surveyors were shown neither the making nor the maker. Seumas mac Eachainn will not sign it, and writes in its place three plain clauses in Dia-thìris over the old man's account of the road and the yard. Both sign the report, the elder first.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "iain-ruadh-mac-neill",
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#iv-of-the-three-clauses",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1022",
+   "title": "The fair copy given to the council's clerk",
+   "body": "Seumas mac Eachainn puts the fair copy of the surveyors' report into the hands of the council's clerk at Cathair dhearg and is given a receipt. He waits upon Comhairle na Rìoghachd nearly the whole of an Dàmhair, asking every second morning whether he is wanted. He is not called.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#i-of-the-order-and-the-northern-road",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1023",
+   "title": "The surveyors' report filed without minute",
+   "body": "At Cathair mhòr the master of Comhairle nam Mèinnean reads the surveyors' report at his table and passes it to his chief clerk, who files it among the surveys of the year. No minute is made of it and no question asked. Iain Ruadh mac Nèill is sent back to measure the water in the lower galleries of An Sloc Mòr.",
+   "place": "burg:23",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-seven-coals"
+   ],
+   "people": [
+    "iain-ruadh-mac-neill"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#v-of-the-unlit-lamps",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1024",
+   "title": "A lamp-lighter's family refused at the council house",
+   "body": "The wife of a lamp-lighter of the south bank of Cathair dhearg, whose husband has lit its lamps nineteen years, brings a petition to the council house asking any work of the town for him now the lamps are to go unlit. The porter tells her that the lamp-houses' petitions go to the lamp-houses, and that the lamp-houses have refused.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/02_the_two_surveyors.md#v-of-the-unlit-lamps",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1025",
+   "title": "A robbery on the bridge in the first dark night",
+   "body": "On the first night the poorer streets of the capital are left dark, a carter is knocked down on Drochaid Cathair dhearg and his purse taken. The thief runs into the unlit lanes of the south bank. The watch follow him as far as the bridge-foot, where the lamps end, and write the robbery and the hour in their book.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/02_the_two_surveyors.md#v-of-the-unlit-lamps",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1026",
+   "title": "The surveyors lie at Tobar dhomhain",
+   "body": "On the northern road Seumas mac Eachainn and Iain Ruadh mac Nèill lie a night at Tobar dhomhain, a well, a farm, a smithy and an ale-house, the old surveyor in the one bed and the young one on the bench.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seumas-mac-eachainn",
+    "iain-ruadh-mac-neill"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#i-of-the-order-and-the-northern-road",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1027",
+   "title": "Harker of Caol mhòr lodges Comhairle nam Mèinnean's men",
+   "body": "Comhairle nam Mèinnean's surveyors lodge four days at Harker's inn on the harbour at Caol mhòr. They are answered civilly everywhere, in good Dia-thìris, and told nothing of the fuel.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "EVII-1026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "seumas-mac-eachainn",
+    "iain-ruadh-mac-neill"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#ii-of-the-harbour-at-caol-mhor",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1028",
+   "title": "Iain Ruadh burns a coal of the mountain beside the cake",
+   "body": "In the grate of the inn at Caol mhòr Iain Ruadh mac Nèill lays a thumb of An Sloc Mòr coal from his sample-tin on the embers of the northern cake, to show the young surveyor the coloured edge the new fuel lacks.",
+   "place": "burg:95",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "iain-ruadh-mac-neill",
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#iv-of-the-three-clauses",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1029",
+   "title": "Seumas mac Eachainn counts the unlit lamps",
+   "body": "Walking home through the south bank of Cathair dhearg on the night the lamp-houses' order is pinned up, the surveyor counts a hundred and forty-three dark lamps in the lanes, and writes the sum in his gallery-book.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "seumas-mac-eachainn"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#v-of-the-unlit-lamps",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1030",
+   "title": "Comhairle nam Mèinnean's report bound in grey board",
+   "body": "The surveyors' report on the northern fuel is bound in Comhairle nam Mèinnean's grey board and laid before the council with a single sample-tin of the cake set on its cover.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "seumas-mac-eachainn",
+    "iain-ruadh-mac-neill"
+   ],
+   "told_in": "book/02_the_two_surveyors.md#iv-of-the-three-clauses",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1031",
+   "title": "The bath-house boilers let go cold",
+   "body": "Comann nan Gualadairean' bath-house at Fuarain Theth Muileann ruadh below Muileann ruadh lets its coal boilers go cold for the summer; the keeper finds the springs alone warm enough for the sick, and the saving pays for a new roof on the long room.",
+   "place": "burg:229",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EVII-1030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/02_the_two_surveyors.md#i-of-the-order-and-the-northern-road",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EVII-1032",
+   "title": "Black cake by the basket at Cnoc ghorm",
+   "body": "At the market of Cnoc ghorm, the inland seat of the Tuathaich, the black cake of the north is sold by the basket beside the peat, a basket for the price of a hen, and the Dia-thìrich factors who buy wool there take none of it home.",
+   "place": "burg:142",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0001",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/02_the_two_surveyors.md#iii-of-the-mill-yard-at-doire-ghlas",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "after": "VI-0007"
+  },
+  {
+   "id": "EVII-1033",
+   "title": "Cùirt na Fèille gives up its coal ceiling",
+   "body": "On the day of the last cartload Fionnlagh mac Gille-Chaluim, justice of Cùirt na Fèille at Muileann òg, scrapes the coal ceiling off the painted board at the toll-house door, since no seller keeps it. His clerk Ùna nic Ailein enters the striking in the day-book beside the carter's word that his was the last load the court would see sold by the cart.",
+   "place": "marker:38",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0236",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "fionnlagh-mac-gille-chaluim",
+    "una-nic-ailein",
+    "uilleam-mac-dhughaill"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#i-of-the-last-cartload",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1034",
+   "title": "The coal carter of Rathad na Fèille sells his cart",
+   "body": "Uilleam mac Dhùghaill, who has carried coal down Rathad na Fèille from the yards of Cathair dhearg for thirty-one years, as his father did before him, sells his cart to a grain carrier of Muileann ghlas. He keeps the horse and comes no more to the fair.",
+   "place": "burg:151",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "uilleam-mac-dhughaill"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#i-of-the-last-cartload",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1035",
+   "title": "Coal sold by the sack at the toll-house step",
+   "body": "A man of Cnoc leathan brings eleven sacks of coal on a pack-horse to Muileann òg and sells them one at a time from the step of the toll-house. Cùirt na Fèille allows it, having no rule against it, and enters eleven sales in eleven lines. Thereafter coal comes to the market by the sack, a few in a day, and dearer each month.",
+   "place": "burg:151",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "una-nic-ailein"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#ii-of-the-sack-and-the-lump",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1036",
+   "title": "The first coal-lump sold for an altar at the fair",
+   "body": "On Bealltainn a custodian's boy from a small house of Deas-ghnàth a' Ghuail in the western hills walks to Muileann òg for a lump of the vein's coal to light the feast-fire, Comhairle nam Mèinnean sending none to houses of its size. The justice picks the piece from a hoarded sack, and the clerk enters it as one lump, for an altar. Four more such sales follow within the year.",
+   "place": "marker:38",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "una-nic-ailein",
+    "fionnlagh-mac-gille-chaluim"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#ii-of-the-sack-and-the-lump",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1037",
+   "title": "Ùna nic Ailein's letter of the crowning",
+   "body": "Ùna nic Ailein, clerk of Cùirt na Fèille, goes up to Cathair dhearg with half of Muileann òg to see Cathal crowned by Macha's rite, and writes that night to the justice what the street saw: the regalia, the grey mare and the black horse at the temple steps, the king crowned without a word. The letter is kept among the court's papers.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "VI-0006",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "una-nic-ailein",
+    "cathal",
+    "fionnlagh-mac-gille-chaluim"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iii-of-the-crowning-at-cathair-dhearg",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1038",
+   "title": "The coal ink for the new dies",
+   "body": "The mint at Cathair dhearg buys coal of the vein from Comhairle nam Mèinnean to grind the seal-ink for the new reign's dies. Gille-Easbaig Bàn, who cuts them, reckons on the back of the answering letter that the price of the little pot of ink is a year of his wages. The mint pays it, and the recipe on the card by the grinding-stone is kept.",
+   "place": "burg:19",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0007",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0024",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "gille-easbaig-ban"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iii-of-the-crowning-at-cathair-dhearg",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1039",
+   "title": "Cathal's coin comes to the fair",
+   "body": "Through an t-Sultain the first coin of the new dies comes down Rathad na Fèille in the purses of carriers and drovers. By the opening of Fèill Muileann òg half the coin that crosses the court's table bears Cathal's head, with the coal ink dark at its edge.",
+   "place": "marker:38",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0007",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "una-nic-ailein"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iv-of-the-new-dies-and-the-ruled-line",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1040",
+   "title": "The coal-sellers' row stands empty at the fair",
+   "body": "Fèill Muileann òg runs eleven days and is the thinnest in its clerk's memory. The coal-sellers' row, which once ran the length of the lower field with its wagons, has four booths, two of them selling turf. The booths go dark early for want of fuel to keep a brazier, and Cnoc leathan lets fewer beds.",
+   "place": "marker:38",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0088",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "una-nic-ailein"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iv-of-the-new-dies-and-the-ruled-line",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1041",
+   "title": "Black cake entered at Cùirt na Fèille",
+   "body": "On the northern day of the fair a Tuathach pedlar brings a creel of black cakes made from pit waste. Burned in the court-room stove, it glows hot and stinks. The justice will not have it entered as coal, and the clerk Ùna nic Ailein rules a new page for black cake, of the north, and enters its first sale, to a baker of Muileann ghlas, with the maker not named.",
+   "place": "marker:38",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0001",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0002",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "una-nic-ailein",
+    "fionnlagh-mac-gille-chaluim",
+    "coinneach-liath"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iv-of-the-new-dies-and-the-ruled-line",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1042",
+   "title": "The foot of Cùirt na Fèille's year",
+   "body": "In the last week of an Dàmhair the clerk of Cùirt na Fèille reckons the year. Under the totals, where the court has always written the weather and the roads, she writes that coal was sold that year by the cart, by the sack and by the lump, and a new fuel once, from the north.",
+   "place": "marker:38",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "una-nic-ailein"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iv-of-the-new-dies-and-the-ruled-line",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1043",
+   "title": "A bough hung on a dark lamp-post",
+   "body": "On the evening of the crowning someone hangs a green bough from the feast of Lùnastal on one of the unlit lamp-posts below the tannery in Cathair dhearg.",
+   "place": "burg:19",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iii-of-the-crowning-at-cathair-dhearg",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1044",
+   "title": "Cùirt na Fèille's winter sitting",
+   "body": "Cùirt na Fèille at Muileann òg sits its winter day with three cases of short weight in lamp-fuel and none in coal, the first year the book shows it so.",
+   "place": "burg:151",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "fionnlagh-mac-gille-chaluim"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#i-of-the-last-cartload",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1045",
+   "title": "Jugged buffalo dearer at Doire shean",
+   "body": "Am Buabhall Fortanach at Doire shean puts the price of its jugged buffalo up by a third, the pot needing a day's slow fire and the coal for it dearer every quarter; the harbour's shipmasters eat it all the same.",
+   "place": "burg:324",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-1044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "oighrig-nic-iain"
+   ],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#iv-of-the-new-dies-and-the-ruled-line",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1046",
+   "title": "Carp steamed over wood at Cuan chrom",
+   "body": "The kitchen of An Taigh-seinnse Mòr above Cuan chrom goes back to steaming its carp over wood from the old coal road's thorn hedges, the cook saying the fish never knew the difference.",
+   "place": "burg:418",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-1045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#i-of-the-last-cartload",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EVII-1047",
+   "title": "Fewer carts past An Taigh-seinnse Reòta",
+   "body": "The ostler of An Taigh-seinnse Reòta above Muileann fhada counts through the year a third fewer coal carts on the north road than the year before, and the landlord shuts one of his two stable yards.",
+   "place": "burg:74",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EVII-1046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/03_the_last_cartload_and_the_crowning.md#i-of-the-last-cartload",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "after": "VI-0010"
+  },
+  {
+   "id": "EVII-1048",
+   "title": "Comann nan Sciobairean leases the salt-sheds at Seann Skell",
+   "body": "The company of shipmasters takes a lease of the old salt-sheds on the east side of the harbour at Seann Skell on the southern coast. The sheds have stood empty since the humans' time, the salt trade having gone east, and the town takes the rent gladly. The company brings slack and spoil down the coast in its own hulls and stacks it in the first shed.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1049",
+   "title": "Peigi nic Ascaill sees the works at Seann Skell",
+   "body": "Peigi nic Ascaill, engineer to Comhairle nan Taighean-solais, comes down from Cathair dhearg to see the dubhan works at Seann Skell on the southern coast. She is shown the heaps, the retorts and a lamp burning the new fuel, and the making-shed is kept locked. When she asks where the company learned the making, its master gives her wine.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0003",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1050",
+   "title": "Tuathaich hands at the southern works",
+   "body": "The dubhan works at Seann Skell on the southern coast keep Tuathaich hands at the retorts, among them Joe Ashby of Caol mhòr. Five work there in the spring and nine by midsummer. It is rare to see Tuathaich working in the south, and the town's foremen say only that the northern hands know the stuff.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1051",
+   "title": "Peigi nic Ascaill's first report on the new fuel",
+   "body": "Peigi nic Ascaill reports to Comhairle nan Taighean-solais that the new fuel burns clean enough for a lamp and may serve for the five lights, and that the works at Seann Skell will not say how it is made. The report is filed. No answer is written.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1052",
+   "title": "The chimney of Obair-dhubhain Seann Skell finished",
+   "body": "The brick chimney of Obair-dhubhain Seann Skell is finished at the end of the row of salt-sheds. Its smoke lies along the shore on windy days, and the fishwives of the harbour say the herring taste of it. The town petitions the maor against the reek; the maor answers that the company pays its harbour-due, and the petition goes no further.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#ii-of-the-making-shed",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1053",
+   "title": "A retort bursts at the southern works",
+   "body": "In the summer a retort of the dubhan works at Seann Skell on the southern coast splits along its lower seam, and a hand of the town is scalded on the arm. Peigi nic Ascaill, in the town for the lantern-glass of Taigh-solais Tobar dhearg, draws a baffle for the furnaces and sends it to the works unsigned. The company fits it to every furnace in the row.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "joe-ashby"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#ii-of-the-making-shed",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1054",
+   "title": "New glass set in the lantern at Tobar dhearg",
+   "body": "The lantern of Taigh-solais Tobar dhearg on the southern cape is fitted with new glass blown at Seann Skell from the white sand of its own shore, at half the price of the capital's glass. Peigi nic Ascaill orders it in an t-Ògmhios and sees it set in an t-Samhain. The tower still burns the island's coal.",
+   "place": "marker:16",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-1053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1055",
+   "title": "Alasdair mac Ìomhair reads his letter in Brìde's house",
+   "body": "At Seann Skell on the southern coast Alasdair mac Ìomhair, Àrd-choimheadaiche, reads Litir an Àrd-choimheadaiche himself at the evening lamp in the great house of Òrd Bhrìde, on the day it is sent to every house of the order. The hall is full. Many of those who hear it already burn dubhan lamps at home, bought off the works' carts that summer.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0009",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "alasdair-mac-iomhair",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#iii-of-litir-an-ard-choimheadaiche",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1056",
+   "title": "The school at Caol shean disputes Litir an Àrd-choimheadaiche",
+   "body": "The school of Feallsanachd an Fhèidh at Caol shean writes that a fuel made from the vein's own waste cannot be called wholly not coal, since the spoil has lain against the seam for a thousand years. The houses of Òrd an t-Seabhaig round Cnoc bheag write that they did not ask the Àrd-choimheadaiche's opinion and are glad to have it.",
+   "place": "burg:197",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0009",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#iii-of-litir-an-ard-choimheadaiche",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1057",
+   "title": "The south-coast boats buy dubhan at Seann Skell",
+   "body": "The fishing boats of the south coast come in to Seann Skell from Tobar dhearg and the coves along the shore to load the works' dubhan for their galley-stoves and riding-lamps. It is cheaper than coal by a third. For five years they have burned driftwood and fish-oil, and more than one boat has gone on the rocks for want of a lamp that would stay lit in a gale.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1056",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#iv-of-the-twenty-barrels",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1058",
+   "title": "The first dubhan barrels go to the lamp-houses of Cathair dhearg",
+   "body": "Eleven carts of six barrels each leave the works at Seann Skell on the southern coast for the lamp-houses of Cathair dhearg, bought on the lamp-houses' account. They are the first dubhan landed at the capital's lamp-houses, for the poorer streets that have been left dark three winters to save coal.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#iv-of-the-twenty-barrels",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1059",
+   "title": "Peigi nic Ascaill's twenty barrels",
+   "body": "Peigi nic Ascaill buys twenty barrels of dubhan at the works of Comann nan Sciobairean at Seann Skell, entered in the company's ledger to Comhairle nan Taighean-solais on account, without her masters' leave. Joe Ashby chalks a lantern on each barrel. That night she writes asking leave to run a trial of the fuel in a spare lamp below one of the lights for a hundred nights.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1058",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "joe-ashby"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#iv-of-the-twenty-barrels",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1060",
+   "title": "The black ring of the shipmasters",
+   "body": "The hulls of Comann nan Sciobairean bring spoil down the coast to the southern Seann Skell with a black ring painted on their bows, the company's mark.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1059",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1061",
+   "title": "The locked making-shed",
+   "body": "At the works at the southern Seann Skell the shed where the dubhan is finished is kept under a padlock the size of a man's fist, opened only for a man with a lamp to go in and out.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1060",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1062",
+   "title": "Joe Ashby chalks the lights' mark",
+   "body": "At the southern works Joe Ashby rolls out twenty barrels held for the engineer of the lights and chalks on each head a square with a flame inside it, the first mark Comhairle nan Taighean-solais ever had.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-1061",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/04_the_shipmasters_works.md#iv-of-the-twenty-barrels",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1063",
+   "title": "The salt-boilers of Caol ìseal try the cake",
+   "body": "The salt-boilers of Caol ìseal try a cart of the northern black cake under one pan of the low strait; it boils the brine as well as coal and fouls the pan less, and two masters of the pans send north for more.",
+   "place": "burg:86",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-1062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#i-of-the-salt-sheds",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1064",
+   "title": "Watch kept from the Cnoc bhàn harbour",
+   "body": "The Tuathaich of Cnoc bhàn keep the pirate watch from their harbour wall through the dark months with fires of the black cake, which burn longer on the wall than driftwood and need less carrying.",
+   "place": "burg:73",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EVII-1063",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#iv-of-the-twenty-barrels",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EVII-1065",
+   "title": "The ferry of Àth gharbh loses its coal cargo",
+   "body": "The ferry at the walled ford of Àth gharbh, which had carried coal across for the eastern farms every week since its making, carries none after the spring; its ferryman takes grain and passengers and raises his fare.",
+   "place": "burg:50",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-1064",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/04_the_shipmasters_works.md#iv-of-the-twenty-barrels",
+   "era_between": [
+    4,
+    4
+   ]
+  }
+ ]
+}

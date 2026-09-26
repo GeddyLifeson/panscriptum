@@ -1,0 +1,134 @@
+[
+ {
+  "title": "The store-master's list",
+  "era_year": 558,
+  "summary": "At Taigh na Fèithe Raghnall Ruadh hands the store-master Eòghann mac Dhùghaill a board naming every hearth and temple in the shires that stand against him and orders none of them measured a handful. The carriers who had come up the white road go down again with empty baskets.",
+  "category": "coal",
+  "people": [
+   "Raghnall Ruadh",
+   "Eòghann mac Dhùghaill"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0109",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The temple fires of the cold shires go out",
+  "era_year": 558,
+  "summary": "Without the measured handful, hearths and temple fires across the shires that stood for Catrìona or Dùghall go grey through Dubhlas, among them the Macha temple at Cathair mhòr where the burned households of Doire mhin have wintered on charity, Seònaid nic Coinnich's family among them.",
+  "category": "faith",
+  "people": [
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0109",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The verse of the cold shires",
+  "era_year": 559,
+  "summary": "A verse with no name to it goes about the cold shires that winter, sung over mended hearths and unmended ones alike: that no battle was lost, only the fire. It is remembered afterward as the first telling that named what Raghnall's refusal had done.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0109",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The pact of Catrìona and Dùghall",
+  "era_year": 559,
+  "summary": "Dùghall Garbh comes to Catrìona nic Aonghais's camp with six men and no herald and offers to join their hosts against Raghnall Ruadh, saying that whichever of them wins the crown after this, it must not be a crown that can shut a door on a shire's hearths.",
+  "category": "rulers",
+  "people": [
+   "Catrìona nic Aonghais, Catrìona Bhuadhach",
+   "Dùghall Garbh"
+  ],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [
+   "the-seven-houses",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0110",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Taigh na Fèithe opened",
+  "era_year": 560,
+  "summary": "The morning after Raghnall Ruadh falls at Muileann chrom, his own custodians strike the seal from the store without waiting to be told which claimant now holds the mountain, and the carriers go up the white road again.",
+  "category": "coal",
+  "people": [
+   "Eòghann mac Dhùghaill"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0110",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The first hearth relit",
+  "era_year": 560,
+  "summary": "Word reaches Catrìona at Taigh na Fèithe that the temple fire at Cathair mhòr, built up all winter from borrowed turf and hedge-wood, has caught at last on coal from a carrier's basket, the first of the cold shires' hearths to burn again.",
+  "category": "coal",
+  "people": [
+   "Catrìona nic Aonghais, Catrìona Bhuadhach",
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0110",
+    "type": "sequel"
+   }
+  ]
+ }
+]

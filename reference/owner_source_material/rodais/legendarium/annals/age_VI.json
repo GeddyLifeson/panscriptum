@@ -28,7 +28,7 @@
   "id": "V-0004",
   "canon": false,
   "title": "The hungry year at Doire ghlas",
-  "body": "The stores that came over the water from an Tìr Thall come no more, and in their first year alone the northern settlements go short of grain. Tuathaich memory, taken down long after, puts the dead at Doire ghlas above two hundred. The Dia-thìrich made no count.",
+  "body": "The stores that came over the water from an Tìr Thall come no more, and in their first year alone the northern settlements go short of grain. Tuathaich memory puts the dead at Doire ghlas above two hundred. The Dia-thìrich made no count.",
   "place": "burg:209",
   "kind": "disaster"
  },
@@ -84,8 +84,8 @@
  {
   "id": "V-0011",
   "canon": false,
-  "title": "The ship sent west",
-  "body": "The council sends a ship out past the western capes to seek the crossing the humans used. She returns after a month of open water with nothing to tell: no land, no ship, no sign of the passage. No second ship is sent. The priests of Manannan at Seann Skell say that the lord of the sea has shut the western sea again, as they have prayed him to since the Crossing.",
+  "title": "The ship sent north",
+  "body": "The council sends a ship out past the north-western capes and north-about to seek the crossing the humans used. She returns after a month of grey water with nothing to tell: no land, no ship, no sign of the passage. No second ship is sent. The priests of Manannan at Seann Skell say that the lord of the sea has shut the eastern sea again, as they have prayed him to since the Crossing.",
   "place": "feature:1",
   "kind": "voyage"
  },
@@ -184,7 +184,7 @@
   "id": "V-0018",
   "canon": false,
   "title": "The dead of the Great Wave counted",
-  "body": "Relief parties from Cathair dhearg come to Cuan dhearg on the southern coast and count the dead of the three settlements at a little over nine hundred. The harbour of Cuan dhearg is gone, and its boats are found in the fields behind the town. The wave has run on up the gulf as far as Ros gharbh, the seat of its shire, broken its quays and cast the gulf's fishing fleet on the headland. The town stands high and loses few of its people, but nearly every boat.",
+  "body": "Relief parties from Cathair dhearg come to Cuan dhearg on the southern coast and count the dead of the three settlements at a little over forty. The harbour of Cuan dhearg is gone, and its boats are found in the fields behind the town. The wave has run on up the gulf as far as Ros gharbh, the seat of its shire, broken its quays and cast the gulf's fishing fleet on the headland. The town stands high and loses few of its people, but nearly every boat.",
   "place": "burg:190",
   "kind": "disaster"
  },
@@ -363,7 +363,7 @@
   "id": "V-0036a",
   "canon": false,
   "title": "The head-due first collected",
-  "body": "The maoir gather the head-due for the first time, on the households the census counted, at eighteen purses on every hundred thousand heads, and take it with the harbour dues.",
+  "body": "The maoir gather the head-due for the first time, on the households the census counted, at eighteen purses on every five thousand heads, and take it with the harbour dues.",
   "place": "burg:19",
   "kind": "law",
   "between": [
@@ -1360,7 +1360,7 @@
   "id": "V-0147",
   "canon": false,
   "title": "The Tuathaich wool carts",
-  "body": "The Rail Board will not carry goods sent by the Moot, pleading the fair's rule on factors. The wool of the north goes south to Muileann òg by cart, a week on the road, and is sold by factors when it comes.",
+  "body": "The Rail Board will not carry goods sent by the Moot, pleading the fair's rule on factors. The wool of the north goes south to Muileann òg by cart, five days on the road, and is sold by factors when it comes.",
   "place": "burg:234",
   "kind": "trade"
  },

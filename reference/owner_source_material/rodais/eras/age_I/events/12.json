@@ -1,0 +1,240 @@
+[
+ {
+  "title": "Aodh born at Tobar dhìreach",
+  "era_year": 1344,
+  "summary": "Aodh is born into Clann a' Chlachair at Tobar dhìreach, into a hearth that has by then said Tòimhseachan a' Choimhdich at every recital for near five hundred years without once carrying gual òir to the sea it is said to answer.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A traveller names the sea to Aodh",
+  "era_year": 1353,
+  "summary": "A trader up from the eastern farms speaks in passing of grey water without a far shore, and Aodh, nine years old, asks him plainly whether he has seen it; it is the first time the boy understands the sea for more than a word said at the recital.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Aodh tells Muirgheal he means to walk north",
+  "era_year": 1364,
+  "summary": "At twenty Aodh tells Muirgheal, keeper of Poit an Teine at Tobar dhìreach, that he means to carry gual òir to the sea before another generation lets Tòimhseachan a' Choimhdich lie; she does not laugh, and asks only that he wait until the harvest is in.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Aodh sets out for the northern shore",
+  "era_year": 1370,
+  "summary": "With the harvest under thatch and the beasts driven in from the high pasture, Aodh sets out alone from Tobar dhìreach with all seven coals of the vein wrapped against his chest, walking north across the moor toward a sea he has never seen.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Aodh's first sight of the sea",
+  "era_year": 1370,
+  "summary": "Aodh comes over the last rise of the moor and stands before the open sea for the first time in his life, understanding only then, by its slow endless heave, why no telling at any hearth had ever thought the word alone enough to carry it.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:84"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Gual òir takes fire on the sea",
+  "era_year": 1370,
+  "summary": "Aodh throws na Seachd Guail of the vein into the sea one by one from the northern shingle; six sink as any coal sinks, and the coal with the sheen of gold takes fire on the swell and burns gold until a breaker rolls it under.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:84"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "same_day"
+   }
+  ]
+ },
+ {
+  "title": "Muirgheal weeps at the telling of the gold",
+  "era_year": 1370,
+  "summary": "Hearing Aodh's account at the hearth of Tobar dhìreach, old Muirgheal weeps before the gathered kin, near five hundred years since the grove, and says that Tòimhseachan a' Choimhdich is proved true: each coal answers to its own element.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The name gual òir said at the recital",
+  "era_year": 1370,
+  "summary": "For the first time since the mason's own well a new line is added to the recital after the fathers' names, telling of gual òir's lighting on the northern sea; from that night the piece is called gual òir at every telling that carries it on.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of gual òir spreads from Tobar dhìreach",
+  "era_year": 1370,
+  "summary": "Households a half-day's walk and more from Tobar dhìreach send someone to ask whether the telling of gual òir is true, and for days Poit an Teine's door stands open near the whole day to let in one more household wanting to hear it from Aodh's own mouth.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Aodh tries the six coals against ground, water and air",
+  "era_year": 1375,
+  "summary": "In the years after the gold, Aodh carries the six unanswered coals to hilltop, black peat and standing rainwater within a day's walk of Tobar dhìreach, and once holds one to the bare air in a hard frost, and none of them answers him.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Muirgheal dies at Tobar dhìreach",
+  "era_year": 1381,
+  "summary": "Muirgheal, keeper of Poit an Teine, dies an old woman having lived to hear the sea answer and wept for it; she is carried out and laid as her own mother was before her, the hearth-fire kept burning the whole night through.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Aodh dies at Tobar dhìreach",
+  "era_year": 1412,
+  "summary": "Aodh dies at eight-and-sixty years with the six unanswered coals still kept under his own hand; the recital adds his name after the fathers' names down from Neachdan, and tells that six of the seven still wait to be answered.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "New pieces of the vein found in the stream-bank",
+  "era_year": 1420,
+  "summary": "A boy of Aodh's own house, following a strayed goat below Tobar dhìreach, finds the black vein showing bare in a stream-bank cut fresh by a hard season's rain, and the line for the first time since Neachdan holds more coal than the seven old pieces kept in the leather bag.",
+  "category": "coal",
+  "people": [],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017a",
+    "type": "legacy"
+   }
+  ]
+ }
+]

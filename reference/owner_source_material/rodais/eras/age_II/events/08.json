@@ -1,0 +1,182 @@
+[
+ {
+  "title": "Word of Beathan's birth reaches the river households",
+  "era_year": 591,
+  "summary": "News that Somhairle and Cairistìona have a son, Beathan, and that the boy will be kept among Clann na Ceiste in the high pastures rather than brought to the hill, travels down every settled valley by the ordinary traffic of drovers and salt-carriers. It reaches Iain mac Fhearchair's household on the Abhainn naomh the same week as the shearing.",
+  "category": "rulers",
+  "people": ["Beathan mac Shomhairle"],
+  "places": ["burg:315"],
+  "threads": ["line-of-aisling"],
+  "master_links": [{"to": "I-0097", "type": "parallel"}]
+ },
+ {
+  "title": "The hill-folk of the upper Abhainn naomh first say Seann Skell",
+  "era_year": 591,
+  "summary": "Iain mac Fhearchair's generation on the river inherits, without ever deciding it as a household, the custom of naming the Seann-Dhaoine's old places with the plain word for old set before them. Seann Dunn, Seann Chwen and Seann Skell pass into ordinary speech as though no other names had ever been possible.",
+  "category": "trade",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0097", "type": "cause"}]
+ },
+ {
+  "title": "Iain forbids his household the tower before any of them have seen it",
+  "era_year": 595,
+  "summary": "Iain mac Fhearchair, recalling a single visit to the coast as a young man, tells his daughter Marsaili and the rest of his household that no good comes of taking up what the Seann-Dhaoine left lying, and names the tower at the harbour's mouth as a thing never to be entered, years before the household has any plan of settling near it.",
+  "category": "faith",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0097", "type": "cause"}]
+ },
+ {
+  "title": "Three river households crowd one bend",
+  "era_year": 620,
+  "summary": "Grazing on the middle Abhainn naomh, held by one household in Iain's father's day, now feeds three grown from it, and the quarrels over the bend grow more frequent than the grass allows for. Iain begins to speak of the empty coast as a way out of them.",
+  "category": "land",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:315"],
+  "threads": [],
+  "master_links": [{"to": "I-0098", "type": "cause"}]
+ },
+ {
+  "title": "Iain calls the household to the coast",
+  "era_year": 627,
+  "summary": "On a dark-half evening Iain mac Fhearchair tells his household plainly that he means to move it to the empty harbour at Seann Skell before another winter turns, judging a shore with good landing and no claimant better than another forty years of quarrelling over the river bend.",
+  "category": "land",
+  "people": ["Marsaili nic Iain", "Tearlach mac Ghilleonain"],
+  "places": ["burg:315"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "cause"}]
+ },
+ {
+  "title": "Eleven souls come down the Abhainn naomh",
+  "era_year": 628,
+  "summary": "Iain mac Fhearchair's household, eleven souls with ox-carts and what beasts they can drive, follows the Abhainn naomh two days further than any of them has gone, and comes out above the tide to find the harbour at Seann Skell standing exactly as the traders had always described it: empty, the old mole running into the flood, the tower blind-walled by the water.",
+  "category": "land",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "answers"}]
+ },
+ {
+  "title": "Iain marks the ground and forbids the tower again",
+  "era_year": 628,
+  "summary": "Before the household sleeps its first night at the harbour, Iain walks the ground himself and sets a line of stones marking where a house may be built and where it must not, keeping every wall a household's length from the nearest standing Seann-Dhaoine wall and the whole camp further still from the tower.",
+  "category": "faith",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "sequel"}]
+ },
+ {
+  "title": "The household mends the mole with stone it did not take",
+  "era_year": 628,
+  "summary": "The household repairs the landward stretch of the old mole with stone gathered fresh from the shore, never lifting a stone already laid by the Seann-Dhaoine, a distinction Iain draws carefully and his children keep after him without ever quite putting into words.",
+  "category": "trade",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "sequel"}]
+ },
+ {
+  "title": "A winter storm breaks the seaward mole",
+  "era_year": 629,
+  "summary": "In the first days of an Fhaoilleach a storm out of the west drives the tide higher up the shingle than any of the household remembers from their river years, and breaks the oldest, untouched stretch of the mole, scattering its stones along the shore.",
+  "category": "land",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "sequel"}]
+ },
+ {
+  "title": "Iain refuses to build with the broken stone",
+  "era_year": 629,
+  "summary": "Two of Iain's sons-in-law argue that stone the sea itself has thrown down is no longer bound by the household's rule against taking up Seann-Dhaoine work. Iain refuses them, holding that the storm's breaking gives the household no claim the storm did not also give, and the mole is mended instead with new-quarried stone.",
+  "category": "faith",
+  "people": ["Marsaili nic Iain", "Tearlach mac Ghilleonain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "sequel"}]
+ },
+ {
+  "title": "The mole stands whole again",
+  "era_year": 631,
+  "summary": "After two summers of quarrying and hauling stone down from the higher ground, the mended mole stands sheltered end to end, and no household on that shore again seriously argues for lifting a Seann-Dhaoine stone to lay it elsewhere.",
+  "category": "trade",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "legacy"}]
+ },
+ {
+  "title": "The first hill-folk boats put out from Seann Skell",
+  "era_year": 640,
+  "summary": "Tearlach mac Ghilleonain and two of Iain's grandsons build the first boats the harbour has held since it was last worked, small hide craft trusted for the first time to open tide, and Marsaili herself goes out in the first of them on a calm morning her father judges safe.",
+  "category": "trade",
+  "people": ["Marsaili nic Iain", "Tearlach mac Ghilleonain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "legacy"}]
+ },
+ {
+  "title": "Marsaili sees the mole's true shape from the water",
+  "era_year": 640,
+  "summary": "Looking back at the harbour from beyond the mole's mended length, Marsaili understands for the first time that the household's hurried repairs had done little more than follow, stone for stone, a plan the Seann-Dhaoine had already laid according to the set of the tide, and tells her father so that evening.",
+  "category": "faith",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "answers"}]
+ },
+ {
+  "title": "Iain mac Fhearchair dies at the harbour",
+  "era_year": 649,
+  "summary": "Iain mac Fhearchair, who led his household down from the river and set the rule against touching what the Seann-Dhaoine left standing, dies at Seann Skell eleven years before the sea takes its first life among his people, and his daughter Marsaili holds the household in his place.",
+  "category": "land",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "sequel"}]
+ },
+ {
+  "title": "The sea takes its first life at Seann Skell",
+  "era_year": 660,
+  "summary": "A young man of Tearlach mac Ghilleonain's house drowns in a squall too sudden for any boat then on the shore to outrun. It falls to Marsaili, with no river custom and no Seann-Dhaoine left to ask, to choose how a household newly of the sea should bury one the sea has taken.",
+  "category": "land",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "sequel"}]
+ },
+ {
+  "title": "Marsaili chooses the plain burial",
+  "era_year": 660,
+  "summary": "Marsaili buries the drowned man on the rise above the shingle in the plain hill fashion of her mother's grave on the river, judging that a household too new to the shore has no business inventing rites for it, and wronging no one, living or dead, by the choice.",
+  "category": "faith",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "sequel"}]
+ },
+ {
+  "title": "Word of the king's word reaches Marsaili third-hand",
+  "era_year": 664,
+  "summary": "A household two harbours south tells and retells what little the king said of Seann Skell in passing, riding the coast road with three men: that he had heard the hill was settling an empty shore and thought it well, and would send no one to tell them how to hold it. Marsaili hears it thinned by retelling and asks for no more of it.",
+  "category": "rulers",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": [],
+  "master_links": [{"to": "I-0098", "type": "parallel"}]
+ },
+ {
+  "title": "Marsaili nic Iain dies at Seann Skell",
+  "era_year": 671,
+  "summary": "Marsaili, who led the household's boats before any other hand had proved the harbour safe and buried its first drowned man in the plain hill way, dies the first of her father's line to be laid within sight of the sea, on the same rise above the shingle as the young man who went before her.",
+  "category": "land",
+  "people": ["Marsaili nic Iain"],
+  "places": ["burg:489"],
+  "threads": ["the-old-ones"],
+  "master_links": [{"to": "I-0098", "type": "legacy"}]
+ }
+]

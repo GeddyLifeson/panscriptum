@@ -1,0 +1,249 @@
+[
+ {
+  "title": "The hungry season at the halting-house below the pass",
+  "era_year": 2400,
+  "summary": "Calum Ruadh of Àth dhìreach and the other carriers of the mountain road read, on the tally board of a small halting-house, the shape of a poor year no custom yet mends: coal going down the road and next to no grain coming up. The house's keeper, an old woman named Mòr, tells them she has buried a husband to just such a winter before.",
+  "category": "land",
+  "people": [
+   "Calum Ruadh"
+  ],
+  "places": [
+   "burg:496"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0170"
+  ]
+ },
+ {
+  "title": "Lachlann Bàn's vow at his crowning",
+  "era_year": 2406,
+  "summary": "Lachlann Bàn, come to An Talla Dearg in his twenty-sixth year, finds granaries that fill and empty by no rule but a steward's whim, and resolves to build a common granary in every province seat that will keep one, to the same plan, so that no district need go hungry beside another's plenty.",
+  "category": "rulers",
+  "people": [
+   "Lachlann Bàn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0170"
+  ]
+ },
+ {
+  "title": "The reeve of Cnoc mhòr's silver ring",
+  "era_year": 2408,
+  "summary": "Cnoc mhòr raises its common granary before any other province seat and sends word of it to Cathair dhearg the same season. Lachlann Bàn sends the reeve a silver ring for his own hand, and within two years no province seat on the plain is willing to be named last where Cnoc mhòr was named first.",
+  "category": "trade",
+  "people": [
+   "Lachlann Bàn"
+  ],
+  "places": [
+   "burg:31",
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0172"
+  ]
+ },
+ {
+  "title": "Lachlann Bàn's journey to Dùn ìseal",
+  "era_year": 2410,
+  "summary": "Lachlann Bàn climbs to Dùn ìseal to ask Coimheadaiche na Lasrach Raonaid Dhubh to set the island's old neighbour-custom of shared grain under his new granaries as law. She asks whether he means his own hall's granary bound by the same terms as any household's; he swears it will be, and she puts her hand to the writing.",
+  "category": "law",
+  "people": [
+   "Lachlann Bàn",
+   "Raonaid Dhubh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0171"
+  ]
+ },
+ {
+  "title": "A reeve of the plain protests the mountain's granaries",
+  "era_year": 2415,
+  "summary": "A reeve of the lowland plain writes to Cathair dhearg that his district is asked to fill granaries for mountain households that grow no grain of their own. Lachlann Bàn answers that a household which carries the plain's coal all winter has already paid, in the coin of its own back, for whatever grain comes up in return.",
+  "category": "law",
+  "people": [
+   "Lachlann Bàn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0173"
+  ]
+ },
+ {
+  "title": "Cathair mhòr's fisher-towns pay their share in fish",
+  "era_year": 2418,
+  "summary": "The granary raised within Cathair mhòr's old wall, the first anywhere behind a town wall, draws its share from the southern fishing strands in dried fish rather than grain, packed in baskets as the old toll fish once were packed for Talla na Lasrach.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0174"
+  ]
+ },
+ {
+  "title": "Ruairidh mac Nèill burns the raiders' boats at Seann Tarr",
+  "era_year": 2422,
+  "summary": "Ruairidh mac Nèill of Sliochd Raghnaill catches the eastern raiders at their own anchorage with the tide against them and burns two of their low black boats. Asked why he let the rest escape, he says a boat burned at its own anchorage teaches the strand's watch more than a raider hanged at Seann Tarr.",
+  "category": "war",
+  "people": [
+   "Ruairidh mac Nèill"
+  ],
+  "places": [
+   "marker:26",
+   "burg:34"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0175"
+  ]
+ },
+ {
+  "title": "Na Ceithir Taighean begin their quiet counting",
+  "era_year": 2444,
+  "summary": "With Oighrig nic Lachlainn newly widowed and childless, Sliochd Ìomhair, Sliochd Thormoid and Sliochd Raghnaill each begin, without speaking of it before her, to reckon what it might claim of An Talla Dearg should she die without an heir; Sliochd Mhuirich, holding Coimheadaiche na Lasrach's own office, makes no claim at all.",
+  "category": "rulers",
+  "people": [
+   "Oighrig nic Lachlainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0176"
+  ]
+ },
+ {
+  "title": "Death of Raonaid Dhubh",
+  "era_year": 2420,
+  "summary": "Raonaid Dhubh, Keeper of the flame at Dùn ìseal for the better part of forty years and the woman who set Lagh a' Bhìdh Roinnte beside Lachlann Bàn, dies in her own eightieth year, having seen the law hold unbroken through two poor seasons.",
+  "category": "faith",
+  "people": [
+   "Raonaid Dhubh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0171"
+  ]
+ },
+ {
+  "title": "Death of Lachlann Bàn",
+  "era_year": 2461,
+  "summary": "Lachlann Bàn dies in his own bed at one-and-eighty, five-and-fifty years after his crowning, mourned chiefly by the reeves whose granaries he built and the carriers of the mountain roads, who never once in his reign went a whole winter without knowing where the next grain was coming from.",
+  "category": "rulers",
+  "people": [
+   "Lachlann Bàn"
+  ],
+  "places": [
+   "burg:19",
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0176"
+  ]
+ },
+ {
+  "title": "Calum Ruadh tells his son of the old want",
+  "era_year": 2465,
+  "summary": "With the passes above Cnoc ghlas still white with late snow and the mountain households eating their seed, Calum Ruadh tells his son Iain Caol, a boy of fifteen, of the very want he carried through as a young man, and doubts aloud whether the new law will hold where the old custom never had to be tried.",
+  "category": "land",
+  "people": [
+   "Calum Ruadh",
+   "Iain Caol"
+  ],
+  "places": [
+   "burg:496"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0178"
+  ]
+ },
+ {
+  "title": "Calum Ruadh and Iain Caol carry grain to Àth dhìreach",
+  "era_year": 2466,
+  "summary": "Calum Ruadh, past his own heaviest carrying, walks down for the grain Dùn dhearg has sent unasked, and his son Iain Caol, too young by the town's reckoning to carry a full load, carries half of one beside him, the boy's first sight of what Lagh a' Bhìdh Roinnte meant in a true want.",
+  "category": "land",
+  "people": [
+   "Calum Ruadh",
+   "Iain Caol"
+  ],
+  "places": [
+   "burg:422",
+   "burg:493",
+   "burg:496"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0180",
+   "II-0182"
+  ]
+ },
+ {
+  "title": "Àth dhìreach grants the carriers the right to rest",
+  "era_year": 2466,
+  "summary": "The reeve of Àth dhìreach calls the town together and grants every carrier who walked the famine road that winter the right to rest, for life, in any house of the town without payment; the households swear to keep it as their own word rather than write it into any roll at Cathair dhearg.",
+  "category": "law",
+  "people": [
+   "Calum Ruadh"
+  ],
+  "places": [
+   "burg:496"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0181"
+  ]
+ },
+ {
+  "title": "Iain Caol's first load up",
+  "era_year": 2480,
+  "summary": "Iain Caol, grown to a man's height, takes up his first load as a carrier proper, walking the same track his father Calum Ruadh had walked before him, with a company of four other young men of Àth dhìreach carrying their first working loads that same season.",
+  "category": "trade",
+  "people": [
+   "Iain Caol"
+  ],
+  "places": [
+   "burg:496"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0181"
+  ]
+ },
+ {
+  "title": "Death of Iain Caol, the last of the grain-carriers",
+  "era_year": 2546,
+  "summary": "Iain Caol dies at Àth dhìreach in his ninetieth year, the last living of any who could say he had carried the road when the famine and the right to rest were both still new. The right the town kept for its carriers dies with him, though the town still sets out, at the turn of every year, the one bowl he had kept for whichever carrier walked the road that night.",
+  "category": "land",
+  "people": [
+   "Iain Caol"
+  ],
+  "places": [
+   "burg:496"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0181"
+  ]
+ }
+]

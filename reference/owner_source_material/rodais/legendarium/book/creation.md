@@ -9,7 +9,7 @@
 
 ## I. Of Caoran and the Coals
 
-This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the Mason's line, who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The Mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word, and long afterward it was written down. It is set here before the Seven Books because it is older than any of them.
+This is the telling that Coimhdeach na Fine, the Keeper of the Kin, gave in the grove of Doire ghlas to one of the Mason's line, who had asked it why the coal of Dia-thìr has colours in it when the coal of the common earth has none. The Keeper answered from the beginning, as the old do when a child asks a short question. The Mason's children kept the telling after, father to son and mother to daughter, and said it over at the dark of the year word for word; and it is set down here first because it is older than any other telling.
 
 Before there was a world there were the gods, and they were many, and they were a line. Mother bore daughter and father begot son, back and back into a dark where no name is kept; and every one of that line, when he came to the fullness of his years, went out from the hall of his kin and made a world. That was their coming of age. A god of that line was a child until he had made a thing and kept it, and was grown when it lived.
 
@@ -65,7 +65,7 @@ Then he set Crom Cruaich, the bent one of the mound, at the door between the mou
 
 ## II. Of the Tuath Dè
 
-These are the gods of the Tuath Dè, the people of the gods, the kin of the Young God, who came down with him to see his island in its first days; and they came again, once, on the night the first king of the island was made, as the Second Book tells. The Old Faith honours them still, each at their feasts and in need. Caoran made the world and all that is in it, and he is the god of the coal. Yet the island honours an Dagda first, for he is the father of the gods, and it was his word that made the Young God's choice good.
+These are the gods of the Tuath Dè, the people of the gods, the kin of the Young God, who came down with him to see his island in its first days. The hearths honour them still, each at their feasts and in need. Caoran made the world and all that is in it, and he is the god of the coal. Yet the island honours an Dagda first, for he is the father of the gods, and it was his word that made the Young God's choice good.
 
 **An Dagda**, the Good God, is the father. His is the cauldron from which no company goes away hungry, and it was from the ash under it that Caoran took the first coal. His is the club that kills with one end and wakes the dead with the other, and the harp that calls the seasons in their order; when the island's first year turned, it was his harp that turned it. He is slow of speech, and generous, and he laughs more than any of the gods.
 
@@ -75,11 +75,11 @@ These are the gods of the Tuath Dè, the people of the gods, the kin of the Youn
 
 **Crom Cruaich**, the bent one of the mound, is the god of the vein. When the coal was laid under the mountains, Caoran set him at its door, and so his oldest name is Dòrsair, Uilebheist nan Geataichean, the Monster of the Gates. He is exact. He gives what is asked of the mountain, and he takes his price for it, and his price is measured.
 
-**Manannan mac Lir** is the lord of the sea, and the sea round Dia-thìr is his. When the gods came down to the new island he walked round its coasts in one night, and in the morning he drew up his mist about it, so that no ship from beyond should find it until its time. The gold coal is his in honour. His Cup of Truth breaks at a lie, and is whole again at the truth.
+**Manannan mac Lir** is the lord of the sea, and the sea round Dia-thìr is his. When the gods came down to the new island he walked round its coasts in one night, and in the morning he drew up his mist about it, so that no ship from beyond should find it. The gold coal is his in honour. His Cup of Truth breaks at a lie, and is whole again at the truth.
 
 **Lugh Làmhfhada**, Lugh of the long arm, is the master of every craft, and he loves the high places, from which a long arm can reach far. It was Lugh who stood with Caoran on the highest summit of the island on the first evening and named the winds for him, and so the snowflake coal is his in honour. His feast is Lùnastal, when markets open and oaths are sworn before witnesses.
 
-**Macha** is the lady of sovereignty, of kingship and of horses. Two horses draw her chariot, Liath Macha the grey and Dubh Sainglenn the black, and they run as one under one yoke. No king is king until she allows it. When the godfolk had grown up out of the heather, Macha looked them over, one by one, and said that there was no king among them yet; and she said it gently, as a mother says that a child has not yet grown.
+**Macha** is the lady of sovereignty, of kingship and of horses. Two horses draw her chariot, Liath Macha the grey and Dubh Sainglenn the black, and they run as one under one yoke. No king is king until she allows it. When the godfolk had grown up out of the heather, Macha looked them over, one by one, and said that there was no king among them; and she said it gently, as a mother says that a child has not yet grown.
 
 **Dian Cècht** is the healer of the gods, who made a hand of silver for Nuadha when his own was lost. The life that lies in the mahogany coal is the thing he tends, and he knows it better than any. The warm springs of the island are his.
 
@@ -95,7 +95,7 @@ These are the gods of the Tuath Dè, the people of the gods, the kin of the Youn
 
 **Donn** is the lord of the dead. His house is a rock in the sea to the south-west, Taigh Dhuinn, and the dead go to it. In the days of the godfolk no one went to his house for a long time, and he was content with that, for he is in no hurry for the dead.
 
-There are others of the Tuath Dè, and the Old Faith knows them; but these are the ones the Keeper named in the grove.
+There are others of the Tuath Dè, and the hearths know them; but these are the ones the Keeper named in the grove.
 
 ## III. Of the Keeper of the Kin
 

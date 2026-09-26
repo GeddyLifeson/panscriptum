@@ -1,0 +1,292 @@
+[
+ {
+  "title": "Coinneach mac Fhearghais named master of the fellowship",
+  "era_year": 67,
+  "summary": "After Alasdair Saor's death Coinneach mac Fhearghais, the first apprentice Alasdair ever swore, takes the mastership of the fellowship of the strand, keeping its oath and its coal exactly as Alasdair had kept them before him.",
+  "category": "trade",
+  "people": [
+   "Coinneach mac Fhearghais"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0044",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "An Diosal count taken up at Cathair dhearg",
+  "era_year": 72,
+  "summary": "The crown's own scribes at An Talla Dearg begin dating their rolls by the count Donnchadh mac Thormoid had kept alone at Taigh na Fèithe for near thirty years, setting aside the reckoning by a king's reign for the turning he first set his own hand to as a clerk of thirty.",
+  "category": "record",
+  "people": [
+   "Donnchadh mac Thormoid"
+  ],
+  "places": [
+   "burg:19",
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Eachann Briseadair raises the first house below Taigh na Fèithe",
+  "era_year": 72,
+  "summary": "Eachann Briseadair, whose household breaks and sorts the coal brought down from the galleries, builds the first house of stone below Taigh na Fèithe's own gate; his sons build three more beside it within the decade, the beginning of the coal-breakers' row.",
+  "category": "trade",
+  "people": [
+   "Eachann Briseadair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Muileann dhearg a town in more than name",
+  "era_year": 72,
+  "summary": "The coal-breakers' settlement below Taigh na Fèithe's gate, which has borne the name Muileann dhearg since the first years of the age, grows within Eachann Briseadair's lifetime into a town with its own well, smith and reeve, answering to Taigh na Fèithe rather than to any shire.",
+  "category": "land",
+  "people": [
+   "Eachann Briseadair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Death of Coinneach mac Fhearghais",
+  "era_year": 68,
+  "summary": "Coinneach mac Fhearghais dies at Seann Skell in the house where he had lived since his marriage, leaving the fellowship's coal to his eldest journeyman Griogair rather than to any man claiming it by right of years alone.",
+  "category": "death",
+  "people": [
+   "Coinneach mac Fhearghais",
+   "Griogair"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0044",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Eachann Briseadair",
+  "era_year": 100,
+  "summary": "Eachann Briseadair dies at sixty in the shed where he broke his first load of coal as a boy, his sons and grandsons already keeping the work; he is buried on the rise above the row with a lump of unbroken coal set over him rather than a mason's stone.",
+  "category": "death",
+  "people": [
+   "Eachann Briseadair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The fellowship of the strand released",
+  "era_year": 84,
+  "summary": "Griogair calls the fellowship's remaining journeymen to the strand and releases every man from the oath, judging there is no longer craft enough in the island's own boat-building to keep it; the journeymen scatter to the rope-walks, their fathers' land and Doire fhionn's coppice-cutting.",
+  "category": "trade",
+  "people": [
+   "Griogair"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0045",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The keel-moulds burned for firewood",
+  "era_year": 85,
+  "summary": "In the hard winter of Faolach the fellowship's old patterns and keel-moulds, untouched for years in the shed on the strand, are carried out and burned; the harbour-master notes only that the shed came down, and nothing of what it held.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0046",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Raghnall mac Uilleim and the crowning of his son",
+  "era_year": 92,
+  "summary": "Raghnall mac Uilleim dies in his eighty-fifth year after seven-and-thirty years on An Talla Dearg; his son Raghnall mac Raghnaill, seven-and-forty years old, is crowned in his place without dispute, Leabhar a' Chùraim giving the closed reign one line and the new one another.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Uilleim",
+   "Raghnall mac Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The lots drawn among Na Seachd Taighean",
+  "era_year": 86,
+  "summary": "The heads of Na Seachd Taighean that hold the right to the coal are called to Taigh na Fèithe and each draws a marked stone from a covered bag before the custodians and the household, the galleries falling as the stones fall so that no house may claim its ground was given rather than drawn.",
+  "category": "law",
+  "people": [
+   "Donnchadh mac Thormoid"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0047",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Death of Niall mac Dhòmhnaill",
+  "era_year": 104,
+  "summary": "Niall mac Dhòmhnaill dies at Seann Skell in the harbour-house itself, six-and-forty years after taking up the boards, his grandfather's notched hazel stick set in his hand at his own asking and buried with him, the count it held never once spoken aloud.",
+  "category": "death",
+  "people": [
+   "Niall mac Dhòmhnaill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0024",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Clachan a' Chrannchuir shown to a visitor",
+  "era_year": 109,
+  "summary": "Old Donnchadh takes the bag of lot-stones down from its peg to let a grandson of Eachann Briseadair's, waiting idle in Taigh na Fèithe hall, hold it and hear how the seven heads once drew their galleries, though he tells the boy nothing of which stone fell to which house.",
+  "category": "culture",
+  "people": [
+   "Donnchadh mac Thormoid"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0047",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Donnchadh mac Thormoid",
+  "era_year": 109,
+  "summary": "Donnchadh mac Thormoid dies at Muileann dhearg in his ninety-fifth year, his last entry the season's burning of coal household by household, set down in the same careful hand he had used since he was fifteen.",
+  "category": "record",
+  "people": [
+   "Donnchadh mac Thormoid"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0050",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 92,
+  "title": "Birth of Ìomhar mac Raghnaill",
+  "summary": "In the year his grandfather dies and his father is crowned, a son, Ìomhar, is born at Cathair dhearg to Raghnall mac Raghnaill, a king of seven-and-forty with a new crown and a new child in the same season.",
+  "category": "rulers",
+  "people": [
+   "Ìomhar mac Raghnaill",
+   "Raghnall mac Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0051",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 70,
+  "title": "The one household that breaks its own coal",
+  "summary": "By the seventieth year of the count Eachann Briseadair's is the only household on the hill below Taigh na Fèithe that does the whole of the breaking and sorting itself rather than hiring hands season by season.",
+  "category": "coal",
+  "people": [
+   "Eachann Briseadair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0045",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
+ }
+]

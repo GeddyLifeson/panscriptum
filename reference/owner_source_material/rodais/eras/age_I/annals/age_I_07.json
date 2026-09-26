@@ -1,0 +1,1525 @@
+{
+ "writer": 4,
+ "span": [
+  "I-0035",
+  "I-0039"
+ ],
+ "events": [
+  {
+   "after": "I-0035"
+  },
+  {
+   "id": "EI-4001",
+   "title": "The first steps of the platform laid",
+   "body": "A household of the eastern hills begins laying flat stone in steps up the slope below the height, bedding each slab before the next is set above it, the first work of the platform that will in time carry the altar block on its topmost step.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2681,
+    2681
+   ]
+  },
+  {
+   "id": "EI-4002",
+   "title": "The great stone dragged up on rollers",
+   "body": "The block meant for the platform's top step is hauled up the finished lower steps on rollers of trimmed timber, the same labour that raised Làrach an Dùin-fhaire wall and Làrach an Dùin rings, and set back from the step's outer edge to be dressed flat.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2687,
+    2687
+   ]
+  },
+  {
+   "id": "EI-4003",
+   "title": "The first dawn at the altar",
+   "body": "A household of the southern lowland climbs the finished steps at first light on the shortest morning of the year and stands about the great stone as the sun's light runs along its face toward the mountains it is squared to. No telling records what, if anything, was said.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2690,
+    2690
+   ]
+  },
+  {
+   "id": "EI-4004",
+   "title": "Other households begin to climb",
+   "body": "Seeing the first household return year on year to the shortest morning, other families of the eastern hills take up the same climb, until the one gathering at the platform draws more households together than any single one of them could climb the steps alone.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2696,
+    2696
+   ]
+  },
+  {
+   "id": "EI-4005",
+   "title": "The shortest morning climbed in cloud",
+   "body": "In a year when cloud lies thick over the eastern hills through the shortest morning, the households climb the platform steps in the dark and the cold all the same and stand about the great stone the whole hour the light would have taken to cross it.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2700,
+    2700
+   ]
+  },
+  {
+   "id": "EI-4006",
+   "title": "The last step laid flush with the moor",
+   "body": "The lowest step of the platform is set flush with the level ground, closing the run years after the great stone above it already stood finished, and it is this easiest step, rather than any harder-won one above, that the households nearest it remember longest.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2704,
+    2704
+   ]
+  },
+  {
+   "id": "EI-4007",
+   "title": "A carved bird left at the stone's foot",
+   "body": "A woman carries a small carved bird up the platform steps once and sets it at the foot of the great stone, and goes down without it; no second such bird is ever found there.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2706,
+    2706
+   ]
+  },
+  {
+   "id": "EI-4008",
+   "title": "A stranger turned away from the platform",
+   "body": "A stranger up from the southern lowland asks a woman drawing water why the great stone is raised. She answers that a stone older than her grandmother's grandmother needs no explaining to one not born to it, and he does not climb the steps or come again.",
+   "place": "marker:33",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
+   "era_between": [
+    2711,
+    2711
+   ]
+  },
+  {
+   "id": "EI-4009",
+   "title": "The digging begins at the eastern Toll-dubh",
+   "body": "On level moor in the south-east a household begins cutting a well-like shaft straight down through the rock, the work continuing past any depth a well would need and its walls smoothed by hand long after the digging alone would have left them rough.",
+   "place": "marker:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0036",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2717,
+    2717
+   ]
+  },
+  {
+   "id": "EI-4010",
+   "title": "The baskets carried off and not returned",
+   "body": "Each evening the broken rock the digging throws off is carried away over the rise at the moor's edge, and no heap of it is ever afterward found anywhere near the shaft's mouth, though no telling says where it was taken.",
+   "place": "marker:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0036",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2723,
+    2723
+   ]
+  },
+  {
+   "after": "I-0036"
+  },
+  {
+   "id": "EI-4011",
+   "title": "A cord lengthened for the lamp",
+   "body": "The plaited cord that lets the lamp down to judge the smoothing of the shaft's walls is lengthened for the third time, the household gathering at the lip each time to watch the lamp go down further than it has gone before and come up still burning.",
+   "place": "marker:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2731,
+    2731
+   ]
+  },
+  {
+   "id": "EI-4012",
+   "title": "A young man hurt in the eastern shaft",
+   "body": "Sent down to free a caught basket, a young man of the household comes up with a gash along one forearm that keeps him from the heaviest carrying a season, and returns to the cord the following spring all the same.",
+   "place": "marker:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2735,
+    2735
+   ]
+  },
+  {
+   "id": "EI-4013",
+   "title": "The cord hung inside the door",
+   "body": "The worn lengths of hide cord the eastern shaft was measured with are hung, when renewed, inside the household's door, where another household might hang a net.",
+   "place": "marker:20",
+   "kind": "craft",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2736,
+    2736
+   ]
+  },
+  {
+   "id": "EI-4014",
+   "title": "The lamp lowered in the eastern shaft",
+   "body": "The lamp is let down further than ever before, its light at the bottom showing no more of the walls than a small patch no wider than two hands held apart, the rest standing dark above and below it; the digging is remembered to have stopped near this same evening.",
+   "place": "marker:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2740,
+    2740
+   ]
+  },
+  {
+   "id": "EI-4015",
+   "title": "A stone dropped and heard to fall nowhere",
+   "body": "After the digging stops, a stone let fall from the lip gives back no sound of striking anything below, and the household stands listening far longer than it kept silence for anything else in all the years of that work.",
+   "place": "marker:20",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2742,
+    2742
+   ]
+  },
+  {
+   "id": "EI-4016",
+   "title": "A stone laid over the shaft at the first frost",
+   "body": "The household of the eastern Toll-dubh lays a flat stone loosely over the shaft's mouth at each year's first hard frost and lifts it after the shortest days, to keep a beast or a careless foot from the lip.",
+   "place": "marker:20",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
+   "era_between": [
+    2745,
+    2745
+   ]
+  },
+  {
+   "id": "EI-4017",
+   "title": "The digging begins at the western Toll-dubh",
+   "body": "Far across the island, on ground its own people likewise call Toll-dubh, a second household begins a straight, round shaft of the same make as the eastern one, with no telling saying that either household knew of the other's work.",
+   "place": "marker:19",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0037",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
+   "era_between": [
+    2748,
+    2748
+   ]
+  },
+  {
+   "id": "EI-4018",
+   "title": "A girl asks how deep the shaft will go",
+   "body": "A girl of the western household asks her mother whether the shaft is being dug down to wherever the mountains keep their roots; her mother answers only that the ground keeps its own matters, and that a household does well not to ask them aloud.",
+   "place": "marker:19",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0037",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
+   "era_between": [
+    2761,
+    2761
+   ]
+  },
+  {
+   "id": "EI-4019",
+   "title": "An old man keeps the lamp trimmed at the western shaft",
+   "body": "A man of the western household, past the heaviest carrying, keeps the lamp trimmed each evening for whoever goes down to judge the smoothing of the western shaft.",
+   "place": "marker:19",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0037",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
+   "era_between": [
+    2765,
+    2765
+   ]
+  },
+  {
+   "id": "EI-4020",
+   "title": "The lamp left to burn itself out",
+   "body": "The household at the western shaft takes up a habit of setting the lamp, still burning, on a stone by the lip each evening rather than snuffing it, letting it go out on its own, a small custom none of its own tellings gives a reason for keeping.",
+   "place": "marker:19",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0037",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
+   "era_between": [
+    2770,
+    2770
+   ]
+  },
+  {
+   "after": "I-0037"
+  },
+  {
+   "id": "EI-4021",
+   "title": "The last stone dropped at the western shaft",
+   "body": "On the evening the western digging is given over, the youngest of the household lets a stone fall and counts under his breath until he judges it must have struck bottom; when no sound comes, he looks to the faces around him rather than down the shaft.",
+   "place": "marker:19",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
+   "era_between": [
+    2783,
+    2783
+   ]
+  },
+  {
+   "id": "EI-4022",
+   "title": "The two shafts left open and shunned",
+   "body": "Both shafts stand unfilled and uncovered at the century's turn, and travellers of either coast come to walk wide of their mouths, letting a dropped stone go down into a silence no household troubles any longer to break by listening after it.",
+   "place": "marker:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0037",
+     "type": "sequel"
+    },
+    {
+     "to": "I-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
+   "era_between": [
+    2795,
+    2795
+   ]
+  },
+  {
+   "id": "EI-4023",
+   "title": "Bran born to the north-west shore",
+   "body": "Bran is born to a fishing hearth of the north-west shore, kin who keep Aithris a' Chruthachaidh as every hill hearth does but hear its westward part first, the part that names Tìr nan Òg, Magh Meall and Taigh Dhuinn across the open sea.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#i-of-the-word-of-the-west",
+   "era_between": [
+    2801,
+    2801
+   ]
+  },
+  {
+   "id": "EI-4024",
+   "title": "Bran stands at the tideline at dusk",
+   "body": "Bran, near ten, is found by his mother at the tideline deep into the dark, looking at the place where it stops being water and starts being something else.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-4023",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#i-of-the-word-of-the-west",
+   "era_between": [
+    2815,
+    2815
+   ]
+  },
+  {
+   "id": "EI-4025",
+   "title": "The best boatman of that coast",
+   "body": "Grown to a man, Bran is known the length of the north-west shore as the surest hand with a swell and a stitching-needle alike, mending hulls that no other boatman's seams will hold and reading weather other men cannot.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4024",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#i-of-the-word-of-the-west",
+   "era_between": [
+    2825,
+    2825
+   ]
+  },
+  {
+   "id": "EI-4026",
+   "title": "Bran mends every boat on the shore",
+   "body": "Neighbours bring Bran their boats from half a day's walk along the coast because his stitches hold where other men's let the sea in, and he asks no payment but a share of what the mended boat brings home.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EI-4025",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#i-of-the-word-of-the-west",
+   "era_between": [
+    2828,
+    2828
+   ]
+  },
+  {
+   "id": "EI-4027",
+   "title": "Bran begins the great hull",
+   "body": "Bran starts gathering bull-hides cured harder and longer than any boat on his coast has needed, and sets ribs of hazel and ash closer than a hand's width, telling his kin at first only that he means a bigger boat for a bigger catch.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4026",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#ii-of-the-boat-he-stitched",
+   "era_between": [
+    2829,
+    2829
+   ]
+  },
+  {
+   "id": "EI-4028",
+   "title": "The great hull decked with sealed skins",
+   "body": "Bran decks half the length of his great hull with skins stretched and sealed against green water and sets his ribs closer than three fingers apart, and the neighbours stop believing he builds only for a bigger catch.",
+   "place": null,
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EI-4027",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#ii-of-the-boat-he-stitched",
+   "era_between": [
+    2830,
+    2830
+   ]
+  },
+  {
+   "id": "EI-4029",
+   "title": "Bran tells his mother the boat's purpose",
+   "body": "Two winters into the building, Bran tells his mother plainly that he means to sail west and prove Aithris a' Chruthachaidh's word of a land beyond the sea's edge true or false. She does not forbid him, though she warns him no telling yet has anyone to bring it home.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4028",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#i-of-the-word-of-the-west",
+   "era_between": [
+    2831,
+    2831
+   ]
+  },
+  {
+   "id": "EI-4030",
+   "title": "The great hull finished",
+   "body": "By the second spring Bran's boat stands finished on its trestles, broader and higher at the bow than any craft that coast has built, decked with sealed skins to throw off green water, built plainly for open sea rather than the shallows.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4029",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#ii-of-the-boat-he-stitched",
+   "era_between": [
+    2831,
+    2831
+   ]
+  },
+  {
+   "id": "EI-4031",
+   "title": "Blàthnaid's promise asked and given",
+   "body": "The night before the boat puts out, Blàthnaid asks her brother Bran to tell her the truth of whatever he finds, if ever he has the chance. He promises it, a promise she keeps for the rest of her life though he never returns to be asked again.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4030",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran",
+    "blathnaid"
+   ],
+   "told_in": "book/20_of_the_steersman.md#ii-of-the-boat-he-stitched",
+   "era_between": [
+    2831,
+    2831
+   ]
+  },
+  {
+   "id": "EI-4032",
+   "title": "Bran sails west",
+   "body": "In high summer Bran puts out from the north-west shore with four kinsmen, holding his bow south of the grey bank that never lifts off the northern sea and west into open water no boat of that coast has crossed before. The household sends them off in silence.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4031",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#ii-of-the-boat-he-stitched",
+   "era_between": [
+    2831,
+    2831
+   ]
+  },
+  {
+   "id": "EI-4033",
+   "title": "Five put out west, the grey bank on the right hand",
+   "body": "Bran holds his bow west and a little south of the grey bank that lies on the northern sea, standing the whole first morning at the steering-oar and watching the bank fall away astern until it is nothing.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4032",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#ii-of-the-boat-he-stitched",
+   "era_between": [
+    2831,
+    2831
+   ]
+  },
+  {
+   "after": "I-0038"
+  },
+  {
+   "id": "EI-4034",
+   "title": "The crewman found on the southern shingle",
+   "body": "A season and more after the boat put out, a woman gathering shellfish finds the youngest of the crew, Bran's sister's son, alive but near dead on a stretch of shingle two days south of his home shore, sun-blackened and too parched to speak.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4033",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#iii-of-the-boy-who-came-back",
+   "era_between": [
+    2833,
+    2833
+   ]
+  },
+  {
+   "id": "EI-4035",
+   "title": "The boy's telling of the green land",
+   "body": "Over days of broken whispers the crewman tells of many days on open water, then a green land rising from the sea where fruit hung ready and a spring broke sweet from the rock, and a welcome from a people unmarked by age.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4034",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#iii-of-the-boy-who-came-back",
+   "era_between": [
+    2833,
+    2833
+   ]
+  },
+  {
+   "id": "EI-4036",
+   "title": "Bran stays in the west",
+   "body": "The crewman tells that Bran, offered his freedom to turn home, chose to stay on the green shore, saying he would not turn from the question he had followed his whole life to answer now that his feet stood on it.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4035",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#iii-of-the-boy-who-came-back",
+   "era_between": [
+    2833,
+    2833
+   ]
+  },
+  {
+   "id": "EI-4037",
+   "title": "The crewman dies",
+   "body": "Eleven days after he is carried in from the shingle, Bran's sister's son dies with the door left open on the sea, saying to the last that the land had not been unkind and his uncle had not looked afraid.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4036",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "bran"
+   ],
+   "told_in": "book/20_of_the_steersman.md#iii-of-the-boy-who-came-back",
+   "era_between": [
+    2833,
+    2833
+   ]
+  },
+  {
+   "id": "EI-4038",
+   "title": "The telling spreads along the coast",
+   "body": "Within a year of the boy's death the telling of the green land in the west has gone the length of the north-west shore and inland besides, growing surer in each mouth than the dying boy ever claimed it.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_steersman.md#iv-of-blathnaid-s-hushing",
+   "era_between": [
+    2834,
+    2834
+   ]
+  },
+  {
+   "id": "EI-4039",
+   "title": "Strangers turned from the dying boy's door",
+   "body": "By the fourth day after the crewman is carried in, strangers come to the door asking to see the boy who crossed the western sea, and are turned away for his quiet.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_steersman.md#iii-of-the-boy-who-came-back",
+   "era_between": [
+    2834,
+    2834
+   ]
+  },
+  {
+   "id": "EI-4040",
+   "title": "A boy nearly follows the telling west",
+   "body": "A fifteen-year-old of the shore is found in the dark sitting in a coracle he has no business taking out, looking west, and is brought home and wept over, the telling's first plain harm.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_steersman.md#iv-of-blathnaid-s-hushing",
+   "era_between": [
+    2838,
+    2838
+   ]
+  },
+  {
+   "id": "EI-4041",
+   "title": "The elders let the telling fall",
+   "body": "The elders of three shore households agree at a closed fire to starve the telling of the green land rather than forbid it outright, answering no stranger's question of it and teaching it to no child who has not already heard it.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_steersman.md#iv-of-blathnaid-s-hushing",
+   "era_between": [
+    2838,
+    2838
+   ]
+  },
+  {
+   "id": "EI-4042",
+   "title": "Blàthnaid tells her daughter, once",
+   "body": "An old woman by then, Blàthnaid keeps her promise the only way left to her, telling her grown daughter the whole of the boy's account at a covered hearth, and naming her brother at the end of it: Bran.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "answers"
+    },
+    {
+     "to": "EI-4031",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "blathnaid"
+   ],
+   "told_in": "book/20_of_the_steersman.md#iv-of-blathnaid-s-hushing",
+   "era_between": [
+    2840,
+    2840
+   ]
+  },
+  {
+   "id": "EI-4043",
+   "title": "Blàthnaid dies",
+   "body": "Blàthnaid dies an old woman, having told the steersman's telling to no one but her own daughter, who carries it on in the same low voice at the same covered fire.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4042",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "blathnaid"
+   ],
+   "told_in": "book/20_of_the_steersman.md#iv-of-blathnaid-s-hushing",
+   "era_between": [
+    2860,
+    2860
+   ]
+  },
+  {
+   "id": "EI-4044",
+   "title": "Brian digs through frozen ground for a child",
+   "body": "When a child of the black-well household dies of a fever in Brian's twentieth year, he digs through frozen ground for the better part of two days without once cursing it, and sits by the raw earth a while after.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "brian"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#i-of-the-man-who-dug-the-graves",
+   "era_between": [
+    2870,
+    2870
+   ]
+  },
+  {
+   "id": "EI-4045",
+   "title": "Brian marries Caoimhe",
+   "body": "Brian, grave-digger of the high valleys, marries Caoimhe of a herding household two valleys east, a quick-tongued woman known for setting a whole hearth laughing. Three children born to them die in their first winter, one after another.",
+   "place": "burg:276",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-4044",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "brian",
+    "caoimhe"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#i-of-the-man-who-dug-the-graves",
+   "era_between": [
+    2879,
+    2879
+   ]
+  },
+  {
+   "id": "EI-4046",
+   "title": "Brian takes up the grave-digger's work",
+   "body": "Brian, of Clann a' Chlachair, becomes known through the high valleys as the one who digs the graves of the dead, a trade his father had kept before him. He is a plain, steady man, slow of speech, and the valley comes to trust his hands with its dead.",
+   "place": "burg:276",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-4045",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "brian"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#v-of-the-long-keeping",
+   "era_between": [
+    2880,
+    2880
+   ]
+  },
+  {
+   "id": "EI-4047",
+   "title": "Brian thinks of the earth at a graveside",
+   "body": "Waiting at the edge of a fresh grave for the kin to bring the body down, Brian thinks that the dead lie still and the earth takes them, and that if the earth is to take a coal it must go deep and be left.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4046",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "brian"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#ii-of-what-a-plain-man-thought",
+   "era_between": [
+    2884,
+    2884
+   ]
+  },
+  {
+   "id": "EI-4048",
+   "title": "Neighbours gather to watch the coals buried",
+   "body": "Word of Brian's digging draws watchers to the graveside through the evening: an old man who had tried the coals himself in his youth, two of Sireadh's grandchildren, a boy sent home twice who comes back a third time. The talk among them does not agree.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4047",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "brian",
+    "caoimhe"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#iii-of-the-grave-beside-the-slab",
+   "era_between": [
+    2885,
+    2885
+   ]
+  },
+  {
+   "id": "EI-4049",
+   "title": "The burial words said over five coals",
+   "body": "Standing in the grave he has dug for five coals, Brian says over them the words said over every grave in the high valleys, asking the ground to hold gently what is given it.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4048",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "brian"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#ii-of-what-a-plain-man-thought",
+   "era_between": [
+    2885,
+    2885
+   ]
+  },
+  {
+   "after": "I-0038a"
+  },
+  {
+   "id": "EI-4050",
+   "title": "Brian reasons the earth wants its own time",
+   "body": "Standing at a fresh grave, Brian reasons that as the sea took its coal by wading and the sky by the height of a throw, the earth might take its coal only if left buried deep and undisturbed, as the dead are left. He carries the thought to Sireadh, keeper of the bag.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0027a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4049",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "brian",
+    "sireadh"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#ii-of-what-a-plain-man-thought",
+   "era_between": [
+    2885,
+    2885
+   ]
+  },
+  {
+   "id": "EI-4051",
+   "title": "Sireadh gives Brian the five dark coals",
+   "body": "Sireadh, eldest keeper of the leather bag since Fionnghuala's day, gives Brian the five coals that have not yet answered, keeping back only her doubt that a grave-digger's guess will fare better than the trials that failed before it.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-4050",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "brian",
+    "sireadh"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#iii-of-the-grave-beside-the-slab",
+   "era_between": [
+    2885,
+    2885
+   ]
+  },
+  {
+   "id": "EI-4052",
+   "title": "The black coal set in Teine a' Chlachair",
+   "body": "Brian carries the warm black coal to the hearth at Tobar dhìreach and sets it among the embers of the fire Clann a' Chlachair holds to have burned unbroken since Oidhche an Dealanaich. It catches and burns on, and is not seen to go dark again.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4051",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "brian"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#iv-of-the-black-coal-warm-in-the-ground",
+   "era_between": [
+    2885,
+    2885
+   ]
+  },
+  {
+   "id": "EI-4053",
+   "title": "Sireadh reads the black coal's answer",
+   "body": "Sireadh, the old widow who kept the bag sixty years, says at the graveside that the earth took the coal: the answering came at the rising out of the ground, not the lying in it.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4051",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "sireadh"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#iv-of-the-black-coal-warm-in-the-ground",
+   "era_between": [
+    2885,
+    2885
+   ]
+  },
+  {
+   "id": "EI-4054",
+   "title": "Brian keeps the black coal in his own pot",
+   "body": "Brian makes a clay pot of his own, fired for the purpose, with a lid of fresh-cut turf, and keeps the black coal burning in it for the rest of his life, feeding it wood and heather and carrying it with him at his work through the high valleys.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-4052",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "brian"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#v-of-the-long-keeping",
+   "era_between": [
+    2886,
+    2886
+   ]
+  },
+  {
+   "id": "EI-4055",
+   "title": "Sireadh dies",
+   "body": "Sireadh dies an old woman, having lived to see the black coal warm in Brian's hand at the graveside by Leac na Fèithe.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-4053",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "sireadh"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#iii-of-the-grave-beside-the-slab",
+   "era_between": [
+    2895,
+    2895
+   ]
+  },
+  {
+   "id": "EI-4056",
+   "title": "Brian teaches the grave-digger's trade",
+   "body": "Grown old, Brian gives over the heaviest digging to younger hands he has taught himself, teaching them above all to line a grave true, so the sides will not fall on what is laid in it; he goes on keeping the black coal at his own hearth.",
+   "place": "burg:276",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-4054",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "brian"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#iii-of-the-grave-beside-the-slab",
+   "era_between": [
+    2915,
+    2915
+   ]
+  },
+  {
+   "id": "EI-4057",
+   "title": "Brian dies at three-and-sixty",
+   "body": "Brian, grave-digger of the high valleys and finder of the black coal, dies at three-and-sixty, worn by his years of labour rather than by any illness the valley can name. He is buried beside Leac na Fèithe at Tobar dhìreach, near the ground he first opened for the five coals.",
+   "place": "burg:276",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-4056",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "brian",
+    "caoimhe"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#v-of-the-long-keeping",
+   "era_between": [
+    2921,
+    2921
+   ]
+  },
+  {
+   "id": "EI-4058",
+   "title": "The black coal burns at Brian's burial",
+   "body": "The pot holding the black coal is set beside Brian's grave, still burning, banked low, through the length of his burial; when the earth is given, Caoimhe lifts the pot herself and carries it home, and keeps the coal burning at her own hearth after.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-4057",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "caoimhe"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#v-of-the-long-keeping",
+   "era_between": [
+    2921,
+    2921
+   ]
+  },
+  {
+   "id": "EI-4059",
+   "title": "The count of the coals said new at the recital",
+   "body": "At the next night of the lightning the reciter of the line adds the black coal to the count: the sea has taken the gold, the sky the white-flecked coal, and now the earth the black, gual dubh, slowly, in the dark. Four coals remain unanswered.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0038a",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#v-of-the-long-keeping",
+   "era_between": [
+    2921,
+    2921
+   ]
+  },
+  {
+   "id": "EI-4060",
+   "title": "Caoimhe dies",
+   "body": "Caoimhe, wife of Brian the grave-digger, dies nine years after him, having kept the black coal burning at her own hearth all that while and never remarried; the coal passes from her hands into other keeping, banked and fed as it had been from the first.",
+   "place": "burg:276",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-4058",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "caoimhe"
+   ],
+   "told_in": "book/21_of_brian_and_the_buried_five.md#v-of-the-long-keeping",
+   "era_between": [
+    2930,
+    2930
+   ]
+  },
+  {
+   "id": "EI-4061",
+   "title": "The stakes found in the tidal mud",
+   "body": "A boy minding his household's mooring finds a straight row of older stakes further out in the tidal mud below the north-western point, one still hung with a scrap of stitched hide. No household owns to having driven them, and who did, or from where, the mud never says.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0039",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/22_of_the_stakes_in_the_mud_and_the_watcher_in_the_sea.md#i-of-the-stakes-in-the-mud",
+   "era_between": [
+    2937,
+    2937
+   ]
+  }
+ ]
+}

@@ -1,0 +1,203 @@
+[
+ {
+  "title": "The knotting of the heirs begins",
+  "era_year": 1,
+  "summary": "Sìne nan Snaidhm sits down at the door of the gathering-house below Dùn ìseal with a new cord of flax and wool of many colours, one colour for each child of the king with living heirs. No heir is to be heard on the shares who has not first been knotted at the door.",
+  "category": "law",
+  "people": [
+   "Sìne nan Snaidhm",
+   "Aodh Crom"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Murchadh Mòr knotted first",
+  "era_year": 1,
+  "summary": "Murchadh Mòr, eldest living son of the king, gives his line in two words, 'Ailean's son', and stands over the knot-keeper while she ties it. The knotting of his line takes the whole first day.",
+  "category": "rulers",
+  "people": [
+   "Murchadh Mòr",
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division",
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Fionn Beag sent home",
+  "era_year": 1,
+  "summary": "Eithne nic Ailein sets her own knot-keeper, Fionn Beag of the lowlands, on the step to count after Sìne nan Snaidhm. After four days he tells her that the knot-keeper of Dùn ìseal has made no mistake, and Eithne sends him home.",
+  "category": "law",
+  "people": [
+   "Eithne nic Ailein",
+   "Fionn Beag",
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Niall Òg's knot tied once",
+  "era_year": 1,
+  "summary": "Niall Òg, a grandson of the king, gives his line through his mother and again through his father and says that he is owed twice. Sìne nan Snaidhm ties his knot once.",
+  "category": "rulers",
+  "people": [
+   "Niall Òg",
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The knot-keeper refuses a cow",
+  "era_year": 1,
+  "summary": "A steward of one of the lines of the dead brings Sìne nan Snaidhm a cow in milk to have doubtful cousins tied close to his lord's line. She sends him away, and two more after him, and the stewards begin to watch one another's lines at the door.",
+  "category": "law",
+  "people": [
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The knots of the dead",
+  "era_year": 1,
+  "summary": "For the lines of the king's children who died before him, Sìne nan Snaidhm ties a hollow knot of black wool round nothing, and ties their heirs after it. By the end there are more hollow knots in the cord than knots for the king's living children.",
+  "category": "law",
+  "people": [
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   },
+   {
+    "to": "II-0001b",
+    "type": "cause",
+    "note": "Cuid nam Marbh"
+   }
+  ]
+ },
+ {
+  "title": "Four lines protest Ìomhar's knot",
+  "era_year": 1,
+  "summary": "When Ìomhar Dearg is knotted as a son of the king, four lines send their stewards to Aodh Crom to say they will not agree to Dùn dhearg being counted as one share when the shares are cut.",
+  "category": "rulers",
+  "people": [
+   "Ìomhar Dearg",
+   "Aodh Crom"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The youngest heir knotted",
+  "era_year": 1,
+  "summary": "A great-great-grandchild of the king of the salt-shore line, a child in arms, is held up at the door and knotted, the youngest of all the heirs.",
+  "category": "rulers",
+  "people": [
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The cord laid on the floor",
+  "era_year": 1,
+  "summary": "On the eleventh evening Sreang nan Oighrean, is laid along the floor of the gathering-house from the hearth to the door and back, with lamps set beside it, and the heirs walk it looking at their own knots and counting their neighbours'.",
+  "category": "law",
+  "people": [
+   "Sìne nan Snaidhm"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ }
+]

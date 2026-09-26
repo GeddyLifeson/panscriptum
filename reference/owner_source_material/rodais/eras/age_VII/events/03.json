@@ -1,0 +1,322 @@
+[
+ {
+  "title": "Cùirt na Fèille gives up its coal ceiling",
+  "era_year": {
+   "after": "VI-0005"
+  },
+  "summary": "On the day of the last cartload Fionnlagh mac Gille-Chaluim, justice of Cùirt na Fèille at Muileann òg, scrapes the coal ceiling off the painted board at the toll-house door, since no seller keeps it. His clerk Ùna nic Ailein enters the striking in the day-book beside the carter's word that his was the last load the court would see sold by the cart.",
+  "category": "trade",
+  "people": [
+   "Fionnlagh mac Gille-Chaluim",
+   "Ùna nic Ailein",
+   "Uilleam mac Dhùghaill"
+  ],
+  "places": [
+   "marker:38",
+   "burg:151"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "VI-0005",
+   "V-0236"
+  ]
+ },
+ {
+  "title": "The coal carter of Rathad na Fèille sells his cart",
+  "era_year": {
+   "after": "VI-0005"
+  },
+  "summary": "Uilleam mac Dhùghaill, who has carried coal down Rathad na Fèille from the yards of Cathair dhearg for thirty-one years, as his father did before him, sells his cart to a grain carrier of Muileann ghlas. He keeps the horse and comes no more to the fair.",
+  "category": "trade",
+  "people": [
+   "Uilleam mac Dhùghaill"
+  ],
+  "places": [
+   "burg:151",
+   "burg:360",
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "VI-0005"
+  ]
+ },
+ {
+  "title": "Coal sold by the sack at the toll-house step",
+  "era_year": {
+   "after": "VI-0005"
+  },
+  "summary": "A man of Cnoc leathan brings eleven sacks of coal on a pack-horse to Muileann òg and sells them one at a time from the step of the toll-house. Cùirt na Fèille allows it, having no rule against it, and enters eleven sales in eleven lines. Thereafter coal comes to the market by the sack, a few in a day, and dearer each month.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "burg:151",
+   "burg:359"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "VI-0005"
+  ]
+ },
+ {
+  "title": "The first coal-lump sold for an altar at the fair",
+  "era_year": {
+   "after": "VI-0005"
+  },
+  "summary": "On Bealltainn a custodian's boy from a small house of Deas-ghnàth a' Ghuail in the western hills walks to Muileann òg for a lump of the vein's coal to light the feast-fire, Comhairle nam Mèinnean sending none to houses of its size. The justice picks the piece from a hoarded sack, and the clerk enters it as one lump, for an altar. Four more such sales follow within the year.",
+  "category": "faith",
+  "people": [
+   "Ùna nic Ailein",
+   "Fionnlagh mac Gille-Chaluim"
+  ],
+  "places": [
+   "marker:38",
+   "burg:151"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "VI-0005"
+  ]
+ },
+ {
+  "title": "Ùna nic Ailein's letter of the crowning",
+  "era_year": {
+   "after": "VI-0006"
+  },
+  "summary": "Ùna nic Ailein, clerk of Cùirt na Fèille, goes up to Cathair dhearg with half of Muileann òg to see Cathal crowned by Macha's rite, and writes that night to the justice what the street saw: the regalia, the grey mare and the black horse at the temple steps, the king crowned without a word. The letter is kept among the court's papers.",
+  "category": "rulers",
+  "people": [
+   "Ùna nic Ailein",
+   "Cathal",
+   "Fionnlagh mac Gille-Chaluim"
+  ],
+  "places": [
+   "burg:19",
+   "burg:151"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0006"
+  ]
+ },
+ {
+  "title": "The coal ink for the new dies",
+  "era_year": {
+   "after": "VI-0006"
+  },
+  "summary": "The mint at Cathair dhearg buys coal of the vein from Comhairle nam Mèinnean to grind the seal-ink for the new reign's dies. Gille-Easbaig Bàn, who cuts them, reckons on the back of the answering letter that the price of the little pot of ink is a year of his wages. The mint pays it, and the recipe on the card by the grinding-stone is kept.",
+  "category": "coal",
+  "people": [
+   "Gille-Easbaig Bàn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "VI-0007",
+   "V-0024"
+  ]
+ },
+ {
+  "title": "Cathal's coin comes to the fair",
+  "era_year": {
+   "after": "VI-0007"
+  },
+  "era_between": [
+   3,
+   3
+  ],
+  "summary": "Through an t-Sultain the first coin of the new dies comes down Rathad na Fèille in the purses of carriers and drovers. By the opening of Fèill Muileann òg half the coin that crosses the court's table bears Cathal's head, with the coal ink dark at its edge.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "marker:38",
+   "burg:151"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "VI-0007"
+  ]
+ },
+ {
+  "title": "The coal-sellers' row stands empty at the fair",
+  "era_year": {
+   "after": "VI-0007"
+  },
+  "era_between": [
+   3,
+   3
+  ],
+  "summary": "Fèill Muileann òg runs eleven days and is the thinnest in its clerk's memory. The coal-sellers' row, which once ran the length of the lower field with its wagons, has four booths, two of them selling turf. The booths go dark early for want of fuel to keep a brazier, and Cnoc leathan lets fewer beds.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "marker:38",
+   "burg:359"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "V-0088",
+   "VI-0005"
+  ]
+ },
+ {
+  "title": "Black cake entered at Cùirt na Fèille",
+  "era_year": {
+   "after": "VI-0007"
+  },
+  "era_between": [
+   3,
+   3
+  ],
+  "summary": "On the northern day of the fair a Tuathach pedlar brings a creel of black cakes made from pit waste. Burned in the court-room stove, it glows hot and stinks. The justice will not have it entered as coal, and the clerk Ùna nic Ailein rules a new page for black cake, of the north, and enters its first sale, to a baker of Muileann ghlas, with the maker not named.",
+  "category": "trade",
+  "people": [
+   "Ùna nic Ailein",
+   "Fionnlagh mac Gille-Chaluim",
+   "Coinneach Liath"
+  ],
+  "places": [
+   "marker:38",
+   "burg:151",
+   "burg:360"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0001",
+   "VI-0002"
+  ]
+ },
+ {
+  "title": "The foot of Cùirt na Fèille's year",
+  "era_year": {
+   "after": "VI-0007"
+  },
+  "era_between": [
+   3,
+   3
+  ],
+  "summary": "In the last week of an Dàmhair the clerk of Cùirt na Fèille reckons the year. Under the totals, where the court has always written the weather and the roads, she writes that coal was sold that year by the cart, by the sack and by the lump, and a new fuel once, from the north.",
+  "category": "law",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "marker:38",
+   "burg:151"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0005"
+  ]
+ },
+ {
+  "title": "A bough hung on a dark lamp-post",
+  "era_year": 3,
+  "summary": "On the evening of the crowning someone hangs a green bough from the feast of Lùnastal on one of the unlit lamp-posts below the tannery in Cathair dhearg.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0004"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Cùirt na Fèille's winter sitting",
+  "era_year": 3,
+  "summary": "Cùirt na Fèille at Muileann òg sits its winter day with three cases of short weight in lamp-fuel and none in coal, the first year the book shows it so.",
+  "category": "law",
+  "people": [
+   "Fionnlagh mac Gille-Chaluim"
+  ],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0005"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Jugged buffalo dearer at Doire shean",
+  "era_year": 3,
+  "summary": "Am Buabhall Fortanach at Doire shean puts the price of its jugged buffalo up by a third, the pot needing a day's slow fire and the coal for it dearer every quarter; the harbour's shipmasters eat it all the same.",
+  "category": "trade",
+  "people": [
+   "Oighrig nic Iain"
+  ],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Carp steamed over wood at Cuan chrom",
+  "era_year": 3,
+  "summary": "The kitchen of An Taigh-seinnse Mòr above Cuan chrom goes back to steaming its carp over wood from the old coal road's thorn hedges, the cook saying the fish never knew the difference.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:418"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Fewer carts past An Taigh-seinnse Reòta",
+  "era_year": 3,
+  "summary": "The ostler of An Taigh-seinnse Reòta above Muileann fhada counts through the year a third fewer coal carts on the north road than the year before, and the landlord shuts one of his two stable yards.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:74"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ }
+]

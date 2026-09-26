@@ -9,9 +9,9 @@ check_rodais.py -- verify everything in this folder in one run.
   3. TEXTS.json: every line paired with its translation, Dia-thìris spelling
   4. Rodos_finished.map: the rewritten sections parse, no pre-Ròdais name
      survives, every saved burg label matches its burg, every layer edit of
-     legendarium/reconcile/ is in, the roads are drawn as roads, the climate is
-     that of an island between Ireland and Scotland (no glacier, no ice, a mild
-     sea-level temperature), and dubhan, not charcoal, is the traded fuel
+     legendarium/reconcile/ is in, the roads are drawn as roads, the island
+     lies in the Atlantic west of the Hebrides at 0.14 miles to the unit, with a
+     mild oceanic climate (no glacier, no ice, a mild sea-level temperature), and dubhan, not charcoal, is the traded fuel
   5. the legendarium: every event dated and in order, every reference
      resolves, world.json is the digest of the map as it stands, and no glacier,
      ice cap or iceberg anywhere in the history
@@ -24,6 +24,15 @@ check_rodais.py -- verify everything in this folder in one run.
      texts, the dictionary, world.json, the map's notes), the map's calendar the
      Dubhan Era at the present year and its wars dated in that era, each book's
      date line its age's span, and every age and era name in Dia-thìris spelling
+
+  7. the books: the Telling of the Making and the seven Books speak only of their own age and before, with nothing
+     of a later age in them (eras/quality/future_check.py, the owner's rule)
+  8. the rulers' ages (the owner's rule: "state rulers' ages, and enforce ages returning to normal by the Holy
+     Age"): eras/RULERS.json agrees with the annals and with itself; no one born in FE 1,200 or later, and no one
+     outside the king's kin, lives past 95; among the kin the longest life of each generation after Ailean is no
+     longer than the generation before's, and no child outlives a long-lived parent's span; the rulers of
+     houses.json keep its years; every era plan (eras/age_*/PLAN_people.json) keeps the rule and the rulers' years
+     (eras/quality/ages_check.py)
 
 Exit status 0 only when every check holds.  python check_rodais.py
 """
@@ -131,7 +140,8 @@ road_ids = {r['i'] for r in routes if r.get('group') == 'roads'}
 g = re.search(r'<g id="roads" data-group="roads"[^>]*>(.*?)</g>', lines[5])
 check(road_ids and g and {int(i) for i in re.findall(r'<path id="route(\d+)"', g.group(1))} == road_ids,
       'map: the %d roads are drawn in the roads group and nowhere else' % len(road_ids))
-# the climate of an island between Ireland and Scotland: no glacier, no ice, a mild sea-level temperature
+# an island alone in the Atlantic west of the Hebrides, about the size of Northern Ireland, with a mild oceanic
+# climate: no glacier, no ice, a mild sea-level temperature
 biomes = json.loads(lines[3])
 glacier = [b['i'] for b in biomes if b['name'] == 'Glacier']
 cell_biome = lines[16].split(',')
@@ -140,8 +150,11 @@ ice = re.search(r'<g id="ice"[^>]*?(/?)>', lines[5])
 check(json.loads(lines[39]) == [] and ice and ice.group(1) == '/', 'map: no icebergs, and the ice layer saved empty')
 geo = json.loads(lines[1])['geography']['coordinates']
 temps = [int(v) for v in lines[11].split(',')]
-check(54 <= geo['latS'] and geo['latN'] <= 57 and min(temps) > -5,
-      'map: the island at %s-%s N, and no grid cell cold enough for ice (the coldest %d C)' % (geo['latS'], geo['latN'], min(temps)))
+units = json.loads(lines[1])['units']['distance']
+check(56 <= geo['latS'] and geo['latN'] <= 57.6 and geo['lonE'] < -7.6 and units == {'unit': 'mi', 'scale': 0.14}
+      and min(temps) > -5,
+      'map: the frame at %s-%s N, %s-%s W (no real coast in it), %s mi to the unit, and no grid cell cold enough for ice'
+      ' (the coldest %d C)' % (geo['latS'], geo['latN'], -geo['lonW'], -geo['lonE'], units['scale'], min(temps)))
 goods = [g['name'] for g in json.loads(lines[41]) if isinstance(g, dict)]
 check('Dubhan' in goods and 'Charcoal' not in goods and 'Coal' not in goods, 'map: dubhan is a trade good, and charcoal and coal are not')
 world = json.load(open(os.path.join(HERE, 'legendarium', 'world.json'), encoding='utf-8'))
@@ -240,6 +253,36 @@ check(not span_bad, 'eras: every book opens with its age\'s name and its span in
 rnames = [build_book.AGE_NAMES[k][0] for k in keys] + [RK.ERA[k][5] for k in keys]
 check(all(R.normalize(x) == x and not [w for w in x.split() if R.check_agreement(w)] for x in rnames),
       'eras: every age and era name in Dia-thìris spelling and caol le caol (%s)' % ', '.join(rnames))
+
+# 7. the owner's rule: a book speaks only of its present and its past. The Telling of the Making and each of the seven
+# Books name nothing of a later age: no token, era, name or town of it, and no foreshadowing (eras/quality/future_check.py)
+sys.path.insert(0, os.path.join(HERE, 'eras', 'quality'))
+import future_check  # noqa: E402
+ahead = future_check.check_master()
+for where, rule, matched, why, snip in ahead[:12]:
+    print('      %s: %s "%s" (%s)' % (where, rule, matched, why))
+check(not ahead, 'books: the Telling and the seven Books speak only of their own age and before (%s)'
+      % ('%d forward reference(s); python eras/quality/future_check.py master' % len(ahead) if ahead else 'none'))
+
+# 8. the owner's rule: rulers' ages are stated, and ages return to normal by the Holy Age (eras/RULERS.json,
+# eras/quality/ages_check.py)
+import ages_check  # noqa: E402
+res, rdoc = ages_check.check_master()
+probs = dict(res)
+for what, pr in res:
+    for x in pr[:8]:
+        print('      %s: %s' % (what, x))
+kin = [r for r in rdoc['rulers'] if r['kin']]
+check(not probs['record'], 'rulers: eras/RULERS.json holds %d rulers, every year agreeing with the annals event that fixes it and every '
+      'age the difference of its years (%s)' % (len(rdoc['rulers']), '%d problem(s)' % len(probs['record']) if probs['record'] else 'all'))
+check(not probs['ordinary'], 'rulers: no one born in %s or later, and no one outside the king\'s kin, lives past %d (%s)'
+      % (rdoc['rule']['ordinary_from'], rdoc['rule']['max_ordinary_age'], ', '.join(probs['ordinary'][:4]) or 'none'))
+check(not probs['fading'], 'rulers: the long years fade, each generation of the king\'s kin no longer-lived than the one before, the '
+      'last of them dead in the Holy Age (%d of the kin; %s)' % (len(kin), ', '.join(probs['fading'][:4]) or 'none'))
+check(not probs['houses'], 'rulers: the rulers of houses.json keep its years, and no house member born in %s or later passes %d (%s)'
+      % (rdoc['rule']['ordinary_from'], rdoc['rule']['max_ordinary_age'], ', '.join(probs['houses'][:4]) or 'all'))
+check(not probs['plans'], 'rulers: every era plan keeps the rule and the rulers\' years of eras/RULERS.json (%s)'
+      % (', '.join(probs['plans'][:4]) or 'all seven'))
 
 print('\n%s' % ('ALL CHECKS HOLD' if not fails else '%d CHECK(S) FAILED' % len(fails)))
 sys.exit(1 if fails else 0)

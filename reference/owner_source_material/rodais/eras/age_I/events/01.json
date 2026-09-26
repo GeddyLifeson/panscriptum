@@ -1,0 +1,236 @@
+[
+ {
+  "title": "The spring under the shoulder of the hill fails",
+  "era_year": 1,
+  "summary": "The spring that fed Neachdan's valley thins through a wet season and fails by the dark of the year, leaving four households to carry water a mile and a half by skin. The valley meets and chooses to sink a well of its own.",
+  "category": "land",
+  "people": [
+   "Neachdan",
+   "Sorcha"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Neachdan chosen to sink the well",
+  "era_year": 1,
+  "summary": "The households of the failed spring choose Neachdan, the best splitter of stone among them, to dig a new well. He has already gone to mark the shaft while the others are still weighing whether the old spring might return.",
+  "category": "land",
+  "people": [
+   "Neachdan"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Neachdan's hands split at the knuckle",
+  "era_year": 1,
+  "summary": "Through the dead of the year Neachdan digs the new well with wedge and oak maul in sleet and frost. His hands split at the knuckle and never close between one day's work and the next, and Sorcha rubs sheep-fat into the cracks each night.",
+  "category": "land",
+  "people": [
+   "Neachdan",
+   "Sorcha"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Neachdan fills his tunic with the coloured stone",
+  "era_year": 1,
+  "summary": "Breaking into the black seam, Neachdan finds pieces streaked gold, white, red-brown and silver, and one that holds every colour at once. Knowing no name or use for them, he judges them too beautiful to leave in the flooding shaft and carries them home against his chest.",
+  "category": "coal",
+  "people": [
+   "Neachdan"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals",
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Neachdan shelters as the storm breaks",
+  "era_year": 1,
+  "summary": "A storm comes up the valley at dusk with a green-black sky. Neachdan caps the shaft and takes shelter under a crag above it rather than go back down into a flooding hole, and watches the light change to a thick yellow-brown before the sky breaks.",
+  "category": "land",
+  "people": [
+   "Neachdan"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Neachdan finds the vein still burning under the rain",
+  "era_year": 1,
+  "summary": "After the lightning strikes his capped shaft, Neachdan uncovers it to find the black seam awake along its whole face, breathing heat and a dark red flame that the driving rain cannot drown, only turn to a thin white smoke off its surface.",
+  "category": "coal",
+  "people": [
+   "Neachdan"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals",
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Neachdan weeps at the well's mouth",
+  "era_year": 1,
+  "summary": "Kneeling at the shaft with his hands held over the burning vein, Neachdan feels warmth reach his split and aching knuckles for the first time since the winter began, and weeps at the well's edge in the storm.",
+  "category": "coal",
+  "people": [
+   "Neachdan"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "The household gathers at the first hearth",
+  "era_year": 1,
+  "summary": "Neachdan sets the carried coal on a swept ring of earth in his house. Sorcha, the boy Conall, and three younger children watch the first flame any household on Dia-thìr has ever kept, unsure at first whether it is dangerous.",
+  "category": "coal",
+  "people": [
+   "Neachdan",
+   "Sorcha",
+   "Conall mac Neachdain"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The household learns the fire can be fed, and can die",
+  "era_year": 1,
+  "summary": "As the first coal burns down to ash-grey crust, Neachdan breaks it open and finds it still glowing beneath. Sorcha feeds it dry heather from the bedding stack, and the household understands, in one night, that the fire must be fed or it will go out.",
+  "category": "coal",
+  "people": [
+   "Neachdan",
+   "Sorcha"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Sorcha burned by the fire",
+  "era_year": 1,
+  "summary": "Feeding the fire a second time, Sorcha brushes her palm against the ash-grey crust of the coal, mistaking it for cold stone, and is burned across the base of her fingers. It is the first hurt any hearth on the island gives.",
+  "category": "coal",
+  "people": [
+   "Sorcha"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The household sets the rule of the stick",
+  "era_year": 1,
+  "summary": "After Sorcha's burn, the household sets a rule kept ever after: the fire is fed with a stick's length between hand and flame, never with a bare palm. Sorcha teaches it to the younger children before dawn, showing them her reddened hand.",
+  "category": "coal",
+  "people": [
+   "Sorcha",
+   "Conall mac Neachdain"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Neachdan says the fire must not go out",
+  "era_year": 1,
+  "summary": "At dawn, with the storm spent and his household warm for the first time any of them can remember, Neachdan kneels by the fire with his hand on the cold earth and says it must not go out. Sorcha pledges to feed it as long as she has hands.",
+  "category": "coal",
+  "people": [
+   "Neachdan",
+   "Sorcha"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0001",
+    "type": "sequel"
+   }
+  ]
+ }
+]

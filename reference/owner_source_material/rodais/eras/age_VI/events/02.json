@@ -1,0 +1,278 @@
+[
+ {
+  "title": "The Hale household lodged at Caol mhòr",
+  "era_year": {
+   "after": "V-0001"
+  },
+  "summary": "Walter Hale comes north with his wife Ellen and their children David and Alice among the households the guard walks into the homeland that summer, and is given a loft over a net-store on the harbour street at Caol mhòr, his for as long as nobody wants it back.",
+  "category": "humans",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0001",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Hale takes to copying the Caol mhòr harbour slate",
+  "era_year": {
+   "after": "V-0001"
+  },
+  "summary": "With no office and no book of his own, Walter Hale begins copying the catch weighed at the Caol mhòr quay from the fishermen's slate before it is rubbed clean each evening, the first written record the harbour keeps of itself under the new homeland.",
+  "category": "trade",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0003",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The boundary stone set on the Caol mhòr road",
+  "era_year": "V-0003",
+  "summary": "The council's masons set a stone where the drove path crosses the road out of Caol mhòr, cut in Dia-thìris and left without a wall to follow it. Walter Hale walks out with his son David to read what neither of them can make out.",
+  "category": "law",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95",
+   "province:7"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0003",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The north's first harvest falls short",
+  "era_year": {
+   "after": "V-0001"
+  },
+  "summary": "Sown late on ground half the settled households have never worked, the Tuathaich shires' first harvest comes in thin, short in the straw and light in the ear, while the stores that once came over the water from an Tìr Thall do not come again.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "province:7"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The Caol mhòr catch shared by households",
+  "era_year": {
+   "after": "V-0001"
+  },
+  "summary": "As the herring run late and thin that autumn, the Caol mhòr boats stop selling their catch to whoever comes first to the quay and begin sharing it out by households instead, a change no minute records and every household in the town keeps to.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Meal carried from Caol mhòr to Doire ghlas",
+  "era_year": "V-0004",
+  "summary": "The householders of Caol mhòr send three cartloads of oats and salt fish ten miles inland to Doire ghlas in the depth of the hungry winter, and Walter Hale walks with them, carrying the town's meal and, unlooked for, its grief.",
+  "category": "land",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95",
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The graves on the rise above Doire ghlas",
+  "era_year": "V-0004",
+  "summary": "Above ten dead of the hungry winter, children among them, are buried in shallow graves on the rise above Doire ghlas, dug close together in half-frozen ground; the earliest of the winter's dead had already been buried singly, unrecorded, before the town thought to keep any count.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Walter Hale's day-book begun",
+  "era_year": {
+   "after": "V-0004"
+  },
+  "summary": "Home from Doire ghlas, Walter Hale buys a fishmonger's ledger and writes the town's name and a number in it by lamplight, the first line of a private accounting of A' Bhliadhna Acrach's dead that no council south of the guard-stone has asked for or knows exists.",
+  "category": "law",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seed oats taken from the Doire mhin mill on credit",
+  "era_year": {
+   "after": "V-0004"
+  },
+  "summary": "With the hungry winter not yet spent, the Tuathaich shires take seed oats from the mill at Doire mhin on credit against the coming harvest, the first debt of its kind the north carries into the new kingdom's account books.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:5"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The names pinned in the Doire ghlas church porch",
+  "era_year": {
+   "after": "V-0004"
+  },
+  "summary": "In the first mild week of spring a woman of the parish goes house to house through Doire ghlas gathering the names of A' Bhliadhna Acrach's dead, and pins them, above fifteen strips of paper in a dozen hands, along the boards of the church porch, where the town comes to call it the porch of the names.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Walter Hale reads the porch of the names",
+  "era_year": {
+   "after": "V-0004"
+  },
+  "summary": "Walter Hale walks the ten miles to Doire ghlas a second time to read the names pinned in the church porch, and copies every one into a second book begun that winter, keeping the town's own count beside his, though neither squares exactly with the other.",
+  "category": "law",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The herring return to the Caol mhòr grounds",
+  "era_year": {
+   "after": "V-0004"
+  },
+  "summary": "By the second spring the herring come back to the Caol mhòr grounds in numbers not seen since before An Dealachadh, and the town, having taken nothing from the sea that winter that it did not share, takes the shoals as the sea's answer.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The Widow Fenn's two fish",
+  "era_year": 1,
+  "summary": "Ellen Hale comes home from the Caol mhòr quay in the first week of an Dàmhair and tells her husband that Peg Carrick's mother has given the Widow Fenn, who has no boat, two fish out of a catch of nine; it is the first word of the sharing Tional nan Tuathach later counts its first work.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0004"
+  ]
+ }
+]

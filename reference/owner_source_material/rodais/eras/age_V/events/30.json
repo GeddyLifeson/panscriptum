@@ -1,0 +1,219 @@
+[
+ {
+  "title": "Fionnan's birth reaches the cellar",
+  "era_year": 121,
+  "summary": "The birth of Fionnan, entered by an eastern custodian among the ordinary births of the year, reaches Seilear Muileann chaol folded into a roll like any other. No hand marks the line for what it is; the copyists learn to find it again only once the word for the thing exists to look for.",
+  "category": "coalblood",
+  "people": [
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-coal-blood"
+  ],
+  "master_links": [
+   "IV-0245"
+  ]
+ },
+ {
+  "title": "The count of the people copied in the cellar",
+  "era_year": {
+   "after": "IV-0246"
+  },
+  "summary": "Cunntas an Riaghaltais passes through the cellar among Taigh an Àrd-mhaoir's business the custodians think worth keeping. Fearchar mac Ailpein remarks that it counts the Dia-thìrich the way a man counts trees, near enough for the timber and not near enough for the names.",
+  "category": "record",
+  "people": [
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0246"
+  ]
+ },
+ {
+  "title": "The blank map of the outer coasts",
+  "era_year": {
+   "after": "IV-0246a"
+  },
+  "summary": "A letter reaching the cellar notes that Riaghaltas nan Coigreach's surveyors, walking the edge of the great moss beyond Seann Vell, found no way across it and left the rest of the outer district's map blank, and that the custodians of those coasts were no readier to be counted than the moss itself.",
+  "category": "record",
+  "people": [],
+  "places": [
+   "burg:127"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0246a"
+  ]
+ },
+ {
+  "title": "Seònaid nic Dhùghaill's death entered at the cellar",
+  "era_year": 123,
+  "summary": "Word reaches the cellar that Seònaid nic Dhùghaill has died at Dùn thais in her seventy-eighth year, and that the register of her school ends with her, there being none of her house or pupils willing to keep it in the open. Cailean copies the line as it stands.",
+  "category": "faith",
+  "people": [
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0247"
+  ]
+ },
+ {
+  "title": "Cailean mac Eachainn taken on at the cellar",
+  "era_year": 122,
+  "summary": "Cailean mac Eachainn, a turf-cutter's son of Muileann chaol with a plain hand at his letters, is taken on by Na Trì Teaghlaichean of the cellar when Seònag Bhàn's eyes fail her past close work. He is asked first not whether he can write fair, but whether he can hold his tongue.",
+  "category": "people",
+  "people": [
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0248"
+  ]
+ },
+ {
+  "title": "The cellar comes to know the eastern hills by heart",
+  "era_year": {
+   "after": "IV-0248"
+  },
+  "summary": "Winter on winter Na Trì Teaghlaichean of the cellar copy the whole record of the eastern hills, every birth and burial and fine and fever, until between them they come to know the district better than any single custodian who keeps only his own corner of it.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0248"
+  ]
+ },
+ {
+  "title": "The receipt for a delivery never made",
+  "era_year": {
+   "after": "IV-0249"
+  },
+  "summary": "Fearchar mac Ailpein finds among the cellar's bundles a northern custodian's receipt for a delivery the cellar never received. Na Trì Teaghlaichean learn only then that a second town of the same name, some hours to the north, has for years been taking in copies meant for their own cellar.",
+  "category": "record",
+  "people": [],
+  "places": [
+   "burg:246",
+   "burg:196"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0249"
+  ]
+ },
+ {
+  "title": "Cailean fetches the mis-sent copies",
+  "era_year": 125,
+  "summary": "Cailean walks north on foot to the smaller Muileann chaol and finds three years of missing rolls kept whole and dry by an old custodian who says only that a roll is a roll, and that he kept it well until someone came to say it was theirs. Cailean carries the chest home unopened.",
+  "category": "people",
+  "people": [
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:196",
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0249"
+  ]
+ },
+ {
+  "title": "Nothing of weight was lost",
+  "era_year": {
+   "after": "IV-0249"
+  },
+  "summary": "By lamplight Fearchar mac Ailpein and Cailean mac Eachainn match the recovered northern rolls against the cellar's own patched record of the missing years, and find that little of any weight had truly gone missing, only kept for a time in the wrong cellar.",
+  "category": "record",
+  "people": [
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0249"
+  ]
+ },
+ {
+  "title": "Peigi Ghlas calls the custodians to Cill ghlas",
+  "era_year": 126,
+  "summary": "Peigi Ghlas writes to every custodian within two days' walk, calling them to the shrine of Cill ghlas on the night of the coming full moon to settle a name for the change that has now come twice upon a child of the pits, and asks the cellar to send a hand who can write it fair on the spot.",
+  "category": "coalblood",
+  "people": [
+   "Peigi Ghlas",
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [
+   "the-coal-blood"
+  ],
+  "master_links": [
+   "IV-0250"
+  ]
+ },
+ {
+  "title": "The vote at the shrine of Cill ghlas",
+  "era_year": {
+   "after": "IV-0250"
+  },
+  "summary": "By the light of Brìde's lamp at the mouth of the oldest cutting, the custodians gathered at Cill ghlas argue two hours over a name for the coal-blood before a show of hands settles it. Cailean mac Eachainn, come up from the cellar to write it fair, counts more hands raised than not.",
+  "category": "coalblood",
+  "people": [
+   "Peigi Ghlas",
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:123"
+  ],
+  "threads": [
+   "the-coal-blood",
+   "the-keepers-promise"
+  ],
+  "master_links": [
+   "IV-0250",
+   "IV-0251"
+  ]
+ },
+ {
+  "title": "Cailean writes the word into the physician's column",
+  "era_year": {
+   "after": "IV-0251"
+  },
+  "summary": "At Peigi Ghlas's dictation, Cailean mac Eachainn writes the agreed word into a physician's register at the mouth of the cutting, then carries the leaf home to Muileann chaol for a second fair copy. His own hand is the first to set fuil-ghuail down among the ordinary births and burials of the roll.",
+  "category": "coalblood",
+  "people": [
+   "Cailean mac Eachainn",
+   "Peigi Ghlas"
+  ],
+  "places": [
+   "burg:123",
+   "burg:246"
+  ],
+  "threads": [
+   "the-coal-blood"
+  ],
+  "master_links": [
+   "IV-0250",
+   "IV-0251"
+  ]
+ }
+]

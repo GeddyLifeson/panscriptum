@@ -49,6 +49,8 @@ where two of them, or a proposal and the rest of the record, disagreed.
 2. **Distance scale and latitude.** Both applied: record 1 `units.distance.scale` 4 → 0.2 mi per unit
    (markers_routes) and `geography.mapSize` 33 → 1.13, `latitude` 20.5 → 14.33 with the recomputed
    coordinates, 62.5–64.5 N (land). FMG's scale bar reads 30 mi after load; the quest journey is 156 mi.
+   *Superseded (2026-09-25):* `place.json` sets 0.14 mi per unit (an island about the size of Northern Ireland)
+   and the frame at 56.12–57.54 N, 13.56–7.87 W, in the Atlantic west of the Hebrides (`../../eras/RESCALE_LOG.md`).
 3. **Olives on a subarctic island.** Record 41 good 14 *Olives* → *Flax* (unit bale, hemp icon). The good
    *Oil*, whose recipes are this good or whales, is left as Oil: it is now linseed or whale oil. History: G's
    olive-yard became the flax-fields of Seann Warr pressed for linseed oil (text, raw-goods table, market table,
@@ -71,7 +73,7 @@ where two of them, or a proposal and the rest of the record, disagreed.
    at inns that keep a pump, with the wartime tithe taken at the pump.
 7. **The Crown's dues were described twice.** Economy had a "sale-tithe" fixed in 2023 out of the dubhan war
    tithe and a "head-tax" of eighteen in the hundred of a reckoned wage (V-0036a, VI-0131a, G § V); state had a
-   head-due and a market-due set in 1933 (V-0015a), eighteen purses per hundred thousand heads, with the dubhan
+   head-due and a market-due set in 1933 (V-0015a), eighteen purses per five thousand heads, with the dubhan
    tithe on its own line (H § IV, VI-0154a). State's frame was kept because it is what the map's pollTax/salesTax
    arithmetic gives and it keeps the dubhan tithe apart. Economy's two events now fit inside it: V-0036a is the
    head-due first collected on the 1936 census, VI-0131a is the Treasury fixing the market-due at seventeen in the
@@ -214,3 +216,39 @@ for Tailtiu; Dian Cècht's silver hand for Nuadha. No event, id or date changed.
 working dubhan onward (V-0238 to V-0394) moved to `annals/age_VI.json` as VI-0001 to VI-0157, suffixes kept
 (V-0263a became VI-0026a); every reference in this document and in the layer proposals follows the new ids, and no
 date moved.
+
+## The history on the map (history.json)
+
+Applied last, after the place. `../history_layer.py` holds the content; its `bake` builds the map as it stood before
+this layer (`finish_map.py` with `RODAIS_RECONCILE_EXCLUDE=history`), applies `history_spec.json` to it in Azgaar
+through the era engine, and writes the difference as edits, so the states' statistics, poles and arms, the routes'
+paths and the zones' cells are Azgaar's own while the build stays byte for byte (finish_map.py only reads the edits).
+Two edit forms are new: record 25 (the cells' states) as a cell array, and `add_route` (a route, the links of its
+stretch where no older route ran, and its saved path).
+
+- **The Moot**, *Tional nan Tuathach*: state 2, the eleven Tuathaich shires of Appendix H III (343 cells, 63 burgs),
+  seat Caol mhòr (now a capital burg), form Republic with the form name Moot, no dues and no treasury, arms generated
+  (the roll has none, J I). The kingdom is its suzerain and it the kingdom's vassal: the Moot has no standing in law
+  and speaks for shires of the kingdom, and the drafts' "defeated and unreconciled" (seann-chunntas) is in its note.
+  The states' rural totals follow the cells moved.
+- **The wars.** The map's calendar is the Dubhan Era, and check 6 holds its wars to years of that era, so only
+  An Cogadh Fada and its three named battles are campaigns (DE 21-22). Every war of Appendix C, and the Moot's
+  dealings with the kingdom, is in the war chronicle (Azgaar's Relations history), each line dated from the annals.
+- **Markers 49-79**: the seventeen named battles, sieges and raids of Appendix C's table not yet on the map (names as
+  eras/NAMES.json gives them), Talla na Lasrach and Fosadh Àth àrsaidh where wars ended, Clach nan Rèisimeidean, Teine
+  a' Chlachair at the slab of Tobar dhìreach, Coimhdeach na Fine in the grove of Doire ghlas, six of the seven
+  lightings (the second is Binnean a' Chlachair, whose note now says so), Taigh Dhuinn in the south-western sea, Cidhe
+  an Diosail and An Sloc Mòr. The battlefields 17 and 18 have new notes.
+- **Routes 450-455**: An t-Aiseag (the Crossing north-about, to Cuan shean), Am Falbh (the Setting-Out), Loidhne Fenn
+  (the ruler's line over the land), the Leaden Hawk's road (the cells of its journey) and the pilgrim roads from Caol
+  shean and Inis uaine to Allt an Àigh.
+- **Zones 5-13**: Ceò Mhanannain on the northern and eastern seas (the boxes of the Age IV and V specs) and the
+  plagues and famines of Appendix C III; the five districts have notes.
+- **Goods 72-78**: the seven coals, on the seven nearest land cells to An Sloc Mòr that held no good; chance 0, value
+  0, sold in no market (G I).
+- **Notes** on both states, the 123 shires (Appendix H VII) and the Leaden Hawk's journey.
+
+Names coined here, not yet in eras/NAMES.json (history.json lists them): the zones' *Casad*, *Fiabhras*, *Breac*,
+*Gorta* names, *Loidhne Fenn*, *Slighe an t-Seabhaig Luaidhe*, *Slighe nan Oilithreach*, *Rathad nan Oilithreach*;
+every one passes normalize and caol le caol. The era maps keep their own lists of markers, zones and routes, so none
+of this layer's additions appears on them; they were rebuilt against the new master and all verify.

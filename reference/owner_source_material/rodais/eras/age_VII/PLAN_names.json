@@ -1,0 +1,158 @@
+[
+ {
+  "en": "the Àth leathan post",
+  "dt": "Freiceadan Àth leathan",
+  "gloss": "the Àth leathan post, the seventh regiment's post on the road below Àth leathan",
+  "kind": "landmark"
+ },
+ {
+  "en": "the Hewers' Row",
+  "dt": "Sreath nan Gualadairean",
+  "gloss": "the Hewers' Row at Seann Toll",
+  "kind": "street"
+ },
+ {
+  "en": "the shipmasters' company",
+  "dt": "Comann nan Sciobairean",
+  "gloss": "the company of shipmasters who built the dubhan works at the southern Seann Skell",
+  "kind": "company"
+ },
+ {
+  "en": "the Seann Skell works",
+  "dt": "Obair-dhubhain Seann Skell",
+  "gloss": "the dubhan works at the southern Seann Skell",
+  "kind": "institution"
+ },
+ {
+  "en": "the charter of export",
+  "dt": "Cairt na h-Às-mhalairt",
+  "gloss": "Dubhan's charter to sell dubhan beyond the island",
+  "kind": "charter"
+ },
+ {
+  "en": "the road-pass",
+  "dt": "Cead an Rathaid",
+  "gloss": "the pass Tuathaich show on the northern road",
+  "kind": "document"
+ },
+ {
+  "en": "those of no shire",
+  "dt": "Muinntir gun Siorrachd",
+  "gloss": "those of no shire, the open record's name for the foes of the Long War",
+  "kind": "people"
+ },
+ {
+  "en": "the court of the sea",
+  "dt": "Cùirt na Mara",
+  "gloss": "the court of the sea at Ros dhomhain",
+  "kind": "court"
+ },
+ {
+  "en": "the fair court",
+  "dt": "Cùirt na Fèille",
+  "gloss": "the court of the fair at Muileann òg",
+  "kind": "court"
+ },
+ {
+  "en": "the lamp-makers' guild",
+  "dt": "Comann nan Lòchran",
+  "gloss": "the lamp-makers' guild of Muileann mhin",
+  "kind": "guild"
+ },
+ {
+  "en": "the register of the dead and maimed",
+  "dt": "Clàr nam Marbh is nan Leòinte",
+  "gloss": "the Moot's register of the Tuathaich dead and maimed",
+  "kind": "document"
+ },
+ {
+  "en": "An Eala Dhubh",
+  "dt": "An Eala Dhubh",
+  "gloss": "the Black Swan, the first tank-hull loaded under the charter of export",
+  "kind": "ship"
+ },
+ {
+  "en": "the fair road",
+  "dt": "Rathad na Fèille",
+  "gloss": "the fair road from the capital to Muileann òg",
+  "kind": "route"
+ },
+ {
+  "en": "the Tuathaich tellings",
+  "dt": "Sceulachdan nan Tuathach",
+  "gloss": "the Tuathaich tellings",
+  "kind": "document"
+ },
+ {
+  "en": "the open record",
+  "dt": "An Clàr Foscailte",
+  "gloss": "the open record of the war years",
+  "kind": "document"
+ },
+ {
+  "en": "the Muileann àrsaidh agreement",
+  "dt": "Còrdadh Muileann àrsaidh",
+  "gloss": "the western pit towns' agreement",
+  "kind": "document"
+ },
+ {
+  "en": "the Hewers' oath-stone",
+  "dt": "Clach-mhionnan nan Gualadairean",
+  "gloss": "the oath-stone of coal of the Guild of Hewers",
+  "kind": "relic"
+ },
+ {
+  "en": "the commander of the regiments",
+  "dt": "Ceannard nan Rèisimeidean",
+  "gloss": "the commander of the regiments",
+  "kind": "office"
+ },
+ {
+  "en": "the charter rule",
+  "dt": "Riaghailt na Cairte",
+  "gloss": "the charter rule that kept the Fuel-Fitters' rolls to Dia-thìrich",
+  "kind": "law"
+ },
+ {
+  "en": "the high custodian's letter",
+  "dt": "Litir an Àrd-choimheadaiche",
+  "gloss": "the high custodian's letter on the new fuel",
+  "kind": "document"
+ },
+ {
+  "en": "the dubhan trade",
+  "dt": "Malairt an Dubhain",
+  "gloss": "the dubhan trade (proposed thread)",
+  "kind": "thread"
+ },
+ {
+  "en": "An Ròn Dubh",
+  "dt": "An Ròn Dubh",
+  "gloss": "the Black Seal, Lachann mac Neacail's fishing boat of Caol fhiadhaich, the first fitted with a dubhan engine",
+  "kind": "ship"
+ },
+ {
+  "en": "Am Buabhall Fortanach",
+  "dt": "Am Buabhall Fortanach",
+  "gloss": "the Lucky Buffalo, the great inn near Doire shean kept by Oighrig nic Iain",
+  "kind": "landmark"
+ },
+ {
+  "en": "An Taigh-seinnse Mòr",
+  "dt": "An Taigh-seinnse Mòr",
+  "gloss": "the great house on the old coal road above Cuan chrom, whose new hall is let to the Guild of Hewers",
+  "kind": "landmark"
+ },
+ {
+  "en": "the eleven books",
+  "dt": "An t-Aon Leabhar Deug",
+  "gloss": "the eleven books of Tuathaich accounts gathered by Ellen Marsh over eleven years and offered to the Library",
+  "kind": "document"
+ },
+ {
+  "en": "the motion for amends",
+  "dt": "Tagradh na h-Èirig",
+  "gloss": "Anna nic Phàil's motion to pay the Tuathaich towns for what they lost in the war, brought on the Moot's last petition and allowed to die without a vote",
+  "kind": "law"
+ }
+]

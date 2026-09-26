@@ -1,0 +1,212 @@
+[
+ {
+  "title": "Fearghas sends the last untroubled tithe",
+  "era_year": 543,
+  "summary": "Fearghas Dà-Mhionn weighs out his sheaves for Dùn dhearg and for Cathair mhòr at Muileann chiar as he has every harvest of his long life, a little short to each, not yet knowing it is the last year either hall will let the joke stand.",
+  "category": "trade",
+  "people": [
+   "Fearghas Dà-Mhionn"
+  ],
+  "places": [
+   "burg:395"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The black-eaved holding east of Achadh mhòr",
+  "era_year": 544,
+  "summary": "A double-sworn household two valleys east chooses an Earrann Dhearg and is burned to its field-walls by Cathair mhòr's men before the next harvest, its cattle driven off and its house left standing empty as a warning to the next household asked to choose.",
+  "category": "war",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A holding that chose neither is burned by both",
+  "era_year": 545,
+  "summary": "A double-sworn holding south of Achadh mhòr refuses to choose between its lords and is burned within the year by both hosts in turn, an Earrann Dhearg's riders taking the barn first and a company of Cathair mhòr's finishing it, each telling its own men it punished only what the other began.",
+  "category": "war",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Fearghas rides to see a burned holding",
+  "era_year": 546,
+  "summary": "Fearghas rides to the black-eaved holding east of his own fields to see with his own eyes what a double-sworn household looks like once burned, and finds only standing walls, fallen roofs and a dog that will not leave the ruin, and speaks of the war differently after.",
+  "category": "war",
+  "people": [
+   "Fearghas Dà-Mhionn"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A burned widow's household shelters at Achadh mhòr",
+  "era_year": 547,
+  "summary": "A widow and her three sons, burned out in the southern raids, shelter three nights at Fearghas's hall on their way to kin beyond Ceann leathan, and Fearghas feeds them without asking any oath of them, telling his steward a household already burned has paid enough.",
+  "category": "war",
+  "people": [
+   "Fearghas Dà-Mhionn"
+  ],
+  "places": [
+   "burg:395"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Torcall Donn killed on the road below Dùn thais",
+  "era_year": 548,
+  "summary": "Torcall Donn, great-grandson of Eithne and husband of the dead Muireall nic Ìomhair, is killed at a hundred and eighteen years old when his company meets a company of an Earrann Dhearg's riders on a narrow road and the pushing between them turns to blows.",
+  "category": "war",
+  "people": [
+   "Torcall Donn"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Fearghas sends barley to be burned at Torcall Donn's grave",
+  "era_year": 548,
+  "summary": "Fearghas sends a measure of his own barley to be burned at Torcall Donn's graveside at Cathair mhòr, the old rite for a man dead before his harvest is in, asking that no word go with it saying who sent it; the giver is known within the season regardless.",
+  "category": "faith",
+  "people": [
+   "Fearghas Dà-Mhionn",
+   "Torcall Donn"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "An Earrann Dhearg presses its claim after the widower's death",
+  "era_year": 549,
+  "summary": "With Torcall Donn dead, an Earrann Dhearg presses its claim on Muireall's three granges harder rather than less, judging Cathair mhòr's grip on lands held only through a dead man's marriage weaker than before, and the war burns on past the quarrel that began it.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Ciorstaidh's stone set in Fearghas's hall",
+  "era_year": 550,
+  "summary": "Fearghas has a stone cut for his grandmother Ciorstaidh and set into his own hall wall, her name and the sign of the cut knot beside it, wanting it known in stone that the house he holds was held first by one of the eleven who answered for their double oath all their lives.",
+  "category": "faith",
+  "people": [
+   "Fearghas Dà-Mhionn",
+   "Ciorstaidh"
+  ],
+  "places": [
+   "burg:395"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The mason of Muileann chiar carries the tale",
+  "era_year": 550,
+  "summary": "The stone-cutter who set Ciorstaidh's memorial breaks his promise of silence at the first market he reaches, and the setting of the stone becomes, within a season, one more thing told of Fearghas Dà-Mhionn on both sides of the war, read two different ways by two different hearths.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Both hosts called out for Achadh mhòr",
+  "era_year": 556,
+  "summary": "In the heat of Lùnastal an Earrann Dhearg's council and Cathair mhòr's both resolve within the same week to take Achadh mhòr's granary whole, and two riders reach Fearghas within an hour of each other, each astonished that his own lord's host was not first to move.",
+  "category": "war",
+  "people": [
+   "Fearghas Dà-Mhionn"
+  ],
+  "places": [
+   "burg:395"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The last sheaf of Achadh mhòr carried clear of the fire",
+  "era_year": 556,
+  "summary": "The reapers finish the western cutting and carry the last sheaf, bound and cut high as the custom asks, clear of the burning fields before the wind turns, and it is this sheaf, not the granary, that the households round about keep afterward at every harvest's end.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:395"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "parallel"
+   }
+  ]
+ }
+]

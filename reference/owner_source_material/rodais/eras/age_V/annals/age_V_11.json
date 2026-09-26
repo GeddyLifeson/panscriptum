@@ -1,0 +1,889 @@
+{
+ "writer": 6,
+ "span": [
+  "IV-0276",
+  "IV-0325"
+ ],
+ "events": [
+  {
+   "after": "IV-0278"
+  },
+  {
+   "id": "EV-6010",
+   "title": "Achadh chaol's first roll opened",
+   "body": "Aonghas Mòr, once keeper of the lost shrine, opens the first custodians' roll of Achadh chaol on the day the new village's well is finished, its first line giving the well's depth and naming no shrine and no dead. It is the only settlement of the age raised without any surveyor of A' Chompanaidh's hand in it.",
+   "place": "burg:389",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0273",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "aonghas-mor"
+   ],
+   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#iv-of-the-fenced-ground-and-the-stone-on-the-moor-road",
+   "era_between": [
+    138,
+    138
+   ]
+  },
+  {
+   "id": "EV-6011",
+   "title": "Faire nan Lòchran keeps the struck copy",
+   "body": "A Dia-thìreach clerk who keeps A' Chompanaidh's own file copy of the inquiry's minutes has the struck-through page carried north to Baile thais folded inside sailcloth. Eilidh nic Raghnaill copies it a second time into Faire nan Lòchran's linen-chest book, the stricken line copied as stricken, and is given a full seat at the table that winter.",
+   "place": "burg:44",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0275",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0234",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company",
+    "the-long-war"
+   ],
+   "people": [
+    "eilidh-nic-raghnaill",
+    "morag-nic-iain-maor"
+   ],
+   "told_in": "book/33_of_the_rending_of_cill_ghlas.md#vi-of-the-inquiry-and-the-copy-that-was-kept",
+   "era_between": [
+    138,
+    138
+   ]
+  },
+  {
+   "id": "EV-6001",
+   "title": "Tormod Buidhe's sister's boy dies of Am Fiabhras Glas",
+   "body": "A boy not yet old enough for his first wage dies of Am Fiabhras Glas at Baile thais under Eilidh nic Raghnaill's sitting, having asked her, near the end, what month it was. His mother keeps his name from Comann an Adhlacaidh's book, and Eilidh does not ask for it twice.",
+   "place": "burg:44",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0276",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eilidh-nic-raghnaill"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#i-of-the-grey-fever",
+   "era_between": [
+    138,
+    138
+   ]
+  },
+  {
+   "id": "EV-6002",
+   "title": "Eilidh nic Raghnaill begins Comann an Adhlacaidh's book",
+   "body": "Eilidh nic Raghnaill begins keeping a plain hand-written record for Comann an Adhlacaidh at Baile thais, answering to no custodian's roll, after watching her father Raghnall Breac carry twenty years of names in his memory and give none of them to paper. She means not to do the same.",
+   "place": "burg:44",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0276",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eilidh-nic-raghnaill"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#i-of-the-grey-fever",
+   "era_between": [
+    138,
+    138
+   ]
+  },
+  {
+   "id": "EV-6012",
+   "title": "Eilidh nic Raghnaill drafts An Dàrna Athchuinge",
+   "body": "In Comann an Adhlacaidh's room at Baile thais, Eilidh nic Raghnaill drafts An Dàrna Athchuinge over three nights by a single coal lamp, with Griogal and two others reading each page back to her aloud. She writes its last sentence twice before settling the wording Griogal judges means it rather than asks permission to mean it.",
+   "place": "burg:44",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0279",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0281",
+     "type": "cause"
+    },
+    {
+     "to": "EV-6002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "eilidh-nic-raghnaill"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#ii-of-an-darna-athchuinge",
+   "era_between": [
+    138,
+    138
+   ]
+  },
+  {
+   "after": "IV-0281"
+  },
+  {
+   "id": "EV-6013",
+   "title": "A' Chompanaidh dismisses Coinneach Ruadh at his own store",
+   "body": "A' Chompanaidh's agent at Cnoc dhìreach delivers Coinneach Ruadh's letter of dismissal at the store's door in front of the week's flour queue, the day his signature to An Dàrna Athchuinge dries. He is offered twice the chance to withdraw his name and twice declines it, saying a name once given is not the giver's to take back.",
+   "place": "burg:462",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0280",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "coinneach-ruadh"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#ii-of-an-darna-athchuinge",
+   "era_between": [
+    139,
+    139
+   ]
+  },
+  {
+   "id": "EV-6014",
+   "title": "Taigh an Àrd-mhaoir's clerk underlines the petition's last sentence",
+   "body": "A clerk of Taigh an Àrd-mhaoir underlines in red ink An Dàrna Athchuinge's last sentence, that the hill will not go on being worked by people who are not asked, before passing the fair copy Eilidh nic Raghnaill made up the office. The custodians afterward agree it is the first sign Riaghaltas nan Coigreach has read a Dia-thìrich word and understood it.",
+   "place": "zone:0",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0279",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0281",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "eilidh-nic-raghnaill"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#ii-of-an-darna-athchuinge",
+   "era_between": [
+    139,
+    139
+   ]
+  },
+  {
+   "after": "IV-0287"
+  },
+  {
+   "id": "EV-6003",
+   "title": "The first constables' company reaches Baile thais",
+   "body": "Forty constables under an officer named Prosser march into Baile thais on the twenty-fifth of Gearran and wall the settlement's old open store within the fortnight, taking the camp's well inside the new wall. Eilidh nic Raghnaill and Comann an Adhlacaidh watch the company make camp on ground that had been common land that same morning.",
+   "place": "burg:44",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0282",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "eilidh-nic-raghnaill"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#iii-of-the-answer",
+   "era_between": [
+    140,
+    140
+   ]
+  },
+  {
+   "id": "EV-6015",
+   "title": "The fourth shrine stands at Ros gheal",
+   "body": "After the constables tear down the hawk-faithful's shrine on the Ros gheal harbour wall three mornings running, unnamed hands raise it a fourth time and the constables stop trying. The shrine stands afterward as the ordinary furniture of a wall that had always carried something.",
+   "place": "burg:24",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0285",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#iv-of-ord-an-t-seabhaig-and-the-sermon",
+   "era_between": [
+    140,
+    140
+   ]
+  },
+  {
+   "id": "EV-6016",
+   "title": "An overman gives up his cot at Cathair gheal",
+   "body": "In the crowded shared ward at Cathair gheal a Dia-thìreach overman of the north-west galleries gives up his own bed to a human boy of the concession no more than nine years old, and sits the night on the floor beside him. Hannah Webb writes of it to Eilidh nic Raghnaill at Baile thais.",
+   "place": "burg:476",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0287",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "hannah-webb"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#iv-of-ord-an-t-seabhaig-and-the-sermon",
+   "era_between": [
+    140,
+    140
+   ]
+  },
+  {
+   "after": "IV-0292"
+  },
+  {
+   "id": "EV-6017",
+   "title": "Eilidh nic Raghnaill reads Ìomhar Seabhag's sermon to Faire nan Lòchran",
+   "body": "A fowler leaves a written copy of Ìomhar Seabhag's Seann Skell sermon with Comann an Adhlacaidh's door-keeper at Baile thais, and Eilidh nic Raghnaill reads it aloud to the room by the same lamp she drafted An Dàrna Athchuinge by. For once she does not write anything in the club's book afterward.",
+   "place": "burg:44",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0284",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "eilidh-nic-raghnaill"
+   ],
+   "told_in": "book/34_of_the_warning_and_the_constables.md#iv-of-ord-an-t-seabhaig-and-the-sermon",
+   "era_between": [
+    141,
+    141
+   ]
+  },
+  {
+   "id": "EV-6018",
+   "title": "Aonghas takes the loft at An Taigh-seinnse Mòr",
+   "body": "A crew-leader from Baile thais asks Aonghas, keeper of An Taigh-seinnse Mòr since Seònaid Bhàn's line came to him, whether the loft above his stable might hold men now and again with no questions asked. He agrees, and stops in time asking what they carry.",
+   "place": "marker:10",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0290",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0300",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas"
+   ],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
+   "era_between": [
+    141,
+    141
+   ]
+  },
+  {
+   "after": "IV-0298"
+  },
+  {
+   "id": "EV-6004",
+   "title": "A boy of Àth fhiadhaich at Aonghas's door",
+   "body": "A boy runner out of Àth fhiadhaich comes soaked from the ford into Aonghas's yard, asks for bread as any boy might, and leaves a folded scrap under the loose board by the stable door naming a date and nothing else. Aonghas burns it in the kitchen fire that night.",
+   "place": "burg:12",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0298",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas"
+   ],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#iii-of-the-post-at-the-far-shore-and-the-boys-of-the-ford",
+   "era_between": [
+    142,
+    142
+   ]
+  },
+  {
+   "id": "EV-6019",
+   "title": "The fishermen of Doire shean paid in eastern silver",
+   "body": "Old Coinneach nan Ràmh and the other fishermen below Am Buabhall Fortanach take to being paid, for certain nights never spoken of as work, in silver struck in an Tìr Thall rather than Riaghaltas nan Coigreach's coin. None of it is ever spent where a clerk of A' Chompanaidh might see it change hands.",
+   "place": "burg:324",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0295",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#ii-of-the-landing-below-the-fortunate-house",
+   "era_between": [
+    142,
+    142
+   ]
+  },
+  {
+   "id": "EV-6020",
+   "title": "Coinneach nan Ràmh's word on the loft at the Reòta",
+   "body": "The old fisherman Coinneach nan Ràmh tells Aonghas that the loft at An Taigh-seinnse Reòta is never once found empty by A' Chompanaidh's carters passing through, and never once holds the same men two nights running: it comes and goes, he says, like the tide, and no man has ever caught the tide at its turning.",
+   "place": "marker:8",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0296",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas"
+   ],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#ii-of-the-landing-below-the-fortunate-house",
+   "era_between": [
+    142,
+    142
+   ]
+  },
+  {
+   "id": "EV-6021",
+   "title": "The Sligeanach's psalter",
+   "body": "Marks for the loft at An Taigh-seinnse Mòr travel up Rathad na Mèinne folded inside a psalter, as innocent on the road as any priest's book, sent on from the ledger kept in the roof-space above the shrine at Achadh mhòr.",
+   "place": "burg:395",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0297",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0299",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#iii-of-the-post-at-the-far-shore-and-the-boys-of-the-ford",
+   "era_between": [
+    142,
+    142
+   ]
+  },
+  {
+   "after": "IV-0308"
+  },
+  {
+   "id": "EV-6005",
+   "title": "The fire on Cnoc an Rabhaidh",
+   "body": "On 27 am Màrt, Aonghas watches smoke rise thin from Cnoc an Rabhaidh in a hard north-west wind, and every wheel within sight of his yard stops within the hour. A carter in his own yard names it a heath fire before anyone learns otherwise.",
+   "place": "marker:10",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0301",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0306",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0309",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas"
+   ],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#iv-of-the-fire-taken-for-heath",
+   "era_between": [
+    143,
+    143
+   ]
+  },
+  {
+   "id": "EV-6022",
+   "title": "The heather burned thin",
+   "body": "The constables burn the heather of Cnoc an Rabhaidh to deny the hill a second beacon. It grows back thin and late the following spring, and three years pass before anyone on Rathad na Mèinne speaks openly of what the fire had truly been.",
+   "place": "marker:10",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0309",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#v-of-the-six-days",
+   "era_between": [
+    143,
+    143
+   ]
+  },
+  {
+   "after": "IV-0312"
+  },
+  {
+   "id": "EV-6006",
+   "title": "Tormod Buabhall's word on a house with nothing left to guard",
+   "body": "Meeting Aonghas at the horse-fair after the ships have thinned to nothing, Tormod Buabhall tells him a house with no custom left keeps its gates shut for a different reason than before: a house that guards everything still has, behind its locked door, something it means to keep.",
+   "place": "marker:5",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0310",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-buabhall",
+    "aonghas"
+   ],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#i-of-the-house-at-the-halfway-stage",
+   "era_between": [
+    145,
+    145
+   ]
+  },
+  {
+   "id": "EV-6023",
+   "title": "The forgotten agent of Caol bheag",
+   "body": "A' Chompanaidh's agent at the idle quay of Caol bheag sees one ship in a whole season and writes to Ros dhomhain that he has been forgotten. So far as Rathad na Mèinne ever hears, no answer comes back to him.",
+   "place": "burg:301",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0312",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#vi-of-the-idle-harbours",
+   "era_between": [
+    145,
+    145
+   ]
+  },
+  {
+   "after": "IV-0314"
+  },
+  {
+   "id": "EV-6024",
+   "title": "Strake's commission read without the council's name",
+   "body": "At Ros dhomhain, Aonghas stands in the market square while Lionel Strake's commission is read from Taigh an Àrd-mhaoir's steps: it names A' Chompanaidh and Riaghaltas nan Coigreach in an Tìr Thall, and, for the first time in any Àrd-mhaor's commission, does not name Comhairle a' Chùraim at all.",
+   "place": "burg:27",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0313",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0314",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas",
+    "lionel-strake"
+   ],
+   "told_in": "book/35_of_the_houses_on_the_roads.md#vii-of-leave-no-longer-asked",
+   "era_between": [
+    146,
+    146
+   ]
+  },
+  {
+   "after": "IV-0318"
+  },
+  {
+   "id": "EV-6007",
+   "title": "The old man of Doire mhòr",
+   "body": "An old man carried gently from his own doorstone by constables clearing houses under Àithne a' Ghlacaidh asks only that it be written down that they were gentle about it. Mòrag nic Iain Maor, come from Muileann chrom, carries the sentence home with no book to hand.",
+   "place": "burg:101",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0316",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0317",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "morag-nic-iain-maor"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#ii-of-aithne-a-ghlacaidh",
+   "era_between": [
+    147,
+    147
+   ]
+  },
+  {
+   "id": "EV-6025",
+   "title": "The iron bird seen over Muileann chrom",
+   "body": "A flying machine passes twice over the Muileann chrom valley without beating its wings, and the crews at the pit-mouth stop their barrows to watch it go. By evening the district has a name for it, eun-iarainn, borrowed from nowhere and understood at once.",
+   "place": "burg:354",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0315a",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-6007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "morag-nic-iain-maor"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#i-of-the-iron-bird",
+   "era_between": [
+    147,
+    147
+   ]
+  },
+  {
+   "id": "EV-6026",
+   "title": "Mòrag's private book",
+   "body": "Mòrag nic Iain Maor sets down word of the iron bird in the private hand her father taught her, kept apart from A' Chompanaidh's own tally, the same hand in which her struck-out testimony at the pithead inquiry had first been copied for Faire nan Lòchran.",
+   "place": "burg:354",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0315a",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0275",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-6025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "morag-nic-iain-maor"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#i-of-the-iron-bird",
+   "era_between": [
+    147,
+    147
+   ]
+  },
+  {
+   "after": "IV-0322"
+  },
+  {
+   "id": "EV-6027",
+   "title": "Sìneag's ride to Muileann chrom",
+   "body": "Sìneag, custodian of the camp at Baile dhomhain, rides to the steward's house at Muileann chrom to ask whether the overseer's staff can answer for the two streets pulled down for the new spoil-tip. Mòrag nic Iain Maor can offer her nothing that year.",
+   "place": "burg:224",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0318",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-6026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "morag-nic-iain-maor",
+    "sineag"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#ii-of-aithne-a-ghlacaidh",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "id": "EV-6028",
+   "title": "The order for the third and fourth rows",
+   "body": "A printed order reaches Muileann chrom's overseer naming eleven households of the camp's third and fourth rows for clearance before the new gallery mouth. A' Chompanaidh's agent Osgood carries it to Mòrag nic Iain Maor's door, and carries her answer back unwritten.",
+   "place": "burg:354",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0316",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0319",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-6027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "morag-nic-iain-maor",
+    "osgood"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#iii-of-the-order-and-the-staff",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "id": "EV-6029",
+   "title": "Griogar Camshron breaks his staff",
+   "body": "Griogar Camshron, six years overseer of the north pit's eastern gallery, throws down his staff in his own yard within the week of Mòrag nic Iain Maor's refusal at Muileann chrom, rather than be the one overseer left holding wood A' Chompanaidh has marked for treachery.",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0319",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "griogar-camshron"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#iii-of-the-order-and-the-staff",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "id": "EV-6030",
+   "title": "The staff left standing",
+   "body": "The overseer at the silver country's edge walks away from his office without a word and leaves his staff propped against the counting-house wall, the third resignation of the season after Mòrag nic Iain Maor's and Griogar Camshron's, and word of it does not reach Muileann chrom until winter.",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0319",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#iii-of-the-order-and-the-staff",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "id": "EV-6031",
+   "title": "Coinneach Ruadh brings word of the guild's rifles",
+   "body": "Coinneach Ruadh, riding the district roads with unpaid news since his clerkship was taken, brings Mòrag nic Iain Maor word of Comann an Airgid's rifles and of a single council the custodians and priests mean to hold in Coille Naomh Cnoc bheag before autumn.",
+   "place": "burg:354",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0320",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0321",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0322",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "morag-nic-iain-maor",
+    "coinneach-ruadh"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#iv-of-the-silver-and-the-forest",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "id": "EV-6032",
+   "title": "Mòrag rides to the forest by night",
+   "body": "Mòrag nic Iain Maor rides twenty-eight miles by night off the ridge road to Coille Naomh Cnoc bheag, and is among those who raise a hand for Eilidh nic Raghnaill to speak for the whole mining country's council.",
+   "place": "marker:24",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0322",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-6031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "morag-nic-iain-maor",
+    "eilidh-nic-raghnaill"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#iv-of-the-silver-and-the-forest",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "after": "IV-0324"
+  },
+  {
+   "id": "EV-6008",
+   "title": "Coinneach Ruadh's ride of the twenty-eighth",
+   "body": "Coinneach Ruadh rides into Muileann chrom on the twenty-eighth of an Gearran with word that the grievance is called across every mining district at once, and that Taigh an Àrd-mhaoir has already had its answer that morning from Muileann chrom and Baile thais both.",
+   "place": "burg:354",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0324",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "morag-nic-iain-maor",
+    "coinneach-ruadh"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#v-of-the-silent-town",
+   "era_between": [
+    149,
+    149
+   ]
+  },
+  {
+   "id": "EV-6009",
+   "title": "The beacons of the coal country answer",
+   "body": "On the night war is called, signal fires long kept secret are carried openly to every beacon height the mining districts hold, ridge answering ridge from Doire mhòr to the silver hills, the first time the whole coal country has shown itself lit at once.",
+   "place": "burg:354",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "IV-0324",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "morag-nic-iain-maor"
+   ],
+   "told_in": "book/36_of_the_breaking_of_the_staff.md#v-of-the-silent-town",
+   "era_between": [
+    149,
+    149
+   ]
+  }
+ ]
+}

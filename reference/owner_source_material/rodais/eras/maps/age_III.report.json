@@ -1,0 +1,212 @@
+{
+ "warnings": [
+  "province 124 (Dùn ìseal) spans states 2:23, 1:1; it is given to state 2",
+  "market 13: centre burg 113 is gone; moved to 475 (Caol bheag)",
+  "market 14: centre burg 160 is gone; moved to 95 (Caol mhòr)",
+  "market 15: centre burg 233 is gone; moved to 110 (Seann Bhral)",
+  "economy: 3133 deals with burgs or markets not on this map dropped"
+ ],
+ "ids": {
+  "burg": {
+   "III_N01": 506,
+   "III_N02": 507,
+   "III_N03": 508
+  },
+  "state": {
+   "realm": 1,
+   "hall": 2,
+   "north-west": 3
+  },
+  "province": {
+   "u0": 124,
+   "u1": 125
+  },
+  "culture": {},
+  "religion": {},
+  "marker": {
+   "III_K01": 49,
+   "III_K02": 50,
+   "III_K03": 51,
+   "III_K04": 52,
+   "III_K05": 53,
+   "III_K06": 54,
+   "III_K07": 55,
+   "III_K08": 56,
+   "III_K09": 57,
+   "III_K10": 58,
+   "III_K11": 59,
+   "III_K12": 60,
+   "III_K13": 61,
+   "III_K14": 62,
+   "III_K15": 63,
+   "III_K16": 64,
+   "III_K17": 65,
+   "III_K18": 66,
+   "III_K19": 67,
+   "III_K20": 68,
+   "III_K21": 69,
+   "III_K22": 70,
+   "III_K23": 71,
+   "III_K24": 72
+  },
+  "zone": {
+   "III_Z_S1": 0,
+   "III_Z_S2": 1,
+   "III_Z_S3": 2,
+   "III_Z_S4": 3,
+   "III_Z_S5": 4,
+   "III_Z_S6": 5,
+   "III_Z_S7": 6,
+   "III_Z_S8": 7,
+   "III_Z_S9": 8,
+   "III_Z_RED": 9,
+   "III_Z_HALL": 10,
+   "III_Z_HILL": 11,
+   "III_Z10": 12,
+   "III_Z11": 13,
+   "III_Z12": 14,
+   "III_Z13": 15,
+   "III_Z14": 16,
+   "III_Z15": 17,
+   "III_Z16": 18,
+   "III_Z17": 19
+  },
+  "route": {
+   "III_R01": 447,
+   "III_R02": 448,
+   "III_R03": 449,
+   "III_R04": 450,
+   "III_R05": 451,
+   "III_R06": 452
+  },
+  "label": {}
+ },
+ "placeIds": {
+  "3001": 506,
+  "3002": 507,
+  "3003": 508
+ },
+ "counts": {
+  "states": 3,
+  "provinces": 107,
+  "burgs": 294,
+  "cultures": 1,
+  "religions": 2,
+  "routes": 197,
+  "markers": 64,
+  "zones": 20,
+  "addedLabels": 2,
+  "regiments": 0,
+  "markets": 16,
+  "deals": 4925,
+  "journeys": 0
+ },
+ "integrity": [],
+ "drawErrors": [],
+ "masterLoad": {
+  "pageErrors": [],
+  "consoleErrors": [],
+  "integrity": [],
+  "warnings": [],
+  "dialogs": [],
+  "loaded": true
+ },
+ "bytes": 3939406,
+ "records": 53,
+ "verify": {
+  "load": {
+   "pageErrors": [],
+   "consoleErrors": [],
+   "integrity": [],
+   "warnings": [],
+   "dialogs": [],
+   "loaded": true
+  },
+  "counts": {
+   "states": 3,
+   "provinces": 107,
+   "burgs": 294,
+   "cultures": 1,
+   "religions": 2,
+   "routes": 197,
+   "markers": 64,
+   "zones": 20,
+   "addedLabels": 2,
+   "regiments": 0,
+   "markets": 16,
+   "deals": 4925,
+   "journeys": 0
+  },
+  "integrity": [],
+  "layers": {
+   "active": [
+    "ocean",
+    "landmass",
+    "heightmap",
+    "lakes",
+    "cells",
+    "compass",
+    "rivers",
+    "cultures",
+    "borders",
+    "routes",
+    "coastline",
+    "ice",
+    "burgIcons",
+    "labels",
+    "fogging",
+    "debug",
+    "scaleBar",
+    "vignette",
+    "legend"
+   ],
+   "burgIcons": 363,
+   "labels": 8,
+   "routes": 197,
+   "stateBordersLength": 6688,
+   "provinceBordersLength": 58176
+  },
+  "roundTrip": {
+   "identical": true,
+   "records": [
+    53,
+    53
+   ],
+   "differing": []
+  },
+  "draw": {
+   "statesBody": 5,
+   "provinces": 181,
+   "cultures": 2,
+   "religions": 4,
+   "routes": 197,
+   "markers": 128,
+   "zones": 20,
+   "military": 3,
+   "burgs": 363,
+   "emblems": 3
+  },
+  "drawErrors": [],
+  "shots": {
+   "states": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_III_states.png",
+   "cultures": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_III_cultures.png",
+   "religions": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_III_religions.png",
+   "routes": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_III_routes.png",
+   "provinces": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_III_provinces.png"
+  },
+  "pageErrorsAfterDraw": [],
+  "shires": {
+   "cells_checked": 2855,
+   "problems": []
+  },
+  "expected_counts": {
+   "states": 3,
+   "burgs": 294,
+   "markers": 64,
+   "routes": 197,
+   "zones": 20
+  },
+  "count_mismatches": {},
+  "ok": true
+ }
+}

@@ -1,0 +1,304 @@
+[
+ {
+  "title": "The four rules put before the valley",
+  "era_year": 1,
+  "summary": "As the sitting settles in for the winter, the heirs' quarrel sorts itself into four rival rules for Roinn na Rìoghachd: the eldest to hold and feed the rest, the living to hold by nearness of blood, the dead's children to stand in their fathers' places, and the shares to be thrown for by lot.",
+  "category": "law",
+  "people": [
+   "Niall Òg",
+   "Murchadh Mòr",
+   "Eithne nic Ailein"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   },
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Murchadh Mòr argues the eldest's rule",
+  "era_year": 1,
+  "summary": "Murchadh Mòr holds, before the assembled heirs, that the eldest of the king's children should take the whole kingdom and feed the rest of the blood from his own hand, as a household divides no differently at a father's death.",
+  "category": "law",
+  "people": [
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Eithne argues the rule of the living",
+  "era_year": 1,
+  "summary": "Eithne nic Ailein argues that the living should hold in the order of their nearness to the king's blood and no further back, so that the youngest living child stands level with the eldest.",
+  "category": "law",
+  "people": [
+   "Eithne nic Ailein"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The dead's children ask a place in the reckoning",
+  "era_year": 1,
+  "summary": "The lines of the king's dead children, gathered behind an old man who had felt the hollow knot at the door, argue that a line does not end because its head died before the king, and ask a rule that does not forget them.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The youngest heirs ask the lot",
+  "era_year": 1,
+  "summary": "Among the youngest and least-landed of the heirs a fourth rule is heard, that the shares be thrown for by lot and left to the ancestors to judge, since none of the other three rules gives them much to hope for.",
+  "category": "law",
+  "people": [
+   "Niall Òg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Niall Òg carries words between the two fires",
+  "era_year": 1,
+  "summary": "Niall Òg, owed twice over and feared by nobody's steward, begins carrying words straight between Murchadh Mòr's fire and Eithne nic Ailein's, each of them trusting him, of all the valley, to repeat the meaning and not soften it.",
+  "category": "rulers",
+  "people": [
+   "Niall Òg",
+   "Murchadh Mòr",
+   "Eithne nic Ailein"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The grass of the valley fails to come back",
+  "era_year": 1,
+  "summary": "The riverside grass, grazed to the earth by two winters of the sitting's horses and households, does not come green again with the spring, and does not for three years after.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Mairsile nic Ailein dies in the cold",
+  "era_year": 2,
+  "summary": "Mairsile nic Ailein, the white-haired daughter who began the keening at the ford, dies in the valley in the second month of the year, when the short winter ration leaves her brazier low overnight; she is laid by the river as she had asked before her death.",
+  "category": "rulers",
+  "people": [
+   "Mairsile nic Ailein",
+   "Niall Òg",
+   "Eithne nic Ailein",
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division",
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   },
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Four lines protest an Earrann Dhearg",
+  "era_year": 2,
+  "summary": "Four lines with no claim on Dùn dhearg argue that Ìomhar Dearg's hold on it, won by the sword and not by any of the four rules, ought to be parted into whatever settlement the rest of the kingdom comes into; Eithne answers that no rule written after the fact can take back what is already held.",
+  "category": "law",
+  "people": [
+   "Ìomhar Dearg",
+   "Eithne nic Ailein",
+   "Niall Òg"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001a",
+    "type": "sequel"
+   },
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The clause against the name of rìgh",
+  "era_year": 2,
+  "summary": "Through the summer the strongest lines come, fire by fire, to swear that none of the nine shall be called rìgh or take the word for a share, since the kingdom ended with Ailean Mòr; Murchadh Mòr swears it hardest, having watched what the word cost his father.",
+  "category": "law",
+  "people": [
+   "Murchadh Mòr",
+   "Eithne nic Ailein",
+   "Ìomhar Dearg",
+   "Niall Òg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division",
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Aodh Crom proposes the four rules together",
+  "era_year": 2,
+  "summary": "Aodh Crom, asked his mind though he holds no share, tells the heads of the strongest lines that no one of the four rules can be sworn alone, and sets out a settlement that gives each rule something: nine great shares for the eldest living lines, a portion out of all nine for the dead, and the lot within each share where an equal claim cannot be told apart.",
+  "category": "law",
+  "people": [
+   "Aodh Crom"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The nine eldest lines agree to the settlement",
+  "era_year": 2,
+  "summary": "The nine strongest lines of the king's blood, among them Murchadh Mòr, Eithne nic Ailein, Fionnghal nic Ailein of the western shore, Artair mac Ailein of Tràigh an t-Salainn and Cormac mac Ailein of the east, agree to hold na h-Earrannan Mòra, with Cuid nam Marbh set out of all nine and an Earrann Dhearg of Ìomhar Dearg let stand.",
+  "category": "law",
+  "people": [
+   "Murchadh Mòr",
+   "Eithne nic Ailein",
+   "Fionnghal nic Ailein",
+   "Artair mac Ailein",
+   "Cormac mac Ailein",
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The agreement to cut the cord at the handful",
+  "era_year": 2,
+  "summary": "The nine lines agree that Sreang nan Oighrean shall be laid on the gathering-house floor again and cut into nine lengths at Oidhche an Dòrlaich, with the clause against the name of rìgh and the peace of Talla na Lasrach's ground sworn once before the whole valley as it is cut.",
+  "category": "law",
+  "people": [
+   "Niall Òg",
+   "Eithne nic Ailein",
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "cause"
+   }
+  ]
+ }
+]

@@ -1,0 +1,269 @@
+[
+ {
+  "title": "The channel at Toll cut through to the pool",
+  "era_year": 1175,
+  "summary": "At Toll a household finishes widening a natural crack in a rock shelf into a channel between the still water above and a tide-fed pool below, following the crack's own line rather than cutting fresh through sound stone.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:313"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0015",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The slots cut for the wattle gate",
+  "era_year": 1178,
+  "summary": "Deep slots are picked into the rock on either side of the channel's narrowest place at Toll, true from above the river's highest mark to below its lowest, so that a woven gate can be driven home and drawn again season by season.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:313"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0015",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The Toll gate first dropped",
+  "era_year": 1180,
+  "summary": "The wattle gate is driven home into the slots at Toll for the first time, one man in the channel to guide its foot and two above on the mallet, penning the fish left behind by the ebb in the pool below for the household to take by hand.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:313"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0015",
+    "type": "same_day"
+   }
+  ]
+ },
+ {
+  "title": "A boy loses two fingers to the mallet",
+  "era_year": 1198,
+  "summary": "Misjudging the moment to clear the mallet's swing at the Toll gate, a boy of the household loses two fingers of his left hand; he goes on working the gate in the years after with the hand that remains him.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:313"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0015",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Shell first carried out onto the sunken reed track",
+  "era_year": 1183,
+  "summary": "At the western shore of Loch chrom, after a wet season sinks the worn reed track sooner than most years, broken mussel shell is carried out and trodden into the worst of the sunken ground for the first time, rather than left by the shallows where it was worked.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0016",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The carrying of shell becomes yearly work",
+  "era_year": 1197,
+  "summary": "What began as one season's answer to a bad sinking becomes, without any one choice remembered for it, a thing the loch household does each year: crushed shell carried out and packed into the worst stretches of the reed crossing on the same errand that gathers the day's mussel.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0016",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The reed-marsh flood",
+  "era_year": 1220,
+  "summary": "A hard winter's water works thin the shell already laid on the western marsh crossing at Loch chrom, and the household spends the following spring re-packing the low places before the road can be trusted at a run again.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0016",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A girl runs the whole shell road at once",
+  "era_year": 1236,
+  "summary": "Sent to carry word that the boats are wanted in before dark, a girl of the loch household crosses the whole finished length of the shell road at a run without once testing the ground with a toe, the first so remembered to trust it end to end.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0016",
+    "type": "same_day"
+   }
+  ]
+ },
+ {
+  "title": "A northern-shore family comes to see the road",
+  "era_year": 1250,
+  "summary": "A household from further round Loch chrom's northern shore walks the finished road from end to end and home again, but goes the long way about on their own crossing rather than tread the loch household's shell a second time.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0016",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The careful cutter begins his rows at Tarr",
+  "era_year": 1176,
+  "summary": "Along the pale cliffs above Seann Tarr a man of that shore's trade begins cutting rows of signs into the standing rock with a flaked flint chisel and a small stone hammer, each stroke light enough to take the chisel through a shape without lifting it.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:249"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A boy watches an afternoon of the cutting",
+  "era_year": 1190,
+  "summary": "A boy sits a whole afternoon at the foot of the Tarr cliff watching the careful cutter's hand, and counts, by a later telling, near two hundred light strokes of the hammer to finish a single sign.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:249"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "More rows cut at Tarr",
+  "era_year": 1320,
+  "summary": "By the time the careful cutter's hand has grown unsteady with age, the rows above Seann Tarr run further along the face than any one person standing at its foot can take in with a single turn of the head, and no later hand takes up the cutting with the same close care.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:249"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017",
+    "type": "same_day"
+   }
+  ]
+ },
+ {
+  "title": "An old row cut over and broken",
+  "era_year": 1240,
+  "summary": "Somewhere along the Tarr cliff a first cutting is found deepened and cut across by a later hand, worked with the same patient care as the row it undoes; no one of that shore is remembered ever claiming to know why.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:249"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A woman of Toll walks the coast and finds the cliff",
+  "era_year": 1330,
+  "summary": "On an errand along the coast a woman of the Toll household comes to the cliff at Seann Tarr and stands a while in the rain watching it darken the newest of the cut rows against the paler stone around them, before going on her way without speaking of it at either household she passes between.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:313",
+   "burg:249"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0017",
+    "type": "sequel"
+   }
+  ]
+ }
+]

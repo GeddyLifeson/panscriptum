@@ -1,0 +1,291 @@
+[
+ {
+  "title": "Ìomhar Dearg wants a green axe for use, not for a grave",
+  "era_year": 3496,
+  "summary": "At a wake in the north-west, Ìomhar Dearg turns over the dead man's green axe before it goes under the turf and asks the son, plainly, for one of his own to carry and use, having buried enough kin himself to want a tool that earns its keep before it earns its grave.",
+  "category": "culture",
+  "people": [
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:304"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   "I-0219"
+  ]
+ },
+ {
+  "title": "The cutters of Àth àrsaidh turn Ìomhar away",
+  "era_year": 3496,
+  "summary": "An old cutter at the quarry tells Ìomhar Dearg that no green axe was ever cut to be swung, only shown, and that a man wanting an edge for work should go to a common smith and leave the green stone to the graves it is already promised to.",
+  "category": "culture",
+  "people": [
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:304"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0219"
+  ]
+ },
+ {
+  "title": "Ìomhar's grey axe outlives forty years of use",
+  "era_year": 3497,
+  "summary": "Ìomhar Dearg has a common smith cut him a plain grey axe that same winter, and uses it, reground more than once, for the better part of forty years before the head cracks on a misjudged root and he buries it himself in the ground it first turned.",
+  "category": "craft",
+  "people": [
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:304"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The last cutter of Àth àrsaidh dies without an apprentice",
+  "era_year": 3547,
+  "summary": "The seam of true green stone runs thin under every cut the households of Àth àrsaidh try, and the last cutter who still holds the old skill dies that year with no apprentice behind him, his own sons having gone to herding rather than a stone that no longer pays for the teaching.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:304"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0220"
+  ]
+ },
+ {
+  "title": "The oak-groves of the north shrink to the sheltered valleys",
+  "era_year": 3588,
+  "summary": "About Doire ghlas and the low ground north of it, heather, birch and bog-moss spread over ground the oak had held unchallenged for longer than any household's reckoning, and the groves that gave the north its many doire-names draw back to valleys the wind cannot reach.",
+  "category": "record",
+  "people": [],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0220a"
+  ]
+ },
+ {
+  "title": "Stepping-stones cross Abhainn fhionn dry-shod",
+  "era_year": 3610,
+  "summary": "A household below the willow flats lays flat stones across the shallowest bend of Abhainn fhionn one summer's low water at a time, until within two generations a man may cross the whole width stone to stone in every season but true flood, the first made river-crossing the island has seen.",
+  "category": "building",
+  "people": [],
+  "places": [
+   "river:28"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0221"
+  ]
+ },
+ {
+  "title": "Twelve are taken at the fords of Abhainn chaol",
+  "era_year": 3680,
+  "summary": "A spate with no warning a slower rise would have given takes a party of twelve crossing with salt at the fords of Abhainn chaol; five bodies go to their own kin, four unclaimed to the nearest household willing to dig, and three are never found.",
+  "category": "disaster",
+  "people": [],
+  "places": [
+   "river:1"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0222"
+  ]
+ },
+ {
+  "title": "Ìomhar comes two days too late to the drowning",
+  "era_year": 3680,
+  "summary": "Word reaches Ìomhar Dearg two days' walk south of Abhainn chaol and he comes as fast as the road allows, arriving to a river already fallen back to its ordinary height and the households of both banks already burying what could be found; no household crosses those fords in the wet season after.",
+  "category": "disaster",
+  "people": [
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "river:1"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   "I-0222"
+  ]
+ },
+ {
+  "title": "Raonaid nic Ailein weds on the eastern shore",
+  "era_year": 3140,
+  "summary": "Raonaid nic Ailein, a daughter of the king born to a wife of the eastern shore, marries a herdsman of Fearchar's line from the river-lands below Dùn ìseal, known on that shore better by his flocks than by his name; her house there is afterward the hearth her half-brother Ìomhar Dearg comes back to between his wanderings.",
+  "category": "family",
+  "people": [
+   "Raonaid nic Ailein",
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Niall is born to Raonaid on the eastern shore",
+  "era_year": 3703,
+  "summary": "Raonaid nic Ailein bears a son on the eastern shore in a colder autumn than the last three running; her half-brother Ìomhar Dearg finds more of her quickness than of his own long line in the child's first evening.",
+  "category": "family",
+  "people": [
+   "Ìomhar Dearg",
+   "Raonaid nic Ailein",
+   "Niall Òg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Ceann chiar cuts two-and-twenty marks for A' Ghaoth Dhubh",
+  "era_year": 3726,
+  "summary": "Rebuilding after A' Ghaoth Dhubh that scattered their roofs a generation before, the households of Ceann chiar set a stone in their new-laid houses and cut a plain stroke for every house the wind took, two-and-twenty marks in a row with no names beside them.",
+  "category": "record",
+  "people": [],
+  "places": [
+   "burg:457"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0223"
+  ]
+ },
+ {
+  "title": "A dry summer is answered by the shared surplus",
+  "era_year": 3771,
+  "summary": "The rivers of the eastern plain run so low one summer that Dùn ìseal and Muileann bhàn drive their cattle to Fuarain Theth Muileann ruadh to drink; the surplus each household had kept against such a year holds long enough that no death is counted for the thirst of it.",
+  "category": "disaster",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0224"
+  ]
+ },
+ {
+  "title": "A lesser wave comes in at Cnoc chaol",
+  "era_year": 3817,
+  "summary": "The sea rises again over the low ground at Cnoc chaol, less far than the wave the coast still tells of; the new houses built higher on the slope since that first wave take no loss, the water finding only empty byres to carry off.",
+  "category": "disaster",
+  "people": [],
+  "places": [
+   "zone:4"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0225"
+  ]
+ },
+ {
+  "title": "The crack at Gleann na Scoltaidh moves again",
+  "era_year": 3863,
+  "summary": "The old crack in the ground shifts once more, moving the spring back uphill and breaking the line of white stones that marks the danger in two places; the households walk out with fresh stone and lay the line again exactly as their grandmothers laid it the first time.",
+  "category": "disaster",
+  "people": [],
+  "places": [
+   "zone:3"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0226"
+  ]
+ },
+ {
+  "title": "Households settle at Cnoc bheag with no door facing the stone",
+  "era_year": 3920,
+  "summary": "A generation settles on the bank of Abhainn ìseal a short walk from the standing stone at Cnoc bheag, and sets its houses, by no law anyone can name, so that no door among them faces the stone; every household built after keeps the same pattern unquestioned.",
+  "category": "founding",
+  "people": [],
+  "places": [
+   "burg:20"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0227"
+  ]
+ },
+ {
+  "title": "Inis bhàn settles the seal-rocks by the tally of the turn",
+  "era_year": 3955,
+  "summary": "The households by the seal-rocks off the river mouth at Inis bhàn take one rock to a household in its own turn, kept on notched sticks; a rock taken out of turn is the coast's commonest quarrel, settled always by counting the tally aloud rather than raised voices.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:371"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0228"
+  ]
+ },
+ {
+  "title": "Ìomhar Dearg asks the king for ground of his own",
+  "era_year": 3960,
+  "summary": "Nearly eight hundred years into a wandering right that let him sit at any hearth on the island, Ìomhar Dearg asks the king, on the hill, for ground held in his own name rather than his blood's, wanting a piece of earth that answers to him before it answers to anyone else.",
+  "category": "rulers",
+  "people": [
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The king gives Ìomhar the river-grazing of the eastern marches",
+  "era_year": 3960,
+  "summary": "The king grants Ìomhar Dearg thin-soiled river-grazing between the last settled households and the open country to the east, telling him only that a share given is a share that can be taken back, as every share on the island has been and will go on being.",
+  "category": "rulers",
+  "people": [
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Ìomhar stands on his own ground looking east",
+  "era_year": 3960,
+  "summary": "At the day's end Ìomhar Dearg stands alone on the eastern river-grazing, thin grass under his own feet for the first time in nearly eight centuries of walking ground that answered to another name, and looks east toward country he has not yet walked.",
+  "category": "culture",
+  "people": [
+   "Ìomhar Dearg"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": []
+ }
+]

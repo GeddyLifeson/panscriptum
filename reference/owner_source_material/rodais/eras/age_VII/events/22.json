@@ -1,0 +1,402 @@
+[
+ {
+  "title": "The muster order",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "An order comes up from Cathair dhearg to the depot below the western Seann Skell, calling certain companies disbanded since An Dealachadh to be reformed for the guarding of the coal roads and the dubhan depots. It names no enemy, though every hand that copies or carries it already knows what is meant.",
+  "category": "war",
+  "people": [
+   "somhairle-mac-lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0075"
+  ]
+ },
+ {
+  "title": "Somhairle mac Lachlainn summoned to the capital",
+  "era_year": 20,
+  "after": "VI-0075",
+  "summary": "Somhairle mac Lachlainn is called down to Cathair dhearg in the first cold week of an t-Samhain, and rides Slighe a' Ghuail with a corporal and a satchel of the depot's returns that nobody troubles to ask for.",
+  "category": "war",
+  "people": [
+   "somhairle-mac-lachlainn"
+  ],
+  "places": [
+   "burg:489",
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ]
+ },
+ {
+  "title": "The old drill hall opened",
+  "era_year": 20,
+  "after": "VI-0075",
+  "summary": "A long stone hall behind the council's rooms at Cathair dhearg, used in living memory for nothing grander than storing the city watch's spare pikes, is opened and swept for the reading of An Dealachadh rolls.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ]
+ },
+ {
+  "title": "The rolls unsealed",
+  "era_year": 20,
+  "after": "VI-0075",
+  "summary": "Ledgers of Buidhnean an Dealachaidh, kept in the council's chests some ninety years, are brought out and opened; the ink in one has gone the colour of weak tea, and a clerk works two stuck pages apart with a blunt knife.",
+  "category": "war",
+  "people": [
+   "somhairle-mac-lachlainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ]
+ },
+ {
+  "title": "The towns struck through",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "Town by town the old roll is checked against the present: some answer still and will send men gladly, others are struck through in a clerk's hand because the town that raised the company is gone, swallowed into a larger one or fallen to scattered farms with no muster-ground left standing.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ]
+ },
+ {
+  "title": "The lamps lit in the drill hall",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "As dark comes on, four lamps are hung along the drill hall's wall and lit with dubhan, the first flame the brackets have carried in a generation, and the reading of the old names goes on by their light into the evening.",
+  "category": "war",
+  "people": [
+   "somhairle-mac-lachlainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ]
+ },
+ {
+  "title": "The count of the standing companies",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "A clerk totals the column of towns still able to send men, once the dead towns are struck out. The figure is smaller than the roll once named ninety years before, but greater than any command Somhairle mac Lachlainn has held, and it is his from that evening to answer for.",
+  "category": "war",
+  "people": [
+   "somhairle-mac-lachlainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ]
+ },
+ {
+  "title": "A corporal bidden to hear the rolls",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "Cormac Liath, the old soldier who read the rolls aloud, tells Somhairle mac Lachlainn to bring his own corporal in to hear the old names read, since a man who hears a thing said once in a lamplit hall carries it differently to his company than a man only handed a paper.",
+  "category": "war",
+  "people": [
+   "somhairle-mac-lachlainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach agrees an Nollaig petition",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "At Caol mhòr Tional nan Tuathach sits past midnight two days before an Nollaig, turning the wording of its petition over clause by clause until it asks one thing only: that the western pits be let alone to work out seams that will be spent within a few years regardless.",
+  "category": "law",
+  "people": [
+   "martha-greaves",
+   "peter-hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "Martha Greaves sets out for the capital",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "Martha Greaves leaves Doire ghlas two days before an Nollaig with the petition in a leather folder, travelling south by carrier's cart, dubhan coach and at last a hired carriage, and keeps the feast on the road with a cold fowl she cannot bring herself to eat.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "Frost on Drochaid Cathair dhearg",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "Martha Greaves comes into Cathair dhearg on an Nollaig morning, the frost lying white and unworn on the bridge's parapet because so few feet have crossed it, the Dia-thìrich keeping no feast that day.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "The bench in the passage",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "Martha Greaves waits the better part of an hour on a stone bench outside the council chamber at Cathair dhearg, the petition twice taken out of its folder and twice put back unread, while the rise and fall of unheard voices carries from the room beyond.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "A name said the Dia-thìris way",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "A clerk calls Martha Greaves into the council chamber, her surname set first and her whole name given the turn of the tongue that shapes every foreign name passing through that room, so that she does not, for a moment, know it for her own.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "The first speaker to enter the chamber",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "Martha Greaves crosses the council chamber floor, the first speaker of Tional nan Tuathach ever to do so since Walter Hale first gathered the northern towns, past twelve turned faces, one of them Anna nic Phàil's, to read the petition standing and lay it on the table.",
+  "category": "law",
+  "people": [
+   "martha-greaves",
+   "anna-nic-phail"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "Received, said the clerk",
+  "era_year": 20,
+  "after": "VI-0076",
+  "summary": "The council gives Martha Greaves's petition one word and the sound of a pen crossing paper. Nobody at the table speaks to her; the old man at its head inclines his head, and the porter is already at her elbow to show her out again.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "The road home from Cathair dhearg",
+  "era_year": 20,
+  "after": "VI-0077",
+  "summary": "Martha Greaves rides the cold road north again with the folder empty on her lap, coming in sight of Doire ghlas's lit windows late on the second night after, the one word the council gave her worn down, by then, to the sound of a pen alone.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ]
+ },
+ {
+  "title": "The Grey House among the old companies",
+  "era_year": 20,
+  "summary": "Among the rolls of Buidhnean an Dealachaidh read in the drill hall at Cathair dhearg is a company called only the Grey House, and no one in the room can say why.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn",
+   "Cormac Liath"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076",
+   "V-0002"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Dead towns struck from the rolls",
+  "era_year": 20,
+  "summary": "Where a company of An Dealachadh rolls answers to a town gone or swallowed into another, the clerk strikes the name through; Cormac Liath's reading grows quieter over each.",
+  "category": "war",
+  "people": [
+   "Cormac Liath"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Martha Greaves keeps an Nollaig on the road",
+  "era_year": 20,
+  "summary": "The speaker of Tional nan Tuathach keeps an Nollaig in a hired carriage on the northern road, with Ellen Marsh's bread and cold fowl uneaten at her feet, Athchuinge Dheireannach an Tionail in Peter Hale's leather folder on her knee.",
+  "category": "faith",
+  "people": [
+   "Martha Greaves"
+  ],
+  "places": [
+   "province:7"
+  ],
+  "threads": [
+   "the-church-on-the-island",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Anna nic Phàil's nod across the table",
+  "era_year": 20,
+  "summary": "In the council chamber, when the speaker of Tional nan Tuathach comes in with the petition, Anna nic Phàil, councillor for Cathair dhomhain, gives her the smallest incline of the head across the width of the table.",
+  "category": "law",
+  "people": [
+   "Anna nic Phàil",
+   "Martha Greaves"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0077"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "An Taigh-òsta Grianach full at the year's end",
+  "era_year": 20,
+  "summary": "An Taigh-òsta Grianach at Cnoc dhìreach is full to the stables at the year's end with men walking to the drill hall at Cathair dhearg to hear their old companies' names.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:322"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0076"
+  ],
+  "chronicle_extra": true
+ }
+]

@@ -1,0 +1,260 @@
+[
+ {
+  "id": "EV-4001",
+  "title": "Catrìona's request to Silas Crewe",
+  "era_year": {
+   "after": "IV-0163"
+  },
+  "summary": "Catrìona nic Eachainn, crew-leader of the seventh shift at Baile thais, asks the agent Silas Crewe to close the third and fourth galleries, where A' Phlàigh Uaine struck worst, until the surgeon rules on the dust. Crewe answers that the yield must not fall on a physician's guess, and says only that he will write it up.",
+  "category": "coal",
+  "people": [
+   "Catrìona nic Eachainn",
+   "Silas Crewe"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0165",
+   "IV-0166"
+  ]
+ },
+ {
+  "title": "Sìneag searches the old rolls for a law of rest",
+  "era_year": {
+   "after": "IV-0163"
+  },
+  "summary": "Asked by Catrìona nic Eachainn whether any old law binds a hill's rest, the custodian Sìneag of Baile thais searches her rolls and finds none: Lagh an Loscaidh Bhig governs the coal burned, not the coal cut, and no custodian before this age had needed to write a law about men sickening below ground.",
+  "category": "law",
+  "people": [
+   "Catrìona nic Eachainn",
+   "Sìneag"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0165"
+  ]
+ },
+ {
+  "title": "Raghnall Breac stands his first day among the strikers",
+  "era_year": {
+   "after": "IV-0165"
+  },
+  "summary": "A hewer's boy of seven, too young that year to be paid a man's wage, sets down his water-pail at the pit-mouth of Baile thais on the morning Catrìona nic Eachainn calls the halt, and stays through the yard's long quiet with the shift twice his age.",
+  "category": "coal",
+  "people": [
+   "Raghnall Breac",
+   "Catrìona nic Eachainn"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0165",
+   "IV-0166"
+  ]
+ },
+ {
+  "title": "The shrine women keep An Acair Uaine through the stoppage",
+  "era_year": {
+   "after": "IV-0165"
+  },
+  "summary": "Through the eleven days no coal left Baile thais, the shrine women go on leaving dishes of meal on the mounds of An Acair Uaine where A' Phlàigh Uaine's dead were laid, finding a little to spare each day though A' Chompanaidh's store stood barer by the day beside them.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0163"
+  ]
+ },
+ {
+  "title": "Beathag Ruadh asks Catrìona to end the stand",
+  "era_year": {
+   "after": "IV-0165"
+  },
+  "summary": "On the tenth night of the stoppage, her bread gone and five children to feed, Beathag Ruadh asks Catrìona nic Eachainn, plainly and without reproach, whether the crews should go back below rather than starve for galleries that would go on being worked regardless. Catrìona has no answer, and sits with her by the fire till morning.",
+  "category": "coal",
+  "people": [
+   "Beathag Ruadh",
+   "Catrìona nic Eachainn"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0166"
+  ]
+ },
+ {
+  "id": "EV-4002",
+  "title": "Dòmhnall Maor signs the granary order",
+  "era_year": {
+   "after": "IV-0167"
+  },
+  "summary": "Within the month of the strike's end, Dòmhnall mac Raghnaill Maor, Steward at Muileann chrom, sets his mark to the order that forbids any camp household to keep more grain than a week's ration, the rest to be held under lock in A' Chompanaidh's new granary and drawn against a crew-leader's tally.",
+  "category": "law",
+  "people": [
+   "Dòmhnall mac Raghnaill Maor"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0167"
+  ]
+ },
+ {
+  "title": "The overseers search the huts of Baile thais for hidden meal",
+  "era_year": {
+   "after": "IV-0167"
+  },
+  "summary": "Enforcing the granary order with more zeal than it asks, the overseers at Baile thais search huts for grain kept back from the week's ration, and twice that autumn fine a household a day's wage for flour found under a bed, though in both cases the flour had come up from Ros gharbh by night and never passed A' Chompanaidh's scales.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0167",
+   "IV-0168"
+  ]
+ },
+ {
+  "title": "Sìneag's rolls note a granary built against a stoppage",
+  "era_year": {
+   "after": "IV-0167"
+  },
+  "summary": "The custodian Sìneag writes in her rolls that she has never before read of a granary raised to answer a stoppage rather than a harvest, and sets the words down as they stand, without further comment, for whoever should read the roll after her.",
+  "category": "law",
+  "people": [
+   "Sìneag"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0167"
+  ]
+ },
+ {
+  "title": "Catrìona is given the surface work",
+  "era_year": {
+   "after": "IV-0167"
+  },
+  "summary": "Before the winter after the stoppage is out, the seventh shift is given to a crew-leader loyal to Silas Crewe, and Catrìona nic Eachainn is set to sorting slate at the surface at half a hewer's pay, work she keeps eleven months before the sheds are said to have more hands than they need.",
+  "category": "coal",
+  "people": [
+   "Catrìona nic Eachainn",
+   "Silas Crewe"
+  ],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0166"
+  ]
+ },
+ {
+  "title": "Catrìona is refused work at Cnoc fhiadhaich and Àth ìseal",
+  "era_year": {
+   "after": "IV-0168"
+  },
+  "summary": "Turned off the sorting-sheds at Baile thais, Catrìona nic Eachainn walks first to Cnoc fhiadhaich and then to the timber camp beyond Àth ìseal asking for work, and is turned away at each gate before she has said her name twice, the agents already knowing her by sight.",
+  "category": "coal",
+  "people": [
+   "Catrìona nic Eachainn"
+  ],
+  "places": [
+   "burg:280",
+   "burg:383"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0169"
+  ]
+ },
+ {
+  "id": "EV-4003",
+  "title": "Catrìona walks east over the hills to Muileann chiar",
+  "era_year": {
+   "after": "IV-0168"
+  },
+  "summary": "With her savings spent and refused work at every pit of A' Chompanaidh, Catrìona nic Eachainn takes what she owns and walks east from Baile thais over the hills to Muileann chiar, three days on foot, the black spoil of the coal country giving way at last to the grey of the silver town.",
+  "category": "coal",
+  "people": [
+   "Catrìona nic Eachainn"
+  ],
+  "places": [
+   "burg:44",
+   "burg:355"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0169"
+  ]
+ },
+ {
+  "title": "Comann an Airgid's hands vote to take Catrìona on",
+  "era_year": {
+   "after": "IV-0169"
+  },
+  "summary": "Heard without interruption by the master of Comann an Airgid, Catrìona nic Eachainn's account of the stoppage at Baile thais is put to the guild's own hands rather than decided from above, and the hands vote by a wide margin to take her on as a refiner.",
+  "category": "trade",
+  "people": [
+   "Catrìona nic Eachainn"
+  ],
+  "places": [
+   "burg:355"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0169"
+  ]
+ },
+ {
+  "title": "A' Chompanaidh writes to Muileann chiar for Catrìona's return",
+  "era_year": {
+   "after": "IV-0169"
+  },
+  "summary": "A' Chompanaidh's counting-house at Ros dhomhain writes to Comann an Airgid asking that Catrìona nic Eachainn, lately of Baile thais, be sent back to answer for the stoppage of two years before. The guild's clerk drafts an answer, read once in the guild hall and sent south; neither letter has survived.",
+  "category": "law",
+  "people": [
+   "Catrìona nic Eachainn"
+  ],
+  "places": [
+   "burg:355",
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0169"
+  ]
+ }
+]

@@ -1,0 +1,146 @@
+[
+ {
+  "title": "Murchadh Ruadh's household loses its right",
+  "era_year": 398,
+  "summary": "The household of Murchadh Ruadh of Baile chrom is stripped of its right under Lagh an Loscaidh Bhig for a third offence, and goes down to the strand with what it can carry rather than beg cold porridge from kin. No hearth on the coast will give it coal after, or discuss why.",
+  "category": "law",
+  "people": [
+   "Anndra Cìobair"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0050",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A strand south of Baile chrom burned in the dark",
+  "era_year": 403,
+  "summary": "Boats out of no household raid a fishing strand half a day south of Baile chrom in the small hours of a moonless night, burning two houses to their footings and stripping the drying-racks bare. A woman of the strand says she knew two of the raiders by their voices, and will not name them.",
+  "category": "war",
+  "people": [
+   "Anndra Cìobair"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0050",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The wake first kept for the five",
+  "era_year": 406,
+  "summary": "A year to the day after Cailean Buidhe's boat is lost in the calm off Baile chrom, the strand sets out a bowl for the five who went out on her and speaks the boat's name once over it. Anndra Cìobair, one of the two who swam home, pours the first cup, and goes on pouring it every year after.",
+  "category": "faith",
+  "people": [
+   "Anndra Cìobair"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0051",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The keeping of the beacon falls to the households in turn",
+  "era_year": 410,
+  "summary": "Once the old beacon on the Baile chrom headland is relit, the carrying of driftwood to feed it becomes a charge the coast's households take up one season at a time, the way other coasts keep a granary door or a toll-stick.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of the stone quay travels the coast",
+  "era_year": 414,
+  "summary": "News of the worked stone quay found under the silt at Seann Bhrenn reaches Baile chrom by trader's boat, grown in the telling to a buried town in one mouth and shrunk to a single stone in another, neither telling closer to the truth than the other.",
+  "category": "land",
+  "people": [
+   "Anndra Cìobair"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0053",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of the cairn at Cathair naomh travels the coast",
+  "era_year": 418,
+  "summary": "Word reaches Baile chrom of the growing ancestor-cairn on the hill above Cathair naomh, carried a stone at a time at every burial, and travellers who see it years apart swear the hill itself looks changed.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0054",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The carriers of the southern road grumble at the panthers' ruling",
+  "era_year": 421,
+  "summary": "Told as far as Baile chrom, the tale of Eilidh nic Ìomhair's ruling on the great cats' crossing carries with it the carriers' first grumbling at the delay, and her answer that a Law which measures every handful can measure a few days' patience too.",
+  "category": "law",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0055",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Anndra Cìobair dies at Baile chrom",
+  "era_year": 440,
+  "summary": "Anndra Cìobair, who swam home from Cailean Buidhe's boat and kept the wake's first cup for near forty years, dies in his own bed above the strand he never left, and is buried within sight of the headland he tended.",
+  "category": "faith",
+  "people": [
+   "Anndra Cìobair"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0051",
+    "type": "legacy"
+   }
+  ]
+ }
+]

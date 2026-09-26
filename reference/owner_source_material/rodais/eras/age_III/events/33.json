@@ -1,0 +1,254 @@
+[
+ {
+  "title": "Ruairidh Liath crowned at Cathair dhearg",
+  "era_year": 1736,
+  "summary": "Ruairidh Liath, grey since his cradle, takes An Talla Dearg in his thirty-sixth year, five days after his mother Beathag Mhòr is carried to Dùn dhearg. The crowning is held quietly, in the household's year of mourning, and he keeps her clerks, stewards and reeve in their places.",
+  "category": "rulers",
+  "people": [
+   "Ruairidh Liath",
+   "Beathag Mhòr"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0149"
+  ]
+ },
+ {
+  "title": "The eastern guard doubled",
+  "era_year": 1740,
+  "summary": "Ruairidh Liath doubles the guard on the eastern road against toll-cheats grown bold in the census years, when every clerk on the island was walking house to house rather than watching the roads. The guard's pay, more than anything else in his reign, brings him at last to ask something of the silver.",
+  "category": "trade",
+  "people": [
+   "Ruairidh Liath"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Màiri nic Fhearchair refuses the steward",
+  "era_year": 1745,
+  "summary": "A steward rides three days from Dùn dhearg to demand one ring in five of Sliochd Fhearchair's silver. Màiri nic Fhearchair, who speaks for the house, answers with Muireach Liath's own ruling that silver is not the mountain's, and sends him home with no other word.",
+  "category": "trade",
+  "people": [
+   "Màiri nic Fhearchair"
+  ],
+  "places": [
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0150"
+  ]
+ },
+ {
+  "title": "The guards leave Àth ghlas",
+  "era_year": 1745,
+  "summary": "Two of the four road-guards at the toll-house of Àth ghlas leave their posts unpaid, the wages standing on a silver toll no one has yet agreed to gather. The keeper Oighrig nic Ailein stands the house through the winter with the two who remain, turning back no traveller and collecting no toll.",
+  "category": "trade",
+  "people": [
+   "Oighrig nic Ailein"
+  ],
+  "places": [
+   "burg:393"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   "II-0151"
+  ]
+ },
+ {
+  "title": "Grain sent unnamed to Àth ghlas",
+  "era_year": 1746,
+  "summary": "Ruairidh Liath sends grain to the toll-house at Àth ghlas without naming himself the sender, as his mother once sent grain to a hungry waypoint house. Oighrig nic Ailein guesses whose it is and never tells a traveller the story of it.",
+  "category": "trade",
+  "people": [
+   "Ruairidh Liath",
+   "Oighrig nic Ailein"
+  ],
+  "places": [
+   "burg:393"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   "II-0151"
+  ]
+ },
+ {
+  "title": "Two apprentices go hungry at Muileann chiar",
+  "era_year": 1748,
+  "summary": "In the third winter of the shutting, two of Màiri nic Fhearchair's youngest apprentices go thinner than any she has trained in forty years at the fire. She feeds them from her own table and judges that a right is not worth keeping at the cost of the hands that would keep it after her.",
+  "category": "trade",
+  "people": [
+   "Màiri nic Fhearchair"
+  ],
+  "places": [
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0151"
+  ]
+ },
+ {
+  "title": "Màiri nic Fhearchair's journey to Dùn ìseal",
+  "era_year": 1749,
+  "summary": "Màiri nic Fhearchair rides to Dùn ìseal in four days' unbroken rain with her grandnephew Tormod and a strongbox of rings struck in Fearchar Òg's reign, to ask Coimheadaiche na Lasrach's judgment on a right her house has never before brought before Talla na Lasrach.",
+  "category": "law",
+  "people": [
+   "Màiri nic Fhearchair",
+   "Dùghall mac Raghnaill"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   "II-0152"
+  ]
+ },
+ {
+  "title": "The rain-shut hearing at Dùn ìseal",
+  "era_year": 1749,
+  "summary": "Dùghall mac Raghnaill hears Ruairidh Liath and Màiri nic Fhearchair argue the silver a full day in a hall the rain has shut. He has Màiri say Muireach Liath's sentence twice, then rules each of them right and each mistaken, setting the toll at one ring in ten on the roads, not the ore.",
+  "category": "law",
+  "people": [
+   "Dùghall mac Raghnaill",
+   "Ruairidh Liath",
+   "Màiri nic Fhearchair"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   "II-0152"
+  ]
+ },
+ {
+  "title": "Sliochd Fhearchair paid for its own weights",
+  "era_year": 1750,
+  "summary": "The crown's clerks pay Màiri nic Fhearchair for every bronze copy cast from Sliochd Fhearchair's own weights, the first silver the house has ever taken from Cathair dhearg rather than given it. She calls it no poor victory to settle for.",
+  "category": "craft",
+  "people": [
+   "Màiri nic Fhearchair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0153"
+  ]
+ },
+ {
+  "title": "Beitris nic Aonghais casts the first weight",
+  "era_year": 1751,
+  "summary": "At Muileann dhearg, Beitris nic Aonghais casts the first bronze copy of the Muileann chiar weight, cracked along its rim from cooling too fast. She keeps the poor casting the rest of her life, showing it to every apprentice before letting them near the good bronze.",
+  "category": "craft",
+  "people": [
+   "Beitris nic Aonghais"
+  ],
+  "places": [
+   "burg:391"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0154"
+  ]
+ },
+ {
+  "title": "The hearth-sign struck on every weight",
+  "era_year": 1752,
+  "summary": "Beitris nic Aonghais asks leave to cut Sliochd Fhearchair's hearth-sign into the underside of every weight-copy, that a keeper might know the true measure at a glance. Màiri nic Fhearchair grants it gladly, and the two houses trade weights, bells and lamp-bowls for years after.",
+  "category": "craft",
+  "people": [
+   "Beitris nic Aonghais",
+   "Màiri nic Fhearchair"
+  ],
+  "places": [
+   "burg:391",
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0154"
+  ]
+ },
+ {
+  "title": "Màiri nic Fhearchair dies",
+  "era_year": 1760,
+  "summary": "Màiri nic Fhearchair dies in her eightieth year, eleven years after the settlement at Dùn ìseal. At her own long-standing word she is buried with the strongbox that carried her rings to the hearing, rather than the ring she wore at her throat.",
+  "category": "trade",
+  "people": [
+   "Màiri nic Fhearchair",
+   "Tormod"
+  ],
+  "places": [
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Dùghall mac Raghnaill dies",
+  "era_year": 1760,
+  "summary": "Dùghall mac Raghnaill dies in his ninetieth year, having held the flame longer than any Keeper before him. The reciters of Dùn ìseal remember him less for the census than for the rain-shut hearing where he told two sides they were each right and each wrong.",
+  "category": "coal",
+  "people": [
+   "Dùghall mac Raghnaill"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Ruairidh Liath dies",
+  "era_year": 1780,
+  "summary": "Ruairidh Liath dies in An Talla Dearg at Cathair dhearg in his eightieth year, in the chamber where his mother died before him. His household remembers him as a rìgh who waited where waiting served and moved where nothing else would.",
+  "category": "rulers",
+  "people": [
+   "Ruairidh Liath"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0155"
+  ]
+ },
+ {
+  "title": "Seonag Chrom crowned and the clerks given a room",
+  "era_year": 1781,
+  "summary": "Seonag Chrom, granddaughter of Ruairidh Liath, takes the hall at Cathair dhearg in her twenty-first year. Having read the worn, damp-eaten roll of her grandfather's silver settlement, she gives Talla na Lasrach's clerks their own room and a wage in silver, and Clàr nan Rìghrean begins to be kept year by year.",
+  "category": "law",
+  "people": [
+   "Seonag Chrom"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0155"
+  ]
+ }
+]

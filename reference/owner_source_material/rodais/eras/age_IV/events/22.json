@@ -1,0 +1,226 @@
+[
+ {
+  "title": "Mairead nic Ruairidh bars the gate to all three",
+  "era_year": 552,
+  "summary": "The heralds of Catrìona nic Aonghais, Dùghall Garbh and Raghnall Ruadh come one after another to the western gate of Seann Warr, and its reeve Mairead nic Ruairidh gives each the same answer: the town will open to trade and shut to hosts until the houses agree which claim to answer.",
+  "category": "war",
+  "people": [
+   "Mairead nic Ruairidh"
+  ],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0105",
+    "type": "cause"
+   },
+   {
+    "to": "III-0104",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seann Warr's first siege",
+  "era_year": 553,
+  "summary": "Dùghall Garbh sits before Seann Warr a fortnight, cutting the eastern road, but its salt-pans and brine springs feed the town through the siege. Mairead nic Ruairidh sells his own host bread at the market rate until his carters cost him more than the town is worth, and he withdraws.",
+  "category": "war",
+  "people": [
+   "Mairead nic Ruairidh",
+   "Dùghall Garbh"
+  ],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0105",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Dùghall crosses the shallows by night",
+  "era_year": 554,
+  "summary": "Guided by drovers who have used a hidden ford above Àth shean for forty years to move cattle untolled, Dùghall Garbh crosses his host in the dark and comes down on Raghnall Ruadh's camp from the landward side before dawn.",
+  "category": "war",
+  "people": [
+   "Dùghall Garbh"
+  ],
+  "places": [
+   "burg:32"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0106",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Catrìona's answer to the ford",
+  "era_year": 554,
+  "summary": "Hearing word of Raghnall's breaking at the ford, Catrìona nic Aonghais sends Dùghall Garbh an answer naming no alliance: Cathair dhomhain holds for him, not for her, and she will not thank him for taking it from under her siege lines.",
+  "category": "war",
+  "people": [
+   "Catrìona nic Aonghais",
+   "Dùghall Garbh"
+  ],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0106",
+    "type": "sequel"
+   },
+   {
+    "to": "III-0108",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach mac Ailein's household flees Doire mhin",
+  "era_year": 554,
+  "summary": "Woken by fire in the night, Coinneach mac Ailein carries his daughter Seònaid and the year's seed-corn out of the burning village of Doire mhin, while his wife brings the two younger children and the loosed cow finds its own way into the dark.",
+  "category": "war",
+  "people": [
+   "Coinneach mac Ailein",
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:316"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0107",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The Doire mhin folk at Cathair mhòr",
+  "era_year": 555,
+  "summary": "Forty-one burnt-out households of Doire mhin, walking six days south with what little they carried, are taken in at the temple of Macha in Cathair mhòr and fed through the winter on the temple's grain, without regard to whose claim they had favoured.",
+  "category": "faith",
+  "people": [
+   "Coinneach mac Ailein",
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0107",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seann Warr's second siege",
+  "era_year": 556,
+  "summary": "Dùghall Garbh, better provisioned than before, sits a full month before Seann Warr. The town holds again, though the winter comes on hard behind the siege, until word reaches Dùghall that Catrìona has closed both gates of Cathair dhomhain, and he marches east.",
+  "category": "war",
+  "people": [
+   "Mairead nic Ruairidh",
+   "Dùghall Garbh"
+  ],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0105",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The water gate of Cathair dhomhain is closed",
+  "era_year": 556,
+  "summary": "On the counsel of a harbour-master of her following, Catrìona nic Aonghais sends borrowed fishing coasters onto the loch by night to shut Cathair dhomhain's water gate as her lines already hold the land gate, and the siege begins to starve the city in earnest.",
+  "category": "war",
+  "people": [
+   "Catrìona nic Aonghais"
+  ],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0108",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The wells of Cathair dhomhain foul",
+  "era_year": 557,
+  "summary": "With no ground left beyond the walls to spare for burying, the dead of the siege lines are laid near the well-heads of Cathair dhomhain, and a sickness of the gut runs through the crowded streets and then through the garrison itself.",
+  "category": "land",
+  "people": [
+   "Niall Mòr mac Leòid"
+  ],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0108",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The garrison of Cathair dhomhain freed on oath",
+  "era_year": 557,
+  "summary": "Catrìona nic Aonghais takes the surrender of Niall Mòr mac Leòid on the fortieth day of the siege and lets his garrison march out between her silent lines, wounded and dead named and carried, on his sworn word not to take the field against her again.",
+  "category": "war",
+  "people": [
+   "Catrìona nic Aonghais",
+   "Niall Mòr mac Leòid"
+  ],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0108",
+    "type": "cause"
+   }
+  ]
+ }
+]

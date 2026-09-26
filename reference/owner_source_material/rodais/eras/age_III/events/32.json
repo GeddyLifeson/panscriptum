@@ -1,0 +1,272 @@
+[
+ {
+  "title": "Beathag Mhòr crowned at Dùn dhearg",
+  "era_year": 1685,
+  "summary": "Beathag Mhòr, great-granddaughter of Fearchar Òg, is crowned at twenty in the granary hall at Dùn dhearg. An elder of her own line stands unasked and names her too young to hold ground her house has kept unbroken since the ford. Beathag Mhòr answers with silence and a long look, and the crown is set.",
+  "category": "rulers",
+  "people": [
+   "Beathag Mhòr",
+   "Lachlann Dubh"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0134"
+  ]
+ },
+ {
+  "title": "Beathag Mhòr rides the northern road",
+  "era_year": 1688,
+  "summary": "Returning from the fleece-market at Baile Mòr fhionn, the young queen rides home by the northern road to see a waypoint-keeper's hearth she has never troubled with her custom. She finds the house at An Taigh-seinnse Mòr thin-fed and sends it grain from Dùn dhearg unmarked, telling its keeper nothing of the gift's source.",
+  "category": "trade",
+  "people": [
+   "Beathag Mhòr",
+   "Fearchar Iar"
+  ],
+  "places": [
+   "burg:204",
+   "marker:10"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   "II-0134a"
+  ]
+ },
+ {
+  "title": "Sìleas nan Clach paid before the hall's finishing",
+  "era_year": 1691,
+  "summary": "The mason Sìleas nan Clach of Cathair dhomhain raises An Talla Dearg at the bridge-foot through two wet winters and a dry summer. Beathag Mhòr pays her in full before the last course is laid, against the custom of paying only on a building's finishing, and Sìleas cuts the hearth-sign into the lintel last of all.",
+  "category": "rulers",
+  "people": [
+   "Beathag Mhòr",
+   "Sìleas nan Clach"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0135",
+   "II-0137"
+  ]
+ },
+ {
+  "title": "Iseabail nic Fhearchair answers for Cathair dhomhain",
+  "era_year": 1692,
+  "summary": "The harbour-master Iseabail nic Fhearchair comes to the new hall herself rather than send a steward, and tells the queen to her face that Cathair dhomhain has weighed its own fish and buried its own drowned since before an Earrann Dhearg held a single stone. Beathag Mhòr hears her through and grants the harbour its own charter of tolls.",
+  "category": "trade",
+  "people": [
+   "Beathag Mhòr",
+   "Iseabail nic Fhearchair"
+  ],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0138"
+  ]
+ },
+ {
+  "title": "The grain-ship saved off Cathair dhomhain",
+  "era_year": 1695,
+  "summary": "A grain-ship out of the western islands loses its mast off Cathair dhomhain's harbour mouth in a winter storm, and the harbour's own boats reach it first and tow it in ahead of the new town's crews. The rescue is told afterward on both quays, and both towns refit boats against the day the sea might drift the other way.",
+  "category": "land",
+  "people": [
+   "Iseabail nic Fhearchair"
+  ],
+  "places": [
+   "burg:26",
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0138"
+  ]
+ },
+ {
+  "title": "Dùghall mac Raghnaill takes the flame",
+  "era_year": 1699,
+  "summary": "Na Naoi Teallaichean choose Dùghall mac Raghnaill of Sliochd Raghnaill to hold the flame, a man of twenty-nine who left his own house's hall as a boy to learn the vein's reckoning. His first sitting at the cup finds the council floor so crowded with disputed claims to the handful that he cannot cross it unhindered.",
+  "category": "coal",
+  "people": [
+   "Dùghall mac Raghnaill"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   "II-0139"
+  ]
+ },
+ {
+  "title": "Beitris nic Ailein shames Coimheadaiche na Lasrach into asking",
+  "era_year": 1699,
+  "summary": "An old widow of the eastern road, Beitris nic Ailein, asks Dùghall mac Raghnaill at the crowded council how he means to judge claims to the handful for the rest of his life without ever knowing which he has judged rightly. He has no answer, and rides to Cathair dhearg within the month to ask the queen for a count.",
+  "category": "law",
+  "people": [
+   "Dùghall mac Raghnaill",
+   "Beitris nic Ailein"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "II-0139"
+  ]
+ },
+ {
+  "title": "The queen and Coimheadaiche na Lasrach agree the count",
+  "era_year": 1700,
+  "summary": "Beathag Mhòr agrees to Dùghall mac Raghnaill's asking before he has finished it, and the two settle on the waypoint houses as the counting's ground, since every household on the island lies within a day of one. The queen pledges to feed the counters at her own cost out of each house's own stores.",
+  "category": "law",
+  "people": [
+   "Beathag Mhòr",
+   "Dùghall mac Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "II-0140",
+   "II-0141"
+  ]
+ },
+ {
+  "title": "Ruairidh born to the queen",
+  "era_year": 1700,
+  "summary": "Beathag Mhòr's son Ruairidh is born at the new hall, grey-headed almost from his cradle. Her household takes the colour for an ill sign; the queen, who has buried enough of her own line's short-lived cousins to know better, takes it for nothing more than a child's colouring.",
+  "category": "rulers",
+  "people": [
+   "Beathag Mhòr",
+   "Ruairidh Liath"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0140"
+  ]
+ },
+ {
+  "title": "Sorcha nic Ruairidh proves a grandmother's claim",
+  "era_year": 1705,
+  "summary": "At the waypoint house An Taigh-seinnse Mòr, the counter Sorcha nic Ruairidh sits six months over one old woman's claim to the handful, hearing it back four generations by name and by story until it stands proved beyond the council's doubt. She writes the four names down in a hand the old woman cannot read.",
+  "category": "law",
+  "people": [
+   "Sorcha nic Ruairidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-road-peace"
+  ],
+  "master_links": [
+   "II-0141",
+   "II-0142"
+  ]
+ },
+ {
+  "title": "Ruairidh Cam of Seann Tarr refused",
+  "era_year": 1708,
+  "summary": "The counters find no coal-right in living memory at the fisher-household of Ruairidh Cam of Seann Tarr, and refuse his claim. Asked whether his house means to appeal, he answers that they burned peat before Lagh an Loscaidh Bhig was thought of and will burn it after, and that peat, besides, is the warmer fire.",
+  "category": "coal",
+  "people": [
+   "Ruairidh Cam"
+  ],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "II-0144"
+  ]
+ },
+ {
+  "title": "Sliochd Raghnaill's plea for Seann Tarr",
+  "era_year": 1709,
+  "summary": "Dùghall mac Raghnaill's own house takes up the refused fisher-families' cause at the council, arguing that a right so long unclaimed ought to be granted rather than denied. The council rules against it: Lagh an Loscaidh Bhig protects a right already held, not one never claimed. Coimheadaiche na Lasrach speaks neither for the argument nor against it.",
+  "category": "law",
+  "people": [
+   "Dùghall mac Raghnaill"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "II-0144"
+  ]
+ },
+ {
+  "title": "Ruairidh Cam's grandson keeps the light",
+  "era_year": 1712,
+  "summary": "The rebuilt sea-light on the eastern cape is kept by Ruairidh Cam's own grandson, a duty owed to no coal-right but to his family's long knowledge of the cape's rocks in the dark. Asked whether he still holds to his grandfather's saying about peat, he answers that he does, and the saying travels further than the census roll ever did.",
+  "category": "land",
+  "people": [
+   "Ruairidh Cam"
+  ],
+  "places": [
+   "marker:13"
+  ],
+  "threads": [],
+  "master_links": [
+   "II-0145"
+  ]
+ },
+ {
+  "title": "The refused roll kept in its own chest",
+  "era_year": 1720,
+  "summary": "The roll of the households refused the handful is consulted so often by families proving an old claim through a cousin's cousin that the clerks at Cathair dhearg give it a chest of its own. It is worn soft at the corners within a generation of its writing, more read than the larger roll beside it.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "II-0143"
+  ]
+ },
+ {
+  "title": "The refused roll read at Dùn dhearg",
+  "era_year": 1735,
+  "summary": "After Beathag Mhòr is carried the length of the island to lie among Sliochd Ìomhair, the roll of the refused is brought up from Cathair dhearg in its worn chest and read aloud once before the household of Dùn dhearg, so that the hill that gave up its hall might hear what the giving had bought.",
+  "category": "rulers",
+  "people": [
+   "Dùghall mac Raghnaill"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "II-0148"
+  ]
+ }
+]

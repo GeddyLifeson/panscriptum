@@ -1,0 +1,894 @@
+{
+ "writer": 4,
+ "span": [
+  "III-0108",
+  "III-0119a"
+ ],
+ "events": [
+  {
+   "after": "III-0109"
+  },
+  {
+   "id": "EIV-4501",
+   "title": "The store-master's list",
+   "body": "At Taigh na Fèithe Raghnall Ruadh hands the store-master Eòghann mac Dhùghaill a board naming every hearth and temple in the shires that stand against him and orders none of them measured a handful. The carriers who had come up the white road go down again with empty baskets.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0109",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "raghnall-ruadh",
+    "eoghann-mac-dhughaill"
+   ],
+   "told_in": "book/23_of_the_hearths_refused.md#iii-of-the-white-road",
+   "era_between": [
+    558,
+    558
+   ]
+  },
+  {
+   "id": "EIV-4502",
+   "title": "The temple fires of the cold shires go out",
+   "body": "Without the measured handful, hearths and temple fires across the shires that stood for Catrìona or Dùghall go grey through Dubhlas, among them the Macha temple at Cathair mhòr where the burned households of Doire mhin have wintered on charity, Seònaid nic Coinnich's family among them.",
+   "place": "burg:23",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0109",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/23_of_the_hearths_refused.md#ii-of-the-cold-shires",
+   "era_between": [
+    558,
+    558
+   ]
+  },
+  {
+   "id": "EIV-4503",
+   "title": "The verse of the cold shires",
+   "body": "A verse with no name to it goes about the cold shires that winter, sung over mended hearths and unmended ones alike: that no battle was lost, only the fire. It is remembered afterward as the first telling that named what Raghnall's refusal had done.",
+   "place": "burg:23",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0109",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_hearths_refused.md#ii-of-the-cold-shires",
+   "era_between": [
+    559,
+    559
+   ]
+  },
+  {
+   "id": "EIV-4504",
+   "title": "The pact of Catrìona and Dùghall",
+   "body": "Dùghall Garbh comes to Catrìona nic Aonghais's camp with six men and no herald and offers to join their hosts against Raghnall Ruadh, saying that whichever of them wins the crown after this, it must not be a crown that can shut a door on a shire's hearths.",
+   "place": "burg:26",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0110",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "catriona-nic-aonghais",
+    "dughall-garbh"
+   ],
+   "told_in": "book/23_of_the_hearths_refused.md#iii-of-the-white-road",
+   "era_between": [
+    559,
+    559
+   ]
+  },
+  {
+   "after": "III-0110"
+  },
+  {
+   "id": "EIV-4505",
+   "title": "Taigh na Fèithe opened",
+   "body": "The morning after Raghnall Ruadh falls at Muileann chrom, his own custodians strike the seal from the store without waiting to be told which claimant now holds the mountain, and the carriers go up the white road again.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0110",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "eoghann-mac-dhughaill"
+   ],
+   "told_in": "book/23_of_the_hearths_refused.md#iii-of-the-white-road",
+   "era_between": [
+    560,
+    560
+   ]
+  },
+  {
+   "id": "EIV-4506",
+   "title": "The first hearth relit",
+   "body": "Word reaches Catrìona at Taigh na Fèithe that the temple fire at Cathair mhòr, built up all winter from borrowed turf and hedge-wood, has caught at last on coal from a carrier's basket, the first of the cold shires' hearths to burn again.",
+   "place": "burg:23",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0110",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "catriona-nic-aonghais",
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/23_of_the_hearths_refused.md#iii-of-the-white-road",
+   "era_between": [
+    560,
+    560
+   ]
+  },
+  {
+   "after": "III-0111"
+  },
+  {
+   "id": "EIV-4507",
+   "title": "Dùghall Garbh dies of his wound",
+   "body": "Dùghall Garbh dies at Baile Mòr dhomhain of a cut taken below the arm at Muileann chrom that he hid from his own physicians for days. Catrìona nic Aonghais rides three days to reach him and finds him already dead, his last words asking only whether Taigh na Fèithe gates stood open.",
+   "place": "burg:273",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0111",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais",
+    "dughall-garbh"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#i-of-the-wound-that-would-not-close",
+   "era_between": [
+    561,
+    561
+   ]
+  },
+  {
+   "id": "EIV-4508",
+   "title": "Dùghall's captains come over unbidden",
+   "body": "Dùghall Garbh's captains, led by Artair mac Lachlainn, come to Catrìona's camp within the fortnight and lay no terms before her, saying only that their dead lord had told them what he meant to do if the battle at Muileann chrom went their way, and that his word binds them still.",
+   "place": "burg:273",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0111",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#i-of-the-wound-that-would-not-close",
+   "era_between": [
+    561,
+    561
+   ]
+  },
+  {
+   "after": "III-0112"
+  },
+  {
+   "id": "EIV-4509",
+   "title": "Catrìona crowned at An Talla Dearg",
+   "body": "Catrìona nic Aonghais is crowned at Cathair dhearg with little ceremony, the crown itself sent down under guard from Taigh na Fèithe's own custody. The seven heads swear to her in the old order, and she is called Catrìona Bhuadhach from that year.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0112",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#i-of-the-wound-that-would-not-close",
+   "era_between": [
+    562,
+    562
+   ]
+  },
+  {
+   "id": "EIV-4510",
+   "title": "Eòghann keeps Raghnall's list unscraped",
+   "body": "Eòghann mac Dhùghaill, still master of the store at Taigh na Fèithe, leaves Raghnall Ruadh's list of refused hearths standing face to the wall in the storeroom and sends word, unasked, that the store will not go a season again without measuring the handful while he holds the beam.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0109",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "eoghann-mac-dhughaill"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#i-of-the-wound-that-would-not-close",
+   "era_between": [
+    562,
+    562
+   ]
+  },
+  {
+   "after": "III-0113"
+  },
+  {
+   "id": "EIV-4511",
+   "title": "The drafting of Riaghailt an Teallaich",
+   "body": "At Taigh na Fèithe's own yard Catrìona and the seven heads of the houses spend three days drafting one sentence binding any claimant, house or king from ever again withholding the measured handful. Eòghann mac Dhùghaill is called to testify what Raghnall Ruadh said to him, and his flat account settles the argument the queen's own words could not.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0113",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-seven-houses",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "catriona-nic-aonghais",
+    "eoghann-mac-dhughaill"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#ii-of-the-sentence-in-the-yard",
+   "era_between": [
+    565,
+    565
+   ]
+  },
+  {
+   "id": "EIV-4512",
+   "title": "The seven heads set their marks",
+   "body": "Riaghailt an Teallaich is entered into Leabhar a' Chùraim beside Lagh an Loscaidh Bhig in the same hand, and the seven heads of the houses set their marks to it one after another, Beathag nic Uisdein of Clann Ìomhair last and longest over her own mark.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0113",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#ii-of-the-sentence-in-the-yard",
+   "era_between": [
+    565,
+    565
+   ]
+  },
+  {
+   "id": "EIV-4513",
+   "title": "Birth of Lachlann mac Iain",
+   "body": "A son, Lachlann, is born at Cathair dhearg to Queen Catrìona Bhuadhach, nine-and-thirty years old and three years crowned, and her husband Iain mac Eachainn.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0121",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lachlann-mac-iain",
+    "catriona-nic-aonghais",
+    "iain-mac-eachainn"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iv-of-the-single-day",
+   "era_between": [
+    565,
+    565
+   ]
+  },
+  {
+   "id": "EIV-4514",
+   "title": "Seònaid nic Coinnich comes to An Talla Dearg",
+   "body": "Seònaid nic Coinnich, whose father Coinneach mac Ailein came through the winter of the refusal with a cough he never lost, walks up from Cathair mhòr to An Talla Dearg and is taken into the queen's household as a clerk, the first of several children of the cold shires the household shelters in those years.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-small-burning-law"
+   ],
+   "people": [
+    "catriona-nic-aonghais",
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iii-of-the-clerk-and-the-road",
+   "era_between": [
+    566,
+    566
+   ]
+  },
+  {
+   "id": "EIV-4515",
+   "title": "Seònaid copies the tallies of the refusal",
+   "body": "In her first winter at An Talla Dearg, Seònaid nic Coinnich asks to see Leabhar a' Chùraim's oldest entries and copies out, unbidden, the tallies of the hearths refused in the winter of Na Teallaichean Fuara, a labour the queen never questions when she comes upon it by lamplight.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-small-burning-law"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iii-of-the-clerk-and-the-road",
+   "era_between": [
+    567,
+    567
+   ]
+  },
+  {
+   "id": "EIV-4516",
+   "title": "The council questions Rathad na Banrighinn",
+   "body": "More than one head of house asks Catrìona in open council why she spends so much of the treasury on a stone road to her own town of Inis thais. She answers that a kingdom bound by a law written in a cold yard ought to be bound also by roads a hard winter cannot cut, and the building goes on.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0114",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iii-of-the-clerk-and-the-road",
+   "era_between": [
+    580,
+    580
+   ]
+  },
+  {
+   "after": "III-0114"
+  },
+  {
+   "id": "EIV-4517",
+   "title": "Rathad na Banrighinn laid to Inis thais",
+   "body": "The stone of Rathad na Banrighinn is finished south from the capital, past Am Buabhall Fortanach at Doire shean, all the way to Catrìona's own gate at Inis thais, which she has ridden the length of twice while it was building to feel whether the stone held.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0114",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iii-of-the-clerk-and-the-road",
+   "era_between": [
+    584,
+    584
+   ]
+  },
+  {
+   "id": "EIV-4518",
+   "title": "The first carters run Rathad na Banrighinn",
+   "body": "Salt-carts and grain-carts run the full length of the new stone road within the year the last stone is laid, cutting the journey from three days to two. An old carter tells the household he drove it half-blind and felt the cart go steady the whole way, a thing the mire road never let him do.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0114",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iii-of-the-clerk-and-the-road",
+   "era_between": [
+    585,
+    585
+   ]
+  },
+  {
+   "after": "III-0115"
+  },
+  {
+   "id": "EIV-4519",
+   "title": "Death of Iain mac Eachainn",
+   "body": "Iain mac Eachainn, the queen's husband, dies of a wasting in the chest no physician of the household can name. He had kept, through his years in An Talla Dearg, to the smaller business of the household and left the crown's affairs to Catrìona.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0114",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "catriona-nic-aonghais",
+    "iain-mac-eachainn"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iii-of-the-clerk-and-the-road",
+   "era_between": [
+    594,
+    594
+   ]
+  },
+  {
+   "id": "EIV-4520",
+   "title": "Seann Warr's grant cut over the gate",
+   "body": "In memory of its standing aside through the war and the two sieges it withstood, Catrìona grants Seann Warr the right to keep its own gates and take its own tolls, and the grant is cut in stone letters over the landward gate.",
+   "place": "burg:64",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0115",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iii-of-the-clerk-and-the-road",
+   "era_between": [
+    594,
+    594
+   ]
+  },
+  {
+   "id": "EIV-4521",
+   "title": "Birth of Anna",
+   "body": "A daughter, Anna, is born at Cathair dhearg to Lachlann mac Iain, the queen's son, then five-and-thirty; the old queen, seventy-four, lives to see her granddaughter walk.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0121",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "anna",
+    "lachlann-mac-iain",
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iv-of-the-single-day",
+   "era_between": [
+    600,
+    600
+   ]
+  },
+  {
+   "id": "EIV-4522",
+   "title": "Seònaid gathers the first three witnesses",
+   "body": "At Queen Catrìona's own asking, her clerk Seònaid nic Coinnich takes down, in hurried hours snatched from the court's business, the first accounts of the war of the three claims: a soldier who fought at the ford, the son of Taigh na Fèithe's store-master, and a woman of Doire mhin who remembers Na Teallaichean Fuara as a child.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seonaid-nic-coinnich",
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#ii-of-the-witnesses",
+   "era_between": [
+    602,
+    602
+   ]
+  },
+  {
+   "after": "III-0116"
+  },
+  {
+   "id": "EIV-4523",
+   "title": "Death of Catrìona Bhuadhach",
+   "body": "Catrìona Bhuadhach dies at Cathair dhearg at seventy-eight, the last ruler to have fought in Cogadh nan Trì Tagraichean. Her son Lachlann mac Iain, not yet forty, succeeds her.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0116",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iv-of-the-single-day",
+   "era_between": [
+    604,
+    604
+   ]
+  },
+  {
+   "id": "EIV-4524",
+   "title": "Na Seachd Taighean swear in a single day",
+   "body": "The seven heads of the houses swear to Lachlann mac Iain within a single day of his mother's burial, Beathag nic Uisdein of Clann Ìomhair first to kneel. Seònaid nic Coinnich, watching from the back of the hall, counts the swearings without meaning to and goes that evening to begin the opening words of her history of the war.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0116",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/24_of_catriona_bhuadhach.md#iv-of-the-single-day",
+   "era_between": [
+    604,
+    604
+   ]
+  },
+  {
+   "id": "EIV-4525",
+   "title": "Seònaid visits the harbour-house boards",
+   "body": "Carrying a grant of harbour dues she did not need to carry in her own hand, Seònaid nic Coinnich asks the harbour scribe Ailean mac Mhurchaidh to show her the old boards of Rolla nan Deònach, and rides home with an errand for herself she had not had when she set out.",
+   "place": "burg:489",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seonaid-nic-coinnich",
+    "ailean-mac-mhurchaidh"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#i-of-the-old-boards",
+   "era_between": [
+    612,
+    612
+   ]
+  },
+  {
+   "id": "EIV-4526",
+   "title": "The store-master's board copied in full",
+   "body": "Dòmhnall mac Eòghainn, who inherited his father Eòghann mac Dhùghaill's office at Taigh na Fèithe's store, lets Seònaid nic Coinnich copy in full the board of shires refused the coal in the year of Na Teallaichean Fuara, a board his father kept face to the wall and never scraped clean.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0109",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [
+    "seonaid-nic-coinnich",
+    "domhnall-mac-eoghainn"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#ii-of-the-witnesses",
+   "era_between": [
+    616,
+    616
+   ]
+  },
+  {
+   "id": "EIV-4527",
+   "title": "The witness of Doire mhin heard in full",
+   "body": "Seònaid nic Coinnich rides to Cathair mhòr to hear Mairead nic Aonghais, a woman of Doire mhin who was a child in the same charity and at the same temple as Seònaid herself, tell at length what a cold hearth was to a child too young to be told why it was cold.",
+   "place": "burg:23",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seonaid-nic-coinnich",
+    "mairead-nic-aonghais"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#ii-of-the-witnesses",
+   "era_between": [
+    618,
+    618
+   ]
+  },
+  {
+   "id": "EIV-4528",
+   "title": "Seònaid weighs Leabhar a' Chùraim against her witnesses",
+   "body": "At Taigh na Fèithe Seònaid nic Coinnich sets her gathered testimony against Leabhar a' Chùraim's own entries of the war, and finds days, numbers and causes of death the book and the witnesses do not agree on; she resolves to keep both accounts rather than choose between them.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#iii-of-the-custody-book-at-the-mountain",
+   "era_between": [
+    619,
+    619
+   ]
+  },
+  {
+   "id": "EIV-4529",
+   "title": "Fearchar Ciar swears the ford broke on two days",
+   "body": "Where Leabhar a' Chùraim gives the breaking at the ford of Àth shean as one day, the old soldier Fearchar Ciar swears to Seònaid nic Coinnich that it was two, the fighting taken up again at first light after a night neither side thought worth entering.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0106",
+     "type": "answers"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearchar-ciar",
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#ii-of-the-witnesses",
+   "era_between": [
+    619,
+    619
+   ]
+  },
+  {
+   "id": "EIV-4530",
+   "title": "King Lachlann reads his mother into the book",
+   "body": "Lachlann mac Iain finds Seònaid nic Coinnich at work on her history and asks whether it will say what his mother Catrìona was like; she answers that it will say what she did and what was believed of her, which is the most any book can give.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#i-of-the-old-boards",
+   "era_between": [
+    623,
+    623
+   ]
+  },
+  {
+   "after": "III-0118"
+  },
+  {
+   "id": "EIV-4531",
+   "title": "Seònaid finishes Leabhar nan Trì Tagraichean",
+   "body": "Seònaid nic Coinnich writes the last of the war's telling and sets down the finished leaves, the first history on Dia-thìr told as one tale from end to end rather than as separate entries.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#v-of-the-reading-at-the-red-hall",
+   "era_between": [
+    624,
+    624
+   ]
+  },
+  {
+   "id": "EIV-4532",
+   "title": "Leabhar nan Trì Tagraichean read at An Talla Dearg",
+   "body": "King Lachlann mac Iain has Seònaid nic Coinnich's finished history read into the record at An Talla Dearg and orders it copied again and kept, ruling that no later copy of it may ever be made shorter than the one before it.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-seven-houses"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#v-of-the-reading-at-the-red-hall",
+   "era_between": [
+    625,
+    625
+   ]
+  },
+  {
+   "id": "EIV-4533",
+   "title": "Death of Seònaid nic Coinnich",
+   "body": "Seònaid nic Coinnich dies at Cathair dhearg at two-and-eighty, seven years after finishing her book, her last recorded word a complaint that the harbour-house's back room at Seann Skell wants a better roof before the damp takes its oldest boards.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0117",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#v-of-the-reading-at-the-red-hall",
+   "era_between": [
+    631,
+    631
+   ]
+  },
+  {
+   "after": "III-0119"
+  },
+  {
+   "id": "EIV-4534",
+   "title": "Birth of the heir of Anna",
+   "body": "A child is born at Cathair dhearg to Anna, Lachlann mac Iain's daughter, then five-and-thirty years old; Clàr nan Rìghrean keeps the year of the birth and lets the child's name fall from every copy that survives.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0121",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "anna"
+   ],
+   "told_in": "book/25_of_the_book_of_the_three_claimants.md#i-of-the-old-boards",
+   "era_between": [
+    635,
+    635
+   ]
+  }
+ ]
+}

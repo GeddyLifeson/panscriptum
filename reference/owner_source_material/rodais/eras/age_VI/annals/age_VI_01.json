@@ -1,0 +1,865 @@
+{
+ "writer": 1,
+ "span": [
+  "V-0001",
+  "V-0008"
+ ],
+ "events": [
+  {
+   "id": "EVI-1000",
+   "title": "The Hale household lodged at Caol mhòr",
+   "body": "Walter Hale comes north with his wife Ellen and their children David and Alice among the households the guard walks into the homeland that summer, and is given a loft over a net-store on the harbour street at Caol mhòr, his for as long as nobody wants it back.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#i-of-the-quay-at-caol-mhor"
+  },
+  {
+   "id": "EVI-1001",
+   "title": "Hale takes to copying the Caol mhòr harbour slate",
+   "body": "With no office and no book of his own, Walter Hale begins copying the catch weighed at the Caol mhòr quay from the fishermen's slate before it is rubbed clean each evening, the first written record the harbour keeps of itself under the new homeland.",
+   "kind": "trade",
+   "place": "burg:95",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0003",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#i-of-the-quay-at-caol-mhor"
+  },
+  {
+   "id": "EVI-1002",
+   "title": "The north's first harvest falls short",
+   "body": "Sown late on ground half the settled households have never worked, the Tuathaich shires' first harvest comes in thin, short in the straw and light in the ear, while the stores that once came over the water from an Tìr Thall do not come again.",
+   "kind": "land",
+   "place": "province:7",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#iii-of-the-thin-harvest"
+  },
+  {
+   "id": "EVI-1003",
+   "title": "The Caol mhòr catch shared by households",
+   "body": "As the herring run late and thin that autumn, the Caol mhòr boats stop selling their catch to whoever comes first to the quay and begin sharing it out by households instead, a change no minute records and every household in the town keeps to.",
+   "kind": "trade",
+   "place": "burg:95",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#iii-of-the-thin-harvest"
+  },
+  {
+   "after": "V-0002"
+  },
+  {
+   "id": "EVI-1004",
+   "title": "Fearchar mac Raghnaill's plea that his company's roll be kept",
+   "body": "At the muster in Cathair dhearg's drill-yard, Captain Fearchar mac Raghnaill asks neither for pay nor for arms but that the roll of his company's names not be burned with the loose paper of the stand-down, since every name on it stood where the roll says he stood.",
+   "kind": "war",
+   "place": "burg:19",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iv-of-cathair-dhearg-and-the-rolls"
+  },
+  {
+   "id": "EVI-1005",
+   "title": "The disbanded companies' rolls kept, not burned",
+   "body": "On a clerk's asking, the master of the chests orders that the rolls of the stood-down war-companies be kept and boxed rather than burned with the rest of the muster's loose paper; Fearchar mac Raghnaill's roll is the first spared, though he never learns it.",
+   "kind": "war",
+   "place": "burg:19",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iv-of-cathair-dhearg-and-the-rolls"
+  },
+  {
+   "id": "EVI-1006",
+   "title": "Ailean's list of the chests begun",
+   "body": "Carrying sixty-one companies' rolls down into the council's vault, Ailean mac Iain keeps, unasked, a written list of which roll went into which chest and in what order, the first record of its kind the council's vault has ever had.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iv-of-cathair-dhearg-and-the-rolls"
+  },
+  {
+   "id": "EVI-1007",
+   "title": "The war-vault sealed at Cathair dhearg",
+   "body": "The council's vault of war papers is closed and bricked over at Cathair dhearg, the seal meant to stand until some later year gives cause to break it; the master of the chests signs Ailean mac Iain's list of the vault's contents before it is filed.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#v-of-the-chests-locked"
+  },
+  {
+   "after": "V-0003"
+  },
+  {
+   "id": "EVI-1008",
+   "title": "The boundary stone set on the Caol mhòr road",
+   "body": "The council's masons set a stone where the drove path crosses the road out of Caol mhòr, cut in Dia-thìris and left without a wall to follow it. Walter Hale walks out with his son David to read what neither of them can make out.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#ii-of-the-stone-on-the-caol-mhor-road"
+  },
+  {
+   "after": "V-0004"
+  },
+  {
+   "id": "EVI-1009",
+   "title": "The guard posted at the heads of the north roads",
+   "body": "The council sets a guard-post on every road running north out of the settled country, a captain and a dozen men at each, to hold the line the columns had walked in winter and to turn back any who wander south of it.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#ii-of-the-guard-at-the-heads-of-the-roads",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1010",
+   "title": "Ailean mac Iain rides as tally-clerk to the guard",
+   "body": "A young clerk of the council's service is sent to ride between the new guard-posts with a book, counting who passes north, who turns back, and who is too sick to walk, so that the council should have some record of the settling beyond the guard's own word.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#ii-of-the-guard-at-the-heads-of-the-roads",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1011",
+   "title": "The last column counted through at the Caol mhòr road",
+   "body": "Forty-one souls are counted through the guard-post on the Caol mhòr road, the last column of the winter's walking, two dying before evening; after them the road stands empty, and the tally-clerk's book records no further column that year.",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#ii-of-the-guard-at-the-heads-of-the-roads",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1012",
+   "title": "The council's word on the homeland read at Caol mhòr",
+   "body": "The council's law fixing Tìr-dhùthchais nan Tuathach in the north is read from the steps of the harbour-house at Caol mhòr before a wet crowd, first in Dia-thìris, then, by the council's own order, in the humans' tongue for those who have no other.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iii-of-caol-mhor-and-the-two-words",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1013",
+   "title": "Walter Hale found to read the council's word into the humans' tongue",
+   "body": "Walter Hale, once a harbour clerk of Ros bheag, is fetched from the crowd at Caol mhòr to render the council's proclamation into the humans' tongue, and reads it plainly, without the first reader's polish, to a crowd that takes it in near silence.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0001",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0008",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iii-of-caol-mhor-and-the-two-words",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1014",
+   "title": "Hale's correction entered in a clerk's margin",
+   "body": "Asked how his rendering of the council's word differed from the paper he was given, Hale tells Ailean mac Iain that the truer word for what was done to the north was not \"settled\" but \"held\"; Ailean writes the two words in the margin of his own copy, unasked.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iii-of-caol-mhor-and-the-two-words",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1015",
+   "title": "The humans' chapel at Ros bheag shut for good",
+   "body": "Word reaches Caol mhòr that the humans' chapel at Ros bheag, shut since An t-Aiseag closed, is to be shut for good on the council's order; Walter Hale, once the town's harbour clerk, brings the news to Ailean mac Iain without asking anything of him.",
+   "kind": "faith",
+   "place": "burg:63",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iii-of-caol-mhor-and-the-two-words",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1016",
+   "title": "The Ros bheag bell carted north",
+   "body": "The council's men take down the bell of the shut chapel at Ros bheag and cart it away roped in sacking, bound, it is said, for wherever in the north the humans' faith may still be kept; Ailean mac Iain sees the cart pass and notes it without comment.",
+   "kind": "faith",
+   "place": "burg:63",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iii-of-caol-mhor-and-the-two-words",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1017",
+   "title": "The companies wait on their packs in the market square",
+   "body": "In the first week of an t-Ògmhios the market square of Cathair dhearg, a place of stalls and cattle before the war, is given over to the companies of Cogadh nam Beann waiting their turn to be stood down, sitting on their packs in the sun with only the paperwork of the war left to them.",
+   "kind": "war",
+   "place": "burg:19",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#iv-of-cathair-dhearg-and-the-rolls",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1018",
+   "title": "The master of the chests signs beneath Ailean's list",
+   "body": "The master of the chests reads Ailean mac Iain's four sheets by lamplight at the foot of the vault stair, signs his own name beneath Ailean's on the last of them more from courtesy than conviction, and carries them up to be filed before the door is bricked shut.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#v-of-the-chests-locked",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1019",
+   "title": "An old captain's word at the guard fire",
+   "body": "Griogair, an old captain of the guard at the heads of the north roads who had lost two fingers to a humans' picket, tells Ailean mac Iain over a fire that a line held by soldiers is only a line waiting for the soldiers to be needed elsewhere; Ailean writes it in the back pages he keeps for himself.",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#ii-of-the-guard-at-the-heads-of-the-roads",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1020",
+   "title": "The old woman at the farm gate",
+   "body": "A half-day short of the first guard-post an old woman asks Ailean mac Iain at her gate whether the boy who once kept her sheep will be let come back for them now the fighting is done; he tells her truthfully that he does not know, and writes nothing of it, since it fits none of his columns.",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/01_of_the_winter_of_the_severance.md#ii-of-the-guard-at-the-heads-of-the-roads",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EVI-1021",
+   "title": "Meal carried from Caol mhòr to Doire ghlas",
+   "body": "The householders of Caol mhòr send three cartloads of oats and salt fish ten miles inland to Doire ghlas in the depth of the hungry winter, and Walter Hale walks with them, carrying the town's meal and, unlooked for, its grief.",
+   "kind": "land",
+   "place": "burg:95",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#iv-of-the-meal-carried-to-doire-ghlas"
+  },
+  {
+   "id": "EVI-1022",
+   "title": "The graves on the rise above Doire ghlas",
+   "body": "Above ten dead of the hungry winter, children among them, are buried in shallow graves on the rise above Doire ghlas, dug close together in half-frozen ground; the earliest of the winter's dead had already been buried singly, unrecorded, before the town thought to keep any count.",
+   "kind": "land",
+   "place": "burg:209",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#iv-of-the-meal-carried-to-doire-ghlas"
+  },
+  {
+   "id": "EVI-1023",
+   "title": "Walter Hale's day-book begun",
+   "body": "Home from Doire ghlas, Walter Hale buys a fishmonger's ledger and writes the town's name and a number in it by lamplight, the first line of a private accounting of A' Bhliadhna Acrach's dead that no council south of the guard-stone has asked for or knows exists.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#v-of-the-book-begun"
+  },
+  {
+   "id": "EVI-1024",
+   "title": "Seed oats taken from the Doire mhin mill on credit",
+   "body": "With the hungry winter not yet spent, the Tuathaich shires take seed oats from the mill at Doire mhin on credit against the coming harvest, the first debt of its kind the north carries into the new kingdom's account books.",
+   "kind": "trade",
+   "place": "burg:5",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#iv-of-the-meal-carried-to-doire-ghlas"
+  },
+  {
+   "id": "EVI-1025",
+   "title": "The names pinned in the Doire ghlas church porch",
+   "body": "In the first mild week of spring a woman of the parish goes house to house through Doire ghlas gathering the names of A' Bhliadhna Acrach's dead, and pins them, above fifteen strips of paper in a dozen hands, along the boards of the church porch, where the town comes to call it the porch of the names.",
+   "kind": "faith",
+   "place": "burg:209",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#vi-of-the-names-in-the-porch"
+  },
+  {
+   "id": "EVI-1026",
+   "title": "Walter Hale reads the porch of the names",
+   "body": "Walter Hale walks the ten miles to Doire ghlas a second time to read the names pinned in the church porch, and copies every one into a second book begun that winter, keeping the town's own count beside his, though neither squares exactly with the other.",
+   "kind": "law",
+   "place": "burg:209",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#vi-of-the-names-in-the-porch"
+  },
+  {
+   "id": "EVI-1027",
+   "title": "The herring return to the Caol mhòr grounds",
+   "body": "By the second spring the herring come back to the Caol mhòr grounds in numbers not seen since before An Dealachadh, and the town, having taken nothing from the sea that winter that it did not share, takes the shoals as the sea's answer.",
+   "kind": "land",
+   "place": "burg:95",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#vi-of-the-names-in-the-porch"
+  },
+  {
+   "id": "EVI-1028",
+   "title": "The Widow Fenn's two fish",
+   "body": "Ellen Hale comes home from the Caol mhòr quay in the first week of an Dàmhair and tells her husband that Peg Carrick's mother has given the Widow Fenn, who has no boat, two fish out of a catch of nine; it is the first word of the sharing Tional nan Tuathach later counts its first work.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_stones_on_the_north_roads.md#iii-of-the-thin-harvest",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "after": "V-0005"
+  },
+  {
+   "id": "EVI-1029",
+   "title": "Ailean set to the counting-house at Cathair dhearg",
+   "body": "Ailean mac Iain is set to the humans' counting-house at Cathair dhearg to box the north wall's tithe rolls unread, and says nothing of the letters a Mission reader taught him as a boy, for a clerk who reads aloud what he is told only to box is not a clerk kept long.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#i-of-the-boxes-at-cathair-dhearg"
+  },
+  {
+   "id": "EVI-1030",
+   "title": "The fire-damaged tithe rolls boxed as loose leaves",
+   "body": "Where the counting-house fire at Cathair dhearg burned a shelf's ledgers through the middle rather than whole, Ailean gathers the crumbling leaves as best their order can be guessed and marks the crate that the order is his own guess and not to be trusted past that.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#i-of-the-boxes-at-cathair-dhearg"
+  },
+  {
+   "id": "EVI-1031",
+   "title": "The Ros dhomhain tariff copied into Dia-thìris",
+   "body": "At the harbour offices of Ros dhomhain, Ailean copies the humans' tariff tables clause by clause into Dia-thìris, building the words for duties his own tongue had never before had cause to name, and the duty itself stands unchanged under its new ink.",
+   "kind": "trade",
+   "place": "burg:27",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#ii-of-ros-dhomhain-s-sheds"
+  },
+  {
+   "id": "EVI-1032",
+   "title": "The district surveys found behind a locked grating",
+   "body": "In the whole counting-house at Seann Skell in the west, Ailean forces a locked grating and finds eleven rolled district surveys, the only whole survey of the island's fields anywhere to be had, each walked, measured and scaled by the humans' own hand.",
+   "kind": "law",
+   "place": "burg:489",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#iii-of-the-labelled-box"
+  },
+  {
+   "id": "EVI-1033",
+   "title": "The surveys boxed apart and labelled for the council",
+   "body": "Ruairidh orders the district surveys boxed apart from the tithe rolls, for the council's own clerks rather than the reckoners, and Ailean chalks the crate's lid with six words rather than a description: the shires will be drawn on them.",
+   "kind": "law",
+   "place": "burg:489",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#iii-of-the-labelled-box"
+  },
+  {
+   "id": "EVI-1034",
+   "title": "The state's seal begun at Cathair dhearg",
+   "body": "In the same week as the proclamation, the council's engraver at Cathair dhearg begins cutting a seal for the state's own letters, to be set upon documents no different in kind from the ones Ailean spent the summer boxing unread.",
+   "kind": "trade",
+   "place": "burg:19",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0007",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#v-of-the-proclamation"
+  },
+  {
+   "after": "V-0006"
+  },
+  {
+   "id": "EVI-1035",
+   "title": "The harbour store's lock broken at Ceann mhòr",
+   "body": "A fisherman of Ceann mhòr breaks the lock of the humans' harbour store with a hammer and stands back to let the town see what is inside, and it is the town, not the man who struck the lock, that shares the rope, canvas and salt out house by house within the hour.",
+   "kind": "trade",
+   "place": "burg:143",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#iv-of-what-the-north-tells"
+  },
+  {
+   "id": "EVI-1036",
+   "title": "The unfished nets loosed at Cathair gheal",
+   "body": "A whole loft of nets that had never been fished goes out to every boat in the harbour at Cathair gheal on a single tide, and the fleet fishes that year with gear it never paid a coin for and never afterward wonders whose it had been.",
+   "kind": "trade",
+   "place": "burg:476",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#iv-of-what-the-north-tells"
+  },
+  {
+   "id": "EVI-1037",
+   "title": "The reckoning drawn up by three women of Inis àrsaidh",
+   "body": "At Inis àrsaidh, poorer and smaller than its neighbours, three women of the town draw up on the spot the reckoning of who has a boat and who has none, and so who needs rope or salt the more, with no office to do it and none afterward to say they did it wrong.",
+   "kind": "trade",
+   "place": "burg:330",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#iv-of-what-the-north-tells"
+  },
+  {
+   "id": "EVI-1038",
+   "title": "The north-west locks left unanswered",
+   "body": "No maor comes north to ask who struck the first lock at Ceann mhòr, Cathair gheal or Inis àrsaidh before the following spring, by which time there is nothing left locked to account for, and the towns' own telling of the broken stores hardens into the kind of story a place keeps because it likes its shape.",
+   "kind": "law",
+   "place": "burg:143",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#iv-of-what-the-north-tells"
+  },
+  {
+   "after": "V-0007"
+  },
+  {
+   "id": "EVI-1039",
+   "title": "Rìoghachd Dia-thìr proclaimed from the counting-house steps",
+   "body": "A herald reads the council's proclamation from the steps of the Cathair dhearg counting-house, naming the state Rìoghachd Dia-thìr and the years of settling complete; Ailean stands in the crowd and does not cheer, thinking the naming a kind of label, true as far as it goes and silent about the rest.",
+   "kind": "rulers",
+   "place": "burg:19",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "V-0007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#v-of-the-proclamation"
+  },
+  {
+   "id": "EVI-1040",
+   "title": "The proclamation read at the market crosses of the south",
+   "body": "Copies of the proclamation styling the state Rìoghachd Dia-thìr are read at the market crosses of every southern town within the fortnight, in the same flat, official voice, whatever crowd happens to be standing near enough to hear it.",
+   "kind": "rulers",
+   "place": "burg:19",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "V-0007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#v-of-the-proclamation"
+  },
+  {
+   "id": "EVI-1041",
+   "title": "The humans' ledgers boxed unread",
+   "body": "Ruairidh, master of the counting-house room at Cathair dhearg, gives Ailean mac Iain the whole northern wall of the humans' ledgers to clear and tells him to box them unread; Ailean, who could have read several of them, boxes them as he is told.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/03_of_the_counting-houses_and_the_broken_locks.md#i-of-the-boxes-at-cathair-dhearg",
+   "era_between": [
+    2,
+    2
+   ]
+  }
+ ]
+}

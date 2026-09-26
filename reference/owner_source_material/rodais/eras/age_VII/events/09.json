@@ -1,0 +1,248 @@
+[
+  {
+    "title": "Daniel Frayne buried at Muileann leathan",
+    "era_year": 8,
+    "after": "VI-0020",
+    "summary": "Daniel Frayne, speaker of Tional nan Tuathach, is buried in the churchyard of Muileann leathan. His eleven binders carry the coffin through the town by turns, and each drops a length of waxed binding-thread into the grave. The schoolchildren of Doire ghlas sing the hymn of the sea road, and delegates of the fishing, mill and hill towns stand in the rain along the churchyard wall.",
+    "category": "humans",
+    "people": [
+      "daniel-frayne",
+      "martha-greaves",
+      "ellen-marsh",
+      "peter-hale"
+    ],
+    "places": [
+      "burg:234"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "VI-0020",
+      "V-0168"
+    ]
+  },
+  {
+    "title": "Martha Greaves's first sitting as speaker",
+    "era_year": 8,
+    "after": "VI-0020",
+    "summary": "Tional nan Tuathach sits at Caol mhòr, forty-four delegates strong, and chooses Martha Greaves of Doire ghlas by show of hands; the one other name put is withdrawn. She says she is no talker. Her first business is Daniel Frayne's dying wish that his binders rebind the minute-books, and the matter is laid over for their reckoning. Her first minute is the shortest of the year.",
+    "category": "humans",
+    "people": [
+      "martha-greaves",
+      "peter-hale",
+      "thomas-rook"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0020",
+      "V-0008"
+    ]
+  },
+  {
+    "title": "The binders' reckoning",
+    "era_year": 8,
+    "after": "VI-0020",
+    "summary": "The binders of Muileann leathan send the speaker their reckoning for rebinding the minute-books: sixty-three books, with thread, board, hide and paste set down by weight. They charge nothing for their hands. The mills of Doire ghlas undertake to give the hide.",
+    "category": "trade",
+    "people": [
+      "martha-greaves"
+    ],
+    "places": [
+      "burg:234",
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0021",
+      "V-0202"
+    ]
+  },
+  {
+    "title": "Ellen Marsh offers her schoolroom",
+    "era_year": 8,
+    "after": "VI-0020",
+    "summary": "Ellen Marsh, teacher at Agnes Pike's old school in Doire ghlas, writes to Tional nan Tuathach offering her schoolroom for the rebinding of its books, since the bindery at Muileann leathan is being cleared by Daniel Frayne's kin. The children are to be taught in the church meanwhile, and the priest agrees.",
+    "category": "law",
+    "people": [
+      "ellen-marsh"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "VI-0021",
+      "V-0066"
+    ]
+  },
+  {
+    "title": "The minute of the second set signed",
+    "era_year": 8,
+    "after": "VI-0021",
+    "summary": "At the same sitting the eldest binder lays before the chair the wording of a minute: that a second set of the books is made and hidden elsewhere, and that the minute stands as all the gathering knows of it. No delegate says where. Martha Greaves has it copied as written and signs it without asking.",
+    "category": "law",
+    "people": [
+      "martha-greaves",
+      "thomas-rook"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0021"
+    ]
+  },
+  {
+    "title": "Peter Hale carries the books to Doire ghlas",
+    "era_year": 8,
+    "after": "VI-0021",
+    "summary": "Peter Hale, delegate of Caol mhòr and great-grandson of Walter Hale, carries the sixty-three minute-books to Doire ghlas in three tea-chests lined with oilcloth, walking beside the cart the nine miles. The schoolchildren line up under the grey oaks to see them carried in.",
+    "category": "humans",
+    "people": [
+      "peter-hale",
+      "ellen-marsh"
+    ],
+    "places": [
+      "burg:95",
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0021",
+      "V-0127"
+    ]
+  },
+  {
+    "title": "The bindery in Agnes Pike's school",
+    "era_year": 8,
+    "after": "VI-0021",
+    "summary": "The binders of Muileann leathan bring their presses and sewing frames to the schoolroom at Doire ghlas and take every minute-book out of its boards before any is sewn again. The loose gatherings of seventy-seven years are laid out under weights down the length of the floor.",
+    "category": "law",
+    "people": [
+      "ellen-marsh",
+      "martha-greaves"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0021",
+      "V-0066"
+    ]
+  },
+  {
+    "title": "Walter Hale's harbour ledger",
+    "era_year": 8,
+    "after": "VI-0021",
+    "summary": "Unstitching the first minute-book, the binders find it to be a harbour ledger of the humans' time: Walter Hale cut out his old masters' tonnage and dues close to the fold and wrote the first day of Tional nan Tuathach on the next clean page. The speaker orders the stubs kept in the new binding.",
+    "category": "humans",
+    "people": [
+      "martha-greaves",
+      "ellen-marsh"
+    ],
+    "places": [
+      "burg:209",
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0008"
+    ]
+  },
+  {
+    "title": "The last of the sixty-three books sewn",
+    "era_year": 8,
+    "after": "VI-0021",
+    "summary": "The binders finish the last rebound minute-book at Doire ghlas, Daniel Frayne's own, which ends in the middle of a page and is followed by the clerk's minute of his death. Each book is covered in Doire ghlas hide and lettered on the spine with its years alone.",
+    "category": "law",
+    "people": [
+      "daniel-frayne"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0020",
+      "VI-0021"
+    ]
+  },
+  {
+    "title": "The rebound set laid in the press at Caol mhòr",
+    "era_year": 8,
+    "after": "VI-0021",
+    "summary": "Martha Greaves lays the sixty-three rebound minute-books in the delegates' press at Caol mhòr with her own hands, in order from Walter Hale's ledger to Daniel Frayne's last book, locks it, and keeps the key on her ring with the keys of the mills. The minute records the books laid in, at the cost of the binders' thread.",
+    "category": "law",
+    "people": [
+      "martha-greaves",
+      "peter-hale",
+      "thomas-rook"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0021",
+      "V-0008"
+    ]
+  },
+  {
+    "title": "Lamp-glass dearer at Cathair dhearg",
+    "era_year": 8,
+    "summary": "The glass-houses of Cathair dhearg raise the price of a chimney-glass by a third in the year the dubhan lamps come into the lanes, and cannot blow them fast enough.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A lorry reaches the harbour at Doire shean",
+    "era_year": 9,
+    "summary": "The first dubhan lorry to come down to the harbour at Doire shean is met by half the town; its driver sells rides round the market square for a copper each until the maor tells him the square is not a fair.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:324"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0026a"
+    ],
+    "chronicle_extra": true
+  }
+]

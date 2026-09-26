@@ -1,0 +1,249 @@
+[
+ {
+  "title": "Gormal takes up Poit an Teine",
+  "era_year": 1951,
+  "summary": "Past thirty and past the birth of the one daughter who lived, Gormal takes up Poit an Teine and the leather bag of the line's an gual dathach from an aunt with no living daughter of her own, having already buried a father, an aunt and two of her own age who died saying the sky-coal would never light.",
+  "category": "faith",
+  "people": [
+   "Gormal"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals",
+   "the-masons-fire"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Gormal's rule that the recital be kept",
+  "era_year": 1960,
+  "summary": "Gormal rules that the fathers' names and Tòimhseachan a' Choimhdich after them be said standing every dark-of-the-year night whether any of the gathered kin care to hear it or not, holding that a recital kept only while it is believed is not kept at all.",
+  "category": "faith",
+  "people": [
+   "Gormal"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Three good harvests on the eastern slopes",
+  "era_year": 1978,
+  "summary": "Word climbs to the high valleys of a third good harvest running on the farms of the eastern slopes, and the branch of the kin already drifting down toward that lower ground begins drifting faster, households following one another rather than waiting their own turn to go.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The branch leaves with no coal of the vein",
+  "era_year": 1980,
+  "summary": "The last households of the eastern branch load their gear onto ox-sledges and go down from the high valleys for good, carrying a coal from their own daily fire and not one splinter of the mason's vein, the first households of the line ever to leave it empty-handed.",
+  "category": "land",
+  "people": [
+   "Gormal"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Gormal names three hills for the sky",
+  "era_year": 1981,
+  "summary": "At the recital after the branch's leaving, Gormal argues that the sky, like the sea, should be tried from the ground nearest it, and names three hills of her own judging, one south of the black well, one west toward Achadh dhìreach and a bare shoulder of moor she herself favours, though the kin cannot agree which of the three, or any other, truly stands highest.",
+  "category": "faith",
+  "people": [
+   "Gormal"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The eastern Bral kilns kept alight in relay",
+  "era_year": 1985,
+  "summary": "At the eastern landing three fish-kilns are kept fed at any time while three stand cold and swept, a household's whole catch never dried on the same night lest a failed wind leave it with nothing, the kilns built and worked in the same way as the sister kilns a day's rowing to the south.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:110"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0025",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A girl reads the smoke at the eastern kilns",
+  "era_year": 1990,
+  "summary": "A granddaughter of the woman who minds the middle kiln at the eastern landing notices, before anyone older has remarked it, that the smoke of that kiln runs paler than its neighbours in some seasons though the fire beneath is fed no differently, and is told only that the smoke says what the smoke says.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:110"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0025",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Dried fish given back for a stranded beast's oil",
+  "era_year": 1993,
+  "summary": "When a beast comes ashore dead below the southern kilns, the eastern landing sends back a share of its own dried fish by the same boat that brought the word, the giving between the two places running both ways over the years without either side keeping any closer account of it.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:110"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0025",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Beathag softens the recital for her own children",
+  "era_year": 1996,
+  "summary": "Gormal's daughter Beathag, unable to move her mother from the fixed words, begins saying the fathers' names and Tòimhseachan a' Choimhdich to her own children in gentler terms at her own hearth, without ever once letting the recital itself lapse.",
+  "category": "faith",
+  "people": [
+   "Gormal"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The southern oyster mound stands taller than any household's reach",
+  "era_year": 1998,
+  "summary": "Along the southern headland the pile of raked and eaten oyster shell, built up by generations of the same households, comes to stand higher at its oldest end than a tall man can reach with his arm above his head, whiter at the crown where gulls have picked it clean.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:465"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0026",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A worn rake laid on the southern mound",
+  "era_year": 2001,
+  "summary": "A woman of the southern shore, famed along that coast for the truest oyster-rake anyone there remembers, dies leaving it to her strongest-armed granddaughter; when it wears past mending in its turn it is laid on the mound itself rather than burned or given back to the sea, by a custom the shore explains to no outsider.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:465"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0026",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Gormal's last recital",
+  "era_year": 2004,
+  "summary": "On the last dark-of-the-year night of her life Gormal says Tòimhseachan a' Choimhdich standing as she has said it every year of her keeping, and adds, unfixed in the words, that whoever first agrees which hill stands highest will do the line more good than the branch that went down to the farms did it in ten generations of easier digging.",
+  "category": "faith",
+  "people": [
+   "Gormal"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Gormal dies",
+  "era_year": 2004,
+  "summary": "Gormal dies that winter in the house she kept Poit an Teine in her whole life, her daughter Beathag and a granddaughter at her bedside, the six dark coals laid out on the blanket at her own asking; the bag and the unanswered question pass to hands that had heard her say both enough times to say them back the same way.",
+  "category": "faith",
+  "people": [
+   "Gormal"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals",
+   "the-masons-fire"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "A third ramp begun at the second Brenn",
+  "era_year": 2090,
+  "summary": "Far to the north-east a household that first rolled boulders into its own river's current and walked hulls down over them, in the same way as a household on a river far to the west that bears the same name, begins a third ramp beside the first two, having hulls enough to want more room than two ramps give it.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:440"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0027",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A boy stands before the twin ramps of Brenn",
+  "era_year": 2097,
+  "summary": "Sent one autumn morning to carry word along the bank that the tide has turned, a boy of the north-eastern Brenn household stands a long while looking at the two, then three, pale ramps running into the current before running his errand, and says nothing after of what he stood looking at.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:440"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0027",
+    "type": "same_day"
+   }
+  ]
+ }
+]

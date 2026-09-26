@@ -1,0 +1,384 @@
+[
+ {
+  "title": "old Fraser digs the trench across the southern road",
+  "era_year": 19,
+  "after": "VI-0068",
+  "summary": "In the last week of an t-Samhain, with frost already hard on the ground, old Fraser digs the trench across the southern cart-road into Muileann àrsaidh, deep enough to stop a laden cart and narrow enough for a man to cross on foot. He tells Ruth Calder plainly what the digging is for.",
+  "category": "war",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0070",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#i-of-the-wall-and-the-trench"
+ },
+ {
+  "title": "The spoil wall left unfinished at its northern end",
+  "era_year": 19,
+  "after": "VI-0070",
+  "summary": "old Fraser leaves the last length of the pit-yard wall unbuilt, calling it exhaustion; the town understands it as his own caution against finishing a wall built all the way round, which would look too near a boast.",
+  "category": "war",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0070",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#i-of-the-wall-and-the-trench"
+ },
+ {
+  "title": "Ruth Calder begins the letter to the council",
+  "era_year": 19,
+  "after": "VI-0070",
+  "summary": "At her father's table above the pit-head, on a windy night in an t-Samhain, Ruth Calder writes the salutation of a letter to Comhairle na Rìoghachd and no more, the first of several attempts she will tear across before the letter is finished.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#ii-of-the-first-drafts"
+ },
+ {
+  "title": "Ruth Calder tears up a draft written as a grievance",
+  "era_year": 19,
+  "after": "VI-0070",
+  "summary": "A second attempt, three paragraphs on the wrong done the towns by Breith Leòid, is torn across unfinished; Ruth Calder judges it would read at an Leabharlann as one more northern complaint among many and be filed the same way.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#ii-of-the-first-drafts"
+ },
+ {
+  "title": "Sarah Dunmore counsels an offer and not a complaint",
+  "era_year": 19,
+  "after": "VI-0070",
+  "summary": "In her kitchen at Muileann àrsaidh, Sarah Dunmore tells Ruth Calder that four years of letters have argued a right and never once made an offer, and that the towns' one thing worth offering is their coal, on their own terms.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder",
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#ii-of-the-first-drafts"
+ },
+ {
+  "title": "Ruth Calder drafts the offer of An Crùn's fifth in coal",
+  "era_year": 19,
+  "after": "VI-0070",
+  "summary": "On the last evening of an t-Samhain, Ruth Calder writes the third draft of her letter: the five towns will pay An Crùn's fifth in coal on every load raised, from that day until the seams are spent, if Comhairle nam Mèinnean will carry it and press no further claim.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#iii-of-the-terms"
+ },
+ {
+  "title": "The four pit captains allow Ruth Calder to sign for them",
+  "era_year": 19,
+  "after": "VI-0070",
+  "summary": "Weeks before the letter is finished, Ruth Calder asks the pit captains of Muileann àrsaidh, Cnoc thais, Àth naomh and Tobar dhearg whether she may set their names beneath her own if the letter says nothing they would not themselves say; none refuses her.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder",
+   "Tom Varley"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#iv-of-christmas-day"
+ },
+ {
+  "title": "The five towns keep an Nollaig at Àth leathan's chapel",
+  "era_year": 19,
+  "same_day": true,
+  "summary": "On the morning of the twenty-fifth of an Dùbhlachd the chapel at Àth leathan is filled with its own people and others come down from Muileann àrsaidh and Cnoc thais, the western hills keeping the feast together, both faiths of the island under one roof as the coast has long done.",
+  "category": "culture",
+  "people": [
+   "Ruth Calder",
+   "Tom Varley",
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#iv-of-christmas-day"
+ },
+ {
+  "title": "Ruth Calder copies the letter fair and signs it",
+  "era_year": 19,
+  "same_day": true,
+  "summary": "In a borrowed room at Àth leathan on an Nollaig afternoon, Ruth Calder copies her letter fair in a plain ledger hand, dates it, and signs it with her own name and the names of the other four pit captains beneath it.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#iv-of-christmas-day"
+ },
+ {
+  "title": "Tom Varley walks the letter to the post at the western Seann Skell",
+  "era_year": 19,
+  "same_day": true,
+  "summary": "Tom Varley walks the five miles from Àth leathan to the western Seann Skell on an Nollaig evening and gives Ruth Calder's letter over the post office counter before it closes for the feast.",
+  "category": "law",
+  "people": [
+   "Tom Varley",
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#v-of-the-post-at-the-western-seann-skell"
+ },
+ {
+  "title": "Ruth Calder's letter posted at the western Seann Skell",
+  "era_year": 19,
+  "after": "VI-0071",
+  "summary": "The post clerk at the western Seann Skell enters Ruth Calder's letter in his book among the season's other correspondence and sends it north three days after with the ordinary carrier.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#v-of-the-post-at-the-western-seann-skell"
+ },
+ {
+  "title": "The letter laid on the table at Leabharlann Muileann chaol",
+  "era_year": 19,
+  "after": "VI-0071",
+  "summary": "In the second week of am Faoilleach the letter reaches Leabharlann Muileann chaol, is entered in the day-book in the keeper's own clerk's hand, and is laid on the table of the council's business beside what else waits there.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "marker:34",
+   "burg:246"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#v-of-the-post-at-the-western-seann-skell"
+ },
+ {
+  "title": "A copy of the letter kept in Tional nan Tuathach's minute",
+  "era_year": 19,
+  "after": "VI-0071",
+  "summary": "A copy of Ruth Calder's letter is carried to Caol mhòr and set down in Tional nan Tuathach's own minute, under a heading giving only what it was and when it came, though Tional nan Tuathach itself is no party to it.",
+  "category": "law",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0071",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/20_of_ruth_calders_letter.md#v-of-the-post-at-the-western-seann-skell"
+ },
+ {
+  "title": "The trench filled with water before the frost",
+  "era_year": 19,
+  "summary": "Old Fraser of Muileann àrsaidh lets water into his trench across the southern road before the frost, so that it will not freeze into a bridge.",
+  "category": "war",
+  "people": [
+   "Fraser"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0070"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Ruth Calder lodges at Sarah Dunmore's",
+  "era_year": 19,
+  "summary": "Ruth Calder lodges through the winter at Sarah Dunmore's house at Muileann àrsaidh to see the walling of the pit-heads done, keeping her father's tally-book with her.",
+  "category": "humans",
+  "people": [
+   "Ruth Calder",
+   "Sarah Dunmore"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0070"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Regiments spoken of at Cathair dhearg",
+  "era_year": 19,
+  "summary": "Carriers' talk reaches the western hills that regiments not called out since An Dealachadh are spoken of again at Cathair dhearg, spoken of and not yet raised.",
+  "category": "war",
+  "people": [
+   "Ruth Calder"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Snow closes the Muileann àrsaidh road",
+  "era_year": 19,
+  "summary": "Snow closes the road from Muileann àrsaidh to the coast for nineteen days in an Faoilleach, and the enforcers' wagons stand at the western Seann Skell.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0070"
+  ],
+  "chronicle_extra": true
+ }
+]

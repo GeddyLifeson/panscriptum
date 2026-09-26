@@ -1,0 +1,268 @@
+[
+ {
+  "title": "A barge broken at Coinneachadh na h-Amhaich",
+  "era_year": 1170,
+  "summary": "A laden barge out of the new harbour at Caol gharbh misjudges the tide at the narrows called Coinneachadh na h-Amhaich and strikes the reef, going down with half her salt still aboard. Both crewmen swim ashore alive. The harbour-masters set the channel's first withy at the rock the following spring.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:443"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0167",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The last bridge-keeper of Drochaid Ros fhionn",
+  "era_year": 1172,
+  "summary": "The keeper of Drochaid Ros fhionn dies with no daughter or kinsman willing to take up the toll, and the crown's reeve at Ros fhionn lets the office lapse rather than name a stranger to it. The toll-gate stands open thereafter, and no crossing is ever again refused for want of a toll.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:76"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0168",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The market-court's answer",
+  "era_year": 1173,
+  "summary": "Asked whether Ros fhionn's market-court should follow its trade to Caol gharbh, the court's own clerks answer that a court sits where disputes are brought to it, not where the season's cargo happens to lie, and the bench of two-hundred-year oak is not moved.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:76"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0168",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Seòlaid Ros fhionn withied",
+  "era_year": 1176,
+  "summary": "The channel above the flats where the barge was lost is marked from the old bar to open water with a line of withies, Seòlaid Ros fhionn, so that a new pilot may learn the crossing in a season rather than the ten years the old salt-masters once needed.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:76"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0168",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Raghnall mac Chaluim sent to Dùn thais",
+  "era_year": 1189,
+  "summary": "A priest of the schools of the stag, hearing a shepherd's son of the north-west coast count and recount a flock through an afternoon, tells the boy's father the child belongs at a house of disputation. Raghnall mac Chaluim, fourteen years old, is sent south to Dùn thais the following spring.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Chaluim"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Raghnall begins the count of years",
+  "era_year": 1205,
+  "summary": "Raghnall mac Chaluim, thirty years old, begins setting the birth and death rolls of the custodian houses beside those of their tenants at Dùn thais, a labour that will occupy his lamplit evenings for nine years before he brings any finding before Taigh na Deasbaid.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Chaluim"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0171",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A scholar answered at the reading",
+  "era_year": 1209,
+  "summary": "When a scholar of Taigh na Deasbaid calls Raghnall's table a wish dressed in columns, Raghnall offers to run the sums a fifth time on rolls the scholar himself chooses. The scholar sits down without taking up the offer, and the hall remembers the silence longer than the exchange.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Chaluim"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0171",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Raghnall's copy entered in Taigh na Fèithe inventory",
+  "era_year": 1219,
+  "summary": "A custodian who has never met Raghnall mac Chaluim writes to ask whether his working copy of Clàr nam Bliadhnachan still exists and might be sent to the mountain for safekeeping. It is sent, and entered that year in Taigh na Fèithe's own inventory, one line among the galleries and Clachan a' Chrannchuir.",
+  "category": "coal",
+  "people": [
+   "Raghnall mac Chaluim"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0172",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Raghnall mac Chaluim",
+  "era_year": 1240,
+  "summary": "Raghnall mac Chaluim dies at Dùn thais in his sixty-sixth year, in the small house the shut school let him keep. The scholars who once argued his table carry him to the school's own burying ground and set a tally-stick at his grave's head, notched once for every year the making of the table cost him.",
+  "category": "rulers",
+  "people": [
+   "Raghnall mac Chaluim"
+  ],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0172",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The boundary stones carried home unused",
+  "era_year": 1246,
+  "summary": "After the king's council divides the disputed grazing between Baile ruadh and Achadh naomh along a stream, both shire seats carry home the boundary stones they had brought to argue their claim and set them, unused, into their own walls, where they stand for the rest of the age pointing to a line the water has already made no matter of.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:241"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0174",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The blank space on the burial roll",
+  "era_year": 1266,
+  "summary": "Drawing up King Ailean mac Raghnaill's burial roll, An Talla Dearg's clerks leave a blank space where the heir's name should stand, unable to agree between themselves which of his two sons to write and unwilling to write neither.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0176",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The inventory read past the forbidden line",
+  "era_year": 1266,
+  "summary": "At the winter reading of Taigh na Fèithe's inventory, the custodian pauses a moment longer than usual over the line entered nearly fifty years before, Clàr nam Bliadhnachan, forbidden to be copied, kept, and then reads on, for the reckoning of that year's coal still has a great deal more of the shelf left to answer for.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0172",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "era_year": 1195,
+  "title": "The gearing model hung over the millers' door",
+  "summary": "The millers of Muileann shean, who first cut the gearing that lets one wheel turn two stones, hang a carved model of it over their own door, a boast that grows quieter with every mill in the north that copies it without asking leave.",
+  "category": "trade",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0169",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1200,
+  "title": "Birth of Ailean mac Raghnaill",
+  "summary": "A son, Ailean, is born in Sliochd Raghnaill, the crown's own house since the reign of Mòrag Ruadh; Leabhar a' Chùraim gives the year and the house and no more.",
+  "category": "rulers",
+  "people": [
+   "Ailean mac Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0176",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1240,
+  "title": "Birth of Iain Ciar",
+  "summary": "A son, dark-browed and called Iain Ciar, is born to Ailean mac Raghnaill, then forty years old, the elder of two sons he has by different mothers.",
+  "category": "rulers",
+  "people": [
+   "Iain Ciar",
+   "Ailean mac Raghnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0185",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ }
+]

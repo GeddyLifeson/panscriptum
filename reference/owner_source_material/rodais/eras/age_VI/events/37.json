@@ -1,0 +1,350 @@
+[
+ {
+  "title": "Census clerks come north for a count",
+  "era_year": 64,
+  "after": "V-0216",
+  "summary": "Two census clerks ride to Caol mhòr, the first southern office to ask Tional nan Tuathach for its own count of its own people rather than take none, the shire's own maor having told the surveyor-general no clerk had yet gone north.",
+  "category": "record",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0216"
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach's figures given to the census clerks",
+  "era_year": 64,
+  "after": "V-0216",
+  "summary": "Daniel Frayne gives the visiting clerks Tional nan Tuathach's own count, kept every third year since the room was opened, along with the school and vigil registers, and offers to swear to the figures before a justice if the council should ask it.",
+  "category": "record",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-library"
+  ],
+  "master_links": [
+   "V-0216",
+   "V-0222"
+  ]
+ },
+ {
+  "title": "Frayne's private book notes the asking",
+  "era_year": 64,
+  "after": "V-0216",
+  "summary": "Daniel Frayne writes the day's giving into his own private book, judging it worth the keeping that Tional nan Tuathach had, for once, been asked for its figures rather than merely tolerated in the giving of them.",
+  "category": "record",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ]
+ },
+ {
+  "title": "A young clerk asks what the two words mean",
+  "era_year": 65,
+  "after": "V-0217",
+  "summary": "Walking out of the room into the frost, a junior clerk asks Daniel Frayne whether the minute's two words oblige the south to answer for what it has printed; Frayne tells him a fact set down is not a promise kept, but cannot be unprinted either.",
+  "category": "record",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0217"
+  ]
+ },
+ {
+  "title": "Tormod Pinn buried at Muileann chaol",
+  "era_year": 65,
+  "after": "V-0220",
+  "summary": "Tormod Pinn, chronicler nine-and-seventy years old, is buried in the small ground behind an Leabharlann among every keeper and chronicler the house has kept since Ailean Leabhar; Mòrag nic Coinnich speaks over him that he kept the list honest and struck nothing from it unearned.",
+  "category": "record",
+  "people": [
+   "Tormod Pinn",
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0220"
+  ]
+ },
+ {
+  "title": "Beathag nic Fhionnlaigh's first morning at the desk",
+  "era_year": 65,
+  "after": "V-0220",
+  "summary": "Beathag nic Fhionnlaigh, chosen from an Leabharlann's own senior clerks, tells the house on her first morning as chronicler that she means to change nothing of the desk's hours, only its habit of silence where the record itself keeps none.",
+  "category": "record",
+  "people": [
+   "Beathag nic Fhionnlaigh",
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0220"
+  ]
+ },
+ {
+  "title": "Beathag's note sent north to Frayne",
+  "era_year": 65,
+  "after": "V-0222",
+  "summary": "A clerk of an Leabharlann sends Daniel Frayne a copy of Beathag nic Fhionnlaigh's first foot-note, naming the census clerks' reliance on Tional nan Tuathach's own figures; Frayne keeps it in his private book beside the day he gave them, judging her a chronicler the north may trust.",
+  "category": "record",
+  "people": [
+   "Daniel Frayne",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-library"
+  ],
+  "master_links": [
+   "V-0222"
+  ]
+ },
+ {
+  "title": "Mòrag nic Coinnich calls the shire chests in",
+  "era_year": 66,
+  "after": "V-0223",
+  "summary": "Mòrag nic Coinnich sends her own clerks along the roll to bring every shire's record-chest to Muileann chaol, judging a history kept in forty scattered chests no history at all but forty separate hopes of one day being read together.",
+  "category": "record",
+  "people": [
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0223"
+  ]
+ },
+ {
+  "title": "The Seann Tarr keeper meets the clerks at the gate",
+  "era_year": 66,
+  "after": "V-0223",
+  "summary": "The shire keeper who burned his own chest at Seann Tarr meets Mòrag's clerks at the gate the next morning, his coat still smelling of the smoke, and repeats to them plainly that the shire's record belongs in the shire.",
+  "category": "record",
+  "people": [
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0223"
+  ]
+ },
+ {
+  "title": "Cathair naomh's chronicle carried south by its own keeper",
+  "era_year": 66,
+  "after": "V-0224",
+  "summary": "The eldest daughter of the family that has kept Cathair naomh's town chronicle four generations rides the two carts south herself and unpacks them at Mòrag nic Coinnich's own table, Eachdraidh na Rìoghachd begun by her great-grandmother on the back of an unused rent-roll.",
+  "category": "record",
+  "people": [
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "burg:192",
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0224"
+  ]
+ },
+ {
+  "title": "Seann Toll's copy becomes the pattern",
+  "era_year": 66,
+  "after": "V-0225",
+  "summary": "The full transcription Mòrag's clerks make for Seann Toll, bound and set beside the original before either leaves the shire's hall, becomes the pattern every later shire's copy is cut to.",
+  "category": "record",
+  "people": [
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "burg:37"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0225"
+  ]
+ },
+ {
+  "title": "Frayne puts the calling-in to Tional nan Tuathach's own room",
+  "era_year": 67,
+  "after": "V-0226",
+  "summary": "Reading the notice of the calling-in, Daniel Frayne calls the room at Caol mhòr together and asks it plainly whether Tional nan Tuathach should offer its own books south now that the council has shown a wish to gather every shire's record.",
+  "category": "record",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0226",
+   "V-0227"
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach's minute declining to send its books",
+  "era_year": 67,
+  "after": "V-0227",
+  "summary": "After an evening's debate, the room's minute at Caol mhòr records no vote by count and no reason beyond two words its clerk sets down at the close of the sitting: *kept north.* No cart of Tional nan Tuathach's own books goes south that year or after.",
+  "category": "record",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0227"
+  ]
+ },
+ {
+  "title": "Tormod Pinn found at his desk",
+  "era_year": 65,
+  "summary": "Tormod Pinn is found dead at his desk at Muileann chaol on a morning in an t-Sultain, the year's returns open under his hand and his pen laid down beside them; the clerks write his age, nine-and-seventy, in the margin of his last page, the only line of his tenure he did not write himself.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0220"
+  ]
+ },
+ {
+  "title": "A Ros gheal carter waits in an Leabharlann's yard",
+  "era_year": 65,
+  "summary": "The carter who brings the three iron-bound coffers of the Ros gheal Òrd an t-Seabhaig' birth-rolls to Muileann chaol waits the whole of an afternoon in an Leabharlann's yard, under orders to turn his horse for home if the keeper will not file them under Òrd an t-Seabhaig.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0221"
+  ]
+ },
+ {
+  "title": "Mòrag's three lines to Òrd an t-Seabhaig",
+  "era_year": 65,
+  "summary": "Mòrag nic Coinnich answers Òrd an t-Seabhaig in three lines in her own hand before dusk: the rolls will be filed under Òrd an t-Seabhaig in a press of their own, the houses may send a witness to see it, and a copy made in an Leabharlann's own hand goes back to them whenever they ask.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0221"
+  ]
+ },
+ {
+  "title": "A paper filed under its sender's name",
+  "era_year": 65,
+  "summary": "For the first time an Leabharlann files a paper under a name its sender sets against the name its own register gives; Mòrag nic Coinnich enters the fact plainly, and beneath it that she does not think an Leabharlann has any business teaching Òrd an t-Seabhaig what to call themselves.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0221"
+  ]
+ },
+ {
+  "title": "A fourth coffer from Ros gheal",
+  "era_year": 66,
+  "summary": "The Ros gheal carter comes south again the next spring with a fourth coffer of birth-rolls found in a shut room at the houses' oldest altar, and reports that the houses read Mòrag's three lines aloud in their hall and said nothing of them after, which in Oirthir an t-Seabhaig is how a thing is accepted.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:24"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0221"
+  ]
+ },
+ {
+  "title": "The Seann Tarr keeper fined for the burning",
+  "era_year": 66,
+  "summary": "The council fines the old keeper of Seann Tarr for burning the shire's chest; he pays without argument and without apology, and whatever the chest held of the shire's two centuries is lost entire.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0223"
+  ]
+ }
+]

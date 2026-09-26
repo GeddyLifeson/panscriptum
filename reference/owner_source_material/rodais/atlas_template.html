@@ -18,30 +18,6 @@ body[data-tab] #panel-timeline, body[data-tab] #panel-map{display:none;}
 body[data-tab="timeline"] #panel-timeline{display:block;}
 body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative; padding:0;}
 
-/* timeline */
-.tl-tools{position:sticky; top:0; z-index:20; background:rgba(12,10,16,.96); border-bottom:1px solid var(--hair);
-  padding:10px 16px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center;}
-.chip{font-family:'Cinzel',serif; font-size:12px; letter-spacing:.05em; background:none; color:var(--parchment-dim);
-  border:1px solid var(--hair); border-radius:3px; padding:6px 10px; cursor:pointer;}
-.chip[aria-pressed="true"]{color:var(--parchment); border-color:var(--c,var(--parchment-dim)); background:rgba(255,255,255,.04);}
-#q{font:inherit; font-size:16px; background:#15121b; color:var(--parchment); border:1px solid var(--hair); border-radius:3px;
-  padding:6px 10px; width:min(320px,100%);}
-#count{font-size:14px; color:var(--parchment-dim); min-width:9ch; text-align:center;}
-#tl{max-width:820px; margin:0 auto; padding:10px 20px 120px;}
-.tl-age{margin:40px 0 8px; font-family:'Cinzel',serif; font-size:15px; letter-spacing:.12em; text-transform:uppercase;}
-.tl-age small{display:block; font-family:'Cormorant Garamond',serif; font-size:16px; letter-spacing:0; text-transform:none; font-style:italic; color:var(--parchment-dim);}
-.te{display:grid; grid-template-columns:14px 1fr; gap:0 12px; padding:12px 0; border-top:1px solid rgba(51,44,61,.6);}
-.te > span{width:9px; height:9px; border-radius:50%; margin-top:7px; background:var(--c); opacity:.5;}
-.te.canon > span{opacity:1; box-shadow:0 0 0 3px rgba(255,255,255,.06);}
-.te > div{min-width:0;}
-.te .d{font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:.05em; color:var(--parchment-dim);}
-.te .t{font-weight:600; font-size:19px; line-height:1.3;}
-.te .b{font-size:17px; line-height:1.5; color:var(--parchment-dim);}
-.te .go{grid-column:2; justify-self:start; margin-top:4px; font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:.05em;
-  background:none; border:1px solid var(--hair); color:var(--parchment); border-radius:3px; padding:4px 9px; cursor:pointer;}
-.te .go:hover, .te .go:focus-visible{border-color:var(--c); outline:none;}
-.te.hl{background:rgba(157,107,255,.09);}
-.te[hidden], .tl-age[hidden]{display:none;}
 
 /* map */
 .stage{flex:1; position:relative; min-width:0; background:#1d2230;}
@@ -79,6 +55,7 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 @media (max-width:760px){ .drawer{position:absolute; right:0; top:0; bottom:0; z-index:7; padding-top:52px;}
   .drawtoggle{z-index:8;} }
 </style>
+<link rel="stylesheet" href="atlas/atlas.css">
 </head>
 <body data-tab="timeline">
 <div class="tabbar">
@@ -92,15 +69,10 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
     <h1>The Annals of Dia-thìr</h1>
     <p>Every remembered deed of the seven ages, from the mason's fire to the present year, each set on its day
       and dated in the era of its age.
-      Where a deed has a place, a map button stands beside it and carries you there. ◆ marks the entries of the
-      royal chronicle itself.</p>
+      Choose an age to read its own annals beside its own map; the detail switch shows more of each age, and ⋯ holds
+      the rest (playback, threads, people, places, the glossary). ◆ marks the entries of the royal chronicle itself.</p>
   </header>
-  <div class="tl-tools">
-    <span id="agechips"></span>
-    <button class="chip" id="canonchip" aria-pressed="false" onclick="toggleCanon()">◆ chronicle only</button>
-    <input id="q" type="search" placeholder="Search the annals (a name, a place, a word)" oninput="filterTl()">
-    <span id="count"></span>
-  </div>
+  <div class="tl-tools" id="tools"></div>
   <div id="tl"></div>
 </div>
 
@@ -114,7 +86,6 @@ body[data-tab="map"] #panel-map{display:flex; overflow:hidden; position:relative
 </div>
 
 <script>
-var EVENTS = /*EVENTS*/[];          // [id, age, date, title, body, placeRef|null, canon]
 var PLACES = /*PLACES*/{};          // ref -> {name, kind, facts, founded, by, history, known}
 var AGES = /*AGES*/[];              // [key, dia-thìris name, english name, css var, span in its era, era, era abbreviation]
 var ready = false, pending = null;
@@ -129,40 +100,8 @@ function showTab(name){
   if (name === 'map') startMap();
 }
 
-/* ---- the annals ---- */
-var ageOn = {}, canonOnly = false;
-function buildTimeline(){
-  var chips = '', html = '', cur = null;
-  AGES.forEach(function(a){ ageOn[a[0]] = true;
-    chips += '<button class="chip" style="--c:var(' + a[3] + ')" aria-pressed="true" data-age="' + a[0] + '" title="' + esc(a[2] + ' · ' + a[5] + ', ' + a[4]) + '" onclick="toggleAge(\'' + a[0] + '\')">' + a[0] + ' · ' + a[6] + '</button> '; });
-  document.getElementById('agechips').innerHTML = chips;
-  var agec = {}; AGES.forEach(function(a){ agec[a[0]] = a; });
-  EVENTS.forEach(function(e, n){
-    if (e[1] !== cur) { cur = e[1]; var a = agec[cur];
-      html += '<h2 class="tl-age" id="age-' + cur + '" data-age="' + cur + '" style="color:var(' + a[3] + ')">Age ' + cur + ' · ' + a[1] + '<small>' + a[2] + ' · ' + a[5] + ', ' + a[4] + '</small></h2>'; }
-    var go = e[5] && PLACES[e[5]] ? '<button class="go" onclick="flyToEvent(' + n + ')">◎ ' + esc(PLACES[e[5]].name) + '</button>' : '';
-    html += '<div class="te' + (e[6] ? ' canon' : '') + '" id="te-' + n + '" data-age="' + e[1] + '" style="--c:var(' + agec[e[1]][3] + ')"><span></span><div>' +
-      '<div class="d">' + esc(e[2]) + '</div><div class="t">' + md(e[3]) + (e[6] ? ' <span style="color:var(--holy);font-size:.7em">◆</span>' : '') + '</div><div class="b">' + md(e[4]) + '</div></div>' + go + '</div>';
-  });
-  document.getElementById('tl').innerHTML = html;
-  filterTl();
-}
-function toggleAge(k){ ageOn[k] = !ageOn[k]; document.querySelector('.chip[data-age="' + k + '"]').setAttribute('aria-pressed', ageOn[k]); filterTl(); }
-function toggleCanon(){ canonOnly = !canonOnly; document.getElementById('canonchip').setAttribute('aria-pressed', canonOnly); filterTl(); }
-function filterTl(){
-  var q = document.getElementById('q').value.trim().toLowerCase(), shown = 0, perAge = {};
-  EVENTS.forEach(function(e, n){
-    var ok = ageOn[e[1]] && (!canonOnly || e[6]) &&
-      (!q || (e[2] + ' ' + e[3] + ' ' + e[4] + ' ' + (e[5] && PLACES[e[5]] ? PLACES[e[5]].name : '')).toLowerCase().indexOf(q) >= 0);
-    document.getElementById('te-' + n).hidden = !ok;
-    if (ok) { shown++; perAge[e[1]] = 1; }
-  });
-  document.querySelectorAll('.tl-age').forEach(function(h){ h.hidden = !perAge[h.dataset.age]; });
-  document.getElementById('count').textContent = shown + ' of ' + EVENTS.length;
-}
-
-/* ---- the map: Azgaar's own generator, loading Diathir.map from this folder, with a progress bar ---- */
-var started = false;
+/* ---- the map: Azgaar's own generator, loading Diathir.map (or an age's own map, maps/) from this folder, with a progress bar ---- */
+var started = false, mapKey = null, mapTimer = null, ldHTML = null;
 function progress(pct, stage){
   document.getElementById('ldFill').style.width = Math.max(0, Math.min(100, pct)) + '%';
   document.getElementById('ldPct').textContent = Math.round(pct) + '%';
@@ -173,8 +112,10 @@ function mapFailed(title, note){
   l.innerHTML = '<b>' + title + '</b><span class="note">' + note + '</span>' +
     (location.protocol === 'file:' ? '' : '<button onclick="location.reload()">Try again</button>');
 }
-function startMap(){
-  if (started) return; started = true;
+function startMap(key){
+  key = key || (window.ATLAS ? ATLAS.mapWanted() : 'M');
+  if (started && key === mapKey) return;
+  var first = !started; started = true; mapKey = key; ready = false;
   if (location.protocol === 'file:') {   // the browser will not let a page opened from disk load the map
     mapFailed('The map needs the Atlas launcher',
       'This page was opened straight from the folder, and browsers block the map when a page is opened that way. ' +
@@ -187,8 +128,15 @@ function startMap(){
   try { localStorage.clear(); sessionStorage.clear(); } catch(e){}
   try { if (window.indexedDB) indexedDB.deleteDatabase('d2'); } catch(e){}
   try { localStorage.setItem('version', 'FMG_VERSION'); } catch(e){}   // skip the generator's "what's new" window
-  if (!pending && window.matchMedia('(max-width:760px)').matches) toggleDrawer();   // a phone sees the map first
-  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'Diathir.map';
+  if (window.ATLAS) ATLAS.persist();   // the Atlas's own choices (atlas.* keys) are written back after the clearing
+  // another age's map: the overlay and its bar come back, and the map-maker starts again on that map
+  var l = document.getElementById('loading'); clearInterval(mapTimer);
+  if (ldHTML === null) ldHTML = l.innerHTML; else l.innerHTML = ldHTML;
+  l.hidden = false; progress(0, 'Starting');
+  if (window.ATLAS) document.getElementById('ldTitle').textContent = ATLAS.mapTitle(key);
+  if (first && !pending && window.matchMedia('(max-width:760px)').matches) toggleDrawer();   // a phone sees the map first
+  var file = (window.ATLAS && ATLAS.mapFile(key)) || 'Diathir.map';
+  var link = location.origin + location.pathname.replace(/[^\/]*$/, '') + file;
   progress(2, 'Fetching the map');
   // fetch the map once ourselves so the bar can show the download; the generator then reads it from the cache
   fetch(link).then(function(r){
@@ -201,8 +149,8 @@ function startMap(){
       got += x.value.length; progress(2 + 48 * got / total, 'Fetching the map (' + (got / 1048576).toFixed(1) + ' of ' + (total / 1048576).toFixed(1) + ' MB)');
       return pump(); }); }
     return pump();
-  }).then(function(){ openGenerator(link); }, function(err){
-    mapFailed('The map could not be fetched', 'Diathir.map did not load (' + err.message + '). Close this tab and start the Atlas again with its launcher.');
+  }).then(function(){ if (mapKey === key) openGenerator(link, key); }, function(err){
+    mapFailed('The map could not be fetched', file + ' did not load (' + err.message + '). Close this tab and start the Atlas again with its launcher.');
   });
 }
 var fmgErrors = [];
@@ -235,28 +183,30 @@ function updateErrors(){
     (fmgErrors.length ? 'The map-maker reported: ' + fmgErrors.slice(-3).join(' | ') : 'No errors reported yet.');
 }
 function peekMap(){ document.getElementById('loading').hidden = true; }
-function openGenerator(link){
+function openGenerator(link, key){
   progress(50, 'Starting the map-maker');
   var frame = document.getElementById('fmg');
-  frame.addEventListener('load', function(){
+  if (!frame.dataset.hooked) frame.dataset.hooked = '1', frame.addEventListener('load', function(){
     try {   // collect the map-maker's own errors so a stall can say what went wrong
       var w = frame.contentWindow;
       w.addEventListener('error', function(ev){ fmgErrors.push((ev.message || 'a file failed to load') + (ev.filename ? ' (' + ev.filename.split('/').pop() + ')' : '')); updateErrors(); }, true);
       w.addEventListener('unhandledrejection', function(ev){ fmgErrors.push(String(ev.reason && ev.reason.message || ev.reason)); updateErrors(); });
     } catch(e){}
   });
+  try { if (frame.contentWindow) frame.contentWindow.__atlasStale = true; } catch(e){}   // the map it held before is not the one wanted
   frame.src = 'fmg/index.html?maplink=' + encodeURIComponent(link);
-  var t0 = Date.now(), t = setInterval(function(){
+  var t0 = Date.now(), want = window.ATLAS ? ATLAS.mapBurgs(key) : 500, t = mapTimer = setInterval(function(){
     var w = fmg(), secs = (Date.now() - t0) / 1000;
+    if (mapKey !== key) { clearInterval(t); return; }
     try {
-      if (w && w.pack && w.pack.burgs && w.pack.burgs.length > 500 && w.pack.cells && w.pack.cells.p && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
+      if (w && !w.__atlasStale && w.pack && w.pack.burgs && (window.ATLAS ? ATLAS.mapIsLoaded(w, key) : w.pack.burgs.length > 500) && w.pack.cells && w.pack.cells.p && w.zoomTo && w.Layers && w.document.getElementById('viewbox')) {
         clearInterval(t); progress(100, 'Ready'); onMapReady(w); return;
       }
       // the map-maker is asking something (a dialog): step aside so it can be answered
       var dlg = w && w.document && Array.prototype.some.call(w.document.querySelectorAll('.ui-dialog'), function(x){ return x.offsetParent !== null; });
       if (dlg && !document.getElementById('loading').hidden) peekMap();
       var labels = w && w.document ? w.document.querySelectorAll('#burgLabels text').length : 0;
-      if (labels) progress(85 + 14 * Math.min(1, labels / 500), 'Drawing the towns');
+      if (labels) progress(85 + 14 * Math.min(1, labels / want), 'Drawing the towns');
       else if (w && w.pack && w.pack.cells && w.pack.cells.p) progress(78, 'Laying out the land');
       else if (w && w.Layers) progress(65, 'Reading the map');
       else progress(Math.min(64, 50 + secs), 'Starting the map-maker');
@@ -277,13 +227,14 @@ function onMapReady(w){
     var el = ev.target;
     while (el && el !== w.document) {
       var m = el.id && /^marker(\d+)$/.exec(el.id);
-      if (m && PLACES['marker:' + m[1]]) { showPlace('marker:' + m[1]); return; }
+      if (m) { showMapMarker(Number(m[1])); return; }
       if (el.dataset && el.dataset.id && el.closest && (el.closest('#burgIcons') || el.closest('#burgLabels'))) {
-        if (PLACES['burg:' + el.dataset.id]) { showPlace('burg:' + el.dataset.id); return; }
+        showMapBurg(Number(el.dataset.id)); return;
       }
       el = el.parentNode;
     }
   }, true);
+  if (window.ATLAS) ATLAS.mapReady(w, mapKey);
   if (pending) { var p = pending; pending = null; setTimeout(function(){ flyTo(p[0], p[1]); }, 400); }
 }
 
@@ -302,16 +253,6 @@ function locate(w, ref){
     else { var cs = []; for (var c = 0; c < P.cells.f.length; c++) if (P.cells.f[c] === i) cs.push(c); pts = avg(cs); z = cs.length > 2000 ? 1.3 : 4; }
   }
   return pts ? [pts[0], pts[1], z] : null;
-}
-
-function flyToEvent(n){ var e = EVENTS[n]; flyTo(e[5], n); }
-function flyTo(ref, evn){
-  if (!PLACES[ref]) return;
-  showTab('map');
-  if (!ready) { pending = [ref, evn]; return; }
-  var w = fmg(), at = locate(w, ref);
-  if (at) { w.zoomTo(at[0], at[1], at[2], 1600); mark(w, at[0], at[1]); }
-  showPlace(ref, evn);
 }
 
 function mark(w, x, y){
@@ -334,55 +275,20 @@ function mark(w, x, y){
   setTimeout(function(){ g.remove(); }, 6000);
 }
 
-/* ---- the drawer: the record of one place, or the list of storied places ---- */
-var byPlace = {}, dup = {};
-Object.keys(PLACES).forEach(function(r){ dup[PLACES[r].name] = (dup[PLACES[r].name] || 0) + 1; });
-EVENTS.forEach(function(e, n){ if (e[5]) (byPlace[e[5]] = byPlace[e[5]] || []).push(n); });
-function showPlace(ref, evn){
-  var p = PLACES[ref], d = document.getElementById('drawer'); if (!p) return;
-  var evs = byPlace[ref] || [], h = '<button class="back" onclick="showList()">◂ All places</button>';
-  h += '<h2>' + esc(p.name) + '</h2>';
-  if (p.facts) h += '<p class="facts">' + esc(p.facts) + '</p>';
-  if (p.founded) h += '<p class="facts">Founded ' + esc(p.founded) + (p.by ? ' by ' + esc(p.by) : '') + '.</p>';
-  if (p.history) h += '<p>' + md(p.history) + '</p>';
-  if (p.known) h += '<p class="facts">Known for ' + esc(p.known.replace(/\.$/, '')) + '.</p>';
-  if (evs.length) h += '<p class="hint" style="margin-top:14px">' + evs.length + ' event' + (evs.length > 1 ? 's' : '') + ' recorded here</p>';
-  evs.forEach(function(n){ var e = EVENTS[n];
-    h += '<button class="ev' + (n === evn ? ' cur' : '') + '" onclick="showInAnnals(' + n + ')"><span class="d">' + esc(e[2]) + '</span><span class="t">' + md(e[3]) + '</span><br>' + md(e[4]) + '</button>'; });
-  d.innerHTML = h; d.hidden = false; d.scrollTop = 0;
-  document.getElementById('drawtoggle').textContent = 'Record ◂';
-  var cur = d.querySelector('.ev.cur'); if (cur) cur.scrollIntoView({block: 'center'});
-}
-function showList(){
-  var d = document.getElementById('drawer');
-  d.innerHTML = '<h2>The record on the map</h2><p class="hint">Click a town or a marker on the map, or choose a place below, to read its ' +
-    'history and every event recorded there. In the Annals, each event with a place has a map button.</p>' +
-    '<input id="pq" type="search" placeholder="Find a place" oninput="listPlaces()"><div class="plist" id="plist"></div>';
-  listPlaces();
-}
-function listPlaces(){
-  var q = (document.getElementById('pq') || {value: ''}).value.trim().toLowerCase();
-  var refs = Object.keys(PLACES).filter(function(r){ return !q || PLACES[r].name.toLowerCase().indexOf(q) >= 0; });
-  refs.sort(function(a, b){ return (byPlace[b] || []).length - (byPlace[a] || []).length || PLACES[a].name.localeCompare(PLACES[b].name); });
-  document.getElementById('plist').innerHTML = refs.slice(0, q ? 200 : 80).map(function(r){
-    var p = PLACES[r], where = dup[p.name] > 1 && p.facts ? '<small>' + esc(p.facts.split(' · ').filter(function(x, i, a){ return i < 2 || i === a.length - 1 && /^pop\./.test(x); }).join(' · ')) + '</small>' : '';
-    return '<button onclick="flyTo(\'' + r + '\')">' + '<span>' + ((byPlace[r] || []).length || '') + '</span>' + esc(p.name) + where + '</button>'; }).join('');
-}
-function showInAnnals(n){
-  showTab('timeline');
-  var el = document.getElementById('te-' + n);
-  if (el.hidden) { AGES.forEach(function(a){ ageOn[a[0]] = true; document.querySelector('.chip[data-age="' + a[0] + '"]').setAttribute('aria-pressed', true); });
-    canonOnly = false; document.getElementById('canonchip').setAttribute('aria-pressed', false); document.getElementById('q').value = ''; filterTl(); }
-  el.scrollIntoView({block: 'center'});
-  el.classList.add('hl'); setTimeout(function(){ el.classList.remove('hl'); }, 2500);
-}
 function toggleDrawer(){
   var d = document.getElementById('drawer'); d.hidden = !d.hidden;
   document.getElementById('drawtoggle').textContent = d.hidden ? 'Record ▸' : 'Record ◂';
 }
 
-buildTimeline();
-showList();
 </script>
+<script src="atlas/atlas_core.js"></script>
+<script src="data/meta.js"></script>
+<script src="data/master.js"></script>
+<script src="atlas/atlas_timeline.js"></script>
+<script src="atlas/atlas_eras.js"></script>
+<script src="atlas/atlas_people.js"></script>
+<script src="atlas/atlas_extras.js"></script>
+<script src="atlas/atlas_layers.js"></script>
+<script>ATLAS.start();</script>
 </body>
 </html>

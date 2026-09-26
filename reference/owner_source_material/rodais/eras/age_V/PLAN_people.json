@@ -1,0 +1,1154 @@
+[
+ {
+  "name": "Aisling",
+  "born": 69,
+  "died": null,
+  "role": "first of the coal-blooded; born in a house of spoil at Achadh dhomhain",
+  "first_chapter": 19,
+  "notes": "OWNER'S CHARACTER: chronicle facts only (legendarium/BRIEF.md). No new actions, words, thoughts, relatives or feelings. Born IV-0146; line found IV-0251a; the camps' names nighean an rìgh and Aisling-aois. Seen only from outside."
+ },
+ {
+  "name": "Donnchadh mac Thormoid",
+  "born": null,
+  "died": null,
+  "role": "hewer of the deep galleries; Aisling's father; met the Keeper (IV-0144)",
+  "first_chapter": 19,
+  "notes": "OWNER'S CHARACTER: chronicle facts only (legendarium/BRIEF.md). No new actions, words, thoughts, relatives or feelings. Only what the master Book V tells: the gallery, the gift, the cough, its stopping, telling his wife. Birth year not fixed."
+ },
+ {
+  "name": "Fionnan",
+  "born": 121,
+  "died": null,
+  "role": "second of the coal-blooded",
+  "first_chapter": 30,
+  "notes": "OWNER'S CHARACTER: chronicle facts only (legendarium/BRIEF.md). No new actions, words, thoughts, relatives or feelings. IV-0245: born; nothing else."
+ },
+ {
+  "name": "Lorccan",
+  "born": 134,
+  "died": null,
+  "role": "third of the coal-blooded, born in a mining town",
+  "first_chapter": 32,
+  "notes": "OWNER'S CHARACTER: chronicle facts only (legendarium/BRIEF.md). No new actions, words, thoughts, relatives or feelings. IV-0265: born; nothing else."
+ },
+ {
+  "name": "Cian",
+  "born": 135,
+  "died": null,
+  "role": "fourth of the coal-blooded",
+  "first_chapter": 32,
+  "notes": "OWNER'S CHARACTER: chronicle facts only (legendarium/BRIEF.md). No new actions, words, thoughts, relatives or feelings. IV-0266: born; under twenty at the Severance."
+ },
+ {
+  "name": "Tormod (Aisling's grandfather)",
+  "born": null,
+  "died": null,
+  "role": "carried water to Doire mhòr two summers, then went down to Àth ìseal",
+  "first_chapter": 12,
+  "notes": "Owner's line (Line of Aisling): only what master Book V says. Never give him words or scenes beyond carrying water and going down. Not to be confused with any other Tormod."
+ },
+ {
+  "name": "Ruairidh of Doire mhòr (Aisling's great-grandfather)",
+  "born": null,
+  "died": null,
+  "role": "stood behind Beathag Dhubh at her door",
+  "first_chapter": 8,
+  "notes": "Owner's line: only that he stood behind her. Silent on the page. NOT Ruairidh mac Thormoid of Àth fhionn."
+ },
+ {
+  "name": "Raghnall mac Dhòmhnaill (Raghnall Maor)",
+  "born": -10,
+  "died": 62,
+  "role": "hewer's son of Muileann chrom; guide to the prospectors; crew-leader of the first thirty; first overseer (AE 36)",
+  "first_chapter": 7,
+  "notes": "named in the master record; keep to it. Principal (lineage 1). Staff and slate-roofed house IV-0092; dies IV-0137."
+ },
+ {
+  "name": "Dòmhnall mac Raghnaill Maor",
+  "born": 20,
+  "died": 87,
+  "role": "second Steward; signs the granary order",
+  "first_chapter": 11,
+  "notes": "named in the master record; keep to it. Principal (lineage 1). Staff IV-0137; dies IV-0180. Broke coal as a boy of six in the dry-cough year and lived."
+ },
+ {
+  "name": "Iain Maor",
+  "born": 50,
+  "died": 131,
+  "role": "third Steward, first schooled at the Mission; reports in the humans' tongue",
+  "first_chapter": 17,
+  "notes": "named in the master record; keep to it. Principal (lineage 1). Staff IV-0180; letter IV-0243; dies IV-0258."
+ },
+ {
+  "name": "Mòrag nic Iain Maor",
+  "born": 95,
+  "died": null,
+  "role": "fourth and last Steward; testifies at the inquiry; breaks the staff; leads the crews at Muileann chrom",
+  "first_chapter": 29,
+  "notes": "named in the master record; keep to it. Principal (lineage 1). Staff IV-0258; inquiry IV-0275; staff broken IV-0319; store taken IV-0325. Alive at the close."
+ },
+ {
+  "name": "Eilidh nic Ruairidh",
+  "born": -18,
+  "died": 70,
+  "role": "net-maker of Baile dhìreach; wife of Samuel Hale",
+  "first_chapter": 4,
+  "notes": "named in the master record; keep to it. Principal (lineage 2). Marriage IV-0028. Not kin of Ruairidh of Doire mhòr."
+ },
+ {
+  "name": "Samuel Hale",
+  "born": -22,
+  "died": 58,
+  "role": "human cooper at Baile dhìreach",
+  "first_chapter": 4,
+  "notes": "named in the master record; keep to it. Principal (lineage 2)."
+ },
+ {
+  "name": "Iain Hale",
+  "born": 9,
+  "died": 80,
+  "role": "son of Eilidh and Samuel; boatwright who stays at Baile dhìreach when the council breaks",
+  "first_chapter": 15,
+  "notes": "new in this volume. Lineage 2. Father of Thomas."
+ },
+ {
+  "name": "Thomas Hale",
+  "born": 62,
+  "died": 128,
+  "role": "grandson of the Baile dhìreach marriage; his suit makes the Law of One Line",
+  "first_chapter": 28,
+  "notes": "named in the master record; keep to it. Principal (lineage 2). IV-0231."
+ },
+ {
+  "name": "Eilidh Hale",
+  "born": 98,
+  "died": null,
+  "role": "Thomas's daughter; of both peoples; will not answer which she is (IV-0367); stays",
+  "first_chapter": 40,
+  "notes": "new in this volume. Lineage 2. Closing POV of ch 40."
+ },
+ {
+  "name": "Gormshuil nic Fhearchair",
+  "born": -40,
+  "died": 31,
+  "role": "custodian; keeper of the Dia-thìreach word-list; the forty colours",
+  "first_chapter": 2,
+  "notes": "named in the master record; keep to it. Principal (lineage 3). IV-0009, IV-0010. Refuses the Harbour Articles (EV)."
+ },
+ {
+  "name": "Muireall nic Fhearchair",
+  "born": -12,
+  "died": 60,
+  "role": "Gormshuil's niece and copyist; wrote the note under the forty colours; carried the leaf to the loft at Muileann chaol",
+  "first_chapter": 2,
+  "notes": "new in this volume. Lineage 7 (copyists)."
+ },
+ {
+  "name": "Peigi Ghlas",
+  "born": 50,
+  "died": 128,
+  "role": "custodian of Cill ghlas; carries the first petition; calls the naming at Cill ghlas",
+  "first_chapter": 25,
+  "notes": "named in the master record; keep to it. Principal (lineage 3). IV-0205."
+ },
+ {
+  "name": "Cailean mac Eachainn",
+  "born": 100,
+  "died": null,
+  "role": "copyist of the three households at Muileann chaol; finds the Line of Aisling; receives the rolls at the close",
+  "first_chapter": 30,
+  "notes": "named in the master record; keep to it. Principal (lineage 7) and the volume's frame. IV-0251a. Alive after the age. No kin of Eachann Mòr of Ceann àrsaidh."
+ },
+ {
+  "name": "Ealasaid",
+  "born": 55,
+  "died": null,
+  "role": "reciter of Clann na Ceiste at Tobar dhìreach; says the Line of Aisling",
+  "first_chapter": 31,
+  "notes": "named in the master record; keep to it. IV-0251a. Her recital must match master Book V word for word in substance."
+ },
+ {
+  "name": "Eilidh nic Raghnaill",
+  "born": 105,
+  "died": null,
+  "role": "crew-leader of Baile thais, of the Lamp-Watch; drafts the second petition; speaker of the forest council",
+  "first_chapter": 33,
+  "notes": "named in the master record; keep to it. Principal (lineage 3). IV-0281, IV-0322. Her father is Raghnall Breac, not Raghnall Maor."
+ },
+ {
+  "name": "Raghnall Breac",
+  "born": 70,
+  "died": 137,
+  "role": "hewer of Baile thais; one of Catrìona's strikers as a boy; killed in the Rending",
+  "first_chapter": 21,
+  "notes": "new in this volume. Eilidh nic Raghnaill's father."
+ },
+ {
+  "name": "Ùna nic Choinnich",
+  "born": -15,
+  "died": 70,
+  "role": "head of the silver guild of Muileann chiar; the ledgers at the adit; the Silver Compact",
+  "first_chapter": 14,
+  "notes": "named in the master record; keep to it. Principal (lineage 4). IV-0102, IV-0143."
+ },
+ {
+  "name": "Catrìona nic Eachainn",
+  "born": 40,
+  "died": 104,
+  "role": "crew-leader of Baile thais; calls the first strike; refiner of the silver guild",
+  "first_chapter": 21,
+  "notes": "named in the master record; keep to it. Principal (lineage 4). IV-0166, IV-0169, IV-0214."
+ },
+ {
+  "name": "Anna nic Dhòmhnaill",
+  "born": -10,
+  "died": 50,
+  "role": "fisherman's widow; first keeper of Taigh-solais Tobar dhearg",
+  "first_chapter": 8,
+  "notes": "named in the master record; keep to it. Lineage 5. IV-0049. Cuts a tally of lit nights on the stair wall (no daybook)."
+ },
+ {
+  "name": "Tormod mac Pheadair",
+  "born": 15,
+  "died": 88,
+  "role": "keeper of Taigh-solais Àth dhearg; the first daybook",
+  "first_chapter": 15,
+  "notes": "named in the master record; keep to it. Principal (lineage 5). IV-0106."
+ },
+ {
+  "name": "Uisdean mac Lachlainn",
+  "born": 60,
+  "died": 125,
+  "role": "first keeper of Taigh-solais Baile chrom",
+  "first_chapter": 23,
+  "notes": "new in this volume. Lineage 5. Keeps the light burning through Gorta Baile chrom."
+ },
+ {
+  "name": "Lachlann mac Uisdein",
+  "born": 110,
+  "died": null,
+  "role": "keeper of Taigh-solais Baile chrom at the close; watches Strake's ship go",
+  "first_chapter": 40,
+  "notes": "new in this volume. Lineage 5. The keeper of IV-0374."
+ },
+ {
+  "name": "Raonaid nic Dhòmhnaill",
+  "born": 112,
+  "died": null,
+  "role": "keeper at Tobar dhearg who puts out the southern light in the war",
+  "first_chapter": 38,
+  "notes": "new in this volume. Lineage 5. Of Anna nic Dhòmhnaill's line."
+ },
+ {
+  "name": "Samuel Wren",
+  "born": -30,
+  "died": 33,
+  "role": "cleric of the Church; word-lists; grammar; obelisk; winter at Dùn thais",
+  "first_chapter": 2,
+  "notes": "named in the master record; keep to it. Principal (lineage 6). IV-0009, IV-0042, IV-0051, IV-0056. Coughs in the damp."
+ },
+ {
+  "name": "Anne Colby",
+  "born": 35,
+  "died": null,
+  "role": "the Mission's nurse; sick-houses of the flux and the Green Death; the famine kitchen at Baile chrom",
+  "first_chapter": 17,
+  "notes": "named in the master record; keep to it. Principal (lineage 6). IV-0133, IV-0163, IV-0199 area. The only human the camps name kindly."
+ },
+ {
+  "name": "Matthew Dunne",
+  "born": 85,
+  "died": null,
+  "role": "the Mission's minister at Ros dhomhain; preaches that the ground must rest; called home",
+  "first_chapter": 29,
+  "notes": "named in the master record; keep to it. Lineage 6. IV-0241."
+ },
+ {
+  "name": "Edmund Harrow",
+  "born": -35,
+  "died": 21,
+  "role": "captain of the three ships; co-founder of the Company; lost at sea",
+  "first_chapter": 1,
+  "notes": "named in the master record; keep to it. IV-0002, IV-0016, IV-0032, IV-0062."
+ },
+ {
+  "name": "Thomas Pike",
+  "born": -28,
+  "died": null,
+  "role": "trader of the post at Ros dhomhain; master of the Company after Harrow",
+  "first_chapter": 3,
+  "notes": "named in the master record; keep to it. IV-0012, IV-0062."
+ },
+ {
+  "name": "Tormod mac Ailein",
+  "born": -44,
+  "died": 20,
+  "role": "high custodian of the Council; signs the treaty",
+  "first_chapter": 1,
+  "notes": "named in the master record; keep to it. IV-0005, IV-0030, IV-0061. POV of ch 6."
+ },
+ {
+  "name": "Coinneach Glas",
+  "born": -25,
+  "died": 44,
+  "role": "high custodian after Tormod",
+  "first_chapter": 9,
+  "notes": "named in the master record; keep to it. IV-0061. Death year new."
+ },
+ {
+  "name": "Jonas Tull",
+  "born": -40,
+  "died": null,
+  "role": "the humans' surgeon",
+  "first_chapter": 3,
+  "notes": "named in the master record; keep to it. IV-0018."
+ },
+ {
+  "name": "Iain mac Chaluim",
+  "born": -30,
+  "died": null,
+  "role": "fisherman; alternate chair of Baile dhìreach",
+  "first_chapter": 4,
+  "notes": "named in the master record; keep to it. IV-0023."
+ },
+ {
+  "name": "William Rook",
+  "born": -28,
+  "died": null,
+  "role": "human carpenter; alternate chair of Baile dhìreach",
+  "first_chapter": 4,
+  "notes": "named in the master record; keep to it. IV-0023."
+ },
+ {
+  "name": "James Fenn",
+  "born": -20,
+  "died": null,
+  "role": "human navigator; Fenn's line; the lens at Tobar dhearg",
+  "first_chapter": 5,
+  "notes": "named in the master record; keep to it. IV-0027, IV-0027a, IV-0048."
+ },
+ {
+  "name": "Torcall Clachair",
+  "born": -40,
+  "died": 33,
+  "role": "mason; walks the headlands; builds Tobar dhearg and Baile ìseal",
+  "first_chapter": 5,
+  "notes": "named in the master record; keep to it. POV of ch 5. IV-0027, IV-0048, IV-0075."
+ },
+ {
+  "name": "Josiah Pell",
+  "born": -40,
+  "died": null,
+  "role": "first Commissioner, AE 8–24",
+  "first_chapter": 6,
+  "notes": "named in the master record; keep to it. IV-0030, IV-0031, IV-0069."
+ },
+ {
+  "name": "Abel Stone",
+  "born": -25,
+  "died": null,
+  "role": "Company prospector",
+  "first_chapter": 7,
+  "notes": "named in the master record; keep to it. IV-0037."
+ },
+ {
+  "name": "Hugh Mercer",
+  "born": -20,
+  "died": null,
+  "role": "Company prospector",
+  "first_chapter": 7,
+  "notes": "named in the master record; keep to it. IV-0037."
+ },
+ {
+  "name": "Beathag Dhubh",
+  "born": -20,
+  "died": 41,
+  "role": "custodian of Doire mhòr; refuses the first contract",
+  "first_chapter": 8,
+  "notes": "named in the master record; keep to it. Principal of ch 8. IV-0046. Death year new."
+ },
+ {
+  "name": "Fionnghal nic Artair",
+  "born": -15,
+  "died": null,
+  "role": "custodian of Dùn dhearg; the defence of the Small-Burning Law",
+  "first_chapter": 10,
+  "notes": "named in the master record; keep to it. POV of ch 10. IV-0065."
+ },
+ {
+  "name": "Murchadh Seabhag",
+  "born": -20,
+  "died": null,
+  "role": "hawk-priest of Seann Skell",
+  "first_chapter": 10,
+  "notes": "named in the master record; keep to it. IV-0066."
+ },
+ {
+  "name": "Henry Maddox",
+  "born": -5,
+  "died": null,
+  "role": "Commissioner AE 24–41",
+  "first_chapter": 10,
+  "notes": "named in the master record; keep to it. IV-0069, IV-0099."
+ },
+ {
+  "name": "Seònaid Bhàn",
+  "born": 5,
+  "died": 70,
+  "role": "keeper of An Taigh-seinnse Mòr",
+  "first_chapter": 12,
+  "notes": "named in the master record; keep to it. POV of ch 12. IV-0088. Great-grandmother of Aonghas."
+ },
+ {
+  "name": "Seumas Dubh",
+  "born": 0,
+  "died": 38,
+  "role": "overseer of Cnoc mhòr, killed by his crew",
+  "first_chapter": 13,
+  "notes": "named in the master record; keep to it. IV-0094."
+ },
+ {
+  "name": "Arthur Lisle",
+  "born": 0,
+  "died": 61,
+  "role": "Commissioner AE 41–61; the Silver Compact; the tithe schedule",
+  "first_chapter": 13,
+  "notes": "named in the master record; keep to it. IV-0099, IV-0103, IV-0131, IV-0135."
+ },
+ {
+  "name": "Aonghas mac Coinnich",
+  "born": 0,
+  "died": null,
+  "role": "Deer master at Dùn thais; the question",
+  "first_chapter": 16,
+  "notes": "named in the master record; keep to it. POV of ch 16. IV-0114."
+ },
+ {
+  "name": "Eachann Mòr",
+  "born": 0,
+  "died": null,
+  "role": "custodian of Ceann àrsaidh who lost his seat",
+  "first_chapter": 16,
+  "notes": "named in the master record; keep to it. IV-0120."
+ },
+ {
+  "name": "Calum (son of Eachann Mòr)",
+  "born": 38,
+  "died": null,
+  "role": "sent over the sea to school; never returns",
+  "first_chapter": 16,
+  "notes": "named in the master record; keep to it. IV-0120. Fate unknown: leave it so."
+ },
+ {
+  "name": "Walter Crane",
+  "born": 15,
+  "died": 75,
+  "role": "chief agent at the pits, then Commissioner AE 61–75",
+  "first_chapter": 17,
+  "notes": "named in the master record; keep to it. IV-0135, IV-0159."
+ },
+ {
+  "name": "Edwin Lowe",
+  "born": 25,
+  "died": null,
+  "role": "Mission cleric; digs Làrach an Teampaill",
+  "first_chapter": 18,
+  "notes": "named in the master record; keep to it. POV of ch 18. IV-0140–0142."
+ },
+ {
+  "name": "Peter Voss",
+  "born": 30,
+  "died": null,
+  "role": "glazier; the glass-house at Baile Mòr dhìreach",
+  "first_chapter": 18,
+  "notes": "named in the master record; keep to it. IV-0142a."
+ },
+ {
+  "name": "Martha Gale",
+  "born": 30,
+  "died": null,
+  "role": "Company agent; offers the guild a partnership; holds the seal AE 75–76",
+  "first_chapter": 18,
+  "notes": "named in the master record; keep to it. IV-0143, IV-0159."
+ },
+ {
+  "name": "Nathaniel Bright",
+  "born": 35,
+  "died": 76,
+  "role": "the Administration's physician; the unfinished study",
+  "first_chapter": 20,
+  "notes": "named in the master record; keep to it. IV-0158. Death inferred (EV)."
+ },
+ {
+  "name": "George Tolley",
+  "born": 30,
+  "died": null,
+  "role": "Commissioner AE 76–98; the Levy",
+  "first_chapter": 20,
+  "notes": "named in the master record; keep to it. IV-0160, IV-0181."
+ },
+ {
+  "name": "Robert Haskins",
+  "born": 45,
+  "died": null,
+  "role": "Commissioner AE 98–114",
+  "first_chapter": 25,
+  "notes": "named in the master record; keep to it. IV-0202, IV-0235."
+ },
+ {
+  "name": "Ruairidh mac Thormoid",
+  "born": 12,
+  "died": null,
+  "role": "custodian of Àth fhionn; eldest signer of the first petition, born before the coin",
+  "first_chapter": 25,
+  "notes": "named in the master record; keep to it. IV-0206. NO kin of Aisling's line despite the name; say so nowhere, simply never link them."
+ },
+ {
+  "name": "Fearchar Bàrd",
+  "born": 70,
+  "died": 131,
+  "role": "coal-breaker and poet of Muileann dhearg",
+  "first_chapter": 26,
+  "notes": "named in the master record; keep to it. POV of ch 26. IV-0209, IV-0211."
+ },
+ {
+  "name": "Iseabail nic Leòid",
+  "born": 60,
+  "died": null,
+  "role": "custodian of Àth mhòr; the forty-page petition",
+  "first_chapter": 27,
+  "notes": "named in the master record; keep to it. POV of ch 27. IV-0229."
+ },
+ {
+  "name": "Oliver Dunstan",
+  "born": 60,
+  "died": null,
+  "role": "magistrate at Ros dhomhain; the ruling on inheritance",
+  "first_chapter": 28,
+  "notes": "named in the master record; keep to it. IV-0231."
+ },
+ {
+  "name": "Edward Vane",
+  "born": 70,
+  "died": 132,
+  "role": "Commissioner AE 114–132, born at the Residency",
+  "first_chapter": 29,
+  "notes": "named in the master record; keep to it. IV-0235, IV-0259."
+ },
+ {
+  "name": "Seònaid nic Dhùghaill",
+  "born": 45,
+  "died": 123,
+  "role": "last master of the Deer to teach openly",
+  "first_chapter": 30,
+  "notes": "named in the master record; keep to it. IV-0247."
+ },
+ {
+  "name": "Charles Merriman",
+  "born": 85,
+  "died": null,
+  "role": "Commissioner AE 132–146; the constables",
+  "first_chapter": 32,
+  "notes": "named in the master record; keep to it. IV-0259, IV-0314."
+ },
+ {
+  "name": "Coinneach Ruadh",
+  "born": 90,
+  "died": null,
+  "role": "custodian of Cnoc dhìreach; signs the second petition, loses his clerkship",
+  "first_chapter": 34,
+  "notes": "named in the master record; keep to it. IV-0280."
+ },
+ {
+  "name": "Ìomhar Seabhag",
+  "born": 95,
+  "died": null,
+  "role": "hawk-priest of Seann Skell in the war years",
+  "first_chapter": 34,
+  "notes": "named in the master record; keep to it. IV-0284, IV-0348."
+ },
+ {
+  "name": "Aonghas (of An Taigh-seinnse Mòr)",
+  "born": 100,
+  "died": null,
+  "role": "great-grandson of Seònaid Bhàn; shuts the coal road",
+  "first_chapter": 35,
+  "notes": "named in the master record; keep to it. POV of ch 35. IV-0300, IV-0329."
+ },
+ {
+  "name": "Tormod Buabhall",
+  "born": 95,
+  "died": null,
+  "role": "keeper of Am Buabhall Fortanach; the weekly lists",
+  "first_chapter": 35,
+  "notes": "named in the master record; keep to it. IV-0294."
+ },
+ {
+  "name": "Lionel Strake",
+  "born": 100,
+  "died": null,
+  "role": "last Commissioner, a soldier",
+  "first_chapter": 35,
+  "notes": "named in the master record; keep to it. IV-0314, IV-0374."
+ },
+ {
+  "name": "Uilleam Gobha",
+  "born": 110,
+  "died": null,
+  "role": "smith of Muileann dhearg; grenades and pikes",
+  "first_chapter": 37,
+  "notes": "named in the master record; keep to it. IV-0330."
+ },
+ {
+  "name": "Peter Ashdown",
+  "born": 105,
+  "died": null,
+  "role": "major of the column at Àth chiar",
+  "first_chapter": 37,
+  "notes": "named in the master record; keep to it. IV-0335."
+ },
+ {
+  "name": "Dùghall Dubh",
+  "born": 115,
+  "died": null,
+  "role": "leader of the harbour quarter's raid on the counting-house",
+  "first_chapter": 39,
+  "notes": "named in the master record; keep to it. POV of ch 39. IV-0356."
+ },
+ {
+  "name": "Dùghall Clachair",
+  "born": 55,
+  "died": null,
+  "role": "foreman of the Levy's masons of Cnoc thais",
+  "first_chapter": 23,
+  "notes": "named in the master record; keep to it. POV of ch 23. IV-0190."
+ },
+ {
+  "name": "Lachlann Odhar",
+  "born": -38,
+  "died": 30,
+  "role": "steersman of the Achadh àrsaidh boats that met the three ships",
+  "first_chapter": 1,
+  "notes": "new in this volume. POV of ch 1."
+ },
+ {
+  "name": "Oighrig nic Leòid",
+  "born": -50,
+  "died": 19,
+  "role": "custodian of Cuan shean who gave Harrow water; absent from the vote",
+  "first_chapter": 1,
+  "notes": "new in this volume. POV of ch 1; one of the three absent custodians."
+ },
+ {
+  "name": "Gilleasbuig Gobha",
+  "born": -20,
+  "died": 45,
+  "role": "smith of Cathair dhearg who learns to temper the bar-iron",
+  "first_chapter": 3,
+  "notes": "new in this volume. POV of ch 3 with Pike."
+ },
+ {
+  "name": "Alasdair Liath",
+  "born": -5,
+  "died": 71,
+  "role": "high custodian after Coinneach Glas",
+  "first_chapter": 14,
+  "notes": "new in this volume. Seat AE 44–71."
+ },
+ {
+  "name": "Artair mac Iain",
+  "born": 25,
+  "died": 105,
+  "role": "high custodian AE 81–105, seated after the seat stood empty ten years; the seat stays empty after him",
+  "first_chapter": 22,
+  "notes": "new in this volume. His death opens IV-0216."
+ },
+ {
+  "name": "Beitris Bhàn",
+  "born": 35,
+  "died": 99,
+  "role": "layer-out of the dead at Achadh dhomhain; the women's telling of the gallery and the child",
+  "first_chapter": 19,
+  "notes": "new in this volume. POV of ch 19–20. A neighbour only: no kin of Aisling or Donnchadh."
+ },
+ {
+  "name": "Silas Crewe",
+  "born": 40,
+  "died": null,
+  "role": "Company agent at Baile thais in the first strike",
+  "first_chapter": 21,
+  "notes": "new in this volume. Human."
+ },
+ {
+  "name": "Fearghas mac Mhuirich",
+  "born": 40,
+  "died": 110,
+  "role": "priest of Macha who refuses to bless the coin; leads the dissenters to Cnoc bheag",
+  "first_chapter": 22,
+  "notes": "new in this volume. POV of ch 22."
+ },
+ {
+  "name": "Hannah Webb",
+  "born": 100,
+  "died": null,
+  "role": "human labourer near Baile chrom; keeps the grey-night vigil; nurses in the shared wards at Cathair gheal",
+  "first_chapter": 32,
+  "notes": "new in this volume. POV of ch 32; seen again ch 34 and 40 (goes north with the columns)."
+ },
+ {
+  "name": "Robert Fairley",
+  "born": 95,
+  "died": null,
+  "role": "Company engineer who marked the custodians' request on his plan at Cill ghlas",
+  "first_chapter": 33,
+  "notes": "new in this volume. Human."
+ },
+ {
+  "name": "Edgar Holt",
+  "born": 100,
+  "died": null,
+  "role": "Company agent at Muileann chrom at the first open fight",
+  "first_chapter": 33,
+  "notes": "new in this volume. Human; struck on the shoulder by the first stone."
+ },
+ {
+  "name": "Coinneach Beag",
+  "born": 125,
+  "died": null,
+  "role": "one of the seven of the Leaden Hawk; reads the letter at the hawk-houses",
+  "first_chapter": 38,
+  "notes": "new in this volume. POV of ch 38."
+ },
+ {
+  "name": "Seumas Ciar",
+  "born": 118,
+  "died": null,
+  "role": "captain of the Baile thais crews in the war",
+  "first_chapter": 37,
+  "notes": "new in this volume. Takes the constables' surrender at Baile thais on Eilidh's order."
+ },
+ {
+  "name": "Seonag nic Aoidh",
+  "born": null,
+  "died": null,
+  "role": "The rule of the shingle read to the strangers",
+  "first_chapter": 4,
+  "notes": "named by the chapter writer in chapter 4."
+ },
+ {
+  "name": "Nathan Cobb",
+  "born": null,
+  "died": null,
+  "role": "The storm of the wolf-moon at Baile dhìreach",
+  "first_chapter": 4,
+  "notes": "named by the chapter writer in chapter 4."
+ },
+ {
+  "name": "Seonag Liath",
+  "born": null,
+  "died": null,
+  "role": "The hills keep their roads open",
+  "first_chapter": 7,
+  "notes": "named by the chapter writer in chapter 7."
+ },
+ {
+  "name": "Dòmhnall (father of Raghnall)",
+  "born": null,
+  "died": null,
+  "role": "Old Dòmhnall says the words at the pit-mouth",
+  "first_chapter": 11,
+  "notes": "named by the chapter writer in chapter 11."
+ },
+ {
+  "name": "Marsaili nic Sheumais",
+  "born": null,
+  "died": null,
+  "role": "The eleven buried at Muileann chrom",
+  "first_chapter": 11,
+  "notes": "named by the chapter writer in chapter 11."
+ },
+ {
+  "name": "Ailean mac Dhùghaill",
+  "born": null,
+  "died": null,
+  "role": "Raghnall asks three times for timber at the heading",
+  "first_chapter": 11,
+  "notes": "named by the chapter writer in chapter 11."
+ },
+ {
+  "name": "Ciorstaidh",
+  "born": null,
+  "died": null,
+  "role": "Dòmhnall mac Raghnaill at the pit-mouth",
+  "first_chapter": 11,
+  "notes": "named by the chapter writer in chapter 11."
+ },
+ {
+  "name": "Pàdraig mac Artair",
+  "born": null,
+  "died": null,
+  "role": "Seònaid Bhàn marries Pàdraig mac Artair",
+  "first_chapter": 12,
+  "notes": "named by the chapter writer in chapter 12."
+ },
+ {
+  "name": "Eòin Ruadh",
+  "born": null,
+  "died": null,
+  "role": "The two hanged named in the custodians' roll",
+  "first_chapter": 13,
+  "notes": "named by the chapter writer in chapter 13."
+ },
+ {
+  "name": "Fionnlagh mac Aonghais",
+  "born": null,
+  "died": null,
+  "role": "The two hanged named in the custodians' roll",
+  "first_chapter": 13,
+  "notes": "named by the chapter writer in chapter 13."
+ },
+ {
+  "name": "Iomhar Bàn",
+  "born": null,
+  "died": null,
+  "role": "The sermon in the road at Àth ìseal",
+  "first_chapter": 13,
+  "notes": "named by the chapter writer in chapter 13."
+ },
+ {
+  "name": "Enoch Pratt",
+  "born": null,
+  "died": null,
+  "role": "Lisle's rider gathers the papers of the hill",
+  "first_chapter": 13,
+  "notes": "named by the chapter writer in chapter 13."
+ },
+ {
+  "name": "Daniel Lusk",
+  "born": null,
+  "died": null,
+  "role": "The wall's footing on the shingle of Baile dhìreach",
+  "first_chapter": 15,
+  "notes": "named by the chapter writer in chapter 15."
+ },
+ {
+  "name": "Seumas mac Artair",
+  "born": null,
+  "died": null,
+  "role": "Aonghas mac Coinnich writes the question in the register",
+  "first_chapter": 16,
+  "notes": "named by the chapter writer in chapter 16."
+ },
+ {
+  "name": "Màiri nic Ailpein",
+  "born": null,
+  "died": null,
+  "role": "Aonghas mac Coinnich writes the question in the register",
+  "first_chapter": 16,
+  "notes": "named by the chapter writer in chapter 16."
+ },
+ {
+  "name": "Fearchar Beag",
+  "born": null,
+  "died": null,
+  "role": "Aonghas mac Coinnich writes the question in the register",
+  "first_chapter": 16,
+  "notes": "named by the chapter writer in chapter 16."
+ },
+ {
+  "name": "Dùghall Òg",
+  "born": null,
+  "died": null,
+  "role": "Eachann Mòr loses his seat",
+  "first_chapter": 16,
+  "notes": "named by the chapter writer in chapter 16."
+ },
+ {
+  "name": "Mairead nic Ìomhair",
+  "born": null,
+  "died": null,
+  "role": "Calum's ship sails north-about",
+  "first_chapter": 16,
+  "notes": "named by the chapter writer in chapter 16."
+ },
+ {
+  "name": "Ciorstaidh nic Eachainn",
+  "born": null,
+  "died": null,
+  "role": "Calum's ship sails north-about",
+  "first_chapter": 16,
+  "notes": "named by the chapter writer in chapter 16."
+ },
+ {
+  "name": "Barabal nic Dhùghaill",
+  "born": null,
+  "died": null,
+  "role": "Barabal nic Dhùghaill reads the schedule at Cathair dhearg",
+  "first_chapter": 17,
+  "notes": "named by the chapter writer in chapter 17."
+ },
+ {
+  "name": "Griogair Fada",
+  "born": null,
+  "died": null,
+  "role": "The tithe on the tithe named at Dùn fhiadhaich",
+  "first_chapter": 17,
+  "notes": "named by the chapter writer in chapter 17."
+ },
+ {
+  "name": "Mòr nic Amhlaidh",
+  "born": null,
+  "died": null,
+  "role": "Mòr nic Amhlaidh's counsel on names",
+  "first_chapter": 17,
+  "notes": "named by the chapter writer in chapter 17."
+ },
+ {
+  "name": "Uisdean Ruadh",
+  "born": null,
+  "died": null,
+  "role": "Uisdean Ruadh's first walk to Ceann mhin",
+  "first_chapter": 17,
+  "notes": "named by the chapter writer in chapter 17."
+ },
+ {
+  "name": "Ailig mac Griogair",
+  "born": null,
+  "died": null,
+  "role": "Ailig mac Griogair shows Lowe the coloured water",
+  "first_chapter": 18,
+  "notes": "named by the chapter writer in chapter 18."
+ },
+ {
+  "name": "Tormod Ruadh",
+  "born": null,
+  "died": null,
+  "role": "Tormod Ruadh sets down his spade",
+  "first_chapter": 18,
+  "notes": "named by the chapter writer in chapter 18."
+ },
+ {
+  "name": "Griogal Odhar",
+  "born": null,
+  "died": null,
+  "role": "Four custodians view the pit at Làrach an Teampaill",
+  "first_chapter": 18,
+  "notes": "named by the chapter writer in chapter 18."
+ },
+ {
+  "name": "Cairistìona nic Griogair",
+  "born": null,
+  "died": null,
+  "role": "Cairistìona nic Griogair sees the first pane",
+  "first_chapter": 18,
+  "notes": "named by the chapter writer in chapter 18."
+ },
+ {
+  "name": "Cormag mac Ailein",
+  "born": null,
+  "died": null,
+  "role": "Cormag mac Ailein raises the first house of spoil",
+  "first_chapter": 18,
+  "notes": "named by the chapter writer in chapter 18."
+ },
+ {
+  "name": "Sìne Ruadh",
+  "born": null,
+  "died": null,
+  "role": "Sìne Ruadh orders the huts of Àth ghlas burned",
+  "first_chapter": 20,
+  "notes": "named by the chapter writer in chapter 20."
+ },
+ {
+  "name": "Sìneag",
+  "born": null,
+  "died": null,
+  "role": "Sìneag searches the old rolls for a law of rest",
+  "first_chapter": 21,
+  "notes": "named by the chapter writer in chapter 21."
+ },
+ {
+  "name": "Beathag Ruadh",
+  "born": null,
+  "died": null,
+  "role": "Beathag Ruadh asks Catrìona to end the stand",
+  "first_chapter": 21,
+  "notes": "named by the chapter writer in chapter 21."
+ },
+ {
+  "name": "Sìne",
+  "born": null,
+  "died": null,
+  "role": "Fearghas refuses to bless the second coin",
+  "first_chapter": 22,
+  "notes": "named by the chapter writer in chapter 22."
+ },
+ {
+  "name": "Griogair",
+  "born": null,
+  "died": null,
+  "role": "Fearghas leaves the capital's temple for Cnoc bheag",
+  "first_chapter": 22,
+  "notes": "named by the chapter writer in chapter 22."
+ },
+ {
+  "name": "Aonghas Ruadh",
+  "born": null,
+  "died": null,
+  "role": "Aonghas Ruadh calls the custodians of the east",
+  "first_chapter": 25,
+  "notes": "named by the chapter writer in chapter 25."
+ },
+ {
+  "name": "Coinneach Òg",
+  "born": null,
+  "died": null,
+  "role": "Coinneach Òg tells of the store's ledgers at Seann Dunn",
+  "first_chapter": 25,
+  "notes": "named by the chapter writer in chapter 25."
+ },
+ {
+  "name": "Ealasaid Ruadh",
+  "born": null,
+  "died": null,
+  "role": "Baile chaol slaughters its herd",
+  "first_chapter": 27,
+  "notes": "named by the chapter writer in chapter 27."
+ },
+ {
+  "name": "Coll",
+  "born": null,
+  "died": null,
+  "role": "Coll's report names the drought-fever's true cause",
+  "first_chapter": 27,
+  "notes": "named by the chapter writer in chapter 27."
+ },
+ {
+  "name": "Mairead nic Amhlaidh",
+  "born": null,
+  "died": null,
+  "role": "Mairead nic Amhlaidh stops entering marriages in the roll",
+  "first_chapter": 28,
+  "notes": "named by the chapter writer in chapter 28."
+ },
+ {
+  "name": "Griogair mac Ailein",
+  "born": null,
+  "died": null,
+  "role": "Griogair mac Ailein taken up at Cnoc chaol",
+  "first_chapter": 28,
+  "notes": "named by the chapter writer in chapter 28."
+ },
+ {
+  "name": "Dòmhnall Ruadh",
+  "born": null,
+  "died": null,
+  "role": "Thomas Hale sent for to read the surgeon's note",
+  "first_chapter": 28,
+  "notes": "named by the chapter writer in chapter 28."
+ },
+ {
+  "name": "Ruth Pallant",
+  "born": null,
+  "died": null,
+  "role": "Ruth Pallant teaches Hannah Webb the night watch",
+  "first_chapter": 32,
+  "notes": "named by the chapter writer in chapter 32."
+ },
+ {
+  "name": "Colm Ashe",
+  "born": null,
+  "died": null,
+  "role": "The watch spreads along the concession's edge",
+  "first_chapter": 32,
+  "notes": "named by the chapter writer in chapter 32."
+ },
+ {
+  "name": "Obadiah Renn",
+  "born": null,
+  "died": null,
+  "role": "Minister Renn writes the vigil irregular",
+  "first_chapter": 32,
+  "notes": "named by the chapter writer in chapter 32."
+ },
+ {
+  "name": "Daniel Webb",
+  "born": null,
+  "died": null,
+  "role": "The berth toll and the docker Tòmas Ruadh",
+  "first_chapter": 32,
+  "notes": "named by the chapter writer in chapter 32."
+ },
+ {
+  "name": "Tòmas Ruadh",
+  "born": null,
+  "died": null,
+  "role": "The berth toll and the docker Tòmas Ruadh",
+  "first_chapter": 32,
+  "notes": "named by the chapter writer in chapter 32."
+ },
+ {
+  "name": "Fionnlagh",
+  "born": null,
+  "died": null,
+  "role": "Fionnlagh's warning at Muileann chrom",
+  "first_chapter": 33,
+  "notes": "named by the chapter writer in chapter 33."
+ },
+ {
+  "name": "Osgood",
+  "born": null,
+  "died": null,
+  "role": "The order for the third and fourth rows",
+  "first_chapter": 36,
+  "notes": "named by the chapter writer in chapter 36."
+ },
+ {
+  "name": "Griogar Camshron",
+  "born": null,
+  "died": null,
+  "role": "Griogar Camshron breaks his staff",
+  "first_chapter": 36,
+  "notes": "named by the chapter writer in chapter 36."
+ },
+ {
+  "name": "Tòmas Odhar",
+  "born": null,
+  "died": null,
+  "role": "old hewer at the Muileann chrom store gate",
+  "first_chapter": 37,
+  "notes": "named by the chapter writer in chapter 37."
+ },
+ {
+  "name": "Pàdraig Reamhar",
+  "born": null,
+  "died": null,
+  "role": "Pàdraig Reamhar scuttles his own barge",
+  "first_chapter": 37,
+  "notes": "named by the chapter writer in chapter 37."
+ },
+ {
+  "name": "Oswin Frayne",
+  "born": null,
+  "died": null,
+  "role": "Oswin Frayne rowed out from Ceann fhada",
+  "first_chapter": 37,
+  "notes": "named by the chapter writer in chapter 37."
+ },
+ {
+  "name": "Fionnuala",
+  "born": null,
+  "died": null,
+  "role": "The nineteen of Àth chiar buried",
+  "first_chapter": 37,
+  "notes": "named by the chapter writer in chapter 37."
+ },
+ {
+  "name": "Mairead nic Aoidh",
+  "born": null,
+  "died": null,
+  "role": "Mairead nic Aoidh stops entering marriages in the roll",
+  "first_chapter": 28,
+  "notes": "named by the chapter writer in chapter 28."
+ }
+]

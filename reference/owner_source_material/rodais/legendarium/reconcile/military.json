@@ -598,8 +598,8 @@
   },
   {
    "file": "appendices/C_hosts_wars.md",
-   "old": "The relief parties counted a little over nine hundred dead ({{date:V-0018}}).",
-   "new": "The relief parties counted a little over nine hundred dead ({{date:V-0018}}). The wave ran on up the gulf to Ros gharbh and broke its quays, though the town on its headland lost few ({{date:V-0018}}).",
+   "old": "The relief parties counted a little over forty dead ({{date:V-0018}}).",
+   "new": "The relief parties counted a little over forty dead ({{date:V-0018}}). The wave ran on up the gulf to Ros gharbh and broke its quays, though the town on its headland lost few ({{date:V-0018}}).",
    "why": "Ros gharbh in the zone."
   },
   {
@@ -611,7 +611,7 @@
   {
    "file": "appendices/C_hosts_wars.md",
    "old": "| **An naoidheamh rèisimeid**, the ninth | {{place:burg:431}} | {{date:VI-0110}} | Last raised, to guard the dubhan works. Its fighter won the first Còmhrag the regiments entered ({{date:VI-0146}}). |\n",
-   "new": "| **An naoidheamh rèisimeid**, the ninth | {{place:burg:431}} | {{date:VI-0110}} | Last raised, to guard the dubhan works. Its fighter won the first Còmhrag the regiments entered ({{date:VI-0146}}). |\n\nThe regimental rolls of the present year count 5,577 foot, 3,022 riflemen and 2,322 horse in the nine regiments, with seventy-nine guns. The first regiment is the largest, at 1,818 men, and the eighth and ninth are the smallest, at about 850 each. The horse are kept for the hill roads of the west and the north, where lorries cannot go and the dubhan depots are far apart. The four fleets are small. The first and second have two hulls each and the third and fourth one each, with about a hundred men to a hull.\n",
+   "new": "| **An naoidheamh rèisimeid**, the ninth | {{place:burg:431}} | {{date:VI-0110}} | Last raised, to guard the dubhan works. Its fighter won the first Còmhrag the regiments entered ({{date:VI-0146}}). |\n\nThe regimental rolls of the present year count 1,673 foot, 905 riflemen and 696 horse in the nine regiments, with twenty-three guns. The first regiment is the largest, at 545 men, and the eighth and ninth are the smallest, at about 255 each. The horse are kept for the hill roads of the west and the north, where lorries cannot go and the dubhan depots are far apart. The four fleets are small. The first and second have two hulls each and the third and fourth one each, with about a hundred men to a hull.\n",
    "why": "Summarise the regiments' composition from the map (unit counts), with archers as riflemen."
   },
   {

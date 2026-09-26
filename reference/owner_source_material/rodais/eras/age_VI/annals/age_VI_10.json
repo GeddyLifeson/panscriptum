@@ -1,0 +1,980 @@
+{
+ "writer": 5,
+ "span": [
+  "V-0148",
+  "V-0172"
+ ],
+ "events": [
+  {
+   "id": "EVI-5500",
+   "title": "Daniel Frayne rides the wool carts south",
+   "body": "With Comhairle na Slighe-iarainn still refusing Tional nan Tuathach's goods, the north's wool goes south by cart, and Daniel Frayne asks leave to ride with the second train, five days on the old way by Cnoc ghorm, Àth fhada and Inis àrsaidh to Fèill Muileann òg.",
+   "kind": "trade",
+   "place": "burg:234",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0147",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0148",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/29_of_the_carters_road.md#i-of-the-road-the-north-named",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "after": "V-0150"
+  },
+  {
+   "id": "EVI-5501",
+   "title": "The first lamp lit at Àth fhada",
+   "body": "A widow of Àth fhada who has fed carters at her own table for two winters begins taking payment for it, keeping a lamp lit past every other house's hour. Two more households on the road do the same within the season, and carters find their beds by the lights alone.",
+   "kind": "trade",
+   "place": "burg:174",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0148",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_carters_road.md#i-of-the-road-the-north-named",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "id": "EVI-5502",
+   "title": "The north's name and the south's silence",
+   "body": "Frayne asks the widow at Àth fhada what the carters call their road and learns it has long been called Rathad nan Cairtearan in the north, its name simply grown to fit the wool's going by cart. He learns too that no map south of Cnoc ghorm troubles to name the road at all, and writes both facts down.",
+   "kind": "law",
+   "place": "burg:174",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0148",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/29_of_the_carters_road.md#i-of-the-road-the-north-named",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "id": "EVI-5503",
+   "title": "A season's wages weighed against the road",
+   "body": "Waiting out a flood at a crossing short of Inis àrsaidh, Frayne hears from a shunting family how the road's five days are reckoned against a season's whole earning, a toll no southern ledger is ever asked to set against the fair's own profit. He writes the figure down.",
+   "kind": "trade",
+   "place": "burg:330",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0148",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/29_of_the_carters_road.md#i-of-the-road-the-north-named",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "id": "EVI-5504",
+   "title": "Mary Coyle opens Clàr nan Leòn",
+   "body": "Mary Coyle tells Tional nan Tuathach's clerks that Comhairle nam Mèinnean keeps no true count of the Tuathaich dead and maimed of the western pits, and that Tional nan Tuathach will begin a book naming them on the families' own word, since no other word will be offered.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0150",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/29_of_the_carters_road.md#iii-of-the-register-begun",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "id": "EVI-5505",
+   "title": "The first name entered in Clàr nan Leòn",
+   "body": "The widow of Àth fhada's husband, lost under the western pits, is the first name Daniel Frayne writes into the new register, carried south by a neighbour rather than wait on the widow's own journey. Frayne sets the pen down before the ink is dry.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0150",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/29_of_the_carters_road.md#iii-of-the-register-begun",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "id": "EVI-5506",
+   "title": "The keel laid at Ros mhòr",
+   "body": "Shipwrights turned out of the southern guild yards gather enough coin and timber at last to lay a keel of their own at Ros mhòr. Harry Marlow, grey now, cuts it to the humans' old lines, low and full in the bow, that the southern guilds no longer let a Tuathaich hand build.",
+   "kind": "trade",
+   "place": "burg:60",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0151",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_carters_road.md#v-of-the-keel-at-ros-mhor",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "id": "EVI-5507",
+   "title": "The wool train waits out the flood",
+   "body": "The second wool train of the winter sits a night at the flooded crossing short of Inis àrsaidh and goes on when the water drops, losing half a day to the weather and none of the wool, its lead carter holding that a road worn long enough finds its own way round a flood.",
+   "kind": "trade",
+   "place": "burg:330",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0148",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_carters_road.md#i-of-the-road-the-north-named",
+   "era_between": [
+    41,
+    41
+   ]
+  },
+  {
+   "after": "V-0152"
+  },
+  {
+   "id": "EVI-5508",
+   "title": "A second copy of the register kept apart",
+   "body": "By the year's end the register holds above thirty names. A second copy is made against fire or flood and kept at a house in Muileann leathan, so that no single hand's slipping can lose the names a second time.",
+   "kind": "law",
+   "place": "burg:234",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0150",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/29_of_the_carters_road.md#iii-of-the-register-begun",
+   "era_between": [
+    42,
+    42
+   ]
+  },
+  {
+   "id": "EVI-5509",
+   "title": "Gormshuil nic Dhùghaill's last entry",
+   "body": "Feeling her hand begin to shake on a long day's writing, Gormshuil lays down the office of royal chronicler after four and twenty years, her final entry a plain list of what Eachdraidh na Rìoghachd under her hand had never held: the northern towns' own accounts, the humans' old treaties, and Comhairle nam Mèinnean's surveys left unrolled.",
+   "kind": "law",
+   "place": "marker:34",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0152",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/29_of_the_carters_road.md#iv-of-the-chronicle-laid-down",
+   "era_between": [
+    42,
+    42
+   ]
+  },
+  {
+   "id": "EVI-5510",
+   "title": "Tormod Pinn copies the list of gaps",
+   "body": "Tormod mac Sheumais, called Tormod Pinn for the speed of his hand, succeeds Gormshuil as royal chronicler and opens his own first book by copying her last list whole, striking nothing from it, so it is not lost to be rewritten by a less patient hand.",
+   "kind": "law",
+   "place": "marker:34",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0152",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/29_of_the_carters_road.md#iv-of-the-chronicle-laid-down",
+   "era_between": [
+    42,
+    42
+   ]
+  },
+  {
+   "id": "EVI-5511",
+   "title": "The first Ros mhòr hull launched",
+   "body": "Built on evenings and Sabbaths through a year, the yard's first hull takes the water clean at Ros mhòr, swifter than anything the southern yards have launched in a long season. Harry Marlow tells the men beside him he means to live to see the north sail hulls built with no southern guild's leave.",
+   "kind": "trade",
+   "place": "burg:60",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0151",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/29_of_the_carters_road.md#v-of-the-keel-at-ros-mhor",
+   "era_between": [
+    42,
+    42
+   ]
+  },
+  {
+   "after": "V-0153"
+  },
+  {
+   "id": "EVI-5512",
+   "title": "Tormod Pinn adds his own line to the list of gaps",
+   "body": "Riding the southern circuit his predecessor once rode, Tormod Pinn adds beneath Gormshuil nic Dhùghaill's list of what Eachdraidh na Rìoghachd lacks a line of his own, that a gap named is worth more than a gap forgotten, and copies both into the chest that goes to an Leabharlann.",
+   "kind": "law",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0153",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_unlit_ships.md#i-of-the-list-copied-and-the-grain-that-came-north",
+   "era_between": [
+    43,
+    43
+   ]
+  },
+  {
+   "after": "V-0154"
+  },
+  {
+   "id": "EVI-5513",
+   "title": "The maor of Achadh shean petitions early",
+   "body": "With three wells of the drove road gone brackish and a fourth dry to the stone, the maor of Siorrachd Achadh shean writes south before the second month of the dry is out rather than wait for the harvest itself to fail, and asks that a man argues with a poor harvest but a well gone to stone argues with no one.",
+   "kind": "land",
+   "place": "province:61",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0154",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/30_of_the_unlit_ships.md#i-of-the-list-copied-and-the-grain-that-came-north",
+   "era_between": [
+    43,
+    43
+   ]
+  },
+  {
+   "after": "V-0155"
+  },
+  {
+   "id": "EVI-5514",
+   "title": "A fifth well dug dry on a dowser's word",
+   "body": "Of the twelve wells the maor of Achadh shean has cut along the drove road, one stands dry from the day it is dug, sited on a dowser's hazel rather than any surveyor's word, and the well-diggers own the fact afterward without much shame in the owning.",
+   "kind": "land",
+   "place": "province:61",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0155",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/30_of_the_unlit_ships.md#i-of-the-list-copied-and-the-grain-that-came-north",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "after": "V-0156"
+  },
+  {
+   "id": "EVI-5515",
+   "title": "The first wagons reach Achadh shean in the rain",
+   "body": "The Cathair fhada store's grain reaches the sidings at Achadh shean by Slighe a' Ghuail on the morning the season's first proper rain falls at last, and the maor, standing in the mud he had prayed six weeks for, tells the carters the grain waited on the roof to prove it was not wanted.",
+   "kind": "trade",
+   "place": "burg:411",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0156",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_unlit_ships.md#i-of-the-list-copied-and-the-grain-that-came-north"
+  },
+  {
+   "after": "V-0157"
+  },
+  {
+   "id": "EVI-5516",
+   "title": "The salt-sheds of Àth bheag rebuilt",
+   "body": "The burned salt-sheds of Àth bheag are raised again within the year, An Crùn paying a third of the cost as it once paid a third of Cuan dhearg's relief, and the salt trade limps through the interval on what the barrels spared from the fire can carry.",
+   "kind": "trade",
+   "place": "burg:492",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0157",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_unlit_ships.md#iii-of-the-burning-of-the-salt-sheds",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EVI-5517",
+   "title": "The patrol captain's report on the two days",
+   "body": "Called to answer before the shire's maor, the patrol's captain writes a report naming the distance, the wind and the hour the alarm reached his harbour; Comhairle nan Taighean-solais judges it honest, and the households of Àth bheag, hearing it read at the market cross, judge it an accounting that answers every question but the one that matters.",
+   "kind": "war",
+   "place": "burg:492",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0157",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/30_of_the_unlit_ships.md#iii-of-the-burning-of-the-salt-sheds",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "after": "V-0158"
+  },
+  {
+   "id": "EVI-5518",
+   "title": "Comhairle nan Taighean-solais's inspector calls the Baile ìseal log the emptiest on the round",
+   "body": "Comhairle nan Taighean-solais's own inspector, checking oil against entries at Taigh-solais Baile ìseal, tells Murchadh mac Coinnich that his log is the tidiest on the eastern round and the emptiest, a remark Murchadh takes for a compliment until he comes, within the year, to hear it differently.",
+   "kind": "law",
+   "place": "marker:13",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0158",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/30_of_the_unlit_ships.md#ii-of-the-keeper-at-the-point"
+  },
+  {
+   "id": "EVI-5519",
+   "title": "Murchadh buys a second book at his own coin",
+   "body": "Murchadh mac Coinnich buys, from a Muileann leathan binder a carter brings up the coast, a book of his own beside Comhairle nan Taighean-solais's, in which he means to set down what Comhairle nan Taighean-solais's own log has no line for: every ship that crosses under his light showing no lamp.",
+   "kind": "record",
+   "place": "marker:13",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0158",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/30_of_the_unlit_ships.md#iv-of-the-log-begun",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "id": "EVI-5520",
+   "title": "Murchadh among the ash at Àth bheag",
+   "body": "Once relief has come for his light, Murchadh mac Coinnich rides down to Àth bheag the second morning after the burning and stands with the ford-keepers among the wet ash and the barrel-hoops of the salt-sheds, hearing from a woman of the trade what the fire has cost.",
+   "kind": "war",
+   "place": "burg:492",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0157",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/30_of_the_unlit_ships.md#iii-of-the-burning-of-the-salt-sheds",
+   "era_between": [
+    44,
+    44
+   ]
+  },
+  {
+   "after": "V-0159"
+  },
+  {
+   "id": "EVI-5521",
+   "title": "The salt-carrier names the raiders' hulls",
+   "body": "An old salt-carrier at the Àth bheag quay gives Murchadh mac Coinnich the coast's own names for two dark hulls that have crossed under his light unlit, An Ròn Dubh for her low black run and An Fhaoileag for a habit of standing off by day and closing only with the dark.",
+   "kind": "record",
+   "place": "burg:492",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0159",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/30_of_the_unlit_ships.md#iv-of-the-log-begun",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "id": "EVI-5522",
+   "title": "Murchadh's book copied fair for Eachdraidh na Rìoghachd",
+   "body": "A clerk of an Leabharlann carries Murchadh mac Coinnich's private log south, and Tormod Pinn draws the names An Ròn Dubh and An Fhaoileag into the royal record from it, crediting no better source than a keeper's own ledger and the salt-carriers of a coast the patrol once answered two days late.",
+   "kind": "law",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0159",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/30_of_the_unlit_ships.md#iv-of-the-log-begun",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "after": "V-0160"
+  },
+  {
+   "id": "EVI-5523",
+   "title": "Ealasaid nic Coinnich declines to defend the year's honour",
+   "body": "Asked by the fair-wardens whether she will defend the champion's honour the following year, Ealasaid nic Coinnich tells them a thing won once stays won whether or not she stands the field a second year, and returns to her family's trade at Àth ghlas.",
+   "kind": "trade",
+   "place": "burg:463",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0160",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/30_of_the_unlit_ships.md#v-of-the-champion-of-ath-ghlas",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "id": "EVI-5524",
+   "title": "Murchadh's first full year of the unlit ships",
+   "body": "By the second an Dùbhlachd of his own keeping, Murchadh mac Coinnich's private book holds above thirty crossings, most nameless still, ruled by a straight-edge and set on the shelf beside Comhairle nan Taighean-solais's own log as the truer account of what sails the eastern water dark.",
+   "kind": "record",
+   "place": "marker:13",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0158",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0159",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/30_of_the_unlit_ships.md#iv-of-the-log-begun",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "after": "V-0163"
+  },
+  {
+   "id": "EVI-5525",
+   "title": "The old druid houses mended before the teaching",
+   "body": "Before a single lecture is given, villagers near Muileann chiar mend the doors and sills of the long-shut druid house with green timber and their own hands, asking no wage beyond a bench kept for them once the teaching begins.",
+   "kind": "faith",
+   "place": "burg:78",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0162",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#i-of-cnoc-bheag-and-the-waking-schools",
+   "era_between": [
+    46,
+    46
+   ]
+  },
+  {
+   "id": "EVI-5526",
+   "title": "An old cutter's son questions Seonaid nic Ghill-Eathain",
+   "body": "After her first lecture in the sacred wood, an old man whose father kept An Aois Naomh strike-books asks Seonaid nic Ghill-Eathain whether she means to answer her own question before she finishes teaching it. She tells him plainly that she does not.",
+   "kind": "faith",
+   "place": "burg:78",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0163",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#ii-of-the-lecture-in-flidais-s-wood",
+   "era_between": [
+    46,
+    46
+   ]
+  },
+  {
+   "after": "V-0166"
+  },
+  {
+   "id": "EVI-5527",
+   "title": "The Baile gharbh teachers' first walk south",
+   "body": "Teachers of the reopened druid houses in Siorrachd Baile gharbh walk the better part of a week to hear Seonaid nic Ghill-Eathain teach in the sacred wood before daring to open the question in their own halls, and do not miss a winter's walk after.",
+   "kind": "faith",
+   "place": "burg:131",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0164",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#ii-of-the-lecture-in-flidais-s-wood",
+   "era_between": [
+    47,
+    47
+   ]
+  },
+  {
+   "id": "EVI-5528",
+   "title": "The census line argued by lamplight at Caol shean",
+   "body": "In the wet-house at Caol shean a miller's son newly come to the school asks why the census line for fuil-ghuail should be a matter no one may question, when the vein itself is questioned daily under the same roof; the argument runs past the hour the hearth is banked.",
+   "kind": "law",
+   "place": "burg:197",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0165",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-coal-blood"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#iii-of-the-wet-house-at-caol-shean",
+   "era_between": [
+    47,
+    47
+   ]
+  },
+  {
+   "id": "EVI-5529",
+   "title": "The Muileann dhearg hall given back to the school",
+   "body": "Comann nan Gualadairean' captains give the school the hall at Muileann dhearg, shut since a gallery there closed three years before, on the one condition that nothing taught in it name a living captain or gallery; the school keeps to it gladly.",
+   "kind": "faith",
+   "place": "burg:491",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0165",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#iii-of-the-wet-house-at-caol-shean",
+   "era_between": [
+    47,
+    47
+   ]
+  },
+  {
+   "id": "EVI-5530",
+   "title": "Òrd an t-Seabhaig's terms read a seventh time",
+   "body": "At a council of Deas-ghnàth a' Ghuail at Seann Skell on the southern coast, Àrd-choimheadaiche's clerks read Òrd an t-Seabhaig of Cnoc bheag the same settlement offered six times before; this time no witness raises the old objection, and the terms stand.",
+   "kind": "faith",
+   "place": "burg:431",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0166",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#iii-of-the-wet-house-at-caol-shean",
+   "era_between": [
+    47,
+    47
+   ]
+  },
+  {
+   "id": "EVI-5531",
+   "title": "A Baile gharbh teacher's minute of the walk",
+   "body": "The youngest of the Baile gharbh teachers, a woman not yet twenty on her first walk south to the sacred wood, writes of the journey in her school's own minute-book, and her school does not miss a winter's walk after.",
+   "kind": "faith",
+   "place": "burg:131",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0164",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#ii-of-the-lecture-in-flidais-s-wood",
+   "era_between": [
+    47,
+    47
+   ]
+  },
+  {
+   "after": "V-0169"
+  },
+  {
+   "id": "EVI-5532",
+   "title": "Daniel Frayne opens his bindery at Muileann leathan",
+   "body": "Daniel Frayne builds a press from a mended cider-press and teaches young Tuathaich hands to fold, sew and board a book, a craft the southern guilds have never let a Tuathaich learn under their own mark; he asks no guild's leave to teach it.",
+   "kind": "law",
+   "place": "burg:234",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0168",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/31_of_the_sacred_wood.md#iv-of-the-bindery-the-breakwater-and-the-two-dun-thais",
+   "era_between": [
+    48,
+    48
+   ]
+  },
+  {
+   "id": "EVI-5533",
+   "title": "Frayne's first bindings sold south without his name",
+   "body": "The bindery's first plain-calf volumes, carrying no maker's name, are carried south with the wool carts and sold to Dia-thìreach households who praise the binding's neatness to Frayne's own face, none of them knowing whose pupils' hands had actually sewn the spine they hold.",
+   "kind": "trade",
+   "place": "burg:234",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0168",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/31_of_the_sacred_wood.md#iv-of-the-bindery-the-breakwater-and-the-two-dun-thais",
+   "era_between": [
+    48,
+    48
+   ]
+  },
+  {
+   "id": "EVI-5534",
+   "title": "The first stone of the Caol chrom breakwater",
+   "body": "Caol chrom and its neighbour across the strait lay the first stone of a shared breakwater, the longest yet built on the island, meant to close a strait that has drowned more boats in a hard winter than either shire's harbour dues could bear alone.",
+   "kind": "land",
+   "place": "burg:133",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#iv-of-the-bindery-the-breakwater-and-the-two-dun-thais",
+   "era_between": [
+    48,
+    48
+   ]
+  },
+  {
+   "id": "EVI-5535",
+   "title": "The old boatman's licence at Cidhe Beag",
+   "body": "The boatman who has rowed the crossing at Cidhe Beag on the Abhainn uaine for forty years without leave asked or given is granted a licence at last by the shire's maor, more for the shire's own records than for any change in how he rows or reckons his fare.",
+   "kind": "trade",
+   "place": "burg:44",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0169",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#iv-of-the-bindery-the-breakwater-and-the-two-dun-thais",
+   "era_between": [
+    48,
+    48
+   ]
+  },
+  {
+   "id": "EVI-5536",
+   "title": "Tormod Pinn marks the two Dùn thais west and east",
+   "body": "Finding An Crùn's returns beginning to run its two towns of one name together, Tormod Pinn rules a fresh line across the royal record marking Dùn thais in the west against Dùn thais in the east, and sends word to both shires' clerks to take more care.",
+   "kind": "law",
+   "place": "burg:8",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0166",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#iv-of-the-bindery-the-breakwater-and-the-two-dun-thais",
+   "era_between": [
+    48,
+    48
+   ]
+  },
+  {
+   "after": "V-0171"
+  },
+  {
+   "id": "EVI-5537",
+   "title": "Three slates carried to Caol shean",
+   "body": "Three of Seonaid nic Ghill-Eathain's students ride from the sacred wood to copy Colbh Cnoc chiar, Carragh Cnoc bheag over the town's quays and Calbh Cnoc ghorm onto separate slates, and carry them back through the rain to lay side by side.",
+   "kind": "faith",
+   "place": "burg:243",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0171",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#v-of-the-pillar-set-beside-the-obelisk",
+   "era_between": [
+    49,
+    49
+   ]
+  },
+  {
+   "id": "EVI-5538",
+   "title": "A mark in common on three stones",
+   "body": "Comparing the three copied slates by lamplight, the students of Caol shean find a mark like a bent reed and a straight double stroke cut on all three stones and nowhere else known to them, and no meaning in either that any among them can bring out.",
+   "kind": "faith",
+   "place": "burg:197",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0171",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#v-of-the-pillar-set-beside-the-obelisk",
+   "era_between": [
+    49,
+    49
+   ]
+  },
+  {
+   "id": "EVI-5539",
+   "title": "Seonaid nic Ghill-Eathain writes Seann-Dhaoine' sentence",
+   "body": "Reading the three slates laid together at Caol shean, Seonaid nic Ghill-Eathain writes that Seann-Dhaoine were here and said so, and that none living can hear what they said; her students copy the sentence into every school's minute-book after her.",
+   "kind": "faith",
+   "place": "burg:197",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0171",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/31_of_the_sacred_wood.md#v-of-the-pillar-set-beside-the-obelisk",
+   "era_between": [
+    49,
+    49
+   ]
+  }
+ ]
+}

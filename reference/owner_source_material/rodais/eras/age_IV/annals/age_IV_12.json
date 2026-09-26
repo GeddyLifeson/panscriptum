@@ -1,0 +1,1831 @@
+{
+ "writer": 6,
+ "span": [
+  "III-0196",
+  "end"
+ ],
+ "events": [
+  {
+   "after": "III-0197"
+  },
+  {
+   "id": "EIV-6501",
+   "title": "Clann Choinnich's head asks the manner of the oath",
+   "body": "Before swearing last to Riaghailt an Teallaich, the head of Clann Choinnich asks Queen Catrìona Bheag plainly whether the renewed oath changes the measure her house holds or only the manner of swearing to it. The queen answers that it changes only the manner, and the old woman swears.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0197",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses",
+    "the-small-burning-law"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#i-of-the-oath-of-the-seven",
+   "era_between": [
+    1449,
+    1449
+   ]
+  },
+  {
+   "after": "III-0198"
+  },
+  {
+   "id": "EIV-6502",
+   "title": "The last stone laid in Macha's floor",
+   "body": "The black and white floor of Macha's great house at Cathair mhòr is finished, eleven years in the laying, by masons none of whom cut its first courses. It stands the largest roofed building on Dia-thìr.",
+   "place": "burg:23",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0198",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#i-of-the-oath-of-the-seven",
+   "era_between": [
+    1459,
+    1459
+   ]
+  },
+  {
+   "after": "III-0199"
+  },
+  {
+   "id": "EIV-6503",
+   "title": "Leabhar a' Chùraim binds the two stairs",
+   "body": "When charcoal-burners break into the eastern Toll-dubh, the scribe of Leabhar a' Chùraim binds its entry to the western stair's with a line in each margin, though nothing is written of what either stair goes down to.",
+   "place": "marker:20",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0199",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#ii-of-the-stair-found-again-and-the-dry-years",
+   "era_between": [
+    1469,
+    1469
+   ]
+  },
+  {
+   "after": "III-0200"
+  },
+  {
+   "id": "EIV-6504",
+   "title": "The well-head board first cut",
+   "body": "As the crown's grain carts still reach Achadh shean by the mining road against a second dry season, the reeves cut a board at the well-head setting down how the deep wells will be shared among the households by lot and by turn. The board is renewed each generation; the lots themselves are never drawn again.",
+   "place": "burg:411",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0200",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0201",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#ii-of-the-stair-found-again-and-the-dry-years",
+   "era_between": [
+    1483,
+    1483
+   ]
+  },
+  {
+   "after": "III-0201"
+  },
+  {
+   "id": "EIV-6505",
+   "title": "A clerk finds the worn firlot",
+   "body": "A young clerk newly set over the granary accounts at Àth shean finds, going back through the ledgers, that the firlot has worn smaller than the standard of Cathair dhearg, and has been so for longer than any one reeve's term could account for. He carries the matter up rather than let it stand.",
+   "place": "burg:67",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0202",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#ii-of-the-stair-found-again-and-the-dry-years",
+   "era_between": [
+    1498,
+    1498
+   ]
+  },
+  {
+   "after": "III-0202"
+  },
+  {
+   "id": "EIV-6506",
+   "title": "Birth of Sìleas Òg",
+   "body": "A daughter, Sìleas, is born in the house of the crown in the seventy-seventh year of Queen Catrìona Bheag's reign, and called Sìleas Òg after the queen who first measured the island's baskets.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0205",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-og"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#v-of-the-silver-refused-and-the-steel-lost",
+   "era_between": [
+    1505,
+    1505
+   ]
+  },
+  {
+   "id": "EIV-6507",
+   "title": "Iain Mac Phàil tries to write the glaze down",
+   "body": "In the last years of his life Iain Mac Phàil, the last of Clann Mhic Phàil at Muileann gheal, tries to set the grey-green glaze's making down in some form a stranger might follow, and finds the moment of the kiln's cooling will not go into words.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0203",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-phail"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iii-of-the-last-of-clann-mhic-phail",
+   "era_between": [
+    1505,
+    1505
+   ]
+  },
+  {
+   "id": "EIV-6508",
+   "title": "Two apprentices fail the grey-green firing",
+   "body": "Iain Mac Phàil takes two apprentices in his last years and teaches them the mixing of the grey-green glaze, but neither learns to judge the moment the kiln's heat must be let fall. Both come away able to throw a passable dish and unable to glaze it.",
+   "place": "burg:288",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0203",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-phail"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iii-of-the-last-of-clann-mhic-phail",
+   "era_between": [
+    1507,
+    1507
+   ]
+  },
+  {
+   "after": "III-0203"
+  },
+  {
+   "id": "EIV-6509",
+   "title": "Drovers of Àth chiar bring their beasts to Baile Mòr ruadh",
+   "body": "Drovers from Àth chiar and the eastern hills begin bringing their cattle down to Baile Mòr ruadh's autumn fair rather than selling nearer home, and within a few years it is the greatest fair in the east.",
+   "place": "burg:387",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0204",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iii-of-the-last-of-clann-mhic-phail",
+   "era_between": [
+    1518,
+    1518
+   ]
+  },
+  {
+   "after": "III-0205"
+  },
+  {
+   "id": "EIV-6510",
+   "title": "Sìleas Òg questioned on her purpose",
+   "body": "Asked years later what put the notion of a round of every shire seat in her head, Queen Sìleas Òg says she had grown up hearing the seats named at her father's table like places in a story, and wished to know them as a place stood in rather than a tale repeated.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0205",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-og"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iv-of-the-queen-who-went-round",
+   "era_between": [
+    1531,
+    1531
+   ]
+  },
+  {
+   "id": "EIV-6511",
+   "title": "The reeve of Achadh shean questioned at the well-head",
+   "body": "On her round, Sìleas Òg stands at the well-head of Achadh shean and asks the reeve why the lots for the deep wells were never drawn a second time. He answers that no household wished to be the one that named the first sharing unfair. She rides on the next morning without asking him to change it.",
+   "place": "burg:411",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0201",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-og"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iv-of-the-queen-who-went-round",
+   "era_between": [
+    1534,
+    1534
+   ]
+  },
+  {
+   "id": "EIV-6512",
+   "title": "Sìleas Òg reaches the last shire seat of her round",
+   "body": "Queen Sìleas Òg's circuit carries her at last to the bare northern stretch few rulers before her had visited, the first ruler of Dia-thìr known to have stood in every shire seat the island holds.",
+   "place": null,
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0205",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-og"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iv-of-the-queen-who-went-round",
+   "era_between": [
+    1535,
+    1535
+   ]
+  },
+  {
+   "after": "III-0206"
+  },
+  {
+   "id": "EIV-6513",
+   "title": "The queen enters the count without comment",
+   "body": "Reading the new, smaller count of households holding the right to the coal, Sìleas Òg has it entered in Leabhar a' Chùraim without a word either way, a silence her own scribes find harder to read than any word she might have spoken.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0206",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "sileas-og"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iv-of-the-queen-who-went-round",
+   "era_between": [
+    1539,
+    1539
+   ]
+  },
+  {
+   "after": "III-0207"
+  },
+  {
+   "id": "EIV-6514",
+   "title": "Ceann mhin's reeve orders the gable walls",
+   "body": "Before the ash of the second fire has cooled, the reeve of Ceann mhin orders the town rebuilt with gable walls of stone standing between each house and the next, so that a fire must cross stone to spread.",
+   "place": "burg:30",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0207",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#iv-of-the-queen-who-went-round",
+   "era_between": [
+    1549,
+    1549
+   ]
+  },
+  {
+   "id": "EIV-6515",
+   "title": "Birth of Ailean the Fourth",
+   "body": "A son, named Ailean mac Raghnaill after the kings of that name before him, is born into the crown's house in the two-and-twentieth year of Queen Sìleas Òg's reign.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0211",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailean-mac-raghnaill-iv"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#v-of-the-silver-refused-and-the-steel-lost",
+   "era_between": [
+    1550,
+    1550
+   ]
+  },
+  {
+   "id": "EIV-6516",
+   "title": "Birth of Mòrag nic Raghnaill",
+   "body": "A daughter, Mòrag, is born to the same house, six years younger than her brother Ailean.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0213",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "morag-nic-raghnaill"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#vi-of-the-short-king-and-the-shut-sea",
+   "era_between": [
+    1556,
+    1556
+   ]
+  },
+  {
+   "id": "EIV-6517",
+   "title": "Clann Choinnich's clerk drafts Athchuingean an Airgid",
+   "body": "After three winters of the head of Clann Choinnich arguing that the coal might be spared beyond the measured handful to smelt silver at Muileann chiar, a younger kinsman of the house drafts the petition the council will hear, the first written asking to burn the coal for work rather than worship.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0208",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-small-burning-law"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#v-of-the-silver-refused-and-the-steel-lost",
+   "era_between": [
+    1558,
+    1558
+   ]
+  },
+  {
+   "after": "III-0208"
+  },
+  {
+   "id": "EIV-6518",
+   "title": "The queen's word to Clann Choinnich's head",
+   "body": "Once the council's refusal is final, Sìleas Òg tells Clann Choinnich's head privately that a law kept since before the fleet sailed for one reason is not easily bent to a second, however sound. The old woman accepts the courtesy without being persuaded.",
+   "place": "burg:491",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0208",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-small-burning-law"
+   ],
+   "people": [
+    "sileas-og"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#v-of-the-silver-refused-and-the-steel-lost",
+   "era_between": [
+    1559,
+    1559
+   ]
+  },
+  {
+   "id": "EIV-6519",
+   "title": "The last blade of the old folding",
+   "body": "The fellowship of Dùn dhearg loses the last smith trained far enough in the layered steel's folding to finish it alone. The blades made after him are ordinary work, prized now only for what the craft once was.",
+   "place": "burg:422",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0209",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#v-of-the-silver-refused-and-the-steel-lost",
+   "era_between": [
+    1568,
+    1568
+   ]
+  },
+  {
+   "after": "III-0210"
+  },
+  {
+   "id": "EIV-6520",
+   "title": "The tenants of Tuam Cnoc dhìreach keep their own ground",
+   "body": "When Na Seachd Taighean begin burying their heads at Tuam Cnoc dhìreach, the tenants of the land about it call the custom unwise and go on burying their own dead where their own families always have, a disagreement neither side presses to settle.",
+   "place": "marker:41",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0210",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#v-of-the-silver-refused-and-the-steel-lost",
+   "era_between": [
+    1580,
+    1580
+   ]
+  },
+  {
+   "after": "III-0213"
+  },
+  {
+   "id": "EIV-6521",
+   "title": "One stone cut for two reigns",
+   "body": "Queen Mòrag nic Raghnaill has the years of her brother Ailean the Fourth's crowning and death cut on a single stone rather than two, the plainest record Clàr nan Rìghrean gives of the short reign she outlives by forty years.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0211",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0213",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "morag-nic-raghnaill"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#vi-of-the-short-king-and-the-shut-sea",
+   "era_between": [
+    1590,
+    1590
+   ]
+  },
+  {
+   "id": "EIV-6522",
+   "title": "The synod argues two days over the prayer's words",
+   "body": "The priests of Manannan in synod at Seann Skell spend two full days over the wording of a new prayer before agreeing on its shortest form, to be said at the foot of the river pool where the fleet once turned.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0212",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#vi-of-the-short-king-and-the-shut-sea",
+   "era_between": [
+    1590,
+    1590
+   ]
+  },
+  {
+   "id": "EIV-6523",
+   "title": "Death of Ailean the Fourth at forty",
+   "body": "King Ailean mac Raghnaill, the fourth of the name, dies at Cathair dhearg within the year of his crowning, forty years old; Leabhar a' Chùraim does not say what ailed him, and his sister Mòrag, four-and-thirty, is crowned before the season turns.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0213",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailean-mac-raghnaill-iv",
+    "morag-nic-raghnaill"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#vi-of-the-short-king-and-the-shut-sea",
+   "era_between": [
+    1590,
+    1590
+   ]
+  },
+  {
+   "after": "III-0214"
+  },
+  {
+   "id": "EIV-6524",
+   "title": "The ferry family holds the landing father to daughter",
+   "body": "The family that settles the ferry crossing at Cidhe Beag holds the landing from father to daughter and daughter to son for the rest of the age, a fixed thing on the eastern road like any ford or road-house.",
+   "place": "marker:39",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0214",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#vi-of-the-short-king-and-the-shut-sea",
+   "era_between": [
+    1619,
+    1619
+   ]
+  },
+  {
+   "after": "III-0214a"
+  },
+  {
+   "id": "EIV-6525",
+   "title": "The road-houses take up the black wine",
+   "body": "The road-houses of the eastern stretch above Àth shean take to serving the growers' dark blaeberry and bramble pressing as black wine, a trade that outlasts a good deal the age's councils thought more likely to last.",
+   "place": "burg:32",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0214a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_queen_who_went_round.md#vi-of-the-short-king-and-the-shut-sea",
+   "era_between": [
+    1626,
+    1626
+   ]
+  },
+  {
+   "id": "EIV-6526",
+   "title": "A clerk reckons forty quiet years",
+   "body": "A clerk who has served Queen Mòrag nic Raghnaill the whole of her reign remarks, near the end of his service, that he has written more entries under her than under any three reigns before and set down in all of them no death by war, no famine and no quarrel of Na Seachd Taighean.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0213",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "morag-nic-raghnaill"
+   ],
+   "told_in": "book/36_of_the_queen_who_went_round.md#vi-of-the-short-king-and-the-shut-sea",
+   "era_between": [
+    1628,
+    1628
+   ]
+  },
+  {
+   "id": "EIV-6527",
+   "title": "The reign of Mòrag nic Raghnaill ends",
+   "body": "Queen Mòrag nic Raghnaill's reign ends in her four-and-seventieth year, after forty years crowned; Clàr nan Rìghrean sets down the end of it and little else, as it has set down little else of all her quiet years.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0213",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "morag-nic-raghnaill"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#vii-of-the-roads-the-beasts-and-the-empty-harbour-kept-thin",
+   "era_between": [
+    1630,
+    1630
+   ]
+  },
+  {
+   "after": "III-0217"
+  },
+  {
+   "id": "EIV-6528",
+   "title": "A cheese-press board sold to the widow of Muileann chaol",
+   "body": "A carter brings Beathag nic Thòmais a blackened board a Cathair mhòr road house has used for years to weight a cheese-press, having noticed writing on its underside: a coal-right tally three generations old. She pays a fair measure of meal for it, telling the carter that a house's own forgetting is no measure of what a board is worth.",
+   "place": "burg:23",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0217",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "beathag-nic-thomais"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#ii-of-the-widow-of-muileann-chaol",
+   "era_between": [
+    1662,
+    1662
+   ]
+  },
+  {
+   "id": "EIV-6529",
+   "title": "A clerk of Taigh na Fèithe finds a lost ruling in the loft",
+   "body": "A clerk riding through Muileann chaol on the crown's business climbs the mill stair out of idleness and finds, among Beathag nic Thòmais's boards, the only surviving copy of a custodians' ruling Taigh na Fèithe had lost to fire two generations before. He asks whether she means the loft for the crown's use or her own; she says the question is not hers to answer alone.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0217",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "beathag-nic-thomais"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#ii-of-the-widow-of-muileann-chaol",
+   "era_between": [
+    1665,
+    1665
+   ]
+  },
+  {
+   "after": "III-0218"
+  },
+  {
+   "id": "EIV-6530",
+   "title": "Beathag nic Thòmais presses her own sheet of rag paper",
+   "body": "Having watched Anna nic Coinnich work her pulp-troughs a season, Beathag presses a sheet with her own hands, uneven at one corner, and keeps it apart from the loft's other papers for the rest of her life without ever saying why.",
+   "place": "burg:246",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0218",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beathag-nic-thomais",
+    "anna-nic-coinnich"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#iii-of-the-rag-paper",
+   "era_between": [
+    1674,
+    1674
+   ]
+  },
+  {
+   "id": "EIV-6531",
+   "title": "Beathag carries the proposal of paper to Taigh na Fèithe",
+   "body": "Beathag nic Thòmais rides the sixty miles to Taigh na Fèithe herself to put Anna's rag paper before a custodian, judging a widow's word better heard than a stranger's. Asked whether the new stuff will hold ink sixteen centuries as hide has, she says she cannot promise it, and the custodian lets the copying go ahead.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0218",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beathag-nic-thomais"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#iii-of-the-rag-paper",
+   "era_between": [
+    1674,
+    1674
+   ]
+  },
+  {
+   "after": "III-0219"
+  },
+  {
+   "id": "EIV-6532",
+   "title": "Beathag answers Anna on the three copies",
+   "body": "Found still kneeling over the three tellings of the landfall at dusk, Beathag tells Anna nic Coinnich that she believes all three writers honest and none of their three pasts more true than the others, and that choosing one for comfort's sake would be a falsehood of her own making.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0219",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "beathag-nic-thomais",
+    "anna-nic-coinnich"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#iv-of-the-three-copies",
+   "era_between": [
+    1679,
+    1679
+   ]
+  },
+  {
+   "id": "EIV-6533",
+   "title": "Birth of Tormod mac Ruairidh",
+   "body": "A son, Tormod, is born to Ruairidh of Clann Raghnaill, the crown's own house, in the years Beathag nic Thòmais is filling her loft at Muileann chaol.",
+   "place": null,
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0222",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "tormod-mac-ruairidh"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#vii-of-the-roads-the-beasts-and-the-empty-harbour-kept-thin",
+   "era_between": [
+    1680,
+    1680
+   ]
+  },
+  {
+   "id": "EIV-6534",
+   "title": "A niece asks why the wrong copies were not burned",
+   "body": "Hearing the tale of the three copies at the fireside, Beathag's niece asks why the two that disagreed with the truth were not simply burned. Beathag, by then old, tells her this is the very question the loft exists to leave unanswered.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0219",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "beathag-nic-thomais"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#iv-of-the-three-copies",
+   "era_between": [
+    1691,
+    1691
+   ]
+  },
+  {
+   "after": "III-0221"
+  },
+  {
+   "id": "EIV-6535",
+   "title": "The nephew stumbles reading the loft's condition",
+   "body": "Reading Beathag nic Thòmais's will aloud to the assembled kin, her nephew stumbles over the clause forbidding any burning of the loft's papers, and more than one kinsman marks the stumble and thinks the less of him for it.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0221",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "beathag-nic-thomais"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#vi-of-the-loft-left-to-the-town",
+   "era_between": [
+    1699,
+    1699
+   ]
+  },
+  {
+   "after": "III-0223"
+  },
+  {
+   "id": "EIV-6536",
+   "title": "Birth of Gormshuil nic Thormoid",
+   "body": "A daughter, Gormshuil, is born at Cathair dhearg to King Tormod mac Ruairidh, five-and-thirty years old and six years crowned.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0231",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "gormshuil-nic-thormoid",
+    "tormod-mac-ruairidh"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#vii-of-the-roads-the-beasts-and-the-empty-harbour-kept-thin",
+   "era_between": [
+    1715,
+    1715
+   ]
+  },
+  {
+   "after": "III-0224"
+  },
+  {
+   "id": "EIV-6537",
+   "title": "A ferryman chooses the market road over the water",
+   "body": "Given his choice of two parcels in amends for the bridge that ends his crossing, a ferryman of Cnoc ìseal asks the king's reeve which has the better crossing to the market road, and takes it; his sons never return to the water.",
+   "place": "burg:91",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0224",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#vii-of-the-roads-the-beasts-and-the-empty-harbour-kept-thin",
+   "era_between": [
+    1721,
+    1721
+   ]
+  },
+  {
+   "after": "III-0225"
+  },
+  {
+   "id": "EIV-6538",
+   "title": "A miller answers a reeve on the town's right to the loft",
+   "body": "A crown reeve asks Beathag nic Thòmais's great-nephew, by then the loft's unpaid keeper, what right the town has to papers that belong by their matter to Taigh na Fèithe or the crown. He answers that fifty years of neither office asking for them back is itself an answer.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0221",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#vi-of-the-loft-left-to-the-town",
+   "era_between": [
+    1731,
+    1731
+   ]
+  },
+  {
+   "after": "III-0227"
+  },
+  {
+   "id": "EIV-6539",
+   "title": "A scribe questions the last keepers of the rite",
+   "body": "Sent to note Deas-ghnàth a' Chalaidh Fhalaimh for the crown's book, a scribe asks the last old women of Seann Skell on what day the fleet truly sailed. No two answers agree, and he writes as much into the crown's own book, unable to choose among them any more than Beathag nic Thòmais once could among her three copies.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0228",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "beathag-nic-thomais"
+   ],
+   "told_in": "book/37_of_the_loft_over_the_mill.md#vii-of-the-roads-the-beasts-and-the-empty-harbour-kept-thin",
+   "era_between": [
+    1748,
+    1748
+   ]
+  },
+  {
+   "after": "III-0229"
+  },
+  {
+   "id": "EIV-6540",
+   "title": "Gormshuil carries the harbour-master's counsel to the king",
+   "body": "Sent by her father to see the sea-wall building at Cuan dhearg, Gormshuil nic Thormoid hears the harbour-master say a wall a man can stand behind is worth more than a street he can only run from, and rides home to give the king the counsel word for word.",
+   "place": "burg:190",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0229",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#i-of-the-sea-wall-of-cuan-dhearg",
+   "era_between": [
+    1754,
+    1754
+   ]
+  },
+  {
+   "id": "EIV-6541",
+   "title": "Cuan dhearg buries its own boundary stones",
+   "body": "Rather than break up the boundary stones of the street the sea first moved, Cuan dhearg buries them on the chance a later hand may want to know how far the water once came.",
+   "place": "burg:190",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0229",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/38_of_the_queens_progress.md#i-of-the-sea-wall-of-cuan-dhearg",
+   "era_between": [
+    1754,
+    1754
+   ]
+  },
+  {
+   "after": "III-0230"
+  },
+  {
+   "id": "EIV-6542",
+   "title": "The schools take up the question of the vein instead",
+   "body": "Reopened on condition that the question of longer lives is never raised again, Taigh na Deasbaid at Dùn thais turns instead to whether Leabhar a' Chùraim's measure of the handful answers rightly to what the coal gives out.",
+   "place": "burg:77",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0230",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_queens_progress.md#ii-of-the-house-reopened-at-dun-thais",
+   "era_between": [
+    1759,
+    1759
+   ]
+  },
+  {
+   "after": "III-0231"
+  },
+  {
+   "id": "EIV-6543",
+   "title": "The king's last night",
+   "body": "Tormod mac Ruairidh tells his daughter Gormshuil, on the last night of his seven-and-fifty-year reign, that he never once found courage to ask Taigh na Fèithe a question Taigh na Deasbaid was forbidden to ask on his behalf, and that finding it will be the easier half of her trouble.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0231",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-ruairidh",
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#iii-of-the-death-of-the-king",
+   "era_between": [
+    1766,
+    1766
+   ]
+  },
+  {
+   "id": "EIV-6544",
+   "title": "Gormshuil crowned at one-and-fifty",
+   "body": "Gormshuil nic Thormoid is crowned in An Talla Dearg a fortnight after her father's death, the same age he had been when the sea-wall of Cuan dhearg was still only a plan on a tally-stick.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0231",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#i-of-the-sea-wall-of-cuan-dhearg",
+   "era_between": [
+    1766,
+    1766
+   ]
+  },
+  {
+   "after": "III-0232"
+  },
+  {
+   "id": "EIV-6545",
+   "title": "A boundary measured and not judged",
+   "body": "At the first seat of her progress a householder accuses her neighbour of shifting a boundary stone by moonlight three years running; Gormshuil measures the disputed ground herself and has it written down, so that the writing, not the queen, will settle it.",
+   "place": "burg:305",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0232",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#iv-of-the-progress-and-the-book-of-grievances",
+   "era_between": [
+    1772,
+    1772
+   ]
+  },
+  {
+   "id": "EIV-6546",
+   "title": "Leabhar nan Gearan opened at every seat",
+   "body": "At every shire seat of Queen Gormshuil's progress, in the sixth year of her reign and her seven-and-fiftieth of life, her clerks open Leabhar nan Gearan and write down each seat's grievance in the shire's own words.",
+   "place": null,
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0232",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#iv-of-the-progress-and-the-book-of-grievances",
+   "era_between": [
+    1772,
+    1772
+   ]
+  },
+  {
+   "id": "EIV-6547",
+   "title": "A reeve asks the queen what the writing is for",
+   "body": "A plain-spoken reeve asks Gormshuil why she writes down every shire's grievance and answers none of them; she tells him a hasty answer given before hearing the whole round is a false ease, and rides on.",
+   "place": null,
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0232",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#iv-of-the-progress-and-the-book-of-grievances",
+   "era_between": [
+    1775,
+    1775
+   ]
+  },
+  {
+   "after": "III-0233"
+  },
+  {
+   "id": "EIV-6548",
+   "title": "Aonghas mac Lachlainn turns his vote",
+   "body": "Meaning by every account to vote with the three houses behind Athchuingean an Airgid, Aonghas mac Lachlainn changes his vote at the board itself and gives no reason beyond the bare word that he has changed his mind.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0233",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "aonghas-mac-lachlainn"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#v-of-the-silver-petition-refused",
+   "era_between": [
+    1776,
+    1776
+   ]
+  },
+  {
+   "id": "EIV-6549",
+   "title": "Gormshuil asks Aonghas his reason and is refused",
+   "body": "Gormshuil asks Aonghas mac Lachlainn privately why he turned his vote; he answers that a man's reason for his own hand at the board is his to keep, and she lets the matter lie as Leabhar a' Chùraim lets it lie.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0233",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormshuil-nic-thormoid",
+    "aonghas-mac-lachlainn"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#v-of-the-silver-petition-refused",
+   "era_between": [
+    1776,
+    1776
+   ]
+  },
+  {
+   "after": "III-0234"
+  },
+  {
+   "id": "EIV-6550",
+   "title": "Peigi feeds the queen's whole progress unwarned",
+   "body": "Peigi nic Dhonnchaidh, keeper of An Taigh-òsta Grianach, feeds Gormshuil's whole company on pan-fried spinach and black wine though her charter allows stores for far less; the queen forgives her a year's road dues.",
+   "place": "marker:6",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0234",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormshuil-nic-thormoid",
+    "peigi-nic-dhonnchaidh"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#iv-of-the-progress-and-the-book-of-grievances",
+   "era_between": [
+    1786,
+    1786
+   ]
+  },
+  {
+   "after": "III-0235"
+  },
+  {
+   "id": "EIV-6551",
+   "title": "A smaller house is granted its neighbour's unused right",
+   "body": "At the last Cunntas nan Làmh the custodians grant a house whose share has fallen too low to keep its hearth measure a neighbour's unused coal-right, though more than one voice warns that a house asking twice can be eased once but not mended for good.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0235",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_queens_progress.md#vi-of-the-last-count-of-hands",
+   "era_between": [
+    1791,
+    1791
+   ]
+  },
+  {
+   "id": "EIV-6552",
+   "title": "Three houses hold more than half the right",
+   "body": "Leabhar a' Chùraim's clerk notes under the last Cunntas nan Làmh, in the dry hand kept since Donnchadh's day, that three of Na Seachd Taighean now hold more than half the whole right to the coal among themselves.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0235",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_queens_progress.md#vi-of-the-last-count-of-hands",
+   "era_between": [
+    1791,
+    1791
+   ]
+  },
+  {
+   "after": "III-0236"
+  },
+  {
+   "id": "EIV-6553",
+   "title": "The fishers of Ceann mhòr find the timber",
+   "body": "Fishers working the empty water off Ceann mhòr, where Faire a' Chinn has long lapsed, find a worked timber cast up, longer than any island tree and fastened with nails no smith on Dia-thìr forged; the eldest among them says hands that made such nails did not make them on the island.",
+   "place": "burg:143",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0236",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_queens_progress.md#vii-of-the-timber-out-of-the-mist",
+   "era_between": [
+    1794,
+    1794
+   ]
+  },
+  {
+   "id": "EIV-6554",
+   "title": "The queen goes up to Taigh na Fèithe for the winter burning",
+   "body": "Eighty years old, Gormshuil nic Thormoid rides the coal-road to Taigh na Fèithe for the winter burning as she has every year of her reign, and walks her own horse up the last, iced mile rather than let another hand lead it.",
+   "place": "burg:491",
+   "kind": "court",
+   "category": "rulers",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#viii-of-the-winter-burning-she-did-not-come-down-from",
+   "era_between": [
+    1795,
+    1795
+   ]
+  },
+  {
+   "id": "EIV-6555",
+   "title": "The oldest crowned ruler since Clàr nam Bliadhnachan",
+   "body": "Riding up to the winter burning at eighty, Queen Gormshuil nic Thormoid is the oldest ruler Leabhar a' Chùraim has entered crowned and still reigning since long before Clàr nam Bliadhnachan, nine-and-twenty years crowned.",
+   "place": "burg:491",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0236",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "gormshuil-nic-thormoid"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#viii-of-the-winter-burning-she-did-not-come-down-from",
+   "era_between": [
+    1795,
+    1795
+   ]
+  },
+  {
+   "id": "EIV-6556",
+   "title": "The council sits in the queen's empty place",
+   "body": "With no word of Gormshuil since the winter burning, the custodians of Na Seachd Taighean meet at An Talla Dearg in the place the crown's own chair has always stood empty for her progress, and send their word up the coal-road by the same riders who carried the crown's business all her reign.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_queens_progress.md#viii-of-the-winter-burning-she-did-not-come-down-from",
+   "era_between": [
+    1796,
+    1796
+   ]
+  },
+  {
+   "id": "EIV-6557",
+   "title": "A crown letter sealed with no name above the seal",
+   "body": "The custodians seal their letters with Taigh na Fèithe's trellis and hollow stone as every crown letter has been sealed since Dòmhnall Ruadh joined the two, but set no name above the seal, and no clerk is ever asked to explain the blank space.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_queens_progress.md#viii-of-the-winter-burning-she-did-not-come-down-from",
+   "era_between": [
+    1798,
+    1798
+   ]
+  },
+  {
+   "after": "III-0237"
+  },
+  {
+   "id": "EIV-6558",
+   "title": "Ealasaid nic Iain keeps the last lamp",
+   "body": "With no household left on the Seann Skell waterfront still keeping Oidhche nan Lòchran, an old woman, Ealasaid nic Iain, sets the one lamp that burns in the harbour-house window; the scribe writes that the lamp was hers and not the town's.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0237",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "ealasaid-nic-iain"
+   ],
+   "told_in": "book/38_of_the_queens_progress.md#ix-of-the-last-lamp-at-seann-skell",
+   "era_between": [
+    1799,
+    1799
+   ]
+  },
+  {
+   "id": "EIV-6559",
+   "title": "Ealasaid nic Iain's lamp goes dark",
+   "body": "Ealasaid nic Iain, who alone had kept a lamp burning in the harbour-house window at Seann Skell after the rest of the waterfront let the custom lapse, dies in her own bed, and no one after her sets a light there again.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0237",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealasaid-nic-iain"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#i-of-the-eleven-at-cidhe-an-diosail",
+   "era_between": [
+    1800,
+    1800
+   ]
+  },
+  {
+   "after": "III-0238"
+  },
+  {
+   "id": "EIV-6560",
+   "title": "Eòghann mac Nèill counts the rite of the eleven",
+   "body": "At Deas-ghnàth a' Chalaidh Fhalaimh on Cidhe an Diosail, Eòghann mac Nèill, eleven years the quay's scribe, stands back as the scribe's place requires and counts the people on the stones twice, once by eye and once by name: eleven.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0238",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "eoghann-mac-neill"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#i-of-the-eleven-at-cidhe-an-diosail",
+   "era_between": [
+    1803,
+    1803
+   ]
+  },
+  {
+   "id": "EIV-6561",
+   "title": "Death of Aonghas mac Lachlainn",
+   "body": "Aonghas mac Lachlainn dies at Cathair dhearg, four-and-eighty years old, the last of the council that had refused Clann Choinnich's Athchuingean an Airgid; asked once more on his deathbed why he had turned his own vote, he answers only that his reason had not stopped seeming good to him, and says no more.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0233",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0239",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "aonghas-mac-lachlainn"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#ii-of-the-petition-laid-aside",
+   "era_between": [
+    1804,
+    1804
+   ]
+  },
+  {
+   "id": "EIV-6562",
+   "title": "A rider of Muileann chiar attends the burying he was never asked to",
+   "body": "A rider sent down by the silver guild of Muileann chiar on the strength of an old courtesy stands at the back of Aonghas mac Lachlainn's small burying at Cathair dhearg, and no one there asks him why a guild his vote had cost a fortune troubled to send anyone at all.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0233",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "aonghas-mac-lachlainn"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#ii-of-the-petition-laid-aside",
+   "era_between": [
+    1804,
+    1804
+   ]
+  },
+  {
+   "after": "III-0239"
+  },
+  {
+   "id": "EIV-6563",
+   "title": "Eòghann mac Nèill keeps the book with the window dark",
+   "body": "Eòghann mac Nèill, harbour scribe of Seann Skell, passes the harbour-house window each rite-day and finds no reason offered for a light to be set there again; he enters nothing of it in his own book, which is kept for the number, the weather and the tide alone.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0237",
+     "type": "legacy"
+    },
+    {
+     "to": "III-0238",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eoghann-mac-neill"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#i-of-the-eleven-at-cidhe-an-diosail",
+   "era_between": [
+    1806,
+    1806
+   ]
+  },
+  {
+   "id": "EIV-6564",
+   "title": "Na Seachd Taighean name themselves Comhairle a' Chùraim",
+   "body": "Meeting at Cathair dhearg by chance of their riders' errands rather than by any summons, the heads of Na Seachd Taighean call themselves Comhairle a' Chùraim, the council of the custody, and name Tormod mac Ailein, eight-and-thirty years old and a custodian's son of no house among the seven, Ceann a' Chùraim to speak for them with one voice.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0239",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iii-of-the-chair-left-empty",
+   "era_between": [
+    1812,
+    1812
+   ]
+  },
+  {
+   "id": "EIV-6565",
+   "title": "Clann Choinnich's question is set aside at the first sitting",
+   "body": "At the same sitting that names the council of the custody, Clann Choinnich alone asks whether the silver might be raised again; the board sets the question aside mildly, unwilling to test a new council on the one asking that had already cost the last one a member's death.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0239",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iii-of-the-chair-left-empty",
+   "era_between": [
+    1812,
+    1812
+   ]
+  },
+  {
+   "id": "EIV-6566",
+   "title": "The queen's chair is left standing empty",
+   "body": "Na Seachd Taighean leave the chair at the head of the board, the queen's own, standing empty at every sitting after her name is no longer spoken; Tormod mac Ailein, offered it, keeps his place at the board's foot instead, and in time no clerk living can say with certainty whose absence the chair still marks.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0239",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iii-of-the-chair-left-empty",
+   "era_between": [
+    1812,
+    1812
+   ]
+  },
+  {
+   "id": "EIV-6567",
+   "title": "The council's letters keep no name above the seal",
+   "body": "The newly named council of the custody sends out its letters from Cathair dhearg sealed with Taigh na Fèithe's own trellis and hollow stone and no name written above the seal, continuing without comment a custom An Talla Dearg's clerks had already begun in the queen's last silent years.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0239",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iii-of-the-chair-left-empty",
+   "era_between": [
+    1812,
+    1812
+   ]
+  },
+  {
+   "id": "EIV-6568",
+   "title": "An Talla Dearg holds five hundred souls",
+   "body": "In the year Na Seachd Taighean name their council, An Talla Dearg at Cathair dhearg holds perhaps five hundred souls in all its lanes and closes, fewer than the tenants of a single one of Na Seachd Taighean in a good year.",
+   "place": "burg:19",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0239",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iii-of-the-chair-left-empty",
+   "era_between": [
+    1812,
+    1812
+   ]
+  },
+  {
+   "after": "III-0239a"
+  },
+  {
+   "id": "EIV-6569",
+   "title": "Mànas mac Dhùghaill writes that the mist lies thinner",
+   "body": "Mànas mac Dhùghaill, priest of Manannan's rite at Seann Skell, sets down for the first time in his own book a thing the older priests had only ever said at the hearth: that the grey past the headlands stands thinner each year, and that he cannot say whether saying the prayer at every tide holds anything back at all.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0239a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "manas-mac-dhughaill"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iv-of-the-fisher-of-ceann-mhor",
+   "era_between": [
+    1813,
+    1813
+   ]
+  },
+  {
+   "id": "EIV-6570",
+   "title": "Oighrig nic Eachainn sees the line of the open sea",
+   "body": "A fisher of Ceann mhòr, Oighrig nic Eachainn, rests on her oars past where the rule of sight-of-land strictly allows and sees, for a few breaths before the grey closes again, a hard dark line beyond the mist, ruled clean across the edge of the world.",
+   "place": "burg:143",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0239a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "oighrig-nic-eachainn"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iv-of-the-fisher-of-ceann-mhor",
+   "era_between": [
+    1813,
+    1813
+   ]
+  },
+  {
+   "id": "EIV-6571",
+   "title": "Oighrig keeps what she saw to her own mother",
+   "body": "Oighrig nic Eachainn turns for home as the rule says and tells no priest and no reeve what she saw beyond the mist, speaking of it months after only to her own mother, who tells her she has already shown better sense in the keeping of it than most who see such things at all.",
+   "place": "burg:143",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0239a",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "oighrig-nic-eachainn"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#iv-of-the-fisher-of-ceann-mhor",
+   "era_between": [
+    1813,
+    1813
+   ]
+  },
+  {
+   "id": "EIV-6572",
+   "title": "The last winter of the age",
+   "body": "On a still morning near the year's dark heart, the priests of Manannan pray at every tide at Seann Skell, the boats of Ceann mhòr turn for home before the rule strictly asks it of them, and the council keeps its board at Cathair dhearg with the chair at its head still empty, while the harbour-house lamp-window that once marked Oidhche nan Lòchran stands dark for another winter.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0239a",
+     "type": "legacy"
+    },
+    {
+     "to": "III-0238",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#v-of-the-last-winter",
+   "era_between": [
+    1818,
+    1818
+   ]
+  },
+  {
+   "id": "EIV-6573",
+   "title": "Eòghann mac Nèill at the last winter",
+   "body": "Six-and-twenty years the scribe of Cidhe an Diosail, Eòghann mac Nèill walks down to the stones each Là an Diosail with the same board under his arm and writes the number, the weather and the tide in the same plain hand.",
+   "place": "burg:489",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0239a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "eoghann-mac-neill"
+   ],
+   "told_in": "book/39_of_the_eleven_and_the_thinning_mist.md#v-of-the-last-winter",
+   "era_between": [
+    1818,
+    1818
+   ]
+  }
+ ]
+}

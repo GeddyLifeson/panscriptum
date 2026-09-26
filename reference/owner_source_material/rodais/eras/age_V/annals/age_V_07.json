@@ -1,0 +1,924 @@
+{
+ "writer": 4,
+ "span": [
+  "IV-0163",
+  "IV-0194"
+ ],
+ "events": [
+  {
+   "id": "EV-4001",
+   "title": "Catrìona's request to Silas Crewe",
+   "body": "Catrìona nic Eachainn, crew-leader of the seventh shift at Baile thais, asks the agent Silas Crewe to close the third and fourth galleries, where A' Phlàigh Uaine struck worst, until the surgeon rules on the dust. Crewe answers that the yield must not fall on a physician's guess, and says only that he will write it up.",
+   "place": "burg:44",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0165",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0166",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "catriona-nic-eachainn",
+    "silas-crewe"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#ii-of-the-agent-s-answer"
+  },
+  {
+   "id": "EV-4002",
+   "title": "Sìneag searches the old rolls for a law of rest",
+   "body": "Asked by Catrìona nic Eachainn whether any old law binds a hill's rest, the custodian Sìneag of Baile thais searches her rolls and finds none: Lagh an Loscaidh Bhig governs the coal burned, not the coal cut, and no custodian before this age had needed to write a law about men sickening below ground.",
+   "place": "burg:44",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0165",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "catriona-nic-eachainn",
+    "sineag"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#iii-of-the-coal-tub"
+  },
+  {
+   "after": "IV-0165"
+  },
+  {
+   "id": "EV-4010",
+   "title": "Raghnall Breac stands his first day among the strikers",
+   "body": "A hewer's boy of seven, too young that year to be paid a man's wage, sets down his water-pail at the pit-mouth of Baile thais on the morning Catrìona nic Eachainn calls the halt, and stays through the yard's long quiet with the shift twice his age.",
+   "place": "burg:44",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0165",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0166",
+     "type": "cause"
+    },
+    {
+     "to": "EV-4002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-breac",
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#iii-of-the-coal-tub",
+   "era_between": [
+    77,
+    77
+   ]
+  },
+  {
+   "id": "EV-4011",
+   "title": "The shrine women keep An Acair Uaine through the stoppage",
+   "body": "Through the eleven days no coal left Baile thais, the shrine women go on leaving dishes of meal on the mounds of An Acair Uaine where A' Phlàigh Uaine's dead were laid, finding a little to spare each day though A' Chompanaidh's store stood barer by the day beside them.",
+   "place": "burg:44",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0163",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#v-of-the-twelfth-morning",
+   "era_between": [
+    77,
+    77
+   ]
+  },
+  {
+   "id": "EV-4012",
+   "title": "Beathag Ruadh asks Catrìona to end the stand",
+   "body": "On the tenth night of the stoppage, her bread gone and five children to feed, Beathag Ruadh asks Catrìona nic Eachainn, plainly and without reproach, whether the crews should go back below rather than starve for galleries that would go on being worked regardless. Catrìona has no answer, and sits with her by the fire till morning.",
+   "place": "burg:44",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0166",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beathag-ruadh",
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#iv-of-the-eleven-days",
+   "era_between": [
+    77,
+    77
+   ]
+  },
+  {
+   "after": "IV-0167"
+  },
+  {
+   "id": "EV-4003",
+   "title": "Sìneag's rolls note a granary built against a stoppage",
+   "body": "The custodian Sìneag writes in her rolls that she has never before read of a granary raised to answer a stoppage rather than a harvest, and sets the words down as they stand, without further comment, for whoever should read the roll after her.",
+   "place": "burg:44",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sineag"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#iii-of-the-coal-tub"
+  },
+  {
+   "id": "EV-4013",
+   "title": "Dòmhnall Maor signs the granary order",
+   "body": "Within the month of the strike's end, Dòmhnall mac Raghnaill Maor, Steward at Muileann chrom, sets his mark to the order that forbids any camp household to keep more grain than a week's ration, the rest to be held under lock in A' Chompanaidh's new granary and drawn against a crew-leader's tally.",
+   "place": "burg:354",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "domhnall-mac-raghnaill-maor"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vi-of-the-granary",
+   "era_between": [
+    78,
+    78
+   ]
+  },
+  {
+   "id": "EV-4014",
+   "title": "The overseers search the huts of Baile thais for hidden meal",
+   "body": "Enforcing the granary order with more zeal than it asks, the overseers at Baile thais search huts for grain kept back from the week's ration, and twice that autumn fine a household a day's wage for flour found under a bed, though in both cases the flour had come up from Ros gharbh by night and never passed A' Chompanaidh's scales.",
+   "place": "burg:44",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0167",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0168",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vi-of-the-granary",
+   "era_between": [
+    78,
+    78
+   ]
+  },
+  {
+   "id": "EV-4015",
+   "title": "Catrìona is given the surface work",
+   "body": "Before the winter after the stoppage is out, the seventh shift is given to a crew-leader loyal to Silas Crewe, and Catrìona nic Eachainn is set to sorting slate at the surface at half a hewer's pay, work she keeps eleven months before the sheds are said to have more hands than they need.",
+   "place": "burg:44",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0166",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "catriona-nic-eachainn",
+    "silas-crewe"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vii-of-the-road-east",
+   "era_between": [
+    78,
+    78
+   ]
+  },
+  {
+   "after": "IV-0168"
+  },
+  {
+   "id": "EV-4016",
+   "title": "Catrìona is refused work at Cnoc fhiadhaich and Àth ìseal",
+   "body": "Turned off the sorting-sheds at Baile thais, Catrìona nic Eachainn walks first to Cnoc fhiadhaich and then to the timber camp beyond Àth ìseal asking for work, and is turned away at each gate before she has said her name twice, the agents already knowing her by sight.",
+   "place": "burg:280",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0169",
+     "type": "cause"
+    },
+    {
+     "to": "EV-4015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vii-of-the-road-east",
+   "era_between": [
+    79,
+    79
+   ]
+  },
+  {
+   "id": "EV-4017",
+   "title": "Catrìona walks east over the hills to Muileann chiar",
+   "body": "With her savings spent and refused work at every pit of A' Chompanaidh, Catrìona nic Eachainn takes what she owns and walks east from Baile thais over the hills to Muileann chiar, three days on foot, the black spoil of the coal country giving way at last to the grey of the silver town.",
+   "place": "burg:44",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0169",
+     "type": "cause"
+    },
+    {
+     "to": "EV-4016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vii-of-the-road-east",
+   "era_between": [
+    79,
+    79
+   ]
+  },
+  {
+   "after": "IV-0169"
+  },
+  {
+   "id": "EV-4018",
+   "title": "Comann an Airgid's hands vote to take Catrìona on",
+   "body": "Heard without interruption by the master of Comann an Airgid, Catrìona nic Eachainn's account of the stoppage at Baile thais is put to the guild's own hands rather than decided from above, and the hands vote by a wide margin to take her on as a refiner.",
+   "place": "burg:355",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0169",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-4017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vii-of-the-road-east",
+   "era_between": [
+    79,
+    79
+   ]
+  },
+  {
+   "id": "EV-4019",
+   "title": "A' Chompanaidh writes to Muileann chiar for Catrìona's return",
+   "body": "A' Chompanaidh's counting-house at Ros dhomhain writes to Comann an Airgid asking that Catrìona nic Eachainn, lately of Baile thais, be sent back to answer for the stoppage of two years before. The guild's clerk drafts an answer, read once in the guild hall and sent south; neither letter has survived.",
+   "place": "burg:355",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0169",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-4018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/21_of_the_eleven_days_of_baile_thais.md#vii-of-the-road-east",
+   "era_between": [
+    79,
+    79
+   ]
+  },
+  {
+   "after": "IV-0170"
+  },
+  {
+   "id": "EV-4004",
+   "title": "Three priests will not stand for the blessing",
+   "body": "Three of the younger priests of Òrd Mhacha stand apart at the back of the temple hall rather than take their places for the blessing of the coin. Beathag Ruadh lets it pass unremarked before Taigh an Àrd-mhaoir's clerk, and tells Fearghas mac Mhuirich only that the order answers for the rite done rightly, not for the road a rightly blessed thing afterward walks.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0175",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beathag-ruadh",
+    "fearghas-mac-mhuirich"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#iii-of-the-two-horses",
+   "era_between": [
+    80,
+    80
+   ]
+  },
+  {
+   "id": "EV-4020",
+   "title": "The order blesses Taigh an Àrd-mhaoir's first coin",
+   "body": "At Tolley's asking, Beathag Ruadh and the priests of Òrd Mhacha bless the new-struck coin in the temple at Cathair dhearg, naming both horses of the rite, Dubh Sainglenn and Liath Macha. Fearghas mac Mhuirich stands his place and says the words, though he watches Taigh an Àrd-mhaoir's clerk carry the satchel out and finds he cannot say why the morning troubles him.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0175",
+     "type": "cause"
+    },
+    {
+     "to": "EV-4004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearghas-mac-mhuirich",
+    "beathag-ruadh"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#iii-of-the-two-horses",
+   "era_between": [
+    80,
+    80
+   ]
+  },
+  {
+   "id": "EV-4021",
+   "title": "A penny at the door of Fuarain Theth Muileann ruadh",
+   "body": "The bath-house Riaghaltas nan Coigreach built at Fuarain Theth Muileann ruadh near Muileann ruadh opens to Dia-thìrich two days of the week, at a penny the door, for water the district had bathed in unasked since before any custodian's roll began. Catrìona nic Eachainn pays her penny and finds the water unchanged and only the door made new.",
+   "place": "marker:0",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0170",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#i-of-the-silver-priced-by-dia-thireach-hands",
+   "era_between": [
+    80,
+    80
+   ]
+  },
+  {
+   "after": "IV-0171"
+  },
+  {
+   "id": "EV-4005",
+   "title": "Artair mac Iain seated after ten empty years",
+   "body": "Comhairle a' Chùraim, unable to agree a head since Alasdair Liath's death, seats Artair mac Iain of the eastern shires as Ceann a' Chùraim, six-and-fifty years old, in the hall where Tormod mac Ailein once signed Cùmhnant Cathair dhearg. Fearghas mac Mhuirich says the order's blessing over him, both horses named.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [],
+   "threads": [],
+   "people": [
+    "artair-mac-iain",
+    "fearghas-mac-mhuirich"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#ii-of-the-seat-ten-years-empty",
+   "era_between": [
+    81,
+    81
+   ]
+  },
+  {
+   "id": "EV-4022",
+   "title": "The guild raises a daughter town",
+   "body": "As Muileann chiar's lanes fill past holding, Comann an Airgid raises a second town a mile to the west for its carters and coal-breakers, under the old town's own name. The custodians' rolls thereafter call them the old town and the new, and do not always trouble to say which they mean.",
+   "place": "burg:355",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0172",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#i-of-the-silver-priced-by-dia-thireach-hands",
+   "era_between": [
+    81,
+    81
+   ]
+  },
+  {
+   "after": "IV-0172"
+  },
+  {
+   "id": "EV-4023",
+   "title": "The guild refuses A' Chompanaidh's price a third time",
+   "body": "A' Chompanaidh asks a third time that Comann an Airgid sell at A' Chompanaidh's own price, naming a magistrate at Ros dhomhain who might rule the question. The seven refiners of the guild hall vote it down without one dissenting hand. Catrìona nic Eachainn, in the hall for the vote, counts it the one table on the island where the Dia-thìrich still set a price.",
+   "place": "marker:2",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0173",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#i-of-the-silver-priced-by-dia-thireach-hands",
+   "era_between": [
+    82,
+    82
+   ]
+  },
+  {
+   "id": "EV-4024",
+   "title": "The second cheapening cried at the market crosses",
+   "body": "A crier of Taigh an Àrd-mhaoir reads the second cheapening of the barter table at every market cross without a custodian's council having seen it beforehand. Word of it reaches Muileann chiar three days after Cathair dhearg, carried by a carter who had heard it cried at Baile Mòr fhionn.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0176",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#iv-of-the-fleece-and-the-boats",
+   "era_between": [
+    82,
+    82
+   ]
+  },
+  {
+   "id": "EV-4025",
+   "title": "The wool of Baile Mòr fhionn left to the moths",
+   "body": "Finding a fleece worth under the new table what half a fleece was worth before, the weavers of Baile Mòr fhionn stop bringing wool to the humans' market and load it for their own crossing instead. A' Chompanaidh, holding the only deep-water berths on that coast, refuses them the freight, and the wool sits two winters in the warehouses.",
+   "place": "burg:204",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0177",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#iv-of-the-fleece-and-the-boats",
+   "era_between": [
+    82,
+    82
+   ]
+  },
+  {
+   "after": "IV-0173"
+  },
+  {
+   "id": "EV-4026",
+   "title": "Caol fhiadhaich sells eleven of its boats",
+   "body": "Called for the first time in marks rather than in kind, the harbour dues at Caol fhiadhaich cannot be raised any way but by selling boats. Eleven of two-and-twenty go to A' Chompanaidh at its own asking price, and the men who sailed them go into the pits the following season under A' Chompanaidh's contracts.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0178",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#iv-of-the-fleece-and-the-boats",
+   "era_between": [
+    83,
+    83
+   ]
+  },
+  {
+   "after": "IV-0174"
+  },
+  {
+   "id": "EV-4027",
+   "title": "The washing-women name nighean an rìgh",
+   "body": "At the stream below the camp of Àth ìseal, the eldest of the washing-women first says aloud what the wash-stones had for some seasons only thought: that a girl of the camp who does not age as other children age may be of the old line of kings, and names her nighean an rìgh. Most of the camp says they do not believe it and use the name anyway.",
+   "place": "burg:383",
+   "kind": "line",
+   "category": "coalblood",
+   "links": [
+    {
+     "to": "IV-0146",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-coal-blood"
+   ],
+   "people": [],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#vi-of-the-name-at-the-wash-stones",
+   "era_between": [
+    84,
+    84
+   ]
+  },
+  {
+   "after": "IV-0175"
+  },
+  {
+   "id": "EV-4006",
+   "title": "Taigh an Àrd-mhaoir notes the order divided",
+   "body": "Word of Fearghas mac Mhuirich's refusal reaches Taigh an Àrd-mhaoir within the month. Tolley, near his own retiring, does not send for him; Taigh an Àrd-mhaoir's letter-book records only that the order of Òrd Mhacha at the capital is divided on a religious nicety, and does not say what the nicety was.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0176",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearghas-mac-mhuirich"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#v-of-the-second-asking",
+   "era_between": [
+    85,
+    85
+   ]
+  },
+  {
+   "id": "EV-4028",
+   "title": "Fearghas refuses to bless the second coin",
+   "body": "Asked to bless Riaghaltas nan Coigreach's larger second coin as the first was blessed, Fearghas mac Mhuirich, now eldest of the order at Cathair dhearg since Beathag Ruadh's death, tells the order he will not say the words, holding that a rite for a wheel cannot answer a road that turns only one way. None of the order says the words in his place.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0176",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0175",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-4006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearghas-mac-mhuirich",
+    "sine"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#v-of-the-second-asking",
+   "era_between": [
+    85,
+    85
+   ]
+  },
+  {
+   "after": "IV-0180"
+  },
+  {
+   "id": "EV-4029",
+   "title": "Dòmhnall Maor dies at Muileann chrom",
+   "body": "Dòmhnall mac Raghnaill Maor, overseer of the coal country five-and-twenty years and signer of the granary order that stood against Catrìona nic Eachainn's strike, dies at Muileann chrom in his sixty-seventh year. Word reaches Muileann chiar by carter, and the guild hall names him a hard man gone before a harder trade going on.",
+   "place": "burg:354",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "IV-0180",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "domhnall-mac-raghnaill-maor",
+    "catriona-nic-eachainn"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#viii-of-the-staff-passed-on",
+   "era_between": [
+    87,
+    87
+   ]
+  },
+  {
+   "id": "EV-4030",
+   "title": "Fearghas leaves the capital's temple for Cnoc bheag",
+   "body": "Fearghas mac Mhuirich walks north with eleven of the order who think as he does, to Coille Naomh Cnoc bheag. Griogair, eldest of those who stay at Cathair dhearg, walks with them as far as the north road and calls it two roads to the one rite rather than a falling-out.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0179",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearghas-mac-mhuirich",
+    "griogair"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#vii-of-the-fire-under-the-trees",
+   "era_between": [
+    87,
+    87
+   ]
+  },
+  {
+   "id": "EV-4031",
+   "title": "The dissenters' first fire under the oaks",
+   "body": "Custodians without seats and priests without a temple begin to gather at the forest of Cnoc bheag through the summer, until the grove holds near as many of one kind as the other. On the last evening of the spring Fearghas mac Mhuirich lights Teine a' Chlachair there and says the rite of the two horses whole.",
+   "place": "marker:24",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0179",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-4030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearghas-mac-mhuirich"
+   ],
+   "told_in": "book/22_of_the_priced_silver_and_the_blessed_coin.md#vii-of-the-fire-under-the-trees",
+   "era_between": [
+    87,
+    87
+   ]
+  },
+  {
+   "after": "IV-0183"
+  },
+  {
+   "id": "EV-4007",
+   "title": "An Togail read at Cnoc thais",
+   "body": "An Togail's officers read their list at Cnoc thais, and the mason Dùghall Clachair hears his own name and his whole crew's called for the pits. Two days into the eastward march they are turned out instead to the headland at Baile chrom, where the fifth and last coast beacon is begun.",
+   "place": "burg:269",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0189",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0190",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "dughall-clachair"
+   ],
+   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#iv-of-the-masons-of-cnoc-thais",
+   "era_between": [
+    88,
+    88
+   ]
+  },
+  {
+   "id": "EV-4032",
+   "title": "The wrong son taken at Caol mhòr",
+   "body": "A guessed name is matched to the wrong face at Caol mhòr's reading, and a son is marched a day's walk east before the error is found. The right man is fetched in his place; the officers' own tally and the town's roll never afterward agree by one head.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0182",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#i-of-the-reading-at-caol-mhor",
+   "era_between": [
+    88,
+    88
+   ]
+  },
+  {
+   "id": "EV-4033",
+   "title": "The concession's human farmers spared An Togail",
+   "body": "In the northern concession An Togail falls on every Dia-thìreach household while Riaghaltas nan Coigreach's own leaseholders pay nothing, the officers' list giving the reason that the concession's tenants answer to Riaghaltas nan Coigreach's leave alone.",
+   "place": "province:105",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0183",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#ii-of-the-two-tallies",
+   "era_between": [
+    88,
+    88
+   ]
+  },
+  {
+   "after": "IV-0186"
+  },
+  {
+   "id": "EV-4008",
+   "title": "A gale strips the beacon's scaffold",
+   "body": "A two-day gale out of the north-west tears the scaffolding from the third course of the rising tower at Baile chrom. Dùghall Clachair climbs the bare walls alone in the wind to judge whether the stone has shifted; it has not.",
+   "place": "marker:12",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0189",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "dughall-clachair"
+   ],
+   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#iv-of-the-masons-of-cnoc-thais",
+   "era_between": [
+    89,
+    89
+   ]
+  },
+  {
+   "after": "IV-0189"
+  },
+  {
+   "id": "EV-4009",
+   "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
+   "body": "Uisdean mac Lachlainn of the headland villages is named the beacon's first keeper, on the recommendation of the very masons who built it: Dùghall Clachair among them, who signed the letter along with two of his crew.",
+   "place": "marker:12",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0193",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "uisdean-mac-lachlainn",
+    "dughall-clachair"
+   ],
+   "told_in": "book/23_of_the_levy_and_the_ring_of_beacons.md#v-of-the-ring-made-whole",
+   "era_between": [
+    90,
+    90
+   ]
+  },
+  {
+   "after": "IV-0193"
+  },
+  {
+   "id": "EV-4034",
+   "title": "The draft read at Baile chrom",
+   "body": "An Togail is read at the market cross of Baile chrom, first in the humans' tongue and then in Dia-thìris by a clerk who stumbles over the numbers. It falls hardest on the coast and hill villages; the concession farms to the north, worked by the strangers' own people, send no one.",
+   "place": "burg:305",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0181",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "uisdean-mac-lachlainn"
+   ],
+   "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
+   "era_between": [
+    92,
+    92
+   ]
+  },
+  {
+   "id": "EV-4501",
+   "title": "The first harvest short",
+   "body": "The harvest round Baile chrom comes in at less than half the carts of the year before, the fields sown thin for want of hands and beaten further by two summer storms. Uisdean counts the carts against his own earlier tally and finds the shortfall for himself.",
+   "place": "burg:305",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0194",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "uisdean-mac-lachlainn"
+   ],
+   "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
+   "era_between": [
+    93,
+    93
+   ]
+  }
+ ]
+}

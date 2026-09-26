@@ -1,0 +1,179 @@
+[
+ {
+  "title": "The wedding insult at Ros dhomhain",
+  "era_year": 214,
+  "summary": "At a mason's wedding on Earrann Ros dhomhain, Griogair mac Lachlainn of Sliochd Fhionnghail strikes Tormod mac Ruairidh of Sliochd Artair across the face with a drinking-horn after a slight against Fionnghal nic Ailein's memory. Both men are dragged from the hall still nursing the insult, and the two lines that had traded fish for grain for three generations begin refusing each other's carriers at their waypoint houses.",
+  "category": "rulers",
+  "people": [
+   "Griogair mac Lachlainn",
+   "Tormod mac Ruairidh"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The first raid of the wedding quarrel",
+  "era_year": 216,
+  "summary": "A dozen head of cattle are lifted from a salt-shore pasture by men who call it payment owed for the insult at Ros dhomhain. A barn burns on Earrann Ros dhomhain's ground within the season in answer, and within five years neither line can say with certainty who struck first.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:27",
+   "burg:170"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Eimhir nic Mhuirich chosen to keep the flame",
+  "era_year": 236,
+  "summary": "Na Naoi Teallaichean choose Eimhir nic Mhuirich, of the hearth-line and past sixty already, to keep the flame at Dùn ìseal. She holds Talla na Lasrach to its measure through the widening quarrel of the king's blood, judging no man's raids and taking no side between Sliochd Fhionnghail and Sliochd Artair.",
+  "category": "faith",
+  "people": [
+   "Eimhir nic Mhuirich"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Tormod mac Ruairidh asks Talla na Lasrach's blessing on a raid",
+  "era_year": 245,
+  "summary": "Tormod mac Ruairidh comes to Dùn ìseal asking Eimhir nic Mhuirich to bless a raid he calls justice rather than vengeance. She hears him out and refuses, telling him Talla na Lasrach keeps coal and not grudges, and that the flame she keeps was lit before his own great-grandfather was born.",
+  "category": "law",
+  "people": [
+   "Tormod mac Ruairidh",
+   "Eimhir nic Mhuirich"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Fionnghal nic Ailein dies",
+  "era_year": 262,
+  "summary": "Fionnghal nic Ailein, daughter of Ailean Mòr and holder of Earrann Ros dhomhain since the age's early years, dies at Ros dhomhain some two thousand eight hundred and forty-four years old. Her funeral is the last occasion on which Sliochd Fhionnghail and Sliochd Artair stand under one roof without a blow struck.",
+  "category": "rulers",
+  "people": [
+   "Fionnghal nic Ailein"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Eimhir nic Mhuirich dies",
+  "era_year": 290,
+  "summary": "Eimhir nic Mhuirich dies at Dùn ìseal some eighty years old, having kept the flame through fifty-four years of the widening strife of the heirs more steadily than the quarrel's own principals kept their tempers. Na Naoi Teallaichean choose a younger Keeper who holds much the same course.",
+  "category": "faith",
+  "people": [
+   "Eimhir nic Mhuirich"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Artair mac Ailein dies",
+  "era_year": 298,
+  "summary": "Artair mac Ailein, son of Ailean Mòr and holder of Tràigh an t-Salainn at Baile ghorm, dies at his own hall some two thousand six hundred years old, the widening feud between his own descendants and Fionnghal's a weight he carried into his last years and could not set down.",
+  "category": "rulers",
+  "people": [
+   "Artair mac Ailein"
+  ],
+  "places": [
+   "burg:170"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Cormac mac Ailein dies",
+  "era_year": 331,
+  "summary": "Cormac mac Ailein, son of Ailean Mòr and holder of Earrann Caol shean at Caol shean, dies some two thousand four hundred and fifty-three years old, the last of Ailean's own children still living at the strife's true middle. His last wish, that his household keep clear of the western quarrel, is honoured for less than a generation.",
+  "category": "rulers",
+  "people": [
+   "Cormac mac Ailein"
+  ],
+  "places": [
+   "burg:197"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Niall Òg calls a peace at the crossing of Ros fhionn",
+  "era_year": 352,
+  "summary": "Niall Òg sets a long table on neutral ground at the crossing of Ros fhionn and brings the heads of Sliochd Fhionnghail and Sliochd Artair to it unarmed, hoping to loosen a quarrel now two generations old. Each recites a longer account of wrongs than he came with, neither offers an apology, and both walk home by the same road they came by.",
+  "category": "law",
+  "people": [
+   "Niall Òg"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The raids resume after the failed peace",
+  "era_year": 353,
+  "summary": "Within the season of Niall Òg's failed peace at Ros fhionn, raids between Sliochd Fhionnghail and Sliochd Artair begin again, if indeed they had ever truly stopped for the meeting.",
+  "category": "war",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The tally-stick of Cnoc leathan",
+  "era_year": 360,
+  "summary": "A household of the fourth hearth at Cnoc leathan, sworn to neither quarrelling line, keeps a tally-stick notched for whichever share's steward calls first each season. By the century's turn it carries better than a hundred and fifty notches on each face, a plainer record than either quarrelling line keeps of its own raids.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:106"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Eachann Ruadh mac Mhurchaidh dies in his bed",
+  "era_year": 377,
+  "summary": "Eachann Ruadh mac Mhurchaidh, who killed Ìomhar Dearg at a ford four generations before in vengeance for his brother, dies quietly in his bed at seven hundred and twenty-nine years old, the last of his generation of the king's kin. His own line, long at peace with an Earrann Dhearg, takes no fresh quarrel from his death.",
+  "category": "rulers",
+  "people": [
+   "Eachann Ruadh mac Mhurchaidh"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": []
+ }
+]

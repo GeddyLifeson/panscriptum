@@ -1,0 +1,852 @@
+{
+ "writer": 2,
+ "span": [
+  "V-0023",
+  "V-0039"
+ ],
+ "events": [
+  {
+   "after": "V-0025"
+  },
+  {
+   "id": "EVI-2000",
+   "title": "Walter Hale's tally of the cried-down savings",
+   "body": "Walter Hale goes house to house at Caol mhòr with his day-book, counting what the town's households had kept back in the humans' coin now the council has cried it down. The sum comes to something over four hundred marks across better than two hundred households, none of it large, all of it now worth its weight as metal alone.",
+   "kind": "trade",
+   "place": "burg:95",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#i-of-the-boxes-under-the-beds",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVI-2001",
+   "title": "Fearchar Bonn's four failed strikings",
+   "body": "At the mint in the old counting-house at Cathair dhearg, Fearchar mac Dhòmhnaill spends a winter grinding coal dust fine enough to hold in a coin's seal without fouling the die, ruining four strikings of good silver before the ink and the binder are right. The fifth striking is shown to the treasury and kept.",
+   "kind": "trade",
+   "place": "burg:19",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#ii-of-the-mint-at-cathair-dhearg",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVI-2002",
+   "title": "Òrd Mhacha's blessing of the first striking",
+   "body": "The first true coin of the Rìoghachd is blessed by Òrd Mhacha before it leaves the mint at Cathair dhearg, on the council's own instruction that the coal in its seal be reckoned a piece of the mountain carried out into every purse of the kingdom. The coin passes at the capital's markets within the month as though it had always been current.",
+   "kind": "faith",
+   "place": "burg:19",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#ii-of-the-mint-at-cathair-dhearg",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVI-2003",
+   "title": "A maor's clerk carries the new coin north",
+   "body": "In the autumn a young clerk of a southern maor's office rides to Caol mhòr with the first struck coin Tional nan Tuathach has seen, and, asked how a household of the south is managing the exchange, answers that he does not rightly know, his own family's savings having gone on the rent before the crying-down.",
+   "kind": "trade",
+   "place": "burg:95",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#ii-of-the-mint-at-cathair-dhearg",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVI-2004",
+   "title": "Tional nan Tuathach debates the wording of its petition",
+   "body": "Tional nan Tuathach argues two evenings over a letter for the council, one voice wanting it to ask why the coin was cried down without warning north, another wanting no blame in it at all. Walter Hale's plain ask for a exchange mark for mark, without complaint, stands by the second evening nearly as he first wrote it.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iii-of-the-letter-received-and-filed",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "after": "V-0030a"
+  },
+  {
+   "id": "EVI-2005",
+   "title": "The petition copied fair and sent twice",
+   "body": "David Hale copies his father's letter to the council a second time, so that one fair copy travels south with the winter carter and a second waits for the spring roads, on the reasoning that two letters in two hands are harder for a clerk to mislay than one. Both reach the council's chests within the year.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iii-of-the-letter-received-and-filed",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2006",
+   "title": "Ailean mac Iain files Tional nan Tuathach's letter",
+   "body": "Tional nan Tuathach's letter asking an exchange for the north's voided savings reaches the council's chests and is read by the under-clerk Ailean mac Iain, who notes its date and seal, finds no standing order to answer it, and sets it down among that quarter's petitions marked with two words, received; filed, as his post requires.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iii-of-the-letter-received-and-filed",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2007",
+   "title": "Joseph Marlow's first ploughshare",
+   "body": "At his forge by the millrace at Doire mhin, Joseph Marlow melts down his own household's cried-down coin before any neighbour's, casting it into the flat shape a ploughshare wants, still bearing along one edge the ghost of a king's profile the mould has not erased.",
+   "kind": "trade",
+   "place": "burg:5",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iv-of-doire-mhin-in-the-snow",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2008",
+   "title": "Marlow's charge fixed at the price of the charcoal",
+   "body": "Joseph Marlow sets his price for turning a neighbour's dead coin into a ploughshare at the cost of his charcoal alone, reasoning that a man should not pay twice for coin the council has already taken from him once. Half of Doire mhin brings him its savings before the winter is out.",
+   "kind": "trade",
+   "place": "burg:5",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iv-of-doire-mhin-in-the-snow",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2009",
+   "title": "Harry Marlow promised to a Cuan shean yard",
+   "body": "Harry Marlow, Joseph Marlow's eldest son, nine years old, is promised to a shipwright's yard at Cuan shean when he turns thirteen, on the word of a Cuan shean man who watched him true a plough-beam by eye at his father's forge without a level.",
+   "kind": "trade",
+   "place": "burg:5",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0030a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iv-of-doire-mhin-in-the-snow",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2010",
+   "title": "Joseph Marlow's song first sung at Doire mhin",
+   "body": "A plain tune naming Joseph Marlow and his forge is first heard going quietly round Doire mhin that winter, sung under the breath of the women waiting their turn with a sackful of savings, though the smith himself will not sing it in front of a stranger.",
+   "kind": "trade",
+   "place": "burg:5",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iv-of-doire-mhin-in-the-snow",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2011",
+   "title": "The house of Lia Fàil's chits redeemed at its door",
+   "body": "At Inis thais, where the new coin arrives slower than almost anywhere in the kingdom, the merchants trade the winter through on chits written against the word of the house of Òrd na Cloiche. When coin at last comes south in quantity, the chits are carried to the house's own door and redeemed there, less a tenth the house keeps for the keeping of them.",
+   "kind": "trade",
+   "place": "burg:166",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#v-of-the-chits-at-inis-thais-and-the-turn",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2012",
+   "title": "Hale sets down the answer he means to give Tional nan Tuathach",
+   "body": "Weighing Fearchar Bonn's coin against Joseph Marlow's ploughshare on his own table, Walter Hale writes for Tional nan Tuathach that a people waiting on an answer that never comes would do better to build, while it waits, the thing it asked for, since the waiting will be long and the ground does not stop wanting to be ploughed.",
+   "kind": "trade",
+   "place": "burg:95",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0025",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#v-of-the-chits-at-inis-thais-and-the-turn",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2013",
+   "title": "The first furrow cut with a coin-iron share",
+   "body": "At the end of am Màrt the first furrow of Doire mhin's spring ploughing is cut behind a borrowed ox with one of Joseph Marlow's shares, turning a clean black line the length of the field, the humans' silver made over into iron for a north the council's coin has not yet reached.",
+   "kind": "trade",
+   "place": "burg:5",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#v-of-the-chits-at-inis-thais-and-the-turn",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2014",
+   "title": "Walter Hale walks to Doire mhin in the snow",
+   "body": "Walter Hale walks the ten miles to Doire mhin in an Gearran on a road half snow and half black mud to see Joseph Marlow's forge for himself, and writes that the town had turned what the council left worthless into something a field could use without asking anyone's leave.",
+   "kind": "humans",
+   "place": "burg:5",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iv-of-doire-mhin-in-the-snow",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2015",
+   "title": "The written order first read at the southern Seann Skell",
+   "body": "In the hall of the greatest house of Deas-ghnàth a' Ghuail, Dòmhnall mac Thormoid reads aloud, for the first time, the order of worship he has spent the year composing: the leyline, the unbroken line of fuil-ghuail, and the measure of what may be burned. Eleven custodians and a scattering of witnesses from neighbouring houses hear it out in silence.",
+   "kind": "faith",
+   "place": "burg:431",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#iii-of-the-first-reading",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2016",
+   "title": "Òrd na Cloiche promise good will and nothing more",
+   "body": "Within the month a letter reaches Seann Skell from Òrd na Cloiche in the south-west, wishing the new order well and offering no further part in it. Dòmhnall mac Thormoid copies it into the first page of a plain ledger he begins that day, meaning to keep every letter Deas-ghnàth a' Ghuail sends or receives from then on.",
+   "kind": "faith",
+   "place": "burg:204",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0031",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#iii-of-the-first-reading",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2017",
+   "title": "Òrd an t-Seabhaig' letter of refusal",
+   "body": "A letter comes to Seann Skell from Òrd an t-Seabhaig about Cnoc bheag, sealed with the mark of a bird with wings spread flat: the old form of Deas-ghnàth a' Ghuail has never needed a custodian above the local altar and sees no cause to answer to one now. It calls the new writing handsome, and not needed, and wishes the southern house no ill in going its own way.",
+   "kind": "faith",
+   "place": "burg:20",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#iv-of-the-cnoc-bheag-letter-and-the-bell-at-muileann-naomh",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2018",
+   "title": "Muileann naomh's bell first rung at a measured burning",
+   "body": "The hawk-house at Muileann naomh, far south of Cnoc bheag, takes up the written order entire and hangs a bell cast new for the ordered worship, the first any house of Deas-ghnàth a' Ghuail has raised for that purpose rather than a wedding or a warning. It is rung that summer at the year's measured burning before a small crowd gathered in the lane.",
+   "kind": "faith",
+   "place": "burg:326",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0030",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-coal-blood"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#iv-of-the-cnoc-bheag-letter-and-the-bell-at-muileann-naomh",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2019",
+   "title": "Dòmhnall mac Thormoid's book of correspondence begun",
+   "body": "Watching a house answer him with silence rather than argument, the new Àrd-choimheadaiche begins a plain ledger to hold every letter Deas-ghnàth a' Ghuail sends or receives, the first such record any keeper of the flame has thought to make, so that a question once answered need not be answered from nothing a second time.",
+   "kind": "law",
+   "place": "burg:431",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0030a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#i-of-the-letter-that-found-him",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2020",
+   "title": "Dòmhnall mac Thormoid rides north to Cathair dhearg",
+   "body": "Summoned to be presented at court as Deas-ghnàth a' Ghuail's first Àrd-choimheadaiche, Dòmhnall mac Thormoid rides to the capital to press, unsuccessfully, for a share in Òrd Mhacha's keeping of the coronation regalia. He pays for his own lodging, no arrangement having been made for him, and returns south with only the high priest's refusal to enter in his book.",
+   "kind": "faith",
+   "place": "burg:19",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0033",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#v-of-the-regalia-and-the-refusal-at-court",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2021",
+   "title": "The unbroken line left open in doctrine",
+   "body": "Writing the order's page on fuil-ghuail, Dòmhnall mac Thormoid finds an old defence and a later gloss disagree on whether the unbroken line means blood or office, and sets the doctrine down to hold both readings rather than close either, having found no ground in the record to choose between them.",
+   "kind": "faith",
+   "place": "burg:431",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-coal-blood"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#ii-of-the-leyline-and-the-unbroken-line",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2022",
+   "title": "Dòmhnall mac Thormoid thanks Muileann naomh",
+   "body": "Dòmhnall mac Thormoid writes to the hawk-house at Muileann naomh in his own hand, the first letter of thanks he composes in his office, has it copied once for his ledger, and sends it back by the wool-trader who brought him word of the bell.",
+   "kind": "faith",
+   "place": "burg:326",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0030a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#iv-of-the-cnoc-bheag-letter-and-the-bell-at-muileann-naomh",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "after": "V-0036a"
+  },
+  {
+   "id": "EVI-2023",
+   "title": "Copies of the order sent to every house of Deas-ghnàth a' Ghuail",
+   "body": "By the last month of winter Dòmhnall mac Thormoid's two clerks finish fair copies of the order, each checked line by line against his own text, and he sends them to every house of An Creideamh Sean still standing, the Hawk-houses among them, along with Òrd na Cloiche, Òrd Mhacha, and a last copy carried back to Muileann naomh in thanks.",
+   "kind": "faith",
+   "place": "burg:431",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#vii-of-the-copies-sent-out",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2024",
+   "title": "The census asks of faith and finds none to answer for some",
+   "body": "The state's first census, sent to ask what households hold to as well as how many they number, meets on the far north-western cape and its islets a good many who give no creed at all. Finding no word in Dia-thìris that fits a household with nothing to declare, the clerks write against their names gun chreideamh, without a creed, and ride on.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#i-of-the-two-counts-of-doire-ghlas",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2025",
+   "title": "The two counts of Doire ghlas go uncorrected",
+   "body": "The state's roll and Tional nan Tuathach's own tally of the northern shire, taken the same season by different hands, are found afterward to differ by close to a fifth. Neither is sent to the other side to be checked against it, and both are filed, each true by its own reckoning, in the chest that kept it.",
+   "kind": "law",
+   "place": "province:23",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#i-of-the-two-counts-of-doire-ghlas",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2026",
+   "title": "Eilidh nic Leòid's letter of office reaches Cathair dhomhain",
+   "body": "A council rider, delayed three days by flooded roads, brings Eilidh nic Leòid the letter naming her first among Britheamhan na Cuairte: eleven shires of the south-west to be ridden once in every twelvemonth, and a written record of every judgment to be carried back each year to the council's clerks.",
+   "kind": "law",
+   "place": "burg:26",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#ii-of-cathair-dhomhain-and-the-custody-book",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2027",
+   "title": "Eilidh's first assize, held at Cathair dhomhain",
+   "body": "Before setting out on her circuit Eilidh nic Leòid sits her first cases at home: a boundary measured with a knotted cord rather than taken on either party's word, a debt found on the strength of an unburned receipt, and a fishmonger's short weight proved against the council's own standard.",
+   "kind": "law",
+   "place": "burg:26",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0036a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iii-of-the-first-assize-and-the-wells-at-muileann-bhan",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2028",
+   "title": "The quarrel over the well at Muileann bhàn",
+   "body": "A widow who once charged a penny a season for water from a spring now run dry, and the mason set to warden the town's new waterworks, bring their dispute over one well to Britheamhan na Cuairte's bench in the mill-yard, the town having no courtroom of its own.",
+   "kind": "trade",
+   "place": "burg:502",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0037",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iii-of-the-first-assize-and-the-wells-at-muileann-bhan",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2029",
+   "title": "Eilidh's ruling on the Muileann bhàn well",
+   "body": "The justice rules that the dead spring's old custom cannot be transferred to water drawn by a different road and paid for from a different purse, but that the well's ground remains the widow's by custom, and the town's word is given that it will never be built over or fenced from her without leave.",
+   "kind": "law",
+   "place": "burg:502",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0036a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iii-of-the-first-assize-and-the-wells-at-muileann-bhan",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2030",
+   "title": "The head-due first gathered along the southern circuit",
+   "body": "Maors' clerks set up their tables at the crossroads of the south-west shires and take the head-due, eighteen purses on every five thousand heads, for the first time in living memory. Eilidh nic Leòid, riding past more than one such table, keeps her own note of what she sees, though none of it is brought to her bench.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0036a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iv-of-the-head-due-and-the-road-south",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2031",
+   "title": "Eilidh's circuit calls at Inis thais",
+   "body": "The harbour court at Inis thais, kept well enough already by its own magistrate, hands up only two causes to the visiting justice, both turning on the ownership of a fishing boat after its owner died leaving no heir the town could agree on.",
+   "kind": "law",
+   "place": "burg:166",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0036a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iv-of-the-head-due-and-the-road-south",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVI-2032",
+   "title": "Eilidh's circuit calls at Doire shean",
+   "body": "Sitting two days in the temple porch for want of a courtroom, the justice settles a dispute among four households over the right to dry nets on a stretch of shingle by asking after the shore's own long custom rather than any written law, which none had ever thought to write so far down the coast.",
+   "kind": "law",
+   "place": "burg:324",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0036a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iv-of-the-head-due-and-the-road-south",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "after": "V-0038"
+  },
+  {
+   "id": "EVI-2033",
+   "title": "The maor of Seann Bhral asks a ruling of his own cousin",
+   "body": "Artair mac Lachlainn, maor of the western shire, meets Britheamhan na Cuairte at the town gate and asks her plainly to find for An Crùn's grant, the household holding it being kin of his own. She hears the cause as she hears any other, and he sits through it without speaking.",
+   "kind": "law",
+   "place": "burg:47",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#v-of-the-ruling-at-seann-bhral",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVI-2034",
+   "title": "The Tanner suit heard at Seann Bhral in the west",
+   "body": "A Tuathaich family holding four fields under a surveyor of A' Chompanaidh's title cut before An Dealachadh is set against a Dia-thìreach household holding An Crùn's newer grant of the same ground, made in ignorance that the land was occupied at all. Half the shire's Tuathaich households come to Seann Bhral to hear it argued.",
+   "kind": "law",
+   "place": "burg:47",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#v-of-the-ruling-at-seann-bhral",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVI-2035",
+   "title": "Breith Leòid copied to every maor's court of the circuit",
+   "body": "Eilidh nic Leòid has her ruling fair-copied to every maor's court of her eleven shires, with a note that any like cause be decided on like reasoning until the council itself says otherwise, reasoning that a law read differently in every court that hears it is no law at all.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#vi-of-the-copy-sent-to-every-court",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVI-2036",
+   "title": "Murchadh Clàrc asks whether making law is strange",
+   "body": "On the road between Doire shean and Seann Bhral in the last days of an Lùnastal, Murchadh Clàrc asks Eilidh nic Leòid, not for the first time, whether she finds it strange to be making law rather than only keeping it, after so many years reading a book of rights settled before she was born.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iv-of-the-head-due-and-the-road-south",
+   "era_between": [
+    8,
+    8
+   ]
+  }
+ ]
+}

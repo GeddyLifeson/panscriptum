@@ -272,7 +272,7 @@
   "id": "III-0023",
   "canon": true,
   "title": "The Setting-Out",
-  "body": "The willing sail west. The chronicles of the island fall silent on them as the ships clear the harbour; the Dia-thìrich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
+  "body": "The willing sail out past the north cape. The chronicles of the island fall silent on them as the ships clear the harbour; the Dia-thìrich tell that the fleet sailed into Manannan's mist, toward the Otherworld.",
   "place": null,
   "kind": "voyage",
   "between": [
@@ -631,7 +631,7 @@
   "id": "III-0051",
   "canon": false,
   "title": "Raghnall dies; Ìomhar crowned",
-  "body": "King Raghnall mac Uilleim dies at Cathair dhearg after a long and quiet reign, and his son Ìomhar mac Raghnaill is crowned. The custody-book gives Raghnall's reign a single line.",
+  "body": "King Raghnall mac Raghnaill dies at Cathair dhearg, and his son Ìomhar mac Raghnaill is crowned. Raghnall had followed his father Raghnall mac Uilleim, who died in his eighty-fifth year after a long and quiet reign; the custody-book gives each of the two Raghnalls a single line.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -667,7 +667,7 @@
   "id": "III-0054",
   "canon": false,
   "title": "The coughing sickness at Caol fhiadhaich",
-  "body": "A coughing sickness runs through Caol fhiadhaich on the south-west coast and kills some two hundred before it burns out. The shared meal is kept throughout, and the reeve holds that it saved the rest.",
+  "body": "A coughing sickness runs through Caol fhiadhaich on the south-west coast and kills some ten before it burns out. The shared meal is kept throughout, and the reeve holds that it saved the rest.",
   "place": "burg:191",
   "kind": "disaster",
   "between": [
@@ -1043,7 +1043,7 @@
   "id": "III-0084",
   "canon": false,
   "title": "Aonghas mac Uisdein crowned",
-  "body": "Uisdean mac Dhùghaill dies, and his son Aonghas mac Uisdein is crowned at Cathair dhearg. Aonghas is the first king to learn his letters as a child.",
+  "body": "Uisdean mac Uisdein dies, the son of Uisdean mac Dhùghaill and king after him, and his own son Aonghas mac Uisdein is crowned at Cathair dhearg, a young man of twenty-two. Aonghas is the first king to learn his letters as a child.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -1199,7 +1199,7 @@
   "id": "III-0096",
   "canon": false,
   "title": "Death of King Aonghas",
-  "body": "King Aonghas mac Uisdein dies at Cathair dhearg and is buried by the rite of Macha, the first king so buried. His son Iain mac Aonghais is crowned.",
+  "body": "King Aonghas Òg, son of Aonghas mac Uisdein and crowned after him, dies at Cathair dhearg and is buried by the rite of Macha, the first king so buried. His son Iain mac Aonghais is crowned.",
   "place": "burg:19",
   "kind": "death",
   "between": [
@@ -1471,7 +1471,7 @@
   "id": "III-0118",
   "canon": false,
   "title": "The sickness at Inis chrom",
-  "body": "A spotted fever kills some three hundred at Inis chrom on the south-west coast. The Fianna of the Stone nurse the sick, and many of them die of it; thereafter the town is the Stone's.",
+  "body": "A spotted fever kills some forty at Inis chrom on the south-west coast. The Fianna of the Stone nurse the sick, and many of them die of it; thereafter the town is the Stone's.",
   "place": "burg:92",
   "kind": "disaster",
   "between": [
@@ -1507,7 +1507,7 @@
   "id": "III-0120",
   "canon": false,
   "title": "Manannan preached at Seann Skell",
-  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, the preacher Mànas mac Ruairidh proclaims its one power to be Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion. He teaches that Manannan shut the western sea behind the fleet with his mist, which hides Dia-thìr from every ship beyond it, and that the crossing must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
+  "body": "At Seann Skell, where the sting-creed of the Holy Age first called itself the only true one, the preacher Mànas mac Ruairidh proclaims its one power to be Manannan mac Lir, lord of the sea, whose Cup of Truth bears the yellow scorpion. He teaches that Manannan shut the eastern sea behind the fleet with his mist, which hides Dia-thìr from every ship beyond it, and that the crossing must not be tried again. His hearers are the first congregation of Òrd Mhanannain, the order of Manannan.",
   "place": "burg:489",
   "kind": "faith",
   "between": [
@@ -1631,7 +1631,7 @@
   "id": "III-0129",
   "canon": false,
   "title": "Queen Eilidh Bhàn crowned",
-  "body": "Eilidh Bhàn, fifth ruler of the house of Catrìona, is crowned at Cathair dhearg. The annals of her long reign are almost wholly of harvests.",
+  "body": "Eilidh Bhàn, sixth ruler of the house of Catrìona, is crowned at Cathair dhearg, a girl of eighteen. The annals of her long reign are almost wholly of harvests.",
   "place": "burg:19",
   "kind": "reign",
   "between": [
@@ -3057,7 +3057,7 @@
  {
   "id": "III-0236",
   "canon": false,
-  "title": "Timber from the west",
+  "title": "Timber out of the mist",
   "body": "A worked timber, longer than any tree on the island and fastened with nails of a make no smith of Dia-thìr knows, comes ashore at Ceann mhòr on the north-west coast, from beyond Manannan's mist, as the fishers say. It is carried to Seann Skell, shown to Manannan's priests, and burned.",
   "place": "burg:143",
   "kind": "omen",
@@ -3111,7 +3111,7 @@
   "id": "III-0239a",
   "canon": false,
   "title": "The mist thins",
-  "body": "The priests of Manannan at Seann Skell write that the mist on the western sea, which has hidden Dia-thìr from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and on still mornings the fishers of the west coast begin to see the line of the open sea beyond the headlands.",
+  "body": "The priests of Manannan at Seann Skell write that the mist on the eastern sea, which has hidden Dia-thìr from every ship beyond it since the fleet of the Sundering sailed into it, lies thinner each winter. They say their prayer, A Mhanannain, cùm a' mhuir dùinte, at every tide, and on still mornings the fishers of the north-west coast begin to see the line of the open sea beyond the headlands.",
   "place": "burg:489",
   "kind": "omen",
   "between": [

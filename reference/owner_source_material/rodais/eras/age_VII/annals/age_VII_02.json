@@ -1,0 +1,1849 @@
+{
+ "writer": 1,
+ "span": [
+  "VI-0011",
+  "VI-0020"
+ ],
+ "events": [
+  {
+   "after": "VI-0012"
+  },
+  {
+   "id": "EVII-1501",
+   "title": "Comhairle nan Taighean-solais allows a trial in the yard at Baile ìseal",
+   "body": "The secretary of Comhairle nan Taighean-solais writes to its engineer Peigi nic Ascaill that the Comhairle sees no objection to a trial of her burner in the yard of Taigh-solais Baile ìseal, at her own charge, so long as the light is not touched and the keeper not hindered. The letter asks under what head twenty barrels of fuel were entered to the Comhairle's account at Seann Skell.",
+   "place": "marker:13",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1502",
+   "title": "The twenty barrels landed at Baile ìseal",
+   "body": "A salt-boat of Àth bheag, coming home empty from Seann Skell of the south, lands twenty barrels of dubhan on the slip at Baile ìseal for the engineer of Comhairle nan Taighean-solais. Her skipper complains of the smell. A carter of Baile ruadh carries the barrels out along the cape to the yard below Taigh-solais Baile ìseal, at twice his rate.",
+   "place": "burg:285",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1501",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1503",
+   "title": "The keeper of Taigh-solais Baile ìseal keeps the new fuel off her stair",
+   "body": "Seonag nic Thòmais, keeper of Taigh-solais Baile ìseal, tells the engineer Peigi nic Ascaill that the yard is hers for the trial and the tower's stair is not, and that the new fuel shall not come past the tower door. She names the old keeper Murchadh mac Coinnich to keep the trial's log.",
+   "place": "marker:13",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "location"
+    },
+    {
+     "to": "EVII-1502",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-seven-coals"
+   ],
+   "people": [
+    "seonag-nic-thomais",
+    "peigi-nic-ascaill",
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1504",
+   "title": "Murchadh mac Coinnich rules the log of the trial lamp",
+   "body": "Murchadh mac Coinnich, seventy-one, keeper of Taigh-solais Baile ìseal for thirty-one years, rules a log-book at his cottage by the yard wall for the engineer's trial, one line to a night, with headings of his own: wind, weather, lit, out, wick, smoke, and what the boats said. He takes an under-keeper's wage for it.",
+   "place": "marker:13",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1503",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "murchadh-mac-coinnich",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#ii-of-the-spare-lamp-and-the-log",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1505",
+   "title": "The trial lamp's chimney-glass cracked in a squall",
+   "body": "On the eleventh night of the trial at Baile ìseal a squall of cold rain off the sea cracks the hot chimney-glass of the trial lamp from top to foot. The flame holds. The engineer puts in a new glass in the rain, and the tinsmith of Àth bheag makes a hood of sheet iron for the lantern, after which the glasses hold.",
+   "place": "marker:13",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1504",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#iii-of-what-the-boats-said",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1506",
+   "title": "Calum mac Iain comes home by the trial lamp in the haar",
+   "body": "On the forty-first night of the trial a haar lies high on the eastern cape and hides the light of Taigh-solais Baile ìseal from the sea. Calum mac Iain, last of the Baile ìseal boats home from the lines, steers in under it by the trial lamp in the yard and finds the slip. He asks the log-keeper not to write it; it is written.",
+   "place": "marker:13",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1505",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "calum-mac-iain",
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#iii-of-what-the-boats-said",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1507",
+   "title": "The trial lamp lit from the Bealltainn fire",
+   "body": "On the feast of Bealltainn a girl of Baile ìseal carries a pail of the dunes' fire out to the tower, as the town has done for its keepers since the light was lit. At the old keeper's word the engineer lights the trial lamp that night from a spill kindled at the Bealltainn coals, and the log records it so.",
+   "place": "marker:13",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1506",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "murchadh-mac-coinnich",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#iii-of-what-the-boats-said",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1508",
+   "title": "The coal flame of Baile ìseal fails in a gale and the trial lamp holds",
+   "body": "On the seventieth night of the trial a south-easterly gale lifts the roof of the coal-store at Taigh-solais Baile ìseal and wets the coal. A down-draught drives the smoke back into the lantern, and the tower's light fails from the second hour after midnight to the fourth while the keeper Seonag nic Thòmais fights the grate. The trial lamp in the yard burns through the night.",
+   "place": "marker:13",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1507",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-seven-coals"
+   ],
+   "people": [
+    "seonag-nic-thomais",
+    "peigi-nic-ascaill",
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#iv-of-the-seventieth-night",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1509",
+   "title": "Two boats of Baile ìseal come home by the trial lamp",
+   "body": "Two boats of Baile ìseal, caught far out at their lines by the south-easterly gale, come round the eastern cape in the small hours while the tower's light is dark, and steer in by the trial lamp in the yard. One comes in with a torn sail and a man with a broken arm. Both reach the slip.",
+   "place": "marker:13",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1508",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/05_the_hundred_nights.md#iv-of-the-seventieth-night",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1510",
+   "title": "The coal-store at Taigh-solais Baile ìseal new-roofed",
+   "body": "A roofer of Baile ruadh puts the coal-store at Taigh-solais Baile ìseal to rights after the gale. The secretary of Comhairle nan Taighean-solais answers the keeper's report of the night with a request for particulars of the wet coal and the down-draught, and says nothing of the trial in the yard.",
+   "place": "marker:13",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1509",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "seonag-nic-thomais"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#v-of-the-hundredth-night",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1511",
+   "title": "The hundredth night of the trial lamp",
+   "body": "The trial of the dubhan lamp in the yard below Taigh-solais Baile ìseal ends on its hundredth night, fair with a light west wind. Eleven barrels of the twenty and part of a twelfth have been burned. Murchadh mac Coinnich writes the last line of the log: the boats have said nothing about the lamp, being used to it.",
+   "place": "marker:13",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1510",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "murchadh-mac-coinnich",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#v-of-the-hundredth-night",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1512",
+   "title": "Peigi nic Ascaill's report to Comhairle nan Taighean-solais",
+   "body": "Peigi nic Ascaill, engineer to Comhairle nan Taighean-solais, sends the Comhairle her report of the hundred nights at Baile ìseal, with Murchadh mac Coinnich's log. It sets the fuel burned against the tower's coal night by night, at the works' price and the pit-head's, and gives the seventieth night in full.",
+   "place": "marker:13",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0014",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-1511",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#v-of-the-hundredth-night",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1513",
+   "title": "The spare lamp of Baile ìseal fitted with a burner",
+   "body": "Peigi nic Ascaill takes the grate out of the storm-lantern of Taigh-solais Baile ìseal and sets in its place a burner of two wick-rings with a coil round the chimney foot to warm the fuel.",
+   "place": "marker:13",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1512",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#ii-of-the-spare-lamp-and-the-log",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1514",
+   "title": "The haar on the forty-first night",
+   "body": "A haar lies high on the eastern cape; the tower's coal light is lost in it from the slip while the trial lamp below shows plain.",
+   "place": "marker:13",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EVII-1513",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mac-coinnich"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#iii-of-what-the-boats-said",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1515",
+   "title": "Seonag nic Thòmais asks an engineer's questions",
+   "body": "On the ninety-sixth night of the trial the keeper of Taigh-solais Baile ìseal comes to the foot of the stage for the first time and asks how the burner is made and what the fuel does to brass. The stair, she says, is still hers.",
+   "place": "marker:13",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-1514",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "seonag-nic-thomais",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/05_the_hundred_nights.md#v-of-the-hundredth-night",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1516",
+   "title": "Hay stored in the old barracks at Inis mhòr",
+   "body": "The barracks at Inis mhòr, empty of soldiers since An Dealachadh, are let by the maor to the farmers of Seann Vell for hay, the long rooms dry and the rent small.",
+   "place": "burg:2",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EVII-1515",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1517",
+   "title": "Sorcha nic Dhùghaill buys a launch's engine at Ros dhomhain",
+   "body": "Sorcha nic Dhùghaill, boatwright of Caol fhiadhaich, finds in a chandler's yard behind the coal quay at Ros dhomhain the engine of a harbour launch, laid up eight years because its coal cost more than the launch earned. She buys it for the price of old iron, and it is carried down the coast road to her yard on an ox-wain.",
+   "place": "burg:27",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#i-of-the-engine-in-the-rope-shed",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1518",
+   "title": "The smith of Caol fhiadhaich makes a dubhan burner",
+   "body": "Seonaidh Bàn, smith of the harbour at Caol fhiadhaich, makes a burner of iron with a pipe and a cock to feed dubhan to the engine in Sorcha nic Dhùghaill's rope-shed. He copies it from the stove of a coaster out of Seann Skell on the southern coast, made larger. The south-coast boats have burned dubhan in their stoves and lamps since the works' first year.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1517",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#i-of-the-engine-in-the-rope-shed",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1519",
+   "title": "The keel of An Ròn Dubh bored",
+   "body": "At the asking of her skipper Lachann mac Neacail, Sorcha nic Dhùghaill hauls the decked boat An Ròn Dubh up her slip at Caol fhiadhaich and bores the sternpost and deadwood below the water for a shaft, against the guild's first rule, Cha tollar an druim. The other three yards of the town watch from the head of the slip.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1518",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#ii-of-the-unbored-keel",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1520",
+   "title": "An Ròn Dubh crosses the harbour under engine",
+   "body": "On a calm evening of an Lùnastal the fishing boat An Ròn Dubh, her engine fed by dubhan, crosses the harbour of Caol fhiadhaich to the wolf-stone and back with her sails furled and her oars shipped. Half the town watches from the wall. It is the first fishing boat of the island moved by an engine.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1519",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#ii-of-the-unbored-keel",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1521",
+   "title": "The boatwrights of Caol fhiadhaich return their papers",
+   "body": "The four yards of Caol fhiadhaich meet in the net-loft over the fish-store, hear the master's letter read, and answer it in writing: they hold the work lawful and will go on with it, and since the guild holds it unlawful for its members, they are members no longer. Their papers of binding go back to Ros dhomhain with the letter.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1520",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iii-of-the-guild-s-letter",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1522",
+   "title": "Comann nan Saor-luinge strikes and fines the yards of Caol fhiadhaich",
+   "body": "Comann nan Saor-luinge strikes the four yards of Caol fhiadhaich from its roll and lays a fine on each, the heaviest on Sorcha nic Dhùghaill's yard. None of them pays. The maor of the shire, written to by the guild, answers that a guild's fine is the guild's business.",
+   "place": "burg:191",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0013",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-1521",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iii-of-the-guild-s-letter",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1523",
+   "title": "A pilot takes an engine-boat through the strait",
+   "body": "After the season's offering at the harbour wolf-stone, Ailig Mòr, eldest of the strait pilots of Caol fhiadhaich, takes An Ròn Dubh out through the skerries under her engine, the first hull the pilots have brought through the strait without sail or oar. At the second skerry she drives across the tide.",
+   "place": "burg:191",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1522",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iv-of-the-wind-in-the-south-west",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1524",
+   "title": "An Ròn Dubh comes home against a south-westerly",
+   "body": "Late in an Dàmhair a south-westerly gale catches the fleet of Caol fhiadhaich on the herring banks off the south coast. The sailing boats run for the lee of a headland to the east and lie there five days. Lachann mac Neacail brings An Ròn Dubh home into the wind under her engine and lands the only fresh herring on the coast, sold at Doire shean at dawn.",
+   "place": "burg:191",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1523",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iv-of-the-wind-in-the-south-west",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EVII-1525",
+   "title": "All four yards of Caol fhiadhaich fitting engines",
+   "body": "By an Dùbhlachd all four yards of Caol fhiadhaich are boring keels and fitting engines to the town's fishing boats, and there are more skippers asking than there are slips. Donnchadh Ruadh, the oldest boatwright of the town, fits his first engine before the year is out.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1524",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iii-of-the-guild-s-letter",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "after": "VI-0015"
+  },
+  {
+   "id": "EVII-1526",
+   "title": "Three yards of the south-west coast follow",
+   "body": "In the first months of the year the yards of Inis chrom, Doire shean and a third harbour of the south-west coast send to Caol fhiadhaich to learn how the engines are fitted, and begin the same work. They too leave Comann nan Saor-luinge or are struck from it.",
+   "place": "burg:92",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0013",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1525",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iv-of-the-wind-in-the-south-west",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1527",
+   "title": "Launch engines dear at Ros dhomhain",
+   "body": "No one on the island makes engines for boats, and the yards of the south-west buy the engine out of every laid-up launch in the harbours of the capital country. The chandlers of Ros dhomhain, who sold such engines for old iron the summer before, ask three times the price by am Màrt and five times by an Giblean.",
+   "place": "burg:27",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1526",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iv-of-the-wind-in-the-south-west",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1528",
+   "title": "The guild summons the boatwrights of Caol fhiadhaich",
+   "body": "Early in an Giblean Comann nan Saor-luinge summons the boatwrights of Caol fhiadhaich to its court at Ros dhomhain to hear its ruling on the matter of the engines. The four yards send Sorcha nic Dhùghaill to answer for all of them.",
+   "place": "burg:191",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0013",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1527",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#v-of-the-court-at-ros-dhomhain",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1529",
+   "title": "Sorcha nic Dhùghaill declines readmission",
+   "body": "In the guild hall above the slips at Ros dhomhain, when the master Pàdraig mac an t-Saoir has read the ruling and remitted the fines, Sorcha nic Dhùghaill answers for the four yards of Caol fhiadhaich that they bored the keels as shipwrights and have no need of a shipwrights' guild that disowns the work. The clerk writes that they decline.",
+   "place": "burg:27",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0013",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1528",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#v-of-the-court-at-ros-dhomhain",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1530",
+   "title": "Obair-dhubhain Seann Skell watch the guild court",
+   "body": "A man sent from the dubhan works at the southern Seann Skell sits at the court of Comann nan Saor-luinge at Ros dhomhain beside a clerk of the lights, to hear what it says of engines.",
+   "place": "burg:27",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0013",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1529",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#v-of-the-court-at-ros-dhomhain",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1531",
+   "title": "An Ròn Dubh laid up for the winter",
+   "body": "The shaft-boat An Ròn Dubh is drawn up the slip at Caol fhiadhaich for the winter, and the shipwrights of the town come down one at a time to look at the bored post.",
+   "place": "burg:191",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1530",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#v-of-the-court-at-ros-dhomhain",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1532",
+   "title": "Baile ghorm's boats follow Caol fhiadhaich",
+   "body": "Two skippers of Baile ghorm, who had seen An Ròn Dubh come home against a south-westerly, send to the southern works for burners and to Caol fhiadhaich for a boatwright who will bore a keel.",
+   "place": "burg:170",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0012",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1531",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "sorcha-nic-dhughaill"
+   ],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#iv-of-the-wind-in-the-south-west",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1533",
+   "title": "The pilots of Seann Warr ask for an engine boat",
+   "body": "The pilots of the walled harbour of Seann Warr ask their maor for a pilot-boat with an engine, to meet ships in a calm; the maor answers that the town will pay for one when the shipwrights' guild allows one.",
+   "place": "burg:64",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0013",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1532",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/06_the_boatwrights_of_caol_fhiadhaich.md#i-of-the-engine-in-the-rope-shed",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1534",
+   "title": "The order to turn the lights read at Comhairle nan Taighean-solais",
+   "body": "Comhairle nan Taighean-solais sits and hears the council's order that the five lights of the coast be turned to dubhan and their coal given to the altars. Taigh-solais Baile ìseal and Taigh-solais Tobar dhearg, nearest the works at Seann Skell, are to be turned first, in the summer; the keepers keep their warrants, wages and houses.",
+   "place": "marker:13",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/07_the_last_coal_flame.md#i-of-the-warrant-of-tobar-dhearg",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1535",
+   "title": "The custodians of Tobar dhearg ask for the flame",
+   "body": "The custodians of Tobar dhearg, who keep the light's log for Brìde's sake, ask the Àrd-choimheadaiche that the coal flame of their light be carried to Brìde's altar at Seann Skell and burn out there. He consents, and Comhairle nan Taighean-solais makes no objection, so long as the light is not dark a single night.",
+   "place": "burg:398",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0014",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#ii-of-the-custodians-asking-and-the-deputy",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1536",
+   "title": "Ciorstaidh nic Artair refuses a deputy for the lantern",
+   "body": "Offered a clerk of the lights or a young custodian of Seann Skell to carry the flame the nine and a half miles to the altar, Ciorstaidh nic Artair, keeper of Taigh-solais Tobar dhearg, writes that the flame is hers by her warrant until the burner is lit, and that she will carry it herself. The answer leaves the matter to her.",
+   "place": "marker:16",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1535",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#ii-of-the-custodians-asking-and-the-deputy",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1537",
+   "title": "Taigh-solais Baile ìseal turned to dubhan",
+   "body": "The burner Peigi nic Ascaill tried in the yard below Taigh-solais Baile ìseal is set in the tower's lantern by order, the first of the five lights to burn dubhan. Its keeper Seonag nic Thòmais, who would not have the thing up her stair, keeps the light under it.",
+   "place": "marker:13",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0014",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1536",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "seonag-nic-thomais"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#iii-of-the-tank-at-the-stair-s-foot",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1538",
+   "title": "The tank landed at the cape of Tobar dhearg",
+   "body": "A works boat from Seann Skell lands an iron tank, a burner, pipes and forty barrels of dubhan on the stones below Taigh-solais Tobar dhearg. Eight men of the village bring the tank up the landing-stones and the stair, and the barrels stand against the tower wall where the coal-sacks stood.",
+   "place": "marker:16",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0014",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1537",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#iii-of-the-tank-at-the-stair-s-foot",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1539",
+   "title": "The trial of the burner at Tobar dhearg",
+   "body": "Peigi nic Ascaill lights the new burner in the lantern of Taigh-solais Tobar dhearg for an hour beside the coal grate. The light is white and steady and throws the shadows of the lantern's bars across the cape; the boats at sea come in to ask what has happened. The grate burns on alone until the day of the carrying.",
+   "place": "marker:16",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0014",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1538",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#iii-of-the-tank-at-the-stair-s-foot",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1540",
+   "title": "The last coal night at Tobar dhearg",
+   "body": "On the night before the carrying the keeper of Taigh-solais Tobar dhearg burns the last of the quarter's coal, a sack and a half, as high as the grate will take it. At dawn she lights the closed lantern from the grate and lets the tower's fire go out.",
+   "place": "marker:16",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1539",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#iv-of-the-road-to-seann-skell",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1541",
+   "title": "The walk from the cape to Seann Skell",
+   "body": "Ciorstaidh nic Artair carries the lantern on foot from the cape by Baile gharbh to Seann Skell, nine and a half miles in the heat, and gives it to no one. Some thirty people of Tobar dhearg walk behind her with the three custodians of the village; at the town's edge a young custodian of the house leads her up to Brìde's house.",
+   "place": "burg:398",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1540",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [
+    "ciorstaidh-nic-artair",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#iv-of-the-road-to-seann-skell",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1542",
+   "title": "The first dubhan night at Taigh-solais Tobar dhearg",
+   "body": "On the evening of the carrying the under-keeper of Taigh-solais Tobar dhearg lights the dubhan burner at sunset, as the keeper ordered, with the keeper away at Seann Skell. The new light is seen white and steady from the quays of Seann Skell, nine miles up the coast.",
+   "place": "marker:16",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0014",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1541",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/07_the_last_coal_flame.md#iii-of-the-tank-at-the-stair-s-foot",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1543",
+   "title": "The Àrd-choimheadaiche blesses the lantern",
+   "body": "When the coal flame of Tobar dhearg has burned out on Brìde's altar, Alasdair mac Ìomhair closes the lantern, says the words for a lamp of the vein's coal let go out, and blesses the lantern while he neither blesses nor forbids the new light. He gives the lantern back to its keeper at her asking.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0009",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1542",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "alasdair-mac-iomhair",
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#v-of-bride-s-altar",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1544",
+   "title": "The song of the last flame first sung at Seann Skell",
+   "body": "In a tavern under the quay wall at Seann Skell a skipper of Tobar dhearg makes and sings a song of the carrying on the night of it. It gathers many verses before morning, and by the summer's end every harbour of the south coast has its own; the first verse, of the flame gone out of the tower, is sung wherever it is sung.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1543",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/07_the_last_coal_flame.md#vi-of-the-light-seen-from-the-quays",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1545",
+   "title": "The bell-post on the reef below Tobar dhearg",
+   "body": "The reef below Taigh-solais Tobar dhearg, where Ciorstaidh nic Artair's father drowned, carries the bell-post she had driven there; no boat goes aground on it while she keeps the light.",
+   "place": "marker:16",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EVII-1544",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#i-of-the-warrant-of-tobar-dhearg",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1546",
+   "title": "The last quarter's coal burned high",
+   "body": "On her last night with the coal flame Ciorstaidh nic Artair burns the last sack and a half of the quarter's coal as high as it will burn, and the boats out that night see the light burn higher than in years.",
+   "place": "marker:16",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1545",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/07_the_last_coal_flame.md#iv-of-the-road-to-seann-skell",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVII-1547",
+   "title": "Brìde's house at Caol ruadh keeps its own coal",
+   "body": "The house of Brìde at Caol ruadh, which keeps the orthodox rite of the flame, buys two years' altar coal ahead from the last carters of the southern road and stores it in the undercroft, lest the coal fail before the rite does.",
+   "place": "burg:15",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0015",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1546",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/07_the_last_coal_flame.md#iv-of-the-road-to-seann-skell",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "after": "VI-0019"
+  },
+  {
+   "id": "EVII-1548",
+   "title": "The dubhan for Muileann bheag bought at Caol mhòr",
+   "body": "Peigi nic Ascaill, engineer to Comhairle nan Taighean-solais, buys the fuel for Taigh-solais Muileann bheag in the market at Caol mhòr, since no master will take a laden hull round the western capes in am Faoilleach. Twelve Tuathaich carts carry the barrels fifteen miles along the coast road to the tower. The carters are paid at the rate of the town.",
+   "place": "burg:95",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/08_the_five_towers.md#i-of-the-carts-to-muileann-bheag",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1549",
+   "title": "The coal-store at Muileann bheag locked",
+   "body": "When Taigh-solais Muileann bheag is lit with dubhan, its keeper Calum Bàn, a Dia-thìreach of the south who has kept the light nineteen years, locks the last of its coal in the store at the tower's foot until Comhairle nan Taighean-solais shall say what is to be done with it.",
+   "place": "marker:14",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0016",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0014",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1548",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/08_the_five_towers.md#i-of-the-carts-to-muileann-bheag",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1550",
+   "title": "The crane walked from Seann Tarr to Àth dhearg",
+   "body": "The rope-makers of Seann Tarr take down the crane of their rope-walk and carry it three and a half miles up the coast road to Taigh-solais Àth dhearg in pieces, on three wains. They raise it on the rock below the tower in two days and stay it to rings let into the stone. They will let no other hands touch their cables.",
+   "place": "burg:402",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0017",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0182",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1549",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/08_the_five_towers.md#ii-of-the-crane-from-seann-tarr",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1551",
+   "title": "The rope-makers refuse hire for the crane",
+   "body": "When the tank of Taigh-solais Àth dhearg is set in its lamp-room, the rope-makers of Seann Tarr take their crane home and will take no hire for it. Their master sends word that the light owes them nothing, since their boats steer home by it. The keeper Iseabail Ruadh names the rope-walk in her daybook.",
+   "place": "burg:402",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0017",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1550",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/08_the_five_towers.md#ii-of-the-crane-from-seann-tarr",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1552",
+   "title": "Peigi nic Ascaill writes to Caol mhòr for fitters",
+   "body": "Peigi nic Ascaill writes to Comhairle nan Taighean-solais that she cannot turn the light at Baile chrom before the autumn gales with the two fitters it can spare. In her own name she writes to the speaker at Caol mhòr, asking four Tuathaich fitters of the town for the work and a man named Ashby among them. She does not say who will pay them.",
+   "place": "burg:258",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0018",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1551",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "joe-ashby",
+    "daniel-frayne"
+   ],
+   "told_in": "book/08_the_five_towers.md#ii-of-the-crane-from-seann-tarr",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1553",
+   "title": "Four fitters of Caol mhòr walk to Baile chrom",
+   "body": "Daniel Frayne, speaker of Tional nan Tuathach, sends four fitters of Caol mhòr to turn the light at Baile chrom: Joe Ashby, Will Tanner and the cousins Ned and Abel Fowler. They walk the twenty-five miles in two days of rain. The tank and fuel come round by sea from Seann Skell and are landed below the headland.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0018",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1552",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "joe-ashby",
+    "daniel-frayne"
+   ],
+   "told_in": "book/08_the_five_towers.md#iii-of-a-week-of-rain-at-baile-chrom",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1554",
+   "title": "The Tuathaich fitters paid by Tional nan Tuathach",
+   "body": "The clerk of Tional nan Tuathach at Caol mhòr pays the four fitters who turned the light at Baile chrom from the assembly's chest, for nine days' work and four days' walking, and enters their names and the sum in its book. He writes to Comhairle nan Taighean-solais for the money, and enters the sum as owed.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0018",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1553",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/08_the_five_towers.md#iii-of-a-week-of-rain-at-baile-chrom",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1555",
+   "title": "The keeper's report pinned at Caol mhòr",
+   "body": "The quarter-day report of Uilleam mac Dhòmhnaill, keeper of Taigh-solais Baile chrom, is copied by Comhairle nan Taighean-solais and sent round the shires. At Caol mhòr the maor pins it outside the custom-house. It says the light burns well and the town gives no trouble, and that the work was done by fitters from Caol mhòr. It names none of them.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0018",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0075",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1554",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/08_the_five_towers.md#iv-of-the-paper-at-the-custom-house",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1556",
+   "title": "Peigi nic Ascaill takes service with the works",
+   "body": "Peigi nic Ascaill leaves the service of Comhairle nan Taighean-solais at the end of the summer and takes service as master-fitter with Obair-dhubhain Seann Skell, the shipmasters' works on the south coast, which are building a second range of retorts.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0011",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1555",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/08_the_five_towers.md#iv-of-the-paper-at-the-custom-house",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1557",
+   "title": "Joe Ashby hired at the works",
+   "body": "Joe Ashby of Caol mhòr goes south in an t-Sultain at Peigi nic Ascaill's letter and is hired as a fitter at the shipmasters' works at Seann Skell on the south coast, with Ned and Abel Fowler. He is given a room over the forge. Will Tanner stays at Caol mhòr with his boat.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0018",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1556",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "joe-ashby",
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/08_the_five_towers.md#iv-of-the-paper-at-the-custom-house",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1558",
+   "title": "The first dubhan pit-lamps of Muileann mhin",
+   "body": "The lamp-makers of Muileann mhin, working from a burner drawn by Peigi nic Ascaill, make their first twelve pit-lamps to burn dubhan. Orders come for a hundred, from the pits still worked, from the yards of Comhairle na Slighe-iarainn and from the inns of the old roads. The guild will not yet stamp them with its mark.",
+   "place": "burg:137",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0019",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0064",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0213",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/08_the_five_towers.md#v-of-the-flame-over-the-hammer",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1559",
+   "title": "Two fitters sign the lamp-makers' petition",
+   "body": "At the guild's hall of Muileann mhin, Peigi nic Ascaill, master-fitter of Obair-dhubhain Seann Skell, signs the lamp-makers' petition to the guild court as the one who drew the burner, and Joe Ashby, fitter, of Caol mhòr, signs under her. The guild's master carries the petition to the court the same afternoon.",
+   "place": "burg:137",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0019",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1558",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "joe-ashby"
+   ],
+   "told_in": "book/08_the_five_towers.md#v-of-the-flame-over-the-hammer",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1560",
+   "title": "The Baile chrom burner mended on a smith's anvil",
+   "body": "A burner bent on the voyage round the western capes is straightened by Joe Ashby and the smith of Baile chrom behind a shut door; Joe pays the smith from his own pocket.",
+   "place": "burg:305",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0018",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-1559",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade",
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/08_the_five_towers.md#iii-of-a-week-of-rain-at-baile-chrom",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1561",
+   "title": "The harbour carts of Àth naomh blessed as before",
+   "body": "At Àth naomh in the Cuan shean shire the harbour carts are blessed at the spring as every year, horses and all; a carter who has put a dubhan lamp on his tail-board asks whether it too is blessed, and the priest says it is on the cart.",
+   "place": "burg:286",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EVII-1560",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/08_the_five_towers.md#i-of-the-carts-to-muileann-bheag",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EVII-1562",
+   "title": "The stone of Cnoc bheag scrubbed",
+   "body": "The town of Cnoc bheag has its carved stone scrubbed of a century's coal-smoke for the midsummer fair, and finds under the black a second band of carving no one living had seen.",
+   "place": "burg:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EVII-1561",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/08_the_five_towers.md#iii-of-a-week-of-rain-at-baile-chrom",
+   "era_between": [
+    7,
+    7
+   ]
+  }
+ ]
+}

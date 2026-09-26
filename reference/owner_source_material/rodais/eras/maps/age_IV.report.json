@@ -1,0 +1,181 @@
+{
+ "warnings": [
+  "market 14: centre burg 160 is gone; moved to 95 (Caol mhòr)",
+  "economy: 435 deals with burgs or markets not on this map dropped"
+ ],
+ "ids": {
+  "burg": {
+   "IV_N01": 506,
+   "IV_N02": 507
+  },
+  "state": {
+   "realm": 1
+  },
+  "province": {},
+  "culture": {},
+  "religion": {},
+  "marker": {
+   "IV_K01": 49,
+   "IV_K02": 50,
+   "IV_K03": 51,
+   "IV_K04": 52,
+   "IV_K05": 53,
+   "IV_K06": 54,
+   "IV_K07": 55,
+   "IV_K08": 56,
+   "IV_K09": 57,
+   "IV_K10": 58,
+   "IV_K11": 59,
+   "IV_K12": 60,
+   "IV_K13": 61,
+   "IV_K14": 62,
+   "IV_K15": 63,
+   "IV_K16": 64,
+   "IV_K17": 65,
+   "IV_K18": 66
+  },
+  "zone": {
+   "IV_Z01": 5,
+   "IV_Z02": 6,
+   "IV_Z03": 7,
+   "IV_Z04": 8,
+   "IV_Z09": 9,
+   "IV_Z10": 10,
+   "IV_Z11": 11,
+   "IV_Z12": 12,
+   "land4": 13
+  },
+  "route": {
+   "IV_R01": 450,
+   "IV_R02": 451
+  },
+  "label": {}
+ },
+ "placeIds": {
+  "4001": 506,
+  "4002": 507
+ },
+ "counts": {
+  "states": 1,
+  "provinces": 120,
+  "burgs": 476,
+  "cultures": 1,
+  "religions": 2,
+  "routes": 413,
+  "markers": 60,
+  "zones": 13,
+  "addedLabels": 3,
+  "regiments": 0,
+  "markets": 16,
+  "deals": 7623,
+  "journeys": 0
+ },
+ "integrity": [],
+ "drawErrors": [],
+ "masterLoad": {
+  "pageErrors": [],
+  "consoleErrors": [],
+  "integrity": [],
+  "warnings": [],
+  "dialogs": [],
+  "loaded": true
+ },
+ "bytes": 4527319,
+ "records": 53,
+ "verify": {
+  "load": {
+   "pageErrors": [],
+   "consoleErrors": [],
+   "integrity": [],
+   "warnings": [],
+   "dialogs": [],
+   "loaded": true
+  },
+  "counts": {
+   "states": 1,
+   "provinces": 120,
+   "burgs": 476,
+   "cultures": 1,
+   "religions": 2,
+   "routes": 413,
+   "markers": 60,
+   "zones": 13,
+   "addedLabels": 3,
+   "regiments": 0,
+   "markets": 16,
+   "deals": 7623,
+   "journeys": 0
+  },
+  "integrity": [],
+  "layers": {
+   "active": [
+    "ocean",
+    "landmass",
+    "heightmap",
+    "lakes",
+    "cells",
+    "compass",
+    "rivers",
+    "cultures",
+    "borders",
+    "routes",
+    "coastline",
+    "ice",
+    "burgIcons",
+    "labels",
+    "fogging",
+    "debug",
+    "scaleBar",
+    "vignette",
+    "legend"
+   ],
+   "burgIcons": 565,
+   "labels": 5,
+   "routes": 413,
+   "stateBordersLength": 265,
+   "provinceBordersLength": 70701
+  },
+  "roundTrip": {
+   "identical": true,
+   "records": [
+    53,
+    53
+   ],
+   "differing": []
+  },
+  "draw": {
+   "statesBody": 2,
+   "provinces": 203,
+   "cultures": 2,
+   "religions": 4,
+   "routes": 413,
+   "markers": 120,
+   "zones": 13,
+   "military": 1,
+   "burgs": 565,
+   "emblems": 1
+  },
+  "drawErrors": [],
+  "shots": {
+   "states": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_IV_states.png",
+   "cultures": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_IV_cultures.png",
+   "religions": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_IV_religions.png",
+   "routes": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_IV_routes.png",
+   "provinces": "/home/user/panscriptum/reference/owner_source_material/rodais/eras/maps/shots/Diathir_Age_IV_provinces.png"
+  },
+  "pageErrorsAfterDraw": [],
+  "shires": {
+   "cells_checked": 2858,
+   "problems": []
+  },
+  "expected_counts": {
+   "states": 1,
+   "burgs": 476,
+   "markers": 60,
+   "routes": 413,
+   "zones": 13
+  },
+  "count_mismatches": {},
+  "ok": true
+ }
+}
