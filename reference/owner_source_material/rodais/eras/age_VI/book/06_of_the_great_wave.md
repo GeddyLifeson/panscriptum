@@ -10,7 +10,7 @@
 ## I. Of the Maoir and the Roll of Arms
 
 The shires needed governors before they had governed anything, and the council gave them one apiece before the ink
-on the shire lines was properly dry. A *maor* was set over each, to gather the Crown's dues and keep its peace, and
+on the shire lines was properly dry. A *maor* was set over each, to gather An Crùn's dues and keep its peace, and
 by am Faoilleach of the fourth year every shire in the kingdom, north and south, had one riding its roads and
 lodging in its seat town. In the Tuathaich shires the maoir sent north were Dia-thìrich to a man, for the council saw
 no reason a shire's governor should share the tongue of the people it governed, only the tongue of the court that
@@ -38,7 +38,7 @@ The clerks of the council had one further task that winter, smaller than the due
 more foolish: a roll of arms for the new shires, so that a maor might seal his letters with something more than his
 own thumb-mark. Clàr nan Suaicheantas, they called it when it was done, and it took the better part of am Faoilleach
 and an Gearran to finish, for the clerk given the drawing of it, a careful, near-sighted man named Tòmas, had never
-made a badge in his life and had to learn the trade from a book of arms left behind at the Residency by whoever had
+made a badge in his life and had to learn the trade from a book of arms left behind at Taigh an Àrd-mhaoir by whoever had
 kept such things for the humans. He copied faithfully, and copying faithfully was his undoing, for the book had been
 made for lands the shires had never seen and beasts the island had never held. Lions came onto the seals of shires
 that had never had one closer than a fireside tale; a shire on the eastern moss got a parrot, green and improbable,
@@ -49,7 +49,7 @@ sealing anything at all, were given the rounder shield the humans' own district 
 to ask them which they would rather have carried.
 
 Only one house objected in the whole roll, and it objected by asking for something rather than refusing something,
-which the council found it could not fault. At Seann Skell in the west the order of Manannan sent word that it
+which the council found it could not fault. At Seann Skell in the west Òrd Mhanannain sent word that it
 wanted no lion and no crocodile, but the badge it had always carried on the harbour gate: a yellow scorpion, for
 Manannan's cup, which no one now living could explain and everyone in the west knew by sight. Tòmas drew it as asked,
 the one true creature of the whole roll, and it went out on the shire's letters that spring while the lions and the
@@ -114,7 +114,7 @@ township's people had ploughed.
 The first word to reach Cathair dhearg came by a rider who had ridden through the dark without waiting for light
 to see the road by, and it said less than it should have, because the man carrying it had seen only the edge of
 what had happened and did not yet have words for the middle of it. The council's twelve met before full morning,
-which they had not done since the Severance, and voted a relief party south down the coast road before the
+which they had not done since An Dealachadh, and voted a relief party south down the coast road before the
 sitting broke: grain, blankets, timber, and men enough to dig where digging was wanted. They voted, in the same
 short sitting, that a tally be kept, for the council by its fourth year had learned that little it did not count
 went reliably on being done at all, and a disaster untallied was a disaster it could neither answer nor be praised
@@ -209,7 +209,7 @@ time not without comment, that it had taken forty deaths and a summer's counting
 
 Cnoc chaol was built again the following spring on the slope behind its old ground, high enough that the sea would
 have to climb a hill to trouble it a second time. The old site was left exactly as the water had left it, and the
-townsfolk who had lived there called it an Tràigh Bhàthte, the drowned strand, and did not build on it again, though
+townsfolk who had lived there called it an Tràigh Bhàthte, and did not build on it again, though
 in years the salt washed thin enough that grass grew back across it and sheep grazed there as if nothing at all had
 happened on that ground, which Ailean thought, the one time he rode past it years afterward, was in its own way the
 strangest part of the whole business.
@@ -246,7 +246,7 @@ night on one stretch of coast became, in the mouths of people who had never seen
 of naming any ruin that came without asking leave.
 
 Ailean kept his own tally-book, once its sum was given and recorded, and did not know, laying it in the council's
-chest beside the letters of appointment and the roll of arms with its false lions, that it was the first count in
+chest beside the letters of appointment and Clàr nan Suaicheantas with its false lions, that it was the first count in
 the kingdom's short life to move the council to act rather than to file, or that it would not be the last time a
 number he had written down did more than a petition ever managed to. He knew only, riding north again that autumn
 past the piles of Cuan dhearg's old harbour, now half swallowed by the tide that had ruined them, that the town

@@ -10,8 +10,8 @@
   },
   {
    "id": "EVI-4000",
-   "title": "The Stone's house at Caol leathan rebuilt",
-   "body": "The order of the Stone rebuilds its house at Caol leathan at its own cost, raising a bell tower over the western gable; the town sets its market and its two courts by the bell from that year on.",
+   "title": "Lia Fàil's house at Caol leathan rebuilt",
+   "body": "Òrd na Cloiche rebuilds its house at Caol leathan at its own cost, raising a bell tower over the western gable; the town sets its market and its two courts by the bell from that year on.",
    "kind": "faith",
    "place": "burg:1",
    "category": "faith",
@@ -73,7 +73,7 @@
   },
   {
    "id": "EVI-4003",
-   "title": "The court of the fair roofed",
+   "title": "Cùirt na Fèille roofed",
    "body": "Carpenters of Dùn chrom finish a plain roofed frame, open on three sides, at the field's corner nearest the ford, a fortnight before the fair is to open; it is the only building the state gives the fair in its first year.",
    "kind": "trade",
    "place": "marker:38",
@@ -140,7 +140,7 @@
   },
   {
    "id": "EVI-4006",
-   "title": "The court of the fair's first sitting",
+   "title": "Cùirt na Fèille's first sitting",
    "body": "On the fair's opening morning, 16 an Dàmhair, Oighrig nic Mhathain's court hears its first case, a dispute over a barrel of salt fish, and settles it within the hour by weighing the barrel herself; she writes it into her book as setting the pattern for every case after it.",
    "kind": "law",
    "place": "marker:38",
@@ -162,7 +162,7 @@
   {
    "id": "EVI-4007",
    "title": "The spoil-stone case judged by a smith's eye",
-   "body": "A Cathair mhòr coal-carter brings a Sloc Mòr merchant's load of spoil-stone dressed to pass for coal-iron before the court of the fair; Oighrig nic Mhathain, having no forge of her own, sends the load to Muileann òg's one smith and fines the merchant by his judgment.",
+   "body": "A Cathair mhòr coal-carter brings a Sloc Mòr merchant's load of spoil-stone dressed to pass for coal-iron before Cùirt na Fèille; Oighrig nic Mhathain, having no forge of her own, sends the load to Muileann òg's one smith and fines the merchant by his judgment.",
    "kind": "trade",
    "place": "marker:38",
    "category": "trade",
@@ -183,7 +183,7 @@
   {
    "id": "EVI-4008",
    "title": "David Hale's wool turned away at the gate",
-   "body": "David Hale of Caol mhòr brings four sacks of his father's wool to the fair's ninth day, the first cart from the Moot's own provinces to try it; Oighrig nic Mhathain reads him her own third clause and turns him to a factor's stall, where his wool sells for some fifth part less than a northern market would have given.",
+   "body": "David Hale of Caol mhòr brings four sacks of his father's wool to the fair's ninth day, the first cart from Tional nan Tuathach's own provinces to try it; Oighrig nic Mhathain reads him her own third clause and turns him to a factor's stall, where his wool sells for some fifth part less than a northern market would have given.",
    "kind": "trade",
    "place": "marker:38",
    "category": "trade",
@@ -204,10 +204,51 @@
    ]
   },
   {
+   "id": "EVI-4009",
+   "title": "The first fair runs a fortnight",
+   "body": "The first fair at Muileann òg runs a fortnight, with wool from the western shires, An Sloc Mòr's coal from the east, Baile chiar's cloth and salt from the coastal pans on the one field, more trade than Oighrig nic Mhathain had seen gathered in nine years of market days.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0088",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_fair_at_muileann_og.md#iv-of-the-first-fair",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVI-4010",
+   "title": "Pipers from Baile chiar at the first fair",
+   "body": "Pipers from Baile chiar play for coin at the far corner of the first fair's field, over the woodsmoke and wet wool and the coal carts' black dust, through the low constant argument of buying and selling in half a dozen tongues.",
+   "kind": "trade",
+   "place": "burg:106",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0088",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_fair_at_muileann_og.md#iv-of-the-first-fair",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
    "after": "V-0094"
   },
   {
-   "id": "EVI-4009",
+   "id": "EVI-4011",
    "title": "The fair's road metalled past Dùn chrom",
    "body": "In am Faoilleach the last stretch of the road from Cathair dhearg to Muileann òg is metalled for the fair's carts; the carters already call it Rathad na Fèille before the state gives it a name of its own.",
    "kind": "trade",
@@ -228,7 +269,7 @@
    ]
   },
   {
-   "id": "EVI-4010",
+   "id": "EVI-4012",
    "title": "Dùn chrom's gate-toll raises the fair's wall",
    "body": "The toll taken at Dùn chrom's gate on the fair's road pays, that same winter, for a new wall along the town's southern side, finished by an Cèitean; the townsfolk call it the fair's wall, and the carters call the gate by another name.",
    "kind": "trade",
@@ -249,9 +290,9 @@
    ]
   },
   {
-   "id": "EVI-4011",
-   "title": "The Moot's letter against the factor rule filed",
-   "body": "Walter Hale writes to the council on the Moot's behalf naming the factor rule a licence laid across a trade the north carried on unaided, and asks it looked at again; the council answers, months on, that the rule stands and will not be reconsidered inside the year, and the letter is filed with the Moot's earlier ones.",
+   "id": "EVI-4013",
+   "title": "Tional nan Tuathach's letter against the factor rule filed",
+   "body": "Walter Hale writes to the council on Tional nan Tuathach's behalf naming the factor rule a licence laid across a trade the north carried on unaided, and asks it looked at again; the council answers, months on, that the rule stands and will not be reconsidered inside the year, and the letter is filed with Tional nan Tuathach's earlier ones.",
    "kind": "law",
    "place": "burg:19",
    "category": "law",
@@ -272,7 +313,7 @@
    ]
   },
   {
-   "id": "EVI-4012",
+   "id": "EVI-4014",
    "title": "The fair's rules confirmed and read aloud",
    "body": "In an Lùnastal a council clerk reads Oighrig nic Mhathain's rules aloud before the gathered factors and maoir of the eastern shires, word for word as she wrote them, and asks whether the reading matches her own book; she tells him it does.",
    "kind": "law",
@@ -293,7 +334,7 @@
    ]
   },
   {
-   "id": "EVI-4013",
+   "id": "EVI-4015",
    "title": "The bells rung for Niall",
    "body": "The bells of Òrd Mhacha at Cathair dhearg are rung a full day and a night for Niall's death, and the capital keeps no market. The crowd that gathers is the largest since his crowning; it stays quiet, and disperses before the second night.",
    "kind": "rulers",
@@ -314,9 +355,9 @@
    ]
   },
   {
-   "id": "EVI-4014",
+   "id": "EVI-4016",
    "title": "The council's oath sworn afresh",
-   "body": "The council of twelve, sitting on its fixed day within the week of the crowning, swears its oath of service afresh before Brìghde. The minute-book gives it one line among the day's ordinary business and no more.",
+   "body": "Comhairle na Rìoghachd, sitting on its fixed day within the week of the crowning, swears its oath of service afresh before Brìghde. The minute-book gives it one line among the day's ordinary business and no more.",
    "kind": "rulers",
    "place": "burg:19",
    "category": "rulers",
@@ -335,7 +376,7 @@
    ]
   },
   {
-   "id": "EVI-4015",
+   "id": "EVI-4017",
    "title": "The corrected proclamation at Ros dhomhain",
    "body": "A harbour clerk at Ros dhomhain, copying the crowning's proclamation for the gate, writes Niall's name from habit, scores it through, and sets Brìghde's above the line. The corrected copy is kept under glass at the gate.",
    "kind": "rulers",
@@ -356,7 +397,7 @@
    ]
   },
   {
-   "id": "EVI-4016",
+   "id": "EVI-4018",
    "title": "Gormshuil's struck drafts",
    "body": "The chronicler writes and rejects three entries for the crowning before any stands: one too bare, one that says more than an office should say first, one left unfinished as an argument rather than a record. All three are struck through in her working book.",
    "kind": "law",
@@ -379,7 +420,7 @@
    ]
   },
   {
-   "id": "EVI-4017",
+   "id": "EVI-4019",
    "title": "Gormshuil's resolve on the one idiom",
    "body": "Having let *mar a thàinig Niall* into the royal record, the chronicler resolves to admit no other such phrase for as long as the office is hers, having seen other offices lose their plainness one borrowed ornament at a time.",
    "kind": "law",
@@ -402,7 +443,7 @@
    ]
   },
   {
-   "id": "EVI-4018",
+   "id": "EVI-4020",
    "title": "The hall raised at Seann Dunn",
    "body": "Forty households of the Seann Spioradan along the east coast raise a common hall at Seann Dunn in a single season, working the stone by day, and roof it before the first frost. It holds no image or carving, only two hearths.",
    "kind": "faith",
@@ -425,55 +466,55 @@
    ]
   },
   {
-   "id": "EVI-4019",
-   "title": "Gormshuil's visit to the first naming",
-   "body": "The chronicler rides east to Seann Dunn to watch the hall's first naming of ancestors, not on the Library's business but her own, her mother's house keeping the same rite at a hearth too small for half its dead.",
-   "kind": "faith",
-   "place": "burg:18",
-   "category": "faith",
-   "links": [
-    {
-     "to": "V-0094",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-orders-of-the-old-faith",
-    "the-library"
-   ],
-   "people": [],
-   "told_in": "book/20_of_the_way_niall_came.md#iii-of-the-hall-at-seann-dunn",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
-   "id": "EVI-4020",
-   "title": "The Library's offer to Seann Dunn",
-   "body": "Asked by an elder of the hall whether the Library keeps such lists of the dead, Gormshuil answers that it does not, but will keep any copy sent to it as carefully as anything else that reaches Muileann chaol.",
-   "kind": "faith",
-   "place": "burg:18",
-   "category": "faith",
-   "links": [
-    {
-     "to": "V-0094",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-orders-of-the-old-faith",
-    "the-library"
-   ],
-   "people": [],
-   "told_in": "book/20_of_the_way_niall_came.md#iii-of-the-hall-at-seann-dunn",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
    "id": "EVI-4021",
+   "title": "Gormshuil's visit to the first naming",
+   "body": "The chronicler rides east to Seann Dunn to watch the hall's first naming of ancestors, not on an Leabharlann's business but her own, her mother's house keeping the same rite at a hearth too small for half its dead.",
+   "kind": "faith",
+   "place": "burg:18",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0094",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_way_niall_came.md#iii-of-the-hall-at-seann-dunn",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVI-4022",
+   "title": "An Leabharlann's offer to Seann Dunn",
+   "body": "Asked by an elder of the hall whether an Leabharlann keeps such lists of the dead, Gormshuil answers that it does not, but will keep any copy sent to it as carefully as anything else that reaches Muileann chaol.",
+   "kind": "faith",
+   "place": "burg:18",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0094",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_way_niall_came.md#iii-of-the-hall-at-seann-dunn",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVI-4023",
    "title": "The vote for a light at Cuan ruadh",
    "body": "After two boats are lost on the harbour rocks in a winter fog, the town council of Cuan ruadh votes its own coal money to burn a light on the mole where no Board light has ever reached.",
    "kind": "land",
@@ -494,12 +535,55 @@
    ]
   },
   {
+   "id": "EVI-4024",
+   "title": "Gormshuil's mother laughs at the idiom",
+   "body": "Gormshuil nic Dhùghaill's mother, hearing in her village by Ceann àrsaidh that her daughter has let mar a thàinig Niall into the royal record, laughs longer than Gormshuil thinks the thing deserves, and says her daughter spent years learning to write like nobody in particular so that she could in the end write like everybody.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0093",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_way_niall_came.md#ii-of-the-word-gormshuil-let-in",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVI-4025",
+   "title": "Nine generations named at Seann Dunn",
+   "body": "At the first naming in the hall at Seann Dunn an old woman of the town recites nine generations of her dead before her voice gives out, and her son speaks the tenth for her.",
+   "kind": "faith",
+   "place": "burg:18",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0094",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_way_niall_came.md#iii-of-the-hall-at-seann-dunn",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
    "after": "V-0098"
   },
   {
-   "id": "EVI-4022",
-   "title": "The Seann Dunn list first copied to the Library",
-   "body": "The hall at Seann Dunn sends the Library the first copy of its naming, and goes on sending one every year after, each a little longer than the last. Gormshuil enters only the day it came and the count of names.",
+   "id": "EVI-4026",
+   "title": "The Seann Dunn list first copied to an Leabharlann",
+   "body": "The hall at Seann Dunn sends an Leabharlann the first copy of its naming, and goes on sending one every year after, each a little longer than the last. Gormshuil enters only the day it came and the count of names.",
    "kind": "faith",
    "place": "burg:18",
    "category": "faith",
@@ -521,9 +605,9 @@
    ]
   },
   {
-   "id": "EVI-4023",
-   "title": "The Lighthouse Board's refusal",
-   "body": "The Comhairle nan Taighean-solais writes back to Cuan ruadh that its charter names five lights and no more, and that the town's own light, being no charge on the Crown, may continue as it is. Gormshuil enters the refusal in four lines.",
+   "id": "EVI-4027",
+   "title": "Comhairle nan Taighean-solais's refusal",
+   "body": "The Comhairle nan Taighean-solais writes back to Cuan ruadh that its charter names five lights and no more, and that the town's own light, being no charge on An Crùn, may continue as it is. Gormshuil enters the refusal in four lines.",
    "kind": "land",
    "place": "burg:119",
    "category": "land",
@@ -544,7 +628,7 @@
    ]
   },
   {
-   "id": "EVI-4024",
+   "id": "EVI-4028",
    "title": "The rules of the first Còmhrag",
    "body": "The first Còmhrag at Ceann leathan is fought under rules that run to little more than a fee, a bar on edged weapons, and a purse for the last man standing inside the ropes. Nobody thinks the custom will need more than that.",
    "kind": "war",
@@ -565,9 +649,9 @@
    ]
   },
   {
-   "id": "EVI-4025",
+   "id": "EVI-4029",
    "title": "The dead of the first Còmhrag buried",
-   "body": "Two men who do not walk out of the ropes at the first Còmhrag are buried at Ceann leathan within the week. The melee is fought again the following summer regardless, and the record gives their deaths one plain sentence.",
+   "body": "Two men who do not walk out of the ropes at the first Còmhrag are buried at Ceann leathan within the week. Còmhrag Ceann leathan is fought again the following summer regardless, and the record gives their deaths one plain sentence.",
    "kind": "war",
    "place": "burg:22",
    "category": "war",
@@ -590,7 +674,7 @@
    ]
   },
   {
-   "id": "EVI-4026",
+   "id": "EVI-4030",
    "title": "Calum Ruadh's purse counted out",
    "body": "A year's wages are counted out on a trestle table by the fair-wardens' own clerk for Calum mac Aonghais, hewer of Muileann chrom, who wins the first Còmhrag by refusing to stay down.",
    "kind": "trade",
@@ -611,9 +695,9 @@
    ]
   },
   {
-   "id": "EVI-4027",
+   "id": "EVI-4031",
    "title": "The right to bear arms entered on the shire's roll",
-   "body": "Calum Ruadh's right to bear arms in any shire of the kingdom, the Còmhrag's second prize, is entered that same evening on the shire's roll at Ceann leathan, a right his own father never held.",
+   "body": "Calum Ruadh's right to bear arms in any shire of the kingdom, Còmhrag Ceann leathan's second prize, is entered that same evening on the shire's roll at Ceann leathan, a right his own father never held.",
    "kind": "law",
    "place": "burg:22",
    "category": "law",
@@ -632,9 +716,9 @@
    ]
   },
   {
-   "id": "EVI-4028",
+   "id": "EVI-4032",
    "title": "The fair-wardens' free table",
-   "body": "The inn-keepers of Ceann leathan, four of whom built new houses that year for the Còmhrag's crowds, keep Calum Ruadh's table free of charge, a custom nobody formally agrees to but that holds for as long as he comes back to fight.",
+   "body": "The inn-keepers of Ceann leathan, four of whom built new houses that year for Còmhrag Ceann leathan's crowds, keep Calum Ruadh's table free of charge, a custom nobody formally agrees to but that holds for as long as he comes back to fight.",
    "kind": "trade",
    "place": "burg:22",
    "category": "trade",
@@ -653,12 +737,33 @@
    ]
   },
   {
+   "id": "EVI-4033",
+   "title": "Calum Ruadh walks home alone",
+   "body": "Calum Ruadh walks out of Ceann leathan before dawn the morning after the first Còmhrag with the purse in his coat and the shire clerk's paper folded inside it, past the shuttered inns and the field where the ropes were taken down in the night, and takes Rathad na Mèinne north toward Muileann chrom alone.",
+   "kind": "humans",
+   "place": "burg:22",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0097",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_way_niall_came.md#v-of-the-comhrag",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
    "after": "V-0099"
   },
   {
-   "id": "EVI-4029",
-   "title": "Mary Coyle first speaks in the Moot",
-   "body": "Mary Coyle, widowed of the Cuan bheag drowning, stands and speaks her own words in the Moot at Caol mhòr rather than sending a note forward to be read by another. The clerk David Hale sets her speech down whole in the day-book, the first time a woman's words are kept there entire rather than summed in a line.",
+   "id": "EVI-4034",
+   "title": "Mary Coyle first speaks in Tional nan Tuathach",
+   "body": "Mary Coyle, widowed of the Cuan bheag drowning, stands and speaks her own words in Tional nan Tuathach rather than sending a note forward to be read by another. The clerk David Hale sets her speech down whole in the day-book, the first time a woman's words are kept there entire rather than summed in a line.",
    "kind": "law",
    "place": "burg:95",
    "category": "law",
@@ -682,9 +787,9 @@
    "after": "V-0101"
   },
   {
-   "id": "EVI-4030",
+   "id": "EVI-4035",
    "title": "The widows heard first",
-   "body": "The Moot resolves that the widows of the drowned be heard on the same footing as any man who has paid his shilling, and heard first when a matter touches their own dead. The rule is entered as standing, not as a courtesy for one night, on the widow Agnes Tulloch's motion.",
+   "body": "Tional nan Tuathach resolves that the widows of the drowned be heard on the same footing as any man who has paid his shilling, and heard first when a matter touches their own dead. The rule is entered as standing, not as a courtesy for one night, on the widow Agnes Tulloch's motion.",
    "kind": "law",
    "place": "burg:95",
    "category": "law",
@@ -705,9 +810,9 @@
    ]
   },
   {
-   "id": "EVI-4031",
-   "title": "The Hawk's twentieth first paid",
-   "body": "Ros gheal's factor pays the Hawk houses their first quarter's twentieth on the dues of the new grain dock, the sum the shire's factor haggled down from a tithe. The due is paid every quarter after, and the clerks of Ros gheal come to call it simply the Hawk's, few remembering why.",
+   "id": "EVI-4036",
+   "title": "Òrd an t-Seabhaig's twentieth first paid",
+   "body": "Ros gheal's factor pays Òrd an t-Seabhaig their first quarter's twentieth on the dues of the new grain dock, the sum the shire's factor haggled down from a tithe. The due is paid every quarter after, and the clerks of Ros gheal come to call it simply Òrd an t-Seabhaig's, few remembering why.",
    "kind": "trade",
    "place": "burg:24",
    "category": "trade",
@@ -729,9 +834,9 @@
    "after": "V-0103"
   },
   {
-   "id": "EVI-4032",
-   "title": "The Moot votes to send the western crossing",
-   "body": "After two hard sittings the Moot agrees to Mary Coyle's asking, that northern boats sail west-about to keep the sea-feast at Seann Bhral where the Tuathaich forebears once kept it. Many in the room call it a fool's errand for winter, and are not silenced, only outvoted.",
+   "id": "EVI-4037",
+   "title": "Tional nan Tuathach votes to send the western crossing",
+   "body": "After two hard sittings Tional nan Tuathach agrees to Mary Coyle's asking, that northern boats sail west-about to keep the sea-feast at Seann Bhral where the Tuathaich forebears once kept it. Many in the room call it a fool's errand for winter, and are not silenced, only outvoted.",
    "kind": "faith",
    "place": "burg:95",
    "category": "faith",
@@ -753,9 +858,9 @@
    ]
   },
   {
-   "id": "EVI-4033",
+   "id": "EVI-4038",
    "title": "Eleven boats sail for Seann Bhral",
-   "body": "Eleven boats out of Caol mhòr, Cuan bheag and Achadh àrsaidh put out on a frozen morning under Mary Coyle, carrying little but themselves, a keg of salt fish apiece, and the Moot's own sheet naming her their word. Ros bheag's harbour will not give them its quay, and sends them to a mooring buoy instead.",
+   "body": "Eleven boats out of Caol mhòr, Cuan bheag and Ros mhòr put out on a grey morning at the end of an Lùnastal under Mary Coyle, carrying little but themselves, a keg of salt fish apiece, and Tional nan Tuathach's own sheet naming her their word. Ros bheag's harbour will not give them its quay, and sends them to a mooring buoy instead.",
    "kind": "land",
    "place": "burg:95",
    "category": "land",
@@ -777,9 +882,9 @@
    ]
   },
   {
-   "id": "EVI-4034",
+   "id": "EVI-4039",
    "title": "A boat nearly lost off the passage",
-   "body": "A squall out of the south-west puts green water over the bow of the smallest boat of the eleven, and its crew bails her clear with whatever will hold water. No one of the fleet is lost on the four days' passage, though more than one aboard call it the hardest going since the Crossing itself.",
+   "body": "A squall out of the south-west puts green water over the bow of the smallest boat of the eleven, and its crew bails her clear with whatever will hold water. No one of the fleet is lost on the four days' passage, though more than one aboard call it the hardest going since An t-Aiseag itself.",
    "kind": "land",
    "category": "land",
    "links": [
@@ -799,9 +904,9 @@
    ]
   },
   {
-   "id": "EVI-4035",
+   "id": "EVI-4040",
    "title": "The house at Seann Bhral answers Mary Coyle",
-   "body": "The keeper of Manannan's order at Seann Bhral in the west hears Mary Coyle's asking through to the end and refuses it: the house is kept on tithes of families who hold the rite by blood and the custodian's book, and cannot be opened on a four days' claim, however justly sailed. He tells her the sea is the same; the house is not.",
+   "body": "The keeper of Òrd Mhanannain at Seann Bhral in the west hears Mary Coyle's asking through to the end and refuses it: the house is kept on tithes of families who hold the rite by blood and the custodian's book, and cannot be opened on a four days' claim, however justly sailed. He tells her the sea is the same; the house is not.",
    "kind": "faith",
    "place": "burg:47",
    "category": "faith",
@@ -823,7 +928,7 @@
    ]
   },
   {
-   "id": "EVI-4036",
+   "id": "EVI-4041",
    "title": "Mary Coyle resolves to keep the feast at Cnoc ghorm",
    "body": "On the passage home Mary Coyle tells the crews the north will keep the feast of the sea itself, in full, at the church above Cnoc ghorm where a thin blessing of the boats is already kept each spring. The decision is made before the eleven boats raise Caol mhòr again.",
    "kind": "faith",
@@ -851,10 +956,32 @@
    ]
   },
   {
+   "id": "EVI-4042",
+   "title": "A Ros mhòr man asks what now",
+   "body": "On the third day home from Seann Bhral, off the northern capes, an old Ros mhòr hand who has said little the whole voyage asks Mary Coyle plainly what she means to do now that the west will not have them.",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0103",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_sea-feast_turned_away.md#v-of-the-feast-they-made-their-own",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
    "after": "V-0104"
   },
   {
-   "id": "EVI-4037",
+   "id": "EVI-4043",
    "title": "The first Fleadh na Mara kept in full",
    "body": "More than fifty boats gather at Cnoc ghorm on the second Sunday of an Gearran, far beyond any year before, and the parish priest blesses each hull in turn with heather dipped in harbour water. Mary Coyle's own boat, which carried her to Seann Bhral and back, is blessed fourth in the row.",
    "kind": "faith",
@@ -878,9 +1005,9 @@
    ]
   },
   {
-   "id": "EVI-4038",
+   "id": "EVI-4044",
    "title": "David Hale counts the boats at Cnoc ghorm",
-   "body": "David Hale keeps a written count of the boats blessed at Cnoc ghorm for the Moot's day-book, the first such count taken of the feast. Word of the gathering's size travels the north coast faster than the crossing to Seann Bhral had, and boats are promised from as far as Inis mhin's country the year after.",
+   "body": "David Hale keeps a written count of the boats blessed at Cnoc ghorm for Tional nan Tuathach's day-book, the first such count taken of the feast. Word of the gathering's size travels the north coast faster than the crossing to Seann Bhral had, and boats are promised from as far as Inis mhin's country the year after.",
    "kind": "law",
    "place": "burg:142",
    "category": "law",

@@ -10,7 +10,7 @@
   },
   {
    "id": "EIV-5001",
-   "title": "Ruairidh kneels first to the Cup",
+   "title": "Ruairidh kneels first to Cupa na Fìrinne",
    "body": "At Seann Skell, Ruairidh, a sworn-man of the harbour-court, crosses the quay stones and kneels before his own son Mànas mac Ruairidh, the first of the preaching's hearers to do so. Six other net-menders kneel after him before the tide has gone out much further.",
    "place": "burg:489",
    "kind": "rite",
@@ -89,7 +89,7 @@
   {
    "id": "EIV-5004",
    "title": "The harbour-court's scribe refuses the order's rite",
-   "body": "Donnchadh mac Ailein, scribe of the harbour-court at Seann Skell, refuses to enter the blessings of Òrd Mhanannain in the harbour rolls beside the tallies of hulls and cargoes, holding a rite to be no business of a board kept for hulls. Mànas does not press the matter.",
+   "body": "Donnchadh mac Ailein, scribe of the harbour-court at Seann Skell, refuses to enter the blessings of Òrd Mhanannain in Rolla a' Chalaidh beside the tallies of hulls and cargoes, holding a rite to be no business of a board kept for hulls. Mànas does not press the matter.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -117,8 +117,8 @@
   },
   {
    "id": "EIV-5005",
-   "title": "Tormod Ciar swears the Cup on the rope-walk",
-   "body": "At Cuan shean, the old rope-walker Tormod Ciar, told by a travelling net-mender what Mànas mac Ruairidh preaches of the mist, swears the Cup before his fellow walkers on the rope-walk itself, cupping rainwater in his own hands for want of a bowl, with no priest of the order present to hear him.",
+   "title": "Tormod Ciar swears Cupa na Fìrinne on the rope-walk",
+   "body": "At Cuan shean, the old rope-walker Tormod Ciar, told by a travelling net-mender what Mànas mac Ruairidh preaches of the mist, swears Cupa na Fìrinne before his fellow walkers on the rope-walk itself, cupping rainwater in his own hands for want of a bowl, with no priest of the order present to hear him.",
    "place": "burg:282",
    "kind": "rite",
    "category": "faith",
@@ -143,7 +143,7 @@
   {
    "id": "EIV-5006",
    "title": "Taigh Mhanannain raised at Seann Skell",
-   "body": "The order of Manannan raises its own house at Seann Skell, Taigh Mhanannain, low and built of the same grey stone as the quay near the old harbour-court. The congregation raises the silver for a proper cup without being asked, to replace the plain wooden bowl Mànas has used since the first blessing.",
+   "body": "Òrd Mhanannain raises its own house at Seann Skell, Taigh Mhanannain, low and built of the same grey stone as the quay near the old harbour-court. The congregation raises the silver for a proper cup without being asked, to replace the plain wooden bowl Mànas has used since the first blessing.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -168,7 +168,7 @@
   {
    "id": "EIV-5007",
    "title": "Birth of the fifth ruler of the house of Catrìona",
-   "body": "A child is born at Cathair dhearg to Anna's heir, then five-and-forty years old, in the six-and-twentieth year of Queen Anna's reign; the king-list keeps the year and not the name.",
+   "body": "A child is born at Cathair dhearg to Anna's heir, then five-and-forty years old, in the six-and-twentieth year of Queen Anna's reign; Clàr nan Rìghrean keeps the year and not the name.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -189,7 +189,7 @@
   {
    "id": "EIV-5008",
    "title": "Death of Queen Anna",
-   "body": "Queen Anna dies at Cathair dhearg at five-and-eighty, one-and-thirty years crowned, the last of the house of Catrìona whose name the king-list keeps for more than a century.",
+   "body": "Queen Anna dies at Cathair dhearg at five-and-eighty, one-and-thirty years crowned, the last of the house of Catrìona whose name Clàr nan Rìghrean keeps for more than a century.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -212,7 +212,7 @@
   {
    "id": "EIV-5009",
    "title": "The fourth ruler of the house of Catrìona crowned",
-   "body": "Anna's heir is crowned at Cathair dhearg within the season, fifty years old. The king-list keeps the reign's years and not its name.",
+   "body": "Anna's heir is crowned at Cathair dhearg within the season, fifty years old. Clàr nan Rìghrean keeps the reign's years and not its name.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -263,7 +263,7 @@
   {
    "id": "EIV-5011",
    "title": "The rule of the headlands laid down",
-   "body": "After a winter's debate, the priests of Manannan's order at Ros bheag lay down that no boat of the faithful may sail out of sight of the headlands, on pain of answering for it before the Cup. The rule holds on the west coast far beyond any one preacher's lifetime.",
+   "body": "After a winter's debate, the priests of Òrd Mhanannain at Ros bheag lay down that no boat of the faithful may sail out of sight of the headlands, on pain of answering for it before Cupa na Fìrinne. The rule holds on the west coast far beyond any one preacher's lifetime.",
    "place": "burg:63",
    "kind": "record",
    "category": "law",
@@ -312,7 +312,7 @@
   {
    "id": "EIV-5013",
    "title": "Griogair cannot name his grandfather's star",
-   "body": "A priest of Manannan's order at Ros bheag asks a boy named Griogair, grandson of one of the last pilots to hold a course by night on that shore, which star his grandfather steered by. The boy cannot answer, and no one in his own house had thought to write the star's name down.",
+   "body": "A priest of Òrd Mhanannain at Ros bheag asks a boy named Griogair, grandson of one of the last pilots to hold a course by night on that shore, which star his grandfather steered by. The boy cannot answer, and no one in his own house had thought to write the star's name down.",
    "place": "burg:63",
    "kind": "record",
    "category": "law",
@@ -340,7 +340,7 @@
   {
    "id": "EIV-5014",
    "title": "The granaries of Àth shean rebuilt",
-   "body": "The royal granaries at Àth shean, standing since before the Sundering, are pulled down and rebuilt in dressed stone on raised floors against the rats, along with a new tally-house. Fearchar mac Phàdraig, the reeve who oversees the three-year labour, sees the shire's grain stand dry through its first winter.",
+   "body": "The royal granaries at Àth shean, standing since before a' Scaradh, are pulled down and rebuilt in dressed stone on raised floors against the rats, along with a new tally-house. Fearchar mac Phàdraig, the reeve who oversees the three-year labour, sees the shire's grain stand dry through its first winter.",
    "place": "burg:67",
    "kind": "trade",
    "category": "trade",
@@ -363,7 +363,7 @@
   {
    "id": "EIV-5015",
    "title": "Murchadh Beag takes Eòghann mac Pheadair from the coal-face",
-   "body": "The old scribe of the vein-house, Murchadh Beag, hears a coal-breaker's young son recite back a whole day's cartage without once looking at the board, and asks the boy's father whether a household might spare him for a scribe's stool. Eòghann mac Pheadair is set to sweep the vein-house floor and mix ink before he is let touch a leaf.",
+   "body": "The old scribe of Taigh na Fèithe, Murchadh Beag, hears a coal-breaker's young son recite back a whole day's cartage without once looking at the board, and asks the boy's father whether a household might spare him for a scribe's stool. Eòghann mac Pheadair is set to sweep Taigh na Fèithe floor and mix ink before he is let touch a leaf.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -385,7 +385,7 @@
   },
   {
    "id": "EIV-5016",
-   "title": "The vein-house's leaf takes in the rope-ground sown with barley",
+   "title": "Taigh na Fèithe's leaf takes in the rope-ground sown with barley",
    "body": "Eòghann mac Pheadair, fourteen and newly trusted with a leaf of his own, enters the ground given up by Cuan shean's rope-walks for barley, the first entry he copies whose full sense Murchadh Beag has to explain to him. He learns that a scribe's business is the fact and the year, not the grief behind it.",
    "place": "burg:491",
    "kind": "trade",
@@ -435,7 +435,7 @@
   {
    "id": "EIV-5018",
    "title": "Eòghann mac Pheadair at four-and-twenty",
-   "body": "At four-and-twenty Eòghann mac Pheadair has old Murchadh Beag's stool at the vein-house as good as his own, and enters the wave at Cnoc chaol on the general leaf as he enters every disaster that touches a household of the coal-right: names, place, day.",
+   "body": "At four-and-twenty Eòghann mac Pheadair has old Murchadh Beag's stool at Taigh na Fèithe as good as his own, and enters the wave at Cnoc chaol on the general leaf as he enters every disaster that touches a household of the coal-right: names, place, day.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -459,7 +459,7 @@
   {
    "id": "EIV-5019",
    "title": "A household of Cnoc chaol removes its gallery-claim from the shore",
-   "body": "After the great wave that took two children from the beach at Cnoc chaol, the household of one of the drowned strikes itself from its old gallery and takes up a new claim further from the water. Eòghann mac Pheadair enters the removal on the vein-house's leaf the following season, cold and plain as he was taught.",
+   "body": "After the great wave that took two children from the beach at Cnoc chaol, the household of one of the drowned strikes itself from its old gallery and takes up a new claim further from the water. Eòghann mac Pheadair enters the removal on Taigh na Fèithe's leaf the following season, cold and plain as he was taught.",
    "place": "burg:364",
    "kind": "craft",
    "category": "coal",
@@ -487,7 +487,7 @@
   {
    "id": "EIV-5020",
    "title": "Eòghann mac Pheadair witnesses the market bounds at Baile Mòr dhìreach",
-   "body": "Sent east on his own feet for the first time, Eòghann mac Pheadair stands witness for the seven houses when the crown's grant of a market is read at Baile Mòr dhìreach and its boundary stones set. He watches the first stalls go up the same afternoon and walks the road home slower than he walked out.",
+   "body": "Sent east on his own feet for the first time, Eòghann mac Pheadair stands witness for Na Seachd Taighean when the crown's grant of a market is read at Baile Mòr dhìreach and its boundary stones set. He watches the first stalls go up the same afternoon and walks the road home slower than he walked out.",
    "place": "burg:136",
    "kind": "trade",
    "category": "trade",
@@ -511,8 +511,8 @@
   },
   {
    "id": "EIV-5021",
-   "title": "Mòrag nic Ìomhair rides to the vein-house with the crown's leaves",
-   "body": "A scribe of the red hall's own household, Mòrag nic Ìomhair, rides the thirty-nine miles to the vein-house at Muileann dhearg to set the crown's reckoning of the years of the Diosal against the custody-book's own, after the two offices' counts are found not to agree. The master of the vein-house grants her the book for as many days as the matter takes.",
+   "title": "Mòrag nic Ìomhair rides to Taigh na Fèithe with the crown's leaves",
+   "body": "A scribe of An Talla Dearg's own household, Mòrag nic Ìomhair, rides the thirty-nine miles to Taigh na Fèithe at Muileann dhearg to set the crown's reckoning of Bliadhnaichean an Diosail against Leabhar a' Chùraim's own, after the two offices' counts are found not to agree. The master of Taigh na Fèithe grants her the book for as many days as the matter takes.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -538,7 +538,7 @@
   {
    "id": "EIV-5022",
    "title": "The fault in the count is found and cannot be mended",
-   "body": "Working three days by lamplight, Eòghann mac Pheadair and Mòrag nic Ìomhair trace the two offices' counts of the Diosal back to a single year, early after the sunwise turn, entered twice by one office's habit or once by the other's. Neither leaf either scribe has brought can say which office erred, or whether either truly has.",
+   "body": "Working three days by lamplight, Eòghann mac Pheadair and Mòrag nic Ìomhair trace the two offices' counts of An Diosal back to a single year, early after An Diosal, entered twice by one office's habit or once by the other's. Neither leaf either scribe has brought can say which office erred, or whether either truly has.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -567,7 +567,7 @@
   {
    "id": "EIV-5023",
    "title": "The two counts settled by agreement, not by proof",
-   "body": "The vein-house and the crown's scribe take the crown's count for the reckoning that will go forward, since it touches more households than the vein-house's own, and Eòghann mac Pheadair writes the vein-house's agreement to it in his own hand. The master of the vein-house's mark is set under his, and the crown scribe's office mark under that.",
+   "body": "Taigh na Fèithe and the crown's scribe take the crown's count for the reckoning that will go forward, since it touches more households than Taigh na Fèithe's own, and Eòghann mac Pheadair writes Taigh na Fèithe's agreement to it in his own hand. The master of Taigh na Fèithe's mark is set under his, and the crown scribe's office mark under that.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -592,8 +592,8 @@
   },
   {
    "id": "EIV-5024",
-   "title": "The day of the rite of the empty harbour fixed",
-   "body": "The same agreement that settles the count also fixes, for the first time, a single day on which the rite of the empty harbour is to be kept by every harbour of the coast together, in place of each keeping it a day or two either side of its neighbours by its own old custom. Mòrag nic Ìomhair carries word of it down to Seann Skell.",
+   "title": "The day of Deas-ghnàth a' Chalaidh Fhalaimh fixed",
+   "body": "The same agreement that settles the count also fixes, for the first time, a single day on which Deas-ghnàth a' Chalaidh Fhalaimh is to be kept by every harbour of the coast together, in place of each keeping it a day or two either side of its neighbours by its own old custom. Mòrag nic Ìomhair carries word of it down to Seann Skell.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -617,8 +617,8 @@
   },
   {
    "id": "EIV-5025",
-   "title": "The agreement-leaf folded into the custody-book",
-   "body": "Eòghann mac Pheadair keeps his copy of the sealed agreement between two older leaves of the custody-book that had never before had a stranger's mark folded in among them. He tells the master of the vein-house only that the crown's scribe was a hard woman to argue a figure past and an easy one to agree a figure with.",
+   "title": "The agreement-leaf folded into Leabhar a' Chùraim",
+   "body": "Eòghann mac Pheadair keeps his copy of the sealed agreement between two older leaves of Leabhar a' Chùraim that had never before had a stranger's mark folded in among them. He tells the master of Taigh na Fèithe only that the crown's scribe was a hard woman to argue a figure past and an easy one to agree a figure with.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -643,7 +643,7 @@
   {
    "id": "EIV-5026",
    "title": "The coast keeps the rite on the agreed day",
-   "body": "Mòrag nic Ìomhair writes to Eòghann mac Pheadair the following winter that not a single harbour of the coast has written to complain of the day set for the rite of the empty harbour. Eòghann keeps the short note folded inside his own working leaves for the rest of his working life.",
+   "body": "Mòrag nic Ìomhair writes to Eòghann mac Pheadair the following winter that not a single harbour of the coast has written to complain of the day set for Deas-ghnàth a' Chalaidh Fhalaimh. Eòghann keeps the short note folded inside his own working leaves for the rest of his working life.",
    "place": "burg:491",
    "kind": "rite",
    "category": "faith",
@@ -691,8 +691,8 @@
   },
   {
    "id": "EIV-5028",
-   "title": "Word of the disputation at Inis mhòr reaches the vein-house",
-   "body": "A rider carries north country talk to the vein-house of a house of disputation newly founded at Inis mhòr, whose first master refuses every answer offered him on whether the vein answers any true count of years or only the custom of counting it. Eòghann mac Pheadair, old now, hears it out and goes back to his leaf.",
+   "title": "Word of the disputation at Inis mhòr reaches Taigh na Fèithe",
+   "body": "A rider carries north country talk to Taigh na Fèithe of a house of disputation newly founded at Inis mhòr, whose first master refuses every answer offered him on whether the vein answers any true count of years or only the custom of counting it. Eòghann mac Pheadair, old now, hears it out and goes back to his leaf.",
    "place": "burg:491",
    "kind": "rite",
    "category": "faith",
@@ -719,8 +719,8 @@
   },
   {
    "id": "EIV-5029",
-   "title": "The master of the vein-house stands for Eòghann at the crowning",
-   "body": "When the seven houses' custodians go down to Cathair dhearg to see the new queen crowned, as the compact requires, the master of the vein-house goes in place of Eòghann mac Pheadair, whose legs will no longer answer for a journey of thirty-nine miles in a single season. Eòghann hears the crowning described to him afterward by the returning master.",
+   "title": "The master of Taigh na Fèithe stands for Eòghann at the crowning",
+   "body": "When Na Seachd Taighean' custodians go down to Cathair dhearg to see the new queen crowned, as the compact requires, the master of Taigh na Fèithe goes in place of Eòghann mac Pheadair, whose legs will no longer answer for a journey of thirty-nine miles in a single season. Eòghann hears the crowning described to him afterward by the returning master.",
    "place": "burg:491",
    "kind": "court",
    "category": "rulers",
@@ -744,7 +744,7 @@
   },
   {
    "id": "EIV-5030",
-   "title": "Eòghann mac Pheadair is carried to the bath-house at the hot springs",
+   "title": "Eòghann mac Pheadair is carried to the bath-house at Fuarain Theth Muileann ruadh",
    "body": "In the last cold turn of the year, his chest gone tight in a way no winter before has managed, Eòghann mac Pheadair lets himself be carried by cart to the rebuilt bath-house below Muileann ruadh, where he sits in the warm water among coal-breakers, salt-carriers and a shepherd's widow, none of them minding whose gallery the others answer to.",
    "place": "marker:0",
    "kind": "craft",
@@ -843,7 +843,7 @@
   },
   {
    "id": "EIV-5034",
-   "title": "The harbour rolls name Aonghas mac Ruairidh among the sea-thieves",
+   "title": "Rolla a' Chalaidh name Aonghas mac Ruairidh among the sea-thieves",
    "body": "The first full count of the takings sent up to Cathair dhearg names, among the sea-thieves of the small islands, a fisherman's son of Baile chrom, Aonghas mac Ruairidh. His mother tells the reeve plainly that a young man who watches the fish thin will go looking for a living wherever it is still to be found.",
    "place": "burg:305",
    "kind": "war",
@@ -917,7 +917,7 @@
   {
    "id": "EIV-5037",
    "title": "Birth of Dòmhnall Ruadh",
-   "body": "A son, red-haired and called Dòmhnall Ruadh, is born at Muileann chrom to a custodian household of Clann Raghnaill that keeps three galleries under the mountain and has never once been asked into the red hall except to petition.",
+   "body": "A son, red-haired and called Dòmhnall Ruadh, is born at Muileann chrom to a custodian household of Clann Raghnaill that keeps three galleries under the mountain and has never once been asked into An Talla Dearg except to petition.",
    "place": null,
    "kind": "craft",
    "category": "coal",
@@ -992,7 +992,7 @@
   },
   {
    "id": "EIV-5040",
-   "title": "The raid on Eilean dhubh",
+   "title": "Creach Eilean dhubh",
    "body": "Iain mac Thormoid's boats land at first light on Eilean dhubh and burn the sea-thieves' hulls on the strand, Coinneach mac Nèill's own fishermen leading the way through the channel among the small islands. The sea-thieves, unwatched for the better part of a decade, are taken all but by surprise.",
    "place": "feature:3",
    "kind": "war",
@@ -1165,8 +1165,8 @@
   },
   {
    "id": "EIV-5047",
-   "title": "The king-list recopied",
-   "body": "The queen's scribes at Cathair dhearg take down the old king-list from its resting place and copy it afresh onto new hide, adding every ruler since the fleet had gone and setting the new copy's beginning at the Choosing rather than at the sailing.",
+   "title": "Clàr nan Rìghrean recopied",
+   "body": "The queen's scribes at Cathair dhearg take down the old Clàr nan Rìghrean from its resting place and copy it afresh onto new hide, adding every ruler since the fleet had gone and setting the new copy's beginning at An Roghnachadh rather than at the sailing.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",

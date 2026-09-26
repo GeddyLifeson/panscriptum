@@ -4,7 +4,7 @@
 
 ## I. Of the Flax and the Door
 
-*At Dùn ìseal the knot-keepers tell this, and they tell it with a cord across their knees.*
+*At Dùn ìseal Luchd nan Snaidhm tell this, and they tell it with a cord across their knees.*
 
 Sìne nan Snaidhm sat down at the door of the long gathering-house below Dùn ìseal on the second day of an Dàmhair, in the morning, with a basket of flax beside her and a stool under her and a new cord in her lap.
 
@@ -40,7 +40,7 @@ She had brought a knot-keeper of her own from the lowlands, a thin young man wit
 
 Sìne said nothing. She gave Eithne her knot, with green for her line, and Eithne gave her line crisply, "Ailean's daughter," and stood back and watched Fionn Beag bend over the cord and run the knot through his fingers and nod.
 
-After that Fionn Beag counted every knot. He counted Eithne's children and grandchildren, and he counted the lines that came after them, the grey of the line of Fionnghal of the western shore, the brown of Artair's line of the salt shore, the yellow of Cormac's in the east. He counted them all day. When Sìne tied a knot he reached across and felt it; when she caught a colour into it he checked it against the bag; when an heir gave a line he listened with his head on one side, and more than once he stopped an heir and asked him to say it again. Sìne let him. She did not hurry and she did not slow down.
+After that Fionn Beag counted every knot. He counted Eithne's children and grandchildren, and he counted the lines that came after them, the grey of Sliochd Fhionnghail of the western shore, the brown of Artair's line of Tràigh an t-Salainn, the yellow of Cormac's in the east. He counted them all day. When Sìne tied a knot he reached across and felt it; when she caught a colour into it he checked it against the bag; when an heir gave a line he listened with his head on one side, and more than once he stopped an heir and asked him to say it again. Sìne let him. She did not hurry and she did not slow down.
 
 On the evening of the fourth day he went to Eithne at her fire and told her that the knot-keeper of Dùn ìseal had made no mistake. He said it had been four days and near two hundred knots, and that he had never in his life seen fingers like hers, and that he did not think he could have kept up with her if she had not been letting him.
 
@@ -98,7 +98,7 @@ Sìne said to her daughters that this was the best thing that had happened. She 
 
 On the eighth day the lines of the dead began to come to the door, and Sìne had to decide what to do with them.
 
-The king had been having children for four thousand years, and a great many of them had died before him: some in the long wars of the reign, some of accidents, some of the slow thinning that came even to the long-lived in the end, and a few, the eldest, simply of years, having been born before the long years were in the king's blood at all. They were more than the living. Their children and grandchildren were in the valley in hundreds, and every one of them came to the door and gave a line that began with a name nobody living had seen.
+The king had been having children for four thousand years, and a great many of them had died before him: some in the long wars of the reign, some of accidents, some of the slow thinning that came even to the long-lived in the end, and a few, the eldest, simply of years, having been born before na Bliadhnachan Fada were in the king's blood at all. They were more than the living. Their children and grandchildren were in the valley in hundreds, and every one of them came to the door and gave a line that began with a name nobody living had seen.
 
 Sìne could not tie a knot for a dead man in the heirs' cord. The dead were not heirs. But she could not tie his grandchildren to nothing, either, and have them hang loose in the cord between the living lines with no colour to say whose they were. The lines of the dead watched her at the door that morning to see what she would do, and so did the lines of the living, more closely.
 
@@ -124,7 +124,7 @@ Behind him in the crowd four men of four different lines began to mutter, and on
 
 Most of the knots were not like that. Most of them were people Sìne had never seen before and would never see again: sons and daughters of the king's great-grandchildren, come in from the far coasts in the last days before the gathering closed, who had never been in the valley and stood blinking at the door in their travelling cloaks and gave their lines slowly, as if they were not sure of them. Many of them were not sure. Sìne helped them. She knew the lines by then better than most of the people in them.
 
-There were old men and women, grandchildren of the king, who had been born in his second thousand years and looked it. There were young ones, great-great-grandchildren, who were the age of her own daughters and had the long years in them so faintly that they might live no longer than anyone. And on the ninth day there was a child in arms.
+There were old men and women, grandchildren of the king, who had been born in his second thousand years and looked it. There were young ones, great-great-grandchildren, who were the age of her own daughters and had na Bliadhnachan Fada in them so faintly that they might live no longer than anyone. And on the ninth day there was a child in arms.
 
 The child was the youngest of all of them: a great-great-grandchild of the king, some months old, of the salt-shore line. The mother came to the door with the child wrapped in a shawl and held it up in both hands for Sìne to see, and gave its line for it, one name after another, back to the king. The crowd behind her went quiet to hear it. It was the longest line anybody gave at the door, and the child slept through all of it.
 
@@ -146,7 +146,7 @@ She saw Niall Òg find his own knot and sit down on the floor beside it and look
 
 She said to her daughters afterward that the heirs had not come to see their own knots. They had come to see everybody else's. She said that she had tied seven hundred and twelve people to a rope, and that every one of them had walked the length of it that night to see who was tied too near.
 
-On the next day, the thirteenth of an Dàmhair, the keepers of the slab declared to the whole valley that the heirs of Ailean Mòr were counted, and that there were seven hundred and twelve of them; and the heirs agreed, because every one of them had watched every knot being tied, and none of them could say otherwise. It was the first thing they had agreed on since the Binding, and the last for a long while.
+On the next day, the thirteenth of an Dàmhair, the keepers of the slab declared to the whole valley that the heirs of Ailean Mòr were counted, and that there were seven hundred and twelve of them; and the heirs agreed, because every one of them had watched every knot being tied, and none of them could say otherwise. It was the first thing they had agreed on since An Ceangal, and the last for a long while.
 
 That evening Aodh Crom came down to Sìne's house for the second time, and this time he came in and sat by the fire. He had brought her a basket of the keepers' coal, a season's handful and more, and he set it down by the hearth without a word. She kept it. It was the only thing she took for the cord, and she said afterward that she took it because it came after the work and asked nothing of her. The old man sat a while and watched her daughters coiling the spare flax. Then he asked her whether she thought the heirs would keep to what the cord said, when it came to the cutting.
 
@@ -154,4 +154,4 @@ That evening Aodh Crom came down to Sìne's house for the second time, and this 
 
 Aodh Crom laughed, which she had not heard him do before, and said that she should have been a keeper of the slab, and she said that she had enough to keep.
 
-That gathering is called *Cruinneachadh nan Oighrean*, the Gathering of the Heirs; and the cord Sìne tied at the door of it was kept in the gathering-house in a chest of its own, and was called *Sreang nan Oighrean*, the cord of the heirs, and was not cut until the night of the handful.
+That gathering is called *Cruinneachadh nan Oighrean*, Cruinneachadh nan Oighrean; and the cord Sìne tied at the door of it was kept in the gathering-house in a chest of its own, and was called *Sreang nan Oighrean*, Sreang nan Oighrean, and was not cut until Oidhche an Dòrlaich.

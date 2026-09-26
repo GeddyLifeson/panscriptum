@@ -1,12 +1,42 @@
 {
  "writer": 3,
  "span": [
-  "II-0019",
+  "II-0018",
   "II-0045"
  ],
  "events": [
   {
    "id": "EIII-3001",
+   "title": "Three candidates passed over for the flame",
+   "body": "On Muireach Liath's death Na Naoi Teallaichean weigh three households' candidates at length: a steady grandson of the sixth hearth, a daughter of the third hearth whose grandmother helped choose Beathag Bhàn, and Muireach's own nephew of the ninth hearth. All three are passed over in favour of Muireach's daughter Gormshuil, chosen on the work alone.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0019",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-2060",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_silver_of_muileann_chiar.md#vi-of-the-flame-passed-to-gormshuil",
+   "era_between": [
+    89,
+    89
+   ]
+  },
+  {
+   "after": "II-0019"
+  },
+  {
+   "id": "EIII-3002",
    "title": "Muireach's nephew goes to the furnaces",
    "body": "Passed over for the flame on the strength of blood alone, Muireach Liath's nephew of the ninth hearth goes north within the year to take up work at one of Fearchar's furnaces at Muileann chiar, where he is said to prosper a good deal more than he might have as a Keeper chosen by kinship rather than by the households' own will.",
    "place": "burg:419",
@@ -18,7 +48,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-2061",
+     "to": "EIII-3001",
      "type": "sequel"
     }
    ],
@@ -36,7 +66,7 @@
    "after": "II-0020"
   },
   {
-   "id": "EIII-3002",
+   "id": "EIII-3003",
    "title": "Sìleas counts the coal's colours",
    "body": "At the far-eastern Muileann chiar, Sìleas nic Coinnich begins counting which strokes of her own pick break the vein bright with colour and which break it plain dull coal, and notices the bright breaks come to no cutter's hand alone, not even her own, on every shift.",
    "place": "burg:78",
@@ -59,39 +89,12 @@
    ]
   },
   {
-   "id": "EIII-3003",
+   "id": "EIII-3004",
    "title": "Sìleas's mother warns against the asking",
    "body": "Sìleas's mother, who cut the same wall before her, tells her that a question put to the vein is better left unput, and that the mountain has fed the house four generations without being asked why. Sìleas holds her tongue, but not her counting.",
    "place": "burg:78",
    "kind": "faith",
    "category": "faith",
-   "links": [
-    {
-     "to": "II-0022",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-3002",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-orders-of-the-old-faith"
-   ],
-   "people": [],
-   "told_in": "book/12_of_sileas_and_the_stag.md#i-of-the-coal-that-would-not-answer-evenly",
-   "era_between": [
-    98,
-    98
-   ]
-  },
-  {
-   "id": "EIII-3004",
-   "title": "Sìleas moved from wall to wall",
-   "body": "The overseer of Muileann chiar's galleries, wearying of a cutter who tries the coal's answer against fasting, singing and the hour of the day, moves Sìleas nic Coinnich from wall to wall until no face is left that has not already been asked her questions.",
-   "place": "burg:78",
-   "kind": "coal",
-   "category": "coal",
    "links": [
     {
      "to": "II-0022",
@@ -106,6 +109,33 @@
     "the-orders-of-the-old-faith"
    ],
    "people": [],
+   "told_in": "book/12_of_sileas_and_the_stag.md#i-of-the-coal-that-would-not-answer-evenly",
+   "era_between": [
+    98,
+    98
+   ]
+  },
+  {
+   "id": "EIII-3005",
+   "title": "Sìleas moved from wall to wall",
+   "body": "The overseer of Muileann chiar's galleries, wearying of a cutter who tries the coal's answer against fasting, singing and the hour of the day, moves Sìleas nic Coinnich from wall to wall until no face is left that has not already been asked her questions.",
+   "place": "burg:78",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-3004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
    "told_in": "book/12_of_sileas_and_the_stag.md#ii-of-the-wood-and-the-first-lesson",
    "era_between": [
     100,
@@ -113,8 +143,8 @@
    ]
   },
   {
-   "id": "EIII-3005",
-   "title": "Sìleas withdraws to the holy wood",
+   "id": "EIII-3006",
+   "title": "Sìleas withdraws to Coille Naomh Muileann chiar",
    "body": "Sìleas nic Coinnich goes up into Coille Naomh Muileann chiar meaning only to sit and think, and finds three cutters of her own galleries have followed her there unasked, each carrying the same unspoken question from the face.",
    "place": "burg:78",
    "kind": "faith",
@@ -125,7 +155,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3004",
+     "to": "EIII-3005",
      "type": "sequel"
     }
    ],
@@ -143,7 +173,7 @@
    "after": "II-0021"
   },
   {
-   "id": "EIII-3006",
+   "id": "EIII-3007",
    "title": "Forty gather in the clearing",
    "body": "Two springs after the first evening in the wood, near forty cutters, basket-carriers and children of the overseer's own house sit in the clearing above Muileann chiar to hear Sìleas nic Coinnich set out her counting, more than the old fallen trunk she taught from can seat.",
    "place": "burg:78",
@@ -155,7 +185,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3005",
+     "to": "EIII-3006",
      "type": "sequel"
     }
    ],
@@ -173,7 +203,7 @@
    "after": "II-0022"
   },
   {
-   "id": "EIII-3007",
+   "id": "EIII-3008",
    "title": "A hearer walks a fortnight to the wood",
    "body": "A woman of the northern shore, having heard a story of a stag grown taller with every telling between her home and the wood, walks a fortnight to sit in Sìleas's clearing, and is told plainly that the counting, not the stag, is the whole of what is taught there.",
    "place": "burg:78",
@@ -185,7 +215,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3006",
+     "to": "EIII-3007",
      "type": "sequel"
     }
    ],
@@ -203,9 +233,9 @@
    "after": "II-0023"
   },
   {
-   "id": "EIII-3008",
+   "id": "EIII-3009",
    "title": "Ìomhar Dearg killed at the ford",
-   "body": "Riding to see a moved boundary stone on the Red Share's northern march, Ìomhar Dearg is speared through the throat at the ford of the Abhainn dhomhain by Eachann Ruadh mac Mhurchaidh, in payment for Aonghas Bàn's death at Dùn thais sixty years before. His riders bring him from the water dead.",
+   "body": "Riding to see a moved boundary stone on an Earrann Dhearg's northern march, Ìomhar Dearg is speared through the throat at the ford of the Abhainn dhomhain by Eachann Ruadh mac Mhurchaidh, in payment for Aonghas Bàn's death at Dùn thais sixty years before. His riders bring him from the water dead.",
    "place": null,
    "kind": "war",
    "category": "war",
@@ -218,7 +248,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/12_of_sileas_and_the_stag.md#iii-of-the-ford",
    "era_between": [
     121,
@@ -226,9 +258,9 @@
    ]
   },
   {
-   "id": "EIII-3009",
-   "title": "The Red Share held whole under Dùghall Dearg",
-   "body": "Dùghall Dearg mac Ìomhair takes up the Red Share entire the week his father is buried, and tells the four lines who come to Dùn dhearg with old claims that the share was won with a sword and will be kept with one. None presses a claim against his household.",
+   "id": "EIII-3010",
+   "title": "An Earrann Dhearg held whole under Dùghall Dearg",
+   "body": "Dùghall Dearg mac Ìomhair takes up an Earrann Dhearg entire the week his father is buried, and tells the four lines who come to Dùn dhearg with old claims that the share was won with a sword and will be kept with one. None presses a claim against his household.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -238,33 +270,6 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3008",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-division"
-   ],
-   "people": [],
-   "told_in": "book/12_of_sileas_and_the_stag.md#iii-of-the-ford",
-   "era_between": [
-    121,
-    121
-   ]
-  },
-  {
-   "id": "EIII-3010",
-   "title": "Eachann Ruadh flees to the Hall's ground",
-   "body": "Eachann Ruadh mac Mhurchaidh rides through the night from the ford to the ground before the Hall of the Flame, throws down his second spear, and sits within sight of Brìde's fire until the Keeper's cutters come out to him, asking the ground and nothing of the flame itself.",
-   "place": "burg:315",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "II-0022",
-     "type": "parallel"
-    },
-    {
      "to": "EIII-3009",
      "type": "sequel"
     }
@@ -272,24 +277,26 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/12_of_sileas_and_the_stag.md#iii-of-the-ford",
    "era_between": [
-    122,
-    122
+    121,
+    121
    ]
   },
   {
    "id": "EIII-3011",
-   "title": "Gormshuil rules the Hall's ground holds even a killer",
-   "body": "Gormshuil nic Mhuirich rules that no spear may follow Eachann Ruadh mac Mhurchaidh past the Hall's boundary stone, though what waits for him beyond it is not hers to answer for, and lets him raise a hut at the ground's edge to cut turf for the Hall's own fires.",
+   "title": "Eachann Ruadh flees to Talla na Lasrach's ground",
+   "body": "Eachann Ruadh mac Mhurchaidh rides through the night from the ford to the ground before Talla na Lasrach, throws down his second spear, and sits within sight of Brìde's fire until Coimheadaiche na Lasrach's cutters come out to him, asking the ground and nothing of the flame itself.",
    "place": "burg:315",
-   "kind": "law",
-   "category": "law",
+   "kind": "faith",
+   "category": "faith",
    "links": [
     {
      "to": "II-0022",
-     "type": "sequel"
+     "type": "parallel"
     },
     {
      "to": "EIII-3010",
@@ -308,8 +315,35 @@
   },
   {
    "id": "EIII-3012",
+   "title": "Gormshuil rules Talla na Lasrach's ground holds even a killer",
+   "body": "Gormshuil nic Mhuirich rules that no spear may follow Eachann Ruadh mac Mhurchaidh past Talla na Lasrach's boundary stone, though what waits for him beyond it is not hers to answer for, and lets him raise a hut at the ground's edge to cut turf for Talla na Lasrach's own fires.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-3011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/12_of_sileas_and_the_stag.md#iii-of-the-ford",
+   "era_between": [
+    122,
+    122
+   ]
+  },
+  {
+   "id": "EIII-3013",
    "title": "A loaned cutter's report reaches Gormshuil",
-   "body": "A cutter of Dùn ìseal's own galleries, home from a season's loan to Muileann chiar, tells the Hall in passing that the eastern cutters count their strokes and ask why the coal answers one hand and not another. Gormshuil sends her own cutter east to see the wood for herself.",
+   "body": "A cutter of Dùn ìseal's own galleries, home from a season's loan to Muileann chiar, tells Talla na Lasrach in passing that the eastern cutters count their strokes and ask why the coal answers one hand and not another. Gormshuil sends her own cutter east to see the wood for herself.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -319,7 +353,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3011",
+     "to": "EIII-3012",
      "type": "sequel"
     }
    ],
@@ -334,7 +368,7 @@
    ]
   },
   {
-   "id": "EIII-3013",
+   "id": "EIII-3014",
    "title": "Sìleas summoned to Dùn ìseal",
    "body": "Gormshuil nic Mhuirich summons Sìleas nic Coinnich to Dùn ìseal, and the two speak alone in the keepers' hut by the flame Beathag Bhàn once held. Neither afterwards gives a full account of what passed between them; only the ruling that follows is known.",
    "place": "burg:315",
@@ -346,7 +380,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3012",
+     "to": "EIII-3013",
      "type": "sequel"
     }
    ],
@@ -364,7 +398,7 @@
    "after": "II-0024"
   },
   {
-   "id": "EIII-3014",
+   "id": "EIII-3015",
    "title": "The eastern cutters walk further into the hills",
    "body": "After the galleries of Dùn ìseal are shut to them, a dozen of Sìleas nic Coinnich's oldest hearers walk east out of Muileann chiar to raise a house of their own further from the mountain's shadow, following the wood where it thickens and the seam where it runs deeper.",
    "place": "burg:78",
@@ -376,7 +410,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3013",
+     "to": "EIII-3014",
      "type": "sequel"
     }
    ],
@@ -391,9 +425,9 @@
    ]
   },
   {
-   "id": "EIII-3015",
+   "id": "EIII-3016",
    "title": "Gormshuil nic Mhuirich dies at Dùn ìseal",
-   "body": "Gormshuil, Keeper after Muireach Liath for thirty-eight years, dies in the small room off the Hall at the age of eighty-seven, her cutter's daughter and Fionnlagh Dall at her bedside. Her last words are a complaint about the cold of the room rather than any ruling, and the household keeps the telling of it fondly afterward.",
+   "body": "Gormshuil, Keeper after Muireach Liath for thirty-eight years, dies in the small room off Talla na Lasrach at the age of eighty-seven, her cutter's daughter and Fionnlagh Dall at her bedside. Her last words are a complaint about the cold of the room rather than any ruling, and the household keeps the telling of it fondly afterward.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -414,9 +448,9 @@
    ]
   },
   {
-   "id": "EIII-3016",
+   "id": "EIII-3017",
    "title": "Fionnlagh Dall chosen Keeper",
-   "body": "The nine hearths choose Fionnlagh, blind since a childhood fever and a sitter with the flame for thirty years, over a cutter of the fourth hearth and Gormshuil's own niece, on the argument of the niece's household that his hands judge a measure more truly than a sighted man's. He is thirty-eight years old, the first blind Keeper the island has known.",
+   "body": "Na Naoi Teallaichean choose Fionnlagh, blind since a childhood fever and a sitter with the flame for thirty years, over a cutter of the fourth hearth and Gormshuil's own niece, on the argument of the niece's household that his hands judge a measure more truly than a sighted man's. He is thirty-eight years old, the first blind Keeper the island has known.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -425,33 +459,6 @@
      "to": "II-0024",
      "type": "sequel"
     },
-    {
-     "to": "II-0026",
-     "type": "cause"
-    },
-    {
-     "to": "EIII-3015",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-of-the-flame"
-   ],
-   "people": [],
-   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#ii-of-the-nine-hearths-and-the-boy-who-led-him",
-   "era_between": [
-    128,
-    128
-   ]
-  },
-  {
-   "id": "EIII-3017",
-   "title": "Calum Beag begins leading the blind Keeper",
-   "body": "A boy of ten who has followed Fionnlagh about the Hall since he could walk is brought to him by his own mother and asked to guide him through the galleries, on the one condition that he keep a Keeper's silence about what he sees there. He agrees at once, and the two go about Dùn ìseal together from that day.",
-   "place": "burg:315",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
     {
      "to": "II-0026",
      "type": "cause"
@@ -473,6 +480,33 @@
   },
   {
    "id": "EIII-3018",
+   "title": "Calum Beag begins leading the blind Keeper",
+   "body": "A boy of ten who has followed Fionnlagh about Talla na Lasrach since he could walk is brought to him by his own mother and asked to guide him through the galleries, on the one condition that he keep a Keeper's silence about what he sees there. He agrees at once, and the two go about Dùn ìseal together from that day.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0026",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-3017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#ii-of-the-nine-hearths-and-the-boy-who-led-him",
+   "era_between": [
+    128,
+    128
+   ]
+  },
+  {
+   "id": "EIII-3019",
    "title": "A household at Cnoc dhubh burns by the basketful",
    "body": "In a bitter winter a household of the high ground above Cnoc dhubh, its measured handful not enough to warm three children and an old woman through the worst nights, burns the coal by the basketful instead, a measure no household has burned before. The smoke lies down in the still valley air and will not lift.",
    "place": "burg:198",
@@ -484,7 +518,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3017",
+     "to": "EIII-3018",
      "type": "sequel"
     }
    ],
@@ -502,7 +536,7 @@
    "after": "II-0025"
   },
   {
-   "id": "EIII-3019",
+   "id": "EIII-3020",
    "title": "Five die of the smoke at Cnoc dhubh",
    "body": "Three of the burning household, a grandmother of the house beside it, and a neighbour's infant carried past the settling smoke are dead within three nights. Calum Beag carries the word to Fionnlagh, who goes up to the valley himself before any council is called.",
    "place": "burg:198",
@@ -514,7 +548,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3018",
+     "to": "EIII-3019",
      "type": "sequel"
     }
    ],
@@ -529,7 +563,7 @@
    ]
   },
   {
-   "id": "EIII-3020",
+   "id": "EIII-3021",
    "title": "The season of argument at Dùn ìseal",
    "body": "The dead household's kin argue that a law which lets a house freeze rather than burn what the mountain holds in plenty is no law worth keeping; the other eight hearths, frightened by what one family's basketful did to two houses that burned nothing at all, argue the measure must hold unargued or hold not at all. Fionnlagh gives no ruling for the better part of two months.",
    "place": "burg:315",
@@ -545,7 +579,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3019",
+     "to": "EIII-3020",
      "type": "sequel"
     }
    ],
@@ -560,7 +594,7 @@
    ]
   },
   {
-   "id": "EIII-3021",
+   "id": "EIII-3022",
    "title": "Calum Beag finds the grey stone",
    "body": "Sent into the hills above Dùn ìseal to find stone hard, fine-grained and free of any crack, Calum Beag returns three days later with a cutter of the fourth hearth and a slab slung between two poles. Fionnlagh spends the better part of a month testing it by hand before he lets the chisel near it.",
    "place": "burg:315",
@@ -570,33 +604,6 @@
     {
      "to": "II-0026",
      "type": "cause"
-    },
-    {
-     "to": "EIII-3020",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-of-the-flame"
-   ],
-   "people": [],
-   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#v-of-the-grey-stone-re-cut",
-   "era_between": [
-    138,
-    138
-   ]
-  },
-  {
-   "id": "EIII-3022",
-   "title": "The stone cup cut to two palms",
-   "body": "Fionnlagh has the new cup cut hollow to the exact measure of his own two hands cupped together, palm to palm, trusting his own hands to be the one instrument that never changes. He tests the fill again and again by touch alone until he can judge a hair's difference against the stone's cold lip.",
-   "place": "burg:315",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "II-0026",
-     "type": "sequel"
     },
     {
      "to": "EIII-3021",
@@ -614,15 +621,12 @@
    ]
   },
   {
-   "after": "II-0026"
-  },
-  {
    "id": "EIII-3023",
-   "title": "The cup set on the threshold",
-   "body": "Rather than keep the new cup within the Hall where a favoured keeper's hand might reach it first, Fionnlagh sets it on the worn threshold stone of Talla na Lasrach, in the open, where any household or its neighbour can see the measure given. He finds the threshold's true centre by walking it barefoot.",
+   "title": "The stone cup cut to two palms",
+   "body": "Fionnlagh has the new cup cut hollow to the exact measure of his own two hands cupped together, palm to palm, trusting his own hands to be the one instrument that never changes. He tests the fill again and again by touch alone until he can judge a hair's difference against the stone's cold lip.",
    "place": "burg:315",
-   "kind": "law",
-   "category": "law",
+   "kind": "trade",
+   "category": "trade",
    "links": [
     {
      "to": "II-0026",
@@ -637,19 +641,22 @@
     "the-keepers-of-the-flame"
    ],
    "people": [],
-   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#vi-of-the-threshold-found-by-the-foot",
+   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#v-of-the-grey-stone-re-cut",
    "era_between": [
-    139,
-    139
+    138,
+    138
    ]
   },
   {
+   "after": "II-0026"
+  },
+  {
    "id": "EIII-3024",
-   "title": "An old woman of the fourth hearth trusts the measure",
-   "body": "The first household to bring its claim to the new cup is a poor one, its elder's hands shaking with palsy. Fionnlagh fills the cup by touch, says \"Enough\" when the measure is met, and closes his hand over its lip. She weeps at a fairness she says she has not trusted from a sighted keeper in three years.",
+   "title": "The cup set on the threshold",
+   "body": "Rather than keep the new cup within Talla na Lasrach where a favoured keeper's hand might reach it first, Fionnlagh sets it on the worn threshold stone of Talla na Lasrach, in the open, where any household or its neighbour can see the measure given. He finds the threshold's true centre by walking it barefoot.",
    "place": "burg:315",
-   "kind": "faith",
-   "category": "faith",
+   "kind": "law",
+   "category": "law",
    "links": [
     {
      "to": "II-0026",
@@ -672,8 +679,35 @@
   },
   {
    "id": "EIII-3025",
-   "title": "The lords swear the Small-Burning Law",
-   "body": "At the Samhain gathering the lords of every share, grumbling but pressed by the memory of Cnoc dhubh and the weeping woman of the fourth hearth, swear the measured handful into a law binding on every share alike, each laying a hand on the stone cup itself. It is the first law the island has ever kept the same in every share.",
+   "title": "An old woman of the fourth hearth trusts the measure",
+   "body": "The first household to bring its claim to the new cup is a poor one, its elder's hands shaking with palsy. Fionnlagh fills the cup by touch, says \"Enough\" when the measure is met, and closes his hand over its lip. She weeps at a fairness she says she has not trusted from a sighted keeper in three years.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0026",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-3024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#vi-of-the-threshold-found-by-the-foot",
+   "era_between": [
+    139,
+    139
+   ]
+  },
+  {
+   "id": "EIII-3026",
+   "title": "The lords swear Lagh an Loscaidh Bhig",
+   "body": "At the Samhain gathering the lords of every share, grumbling but pressed by the memory of Cnoc dhubh and the weeping woman of the fourth hearth, swear the measured handful into a law binding on every share alike, each laying a hand on the stone cup itself. It is Lagh an Loscaidh Bhig the island has ever kept the same in every share.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -683,7 +717,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3024",
+     "to": "EIII-3025",
      "type": "sequel"
     }
    ],
@@ -702,9 +736,9 @@
    "after": "II-0028"
   },
   {
-   "id": "EIII-3026",
+   "id": "EIII-3027",
    "title": "Seann Tarr sentenced under the new law",
-   "body": "A fishing household of Seann Tarr, its catch ruined by wet weather, burns twice its measure to save its dried fish and is the first sentenced under the Small-Burning Law: it loses its right to the coal for the season following, its name and offence set on the roll. Fionnlagh gives the ruling with real reluctance.",
+   "body": "A fishing household of Seann Tarr, its catch ruined by wet weather, burns twice its measure to save its dried fish and is the first sentenced under Lagh an Loscaidh Bhig: it loses its right to the coal for the season following, its name and offence set on the roll. Fionnlagh gives the ruling with real reluctance.",
    "place": "burg:34",
    "kind": "law",
    "category": "law",
@@ -714,7 +748,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3025",
+     "to": "EIII-3026",
      "type": "sequel"
     }
    ],
@@ -729,8 +763,8 @@
    ]
   },
   {
-   "id": "EIII-3027",
-   "title": "The question of the beacon at Tobar dhearg",
+   "id": "EIII-3028",
+   "title": "The question of Taigh-solais Tobar dhearg",
    "body": "A fisherman of the southern coast asks the council whether a beacon lit to warn strangers off the rocks, and no household's own hearth, should be counted against a household's handful at all. Fionnlagh takes the better part of a day alone with the stone cup before he answers.",
    "place": "marker:16",
    "kind": "law",
@@ -739,36 +773,6 @@
     {
      "to": "II-0029",
      "type": "cause"
-    },
-    {
-     "to": "EIII-3026",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-of-the-flame"
-   ],
-   "people": [],
-   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#ix-of-the-fires-that-answer-to-nobody",
-   "era_between": [
-    148,
-    148
-   ]
-  },
-  {
-   "after": "II-0029"
-  },
-  {
-   "id": "EIII-3028",
-   "title": "Driftwood and seal fat light the sea-lights",
-   "body": "Fionnlagh rules that no coal may feed a beacon meant for strangers, since the vein answers to the island's own and to no boat that might never touch its shore. The beacon at Tobar dhearg is kept after with driftwood and rendered seal fat, and every sea-light raised on the island after it is kept the same way.",
-   "place": "marker:16",
-   "kind": "law",
-   "category": "law",
-   "links": [
-    {
-     "to": "II-0029",
-     "type": "sequel"
     },
     {
      "to": "EIII-3027",
@@ -786,9 +790,39 @@
    ]
   },
   {
+   "after": "II-0029"
+  },
+  {
    "id": "EIII-3029",
+   "title": "Driftwood and seal fat light the sea-lights",
+   "body": "Fionnlagh rules that no coal may feed a beacon meant for strangers, since the vein answers to the island's own and to no boat that might never touch its shore. Taigh-solais Tobar dhearg is kept after with driftwood and rendered seal fat, and every sea-light raised on the island after it is kept the same way.",
+   "place": "marker:16",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0029",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-3028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/13_of_the_smoke_and_the_stone_cup.md#ix-of-the-fires-that-answer-to-nobody",
+   "era_between": [
+    148,
+    148
+   ]
+  },
+  {
+   "id": "EIII-3030",
    "title": "Ailean Clachair takes on the steps to Ceann chaol",
-   "body": "The council at Dùn ìseal asks the nine hearths' cutters whether any will cut a proper path down the steep mile above the harbour of Ceann chaol, where carriers going down sideways on bare rock have turned more ankles than the Hall has troubled to count. Ailean Clachair, a cutter of the fourth hearth four and twenty years old, steps forward first.",
+   "body": "The council at Dùn ìseal asks Na Naoi Teallaichean' cutters whether any will cut a proper path down the steep mile above the harbour of Ceann chaol, where carriers going down sideways on bare rock have turned more ankles than Talla na Lasrach has troubled to count. Ailean Clachair, a cutter of the fourth hearth four and twenty years old, steps forward first.",
    "place": "burg:397",
    "kind": "trade",
    "category": "trade",
@@ -812,7 +846,7 @@
    "after": "II-0030"
   },
   {
-   "id": "EIII-3030",
+   "id": "EIII-3031",
    "title": "The steps to Ceann chaol are finished",
    "body": "After two years of work by Ailean Clachair and six others of the fourth hearth, the stepped path down to the harbour of Ceann chaol is finished, cut stone where the rock allows a step and fitted stone where it does not. A carrier with a full basket can go down to the harbour on a wet morning without setting a hand to the rock.",
    "place": "burg:397",
@@ -824,7 +858,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3029",
+     "to": "EIII-3030",
      "type": "sequel"
     }
    ],
@@ -839,9 +873,9 @@
    ]
   },
   {
-   "id": "EIII-3031",
+   "id": "EIII-3032",
    "title": "Eleven carriers drown at the ford of the Abhainn dhomhain",
-   "body": "A party of eleven carriers bound south with the Hall's baskets crosses the ford of the Abhainn dhomhain on a night of hard rain, led by Beathag nan Cliabh on her own word that the rising water looks no worse than a flood she remembers from her youth. The river rises over a tall man's head before the last of them is across; only the one carrier who turned back at the water's edge survives to carry word of it.",
+   "body": "A party of eleven carriers bound south with Talla na Lasrach's baskets crosses the ford of the Abhainn dhomhain on a night of hard rain, led by Beathag nan Cliabh on her own word that the rising water looks no worse than a flood she remembers from her youth. The river rises over a tall man's head before the last of them is across; only the one carrier who turned back at the water's edge survives to carry word of it.",
    "place": null,
    "kind": "land",
    "category": "land",
@@ -863,9 +897,9 @@
    "after": "II-0031"
   },
   {
-   "id": "EIII-3032",
-   "title": "The Hall sets the names of the drowned upon its roll",
-   "body": "Fionnlagh Dall has the eleven names read to him twice before he will let the roll be closed, among them Beathag nan Cliabh, Griogair mac Ailig, Sìneag nighean Dhonnchaidh, and a boy the roll gives only as young Tormod of the salt shore, who went on the crossing in place of an uncle whose knee had gone bad in the wet.",
+   "id": "EIII-3033",
+   "title": "Talla na Lasrach sets the names of the drowned upon its roll",
+   "body": "Fionnlagh Dall has the eleven names read to him twice before he will let the roll be closed, among them Beathag nan Cliabh, Griogair mac Ailig, Sìneag nighean Dhonnchaidh, and a boy the roll gives only as young Tormod of Tràigh an t-Salainn, who went on the crossing in place of an uncle whose knee had gone bad in the wet.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -875,36 +909,7 @@
      "type": "sequel"
     }
    ],
-   "threads": [
-    "the-keepers-promise"
-   ],
-   "people": [],
-   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#iv-of-the-names-of-the-drowned",
-   "era_between": [
-    154,
-    154
-   ]
-  },
-  {
-   "id": "EIII-3033",
-   "title": "The carriers' joke of the mourned coal",
-   "body": "The carriers who come after the drowning make a joke of their own grief, saying the Hall mourns its coal along with its dead, since eleven baskets went into the river with the eleven who carried them. Fionnlagh, hearing it repeated to him, does not rebuke it, and says a mountain that measures its coal so carefully may be allowed to grieve a basketful lost the same way its people grieve a life.",
-   "place": null,
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "II-0031",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-3032",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-promise"
-   ],
+   "threads": [],
    "people": [],
    "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#iv-of-the-names-of-the-drowned",
    "era_between": [
@@ -914,6 +919,31 @@
   },
   {
    "id": "EIII-3034",
+   "title": "The carriers' joke of the mourned coal",
+   "body": "The carriers who come after the drowning make a joke of their own grief, saying Talla na Lasrach mourns its coal along with its dead, since eleven baskets went into the river with the eleven who carried them. Fionnlagh, hearing it repeated to him, does not rebuke it, and says a mountain that measures its coal so carefully may be allowed to grieve a basketful lost the same way its people grieve a life.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0031",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-3033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#iv-of-the-names-of-the-drowned",
+   "era_between": [
+    154,
+    154
+   ]
+  },
+  {
+   "id": "EIII-3035",
    "title": "Fionnlagh asks the council for a crossing the river cannot take",
    "body": "Fionnlagh brings the drowning before the council within the fortnight and asks for a crossing the Abhainn dhomhain cannot take in any weather. An elder of the southern hearths argues the river's risk is no worse than any ordinary misfortune; Fionnlagh answers that he asked only whether the risk could be made smaller, and asks who can name him a mason proved against water and weight.",
    "place": "burg:315",
@@ -929,13 +959,11 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3033",
+     "to": "EIII-3034",
      "type": "sequel"
     }
    ],
-   "threads": [
-    "the-keepers-promise"
-   ],
+   "threads": [],
    "people": [],
    "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#v-of-fionnlagh-s-asking",
    "era_between": [
@@ -944,37 +972,10 @@
    ]
   },
   {
-   "id": "EIII-3035",
+   "id": "EIII-3036",
    "title": "Ailean Clachair is charged with the crossing at Ros fhionn",
    "body": "The council calls Ailean Clachair, whose steps above Ceann chaol a wet winter has not yet broken, and charges him with a single stone span above Ros fhionn, where the river runs narrower and its banks stand higher and firmer than anywhere else along its reach. Ailean answers that he does not know whether such a span can be built at all, but will try rather than tell a Keeper who has just buried eleven carriers that it cannot.",
    "place": "marker:4",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "II-0033",
-     "type": "cause"
-    },
-    {
-     "to": "EIII-3034",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "line-of-the-mason"
-   ],
-   "people": [],
-   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#vi-of-the-forty-of-the-nine-hearths",
-   "era_between": [
-    155,
-    155
-   ]
-  },
-  {
-   "id": "EIII-3036",
-   "title": "Ailean gathers the forty of the nine hearths",
-   "body": "Over a winter Ailean draws forty cutters and masons from the nine hearths, none of whom has ever cut anything meant to hold a river's weight rather than a roof's. They quarry grey stone near Ros fhionn and spend a season learning how stone cut to a wedge's shape leans upon its neighbours and holds itself up by leaning.",
-   "place": "burg:76",
    "kind": "trade",
    "category": "trade",
    "links": [
@@ -993,6 +994,33 @@
    "people": [],
    "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#vi-of-the-forty-of-the-nine-hearths",
    "era_between": [
+    155,
+    155
+   ]
+  },
+  {
+   "id": "EIII-3037",
+   "title": "Ailean gathers the forty of Na Naoi Teallaichean",
+   "body": "Over a winter Ailean draws forty cutters and masons from Na Naoi Teallaichean, none of whom has ever cut anything meant to hold a river's weight rather than a roof's. They quarry grey stone near Ros fhionn and spend a season learning how stone cut to a wedge's shape leans upon its neighbours and holds itself up by leaning.",
+   "place": "burg:76",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0033",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-3036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#vi-of-the-forty-of-the-nine-hearths",
+   "era_between": [
     156,
     156
    ]
@@ -1001,7 +1029,7 @@
    "after": "II-0032"
   },
   {
-   "id": "EIII-3037",
+   "id": "EIII-3038",
    "title": "Aonghas Beag falls on the centring",
    "body": "In the sixth week of the building, a mason of the ninth hearth named Aonghas Beag puts a foot wrong on wet timber and is caught at the edge of the fall by two others. Ailean keeps him off the scaffold for two days, saying a mason frightened in his own body cuts stone worse than one who has never learned fear.",
    "place": "marker:4",
@@ -1013,7 +1041,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3036",
+     "to": "EIII-3037",
      "type": "sequel"
     }
    ],
@@ -1031,7 +1059,7 @@
    "after": "II-0033"
   },
   {
-   "id": "EIII-3038",
+   "id": "EIII-3039",
    "title": "The single span above Ros fhionn is closed",
    "body": "The keystone is raised on ropes and levers and set into the arch above Ros fhionn, Ailean himself guiding it the last hand's-width into place while the forty stand silent on both banks. The scaffold comes down within the week and the span stands alone over the water on its own weight and shape.",
    "place": "marker:4",
@@ -1043,7 +1071,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3037",
+     "to": "EIII-3038",
      "type": "sequel"
     }
    ],
@@ -1058,7 +1086,7 @@
    ]
   },
   {
-   "id": "EIII-3039",
+   "id": "EIII-3040",
    "title": "Ailean cuts the first hearth-sign in a keystone",
    "body": "Before the scaffold comes down, Ailean cuts the fourth hearth's own mark into the keystone's face, unasked, so that any eye that looks for it may know the stone was raised by hands that answer for their own work. The mark spreads to every span the forty raise after, and within a handful of years a crossing without it is said, not always fairly, to be a crossing built by hands that had not troubled to answer for themselves.",
    "place": "marker:4",
@@ -1074,7 +1102,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3038",
+     "to": "EIII-3039",
      "type": "sequel"
     }
    ],
@@ -1089,43 +1117,12 @@
    ]
   },
   {
-   "id": "EIII-3040",
+   "id": "EIII-3041",
    "title": "The masons swear the oath of the stone cup",
    "body": "Gathered at Dùn ìseal to be paid for the season's labour, the forty ask Fionnlagh whether they may swear a fellowship of their own. Each lays a hand on the stone cup at the threshold of Talla na Lasrach and swears that no span will ever be closed to a traveller in the dark, and none ever paid for in coal.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
-   "links": [
-    {
-     "to": "II-0034",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-3039",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "line-of-the-mason",
-    "the-keepers-promise"
-   ],
-   "people": [],
-   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#ix-of-the-oath-sworn-on-the-stone-cup",
-   "era_between": [
-    161,
-    161
-   ]
-  },
-  {
-   "after": "II-0034"
-  },
-  {
-   "id": "EIII-3041",
-   "title": "The masons' lodge is raised at the western crossing",
-   "body": "Having kept together under Ailean's leading and raised three crossings more, the forty build a plain stone lodge beside the widest of the three, above a badly-used ford in the country of Ros dhomhain, where a mason called from any share may find a roof, a fire, and a fellow of the trade.",
-   "place": "province:5",
-   "kind": "trade",
-   "category": "trade",
    "links": [
     {
      "to": "II-0034",
@@ -1140,16 +1137,19 @@
     "line-of-the-mason"
    ],
    "people": [],
-   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#x-of-the-lodge-at-the-western-ford",
+   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#ix-of-the-oath-sworn-on-the-stone-cup",
    "era_between": [
-    163,
-    163
+    161,
+    161
    ]
   },
   {
+   "after": "II-0034"
+  },
+  {
    "id": "EIII-3042",
-   "title": "A carrier refuses an unsigned bridge",
-   "body": "A cart-builder of Ros dhomhain throws an unmarked crossing of his own upriver of the western span. A carrier of the Hall's baskets, reaching it after dark, will not cross it, saying he knows whose oath a bridge without the fourth hearth's sign was not built under, and sleeps cold on the near bank rather than trust it.",
+   "title": "The masons' lodge is raised at the western crossing",
+   "body": "Having kept together under Ailean's leading and raised three crossings more, the forty build a plain stone lodge beside the widest of the three, above a badly-used ford in the country of Ros dhomhain, where a mason called from any share may find a roof, a fire, and a fellow of the trade.",
    "place": "province:5",
    "kind": "trade",
    "category": "trade",
@@ -1164,8 +1164,7 @@
     }
    ],
    "threads": [
-    "line-of-the-mason",
-    "the-keepers-promise"
+    "line-of-the-mason"
    ],
    "people": [],
    "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#x-of-the-lodge-at-the-western-ford",
@@ -1176,6 +1175,33 @@
   },
   {
    "id": "EIII-3043",
+   "title": "A carrier refuses an unsigned bridge",
+   "body": "A cart-builder of Ros dhomhain throws an unmarked crossing of his own upriver of the western span. A carrier of Talla na Lasrach's baskets, reaching it after dark, will not cross it, saying he knows whose oath a bridge without the fourth hearth's sign was not built under, and sleeps cold on the near bank rather than trust it.",
+   "place": "province:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0034",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-3042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/14_of_the_carriers_and_the_first_bridges.md#x-of-the-lodge-at-the-western-ford",
+   "era_between": [
+    163,
+    163
+   ]
+  },
+  {
+   "id": "EIII-3044",
    "title": "Mòr nic Dhùghaill feeds three carriers in the rain",
    "body": "A widow of Doire shean with more buffalo than grass boils a haunch for three carriers caught by a mud-slicked path, and asks no coin for it. Word of the free bowl travels the mountain road faster than any basket on it, and within a year she has built a second room to feed the men it sends her.",
    "place": "burg:324",
@@ -1205,7 +1231,7 @@
    "after": "II-0035"
   },
   {
-   "id": "EIII-3044",
+   "id": "EIII-3045",
    "title": "The turf longhouse raised at the crossing",
    "body": "Three families of the fourth hearth build a long turf house where the mountain road meets the road to the western harbours, a hearth burning at either end for carriers going up and carriers coming down. Its long central table becomes the place where news of the whole road first gathers as one telling.",
    "place": null,
@@ -1217,7 +1243,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3043",
+     "to": "EIII-3044",
      "type": "sequel"
     }
    ],
@@ -1235,9 +1261,9 @@
    "after": "II-0036"
   },
   {
-   "id": "EIII-3045",
+   "id": "EIII-3046",
    "title": "Seann Mhorn resettled and its name kept",
-   "body": "Fishers of the nine hearths find old house-footings above a good landing on the western shore of Loch chrom, and a name already fixed to the place that is not of their own tongue. They keep the name rather than giving it a new one, judging that a name found standing has more right to stay than one a stranger could invent.",
+   "body": "Fishers of Na Naoi Teallaichean find old house-footings above a good landing on the western shore of Loch chrom, and a name already fixed to the place that is not of their own tongue. They keep the name rather than giving it a new one, judging that a name found standing has more right to stay than one a stranger could invent.",
    "place": "burg:465",
    "kind": "land",
    "category": "land",
@@ -1259,7 +1285,7 @@
    "after": "II-0037"
   },
   {
-   "id": "EIII-3046",
+   "id": "EIII-3047",
    "title": "Seann Warr resettled beside it",
    "body": "Families walking the same road find a second harbour a short way along the shore, house-footings there as well, and build on them without asking whose. Seann Warr and Seann Mhorn grow together within the century, sharing a landing, a market day and a single waypoint house where the mountain road meets the sea.",
    "place": "burg:128",
@@ -1280,7 +1306,7 @@
    ]
   },
   {
-   "id": "EIII-3047",
+   "id": "EIII-3048",
    "title": "A chase stopped at Mòr's door",
    "body": "A man fleeing his cousin's kin over an old knife-wound takes shelter at Mòr nic Dhùghaill's table, and his three pursuers, knives at their belts, find her standing between them and the fire. She swears there will be no blade drawn under her roof for any grievance, old or new, and feeds all four from the one pot until the debt walks back out onto the open road unsettled between them.",
    "place": "burg:324",
@@ -1306,8 +1332,8 @@
    "after": "II-0038"
   },
   {
-   "id": "EIII-3048",
-   "title": "The road-peace kept as custom",
+   "id": "EIII-3049",
+   "title": "Sìth an Rathaid kept as custom",
    "body": "Word of the chase stopped at Mòr's door runs the mountain road faster than any basket that season, and other waypoint houses along the circuit take up the same custom unasked: no feud pursued and no blade drawn under a road-house roof or within a spear's throw of its door.",
    "place": null,
    "kind": "law",
@@ -1318,7 +1344,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3047",
+     "to": "EIII-3048",
      "type": "sequel"
     }
    ],
@@ -1333,7 +1359,7 @@
    ]
   },
   {
-   "id": "EIII-3049",
+   "id": "EIII-3050",
    "title": "Niall Òg sits at Mòr's table",
    "body": "The old heir Niall Òg walks the mountain road to see for himself the house where a widow's word held two feuding kin to one table, and is given the same bowl and the same seat as any other traveller. He leaves a ring behind that Mòr will not keep, saying a man who has outlived his own quarrels can afford, once in a while, to pay for a peace he did not make.",
    "place": "burg:324",
@@ -1345,7 +1371,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3048",
+     "to": "EIII-3049",
      "type": "sequel"
     }
    ],
@@ -1364,9 +1390,9 @@
    "after": "II-0042"
   },
   {
-   "id": "EIII-3050",
+   "id": "EIII-3051",
    "title": "Fionnlagh Dall asks to be carried south",
-   "body": "Dying at four-and-ninety after fifty-six years keeping the flame, Fionnlagh Dall tells Calum Beag he wishes to be laid not on the Keepers' own slope but in the unclaimed old graves near Cnoc dhìreach, ground no household's cord has ever divided. He dies within the month, his last words a question about whether the flame had been fed.",
+   "body": "Dying at four-and-ninety after fifty-six years keeping the flame, Fionnlagh Dall tells Calum Beag he wishes to be laid not on Coimheadaichean na Lasrach' own slope but in the unclaimed old graves near Cnoc dhìreach, ground no household's cord has ever divided. He dies within the month, his last words a question about whether the flame had been fed.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -1387,7 +1413,7 @@
    ]
   },
   {
-   "id": "EIII-3051",
+   "id": "EIII-3052",
    "title": "The eleven days' bearing",
    "body": "Bearers carry Fionnlagh Dall's body the twenty miles to Cnoc dhìreach in eleven days rather than three, as every hearth on the road asks to carry him some part of the way. Calum Beag walks the whole distance at the litter's head, the only bearer who never once hands off his own share of the weight.",
    "place": "burg:324",
@@ -1399,7 +1425,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3050",
+     "to": "EIII-3051",
      "type": "sequel"
     }
    ],
@@ -1414,9 +1440,9 @@
    ]
   },
   {
-   "id": "EIII-3052",
+   "id": "EIII-3053",
    "title": "Tuam Cnoc dhìreach hallowed",
-   "body": "Fionnlagh Dall is laid in the ancient, unclaimed burying-ground near Cnoc dhìreach, the first burial there any living hand has set down by name. The Keepers hallow the ground that same season, and it passes from belonging to no one to belonging, by the Hall's own reckoning, to everyone.",
+   "body": "Fionnlagh Dall is laid in the ancient, unclaimed burying-ground near Cnoc dhìreach, the first burial there any living hand has set down by name. Coimheadaichean na Lasrach hallow the ground that same season, and it passes from belonging to no one to belonging, by Talla na Lasrach's own reckoning, to everyone.",
    "place": "burg:462",
    "kind": "faith",
    "category": "faith",
@@ -1426,7 +1452,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3051",
+     "to": "EIII-3052",
      "type": "sequel"
     }
    ],
@@ -1441,9 +1467,9 @@
    ]
   },
   {
-   "id": "EIII-3053",
+   "id": "EIII-3054",
    "title": "The grave-keepers of Cnoc dhìreach paid in coal",
-   "body": "A handful of families settle by Tuam Cnoc dhìreach to tend the grave, and the Hall pays them one measured handful of coal each a season, the only service the Small-Burning Law is ever known to reward in coal rather than coin or kind.",
+   "body": "A handful of families settle by Tuam Cnoc dhìreach to tend the grave, and Talla na Lasrach pays them one measured handful of coal each a season, the only service Lagh an Loscaidh Bhig is ever known to reward in coal rather than coin or kind.",
    "place": "burg:462",
    "kind": "coal",
    "category": "coal",
@@ -1453,7 +1479,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-3052",
+     "to": "EIII-3053",
      "type": "sequel"
     }
    ],
@@ -1468,7 +1494,7 @@
    ]
   },
   {
-   "id": "EIII-3054",
+   "id": "EIII-3055",
    "title": "Mòr nic Dhùghaill dies at her own hearth",
    "body": "Found sitting upright in her fireside chair one morning by her own daughter, Mòr nic Dhùghaill dies at sixty-two, two years after Fionnlagh Dall. Her daughter and a niece take up the pot the same week, and the house does not miss a single night's fire.",
    "place": "burg:324",
@@ -1494,7 +1520,7 @@
    "after": "II-0043"
   },
   {
-   "id": "EIII-3055",
+   "id": "EIII-3056",
    "title": "Calum Beag sets a marker at the grave",
    "body": "Calum Beag, now an old man, carries a plain stone the whole way to Cnoc dhìreach on his own back and sets it at Fionnlagh Dall's grave-head with his own hands, cut with nothing but the shape of the stone cup and no name, judging the shape said enough on its own.",
    "place": "burg:462",
@@ -1520,9 +1546,9 @@
    "after": "II-0044"
   },
   {
-   "id": "EIII-3056",
+   "id": "EIII-3057",
    "title": "The wedding insult at Ros dhomhain",
-   "body": "At a mason's wedding on the western share, Griogair mac Lachlainn of Sliochd Fhionnghail strikes Tormod mac Ruairidh of Sliochd Artair across the face with a drinking-horn after a slight against Fionnghal nic Ailein's memory. Both men are dragged from the hall still nursing the insult, and the two lines that had traded fish for grain for three generations begin refusing each other's carriers at their waypoint houses.",
+   "body": "At a mason's wedding on Earrann Ros dhomhain, Griogair mac Lachlainn of Sliochd Fhionnghail strikes Tormod mac Ruairidh of Sliochd Artair across the face with a drinking-horn after a slight against Fionnghal nic Ailein's memory. Both men are dragged from the hall still nursing the insult, and the two lines that had traded fish for grain for three generations begin refusing each other's carriers at their waypoint houses.",
    "place": "burg:27",
    "kind": "rulers",
    "category": "rulers",
@@ -1530,9 +1556,7 @@
    "threads": [
     "the-long-years"
    ],
-   "people": [
-    "tormod-mac-ruairidh"
-   ],
+   "people": [],
    "told_in": "book/16_of_the_unforgotten_wedding.md#ii-of-the-wedding-at-ros-dhomhain",
    "era_between": [
     214,
@@ -1540,15 +1564,15 @@
    ]
   },
   {
-   "id": "EIII-3057",
+   "id": "EIII-3058",
    "title": "The first raid of the wedding quarrel",
-   "body": "A dozen head of cattle are lifted from a salt-shore pasture by men who call it payment owed for the insult at Ros dhomhain. A barn burns on the western share's ground within the season in answer, and within five years neither line can say with certainty who struck first.",
+   "body": "A dozen head of cattle are lifted from a salt-shore pasture by men who call it payment owed for the insult at Ros dhomhain. A barn burns on Earrann Ros dhomhain's ground within the season in answer, and within five years neither line can say with certainty who struck first.",
    "place": "burg:27",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "EIII-3056",
+     "to": "EIII-3057",
      "type": "sequel"
     }
    ],
@@ -1563,9 +1587,9 @@
    ]
   },
   {
-   "id": "EIII-3058",
+   "id": "EIII-3059",
    "title": "Eimhir nic Mhuirich chosen to keep the flame",
-   "body": "The nine hearths choose Eimhir nic Mhuirich, of the hearth-line and past sixty already, to keep the flame at Dùn ìseal. She holds the Hall to its measure through the widening quarrel of the king's blood, judging no man's raids and taking no side between Sliochd Fhionnghail and Sliochd Artair.",
+   "body": "Na Naoi Teallaichean choose Eimhir nic Mhuirich, of the hearth-line and past sixty already, to keep the flame at Dùn ìseal. She holds Talla na Lasrach to its measure through the widening quarrel of the king's blood, judging no man's raids and taking no side between Sliochd Fhionnghail and Sliochd Artair.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -1579,22 +1603,20 @@
    ]
   },
   {
-   "id": "EIII-3059",
-   "title": "Tormod mac Ruairidh asks the Hall's blessing on a raid",
-   "body": "Tormod mac Ruairidh comes to Dùn ìseal asking Eimhir nic Mhuirich to bless a raid he calls justice rather than vengeance. She hears him out and refuses, telling him the Hall keeps coal and not grudges, and that the flame she keeps was lit before his own great-grandfather was born.",
+   "id": "EIII-3060",
+   "title": "Tormod mac Ruairidh asks Talla na Lasrach's blessing on a raid",
+   "body": "Tormod mac Ruairidh comes to Dùn ìseal asking Eimhir nic Mhuirich to bless a raid he calls justice rather than vengeance. She hears him out and refuses, telling him Talla na Lasrach keeps coal and not grudges, and that the flame she keeps was lit before his own great-grandfather was born.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
    "links": [
     {
-     "to": "EIII-3058",
+     "to": "EIII-3059",
      "type": "sequel"
     }
    ],
    "threads": [],
-   "people": [
-    "tormod-mac-ruairidh"
-   ],
+   "people": [],
    "told_in": "book/16_of_the_unforgotten_wedding.md#iv-of-eimhir-nic-mhuirich-and-the-flame",
    "era_between": [
     245,
@@ -1602,9 +1624,9 @@
    ]
   },
   {
-   "id": "EIII-3060",
+   "id": "EIII-3061",
    "title": "Fionnghal nic Ailein dies",
-   "body": "Fionnghal nic Ailein, daughter of Ailean Mòr and holder of the western share since the age's early years, dies at Ros dhomhain some two thousand eight hundred and forty-four years old. Her funeral is the last occasion on which Sliochd Fhionnghail and Sliochd Artair stand under one roof without a blow struck.",
+   "body": "Fionnghal nic Ailein, daughter of Ailean Mòr and holder of Earrann Ros dhomhain since the age's early years, dies at Ros dhomhain some two thousand eight hundred and forty-four years old. Her funeral is the last occasion on which Sliochd Fhionnghail and Sliochd Artair stand under one roof without a blow struck.",
    "place": "burg:27",
    "kind": "rulers",
    "category": "rulers",
@@ -1620,9 +1642,9 @@
    ]
   },
   {
-   "id": "EIII-3061",
+   "id": "EIII-3062",
    "title": "Eimhir nic Mhuirich dies",
-   "body": "Eimhir nic Mhuirich dies at Dùn ìseal some eighty years old, having kept the flame through fifty-four years of the widening strife of the heirs more steadily than the quarrel's own principals kept their tempers. The nine hearths choose a younger Keeper who holds much the same course.",
+   "body": "Eimhir nic Mhuirich dies at Dùn ìseal some eighty years old, having kept the flame through fifty-four years of the widening strife of the heirs more steadily than the quarrel's own principals kept their tempers. Na Naoi Teallaichean choose a younger Keeper who holds much the same course.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -1636,9 +1658,9 @@
    ]
   },
   {
-   "id": "EIII-3062",
+   "id": "EIII-3063",
    "title": "Artair mac Ailein dies",
-   "body": "Artair mac Ailein, son of Ailean Mòr and holder of the salt shore at Baile ghorm, dies at his own hall some two thousand six hundred years old, the widening feud between his own descendants and Fionnghal's a weight he carried into his last years and could not set down.",
+   "body": "Artair mac Ailein, son of Ailean Mòr and holder of Tràigh an t-Salainn at Baile ghorm, dies at his own hall some two thousand six hundred years old, the widening feud between his own descendants and Fionnghal's a weight he carried into his last years and could not set down.",
    "place": "burg:170",
    "kind": "rulers",
    "category": "rulers",
@@ -1654,15 +1676,15 @@
    ]
   },
   {
-   "id": "EIII-3063",
+   "id": "EIII-3064",
    "title": "Cormac mac Ailein dies",
-   "body": "Cormac mac Ailein, son of Ailean Mòr and holder of the eastern share at Caol shean, dies some two thousand four hundred and fifty-three years old, the last of Ailean's own children still living at the strife's true middle. His last wish, that his household keep clear of the western quarrel, is honoured for less than a generation.",
+   "body": "Cormac mac Ailein, son of Ailean Mòr and holder of Earrann Caol shean at Caol shean, dies some two thousand four hundred and fifty-three years old, the last of Ailean's own children still living at the strife's true middle. His last wish, that his household keep clear of the western quarrel, is honoured for less than a generation.",
    "place": "burg:197",
    "kind": "rulers",
    "category": "rulers",
    "links": [
     {
-     "to": "EIII-3062",
+     "to": "EIII-3063",
      "type": "sequel"
     }
    ],
@@ -1677,7 +1699,7 @@
    ]
   },
   {
-   "id": "EIII-3064",
+   "id": "EIII-3065",
    "title": "Niall Òg calls a peace at the crossing of Ros fhionn",
    "body": "Niall Òg sets a long table on neutral ground at the crossing of Ros fhionn and brings the heads of Sliochd Fhionnghail and Sliochd Artair to it unarmed, hoping to loosen a quarrel now two generations old. Each recites a longer account of wrongs than he came with, neither offers an apology, and both walk home by the same road they came by.",
    "place": "burg:19",
@@ -1685,7 +1707,7 @@
    "category": "law",
    "links": [
     {
-     "to": "EIII-3063",
+     "to": "EIII-3064",
      "type": "sequel"
     }
    ],
@@ -1700,7 +1722,7 @@
    ]
   },
   {
-   "id": "EIII-3065",
+   "id": "EIII-3066",
    "title": "The raids resume after the failed peace",
    "body": "Within the season of Niall Òg's failed peace at Ros fhionn, raids between Sliochd Fhionnghail and Sliochd Artair begin again, if indeed they had ever truly stopped for the meeting.",
    "place": null,
@@ -1708,7 +1730,7 @@
    "category": "war",
    "links": [
     {
-     "to": "EIII-3064",
+     "to": "EIII-3065",
      "type": "sequel"
     }
    ],
@@ -1723,7 +1745,7 @@
    ]
   },
   {
-   "id": "EIII-3066",
+   "id": "EIII-3067",
    "title": "The tally-stick of Cnoc leathan",
    "body": "A household of the fourth hearth at Cnoc leathan, sworn to neither quarrelling line, keeps a tally-stick notched for whichever share's steward calls first each season. By the century's turn it carries better than a hundred and fifty notches on each face, a plainer record than either quarrelling line keeps of its own raids.",
    "place": "burg:106",
@@ -1739,9 +1761,9 @@
    ]
   },
   {
-   "id": "EIII-3067",
+   "id": "EIII-3068",
    "title": "Eachann Ruadh mac Mhurchaidh dies in his bed",
-   "body": "Eachann Ruadh mac Mhurchaidh, who killed Ìomhar Dearg at a ford four generations before in vengeance for his brother, dies quietly in his bed at seven hundred and twenty-nine years old, the last of his generation of the king's kin. His own line, long at peace with the Red Share, takes no fresh quarrel from his death.",
+   "body": "Eachann Ruadh mac Mhurchaidh, who killed Ìomhar Dearg at a ford four generations before in vengeance for his brother, dies quietly in his bed at seven hundred and twenty-nine years old, the last of his generation of the king's kin. His own line, long at peace with an Earrann Dhearg, takes no fresh quarrel from his death.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1755,9 +1777,9 @@
    ]
   },
   {
-   "id": "EIII-3068",
+   "id": "EIII-3069",
    "title": "The hearth-elders sound out Eilidh nic Ìomhair",
-   "body": "Two elders of the nine hearths walk from Dùn ìseal to Dùn dhearg to ask Eilidh nic Ìomhair, a granddaughter's granddaughter of Ìomhar Dearg who keeps the Red Share's granary rolls, whether she would be persuaded to sit a season with the coal. She names the difficulty herself before they can raise it: her own blood.",
+   "body": "Two elders of Na Naoi Teallaichean walk from Dùn ìseal to Dùn dhearg to ask Eilidh nic Ìomhair, a granddaughter's granddaughter of Ìomhar Dearg who keeps an Earrann Dhearg's granary rolls, whether she would be persuaded to sit a season with the coal. She names the difficulty herself before they can raise it: her own blood.",
    "place": "burg:422",
    "kind": "faith",
    "category": "faith",
@@ -1779,9 +1801,9 @@
    ]
   },
   {
-   "id": "EIII-3069",
+   "id": "EIII-3070",
    "title": "Eilidh tells the elders to choose another",
-   "body": "Eilidh nic Ìomhair tells the two hearth-elders plainly to choose one of the other names put forward, having no wish to force the question of her own blood against the Binding's old rule.",
+   "body": "Eilidh nic Ìomhair tells the two hearth-elders plainly to choose one of the other names put forward, having no wish to force the question of her own blood against An Ceangal's old rule.",
    "place": "burg:422",
    "kind": "faith",
    "category": "faith",
@@ -1791,7 +1813,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-3068",
+     "to": "EIII-3069",
      "type": "sequel"
     }
    ],

@@ -140,7 +140,7 @@
   {
    "id": "EIV-6007",
    "title": "Birth of Ailean mac Raghnaill",
-   "body": "A son, Ailean, is born in the house of Raghnall, the crown's own house since the reign of Mòrag Ruadh; the custody-book gives the year and the house and no more.",
+   "body": "A son, Ailean, is born in Sliochd Raghnaill, the crown's own house since the reign of Mòrag Ruadh; Leabhar a' Chùraim gives the year and the house and no more.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -163,7 +163,7 @@
   {
    "id": "EIV-6008",
    "title": "Raghnall begins the count of years",
-   "body": "Raghnall mac Chaluim, thirty years old, begins setting the birth and death rolls of the custodian houses beside those of their tenants at Dùn thais, a labour that will occupy his lamplit evenings for nine years before he brings any finding before the house of disputation.",
+   "body": "Raghnall mac Chaluim, thirty years old, begins setting the birth and death rolls of the custodian houses beside those of their tenants at Dùn thais, a labour that will occupy his lamplit evenings for nine years before he brings any finding before Taigh na Deasbaid.",
    "place": "burg:77",
    "kind": "record",
    "category": "law",
@@ -189,7 +189,7 @@
   {
    "id": "EIV-6009",
    "title": "A scholar answered at the reading",
-   "body": "When a scholar of the house of disputation calls Raghnall's table a wish dressed in columns, Raghnall offers to run the sums a fifth time on rolls the scholar himself chooses. The scholar sits down without taking up the offer, and the hall remembers the silence longer than the exchange.",
+   "body": "When a scholar of Taigh na Deasbaid calls Raghnall's table a wish dressed in columns, Raghnall offers to run the sums a fifth time on rolls the scholar himself chooses. The scholar sits down without taking up the offer, and the hall remembers the silence longer than the exchange.",
    "place": "burg:77",
    "kind": "record",
    "category": "law",
@@ -214,8 +214,8 @@
   },
   {
    "id": "EIV-6010",
-   "title": "Raghnall's copy entered in the vein-house inventory",
-   "body": "A custodian who has never met Raghnall mac Chaluim writes to ask whether his working copy of Clàr nam Bliadhnachan still exists and might be sent to the mountain for safekeeping. It is sent, and entered that year in the vein-house's own inventory, one line among the galleries and the lot-stones.",
+   "title": "Raghnall's copy entered in Taigh na Fèithe inventory",
+   "body": "A custodian who has never met Raghnall mac Chaluim writes to ask whether his working copy of Clàr nam Bliadhnachan still exists and might be sent to the mountain for safekeeping. It is sent, and entered that year in Taigh na Fèithe's own inventory, one line among the galleries and Clachan a' Chrannchuir.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -336,7 +336,7 @@
   {
    "id": "EIV-6015",
    "title": "The blank space on the burial roll",
-   "body": "Drawing up King Ailean mac Raghnaill's burial roll, the red hall's clerks leave a blank space where the heir's name should stand, unable to agree between themselves which of his two sons to write and unwilling to write neither.",
+   "body": "Drawing up King Ailean mac Raghnaill's burial roll, An Talla Dearg's clerks leave a blank space where the heir's name should stand, unable to agree between themselves which of his two sons to write and unwilling to write neither.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -357,7 +357,7 @@
   {
    "id": "EIV-6016",
    "title": "The inventory read past the forbidden line",
-   "body": "At the winter reading of the vein-house's inventory, the custodian pauses a moment longer than usual over the line entered nearly fifty years before, Clàr nam Bliadhnachan, forbidden to be copied, kept, and then reads on, for the reckoning of that year's coal still has a great deal more of the shelf left to answer for.",
+   "body": "At the winter reading of Taigh na Fèithe's inventory, the custodian pauses a moment longer than usual over the line entered nearly fifty years before, Clàr nam Bliadhnachan, forbidden to be copied, kept, and then reads on, for the reckoning of that year's coal still has a great deal more of the shelf left to answer for.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -378,7 +378,7 @@
   {
    "id": "EIV-6017",
    "title": "A refused gift at the feast of Bealltach",
-   "body": "A messenger of Alasdair Bàn's, riding to the red hall with the household's ordinary feast-gift, is turned back at the gate on a pretext of business too full to receive him, the first courtesy either brother's household has refused the other in four years of careful giving.",
+   "body": "A messenger of Alasdair Bàn's, riding to An Talla Dearg with the household's ordinary feast-gift, is turned back at the gate on a pretext of business too full to receive him, the first courtesy either brother's household has refused the other in four years of careful giving.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -584,7 +584,7 @@
   {
    "id": "EIV-6025",
    "title": "Alasdair Bàn rides up with a dead captain's news",
-   "body": "Alasdair Bàn goes up to the red hall himself to carry word of an old captain's death to the king with his own mouth, as the captain asked dying; Iain Ciar receives him without ceremony and sends him home with no larger following than he came with.",
+   "body": "Alasdair Bàn goes up to An Talla Dearg himself to carry word of an old captain's death to the king with his own mouth, as the captain asked dying; Iain Ciar receives him without ceremony and sends him home with no larger following than he came with.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -611,7 +611,7 @@
   {
    "id": "EIV-6026",
    "title": "Iain Ciar keeps his brother's lordship vacant",
-   "body": "On Alasdair Bàn's death the lordship of Seann Chwen returns to the crown as the brothers' peace had settled it should. Iain Ciar keeps the lordship vacant for the rest of his own reign rather than grant it to another man, a stubbornness the red hall's clerks never once ask him to explain.",
+   "body": "On Alasdair Bàn's death the lordship of Seann Chwen returns to the crown as the brothers' peace had settled it should. Iain Ciar keeps the lordship vacant for the rest of his own reign rather than grant it to another man, a stubbornness An Talla Dearg's clerks never once ask him to explain.",
    "place": "burg:36",
    "kind": "court",
    "category": "rulers",
@@ -663,7 +663,7 @@
   {
    "id": "EIV-6028",
    "title": "Pàdraig mac Ruairidh lodges three nights at the road-house",
-   "body": "Gathering material for his account of the Brothers' War, the king's clerk Pàdraig mac Ruairidh stays three nights at An Taigh-seinnse Mòr at his own expense, working each evening by the fire the two brothers once sat beside, and asks the keeper and every passing ox-driver for the tale of the peace. He leaves her a measure of meal for the fire and the bed before he rides on.",
+   "body": "Gathering material for Leabhar nam Bràithrean, the king's clerk Pàdraig mac Ruairidh stays three nights at An Taigh-seinnse Mòr at his own expense, working each evening by the fire the two brothers once sat beside, and asks the keeper and every passing ox-driver for the tale of the peace. He leaves her a measure of meal for the fire and the bed before he rides on.",
    "place": "marker:10",
    "kind": "record",
    "category": "law",
@@ -736,7 +736,7 @@
   {
    "id": "EIV-6031",
    "title": "Pàdraig mac Ruairidh's death",
-   "body": "The clerk who wrote the account of the Brothers' War in King Iain Ciar's praise dies some years before his king, and no scribe comes after him to keep the tale of the grain law's slow lapsing as he had kept the tale of the war itself.",
+   "body": "The clerk who wrote Leabhar nam Bràithrean in King Iain Ciar's praise dies some years before his king, and no scribe comes after him to keep the tale of the grain law's slow lapsing as he had kept the tale of the war itself.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -904,7 +904,7 @@
   {
    "id": "EIV-6038",
    "title": "A rope-maker's guess at the old words",
-   "body": "A young man of Tormod Ròpaire's crew, not yet trusted with the lead, tells the gatherer Iseabail that the keel-song's strange words are likely only older speech worn smooth by centuries of mouths that never meant to wear it; Tormod answers that it changes nothing about how the strand is walked.",
+   "body": "A young man of Tormod Ròpaire's crew, not yet trusted with the lead, tells the gatherer Iseabail that Òran na Druime's strange words are likely only older speech worn smooth by centuries of mouths that never meant to wear it; Tormod answers that it changes nothing about how the strand is walked.",
    "place": "burg:282",
    "kind": "rite",
    "category": "faith",
@@ -927,8 +927,8 @@
   },
   {
    "id": "EIV-6039",
-   "title": "The keel-song read at the king's court",
-   "body": "Iseabail nic Lachlainn reads her whole gathering before the king's hall at Cathair dhearg, and the keel-song's strange lines silence a room grown used to songs it half knows already; an old harper and a vein-house clerk each say the words fit no tongue or hand they know, and neither can say more than that.",
+   "title": "Òran na Druime read at the king's court",
+   "body": "Iseabail nic Lachlainn reads her whole gathering before the king's hall at Cathair dhearg, and Òran na Druime's strange lines silence a room grown used to songs it half knows already; an old harper and a clerk of Taigh na Fèithe each say the words fit no tongue or hand they know, and neither can say more than that.",
    "place": "burg:19",
    "kind": "rite",
    "category": "faith",
@@ -975,7 +975,7 @@
   {
    "id": "EIV-6041",
    "title": "Death of Tormod Ròpaire",
-   "body": "The rope-maker who led the walk that sang the keel-song dies at Cuan shean, seventy years old, having in his last years let a younger man keep the count while he sang on behind him; his crew keeps the song after him exactly as he gave it, no better understood than before.",
+   "body": "The rope-maker who led the walk that sang Òran na Druime dies at Cuan shean, seventy years old, having in his last years let a younger man keep the count while he sang on behind him; his crew keeps the song after him exactly as he gave it, no better understood than before.",
    "place": "burg:282",
    "kind": "rite",
    "category": "faith",
@@ -1046,8 +1046,8 @@
   },
   {
    "id": "EIV-6044",
-   "title": "Iseabail's tablets entered in the vein-house",
-   "body": "On Iseabail nic Lachlainn's death the household she served the rest of her life sends her whole collection to the vein-house, where the clerks write into the inventory that it holds one item they can describe only by its sound and its keeping, not its meaning.",
+   "title": "Iseabail's tablets entered in Taigh na Fèithe",
+   "body": "On Iseabail nic Lachlainn's death the household she served the rest of her life sends her whole collection to Taigh na Fèithe, where the clerks write into the inventory that it holds one item they can describe only by its sound and its keeping, not its meaning.",
    "place": "burg:491",
    "kind": "rite",
    "category": "faith",

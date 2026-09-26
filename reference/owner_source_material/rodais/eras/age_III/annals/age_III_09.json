@@ -1,63 +1,48 @@
 {
  "writer": 9,
  "span": [
-  "II-0190",
+  "II-0190a",
   "end"
  ],
  "events": [
   {
    "id": "EIII-9001",
-   "title": "The bridge at Dùn chrom is built at half toll",
-   "body": "The fellowship bridges the river below Dùn chrom, joining the southern road to the western without the long way round by Cathair dhearg, and sets its own toll at half the capital's. Cathair dhearg's reeves complain in letters the rolls still keep; none takes up the fellowship's offer to hand the crossing to the crown.",
-   "place": "burg:255",
-   "kind": "trade",
-   "category": "trade",
+   "title": "The road-guards first ride the lowland roads",
+   "body": "The road-guards of Dùn dhearg take to the small tough horses of the southern grass country rather than walking their circuits, and can reach a waypoint house before a night's quarrel has cooled into a grievance. Theirs are the first riders' names the road-guard's own roll keeps.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
    "links": [
     {
-     "to": "II-0192",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-8061",
+     "to": "II-0190a",
      "type": "sequel"
     }
    ],
-   "threads": [
-    "line-of-the-mason"
-   ],
+   "threads": [],
    "people": [],
-   "told_in": "book/38_of_the_bridges_the_riders_and_the_north-west.md#iii-of-dun-chrom-and-ceann-arsaidh",
+   "told_in": "book/38_of_the_bridges_the_riders_and_the_north-west.md#i-of-the-carts-on-the-lowland-roads",
    "era_between": [
-    2578,
-    2578
+    2583,
+    2583
    ]
   },
   {
    "id": "EIII-9002",
-   "title": "Cathair dhearg's reeves complain of the half-toll at Dùn chrom",
-   "body": "The reeves of Cathair dhearg protest that a toll set by anyone but the crown will in time be set anywhere by anyone. The fellowship offers to hand the crossing to the crown, tolls and upkeep together. No reeve takes up the offer, and the half-toll stands.",
-   "place": "burg:255",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "EIII-9001",
-     "type": "sequel"
-    }
-   ],
+   "title": "The road-guards' roll first names its riders",
+   "body": "The first mounted company of the road-guards of Dùn dhearg, riding the small tough horses of the southern grass country, are the earliest guards whose names the road-guards' own roll troubles to keep.",
+   "place": "burg:422",
+   "kind": "law",
+   "category": "law",
+   "links": [],
    "threads": [
-    "line-of-the-mason",
     "the-road-peace"
    ],
    "people": [],
-   "told_in": "book/38_of_the_bridges_the_riders_and_the_north-west.md#iii-of-dun-chrom-and-ceann-arsaidh",
+   "told_in": "book/38_of_the_bridges_the_riders_and_the_north-west.md#i-of-the-carts-on-the-lowland-roads",
    "era_between": [
-    2580,
-    2580
+    2585,
+    2585
    ]
-  },
-  {
-   "after": "II-0190a"
   },
   {
    "id": "EIII-9003",
@@ -69,10 +54,6 @@
    "links": [
     {
      "to": "II-0193",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-9002",
      "type": "sequel"
     }
    ],
@@ -136,7 +117,7 @@
   {
    "id": "EIII-9006",
    "title": "A reeve of Ros dhomhain writes of Caol mhòr",
-   "body": "A reeve of Ros dhomhain writes more than once to the red hall that Caol mhòr pays what it pleases and answers to whom it pleases. The red hall mostly sends no answer; the north-west's tolls are not worth a road-guard's season.",
+   "body": "A reeve of Ros dhomhain writes more than once to An Talla Dearg that Caol mhòr pays what it pleases and answers to whom it pleases. An Talla Dearg mostly sends no answer; the north-west's tolls are not worth a road-guard's season.",
    "place": "burg:27",
    "kind": "law",
    "category": "law",
@@ -292,8 +273,8 @@
   },
   {
    "id": "EIII-9013",
-   "title": "The far-off house is rebuilt in stone",
-   "body": "The waypoint house the carriers call the far-off house, so distant from any town that a traveller is never nearer to it than halfway, is rebuilt in stone after its old timber and turf give out to a western storm, keeping the name a hundred years of true telling had earned it.",
+   "title": "An Sligeanach Fad' às is rebuilt in stone",
+   "body": "The waypoint house the carriers call An Sligeanach Fad' às, so distant from any town that a traveller is never nearer to it than halfway, is rebuilt in stone after its old timber and turf give out to a western storm, keeping the name a hundred years of true telling had earned it.",
    "place": "marker:11",
    "kind": "trade",
    "category": "trade",
@@ -340,8 +321,8 @@
   },
   {
    "id": "EIII-9015",
-   "title": "The Keeper rules fire-water no burning of the Law",
-   "body": "Asked by troubled reeves of the northern road to rule on fire-water under the Small-Burning Law, the Keeper of that generation answers that a fire kept in a man's own belly is no burning the Law was written to answer for, and that the Hall will rule on drink the day it rules on food. The waypoint house's trade doubles within the season.",
+   "title": "Coimheadaiche na Lasrach rules fire-water no burning of Lagh an Loscaidh Bhig",
+   "body": "Asked by troubled reeves of the northern road to rule on fire-water under Lagh an Loscaidh Bhig, Coimheadaiche na Lasrach of that generation answers that a fire kept in a man's own belly is no burning Lagh an Loscaidh Bhig was written to answer for, and that Talla na Lasrach will rule on drink the day it rules on food. The waypoint house's trade doubles within the season.",
    "place": "marker:7",
    "kind": "law",
    "category": "law",
@@ -451,27 +432,6 @@
   },
   {
    "id": "EIII-9020",
-   "title": "Sliochd Raghnaill sails the round of the offshore islands",
-   "body": "Boats of Sliochd Raghnaill sail from Seann Tarr round the whole ring of the offshore islands, Eilean ruadh, Eilean dhearg and Eilean fhada among them, and come home within one season, the first crew of the age known to have made the whole round.",
-   "place": "burg:34",
-   "kind": "land",
-   "category": "land",
-   "links": [
-    {
-     "to": "II-0203",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [],
-   "told_in": "book/38_of_the_bridges_the_riders_and_the_north-west.md#vii-of-the-raid-the-second-sighting-and-the-round-of-the-islands",
-   "era_between": [
-    2735,
-    2735
-   ]
-  },
-  {
-   "id": "EIII-9021",
    "title": "Families take sheep to summer on Eilean ruadh",
    "body": "Coastal families begin carrying sheep over to Eilean ruadh each summer for its grazing, building turf shelters against the weather and bringing the flocks home before the autumn storms. Later herders keep patching the same shelters rather than building anew.",
    "place": "feature:11",
@@ -495,7 +455,7 @@
    "after": "II-0205"
   },
   {
-   "id": "EIII-9022",
+   "id": "EIII-9021",
    "title": "Anna Ruadh asks the reeves how the roads stand",
    "body": "At her first councils Anna Ruadh asks the reeves how the roads stand between one seat and the next. When none can tell her past his own district, she says she will go and see. The reeve of Cathair dhomhain tells her a hall is better kept from a hall.",
    "place": "burg:19",
@@ -518,9 +478,9 @@
    ]
   },
   {
-   "id": "EIII-9023",
+   "id": "EIII-9022",
    "title": "Anna Ruadh sets out with a dozen of her household",
-   "body": "Anna Ruadh leaves the red hall in spring with a dozen of her household and no more baggage than a carrier takes, no litter and no guard beyond a well-off traveller's, the first ruler to walk the whole circuit since Mòrag nan Rathad.",
+   "body": "Anna Ruadh leaves An Talla Dearg in spring with a dozen of her household and no more baggage than a carrier takes, no litter and no guard beyond a well-off traveller's, the first ruler to walk the whole circuit since Mòrag nan Rathad.",
    "place": "burg:19",
    "kind": "rulers",
    "category": "rulers",
@@ -530,7 +490,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-9022",
+     "to": "EIII-9021",
      "type": "sequel"
     }
    ],
@@ -548,7 +508,7 @@
    "after": "II-0206"
   },
   {
-   "id": "EIII-9024",
+   "id": "EIII-9023",
    "title": "Anna Ruadh's second circuit",
    "body": "Anna Ruadh walks the whole road circuit a second time in her middle years, slower than her first walking, stopping longest where keepers who fed her as a young queen feed her again grey-haired; at Am Buabhall Fortanach she sleeps a night under the same roof for the only time in either circuit.",
    "place": null,
@@ -560,7 +520,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9023",
+     "to": "EIII-9022",
      "type": "sequel"
     }
    ],
@@ -576,9 +536,9 @@
    "after": "II-0207"
   },
   {
-   "id": "EIII-9025",
-   "title": "Anna Ruadh takes the sunny house's charter to stone",
-   "body": "The keeper of the sunny house on the road to Cnoc leathan, who has mended the stretch out of her own household's stores for three generations, asks Anna Ruadh that the new charter be cut in stone rather than skin, since a fire can lose a skin but never a stone, and the queen has it cut before she leaves the district.",
+   "id": "EIII-9024",
+   "title": "Anna Ruadh takes An Taigh-òsta Grianach's charter to stone",
+   "body": "The keeper of An Taigh-òsta Grianach on the road to Cnoc leathan, who has mended the stretch out of her own household's stores for three generations, asks Anna Ruadh that the new charter be cut in stone rather than skin, since a fire can lose a skin but never a stone, and the queen has it cut before she leaves the district.",
    "place": "burg:19",
    "kind": "trade",
    "category": "trade",
@@ -600,7 +560,7 @@
    "after": "II-0208"
   },
   {
-   "id": "EIII-9026",
+   "id": "EIII-9025",
    "title": "An old fisher of Ceann mhin judges the queen fair to the fish",
    "body": "Years after Anna Ruadh's ruling that both fishers and carriers might carry the dried catch inland, an old fisher of the strand, asked which side the queen had truly favoured, answers that she had favoured the fish, which was more than either household carrying it had thought to do.",
    "place": "burg:363",
@@ -621,7 +581,7 @@
    ]
   },
   {
-   "id": "EIII-9027",
+   "id": "EIII-9026",
    "title": "Dried fish doubles inland after the ruling at Ceann mhin",
    "body": "Two years after Anna Ruadh ruled that fishers and carriers alike might carry dried fish up-country, the fish going inland has doubled and its price at Dùn ìseal has fallen by half. Both sides claim the doubling as proof they were right.",
    "place": "burg:363",
@@ -647,7 +607,7 @@
    "after": "II-0209"
   },
   {
-   "id": "EIII-9028",
+   "id": "EIII-9027",
    "title": "Fearchar Ruadh wins the stone field at Ceann leathan",
    "body": "A mason's apprentice named Fearchar Ruadh of Doire mhin takes the silver ring at Anna Ruadh's new stone-walled contest field, and eats the crown's meal at the same board as every man he beat under the queen's own new law, a custom he is said never afterward to have forgotten at any table.",
    "place": "burg:22",
@@ -671,7 +631,7 @@
    "after": "II-0210"
   },
   {
-   "id": "EIII-9029",
+   "id": "EIII-9028",
    "title": "The wood-watcher reads a message home before it comes",
    "body": "In Anna Ruadh's household at Cathair dhearg the wood-watcher out of Coille Naomh Cnoc bheag reads the crossing of three geese and tells the queen, unasked, that a message she had given up waiting for will come within the week; an answer to a year-old letter reaches her on the sixth day, and no one in the household troubles him with idle questions after.",
    "place": "burg:19",
@@ -694,9 +654,9 @@
    ]
   },
   {
-   "id": "EIII-9030",
-   "title": "The Keeper protests the wood-watcher in the red hall",
-   "body": "The Keeper at Dùn ìseal sends a protest up the road Anna Ruadh walked, asking by what right a hall built on the Binding keeps an omen-reader who answers to no measure of the vein. No answer is remembered.",
+   "id": "EIII-9029",
+   "title": "Coimheadaiche na Lasrach protests the wood-watcher in An Talla Dearg",
+   "body": "Coimheadaiche na Lasrach at Dùn ìseal sends a protest up the road Anna Ruadh walked, asking by what right a hall built on An Ceangal keeps an omen-reader who answers to no measure of the vein. No answer is remembered.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -706,7 +666,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9029",
+     "to": "EIII-9028",
      "type": "sequel"
     }
    ],
@@ -725,9 +685,9 @@
    "after": "II-0211"
   },
   {
-   "id": "EIII-9031",
+   "id": "EIII-9030",
    "title": "Cathair dhomhain doubles its own strictness in answer",
-   "body": "Cathair dhomhain's shrine, stung by the capital's wood-watcher, doubles its own cutter's visits to the Keeper's measure without being asked, and for a hundred years after a Cathair dhomhain man swearing an oath is known on the roads by how exactly he keeps to its letter.",
+   "body": "Cathair dhomhain's shrine, stung by the capital's wood-watcher, doubles its own cutter's visits to Coimheadaiche na Lasrach's measure without being asked, and for a hundred years after a Cathair dhomhain man swearing an oath is known on the roads by how exactly he keeps to its letter.",
    "place": "burg:26",
    "kind": "faith",
    "category": "faith",
@@ -737,7 +697,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9030",
+     "to": "EIII-9029",
      "type": "sequel"
     }
    ],
@@ -752,9 +712,9 @@
    ]
   },
   {
-   "id": "EIII-9032",
+   "id": "EIII-9031",
    "title": "Anna Ruadh has the toll rolls read at her bedside",
-   "body": "In her last winter Anna Ruadh has the toll rolls of the sunny house and of Slighe Cnoc leathan read aloud to her twice, as if to be sure the charter still stands as she had it cut, and asks after no other matter of state.",
+   "body": "In her last winter Anna Ruadh has the toll rolls of An Taigh-òsta Grianach and of Slighe Cnoc leathan read aloud to her twice, as if to be sure the charter still stands as she had it cut, and asks after no other matter of state.",
    "place": "burg:19",
    "kind": "rulers",
    "category": "rulers",
@@ -775,40 +735,10 @@
    ]
   },
   {
-   "after": "II-0212"
-  },
-  {
-   "id": "EIII-9033",
-   "title": "The council keeps the hall in Coinneach Bàn's name",
-   "body": "After Anna Ruadh's death the council at Cathair dhearg keeps the red hall three years in her son's name before Coinneach Bàn, at seven-and-twenty, takes it in his own.",
-   "place": "burg:19",
-   "kind": "rulers",
-   "category": "rulers",
-   "links": [
-    {
-     "to": "II-0212",
-     "type": "sequel"
-    },
-    {
-     "to": "II-0213",
-     "type": "cause"
-    }
-   ],
-   "threads": [
-    "the-long-years"
-   ],
-   "people": [],
-   "told_in": "book/39_of_anna_ruadhs_two_circuits_and_the_parting_of_the_rites.md#ii-of-the-contest-field-and-the-wood-watcher",
-   "era_between": [
-    2829,
-    2829
-   ]
-  },
-  {
    "after": "II-0213"
   },
   {
-   "id": "EIII-9034",
+   "id": "EIII-9032",
    "title": "Coinneach Bàn begins the copying of the provincial rolls",
    "body": "Coinneach Bàn, choosing a clerk's work over his mother's roads, has every province seat send its own laws to Cathair dhearg to be copied fresh, and reads each copy through himself before it is shelved, so that within a decade a province's own clerks trust the capital's copy of their rolls sooner than the damp-spoiled skins in their own keeping.",
    "place": "burg:19",
@@ -817,10 +747,6 @@
    "links": [
     {
      "to": "II-0213",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-9033",
      "type": "sequel"
     }
    ],
@@ -833,9 +759,9 @@
    ]
   },
   {
-   "id": "EIII-9035",
+   "id": "EIII-9033",
    "title": "A second clerk keeps the unstruck preface",
-   "body": "Before the knife reaches the Keepers' roll, the clerk Seumas Bàn sends for has already made a copy of the count of his own house for his own hand; it is that unstruck copy, kept quietly through the rest of the age, and not the scraped preface, that answers for the fact today.",
+   "body": "Before the knife reaches Clàr an Talla, the clerk Seumas Bàn sends for has already made a copy of the count of his own house for his own hand; it is that unstruck copy, kept quietly through the rest of the age, and not the scraped preface, that answers for the fact today.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -859,7 +785,7 @@
    "after": "II-0214"
   },
   {
-   "id": "EIII-9036",
+   "id": "EIII-9034",
    "title": "Seumas Bàn reckons two Keepers in three of his house",
    "body": "Going beyond the count of names, Seumas Bàn reckons how many of the remaining Keepers married into Sliochd Mhuirich or fostered a child of it, and finds the true share near two in every three.",
    "place": "burg:315",
@@ -871,7 +797,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9035",
+     "to": "EIII-9033",
      "type": "sequel"
     }
    ],
@@ -889,9 +815,9 @@
    "after": "II-0216"
   },
   {
-   "id": "EIII-9037",
+   "id": "EIII-9035",
    "title": "Ealasaid Bhàn writes the hawk-keepers' refusal into hide",
-   "body": "Ealasaid Bhàn, eldest of the fowler households of Seann Skell, meets the Hall's cutter Ruairidh Òg at her own door and tells him the dawn measure is the hawk's and not the Keeper's, allowing him only to watch from the yard as any neighbour might, and setting the answer down in a strip of hide so that no cutter after him could mistake it.",
+   "body": "Ealasaid Bhàn, eldest of the fowler households of Seann Skell, meets Talla na Lasrach's cutter Ruairidh Òg at her own door and tells him the dawn measure is the hawk's and not Coimheadaiche na Lasrach's, allowing him only to watch from the yard as any neighbour might, and setting the answer down in a strip of hide so that no cutter after him could mistake it.",
    "place": "burg:132",
    "kind": "faith",
    "category": "faith",
@@ -912,8 +838,8 @@
    ]
   },
   {
-   "id": "EIII-9038",
-   "title": "A guard swears the Fianna's new oath at Caol leathan",
+   "id": "EIII-9036",
+   "title": "A guard swears the wolf-sworn's graver oath at Caol leathan",
    "body": "A young road-guard swears the first of the graver oaths at Caol leathan's new hall, hand flat on the white stone in a room still smelling of fresh mortar, and tells his own household after that the stone had felt warm under his palm, though the mason who set it swears he cut and laid nothing but plain grey rock from the town's own quarry.",
    "place": "burg:1",
    "kind": "faith",
@@ -924,7 +850,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9037",
+     "to": "EIII-9035",
      "type": "sequel"
     }
    ],
@@ -939,7 +865,7 @@
    ]
   },
   {
-   "id": "EIII-9039",
+   "id": "EIII-9037",
    "title": "The province seats send their laws to Cathair dhearg",
    "body": "Seat after seat sends its clerk down to Cathair dhearg with the district's laws copied fresh, and Coinneach Bàn reads every copy himself before it is shelved. Within a decade the seats send to the capital for copies of their own rolls, their own skins having gone to the damp.",
    "place": "burg:19",
@@ -963,7 +889,7 @@
    "after": "II-0219"
   },
   {
-   "id": "EIII-9040",
+   "id": "EIII-9038",
    "title": "A gravestone-cutter carves Seann Vell's scorpion from a fisherman's telling",
    "body": "The stonecutter who carves Seann Vell's yellow scorpion, better known till then for gravestones than for shrines, works from a fisherman's account of one washed up dead on the strand, having no living creature shown to her, so that the image every child of the town learns to fear owes as much to a fisher's memory as to the god it serves.",
    "place": "burg:127",
@@ -989,7 +915,7 @@
    "after": "II-0220"
   },
   {
-   "id": "EIII-9041",
+   "id": "EIII-9039",
    "title": "The wood-watchers judge a boundary quarrel under the trees",
    "body": "A cutter of Cnoc bhàn and a fowler of the Abhainn ìseal bring a boundary quarrel to the wood-watchers of Coille Naomh Cnoc bheag rather than to Dùn ìseal, and both accept a judgement neither asked for: that the disputed scrub belongs to whoever feeds it through a hard winter, and to no one in an easy one.",
    "place": null,
@@ -1001,7 +927,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9040",
+     "to": "EIII-9038",
      "type": "sequel"
     }
    ],
@@ -1016,7 +942,7 @@
    ]
   },
   {
-   "id": "EIII-9042",
+   "id": "EIII-9040",
    "title": "The council's carpenters set the hawk-keepers nearest the door",
    "body": "The carpenters who build the council's new benches at Dùn ìseal, told only the number of heads for each company, set the hawk-keepers' bench nearest the door for no reason any clerk troubles to record, so that latecomers of every company after sit longest among strangers before reaching their own.",
    "place": "burg:315",
@@ -1042,7 +968,7 @@
    "after": "II-0223"
   },
   {
-   "id": "EIII-9043",
+   "id": "EIII-9041",
    "title": "Pilgrims of four rites mend the path to Allt an Àigh",
    "body": "Pilgrims of four rites, meeting on the path from Caol shean by no arrangement, fall to mending its worn stones together, hawk-keeper beside wolf-sworn beside a stag scholar, and finish the work before any asks whether the others belong there.",
    "place": "marker:1",
@@ -1068,9 +994,9 @@
    "after": "II-0224"
   },
   {
-   "id": "EIII-9044",
+   "id": "EIII-9042",
    "title": "Beathag Fhionn rules the springs open to every company",
-   "body": "Beathag Fhionn, keeper of the bath-house over the warm springs at Muileann ruadh, rules that the sick of every rite shall be carried up and bathed at dawn without being asked first which company they keep, and every province seat with a copy of anything at all copies her ruling into its own rolls that same season.",
+   "body": "Beathag Fhionn, keeper of the bath-house over Fuarain Theth Muileann ruadh at Muileann ruadh, rules that the sick of every rite shall be carried up and bathed at dawn without being asked first which company they keep, and every province seat with a copy of anything at all copies her ruling into its own rolls that same season.",
    "place": "marker:0",
    "kind": "faith",
    "category": "faith",
@@ -1080,16 +1006,14 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9043",
+     "to": "EIII-9041",
      "type": "sequel"
     }
    ],
    "threads": [
     "the-orders-of-the-old-faith"
    ],
-   "people": [
-    "beathag-fhionn"
-   ],
+   "people": [],
    "told_in": "book/39_of_anna_ruadhs_two_circuits_and_the_parting_of_the_rites.md#v-of-the-parting",
    "era_between": [
     2863,
@@ -1100,7 +1024,7 @@
    "after": "II-0230"
   },
   {
-   "id": "EIII-9045",
+   "id": "EIII-9043",
    "title": "Death of Seumas Bàn",
    "body": "Seumas Bàn dies at Dùn ìseal in his eightieth year, having kept the flame five-and-forty years, and in all that time seen none of the eight companies sit again by hearth and house.",
    "place": "burg:315",
@@ -1112,7 +1036,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9044",
+     "to": "EIII-9042",
      "type": "sequel"
     }
    ],
@@ -1131,9 +1055,9 @@
    "after": "II-0235"
   },
   {
-   "id": "EIII-9046",
+   "id": "EIII-9044",
    "title": "Coinneach Bàn dies at Cathair dhearg",
-   "body": "Coinneach Bàn, who had copied the laws for every province, dies in his own bed at the red hall in the ninety-first year of his life. His son Coinneach Donn takes up the cup without any meeting of the Four Houses being called.",
+   "body": "Coinneach Bàn, who had copied the laws for every province, dies in his own bed at An Talla Dearg in the ninety-first year of his life. His son Coinneach Donn takes up the cup without any meeting of Na Ceithir Taighean being called.",
    "place": "burg:19",
    "kind": "rulers",
    "category": "rulers",
@@ -1149,15 +1073,15 @@
    ]
   },
   {
-   "id": "EIII-9047",
-   "title": "Coinneach Donn takes the red hall without a meeting",
-   "body": "Coinneach Bàn's son Coinneach Donn takes the red hall as sons of that house always have, with no meeting of the Four Houses; outlying reeves learn of one rìgh's death and the next rìgh's holding from the same line of a roll.",
+   "id": "EIII-9045",
+   "title": "Coinneach Donn takes An Talla Dearg without a meeting",
+   "body": "Coinneach Bàn's son Coinneach Donn takes An Talla Dearg as sons of that house always have, with no meeting of Na Ceithir Taighean; outlying reeves learn of one rìgh's death and the next rìgh's holding from the same line of a roll.",
    "place": "burg:19",
    "kind": "rulers",
    "category": "rulers",
    "links": [
     {
-     "to": "EIII-9046",
+     "to": "EIII-9044",
      "type": "sequel"
     }
    ],
@@ -1175,7 +1099,7 @@
    "after": "II-0246"
   },
   {
-   "id": "EIII-9048",
+   "id": "EIII-9046",
    "title": "Coinneach Donn dies",
    "body": "Coinneach Donn, who has held the cup thirty years and more since his father's death, dies in the eighty-seventh year of his own life at Cathair dhearg, leaving a daughter, Mòr, not yet twenty-three, and a younger brother, Tormod Donn.",
    "place": "burg:19",
@@ -1183,7 +1107,7 @@
    "category": "rulers",
    "links": [
     {
-     "to": "EIII-9047",
+     "to": "EIII-9045",
      "type": "sequel"
     }
    ],
@@ -1198,15 +1122,15 @@
    ]
   },
   {
-   "id": "EIII-9049",
-   "title": "Tormod Donn's claim before the Four Houses",
-   "body": "Tormod Donn brings a claim to the Four Houses at Dùn ìseal against his niece Mòr, arguing that a man of the same blood and twice her years stands the plainer heir. The Houses split, two benches for Mòr and two for neither.",
+   "id": "EIII-9047",
+   "title": "Tormod Donn's claim before Na Ceithir Taighean",
+   "body": "Tormod Donn brings a claim to Na Ceithir Taighean at Dùn ìseal against his niece Mòr, arguing that a man of the same blood and twice her years stands the plainer heir. The Houses split, two benches for Mòr and two for neither.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
    "links": [
     {
-     "to": "EIII-9048",
+     "to": "EIII-9046",
      "type": "sequel"
     }
    ],
@@ -1221,9 +1145,9 @@
    ]
   },
   {
-   "id": "EIII-9050",
-   "title": "Catrìona nic Mhuirich speaks for Mòr before the Four Houses",
-   "body": "With the houses split and the winter spent, the Keeper Catrìona nic Mhuirich tells them the red hall is no business of the Hall's to give, but that she will set the stone cup in Mòr's hands, as once in Gilleasbuig Mòr's, if they ask it, and in no one else's.",
+   "id": "EIII-9048",
+   "title": "Catrìona nic Mhuirich speaks for Mòr before Na Ceithir Taighean",
+   "body": "With the houses split and the winter spent, Coimheadaiche na Lasrach Catrìona nic Mhuirich tells them An Talla Dearg is no business of Talla na Lasrach's to give, but that she will set the stone cup in Mòr's hands, as once in Gilleasbuig Mòr's, if they ask it, and in no one else's.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1233,7 +1157,7 @@
      "type": "cause"
     },
     {
-     "to": "EIII-9049",
+     "to": "EIII-9047",
      "type": "sequel"
     }
    ],
@@ -1251,9 +1175,9 @@
    "after": "II-0247"
   },
   {
-   "id": "EIII-9051",
+   "id": "EIII-9049",
    "title": "Tormod Donn yields",
-   "body": "Tormod Donn withdraws his claim by his own steward's word, sent from his house at Cuan ruadh, after Catrìona nic Mhuirich tells the Four Houses she will set the cup in no hand but Mòr's. It is the last such claim the house of Tormod contests.",
+   "body": "Tormod Donn withdraws his claim by his own steward's word, sent from his house at Cuan ruadh, after Catrìona nic Mhuirich tells Na Ceithir Taighean she will set the cup in no hand but Mòr's. It is the last such claim Sliochd Thormoid contests.",
    "place": "burg:119",
    "kind": "rulers",
    "category": "rulers",
@@ -1263,7 +1187,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9050",
+     "to": "EIII-9048",
      "type": "sequel"
     }
    ],
@@ -1279,9 +1203,9 @@
    ]
   },
   {
-   "id": "EIII-9052",
-   "title": "Mòr asks the Keeper whether her uncle's claim was wicked",
-   "body": "Taking the cup at Dùn ìseal, Mòr asks Catrìona low whether her uncle's claim was wicked or only foolish. The Keeper answers that few claims are purely either, and that Mòr should spend her reckoning on the hall's keeping, not her uncle's punishing. Mòr brings no charge.",
+   "id": "EIII-9050",
+   "title": "Mòr asks Coimheadaiche na Lasrach whether her uncle's claim was wicked",
+   "body": "Taking the cup at Dùn ìseal, Mòr asks Catrìona low whether her uncle's claim was wicked or only foolish. Coimheadaiche na Lasrach answers that few claims are purely either, and that Mòr should spend her reckoning on the hall's keeping, not her uncle's punishing. Mòr brings no charge.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1291,7 +1215,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9051",
+     "to": "EIII-9049",
      "type": "sequel"
     }
    ],
@@ -1304,15 +1228,15 @@
    ]
   },
   {
-   "id": "EIII-9053",
+   "id": "EIII-9051",
    "title": "Mòr weds Dòmhnall Dubh",
-   "body": "Mòr nic Coinnich weds Dòmhnall Dubh of Sliochd Raghnaill, whose kin keep the watch-tower at Baile ruadh. He holds no office at the red hall and keeps, through her reign, to his own house's trade of boats and coastwatch.",
+   "body": "Mòr nic Coinnich weds Dòmhnall Dubh of Sliochd Raghnaill, whose kin keep the watch-tower at Baile ruadh. He holds no office at An Talla Dearg and keeps, through her reign, to his own house's trade of boats and coastwatch.",
    "place": "burg:19",
    "kind": "rulers",
    "category": "rulers",
    "links": [
     {
-     "to": "EIII-9052",
+     "to": "EIII-9050",
      "type": "sequel"
     }
    ],
@@ -1328,9 +1252,9 @@
    "after": "II-0248"
   },
   {
-   "id": "EIII-9054",
+   "id": "EIII-9052",
    "title": "Death of Tormod Donn",
-   "body": "Tormod Donn, who once claimed the red hall against his niece, dies at Cuan ruadh, and his line ends with him, leaving no son to trouble the succession after.",
+   "body": "Tormod Donn, who once claimed An Talla Dearg against his niece, dies at Cuan ruadh, and his line ends with him, leaving no son to trouble the succession after.",
    "place": "burg:119",
    "kind": "rulers",
    "category": "rulers",
@@ -1349,7 +1273,7 @@
    "after": "II-0249"
   },
   {
-   "id": "EIII-9055",
+   "id": "EIII-9053",
    "title": "Dòmhnall Dubh dies at Baile ruadh",
    "body": "Dòmhnall Dubh dies in the fiftieth year of his own life among his own kin at Baile ruadh rather than at Cathair dhearg. Mòr goes north herself to see him buried beside the watch-tower his house has kept three generations.",
    "place": "burg:241",
@@ -1365,7 +1289,7 @@
    ]
   },
   {
-   "id": "EIII-9056",
+   "id": "EIII-9054",
    "title": "Mòr goes north to bury Dòmhnall Dubh",
    "body": "Mòr nic Coinnich goes north herself to see her husband buried beside the watch-tower at Baile ruadh that his house has kept three generations, a journey no rìgh has made in living memory for a husband's burying.",
    "place": "burg:241",
@@ -1377,7 +1301,7 @@
      "type": "legacy"
     },
     {
-     "to": "EIII-9055",
+     "to": "EIII-9053",
      "type": "sequel"
     }
    ],
@@ -1390,9 +1314,9 @@
    ]
   },
   {
-   "id": "EIII-9057",
+   "id": "EIII-9055",
    "title": "Mòr nic Coinnich dies",
-   "body": "Mòr nic Coinnich dies at Cathair dhearg, leaving two daughters, Beathag and Mòrag, and no brother, uncle or cousin near enough in blood to raise a claim. Hers is the last name the Holy Age itself sets down in the king-list.",
+   "body": "Mòr nic Coinnich dies at Cathair dhearg, leaving two daughters, Beathag and Mòrag, and no brother, uncle or cousin near enough in blood to raise a claim. Hers is the last name An Aois Naomh itself sets down in Clàr nan Rìghrean.",
    "place": "burg:19",
    "kind": "rulers",
    "category": "rulers",
@@ -1402,7 +1326,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-9056",
+     "to": "EIII-9054",
      "type": "sequel"
     }
    ],
@@ -1420,15 +1344,15 @@
    ]
   },
   {
-   "id": "EIII-9058",
+   "id": "EIII-9056",
    "title": "Beathag crowned at Cathair dhearg",
-   "body": "Beathag nic Dhòmhnaill, not yet sixteen, is crowned at Cathair dhearg within the month of her mother's death, by her own house's word and the Four Houses' assent, rather than by a winter journey to Dùn ìseal for the stone cup.",
+   "body": "Beathag nic Dhòmhnaill, not yet sixteen, is crowned at Cathair dhearg within the month of her mother's death, by her own house's word and Na Ceithir Taighean' assent, rather than by a winter journey to Dùn ìseal for the stone cup.",
    "place": "burg:19",
    "kind": "rulers",
    "category": "rulers",
    "links": [
     {
-     "to": "EIII-9057",
+     "to": "EIII-9055",
      "type": "sequel"
     }
    ],
@@ -1445,9 +1369,63 @@
    ]
   },
   {
-   "id": "EIII-9059",
+   "id": "EIII-9057",
    "title": "Ruairidh Clèireach begins the new roll",
-   "body": "Finding the old skin of the king-list and the Keepers' roll filled to its last line with Mòr's name, the clerk Ruairidh Clèireach begins a new skin and sets Beathag's name at its head, so that no name later than Mòr's stands in the old roll.",
+   "body": "Finding the old skin of Clàr nan Rìghrean and Clàr an Talla filled to its last line with Mòr's name, the clerk Ruairidh Clèireach begins a new skin and sets Beathag's name at its head, so that no name later than Mòr's stands in the old roll.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0248",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-9056",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/40_of_the_last_quiet_years.md#v-of-mor-s-death-and-beathag-s-crowning",
+   "era_between": [
+    2953,
+    2953
+   ]
+  },
+  {
+   "id": "EIII-9058",
+   "title": "Catrìona offers to receive the young rìgh at Dùn ìseal",
+   "body": "Catrìona nic Mhuirich, past threescore, sends word that she stands ready to receive the young Beathag at Dùn ìseal whenever the roads and season allow. The journey is not made in Beathag's first year, nor troubled over again while the roll of the age is kept.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EIII-9057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/40_of_the_last_quiet_years.md#v-of-mor-s-death-and-beathag-s-crowning",
+   "era_between": [
+    2953,
+    2953
+   ]
+  },
+  {
+   "id": "EIII-9059",
+   "title": "The old roll closed on Mòr's name",
+   "body": "The skin of Clàr nan Rìghrean and Clàr an Talla kept since Coinneach Bàn's day is full to its last line with Mòr's name and her count. Ruairidh Clèireach closes it and lays it in the chest with every roll of Talla na Lasrach before it, so that no name later than Mòr's stands on it.",
    "place": "burg:19",
    "kind": "law",
    "category": "law",
@@ -1458,60 +1436,6 @@
     },
     {
      "to": "EIII-9058",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-of-the-flame"
-   ],
-   "people": [
-    "beathag-nic-dhomhnaill"
-   ],
-   "told_in": "book/40_of_the_last_quiet_years.md#v-of-mor-s-death-and-beathag-s-crowning",
-   "era_between": [
-    2953,
-    2953
-   ]
-  },
-  {
-   "id": "EIII-9060",
-   "title": "Catrìona offers to receive the young rìgh at Dùn ìseal",
-   "body": "Catrìona nic Mhuirich, past threescore, sends word that she stands ready to receive the young Beathag at Dùn ìseal whenever the roads and season allow. The journey is not made in Beathag's first year, nor troubled over again while the roll of the age is kept.",
-   "place": "burg:315",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "EIII-9059",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-keepers-of-the-flame"
-   ],
-   "people": [
-    "beathag-nic-dhomhnaill"
-   ],
-   "told_in": "book/40_of_the_last_quiet_years.md#v-of-mor-s-death-and-beathag-s-crowning",
-   "era_between": [
-    2953,
-    2953
-   ]
-  },
-  {
-   "id": "EIII-9061",
-   "title": "The old roll closed on Mòr's name",
-   "body": "The skin of the king-list and the Keepers' roll kept since Coinneach Bàn's day is full to its last line with Mòr's name and her count. Ruairidh Clèireach closes it and lays it in the chest with every roll of the Hall before it, so that no name later than Mòr's stands on it.",
-   "place": "burg:19",
-   "kind": "law",
-   "category": "law",
-   "links": [
-    {
-     "to": "II-0248",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-9060",
      "type": "sequel"
     }
    ],

@@ -5,20 +5,36 @@
     "after": "V-0099",
     "summary": "Mary Coyle, widowed of the Cuan bheag drowning, stands and speaks her own words in the Moot at Caol mhòr rather than sending a note forward to be read by another. The clerk David Hale sets her speech down whole in the day-book, the first time a woman's words are kept there entire rather than summed in a line.",
     "category": "law",
-    "people": ["Mary Coyle"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0099"]
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0099"
+    ]
   },
   {
     "title": "The widows heard first",
     "era_year": 24,
     "summary": "The Moot resolves that the widows of the drowned be heard on the same footing as any man who has paid his shilling, and heard first when a matter touches their own dead. The rule is entered as standing, not as a courtesy for one night, on the widow Agnes Tulloch's motion.",
     "category": "law",
-    "people": ["Mary Coyle"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0099"]
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0099"
+    ]
   },
   {
     "title": "The Hawk's twentieth first paid",
@@ -26,29 +42,51 @@
     "summary": "Ros gheal's factor pays the Hawk houses their first quarter's twentieth on the dues of the new grain dock, the sum the shire's factor haggled down from a tithe. The due is paid every quarter after, and the clerks of Ros gheal come to call it simply the Hawk's, few remembering why.",
     "category": "trade",
     "people": [],
-    "places": ["burg:24"],
+    "places": [
+      "burg:24"
+    ],
     "threads": [],
-    "master_links": ["V-0099"]
+    "master_links": [
+      "V-0099"
+    ]
   },
   {
     "title": "The Moot votes to send the western crossing",
     "era_year": 25,
     "summary": "After two hard sittings the Moot agrees to Mary Coyle's asking, that northern boats sail west-about to keep the sea-feast at Seann Bhral where the Tuathaich forebears once kept it. Many in the room call it a fool's errand for winter, and are not silenced, only outvoted.",
     "category": "faith",
-    "people": ["Mary Coyle"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich", "the-church-on-the-island"],
-    "master_links": ["V-0103"]
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "V-0103"
+    ]
   },
   {
     "title": "Eleven boats sail for Seann Bhral",
     "era_year": 25,
     "summary": "Eleven boats out of Caol mhòr, Cuan bheag and Ros mhòr put out on a grey morning at the end of an Lùnastal under Mary Coyle, carrying little but themselves, a keg of salt fish apiece, and the Moot's own sheet naming her their word. Ros bheag's harbour will not give them its quay, and sends them to a mooring buoy instead.",
     "category": "land",
-    "people": ["Mary Coyle"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich", "the-mist"],
-    "master_links": ["V-0103"]
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-mist"
+    ],
+    "master_links": [
+      "V-0103"
+    ]
   },
   {
     "title": "A boat nearly lost off the passage",
@@ -57,38 +95,70 @@
     "category": "land",
     "people": [],
     "places": [],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0103"]
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0103"
+    ]
   },
   {
     "title": "The house at Seann Bhral answers Mary Coyle",
     "era_year": 25,
     "summary": "The keeper of Manannan's order at Seann Bhral in the west hears Mary Coyle's asking through to the end and refuses it: the house is kept on tithes of families who hold the rite by blood and the custodian's book, and cannot be opened on a four days' claim, however justly sailed. He tells her the sea is the same; the house is not.",
     "category": "faith",
-    "people": ["Mary Coyle"],
-    "places": ["burg:47"],
-    "threads": ["the-tuathaich", "the-church-on-the-island"],
-    "master_links": ["V-0103"]
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:47"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "V-0103"
+    ]
   },
   {
     "title": "Mary Coyle resolves to keep the feast at Cnoc ghorm",
     "era_year": 25,
     "summary": "On the passage home Mary Coyle tells the crews the north will keep the feast of the sea itself, in full, at the church above Cnoc ghorm where a thin blessing of the boats is already kept each spring. The decision is made before the eleven boats raise Caol mhòr again.",
     "category": "faith",
-    "people": ["Mary Coyle"],
-    "places": ["burg:142"],
-    "threads": ["the-tuathaich", "the-church-on-the-island"],
-    "master_links": ["V-0103", "V-0104"]
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "V-0103",
+      "V-0104"
+    ]
   },
   {
     "title": "The first Fleadh na Mara kept in full",
     "era_year": 26,
     "summary": "More than fifty boats gather at Cnoc ghorm on the second Sunday of an Gearran, far beyond any year before, and the parish priest blesses each hull in turn with heather dipped in harbour water. Mary Coyle's own boat, which carried her to Seann Bhral and back, is blessed fourth in the row.",
     "category": "faith",
-    "people": ["Mary Coyle"],
-    "places": ["burg:142"],
-    "threads": ["the-tuathaich", "the-church-on-the-island"],
-    "master_links": ["V-0104"]
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "V-0104"
+    ]
   },
   {
     "title": "David Hale counts the boats at Cnoc ghorm",
@@ -96,8 +166,28 @@
     "summary": "David Hale keeps a written count of the boats blessed at Cnoc ghorm for the Moot's day-book, the first such count taken of the feast. Word of the gathering's size travels the north coast faster than the crossing to Seann Bhral had, and boats are promised from as far as Inis mhin's country the year after.",
     "category": "law",
     "people": [],
-    "places": ["burg:142"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0104"]
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0104"
+    ]
+  },
+  {
+    "title": "A Ros mhòr man asks what now",
+    "era_year": 25,
+    "summary": "On the third day home from Seann Bhral, off the northern capes, an old Ros mhòr hand who has said little the whole voyage asks Mary Coyle plainly what she means to do now that the west will not have them.",
+    "category": "humans",
+    "people": [],
+    "places": [],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0103"
+    ]
   }
 ]

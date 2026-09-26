@@ -79,8 +79,8 @@
   },
   {
    "id": "EII-4003",
-   "title": "Lachlann born on the Red Hill",
-   "body": "A son is born in the Red Hill's hall and named Lachlann, red-headed like so many of that line; he grows up wet to the knee on the lake shore and learns the salt-rake before the spear.",
+   "title": "Lachlann born on An Cnoc Ruadh",
+   "body": "A son is born in An Cnoc Ruadh's hall and named Lachlann, red-headed like so many of that line; he grows up wet to the knee on the lake shore and learns the salt-rake before the spear.",
    "place": "burg:19",
    "kind": "birth",
    "category": "rulers",
@@ -105,7 +105,7 @@
   {
    "id": "EII-4004",
    "title": "Oighrig born to a herder of the near slopes",
-   "body": "A daughter is born to Dòmhnall, a herder of the near slopes above Tobar dhìreach with no kinship to the Stone Kings, and named Oighrig; she grows up sitting her household's turns at the slab and will draw the white stone at three-and-thirty.",
+   "body": "A daughter is born to Dòmhnall, a herder of the near slopes above Tobar dhìreach with no kinship to Rìghrean na Cloiche, and named Oighrig; she grows up sitting her household's turns at the slab and will draw the white stone at three-and-thirty.",
    "place": "burg:276",
    "kind": "birth",
    "category": "rulers",
@@ -300,7 +300,7 @@
   },
   {
    "id": "EII-4012",
-   "title": "Peigi born on the Red Hill",
+   "title": "Peigi born on An Cnoc Ruadh",
    "body": "A daughter is born to Lachlann Ruadh and named Peigi, black-haired and loud from her first night; she will meet her father's fosterling at the gate at fifteen and tell him he is too thin.",
    "place": "burg:19",
    "kind": "birth",
@@ -506,8 +506,8 @@
   },
   {
    "id": "EII-4020",
-   "title": "Word sent west to the Red Hill",
-   "body": "Eilidh Ghlas sends word to Lachlann Ruadh, holder of the Red Hill, asking that he take her younger son to be raised in his household. She gives it out as a mother's wish that the boy learn a trade of his own; the ford's peace is served by it besides.",
+   "title": "Word sent west to An Cnoc Ruadh",
+   "body": "Eilidh Ghlas sends word to Lachlann Ruadh, holder of An Cnoc Ruadh, asking that he take her younger son to be raised in his household. She gives it out as a mother's wish that the boy learn a trade of his own; the ford's peace is served by it besides.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -534,7 +534,7 @@
   {
    "id": "EII-4021",
    "title": "Calum Ciar counts the miles at the gate",
-   "body": "On the morning his brother leaves for the Red Hill, Calum Ciar stands long at the gate after the party is out of sight, and tells a groom who asks him in out of the wind that he is only counting how many days fifty miles there and back will take.",
+   "body": "On the morning his brother leaves for An Cnoc Ruadh, Calum Ciar stands long at the gate after the party is out of sight, and tells a groom who asks him in out of the wind that he is only counting how many days fifty miles there and back will take.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -560,7 +560,7 @@
   {
    "id": "EII-4022",
    "title": "Eilidh's parting at Àth shean",
-   "body": "Eilidh Ghlas walks with her son's party as far as Àth shean and kneels to his height at the turning of the roads, telling him he is not sent for any wrong of his, that the Red Hill will be as much home to him as Dùn ìseal, and that she means to see him grown.",
+   "body": "Eilidh Ghlas walks with her son's party as far as Àth shean and kneels to his height at the turning of the roads, telling him he is not sent for any wrong of his, that An Cnoc Ruadh will be as much home to him as Dùn ìseal, and that she means to see him grown.",
    "place": "burg:32",
    "kind": "reign",
    "category": "rulers",
@@ -585,7 +585,7 @@
   },
   {
    "id": "EII-4023",
-   "title": "A mound left untouched on the salt road",
+   "title": "A mound left untouched on Rathad an t-Salainn",
    "body": "On the road west, the household man Donnchadh stops before a low green mound and will go no nearer to it, telling the boy only that it is older than the road and the salt trade. A wise traveller, he is told, lets such places lie as he lets a wasp's nest lie.",
    "kind": "land",
    "category": "land",
@@ -606,7 +606,7 @@
   {
    "id": "EII-4024",
    "title": "Rìonach's saying of the forked river",
-   "body": "Turning off the salt road for her own kin at Àth shean, Rìonach tells the fosterling that a household not his own by birth is no loss to him but a doubling, as a forked river becomes two whole rivers rather than two lesser ones.",
+   "body": "Turning off Rathad an t-Salainn for her own kin at Àth shean, Rìonach tells the fosterling that a household not his own by birth is no loss to him but a doubling, as a forked river becomes two whole rivers rather than two lesser ones.",
    "place": "burg:32",
    "kind": "reign",
    "category": "rulers",
@@ -626,7 +626,7 @@
   },
   {
    "id": "EII-4025",
-   "title": "The fosterling comes to the Red Hill",
+   "title": "The fosterling comes to An Cnoc Ruadh",
    "body": "Eilidh Ghlas's younger son comes down to the western lake shore at evening and is met at the gate by Lachlann Ruadh and his daughter Peigi, who tells her father plainly that he is too thin and will need feeding, and carries in his one bundle herself.",
    "place": "burg:19",
    "kind": "reign",
@@ -708,7 +708,7 @@
   {
    "id": "EII-4028",
    "title": "The fosterling first put out on the lake",
-   "body": "The fosterling is let out on Loch chrom in a boat for the first time, and comes back to the Red Hill wet through and pleased with himself, word of it carried east along the salt road to Dùn ìseal by the carriers who walk it.",
+   "body": "The fosterling is let out on Loch chrom in a boat for the first time, and comes back to An Cnoc Ruadh wet through and pleased with himself, word of it carried east along Rathad an t-Salainn to Dùn ìseal by the carriers who walk it.",
    "place": "burg:19",
    "kind": "trade",
    "category": "trade",
@@ -728,8 +728,8 @@
   },
   {
    "id": "EII-4029",
-   "title": "Eilidh Ghlas visits the Red Hill",
-   "body": "Eilidh Ghlas comes to the Red Hill as Lachlann Ruadh's guest and sits at his own board four days, asking after the tallies and the weather as she asks after her son. Walking with her son to the western point of the lake, she tells him she will not come again for some years.",
+   "title": "Eilidh Ghlas visits An Cnoc Ruadh",
+   "body": "Eilidh Ghlas comes to An Cnoc Ruadh as Lachlann Ruadh's guest and sits at his own board four days, asking after the tallies and the weather as she asks after her son. Walking with her son to the western point of the lake, she tells him she will not come again for some years.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -778,8 +778,8 @@
   },
   {
    "id": "EII-4031",
-   "title": "The Red Hill list begins to call Lachlann of the fostering",
-   "body": "In these years the Red Hill's reciters take up the habit of naming Lachlann Ruadh also Lachlann an Altraim, Lachlann of the fostering, until in time the second name is given by the list where the first once stood, and is never afterward unsaid.",
+   "title": "An Cnoc Ruadh list begins to call Lachlann of the fostering",
+   "body": "In these years An Cnoc Ruadh's reciters take up the habit of naming Lachlann Ruadh also Lachlann an Altraim, Lachlann of the fostering, until in time the second name is given by the list where the first once stood, and is never afterward unsaid.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -879,7 +879,7 @@
   {
    "id": "EII-4035",
    "title": "Oighrig's father speaks of the shared name",
-   "body": "Walking home from the drawing, Oighrig's father Dòmhnall, a herder of the near slopes with no kinship to the Stone Kings, tells her she will spend the rest of her keeping answering travellers who mistake her for blood of Dòmhnall Clachach, the second of that name to hold the north.",
+   "body": "Walking home from the drawing, Oighrig's father Dòmhnall, a herder of the near slopes with no kinship to Rìghrean na Cloiche, tells her she will spend the rest of her keeping answering travellers who mistake her for blood of Dòmhnall Clachach, the second of that name to hold the north.",
    "place": "burg:276",
    "kind": "daily-life",
    "category": "trade",
@@ -904,7 +904,7 @@
   },
   {
    "id": "EII-4036",
-   "title": "The keepers' house raised at Tobar dhìreach",
+   "title": "Taigh na Lice raised at Tobar dhìreach",
    "body": "The families of the near valleys build Oighrig a house on the clearing's edge above the slab, its door set to face the stone and no other way, the first building on Dia-thìr raised for no reason but to stand near the vein.",
    "place": "burg:276",
    "kind": "building",
@@ -1120,8 +1120,8 @@
   },
   {
    "id": "EII-4044",
-   "title": "The meeting of the cups on the moor",
-   "body": "At a nameless spring on the moor between Àth gharbh and Tobar dhìreach, chosen because it lies equal walking from all four places and belongs to no one household, the four keepers of the cups fill each from the same water on a flat stone and pass every cup down the line for each hand to weigh. The water stands level in all four; the place is called from that morning the meeting of the cups.",
+   "title": "Coinneachadh nan Cupan on the moor",
+   "body": "At a nameless spring on the moor between Àth gharbh and Tobar dhìreach, chosen because it lies equal walking from all four places and belongs to no one household, the four keepers of the cups fill each from the same water on a flat stone and pass every cup down the line for each hand to weigh. The water stands level in all four; the place is called from that morning Coinneachadh nan Cupan.",
    "kind": "law",
    "category": "law",
    "links": [
@@ -1147,7 +1147,7 @@
   {
    "id": "EII-4045",
    "title": "The hills measure the coal with one measure",
-   "body": "From the year of the meeting of the cups, the households from the slopes above Tobar dhìreach to the poor ground of Cnoc chaol measure their handful of the vein's coal by the one cup and its three copies, and not by the hand that happens to do the measuring, a change the reciters afterward give no more than a single line.",
+   "body": "From the year of Coinneachadh nan Cupan, the households from the slopes above Tobar dhìreach to the poor ground of Cnoc chaol measure their handful of the vein's coal by the one cup and its three copies, and not by the hand that happens to do the measuring, a change the reciters afterward give no more than a single line.",
    "place": "burg:276",
    "kind": "law",
    "category": "law",
@@ -1173,7 +1173,7 @@
   {
    "id": "EII-4046",
    "title": "Oighrig nic Dhòmhnaill dies keeping the slab",
-   "body": "Oighrig nic Dhòmhnaill keeps the slab for the rest of her life, as the lot gave it her, and that rest is shorter than anyone at the clearing looked for: she dies in the keepers' house in the winter after the meeting of the cups, and the families ask that a new lot be drawn.",
+   "body": "Oighrig nic Dhòmhnaill keeps the slab for the rest of her life, as the lot gave it her, and that rest is shorter than anyone at the clearing looked for: she dies in Taigh na Lice in the winter after Coinneachadh nan Cupan, and the families ask that a new lot be drawn.",
    "place": "burg:276",
    "kind": "faith",
    "category": "coal",
@@ -1350,8 +1350,8 @@
   },
   {
    "id": "EII-4053",
-   "title": "The basket set inside the keepers' house",
-   "body": "The kinswoman who found the coal carries the basket to the keepers' house at Tobar dhìreach and sets it under its cloth just inside the door. No household proposes burning it; it was not theirs to burn before Gilleasbuig took it, and the judgement has settled that it never will be.",
+   "title": "The basket set inside Taigh na Lice",
+   "body": "The kinswoman who found the coal carries the basket to Taigh na Lice at Tobar dhìreach and sets it under its cloth just inside the door. No household proposes burning it; it was not theirs to burn before Gilleasbuig took it, and the judgement has settled that it never will be.",
    "place": "burg:276",
    "kind": "faith",
    "category": "coal",
@@ -1374,7 +1374,7 @@
   {
    "id": "EII-4054",
    "title": "The lot falls to Giorsal Bhàn",
-   "body": "A new lot is drawn from the same bag that gave the stone to Oighrig and then to Gilleasbuig, and this time it is Giorsal Bhàn's hand that opens on the white pebble. She closes her hand on it and says she will keep it, and moves into the keepers' house before the month is out.",
+   "body": "A new lot is drawn from the same bag that gave the stone to Oighrig and then to Gilleasbuig, and this time it is Giorsal Bhàn's hand that opens on the white pebble. She closes her hand on it and says she will keep it, and moves into Taigh na Lice before the month is out.",
    "place": "burg:276",
    "kind": "faith",
    "category": "coal",

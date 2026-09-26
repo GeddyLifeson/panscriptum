@@ -8,7 +8,7 @@
   {
    "id": "EIV-2001",
    "title": "Fearchar's petition for the coal",
-   "body": "Fearchar mac Ruairidh comes to the vein-house and asks that each hull found fit to sail be allowed to carry one sealed measure of the coal, no more than a single household's season under the Small-Burning Law. The custodians send him down the hill with a promise only to put the matter to the board.",
+   "body": "Fearchar mac Ruairidh comes to Taigh na Fèithe and asks that each hull found fit to sail be allowed to carry one sealed measure of the coal, no more than a single household's season under Lagh an Loscaidh Bhig. The custodians send him down the hill with a promise only to put the matter to the board.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -34,7 +34,7 @@
   },
   {
    "id": "EIV-2002",
-   "title": "Donnchadh mac Thormoid given to the vein-house",
+   "title": "Donnchadh mac Thormoid given to Taigh na Fèithe",
    "body": "Tormod, a turf-cutter of the moor above Muileann dhearg, walks his son Donnchadh, nine years old, up the coal-road to Taigh na Fèithe and leaves him there sworn to the vein's service for seven years, and does not look back.",
    "place": "burg:491",
    "kind": "craft",
@@ -63,7 +63,7 @@
   {
    "id": "EIV-2003",
    "title": "The custodians' debate at the winter burning",
-   "body": "After six winters of argument the vein-house's board finally votes on Fearchar's petition. Cailean and others hold that the coal has never crossed water and should not; Fearchar answers that the Law measures a hearth wherever a hearth chooses to stand. The custody-book is opened and the question is put to writing.",
+   "body": "After six winters of argument Taigh na Fèithe's board finally votes on Fearchar's petition. Cailean and others hold that the coal has never crossed water and should not; Fearchar answers that Lagh an Loscaidh Bhig measures a hearth wherever a hearth chooses to stand. Leabhar a' Chùraim is opened and the question is put to writing.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -91,7 +91,7 @@
   {
    "id": "EIV-2004",
    "title": "The sealed measures made",
-   "body": "The first measures of coal are weighed and sealed at the vein-house, each against the words \"for each hull that shall be ready\", with no count kept against any known number of hulls. Fearchar mac Ruairidh stands by in silence to see the first one made.",
+   "body": "The first measures of coal are weighed and sealed at Taigh na Fèithe, each against the words \"for each hull that shall be ready\", with no count kept against any known number of hulls. Fearchar mac Ruairidh stands by in silence to see the first one made.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -144,7 +144,7 @@
   {
    "id": "EIV-2006",
    "title": "The fair copy of the ruling, Donnchadh's first entry",
-   "body": "Donnchadh mac Thormoid, the boy-clerk, is set at fifteen to render the ruling clean for the custody-book, after it has lain four years in rough marks: one sealed measure a ship, a single household's season, the vein-house's own mark. He copies it exactly as given, though he notices it carries no blessing, as other entries do.",
+   "body": "Donnchadh mac Thormoid, the boy-clerk, is set at fifteen to render the ruling clean for Leabhar a' Chùraim, after it has lain four years in rough marks: one sealed measure a ship, a single household's season, Taigh na Fèithe's own mark. He copies it exactly as given, though he notices it carries no blessing, as other entries do.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -216,7 +216,7 @@
   {
    "id": "EIV-2009",
    "title": "Death of Eòghann mac Mhuirich",
-   "body": "The master of the vein-house, who wrote the first count of the departing households in LE 3, dies at the vein-house grown very old, soon after seeing the ruling of the coal for the departing set down and its first measures sealed.",
+   "body": "The master of Taigh na Fèithe, who wrote the first count of the departing households in LE 3, dies at Taigh na Fèithe grown very old, soon after seeing the ruling of the coal for the departing set down and its first measures sealed.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -308,8 +308,8 @@
   },
   {
    "id": "EIV-2013",
-   "title": "The council of the red hall divided on the grain",
-   "body": "Through the autumn the queen's council argues over how much stored grain the departing may carry, some holding that no household should cross open water without bread enough, others that the Small-Burning Law was never meant to measure a granary. The queen gives no opinion any rider carries south.",
+   "title": "The council of An Talla Dearg divided on the grain",
+   "body": "Through the autumn the queen's council argues over how much stored grain the departing may carry, some holding that no household should cross open water without bread enough, others that Lagh an Loscaidh Bhig was never meant to measure a granary. The queen gives no opinion any rider carries south.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -416,7 +416,7 @@
   {
    "id": "EIV-2017",
    "title": "Mairead nic Iain's tally of the barges",
-   "body": "On the bridge at Cathair dhearg the tally-keeper Mairead nic Iain cuts a notch in a hazel stick for every laden barge that passes beneath, going down Abhainn dhomhain toward the coast. When the season's grain has all gone by she makes the count forty-one, and writes it down with no more comment than that.",
+   "body": "On Drochaid Cathair dhearg the tally-keeper Mairead nic Iain cuts a notch in a hazel stick for every laden barge that passes beneath, going down Abhainn dhomhain toward the coast. When the season's grain has all gone by she makes the count forty-one, and writes it down with no more comment than that.",
    "place": "marker:3",
    "kind": "trade",
    "category": "trade",
@@ -441,7 +441,7 @@
   {
    "id": "EIV-2018",
    "title": "Calum's daughter's household entered",
-   "body": "At the harbour-house of Seann Skell, Calum mac Nèill cuts his own daughter's household onto the roll of the willing: Mairead nic Chaluim, her husband Dùghall mac Iain, a fisher of Inis àrsaidh, and their two small children. His son Dòmhnall sets the cup of ale in his sister's hands, and Calum's hand shakes only once the harbour-house stands empty again.",
+   "body": "At Taigh a' Chalaidh, Calum mac Nèill cuts his own daughter's household onto Rolla nan Deònach: Mairead nic Chaluim, her husband Dùghall mac Iain, a fisher of Inis àrsaidh, and their two small children. His son Dòmhnall sets the cup of ale in his sister's hands, and Calum's hand shakes only once the harbour-house stands empty again.",
    "place": "burg:489",
    "kind": "land",
    "category": "land",
@@ -469,7 +469,7 @@
   {
    "id": "EIV-2019",
    "title": "The fleet's stores laid in at Seann Skell",
-   "body": "The grain that came down Abhainn dhomhain and up the Abhainn naomh is measured out and sealed aboard the hulls at Seann Skell against the fleet's crossing, one measure to a household under the vein-house's own ruling. By spring the quay stands full of hulls that had not existed when the first tale of a far shore reached the river road.",
+   "body": "The grain that came down Abhainn dhomhain and up the Abhainn naomh is measured out and sealed aboard the hulls at Seann Skell against the fleet's crossing, one measure to a household under Taigh na Fèithe's own ruling. By spring the quay stands full of hulls that had not existed when the first tale of a far shore reached the river road.",
    "place": "burg:489",
    "kind": "trade",
    "category": "trade",
@@ -543,7 +543,7 @@
   {
    "id": "EIV-2022",
    "title": "The queen and her sister on the stones",
-   "body": "Mòrag nic Dhòmhnaill comes up from the rope-maker's gear to meet her sister on the new stones. What passes between them is not told; the custody-book gives only that the queen was seen upon the quay with her sister, and went home again before the sailing, as her own word bound her to do.",
+   "body": "Mòrag nic Dhòmhnaill comes up from the rope-maker's gear to meet her sister on the new stones. What passes between them is not told; Leabhar a' Chùraim gives only that the queen was seen upon the quay with her sister, and went home again before the sailing, as her own word bound her to do.",
    "place": "burg:489",
    "kind": "court",
    "category": "rulers",
@@ -726,7 +726,7 @@
   {
    "id": "EIV-2029",
    "title": "Fionnlagh stands by his cart and does not go",
-   "body": "A carter of Seann Skell named Fionnlagh, who has brought loads down to the quay for departing households all that season without putting his own name to the boards, stands by his empty cart through the night of lamps and through the sailing itself, and does not go aboard any hull.",
+   "body": "A carter of Seann Skell named Fionnlagh, who has brought loads down to the quay for departing households all that season without putting his own name to the boards, stands by his empty cart through Oidhche nan Lòchran and through the sailing itself, and does not go aboard any hull.",
    "place": "burg:489",
    "kind": "land",
    "category": "land",
@@ -752,7 +752,7 @@
   },
   {
    "id": "EIV-2030",
-   "title": "Niall's tally of the sunwise turn",
+   "title": "Niall's tally of An Diosal",
    "body": "On the morning of the sailing Niall mac Dhòmhnaill cuts one notch on his hazel stick for every hull that passes the west quay wall going round the river pool sunwise, and keeps the finished stick inside his shirt afterward; no one ever asks him for it back.",
    "place": "burg:489",
    "kind": "land",

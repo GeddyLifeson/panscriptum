@@ -5,10 +5,16 @@
     "after": "V-0131",
     "summary": "Witnesses of every Hawk house in Siorrachd Cnoc bheag crowd the hall at Inis ìseal and name Raonaid nic Iain custodian by a standing vote, each house setting meal, wool or honey on the altar's step before the hall breaks.",
     "category": "faith",
-    "people": ["Raonaid nic Iain"],
-    "places": ["burg:25"],
+    "people": [
+      "Raonaid nic Iain"
+    ],
+    "places": [
+      "burg:25"
+    ],
     "threads": [],
-    "master_links": ["V-0131"]
+    "master_links": [
+      "V-0131"
+    ]
   },
   {
     "title": "Murchadh Ruadh gives Raonaid the kept feather",
@@ -16,10 +22,16 @@
     "after": "V-0131",
     "summary": "Murchadh Ruadh of Baile fhraoich sets a white feather kept three generations in his own house into Raonaid nic Iain's hand at her naming, and she wears it pinned at her collar from that day.",
     "category": "faith",
-    "people": ["Raonaid nic Iain"],
-    "places": ["burg:25"],
+    "people": [
+      "Raonaid nic Iain"
+    ],
+    "places": [
+      "burg:25"
+    ],
     "threads": [],
-    "master_links": ["V-0131"]
+    "master_links": [
+      "V-0131"
+    ]
   },
   {
     "title": "The Hawk houses speak of a hawk for the shire's arms",
@@ -28,9 +40,13 @@
     "summary": "Witnesses leaving Raonaid nic Iain's naming say openly that Siorrachd Cnoc bheag's white billet, the roll's mark for two ages, ought to be struck for a hawk, though no house yet carries the saying south.",
     "category": "faith",
     "people": [],
-    "places": ["province:6"],
+    "places": [
+      "province:6"
+    ],
     "threads": [],
-    "master_links": ["V-0132a"]
+    "master_links": [
+      "V-0132a"
+    ]
   },
   {
     "title": "Seann Skell's letter refusing Raonaid reaches Inis ìseal",
@@ -38,10 +54,17 @@
     "after": "V-0131",
     "summary": "A three-line letter from the high custodian's house at Seann Skell in the south reaches Inis ìseal, naming no fault in Raonaid nic Iain but saying the Rite's own order of worship knows no office of a Hawk custodian and so cannot own her.",
     "category": "faith",
-    "people": ["Raonaid nic Iain"],
-    "places": ["burg:25", "burg:431"],
+    "people": [
+      "Raonaid nic Iain"
+    ],
+    "places": [
+      "burg:25",
+      "burg:431"
+    ],
     "threads": [],
-    "master_links": ["V-0131"]
+    "master_links": [
+      "V-0131"
+    ]
   },
   {
     "title": "The Hawk houses carry on as if the custodian had been owned",
@@ -49,10 +72,16 @@
     "after": "V-0131",
     "summary": "The Hawk houses fold the southern letter away unanswered and keep bringing their vigils and disputes to Raonaid nic Iain exactly as before, burying and marrying their own under no rite but hers.",
     "category": "faith",
-    "people": ["Raonaid nic Iain"],
-    "places": ["burg:25"],
+    "people": [
+      "Raonaid nic Iain"
+    ],
+    "places": [
+      "burg:25"
+    ],
     "threads": [],
-    "master_links": ["V-0131"]
+    "master_links": [
+      "V-0131"
+    ]
   },
   {
     "title": "Raonaid begins setting the Hawk's order into a farm account-book",
@@ -60,10 +89,16 @@
     "after": "V-0132",
     "summary": "Raonaid nic Iain starts writing the Hawk's spoken order of worship, till then carried only in a custodian's memory, into a farmer's account-book, sounding each line against the altar to match her own mother's mother's telling of it.",
     "category": "faith",
-    "people": ["Raonaid nic Iain"],
-    "places": ["burg:25"],
+    "people": [
+      "Raonaid nic Iain"
+    ],
+    "places": [
+      "burg:25"
+    ],
     "threads": [],
-    "master_links": ["V-0132"]
+    "master_links": [
+      "V-0132"
+    ]
   },
   {
     "title": "The order finished and locked in the altar's oil-box",
@@ -71,10 +106,16 @@
     "after": "V-0132",
     "summary": "Raonaid nic Iain finishes the written order at the turn of the year, reads it aloud once to the gathered houses, ties it with a strip of white feather and locks it into the iron box that once held the altar's lamp-oil.",
     "category": "faith",
-    "people": ["Raonaid nic Iain"],
-    "places": ["burg:25"],
+    "people": [
+      "Raonaid nic Iain"
+    ],
+    "places": [
+      "burg:25"
+    ],
     "threads": [],
-    "master_links": ["V-0132"]
+    "master_links": [
+      "V-0132"
+    ]
   },
   {
     "title": "Six die at that year's Còmhrag",
@@ -83,9 +124,13 @@
     "summary": "Six fighters, the most in any year yet, die on the trampled ground at Ceann leathan before that year's Còmhrag is called, one of them a boy of Baile ghlas not yet twenty.",
     "category": "culture",
     "people": [],
-    "places": ["marker:37"],
+    "places": [
+      "marker:37"
+    ],
     "threads": [],
-    "master_links": ["V-0133"]
+    "master_links": [
+      "V-0133"
+    ]
   },
   {
     "title": "The custodians' petition against the Còmhrag is refused",
@@ -94,9 +139,13 @@
     "summary": "The custodians of the southern Rite petition the fair-wardens of Ceann leathan in writing to end the Còmhrag after six deaths; the wardens read it and refuse within the hour, on the ground the town lives off the melee's crowds.",
     "category": "culture",
     "people": [],
-    "places": ["burg:22"],
+    "places": [
+      "burg:22"
+    ],
     "threads": [],
-    "master_links": ["V-0133"]
+    "master_links": [
+      "V-0133"
+    ]
   },
   {
     "title": "The circus pitches at Ceann leathan after the six burials",
@@ -105,9 +154,13 @@
     "summary": "An Siorcas Siubhail Do-thuigsinn pitches its tents on the melee's own trampled ground within a week of the six burials, and it is said, though never proved, that the fair-wardens paid it to come.",
     "category": "culture",
     "people": [],
-    "places": ["burg:22"],
+    "places": [
+      "burg:22"
+    ],
     "threads": [],
-    "master_links": ["V-0134"]
+    "master_links": [
+      "V-0134"
+    ]
   },
   {
     "title": "The first coal-ship loads by lamplight at Ceann leathan",
@@ -116,9 +169,13 @@
     "summary": "The first coal-ship out of Ceann leathan's rebuilt quays loads by lamplight on a winter tide, the harbour clerk noting only the hour, the tonnage and the shore gang's complaint of the cold.",
     "category": "trade",
     "people": [],
-    "places": ["burg:22"],
+    "places": [
+      "burg:22"
+    ],
     "threads": [],
-    "master_links": ["V-0135"]
+    "master_links": [
+      "V-0135"
+    ]
   },
   {
     "title": "Ros dhomhain's masters lose their protest at the guild court",
@@ -127,9 +184,14 @@
     "summary": "The eldest masters of Ros dhomhain carry their protest against Ros bheag's new coal-ship yard to the guild court at Cathair dhearg and lose it in a single sitting, the court ruling a guild's charter binds no yard to a monopoly of the coast.",
     "category": "craft",
     "people": [],
-    "places": ["burg:23", "burg:27"],
+    "places": [
+      "burg:23",
+      "burg:27"
+    ],
     "threads": [],
-    "master_links": ["V-0136"]
+    "master_links": [
+      "V-0136"
+    ]
   },
   {
     "title": "A delegation from Inis ìseal asks the council for a hawk on the shire's seal",
@@ -137,10 +199,17 @@
     "after": "V-0132a",
     "summary": "Five witnesses from the Hawk houses, Raonaid nic Iain among them, ride to Cathair dhearg to ask the council that Siorrachd Cnoc bheag's white billet be struck and a hawk set on the shire's arms in its place.",
     "category": "faith",
-    "people": ["Raonaid nic Iain"],
-    "places": ["burg:23", "province:6"],
+    "people": [
+      "Raonaid nic Iain"
+    ],
+    "places": [
+      "burg:23",
+      "province:6"
+    ],
     "threads": [],
-    "master_links": ["V-0132a"]
+    "master_links": [
+      "V-0132a"
+    ]
   },
   {
     "title": "The maor breaks the old die and presses the new seal",
@@ -149,8 +218,40 @@
     "summary": "The maor of Siorrachd Cnoc bheag breaks the shire's old die before its assembled clerks and presses the recut seal, a white hawk among twelve crescents, into wax for the first time.",
     "category": "law",
     "people": [],
-    "places": ["province:6"],
+    "places": [
+      "province:6"
+    ],
     "threads": [],
-    "master_links": ["V-0132a"]
+    "master_links": [
+      "V-0132a"
+    ]
+  },
+  {
+    "title": "Ceann leathan's quays outrun its walls",
+    "era_year": 36,
+    "summary": "Within two winters of the coal line's coming the quays of Ceann leathan spread half a mile beyond the old gate with no wall following them, so that a stranger riding in from the coast road can no longer say where the town begins.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:22"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0135"
+    ]
+  },
+  {
+    "title": "Raonaid holds the new seal",
+    "era_year": 36,
+    "summary": "Raonaid nic Iain holds the recut seal of Siorrachd Cnoc bheag in her own hands the day it reaches Inis ìseal, the hawk's wing cut spread rather than folded, and says nothing for a while that any witness troubles to write down.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:25"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0132a"
+    ]
   }
 ]

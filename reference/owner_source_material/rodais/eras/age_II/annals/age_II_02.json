@@ -231,7 +231,7 @@
   {
    "id": "EII-1509",
    "title": "Somhairle asks to live among Clann na Ceiste",
-   "body": "Somhairle, a son of Ailean Mòr some hundred and sixty years old and looking fifteen, asks his father for no land and no herds, only leave to live among the households of the high valleys and be counted a single mouth at a single hearth.",
+   "body": "Somhairle, a son of Ailean Mòr some hundred and sixty years old and looking fifteen, asks his father for no land and no herds, only leave to live among the households of Na Glinn Àrda and be counted a single mouth at a single hearth.",
    "kind": "law",
    "category": "law",
    "links": [
@@ -254,7 +254,7 @@
   {
    "id": "EII-1510",
    "title": "Somhairle tells Dòmhnall why he wants no share",
-   "body": "Visiting his brother in the high valleys, Dòmhnall Clachach is told that Somhairle wants to be believed when he names whose son follows whose, once the kin have grown too many for any one hearth to hold the account, and that a man who holds land judges his own kin differently.",
+   "body": "Visiting his brother in Na Glinn Àrda, Dòmhnall Clachach is told that Somhairle wants to be believed when he names whose son follows whose, once the kin have grown too many for any one hearth to hold the account, and that a man who holds land judges his own kin differently.",
    "kind": "law",
    "category": "law",
    "links": [
@@ -301,8 +301,8 @@
   },
   {
    "id": "EII-1512",
-   "title": "Uisdean born on the Red Hill",
-   "body": "A son is born by the lake shore to a household of the Red Hill's holding line and named Uisdean; the watch on the palisade marks his birth with a fire on the point, as it marks every birth in that hall.",
+   "title": "Uisdean born on An Cnoc Ruadh",
+   "body": "A son is born by the lake shore to a household of An Cnoc Ruadh's holding line and named Uisdean; the watch on the palisade marks his birth with a fire on the point, as it marks every birth in that hall.",
    "place": "burg:19",
    "kind": "birth",
    "category": "rulers",
@@ -381,8 +381,8 @@
   },
   {
    "id": "EII-1515",
-   "title": "Uisdean Mòr takes the Red Hill",
-   "body": "Uisdean, five-and-twenty, takes up the holding of the Red Hill on the western lake shore after those before him, an old line owing nothing to Dùn ìseal or to any king of the hill-folk.",
+   "title": "Uisdean Mòr takes An Cnoc Ruadh",
+   "body": "Uisdean, five-and-twenty, takes up the holding of An Cnoc Ruadh on the western lake shore after those before him, an old line owing nothing to Dùn ìseal or to any king of the hill-folk.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -406,7 +406,7 @@
   },
   {
    "id": "EII-1516",
-   "title": "Uilleam Faire born on the Red Hill",
+   "title": "Uilleam Faire born on An Cnoc Ruadh",
    "body": "A boatwright's son is born on the lake shore in the twelfth year of Uisdean's holding, and grows up believing, as every child of that hill does, that the water below it has always belonged to his own people alone.",
    "place": "burg:19",
    "kind": "reign",
@@ -430,7 +430,7 @@
   {
    "id": "EII-1517",
    "title": "The households dig the ditch across the neck",
-   "body": "Every household of the Red Hill turns out to cut the ditch across the low saddle of ground where the hill's rise meets the land, and to raise the oak palisade on the spoil bank behind it.",
+   "body": "Every household of An Cnoc Ruadh turns out to cut the ditch across the low saddle of ground where the hill's rise meets the land, and to raise the oak palisade on the spoil bank behind it.",
    "place": "burg:19",
    "kind": "trade",
    "category": "trade",
@@ -458,7 +458,7 @@
   {
    "id": "EII-1518",
    "title": "Uisdean tells the watch why the wall stands",
-   "body": "Walking the palisade by night with the young Uilleam Faire, Uisdean speaks of the king's long years and of the valleys brought in to the south and east, and does not say whether the Red Hill will swear when its turn comes.",
+   "body": "Walking the palisade by night with the young Uilleam Faire, Uisdean speaks of na Bliadhnachan Fada of the king and of the valleys brought in to the south and east, and does not say whether An Cnoc Ruadh will swear when its turn comes.",
    "place": "burg:19",
    "kind": "law",
    "category": "law",
@@ -484,7 +484,7 @@
   {
    "id": "EII-1519",
    "title": "The king's company camps unannounced on the shore",
-   "body": "The king comes west along the lake shore with some two hundred spears at the end of a summer, camps below the hill, and sends up no word of his business to Uisdean or to any of the Red Hill's households.",
+   "body": "The king comes west along the lake shore with some two hundred spears at the end of a summer, camps below the hill, and sends up no word of his business to Uisdean or to any of An Cnoc Ruadh's households.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -581,8 +581,8 @@
   },
   {
    "id": "EII-1523",
-   "title": "The king's frost",
-   "body": "In the early days of an t-Ògmhios, when the year should long since have been past any frost, a single clear night puts a white rime on the whole shore. The hill's old women name it from that morning the king's frost.",
+   "title": "Reothadh an Rìgh",
+   "body": "In the early days of an t-Ògmhios, when the year should long since have been past any frost, a single clear night puts a white rime on the whole shore. The hill's old women name it from that morning Reothadh an Rìgh.",
    "place": "burg:19",
    "kind": "land",
    "category": "land",
@@ -598,6 +598,11 @@
    "era_between": [
     290,
     290
+   ],
+   "on": [
+    290,
+    6,
+    2
    ]
   },
   {
@@ -606,7 +611,7 @@
   {
    "id": "EII-1524",
    "title": "The second burning of the palisade",
-   "body": "On the night of the king's frost the green oak takes in the same low, dark flame as before, and burns in less time than seasoned wood had, leaving nothing standing for the households to save.",
+   "body": "On the night of Reothadh an Rìgh the green oak takes in the same low, dark flame as before, and burns in less time than seasoned wood had, leaving nothing standing for the households to save.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -703,7 +708,7 @@
   {
    "id": "EII-1528",
    "title": "Mòrag born to Dòmhnall Clachach",
-   "body": "A daughter is born to Dòmhnall Clachach in the north country he was given, and is named Mòrag; she is the first of the king's grandchildren to carry the long years, and grows up hard-handed among people who call her father only the stone-cutter's son.",
+   "body": "A daughter is born to Dòmhnall Clachach in the north country he was given, and is named Mòrag; she is the first of the king's grandchildren to carry na Bliadhnachan Fada, and grows up hard-handed among people who call her father only the stone-cutter's son.",
    "kind": "birth",
    "category": "rulers",
    "links": [
@@ -729,7 +734,7 @@
   {
    "id": "EII-1529",
    "title": "The palisade raised a third time in seasoned oak",
-   "body": "With no company camped below to hurry the choosing of timber, the Red Hill rebuilds its wall a third time in properly seasoned oak. It never burns again in Uilleam Faire's lifetime.",
+   "body": "With no company camped below to hurry the choosing of timber, An Cnoc Ruadh rebuilds its wall a third time in properly seasoned oak. It never burns again in Uilleam Faire's lifetime.",
    "place": "burg:19",
    "kind": "trade",
    "category": "trade",
@@ -753,8 +758,8 @@
   },
   {
    "id": "EII-1530",
-   "title": "Dùn ìseal's reciters tell the swearing fuller than the Red Hill's own list",
-   "body": "Word of Uisdean's kneeling reaches Dùn ìseal, whose reciters tell it with the fire, the frost and the shingle scene kept whole, fuller than the Red Hill's own spare list ever names it. The Red Hill never quarrels with their telling.",
+   "title": "Dùn ìseal's reciters tell the swearing fuller than An Cnoc Ruadh's own list",
+   "body": "Word of Uisdean's kneeling reaches Dùn ìseal, whose reciters tell it with the fire, the frost and the shingle scene kept whole, fuller than An Cnoc Ruadh's own spare list ever names it. An Cnoc Ruadh never quarrels with their telling.",
    "place": "burg:19",
    "kind": "faith",
    "category": "faith",
@@ -879,7 +884,7 @@
   },
   {
    "id": "EII-1535",
-   "title": "Uisdean Mòr dies on the Red Hill",
+   "title": "Uisdean Mòr dies on An Cnoc Ruadh",
    "body": "Uisdean dies in his own bed on the hill in his eighty-seventh year, two-and-twenty years after the swearing, having outlived the fire, the frost and the king's two hundred spears.",
    "place": "burg:19",
    "kind": "reign",
@@ -1111,7 +1116,7 @@
   {
    "id": "EII-1544",
    "title": "The king rides east with Somhairle to Seann Warr",
-   "body": "The king summons his son down from the high valleys and rides the coast road east to Seann Warr with a small company. Somhairle, three hundred and fifty-one years old and near two hundred years among Clann na Ceiste, sees the shore he has only ever heard recited.",
+   "body": "The king summons his son down from Na Glinn Àrda and rides the coast road east to Seann Warr with a small company. Somhairle, three hundred and fifty-one years old and near two hundred years among Clann na Ceiste, sees the shore he has only ever heard recited.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -1138,7 +1143,7 @@
   },
   {
    "id": "EII-1545",
-   "title": "Somhairle first sees the tally wall",
+   "title": "Somhairle first sees Balla nan Stràc",
    "body": "At the midden's edge of Seann Warr, Somhairle walks the whole length of the counting stones with his father and finds them built into a wall past any easy counting, the oldest courses run together into a single grey weight of strokes.",
    "place": "burg:128",
    "kind": "faith",
@@ -1193,8 +1198,8 @@
   },
   {
    "id": "EII-1547",
-   "title": "Somhairle sets the tally wall in the Line",
-   "body": "Somhairle adds his first telling of his own to the Line of the Mason: the wall at Seann Warr, some three thousand strokes, grown over many lifetimes. It is the first fact he ever sets down unaided, and he keeps it carefully all his life.",
+   "title": "Somhairle sets Balla nan Stràc in the Line",
+   "body": "Somhairle adds his first telling of his own to Sloinneadh a' Chlachair: the wall at Seann Warr, some three thousand strokes, grown over many lifetimes. It is the first fact he ever sets down unaided, and he keeps it carefully all his life.",
    "place": "burg:128",
    "kind": "faith",
    "category": "faith",
@@ -1278,7 +1283,7 @@
   {
    "id": "EII-1550",
    "title": "The king's one visit to the wall",
-   "body": "The king rides to Seann Warr with a small company and walks the tally wall alone, his hand against the newest stone for the better part of a morning. Asked by his son what he saw, he answers only, \"A people counting,\" and speaks of it to no one again.",
+   "body": "The king rides to Seann Warr with a small company and walks Balla nan Stràc alone, his hand against the newest stone for the better part of a morning. Asked by his son what he saw, he answers only, \"A people counting,\" and speaks of it to no one again.",
    "place": "burg:128",
    "kind": "faith",
    "category": "faith",
@@ -1334,8 +1339,8 @@
   },
   {
    "id": "EII-1552",
-   "title": "Somhairle finds the half-cut stone at Seann Chwen",
-   "body": "Word of an unfinished stone reaches the high valleys, and Somhairle rides two days south to Seann Chwen, quieter than either shore he knew. He finds the newest tally stone left with two strokes finished and a third abandoned mid-groove, the chisel marks stopped clean.",
+   "title": "Somhairle finds Clach nan Dà Stràc at Seann Chwen",
+   "body": "Word of an unfinished stone reaches Na Glinn Àrda, and Somhairle rides two days south to Seann Chwen, quieter than either shore he knew. He finds the newest tally stone left with two strokes finished and a third abandoned mid-groove, the chisel marks stopped clean.",
    "place": "burg:139",
    "kind": "faith",
    "category": "faith",
@@ -1416,7 +1421,7 @@
   {
    "id": "EII-1555",
    "title": "Somhairle sets down the Silence",
-   "body": "Somhairle enters the shortest of his four tellings in the Line: that after the half-cut stone no work of the Seann-Dhaoine can be dated, their middens stop growing, their harbours silt, and how they ended, the telling does not know.",
+   "body": "Somhairle enters the shortest of his four tellings in the Line: that after Clach nan Dà Stràc no work of the Seann-Dhaoine can be dated, their middens stop growing, their harbours silt, and how they ended, the telling does not know.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -1465,7 +1470,7 @@
   {
    "id": "EII-1557",
    "title": "Somhairle weds Cairistìona",
-   "body": "Somhairle marries Cairistìona of the high valleys, a shepherding household's daughter of no house of Clann na Ceiste, before both their fires at the turn of the year. He sets nothing of the wedding itself in the Line, judging it a thing that belongs to the man and not to the telling.",
+   "body": "Somhairle marries Cairistìona of Na Glinn Àrda, a shepherding household's daughter of no house of Clann na Ceiste, before both their fires at the turn of the year. He sets nothing of the wedding itself in the Line, judging it a thing that belongs to the man and not to the telling.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",

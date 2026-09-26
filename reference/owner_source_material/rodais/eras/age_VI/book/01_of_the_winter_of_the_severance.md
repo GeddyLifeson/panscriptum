@@ -6,7 +6,7 @@
 
 ## I. Of the Last Ships
 
-It is told at Muileann chaol, from the boxed rolls of that winter, how the Age of Strangers ended: not in a battle
+It is told at Muileann chaol, from the boxed rolls of that winter, how An Aois Choigreach ended: not in a battle
 won, for the battle had been won already, but in an emptiness where ships had been.
 
 Five beacons stood on the capes in those days, from Baile chrom round to Tobar dhearg, kept against the humans' crossing, and each kept its own
@@ -33,7 +33,7 @@ sailed away rather than burn them. It is said that for the first fortnight after
 any weight was issued from the council at all, since no one among them could agree who now held the standing to
 issue one.
 
-That was the Severance, by the name it wears in every book since. Of what it cost the two peoples who lived through
+That was An Dealachadh, by the name it wears in every book since. Of what it cost the two peoples who lived through
 it, this book has little new to add: the columns that went north, the count kept badly or not at all of who did not
 finish the road, the emptiness the south felt at first as victory and only slowly, over years, as something else. It
 begins instead with a clerk on a horse, going the same road the columns had gone, three months behind them, with a
@@ -68,7 +68,7 @@ forgotten most of what the columns held.
 At the guard-posts themselves the captains kept him at arm's length at first, taking him for one more of the
 council's young men come to watch them rather than to help them, until they saw that his count matched theirs to the
 man, week on week, and stopped troubling to check it. One captain, an old campaigner named Griogair who had lost two
-fingers to a humans' picket some ten years before the Severance, told him over a fire one night that a line held by
+fingers to a humans' picket some ten years before An Dealachadh, told him over a fire one night that a line held by
 soldiers was no line at all, only a line waiting for the soldiers to be needed elsewhere.
 
 "Write that in your book too," Griogair said, "if your council wants the truth of it as well as the count."
@@ -198,7 +198,7 @@ first, as a man returned from an errand rather than from anything that had chang
 ready way to tell them otherwise. He kept the margin copy of the Caol mhòr reading folded in the bottom of his
 satchel and did not show it to anyone.
 
-The council had ordered the war-companies of the Severance stood down, all of them, the whole force that had held the
+The council had ordered Buidhnean an Dealachaidh of An Dealachadh stood down, all of them, the whole force that had held the
 island through the last campaign against the humans' administration and seen it end. It was thought a simple order
 to carry out: muster each company once more, read the council's word, take back what arms belonged to the council
 and not the man, and let the rest go home. Ailean was set to the muster in the old drill-yard behind the counting-
@@ -262,9 +262,9 @@ left to burn.
 
 He did not yet know what he would do about it, only that he meant to do something, some day, with a great many words
 like it, once he had a chest of his own and no one to ask his leave. That evening he wrote nothing more. He put the
-paper away, banked what fire he had, and let the town's noise carry him to sleep, the last of the Severance behind
+paper away, banked what fire he had, and let the town's noise carry him to sleep, the last of An Dealachadh behind
 him and the first full year of the restored country's peace not yet a fortnight old.
 
-So closed the first summer after the Severance, with the columns settled that were never asked whether they wished
+So closed the first summer after An Dealachadh, with the columns settled that were never asked whether they wished
 to be, a captain's roll spared by a clerk with no right to spare it, and a list of chests signed by two men neither
 of whom the council had told to keep one.

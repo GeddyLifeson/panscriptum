@@ -1,66 +1,298 @@
 [
- {"after": "V-0181", "category": "trade", "era_year": 53, "master_links": ["V-0181"],
-  "people": [], "places": ["burg:202"], "threads": ["the-depletion"],
-  "title": "Muileann dhomhain's mills turn to bark",
-  "summary": "With the vein-towns' grain orders thinned by scarce coin, the mills of Muileann dhomhain begin grinding bark for the coast's tanners instead of grain. The miller-families keep the mark cut into their stone before any shire held a charter to license it, and change the trade under it without asking the Board's leave."},
- {"after": "V-0181", "category": "trade", "era_year": 53, "master_links": ["V-0181"],
-  "people": [], "places": ["burg:202"], "threads": [],
-  "title": "A Muileann dhomhain miller answers a Board clerk",
-  "summary": "Asked by a passing clerk whether it troubles her to grind bark at a wheel her family has ground grain at for four generations, the eldest of the Muileann dhomhain millers answers that a wheel does not know what is under it, and the grain will come back once the vein-towns have coin to buy it with again."},
- {"after": "V-0182", "category": "trade", "era_year": 53, "master_links": ["V-0182"],
-  "people": [], "places": ["burg:34"], "threads": [],
-  "title": "The rope-makers of Seann Tarr chartered",
-  "summary": "The restored custom charters the rope-walks of Seann Tarr as a guild, the last trade the humans never touched to be given a charter of its own. Its hemp is carted down from the fields about Doire uaine and Achadh naomh by roads older than the survey lines that have tried more than once to straighten them."},
- {"after": "V-0183", "category": "law", "era_year": 53, "master_links": ["V-0183"],
-  "people": [], "places": ["burg:34"], "threads": ["the-library"],
-  "title": "Seann Tarr's chest sends only its list",
-  "summary": "Asked to send the new rope-makers' charter south to the Board's own files, the shire keeper of Seann Tarr answers that the charter will stay in the shire's own chest, and sends a rider south with a list of what the chest holds and no more. No second rider is sent to ask again."},
- {"after": "V-0184", "category": "culture", "era_year": 53, "master_links": ["V-0184"],
-  "people": [], "places": ["burg:330"], "threads": [],
-  "title": "The circus at Inis àrsaidh licensed as 'various'",
-  "summary": "An Siorcas Siubhail Do-thuigsinn pitches again on the common near Inis àrsaidh. The magistrate who licenses its acts, unable to put a name to half of what he has watched, enters the whole of it in his book as various and the fee as paid, an entry the Library's copyists find hardest of the year to gloss."},
- {"after": "V-0185", "category": "trade", "era_year": 53, "master_links": ["V-0185"],
-  "people": [], "places": ["burg:30"], "threads": [],
-  "title": "Ceann mhin roofs its fish-market",
-  "summary": "Ceann mhin opens a covered market over its old strand for fish carried up from Seann Bhral and the eastern grounds, the first roof the port has raised over the trade. The strand's old traders grumble at first, and grumble less once a wet winter lets them keep a fire by the scales."},
- {"after": "V-0186", "category": "law", "era_year": 53, "master_links": ["V-0186"],
-  "people": [], "places": ["burg:22"], "threads": [],
-  "title": "Edged iron banned from the Còmhrag",
-  "summary": "After a fighter is killed at Ceann leathan with a hewer's pick carried in under a borrowed coat, the fair-wardens ban edged iron from the ring. Staves and fists are still allowed, and the dying goes on, slower, which a warden of long standing calls the whole of what the ban was ever meant to promise."},
- {"after": "V-0187", "category": "death", "era_year": 54, "master_links": ["V-0187"],
-  "people": ["Artair mac Mhurchaidh"], "places": ["burg:398"], "threads": [],
-  "title": "Artair mac Mhurchaidh drowns off Taigh-solais Tobar dhearg",
-  "summary": "When a Doire shean fishing boat strikes the reef below the light in a hard south-west wind, keeper Artair mac Mhurchaidh, fifty-three, goes out alone with a rope and brings two of the four crew ashore, then goes back for the other two and does not return the third time, after above thirty years keeping that light."},
- {"after": "V-0187", "category": "war", "era_year": 54, "master_links": ["V-0187"],
-  "people": ["Ciorstaidh nic Artair"], "places": ["burg:398"], "threads": [],
-  "title": "Ciorstaidh nic Artair brings in the last of the crew",
-  "summary": "Waking to find her father's boat gone, Ciorstaidh nic Artair, three-and-twenty, takes the second boat out along his own rope's line and finds the wreck, her father's rope still fast to it. She rows the last two of the Doire shean crew ashore herself, a boat built for a lighter woman than she then is."},
- {"after": "V-0187", "category": "death", "era_year": 54, "master_links": ["V-0187"],
-  "people": ["Artair mac Mhurchaidh", "Ciorstaidh nic Artair"], "places": ["burg:398"], "threads": [],
-  "title": "Artair mac Mhurchaidh buried above the light",
-  "summary": "Artair mac Mhurchaidh's body comes ashore three days after the wreck and is carried back to Tobar dhearg, to the ground above the light where every keeper before him lies. The parish register enters against his name the day, the manner, and the single word every drowning of that water is given: drowned."},
- {"after": "V-0187", "category": "law", "era_year": 54, "master_links": ["V-0187"],
-  "people": ["Ciorstaidh nic Artair"], "places": ["burg:19"], "threads": [],
-  "title": "The Board confirms Ciorstaidh nic Artair's warrant",
-  "summary": "Asked by the shire's own maor whether the daughter of a keeper who died bringing in four lives with two boats and one rope may keep the light he kept, the Board at Cathair dhearg writes back within the month that she may, and enters the warrant in her name without recorded debate."},
- {"after": "V-0188", "category": "building", "era_year": 55, "master_links": ["V-0188"],
-  "people": ["Ciorstaidh nic Artair"], "places": ["burg:398"], "threads": [],
-  "title": "The reef post raised by subscription",
-  "summary": "Ciorstaidh nic Artair has an iron post sunk into the reef at low water, painted the red of danger marked and known, and hung with a bell cast at Muileann chiar. Half the cost comes from the Board's purse and half from a purse the fishing families of Doire shean and Tobar dhearg make up between them."},
- {"after": "V-0188", "category": "craft", "era_year": 55, "master_links": ["V-0188"],
-  "people": ["Ciorstaidh nic Artair"], "places": ["burg:398"], "threads": [],
-  "title": "The Board's engineer approves the reef bell",
-  "summary": "The Board's engineer walks the reef at low water and pronounces the post sound and the casting good. Asked whether she means to add clockwork to strike the hour as well as the danger, Ciorstaidh nic Artair answers that a man wanting the hour has a tide table and two eyes, and needs neither bell nor clockwork for that."},
- {"after": "V-0189", "category": "land", "era_year": 55, "master_links": ["V-0189"],
-  "people": ["Ciorstaidh nic Artair"], "places": ["burg:398"], "threads": [],
-  "title": "The reef bell first rings in fog",
-  "summary": "In a fog thick enough to hide the light itself, the bell on its post rings of its own weight as the sea moves it, and every boat working that stretch of coast steers home by the sound alone. No boat goes aground on the reef below Taigh-solais Tobar dhearg that year, nor in any year Ciorstaidh nic Artair keeps the light after."},
- {"after": "V-0189", "category": "rulers", "era_year": 55, "master_links": ["V-0189"],
-  "people": ["Mary Coyle"], "places": ["burg:95"], "threads": ["the-tuathaich"],
-  "title": "Mary Coyle lays down the chair of the Moot",
-  "summary": "After two-and-twenty years in the chair, Mary Coyle lays it down at Caol mhòr, speaking of the register of the western pits' dead and maimed her hand began and the coal line her petitions never once moved south of Àth leathan, and names before the Moot rises the man she asks it to choose after her."},
- {"after": "V-0189", "category": "rulers", "era_year": 55, "master_links": ["V-0189"],
-  "people": ["Daniel Frayne", "Mary Coyle"], "places": ["burg:95"], "threads": ["the-tuathaich"],
-  "title": "Daniel Frayne chosen speaker of the Moot",
-  "summary": "Daniel Frayne of Muileann leathan, who bound books for the north's schools when the southern guilds would not take a Tuathaich name, is chosen speaker without a voice raised against him: the first to have been born after the Severance closed, and Mary Coyle's own right hand in the chair for above ten years before it."}
+  {
+    "after": "V-0181",
+    "category": "trade",
+    "era_year": 53,
+    "master_links": [
+      "V-0181"
+    ],
+    "people": [],
+    "places": [
+      "burg:202"
+    ],
+    "threads": [
+      "the-depletion"
+    ],
+    "title": "Muileann dhomhain's mills turn to bark",
+    "summary": "With the vein-towns' grain orders thinned by scarce coin, the mills of Muileann dhomhain begin grinding bark for the coast's tanners instead of grain. The miller-families keep the mark cut into their stone before any shire held a charter to license it, and change the trade under it without asking the Board's leave."
+  },
+  {
+    "after": "V-0181",
+    "category": "trade",
+    "era_year": 53,
+    "master_links": [
+      "V-0181"
+    ],
+    "people": [],
+    "places": [
+      "burg:202"
+    ],
+    "threads": [],
+    "title": "A Muileann dhomhain miller answers a Board clerk",
+    "summary": "Asked by a passing clerk whether it troubles her to grind bark at a wheel her family has ground grain at for four generations, the eldest of the Muileann dhomhain millers answers that a wheel does not know what is under it, and the grain will come back once the vein-towns have coin to buy it with again."
+  },
+  {
+    "after": "V-0182",
+    "category": "trade",
+    "era_year": 53,
+    "master_links": [
+      "V-0182"
+    ],
+    "people": [],
+    "places": [
+      "burg:34"
+    ],
+    "threads": [],
+    "title": "The rope-makers of Seann Tarr chartered",
+    "summary": "The restored custom charters the rope-walks of Seann Tarr as a guild, the last trade the humans never touched to be given a charter of its own. Its hemp is carted down from the fields about Doire uaine and Achadh naomh by roads older than the survey lines that have tried more than once to straighten them."
+  },
+  {
+    "after": "V-0183",
+    "category": "law",
+    "era_year": 53,
+    "master_links": [
+      "V-0183"
+    ],
+    "people": [],
+    "places": [
+      "burg:34"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "title": "Seann Tarr's chest sends only its list",
+    "summary": "Asked to send the new rope-makers' charter south to the Board's own files, the shire keeper of Seann Tarr answers that the charter will stay in the shire's own chest, and sends a rider south with a list of what the chest holds and no more. No second rider is sent to ask again."
+  },
+  {
+    "after": "V-0184",
+    "category": "culture",
+    "era_year": 53,
+    "master_links": [
+      "V-0184"
+    ],
+    "people": [],
+    "places": [
+      "burg:330"
+    ],
+    "threads": [],
+    "title": "The circus at Inis àrsaidh licensed as 'various'",
+    "summary": "An Siorcas Siubhail Do-thuigsinn pitches again on the common near Inis àrsaidh. The magistrate who licenses its acts, unable to put a name to half of what he has watched, enters the whole of it in his book as various and the fee as paid, an entry the Library's copyists find hardest of the year to gloss."
+  },
+  {
+    "after": "V-0185",
+    "category": "trade",
+    "era_year": 53,
+    "master_links": [
+      "V-0185"
+    ],
+    "people": [],
+    "places": [
+      "burg:30"
+    ],
+    "threads": [],
+    "title": "Ceann mhin roofs its fish-market",
+    "summary": "Ceann mhin opens a covered market over its old strand for fish carried up from Seann Bhral and the eastern grounds, the first roof the port has raised over the trade. The strand's old traders grumble at first, and grumble less once a wet winter lets them keep a fire by the scales."
+  },
+  {
+    "after": "V-0186",
+    "category": "law",
+    "era_year": 53,
+    "master_links": [
+      "V-0186"
+    ],
+    "people": [],
+    "places": [
+      "burg:22"
+    ],
+    "threads": [],
+    "title": "Edged iron banned from the Còmhrag",
+    "summary": "After a fighter is killed at Ceann leathan with a hewer's pick carried in under a borrowed coat, the fair-wardens ban edged iron from the ring. Staves and fists are still allowed, and the dying goes on, slower, which a warden of long standing calls the whole of what the ban was ever meant to promise."
+  },
+  {
+    "after": "V-0187",
+    "category": "death",
+    "era_year": 54,
+    "master_links": [
+      "V-0187"
+    ],
+    "people": [
+      "Artair mac Mhurchaidh"
+    ],
+    "places": [
+      "burg:398"
+    ],
+    "threads": [],
+    "title": "Artair mac Mhurchaidh drowns off Taigh-solais Tobar dhearg",
+    "summary": "When a Doire shean fishing boat strikes the reef below the light in a hard south-west wind, keeper Artair mac Mhurchaidh, fifty-three, goes out alone with a rope and brings two of the four crew ashore, then goes back for the other two and does not return the third time, after above thirty years keeping that light."
+  },
+  {
+    "after": "V-0187",
+    "category": "war",
+    "era_year": 54,
+    "master_links": [
+      "V-0187"
+    ],
+    "people": [
+      "Ciorstaidh nic Artair"
+    ],
+    "places": [
+      "burg:398"
+    ],
+    "threads": [],
+    "title": "Ciorstaidh nic Artair brings in the last of the crew",
+    "summary": "Waking to find her father's boat gone, Ciorstaidh nic Artair, three-and-twenty, takes the second boat out along his own rope's line and finds the wreck, her father's rope still fast to it. She rows the last two of the Doire shean crew ashore herself, a boat built for a lighter woman than she then is."
+  },
+  {
+    "after": "V-0187",
+    "category": "death",
+    "era_year": 54,
+    "master_links": [
+      "V-0187"
+    ],
+    "people": [
+      "Artair mac Mhurchaidh",
+      "Ciorstaidh nic Artair"
+    ],
+    "places": [
+      "burg:398"
+    ],
+    "threads": [],
+    "title": "Artair mac Mhurchaidh buried above the light",
+    "summary": "Artair mac Mhurchaidh's body comes ashore three days after the wreck and is carried back to Tobar dhearg, to the ground above the light where every keeper before him lies. The parish register enters against his name the day, the manner, and the single word every drowning of that water is given: drowned."
+  },
+  {
+    "after": "V-0187",
+    "category": "law",
+    "era_year": 54,
+    "master_links": [
+      "V-0187"
+    ],
+    "people": [
+      "Ciorstaidh nic Artair"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [],
+    "title": "The Board confirms Ciorstaidh nic Artair's warrant",
+    "summary": "Asked by the shire's own maor whether the daughter of a keeper who died bringing in four lives with two boats and one rope may keep the light he kept, the Board at Cathair dhearg writes back within the month that she may, and enters the warrant in her name without recorded debate."
+  },
+  {
+    "after": "V-0188",
+    "category": "building",
+    "era_year": 55,
+    "master_links": [
+      "V-0188"
+    ],
+    "people": [
+      "Ciorstaidh nic Artair"
+    ],
+    "places": [
+      "burg:398"
+    ],
+    "threads": [],
+    "title": "The reef post raised by subscription",
+    "summary": "Ciorstaidh nic Artair has an iron post sunk into the reef at low water, painted the red of danger marked and known, and hung with a bell cast at Muileann chiar. Half the cost comes from the Board's purse and half from a purse the fishing families of Doire shean and Tobar dhearg make up between them."
+  },
+  {
+    "after": "V-0188",
+    "category": "craft",
+    "era_year": 55,
+    "master_links": [
+      "V-0188"
+    ],
+    "people": [
+      "Ciorstaidh nic Artair"
+    ],
+    "places": [
+      "burg:398"
+    ],
+    "threads": [],
+    "title": "The Board's engineer approves the reef bell",
+    "summary": "The Board's engineer walks the reef at low water and pronounces the post sound and the casting good. Asked whether she means to add clockwork to strike the hour as well as the danger, Ciorstaidh nic Artair answers that a man wanting the hour has a tide table and two eyes, and needs neither bell nor clockwork for that."
+  },
+  {
+    "after": "V-0189",
+    "category": "land",
+    "era_year": 55,
+    "master_links": [
+      "V-0189"
+    ],
+    "people": [
+      "Ciorstaidh nic Artair"
+    ],
+    "places": [
+      "burg:398"
+    ],
+    "threads": [],
+    "title": "The reef bell first rings in fog",
+    "summary": "In a fog thick enough to hide the light itself, the bell on its post rings of its own weight as the sea moves it, and every boat working that stretch of coast steers home by the sound alone. No boat goes aground on the reef below Taigh-solais Tobar dhearg that year, nor in any year Ciorstaidh nic Artair keeps the light after."
+  },
+  {
+    "after": "V-0189",
+    "category": "rulers",
+    "era_year": 55,
+    "master_links": [
+      "V-0189"
+    ],
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "title": "Mary Coyle lays down the chair of the Moot",
+    "summary": "After two-and-twenty years in the chair, Mary Coyle lays it down at Caol mhòr, speaking of the register of the western pits' dead and maimed her hand began and the coal line her petitions never once moved south of Àth leathan, and names before the Moot rises the man she asks it to choose after her."
+  },
+  {
+    "after": "V-0189",
+    "category": "rulers",
+    "era_year": 55,
+    "master_links": [
+      "V-0189"
+    ],
+    "people": [
+      "Daniel Frayne",
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "title": "Daniel Frayne chosen speaker of the Moot",
+    "summary": "Daniel Frayne of Muileann leathan, who bound books for the north's schools when the southern guilds would not take a Tuathaich name, is chosen speaker without a voice raised against him: the first to have been born after the Severance closed, and Mary Coyle's own right hand in the chair for above ten years before it."
+  },
+  {
+    "title": "A list is cheaper to lose than a charter",
+    "era_year": 53,
+    "summary": "It is said at Seann Tarr, not without pride, that a shire which will not send its papers south need never trouble over what is done with them there, and that a list is a cheaper thing to lose than a charter.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:34"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0183"
+    ]
+  },
+  {
+    "title": "Two Seann Vell masons set the reef post",
+    "era_year": 55,
+    "summary": "Two masons brought up from Seann Vell drive and cement Ciorstaidh nic Artair's iron post into the reef below Taigh-solais Tobar dhearg, working only the hour either side of the ebb for the better part of a month.",
+    "category": "trade",
+    "people": [
+      "Ciorstaidh nic Artair"
+    ],
+    "places": [],
+    "threads": [],
+    "master_links": [
+      "V-0188"
+    ]
+  }
 ]

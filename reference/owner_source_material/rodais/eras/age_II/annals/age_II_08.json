@@ -10,7 +10,7 @@
   },
   {
    "id": "EII-4500",
-   "title": "The Black Wind strips the east coast",
+   "title": "A' Ghaoth Dhubh strips the east coast",
    "body": "A storm out of the south-east strikes before dawn with almost no warning, stripping the thatch from every roof between Cuan ruadh and Ceann chiar and driving three unhauled boats onto the rocks below the headland. No one of that coast dies in it, though many households lose stores, shelter and boats within a single day.",
    "place": "burg:119",
    "kind": "land",
@@ -52,7 +52,7 @@
   },
   {
    "id": "EII-4502",
-   "title": "The coast names the storm the Black Wind",
+   "title": "The coast names the storm A' Ghaoth Dhubh",
    "body": "The eldest of that coast, having no name ready when the storm struck, name it afterward for the ash-dark sky it leaves behind for three days. No reciter of the hill amends the name; every storm to strike that shore since is measured against it.",
    "place": "burg:119",
    "kind": "land",
@@ -672,7 +672,7 @@
   {
    "id": "EII-4528",
    "title": "The saying is spoken at the opening of the gathering",
-   "body": "The gathering at the ford opens for the first time with the column's saying spoken aloud before any business begins, we did not come, we were here, a thing said together from that year rather than kept only in each hearth's own quiet belief.",
+   "body": "The gathering at the ford opens for the first time with the saying of Calbh Cnoc ghorm spoken aloud before any business begins, we did not come, we were here, a thing said together from that year rather than kept only in each hearth's own quiet belief.",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -768,7 +768,7 @@
   {
    "id": "EII-4532",
    "title": "Peigi Dhubh calls for a landing of laid stone",
-   "body": "At the household's board, Lachlann Ruadh's daughter says plainly that a hill whose wealth now travels by water deserves better than an open shingle beach a winter tide can rearrange. Her father agrees, and the households of the Red Hill give a season's labour to the work.",
+   "body": "At the household's board, Lachlann Ruadh's daughter says plainly that a hill whose wealth now travels by water deserves better than an open shingle beach a winter tide can rearrange. Her father agrees, and the households of An Cnoc Ruadh give a season's labour to the work.",
    "place": "burg:19",
    "kind": "trade",
    "category": "trade",
@@ -797,7 +797,7 @@
   {
    "id": "EII-4533",
    "title": "The stone landing is set at the river-mouth",
-   "body": "Course on course of quarried stone is laid where the fresh water of the lake meets the tide from the sea, until a boat can come alongside at any state of the water without a hand needed to haul it clear of the mud: the Red Hill's first way onto open water that does not depend on a beach's mercy.",
+   "body": "Course on course of quarried stone is laid where the fresh water of the lake meets the tide from the sea, until a boat can come alongside at any state of the water without a hand needed to haul it clear of the mud: An Cnoc Ruadh's first way onto open water that does not depend on a beach's mercy.",
    "place": "burg:19",
    "kind": "trade",
    "category": "trade",
@@ -818,7 +818,7 @@
   {
    "id": "EII-4534",
    "title": "Lachlann Ruadh falls ill",
-   "body": "A chill taken wading the shallows to right a boat settles in Lachlann an Altraim's chest and will not lift with the spring. He is five-and-sixty years old, an age the Red Hill reckons past complaint for a man who has spent his whole life wet to the knee in cold water.",
+   "body": "A chill taken wading the shallows to right a boat settles in Lachlann an Altraim's chest and will not lift with the spring. He is five-and-sixty years old, an age An Cnoc Ruadh reckons past complaint for a man who has spent his whole life wet to the knee in cold water.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -869,7 +869,7 @@
   {
    "id": "EII-4536",
    "title": "Lachlann Ruadh dies at five-and-sixty",
-   "body": "He dies in the hall he was born in, his daughter's hand in his own, the household gathered at the door with no closer claim on the bedside than the years they gave the hill. He held the Red Hill one-and-sixty years.",
+   "body": "He dies in the hall he was born in, his daughter's hand in his own, the household gathered at the door with no closer claim on the bedside than the years they gave the hill. He held An Cnoc Ruadh one-and-sixty years.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -893,8 +893,8 @@
   },
   {
    "id": "EII-4537",
-   "title": "Peigi Dhubh holds the Red Hill at forty",
-   "body": "She sits down at the board the morning after her father's burial and asks for the tallies before she asks for anything else. The Red Hill's own steward says afterward that she keeps them straighter than her father ever did.",
+   "title": "Peigi Dhubh holds An Cnoc Ruadh at forty",
+   "body": "She sits down at the board the morning after her father's burial and asks for the tallies before she asks for anything else. An Cnoc Ruadh's own steward says afterward that she keeps them straighter than her father ever did.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",

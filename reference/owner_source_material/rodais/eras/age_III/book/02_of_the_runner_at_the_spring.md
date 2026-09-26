@@ -4,7 +4,7 @@
 
 ## I. Of Sìne and the Cord of the Households
 
-*At Dùn ìseal the knot-keepers tell this, and they tell it with a cord across their knees.*
+*At Dùn ìseal Luchd nan Snaidhm tell this, and they tell it with a cord across their knees.*
 
 Sìne nan Snaidhm kept the cord at Dùn ìseal in the year the king fell. It was the cord of the households, of the kind Catrìona Mhòr's people had first made: a long rope of twisted flax, grey with handling, with a knot in it for every hearth in the valleys about the hill. A birth was a small knot tied beside its hearth's knot, a death was a small knot untied, and a household that went away over the hills was cut out and the two ends spliced. Sìne could run it through her fingers in the dark and tell you who lived at the head of every glen from the slab to the salt road, and how many mouths they fed, and which of them had burned their measure early the winter before.
 
@@ -76,17 +76,17 @@ As they went a young man of the kin, standing at the gathering-house door with h
 
 ## V. Of the Two Mounds
 
-Where they laid the king, the tellers of Dùn ìseal and the tellers of the Mason's line do not agree, and each has a mound to show.
+Where they laid the king, the tellers of Dùn ìseal and the tellers of Clann a' Chlachair do not agree, and each has a mound to show.
 
 This much all agree on. He lay for three nights in the gathering-house, on the lattice of spears, with the keepers of the slab sitting by him in turn and the kin coming in to look at him and going out again. On the fourth morning he was carried out before dawn, with the nine keepers walking before and his two grey sons behind, and a few of the eldest of the kin; and he was laid in the earth that same day, and a mound raised over him, and nobody who was not there saw it done.
 
-The tellers of Dùn ìseal say that they laid him on the slope of the hill, on the side that faces the vein, with his face toward the mountain, as the keepers of the slab were laid. There is a long low mound on that slope, grown over with heather, and the knot-keepers of Dùn ìseal will take you to it if you ask.
+The tellers of Dùn ìseal say that they laid him on the slope of the hill, on the side that faces the vein, with his face toward the mountain, as the keepers of the slab were laid. There is a long low mound on that slope, grown over with heather, and Luchd nan Snaidhm of Dùn ìseal will take you to it if you ask.
 
-The tellers of the Mason's line say otherwise. There was a man of Clann na Ceiste in the valley that year, a reciter from Tobar dhìreach named Seathan Crom, who had walked down to Dùn ìseal at midsummer to see the king once more before he died, for he was an old man and the king had been kind to his father. He was lame in one leg, which is why they called him Crom, and he was at the gathering-house when the bier came in. The reciters of the Mason's line say that it was Seathan who went to the grey sons on the third night and reminded them of what the king was: that he had been crowned in a grove by the gods themselves and was the heir of the mason's fire, and that he should lie where the fire had first come to his people, and not on a hillside among keepers. They say the grey sons heard him, and that the bier went out before dawn by the north road and not by the slope; and the reciters of the Mason's line have a mound of their own to show, older-looking, in a place they will name only to their own.
+The tellers of Clann a' Chlachair say otherwise. There was a man of Clann na Ceiste in the valley that year, a reciter from Tobar dhìreach named Seathan Crom, who had walked down to Dùn ìseal at midsummer to see the king once more before he died, for he was an old man and the king had been kind to his father. He was lame in one leg, which is why they called him Crom, and he was at the gathering-house when the bier came in. The reciters of Clann a' Chlachair say that it was Seathan who went to the grey sons on the third night and reminded them of what the king was: that he had been crowned in a grove by the gods themselves and was the heir of Teine a' Chlachair, and that he should lie where the fire had first come to his people, and not on a hillside among keepers. They say the grey sons heard him, and that the bier went out before dawn by the north road and not by the slope; and the reciters of Clann a' Chlachair have a mound of their own to show, older-looking, in a place they will name only to their own.
 
 Sìne was not there, and she said so to her daughters. She said that she had seen the bier go out of the gathering-house in the dark, and the lamps go with it, and she had not followed. She said that when the grey sons came back in the evening they were very tired and their shoes were wet, and that the shoes might have got wet on either road.
 
-The knot-keepers who tell this tale after her leave the matter there.
+Luchd nan Snaidhm who tell this tale after her leave the matter there.
 
 ## VI. Of the Lord of Dùn dhearg
 
@@ -110,11 +110,11 @@ There were kin of the king who had not come in that summer: some who were too ol
 
 The kin who had come in waited. They buried nobody else, and they did not go home. They sat at their fires and argued about who held the hill, and who should, and by what rule, and they began to count one another.
 
-The counting was the trouble. Every fire in the valley had its own reckoning of how many of the king's blood there were, and every reckoning left out somebody that another fire said was owed, and put in somebody that another fire said was nobody. The stewards went from fire to fire with notched sticks and came back with different numbers. Nobody believed anybody else's sticks. A steward of the salt shore came to blows with a steward of the western lake over a great-grandchild whom one of them counted twice and the other not at all, and the child's mother, when they asked her, said that she had four sons and had not come all this way to be counted as half of one.
+The counting was the trouble. Every fire in the valley had its own reckoning of how many of the king's blood there were, and every reckoning left out somebody that another fire said was owed, and put in somebody that another fire said was nobody. The stewards went from fire to fire with notched sticks and came back with different numbers. Nobody believed anybody else's sticks. A steward of Tràigh an t-Salainn came to blows with a steward of the western lake over a great-grandchild whom one of them counted twice and the other not at all, and the child's mother, when they asked her, said that she had four sons and had not come all this way to be counted as half of one.
 
 Three nights after Ìomhar Dearg came up, there was a knock at Sìne's door, late, when the fire was banked and the children asleep. She opened it and found Aodh Crom there, the eldest of the keepers of the slab, leaning on his staff in the dark, with the rain running off his hood.
 
-He was older than any keeper of the slab had been before him, and he looked it. His people said that there was a thin strain of the king's long years in them somewhere far back, through some marriage in the old days that nobody would name, and he had outlived three wives and most of his grandchildren. He had sat on the bench by the slab at Tobar dhìreach for longer than Sìne's mother had been alive. She had never had him at her door before.
+He was older than any keeper of the slab had been before him, and he looked it. His people said that there was a thin strain of the king's na Bliadhnachan Fada in them somewhere far back, through some marriage in the old days that nobody would name, and he had outlived three wives and most of his grandchildren. He had sat on the bench by the slab at Tobar dhìreach for longer than Sìne's mother had been alive. She had never had him at her door before.
 
 "I want a new cord," he said.
 

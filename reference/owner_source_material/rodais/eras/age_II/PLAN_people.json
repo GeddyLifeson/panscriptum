@@ -338,10 +338,10 @@
  {
   "name": "Oighrig nic Dhòmhnaill",
   "born": "GE 2,370",
-  "died": "GE 2,441",
+  "died": "GE 2,408",
   "role": "first keeper of the slab by lot; the stone cup",
   "first_chapter": 24,
-  "notes": "canon; POV ch 24; her father is a herder, not Dòmhnall Clachach"
+  "notes": "canon; POV ch 24; her father is a herder, not Dòmhnall Clachach; dies keeping the slab in the winter after the meeting of the cups (ch 25)"
  },
  {
   "name": "Niocol Snaidhear",
@@ -451,7 +451,7 @@
   "name": "Raonaid nic Ailein",
   "born": "GE 3,100",
   "died": "GE 4,480",
-  "role": "daughter; mother of Niall Òg",
+  "role": "the king's daughter by a wife of the eastern shore; Ìomhar Dearg's half-sister; wife of a herdsman of Fearchar's line (unnamed); mother of Niall Òg",
   "first_chapter": 35,
   "notes": "new"
  },
@@ -459,7 +459,7 @@
   "name": "Niall Òg",
   "born": "GE 3,703",
   "died": "beyond (after this volume; never told in it); ~900 at the ford",
-  "role": "grandson, claims through both parents; the laughing messenger",
+  "role": "the king's grandson through his mother Raonaid; his father a herdsman of Fearchar's line; the laughing messenger",
   "first_chapter": 35,
   "notes": "canon (Book III); POV ch 38"
  },
@@ -529,11 +529,11 @@
  },
  {
   "name": "Ceallach mac Ghille-Bhrìde",
-  "born": "GE 4,541",
+  "born": "GE 4,543",
   "died": "beyond (after this volume; never told in it) (FE 79)",
   "role": "last of the line in whom the long years show",
   "first_chapter": 39,
-  "notes": "canon"
+  "notes": "canon; son of Gille-Brìde (ch 39)"
  },
  {
   "name": "Sìne nan Snaidhm",
@@ -574,5 +574,157 @@
   "role": "son of Fearghal Donn; holder of Dùn dhearg after him; leads the host of the east down to the ford",
   "first_chapter": 39,
   "notes": "new; canon (Book III, ch. 40, as leader of the camp under him)"
+ },
+ {
+  "name": "Tearlach mac Ghilleonain",
+  "born": null,
+  "died": null,
+  "role": "builds the first boats at Seann Skell with Iain's grandsons",
+  "first_chapter": 8,
+  "notes": "writer's new person (renamed from Cailean)"
+ },
+ {
+  "name": "Donnchadh Bàn",
+  "born": null,
+  "died": "GE 672",
+  "role": "Mòrag's father's oldest belted man; first of the seven to fall at Baile ghorm",
+  "first_chapter": 9,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Griogal",
+  "born": null,
+  "died": null,
+  "role": "eldest of the three brothers who find the unlit hearth at Achadh dhìreach",
+  "first_chapter": 12,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Eanraig Ruadh",
+  "born": null,
+  "died": "GE 1,066",
+  "role": "burns a whole basket of the coloured coal at Achadh dhìreach",
+  "first_chapter": 12,
+  "notes": "writer's new person; ordinary life"
+ },
+ {
+  "name": "Ualan",
+  "born": "GE 1,060",
+  "died": "GE 1,066",
+  "role": "Eanraig Ruadh's grandchild, dies in the basket burning",
+  "first_chapter": 12,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Gilleonan",
+  "born": null,
+  "died": "GE 1,163",
+  "role": "herder; sits the slab forty years; asks Beathan what the watch is for",
+  "first_chapter": 13,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Ìde",
+  "born": null,
+  "died": null,
+  "role": "Gilleonan's wife; sits the slab fifty winters",
+  "first_chapter": 13,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Fearchar Gobha",
+  "born": null,
+  "died": null,
+  "role": "salt-carrier who brings the wind-names to Tormod Liath",
+  "first_chapter": 20,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Dùghlas",
+  "born": null,
+  "died": null,
+  "role": "one of the three brothers mac Torcaill who raise the wind-stones",
+  "first_chapter": 20,
+  "notes": "writer's new person (renamed from Griogar)"
+ },
+ {
+  "name": "Ailig mac Torcaill",
+  "born": null,
+  "died": null,
+  "role": "one of the three brothers who raise the wind-stones at Ceann leathan",
+  "first_chapter": 20,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Seathan mac Pheadair",
+  "born": null,
+  "died": null,
+  "role": "keeps the north-eastern fire and cuts a stroke for every ship's light",
+  "first_chapter": 26,
+  "notes": "writer's new person (renamed)"
+ },
+ {
+  "name": "Tormod Chaol",
+  "born": null,
+  "died": null,
+  "role": "the first of the four watchers on the tower at Seann Skell to see the long back in the water",
+  "first_chapter": 27,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Micheil Beag",
+  "born": null,
+  "died": null,
+  "role": "fisherman who lays the stitched planks against his wall",
+  "first_chapter": 27,
+  "notes": "writer's new person (renamed from Coinneach Beag)"
+ },
+ {
+  "name": "Donnchadh Ruadh",
+  "born": null,
+  "died": null,
+  "role": "settler at Baile chrom who shows Somhairle the old field-marks",
+  "first_chapter": 30,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Fearchar mac Ailig",
+  "born": null,
+  "died": null,
+  "role": "head of the household that spares the three oaks at Doire ghlas",
+  "first_chapter": 30,
+  "notes": "writer's new person"
+ },
+ {
+  "name": "Dùghall Dearg mac Ìomhair",
+  "born": "GE 3,900",
+  "died": "beyond (after this volume)",
+  "role": "Ìomhar Dearg's son; a grave red-haired child",
+  "first_chapter": 35,
+  "notes": "canon (RULERS.json)"
+ },
+ {
+  "name": "Pàl",
+  "born": null,
+  "died": null,
+  "role": "drover's son; Seasaidh's husband; the ground opens below his byre",
+  "first_chapter": 11,
+  "notes": "writer's new person (renamed from Griogar)"
+ },
+ {
+  "name": "Rìonach",
+  "born": null,
+  "died": null,
+  "role": "companion of the fosterling on the road west",
+  "first_chapter": 23,
+  "notes": "writer's new person (renamed from Sìleas)"
+ },
+ {
+  "name": "Mòr",
+  "born": null,
+  "died": null,
+  "role": "old woman of the salt-folk who gives the king the double handful",
+  "first_chapter": 10,
+  "notes": "writer's new person (renamed from Seonag)"
  }
 ]

@@ -11,7 +11,7 @@
   {
    "id": "EIV-4501",
    "title": "The store-master's list",
-   "body": "At the vein-house Raghnall Ruadh hands the store-master Eòghann mac Dhùghaill a board naming every hearth and temple in the shires that stand against him and orders none of them measured a handful. The carriers who had come up the white road go down again with empty baskets.",
+   "body": "At Taigh na Fèithe Raghnall Ruadh hands the store-master Eòghann mac Dhùghaill a board naming every hearth and temple in the shires that stand against him and orders none of them measured a handful. The carriers who had come up the white road go down again with empty baskets.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -116,7 +116,7 @@
   },
   {
    "id": "EIV-4505",
-   "title": "The vein-house opened",
+   "title": "Taigh na Fèithe opened",
    "body": "The morning after Raghnall Ruadh falls at Muileann chrom, his own custodians strike the seal from the store without waiting to be told which claimant now holds the mountain, and the carriers go up the white road again.",
    "place": "burg:491",
    "kind": "craft",
@@ -143,7 +143,7 @@
   {
    "id": "EIV-4506",
    "title": "The first hearth relit",
-   "body": "Word reaches Catrìona at the vein-house that the temple fire at Cathair mhòr, built up all winter from borrowed turf and hedge-wood, has caught at last on coal from a carrier's basket, the first of the cold shires' hearths to burn again.",
+   "body": "Word reaches Catrìona at Taigh na Fèithe that the temple fire at Cathair mhòr, built up all winter from borrowed turf and hedge-wood, has caught at last on coal from a carrier's basket, the first of the cold shires' hearths to burn again.",
    "place": "burg:23",
    "kind": "craft",
    "category": "coal",
@@ -173,7 +173,7 @@
   {
    "id": "EIV-4507",
    "title": "Dùghall Garbh dies of his wound",
-   "body": "Dùghall Garbh dies at Baile Mòr dhomhain of a cut taken below the arm at Muileann chrom that he hid from his own physicians for days. Catrìona nic Aonghais rides three days to reach him and finds him already dead, his last words asking only whether the vein-house gates stood open.",
+   "body": "Dùghall Garbh dies at Baile Mòr dhomhain of a cut taken below the arm at Muileann chrom that he hid from his own physicians for days. Catrìona nic Aonghais rides three days to reach him and finds him already dead, his last words asking only whether Taigh na Fèithe gates stood open.",
    "place": "burg:273",
    "kind": "court",
    "category": "rulers",
@@ -226,8 +226,8 @@
   },
   {
    "id": "EIV-4509",
-   "title": "Catrìona crowned at the red hall",
-   "body": "Catrìona nic Aonghais is crowned at Cathair dhearg with little ceremony, the crown itself sent down under guard from the vein-house's own custody. The seven heads swear to her in the old order, and she is called Catrìona Bhuadhach from that year.",
+   "title": "Catrìona crowned at An Talla Dearg",
+   "body": "Catrìona nic Aonghais is crowned at Cathair dhearg with little ceremony, the crown itself sent down under guard from Taigh na Fèithe's own custody. The seven heads swear to her in the old order, and she is called Catrìona Bhuadhach from that year.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -252,7 +252,7 @@
   {
    "id": "EIV-4510",
    "title": "Eòghann keeps Raghnall's list unscraped",
-   "body": "Eòghann mac Dhùghaill, still master of the store at the vein-house, leaves Raghnall Ruadh's list of refused hearths standing face to the wall in the storeroom and sends word, unasked, that the store will not go a season again without measuring the handful while he holds the beam.",
+   "body": "Eòghann mac Dhùghaill, still master of the store at Taigh na Fèithe, leaves Raghnall Ruadh's list of refused hearths standing face to the wall in the storeroom and sends word, unasked, that the store will not go a season again without measuring the handful while he holds the beam.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -280,8 +280,8 @@
   },
   {
    "id": "EIV-4511",
-   "title": "The drafting of the ruling of the hearth",
-   "body": "At the vein-house's own yard Catrìona and the seven heads of the houses spend three days drafting one sentence binding any claimant, house or king from ever again withholding the measured handful. Eòghann mac Dhùghaill is called to testify what Raghnall Ruadh said to him, and his flat account settles the argument the queen's own words could not.",
+   "title": "The drafting of Riaghailt an Teallaich",
+   "body": "At Taigh na Fèithe's own yard Catrìona and the seven heads of the houses spend three days drafting one sentence binding any claimant, house or king from ever again withholding the measured handful. Eòghann mac Dhùghaill is called to testify what Raghnall Ruadh said to him, and his flat account settles the argument the queen's own words could not.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -309,7 +309,7 @@
   {
    "id": "EIV-4512",
    "title": "The seven heads set their marks",
-   "body": "The ruling of the hearth is entered into the custody-book beside the Small-Burning Law in the same hand, and the seven heads of the houses set their marks to it one after another, Beathag nic Uisdein of Clann Ìomhair last and longest over her own mark.",
+   "body": "Riaghailt an Teallaich is entered into Leabhar a' Chùraim beside Lagh an Loscaidh Bhig in the same hand, and the seven heads of the houses set their marks to it one after another, Beathag nic Uisdein of Clann Ìomhair last and longest over her own mark.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -359,8 +359,8 @@
   },
   {
    "id": "EIV-4514",
-   "title": "Seònaid nic Coinnich comes to the red hall",
-   "body": "Seònaid nic Coinnich, whose father Coinneach mac Ailein came through the winter of the refusal with a cough he never lost, walks up from Cathair mhòr to the red hall and is taken into the queen's household as a clerk, the first of several children of the cold shires the household shelters in those years.",
+   "title": "Seònaid nic Coinnich comes to An Talla Dearg",
+   "body": "Seònaid nic Coinnich, whose father Coinneach mac Ailein came through the winter of the refusal with a cough he never lost, walks up from Cathair mhòr to An Talla Dearg and is taken into the queen's household as a clerk, the first of several children of the cold shires the household shelters in those years.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -386,7 +386,7 @@
   {
    "id": "EIV-4515",
    "title": "Seònaid copies the tallies of the refusal",
-   "body": "In her first winter at the red hall, Seònaid nic Coinnich asks to see the custody-book's oldest entries and copies out, unbidden, the tallies of the hearths refused in the winter of the cold hearths, a labour the queen never questions when she comes upon it by lamplight.",
+   "body": "In her first winter at An Talla Dearg, Seònaid nic Coinnich asks to see Leabhar a' Chùraim's oldest entries and copies out, unbidden, the tallies of the hearths refused in the winter of Na Teallaichean Fuara, a labour the queen never questions when she comes upon it by lamplight.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -410,7 +410,7 @@
   },
   {
    "id": "EIV-4516",
-   "title": "The council questions the queen's road",
+   "title": "The council questions Rathad na Banrighinn",
    "body": "More than one head of house asks Catrìona in open council why she spends so much of the treasury on a stone road to her own town of Inis thais. She answers that a kingdom bound by a law written in a cold yard ought to be bound also by roads a hard winter cannot cut, and the building goes on.",
    "place": "marker:5",
    "kind": "trade",
@@ -436,7 +436,7 @@
   },
   {
    "id": "EIV-4517",
-   "title": "The queen's road laid to Inis thais",
+   "title": "Rathad na Banrighinn laid to Inis thais",
    "body": "The stone of Rathad na Banrighinn is finished south from the capital, past Am Buabhall Fortanach at Doire shean, all the way to Catrìona's own gate at Inis thais, which she has ridden the length of twice while it was building to feel whether the stone held.",
    "place": "marker:5",
    "kind": "trade",
@@ -459,7 +459,7 @@
   },
   {
    "id": "EIV-4518",
-   "title": "The first carters run the queen's road",
+   "title": "The first carters run Rathad na Banrighinn",
    "body": "Salt-carts and grain-carts run the full length of the new stone road within the year the last stone is laid, cutting the journey from three days to two. An old carter tells the household he drove it half-blind and felt the cart go steady the whole way, a thing the mire road never let him do.",
    "place": "marker:5",
    "kind": "trade",
@@ -484,7 +484,7 @@
   {
    "id": "EIV-4519",
    "title": "Death of Iain mac Eachainn",
-   "body": "Iain mac Eachainn, the queen's husband, dies of a wasting in the chest no physician of the household can name. He had kept, through his years in the red hall, to the smaller business of the household and left the crown's affairs to Catrìona.",
+   "body": "Iain mac Eachainn, the queen's husband, dies of a wasting in the chest no physician of the household can name. He had kept, through his years in An Talla Dearg, to the smaller business of the household and left the crown's affairs to Catrìona.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -556,7 +556,7 @@
   {
    "id": "EIV-4522",
    "title": "Seònaid gathers the first three witnesses",
-   "body": "At Queen Catrìona's own asking, her clerk Seònaid nic Coinnich takes down, in hurried hours snatched from the court's business, the first accounts of the war of the three claims: a soldier who fought at the ford, the son of the vein-house's store-master, and a woman of Doire mhin who remembers the cold hearths as a child.",
+   "body": "At Queen Catrìona's own asking, her clerk Seònaid nic Coinnich takes down, in hurried hours snatched from the court's business, the first accounts of the war of the three claims: a soldier who fought at the ford, the son of Taigh na Fèithe's store-master, and a woman of Doire mhin who remembers Na Teallaichean Fuara as a child.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -585,7 +585,7 @@
   {
    "id": "EIV-4523",
    "title": "Death of Catrìona Bhuadhach",
-   "body": "Catrìona Bhuadhach dies at Cathair dhearg at seventy-eight, the last ruler to have fought in the War of the Three Claimants. Her son Lachlann mac Iain, not yet forty, succeeds her.",
+   "body": "Catrìona Bhuadhach dies at Cathair dhearg at seventy-eight, the last ruler to have fought in Cogadh nan Trì Tagraichean. Her son Lachlann mac Iain, not yet forty, succeeds her.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -609,7 +609,7 @@
   },
   {
    "id": "EIV-4524",
-   "title": "The seven houses swear in a single day",
+   "title": "Na Seachd Taighean swear in a single day",
    "body": "The seven heads of the houses swear to Lachlann mac Iain within a single day of his mother's burial, Beathag nic Uisdein of Clann Ìomhair first to kneel. Seònaid nic Coinnich, watching from the back of the hall, counts the swearings without meaning to and goes that evening to begin the opening words of her history of the war.",
    "place": "burg:19",
    "kind": "court",
@@ -635,7 +635,7 @@
   {
    "id": "EIV-4525",
    "title": "Seònaid visits the harbour-house boards",
-   "body": "Carrying a grant of harbour dues she did not need to carry in her own hand, Seònaid nic Coinnich asks the harbour scribe Ailean mac Mhurchaidh to show her the old boards of the roll of the willing, and rides home with an errand for herself she had not had when she set out.",
+   "body": "Carrying a grant of harbour dues she did not need to carry in her own hand, Seònaid nic Coinnich asks the harbour scribe Ailean mac Mhurchaidh to show her the old boards of Rolla nan Deònach, and rides home with an errand for herself she had not had when she set out.",
    "place": "burg:489",
    "kind": "record",
    "category": "law",
@@ -661,7 +661,7 @@
   {
    "id": "EIV-4526",
    "title": "The store-master's board copied in full",
-   "body": "Dòmhnall mac Eòghainn, who inherited his father Eòghann mac Dhùghaill's office at the vein-house's store, lets Seònaid nic Coinnich copy in full the board of shires refused the coal in the year of the cold hearths, a board his father kept face to the wall and never scraped clean.",
+   "body": "Dòmhnall mac Eòghainn, who inherited his father Eòghann mac Dhùghaill's office at Taigh na Fèithe's store, lets Seònaid nic Coinnich copy in full the board of shires refused the coal in the year of Na Teallaichean Fuara, a board his father kept face to the wall and never scraped clean.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -713,8 +713,8 @@
   },
   {
    "id": "EIV-4528",
-   "title": "Seònaid weighs the custody-book against her witnesses",
-   "body": "At the vein-house Seònaid nic Coinnich sets her gathered testimony against the custody-book's own entries of the war, and finds days, numbers and causes of death the book and the witnesses do not agree on; she resolves to keep both accounts rather than choose between them.",
+   "title": "Seònaid weighs Leabhar a' Chùraim against her witnesses",
+   "body": "At Taigh na Fèithe Seònaid nic Coinnich sets her gathered testimony against Leabhar a' Chùraim's own entries of the war, and finds days, numbers and causes of death the book and the witnesses do not agree on; she resolves to keep both accounts rather than choose between them.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -739,7 +739,7 @@
   {
    "id": "EIV-4529",
    "title": "Fearchar Ciar swears the ford broke on two days",
-   "body": "Where the custody-book gives the breaking at the ford of Àth shean as one day, the old soldier Fearchar Ciar swears to Seònaid nic Coinnich that it was two, the fighting taken up again at first light after a night neither side thought worth entering.",
+   "body": "Where Leabhar a' Chùraim gives the breaking at the ford of Àth shean as one day, the old soldier Fearchar Ciar swears to Seònaid nic Coinnich that it was two, the fighting taken up again at first light after a night neither side thought worth entering.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -790,7 +790,7 @@
   },
   {
    "id": "EIV-4531",
-   "title": "Seònaid finishes the Book of the Three Claimants",
+   "title": "Seònaid finishes Leabhar nan Trì Tagraichean",
    "body": "Seònaid nic Coinnich writes the last of the war's telling and sets down the finished leaves, the first history on Dia-thìr told as one tale from end to end rather than as separate entries.",
    "place": "burg:19",
    "kind": "record",
@@ -815,8 +815,8 @@
   },
   {
    "id": "EIV-4532",
-   "title": "The Book of the Three Claimants read at the red hall",
-   "body": "King Lachlann mac Iain has Seònaid nic Coinnich's finished history read into the record at the red hall and orders it copied again and kept, ruling that no later copy of it may ever be made shorter than the one before it.",
+   "title": "Leabhar nan Trì Tagraichean read at An Talla Dearg",
+   "body": "King Lachlann mac Iain has Seònaid nic Coinnich's finished history read into the record at An Talla Dearg and orders it copied again and kept, ruling that no later copy of it may ever be made shorter than the one before it.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -870,7 +870,7 @@
   {
    "id": "EIV-4534",
    "title": "Birth of the heir of Anna",
-   "body": "A child is born at Cathair dhearg to Anna, Lachlann mac Iain's daughter, then five-and-thirty years old; the king-list keeps the year of the birth and lets the child's name fall from every copy that survives.",
+   "body": "A child is born at Cathair dhearg to Anna, Lachlann mac Iain's daughter, then five-and-thirty years old; Clàr nan Rìghrean keeps the year of the birth and lets the child's name fall from every copy that survives.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",

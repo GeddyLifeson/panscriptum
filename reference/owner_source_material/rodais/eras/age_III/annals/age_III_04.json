@@ -7,14 +7,14 @@
  "events": [
   {
    "id": "EIII-4001",
-   "title": "The Keeper before Eilidh dies at the cup",
-   "body": "The Keeper who held the flame after Eimhir nic Mhuirich dies sitting on the low stool beside the stone cup at Talla na Lasrach, her hands folded in her lap. The small lamp beside her burns out unfed in the night, the first time in living memory that any lamp in the Hall has been let go dark.",
+   "title": "Coimheadaiche na Lasrach before Eilidh dies at the cup",
+   "body": "Coimheadaiche na Lasrach who held the flame after Eimhir nic Mhuirich dies sitting on the low stool beside the stone cup at Talla na Lasrach, her hands folded in her lap. The small lamp beside her burns out unfed in the night, the first time in living memory that any lamp in Talla na Lasrach has been let go dark.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EIII-3069",
+     "to": "EIII-3070",
      "type": "sequel"
     }
    ],
@@ -31,7 +31,7 @@
   {
    "id": "EIII-4002",
    "title": "The cup left unfilled a season",
-   "body": "For the better part of a year after the nine hearths choose Eilidh, Sliochd Mhuirich refuses to yield the flame, and the stone cup at Talla na Lasrach sits under the care of the hearth-line's own eldest, unfilled by any new hand, while every market and threshing floor on the mountain airs an opinion on the matter.",
+   "body": "For the better part of a year after Na Naoi Teallaichean choose Eilidh, Sliochd Mhuirich refuses to yield the flame, and the stone cup at Talla na Lasrach sits under the care of the hearth-line's own eldest, unfilled by any new hand, while every market and threshing floor on the mountain airs an opinion on the matter.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -58,7 +58,7 @@
   {
    "id": "EIII-4003",
    "title": "The argument of the diluted blood",
-   "body": "Eilidh's own kin argue to her, and to anyone who will listen, that half the households in the hills carry some thread of the king's blood by now, so that the Binding's old rule has become a rule against nearly everybody or nobody. Eilidh answers that the argument settles nothing Sliochd Mhuirich has actually asked.",
+   "body": "Eilidh's own kin argue to her, and to anyone who will listen, that half the households in the hills carry some thread of the king's blood by now, so that An Ceangal's old rule has become a rule against nearly everybody or nobody. Eilidh answers that the argument settles nothing Sliochd Mhuirich has actually asked.",
    "place": "burg:422",
    "kind": "faith",
    "category": "faith",
@@ -85,7 +85,7 @@
   {
    "id": "EIII-4004",
    "title": "The hearth-line eldest offers the cup's condition",
-   "body": "The eldest of Sliochd Mhuirich comes to the Hall's threshold and offers a single condition for yielding the flame to Eilidh nic Ìomhair: that the stone cup Fionnlagh Dall cut to the measure of two palms shall never, for any cause, be carried out through the door of Talla na Lasrach.",
+   "body": "The eldest of Sliochd Mhuirich comes to Talla na Lasrach's threshold and offers a single condition for yielding the flame to Eilidh nic Ìomhair: that the stone cup Fionnlagh Dall cut to the measure of two palms shall never, for any cause, be carried out through the door of Talla na Lasrach.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -112,7 +112,7 @@
   {
    "id": "EIII-4005",
    "title": "Eilidh swears to the cup's condition",
-   "body": "Eilidh nic Ìomhair swears before the nine hearths that the stone cup will never leave Talla na Lasrach, her hand flat on its rim, and takes the coal that same afternoon, the measure poured level to her palm exactly as for every Keeper before her.",
+   "body": "Eilidh nic Ìomhair swears before Na Naoi Teallaichean that the stone cup will never leave Talla na Lasrach, her hand flat on its rim, and takes the coal that same afternoon, the measure poured level to her palm exactly as for every Keeper before her.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -139,7 +139,7 @@
   {
    "id": "EIII-4006",
    "title": "Sliochd Thormoid names Tormod Liath",
-   "body": "At a gathering of the nine hearths, the eldest of Sliochd Thormoid names for the first time an ancestor called Tormod Liath, said to have held the hill itself under the old king, as the ground of the house's claim to a voice in the Keeper's office.",
+   "body": "At a gathering of Na Naoi Teallaichean, the eldest of Sliochd Thormoid names for the first time an ancestor called Tormod Liath, said to have held the hill itself under the old king, as the ground of the house's claim to a voice in Coimheadaiche na Lasrach's office.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -189,7 +189,7 @@
   {
    "id": "EIII-4008",
    "title": "Eilidh binds the office to four houses",
-   "body": "Eilidh nic Ìomhair puts to the nine hearths that the Keeper's office be bound from that season to four houses of custody alone, Sliochd Mhuirich, Sliochd Ìomhair, Sliochd Thormoid and Sliochd Raghnaill, and that the other hearths keep their council seats but surrender any further claim on the flame.",
+   "body": "Eilidh nic Ìomhair puts to Na Naoi Teallaichean that Coimheadaiche na Lasrach's office be bound from that season to four houses of custody alone, Sliochd Mhuirich, Sliochd Ìomhair, Sliochd Thormoid and Sliochd Raghnaill, and that the other hearths keep their council seats but surrender any further claim on the flame.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -220,7 +220,7 @@
   {
    "id": "EIII-4009",
    "title": "The grumble over Seann Dunn's fullest lamp",
-   "body": "The other three houses grumble that Sliochd Thormoid's coal-lamp at Seann Dunn always burns fuller than the Law's measure allows, though no cutter sent to check it ever finds a grain over the handful. Eilidh judges the grievance one best left to wear out on its own.",
+   "body": "The other three houses grumble that Sliochd Thormoid's coal-lamp at Seann Dunn always burns fuller than Lagh an Loscaidh Bhig's measure allows, though no cutter sent to check it ever finds a grain over the handful. Eilidh judges the grievance one best left to wear out on its own.",
    "place": "burg:18",
    "kind": "law",
    "category": "law",
@@ -250,7 +250,7 @@
   {
    "id": "EIII-4010",
    "title": "Sliochd Raghnaill grows rich on the fishing",
-   "body": "The house that took its seat at Seann Tarr, the very town first sentenced under the Small-Burning Law, keeps no galleries and cuts no coal, choosing boats instead, and grows rich enough within two generations that its neighbours stop mentioning the old offence.",
+   "body": "The house that took its seat at Seann Tarr, the very town first sentenced under Lagh an Loscaidh Bhig, keeps no galleries and cuts no coal, choosing boats instead, and grows rich enough within two generations that its neighbours stop mentioning the old offence.",
    "place": "burg:34",
    "kind": "trade",
    "category": "trade",
@@ -285,9 +285,7 @@
     }
    ],
    "threads": [],
-   "people": [
-    "tormod-ruadh"
-   ],
+   "people": [],
    "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#vi-of-tormod-ruadh-and-the-coast-that-was-only-looked-at",
    "era_between": [
     397,
@@ -315,9 +313,7 @@
     }
    ],
    "threads": [],
-   "people": [
-    "tormod-ruadh"
-   ],
+   "people": [],
    "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#vi-of-tormod-ruadh-and-the-coast-that-was-only-looked-at",
    "era_between": [
     397,
@@ -327,7 +323,7 @@
   {
    "id": "EIII-4013",
    "title": "Murchadh Ruadh's household loses its right",
-   "body": "The household of Murchadh Ruadh of Baile chrom is stripped of its right under the Law for a third offence, and goes down to the strand with what it can carry rather than beg cold porridge from kin. No hearth on the coast will give it coal after, or discuss why.",
+   "body": "The household of Murchadh Ruadh of Baile chrom is stripped of its right under Lagh an Loscaidh Bhig for a third offence, and goes down to the strand with what it can carry rather than beg cold porridge from kin. No hearth on the coast will give it coal after, or discuss why.",
    "place": "burg:305",
    "kind": "law",
    "category": "law",
@@ -569,7 +565,7 @@
   {
    "id": "EIII-4023",
    "title": "Coinneach Mòr chosen Keeper of Sliochd Thormoid",
-   "body": "In the month of Giblean, the four houses choose Coinneach Mòr mac Tormoid, five-and-twenty, first Keeper of his house, for his patience rather than any gift of speech, judging a Keeper who keeps a flame steadily worth more than one who keeps it brilliantly for a short while.",
+   "body": "In the month of Giblean, Na Ceithir Taighean choose Coinneach Mòr mac Tormoid, five-and-twenty, first Keeper of his house, for his patience rather than any gift of speech, judging a Keeper who keeps a flame steadily worth more than one who keeps it brilliantly for a short while.",
    "place": "burg:18",
    "kind": "rulers",
    "category": "rulers",
@@ -593,7 +589,7 @@
   {
    "id": "EIII-4024",
    "title": "Griogair Ruadh asks a seat for Achadh chaol and is refused",
-   "body": "The headman of the shepherds at Achadh chaol asks the council at Dùn ìseal for a seat among the houses that govern the plain, and is refused for want of hearth-right cut in stone at the Roinn. He sits one courtesy season and goes home with the dues still owed and no seat won.",
+   "body": "The headman of the shepherds at Achadh chaol asks the council at Dùn ìseal for a seat among the houses that govern the plain, and is refused for want of hearth-right cut in stone at Roinn na Rìoghachd. He sits one courtesy season and goes home with the dues still owed and no seat won.",
    "place": "burg:449",
    "kind": "law",
    "category": "law",
@@ -621,7 +617,7 @@
   {
    "id": "EIII-4025",
    "title": "Coinneach's walkers set out to list the ruins",
-   "body": "Coinneach Mòr sends six walkers the length of the plain to list every ruin standing on ground the four houses claim, ruling before they leave that the list shall say only who does not own each place, and never guess who built it.",
+   "body": "Coinneach Mòr sends six walkers the length of the plain to list every ruin standing on ground Na Ceithir Taighean claim, ruling before they leave that the list shall say only who does not own each place, and never guess who built it.",
    "place": null,
    "kind": "law",
    "category": "law",
@@ -695,7 +691,7 @@
   {
    "id": "EIII-4028",
    "title": "The bath-house roofed over the springs of Muileann ruadh",
-   "body": "After a cousin of his own house is carried to the warm springs half dead of a wasting cough and comes home breathing, Coinneach Mòr orders a bath-house raised over the largest pool, with sleeping-places for the sick and benches for those who wait out the cure beside them.",
+   "body": "After a cousin of his own house is carried to Fuarain Theth Muileann ruadh half dead of a wasting cough and comes home breathing, Coinneach Mòr orders a bath-house raised over the largest pool, with sleeping-places for the sick and benches for those who wait out the cure beside them.",
    "place": "burg:229",
    "kind": "faith",
    "category": "faith",
@@ -775,7 +771,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/19_of_the_reverent_centuries.md#viii-of-the-marriage-and-the-double-sworn-fields",
    "era_between": [
     513,
@@ -785,7 +783,7 @@
   {
    "id": "EIII-4032",
    "title": "Muireall nic Ìomhair dies in her first winter",
-   "body": "Muireall nic Ìomhair dies of a nine-day fever in her first winter as a wife, leaving no child and no settled answer to which grant, the house of Ìomhar's or the line of Eithne's, should hold her lands should she die too soon, since no one had thought she would.",
+   "body": "Muireall nic Ìomhair dies of a nine-day fever in her first winter as a wife, leaving no child and no settled answer to which grant, Sliochd Ìomhair's or the line of Eithne's, should hold her lands should she die too soon, since no one had thought she would.",
    "place": null,
    "kind": "rulers",
    "category": "rulers",
@@ -815,7 +813,7 @@
   {
    "id": "EIII-4033",
    "title": "Both houses claim Muireall's lands",
-   "body": "The house of Ìomhar claims Muireall's marriage-lands as returning to the kin that granted them; the line of Eithne claims the same ground as passing to the husband's holding. Both claims are argued with equal heat by men who never asked, while she lived, which grant should prevail.",
+   "body": "Sliochd Ìomhair claims Muireall's marriage-lands as returning to the kin that granted them; the line of Eithne claims the same ground as passing to the husband's holding. Both claims are argued with equal heat by men who never asked, while she lived, which grant should prevail.",
    "place": null,
    "kind": "law",
    "category": "law",
@@ -832,7 +830,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/19_of_the_reverent_centuries.md#viii-of-the-marriage-and-the-double-sworn-fields",
    "era_between": [
     515,
@@ -917,7 +917,7 @@
   {
    "id": "EIII-4037",
    "title": "The black-eaved holding east of Achadh mhòr",
-   "body": "A double-sworn household two valleys east chooses the Red Share and is burned to its field-walls by Cathair mhòr's men before the next harvest, its cattle driven off and its house left standing empty as a warning to the next household asked to choose.",
+   "body": "A double-sworn household two valleys east chooses an Earrann Dhearg and is burned to its field-walls by Cathair mhòr's men before the next harvest, its cattle driven off and its house left standing empty as a warning to the next household asked to choose.",
    "place": null,
    "kind": "war",
    "category": "war",
@@ -938,7 +938,7 @@
   {
    "id": "EIII-4038",
    "title": "A holding that chose neither is burned by both",
-   "body": "A double-sworn holding south of Achadh mhòr refuses to choose between its lords and is burned within the year by both hosts in turn, the Red Share's riders taking the barn first and a company of Cathair mhòr's finishing it, each telling its own men it punished only what the other began.",
+   "body": "A double-sworn holding south of Achadh mhòr refuses to choose between its lords and is burned within the year by both hosts in turn, an Earrann Dhearg's riders taking the barn first and a company of Cathair mhòr's finishing it, each telling its own men it punished only what the other began.",
    "place": null,
    "kind": "war",
    "category": "war",
@@ -1005,7 +1005,7 @@
   {
    "id": "EIII-4041",
    "title": "Torcall Donn killed on the road below Dùn thais",
-   "body": "Torcall Donn, great-grandson of Eithne and husband of the dead Muireall nic Ìomhair, is killed at a hundred and eighteen years old when his company meets a company of the Red Share's riders on a narrow road and the pushing between them turns to blows.",
+   "body": "Torcall Donn, great-grandson of Eithne and husband of the dead Muireall nic Ìomhair, is killed at a hundred and eighteen years old when his company meets a company of an Earrann Dhearg's riders on a narrow road and the pushing between them turns to blows.",
    "place": null,
    "kind": "war",
    "category": "war",
@@ -1050,8 +1050,8 @@
   },
   {
    "id": "EIII-4043",
-   "title": "The Red Share presses its claim after the widower's death",
-   "body": "With Torcall Donn dead, the Red Share presses its claim on Muireall's three granges harder rather than less, judging Cathair mhòr's grip on lands held only through a dead man's marriage weaker than before, and the war burns on past the quarrel that began it.",
+   "title": "An Earrann Dhearg presses its claim after the widower's death",
+   "body": "With Torcall Donn dead, an Earrann Dhearg presses its claim on Muireall's three granges harder rather than less, judging Cathair mhòr's grip on lands held only through a dead man's marriage weaker than before, and the war burns on past the quarrel that began it.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -1083,9 +1083,7 @@
     }
    ],
    "threads": [],
-   "people": [
-    "ciorstaidh"
-   ],
+   "people": [],
    "told_in": "book/20_of_fearghas_of_the_two_oaths.md#i-of-the-house-sworn-twice",
    "era_between": [
     550,
@@ -1119,7 +1117,7 @@
   {
    "id": "EIII-4046",
    "title": "Both hosts called out for Achadh mhòr",
-   "body": "In the heat of Lùnastal the Red Share's council and Cathair mhòr's both resolve within the same week to take Achadh mhòr's granary whole, and two riders reach Fearghas within an hour of each other, each astonished that his own lord's host was not first to move.",
+   "body": "In the heat of Lùnastal an Earrann Dhearg's council and Cathair mhòr's both resolve within the same week to take Achadh mhòr's granary whole, and two riders reach Fearghas within an hour of each other, each astonished that his own lord's host was not first to move.",
    "place": "burg:395",
    "kind": "war",
    "category": "war",
@@ -1203,7 +1201,7 @@
   {
    "id": "EIII-4050",
    "title": "Ruairidh Glas writes to Eithne nic Ailein",
-   "body": "Ruairidh Glas, holder of the Red Share at Dùn dhearg, sends word to Eithne nic Ailein of Cathair mhòr's plain that a war fought over a granary which no longer stands profits neither of their hungry households, and asks her to name ground where neither hall need be ashamed to meet.",
+   "body": "Ruairidh Glas, holder of an Earrann Dhearg at Dùn dhearg, sends word to Eithne nic Ailein of Cathair mhòr's plain that a war fought over a granary which no longer stands profits neither of their hungry households, and asks her to name ground where neither hall need be ashamed to meet.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -1216,7 +1214,10 @@
    "threads": [
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "ruairidh-glas",
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/21_of_the_peace_of_the_threshold.md#ii-of-the-call-to-the-threshold",
    "era_between": [
     556,
@@ -1226,7 +1227,7 @@
   {
    "id": "EIII-4051",
    "title": "Eithne nic Ailein names the threshold of Talla na Lasrach",
-   "body": "Eithne nic Ailein answers Ruairidh Glas that she will set foot in no hall of the Red Share's, as he will set foot in none of hers, and names instead the threshold of Talla na Lasrach at Dùn ìseal, where the stone cup stands on ground that belongs to no share and never has.",
+   "body": "Eithne nic Ailein answers Ruairidh Glas that she will set foot in no hall of an Earrann Dhearg's, as he will set foot in none of hers, and names instead the threshold of Talla na Lasrach at Dùn ìseal, where the stone cup stands on ground that belongs to no share and never has.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1243,7 +1244,9 @@
    "threads": [
     "the-keepers-of-the-flame"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/21_of_the_peace_of_the_threshold.md#ii-of-the-call-to-the-threshold",
    "era_between": [
     556,
@@ -1268,7 +1271,9 @@
     }
    ],
    "threads": [],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/21_of_the_peace_of_the_threshold.md#ii-of-the-call-to-the-threshold",
    "era_between": [
     556,
@@ -1278,7 +1283,7 @@
   {
    "id": "EIII-4053",
    "title": "Eithne nic Ailein is carried up to Dùn ìseal",
-   "body": "Eithne nic Ailein, whose legs have long since stopped carrying her, is borne up the old carriers' road to Dùn ìseal in a chair, one pole carried by Niall Òg, who has outlived nearly every other soul that remembers the valley of the Roinn, and who tells her, on the road, that she is the last one left who remembers what he remembers.",
+   "body": "Eithne nic Ailein, whose legs have long since stopped carrying her, is borne up the old carriers' road to Dùn ìseal in a chair, one pole carried by Niall Òg, who has outlived nearly every other soul that remembers the valley of Roinn na Rìoghachd, and who tells her, on the road, that she is the last one left who remembers what he remembers.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1295,7 +1300,9 @@
    "threads": [
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/21_of_the_peace_of_the_threshold.md#iii-of-the-carrying-of-eithne",
    "era_between": [
     556,
@@ -1304,8 +1311,8 @@
   },
   {
    "id": "EIII-4054",
-   "title": "The Keeper drafts and reads the terms of the Threshold",
-   "body": "At the asking of both halls, neither of which trusts the other's clerks to write the terms fairly, the Keeper of the flame drafts the peace herself and reads it aloud to the gathered stones before any lord is asked to swear, so that the households standing beyond the lords may carry the whole of it home in their own words.",
+   "title": "Coimheadaiche na Lasrach drafts and reads the terms of the Threshold",
+   "body": "At the asking of both halls, neither of which trusts the other's clerks to write the terms fairly, Coimheadaiche na Lasrach of the flame drafts the peace herself and reads it aloud to the gathered stones before any lord is asked to swear, so that the households standing beyond the lords may carry the whole of it home in their own words.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -1328,7 +1335,7 @@
   {
    "id": "EIII-4055",
    "title": "Ruairidh Glas speaks of the first blood at Dùn thais",
-   "body": "Swearing the Peace of the Threshold with his hand still on the stone cup, Ruairidh Glas says before the gathered lords that he shed the first blood of the strife at Dùn thais over cattle on a wet slope, when he was young enough to think a stone worth a life, and that he would not buy it again for twice the grazing on the island.",
+   "body": "Swearing Sìth an Stairsnich with his hand still on the stone cup, Ruairidh Glas says before the gathered lords that he shed the first blood of the strife at Dùn thais over cattle on a wet slope, when he was young enough to think a stone worth a life, and that he would not buy it again for twice the grazing on the island.",
    "place": "burg:315",
    "kind": "war",
    "category": "war",
@@ -1341,7 +1348,9 @@
    "threads": [
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "ruairidh-glas"
+   ],
    "told_in": "book/21_of_the_peace_of_the_threshold.md#iv-of-the-swearing",
    "era_between": [
     556,
@@ -1372,7 +1381,7 @@
   {
    "id": "EIII-4057",
    "title": "The first Threshold market stands thin and unparted",
-   "body": "The first quarter-day market held below Talla na Lasrach after the Peace draws little to sell, the hungry winter having left small surplus, and many households come only to watch whether a trader of the Red Share can stand at a stall beside one of Cathair mhòr's plain without a steward of either hall coming to part them. None comes.",
+   "body": "The first quarter-day market held below Talla na Lasrach after Sìth an Stairsnich draws little to sell, the hungry winter having left small surplus, and many households come only to watch whether a trader of an Earrann Dhearg can stand at a stall beside one of Cathair mhòr's plain without a steward of either hall coming to part them. None comes.",
    "place": "burg:315",
    "kind": "trade",
    "category": "trade",
@@ -1393,7 +1402,7 @@
   {
    "id": "EIII-4058",
    "title": "The boundary lines of the middle plain settle by the sowing",
-   "body": "By the time of the spring sowing after the Peace, the boundary lines that had shifted and blurred through forty years of burning have settled again into a shape that will hold for longer than any lord who swore to it that Samhain will live to see, with only small mendings asked at Dùn ìseal in the years after.",
+   "body": "By the time of the spring sowing after Sìth an Stairsnich, the boundary lines that had shifted and blurred through forty years of burning have settled again into a shape that will hold for longer than any lord who swore to it that Samhain will live to see, with only small mendings asked at Dùn ìseal in the years after.",
    "place": null,
    "kind": "land",
    "category": "land",

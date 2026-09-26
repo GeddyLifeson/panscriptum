@@ -180,5 +180,37 @@
         "type": "parallel"
       }
     ]
+  },
+  {
+    "title": "The Grey Night kept in the open a second year",
+    "era_year": 10,
+    "summary": "The vigil of the Grey Night is kept in the open on the headland below the light at Baile chrom the year after the bishops' letter and the year after that, on nights Hannah Crane tells no one in advance; no bishop comes north to see for himself what irregular meant.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:305"
+    ],
+    "threads": [
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "V-0043"
+    ]
+  },
+  {
+    "title": "The Cnoc ghorm bell heard on the shore road",
+    "era_year": 9,
+    "summary": "On the new church's first market morning the Ros bheag bell in Cnoc ghorm's tower carries out past the fields to the shore road, and carters driving in from Muileann fhionn hear it and know, before they see the tower, that Cnoc ghorm has a church worth the name.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      "V-0044"
+    ]
   }
 ]

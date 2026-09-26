@@ -288,5 +288,21 @@
         "type": "sequel"
       }
     ]
+  },
+  {
+    "title": "Walter Hale walks to Doire mhin in the snow",
+    "era_year": 6,
+    "summary": "Walter Hale walks the ten miles to Doire mhin in an Gearran on a road half snow and half black mud to see Joseph Marlow's forge for himself, and writes that the town had turned what the council left worthless into something a field could use without asking anyone's leave.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:5"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0026"
+    ]
   }
 ]

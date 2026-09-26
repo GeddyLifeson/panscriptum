@@ -254,5 +254,31 @@
         "type": "sequel"
       }
     ]
+  },
+  {
+    "title": "Nine days of mist on the grey water",
+    "era_year": 3,
+    "summary": "For nine days running An Sireadh sails north-about in mist so thick the bow cannot always be seen from the wheel, under short sail with a man forward and a horn; twice the lookout swears to a low dark shape off the starboard bow, and twice it is not there when she stands in toward it.",
+    "category": "land",
+    "people": [],
+    "places": [],
+    "threads": [],
+    "master_links": [
+      "V-0011"
+    ]
+  },
+  {
+    "title": "An Sireadh careened for the winter at Seann Skell",
+    "era_year": 3,
+    "summary": "An Sireadh is laid up for the winter at Seann Skell in the west, careened and her hull scraped bare of a month's weed, the council having no second voyage in mind for her.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:489"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0011"
+    ]
   }
 ]

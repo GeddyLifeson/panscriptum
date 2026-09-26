@@ -1,27 +1,27 @@
 # Era dashboard
 
-Written by `eras/quality/era_policy.py` on 2026-09-26 01:29. Targets from `check_era.py`: entries 800-1500, pages 500-, words annals 30,000-45,000, books 170,000-200,000, gazetteer 10,000-15,000, appendices 10,000-20,000.
+Written by `eras/quality/era_policy.py` on 2026-09-26 01:43. Targets from `check_era.py`: entries 800-1500, pages 500-, words annals 30,000-45,000, books 170,000-200,000, gazetteer 10,000-15,000, appendices 10,000-20,000.
 
 | Age | check_era | files | entries | pages | annals | books | gazetteer | appendices | tells /10k | English names | misspelt |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| I | HOLDS | 61 | 831 ok | 569 ok | 50,367 HIGH | 172,186 ok | 10,593 ok | 10,569 ok | 2.2 (50 in 229,936 words) | 385 | 0 |
+| III | HOLDS | 59 | 815 ok | 609 ok | 53,134 HIGH | 185,360 ok | 10,405 ok | 11,743 ok | 1.6 (38 in 236,184 words) | 0 | 0 |
 
 ## Coverage of era events
 
 | Age | era events | links | threads | people | category | told_in | master events with a category |
 |---|---|---|---|---|---|---|---|
-| I | 739 | 679/739 (92%) | 455/739 (62%) | 391/739 (53%) | 739/739 (100%) | 739/739 (100%) | 0/92 (0%) |
+| III | 553 | 534/553 (97%) | 385/553 (70%) | 97/553 (18%) | 553/553 (100%) | 553/553 (100%) | 0/262 (0%) |
 
 ## check_era failures and notes
 
-**Age I, The Ancient Age**
-- note 92 master events have no category yet (the master pass gives them one)
-- note proper noun in English: the Keeper (write Coimhdeach na Fine) in book/08_of_the_keeper_in_the_grove.md
-- note proper noun in English: the Keeper (write Coimhdeach na Fine) in book/28_of_the_warm_springs_and_the_walled_gate.md
-- note proper noun in English: the Keeper (write Coimhdeach na Fine) in book/30_of_eoghann_at_the_river.md
-- note proper noun in English: the Mason (write An Clachair) in book/01_of_the_mason_and_the_lightning.md
-- note proper noun in English: the Old Ones (write Seann-Dhaoine) in appendices/B_the_telling_the_riddle_and_the_lightings.md
-- note proper noun in English: the Old Ones (write Seann-Dhaoine) in appendices/D_the_peoples_of_the_shore_and_the_hills.md
-- note proper noun in English: the Stone (write Lia Fàil) in EI-3040
-- ... 33 more notes (python check_era.py I)
+**Age III, The Holy Age**
+- note annals_dated.json is older than the sources: run build_era.py III
+- note 262 master events have no category yet (the master pass gives them one)
+- note proper noun in English: the Binding (write An Ceangal) in appendices/B_flame_and_companies.md
+- note proper noun in English: the Binding (write An Ceangal) in book/03_of_the_binding_of_the_first_flame.md
+- note proper noun in English: the Binding (write An Ceangal) in book/08_of_beathag_bhan.md
+- note proper noun in English: the Binding of the First Flame (write Ceangal na Ciad Lasrach) in book/03_of_the_binding_of_the_first_flame.md
+- note proper noun in English: the Choosing (write An Roghnachadh) in book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md
+- note proper noun in English: the First Flame (write A' Chiad Lasair) in book/03_of_the_binding_of_the_first_flame.md
+- ... 34 more notes (python check_era.py III)
 

@@ -2,7 +2,7 @@
   {
     "title": "Gormshuil nic Dhùghaill sent to inspect the Library at Muileann chaol",
     "era_year": 17,
-    "summary": "The council sends its under-clerk Gormshuil nic Dhùghaill, four-and-forty, to see and report on the record Ailean Leabhar has kept these four years at Muileann chaol, the errand falling to her only for want of causes on her own desk that month.",
+    "summary": "The council sends its under-clerk Gormshuil nic Dhùghaill, four-and-forty, to see and report on the record Ailean Leabhar has kept at Muileann chaol since its founding, the errand falling to her only for want of causes on her own desk that month.",
     "category": "record",
     "people": [
       "Gormshuil nic Dhùghaill",
@@ -24,7 +24,7 @@
   {
     "title": "Muileann chaol granted a market charter",
     "era_year": 17,
-    "summary": "The district's maor writes up, at the keeper's own asking, that a town which has drawn copyists, binders and paper-makers to it in four years without leave might as well be given a charter before its own trade sets its rules instead. The council grants it in the usual form, a fee for every stall and a court to hear the fair's disputes.",
+    "summary": "The district's maor writes up, at the keeper's own asking, that a town which has drawn copyists, binders and paper-makers to it in two years without leave might as well be given a charter before its own trade sets its rules instead. The council grants it in the usual form, a fee for every stall and a court to hear the fair's disputes.",
     "category": "trade",
     "people": [
       "Ailean mac Iain"
@@ -212,6 +212,52 @@
         "to": "V-0080",
         "type": "sequel"
       }
+    ]
+  },
+  {
+    "title": "Gormshuil sworn royal chronicler",
+    "era_year": 18,
+    "summary": "Gormshuil nic Dhùghaill is sworn royal chronicler in a small room at Cathair dhearg on the twentieth of an t-Samhain, four-and-forty, before a clerk who reads the warrant's clause on the counting of the years in the same flat voice as its clause on her seat.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0078"
+    ]
+  },
+  {
+    "title": "Uilleam mac Griogair names the under-clerk",
+    "era_year": 18,
+    "summary": "When the office of chronicler is made, it is Uilleam mac Griogair, clerk of council, who remembers that the under-clerk he sent to Muileann chaol came back with more to say than he had troubled to hear, and names her to it.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0079"
+    ]
+  },
+  {
+    "title": "The chronicle clerks ride out in three pairs",
+    "era_year": 19,
+    "summary": "In the spring the first chronicle circuit's clerks ride out in three pairs, one south, one to the eastern shires nearer the mountain and one north past Cnoc ghorm to the Tuathaich coast, each pair with its own warrant and its own chest to fill.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0080"
     ]
   }
 ]

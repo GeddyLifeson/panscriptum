@@ -150,6 +150,324 @@
    "dt": "Am Falbh",
    "near": "air §",
    "reason": "air falbh, 'away', in a Dia-thìris verse, not the name"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "*",
+   "near": "(?:^|\\n)#{1,3} [^\\n]*§",
+   "reason": "a chapter or section heading: its anchor is a told_in target, and names_convert.py never touches headings"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Keeper",
+   "near": ".",
+   "reason": "in the Holy Age the Keeper is only ever the Hall's office (Coimheadaiche na Lasrach, written at its first mention); 'a Keeper', 'every Keeper' and a title before a name are common nouns, and the spirit Coimhdeach na Fine never appears in this age (PLAN §4)"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Keepers",
+   "near": ".",
+   "reason": "the Keepers as a common noun for the holders of the office, Coimheadaichean na Lasrach where the office is named; no other sense in this age"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the crossing",
+   "near": ".",
+   "reason": "a river crossing, a ford or the verb; An t-Aiseag is the Crossing of the Age of Strangers and has no place in this age"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the wood-watchers",
+   "near": ".",
+   "reason": "the wood-watchers of Coille Naomh Cnoc bheag before they are an order: Òrd Mhacha is first attested in a later age (PLAN §4 ban)"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the wolf-sworn",
+   "near": ".",
+   "reason": "the road-guards who swear on the wolf-stone; they are called An Fhianna only from FE 2,843 (PLAN §4), and the plain English stands for them before that and beside the name after"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the sting-sworn",
+   "near": ".",
+   "reason": "the harbour courts' sting-oath; Òrd Mhanannain is a later name (PLAN §4 ban)"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Hawk",
+   "near": ".",
+   "reason": "the fowlers' hawk, not the later order Òrd an t-Seabhaig"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the mist",
+   "near": ".",
+   "reason": "weather mist on the passes or the sea; Ceò Mhanannain is not named in this age (PLAN §4)"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the fleet",
+   "near": ".",
+   "reason": "the fishing boats of a coast; Cabhlach an Scaraidh is the fleet of a later age"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Shipwrights",
+   "near": ".",
+   "reason": "the shipwrights of Ceann mhin as a trade, not the later guild"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the chronicle",
+   "near": ".",
+   "reason": "a teller's chronicle as a common noun, not the later Eachdraidh na Rìoghachd"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the coal road",
+   "near": ".",
+   "reason": "the carriers' road from the galleries as a common noun, not the later Rathad na Mèinne"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the houses of custody",
+   "near": ".",
+   "reason": "the Four Houses of custody of this age (Na Ceithir Taighean); Na Seachd Taighean is a later body"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Lord",
+   "near": ".",
+   "reason": "'the Lord of Dùn dhearg', Ìomhar Dearg's own style in a heading; no deity is meant"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Telling",
+   "near": ".",
+   "reason": "an old man's telling or 'telling no one', not Aithris a' Chruthachaidh"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the column",
+   "near": ".",
+   "reason": "a column of figures, of marchers or of names; the pillar near Cnoc ghorm is written as a stone in this age"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Stone",
+   "near": ".",
+   "reason": "the stone cup, a boundary stone, Ciorstaidh's stone or the grey stone near Cnoc bheag; Lia Fàil is named only from FE 2,843"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Cup",
+   "near": ".",
+   "reason": "the Hall's stone cup; Cupa na Fìrinne is Manannan's cup of the sting-oath, named as such where it is meant"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the bridge at Cathair dhearg",
+   "near": ".",
+   "reason": "the western bridge-foot of this age; Drochaid Cathair dhearg is a later name (PLAN §4 ban)"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the beacon on the Baile chrom headland",
+   "near": ".",
+   "reason": "the driftwood beacon of this age; the lighthouse name Taigh-solais Baile chrom belongs to a later age"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the beacon at Tobar dhearg",
+   "near": ".",
+   "reason": "the beacon of this age, built up in stone only at its close; Taigh-solais Tobar dhearg is a later name"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "the Hall",
+   "near": "Cathair mhòr|Timber|timber|Shut|shut|Eithne|Hall's Years|clerks|red|Dùn dhearg",
+   "reason": "a lord's or a rìgh's hall (Eithne's at Cathair mhòr, Goraidh's timber hall, the shut red hall), not Talla na Lasrach"
+  },
+  {
+   "files": "eras/age_IV/book/*",
+   "en": "*",
+   "near": "(?:^|\\n)#{1,6} [^\\n]*§",
+   "reason": "a chapter or section heading: headings are the told_in anchors and are never converted; the name stands in Dia-thìris in the text beneath"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the fleet",
+   "near": ".",
+   "reason": "in Age IV lower-case 'the fleet' is the plain noun for the ships in the age's own speech, as the harbour rolls wrote it; the name Cabhlach an Scaraidh is a later reckoners' name"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the crossing",
+   "near": ".",
+   "reason": "lower-case crossing is the fleet's passage over the sea or a ford; An t-Aiseag is the Crossing of the next age"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the mist",
+   "near": ".",
+   "reason": "the sea-fog on the northern and eastern sea as the fishers saw it; Ceò Mhanannain is the order of Manannan's name for it, used where the order speaks"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the column",
+   "near": ".",
+   "reason": "a ledger's column, a column of households or a column of marching men, not the monument Calbh Cnoc ghorm"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the thinning",
+   "near": "(?<![Tt]he )§",
+   "reason": "thinning as a verb or an adjective (a shore thinning, a thinning column), not An Tanachadh"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the first petition",
+   "near": "day's §",
+   "reason": "the day's first plea at court, not A' Chiad Athchuinge"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the custody-book",
+   "near": "\\b(?:a|any one|kind of|being a) §",
+   "reason": "a custody-book in general, not Leabhar a' Chùraim"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the vein-house",
+   "near": "(?i)\\b(?:a|no|one|old|young) §",
+   "reason": "vein-house as an adjective or a kind of house (a vein-house clerk), not the house itself, Taigh na Fèithe"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the house of disputation",
+   "near": "\\b(?:a|second) §",
+   "reason": "a house of disputation in general, or the second one at Inis mhòr, not Taigh na Deasbaid at Dùn thais"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the chronicle",
+   "near": "any §",
+   "reason": "a chronicle in general, not Eachdraidh na Rìoghachd"
+  },
+  {
+   "files": "eras/age_IV/book/19_*",
+   "en": "the wolf-sworn",
+   "near": "(?<![Tt]he )§",
+   "reason": "wolf-sworn as an adjective, of the old watching families before they were named the Fianna"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the cold hearths",
+   "near": "by §",
+   "reason": "cold hearths as a thing, not the named winter Na Teallaichean Fuara"
+  },
+  {
+   "files": "eras/age_IV/book/23_*",
+   "en": "the Lord",
+   "near": "\"§,",
+   "reason": "a man's vocative to Raghnall Ruadh, not the title"
+  },
+  {
+   "files": "eras/age_IV/book/34_*",
+   "en": "the four houses",
+   "near": "three or §",
+   "reason": "a count of houses, not Na Ceithir Taighean"
+  },
+  {
+   "files": "eras/age_IV/book/38_*",
+   "en": "the holy wood",
+   "near": "school's own §",
+   "reason": "the school's own wood at Dùn thais, not Coille Naomh Muileann chiar"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the Cup",
+   "near": "\\b(?:a|proper|plain) §",
+   "reason": "a cup as a vessel (a cup of harbour water, a proper cup), not Cupa na Fìrinne"
+  },
+  {
+   "files": "eras/age_III/*",
+   "en": "*",
+   "near": "(?<![Tt]he )§",
+   "reason": "Age III: the name's core used as a common noun without the article, with a number or a qualifier (a red hall, four houses, nine great shares, a king-list, boundary stones, long years, a Hall that could not read); every such hit in the volume was read and none is the named thing"
+  },
+  {
+   "files": "eras/age_IV/book/*",
+   "dt": "An Diosal",
+   "near": "(?:^|\\n)#{1,6} [^\\n]*§",
+   "reason": "a section heading, left as the told_in anchor; the name is written An Diosal in the text beneath"
+  },
+  {
+   "files": "eras/age_III/book/33_*",
+   "en": "the fair at Muileann òg",
+   "near": "§, which had traded",
+   "reason": "the Lùnastal fair of this age; Fèill Muileann òg is first attested in a later age (NAMES.json first V-0088)"
+  },
+  {
+   "files": "eras/age_IV/book/12_*",
+   "en": "The second fleet",
+   "near": "a §|§",
+   "reason": "a rumoured second sailing soon after the Sundering, never confirmed, not An dàrna cabhlach of the last age"
+  },
+  {
+   "files": "eras/age_IV/book/12_*",
+   "en": "the second fleet",
+   "near": "a §|§",
+   "reason": "a rumoured second sailing soon after the Sundering, never confirmed, not An dàrna cabhlach of the last age"
+  },
+  {
+   "files": "eras/age_IV/*",
+   "en": "the silver guild",
+   "near": ".",
+   "reason": "the silversmiths' guild of Muileann chiar in this age, not Comann an Airgid, the silver company of the next"
+  },
+  {
+   "files": "eras/age_II/book/*",
+   "en": "*",
+   "near": "#+ [^\\n]*§",
+   "reason": "Age II: a chapter or section heading; its anchor is a told_in target of the annals, and names_convert leaves headings alone"
+  },
+  {
+   "files": "eras/age_II/*",
+   "en": "the crossing",
+   "near": ".",
+   "reason": "Age II: lower-case crossing is a ford, a river crossing, the panthers' crossing of the passes or Anndra Breac's untold crossing; An t-Aiseag belongs to a later age"
+  },
+  {
+   "files": "eras/age_II/*",
+   "en": "the mist",
+   "near": ".",
+   "reason": "Age II: lower-case mist on water at dawn, weather; Ceò Mhanannain belongs to a later age"
+  },
+  {
+   "files": "eras/age_II/*",
+   "en": "the fleet",
+   "near": ".",
+   "reason": "Age II: lower-case fleet, a coast's own boats; Cabhlach an Scaraidh belongs to a later age"
+  },
+  {
+   "files": "eras/age_II/*",
+   "en": "the column",
+   "near": "a § of|in a §",
+   "reason": "Age II: a column of people or of flame, not the monument (written Calbh Cnoc ghorm)"
+  },
+  {
+   "files": "eras/age_II/*",
+   "en": "the chronicle",
+   "near": "a §",
+   "reason": "Age II: a chronicle in general, not Eachdraidh na Rìoghachd"
+  },
+  {
+   "files": "eras/age_II/*",
+   "en": "the great gathering",
+   "near": "a §",
+   "reason": "Age II: a child's idea of a great gathering in general, not An Cruinneachadh Mòr itself"
   }
  ]
 }

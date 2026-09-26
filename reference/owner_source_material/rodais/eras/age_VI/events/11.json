@@ -260,5 +260,19 @@
         "type": "sequel"
       }
     ]
+  },
+  {
+    "title": "Gormshuil parts from her mother at Ceann àrsaidh",
+    "era_year": 10,
+    "summary": "Walking home from Allt an Àigh, Gormshuil nic Dhùghaill and her mother part on the eastern road at Ceann àrsaidh, her mother turning north to her own village and Gormshuil south to the capital; her mother says only that she is glad the walk was given her that year, and asks nothing of the council's business.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:88"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0048"
+    ]
   }
 ]

@@ -8,7 +8,7 @@
   {
    "id": "EIV-3501",
    "title": "The death of King Fearchar Donn",
-   "body": "Fearchar Donn dies at Cathair dhearg in his sixty-eighth year, the last of his own riding to the vein-house's winter burning long past. His daughter Sìleas, thirteen years old, is judged too young to be crowned, and the heads of the seven custodian houses take the hall in her name by turns.",
+   "body": "Fearchar Donn dies at Cathair dhearg in his sixty-eighth year, the last of his own riding to Taigh na Fèithe's winter burning long past. His daughter Sìleas, thirteen years old, is judged too young to be crowned, and the heads of the seven custodian houses take the hall in her name by turns.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -32,7 +32,7 @@
   {
    "id": "EIV-3502",
    "title": "Sìleas nic Fhearchair crowned",
-   "body": "Sìleas, fifteen years old, is crowned at Cathair dhearg with the same cup and the same oath as her father before her. The heads of the seven houses swear over her hands to hold the vein and its right as it has always been held.",
+   "body": "Sìleas, fifteen years old, is crowned at Cathair dhearg with the same cup and the same oath as her father before her. The heads of Na Seachd Taighean swear over her hands to hold the vein and its right as it has always been held.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -106,7 +106,7 @@
   {
    "id": "EIV-3505",
    "title": "The queen weds Dùghall mac Ìomhair",
-   "body": "Sìleas takes a consort of her own choosing, Dùghall mac Ìomhair of the eastern hill-house Clann Ìomhair, whom she has known since the years of her regency. The seven houses' heads attend the wedding at Cathair dhearg.",
+   "body": "Sìleas takes a consort of her own choosing, Dùghall mac Ìomhair of the eastern hill-house Clann Ìomhair, whom she has known since the years of her regency. Na Seachd Taighean' heads attend the wedding at Cathair dhearg.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -134,7 +134,7 @@
   },
   {
    "id": "EIV-3506",
-   "title": "A cold supper at the red hall",
+   "title": "A cold supper at An Talla Dearg",
    "body": "Sìleas summons the head of Clann Ìomhair to a supper at Cathair dhearg after his house walls Dùn dhearg without the crown's leave. Neither speaks plainly of the walls; both understand what is meant by everything left unsaid, and the walls stand unopposed.",
    "place": "burg:422",
    "kind": "court",
@@ -161,7 +161,7 @@
   {
    "id": "EIV-3507",
    "title": "The quarrel over a basket at the capital's market",
-   "body": "Watching a farmer and a grain-seller come near to blows below the red hall over the true size of a basket, Sìleas is put in mind of a like quarrel she watched as a child, and resolves that one measure alone shall serve the whole island.",
+   "body": "Watching a farmer and a grain-seller come near to blows below An Talla Dearg over the true size of a basket, Sìleas is put in mind of a like quarrel she watched as a child, and resolves that one measure alone shall serve the whole island.",
    "place": "burg:19",
    "kind": "trade",
    "category": "trade",
@@ -328,7 +328,7 @@
   {
    "id": "EIV-3514",
    "title": "Sìleas rides to the widened bridge with her son",
-   "body": "On a grey morning in Bearnach Queen Sìleas rides down to see the widened bridge at Cathair dhearg finished, forty-six years old, with her son Uisdean, nineteen, riding at her side.",
+   "body": "On a grey morning in Bearnach Queen Sìleas rides down to see Drochaid Cathair dhearg finished, widened for two carts abreast, forty-six years old, with her son Uisdean, nineteen, riding at her side.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -380,7 +380,7 @@
   {
    "id": "EIV-3516",
    "title": "Coinneach among the panther-herders",
-   "body": "Travelling south to Imrich nam Pantar in the crossing days, Coinneach mac Mhàrtainn finds a whole valley emptied of flocks and every gate on the panthers' path standing open. An old herdswoman tells him the herders have kept the crossing days longer than any living memory can number, and ask no more of it than that.",
+   "body": "Travelling south into the panther country in the season of the crossing, Coinneach mac Mhàrtainn finds a whole valley emptied of flocks and every gate on the panthers' path standing open. An old herdswoman tells him the herders have kept the days of the crossing longer than any living memory can number, and ask no more of it than that.",
    "place": "marker:40",
    "kind": "rite",
    "category": "faith",
@@ -402,7 +402,7 @@
   },
   {
    "id": "EIV-3517",
-   "title": "Coinneach hears the carters' grumbling at the Yellow Lion",
+   "title": "Coinneach hears the carters' grumbling at An Leòmhann Buidhe",
    "body": "At the road-house of An Leòmhann Buidhe, Coinneach overhears a coal-carter complain that the northern galleries want two men to a face where one once sufficed, and begins, without deciding to, keeping a private count of how often the like is said to him on the road.",
    "place": "marker:7",
    "kind": "craft",
@@ -479,7 +479,7 @@
   },
   {
    "id": "EIV-3520",
-   "title": "The house of disputation raised at Dùn thais",
+   "title": "Taigh na Deasbaid raised at Dùn thais",
    "body": "Coinneach mac Mhàrtainn raises a hall of stone and turf at Dùn thais, Taigh na Deasbaid, and has the schools' old question, Carson an làmh seo?, cut into its lintel before the roof is finished. A rule is set: a question, once put, is argued a full year before any answer is given from the master's chair.",
    "place": "burg:77",
    "kind": "rite",
@@ -654,7 +654,7 @@
   {
    "id": "EIV-3527",
    "title": "Death of Queen Sìleas nic Fhearchair",
-   "body": "Queen Sìleas nic Fhearchair dies at Cathair dhearg, one-and-eighty years old, in the red hall where she had reigned longer than any ruler before her, a reign of six-and-sixty years begun when she was crowned at fifteen, too young by the houses' own custom to take the crown at once.",
+   "body": "Queen Sìleas nic Fhearchair dies at Cathair dhearg, one-and-eighty years old, in An Talla Dearg where she had reigned longer than any ruler before her, a reign of six-and-sixty years begun when she was crowned at fifteen, too young by the houses' own custom to take the crown at once.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -701,7 +701,7 @@
   {
    "id": "EIV-3529",
    "title": "Coinneach walks home from the ban",
-   "body": "Learning how the seven houses have answered his question with a wider silence than his own, Coinneach mac Mhàrtainn walks the carters' road out from Dùn thais alone into the dark, and tells no pupil, then or after, what he has thought on the road.",
+   "body": "Learning how Na Seachd Taighean have answered his question with a wider silence than his own, Coinneach mac Mhàrtainn walks the carters' road out from Dùn thais alone into the dark, and tells no pupil, then or after, what he has thought on the road.",
    "place": "burg:77",
    "kind": "rite",
    "category": "faith",
@@ -883,7 +883,7 @@
   {
    "id": "EIV-3537",
    "title": "Baile gharbh's rain-cloth worn for mourning in the north-east",
-   "body": "The heavy undyed cloth of Baile gharbh, already the common rain-cloak of the north-east, becomes the district's own cloth of mourning, worn plain and undyed through a household's season of loss as the whole island once wore the white sorrow.",
+   "body": "The heavy undyed cloth of Baile gharbh, already the common rain-cloak of the north-east, becomes the district's own cloth of mourning, worn plain and undyed through a household's season of loss as the whole island once wore an Tùrsa Geal.",
    "place": "burg:131",
    "kind": "rite",
    "category": "faith",
@@ -975,7 +975,7 @@
   {
    "id": "EIV-3541",
    "title": "The wells crack at Cill ghlas",
-   "body": "An earth tremor cracks three wells and brings down a byre at Cill ghlas. The custodians of the vein-house send men into the galleries below and find the deep workings untouched, though the diggers speak among themselves of feeling the shaking reach them under the hill.",
+   "body": "An earth tremor cracks three wells and brings down a byre at Cill ghlas. The custodians of Taigh na Fèithe send men into the galleries below and find the deep workings untouched, though the diggers speak among themselves of feeling the shaking reach them under the hill.",
    "place": "burg:123",
    "kind": "land",
    "category": "land",
@@ -995,8 +995,8 @@
   },
   {
    "id": "EIV-3542",
-   "title": "The vein-house offers stone for Cill ghlas's byre",
-   "body": "The custodians of the vein-house offer stone from their own surplus to rebuild the byre brought down at Cill ghlas, a kindness the village does not forget.",
+   "title": "Taigh na Fèithe offers stone for Cill ghlas's byre",
+   "body": "The custodians of Taigh na Fèithe offer stone from their own surplus to rebuild the byre brought down at Cill ghlas, a kindness the village does not forget.",
    "place": "burg:123",
    "kind": "craft",
    "category": "coal",
@@ -1012,7 +1012,7 @@
   {
    "id": "EIV-3543",
    "title": "Mòr nic Nèill made tutor to the king's son",
-   "body": "Mòr nic Nèill is set over the young Aonghas mac Uisdein to teach him his letters as a child, the first time any heir to the red hall has been given a tutor for the purpose rather than left to pick up his letters between other business.",
+   "body": "Mòr nic Nèill is set over the young Aonghas mac Uisdein to teach him his letters as a child, the first time any heir to An Talla Dearg has been given a tutor for the purpose rather than left to pick up his letters between other business.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1128,7 +1128,7 @@
   {
    "id": "EIV-3548",
    "title": "Dòmhnall mac Ailein's first preaching on the strand",
-   "body": "A net-maker of Inis thais, thirty-five years old, begins telling the men who mend nets beside him that the town's old wolf-stone is Lia Fàil, and that its watching families are the Fianna, sworn to keep the whole island as a wolf keeps its range. His hearers grow through the year into the first gathering of the order of the Stone at Inis thais.",
+   "body": "A net-maker of Inis thais, thirty-five years old, begins telling the men who mend nets beside him that the town's old wolf-stone is Lia Fàil, and that its watching families are an Fhianna, sworn to keep the whole island as a wolf keeps its range. His hearers grow through the year into the first gathering of Òrd na Cloiche at Inis thais.",
    "place": "burg:166",
    "kind": "rite",
    "category": "faith",
@@ -1210,7 +1210,7 @@
   {
    "id": "EIV-3551",
    "title": "The tide-horn of the wolf-stone shrine",
-   "body": "The Fianna of the Stone at Inis thais take up a horn blown at every turn of the tide, its blowing passed by lot among the watching households. Within a few years the town sets its morning's business by the horn without a thought for what it was first blown to mark.",
+   "body": "An Fhianna at Inis thais take up a horn blown at every turn of the tide, its blowing passed by lot among the watching households. Within a few years the town sets its morning's business by the horn without a thought for what it was first blown to mark.",
    "place": "burg:166",
    "kind": "rite",
    "category": "faith",
@@ -1227,8 +1227,8 @@
   },
   {
    "id": "EIV-3552",
-   "title": "The naming of the Stone carried inland by a hide-trader",
-   "body": "A fisherman of Inis thais who has heard Dòmhnall mac Ailein twice repeats the naming of the Stone to three inland villages while selling hides that winter, none of which he visits again. The teaching spreads in threads too small to trace to their source.",
+   "title": "The naming of Lia Fàil carried inland by a hide-trader",
+   "body": "A fisherman of Inis thais who has heard Dòmhnall mac Ailein twice repeats the naming of Lia Fàil to three inland villages while selling hides that winter, none of which he visits again. The teaching spreads in threads too small to trace to their source.",
    "place": "burg:166",
    "kind": "rite",
    "category": "faith",
@@ -1250,8 +1250,8 @@
   },
   {
    "id": "EIV-3553",
-   "title": "The Hawk and the Fianna claim the same feast day at Caol leathan",
-   "body": "The priests of the Hawk and the Fianna of the Stone both come to the harbour shrine at Caol leathan for the same morning's hours, the Hawk's reckoning and the Stone's vigil falling that year on the same day. Neither will give way.",
+   "title": "Òrd an t-Seabhaig and an Fhianna claim the same feast day at Caol leathan",
+   "body": "The priests of Òrd an t-Seabhaig and an Fhianna both come to the harbour shrine at Caol leathan for the same morning's hours, Òrd an t-Seabhaig's reckoning and Òrd na Cloiche's vigil falling that year on the same day. Neither will give way.",
    "place": "burg:1",
    "kind": "rite",
    "category": "faith",
@@ -1277,7 +1277,7 @@
   {
    "id": "EIV-3554",
    "title": "Murchadh mac Ailpein divides the shrine's days",
-   "body": "The king's reeve at Caol leathan, Murchadh mac Ailpein, halves the harbour shrine's hours between the Hawk and the Fianna, as the sacred woods of an older age were once divided, and nails the division on a strip of hide to the shrine door.",
+   "body": "The king's reeve at Caol leathan, Murchadh mac Ailpein, halves the harbour shrine's hours between Òrd an t-Seabhaig and an Fhianna, as the sacred woods of an older age were once divided, and nails the division on a strip of hide to the shrine door.",
    "place": "burg:1",
    "kind": "rite",
    "category": "faith",
@@ -1330,7 +1330,7 @@
   {
    "id": "EIV-3556",
    "title": "Ailig an Òir forfeits a season's amber",
-   "body": "An amber-worker of Seann Skell on the Hawk bay is caught selling rough amber outside the new walls against his own guild's oath, and is made by that guild to forfeit the whole season's gathering to the market fund rather than face the crown's reeve.",
+   "body": "An amber-worker of Seann Skell on Bàgh an t-Seabhaig is caught selling rough amber outside the new walls against his own guild's oath, and is made by that guild to forfeit the whole season's gathering to the market fund rather than face the crown's reeve.",
    "place": "burg:132",
    "kind": "trade",
    "category": "trade",
@@ -1353,7 +1353,7 @@
   {
    "id": "EIV-3557",
    "title": "Death of Dòmhnall mac Ailein",
-   "body": "Dòmhnall mac Ailein dies at Inis thais in his seventieth year, having taught on the strand five-and-thirty years without ever taking up an office in the order his hearers named after his teaching. The Fianna of the Stone carry him to the shrine and set him before it, not within it.",
+   "body": "Dòmhnall mac Ailein dies at Inis thais in his seventieth year, having taught on the strand five-and-thirty years without ever taking up an office in the order his hearers named after his teaching. An Fhianna carry him to the shrine and set him before it, not within it.",
    "place": "burg:166",
    "kind": "rite",
    "category": "faith",
@@ -1382,7 +1382,7 @@
   {
    "id": "EIV-3558",
    "title": "King Aonghas recalls his father's teaching on the two horses",
-   "body": "Before he takes up the wood-watchers' rite himself, King Aonghas mac Uisdein recalls being told as a boy that one horse pulling alone draws a chariot only in a circle, and that it takes two, pulling together and never quite agreeing, to pull it straight.",
+   "body": "Before he takes up Òrd Mhacha' rite himself, King Aonghas mac Uisdein recalls being told as a boy that one horse pulling alone draws a chariot only in a circle, and that it takes two, pulling together and never quite agreeing, to pull it straight.",
    "place": "burg:19",
    "kind": "rite",
    "category": "faith",
@@ -1406,8 +1406,8 @@
   },
   {
    "id": "EIV-3559",
-   "title": "A councillor warns Aonghas against the wood-watchers' rite",
-   "body": "An old councillor of the red hall warns King Aonghas that a crown seen at a moor-custom may be asked by the seven houses why it will not be seen at theirs. Aonghas answers that any house is free to come and stand at a yoke-pole itself.",
+   "title": "A councillor warns Aonghas against Òrd Mhacha' rite",
+   "body": "An old councillor of An Talla Dearg warns King Aonghas that a crown seen at a moor-custom may be asked by Na Seachd Taighean why it will not be seen at theirs. Aonghas answers that any house is free to come and stand at a yoke-pole itself.",
    "place": "burg:19",
    "kind": "rite",
    "category": "faith",
@@ -1431,8 +1431,8 @@
   },
   {
    "id": "EIV-3560",
-   "title": "Half the red hall's household takes up the rite of Macha",
-   "body": "Within a year of King Aonghas standing at the yoke-pole of the wood-watchers' rite, half his own household has taken it up beside him, and Òrd Mhacha becomes from that year the order of Cathair dhearg without a quarrel fought over it.",
+   "title": "Half An Talla Dearg's household takes up the rite of Macha",
+   "body": "Within a year of King Aonghas standing at the yoke-pole of Òrd Mhacha' rite, half his own household has taken it up beside him, and Òrd Mhacha becomes from that year the order of Cathair dhearg without a quarrel fought over it.",
    "place": "burg:19",
    "kind": "rite",
    "category": "faith",
@@ -1501,7 +1501,7 @@
   {
    "id": "EIV-3563",
    "title": "King Aonghas returns to the yoke a second year",
-   "body": "King Aonghas rides out to the wood-watchers' rite a second spring running, judging that a thing done once by a king and not again is no rite at all, and stands again with a hand on each yoke-pole among the grey horse and the black.",
+   "body": "King Aonghas rides out to Òrd Mhacha' rite a second spring running, judging that a thing done once by a king and not again is no rite at all, and stands again with a hand on each yoke-pole among the grey horse and the black.",
    "place": "burg:19",
    "kind": "rite",
    "category": "faith",

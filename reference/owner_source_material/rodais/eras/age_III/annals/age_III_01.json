@@ -51,7 +51,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/02_of_the_runner_at_the_spring.md#vii-of-the-runners-to-every-coast",
    "era_between": [
     1,
@@ -74,7 +76,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#i-of-the-flax-and-the-door",
    "era_between": [
     1,
@@ -102,6 +106,7 @@
     "the-long-years"
    ],
    "people": [
+    "iomhar-dearg",
     "ailean-mor"
    ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#vii-of-what-iomhar-kept",
@@ -130,7 +135,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#iii-of-the-ford-in-the-morning",
    "era_between": [
     1,
@@ -174,7 +181,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#iv-of-the-double-bank-of-dun-dhearg",
    "era_between": [
     1,
@@ -203,6 +212,7 @@
     "the-division"
    ],
    "people": [
+    "iomhar-dearg",
     "ailean-mor"
    ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#v-of-the-bier-of-spears",
@@ -229,7 +239,9 @@
     }
    ],
    "threads": [],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#vii-of-what-iomhar-kept",
    "era_between": [
     1,
@@ -250,7 +262,9 @@
     }
    ],
    "threads": [],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#vi-of-the-twelve-who-came-back",
    "era_between": [
     1,
@@ -277,7 +291,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#vii-of-what-iomhar-kept",
    "era_between": [
     1,
@@ -304,7 +320,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/01_of_iomhar_dearg_and_the_bier_of_spears.md#vii-of-what-iomhar-kept",
    "era_between": [
     1,
@@ -331,7 +349,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/02_of_the_runner_at_the_spring.md#ii-of-the-herd-boy",
    "era_between": [
     1,
@@ -378,6 +398,7 @@
     "the-stone-kings"
    ],
    "people": [
+    "sine-nan-snaidhm",
     "ailean-mor"
    ],
    "told_in": "book/02_of_the_runner_at_the_spring.md#iv-of-the-bier-coming-up",
@@ -389,7 +410,7 @@
   {
    "id": "EIII-1016",
    "title": "The king laid in the earth",
-   "body": "After three nights in the gathering-house Ailean Mòr is carried out before dawn and laid in the earth under a mound. The tellers of Dùn ìseal show a mound on the slope facing the vein; the reciters of the Mason's line, following Seathan Crom of Clann na Ceiste, show another. The two have never been reconciled.",
+   "body": "After three nights in the gathering-house Ailean Mòr is carried out before dawn and laid in the earth under a mound. The tellers of Dùn ìseal show a mound on the slope facing the vein; the reciters of Clann a' Chlachair, following Seathan Crom of Clann na Ceiste, show another. The two have never been reconciled.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -432,7 +453,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/02_of_the_runner_at_the_spring.md#vi-of-the-lord-of-dun-dhearg",
    "era_between": [
     1,
@@ -442,7 +465,7 @@
   {
    "id": "EIII-1018",
    "title": "Two mounds shown for the king's grave",
-   "body": "The knot-keepers of Dùn ìseal show a long low mound on the slope facing the vein as Ailean Mòr's grave; the reciters of the Mason's line tell of another, and of the lame reciter Seathan Crom who spoke to the grey sons on the third night. Sìne did not follow the bier and will not say.",
+   "body": "Luchd nan Snaidhm of Dùn ìseal show a long low mound on the slope facing the vein as Ailean Mòr's grave; the reciters of Clann a' Chlachair tell of another, and of the lame reciter Seathan Crom who spoke to the grey sons on the third night. Sìne did not follow the bier and will not say.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -455,7 +478,9 @@
    "threads": [
     "line-of-the-mason"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/02_of_the_runner_at_the_spring.md#v-of-the-two-mounds",
    "era_between": [
     1,
@@ -465,7 +490,7 @@
   {
    "id": "EIII-1019",
    "title": "The keepers bring down their fire",
-   "body": "The nine keepers of the slab come down from Tobar dhìreach to Dùn ìseal with the fire of their hut in a covered pot. The reciters of the Mason's line hold that it came down from the mason's fire; the keepers say only that it is old and must not go out.",
+   "body": "The nine keepers of the slab come down from Tobar dhìreach to Dùn ìseal with the fire of their hut in a covered pot. The reciters of Clann a' Chlachair hold that it came down from Teine a' Chlachair; the keepers say only that it is old and must not go out.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -502,7 +527,10 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor",
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/03_of_the_binding_of_the_first_flame.md#ii-of-the-first-quarrel",
    "era_between": [
     1,
@@ -534,7 +562,11 @@
     "the-division",
     "the-keepers-of-the-flame"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein",
+    "murchadh-mor",
+    "iomhar-dearg"
+   ],
    "told_in": "book/03_of_the_binding_of_the_first_flame.md#iii-of-what-the-old-keeper-said",
    "era_between": [
     1,
@@ -543,8 +575,8 @@
   },
   {
    "id": "EIII-1022",
-   "title": "Gille-Brìde carries a coal of the First Flame home",
-   "body": "Gille-Brìde of the line of Somhairle comes down from the high valleys, swears the Binding last of the king's blood, and asks for a coal of the flame. He carries it home in a clay pot and asks for nothing more, and no knot is tied for him.",
+   "title": "Gille-Brìde carries a coal of A' Chiad Lasair home",
+   "body": "Gille-Brìde of the line of Somhairle comes down from the high valleys, swears An Ceangal last of the king's blood, and asks for a coal of the flame. He carries it home in a clay pot and asks for nothing more, and no knot is tied for him.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -562,7 +594,9 @@
     "line-of-aisling",
     "the-seven-coals"
    ],
-   "people": [],
+   "people": [
+    "gille-bride"
+   ],
    "told_in": "book/03_of_the_binding_of_the_first_flame.md#v-of-the-swearing",
    "era_between": [
     1,
@@ -572,7 +606,7 @@
   {
    "id": "EIII-1023",
    "title": "The flame kept in the keepers' hut",
-   "body": "After the Binding the First Flame is kept in the keepers' hut on the slope above the gathering-house at Dùn ìseal, fed with a little of the coloured coal each night.",
+   "body": "After An Ceangal A' Chiad Lasair is kept in the keepers' hut on the slope above the gathering-house at Dùn ìseal, fed with a little of an gual dathach each night.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -620,7 +654,9 @@
    "threads": [
     "the-keepers-of-the-flame"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor"
+   ],
    "told_in": "book/03_of_the_binding_of_the_first_flame.md#iv-of-murchadh-at-the-hut",
    "era_between": [
     1,
@@ -630,7 +666,7 @@
   {
    "id": "EIII-1025",
    "title": "The youngest keeper asks who will hold the flame",
-   "body": "On the night after the Binding, while the heirs drink in the valley, the youngest of the nine keepers sits down across the flame from Aodh Crom and asks who will hold it when he and the rest of them are gone.",
+   "body": "On the night after An Ceangal, while the heirs drink in the valley, the youngest of the nine keepers sits down across the flame from Aodh Crom and asks who will hold it when he and the rest of them are gone.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -675,7 +711,10 @@
     "the-division",
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor",
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#viii-of-the-cord-on-the-floor",
    "era_between": [
     1,
@@ -702,7 +741,10 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein",
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#iii-of-eithne-s-knot-keeper",
    "era_between": [
     1,
@@ -729,7 +771,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#iv-of-niall-og-and-the-knot-tied-once",
    "era_between": [
     1,
@@ -756,7 +800,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#v-of-the-cow-that-was-not-taken",
    "era_between": [
     1,
@@ -787,7 +833,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#vi-of-the-knots-of-the-dead",
    "era_between": [
     1,
@@ -814,7 +862,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg"
+   ],
    "told_in": "book/04_of_the_knots.md#vii-of-iomhar-s-knot-and-the-child-in-arms",
    "era_between": [
     1,
@@ -837,7 +887,9 @@
    "threads": [
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#vii-of-iomhar-s-knot-and-the-child-in-arms",
    "era_between": [
     1,
@@ -847,7 +899,7 @@
   {
    "id": "EIII-1033",
    "title": "The cord laid on the floor",
-   "body": "On the eleventh evening the cord of the heirs, Sreang nan Oighrean, is laid along the floor of the gathering-house from the hearth to the door and back, with lamps set beside it, and the heirs walk it looking at their own knots and counting their neighbours'.",
+   "body": "On the eleventh evening Sreang nan Oighrean, is laid along the floor of the gathering-house from the hearth to the door and back, with lamps set beside it, and the heirs walk it looking at their own knots and counting their neighbours'.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -864,7 +916,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/04_of_the_knots.md#viii-of-the-cord-on-the-floor",
    "era_between": [
     1,
@@ -874,7 +928,7 @@
   {
    "id": "EIII-1034",
    "title": "The four rules put before the valley",
-   "body": "As the sitting settles in for the winter, the heirs' quarrel sorts itself into four rival rules for the parting of the kingdom: the eldest to hold and feed the rest, the living to hold by nearness of blood, the dead's children to stand in their fathers' places, and the shares to be thrown for by lot.",
+   "body": "As the sitting settles in for the winter, the heirs' quarrel sorts itself into four rival rules for Roinn na Rìoghachd: the eldest to hold and feed the rest, the living to hold by nearness of blood, the dead's children to stand in their fathers' places, and the shares to be thrown for by lot.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -891,7 +945,10 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor",
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/05_of_the_four_rules.md#vii-of-the-settlement",
    "era_between": [
     1,
@@ -918,7 +975,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor"
+   ],
    "told_in": "book/05_of_the_four_rules.md#ii-of-the-eldest-and-the-living",
    "era_between": [
     1,
@@ -945,7 +1004,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/05_of_the_four_rules.md#ii-of-the-eldest-and-the-living",
    "era_between": [
     1,
@@ -1026,7 +1087,10 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor",
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/05_of_the_four_rules.md#iii-of-the-words-niall-carried",
    "era_between": [
     1,
@@ -1085,7 +1149,10 @@
     "the-division",
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein",
+    "murchadh-mor"
+   ],
    "told_in": "book/05_of_the_four_rules.md#iv-of-mairsile-in-the-cold",
    "era_between": [
     2,
@@ -1094,7 +1161,7 @@
   },
   {
    "id": "EIII-1042",
-   "title": "Four lines protest the Red Share",
+   "title": "Four lines protest an Earrann Dhearg",
    "body": "Four lines with no claim on Dùn dhearg argue that Ìomhar Dearg's hold on it, won by the sword and not by any of the four rules, ought to be parted into whatever settlement the rest of the kingdom comes into; Eithne answers that no rule written after the fact can take back what is already held.",
    "place": "burg:422",
    "kind": "law",
@@ -1116,7 +1183,10 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "iomhar-dearg",
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/05_of_the_four_rules.md#v-of-the-share-that-could-not-be-taken",
    "era_between": [
     2,
@@ -1144,7 +1214,11 @@
     "the-division",
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor",
+    "eithne-nic-ailein",
+    "iomhar-dearg"
+   ],
    "told_in": "book/05_of_the_four_rules.md#vi-of-the-word-nobody-would-wear",
    "era_between": [
     2,
@@ -1181,7 +1255,7 @@
   {
    "id": "EIII-1045",
    "title": "The nine eldest lines agree to the settlement",
-   "body": "The nine strongest lines of the king's blood, among them Murchadh Mòr, Eithne nic Ailein, Fionnghal nic Ailein of the western shore, Artair mac Ailein of the salt shore and Cormac mac Ailein of the east, agree to hold the nine great shares, with the portion of the dead set out of all nine and the Red Share of Ìomhar Dearg let stand.",
+   "body": "The nine strongest lines of the king's blood, among them Murchadh Mòr, Eithne nic Ailein, Fionnghal nic Ailein of the western shore, Artair mac Ailein of Tràigh an t-Salainn and Cormac mac Ailein of the east, agree to hold na h-Earrannan Mòra, with Cuid nam Marbh set out of all nine and an Earrann Dhearg of Ìomhar Dearg let stand.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -1198,7 +1272,11 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor",
+    "eithne-nic-ailein",
+    "iomhar-dearg"
+   ],
    "told_in": "book/05_of_the_four_rules.md#vii-of-the-settlement",
    "era_between": [
     2,
@@ -1208,7 +1286,7 @@
   {
    "id": "EIII-1046",
    "title": "The agreement to cut the cord at the handful",
-   "body": "The nine lines agree that the cord of the heirs shall be laid on the gathering-house floor again and cut into nine lengths at the night of the handful, with the clause against the name of rìgh and the peace of the Hall's ground sworn once before the whole valley as it is cut.",
+   "body": "The nine lines agree that Sreang nan Oighrean shall be laid on the gathering-house floor again and cut into nine lengths at Oidhche an Dòrlaich, with the clause against the name of rìgh and the peace of Talla na Lasrach's ground sworn once before the whole valley as it is cut.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -1225,7 +1303,10 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein",
+    "murchadh-mor"
+   ],
    "told_in": "book/05_of_the_four_rules.md#viii-of-the-agreement-to-cut-the-cord",
    "era_between": [
     2,
@@ -1234,8 +1315,8 @@
   },
   {
    "id": "EIII-1047",
-   "title": "The cord of the heirs laid twice round the gathering-house floor",
-   "body": "On Oidhche an Dòrlaich the keepers bring the cord of the heirs down from its chest and lay it from the hearth to the door and back, with lamps set along its length. Nine plain, unmarked knives are laid out for the nine lines that will cut it.",
+   "title": "Sreang nan Oighrean laid twice round the gathering-house floor",
+   "body": "On Oidhche an Dòrlaich the keepers bring Sreang nan Oighrean down from its chest and lay it from the hearth to the door and back, with lamps set along its length. Nine plain, unmarked knives are laid out for the nine lines that will cut it.",
    "place": "burg:315",
    "kind": "law",
    "category": "law",
@@ -1248,7 +1329,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "sine-nan-snaidhm"
+   ],
    "told_in": "book/06_of_the_night_of_the_handful.md#iii-of-the-cord-laid-twice-round-the-floor",
    "era_between": [
     2,
@@ -1261,7 +1344,7 @@
   {
    "id": "EIII-1048",
    "title": "Murchadh Mòr cuts the cord first",
-   "body": "Murchadh Mòr, eldest living son of the king and near two thousand nine hundred years old, cuts the cord in one stroke exactly where he had long meant to, and takes up the great share of the north, from Baile Mòr mhòr to the high passes.",
+   "body": "Murchadh Mòr, eldest living son of the king and near two thousand nine hundred years old, cuts the cord in one stroke exactly where he had long meant to, and takes up Earrann Mhurchaidh, from Baile Mòr mhòr to the high passes.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1279,7 +1362,9 @@
     "the-division",
     "the-long-years"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor"
+   ],
    "told_in": "book/06_of_the_night_of_the_handful.md#iv-of-murchadh-s-cut",
    "era_between": [
     2,
@@ -1306,7 +1391,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "eithne-nic-ailein"
+   ],
    "told_in": "book/06_of_the_night_of_the_handful.md#v-of-eithne-and-the-woman-who-would-take-both",
    "era_between": [
     2,
@@ -1316,7 +1403,7 @@
   {
    "id": "EIII-1050",
    "title": "Ciorstaidh cut through and claimed by two shares",
-   "body": "Ciorstaidh of the salt shore, whose knot is cut through by Eithne's knife, answers the two lords quarrelling over her with \"I'll take both.\" It is let stand: the first of the double oaths sworn that night.",
+   "body": "Ciorstaidh of Tràigh an t-Salainn, whose knot is cut through by Eithne's knife, answers the two lords quarrelling over her with \"I'll take both.\" It is let stand: the first of the double oaths sworn that night.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1334,7 +1421,7 @@
     "the-division"
    ],
    "people": [
-    "ciorstaidh"
+    "eithne-nic-ailein"
    ],
    "told_in": "book/06_of_the_night_of_the_handful.md#v-of-eithne-and-the-woman-who-would-take-both",
    "era_between": [
@@ -1371,8 +1458,8 @@
   },
   {
    "id": "EIII-1052",
-   "title": "The western share sworn to Fionnghal nic Ailein",
-   "body": "Fionnghal nic Ailein cuts her length of the cord clean and takes the western share, with its seat on the harbour at Ros dhomhain.",
+   "title": "Earrann Ros dhomhain sworn to Fionnghal nic Ailein",
+   "body": "Fionnghal nic Ailein cuts her length of the cord clean and takes Earrann Ros dhomhain, with its seat on the harbour at Ros dhomhain.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1398,8 +1485,8 @@
   },
   {
    "id": "EIII-1053",
-   "title": "The salt shore sworn to Artair mac Ailein",
-   "body": "Artair mac Ailein, who had argued least of the nine that summer, takes the share of the salt shore, seated at the western Baile ghorm.",
+   "title": "Tràigh an t-Salainn sworn to Artair mac Ailein",
+   "body": "Artair mac Ailein, who had argued least of the nine that summer, takes Earrann Baile ghorm, seated at the western Baile ghorm.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1425,8 +1512,8 @@
   },
   {
    "id": "EIII-1054",
-   "title": "The eastern share sworn to Cormac mac Ailein",
-   "body": "Cormac mac Ailein takes the eastern share, seated at Caol shean, in which the silver of Muileann chiar will one day be found.",
+   "title": "Earrann Caol shean sworn to Cormac mac Ailein",
+   "body": "Cormac mac Ailein takes Earrann Caol shean, seated at Caol shean, in which the silver of Muileann chiar will one day be found.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1453,7 +1540,7 @@
   {
    "id": "EIII-1055",
    "title": "The four lesser shares sworn to Ùna, Coll, Gormlaith and Tadhg",
-   "body": "The last four of the nine cut their lengths in quick succession: Ùna nic Ailein takes the north-west at Muileann àrsaidh, Coll mac Ailein the hills of the Abhainn fhionn at Ceann àrsaidh, Gormlaith nic Ailein the south-east at Tobar dhearg, and Tadhg mac Ailein the Abhainn ìseal and the Hawk bay at Cnoc bheag.",
+   "body": "The last four of the nine cut their lengths in quick succession: Ùna nic Ailein takes the north-west at Muileann àrsaidh, Coll mac Ailein the hills of the Abhainn fhionn at Ceann àrsaidh, Gormlaith nic Ailein the south-east at Tobar dhearg, and Tadhg mac Ailein the Abhainn ìseal and Bàgh an t-Seabhaig at Cnoc bheag.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1470,9 +1557,7 @@
    "threads": [
     "the-division"
    ],
-   "people": [
-    "una-nic-ailein"
-   ],
+   "people": [],
    "told_in": "book/06_of_the_night_of_the_handful.md#vi-of-the-rest-of-the-nine",
    "era_between": [
     2,
@@ -1481,7 +1566,7 @@
   },
   {
    "id": "EIII-1056",
-   "title": "The cord of the heirs lies in nine pieces",
+   "title": "Sreang nan Oighrean lies in nine pieces",
    "body": "With the ninth cut made, the cord no longer runs the floor of the gathering-house whole. It lies in nine lengths, one over each lord's arm, with the loose ends of the eleven double knots hanging free between them.",
    "place": "burg:315",
    "kind": "law",
@@ -1508,8 +1593,8 @@
   },
   {
    "id": "EIII-1057",
-   "title": "The Red Hill declares itself sworn to nobody",
-   "body": "The holder of the Red Hill, whose line had sworn to Ailean Mòr alone and to no lord of a share, stands up on the night of the handful and says his oath died with the king, and that the Red Hill is that night sworn to nobody at all.",
+   "title": "An Cnoc Ruadh declares itself sworn to nobody",
+   "body": "The holder of An Cnoc Ruadh, whose line had sworn to Ailean Mòr alone and to no lord of a share, stands up on Oidhche an Dòrlaich and says his oath died with the king, and that An Cnoc Ruadh is that night sworn to nobody at all.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1535,8 +1620,8 @@
   },
   {
    "id": "EIII-1058",
-   "title": "Three great shares claim the Red Hill",
-   "body": "Murchadh Mòr and two other lords of the nine cross the floor at once to claim the ownerless Red Hill. None yields, and none of the three can make the claim stand, that night or in the years that follow.",
+   "title": "Three great shares claim An Cnoc Ruadh",
+   "body": "Murchadh Mòr and two other lords of the nine cross the floor at once to claim the ownerless An Cnoc Ruadh. None yields, and none of the three can make the claim stand, that night or in the years that follow.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -1553,7 +1638,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "murchadh-mor"
+   ],
    "told_in": "book/06_of_the_night_of_the_handful.md#vii-of-the-red-hill-sworn-to-nobody",
    "era_between": [
     2,
@@ -1562,8 +1649,8 @@
   },
   {
    "id": "EIII-1059",
-   "title": "The Hall's ground confirmed in no share",
-   "body": "Aodh Crom reminds the nine, on the night of the handful, that the hill of the slab and the gathering-house and the valley about it, as walked by the keepers, lie in no share, as sworn at the Binding, and are not to be argued afresh.",
+   "title": "Talla na Lasrach's ground confirmed in no share",
+   "body": "Aodh Crom reminds the nine, on Oidhche an Dòrlaich, that the hill of the slab and the gathering-house and the valley about it, as walked by the keepers, lie in no share, as sworn at An Ceangal, and are not to be argued afresh.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -1608,9 +1695,7 @@
    "threads": [
     "the-division"
    ],
-   "people": [
-    "ciorstaidh"
-   ],
+   "people": [],
    "told_in": "book/06_of_the_night_of_the_handful.md#viii-of-the-grey-light-and-the-lengths-of-cord",
    "era_between": [
     2,
@@ -1619,7 +1704,7 @@
   },
   {
    "id": "EIII-1061",
-   "title": "The boundary stones cut and set along the Roinn",
+   "title": "Clachan-crìche cut and set along Roinn na Rìoghachd",
    "body": "Through the winter after the handful the stewards of the nine lines ride the boundaries with the reciters, agreeing what they can, and masons cut and set the clachan-crìche, each stone bearing the sign of the share it faces. Some are moved in the night and set again by morning.",
    "place": null,
    "kind": "law",
@@ -1633,7 +1718,9 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "ruairidh-glas"
+   ],
    "told_in": "book/07_of_the_stones_and_the_first_blood.md#i-of-the-stone-on-each-bank",
    "era_between": [
     2,
@@ -1643,7 +1730,7 @@
   {
    "id": "EIII-1062",
    "title": "A stone set on each bank at Dùn thais",
-   "body": "No steward of the north or of the Red Share will yield Dùn thais to the other, so the masons of both lines set a stone on the north bank of the burn below the old fort, cut with Murchadh's sign, and another on the south bank, cut with the sign of the Red Share, and leave the hill itself between the two.",
+   "body": "No steward of the north or of an Earrann Dhearg will yield Dùn thais to the other, so the masons of both lines set a stone on the north bank of the burn below the old fort, cut with Murchadh's sign, and another on the south bank, cut with the sign of an Earrann Dhearg, and leave the hill itself between the two.",
    "place": "burg:77",
    "kind": "law",
    "category": "law",
@@ -1670,7 +1757,7 @@
   {
    "id": "EIII-1063",
    "title": "Ìomhar Dearg claims the grazing above Dùn thais",
-   "body": "At his own supper-table Ìomhar Dearg tells his grandson Ruairidh Glas that the grazing on the northern slope above Dùn thais belongs to the Red Share, stone or no stone, and that it is time the cattle grazing there under the northern share's sign were driven off it.",
+   "body": "At his own supper-table Ìomhar Dearg tells his grandson Ruairidh Glas that the grazing on the northern slope above Dùn thais belongs to an Earrann Dhearg, stone or no stone, and that it is time the cattle grazing there under the northern share's sign were driven off it.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -1687,7 +1774,10 @@
    "threads": [
     "the-division"
    ],
-   "people": [],
+   "people": [
+    "ruairidh-glas",
+    "iomhar-dearg"
+   ],
    "told_in": "book/07_of_the_stones_and_the_first_blood.md#i-of-the-stone-on-each-bank",
    "era_between": [
     3,

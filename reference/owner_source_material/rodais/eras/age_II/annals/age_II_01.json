@@ -35,7 +35,7 @@
   {
    "id": "EII-1001",
    "title": "The camp beyond the oaks",
-   "body": "Coinneach comes within sight of the seven fires at Doire ghlas and finds he cannot cross into the ring of oaks. The Keeper allows him to camp at the tree-line and no nearer, and he keeps his own vigil there through the seven nights of his brother's watch.",
+   "body": "Coinneach comes within sight of the seven fires at Doire ghlas and finds he cannot cross into the ring of oaks. Coimhdeach na Fine allows him to camp at the tree-line and no nearer, and he keeps his own vigil there through the seven nights of his brother's watch.",
    "place": "burg:209",
    "kind": "faith",
    "category": "faith",
@@ -220,8 +220,8 @@
   },
   {
    "id": "EII-1008",
-   "title": "Ailean passes the high valleys",
-   "body": "Ailean walks south past the households of Clann na Ceiste in the high valleys without turning aside to any hearth, though he has kin enough among them to be fed and questioned there.",
+   "title": "Ailean passes Na Glinn Àrda",
+   "body": "Ailean walks south past the households of Clann na Ceiste in Na Glinn Àrda without turning aside to any hearth, though he has kin enough among them to be fed and questioned there.",
    "kind": "reign",
    "category": "rulers",
    "links": [
@@ -245,7 +245,7 @@
   {
    "id": "EII-1009",
    "title": "Eleven kin walk south with him",
-   "body": "Households of Clann na Ceiste near the high valleys leave byre and field to follow Ailean south, eleven in all, none able afterward to give a better reason than a feeling not to be argued with. The king shares out Coinneach's sack among them on the road.",
+   "body": "Households of Clann na Ceiste near Na Glinn Àrda leave byre and field to follow Ailean south, eleven in all, none able afterward to give a better reason than a feeling not to be argued with. The king shares out Coinneach's sack among them on the road.",
    "kind": "reign",
    "category": "rulers",
    "links": [
@@ -486,7 +486,7 @@
   {
    "id": "EII-1019",
    "title": "Muireall and Gormshuil brought to the hill",
-   "body": "As the frost breaks a small company comes down from the high valleys to Dùn ìseal: Muireall, the king's wife, and Gormshuil, his young daughter, with a few kin and hands beside them. The hill, which had thought the king had no household of his own, falls quiet to let them through the new gate.",
+   "body": "As the frost breaks a small company comes down from Na Glinn Àrda to Dùn ìseal: Muireall, the king's wife, and Gormshuil, his young daughter, with a few kin and hands beside them. The hill, which had thought the king had no household of his own, falls quiet to let them through the new gate.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -698,8 +698,8 @@
   },
   {
    "id": "EII-1027",
-   "title": "The drive to the warm springs",
-   "body": "With the hardest winter in living memory emptying the byres and the king three valleys off, Gormshuil drives the standing herds two days through drifted snow to the warm springs, walking the whole way herself so no beast's fodder is spent on a rider. She loses none.",
+   "title": "The drive to Fuarain Theth Muileann ruadh",
+   "body": "With the hardest winter in living memory emptying the byres and the king three valleys off, Gormshuil drives the standing herds two days through drifted snow to Fuarain Theth Muileann ruadh, walking the whole way herself so no beast's fodder is spent on a rider. She loses none.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -831,8 +831,8 @@
   },
   {
    "id": "EII-1032",
-   "title": "Beathag Ruadh dies on the Red Hill",
-   "body": "Beathag Ruadh, who held the Red Hill by the lake before any of the valleys came in to the king, dies an old woman in her own hall, unsworn and unbeaten; her household keeps the palisade after her and the lake shore does not change its ways for her going.",
+   "title": "Beathag Ruadh dies on An Cnoc Ruadh",
+   "body": "Beathag Ruadh, who held An Cnoc Ruadh by the lake before any of the valleys came in to the king, dies an old woman in her own hall, unsworn and unbeaten; her household keeps the palisade after her and the lake shore does not change its ways for her going.",
    "place": "burg:19",
    "kind": "death",
    "category": "rulers",
@@ -855,7 +855,7 @@
   {
    "id": "EII-1033",
    "title": "Iain Dubh born",
-   "body": "A second son of Sorcha's, Iain Dubh, is born to the king on the hill, the youngest of Ailean's children to be reckoned among the Stone Kings in his turn.",
+   "body": "A second son of Sorcha's, Iain Dubh, is born to the king on the hill, the youngest of Ailean's children to be reckoned among Rìghrean na Cloiche in his turn.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -881,8 +881,8 @@
   },
   {
    "id": "EII-1034",
-   "title": "Coinneach dies, the Line of the Mason passed whole",
-   "body": "Coinneach mac Shuibhne dies an old man, the first teller of the king's deeds, having taught Gormshuil the Line of the Mason word for word as the Keeper gave it in the grove. She is, after her father, the second on the hill to carry the whole of it.",
+   "title": "Coinneach dies, Sloinneadh a' Chlachair passed whole",
+   "body": "Coinneach mac Shuibhne dies an old man, the first teller of the king's deeds, having taught Gormshuil Sloinneadh a' Chlachair word for word as Coimhdeach na Fine gave it in the grove. She is, after her father, the second on the hill to carry the whole of it.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -962,7 +962,7 @@
   {
    "id": "EII-1037",
    "title": "Gormshuil dies",
-   "body": "Gormshuil nic Ailein dies an old woman of eighty-one, the king's eldest daughter and second of the Stone Kings. He sits by her a night and a day and helps lift the turf over her with his own hands, as he did for no one since Muireall.",
+   "body": "Gormshuil nic Ailein dies an old woman of eighty-one, the king's eldest daughter and second of Rìghrean na Cloiche. He sits by her a night and a day and helps lift the turf over her with his own hands, as he did for no one since Muireall.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -988,8 +988,8 @@
   },
   {
    "id": "EII-1038",
-   "title": "The hill understands the long years",
-   "body": "Watching Gormshuil, who carried her father's stubbornness and stillness but not his years, put into the ground beside a father who looks her grandson's age, the hill understands at last that the long years are the grove's alone, and pass to no child got before it.",
+   "title": "The hill understands na Bliadhnachan Fada",
+   "body": "Watching Gormshuil, who carried her father's stubbornness and stillness but not his years, put into the ground beside a father who looks her grandson's age, the hill understands at last that na Bliadhnachan Fada are the grove's alone, and pass to no child got before it.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",

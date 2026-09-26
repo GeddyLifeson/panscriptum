@@ -58,7 +58,7 @@
   },
   {
    "id": "EIV-1003",
-   "title": "The Cuan shean crew heard in the red hall",
+   "title": "The Cuan shean crew heard in An Talla Dearg",
    "body": "Eachann mac Lachlainn, skipper of Cuan shean, tells the queen of a low dark coast west and north of west, with smoke on it and no hall. Asked if he was first to hear it, he says he was about the last.",
    "place": "burg:19",
    "kind": "land",
@@ -84,7 +84,7 @@
   },
   {
    "id": "EIV-1004",
-   "title": "The Ros bheag crew heard in the red hall",
+   "title": "The Ros bheag crew heard in An Talla Dearg",
    "body": "Oighrig nic Raghnaill, skipper of Ros bheag, tells the queen that the coast lies north past the north cape, high and forested, with a white river, and that the pilot who saw it swore on the cup at Seann Skell.",
    "place": "burg:19",
    "kind": "land",
@@ -110,7 +110,7 @@
   },
   {
    "id": "EIV-1005",
-   "title": "The Ceann mhòr crew heard in the red hall",
+   "title": "The Ceann mhòr crew heard in An Talla Dearg",
    "body": "Tòmas mac Uilleim of Ceann mhòr tells the queen that the land lies east behind the mist, and can be smelt on some mornings; the old men of the north-west have always said so.",
    "place": "burg:19",
    "kind": "land",
@@ -138,7 +138,7 @@
   {
    "id": "EIV-1006",
    "title": "Murchadh's leaf of the three tellings",
-   "body": "The queen's scribe Murchadh mac Eòghainn writes the three tellings on one leaf and adds at its foot that they agree on the coast and on nothing else. The leaf is kept in the chest of the red hall.",
+   "body": "The queen's scribe Murchadh mac Eòghainn writes the three tellings on one leaf and adds at its foot that they agree on the coast and on nothing else. The leaf is kept in the chest of An Talla Dearg.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -164,7 +164,7 @@
   {
    "id": "EIV-1007",
    "title": "How many days' water",
-   "body": "At the lower board of the red hall the queen's sister Mòrag nic Dhòmhnaill asks the Cuan shean skipper how many days' water a boat would need. He answers that no boat of the island could make the crossing, and that none has ever been built that could.",
+   "body": "At the lower board of An Talla Dearg the queen's sister Mòrag nic Dhòmhnaill asks the Cuan shean skipper how many days' water a boat would need. He answers that no boat of the island could make the crossing, and that none has ever been built that could.",
    "place": "burg:19",
    "kind": "humans",
    "category": "humans",
@@ -236,7 +236,7 @@
   {
    "id": "EIV-1010",
    "title": "A custodian asks for the three tellings",
-   "body": "Fearchar mac Ruairidh, a young custodian of the western diggings, comes down to Cathair dhearg on an errand of the vein-house and asks to hear the three tellings from the queen's scribe.",
+   "body": "Fearchar mac Ruairidh, a young custodian of the western diggings, comes down to Cathair dhearg on an errand of Taigh na Fèithe and asks to hear the three tellings from the queen's scribe.",
    "place": "burg:19",
    "kind": "craft",
    "category": "coal",
@@ -288,7 +288,7 @@
   {
    "id": "EIV-1012",
    "title": "The queen keeps the journey from the roll",
-   "body": "Queen Beathag watches her sister walk the Cuan shean skipper to the gate of the red hall and look down the river road west. She bids Murchadh write nothing of it, since it is no matter for the roll yet.",
+   "body": "Queen Beathag watches her sister walk the Cuan shean skipper to the gate of An Talla Dearg and look down the river road west. She bids Murchadh write nothing of it, since it is no matter for the roll yet.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -315,7 +315,7 @@
   {
    "id": "EIV-1013",
    "title": "The ninth year of Queen Beathag",
-   "body": "The red hall's rolls enter the first year of the age as the ninth year of Queen Beathag nic Dhòmhnaill, crowned at fifteen and now three-and-twenty: a good year for barley and a middling one for fish, with no child yet born to her.",
+   "body": "An Talla Dearg's rolls enter the first year of the age as the ninth year of Queen Beathag nic Dhòmhnaill, crowned at fifteen and now three-and-twenty: a good year for barley and a middling one for fish, with no child yet born to her.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -367,7 +367,7 @@
   {
    "id": "EIV-1015",
    "title": "The first household asks to be written",
-   "body": "In the moon of Pailteach a fisher of Inis àrsaidh and his wife come into the harbour-house of Seann Skell and ask to be written down as meaning to go. The harbour scribe Calum mac Nèill planes a new board and heads it: Those who mean to go.",
+   "body": "In the moon of Pailteach a fisher of Inis àrsaidh and his wife come into Taigh a' Chalaidh and ask to be written down as meaning to go. The harbour scribe Calum mac Nèill planes a new board and heads it: Those who mean to go.",
    "place": "burg:489",
    "kind": "land",
    "category": "land",
@@ -392,7 +392,7 @@
   {
    "id": "EIV-1016",
    "title": "The rule of the whole household",
-   "body": "Calum mac Nèill will write a household whole or not at all, since the vein-house measures the handful to the hearth and not to a single man or woman. The roll is kept by household from its first board.",
+   "body": "Calum mac Nèill will write a household whole or not at all, since Taigh na Fèithe measures the handful to the hearth and not to a single man or woman. The roll is kept by household from its first board.",
    "place": "burg:489",
    "kind": "record",
    "category": "law",
@@ -515,8 +515,8 @@
   },
   {
    "id": "EIV-1021",
-   "title": "The vein-house sends to read the roll",
-   "body": "A custodian's servant comes by night to read the roll of the willing and ask how many households on it hold the right to the coal. From then on the harbour scribe marks each hearth that takes the handful with a notch like a flame.",
+   "title": "Taigh na Fèithe sends to read the roll",
+   "body": "A custodian's servant comes by night to read Rolla nan Deònach and ask how many households on it hold the right to the coal. From then on the harbour scribe marks each hearth that takes the handful with a notch like a flame.",
    "place": "burg:489",
    "kind": "craft",
    "category": "coal",
@@ -645,7 +645,7 @@
   {
    "id": "EIV-1026",
    "title": "The queen's word sent to the harbours",
-   "body": "The queen's word, written by Murchadh mac Eòghainn and sealed, goes by rider to Seann Skell and every harbour of the west and to the vein-house: the crown will send no one and keep no one back, and will judge any quarrel of the venture by the old law.",
+   "body": "The queen's word, written by Murchadh mac Eòghainn and sealed, goes by rider to Seann Skell and every harbour of the west and to Taigh na Fèithe: the crown will send no one and keep no one back, and will judge any quarrel of the venture by the old law.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -745,7 +745,7 @@
   {
    "id": "EIV-1030",
    "title": "The custodians dispute the right of those who go",
-   "body": "Through the winter the custodians at the vein-house argue whether the right to the coal goes with a hearth that crosses the sea or is struck on the day it sails. Fearchar mac Ruairidh holds that the right lives in the hands.",
+   "body": "Through the winter the custodians at Taigh na Fèithe argue whether the right to the coal goes with a hearth that crosses the sea or is struck on the day it sails. Fearchar mac Ruairidh holds that the right lives in the hands.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -771,8 +771,8 @@
   },
   {
    "id": "EIV-1031",
-   "title": "The roll copied for the vein-house",
-   "body": "The harbour scribe's son copies the roll of the willing onto skin, with a flame-mark beside each household that holds the right to the coal, and sends it up the coal-road to the vein-house.",
+   "title": "The roll copied for Taigh na Fèithe",
+   "body": "The harbour scribe's son copies Rolla nan Deònach onto skin, with a flame-mark beside each household that holds the right to the coal, and sends it up the coal-road to Taigh na Fèithe.",
    "place": "burg:489",
    "kind": "craft",
    "category": "coal",
@@ -827,7 +827,7 @@
   {
    "id": "EIV-1033",
    "title": "Nine days at the long table",
-   "body": "In the moon of Lùghnas the custodians of the vein-house sit at the long table with the copied roll on one side and the custody-book on the other, and count hearth by hearth, name against name, for nine days.",
+   "body": "In the moon of Lùghnas the custodians of Taigh na Fèithe sit at the long table with the copied roll on one side and Leabhar a' Chùraim on the other, and count hearth by hearth, name against name, for nine days.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",

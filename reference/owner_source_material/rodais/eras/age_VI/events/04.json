@@ -217,5 +217,21 @@
         "type": "sequel"
       }
     ]
+  },
+  {
+    "title": "Robert Carrick comes home with an empty satchel",
+    "era_year": 2,
+    "summary": "Robert Carrick comes back to Caol mhòr on a wet evening in the first week of an Dàmhair with an empty satchel and one report: the Moot's letter was handed at the harbour-house in Cathair dhearg to a clerk who told him word would be sent back in time, and did not look at him.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0008"
+    ]
   }
 ]

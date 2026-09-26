@@ -4,69 +4,126 @@
     "era_year": 1,
     "summary": "The council sets a guard-post on every road running north out of the settled country, a captain and a dozen men at each, to hold the line the columns had walked in winter and to turn back any who wander south of it.",
     "category": "law",
-    "people": ["Ailean mac Iain, Ailean Leabhar"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich", "the-company"],
-    "master_links": ["V-0001"]
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-company"
+    ],
+    "master_links": [
+      "V-0001"
+    ]
   },
   {
     "title": "Ailean mac Iain rides as tally-clerk to the guard",
     "era_year": 1,
     "summary": "A young clerk of the council's service is sent to ride between the new guard-posts with a book, counting who passes north, who turns back, and who is too sick to walk, so that the council should have some record of the settling beyond the guard's own word.",
     "category": "law",
-    "people": ["Ailean mac Iain, Ailean Leabhar"],
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar"
+    ],
     "places": [],
-    "threads": ["the-tuathaich", "the-library"],
-    "master_links": ["V-0001"]
+    "threads": [
+      "the-tuathaich",
+      "the-library"
+    ],
+    "master_links": [
+      "V-0001"
+    ]
   },
   {
     "title": "The last column counted through at the Caol mhòr road",
     "era_year": 1,
     "summary": "Forty-one souls are counted through the guard-post on the Caol mhòr road, the last column of the winter's walking, two dying before evening; after them the road stands empty, and the tally-clerk's book records no further column that year.",
     "category": "humans",
-    "people": ["Ailean mac Iain, Ailean Leabhar"],
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar"
+    ],
     "places": [],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0001"]
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0001"
+    ]
   },
   {
     "title": "The council's word on the homeland read at Caol mhòr",
     "era_year": 1,
     "summary": "The council's law fixing the Tuathaich homeland in the north is read from the steps of the harbour-house at Caol mhòr before a wet crowd, first in Dia-thìris, then, by the council's own order, in the humans' tongue for those who have no other.",
     "category": "law",
-    "people": ["Ailean mac Iain, Ailean Leabhar", "Walter Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0001"]
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar",
+      "Walter Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0001"
+    ]
   },
   {
     "title": "Walter Hale found to read the council's word into the humans' tongue",
     "era_year": 1,
     "summary": "Walter Hale, once a harbour clerk of Ros bheag, is fetched from the crowd at Caol mhòr to render the council's proclamation into the humans' tongue, and reads it plainly, without the first reader's polish, to a crowd that takes it in near silence.",
     "category": "humans",
-    "people": ["Walter Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0001", "V-0008"]
+    "people": [
+      "Walter Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0001",
+      "V-0008"
+    ]
   },
   {
     "title": "Hale's correction entered in a clerk's margin",
     "era_year": 1,
     "summary": "Asked how his rendering of the council's word differed from the paper he was given, Hale tells Ailean mac Iain that the truer word for what was done to the north was not \"settled\" but \"held\"; Ailean writes the two words in the margin of his own copy, unasked.",
     "category": "law",
-    "people": ["Ailean mac Iain, Ailean Leabhar", "Walter Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich", "the-library"],
-    "master_links": ["V-0001"]
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar",
+      "Walter Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-library"
+    ],
+    "master_links": [
+      "V-0001"
+    ]
   },
   {
     "title": "The humans' chapel at Ros bheag shut for good",
     "era_year": 1,
     "summary": "Word reaches Caol mhòr that the humans' chapel at Ros bheag, shut since the crossing closed, is to be shut for good on the council's order; Walter Hale, once the town's harbour clerk, brings the news to Ailean mac Iain without asking anything of him.",
     "category": "faith",
-    "people": ["Walter Hale"],
-    "places": ["burg:63"],
-    "threads": ["the-church-on-the-island", "the-tuathaich"],
+    "people": [
+      "Walter Hale"
+    ],
+    "places": [
+      "burg:63"
+    ],
+    "threads": [
+      "the-church-on-the-island",
+      "the-tuathaich"
+    ],
     "master_links": []
   },
   {
@@ -74,9 +131,15 @@
     "era_year": 1,
     "summary": "The council's men take down the bell of the shut chapel at Ros bheag and cart it away roped in sacking, bound, it is said, for wherever in the north the humans' faith may still be kept; Ailean mac Iain sees the cart pass and notes it without comment.",
     "category": "faith",
-    "people": ["Ailean mac Iain, Ailean Leabhar"],
-    "places": ["burg:63"],
-    "threads": ["the-church-on-the-island"],
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar"
+    ],
+    "places": [
+      "burg:63"
+    ],
+    "threads": [
+      "the-church-on-the-island"
+    ],
     "master_links": []
   },
   {
@@ -84,39 +147,131 @@
     "title": "Fearchar mac Raghnaill's plea that his company's roll be kept",
     "summary": "At the muster in Cathair dhearg's drill-yard, Captain Fearchar mac Raghnaill asks neither for pay nor for arms but that the roll of his company's names not be burned with the loose paper of the stand-down, since every name on it stood where the roll says he stood.",
     "category": "war",
-    "people": ["Fearchar mac Raghnaill", "Ailean mac Iain, Ailean Leabhar"],
-    "places": ["burg:19"],
-    "threads": ["the-company"],
-    "master_links": ["V-0002"]
+    "people": [
+      "Fearchar mac Raghnaill",
+      "Ailean mac Iain, Ailean Leabhar"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-company"
+    ],
+    "master_links": [
+      "V-0002"
+    ]
   },
   {
     "after": "V-0002",
     "title": "The disbanded companies' rolls kept, not burned",
     "summary": "On a clerk's asking, the master of the chests orders that the rolls of the stood-down war-companies be kept and boxed rather than burned with the rest of the muster's loose paper; Fearchar mac Raghnaill's roll is the first spared, though he never learns it.",
     "category": "war",
-    "people": ["Ailean mac Iain, Ailean Leabhar", "Fearchar mac Raghnaill"],
-    "places": ["burg:19"],
-    "threads": ["the-company"],
-    "master_links": ["V-0002"]
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar",
+      "Fearchar mac Raghnaill"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-company"
+    ],
+    "master_links": [
+      "V-0002"
+    ]
   },
   {
     "after": "V-0002",
     "title": "Ailean's list of the chests begun",
     "summary": "Carrying sixty-one companies' rolls down into the council's vault, Ailean mac Iain keeps, unasked, a written list of which roll went into which chest and in what order, the first record of its kind the council's vault has ever had.",
     "category": "law",
-    "people": ["Ailean mac Iain, Ailean Leabhar"],
-    "places": ["burg:19"],
-    "threads": ["the-library", "the-company"],
-    "master_links": ["V-0002"]
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-library",
+      "the-company"
+    ],
+    "master_links": [
+      "V-0002"
+    ]
   },
   {
     "after": "V-0002",
     "title": "The war-vault sealed at Cathair dhearg",
     "summary": "The council's vault of war papers is closed and bricked over at Cathair dhearg, the seal meant to stand until some later year gives cause to break it; the master of the chests signs Ailean mac Iain's list of the vault's contents before it is filed.",
     "category": "law",
-    "people": ["Ailean mac Iain, Ailean Leabhar"],
-    "places": ["burg:19"],
-    "threads": ["the-library", "the-company"],
-    "master_links": ["V-0002"]
+    "people": [
+      "Ailean mac Iain, Ailean Leabhar"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-library",
+      "the-company"
+    ],
+    "master_links": [
+      "V-0002"
+    ]
+  },
+  {
+    "title": "The companies wait on their packs in the market square",
+    "era_year": 1,
+    "summary": "In the first week of an t-Ògmhios the market square of Cathair dhearg, a place of stalls and cattle before the war, is given over to the companies of the Severance war waiting their turn to be stood down, sitting on their packs in the sun with only the paperwork of the war left to them.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0002"
+    ]
+  },
+  {
+    "title": "The master of the chests signs beneath Ailean's list",
+    "era_year": 1,
+    "summary": "The master of the chests reads Ailean mac Iain's four sheets by lamplight at the foot of the vault stair, signs his own name beneath Ailean's on the last of them more from courtesy than conviction, and carries them up to be filed before the door is bricked shut.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0002"
+    ]
+  },
+  {
+    "title": "An old captain's word at the guard fire",
+    "era_year": 1,
+    "summary": "Griogair, an old captain of the guard at the heads of the north roads who had lost two fingers to a humans' picket, tells Ailean mac Iain over a fire that a line held by soldiers is only a line waiting for the soldiers to be needed elsewhere; Ailean writes it in the back pages he keeps for himself.",
+    "category": "war",
+    "people": [],
+    "places": [],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0003"
+    ]
+  },
+  {
+    "title": "The old woman at the farm gate",
+    "era_year": 1,
+    "summary": "A half-day short of the first guard-post an old woman asks Ailean mac Iain at her gate whether the boy who once kept her sheep will be let come back for them now the fighting is done; he tells her truthfully that he does not know, and writes nothing of it, since it fits none of his columns.",
+    "category": "humans",
+    "people": [],
+    "places": [],
+    "threads": [],
+    "master_links": [
+      "V-0003"
+    ]
   }
 ]

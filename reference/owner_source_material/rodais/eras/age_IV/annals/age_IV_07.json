@@ -8,7 +8,7 @@
   {
    "id": "EIV-4001",
    "title": "Death of King Aonghas mac Uisdein",
-   "body": "King Aonghas mac Uisdein dies at Cathair dhearg in his seventy-eighth year, after six-and-fifty years crowned, having set the wood-watchers' rite of Macha as the crown's own custom. The custody-book gives him one line: the name, the year, and no more.",
+   "body": "King Aonghas mac Uisdein dies at Cathair dhearg in his seventy-eighth year, after six-and-fifty years crowned, having set Òrd Mhacha' rite of Macha as the crown's own custom. Leabhar a' Chùraim gives him one line: the name, the year, and no more.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -105,8 +105,8 @@
   },
   {
    "id": "EIV-4005",
-   "title": "Macha's priests granted the sacred forest at Cnoc bheag",
-   "body": "The custody of the sacred forest at Cnoc bheag, held in common since the Holy Age, passes by royal grant to the priests of Macha alone. The other claimants withdraw from the wood the same season without contest; why they go so quietly is not told.",
+   "title": "Macha's priests granted Coille Naomh Cnoc bheag",
+   "body": "The custody of Coille Naomh Cnoc bheag, held in common since An Aois Naomh, passes by royal grant to the priests of Macha alone. The other claimants withdraw from the wood the same season without contest; why they go so quietly is not told.",
    "place": "burg:20",
    "kind": "rite",
    "category": "faith",
@@ -128,8 +128,8 @@
   },
   {
    "id": "EIV-4006",
-   "title": "The vein-house orders every copy of the tracts given up",
-   "body": "Word of Eilidh Dhubh's tracts reaches the custodians' galleries at Muileann dhearg, and the vein-house orders every copy brought in and given up, promising no penalty to any household that surrenders one freely before the season's end.",
+   "title": "Taigh na Fèithe orders every copy of the tracts given up",
+   "body": "Word of Eilidh Dhubh's tracts reaches the custodians' galleries at Muileann dhearg, and Taigh na Fèithe orders every copy brought in and given up, promising no penalty to any household that surrenders one freely before the season's end.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -151,8 +151,8 @@
   },
   {
    "id": "EIV-4007",
-   "title": "Some hundred tracts burned in the vein-house yard",
-   "body": "Carriers gather some hundred hides and boards of Eilidh Dhubh's tracts from households across the north-east and burn them in the vein-house yard at Muileann dhearg before the gathered custodians. Eilidh walks from Doire chiar to see it done, and says nothing.",
+   "title": "Some hundred tracts burned in Taigh na Fèithe yard",
+   "body": "Carriers gather some hundred hides and boards of Eilidh Dhubh's tracts from households across the north-east and burn them in Taigh na Fèithe yard at Muileann dhearg before the gathered custodians. Eilidh walks from Doire chiar to see it done, and says nothing.",
    "place": "burg:491",
    "kind": "rite",
    "category": "faith",
@@ -205,8 +205,8 @@
   },
   {
    "id": "EIV-4009",
-   "title": "The druid schools take up the walk of Flidais's wood",
-   "body": "The druid schools, holding no ground of their own since the Holy Age, take up the yearly keeping of the holy wood at Muileann chiar, walking its bounds in a procession that grows within a decade into the one rite the schools still keep open to any who will walk with them.",
+   "title": "Scoiltean nan Draoidhean take up the walk of Coille Naomh Muileann chiar",
+   "body": "Scoiltean nan Draoidhean, holding no ground of their own since An Aois Naomh, take up the yearly keeping of Coille Naomh Muileann chiar at Muileann chiar, walking its bounds in a procession that grows within a decade into the one rite the schools still keep open to any who will walk with them.",
    "place": "burg:355",
    "kind": "rite",
    "category": "faith",
@@ -232,7 +232,7 @@
   {
    "id": "EIV-4010",
    "title": "King Aonghas Òg buried by the rite of Macha",
-   "body": "King Aonghas Òg dies in the winter of his eighty-fourth year and is carried to his grave at Cathair dhearg by the wood-watchers' rite of Macha, the first king of the line so buried. His household stands at the yoke-poles of the two horses he rode out to see brought up together every spring of his reign.",
+   "body": "King Aonghas Òg dies in the winter of his eighty-fourth year and is carried to his grave at Cathair dhearg by Òrd Mhacha' rite of Macha, the first king of the line so buried. His household stands at the yoke-poles of the two horses he rode out to see brought up together every spring of his reign.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -324,7 +324,7 @@
   {
    "id": "EIV-4014",
    "title": "Birth of Dùghall, Iain mac Aonghais's son by his second wife",
-   "body": "King Iain mac Aonghais, his first wife some years dead, takes a second wife who bears him a third son, Dùghall, the first of his three sons born at the red hall itself under a crown his father already wears.",
+   "body": "King Iain mac Aonghais, his first wife some years dead, takes a second wife who bears him a third son, Dùghall, the first of his three sons born at An Talla Dearg itself under a crown his father already wears.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -351,7 +351,7 @@
   {
    "id": "EIV-4015",
    "title": "Death of King Iain mac Aonghais",
-   "body": "King Iain mac Aonghais dies at Cathair dhearg at one-and-sixty, twelve years crowned, the third king the red hall has buried in a single generation. His second son Aonghas, nineteen, stands a pace back from the hall's centre at his brother Tormod's crowning.",
+   "body": "King Iain mac Aonghais dies at Cathair dhearg at one-and-sixty, twelve years crowned, the third king An Talla Dearg has buried in a single generation. His second son Aonghas, nineteen, stands a pace back from the hall's centre at his brother Tormod's crowning.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -457,7 +457,7 @@
   {
    "id": "EIV-4019",
    "title": "Tormod Bàn hears the tidings of An Gàire Dubh standing",
-   "body": "Word of the sea driven over the waterfront of Cuan dhearg reaches the red hall nine days late by a rider who has ridden two horses to death. King Tormod Bàn, nine-and-fifty, hears it standing, as his scribes note he does only when a report troubles him past sitting.",
+   "body": "Word of the sea driven over the waterfront of Cuan dhearg reaches An Talla Dearg nine days late by a rider who has ridden two horses to death. King Tormod Bàn, nine-and-fifty, hears it standing, as his scribes note he does only when a report troubles him past sitting.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -546,8 +546,8 @@
   },
   {
    "id": "EIV-4023",
-   "title": "A reciter of Clann na Ceiste says the Mason's line at a naming",
-   "body": "At a naming among the wells of Tobar dhìreach, for a steward's son of the king's own household, the reciter Muireach mac Ailein says the line of the Mason over the child rather than the long line of Somhairle that royal namings there have called on for generations.",
+   "title": "A reciter of Clann na Ceiste says Clann a' Chlachair at a naming",
+   "body": "At a naming among the wells of Tobar dhìreach, for a steward's son of the king's own household, the reciter Muireach mac Ailein says the line of An Clachair over the child rather than the long line of Somhairle that royal namings there have called on for generations.",
    "place": "burg:276",
    "kind": "rite",
    "category": "faith",
@@ -640,7 +640,7 @@
   },
   {
    "id": "EIV-4027",
-   "title": "Mairead nic Ailein keeps her daughter from the red hall",
+   "title": "Mairead nic Ailein keeps her daughter from An Talla Dearg",
    "body": "Offered a place under the king's own roof for her widowed household, Mairead nic Ailein keeps her daughter Catrìona at Inis thais rather than raise her at Cathair dhearg, judging a fatherless girl better raised among neighbours than as a king's ward with an unnamed claim.",
    "place": "burg:166",
    "kind": "court",
@@ -739,7 +739,7 @@
   {
    "id": "EIV-4031",
    "title": "The three nearest the crown reckoned",
-   "body": "In the fourth year after the ferry, the custodians of the vein-house cease to reckon quietly who stands nearest the crown: Dùghall Garbh the king's half-brother, Catrìona nic Aonghais his niece, and Raghnall Ruadh of Clann Raghnaill.",
+   "body": "In the fourth year after the ferry, the custodians of Taigh na Fèithe cease to reckon quietly who stands nearest the crown: Dùghall Garbh the king's half-brother, Catrìona nic Aonghais his niece, and Raghnall Ruadh of Clann Raghnaill.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -765,8 +765,8 @@
   },
   {
    "id": "EIV-4032",
-   "title": "Raghnall Ruadh made master of the vein-house",
-   "body": "The custodians of the vein-house at Muileann dhearg choose Raghnall Ruadh, head of Clann Raghnaill, as master over two men of longer service, judging that a vein-house that may soon answer to no clear crown had better answer to the steadiest hand at hand.",
+   "title": "Raghnall Ruadh made master of Taigh na Fèithe",
+   "body": "The custodians of Taigh na Fèithe at Muileann dhearg choose Raghnall Ruadh, head of Clann Raghnaill, as master over two men of longer service, judging that Taigh na Fèithe, which may soon answer to no clear crown, had better answer to the steadiest hand at hand.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -791,7 +791,7 @@
   {
    "id": "EIV-4033",
    "title": "A councillor asks King Tormod to name an heir",
-   "body": "An old councillor of the red hall asks King Tormod Bàn, seven years after the ferry, whether he means to name one of the three standing nearest the crown before age chooses in his place. The king answers that he will hold the crown himself while breath allows it.",
+   "body": "An old councillor of An Talla Dearg asks King Tormod Bàn, seven years after the ferry, whether he means to name one of the three standing nearest the crown before age chooses in his place. The king answers that he will hold the crown himself while breath allows it.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -840,7 +840,7 @@
   {
    "id": "EIV-4035",
    "title": "The houses hold the hall in common",
-   "body": "Unable to agree on any one of the three claims laid before them, the seven houses hold the red hall in common, a council of custodians sitting in the crown's stead and keeping the kingdom's small business moving while the larger question of the crown stands unanswered.",
+   "body": "Unable to agree on any one of the three claims laid before them, Na Seachd Taighean hold An Talla Dearg in common, the custodians sitting together in the crown's stead and keeping the kingdom's small business moving while the larger question of the crown stands unanswered.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",

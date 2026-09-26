@@ -8,7 +8,10 @@
     "places": [],
     "threads": [],
     "master_links": [
-      {"to": "V-0015b", "type": "sequel"}
+      {
+        "to": "V-0015b",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -16,11 +19,18 @@
     "era_year": 4,
     "summary": "In his first sitting under the market roof at Baile Mòr mhòr, the new maor Coinneach mac Ailein settles a two-year quarrel over a stall-place by asking the gathered stallholders for the truth of it rather than ruling from the bench alone, and takes their answer as his judgment.",
     "category": "law",
-    "people": ["Coinneach mac Ailein"],
-    "places": ["burg:365"],
+    "people": [
+      "Coinneach mac Ailein"
+    ],
+    "places": [
+      "burg:365"
+    ],
     "threads": [],
     "master_links": [
-      {"to": "V-0016", "type": "sequel"}
+      {
+        "to": "V-0016",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -28,12 +38,22 @@
     "era_year": 4,
     "summary": "Before its morning sitting breaks, the council of twelve votes grain, blankets, timber and men down the coast road to Cuan dhearg, and orders a tally kept of what is found, the first time the twelve have met before full light since the Severance itself.",
     "category": "law",
-    "people": ["Ailean mac Iain"],
-    "places": ["burg:19"],
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:19"
+    ],
     "threads": [],
     "master_links": [
-      {"to": "V-0017", "type": "cause"},
-      {"to": "V-0018", "type": "sequel"}
+      {
+        "to": "V-0017",
+        "type": "cause"
+      },
+      {
+        "to": "V-0018",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -41,11 +61,20 @@
     "era_year": 4,
     "summary": "Ailean mac Iain, sent south with the relief party, opens a plain tally-book at Cuan dhearg and enters the first of what will be a summer's counting: boats found standing in the fields, wells fouled or sweet, dead named where they can be and marked only by place where they cannot.",
     "category": "humans",
-    "people": ["Ailean mac Iain"],
-    "places": ["burg:190"],
-    "threads": ["the-library"],
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:190"
+    ],
+    "threads": [
+      "the-library"
+    ],
     "master_links": [
-      {"to": "V-0018", "type": "sequel"}
+      {
+        "to": "V-0018",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -54,10 +83,15 @@
     "summary": "Through the first fortnight after the wave, the dead of Cuan dhearg are carried up onto the rise above the old harbour line and buried in ground the sea has not reached, while the town's clerks mark by place what names cannot be recovered.",
     "category": "humans",
     "people": [],
-    "places": ["burg:190"],
+    "places": [
+      "burg:190"
+    ],
     "threads": [],
     "master_links": [
-      {"to": "V-0018", "type": "sequel"}
+      {
+        "to": "V-0018",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -66,10 +100,15 @@
     "summary": "The wrecked fishing boats of Cuan dhearg, carried inland by the wave and left standing among the barley behind the town, are judged too many to right before winter and are left through the harvest, one still upright in its furrow with its mast stepped.",
     "category": "trade",
     "people": [],
-    "places": ["burg:190"],
+    "places": [
+      "burg:190"
+    ],
     "threads": [],
     "master_links": [
-      {"to": "V-0018", "type": "sequel"}
+      {
+        "to": "V-0018",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -77,11 +116,18 @@
     "era_year": 4,
     "summary": "On the count of a little over forty dead, the council votes seed and removal for the survivors of Achadh mhin out of the treasury without a due asked in return, over one councillor's question of cost, answered that a kingdom that finds silver for a roll of arms can find grain for its own dead.",
     "category": "law",
-    "people": ["Ailean mac Iain"],
-    "places": ["burg:19"],
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:19"
+    ],
     "threads": [],
     "master_links": [
-      {"to": "V-0019", "type": "sequel"}
+      {
+        "to": "V-0019",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -89,11 +135,18 @@
     "era_year": 4,
     "summary": "Ailean mac Iain walks the headland above Ros gharbh's harbour and counts the town's fishing fleet where the wave cast it, hull by hull, sound or stove, and carries the count south as proof that a town spared its people can still be ruined in its trade.",
     "category": "trade",
-    "people": ["Ailean mac Iain"],
-    "places": ["burg:90"],
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:90"
+    ],
     "threads": [],
     "master_links": [
-      {"to": "V-0018", "type": "sequel"}
+      {
+        "to": "V-0018",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -102,10 +155,15 @@
     "summary": "Through the following year Ros gharbh borrows hulls from harbours the wave did not reach while shipwrights from beyond the gulf raise its fleet anew on the cleared beach, one keel at a time, until the last boat is launched and the town's people begin calling that whole year simply the bad year.",
     "category": "trade",
     "people": [],
-    "places": ["burg:90"],
+    "places": [
+      "burg:90"
+    ],
     "threads": [],
     "master_links": [
-      {"to": "V-0018", "type": "sequel"}
+      {
+        "to": "V-0018",
+        "type": "sequel"
+      }
     ]
   },
   {
@@ -117,7 +175,38 @@
     "places": [],
     "threads": [],
     "master_links": [
-      {"to": "V-0015b", "type": "sequel"}
+      {
+        "to": "V-0015b",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Coinneach mac Ailein moves his court back under the market roof",
+    "era_year": 6,
+    "summary": "When Baile Mòr mhòr's new courthouse is raised at last, Coinneach mac Ailein sits in it for a single sitting and moves his court back under the market roof among the fish-scales the week after; the two maoir after him do the same, and no one writes down why.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:365"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0016"
+    ]
+  },
+  {
+    "title": "Tòmas draws Clàr nan Suaicheantas",
+    "era_year": 4,
+    "summary": "Tòmas, a mason's clerk before the war and a council clerk since, draws the roll of arms for the maoir's seals, copying many of its charges from a book of arms left at the Residency, so that lions and parrots and crocodiles come to stand on the seals of shires where none was ever seen.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0015b"
     ]
   }
 ]

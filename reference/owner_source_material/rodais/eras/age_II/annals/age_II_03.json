@@ -411,8 +411,8 @@
   },
   {
    "id": "EII-2016",
-   "title": "Seonag born on the Red Hill",
-   "body": "A daughter is born to the holder of the Red Hill and named Seonag; she learns the tallies of the salt before she can reach the drying-platform, and will carry a pebble bag for them all her life.",
+   "title": "Seonag born on An Cnoc Ruadh",
+   "body": "A daughter is born to the holder of An Cnoc Ruadh and named Seonag; she learns the tallies of the salt before she can reach the drying-platform, and will carry a pebble bag for them all her life.",
    "place": "burg:19",
    "kind": "birth",
    "category": "rulers",
@@ -673,8 +673,8 @@
   },
   {
    "id": "EII-2026",
-   "title": "Mòrag rides west to the Red Hill",
-   "body": "The king takes Mòrag with him on the long ride west to the Red Hill, saying little of his purpose, so that she comes to the lake shore not knowing why she has been brought, only that she has been brought to see something.",
+   "title": "Mòrag rides west to An Cnoc Ruadh",
+   "body": "The king takes Mòrag with him on the long ride west to An Cnoc Ruadh, saying little of his purpose, so that she comes to the lake shore not knowing why she has been brought, only that she has been brought to see something.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -700,7 +700,7 @@
   {
    "id": "EII-2027",
    "title": "Seonag weighs the pebble bag before the king",
-   "body": "Seonag nic Uisdein meets the king at her own gate and weighs the worn bag that holds one pebble for every household of the Red Hill's shore, and the king weighs it after her and says he is content, the whole business settled without a word of tribute asked or given.",
+   "body": "Seonag nic Uisdein meets the king at her own gate and weighs the worn bag that holds one pebble for every household of An Cnoc Ruadh's shore, and the king weighs it after her and says he is content, the whole business settled without a word of tribute asked or given.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -781,7 +781,7 @@
   {
    "id": "EII-2030",
    "title": "Word of the dug-out at Cidhe Beag reaches the hill",
-   "body": "Telling of the oak dug-out sunk and left at the landing at Cidhe Beag, the first boat of its kind hollowed whole rather than built plank by plank, reaches Mòrag by the same slow road that carries most new things to whoever holds Dùn ìseal, though she never sees the boat itself.",
+   "body": "Word of the oak dug-out sunk and left at the landing at Cidhe Beag, the first boat of its kind hollowed whole rather than built plank by plank, reaches Mòrag by the same slow road that carries most new things to whoever holds Dùn ìseal, though she never sees the boat itself.",
    "kind": "trade",
    "category": "trade",
    "links": [
@@ -883,7 +883,7 @@
   {
    "id": "EII-2034",
    "title": "Iain Dubh comes down to the salt-pans at dawn",
-   "body": "Iain Dubh, sixth of the Stone Kings and eight years holder of the hill, rides south to the salt shore as Mòrag Chruaidh had once done, and comes on the pans at Baile ghorm in the grey hour before full light, with more spears behind him than the shore's low bank was ever built to answer.",
+   "body": "Iain Dubh, sixth of Rìghrean na Cloiche and eight years holder of the hill, rides south to Tràigh an t-Salainn as Mòrag Chruaidh had once done, and comes on the pans at Baile ghorm in the grey hour before full light, with more spears behind him than the shore's low bank was ever built to answer.",
    "place": "burg:170",
    "kind": "war",
    "category": "war",
@@ -1037,7 +1037,7 @@
   {
    "id": "EII-2040",
    "title": "The king walks south alone",
-   "body": "On the fourth day the king leaves the hill on foot, alone, taking no household and no spears, and walks the old track through the dunes toward the salt shore, so that it is some while before anyone understands where he is bound.",
+   "body": "On the fourth day the king leaves the hill on foot, alone, taking no household and no spears, and walks the old track through the dunes toward Tràigh an t-Salainn, so that it is some while before anyone understands where he is bound.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -1137,7 +1137,7 @@
   },
   {
    "id": "EII-2044",
-   "title": "The salt shore called the king's",
+   "title": "Tràigh an t-Salainn called the king's",
    "body": "By evening word runs the length of the shore that the salt is the king's, though none can afterward say who first put it in those words. No blood is shed that day, the first time in two raids Baile ghorm's dead need no new name kept.",
    "place": "burg:170",
    "kind": "reign",
@@ -1237,8 +1237,8 @@
   },
   {
    "id": "EII-2048",
-   "title": "Seonag of the Red Hill dies",
-   "body": "Seonag nic Uisdein, who met Mòrag Chruaidh with a bag of pebbles and not with spears, dies on the Red Hill in her seventy-second year; the salt tallies she kept go to her heir whole and without a stone out of place.",
+   "title": "Seonag of An Cnoc Ruadh dies",
+   "body": "Seonag nic Uisdein, who met Mòrag Chruaidh with a bag of pebbles and not with spears, dies on An Cnoc Ruadh in her seventy-second year; the salt tallies she kept go to her heir whole and without a stone out of place.",
    "place": "burg:19",
    "kind": "death",
    "category": "rulers",

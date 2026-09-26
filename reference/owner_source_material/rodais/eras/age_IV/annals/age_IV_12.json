@@ -11,7 +11,7 @@
   {
    "id": "EIV-6501",
    "title": "Clann Choinnich's head asks the manner of the oath",
-   "body": "Before swearing last to the ruling of the hearth, the head of Clann Choinnich asks Queen Catrìona Bheag plainly whether the renewed oath changes the measure her house holds or only the manner of swearing to it. The queen answers that it changes only the manner, and the old woman swears.",
+   "body": "Before swearing last to Riaghailt an Teallaich, the head of Clann Choinnich asks Queen Catrìona Bheag plainly whether the renewed oath changes the measure her house holds or only the manner of swearing to it. The queen answers that it changes only the manner, and the old woman swears.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -61,8 +61,8 @@
   },
   {
    "id": "EIV-6503",
-   "title": "The custody-book binds the two stairs",
-   "body": "When charcoal-burners break into the eastern Toll-dubh, the scribe of the custody-book binds its entry to the western stair's with a line in each margin, though nothing is written of what either stair goes down to.",
+   "title": "Leabhar a' Chùraim binds the two stairs",
+   "body": "When charcoal-burners break into the eastern Toll-dubh, the scribe of Leabhar a' Chùraim binds its entry to the western stair's with a line in each margin, though nothing is written of what either stair goes down to.",
    "place": "marker:20",
    "kind": "craft",
    "category": "coal",
@@ -306,7 +306,7 @@
   {
    "id": "EIV-6513",
    "title": "The queen enters the count without comment",
-   "body": "Reading the new, smaller count of households holding the right to the coal, Sìleas Òg has it entered in the custody-book without a word either way, a silence her own scribes find harder to read than any word she might have spoken.",
+   "body": "Reading the new, smaller count of households holding the right to the coal, Sìleas Òg has it entered in Leabhar a' Chùraim without a word either way, a silence her own scribes find harder to read than any word she might have spoken.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -400,7 +400,7 @@
   },
   {
    "id": "EIV-6517",
-   "title": "Clann Choinnich's clerk drafts the silver petition",
+   "title": "Clann Choinnich's clerk drafts Athchuingean an Airgid",
    "body": "After three winters of the head of Clann Choinnich arguing that the coal might be spared beyond the measured handful to smelt silver at Muileann chiar, a younger kinsman of the house drafts the petition the council will hear, the first written asking to burn the coal for work rather than worship.",
    "place": "burg:491",
    "kind": "craft",
@@ -477,7 +477,7 @@
   {
    "id": "EIV-6520",
    "title": "The tenants of Tuam Cnoc dhìreach keep their own ground",
-   "body": "When the seven houses begin burying their heads at Tuam Cnoc dhìreach, the tenants of the land about it call the custom unwise and go on burying their own dead where their own families always have, a disagreement neither side presses to settle.",
+   "body": "When Na Seachd Taighean begin burying their heads at Tuam Cnoc dhìreach, the tenants of the land about it call the custom unwise and go on burying their own dead where their own families always have, a disagreement neither side presses to settle.",
    "place": "marker:41",
    "kind": "rite",
    "category": "faith",
@@ -501,7 +501,7 @@
   {
    "id": "EIV-6521",
    "title": "One stone cut for two reigns",
-   "body": "Queen Mòrag nic Raghnaill has the years of her brother Ailean the Fourth's crowning and death cut on a single stone rather than two, the plainest record the king-list gives of the short reign she outlives by forty years.",
+   "body": "Queen Mòrag nic Raghnaill has the years of her brother Ailean the Fourth's crowning and death cut on a single stone rather than two, the plainest record Clàr nan Rìghrean gives of the short reign she outlives by forty years.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -551,7 +551,7 @@
   {
    "id": "EIV-6523",
    "title": "Death of Ailean the Fourth at forty",
-   "body": "King Ailean mac Raghnaill, the fourth of the name, dies at Cathair dhearg within the year of his crowning, forty years old; the custody-book does not say what ailed him, and his sister Mòrag, four-and-thirty, is crowned before the season turns.",
+   "body": "King Ailean mac Raghnaill, the fourth of the name, dies at Cathair dhearg within the year of his crowning, forty years old; Leabhar a' Chùraim does not say what ailed him, and his sister Mòrag, four-and-thirty, is crowned before the season turns.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -623,7 +623,7 @@
   {
    "id": "EIV-6526",
    "title": "A clerk reckons forty quiet years",
-   "body": "A clerk who has served Queen Mòrag nic Raghnaill the whole of her reign remarks, near the end of his service, that he has written more entries under her than under any three reigns before and set down in all of them no death by war, no famine and no quarrel of the seven houses.",
+   "body": "A clerk who has served Queen Mòrag nic Raghnaill the whole of her reign remarks, near the end of his service, that he has written more entries under her than under any three reigns before and set down in all of them no death by war, no famine and no quarrel of Na Seachd Taighean.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -648,7 +648,7 @@
   {
    "id": "EIV-6527",
    "title": "The reign of Mòrag nic Raghnaill ends",
-   "body": "Queen Mòrag nic Raghnaill's reign ends in her four-and-seventieth year, after forty years crowned; the king-list sets down the end of it and little else, as it has set down little else of all her quiet years.",
+   "body": "Queen Mòrag nic Raghnaill's reign ends in her four-and-seventieth year, after forty years crowned; Clàr nan Rìghrean sets down the end of it and little else, as it has set down little else of all her quiet years.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -698,8 +698,8 @@
   },
   {
    "id": "EIV-6529",
-   "title": "A vein-house clerk finds a lost ruling in the loft",
-   "body": "A clerk riding through Muileann chaol on the crown's business climbs the mill stair out of idleness and finds, among Beathag nic Thòmais's boards, the only surviving copy of a custodians' ruling the vein-house had lost to fire two generations before. He asks whether she means the loft for the crown's use or her own; she says the question is not hers to answer alone.",
+   "title": "A clerk of Taigh na Fèithe finds a lost ruling in the loft",
+   "body": "A clerk riding through Muileann chaol on the crown's business climbs the mill stair out of idleness and finds, among Beathag nic Thòmais's boards, the only surviving copy of a custodians' ruling Taigh na Fèithe had lost to fire two generations before. He asks whether she means the loft for the crown's use or her own; she says the question is not hers to answer alone.",
    "place": "burg:246",
    "kind": "record",
    "category": "law",
@@ -750,8 +750,8 @@
   },
   {
    "id": "EIV-6531",
-   "title": "Beathag carries the proposal of paper to the vein-house",
-   "body": "Beathag nic Thòmais rides the sixty miles to the vein-house herself to put Anna's rag paper before a custodian, judging a widow's word better heard than a stranger's. Asked whether the new stuff will hold ink sixteen centuries as hide has, she says she cannot promise it, and the custodian lets the copying go ahead.",
+   "title": "Beathag carries the proposal of paper to Taigh na Fèithe",
+   "body": "Beathag nic Thòmais rides the sixty miles to Taigh na Fèithe herself to put Anna's rag paper before a custodian, judging a widow's word better heard than a stranger's. Asked whether the new stuff will hold ink sixteen centuries as hide has, she says she cannot promise it, and the custodian lets the copying go ahead.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -935,7 +935,7 @@
   {
    "id": "EIV-6538",
    "title": "A miller answers a reeve on the town's right to the loft",
-   "body": "A crown reeve asks Beathag nic Thòmais's great-nephew, by then the loft's unpaid keeper, what right the town has to papers that belong by their matter to the vein-house or the crown. He answers that fifty years of neither office asking for them back is itself an answer.",
+   "body": "A crown reeve asks Beathag nic Thòmais's great-nephew, by then the loft's unpaid keeper, what right the town has to papers that belong by their matter to Taigh na Fèithe or the crown. He answers that fifty years of neither office asking for them back is itself an answer.",
    "place": "burg:246",
    "kind": "record",
    "category": "law",
@@ -961,7 +961,7 @@
   {
    "id": "EIV-6539",
    "title": "A scribe questions the last keepers of the rite",
-   "body": "Sent to note the rite of the empty harbour for the crown's book, a scribe asks the last old women of Seann Skell on what day the fleet truly sailed. No two answers agree, and he writes as much into the crown's own book, unable to choose among them any more than Beathag nic Thòmais once could among her three copies.",
+   "body": "Sent to note Deas-ghnàth a' Chalaidh Fhalaimh for the crown's book, a scribe asks the last old women of Seann Skell on what day the fleet truly sailed. No two answers agree, and he writes as much into the crown's own book, unable to choose among them any more than Beathag nic Thòmais once could among her three copies.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -1038,7 +1038,7 @@
   {
    "id": "EIV-6542",
    "title": "The schools take up the question of the vein instead",
-   "body": "Reopened on condition that the question of longer lives is never raised again, the house of disputation at Dùn thais turns instead to whether the custody-book's measure of the handful answers rightly to what the coal gives out.",
+   "body": "Reopened on condition that the question of longer lives is never raised again, Taigh na Deasbaid at Dùn thais turns instead to whether Leabhar a' Chùraim's measure of the handful answers rightly to what the coal gives out.",
    "place": "burg:77",
    "kind": "rite",
    "category": "faith",
@@ -1064,7 +1064,7 @@
   {
    "id": "EIV-6543",
    "title": "The king's last night",
-   "body": "Tormod mac Ruairidh tells his daughter Gormshuil, on the last night of his seven-and-fifty-year reign, that he never once found courage to ask the vein-house a question the house of disputation was forbidden to ask on his behalf, and that finding it will be the easier half of her trouble.",
+   "body": "Tormod mac Ruairidh tells his daughter Gormshuil, on the last night of his seven-and-fifty-year reign, that he never once found courage to ask Taigh na Fèithe a question Taigh na Deasbaid was forbidden to ask on his behalf, and that finding it will be the easier half of her trouble.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -1088,7 +1088,7 @@
   {
    "id": "EIV-6544",
    "title": "Gormshuil crowned at one-and-fifty",
-   "body": "Gormshuil nic Thormoid is crowned in the red hall a fortnight after her father's death, the same age he had been when the sea-wall of Cuan dhearg was still only a plan on a tally-stick.",
+   "body": "Gormshuil nic Thormoid is crowned in An Talla Dearg a fortnight after her father's death, the same age he had been when the sea-wall of Cuan dhearg was still only a plan on a tally-stick.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -1188,7 +1188,7 @@
   {
    "id": "EIV-6548",
    "title": "Aonghas mac Lachlainn turns his vote",
-   "body": "Meaning by every account to vote with the three houses behind the silver petition, Aonghas mac Lachlainn changes his vote at the board itself and gives no reason beyond the bare word that he has changed his mind.",
+   "body": "Meaning by every account to vote with the three houses behind Athchuingean an Airgid, Aonghas mac Lachlainn changes his vote at the board itself and gives no reason beyond the bare word that he has changed his mind.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -1213,7 +1213,7 @@
   {
    "id": "EIV-6549",
    "title": "Gormshuil asks Aonghas his reason and is refused",
-   "body": "Gormshuil asks Aonghas mac Lachlainn privately why he turned his vote; he answers that a man's reason for his own hand at the board is his to keep, and she lets the matter lie as the custody-book lets it lie.",
+   "body": "Gormshuil asks Aonghas mac Lachlainn privately why he turned his vote; he answers that a man's reason for his own hand at the board is his to keep, and she lets the matter lie as Leabhar a' Chùraim lets it lie.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -1271,7 +1271,7 @@
   {
    "id": "EIV-6551",
    "title": "A smaller house is granted its neighbour's unused right",
-   "body": "At the last count of hands the custodians grant a house whose share has fallen too low to keep its hearth measure a neighbour's unused coal-right, though more than one voice warns that a house asking twice can be eased once but not mended for good.",
+   "body": "At the last Cunntas nan Làmh the custodians grant a house whose share has fallen too low to keep its hearth measure a neighbour's unused coal-right, though more than one voice warns that a house asking twice can be eased once but not mended for good.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -1294,7 +1294,7 @@
   {
    "id": "EIV-6552",
    "title": "Three houses hold more than half the right",
-   "body": "The custody-book's clerk notes under the last count of hands, in the dry hand kept since Donnchadh's day, that three of the seven houses now hold more than half the whole right to the coal among themselves.",
+   "body": "Leabhar a' Chùraim's clerk notes under the last Cunntas nan Làmh, in the dry hand kept since Donnchadh's day, that three of Na Seachd Taighean now hold more than half the whole right to the coal among themselves.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -1320,7 +1320,7 @@
   {
    "id": "EIV-6553",
    "title": "The fishers of Ceann mhòr find the timber",
-   "body": "Fishers working the empty water off Ceann mhòr's lapsed headland watch find a worked timber cast up, longer than any island tree and fastened with nails no smith on Dia-thìr forged; the eldest among them says hands that made such nails did not make them on the island.",
+   "body": "Fishers working the empty water off Ceann mhòr, where Faire a' Chinn has long lapsed, find a worked timber cast up, longer than any island tree and fastened with nails no smith on Dia-thìr forged; the eldest among them says hands that made such nails did not make them on the island.",
    "place": "burg:143",
    "kind": "rite",
    "category": "faith",
@@ -1342,8 +1342,8 @@
   },
   {
    "id": "EIV-6554",
-   "title": "The queen goes up to the vein-house for the winter burning",
-   "body": "Eighty years old, Gormshuil nic Thormoid rides the coal-road to the vein-house for the winter burning as she has every year of her reign, and walks her own horse up the last, iced mile rather than let another hand lead it.",
+   "title": "The queen goes up to Taigh na Fèithe for the winter burning",
+   "body": "Eighty years old, Gormshuil nic Thormoid rides the coal-road to Taigh na Fèithe for the winter burning as she has every year of her reign, and walks her own horse up the last, iced mile rather than let another hand lead it.",
    "place": "burg:491",
    "kind": "court",
    "category": "rulers",
@@ -1362,8 +1362,8 @@
   },
   {
    "id": "EIV-6555",
-   "title": "The oldest crowned ruler since the table of years",
-   "body": "Riding up to the winter burning at eighty, Queen Gormshuil nic Thormoid is the oldest ruler the custody-book has entered crowned and still reigning since long before the table of years, nine-and-twenty years crowned.",
+   "title": "The oldest crowned ruler since Clàr nam Bliadhnachan",
+   "body": "Riding up to the winter burning at eighty, Queen Gormshuil nic Thormoid is the oldest ruler Leabhar a' Chùraim has entered crowned and still reigning since long before Clàr nam Bliadhnachan, nine-and-twenty years crowned.",
    "place": "burg:491",
    "kind": "court",
    "category": "rulers",
@@ -1386,7 +1386,7 @@
   {
    "id": "EIV-6556",
    "title": "The council sits in the queen's empty place",
-   "body": "With no word of Gormshuil since the winter burning, the custodians of the seven houses meet at the red hall in the place the crown's own chair has always stood empty for her progress, and send their word up the coal-road by the same riders who carried the crown's business all her reign.",
+   "body": "With no word of Gormshuil since the winter burning, the custodians of Na Seachd Taighean meet at An Talla Dearg in the place the crown's own chair has always stood empty for her progress, and send their word up the coal-road by the same riders who carried the crown's business all her reign.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -1404,7 +1404,7 @@
   {
    "id": "EIV-6557",
    "title": "A crown letter sealed with no name above the seal",
-   "body": "The custodians seal their letters with the vein-house's trellis and hollow stone as every crown letter has been sealed since Dòmhnall Ruadh joined the two, but set no name above the seal, and no clerk is ever asked to explain the blank space.",
+   "body": "The custodians seal their letters with Taigh na Fèithe's trellis and hollow stone as every crown letter has been sealed since Dòmhnall Ruadh joined the two, but set no name above the seal, and no clerk is ever asked to explain the blank space.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1425,7 +1425,7 @@
   {
    "id": "EIV-6558",
    "title": "Ealasaid nic Iain keeps the last lamp",
-   "body": "With no household left on the Seann Skell waterfront still keeping the night of lamps, an old woman, Ealasaid nic Iain, sets the one lamp that burns in the harbour-house window; the scribe writes that the lamp was hers and not the town's.",
+   "body": "With no household left on the Seann Skell waterfront still keeping Oidhche nan Lòchran, an old woman, Ealasaid nic Iain, sets the one lamp that burns in the harbour-house window; the scribe writes that the lamp was hers and not the town's.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -1476,7 +1476,7 @@
   {
    "id": "EIV-6560",
    "title": "Eòghann mac Nèill counts the rite of the eleven",
-   "body": "At the rite of the empty harbour on Cidhe an Diosail, Eòghann mac Nèill, eleven years the quay's scribe, stands back as the scribe's place requires and counts the people on the stones twice, once by eye and once by name: eleven.",
+   "body": "At Deas-ghnàth a' Chalaidh Fhalaimh on Cidhe an Diosail, Eòghann mac Nèill, eleven years the quay's scribe, stands back as the scribe's place requires and counts the people on the stones twice, once by eye and once by name: eleven.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -1501,7 +1501,7 @@
   {
    "id": "EIV-6561",
    "title": "Death of Aonghas mac Lachlainn",
-   "body": "Aonghas mac Lachlainn dies at Cathair dhearg, four-and-eighty years old, the last of the council that had refused Clann Choinnich's second silver petition; asked once more on his deathbed why he had turned his own vote, he answers only that his reason had not stopped seeming good to him, and says no more.",
+   "body": "Aonghas mac Lachlainn dies at Cathair dhearg, four-and-eighty years old, the last of the council that had refused Clann Choinnich's Athchuingean an Airgid; asked once more on his deathbed why he had turned his own vote, he answers only that his reason had not stopped seeming good to him, and says no more.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1584,8 +1584,8 @@
   },
   {
    "id": "EIV-6564",
-   "title": "The seven houses name themselves Comhairle a' Chùraim",
-   "body": "Meeting at Cathair dhearg by chance of their riders' errands rather than by any summons, the heads of the seven houses call themselves Comhairle a' Chùraim, the council of the custody, and name Tormod mac Ailein, eight-and-thirty years old and a custodian's son of no house among the seven, Ceann a' Chùraim to speak for them with one voice.",
+   "title": "Na Seachd Taighean name themselves Comhairle a' Chùraim",
+   "body": "Meeting at Cathair dhearg by chance of their riders' errands rather than by any summons, the heads of Na Seachd Taighean call themselves Comhairle a' Chùraim, the council of the custody, and name Tormod mac Ailein, eight-and-thirty years old and a custodian's son of no house among the seven, Ceann a' Chùraim to speak for them with one voice.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -1633,7 +1633,7 @@
   {
    "id": "EIV-6566",
    "title": "The queen's chair is left standing empty",
-   "body": "The seven houses leave the chair at the head of the board, the queen's own, standing empty at every sitting after her name is no longer spoken; Tormod mac Ailein, offered it, keeps his place at the board's foot instead, and in time no clerk living can say with certainty whose absence the chair still marks.",
+   "body": "Na Seachd Taighean leave the chair at the head of the board, the queen's own, standing empty at every sitting after her name is no longer spoken; Tormod mac Ailein, offered it, keeps his place at the board's foot instead, and in time no clerk living can say with certainty whose absence the chair still marks.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -1656,7 +1656,7 @@
   {
    "id": "EIV-6567",
    "title": "The council's letters keep no name above the seal",
-   "body": "The newly named council of the custody sends out its letters from Cathair dhearg sealed with the vein-house's own trellis and hollow stone and no name written above the seal, continuing without comment a custom the red hall's clerks had already begun in the queen's last silent years.",
+   "body": "The newly named council of the custody sends out its letters from Cathair dhearg sealed with Taigh na Fèithe's own trellis and hollow stone and no name written above the seal, continuing without comment a custom An Talla Dearg's clerks had already begun in the queen's last silent years.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1676,8 +1676,8 @@
   },
   {
    "id": "EIV-6568",
-   "title": "The red hall holds five hundred souls",
-   "body": "In the year the seven houses name their council, the red hall at Cathair dhearg holds perhaps five hundred souls in all its lanes and closes, fewer than the tenants of a single one of the seven houses in a good year.",
+   "title": "An Talla Dearg holds five hundred souls",
+   "body": "In the year Na Seachd Taighean name their council, An Talla Dearg at Cathair dhearg holds perhaps five hundred souls in all its lanes and closes, fewer than the tenants of a single one of Na Seachd Taighean in a good year.",
    "place": "burg:19",
    "kind": "land",
    "category": "land",
@@ -1778,7 +1778,7 @@
   {
    "id": "EIV-6572",
    "title": "The last winter of the age",
-   "body": "On a still morning near the year's dark heart, the priests of Manannan pray at every tide at Seann Skell, the boats of Ceann mhòr turn for home before the rule strictly asks it of them, and the council keeps its board at Cathair dhearg with the chair at its head still empty, while the harbour-house lamp-window that once marked the night of lamps stands dark for another winter.",
+   "body": "On a still morning near the year's dark heart, the priests of Manannan pray at every tide at Seann Skell, the boats of Ceann mhòr turn for home before the rule strictly asks it of them, and the council keeps its board at Cathair dhearg with the chair at its head still empty, while the harbour-house lamp-window that once marked Oidhche nan Lòchran stands dark for another winter.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",

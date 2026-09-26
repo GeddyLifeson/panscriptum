@@ -22,7 +22,7 @@ Beathag bit off her thread and looked at the patch, and smoothed it with her thu
 
 "I want you to lead."
 
-"I am leading. I am leading them to make up their own minds." Beathag set the shirt aside. "If I command it, every household that goes, goes because the queen said so. And when the sea takes them, and it will take some of them, Mòrag, you know that, their mothers will curse the red hall, and they'll be right to. And if I forbid it, every household that wanted to go and didn't will hate the crown for the rest of their lives, and teach their children to. And the ones who'd go anyway will go in the dark, in whatever they can find, and drown. No. The crown won't send, and it won't forbid."
+"I am leading. I am leading them to make up their own minds." Beathag set the shirt aside. "If I command it, every household that goes, goes because the queen said so. And when the sea takes them, and it will take some of them, Mòrag, you know that, their mothers will curse An Talla Dearg, and they'll be right to. And if I forbid it, every household that wanted to go and didn't will hate the crown for the rest of their lives, and teach their children to. And the ones who'd go anyway will go in the dark, in whatever they can find, and drown. No. The crown won't send, and it won't forbid."
 
 Mòrag sat very still on the chest. "Then you'll let me go," she said.
 
@@ -40,11 +40,11 @@ Beathag did not turn round. "Then you'll go," she said. "And I'll be the queen w
 
 ## II. Of the Word That Went Down the Road
 
-The word went down the river road three days later, with a rider of the queen's household on a grey horse, in the autumn of {{year:III-0005}}. It was written by Murchadh mac Eòghainn on a leaf of skin and sealed with the queen's seal, and copies of it went to Cuan shean and Ros bheag and Ceann mhòr and Baile chrom and every other harbour of the west, and to the vein-house above Muileann dhearg.
+The word went down the river road three days later, with a rider of the queen's household on a grey horse, in the autumn of {{year:III-0005}}. It was written by Murchadh mac Eòghainn on a leaf of skin and sealed with the queen's seal, and copies of it went to Cuan shean and Ros bheag and Ceann mhòr and Baile chrom and every other harbour of the west, and to Taigh na Fèithe above Muileann dhearg.
 
-It was not long. The custody-book gives it only in substance: that the crown would send no one across the water, and would keep no one back; that any household of Dia-thìr might go that wished to, and stay that wished to; that the crown would neither help nor hinder the building of ships, but would judge any quarrel that arose from it by the old law, as it judged all quarrels; and that the queen asked the people to think long and choose with their eyes open.
+It was not long. Leabhar a' Chùraim gives it only in substance: that the crown would send no one across the water, and would keep no one back; that any household of Dia-thìr might go that wished to, and stay that wished to; that the crown would neither help nor hinder the building of ships, but would judge any quarrel that arose from it by the old law, as it judged all quarrels; and that the queen asked the people to think long and choose with their eyes open.
 
-Mòrag rode down behind the rider. She had not meant to. She had meant to go home to Inis àrsaidh in a day or two, by easy stages, and let the word get there before her. But she stood at the gate of the red hall in the grey morning and watched the grey horse go down the road with the leaf in its rider's satchel, and she found she could not bear to be behind it. She called for her pony and went.
+Mòrag rode down behind the rider. She had not meant to. She had meant to go home to Inis àrsaidh in a day or two, by easy stages, and let the word get there before her. But she stood at the gate of An Talla Dearg in the grey morning and watched the grey horse go down the road with the leaf in its rider's satchel, and she found she could not bear to be behind it. She called for her pony and went.
 
 She rode the whole twenty-four miles in one day, in rain. The road went down out of the hills along the river and through the wet fields of the lowland, past farms where the barley stubble stood grey and drowned and the cattle stood with their backs to the weather, and then along the edge of the marshes toward the coast; and all the way the rider was ahead of her, a grey shape in the grey rain, never more than a mile off and never less. She did not try to catch him up. At dusk she came down the last hill with the pony blowing, and saw the lamps of Seann Skell below her, and the river pool, and the long dark line of the west quay, and the one lit window of the harbour-house at its head.
 
@@ -63,7 +63,7 @@ But the crowd did not go home, most of it. It stayed on the quay in the rain, ta
 > *Cha chuir mi duine thairis, agus cha chùm mi duine air ais.*
 > I will send no one over, and I will keep no one back.
 
-The queen had never said it in those words. The harbour songs of Seann Skell have said it so ever since, and they are younger than the custody-book and less careful, and nobody on the west coast has ever wished to hear it any other way.
+The queen had never said it in those words. The harbour songs of Seann Skell have said it so ever since, and they are younger than Leabhar a' Chùraim and less careful, and nobody on the west coast has ever wished to hear it any other way.
 
 ## IV. Of Aonghas at Inis àrsaidh
 
@@ -109,7 +109,7 @@ She stood in front of the board. Calum looked up. She saw him know her, before s
 
 The harbour-house had gone quiet behind her. Without looking round, and without sitting, though there was a stool, she stood and watched Calum take a fresh board from the rack, and plane it, and set the knife to it. He cut slowly, and very well.
 
-She spelled it out for him. She knew he did not need it. Every scribe in the west knew how to spell the name of the queen's sister; it was on half the leaves that came down from the red hall. But she spelled it all the same, letter by letter, in a clear voice that carried to the back of the house, *M, ò, r, a, g*, and watched every letter go into the wood, and then *nic Dhòmhnaill*, all of it; and then her husband's name above it, because he was the head of the household on the board; and then the line down the left side that joined them. It seemed to her that the knife was a long time about it. When the last stroke was cut and the shaving had curled away and dropped to the floor, she let out a breath she had not known she was holding.
+She spelled it out for him. She knew he did not need it. Every scribe in the west knew how to spell the name of the queen's sister; it was on half the leaves that came down from An Talla Dearg. But she spelled it all the same, letter by letter, in a clear voice that carried to the back of the house, *M, ò, r, a, g*, and watched every letter go into the wood, and then *nic Dhòmhnaill*, all of it; and then her husband's name above it, because he was the head of the household on the board; and then the line down the left side that joined them. It seemed to her that the knife was a long time about it. When the last stroke was cut and the shaving had curled away and dropped to the floor, she let out a breath she had not known she was holding.
 
 "Thank you," she said.
 
@@ -121,11 +121,11 @@ He wrote nothing beside the entry. There was no rule that said he should, and he
 
 ## VI. Of the Vein-House above Muileann dhearg
 
-Sixty miles east, up in the mountain country, the copy of the queen's word came to the vein-house by the coal-road, three days after it was read at Seann Skell, and the custodians sat down to think what it meant for them.
+Sixty miles east, up in the mountain country, the copy of the queen's word came to Taigh na Fèithe by the coal-road, three days after it was read at Seann Skell, and the custodians sat down to think what it meant for them.
 
-The vein-house stood on a shoulder of the hills above the diggings at Muileann dhearg, where the galleries went into the mountain. It was a long hall of dark stone, older than the queen's line, with store-houses round a yard and the carriers' gate on the downhill side. In its inner room, in a niche lit by a lamp that was never let go out, stood Crom's stone, the slab that had lain on the first break of the vein. In the room beyond it, on a table of black oak, lay the custody-book, which had been kept since the Holy Age, and in which every hearth on the island that held the right to the coal was written. The vein-house was heir to the Hall at Dùn ìseal, where Brìde's flame had first been bound; the Keepers still kept the flame there, and the stone cup on the threshold, but it was here, above the galleries, that the handful was measured and the book was kept, and it was here that the custodians met.
+Taigh na Fèithe stood on a shoulder of the hills above the diggings at Muileann dhearg, where the galleries went into the mountain. It was a long hall of dark stone, older than the queen's line, with store-houses round a yard and the carriers' gate on the downhill side. In its inner room, in a niche lit by a lamp that was never let go out, stood Crom's stone, the slab that had lain on the first break of the vein. In the room beyond it, on a table of black oak, lay Leabhar a' Chùraim, which had been kept since An Aois Naomh, and in which every hearth on the island that held the right to the coal was written. Taigh na Fèithe was heir to Talla na Lasrach, where Brìde's flame had first been bound; Coimheadaichean na Lasrach still kept the flame there, and the stone cup on the threshold, but it was here, above the galleries, that the handful was measured and the book was kept, and it was here that the custodians met.
 
-The master of the vein-house in those years was Eòghann mac Mhuirich, an old man of the Keepers' blood, dry and thin and very patient, who had spent sixty years in the service of the vein and had never once, the custodians said, been seen to hurry. He read the queen's word through at the table, twice, by the light of the lamp before Crom's stone, and then he folded it and said:
+The master of Taigh na Fèithe in those years was Eòghann mac Mhuirich, an old man of Coimheadaichean na Lasrach' blood, dry and thin and very patient, who had spent sixty years in the service of the vein and had never once, the custodians said, been seen to hurry. He read the queen's word through at the table, twice, by the light of the lamp before Crom's stone, and then he folded it and said:
 
 "We had better count."
 
@@ -133,7 +133,7 @@ The master of the vein-house in those years was Eòghann mac Mhuirich, an old ma
 
 They did not count at once. First they argued, through the whole of that winter and into the spring, over a question that the queen's word did not touch and that no one at Seann Skell had thought to ask.
 
-The right to the coal was earned. That was the Law as it had stood since the Holy Age. A custodian served his apprenticeship at the vein, seven years under a master, learning the galleries and the colours and the measure; and a hearth that held the right to the handful held it because its people had kept the coal and the Law, generation after generation. The right lived in the hands that had learned it. It was written in the custody-book against the hearth, and the vein-house measured to it.
+The right to the coal was earned. That was Lagh an Loscaidh Bhig as it had stood since An Aois Naomh. A custodian served his apprenticeship at the vein, seven years under a master, learning the galleries and the colours and the measure; and a hearth that held the right to the handful held it because its people had kept the coal and Lagh an Loscaidh Bhig, generation after generation. The right lived in the hands that had learned it. It was written in Leabhar a' Chùraim against the hearth, and Taigh na Fèithe measured to it.
 
 Then what happened to the right when the hearth went over the sea?
 
@@ -151,7 +151,7 @@ There was laughter. Fearchar laughed too. But Eòghann mac Mhuirich, at the head
 
 ## VIII. Of the Count Made Twice
 
-They sent to Seann Skell for a copy of the roll. The harbour scribe sent it willingly, board by board, copied onto skin by his son, with a small mark like a flame beside each household whose hearth took the handful. It came up the coal-road in the spring, and more boards after it, for the roll went on growing all that year, and in the high summer, in the moon of Lùghnas, the custodians sat down at the long table with the copy of the roll on one side and the custody-book on the other, and counted.
+They sent to Seann Skell for a copy of the roll. The harbour scribe sent it willingly, board by board, copied onto skin by his son, with a small mark like a flame beside each household whose hearth took the handful. It came up the coal-road in the spring, and more boards after it, for the roll went on growing all that year, and in the high summer, in the moon of Lùghnas, the custodians sat down at the long table with the copy of the roll on one side and Leabhar a' Chùraim on the other, and counted.
 
 It took them nine days. They went hearth by hearth, household by household, the roll's name against the book's name, reading aloud and ticking. Eòghann sat at the head of the table and did not count; he listened. Fearchar read the roll aloud, because he had the loudest voice. A young custodian of the capital's diggings read the book. Two clerks ticked.
 
@@ -161,7 +161,7 @@ He read it, and read it again, and looked up at the custodians round the table, 
 
 "Nearly one in five," he said.
 
-Nobody spoke. One hearth in five of all the hearths on the island that held the right to the coal was on the roll of the willing. Not one in fifty, which was what most of them had expected; not one in twenty, which was what the pessimists had said. Nearly one in five. Fishers, farmers, weavers, boat-wrights; and custodians, many custodians, whose hands the vein had answered, whose apprenticeship had been seven years at these same galleries; and the queen's own sister.
+Nobody spoke. One hearth in five of all the hearths on the island that held the right to the coal was on Rolla nan Deònach. Not one in fifty, which was what most of them had expected; not one in twenty, which was what the pessimists had said. Nearly one in five. Fishers, farmers, weavers, boat-wrights; and custodians, many custodians, whose hands the vein had answered, whose apprenticeship had been seven years at these same galleries; and the queen's own sister.
 
 "That's wrong," said someone.
 
@@ -171,7 +171,7 @@ They counted it again. It took them seven more days, because they were faster no
 
 On the sixteenth day, on {{date:III-0006}}, they gave Eòghann the second slip. It was the same figure, within a hearth or two.
 
-He sat and looked at it for a long time. Then he took his pen and wrote it in the custody-book, in his own old careful hand, under the day; and beside it he wrote that the count had been made twice, because the first figure had not been believed. By whom, he did not say; there was no need.
+He sat and looked at it for a long time. Then he took his pen and wrote it in Leabhar a' Chùraim, in his own old careful hand, under the day; and beside it he wrote that the count had been made twice, because the first figure had not been believed. By whom, he did not say; there was no need.
 
 ## IX. Of Fearchar's Own Name
 
@@ -191,4 +191,4 @@ Eòghann mac Mhuirich did not look up from the book. He sat with the pen laid do
 
 Fearchar sat.
 
-The master of the vein-house turned the leaf of the custody-book, very carefully, so as not to smudge the ink, and wrote the date at the head of the next leaf, and the words *the handful for the season*, in the same hand as before; and began to read the names of the hearths aloud, one after another, as he had read them every season for sixty years, for the measuring. And the custodians round the table, one by one, took up their pens and followed him, and none of them looked at Fearchar, and none of them looked at each other, and the lamp before Crom's stone in the next room burned steady and small, as it always had.
+The master of Taigh na Fèithe turned the leaf of Leabhar a' Chùraim, very carefully, so as not to smudge the ink, and wrote the date at the head of the next leaf, and the words *the handful for the season*, in the same hand as before; and began to read the names of the hearths aloud, one after another, as he had read them every season for sixty years, for the measuring. And the custodians round the table, one by one, took up their pens and followed him, and none of them looked at Fearchar, and none of them looked at each other, and the lamp before Crom's stone in the next room burned steady and small, as it always had.

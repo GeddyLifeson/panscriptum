@@ -2,13 +2,13 @@
  "writer": 5,
  "span": [
   "II-0065",
-  "II-0096"
+  "II-0095"
  ],
  "events": [
   {
    "id": "EIII-5001",
-   "title": "The nine hearths raise Seonaid Chiar to the flame",
-   "body": "The nine hearths of Dùn ìseal raise Seonaid Chiar of the house of Muireach to the flame at six-and-twenty years old, the youngest Keeper chosen since Muireach Liath's own day. Her grandmother, a cutter of the galleries all her working life, warns her that a young Keeper who bends once in her first year is asked to bend again for the rest of her keeping.",
+   "title": "Na Naoi Teallaichean raise Seonaid Chiar to the flame",
+   "body": "Na Naoi Teallaichean of Dùn ìseal raise Seonaid Chiar of Sliochd Mhuirich to the flame at six-and-twenty years old, the youngest Keeper chosen since Muireach Liath's own day. Her grandmother, a cutter of the galleries all her working life, warns her that a young Keeper who bends once in her first year is asked to bend again for the rest of her keeping.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -30,8 +30,8 @@
   },
   {
    "id": "EIII-5002",
-   "title": "Three teachers of Cnoc bhàn set an unlit lamp before the Hall's door",
-   "body": "Three old teachers of the stag's school at Cnoc bhàn climb the mountain road on foot and set an unlit lamp on the stones before Talla na Lasrach, asking only to be let back among the cutters already working the galleries, and swearing to ask nothing of the vein aloud if the Hall will stop asking whether they have any right to stand near it.",
+   "title": "Three teachers of Cnoc bhàn set an unlit lamp before Talla na Lasrach's door",
+   "body": "Three old teachers of the stag's school at Cnoc bhàn climb the mountain road on foot and set an unlit lamp on the stones before Talla na Lasrach, asking only to be let back among the cutters already working the galleries, and swearing to ask nothing of the vein aloud if Talla na Lasrach will stop asking whether they have any right to stand near it.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -61,7 +61,7 @@
   {
    "id": "EIII-5003",
    "title": "Seonaid Chiar's guild judgment at Cnoc leathan",
-   "body": "Hearing two carriers of Cnoc leathan's guild each accuse the other of taking a fee out of turn, Seonaid Chiar asks only which of them had first offered to give the disputed load back, and, hearing neither had, tells them the Hall's grant is a right to carry and not a right to quarrel. The two settle the matter themselves before they have gone a mile down the mountain road.",
+   "body": "Hearing two carriers of Cnoc leathan's guild each accuse the other of taking a fee out of turn, Seonaid Chiar asks only which of them had first offered to give the disputed load back, and, hearing neither had, tells them Talla na Lasrach's grant is a right to carry and not a right to quarrel. The two settle the matter themselves before they have gone a mile down the mountain road.",
    "place": "burg:315",
    "kind": "trade",
    "category": "trade",
@@ -89,7 +89,7 @@
   {
    "id": "EIII-5004",
    "title": "Ruairidh Glas stands once more before the stone cup",
-   "body": "In his nine hundred and ninth year, Ruairidh Glas, holder of the Red Share, asks unasked leave to climb Dùn ìseal on foot and stand again before the stone cup, though no lord of a share is required to outside the quarter days. He says nothing aloud that any living ear catches, and goes back down the same evening to Dùn dhearg.",
+   "body": "In his nine hundred and ninth year, Ruairidh Glas, holder of an Earrann Dhearg, asks unasked leave to climb Dùn ìseal on foot and stand again before the stone cup, though no lord of a share is required to outside the quarter days. He says nothing aloud that any living ear catches, and goes back down the same evening to Dùn dhearg.",
    "place": "burg:315",
    "kind": "rulers",
    "category": "rulers",
@@ -104,7 +104,9 @@
     }
    ],
    "threads": [],
-   "people": [],
+   "people": [
+    "ruairidh-glas"
+   ],
    "told_in": "book/22_of_the_truce_in_the_galleries_and_the_walled_town.md#iv-of-ruairidh-glas-and-the-ford-he-never-returned-to",
    "era_between": [
     611,
@@ -114,7 +116,7 @@
   {
    "id": "EIII-5005",
    "title": "Ruairidh Glas dies at Dùn dhearg",
-   "body": "Ruairidh Glas dies in his own bed at Dùn dhearg, having lived nine hundred and ten years and never once returned to Dùn thais since the morning he shed the first blood of the strife of the heirs there. He outlives every soul who stood beside him at the ford where his grandfather's line first took the Red Hill.",
+   "body": "Ruairidh Glas dies in his own bed at Dùn dhearg, having lived nine hundred and ten years and never once returned to Dùn thais since the morning he shed the first blood of Aimhreit nan Oighrean there. He outlives every soul who stood beside him at the ford where his grandfather's line first took An Cnoc Ruadh.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -129,7 +131,9 @@
     }
    ],
    "threads": [],
-   "people": [],
+   "people": [
+    "ruairidh-glas"
+   ],
    "told_in": "book/22_of_the_truce_in_the_galleries_and_the_walled_town.md#iv-of-ruairidh-glas-and-the-ford-he-never-returned-to",
    "era_between": [
     612,
@@ -138,8 +142,8 @@
   },
   {
    "id": "EIII-5006",
-   "title": "The Red Share passes without a summons to the Hall",
-   "body": "Ruairidh Glas's son takes up the Red Share at Dùn dhearg without any summons to the Hall, as the Peace of the Threshold requires none where an heir is named and undisputed. The season's rolls, careful to name every lesser lord, stay strangely thin about naming this one, a silence the Hall's clerk lays to the household's own quiet rather than to any failure of the pen.",
+   "title": "An Earrann Dhearg passes without a summons to Talla na Lasrach",
+   "body": "Ruairidh Glas's son takes up an Earrann Dhearg at Dùn dhearg without any summons to Talla na Lasrach, as Sìth an Stairsnich requires none where an heir is named and undisputed. The season's rolls, careful to name every lesser lord, stay strangely thin about naming this one, a silence Talla na Lasrach's clerk lays to the household's own quiet rather than to any failure of the pen.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -154,7 +158,9 @@
     }
    ],
    "threads": [],
-   "people": [],
+   "people": [
+    "ruairidh-glas"
+   ],
    "told_in": "book/22_of_the_truce_in_the_galleries_and_the_walled_town.md#iv-of-ruairidh-glas-and-the-ford-he-never-returned-to",
    "era_between": [
     612,
@@ -166,8 +172,8 @@
   },
   {
    "id": "EIII-5007",
-   "title": "The four dead of the high gallery are buried on the Hall's own ground",
-   "body": "The four cutters killed when the roof of the highest gallery falls at Dùn ìseal are carried up and buried on the Hall's own ground, the one ground on the island no feud has ever been let to follow a man. Seonaid Chiar sets the last stone over the last of them with her own hands, which no Keeper before her is remembered to have done.",
+   "title": "The four dead of the high gallery are buried on Talla na Lasrach's own ground",
+   "body": "The four cutters killed when the roof of the highest gallery falls at Dùn ìseal are carried up and buried on Talla na Lasrach's own ground, the one ground on the island no feud has ever been let to follow a man. Seonaid Chiar sets the last stone over the last of them with her own hands, which no Keeper before her is remembered to have done.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -190,7 +196,7 @@
   {
    "id": "EIII-5008",
    "title": "The first oak props are cut for the galleries",
-   "body": "After a season's argument over how a gallery roof should ever be held against another such fall, Seonaid Chiar orders timber props of oak set in every gallery the Hall works, the first timber the Hall has ever spent on the mountain itself. The first oak is felled and cut within the season, so that no gallery stands unpropped by the following year's cutting.",
+   "body": "After a season's argument over how a gallery roof should ever be held against another such fall, Seonaid Chiar orders timber props of oak set in every gallery Talla na Lasrach works, the first timber Talla na Lasrach has ever spent on the mountain itself. The first oak is felled and cut within the season, so that no gallery stands unpropped by the following year's cutting.",
    "place": "burg:315",
    "kind": "coal",
    "category": "coal",
@@ -217,7 +223,7 @@
   {
    "id": "EIII-5009",
    "title": "Seonaid Chiar dies above the galleries she kept",
-   "body": "Seonaid Chiar dies in her own quarters above the galleries at Dùn ìseal, eighty-five years old, having held the flame the better part of six decades. The nine hearths that raised her young choose another after her without any dispute the rolls think worth setting down.",
+   "body": "Seonaid Chiar dies in her own quarters above the galleries at Dùn ìseal, eighty-five years old, having held the flame the better part of six decades. Na Naoi Teallaichean that raised her young choose another after her without any dispute the rolls think worth setting down.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -273,8 +279,8 @@
   },
   {
    "id": "EIII-5011",
-   "title": "Cathair dhomhain's shrine holds the Law to the grain",
-   "body": "The new shrine at Cathair dhomhain keeps the Small-Burning Law to the very grain from its founding day, a strictness the town becomes known for beyond any other pride it holds. Lowland households speak of it for a lifetime, though the town itself remains a place carriers pass through on the way to somewhere else.",
+   "title": "Cathair dhomhain's shrine holds Lagh an Loscaidh Bhig to the grain",
+   "body": "The new shrine at Cathair dhomhain keeps Lagh an Loscaidh Bhig to the very grain from its founding day, a strictness the town becomes known for beyond any other pride it holds. Lowland households speak of it for a lifetime, though the town itself remains a place carriers pass through on the way to somewhere else.",
    "place": "burg:26",
    "kind": "faith",
    "category": "faith",
@@ -350,7 +356,7 @@
   {
    "id": "EIII-5014",
    "title": "Goraidh's marriage to Muirne nic Dhonnchaidh",
-   "body": "Goraidh mac Ìomhair rides to Muirne nic Dhonnchaidh, a widowed kinswoman of four hundred years who holds the third of the old eastern counties alone, and marries her in the spring. Her county comes whole into the marriage, as the Peace of the Threshold allows, and Goraidh takes on her dead husbands' debts to the county's smiths.",
+   "body": "Goraidh mac Ìomhair rides to Muirne nic Dhonnchaidh, a widowed kinswoman of four hundred years who holds the third of the old eastern counties alone, and marries her in the spring. Her county comes whole into the marriage, as Sìth an Stairsnich allows, and Goraidh takes on her dead husbands' debts to the county's smiths.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -458,29 +464,6 @@
   },
   {
    "id": "EIII-5018",
-   "title": "The timber hall of Dùn dhearg raised with a granary at each corner",
-   "body": "Goraidh mac Ìomhair raises a long hall of squared oak on his father's rise at Dùn dhearg, with a granary at each of its four corners. The carpenters of the Red Share and of the three gathered counties raise it side by side, and the granaries are filled from all four counties in one season.",
-   "place": "burg:422",
-   "kind": "rulers",
-   "category": "rulers",
-   "links": [
-    {
-     "to": "EIII-5017",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-division"
-   ],
-   "people": [],
-   "told_in": "book/23_of_goraidh_mac_iomhair.md#v-of-the-timber-hall-and-the-fish-in-twenty",
-   "era_between": [
-    688,
-    688
-   ]
-  },
-  {
-   "id": "EIII-5019",
    "title": "Goraidh leaves his spear at the last house",
    "body": "Come to answer the council's word, Goraidh mac Ìomhair leaves his spear with his men at the last waypoint house on the mountain road and climbs to Dùn ìseal on foot and unarmed.",
    "place": "burg:315",
@@ -492,13 +475,11 @@
      "type": "cause"
     },
     {
-     "to": "EIII-5018",
+     "to": "EIII-5017",
      "type": "sequel"
     }
    ],
-   "threads": [
-    "the-keepers-promise"
-   ],
+   "threads": [],
    "people": [],
    "told_in": "book/23_of_goraidh_mac_iomhair.md#iv-of-the-climb",
    "era_between": [
@@ -510,30 +491,7 @@
    "after": "II-0078"
   },
   {
-   "id": "EIII-5020",
-   "title": "The waypoint-keepers gather the road toll for a share",
-   "body": "Goraidh does not gather the toll of one fish in twenty himself. He gives it to the keepers of the waypoint houses along each road, who have kept a bed and a fire for carriers since before his grandfather's day, and lets each keep a share of what they take.",
-   "place": "burg:422",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "EIII-5019",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-road-peace"
-   ],
-   "people": [],
-   "told_in": "book/23_of_goraidh_mac_iomhair.md#v-of-the-timber-hall-and-the-fish-in-twenty",
-   "era_between": [
-    694,
-    694
-   ]
-  },
-  {
-   "id": "EIII-5021",
+   "id": "EIII-5019",
    "title": "A waypoint-keeper's short tally forgiven",
    "body": "At a waypoint house on the northern road a keeper's first season's toll comes in a tenth short, for want of anyone at the door by night. Goraidh mac Ìomhair laughs at the reckoning and lets the shortfall stand.",
    "place": null,
@@ -545,7 +503,7 @@
      "type": "sequel"
     },
     {
-     "to": "EIII-5020",
+     "to": "EIII-5018",
      "type": "sequel"
     }
    ],
@@ -558,7 +516,56 @@
    ]
   },
   {
+   "after": "II-0079"
+  },
+  {
+   "id": "EIII-5020",
+   "title": "The timber hall of Dùn dhearg raised with a granary at each corner",
+   "body": "Goraidh mac Ìomhair raises a long hall of squared oak on his father's rise at Dùn dhearg, with a granary at each of its four corners. The carpenters of an Earrann Dhearg and of the three gathered counties raise it side by side, and the granaries are filled from all four counties in one season.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EIII-5019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/23_of_goraidh_mac_iomhair.md#v-of-the-timber-hall-and-the-fish-in-twenty",
+   "era_between": [
+    714,
+    714
+   ]
+  },
+  {
    "after": "II-0080"
+  },
+  {
+   "id": "EIII-5021",
+   "title": "The waypoint-keepers gather the road toll for a share",
+   "body": "Goraidh does not gather the toll of one fish in twenty himself. He gives it to the keepers of the waypoint houses along each road, who have kept a bed and a fire for carriers since before his grandfather's day, and lets each keep a share of what they take.",
+   "place": "burg:422",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EIII-5020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/23_of_goraidh_mac_iomhair.md#v-of-the-timber-hall-and-the-fish-in-twenty",
+   "era_between": [
+    719,
+    719
+   ]
   },
   {
    "id": "EIII-5022",
@@ -737,9 +744,12 @@
    ]
   },
   {
+   "after": "II-0082"
+  },
+  {
    "id": "EIII-5029",
-   "title": "The golden house opened free of toll",
-   "body": "Mòrag nan Rathad opens the new waypoint house on the eastern road north of Seann Dunn with a night's feast for every carrier who can be reached in time, none of them charged the toll. Carriers call the new timber the golden house before it has weathered, and the name holds.",
+   "title": "An Taigh-seinnse Òir opened free of toll",
+   "body": "Mòrag nan Rathad opens the new waypoint house on the eastern road north of Seann Dunn with a night's feast for every carrier who can be reached in time, none of them charged the toll. Carriers call the new timber An Taigh-seinnse Òir before it has weathered, and the name holds.",
    "place": "burg:18",
    "kind": "trade",
    "category": "trade",
@@ -759,8 +769,8 @@
    "people": [],
    "told_in": "book/24_of_morag_of_the_roads.md#iv-of-the-golden-house-and-the-sign-recut",
    "era_between": [
-    763,
-    763
+    781,
+    781
    ]
   },
   {
@@ -846,7 +856,7 @@
   {
    "id": "EIII-5033",
    "title": "Mòrag nan Rathad dies at Dùn dhearg",
-   "body": "Mòrag nan Rathad dies at Dùn dhearg in the winter, a hundred and ninety-four years old, with her son beside her. Carriers from three days' distance come to stand outside the hall, and Dòmhnall feeds them from the golden house's own stores.",
+   "body": "Mòrag nan Rathad dies at Dùn dhearg in the winter, two hundred and fifteen years old, with her son beside her. Carriers from three days' distance come to stand outside the hall, and Dòmhnall feeds them from An Taigh-seinnse Òir's own stores.",
    "place": "burg:422",
    "kind": "rulers",
    "category": "rulers",
@@ -956,8 +966,8 @@
   },
   {
    "id": "EIII-5037",
-   "title": "The Hall's grain-carts reach Seann Chwen first",
-   "body": "After the storm at Seann Chwen, the Keeper's grain-carts reach the ruined harbour a full day ahead of Dòmhnall Crùbach's, running the whole way on the road above the ford that Mòrag nan Rathad raised out of the mud in the first summer of her reign.",
+   "title": "Talla na Lasrach's grain-carts reach Seann Chwen first",
+   "body": "After the storm at Seann Chwen, Coimheadaiche na Lasrach's grain-carts reach the ruined harbour a full day ahead of Dòmhnall Crùbach's, running the whole way on the road above the ford that Mòrag nan Rathad raised out of the mud in the first summer of her reign.",
    "place": "burg:315",
    "kind": "land",
    "category": "land",
@@ -1005,7 +1015,7 @@
   {
    "id": "EIII-5039",
    "title": "Rònat sent to the stag's school",
-   "body": "A boy of ten with a talent for losing count past thirty is sent from his father's holding to the stag's school in the holy wood east of Muileann chiar. Aonghas Cam, the old cutter, scores his first tally-stick through the middle and sets him cutting sticks two years before he is trusted near a beast to be counted.",
+   "body": "A boy of ten with a talent for losing count past thirty is sent from his father's holding to the stag's school in Coille Naomh Muileann chiar east of Muileann chiar. Aonghas Cam, the old cutter, scores his first tally-stick through the middle and sets him cutting sticks two years before he is trusted near a beast to be counted.",
    "place": "burg:78",
    "kind": "law",
    "category": "law",
@@ -1125,8 +1135,8 @@
   },
   {
    "id": "EIII-5044",
-   "title": "The letters set against the obelisk",
-   "body": "Rònat and two others walk five days east to the grey stone at Cnoc bheag and set the sound-marks stroke for stroke against the old marks cut there. Nothing answers: no vowel, no grouping, no order in the stone's marks matches theirs.",
+   "title": "The letters set against Carragh Cnoc bheag",
+   "body": "Rònat and two others walk five days west to the grey stone at Cnoc bheag and set the sound-marks stroke for stroke against the old marks cut there. Nothing answers: no vowel, no grouping, no order in the stone's marks matches theirs.",
    "place": "marker:28",
    "kind": "faith",
    "category": "faith",
@@ -1176,7 +1186,7 @@
   {
    "id": "EIII-5046",
    "title": "Niall Òg at the stag's school",
-   "body": "The ancient heir passes through the far east on foot and sits two evenings by the school's fire, telling pupils tales of the night of the handful. He asks, at the second evening's end, after the trick of marks he has heard tell of on the road.",
+   "body": "The ancient heir passes through the far east on foot and sits two evenings by the school's fire, telling pupils tales of Oidhche an Dòrlaich. He asks, at the second evening's end, after the trick of marks he has heard tell of on the road.",
    "place": "burg:78",
    "kind": "rulers",
    "category": "rulers",
@@ -1278,7 +1288,7 @@
   {
    "id": "EIII-5050",
    "title": "Rònat teaches Sìleas Dhonn's clerks",
-   "body": "Rònat walks the last long road of his active years to Dùn dhearg and teaches the ruler's clerks the sound-marks over a winter, finding grown clerks trained to a column of figures quicker with the knife than any pupil he taught in the holy wood.",
+   "body": "Rònat walks the last long road of his active years to Dùn dhearg and teaches the ruler's clerks the sound-marks over a winter, finding grown clerks trained to a column of figures quicker with the knife than any pupil he taught in Coille Naomh Muileann chiar.",
    "place": "burg:422",
    "kind": "law",
    "category": "law",
@@ -1471,8 +1481,8 @@
   },
   {
    "id": "EIII-5057",
-   "title": "Iain Garbh folds the Keeper's answer",
-   "body": "Iain Garbh's messengers return from Dùn ìseal empty-handed, made to repeat Uisdean mac Ruairidh's refusal word for word. Iain folds the written answer once and puts it inside his coat, and never again sets foot on the Hall's ground.",
+   "title": "Iain Garbh folds Coimheadaiche na Lasrach's answer",
+   "body": "Iain Garbh's messengers return from Dùn ìseal empty-handed, made to repeat Uisdean mac Ruairidh's refusal word for word. Iain folds the written answer once and puts it inside his coat, and never again sets foot on Talla na Lasrach's ground.",
    "place": "burg:315",
    "kind": "faith",
    "category": "faith",
@@ -1494,36 +1504,6 @@
    "era_between": [
     1000,
     1000
-   ]
-  },
-  {
-   "after": "II-0095"
-  },
-  {
-   "id": "EIII-5058",
-   "title": "The coughing winter at Muileann òg",
-   "body": "The warband winters on peat smoke at the burned toll-house of Muileann òg. Men who marched south whole come home in spring with a cough some of them carry the rest of their days, so that the older road-guards are known ever after by the sound of a hard winter's night.",
-   "place": "burg:151",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "II-0094",
-     "type": "sequel"
-    },
-    {
-     "to": "EIII-5057",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-division"
-   ],
-   "people": [],
-   "told_in": "book/26_of_the_basket_of_fish-bones.md#iii-of-the-flame-that-would-not-come",
-   "era_between": [
-    1001,
-    1001
    ]
   }
  ]

@@ -216,5 +216,47 @@
         "type": "sequel"
       }
     ]
+  },
+  {
+    "title": "Colin Rudd drives the first coal train",
+    "era_year": 12,
+    "summary": "The engine of the first coal train from the Sloc Mòr to Cathair dhearg is driven by a Tuathaich man, Colin Rudd, who had oiled locomotives under the humans' foremen as a boy, and who takes it as no insult that the old custodian says his blessing over the coal in the first wagon rather than over the engine.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0056"
+    ]
+  },
+  {
+    "title": "A woman from Baile ruadh asks after walls",
+    "era_year": 12,
+    "summary": "A woman newly down from Baile ruadh with three children asks Iain mac Ruairidh, marking the Muileann dhearg lodging for the Board, whether the Board means to build proper walls or only to go on stacking families under one roof; he has no answer but that he surveys the ground and does not build on it.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:491"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0053"
+    ]
+  },
+  {
+    "title": "A shunting driver asked his name",
+    "era_year": 13,
+    "summary": "Waiting an hour for the onward train at Muileann chrom, Iain mac Ruairidh walks out along the shunting rows and falls into talk with a driver named Murchadh, who has worked the humans' small engines since he was twelve and has never in thirty years been asked his name by anyone from the south.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:354"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0058"
+    ]
   }
 ]

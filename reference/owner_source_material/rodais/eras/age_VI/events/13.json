@@ -166,5 +166,19 @@
       "the-tuathaich"
     ],
     "master_links": []
+  },
+  {
+    "title": "The torn indenture kept on the bench",
+    "era_year": 14,
+    "summary": "Seumas Crùbach keeps the two torn halves of Harry Marlow's indenture on his bench through the whole year, moving them from shelf to shelf but never putting them to the fire, and when a stranger asks how his boy does, answers as he always had.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:282"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0062"
+    ]
   }
 ]

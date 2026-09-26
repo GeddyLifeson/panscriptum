@@ -59,7 +59,7 @@
   {
    "id": "EIV-3003",
    "title": "The one household that breaks its own coal",
-   "body": "By the seventieth year of the count Eachann Briseadair's is the only household on the hill below the vein-house that does the whole of the breaking and sorting itself rather than hiring hands season by season.",
+   "body": "By the seventieth year of the count Eachann Briseadair's is the only household on the hill below Taigh na Fèithe that does the whole of the breaking and sorting itself rather than hiring hands season by season.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -83,8 +83,8 @@
   },
   {
    "id": "EIV-3004",
-   "title": "The Diosal count taken up at Cathair dhearg",
-   "body": "The crown's own scribes at the red hall begin dating their rolls by the count Donnchadh mac Thormoid had kept alone at the vein-house for near thirty years, setting aside the reckoning by a king's reign for the turning he first set his own hand to as a clerk of thirty.",
+   "title": "An Diosal count taken up at Cathair dhearg",
+   "body": "The crown's own scribes at An Talla Dearg begin dating their rolls by the count Donnchadh mac Thormoid had kept alone at Taigh na Fèithe for near thirty years, setting aside the reckoning by a king's reign for the turning he first set his own hand to as a clerk of thirty.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -103,8 +103,8 @@
   },
   {
    "id": "EIV-3005",
-   "title": "Eachann Briseadair raises the first house below the vein-house",
-   "body": "Eachann Briseadair, whose household breaks and sorts the coal brought down from the galleries, builds the first house of stone below the vein-house's own gate; his sons build three more beside it within the decade, the beginning of the coal-breakers' row.",
+   "title": "Eachann Briseadair raises the first house below Taigh na Fèithe",
+   "body": "Eachann Briseadair, whose household breaks and sorts the coal brought down from the galleries, builds the first house of stone below Taigh na Fèithe's own gate; his sons build three more beside it within the decade, the beginning of the coal-breakers' row.",
    "place": "burg:491",
    "kind": "trade",
    "category": "trade",
@@ -123,8 +123,8 @@
   },
   {
    "id": "EIV-3006",
-   "title": "Founding of Muileann dhearg",
-   "body": "The row of houses the coal-breakers raise below the vein-house's gate grows, within Eachann Briseadair's own lifetime, into a settled town with its own well, smith and reeve, taking the name the vein-house had long given that ground: Muileann dhearg, the red mill.",
+   "title": "Muileann dhearg a town in more than name",
+   "body": "The coal-breakers' settlement below Taigh na Fèithe's gate, which has borne the name Muileann dhearg since the first years of the age, grows within Eachann Briseadair's lifetime into a town with its own well, smith and reeve, answering to Taigh na Fèithe rather than to any shire.",
    "place": "burg:491",
    "kind": "land",
    "category": "land",
@@ -197,8 +197,8 @@
   },
   {
    "id": "EIV-3009",
-   "title": "The lots drawn among the seven houses",
-   "body": "The heads of the seven houses that hold the right to the coal are called to the vein-house and each draws a marked stone from a covered bag before the custodians and the household, the galleries falling as the stones fall so that no house may claim its ground was given rather than drawn.",
+   "title": "The lots drawn among Na Seachd Taighean",
+   "body": "The heads of Na Seachd Taighean that hold the right to the coal are called to Taigh na Fèithe and each draws a marked stone from a covered bag before the custodians and the household, the galleries falling as the stones fall so that no house may claim its ground was given rather than drawn.",
    "place": "burg:491",
    "kind": "record",
    "category": "law",
@@ -223,7 +223,7 @@
   {
    "id": "EIV-3010",
    "title": "Death of Raghnall mac Uilleim and the crowning of his son",
-   "body": "Raghnall mac Uilleim dies in his eighty-fifth year after seven-and-thirty years on the red hall; his son Raghnall mac Raghnaill, seven-and-forty years old, is crowned in his place without dispute, the custody-book giving the closed reign one line and the new one another.",
+   "body": "Raghnall mac Uilleim dies in his eighty-fifth year after seven-and-thirty years on An Talla Dearg; his son Raghnall mac Raghnaill, seven-and-forty years old, is crowned in his place without dispute, Leabhar a' Chùraim giving the closed reign one line and the new one another.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -313,8 +313,8 @@
   },
   {
    "id": "EIV-3014",
-   "title": "The lot-stones shown to a visitor",
-   "body": "Old Donnchadh takes the bag of lot-stones down from its peg to let a grandson of Eachann Briseadair's, waiting idle in the vein-house hall, hold it and hear how the seven heads once drew their galleries, though he tells the boy nothing of which stone fell to which house.",
+   "title": "Clachan a' Chrannchuir shown to a visitor",
+   "body": "Old Donnchadh takes the bag of Clachan a' Chrannchuir down from its peg to let a grandson of Eachann Briseadair's, waiting idle in Taigh na Fèithe hall, hold it and hear how the seven heads once drew their galleries, though he tells the boy nothing of which stone fell to which house.",
    "place": "burg:491",
    "kind": "rite",
    "category": "faith",
@@ -367,7 +367,7 @@
   {
    "id": "EIV-3016",
    "title": "The old men compare two crownings",
-   "body": "At Cathair dhearg the court remarks that Ìomhar mac Raghnaill's crowning differs little from his father's three-and-thirty years before, the same cup passed hand to hand and the same oath said over it, a quiet continuity the custody-book itself gives only a single line apiece.",
+   "body": "At Cathair dhearg the court remarks that Ìomhar mac Raghnaill's crowning differs little from his father's three-and-thirty years before, the same cup passed hand to hand and the same oath said over it, a quiet continuity Leabhar a' Chùraim itself gives only a single line apiece.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -418,7 +418,7 @@
   {
    "id": "EIV-3018",
    "title": "The first silver neck-rings worn",
-   "body": "The heads of the seven houses of custody first wear the neck-rings beaten by the smiths of Muileann chiar, so that a stranger at the vein-house or the red hall may know a custodian by the collar at his throat before a word is said.",
+   "body": "The heads of Na Seachd Taighean first wear the neck-rings beaten by the smiths of Muileann chiar, so that a stranger at Taigh na Fèithe or An Talla Dearg may know a custodian by the collar at his throat before a word is said.",
    "place": "marker:2",
    "kind": "craft",
    "category": "coal",
@@ -490,7 +490,7 @@
   {
    "id": "EIV-3021",
    "title": "The king's habit at the gallery's mouth",
-   "body": "King Ìomhar takes up a habit no ruler before him is recorded keeping, asking the youngest hand at any gallery he visits to name the prop, the cut and the tally-mark before him; the vein-house's scribe judges it a kind of counting of his own, made by a king with no child to leave the hall to.",
+   "body": "King Ìomhar takes up a habit no ruler before him is recorded keeping, asking the youngest hand at any gallery he visits to name the prop, the cut and the tally-mark before him; Taigh na Fèithe's scribe judges it a kind of counting of his own, made by a king with no child to leave the hall to.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -559,7 +559,7 @@
   {
    "id": "EIV-3024",
    "title": "Fearchar mac Lachlainn bound to the galleries",
-   "body": "At seven years old Fearchar mac Lachlainn is bound for seven years to a custodian's household above Muileann dhearg, as every child of the seven houses is meant to be, while his younger brother Iain is kept at home to learn the hall.",
+   "body": "At seven years old Fearchar mac Lachlainn is bound for seven years to a custodian's household above Muileann dhearg, as every child of Na Seachd Taighean is meant to be, while his younger brother Iain is kept at home to learn the hall.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",
@@ -688,7 +688,7 @@
   {
    "id": "EIV-3029",
    "title": "The heads of the seven summoned to the capital",
-   "body": "With King Ìomhar dead and no living child of his line, riders carry word to all seven houses of custody that their heads are summoned to Cathair dhearg to choose, for the first time since the sunwise turn, a king the crown's own blood cannot simply hand down.",
+   "body": "With King Ìomhar dead and no living child of his line, riders carry word to all of Na Seachd Taighean that their heads are summoned to Cathair dhearg to choose, for the first time since An Diosal, a king the crown's own blood cannot simply hand down.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -768,7 +768,7 @@
   {
    "id": "EIV-3032",
    "title": "The head of Clann Ìomhair breaks the silence in the yard",
-   "body": "After a morning's silence in the yard of the red hall the head of Clann Ìomhair speaks first: the line of Beathag has held the hall a hundred years and more, and no house of the seven has a better claim to it than another.",
+   "body": "After a morning's silence in the yard of An Talla Dearg the head of Clann Ìomhair speaks first: the line of Beathag has held the hall a hundred years and more, and no house of the seven has a better claim to it than another.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -791,7 +791,7 @@
   {
    "id": "EIV-3033",
    "title": "Birth of Fearchar Donn",
-   "body": "A son is born to King Fearchar mac Lachlainn, then one-and-thirty and six years crowned, and is called Fearchar Donn for the brown of his hair; he is the first child born to a king the seven houses chose.",
+   "body": "A son is born to King Fearchar mac Lachlainn, then one-and-thirty and six years crowned, and is called Fearchar Donn for the brown of his hair; he is the first child born to a king Na Seachd Taighean chose.",
    "place": "burg:19",
    "kind": "court",
    "category": "rulers",
@@ -820,7 +820,7 @@
   {
    "id": "EIV-3034",
    "title": "The double court divided",
-   "body": "King Fearchar settles the custom of keeping his court partly at Cathair dhearg and partly at Baile Mòr dhomhain near the vein-house, with his brother Iain keeping Clann Fhearchair's own hall whenever the court is away at the capital.",
+   "body": "King Fearchar settles the custom of keeping his court partly at Cathair dhearg and partly at Baile Mòr dhomhain near Taigh na Fèithe, with his brother Iain keeping Clann Fhearchair's own hall whenever the court is away at the capital.",
    "place": "burg:273",
    "kind": "court",
    "category": "rulers",
@@ -920,7 +920,7 @@
   {
    "id": "EIV-3038",
    "title": "A king's fire kept to the ordinary measure",
-   "body": "Dying, King Fearchar asks that no coal be burned beyond the ordinary handful for any rite made over him, and the vein-house keeps the asking to the letter, so that the fire lit for a king is no larger than the fire any house of the seven lights for its own dead.",
+   "body": "Dying, King Fearchar asks that no coal be burned beyond the ordinary handful for any rite made over him, and Taigh na Fèithe keeps the asking to the letter, so that the fire lit for a king is no larger than the fire any house of the seven lights for its own dead.",
    "place": "burg:273",
    "kind": "craft",
    "category": "coal",
@@ -944,8 +944,8 @@
   },
   {
    "id": "EIV-3039",
-   "title": "The seven houses stand at Clann Fhearchair's grave",
-   "body": "The heads of the seven houses, each still wearing the neck-ring of Muileann chiar, stand at the grave of the king they chose nine-and-twenty years before, and not one of them is heard to say the choosing made in that cold yard was anything other than the right one.",
+   "title": "Na Seachd Taighean stand at Clann Fhearchair's grave",
+   "body": "The heads of Na Seachd Taighean, each still wearing the neck-ring of Muileann chiar, stand at the grave of the king they chose nine-and-twenty years before, and not one of them is heard to say the choosing made in that cold yard was anything other than the right one.",
    "place": "burg:273",
    "kind": "court",
    "category": "rulers",
@@ -1042,7 +1042,7 @@
   },
   {
    "id": "EIV-3043",
-   "title": "Gormshuil first names the vein the Hungry Hawk",
+   "title": "Gormshuil first names the vein An Seabhag Acrach",
    "body": "Asked, as custom wants, to say a few words over her father's empty place on the bench, Gormshuil nic Artair tells the shrine's watchers for the first time that the vein under Muileann dhearg is itself a hawk of Mòd's kind, to be fed the measured handful and never glutted past it.",
    "place": "burg:20",
    "kind": "rite",
@@ -1068,7 +1068,7 @@
   {
    "id": "EIV-3044",
    "title": "Hawk-keepers of the north coast come to hear her",
-   "body": "Word of Gormshuil's teaching, carried inland by a wool-buyer of the Hawk bay, brings three keepers of the coastal shrines to Cnoc bheag to judge it for themselves; they stay a week among the coal-cutters' wives at the shrine's ledge and go home saying the teaching has lost nothing in the carrying.",
+   "body": "Word of Gormshuil's teaching, carried inland by a wool-buyer of Bàgh an t-Seabhaig, brings three keepers of the coastal shrines to Cnoc bheag to judge it for themselves; they stay a week among the coal-cutters' wives at the shrine's ledge and go home saying the teaching has lost nothing in the carrying.",
    "place": "burg:20",
    "kind": "rite",
    "category": "faith",
@@ -1092,7 +1092,7 @@
   },
   {
    "id": "EIV-3045",
-   "title": "The Hawk bay elder questions Gormshuil's own hunger",
+   "title": "Bàgh an t-Seabhaig elder questions Gormshuil's own hunger",
    "body": "The eldest of the three coastal keepers asks Gormshuil, on the last morning of their visit, whether she has ever gone hungry enough herself to know the second half of what she teaches; Gormshuil answers that she has, twice, and disliked the lesson both times without forgetting either.",
    "place": "burg:20",
    "kind": "rite",

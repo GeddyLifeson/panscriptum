@@ -4,11 +4,11 @@
 
 ## I. Of Taigh a' Chalaidh
 
-The harbour-house of Seann Skell stood at the head of the west quay, where the Abhainn naomh widens into its river pool before it goes down to the sea. It was a long low house of grey stone with a turf roof, older than anyone could say, and it had a single door facing the water and a single window facing the town, so that whoever sat inside could see both the boats and the people who owned them. The town called it Taigh a' Chalaidh, the harbour-house, and nothing else, as though there were no other harbour in the world.
+Taigh a' Chalaidh stood at the head of the west quay, where the Abhainn naomh widens into its river pool before it goes down to the sea. It was a long low house of grey stone with a turf roof, older than anyone could say, and it had a single door facing the water and a single window facing the town, so that whoever sat inside could see both the boats and the people who owned them. The town called it Taigh a' Chalaidh, the harbour-house, and nothing else, as though there were no other harbour in the world.
 
 In it sat the harbour scribe, and in the second year of the age the harbour scribe was Calum mac Nèill.
 
-He was a spare, stooped man of thirty-odd with ink in the cracks of his fingers and a habit of humming through his nose while he worked, which his wife said would drive her into the river. His father had been harbour scribe before him, and his father's mother before that. The office was not a great one. He kept the rolls of the harbour: which boat lay at which berth, who owed dues and who had paid them, what came in and what went out, fish and salt and seal-oil, hides from up the river, barley down it. He wrote on boards. The custody-book at the vein-house was kept on good skin, and the queen's scribe at Cathair dhearg wrote on skin; but the harbour of Seann Skell had never had so much money that it could write its daily business on anything better than planed boards of alder, which could be scraped and written again, and hung on pegs along the walls in rows.
+He was a spare, stooped man of thirty-odd with ink in the cracks of his fingers and a habit of humming through his nose while he worked, which his wife said would drive her into the river. His father had been harbour scribe before him, and his father's mother before that. The office was not a great one. He kept the rolls of the harbour: which boat lay at which berth, who owed dues and who had paid them, what came in and what went out, fish and salt and seal-oil, hides from up the river, barley down it. He wrote on boards. Leabhar a' Chùraim at Taigh na Fèithe was kept on good skin, and the queen's scribe at Cathair dhearg wrote on skin; but the harbour of Seann Skell had never had so much money that it could write its daily business on anything better than planed boards of alder, which could be scraped and written again, and hung on pegs along the walls in rows.
 
 Calum liked the boards. He liked the sound of the knife cutting the letters, a small dry sound, and the curl of the shaving, and the way a board held what was cut into it. A skin could be scraped clean and no one the wiser. A cut in a board showed.
 
@@ -28,7 +28,7 @@ Calum put the dues board down. "There are no ships," he said.
 
 "There will be," said the fisher's wife. She was a sturdy woman with forearms like a baker's, and she looked at Calum as though he were being slow on purpose. "Everybody says. And when they go, there'll be a hundred wanting to go on them, and they'll want to know who asked first. So we want it written. Now. Who asked first. You write the harbour, don't you? This is harbour."
 
-Calum looked at them for a long moment. He thought of telling them to go home. He thought of the queen at Cathair dhearg, who had said nothing all this while, and of the custodians at the vein-house, who had said nothing either; and it occurred to him that if he sent these two away, they would go to some other scribe, or to no scribe, and the thing would be written badly or not at all. And a harbour scribe of Seann Skell did not like a thing to be written badly.
+Calum looked at them for a long moment. He thought of telling them to go home. He thought of the queen at Cathair dhearg, who had said nothing all this while, and of the custodians at Taigh na Fèithe, who had said nothing either; and it occurred to him that if he sent these two away, they would go to some other scribe, or to no scribe, and the thing would be written badly or not at all. And a harbour scribe of Seann Skell did not like a thing to be written badly.
 
 So he got up and took down a new board of alder from the rack, and planed it smooth, and cut at the head of it, in his best letters:
 
@@ -36,7 +36,7 @@ So he got up and took down a new board of alder from the rack, and planed it smo
 
 Then he sat down again and asked the fisher his name.
 
-He wrote it on {{date:III-0004}}. That board was the first of the roll, which the custody-book afterward called Rolla nan Deònach, the roll of the willing, and it hung on the wall of the harbour-house at Seann Skell for longer than anyone then living would live.
+He wrote it on {{date:III-0004}}. That board was the first of the roll, which Leabhar a' Chùraim afterward called Rolla nan Deònach, and it hung on the wall of the harbour-house at Seann Skell for longer than anyone then living would live.
 
 ## III. Of the Rule of the Whole Household
 
@@ -54,7 +54,7 @@ The fisher and his wife looked at each other. "We've not asked her," said the wi
 
 They stared at him. The fisher said, a little hotly, that he did not see what his mother had to do with it. Calum put down his knife and explained it, slowly, as he would have explained a harbour due, and in the explaining he found out what he thought.
 
-The coal was the reason. Every hearth on the island that held the right to the coal was entered by the vein-house in the custody-book, and every season the handful was measured out to the hearth, the whole house that sat round one fire, and never to a single man or woman. A hearth was one thing in the custody-book's eyes. If half of a household went and half stayed, what then? Two hearths where there had been one, each with half a right? Or one cold half-hearth and the handful measured to nobody? The custodians would not stand for it. And a household, Calum said, was a hearth to more than the custodians. A boy did not go over the sea and leave his grandmother by the fire. Or if he did, he should have to stand in the harbour-house and say so, before the whole town, with his grandmother beside him.
+The coal was the reason. Every hearth on the island that held the right to the coal was entered by Taigh na Fèithe in Leabhar a' Chùraim, and every season the handful was measured out to the hearth, the whole house that sat round one fire, and never to a single man or woman. A hearth was one thing in Leabhar a' Chùraim's eyes. If half of a household went and half stayed, what then? Two hearths where there had been one, each with half a right? Or one cold half-hearth and the handful measured to nobody? The custodians would not stand for it. And a household, Calum said, was a hearth to more than the custodians. A boy did not go over the sea and leave his grandmother by the fire. Or if he did, he should have to stand in the harbour-house and say so, before the whole town, with his grandmother beside him.
 
 "So you'll write us whole," said the fisher's wife slowly, "or not at all."
 
@@ -64,7 +64,7 @@ She thought about that. Then she nodded, once, as if she had been haggling over 
 
 They came back the next morning, all five of them, the old woman on a stick at the rear, and stood in a row before the board while Calum cut their names, one under another, joined by a line down the left side that he cut last to show they were one household. The old woman watched the knife the whole time. When he had finished she said, "Is that us, then?" and he said it was, and she touched the board with one finger, very lightly, where her name was, and went out without another word.
 
-That was how the roll came to be written by household and never by single name. The tellers have made a great deal of it since, and said that going was a thing a family did together or not at all. So it was. But it began with a scribe who did not wish to argue with the vein-house over half a hearth.
+That was how the roll came to be written by household and never by single name. The tellers have made a great deal of it since, and said that going was a thing a family did together or not at all. So it was. But it began with a scribe who did not wish to argue with Taigh na Fèithe over half a hearth.
 
 ## IV. Of Those Who Came
 
@@ -132,7 +132,7 @@ It had been a place where people came to pay their dues and quarrel about berths
 
 People came at night, too. The ones who could not say it by day came after dark, when the quay was empty. So Calum began to keep a lamp burning in the harbour-house late, long after the harbour's own business was done, and to sit up by it with a board on his knee, in case anyone came. His wife complained of the cost of the oil. He paid for it out of his own pocket, and went on doing it.
 
-And they came. A man who had fought his father for a month over it, and won, and could not bear to see his father's face while he said it. A girl who was not supposed to be out of her mother's house. A custodian's servant, sent secretly by his master to read what the roll held and count it for the vein-house, who confessed as much at once, and whom Calum let read, because the roll was not a secret.
+And they came. A man who had fought his father for a month over it, and won, and could not bear to see his father's face while he said it. A girl who was not supposed to be out of her mother's house. A custodian's servant, sent secretly by his master to read what the roll held and count it for Taigh na Fèithe, who confessed as much at once, and whom Calum let read, because the roll was not a secret.
 
 ## VIII. Of the Waiting for a Word
 
@@ -140,11 +140,11 @@ All that autumn the town waited for the queen to speak, and she did not.
 
 It was the first thing anyone asked a rider off the river road: had the queen said anything? And the rider always said no, and the asker always looked as though he had been cheated of something he was owed. A great many people in Seann Skell, it turned out, had been sure that the crown would decide it for them one way or the other. Some hoped she would forbid it, so that they could be angry with her and stay. Some hoped she would command it, so that they could go and blame her. Most, Calum thought, hoped she would do something, anything, so that the thing would be taken out of their own hands and they could sleep.
 
-The talk on the bench by the door ran every way. The queen was against it and waiting for it to die down. The queen was for it and waiting for the custodians. The queen's sister had been seen at Cuan shean asking about boats, so the queen must mean to send her. The queen had quarrelled with her sister over it and they no longer spoke. An old man who had once carried a message to the red hall and had never since let anyone forget it said that the queen was a deep one, like her mother, and would say nothing until the last moment and then say exactly the right thing; and everyone on the bench agreed with him, and none of them could say what the right thing would be.
+The talk on the bench by the door ran every way. The queen was against it and waiting for it to die down. The queen was for it and waiting for the custodians. The queen's sister had been seen at Cuan shean asking about boats, so the queen must mean to send her. The queen had quarrelled with her sister over it and they no longer spoke. An old man who had once carried a message to An Talla Dearg and had never since let anyone forget it said that the queen was a deep one, like her mother, and would say nothing until the last moment and then say exactly the right thing; and everyone on the bench agreed with him, and none of them could say what the right thing would be.
 
-The custodian's servant who had come to read the roll by night came again in the moon of Damhrach, and this time he brought a question from his master. How many households on the boards held the right to the coal? Calum did not know. He had not asked. The harbour roll was not the custody-book, and a fisher did not tell the harbour scribe whether his hearth took the handful. The servant went away with his question unanswered, and Calum sat a long while afterward looking at the boards, and understood for the first time that somewhere up in the mountain country, sixty miles off, men who had never set foot on the quay were counting his roll against their own, and that what they found in it would matter to them far more than it mattered to him.
+The custodian's servant who had come to read the roll by night came again in the moon of Damhrach, and this time he brought a question from his master. How many households on the boards held the right to the coal? Calum did not know. He had not asked. The harbour roll was not Leabhar a' Chùraim, and a fisher did not tell the harbour scribe whether his hearth took the handful. The servant went away with his question unanswered, and Calum sat a long while afterward looking at the boards, and understood for the first time that somewhere up in the mountain country, sixty miles off, men who had never set foot on the quay were counting his roll against their own, and that what they found in it would matter to them far more than it mattered to him.
 
-It frightened him a little. He had cut the first board because a fisher's wife had told him it was harbour business, and she had been right. Now it was the vein-house's business too, and the red hall's; and he had the uneasy sense of a man who has laid a plank across a ditch for his own use and turns round to find a cart coming over it.
+It frightened him a little. He had cut the first board because a fisher's wife had told him it was harbour business, and she had been right. Now it was Taigh na Fèithe's business too, and An Talla Dearg's; and he had the uneasy sense of a man who has laid a plank across a ditch for his own use and turns round to find a cart coming over it.
 
 He did not close the boards. But he began to write more carefully, and to ask of each household, before he cut, whether its hearth took the handful; and he put a small mark beside those that did, a notch like a flame, so that when the question came again he could answer it.
 
@@ -156,7 +156,7 @@ Calum's son Dòmhnall was his clerk that year, a quiet, serious boy of fourteen 
 
 Calum looked up.
 
-"The roll," said Dòmhnall. "Close the boards. Nobody's asked you to keep them. The queen hasn't. The vein-house hasn't. You started it yourself, because a fisher came in, and now it's eating the harbour-house. You can't get the dues done for people in the doorway. Half the town's in here every day crying. It isn't harbour business. Close it and tell them to go to the queen."
+"The roll," said Dòmhnall. "Close the boards. Nobody's asked you to keep them. The queen hasn't. Taigh na Fèithe hasn't. You started it yourself, because a fisher came in, and now it's eating the harbour-house. You can't get the dues done for people in the doorway. Half the town's in here every day crying. It isn't harbour business. Close it and tell them to go to the queen."
 
 Calum thought about it honestly. His son was right on every count but one.
 

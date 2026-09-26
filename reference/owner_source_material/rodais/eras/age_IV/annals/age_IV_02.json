@@ -139,8 +139,8 @@
   },
   {
    "id": "EIV-1506",
-   "title": "Doire fhiadhaich founded",
-   "body": "Woodcutters of the roll build huts at the edge of a wild oak wood on the shore of Loch chrom to fell crooked oak for the fleet's frames and knees. They stay after the felling, and the village takes the wood's name.",
+   "title": "Woodcutters' huts at Doire fhiadhaich",
+   "body": "Woodcutters of the roll build huts at the edge of a wild oak wood on the shore of Loch chrom to fell crooked oak for the fleet's frames and knees. They go home when the felling is done and the huts fall in; the wood keeps its name.",
    "place": "burg:35",
    "kind": "land",
    "category": "land",
@@ -188,7 +188,7 @@
   {
    "id": "EIV-1508",
    "title": "Coinneach mac Fhearghais sworn",
-   "body": "At the feast of Lugh the wrights of the strand bind themselves into one fellowship. A custodian of the vein-house swears their apprentices over a coal, and the first sworn is Coinneach mac Fhearghais, a coaster-wright's son of fourteen.",
+   "body": "At the feast of Lugh the wrights of the strand bind themselves into one fellowship. A custodian of Taigh na Fèithe swears their apprentices over a coal, and the first sworn is Coinneach mac Fhearghais, a coaster-wright's son of fourteen.",
    "place": "burg:489",
    "kind": "trade",
    "category": "trade",
@@ -297,7 +297,7 @@
   {
    "id": "EIV-1512",
    "title": "An Fhaoileag launched",
-   "body": "The first deep-keeled hull, planked and rigged, is floated off the blocks below Seann Skell with a coal from the vein-house set at her step. The town calls her An Fhaoileag, the gull, for the way she rides the water.",
+   "body": "The first deep-keeled hull, planked and rigged, is floated off the blocks below Seann Skell with a coal from Taigh na Fèithe set at her step. The town calls her An Fhaoileag, the gull, for the way she rides the water.",
    "place": "burg:489",
    "kind": "trade",
    "category": "trade",
@@ -507,7 +507,7 @@
   {
    "id": "EIV-1520",
    "title": "An Dara Fhaoileag planked",
-   "body": "The second hull stands planked from keel to sheer and steps her mast on the strand below Seann Skell. The wrights name her An Dara Fhaoileag, the second gull, and the doubt among the older wrights over her fuller, hollow-bowed lines goes quiet.",
+   "body": "An Dara Fhaoileag stands planked from keel to sheer and steps her mast on the strand below Seann Skell. The wrights name her An Dara Fhaoileag, the second gull, and the doubt among the older wrights over her fuller, hollow-bowed lines goes quiet.",
    "place": "burg:489",
    "kind": "trade",
    "category": "trade",
@@ -584,7 +584,7 @@
   {
    "id": "EIV-1523",
    "title": "Seumas Reultach begins the teaching",
-   "body": "On the headland above Cuan ruadh the old steersman Seumas Reultach begins teaching the six pilots the wheel of the sky and the steering star, Reul na Stiùire, by which it is held. Most of what he gives them is spoken, night after night, and set down nowhere.",
+   "body": "On the headland above Cuan ruadh the old steersman Seumas Reultach begins teaching the six pilots the wheel of the sky and Reul na Stiùire, by which it is held. Most of what he gives them is spoken, night after night, and set down nowhere.",
    "place": "burg:119",
    "kind": "trade",
    "category": "trade",
@@ -613,7 +613,7 @@
   {
    "id": "EIV-1524",
    "title": "Part of the star-lore set on hide",
-   "body": "At the vein-house's asking, Seumas Reultach has his granddaughter cut onto a scraped hide the wheel of the sky, the steering star and the four turning marks of the year. He keeps back the swell-reading and the wind-smell, saying some things a hide can hold and some things only a life can.",
+   "body": "At Taigh na Fèithe's asking, Seumas Reultach has his granddaughter cut onto a scraped hide the wheel of the sky, Reul na Stiùire and the four turning marks of the year. He keeps back the swell-reading and the wind-smell, saying some things a hide can hold and some things only a life can.",
    "place": "burg:119",
    "kind": "record",
    "category": "law",
@@ -665,7 +665,7 @@
   {
    "id": "EIV-1526",
    "title": "The pilots return west",
-   "body": "The six pilots cross the mountain country again to the west coast, carrying the hide of star-marks and what they have learned of the wheel of the sky, the steering star and the smell of the dark before a change of wind.",
+   "body": "The six pilots cross the mountain country again to the west coast, carrying the hide of star-marks and what they have learned of the wheel of the sky, Reul na Stiùire and the smell of the dark before a change of wind.",
    "place": "burg:119",
    "kind": "land",
    "category": "land",
@@ -715,7 +715,7 @@
   {
    "id": "EIV-1528",
    "title": "Catrìona nic Iain made pilot of An Ròn Glas",
-   "body": "Catrìona nic Iain reaches Seann Skell after the households of the roll have chosen Mòrag nic Dhòmhnaill and Fearchar mac Ruairidh to lead them. On the west quay Mòrag asks her to be pilot of her hull, An Ròn Glas, and Catrìona names her the steering star.",
+   "body": "Catrìona nic Iain reaches Seann Skell after the households of the roll have chosen Mòrag nic Dhòmhnaill and Fearchar mac Ruairidh to lead them. On the west quay Mòrag asks her to be pilot of her hull, An Ròn Glas, and Catrìona names her Reul na Stiùire.",
    "place": "burg:489",
    "kind": "trade",
    "category": "trade",

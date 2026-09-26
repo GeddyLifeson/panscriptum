@@ -31,7 +31,7 @@
   {
    "id": "EII-5501",
    "title": "Amber, pots and flint change hands at the ford",
-   "body": "Potters of the north-west, a stranger from the far west with strings of drilled amber, and carriers of eastern flint trade the first day of the great gathering through, while households from opposite ends of the crowd sit down together to weigh what a marriage between their children might be worth.",
+   "body": "Potters of the north-west, a stranger from the far west with strings of drilled amber, and carriers of eastern flint trade the first day of An Cruinneachadh Mòr through, while households from opposite ends of the crowd sit down together to weigh what a marriage between their children might be worth.",
    "kind": "trade",
    "category": "trade",
    "links": [
@@ -101,8 +101,8 @@
   },
   {
    "id": "EII-5504",
-   "title": "The Red Hill's new holder is still called by his father's name",
-   "body": "Among the five who wade out to put their hands between the king's, the Red Hill's own holder is so newly come to his hall that half the crowd on the bank still names him for his father before catching themselves.",
+   "title": "An Cnoc Ruadh's new holder is still called by his father's name",
+   "body": "Among the five who wade out to put their hands between the king's, An Cnoc Ruadh's own holder is so newly come to his hall that half the crowd on the bank still names him for his father before catching themselves.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -176,7 +176,7 @@
   {
    "id": "EII-5507",
    "title": "Eithne stands young-faced in the outer ring",
-   "body": "Eithne, not yet three hundred years old and looking a girl of twenty, stands laughing among the outer rings of the king's blood, named to the girl of the Red Hill by a woman of the ford who knows the lines by heart.",
+   "body": "Eithne, not yet three hundred years old and looking a girl of twenty, stands laughing among the outer rings of the king's blood, named to the girl of An Cnoc Ruadh by a woman of the ford who knows the lines by heart.",
    "kind": "reign",
    "category": "rulers",
    "links": [
@@ -224,7 +224,7 @@
   {
    "id": "EII-5509",
    "title": "A boy of the west asks whether it is one family",
-   "body": "A boy of a western household, standing beside the Red Hill girl at the bank while the naming goes on, asks her whether all of that in the water is truly one family, and neither child can find a plainer answer to give the other.",
+   "body": "A boy of a western household, standing beside An Cnoc Ruadh girl at the bank while the naming goes on, asks her whether all of that in the water is truly one family, and neither child can find a plainer answer to give the other.",
    "kind": "reign",
    "category": "rulers",
    "links": [
@@ -247,7 +247,7 @@
   {
    "id": "EII-5510",
    "title": "The east's absence is remarked and let go",
-   "body": "Women of the Red Hill note at the fire that no household from east of the vein has come to the gathering a second year running, turn the matter over a little while without an answer, and let it go with the fine weather, unremembered again within the hour.",
+   "body": "Women of An Cnoc Ruadh note at the fire that no household from east of the vein has come to the gathering a second year running, turn the matter over a little while without an answer, and let it go with the fine weather, unremembered again within the hour.",
    "kind": "reign",
    "category": "rulers",
    "links": [
@@ -269,8 +269,8 @@
   },
   {
    "id": "EII-5511",
-   "title": "The Red Hill girl trails her hand in the warm ford",
-   "body": "When the gathering has gone back to its fires and the king stands alone a while in the emptied ford at dusk, the Red Hill girl, nearest the water of anyone left on the bank, finds it warm as bath-water round his legs and sees it smoke downstream of him in the last light.",
+   "title": "An Cnoc Ruadh girl trails her hand in the warm ford",
+   "body": "When the gathering has gone back to its fires and the king stands alone a while in the emptied ford at dusk, An Cnoc Ruadh girl, nearest the water of anyone left on the bank, finds it warm as bath-water round his legs and sees it smoke downstream of him in the last light.",
    "kind": "reign",
    "category": "rulers",
    "links": [
@@ -368,8 +368,8 @@
   },
   {
    "id": "EII-5515",
-   "title": "Somhairle gives Diorbhail the Line of the Mason whole",
-   "body": "Over a single night at the watch-fire, with Beathan's son sitting the turn beside them, Somhairle says the whole Line of the Mason through twice without a name out of place, the same way it was given to him and to Beathan before her, and sets her own name at its foot when he is done.",
+   "title": "Somhairle gives Diorbhail Sloinneadh a' Chlachair whole",
+   "body": "Over a single night at the watch-fire, with Beathan's son sitting the turn beside them, Somhairle says the whole Sloinneadh a' Chlachair through twice without a name out of place, the same way it was given to him and to Beathan before her, and sets her own name at its foot when he is done.",
    "place": "burg:276",
    "kind": "culture",
    "category": "law",
@@ -594,7 +594,7 @@
   {
    "id": "EII-5524",
    "title": "Ceann mhin's people will not climb to the ruin",
-   "body": "The households settled in sight of the fortress ruin on the headland build their houses with their doors to the sea and their backs to the broken walls, and will not carry off the good dressed stone lying loose there for the taking, an old woman of that shore saying a wall raised by other hands keeps its own quarrel.",
+   "body": "The households settled in sight of Làrach an Dùin ruin on the headland build their houses with their doors to the sea and their backs to the broken walls, and will not carry off the good dressed stone lying loose there for the taking, an old woman of that shore saying a wall raised by other hands keeps its own quarrel.",
    "place": "burg:363",
    "kind": "faith",
    "category": "faith",
@@ -804,8 +804,8 @@
   },
   {
    "id": "EII-5533",
-   "title": "A shepherd's flock will not cross the worn path at the temple ruin",
-   "body": "A shepherd wakes from a sun-warmed sleep to find his whole flock standing stock still along the path worn round the temple ruin, none grazing, none straying past its edge, and drives them home without letting a hoof cross it, telling after that his sheep had more sense of the place than he did.",
+   "title": "A shepherd's flock will not cross the worn path at Làrach an Teampaill",
+   "body": "A shepherd wakes from a sun-warmed sleep to find his whole flock standing stock still along the path worn round Làrach an Teampaill, none grazing, none straying past its edge, and drives them home without letting a hoof cross it, telling after that his sheep had more sense of the place than he did.",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -880,7 +880,7 @@
   {
    "id": "EII-5536",
    "title": "Alasdair Làidir takes every fall of the contests at three-and-twenty",
-   "body": "At the yearly contests below the wind-stones of Ceann leathan, a young herdsman's son named Alasdair Làidir throws every man who stands against him from first light to last, the youngest ever known to do it, and is given by custom the first try at the lifting-stone that has never once been raised.",
+   "body": "At the yearly contests below Clachan nan Gaoth of Ceann leathan, a young herdsman's son named Alasdair Làidir throws every man who stands against him from first light to last, the youngest ever known to do it, and is given by custom the first try at Clach a' Neirt that has never once been raised.",
    "place": "burg:363",
    "kind": "culture",
    "category": "law",
@@ -906,7 +906,7 @@
   {
    "id": "EII-5537",
    "title": "A grey stranger lifts the black boulder at Ceann leathan",
-   "body": "After Alasdair Làidir's strength fails against it, an unknown grey-haired traveller steps from the watching crowd, sets his hands to the lifting-stone and raises it to his knees, then sets it down again gently rather than dropping it, and walks off the headland refusing to give any name the reciters might carry.",
+   "body": "After Alasdair Làidir's strength fails against it, an unknown grey-haired traveller steps from the watching crowd, sets his hands to Clach a' Neirt and raises it to his knees, then sets it down again gently rather than dropping it, and walks off the headland refusing to give any name the reciters might carry.",
    "place": "burg:363",
    "kind": "culture",
    "category": "law",
@@ -960,7 +960,7 @@
   {
    "id": "EII-5539",
    "title": "An old woman at the ford sets a matching tale beside Alasdair's doubted one",
-   "body": "At the crowded ford gathering, an old man past his wrestling years tells, once more, of the stone lifted and gently set down at Ceann leathan; a grey-haired woman at the same fire answers his young doubters not by taking his side but by recalling a near-identical telling she heard thirty years before, from a different mouth entirely, at a fire near the southern Seann Skell.",
+   "body": "At Cruinneachadh an Àtha, crowded that year, an old man past his wrestling years tells, once more, of the stone lifted and gently set down at Ceann leathan; a grey-haired woman at the same fire answers his young doubters not by taking his side but by recalling a near-identical telling she heard thirty years before, from a different mouth entirely, at a fire near the southern Seann Skell.",
    "kind": "culture",
    "category": "law",
    "links": [

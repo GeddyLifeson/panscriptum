@@ -76,7 +76,7 @@
   {
    "id": "EVI-2003",
    "title": "A maor's clerk carries the new coin north",
-   "body": "In the autumn a young clerk of a southern maor's office rides to Caol mhòr with the first struck coin the Moot has seen, and, asked how a household of the south is managing the exchange, answers that he does not rightly know, his own family's savings having gone on the rent before the crying-down.",
+   "body": "In the autumn a young clerk of a southern maor's office rides to Caol mhòr with the first struck coin Tional nan Tuathach has seen, and, asked how a household of the south is managing the exchange, answers that he does not rightly know, his own family's savings having gone on the rent before the crying-down.",
    "kind": "trade",
    "place": "burg:95",
    "category": "trade",
@@ -98,8 +98,8 @@
   },
   {
    "id": "EVI-2004",
-   "title": "The Moot debates the wording of its petition",
-   "body": "The Moot at Caol mhòr argues two evenings over a letter for the council, one voice wanting it to ask why the coin was cried down without warning north, another wanting no blame in it at all. Walter Hale's plain ask for a exchange mark for mark, without complaint, stands by the second evening nearly as he first wrote it.",
+   "title": "Tional nan Tuathach debates the wording of its petition",
+   "body": "Tional nan Tuathach argues two evenings over a letter for the council, one voice wanting it to ask why the coin was cried down without warning north, another wanting no blame in it at all. Walter Hale's plain ask for a exchange mark for mark, without complaint, stands by the second evening nearly as he first wrote it.",
    "kind": "law",
    "place": "burg:95",
    "category": "law",
@@ -147,8 +147,8 @@
   },
   {
    "id": "EVI-2006",
-   "title": "Ailean mac Iain files the Moot's letter",
-   "body": "The Moot's letter asking an exchange for the north's voided savings reaches the council's chests and is read by the under-clerk Ailean mac Iain, who notes its date and seal, finds no standing order to answer it, and sets it down among that quarter's petitions marked with two words, received; filed, as his post requires.",
+   "title": "Ailean mac Iain files Tional nan Tuathach's letter",
+   "body": "Tional nan Tuathach's letter asking an exchange for the north's voided savings reaches the council's chests and is read by the under-clerk Ailean mac Iain, who notes its date and seal, finds no standing order to answer it, and sets it down among that quarter's petitions marked with two words, received; filed, as his post requires.",
    "kind": "law",
    "place": "burg:19",
    "category": "law",
@@ -262,7 +262,7 @@
   },
   {
    "id": "EVI-2011",
-   "title": "The house of the Stone's chits redeemed at its door",
+   "title": "The house of Lia Fàil's chits redeemed at its door",
    "body": "At Inis thais, where the new coin arrives slower than almost anywhere in the kingdom, the merchants trade the winter through on chits written against the word of the house of Òrd na Cloiche. When coin at last comes south in quantity, the chits are carried to the house's own door and redeemed there, less a tenth the house keeps for the keeping of them.",
    "kind": "trade",
    "place": "burg:166",
@@ -283,8 +283,8 @@
   },
   {
    "id": "EVI-2012",
-   "title": "Hale sets down the answer he means to give the Moot",
-   "body": "Weighing Fearchar Bonn's coin against Joseph Marlow's ploughshare on his own table, Walter Hale writes for the Moot that a people waiting on an answer that never comes would do better to build, while it waits, the thing it asked for, since the waiting will be long and the ground does not stop wanting to be ploughed.",
+   "title": "Hale sets down the answer he means to give Tional nan Tuathach",
+   "body": "Weighing Fearchar Bonn's coin against Joseph Marlow's ploughshare on his own table, Walter Hale writes for Tional nan Tuathach that a people waiting on an answer that never comes would do better to build, while it waits, the thing it asked for, since the waiting will be long and the ground does not stop wanting to be ploughed.",
    "kind": "trade",
    "place": "burg:95",
    "category": "trade",
@@ -333,8 +333,31 @@
   },
   {
    "id": "EVI-2014",
+   "title": "Walter Hale walks to Doire mhin in the snow",
+   "body": "Walter Hale walks the ten miles to Doire mhin in an Gearran on a road half snow and half black mud to see Joseph Marlow's forge for himself, and writes that the town had turned what the council left worthless into something a field could use without asking anyone's leave.",
+   "kind": "humans",
+   "place": "burg:5",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/07_of_the_coin_with_the_coal_in_its_seal.md#iv-of-doire-mhin-in-the-snow",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EVI-2015",
    "title": "The written order first read at the southern Seann Skell",
-   "body": "In the hall of the greatest house of the Rite, Dòmhnall mac Thormoid reads aloud, for the first time, the order of worship he has spent the year composing: the leyline, the unbroken line of the coal-touched, and the measure of what may be burned. Eleven custodians and a scattering of witnesses from neighbouring houses hear it out in silence.",
+   "body": "In the hall of the greatest house of Deas-ghnàth a' Ghuail, Dòmhnall mac Thormoid reads aloud, for the first time, the order of worship he has spent the year composing: the leyline, the unbroken line of fuil-ghuail, and the measure of what may be burned. Eleven custodians and a scattering of witnesses from neighbouring houses hear it out in silence.",
    "kind": "faith",
    "place": "burg:431",
    "category": "faith",
@@ -355,9 +378,9 @@
    ]
   },
   {
-   "id": "EVI-2015",
-   "title": "The houses of the Stone promise good will and nothing more",
-   "body": "Within the month a letter reaches Seann Skell from the houses of the Stone in the south-west, wishing the new order well and offering no further part in it. Dòmhnall mac Thormoid copies it into the first page of a plain ledger he begins that day, meaning to keep every letter the Rite sends or receives from then on.",
+   "id": "EVI-2016",
+   "title": "Òrd na Cloiche promise good will and nothing more",
+   "body": "Within the month a letter reaches Seann Skell from Òrd na Cloiche in the south-west, wishing the new order well and offering no further part in it. Dòmhnall mac Thormoid copies it into the first page of a plain ledger he begins that day, meaning to keep every letter Deas-ghnàth a' Ghuail sends or receives from then on.",
    "kind": "faith",
    "place": "burg:204",
    "category": "faith",
@@ -378,9 +401,9 @@
    ]
   },
   {
-   "id": "EVI-2016",
-   "title": "The Hawk houses' letter of refusal",
-   "body": "A letter comes to Seann Skell from the hawk-houses about Cnoc bheag, sealed with the mark of a bird with wings spread flat: the old form of the Rite has never needed a custodian above the local altar and sees no cause to answer to one now. It calls the new writing handsome, and not needed, and wishes the southern house no ill in going its own way.",
+   "id": "EVI-2017",
+   "title": "Òrd an t-Seabhaig' letter of refusal",
+   "body": "A letter comes to Seann Skell from Òrd an t-Seabhaig about Cnoc bheag, sealed with the mark of a bird with wings spread flat: the old form of Deas-ghnàth a' Ghuail has never needed a custodian above the local altar and sees no cause to answer to one now. It calls the new writing handsome, and not needed, and wishes the southern house no ill in going its own way.",
    "kind": "faith",
    "place": "burg:20",
    "category": "faith",
@@ -401,9 +424,9 @@
    ]
   },
   {
-   "id": "EVI-2017",
+   "id": "EVI-2018",
    "title": "Muileann naomh's bell first rung at a measured burning",
-   "body": "The hawk-house at Muileann naomh, far south of Cnoc bheag, takes up the written order entire and hangs a bell cast new for the ordered worship, the first any house of the Rite has raised for that purpose rather than a wedding or a warning. It is rung that summer at the year's measured burning before a small crowd gathered in the lane.",
+   "body": "The hawk-house at Muileann naomh, far south of Cnoc bheag, takes up the written order entire and hangs a bell cast new for the ordered worship, the first any house of Deas-ghnàth a' Ghuail has raised for that purpose rather than a wedding or a warning. It is rung that summer at the year's measured burning before a small crowd gathered in the lane.",
    "kind": "faith",
    "place": "burg:326",
    "category": "faith",
@@ -425,9 +448,9 @@
    ]
   },
   {
-   "id": "EVI-2018",
+   "id": "EVI-2019",
    "title": "Dòmhnall mac Thormoid's book of correspondence begun",
-   "body": "Watching a house answer him with silence rather than argument, the new high custodian begins a plain ledger to hold every letter the Rite sends or receives, the first such record any keeper of the flame has thought to make, so that a question once answered need not be answered from nothing a second time.",
+   "body": "Watching a house answer him with silence rather than argument, the new Àrd-choimheadaiche begins a plain ledger to hold every letter Deas-ghnàth a' Ghuail sends or receives, the first such record any keeper of the flame has thought to make, so that a question once answered need not be answered from nothing a second time.",
    "kind": "law",
    "place": "burg:431",
    "category": "law",
@@ -448,9 +471,9 @@
    ]
   },
   {
-   "id": "EVI-2019",
+   "id": "EVI-2020",
    "title": "Dòmhnall mac Thormoid rides north to Cathair dhearg",
-   "body": "Summoned to be presented at court as the Rite's first high custodian, Dòmhnall mac Thormoid rides to the capital to press, unsuccessfully, for a share in Òrd Mhacha's keeping of the coronation regalia. He pays for his own lodging, no arrangement having been made for him, and returns south with only the high priest's refusal to enter in his book.",
+   "body": "Summoned to be presented at court as Deas-ghnàth a' Ghuail's first Àrd-choimheadaiche, Dòmhnall mac Thormoid rides to the capital to press, unsuccessfully, for a share in Òrd Mhacha's keeping of the coronation regalia. He pays for his own lodging, no arrangement having been made for him, and returns south with only the high priest's refusal to enter in his book.",
    "kind": "faith",
    "place": "burg:19",
    "category": "faith",
@@ -471,9 +494,9 @@
    ]
   },
   {
-   "id": "EVI-2020",
+   "id": "EVI-2021",
    "title": "The unbroken line left open in doctrine",
-   "body": "Writing the order's page on the coal-touched, Dòmhnall mac Thormoid finds an old defence and a later gloss disagree on whether the unbroken line means blood or office, and sets the doctrine down to hold both readings rather than close either, having found no ground in the record to choose between them.",
+   "body": "Writing the order's page on fuil-ghuail, Dòmhnall mac Thormoid finds an old defence and a later gloss disagree on whether the unbroken line means blood or office, and sets the doctrine down to hold both readings rather than close either, having found no ground in the record to choose between them.",
    "kind": "faith",
    "place": "burg:431",
    "category": "faith",
@@ -495,12 +518,33 @@
    ]
   },
   {
+   "id": "EVI-2022",
+   "title": "Dòmhnall mac Thormoid thanks Muileann naomh",
+   "body": "Dòmhnall mac Thormoid writes to the hawk-house at Muileann naomh in his own hand, the first letter of thanks he composes in his office, has it copied once for his ledger, and sends it back by the wool-trader who brought him word of the bell.",
+   "kind": "faith",
+   "place": "burg:326",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0030a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/08_of_the_order_of_worship.md#iv-of-the-cnoc-bheag-letter-and-the-bell-at-muileann-naomh",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
    "after": "V-0036a"
   },
   {
-   "id": "EVI-2021",
-   "title": "Copies of the order sent to every house of the Rite",
-   "body": "By the last month of winter Dòmhnall mac Thormoid's two clerks finish fair copies of the order, each checked line by line against his own text, and he sends them to every house of the Old Faith still standing, the Hawk-houses among them, along with the houses of the Stone, Òrd Mhacha, and a last copy carried back to Muileann naomh in thanks.",
+   "id": "EVI-2023",
+   "title": "Copies of the order sent to every house of Deas-ghnàth a' Ghuail",
+   "body": "By the last month of winter Dòmhnall mac Thormoid's two clerks finish fair copies of the order, each checked line by line against his own text, and he sends them to every house of An Creideamh Sean still standing, the Hawk-houses among them, along with Òrd na Cloiche, Òrd Mhacha, and a last copy carried back to Muileann naomh in thanks.",
    "kind": "faith",
    "place": "burg:431",
    "category": "faith",
@@ -521,7 +565,7 @@
    ]
   },
   {
-   "id": "EVI-2022",
+   "id": "EVI-2024",
    "title": "The census asks of faith and finds none to answer for some",
    "body": "The state's first census, sent to ask what households hold to as well as how many they number, meets on the far north-western cape and its islets a good many who give no creed at all. Finding no word in Dia-thìris that fits a household with nothing to declare, the clerks write against their names gun chreideamh, without a creed, and ride on.",
    "kind": "law",
@@ -543,9 +587,9 @@
    ]
   },
   {
-   "id": "EVI-2023",
+   "id": "EVI-2025",
    "title": "The two counts of Doire ghlas go uncorrected",
-   "body": "The state's roll and the Moot's own tally of the northern shire, taken the same season by different hands, are found afterward to differ by close to a fifth. Neither is sent to the other side to be checked against it, and both are filed, each true by its own reckoning, in the chest that kept it.",
+   "body": "The state's roll and Tional nan Tuathach's own tally of the northern shire, taken the same season by different hands, are found afterward to differ by close to a fifth. Neither is sent to the other side to be checked against it, and both are filed, each true by its own reckoning, in the chest that kept it.",
    "kind": "law",
    "place": "province:23",
    "category": "law",
@@ -566,9 +610,9 @@
    ]
   },
   {
-   "id": "EVI-2024",
+   "id": "EVI-2026",
    "title": "Eilidh nic Leòid's letter of office reaches Cathair dhomhain",
-   "body": "A council rider, delayed three days by flooded roads, brings Eilidh nic Leòid the letter naming her first among the circuit justices: eleven shires of the south-west to be ridden once in every twelvemonth, and a written record of every judgment to be carried back each year to the council's clerks.",
+   "body": "A council rider, delayed three days by flooded roads, brings Eilidh nic Leòid the letter naming her first among Britheamhan na Cuairte: eleven shires of the south-west to be ridden once in every twelvemonth, and a written record of every judgment to be carried back each year to the council's clerks.",
    "kind": "law",
    "place": "burg:26",
    "category": "law",
@@ -589,7 +633,7 @@
    ]
   },
   {
-   "id": "EVI-2025",
+   "id": "EVI-2027",
    "title": "Eilidh's first assize, held at Cathair dhomhain",
    "body": "Before setting out on her circuit Eilidh nic Leòid sits her first cases at home: a boundary measured with a knotted cord rather than taken on either party's word, a debt found on the strength of an unburned receipt, and a fishmonger's short weight proved against the council's own standard.",
    "kind": "law",
@@ -610,9 +654,9 @@
    ]
   },
   {
-   "id": "EVI-2026",
+   "id": "EVI-2028",
    "title": "The quarrel over the well at Muileann bhàn",
-   "body": "A widow who once charged a penny a season for water from a spring now run dry, and the mason set to warden the town's new waterworks, bring their dispute over one well to the circuit justice's bench in the mill-yard, the town having no courtroom of its own.",
+   "body": "A widow who once charged a penny a season for water from a spring now run dry, and the mason set to warden the town's new waterworks, bring their dispute over one well to Britheamhan na Cuairte's bench in the mill-yard, the town having no courtroom of its own.",
    "kind": "trade",
    "place": "burg:502",
    "category": "trade",
@@ -631,7 +675,7 @@
    ]
   },
   {
-   "id": "EVI-2027",
+   "id": "EVI-2029",
    "title": "Eilidh's ruling on the Muileann bhàn well",
    "body": "The justice rules that the dead spring's old custom cannot be transferred to water drawn by a different road and paid for from a different purse, but that the well's ground remains the widow's by custom, and the town's word is given that it will never be built over or fenced from her without leave.",
    "kind": "law",
@@ -652,7 +696,7 @@
    ]
   },
   {
-   "id": "EVI-2028",
+   "id": "EVI-2030",
    "title": "The head-due first gathered along the southern circuit",
    "body": "Maors' clerks set up their tables at the crossroads of the south-west shires and take the head-due, eighteen purses on every five thousand heads, for the first time in living memory. Eilidh nic Leòid, riding past more than one such table, keeps her own note of what she sees, though none of it is brought to her bench.",
    "kind": "trade",
@@ -672,7 +716,7 @@
    ]
   },
   {
-   "id": "EVI-2029",
+   "id": "EVI-2031",
    "title": "Eilidh's circuit calls at Inis thais",
    "body": "The harbour court at Inis thais, kept well enough already by its own magistrate, hands up only two causes to the visiting justice, both turning on the ownership of a fishing boat after its owner died leaving no heir the town could agree on.",
    "kind": "law",
@@ -693,7 +737,7 @@
    ]
   },
   {
-   "id": "EVI-2030",
+   "id": "EVI-2032",
    "title": "Eilidh's circuit calls at Doire shean",
    "body": "Sitting two days in the temple porch for want of a courtroom, the justice settles a dispute among four households over the right to dry nets on a stretch of shingle by asking after the shore's own long custom rather than any written law, which none had ever thought to write so far down the coast.",
    "kind": "law",
@@ -717,54 +761,54 @@
    "after": "V-0038"
   },
   {
-   "id": "EVI-2031",
-   "title": "The maor of Seann Bhral asks a ruling of his own cousin",
-   "body": "Artair mac Lachlainn, maor of the western shire, meets the circuit justice at the town gate and asks her plainly to find for the Crown's grant, the household holding it being kin of his own. She hears the cause as she hears any other, and he sits through it without speaking.",
-   "kind": "law",
-   "place": "burg:47",
-   "category": "law",
-   "links": [
-    {
-     "to": "V-0038",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [],
-   "told_in": "book/09_of_the_justices_circuit.md#v-of-the-ruling-at-seann-bhral",
-   "era_between": [
-    8,
-    8
-   ]
-  },
-  {
-   "id": "EVI-2032",
-   "title": "The Tanner suit heard at Seann Bhral in the west",
-   "body": "A Tuathaich family holding four fields under a Company surveyor's title cut before the Severance is set against a Dia-thìreach household holding the Crown's newer grant of the same ground, made in ignorance that the land was occupied at all. Half the shire's Tuathaich households come to Seann Bhral to hear it argued.",
-   "kind": "law",
-   "place": "burg:47",
-   "category": "law",
-   "links": [
-    {
-     "to": "V-0038",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [],
-   "told_in": "book/09_of_the_justices_circuit.md#v-of-the-ruling-at-seann-bhral",
-   "era_between": [
-    8,
-    8
-   ]
-  },
-  {
    "id": "EVI-2033",
-   "title": "The Leòid ruling copied to every maor's court of the circuit",
+   "title": "The maor of Seann Bhral asks a ruling of his own cousin",
+   "body": "Artair mac Lachlainn, maor of the western shire, meets Britheamhan na Cuairte at the town gate and asks her plainly to find for An Crùn's grant, the household holding it being kin of his own. She hears the cause as she hears any other, and he sits through it without speaking.",
+   "kind": "law",
+   "place": "burg:47",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#v-of-the-ruling-at-seann-bhral",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVI-2034",
+   "title": "The Tanner suit heard at Seann Bhral in the west",
+   "body": "A Tuathaich family holding four fields under a surveyor of A' Chompanaidh's title cut before An Dealachadh is set against a Dia-thìreach household holding An Crùn's newer grant of the same ground, made in ignorance that the land was occupied at all. Half the shire's Tuathaich households come to Seann Bhral to hear it argued.",
+   "kind": "law",
+   "place": "burg:47",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#v-of-the-ruling-at-seann-bhral",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVI-2035",
+   "title": "Breith Leòid copied to every maor's court of the circuit",
    "body": "Eilidh nic Leòid has her ruling fair-copied to every maor's court of her eleven shires, with a note that any like cause be decided on like reasoning until the council itself says otherwise, reasoning that a law read differently in every court that hears it is no law at all.",
    "kind": "law",
    "category": "law",
@@ -779,6 +823,26 @@
    ],
    "people": [],
    "told_in": "book/09_of_the_justices_circuit.md#vi-of-the-copy-sent-to-every-court",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVI-2036",
+   "title": "Murchadh Clàrc asks whether making law is strange",
+   "body": "On the road between Doire shean and Seann Bhral in the last days of an Lùnastal, Murchadh Clàrc asks Eilidh nic Leòid, not for the first time, whether she finds it strange to be making law rather than only keeping it, after so many years reading a book of rights settled before she was born.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_justices_circuit.md#iv-of-the-head-due-and-the-road-south",
    "era_between": [
     8,
     8

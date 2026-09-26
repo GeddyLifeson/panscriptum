@@ -60,8 +60,8 @@
   },
   {
    "id": "EII-3502",
-   "title": "Murchadh meets Ailig Spor on the flint road",
-   "body": "On the road between Cnoc àrsaidh and the ford gathering, Murchadh comes to know Ailig Spor, a young carrier from the northern flats who tells him plainly that a yoke does not care whose back it is on; the two keep the friendship the whole of the years the road gives them.",
+   "title": "Murchadh meets Ailig Spor on Rathad na Spor",
+   "body": "On the road between Cnoc àrsaidh and Cruinneachadh an Àtha, Murchadh comes to know Ailig Spor, a young carrier from the northern flats who tells him plainly that a yoke does not care whose back it is on; the two keep the friendship the whole of the years the road gives them.",
    "place": "burg:2005",
    "kind": "daily-life",
    "category": "trade",
@@ -87,7 +87,7 @@
   {
    "id": "EII-3503",
    "title": "Ailig marries by the northern crossing",
-   "body": "Ailig Spor marries a woman of a household by the river-crossing on the flint road and raises two sons and a daughter on flint-carrying wages, all three walking the near stretches of the road themselves before they are grown; Murchadh stands godfather to the eldest.",
+   "body": "Ailig Spor marries a woman of a household by the river-crossing on Rathad na Spor and raises two sons and a daughter on flint-carrying wages, all three walking the near stretches of the road themselves before they are grown; Murchadh stands godfather to the eldest.",
    "kind": "marriage",
    "category": "rulers",
    "links": [
@@ -111,7 +111,7 @@
   },
   {
    "id": "EII-3504",
-   "title": "The flint road worn a yard deep",
+   "title": "Rathad na Spor worn a yard deep",
    "body": "The track between Cnoc àrsaidh and the northern river-crossing, worn by generations of carriers before Murchadh and Ailig were born, sinks a full yard below the level of the ground on either side, so that a man walking it casts no shadow beyond its banks and a stranger cresting the rise above it mistakes it for a dry ditch dug on purpose.",
    "place": "burg:2005",
    "kind": "trade",
@@ -161,7 +161,7 @@
   {
    "id": "EII-3506",
    "title": "The households along the road remark Murchadh's unaging face",
-   "body": "It does not escape the households of the flint road, decade upon decade, that Murchadh carries a yoke with no more sign of years on him than a carrier three seasons in shows; some later carriers will not share a fire with him for reasons they give badly, but Ailig never once asks him the plain question every other man on the circuit wants to ask.",
+   "body": "It does not escape the households of Rathad na Spor, decade upon decade, that Murchadh carries a yoke with no more sign of years on him than a carrier three seasons in shows; some later carriers will not share a fire with him for reasons they give badly, but Ailig never once asks him the plain question every other man on the circuit wants to ask.",
    "place": "burg:2005",
    "kind": "wonder",
    "category": "faith",
@@ -313,7 +313,7 @@
   {
    "id": "EII-3512",
    "title": "Murchadh asks his father for the north",
-   "body": "Murchadh comes south to Dùn ìseal and asks his father for the whole northern country the flint road runs through, which he has walked, he says, more times than any man living and knows better than any man living knows it.",
+   "body": "Murchadh comes south to Dùn ìseal and asks his father for the whole northern country Rathad na Spor runs through, which he has walked, he says, more times than any man living and knows better than any man living knows it.",
    "place": "burg:315",
    "kind": "custom",
    "category": "faith",
@@ -685,7 +685,7 @@
   {
    "id": "EII-3528",
    "title": "Sìleas asks the king what her deed will be",
-   "body": "At the ford gathering Sìleas Bhàn asks Ailean Mòr what the list will say she did, having herself set no boundary stone, fought no war and raided no shore; he tells her that four hundred years of not failing, where failing was always the easier road, is itself the deed the list will keep.",
+   "body": "At Cruinneachadh an Àtha Sìleas Bhàn asks Ailean Mòr what the list will say she did, having herself set no boundary stone, fought no war and raided no shore; he tells her that four hundred years of not failing, where failing was always the easier road, is itself the deed the list will keep.",
    "kind": "reign",
    "category": "rulers",
    "links": [
@@ -808,8 +808,8 @@
   },
   {
    "id": "EII-3533",
-   "title": "The eight winds are named",
-   "body": "The eight winds of the year, known before only by their feel, are given names all at once by no one the coasts can afterward name. Every coast that tells it uses the same eight names in the same order from that year on.",
+   "title": "Na h-Ochd Gaothan are named",
+   "body": "Na h-Ochd Gaothan of the year, known before only by their feel, are given names all at once by no one the coasts can afterward name. Every coast that tells it uses the same eight names in the same order from that year on.",
    "kind": "culture",
    "category": "law",
    "links": [
@@ -878,7 +878,7 @@
   },
   {
    "id": "EII-3536",
-   "title": "Three brothers raise the wind-stones at Ceann leathan",
+   "title": "Three brothers raise Clachan nan Gaoth at Ceann leathan",
    "body": "Aonghas, Dùghlas and Ailig mac Torcaill, brothers of the point, quarry eight stones from an outcrop above the landing and raise them in a ring, one for each named wind, so a sailor may lay a hand on the stone of the wind he wants before he puts out.",
    "place": "burg:22",
    "kind": "culture",
@@ -907,7 +907,7 @@
   {
    "id": "EII-3537",
    "title": "The crooked stone reset",
-   "body": "One bad winter after the wind-stones are first raised at Ceann leathan, the stone of the hardest offshore wind is found settled crooked and is dug out and reset on a footing of smaller stones, standing straighter and newer than its seven fellows ever after.",
+   "body": "One bad winter after Clachan nan Gaoth are first raised at Ceann leathan, the stone of the hardest offshore wind is found settled crooked and is dug out and reset on a footing of smaller stones, standing straighter and newer than its seven fellows ever after.",
    "place": "burg:22",
    "kind": "culture",
    "category": "law",
@@ -1526,7 +1526,7 @@
   {
    "id": "EII-3562",
    "title": "The saying of the vein's choosing begins to travel",
-   "body": "After the second opening strikes only unbroken common stone, it is said across the island that the vein under the mountain is alone of its kind and chose its one place the way the seven coals are said to have chosen theirs.",
+   "body": "After the second opening strikes only unbroken common stone, it is said across the island that the vein under the mountain is alone of its kind and chose its one place the way na Seachd Guail are said to have chosen theirs.",
    "kind": "faith",
    "category": "coal",
    "links": [

@@ -8,7 +8,7 @@
   {
    "id": "EVI-6500",
    "title": "Daniel Frayne notes the gaps at Muileann òg",
-   "body": "A wool-buyer at the Moot's own table tells Daniel Frayne that the fair at Muileann òg now stands with gaps between its tents where none stood before, the fair's own wardens filling them each year with a wider aisle rather than own that the crowd has thinned.",
+   "body": "A wool-buyer at Tional nan Tuathach's own table tells Daniel Frayne that Fèill Muileann òg now stands with gaps between its tents where none stood before, the fair's own wardens filling them each year with a wider aisle rather than own that the crowd has thinned.",
    "kind": "trade",
    "place": "marker:38",
    "category": "trade",
@@ -36,7 +36,7 @@
   {
    "id": "EVI-6501",
    "title": "The old die broken at Cathair dhearg",
-   "body": "With Mairead crowned, the die that struck Eòghan's own likeness on the realm-coin is broken at Cathair dhearg by the mint's custom, the old coin kept good until the new is struck in number enough to answer for it.",
+   "body": "With Mairead crowned, the die that struck Eòghan's own likeness on Bonn na Rìoghachd is broken at Cathair dhearg by the mint's custom, the old coin kept good until the new is struck in number enough to answer for it.",
    "kind": "rulers",
    "place": "burg:19",
    "category": "rulers",
@@ -55,10 +55,38 @@
    ]
   },
   {
-   "after": "V-0201"
+   "after": "V-0200"
   },
   {
    "id": "EVI-6502",
+   "title": "Agnes Pike dies",
+   "body": "Agnes Pike, who opened the byre school at Doire ghlas in the fifteenth year, dies at seven-and-seventy; Daniel Frayne, reading Muileann shean's letter for primers that season, remembers her telling him that a trade a man carries in his own head weighs nothing on the road.",
+   "kind": "humans",
+   "place": "burg:209",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0201",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/35_of_the_crown_alone.md#i-of-the-market-that-passed-the-fair",
+   "era_between": [
+    58,
+    58
+   ]
+  },
+  {
+   "after": "V-0201"
+  },
+  {
+   "id": "EVI-6503",
    "title": "Daniel Frayne binds primers for Muileann shean",
    "body": "Asked for primers by Muileann shean's own maor, Daniel Frayne binds forty copies of a reading-book at his own bench at Muileann leathan and sends them north on the first cart with room, the forms unchanged since he first set the type twenty years before.",
    "kind": "law",
@@ -79,7 +107,7 @@
    "told_in": "book/35_of_the_crown_alone.md#i-of-the-market-that-passed-the-fair"
   },
   {
-   "id": "EVI-6503",
+   "id": "EVI-6504",
    "title": "Muileann shean's benches pass thirty",
    "body": "The school Muileann shean opened for hewers' children the Guild will not bind grows within the year from eleven pupils to above thirty, though three of the first eleven have already gone south to hire themselves out as chain-hands in the ports.",
    "kind": "law",
@@ -105,9 +133,9 @@
    "after": "V-0202"
   },
   {
-   "id": "EVI-6504",
+   "id": "EVI-6505",
    "title": "The first bolt off the Doire ghlas looms",
-   "body": "The wool mills raised at Doire ghlas with the Moot's own coin turn their first bolt, a grey twill with a white thread at the selvedge, and the overseer writes to Caol mhòr that it is better cloth than the south's own factors reckoned a northern loom could turn out.",
+   "body": "The wool mills raised at Doire ghlas with Tional nan Tuathach's own coin turn their first bolt, a grey twill with a white thread at the selvedge, and the overseer writes to Caol mhòr that it is better cloth than the south's own factors reckoned a northern loom could turn out.",
    "kind": "trade",
    "place": "burg:209",
    "category": "trade",
@@ -128,9 +156,9 @@
    ]
   },
   {
-   "id": "EVI-6505",
-   "title": "The Rail Board refuses the first wagon",
-   "body": "The Rail Board's factors at Muileann leathan refuse to carry the Doire ghlas mill's first wagon-load south to Muileann òg, giving no reason beyond the Board's own long custom of judging for itself what the line will carry.",
+   "id": "EVI-6506",
+   "title": "Comhairle na Slighe-iarainn refuses the first wagon",
+   "body": "Comhairle na Slighe-iarainn's factors at Àth leathan, the railhead nearest the north, refuse to carry the Doire ghlas mill's first wagon-load south to Muileann òg, giving no reason beyond the Board's own long custom of judging for itself what the line will carry.",
    "kind": "trade",
    "place": "burg:234",
    "category": "trade",
@@ -151,9 +179,9 @@
    ]
   },
   {
-   "id": "EVI-6506",
-   "title": "The Moot brings its suit to Seann Bhral",
-   "body": "Daniel Frayne rides west to the circuit court at Seann Bhral with the mill's ledgers and the Board's letter of refusal, asking Ruairidh mac Phàdraig to rule whether a carrier chartered by the Crown may refuse one people's cargo and take another's.",
+   "id": "EVI-6507",
+   "title": "Tional nan Tuathach brings its suit to Seann Bhral",
+   "body": "Daniel Frayne rides west to the circuit court at Seann Bhral with the mill's ledgers and the Board's letter of refusal, asking Ruairidh mac Phàdraig to rule whether a carrier chartered by An Crùn may refuse one people's cargo and take another's.",
    "kind": "law",
    "place": "burg:47",
    "category": "law",
@@ -176,10 +204,36 @@
    ]
   },
   {
+   "after": "V-0203"
+  },
+  {
+   "id": "EVI-6508",
+   "title": "The charter read clause by clause at Seann Bhral",
+   "body": "When Comhairle na Slighe-iarainn's factor argues at Seann Bhral that the Board's rails answer to a different clause of its charter than its carts, Ruairidh mac Phàdraig has the whole charter read aloud clause by clause, and no clause is found that names the rails apart.",
+   "kind": "law",
+   "place": "burg:47",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0203",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/35_of_the_crown_alone.md#ii-of-the-doire-ghlas-bolt-and-the-suit",
+   "era_between": [
+    59,
+    59
+   ]
+  },
+  {
    "after": "V-0204"
   },
   {
-   "id": "EVI-6507",
+   "id": "EVI-6509",
    "title": "Word of Catrìona nic Neacail's going",
    "body": "A Board clerk's notice of the Mac Ùisdein sale reaches Caol mhòr with a passing word that the surveyor who drew the search's last sheet has resigned her post to teach at Caol shean, a name Daniel Frayne knows only at second hand.",
    "kind": "trade",
@@ -203,9 +257,9 @@
    "after": "V-0205"
   },
   {
-   "id": "EVI-6508",
-   "title": "The first Doire ghlas bale rides the coal line",
-   "body": "A year after the ruling, the Rail Board's own factor at Muileann leathan weighs the first Doire ghlas bale onto the wagon without comment, the same weight given any cargo that pays the rate, and Daniel Frayne rides down to see it loaded.",
+   "id": "EVI-6510",
+   "title": "The first Doire ghlas bale rides Slighe a' Ghuail",
+   "body": "A year after the ruling, Comhairle na Slighe-iarainn's own factor at Àth leathan weighs the first Doire ghlas bale onto the wagon without comment, the same weight given any cargo that pays the rate, and Daniel Frayne rides down to see it loaded.",
    "kind": "trade",
    "place": "burg:234",
    "category": "trade",
@@ -232,12 +286,106 @@
    ]
   },
   {
+   "id": "EVI-6511",
+   "title": "The council lets the Board's appeal lapse",
+   "body": "Comhairle na Slighe-iarainn's appeal against Breith Seann Bhral lies on the council's table a winter and a spring and is let lapse in the summer, the council's minute noting only that the matter was not reached in the session's business.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0203",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/35_of_the_crown_alone.md#ii-of-the-doire-ghlas-bolt-and-the-suit",
+   "era_between": [
+    60,
+    60
+   ]
+  },
+  {
+   "id": "EVI-6512",
+   "title": "Mary Coyle dies at Caol mhòr",
+   "body": "Mary Coyle, speaker of Tional nan Tuathach from the thirty-third year to the fifty-fifth, dies at Caol mhòr in the second week of an t-Iuchar at nine-and-seventy, having asked that nothing be read over her but the names.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0205",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/35_of_the_crown_alone.md#iv-of-the-widows-bench",
+   "era_between": [
+    60,
+    60
+   ]
+  },
+  {
+   "id": "EVI-6513",
+   "title": "Mary Coyle buried near Walter Hale",
+   "body": "Mary Coyle is laid in Walter Hale's ground, a little lower on the slope within sight of Tional nan Tuathach's house, and the priest reads over her only the eleven drowned of Cuan bheag, the widows of the bench by the door and her own name; three Ros mhòr men who sailed with her to Seann Bhral bring the tiller of her boat.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0205",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/35_of_the_crown_alone.md#iv-of-the-widows-bench",
+   "era_between": [
+    60,
+    60
+   ]
+  },
+  {
+   "id": "EVI-6514",
+   "title": "Mary Coyle's sheet kept in Tional nan Tuathach's chest",
+   "body": "Tional nan Tuathach votes without a count that the sheet of the eleven drowned and the widows after them, given it by Mary Coyle's family, be kept in its own chest beside Clàr nan Leòn with the space beneath the last name left empty; no notice of her death goes south.",
+   "kind": "law",
+   "place": "burg:95",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0205",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/35_of_the_crown_alone.md#iv-of-the-widows-bench",
+   "era_between": [
+    60,
+    60
+   ]
+  },
+  {
    "after": "V-0206"
   },
   {
-   "id": "EVI-6509",
-   "title": "The street named for the Sloc Mòr",
-   "body": "Miners settled on Àth fhiadhaich's new street carry small lumps of coal from the Sloc Mòr's own upper galleries among their goods, keeping them for the plain fact of the carrying rather than for any use, while the Old Spirits' keeper tells the council a street named for another town's mountain risks forgetting the ground it stands on.",
+   "id": "EVI-6515",
+   "title": "The street named for An Sloc Mòr",
+   "body": "Miners settled on Àth fhiadhaich's new street carry small lumps of coal from An Sloc Mòr's own upper galleries among their goods, keeping them for the plain fact of the carrying rather than for any use, while Na Seann Spioradan' keeper tells the council a street named for another town's mountain risks forgetting the ground it stands on.",
    "kind": "faith",
    "place": "burg:12",
    "category": "faith",
@@ -261,7 +409,7 @@
    "after": "V-0207"
   },
   {
-   "id": "EVI-6510",
+   "id": "EVI-6516",
    "title": "Dubhan's first working set down",
    "body": "Tormod Pinn enters a single sentence in the day-book on a report from the north, that a young man there has made trials at drawing a fuel from the waste of the mines and that they have come to nothing; he writes no more of it.",
    "kind": "coalblood",
@@ -284,9 +432,9 @@
    "after": "V-0208"
   },
   {
-   "id": "EVI-6511",
+   "id": "EVI-6517",
    "title": "The last pump drawn out",
-   "body": "Tormod Pinn rides to Achadh dhomhain and finds the Sloc Mòr's lowest galleries eleven fathoms under water, the pumps cold on the Board's own order; the overseer there has kept the order's own slip folded in his coat since the turn of the season, as though he expected someday to need to prove it.",
+   "body": "Tormod Pinn rides to Achadh dhomhain and finds An Sloc Mòr's lowest galleries eleven fathoms under water, the pumps cold on the Board's own order; the overseer there has kept the order's own slip folded in his coat since the turn of the season, as though he expected someday to need to prove it.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -308,9 +456,9 @@
    ]
   },
   {
-   "id": "EVI-6512",
-   "title": "The first pump goes down the coal line",
-   "body": "The first of the Sloc Mòr's three great pumps goes south under canvas on a flat wagon from a siding above Achadh dhomhain, bound for the new dry dock at Seann Bhral in the south; Tormod Pinn watches it pass and sets down that a pump goes where the water is and cares no more for the ground it served than a bolt of cloth.",
+   "id": "EVI-6518",
+   "title": "The first pump goes down Slighe a' Ghuail",
+   "body": "The first of An Sloc Mòr's three great pumps goes south under canvas on a flat wagon from a siding above Achadh dhomhain, bound for the new dry dock at Seann Bhral in the south; Tormod Pinn watches it pass and sets down that a pump goes where the water is and cares no more for the ground it served than a bolt of cloth.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -339,7 +487,7 @@
    "after": "V-0209"
   },
   {
-   "id": "EVI-6513",
+   "id": "EVI-6519",
    "title": "The third pump follows and six men are found other work",
    "body": "The overseer at Achadh dhomhain writes that the third and last pump has gone to Seann Bhral in the south after the second, and that the six men who tended the three between them have been found work on the galleries still above water, a thing the Board's own notice calls no loss to any household.",
    "kind": "coal",
@@ -363,9 +511,9 @@
    ]
   },
   {
-   "id": "EVI-6514",
+   "id": "EVI-6520",
    "title": "The maor of Baile dhomhain writes of the crossing",
-   "body": "A shire's maor writes to the Board of stock lost along Imrich nam Pantar near Baile dhomhain, a loss too large for wolves and weather; the Board's clerk, having no ledger fit to hold it, sends the letter on to the Library.",
+   "body": "A shire's maor writes to the Board of stock lost along Imrich nam Pantar near Baile dhomhain, a loss too large for wolves and weather; the Board's clerk, having no ledger fit to hold it, sends the letter on to an Leabharlann.",
    "kind": "land",
    "place": "marker:40",
    "category": "land",
@@ -377,7 +525,7 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-imrich-nam-pantar",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-imrich-nam-pantar",
    "era_between": [
     62,
     62
@@ -387,7 +535,7 @@
    "after": "V-0210"
   },
   {
-   "id": "EVI-6515",
+   "id": "EVI-6521",
    "title": "The old list of An Aois Naomh opened again",
    "body": "Tormod Pinn sets the maor's letter beside a Library list from the days of An Aois Naomh naming the years the panthers crossed before, an interval longer than any living herder's working life, and writes the crossing's entry longer than any other that year.",
    "kind": "faith",
@@ -407,15 +555,15 @@
     "the-depletion"
    ],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-imrich-nam-pantar",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-imrich-nam-pantar",
    "era_between": [
     62,
     62
    ]
   },
   {
-   "id": "EVI-6516",
-   "title": "The herders keep the crossing days",
+   "id": "EVI-6522",
+   "title": "The herders keep Imrich nam Pantar",
    "body": "The herders of the south-west drive their flocks off the old road beforehand and keep the crossing as a season of watching, losing fewer beasts in the end than the first week's count had feared, though more than an ordinary year costs them.",
    "kind": "land",
    "place": "marker:40",
@@ -428,7 +576,7 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-imrich-nam-pantar",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-imrich-nam-pantar",
    "era_between": [
     62,
     62
@@ -438,7 +586,7 @@
    "after": "V-0211"
   },
   {
-   "id": "EVI-6517",
+   "id": "EVI-6523",
    "title": "Baile ghorm's tanners buy the hides",
    "body": "Buyers from Baile ghorm ride up into the hills within the fortnight to take the hides of panthers the herders' dogs and spears have brought down, paying a price the herders judge fair for a skin they have no other use for.",
    "kind": "trade",
@@ -452,16 +600,16 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-imrich-nam-pantar",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-imrich-nam-pantar",
    "era_between": [
     62,
     62
    ]
   },
   {
-   "id": "EVI-6518",
+   "id": "EVI-6524",
    "title": "Panther-skins first at the fair",
-   "body": "The fair at Muileann òg sees, for the first time in any chronicler's memory, saddles and belts of panther-hide sold under the Baile ghorm mark, the southern buyers taken by surprise enough that the mark's own price doubles twice before the fair's ten days are out.",
+   "body": "Fèill Muileann òg sees, for the first time in any chronicler's memory, saddles and belts of panther-hide sold under the Baile ghorm mark, the southern buyers taken by surprise enough that the mark's own price doubles twice before the fair is out.",
    "kind": "trade",
    "place": "burg:170",
    "category": "trade",
@@ -473,7 +621,7 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-imrich-nam-pantar",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-imrich-nam-pantar",
    "era_between": [
     62,
     62
@@ -483,9 +631,9 @@
    "after": "V-0212"
   },
   {
-   "id": "EVI-6519",
+   "id": "EVI-6525",
    "title": "Muileann mhin halves its lamp-making",
-   "body": "The lamp-makers of Muileann mhin halve their making for want of coal to fire their forges properly, the coal reaching the town thinner and dearer each season the Sloc Mòr's galleries give less of it up.",
+   "body": "The lamp-makers of Muileann mhin halve their making for want of coal to fire their forges properly, the coal reaching the town thinner and dearer each season An Sloc Mòr's galleries give less of it up.",
    "kind": "coal",
    "place": "burg:137",
    "category": "coal",
@@ -500,7 +648,97 @@
     "the-depletion"
    ],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-the-lent-lamps-and-the-yard-at-muileann-chrom",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#v-of-the-lent-lamps-and-the-yard-at-muileann-chrom",
+   "era_between": [
+    62,
+    62
+   ]
+  },
+  {
+   "id": "EVI-6526",
+   "title": "An Sloc Mòr's pumps drain the dock at Seann Bhral",
+   "body": "The three great pumps of An Sloc Mòr, set on a bed of masonry at the head of the new dry dock at Seann Bhral in the south, pump it dry for the first time on the ninth day after the third is fired.",
+   "kind": "trade",
+   "place": "burg:110",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0209",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-the-dry-dock-at-seann-bhral",
+   "era_between": [
+    62,
+    62
+   ]
+  },
+  {
+   "id": "EVI-6527",
+   "title": "A coal-ship first stands in the Seann Bhral dock",
+   "body": "The first hull stood dry in the new dock at Seann Bhral is a coal-ship out of Ceann leathan with her keel sprung on the bar; by the year's end eleven hulls have stood in it, and the town's shipwrights raise a shed over its head.",
+   "kind": "trade",
+   "place": "burg:110",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0209",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-the-dry-dock-at-seann-bhral",
+   "era_between": [
+    62,
+    62
+   ]
+  },
+  {
+   "id": "EVI-6528",
+   "title": "The dock's return filed under the harbour",
+   "body": "Tormod Pinn enters Seann Bhral's return of the dock in Eachdraidh na Rìoghachd without a line of his own, copies into its margin the names the Achadh dhomhain men used among themselves for the three engines, and asks that the return be filed under the harbour and not under the Board.",
+   "kind": "law",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0209",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iii-of-the-dry-dock-at-seann-bhral",
+   "era_between": [
+    62,
+    62
+   ]
+  },
+  {
+   "id": "EVI-6529",
+   "title": "The Achadh dhomhain overseer signs his name",
+   "body": "The overseer at Achadh dhomhain writes to Tormod Pinn that the second pump has followed the first to Seann Bhral and the third stands ready, and that the six men who tended them have been found work on the galleries above water; he signs his own name to it this time rather than none.",
+   "kind": "coal",
+   "place": "burg:135",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0209",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#ii-of-the-galleries-let-go",
    "era_between": [
     62,
     62
@@ -510,9 +748,9 @@
    "after": "V-0213"
   },
   {
-   "id": "EVI-6520",
+   "id": "EVI-6530",
    "title": "The Guild's lending-book",
-   "body": "The Guild of Hewers keeps a plain minute-book at its hall for shaft-lamps lent from pit to pit, and Tormod Pinn, sending for a copy of its first year, finds more names entered against debts than against repayments, a dry column that tells the vein's own thinning more plainly than any Board letter.",
+   "body": "Comann nan Gualadairean keeps a plain minute-book at its hall for shaft-lamps lent from pit to pit, and Tormod Pinn, sending for a copy of its first year, finds more names entered against debts than against repayments, a dry column that tells the vein's own thinning more plainly than any Board letter.",
    "kind": "law",
    "category": "law",
    "links": [
@@ -527,10 +765,10 @@
     "the-library"
    ],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-the-lent-lamps-and-the-yard-at-muileann-chrom"
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#v-of-the-lent-lamps-and-the-yard-at-muileann-chrom"
   },
   {
-   "id": "EVI-6521",
+   "id": "EVI-6531",
    "title": "The yard families stop the trains",
    "body": "The yard families at Muileann chrom stop the coal trains for three days over a cut wage, putting forward as their spokesman Dòmhnall Ruadh mac Ailein, one-and-forty, whose father laid the yard's first rail; a Tuathaich minister there keeps his own book of the families' grievances.",
    "kind": "trade",
@@ -546,7 +784,7 @@
     "the-depletion"
    ],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-the-lent-lamps-and-the-yard-at-muileann-chrom",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#v-of-the-lent-lamps-and-the-yard-at-muileann-chrom",
    "era_between": [
     63,
     63
@@ -556,7 +794,7 @@
    "after": "V-0214"
   },
   {
-   "id": "EVI-6522",
+   "id": "EVI-6532",
    "title": "The Board settles and dismisses eleven",
    "body": "The Board's factor restores the old wage on the third day and the trains run again on the fourth; on the fifth the Board's own notice names eleven men dismissed for their part in the stopping, Dòmhnall Ruadh mac Ailein among them, the settlement and the dismissal arriving from the same hand in the same week.",
    "kind": "trade",
@@ -572,16 +810,16 @@
     "the-depletion"
    ],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#iv-of-the-lent-lamps-and-the-yard-at-muileann-chrom",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#v-of-the-lent-lamps-and-the-yard-at-muileann-chrom",
    "era_between": [
     63,
     63
    ]
   },
   {
-   "id": "EVI-6523",
+   "id": "EVI-6533",
    "title": "Cathair fhada's granaries want a second storey",
-   "body": "The maor of Cathair fhada writes to Muileann chaol that the year's harvest has proved thicker than any since before the search for a second vein was spoken of, granaries built for a lean year now wanting a second storey to hold it.",
+   "body": "The maor of Cathair fhada writes to Muileann chaol that the year's harvest has proved thicker than any since before Sireadh na Dàrna Fèithe was spoken of, granaries built for a lean year now wanting a second storey to hold it.",
    "kind": "land",
    "place": "burg:297",
    "category": "land",
@@ -593,7 +831,7 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#v-of-the-strike-through",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#vi-of-the-strike-through",
    "era_between": [
     63,
     63
@@ -603,7 +841,7 @@
    "after": "V-0215"
   },
   {
-   "id": "EVI-6524",
+   "id": "EVI-6534",
    "title": "Tormod strikes through his own note",
    "body": "Tormod Pinn draws a line through his own entry naming a hungry year to follow the panthers' crossing, leaving the words legible beneath it and writing that the harvest proved thick rather than thin, since a chronicle owes its readers its wrong guesses as plainly as its right ones.",
    "kind": "law",
@@ -625,7 +863,7 @@
    "people": [
     "beathag-nic-fhionnlaigh"
    ],
-   "told_in": "book/36_of_the_pumps_and_the_panthers.md#v-of-the-strike-through",
+   "told_in": "book/36_of_the_pumps_and_the_panthers.md#vi-of-the-strike-through",
    "era_between": [
     63,
     63
@@ -635,9 +873,9 @@
    "after": "V-0216"
   },
   {
-   "id": "EVI-6525",
+   "id": "EVI-6535",
    "title": "Census clerks come north for a count",
-   "body": "Two census clerks ride to Caol mhòr, the first southern office to ask the Moot for its own count of its own people rather than take none, the shire's own maor having told the surveyor-general no clerk had yet gone north.",
+   "body": "Two census clerks ride to Caol mhòr, the first southern office to ask Tional nan Tuathach for its own count of its own people rather than take none, the shire's own maor having told the surveyor-general no clerk had yet gone north.",
    "kind": "record",
    "place": "burg:95",
    "category": "law",
@@ -660,9 +898,9 @@
    ]
   },
   {
-   "id": "EVI-6526",
-   "title": "The Moot's figures given to the census clerks",
-   "body": "Daniel Frayne gives the visiting clerks the Moot's own count, kept every third year since the room was opened, along with the school and vigil registers, and offers to swear to the figures before a justice if the council should ask it.",
+   "id": "EVI-6536",
+   "title": "Tional nan Tuathach's figures given to the census clerks",
+   "body": "Daniel Frayne gives the visiting clerks Tional nan Tuathach's own count, kept every third year since the room was opened, along with the school and vigil registers, and offers to swear to the figures before a justice if the council should ask it.",
    "kind": "record",
    "place": "burg:95",
    "category": "law",
@@ -690,9 +928,9 @@
    ]
   },
   {
-   "id": "EVI-6527",
+   "id": "EVI-6537",
    "title": "Frayne's private book notes the asking",
-   "body": "Daniel Frayne writes the day's giving into his own private book, judging it worth the keeping that the Moot had, for once, been asked for its figures rather than merely tolerated in the giving of them.",
+   "body": "Daniel Frayne writes the day's giving into his own private book, judging it worth the keeping that Tional nan Tuathach had, for once, been asked for its figures rather than merely tolerated in the giving of them.",
    "kind": "record",
    "place": "burg:95",
    "category": "law",
@@ -718,7 +956,7 @@
    "after": "V-0217"
   },
   {
-   "id": "EVI-6528",
+   "id": "EVI-6538",
    "title": "A young clerk asks what the two words mean",
    "body": "Walking out of the room into the frost, a junior clerk asks Daniel Frayne whether the minute's two words oblige the south to answer for what it has printed; Frayne tells him a fact set down is not a promise kept, but cannot be unprinted either.",
    "kind": "record",
@@ -746,9 +984,9 @@
    "after": "V-0220"
   },
   {
-   "id": "EVI-6529",
+   "id": "EVI-6539",
    "title": "Tormod Pinn buried at Muileann chaol",
-   "body": "Tormod Pinn, chronicler nine-and-seventy years old, is buried in the small ground behind the Library among every keeper and chronicler the house has kept since Ailean Leabhar; Mòrag nic Coinnich speaks over him that he kept the list honest and struck nothing from it unearned.",
+   "body": "Tormod Pinn, chronicler nine-and-seventy years old, is buried in the small ground behind an Leabharlann among every keeper and chronicler the house has kept since Ailean Leabhar; Mòrag nic Coinnich speaks over him that he kept the list honest and struck nothing from it unearned.",
    "kind": "record",
    "place": "marker:34",
    "category": "law",
@@ -769,9 +1007,9 @@
    ]
   },
   {
-   "id": "EVI-6530",
+   "id": "EVI-6540",
    "title": "Beathag nic Fhionnlaigh's first morning at the desk",
-   "body": "Beathag nic Fhionnlaigh, chosen from the Library's own senior clerks, tells the house on her first morning as chronicler that she means to change nothing of the desk's hours, only its habit of silence where the record itself keeps none.",
+   "body": "Beathag nic Fhionnlaigh, chosen from an Leabharlann's own senior clerks, tells the house on her first morning as chronicler that she means to change nothing of the desk's hours, only its habit of silence where the record itself keeps none.",
    "kind": "record",
    "place": "marker:34",
    "category": "law",
@@ -794,12 +1032,107 @@
    ]
   },
   {
+   "after": "V-0221"
+  },
+  {
+   "id": "EVI-6541",
+   "title": "Tormod Pinn found at his desk",
+   "body": "Tormod Pinn is found dead at his desk at Muileann chaol on a morning in an t-Sultain, the year's returns open under his hand and his pen laid down beside them; the clerks write his age, nine-and-seventy, in the margin of his last page, the only line of his tenure he did not write himself.",
+   "kind": "humans",
+   "place": "burg:246",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0220",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/37_of_now_written.md#iii-of-tormod-pinn-s-last-winter",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EVI-6542",
+   "title": "A Ros gheal carter waits in an Leabharlann's yard",
+   "body": "The carter who brings the three iron-bound coffers of the Ros gheal Òrd an t-Seabhaig' birth-rolls to Muileann chaol waits the whole of an afternoon in an Leabharlann's yard, under orders to turn his horse for home if the keeper will not file them under Òrd an t-Seabhaig.",
+   "kind": "faith",
+   "place": "burg:246",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0221",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/37_of_now_written.md#iv-of-the-hawk-s-rolls",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EVI-6543",
+   "title": "Mòrag's three lines to Òrd an t-Seabhaig",
+   "body": "Mòrag nic Coinnich answers Òrd an t-Seabhaig in three lines in her own hand before dusk: the rolls will be filed under Òrd an t-Seabhaig in a press of their own, the houses may send a witness to see it, and a copy made in an Leabharlann's own hand goes back to them whenever they ask.",
+   "kind": "faith",
+   "place": "burg:246",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0221",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/37_of_now_written.md#iv-of-the-hawk-s-rolls",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EVI-6544",
+   "title": "A paper filed under its sender's name",
+   "body": "For the first time an Leabharlann files a paper under a name its sender sets against the name its own register gives; Mòrag nic Coinnich enters the fact plainly, and beneath it that she does not think an Leabharlann has any business teaching Òrd an t-Seabhaig what to call themselves.",
+   "kind": "law",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0221",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/37_of_now_written.md#iv-of-the-hawk-s-rolls",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
    "after": "V-0222"
   },
   {
-   "id": "EVI-6531",
+   "id": "EVI-6545",
    "title": "Beathag's note sent north to Frayne",
-   "body": "A Library clerk sends Daniel Frayne a copy of Beathag nic Fhionnlaigh's first foot-note, naming the census clerks' reliance on the Moot's own figures; Frayne keeps it in his private book beside the day he gave them, judging her a chronicler the north may trust.",
+   "body": "A clerk of an Leabharlann sends Daniel Frayne a copy of Beathag nic Fhionnlaigh's first foot-note, naming the census clerks' reliance on Tional nan Tuathach's own figures; Frayne keeps it in his private book beside the day he gave them, judging her a chronicler the north may trust.",
    "kind": "record",
    "place": "burg:95",
    "category": "law",
@@ -823,7 +1156,7 @@
    "after": "V-0223"
   },
   {
-   "id": "EVI-6532",
+   "id": "EVI-6546",
    "title": "Mòrag nic Coinnich calls the shire chests in",
    "body": "Mòrag nic Coinnich sends her own clerks along the roll to bring every shire's record-chest to Muileann chaol, judging a history kept in forty scattered chests no history at all but forty separate hopes of one day being read together.",
    "kind": "record",
@@ -839,14 +1172,14 @@
     "the-library"
    ],
    "people": [],
-   "told_in": "book/37_of_now_written.md#iv-of-the-chests-called-in",
+   "told_in": "book/37_of_now_written.md#v-of-the-chests-called-in",
    "era_between": [
     66,
     66
    ]
   },
   {
-   "id": "EVI-6533",
+   "id": "EVI-6547",
    "title": "The Seann Tarr keeper meets the clerks at the gate",
    "body": "The shire keeper who burned his own chest at Seann Tarr meets Mòrag's clerks at the gate the next morning, his coat still smelling of the smoke, and repeats to them plainly that the shire's record belongs in the shire.",
    "kind": "record",
@@ -862,7 +1195,7 @@
     "the-library"
    ],
    "people": [],
-   "told_in": "book/37_of_now_written.md#iv-of-the-chests-called-in",
+   "told_in": "book/37_of_now_written.md#v-of-the-chests-called-in",
    "era_between": [
     66,
     66
@@ -872,9 +1205,9 @@
    "after": "V-0224"
   },
   {
-   "id": "EVI-6534",
+   "id": "EVI-6548",
    "title": "Cathair naomh's chronicle carried south by its own keeper",
-   "body": "The eldest daughter of the family that has kept Cathair naomh's town chronicle four generations rides the two carts south herself and unpacks them at Mòrag nic Coinnich's own table, the chronicle begun by her great-grandmother on the back of an unused rent-roll.",
+   "body": "The eldest daughter of the family that has kept Cathair naomh's town chronicle four generations rides the two carts south herself and unpacks them at Mòrag nic Coinnich's own table, Eachdraidh na Rìoghachd begun by her great-grandmother on the back of an unused rent-roll.",
    "kind": "record",
    "place": "burg:192",
    "category": "law",
@@ -888,7 +1221,53 @@
     "the-library"
    ],
    "people": [],
-   "told_in": "book/37_of_now_written.md#iv-of-the-chests-called-in",
+   "told_in": "book/37_of_now_written.md#v-of-the-chests-called-in",
+   "era_between": [
+    66,
+    66
+   ]
+  },
+  {
+   "id": "EVI-6549",
+   "title": "A fourth coffer from Ros gheal",
+   "body": "The Ros gheal carter comes south again the next spring with a fourth coffer of birth-rolls found in a shut room at the houses' oldest altar, and reports that the houses read Mòrag's three lines aloud in their hall and said nothing of them after, which in Oirthir an t-Seabhaig is how a thing is accepted.",
+   "kind": "faith",
+   "place": "burg:24",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0221",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/37_of_now_written.md#iv-of-the-hawk-s-rolls",
+   "era_between": [
+    66,
+    66
+   ]
+  },
+  {
+   "id": "EVI-6550",
+   "title": "The Seann Tarr keeper fined for the burning",
+   "body": "The council fines the old keeper of Seann Tarr for burning the shire's chest; he pays without argument and without apology, and whatever the chest held of the shire's two centuries is lost entire.",
+   "kind": "law",
+   "place": "burg:34",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0223",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/37_of_now_written.md#v-of-the-chests-called-in",
    "era_between": [
     66,
     66
@@ -898,7 +1277,7 @@
    "after": "V-0225"
   },
   {
-   "id": "EVI-6535",
+   "id": "EVI-6551",
    "title": "Seann Toll's copy becomes the pattern",
    "body": "The full transcription Mòrag's clerks make for Seann Toll, bound and set beside the original before either leaves the shire's hall, becomes the pattern every later shire's copy is cut to.",
    "kind": "record",
@@ -914,15 +1293,15 @@
     "the-library"
    ],
    "people": [],
-   "told_in": "book/37_of_now_written.md#iv-of-the-chests-called-in"
+   "told_in": "book/37_of_now_written.md#v-of-the-chests-called-in"
   },
   {
    "after": "V-0226"
   },
   {
-   "id": "EVI-6536",
-   "title": "Frayne puts the calling-in to the Moot's own room",
-   "body": "Reading the notice of the calling-in, Daniel Frayne calls the room at Caol mhòr together and asks it plainly whether the Moot should offer its own books south now that the council has shown a wish to gather every shire's record.",
+   "id": "EVI-6552",
+   "title": "Frayne puts the calling-in to Tional nan Tuathach's own room",
+   "body": "Reading the notice of the calling-in, Daniel Frayne calls the room at Caol mhòr together and asks it plainly whether Tional nan Tuathach should offer its own books south now that the council has shown a wish to gather every shire's record.",
    "kind": "record",
    "place": "burg:95",
    "category": "law",
@@ -942,7 +1321,7 @@
    "people": [
     "daniel-frayne"
    ],
-   "told_in": "book/37_of_now_written.md#iv-of-the-chests-called-in",
+   "told_in": "book/37_of_now_written.md#v-of-the-chests-called-in",
    "era_between": [
     67,
     67
@@ -952,9 +1331,9 @@
    "after": "V-0227"
   },
   {
-   "id": "EVI-6537",
-   "title": "The Moot's minute declining to send its books",
-   "body": "After an evening's debate, the room's minute at Caol mhòr records no vote by count and no reason beyond two words its clerk sets down at the close of the sitting: *kept north.* No cart of the Moot's own books goes south that year or after.",
+   "id": "EVI-6553",
+   "title": "Tional nan Tuathach's minute declining to send its books",
+   "body": "After an evening's debate, the room's minute at Caol mhòr records no vote by count and no reason beyond two words its clerk sets down at the close of the sitting: *kept north.* No cart of Tional nan Tuathach's own books goes south that year or after.",
    "kind": "record",
    "place": "burg:95",
    "category": "law",
@@ -970,7 +1349,7 @@
    "people": [
     "daniel-frayne"
    ],
-   "told_in": "book/37_of_now_written.md#iv-of-the-chests-called-in",
+   "told_in": "book/37_of_now_written.md#v-of-the-chests-called-in",
    "era_between": [
     67,
     67
@@ -980,7 +1359,7 @@
    "after": "V-0228"
   },
   {
-   "id": "EVI-6538",
+   "id": "EVI-6554",
    "title": "The new wing's three floors and the empty fourth",
    "body": "Beathag nic Fhionnlaigh walks the new wing at Muileann chaol before its chests are carried up, and finds three floors built to hold the provinces' returns, town chronicles and vigil-books, and a fourth, raised to the same measure, left empty for a record that has not been sent.",
    "kind": "record",
@@ -1005,8 +1384,8 @@
    ]
   },
   {
-   "id": "EVI-6539",
-   "title": "Beathag's first foot-note on the empty floor",
+   "id": "EVI-6555",
+   "title": "Beathag's first foot-note on An t-Ùrlar Falamh",
    "body": "Beathag nic Fhionnlaigh keeps Tormod Pinn's list at the front of the year's book unchanged and adds, beneath it, her own foot-note that the fourth floor stands ready and that no cart has come, judging the sentence plainer than any she could set beside it.",
    "kind": "record",
    "place": "marker:34",
@@ -1030,7 +1409,7 @@
    ]
   },
   {
-   "id": "EVI-6540",
+   "id": "EVI-6556",
    "title": "The tally of the calling-in read floor by floor",
    "body": "Reading the whole tally of the calling-in set out floor by floor for the first time, Beathag nic Fhionnlaigh finds that every shire the council's roll accounted for sent something, willing or not, and that the one record never asked for is the one never received.",
    "kind": "record",
@@ -1059,9 +1438,9 @@
    "after": "V-0229"
   },
   {
-   "id": "EVI-6541",
+   "id": "EVI-6557",
    "title": "The Àth leathan branch shut for falling yield",
-   "body": "The Mine Board withdraws its overseers from Àth leathan along with the branch line, its own wages no longer answering for the western pits' falling yield, and the pits pass, without any charter forbidding it, into the keeping of the hewers who work them.",
+   "body": "Comhairle nam Mèinnean withdraws its overseers from Àth leathan along with the branch line, its own wages no longer answering for the western pits' falling yield, and the pits pass, without any charter forbidding it, into the keeping of the hewers who work them.",
    "kind": "coal",
    "place": "burg:346",
    "category": "coal",
@@ -1086,9 +1465,9 @@
    "after": "V-0230"
   },
   {
-   "id": "EVI-6542",
+   "id": "EVI-6558",
    "title": "The Àth leathan hewers pay the fifth and are entered in arrears",
-   "body": "The pit captains the Àth leathan hewers choose from their own number weigh every cart and set by the Crown's fifth under the Leòid ruling, sending word south each season; the Board takes the payments when a carrier brings them and enters them in its own books as arrears.",
+   "body": "The pit captains the Àth leathan hewers choose from their own number weigh every cart and set by An Crùn's fifth under Breith Leòid, sending word south each season; the Board takes the payments when a carrier brings them and enters them in its own books as arrears.",
    "kind": "coal",
    "place": "burg:346",
    "category": "coal",
@@ -1110,7 +1489,7 @@
    ]
   },
   {
-   "id": "EVI-6543",
+   "id": "EVI-6559",
    "title": "The first Àth leathan coal carted to Seann Bhral",
    "body": "The pit captains at Àth leathan send the season's first coal south by cart rather than by rail, three days slower on the road but loaded and sent on the hewers' own choosing, down to the coal factors' yards at Seann Bhral in the west.",
    "kind": "trade",
@@ -1137,7 +1516,7 @@
    "after": "V-0231"
   },
   {
-   "id": "EVI-6544",
+   "id": "EVI-6560",
    "title": "Sam Varley opens the pit's own book at Cnoc thais",
    "body": "When the Board's overseer leaves Cnoc thais, Sam Varley, who has kept a private tally beside the Board's own scale for eleven years, opens a book of the pit's own accounts headed only with the day and the pit's name, the earliest page the town's register still keeps.",
    "kind": "record",
@@ -1156,7 +1535,7 @@
    "told_in": "book/38_of_the_empty_floor_and_the_banked_fire.md#iii-of-the-register-at-cnoc-thais"
   },
   {
-   "id": "EVI-6545",
+   "id": "EVI-6561",
    "title": "Tom Varley runs the book's errands",
    "body": "Sam Varley's small son Tom, not yet old enough for the pit, carries the figures the book wants between the scale-house and his father's table; told that a book kept honest for nobody outlasts one kept honest only for someone watching, he carries them straight all the same.",
    "kind": "record",
@@ -1182,7 +1561,7 @@
    "after": "V-0232"
   },
   {
-   "id": "EVI-6546",
+   "id": "EVI-6562",
    "title": "An Sligeanach Fad' às sold to a family of drovers",
    "body": "The family that kept An Sligeanach Fad' às three generations sells it to drovers new to the trade, who raise a second hall beside the first; within a few years it is the largest house on the old mining roads, grown fat on the drove trade as the coal roads empty.",
    "kind": "trade",
@@ -1204,7 +1583,7 @@
    "after": "V-0233"
   },
   {
-   "id": "EVI-6547",
+   "id": "EVI-6563",
    "title": "The herring fail a second year off Seann Dunn",
    "body": "The herring do not return, a second season together, to the grounds off Seann Dunn, and the east-coast boats, finding their own waters empty, take to fishing the grounds off Caol mhòr that the licence law has long kept for the northern boats.",
    "kind": "land",
@@ -1228,9 +1607,9 @@
    "after": "V-0234"
   },
   {
-   "id": "EVI-6548",
+   "id": "EVI-6564",
    "title": "Inis mhin's boats pass Caol mhòr's own catch",
-   "body": "Pushed from their nearer grounds by the crowding of east-coast boats, the boats of Inis mhin take the deep water beyond the northern isles; two are lost the first year and none after, and within three years the catch they bring in passes what Caol mhòr itself takes from the grounds the law still calls its own.",
+   "body": "Pushed from their nearer grounds by the crowding of east-coast boats, the boats of Inis mhin take the deep water beyond the northern isles; two are lost the first year and none after, and before the next season is out the catch they bring in passes what Caol mhòr itself takes from the grounds the law still calls its own.",
    "kind": "land",
    "place": "burg:9",
    "category": "land",
@@ -1254,9 +1633,9 @@
    "after": "V-0235"
   },
   {
-   "id": "EVI-6549",
+   "id": "EVI-6565",
    "title": "Mòrag nic Coinnich lays down the keepership",
-   "body": "Mòrag nic Coinnich, two-and-seventy and thirty years and more in the chair, lays down the keepership of the Library, walking the fourth floor once more with Beathag nic Fhionnlaigh and saying only that she built the room and leaves the asking to whoever holds the chair after her.",
+   "body": "Mòrag nic Coinnich, two-and-seventy and thirty years and more in the chair, lays down the keepership of an Leabharlann, walking the fourth floor once more with Beathag nic Fhionnlaigh and saying only that she built the room and leaves the asking to whoever holds the chair after her.",
    "kind": "record",
    "place": "marker:34",
    "category": "law",
@@ -1279,9 +1658,9 @@
    ]
   },
   {
-   "id": "EVI-6550",
+   "id": "EVI-6566",
    "title": "Raghnall mac Mhuirich made keeper",
-   "body": "Raghnall mac Mhuirich, fifty that year, takes the chair Mòrag nic Coinnich lays down and changes nothing of the Library's hours or custom in his first year, a steadiness the clerks under him come to value in a season when little else about the kingdom's coal holds steady.",
+   "body": "Raghnall mac Mhuirich, fifty that year, takes the chair Mòrag nic Coinnich lays down and changes nothing of an Leabharlann's hours or custom in his first year, a steadiness the clerks under him come to value in a season when little else about the kingdom's coal holds steady.",
    "kind": "record",
    "place": "marker:34",
    "category": "law",
@@ -1308,7 +1687,7 @@
    "after": "V-0236"
   },
   {
-   "id": "EVI-6551",
+   "id": "EVI-6567",
    "title": "The fair's ceiling set on coal and broken in every stall",
    "body": "When the Board cuts its sales and the price of coal-fuel at Muileann òg doubles, the fair's court sets a ceiling price by its long custom; within a season no factor sells at it, the coal not reaching the stalls at the named price, and the wardens do not cry the ceiling's breaking.",
    "kind": "trade",
@@ -1331,9 +1710,9 @@
    ]
   },
   {
-   "id": "EVI-6552",
+   "id": "EVI-6568",
    "title": "Beathag's foot-note on the capital's cold",
-   "body": "Beathag nic Fhionnlaigh's foot-note for the year names what the record cannot learn: how many grates in the capital's poorer wards went unlit for want of coal, a count no census asked for and no shire kept, so that the Library holds no reckoning of its own kingdom's cold.",
+   "body": "Beathag nic Fhionnlaigh's foot-note for the year names what the record cannot learn: how many grates in the capital's poorer wards went unlit for want of coal, a count no census asked for and no shire kept, so that an Leabharlann holds no reckoning of its own kingdom's cold.",
    "kind": "record",
    "place": "marker:34",
    "category": "law",
@@ -1359,9 +1738,9 @@
    "after": "V-0237"
   },
   {
-   "id": "EVI-6553",
+   "id": "EVI-6569",
    "title": "The watchmen at Cnoc fhiadhaich see nothing",
-   "body": "The Board posts watchmen of the town itself over the spoil-heaps at Cnoc fhiadhaich against households picking coal to burn; every winter of the posting the watchmen see nothing, though the heaps grow lower and the poorer grates burn warmer than the fair's price could otherwise buy.",
+   "body": "The Board posts watchmen of the town itself over the spoil-heaps at Cnoc fhiadhaich against households picking coal to burn; every night of the posting the watchmen see nothing, though the heaps grow lower and the poorer grates burn warmer than the fair's price could otherwise buy.",
    "kind": "coal",
    "place": "burg:280",
    "category": "coal",
@@ -1382,7 +1761,7 @@
    ]
   },
   {
-   "id": "EVI-6554",
+   "id": "EVI-6570",
    "title": "The capital's poorer streets burn short hours",
    "body": "In the capital's poorer wards the street lamps burn shorter hours than the council's lighting order requires, the keepers no longer able to afford in full an order written for coal at half the price it now costs; the council's own notice calls the shortening a saving.",
    "kind": "record",

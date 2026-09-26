@@ -8,7 +8,7 @@
   {
    "id": "EII-2500",
    "title": "A cleared strip at Achadh dhìreach turns up an unlit hearth",
-   "body": "Three brothers new to the ground at Achadh dhìreach turn up, clearing a strip for barley, a long-buried hearth laid true and never lit, its wood cut for a first flame and a sliver of the gual dathach set unburned beside it; they leave it as they found it and build their own hearth a stone's throw off.",
+   "body": "Three brothers new to the ground at Achadh dhìreach turn up, clearing a strip for barley, a long-buried hearth laid true and never lit, its wood cut for a first flame and a sliver of an gual dathach set unburned beside it; they leave it as they found it and build their own hearth a stone's throw off.",
    "place": "burg:454",
    "kind": "custom",
    "category": "faith",
@@ -59,7 +59,7 @@
   {
    "id": "EII-2502",
    "title": "Anna nic Coinnich is born at Achadh dhìreach",
-   "body": "Anna nic Coinnich is born the youngest of four into a household two fields from the valley's old buried hearth, and grows up measuring the gual dathach by her own cupped hand as a plain fact of the valley, no different to her than the shape of the hills.",
+   "body": "Anna nic Coinnich is born the youngest of four into a household two fields from the valley's old buried hearth, and grows up measuring an gual dathach by her own cupped hand as a plain fact of the valley, no different to her than the shape of the hills.",
    "place": "burg:454",
    "kind": "daily-life",
    "category": "trade",
@@ -84,8 +84,8 @@
   },
   {
    "id": "EII-2503",
-   "title": "The measured handful reaches every hearth of the high valleys",
-   "body": "The custom of the full hand, kept first by a few households at a drovers' ford after a sick child was warmed too generously, spreads within a few years to every hearth of the high valleys, nowhere written and nowhere proclaimed, so that a stranger travelling the road finds the same measure kept from one end of it to the other.",
+   "title": "The measured handful reaches every hearth of Na Glinn Àrda",
+   "body": "The custom of the full hand, kept first by a few households at a drovers' ford after a sick child was warmed too generously, spreads within a few years to every hearth of Na Glinn Àrda, nowhere written and nowhere proclaimed, so that a stranger travelling the road finds the same measure kept from one end of it to the other.",
    "place": "burg:277",
    "kind": "faith",
    "category": "coal",
@@ -155,8 +155,8 @@
   },
   {
    "id": "EII-2506",
-   "title": "Eanraig Ruadh burns a whole basket of the coloured coal",
-   "body": "Eanraig Ruadh of Achadh dhìreach, old and feeling the winter's frost in his bones, sets very nearly a whole basket of the gual dathach on his fire in a single night rather than measure it by the full hand, having come, by his own account given beforehand, to doubt the measure applied to a man his age.",
+   "title": "Eanraig Ruadh burns a whole basket of an gual dathach",
+   "body": "Eanraig Ruadh of Achadh dhìreach, old and feeling the winter's frost in his bones, sets very nearly a whole basket of an gual dathach on his fire in a single night rather than measure it by the full hand, having come, by his own account given beforehand, to doubt the measure applied to a man his age.",
    "place": "burg:454",
    "kind": "faith",
    "category": "coal",
@@ -517,8 +517,8 @@
   },
   {
    "id": "EII-2521",
-   "title": "Somhairle gives Beathan the Line of the Mason whole",
-   "body": "In the same season his hair first silvers at the temple, Somhairle gives his son Beathan the Line of the Mason entire, twice through by the fire without a name out of place, so that the telling may be carried by more than one head.",
+   "title": "Somhairle gives Beathan Sloinneadh a' Chlachair whole",
+   "body": "In the same season his hair first silvers at the temple, Somhairle gives his son Beathan Sloinneadh a' Chlachair entire, twice through by the fire without a name out of place, so that the telling may be carried by more than one head.",
    "place": "burg:276",
    "kind": "record",
    "category": "law",
@@ -571,7 +571,7 @@
   {
    "id": "EII-2523",
    "title": "The king sits a night at the slab",
-   "body": "The king rides up into the high valleys alone, unasked and unlooked-for, and sits a whole night among a household keeping its turn at the slab, watching the same grey stone and the same thin crack the valleys have watched for forty winters, and says nothing of why he came.",
+   "body": "The king rides up into Na Glinn Àrda alone, unasked and unlooked-for, and sits a whole night among a household keeping its turn at the slab, watching the same grey stone and the same thin crack the valleys have watched for forty winters, and says nothing of why he came.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -649,7 +649,7 @@
   {
    "id": "EII-2526",
    "title": "The empty salt-kists at Dùn ìseal",
-   "body": "Raghnall Ceannfhionn, opening the salt-kists his grandfather the king left him, finds three of six near empty and thinks for the first time in earnest of the salt running to waste in the Red Hill's pans while his own hill wears wool it cannot use fast enough.",
+   "body": "Raghnall Ceannfhionn, opening the salt-kists his grandfather the king left him, finds three of six near empty and thinks for the first time in earnest of the salt running to waste in An Cnoc Ruadh's pans while his own hill wears wool it cannot use fast enough.",
    "place": "burg:315",
    "kind": "trade",
    "category": "trade",
@@ -674,7 +674,7 @@
   {
    "id": "EII-2527",
    "title": "The king declines to speak for either hill",
-   "body": "Raghnall asks the king to settle salt with the Red Hill on his behalf. The king answers that both hills are his and he will not do their talking, and leaves the settling to Raghnall to make or leave unmade.",
+   "body": "Raghnall asks the king to settle salt with An Cnoc Ruadh on his behalf. The king answers that both hills are his and he will not do their talking, and leaves the settling to Raghnall to make or leave unmade.",
    "place": "burg:315",
    "kind": "reign",
    "category": "rulers",
@@ -703,7 +703,7 @@
   {
    "id": "EII-2528",
    "title": "Raghnall rides west with nine companions",
-   "body": "Raghnall takes nine men, no more, so the company will not be taken for a raid, and rides the five days' road to the ford, the first of the hill's blood to travel so near the Red Hill's country since Uisdean knelt to the king.",
+   "body": "Raghnall takes nine men, no more, so the company will not be taken for a raid, and rides the five days' road to the ford, the first of the hill's blood to travel so near An Cnoc Ruadh's country since Uisdean knelt to the king.",
    "place": "burg:315",
    "kind": "trade",
    "category": "trade",
@@ -749,8 +749,8 @@
   },
   {
    "id": "EII-2530",
-   "title": "The Red Hill refuses a poor clip",
-   "body": "After a wet shearing season the wool comes down thin and unwashed, and the Red Hill's people will not weigh full salt against it. Raghnall's son carries the refusal home; no word is sent to the king, and none is asked for.",
+   "title": "An Cnoc Ruadh refuses a poor clip",
+   "body": "After a wet shearing season the wool comes down thin and unwashed, and An Cnoc Ruadh's people will not weigh full salt against it. Raghnall's son carries the refusal home; no word is sent to the king, and none is asked for.",
    "kind": "trade",
    "category": "trade",
    "links": [
@@ -801,7 +801,7 @@
   {
    "id": "EII-2532",
    "title": "The first marriage of the ford",
-   "body": "A young man of the hill and a young woman of the Red Hill's people, remarked on for three autumns' standing near each other at the weighing, are married on the trodden ground with both banks' households standing for it, the first marriage the meeting ever gave anyone.",
+   "body": "A young man of the hill and a young woman of An Cnoc Ruadh's people, remarked on for three autumns' standing near each other at the weighing, are married on the trodden ground with both banks' households standing for it, the first marriage the meeting ever gave anyone.",
    "kind": "trade",
    "category": "trade",
    "links": [
@@ -825,7 +825,7 @@
   {
    "id": "EII-2533",
    "title": "Murchadh Gearr born",
-   "body": "A son is born to a kinsman's household of the Red Hill's old line and named Murchadh; short in the leg from boyhood, he is Murchadh Gearr to the lake shore long before he holds anything there.",
+   "body": "A son is born to a kinsman's household of An Cnoc Ruadh's old line and named Murchadh; short in the leg from boyhood, he is Murchadh Gearr to the lake shore long before he holds anything there.",
    "place": "burg:19",
    "kind": "birth",
    "category": "rulers",
@@ -849,8 +849,8 @@
   },
   {
    "id": "EII-2534",
-   "title": "The unnamed holder of the Red Hill dies",
-   "body": "The Red Hill's holder who first waded to meet Raghnall in the water dies after sixty years and more keeping faith at the ford, and is followed by a son who does not hold long, and then by a grandson.",
+   "title": "The unnamed holder of An Cnoc Ruadh dies",
+   "body": "An Cnoc Ruadh's holder who first waded to meet Raghnall in the water dies after sixty years and more keeping faith at the ford, and is followed by a son who does not hold long, and then by a grandson.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -872,8 +872,8 @@
   },
   {
    "id": "EII-2535",
-   "title": "Murchadh Gearr comes to the Red Hill",
-   "body": "Murchadh Gearr, a kinsman of the old holder's line, comes to the Red Hill after a grandson's short holding, and is known from his first weighing at the ford as a man who would rather walk a road than ride it.",
+   "title": "Murchadh Gearr comes to An Cnoc Ruadh",
+   "body": "Murchadh Gearr, a kinsman of the old holder's line, comes to An Cnoc Ruadh after a grandson's short holding, and is known from his first weighing at the ford as a man who would rather walk a road than ride it.",
    "place": "burg:19",
    "kind": "reign",
    "category": "rulers",
@@ -900,8 +900,8 @@
   },
   {
    "id": "EII-2536",
-   "title": "Murchadh Gearr walks the salt road to be seen",
-   "body": "Murchadh Gearr walks the whole salt road on his own feet in the weeks before every autumn meeting, stopping at every household on it, so that no child between Baile ghorm and the ford grows up without having seen the Red Hill's holder pass in the flesh.",
+   "title": "Murchadh Gearr walks Rathad an t-Salainn to be seen",
+   "body": "Murchadh Gearr walks the whole of Rathad an t-Salainn on his own feet in the weeks before every autumn meeting, stopping at every household on it, so that no child between Baile ghorm and the ford grows up without having seen An Cnoc Ruadh's holder pass in the flesh.",
    "kind": "trade",
    "category": "trade",
    "links": [
@@ -925,7 +925,7 @@
   {
    "id": "EII-2537",
    "title": "Children of both banks cease to be told apart",
-   "body": "By this year the children who run between the stalls at the ford on the appointed days make no distinction between the hill's side of the water and the Red Hill's, the meeting by then older than any living memory of its making.",
+   "body": "By this year the children who run between the stalls at the ford on the appointed days make no distinction between the hill's side of the water and An Cnoc Ruadh's, the meeting by then older than any living memory of its making.",
    "kind": "land",
    "category": "land",
    "links": [

@@ -7,7 +7,7 @@
  "events": [
   {
    "id": "EII-3000",
-   "title": "Three households settle the Hawk bay",
+   "title": "Three households settle Bàgh an t-Seabhaig",
    "body": "Three hill households too many for the grazing above Baile ghorm cross the spine of the island and settle a curve of grey sand under a gorse headland on the west coast, the first hill-folk household on that shore, building round and turf-roofed and fishing from the beach with lines and baskets rather than boats.",
    "place": "burg:63",
    "kind": "founding",
@@ -32,7 +32,7 @@
   {
    "id": "EII-3001",
    "title": "Beathag walks the whole crossing and is the first buried by that tide",
-   "body": "Beathag, eldest of the three households that cross to the Hawk bay, walks the nine days on her own feet in her old age and dies eleven years after seeing the water for the first time, the first of the hill-folk buried within sound of that particular shore.",
+   "body": "Beathag, eldest of the three households that cross to Bàgh an t-Seabhaig, walks the nine days on her own feet in her old age and dies eleven years after seeing the water for the first time, the first of the hill-folk buried within sound of that particular shore.",
    "place": "burg:63",
    "kind": "death",
    "category": "rulers",
@@ -53,7 +53,7 @@
   {
    "id": "EII-3002",
    "title": "Murchadh Gearr dies",
-   "body": "Murchadh Gearr, who walked the salt road every autumn so that no child on it grew up without seeing the Red Hill's holder, dies in his sixty-sixth year; the road's households, hearing of it, leave a handful of salt at their doors for a night.",
+   "body": "Murchadh Gearr, who walked Rathad an t-Salainn every autumn so that no child on it grew up without seeing An Cnoc Ruadh's holder, dies in his sixty-sixth year; the road's households, hearing of it, leave a handful of salt at their doors for a night.",
    "place": "burg:19",
    "kind": "death",
    "category": "rulers",
@@ -78,8 +78,8 @@
   },
   {
    "id": "EII-3003",
-   "title": "Flòraidh born at the Hawk bay",
-   "body": "Flòraidh is born at the Hawk bay in a winter hard enough to freeze salt-rime along the tideline, the middle child of five in the second household of the crossing, to a father who came west already grown and a mother who keeps his people's old telling of the hill valleys.",
+   "title": "Flòraidh born at Bàgh an t-Seabhaig",
+   "body": "Flòraidh is born at Bàgh an t-Seabhaig in a winter hard enough to freeze salt-rime along the tideline, the middle child of five in the second household of the crossing, to a father who came west already grown and a mother who keeps his people's old telling of the hill valleys.",
    "place": "burg:63",
    "kind": "daily-life",
    "category": "trade",
@@ -154,7 +154,7 @@
   {
    "id": "EII-3006",
    "title": "Traders learn to ask for Flòraidh by name",
-   "body": "Traders on the flint road come to ask the Hawk bay households for Flòraidh by name rather than knock at random for worked amber, and go away with beads finished better than any other hand on that shore gives them, paid in salt, wool, and once in a knife of southern flint.",
+   "body": "Traders on Rathad na Spor come to ask Bàgh an t-Seabhaig households for Flòraidh by name rather than knock at random for worked amber, and go away with beads finished better than any other hand on that shore gives them, paid in salt, wool, and once in a knife of southern flint.",
    "place": "burg:132",
    "kind": "trade",
    "category": "trade",
@@ -179,7 +179,7 @@
   {
    "id": "EII-3007",
    "title": "A storm brings the great amber piece ashore",
-   "body": "A gale that takes the roofs off two houses at the Hawk bay leaves half a mile of strand heaped with wrack, and out of it Flòraidh draws the largest piece of amber the shore has ever given up, half again the size of her first find and clouded like smoke inside.",
+   "body": "A gale that takes the roofs off two houses at Bàgh an t-Seabhaig leaves half a mile of strand heaped with wrack, and out of it Flòraidh draws the largest piece of amber the shore has ever given up, half again the size of her first find and clouded like smoke inside.",
    "place": "burg:132",
    "kind": "discovery",
    "category": "land",
@@ -232,7 +232,7 @@
   {
    "id": "EII-3009",
    "title": "Flòraidh sees the king buy nothing at the ford",
-   "body": "At the ford gathering Flòraidh watches the king move slowly along the trading ground for the better part of an hour, weighing pots and running a thumb along flint edges, buying nothing and asking the price of nothing, while the crowd gives way from him without seeming to notice it has moved.",
+   "body": "At Cruinneachadh an Àtha Flòraidh watches the king move slowly along the trading ground for the better part of an hour, weighing pots and running a thumb along flint edges, buying nothing and asking the price of nothing, while the crowd gives way from him without seeming to notice it has moved.",
    "kind": "custom",
    "category": "faith",
    "links": [
@@ -309,8 +309,8 @@
   },
   {
    "id": "EII-3012",
-   "title": "The round-house harbour begins paying salt to the Red Hill",
-   "body": "The households at the harbour of the round houses, where the king's blood first came down to the sea, begin paying their salt to the Red Hill rather than keeping it among themselves, a custom that takes hold within a season with no word sent from Dùn ìseal to start it.",
+   "title": "The round-house harbour begins paying salt to An Cnoc Ruadh",
+   "body": "The households at Cala nan Taighean Cruinne, where the king's blood first came down to the sea, begin paying their salt to An Cnoc Ruadh rather than keeping it among themselves, a custom that takes hold within a season with no word sent from Dùn ìseal to start it.",
    "place": "burg:2001",
    "kind": "custom",
    "category": "faith",
@@ -362,7 +362,7 @@
   {
    "id": "EII-3014",
    "title": "Cattle walked to Cnoc ghorm",
-   "body": "Small herds driven up the flint road by stages over three summers bring cattle for the first time to the green rise of Cnoc ghorm in the north-west, where the people have lived on seal, fish and deer, and the first calves born there are watched through their first winter by the whole settlement in turn.",
+   "body": "Small herds driven up Rathad na Spor by stages over three summers bring cattle for the first time to the green rise of Cnoc ghorm in the north-west, where the people have lived on seal, fish and deer, and the first calves born there are watched through their first winter by the whole settlement in turn.",
    "place": "burg:142",
    "kind": "trade",
    "category": "trade",
@@ -387,7 +387,7 @@
   {
    "id": "EII-3015",
    "title": "The long-house raised at Cathair gheal",
-   "body": "A long-house forty paces long, byre and hall under one roof and greater by half again than any building of the age, is raised above the firth at Cathair gheal, timbered from the flint road's own hills and roofed with turf a season dried, and is spoken of the length of the coast within the year.",
+   "body": "A long-house forty paces long, byre and hall under one roof and greater by half again than any building of the age, is raised above the firth at Cathair gheal, timbered from Rathad na Spor's own hills and roofed with turf a season dried, and is spoken of the length of the coast within the year.",
    "place": "burg:476",
    "kind": "building",
    "category": "trade",
@@ -636,8 +636,8 @@
   },
   {
    "id": "EII-3026",
-   "title": "A fire lit in the Hollow Man's hills",
-   "body": "A herding family new to the Hollow Man's hills lights an open fire against the custom of that country; their hut is found afterward standing with the fire still burning and not a soul of the household anywhere about it. The telling reaches Iseabail as a traveller's news.",
+   "title": "A fire lit in Marbh-bheò's hills",
+   "body": "A herding family new to Marbh-bheò's hills lights an open fire against the custom of that country; their hut is found afterward standing with the fire still burning and not a soul of the household anywhere about it. The telling reaches Iseabail as a traveller's news.",
    "kind": "omen",
    "category": "faith",
    "links": [
@@ -907,7 +907,7 @@
   {
    "id": "EII-3037",
    "title": "The king stops at Beitris's stall",
-   "body": "At the ford gathering the king stops before a bolt of Beitris's blue-black cloth, tests the flatness of the weave with two fingers as he tests a flint edge with his thumb, and asks how the cloth is made to lie so; it is the only exchange between them any teller claims to have had whole from a witness.",
+   "body": "At Cruinneachadh an Àtha the king stops before a bolt of Beitris's blue-black cloth, tests the flatness of the weave with two fingers as he tests a flint edge with his thumb, and asks how the cloth is made to lie so; it is the only exchange between them any teller claims to have had whole from a witness.",
    "kind": "custom",
    "category": "faith",
    "links": [
@@ -955,7 +955,7 @@
   },
   {
    "id": "EII-3039",
-   "title": "The grey winter",
+   "title": "An Geamhradh Liath",
    "body": "The king's hair goes grey between one moon and the next in a single winter and no further, dark to grey all at one stroke; he says nothing of the cause, and the hill, having talked of little else through the dark months, lets the matter rest by the following Bealltainn.",
    "place": "burg:315",
    "kind": "wonder",

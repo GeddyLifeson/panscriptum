@@ -281,5 +281,67 @@
       "V-0215",
       "V-0212"
     ]
+  },
+  {
+    "title": "The Sloc Mòr's pumps drain the dock at Seann Bhral",
+    "era_year": 62,
+    "summary": "The three great pumps of the Sloc Mòr, set on a bed of masonry at the head of the new dry dock at Seann Bhral in the south, pump it dry for the first time on the ninth day after the third is fired.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:110"
+    ],
+    "threads": [
+      "the-depletion"
+    ],
+    "master_links": [
+      "V-0209"
+    ]
+  },
+  {
+    "title": "A coal-ship first stands in the Seann Bhral dock",
+    "era_year": 62,
+    "summary": "The first hull stood dry in the new dock at Seann Bhral is a coal-ship out of Ceann leathan with her keel sprung on the bar; by the year's end eleven hulls have stood in it, and the town's shipwrights raise a shed over its head.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:110"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0209"
+    ]
+  },
+  {
+    "title": "The dock's return filed under the harbour",
+    "era_year": 62,
+    "summary": "Tormod Pinn enters Seann Bhral's return of the dock in the royal chronicle without a line of his own, copies into its margin the names the Achadh dhomhain men used among themselves for the three engines, and asks that the return be filed under the harbour and not under the Board.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0209"
+    ]
+  },
+  {
+    "title": "The Achadh dhomhain overseer signs his name",
+    "era_year": 62,
+    "summary": "The overseer at Achadh dhomhain writes to Tormod Pinn that the second pump has followed the first to Seann Bhral and the third stands ready, and that the six men who tended them have been found work on the galleries above water; he signs his own name to it this time rather than none.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-depletion"
+    ],
+    "master_links": [
+      "V-0209"
+    ]
   }
 ]

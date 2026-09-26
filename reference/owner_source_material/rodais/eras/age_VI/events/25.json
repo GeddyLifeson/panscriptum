@@ -6,19 +6,29 @@
     "summary": "In the dry weeks of a poor season the keeper of the new Crown grain-store walks out to the road and tells the first cart that passes that the south will eat that year whatever the sky withholds, and word of the opened doors outruns, by an evening, word of how bad the year will prove.",
     "category": "land",
     "people": [],
-    "places": ["burg:297"],
+    "places": [
+      "burg:297"
+    ],
     "threads": [],
-    "master_links": ["V-0125"]
+    "master_links": [
+      "V-0125"
+    ]
   },
   {
     "title": "The second census rides the shire roads",
     "era_year": 33,
     "summary": "Clerks sent out a second time from Cathair dhearg tally hearth against hearth as before, but with a new column set beside the first, a figure for what a Dia-thìreach household holds and one for what its Tuathach neighbour holds, so that the count for once measures the gap rather than only setting the numbers side by side.",
     "category": "law",
-    "people": ["Seonag nic Ille-Mhoire"],
+    "people": [
+      "Seonag nic Ille-Mhoire"
+    ],
     "places": [],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0126"]
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0126"
+    ]
   },
   {
     "title": "The council locks the second census away",
@@ -26,17 +36,27 @@
     "summary": "The sums the shire clerks carry back to Cathair dhearg go onto a stack in the council's own keeping-room and no further; no proclamation, no minute copied to the Library, no word to any shire clerk who might have carried it on, and the twelve who asked for the count give out only that the figures want study before they want airing.",
     "category": "law",
     "people": [],
-    "places": ["burg:19"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0126"]
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0126"
+    ]
   },
   {
     "title": "Walter Hale settles a carter's toll dispute",
     "era_year": 33,
     "summary": "Keeping the thirty-year habit of hearing the furthest-travelled petitioner before the day's set business, Walter Hale hears out a carter from beyond Àth fhada over a wrongly charged toll and settles it in the carter's favour himself, his voice unhurried though the sitting leaves him more spent than harder business had the winter before.",
     "category": "law",
-    "people": ["Walter Hale"],
-    "places": ["burg:95"],
+    "people": [
+      "Walter Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
     "threads": [],
     "master_links": []
   },
@@ -45,90 +65,158 @@
     "era_year": 33,
     "summary": "Walter Hale, first speaker of the Moot, dies in his own bed at Caol mhòr on the twenty-eighth of an Gearran, seventy-six years old, David beside him and Alice sent for but not in time; the Moot's business stops three days without a vote taken to stop it.",
     "category": "rulers",
-    "people": ["Walter Hale", "David Hale", "Alice Hale"],
-    "places": ["burg:95"],
+    "people": [
+      "Walter Hale",
+      "David Hale",
+      "Alice Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
     "threads": [],
-    "master_links": ["V-0127"]
+    "master_links": [
+      "V-0127"
+    ]
   },
   {
     "title": "The north walks to Hale's burial",
     "era_year": 33,
     "summary": "Fishermen, carters and shepherds from every part of the north crowd the roads into Caol mhòr for Walter Hale's burial, more feet on the road that week than the fair itself drew the autumn before, and he is laid in sight of the Moot's own house where he sat thirty-one years.",
     "category": "rulers",
-    "people": ["Walter Hale"],
-    "places": ["burg:95"],
+    "people": [
+      "Walter Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
     "threads": [],
-    "master_links": ["V-0127"]
+    "master_links": [
+      "V-0127"
+    ]
   },
   {
     "title": "The Moot names Mary Coyle speaker",
     "era_year": 33,
     "summary": "On the fourth day after Hale's burial the Moot sets aside a factor's son and a shire clerk both spoken for the chair and names Mary Coyle, a fisherman's widow of Caol mhòr, the first woman to hold it, by a count nobody in the room troubles to call close.",
     "category": "rulers",
-    "people": ["Mary Coyle"],
-    "places": ["burg:95"],
+    "people": [
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
     "threads": [],
-    "master_links": ["V-0127"]
+    "master_links": [
+      "V-0127"
+    ]
   },
   {
     "title": "David Hale keeps the books under Mary Coyle",
     "era_year": 33,
     "summary": "David Hale, who kept his father's minute-books through the years of the first fair, sets Mary Coyle's seal at her own place beside the one his father's hand had set to thirty-one years of letters, and stays on at her asking to keep the rough book as he always has.",
     "category": "law",
-    "people": ["David Hale", "Mary Coyle"],
-    "places": ["burg:95"],
+    "people": [
+      "David Hale",
+      "Mary Coyle"
+    ],
+    "places": [
+      "burg:95"
+    ],
     "threads": [],
-    "master_links": ["V-0127"]
+    "master_links": [
+      "V-0127"
+    ]
   },
   {
     "title": "Seonag nic Ille-Mhoire asks to see the report",
     "era_year": 33,
     "summary": "Seonag nic Ille-Mhoire, who rode her own shire's tally in for the second census, asks a council clerk at Cathair dhearg to let her see the island's whole sum, on the ground that she carried the figures herself and has a right to know their total.",
     "category": "law",
-    "people": ["Seonag nic Ille-Mhoire"],
-    "places": ["burg:19"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0128"]
+    "people": [
+      "Seonag nic Ille-Mhoire"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0128"
+    ]
   },
   {
     "title": "Seonag writes the refusal into her own book",
     "era_year": 33,
     "summary": "Refused the report with no reason beyond the plain fact of the refusal, Seonag nic Ille-Mhoire writes the asking and the answer that same evening into a private book she keeps for herself and shows to no one, for a record's own sake rather than any purpose she could name.",
     "category": "law",
-    "people": ["Seonag nic Ille-Mhoire"],
+    "people": [
+      "Seonag nic Ille-Mhoire"
+    ],
     "places": [],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0128"]
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0128"
+    ]
   },
   {
     "title": "Ruth Ashby and Clara Tulloch begin under Eachann mac Rath",
     "era_year": 33,
     "summary": "Two women of the shunting country north of Caol mhòr, Ruth Ashby and Clara Tulloch, come to the surgery of Eachann mac Rath at Àth àrsaidh, who takes them without his guild's leave to be taught by watching him set bones and mix poultices through a hard, fever-crowded season.",
     "category": "humans",
-    "people": ["Ruth Ashby", "Clara Tulloch", "Eachann mac Rath"],
-    "places": ["burg:304"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0129"]
+    "people": [
+      "Ruth Ashby",
+      "Clara Tulloch",
+      "Eachann mac Rath"
+    ],
+    "places": [
+      "burg:304"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0129"
+    ]
   },
   {
     "title": "The guild's men find Eachann's surgery out",
     "era_year": 33,
     "summary": "Word from a factor's wife reaches the physicians' guild that Eachann mac Rath's two new pupils handle a lancet as steady as he does, and two of the guild's own men ride to Àth àrsaidh and watch Ruth Ashby set a child's wrist unwatched before they leave without a word to either woman.",
     "category": "humans",
-    "people": ["Ruth Ashby", "Eachann mac Rath"],
-    "places": ["burg:304"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0129"]
+    "people": [
+      "Ruth Ashby",
+      "Eachann mac Rath"
+    ],
+    "places": [
+      "burg:304"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0129"
+    ]
   },
   {
     "title": "Eachann mac Rath struck from the physicians' guild",
     "era_year": 33,
     "summary": "The guild strikes Eachann mac Rath from its rolls before an Cèitean is out, its letter naming no fault in his physic, only that he taught outside its leave and to hands its charter does not recognise, and he sets the letter aside and keeps his surgery open all the same.",
     "category": "humans",
-    "people": ["Eachann mac Rath"],
-    "places": ["burg:304"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0129"]
+    "people": [
+      "Eachann mac Rath"
+    ],
+    "places": [
+      "burg:304"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0129"
+    ]
   },
   {
     "title": "The Abhainn ìseal takes three bridges and the embankment",
@@ -137,28 +225,73 @@
     "summary": "Three days of hard rain in am Màrt bring the Abhainn ìseal over its lower banks, and the flood carries away three bridges and a long stretch of the coal line's embankment, a carter losing his cart on the middle span but no soul drowned along that reach.",
     "category": "land",
     "people": [],
-    "places": ["river:16"],
+    "places": [
+      "river:16"
+    ],
     "threads": [],
-    "master_links": ["V-0130"]
+    "master_links": [
+      "V-0130"
+    ]
   },
   {
     "title": "The coal line shuts and the ports live on stored coal",
     "era_year": 34,
-    "summary": "With a mile of embankment gone under the Abhainn ìseal's flood the coal line shuts for want of ground to run on, and the ports that lived on what it carried, Cuan ruadh and Muileann chrom among them, turn to whatever coal they had laid by against a leaner week rather than a whole season.",
+    "summary": "With a mile of embankment gone under the Abhainn ìseal's flood the coal line shuts for want of ground to run on, and the ports that lived on what it carried, Ros dhomhain and the western harbours among them, turn to whatever coal they had laid by against a leaner week rather than a whole season.",
     "category": "coal",
     "people": [],
-    "places": ["river:16"],
+    "places": [
+      "river:16"
+    ],
     "threads": [],
-    "master_links": ["V-0130"]
+    "master_links": [
+      "V-0130"
+    ]
   },
   {
     "title": "Mary Coyle gives her first order as speaker",
     "era_year": 34,
-    "summary": "Not yet a month in the chair, Mary Coyle calls the Moot together the evening word of the washed embankment reaches Caol mhòr and orders every port on the coal line's reach to open its own store and share it by the shire's count of hearths, the north sending south to Muileann chrom until the line can be mended.",
+    "summary": "Not yet a month in the chair, Mary Coyle calls the Moot together the evening word of the washed embankment reaches Caol mhòr and orders every northern harbour that answers to the Moot to open its own coal store and share it out by the count of hearths rather than by whoever reaches the yard first, until the line can be walked and mended.",
     "category": "coal",
-    "people": ["Mary Coyle", "David Hale"],
-    "places": ["burg:95"],
+    "people": [
+      "Mary Coyle",
+      "David Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
     "threads": [],
-    "master_links": ["V-0130"]
+    "master_links": [
+      "V-0130"
+    ]
+  },
+  {
+    "title": "The masons sign the grain-store's mortar",
+    "era_year": 33,
+    "summary": "When the last course goes onto the Crown's grain-store at Cathair fhada in the dry season, two winters building and one summer roofing, the masons sign their names in the mortar.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:297"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0125"
+    ]
+  },
+  {
+    "title": "David Hale keeps no second copy",
+    "era_year": 34,
+    "summary": "On the night Mary Coyle gives her first order as speaker, David Hale writes it into the rough book under her name and, for the first time in two years, keeps no second copy of the day's minute by his own hearth.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0130"
+    ]
   }
 ]

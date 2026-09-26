@@ -238,5 +238,21 @@
         "type": "sequel"
       }
     ]
+  },
+  {
+    "title": "The humans' ledgers boxed unread",
+    "era_year": 2,
+    "summary": "Ruairidh, master of the counting-house room at Cathair dhearg, gives Ailean mac Iain the whole northern wall of the humans' ledgers to clear and tells him to box them unread; Ailean, who could have read several of them, boxes them as he is told.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0005"
+    ]
   }
 ]

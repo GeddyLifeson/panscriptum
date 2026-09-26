@@ -1,152 +1,283 @@
 [
- {
-  "title": "Ailean mac Iain named first keeper of the Library",
-  "era_year": 16,
-  "summary": "By the council's own sentence, Ailean mac Iain is named keeper of the record at Muileann chaol, to receive, to order, and to keep whatever is sent to him. The office has no precedent and the warrant no further words, leaving Ailean to learn from the town itself what a keeper of a record might be.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0071"]
- },
- {
-  "title": "The custodians' rolls found under Muileann chaol",
-  "era_year": 16,
-  "summary": "The town's own custodians lead Ailean Leabhar down a stair to a wet cellar under the old grain-store, where rolls and bound books have stood on planks above standing water since before the Severance, the lowest tier gone soft as bread. He reads three lines by the light thrown down the stair, then sends for lamps and a table.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0071"]
- },
- {
-  "title": "Coinneach Clàrc taken on at the Library",
-  "era_year": 16,
-  "summary": "A wright's orphaned son of Muileann chaol, thirteen that spring and hired out by his mother for whatever a household could spare, attaches himself to Ailean Leabhar's carts on their first afternoon in the town and is set to fetch and carry, and within the year to read a Mission hand that few south of the guard-line can any longer make out.",
-  "category": "record",
-  "people": ["Ailean mac Iain", "Coinneach Clàrc"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": []
- },
- {
-  "title": "The council's minute-books sent east to the Library",
-  "era_year": 16,
-  "summary": "Four sacks of the council's own minute-books, and behind them the boxed and charred tithe ledgers of the humans' counting-houses that Ailean boxed unread fourteen years before, are carried east from Cathair dhearg to Muileann chaol, the first of the kingdom's scattered papers to be gathered into one keeping.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0071"]
- },
- {
-  "title": "The Library's copyists turn every date to the civil calendar",
-  "era_year": 17,
-  "summary": "Ailean Leabhar sets his copyists to turning every date the cellar and the tithe ledgers hold into the civil calendar the humans brought, disliking the old count of the Diosal, which runs backward into the thousands and names every year after the day the humans' kin went over the water.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0071"]
- },
- {
-  "title": "The Age of Ailean parted from the eldest age",
-  "era_year": 17,
-  "summary": "Laying the tellings of Clann na Ceiste against the king-lists the custodians' rolls preserve, Ailean Leabhar's reckoners find that nearly half of the copyists' eldest age falls within the single life of Ailean Mòr, and by the consent of all seven copyists that life is counted an age of its own, the first change the Library makes to any reckoning it did not itself invent.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0071"]
- },
- {
-  "title": "\"A chur san Leabharlann\" first said at Muileann chaol",
-  "era_year": 17,
-  "summary": "A council clerk, told that a boundary query will want weeks of reading before it can be honestly answered, says the matter can simply be put in the Library and left settled. Ailean Leabhar corrects him sharply, and the correction, carried home and retold, is what fixes the phrase in the town's mouth rather than loosening it.",
-  "category": "culture",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0072"]
- },
- {
-  "title": "Cailean mac Eachainn's Line of Aisling found in the margin",
-  "era_year": 17,
-  "summary": "Copying a camp roll of Àth ìseal a third time, Coinneach Clàrc notices a second, later hand in its margin: Cailean mac Eachainn's line of descent, the Line of Aisling, set down a great many years before. Ailean Leabhar has it copied fair within the week.",
-  "category": "record",
-  "people": ["Ailean mac Iain", "Coinneach Clàrc"],
-  "places": ["burg:246"],
-  "threads": ["the-library", "line-of-aisling"],
-  "master_links": []
- },
- {
-  "title": "Leabhar nan Sloinnidhean opened",
-  "era_year": 17,
-  "summary": "Ailean Leabhar begins a book for nothing but lines of descent, naming it Leabhar nan Sloinnidhean, the book of lines, and sets Cailean mac Eachainn's Line of Aisling in it directly after the older Line of the Mason, found wedged behind a shifted course of brick in the same cellar.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library", "line-of-aisling"],
-  "master_links": []
- },
- {
-  "title": "Leabhar nan Aithrisean opened",
-  "era_year": 17,
-  "summary": "Where the Àth ìseal roll's margin also keeps tales set down by firelight rather than by day, the Hollow Man, the white stag, a captain's boast of a wolf and a door held alone, Ailean Leabhar opens a second book, Leabhar nan Aithrisean, the book of tellings, and enters the long years of Ailean Mòr and his children beside them without correction.",
-  "category": "culture",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": []
- },
- {
-  "title": "The Library's first reading room opened",
-  "era_year": 16,
-  "summary": "Ailean Leabhar opens a dry chamber above the cellar to any who can show a letter from a shire maor vouching for their errand, on the plain reasoning that a Library nobody can reach is no better kept than a cellar nobody can reach. For the better part of a year it stands empty of anyone but his own copyists.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0073"]
- },
- {
-  "title": "A Ros dhomhain shipwright first signs the reading-book",
-  "era_year": 17,
-  "summary": "A shipwright of Ros dhomhain walks the coast road with a maor's letter to ask whether the humans ever set down the true lines of a hull. Ailean Leabhar finds three drawings folded inside an unrelated survey, and the shipwright copies them out over four days, the first name entered in the Library's reading-book.",
-  "category": "record",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:27", "burg:246"],
-  "threads": ["the-library"],
-  "master_links": ["V-0073"]
- },
- {
-  "title": "The Guild of Hewers' bath-house built at the warm springs",
-  "era_year": 17,
-  "summary": "The Guild of Hewers builds a bath-house of its own funds over the hot springs below Muileann ruadh, for men the pits have made sick with the dust, and sends the Library its first sick-roll unasked: four hundred men named by shift and by face of the pit that broke them.",
-  "category": "building",
-  "people": [],
-  "places": ["marker:0"],
-  "threads": ["the-library"],
-  "master_links": ["V-0074"]
- },
- {
-  "title": "The five lighthouses given Dia-thìreach keepers",
-  "era_year": 17,
-  "summary": "By royal warrant the five lighthouses built under the humans are given keepers of the kingdom's own naming. Ailean Leabhar drafts all five, the four southern warrants alike and the fifth, for Baile chrom on the Tuathaich coast, bidding its keeper report what he sees by land as well as by sea.",
-  "category": "law",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library", "the-tuathaich"],
-  "master_links": ["V-0075"]
- },
- {
-  "title": "The keeper's light lit at Baile chrom",
-  "era_year": 17,
-  "summary": "A Dia-thìreach keeper who asked for the northern posting himself takes up the light at Baile chrom, among a Tuathaich town that has never before had a Dia-thìreach man set to live and watch among it. The southern four lights draw no comment; the fifth draws only silence that first season.",
-  "category": "settlement",
-  "people": [],
-  "places": ["marker:12"],
-  "threads": ["the-library", "the-tuathaich"],
-  "master_links": ["V-0075"]
- }
+  {
+    "title": "Ailean mac Iain named first keeper of the Library",
+    "era_year": 16,
+    "summary": "By the council's own sentence, Ailean mac Iain is named keeper of the record at Muileann chaol, to receive, to order, and to keep whatever is sent to him. The office has no precedent and the warrant no further words, leaving Ailean to learn from the town itself what a keeper of a record might be.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0071"
+    ]
+  },
+  {
+    "title": "The custodians' rolls found under Muileann chaol",
+    "era_year": 16,
+    "summary": "The town's own custodians lead Ailean Leabhar down a stair to a wet cellar under the old grain-store, where rolls and bound books have stood on planks above standing water since before the Severance, the lowest tier gone soft as bread. He reads three lines by the light thrown down the stair, then sends for lamps and a table.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0071"
+    ]
+  },
+  {
+    "title": "Coinneach Clàrc taken on at the Library",
+    "era_year": 16,
+    "summary": "A wright's orphaned son of Muileann chaol, thirteen that spring and hired out by his mother for whatever a household could spare, attaches himself to Ailean Leabhar's carts on their first afternoon in the town and is set to fetch and carry, and within the year to read a Mission hand that few south of the guard-line can any longer make out.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain",
+      "Coinneach Clàrc"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": []
+  },
+  {
+    "title": "The council's minute-books sent east to the Library",
+    "era_year": 16,
+    "summary": "Four sacks of the council's own minute-books, and behind them the boxed and charred tithe ledgers of the humans' counting-houses that Ailean boxed unread fourteen years before, are carried east from Cathair dhearg to Muileann chaol, the first of the kingdom's scattered papers to be gathered into one keeping.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0071"
+    ]
+  },
+  {
+    "title": "The Library's copyists turn every date to the civil calendar",
+    "era_year": 17,
+    "summary": "Ailean Leabhar sets his copyists to turning every date the cellar and the tithe ledgers hold into the civil calendar the humans brought, disliking the old count of the Diosal, which runs backward into the thousands and names every year after the day the humans' kin went over the water.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0071"
+    ]
+  },
+  {
+    "title": "The Age of Ailean parted from the eldest age",
+    "era_year": 17,
+    "summary": "Laying the tellings of Clann na Ceiste against the king-lists the custodians' rolls preserve, Ailean Leabhar's reckoners find that nearly half of the copyists' eldest age falls within the single life of Ailean Mòr, and by the consent of all seven copyists that life is counted an age of its own, the first change the Library makes to any reckoning it did not itself invent.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0071"
+    ]
+  },
+  {
+    "title": "\"A chur san Leabharlann\" first said at Muileann chaol",
+    "era_year": 17,
+    "summary": "A council clerk, told that a boundary query will want weeks of reading before it can be honestly answered, says the matter can simply be put in the Library and left settled. Ailean Leabhar corrects him sharply, and the correction, carried home and retold, is what fixes the phrase in the town's mouth rather than loosening it.",
+    "category": "culture",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0072"
+    ]
+  },
+  {
+    "title": "Cailean mac Eachainn's Line of Aisling found in the margin",
+    "era_year": 17,
+    "summary": "Copying a camp roll of Àth ìseal a third time, Coinneach Clàrc notices a second, later hand in its margin: Cailean mac Eachainn's line of descent, the Line of Aisling, set down a great many years before. Ailean Leabhar has it copied fair within the week.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain",
+      "Coinneach Clàrc"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library",
+      "line-of-aisling"
+    ],
+    "master_links": []
+  },
+  {
+    "title": "Leabhar nan Sloinnidhean opened",
+    "era_year": 17,
+    "summary": "Ailean Leabhar begins a book for nothing but lines of descent, naming it Leabhar nan Sloinnidhean, the book of lines, and sets Cailean mac Eachainn's Line of Aisling in it directly after the older Line of the Mason, found wedged behind a shifted course of brick in the same cellar.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library",
+      "line-of-aisling"
+    ],
+    "master_links": []
+  },
+  {
+    "title": "Leabhar nan Aithrisean opened",
+    "era_year": 17,
+    "summary": "Where the Àth ìseal roll's margin also keeps tales set down by firelight rather than by day, the Hollow Man, the white stag, a captain's boast of a wolf and a door held alone, Ailean Leabhar opens a second book, Leabhar nan Aithrisean, the book of tellings, and enters the long years of Ailean Mòr and his children beside them without correction.",
+    "category": "culture",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": []
+  },
+  {
+    "title": "The Library's first reading room opened",
+    "era_year": 16,
+    "summary": "Ailean Leabhar opens a dry chamber above the cellar to any who can show a letter from a shire maor vouching for their errand, on the plain reasoning that a Library nobody can reach is no better kept than a cellar nobody can reach. For the better part of a year it stands empty of anyone but his own copyists.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0073"
+    ]
+  },
+  {
+    "title": "A Ros dhomhain shipwright first signs the reading-book",
+    "era_year": 17,
+    "summary": "A shipwright of Ros dhomhain walks the coast road with a maor's letter to ask whether the humans ever set down the true lines of a hull. Ailean Leabhar finds three drawings folded inside an unrelated survey, and the shipwright copies them out over four days, the first name entered in the Library's reading-book.",
+    "category": "record",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:27",
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0073"
+    ]
+  },
+  {
+    "title": "The Guild of Hewers' bath-house built at the warm springs",
+    "era_year": 17,
+    "summary": "The Guild of Hewers builds a bath-house of its own funds over the hot springs below Muileann ruadh, for men the pits have made sick with the dust, and sends the Library its first sick-roll unasked: four hundred men named by shift and by face of the pit that broke them.",
+    "category": "building",
+    "people": [],
+    "places": [
+      "marker:0"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0074"
+    ]
+  },
+  {
+    "title": "The five lighthouses given Dia-thìreach keepers",
+    "era_year": 17,
+    "summary": "By royal warrant the five lighthouses built under the humans are given keepers of the kingdom's own naming. Ailean Leabhar drafts all five, the four southern warrants alike and the fifth, for Baile chrom on the Tuathaich coast, bidding its keeper report what he sees by land as well as by sea.",
+    "category": "law",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0075"
+    ]
+  },
+  {
+    "title": "The keeper's light lit at Baile chrom",
+    "era_year": 17,
+    "summary": "A Dia-thìreach keeper who asked for the northern posting himself takes up the light at Baile chrom, among a Tuathaich town that has never before had a Dia-thìreach man set to live and watch among it. The southern four lights draw no comment; the fifth draws only silence that first season.",
+    "category": "settlement",
+    "people": [],
+    "places": [
+      "marker:12"
+    ],
+    "threads": [
+      "the-library",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0075"
+    ]
+  },
+  {
+    "title": "The market entered in the Library's register",
+    "era_year": 17,
+    "summary": "Ailean Leabhar enters the market granted to Muileann chaol in the Library's own register, its stall-fee a penny a table and its first court kept by a wright's widow with a length of string, the first entry in that book to concern the town rather than the record.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0076"
+    ]
+  }
 ]

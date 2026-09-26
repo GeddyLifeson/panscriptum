@@ -196,5 +196,21 @@
     "master_links": [
       "V-0151"
     ]
+  },
+  {
+    "title": "The wool train waits out the flood",
+    "era_year": 41,
+    "summary": "The second wool train of the winter sits a night at the flooded crossing short of Inis àrsaidh and goes on when the water drops, losing half a day to the weather and none of the wool, its lead carter holding that a road worn long enough finds its own way round a flood.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:330"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0148"
+    ]
   }
 ]

@@ -333,8 +333,8 @@
   },
   {
    "id": "EII-6513",
-   "title": "Ceallach is born in the high valleys",
-   "body": "A son is born to Gille-Brìde of Somhairle's line in the high valleys and is called Ceallach; he is slower to walk and to run than the children before him, the first sign, told back afterward, that the years were coming down faster in him than in his father.",
+   "title": "Ceallach is born in Na Glinn Àrda",
+   "body": "A son is born to Gille-Brìde of Somhairle's line in Na Glinn Àrda and is called Ceallach; he is slower to walk and to run than the children before him, the first sign, told back afterward, that the years were coming down faster in him than in his father.",
    "kind": "birth",
    "category": "rulers",
    "links": [
@@ -508,7 +508,7 @@
   {
    "id": "EII-6520",
    "title": "Eithne's knot-keeper counts every soul on the new ground",
-   "body": "Eithne comes down from the southern outpost with her own household, and her knot-keeper walks at its head with the household's cord wound about his arm, meaning to be seen keeping count of every soul who sets foot on the new ground, and does so from the first day to the last.",
+   "body": "Eithne comes down from below Làrach an Dùin-fhaire with her own household, and her knot-keeper walks at its head with the household's cord wound about his arm, meaning to be seen keeping count of every soul who sets foot on the new ground, and does so from the first day to the last.",
    "place": "burg:315",
    "kind": "record",
    "category": "law",
@@ -601,8 +601,8 @@
   },
   {
    "id": "EII-6524",
-   "title": "The host of the east begins to gather at Dùn dhearg",
-   "body": "In the spring the host of the east begins gathering at Dùn dhearg under Artair, who is said to have waited three years, since he first took up his father's holding, for the very stillness of the hill to break; word of the gathering reaches the western fires within the week.",
+   "title": "Sluagh an Ear begins to gather at Dùn dhearg",
+   "body": "In the spring Sluagh an Ear begins gathering at Dùn dhearg under Artair, who is said to have waited three years, since he first took up his father's holding, for the very stillness of the hill to break; word of the gathering reaches the western fires within the week.",
    "place": "burg:422",
    "kind": "war",
    "category": "war",
@@ -627,7 +627,7 @@
   {
    "id": "EII-6525",
    "title": "Gille-Brìde and Ceallach come down to see the valley",
-   "body": "Gille-Brìde walks down out of the high valleys with Ceallach, now grown but already, though neither says it, walking more slowly than a man of his years should, and the two stand at evening looking over more fires than either has ever seen gathered at once.",
+   "body": "Gille-Brìde walks down out of Na Glinn Àrda with Ceallach, now grown but already, though neither says it, walking more slowly than a man of his years should, and the two stand at evening looking over more fires than either has ever seen gathered at once.",
    "place": "burg:315",
    "kind": "family",
    "category": "rulers",
@@ -697,6 +697,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    20
    ]
   },
   {
@@ -723,6 +728,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    21
    ]
   },
   {
@@ -748,6 +758,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    29
    ]
   },
   {
@@ -771,6 +786,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    29
    ]
   },
   {
@@ -794,6 +814,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    30
    ]
   },
   {
@@ -817,6 +842,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    30
    ]
   },
   {
@@ -838,6 +868,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    30
    ]
   },
   {
@@ -859,6 +894,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    30
    ]
   },
   {
@@ -880,6 +920,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    31
    ]
   },
   {
@@ -903,6 +948,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    31
    ]
   },
   {
@@ -928,6 +978,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    8,
+    31
    ]
   },
   {
@@ -951,6 +1006,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    9,
+    1
    ]
   },
   {
@@ -974,12 +1034,17 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    9,
+    1
    ]
   },
   {
    "id": "EII-6540",
    "title": "The king's kin fail to come to the ford",
-   "body": "Through all three days at the ford below Dùn dhearg, no household of the king's own blood, and no spear of the hills, comes down the western track to stand with him; the host of the east has the river to itself the whole time.",
+   "body": "Through all three days at the ford below Dùn dhearg, no household of the king's own blood, and no spear of the hills, comes down the western track to stand with him; Sluagh an Ear has the river to itself the whole time.",
    "place": "burg:422",
    "kind": "reign",
    "category": "rulers",
@@ -995,6 +1060,11 @@
    "era_between": [
     4603,
     4603
+   ],
+   "on": [
+    4603,
+    9,
+    1
    ]
   }
  ]

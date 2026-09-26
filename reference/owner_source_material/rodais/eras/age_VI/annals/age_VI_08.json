@@ -11,7 +11,7 @@
   {
    "id": "EVI-4500",
    "title": "Iain Mapa true up the eastern faces",
-   "body": "Sent into the eastern galleries of the Sloc Mòr to settle a dispute between two overseers over a cutting's bounds, the chainman Iain mac Ruairidh, called Iain Mapa, checks an old survey against the new digging and finds the figures will not lie flat. He walks the faces a second time before he trusts what they tell him.",
+   "body": "Sent into the eastern galleries of An Sloc Mòr to settle a dispute between two overseers over a cutting's bounds, the chainman Iain mac Ruairidh, called Iain Mapa, checks an old survey against the new digging and finds the figures will not lie flat. He walks the faces a second time before he trusts what they tell him.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -57,7 +57,7 @@
   {
    "id": "EVI-4502",
    "title": "Iain Mapa walks the survey to Cathair dhearg",
-   "body": "Rather than trust the carters with a finding he believes the Board should see in his own hand, Iain Mapa rolls and ties his survey and walks the thirty-one miles from the Sloc Mòr to Cathair dhearg in a day and a half, sleeping one night on the road, and tells no one at the mine beforehand what the sheet holds.",
+   "body": "Rather than trust the carters with a finding he believes the Board should see in his own hand, Iain Mapa rolls and ties his survey and walks the thirty-one miles from An Sloc Mòr to Cathair dhearg in a day and a half, sleeping one night on the road, and tells no one at the mine beforehand what the sheet holds.",
    "kind": "coal",
    "place": "burg:135",
    "category": "coal",
@@ -80,7 +80,7 @@
   {
    "id": "EVI-4503",
    "title": "The Board leaves the survey unrolled",
-   "body": "Iain Mapa lays his survey before three men of the Mine Board at Cathair dhearg and unties the string himself. None of the three unrolls it. He gives them the finding by mouth, plainly, and is told only, by the one in the middle, that it will be considered.",
+   "body": "Iain Mapa lays his survey before three men of Comhairle nam Mèinnean at Cathair dhearg and unties the string himself. None of the three unrolls it. He gives them the finding by mouth, plainly, and is told only, by the one in the middle, that it will be considered.",
    "kind": "law",
    "place": "burg:23",
    "category": "law",
@@ -152,7 +152,7 @@
   {
    "id": "EVI-4506",
    "title": "Iain Mapa posted to Muileann chiar",
-   "body": "Within the month Iain Mapa is told, with little explanation offered and none asked for, that he is wanted at the silver works at Muileann chiar, twenty-four miles east and a little south of the Sloc Mòr, where the Board has need of a man who holds a chain straight and asks no more than the work requires.",
+   "body": "Within the month Iain Mapa is told, with little explanation offered and none asked for, that he is wanted at the silver works at Muileann chiar, twenty-four miles east and a little south of An Sloc Mòr, where the Board has need of a man who holds a chain straight and asks no more than the work requires.",
    "kind": "coal",
    "place": "burg:78",
    "category": "coal",
@@ -174,8 +174,8 @@
   },
   {
    "id": "EVI-4507",
-   "title": "The boat of the field warped into the new harbour",
-   "body": "Of the hulls the Great Wave cast into the fields behind Cuan dhearg two generations before, one is found sound enough to be dragged to the water, caulked and floated, and is warped into the rebuilt harbour ahead of every boat built new for it. The harbour-master keeps it moored at the quay-head as a relic rather than putting it back to work.",
+   "title": "Bàta an Achaidh warped into the new harbour",
+   "body": "Of the hulls Tonn Mhòr Cnoc chaol cast into the fields behind Cuan dhearg two generations before, one is found sound enough to be dragged to the water, caulked and floated, and is warped into the rebuilt harbour ahead of every boat built new for it. The harbour-master keeps it moored at the quay-head as a relic rather than putting it back to work.",
    "kind": "land",
    "place": "burg:190",
    "category": "land",
@@ -199,7 +199,7 @@
   {
    "id": "EVI-4508",
    "title": "The Board's clerks move to Cathair mhòr",
-   "body": "The Mine Board moves its clerks and its presses the sixteen miles from Cathair dhearg to Cathair mhòr, into leased rooms above the town's wool market, on the stated ground that a board charged with the mountain's business ought to sit nearer the mountain than it had.",
+   "body": "Comhairle nam Mèinnean moves its clerks and its presses the sixteen miles from Cathair dhearg to Cathair mhòr, into leased rooms above the town's wool market, on the stated ground that a board charged with the mountain's business ought to sit nearer the mountain than it had.",
    "kind": "law",
    "place": "burg:23",
    "category": "law",
@@ -222,7 +222,7 @@
   {
    "id": "EVI-4509",
    "title": "Riaghailt a' Bhùird set down",
-   "body": "In four lines the Mine Board sets down, for the first time in writing, the rule that its surveyors' work is to be kept at Cathair mhòr in the Board's own presses and not sent to the Library at Muileann chaol as every other office's reports are sent. No one on the council is asked to confirm it.",
+   "body": "In four lines Comhairle nam Mèinnean sets down, for the first time in writing, the rule that its surveyors' work is to be kept at Cathair mhòr in the Board's own presses and not sent to Leabharlann Muileann chaol as every other office's reports are sent. No one on the council is asked to confirm it.",
    "kind": "law",
    "place": "burg:23",
    "category": "law",
@@ -244,8 +244,8 @@
   },
   {
    "id": "EVI-4510",
-   "title": "The Moot pays Hannah Crane's fine",
-   "body": "Word reaches the Moot at Caol mhòr that the vigil-keeper Hannah Crane has been fined at Baile chrom for keeping the Grey Night in the open. The Moot votes the balance of her fine out of its own small chest without much debate, on a councillor's motion that a woman fined for standing on a beach is no threat worth agreeing with.",
+   "title": "Tional nan Tuathach pays Hannah Crane's fine",
+   "body": "Word reaches Tional nan Tuathach that the vigil-keeper Hannah Crane has been fined at Baile chrom for keeping Oidhche Glaise in the open. Tional nan Tuathach votes the balance of her fine out of its own small chest without much debate, on a councillor's motion that a woman fined for standing on a beach is no threat worth agreeing with.",
    "kind": "faith",
    "place": "burg:305",
    "category": "faith",
@@ -268,8 +268,8 @@
   },
   {
    "id": "EVI-4511",
-   "title": "The Grey Night kept indoors",
-   "body": "Forbidden the open shingle below the light, the vigil of the Grey Night is kept that year in a byre lent by a family who hold the old rite themselves, one night a year, in a silence the magistrate's order cannot reach any better than it reached the shore. Outsiders are still not told which night it falls on.",
+   "title": "Oidhche Glaise kept indoors",
+   "body": "Forbidden the open shingle below the light, Oidhche Glaise is kept that year in a byre lent by a family who hold the old rite themselves, one night a year, in a silence the magistrate's order cannot reach any better than it reached the shore. Outsiders are still not told which night it falls on.",
    "kind": "faith",
    "place": "burg:305",
    "category": "faith",
@@ -311,12 +311,57 @@
    ]
   },
   {
-   "after": "V-0113"
+   "after": "V-0110"
   },
   {
    "id": "EVI-4513",
+   "title": "Idle looms at Baile chiar",
+   "body": "The weavers' guild of Baile chiar reports the washing-pools behind its fulling-sheds too low after a dry summer to scour wool, and its looms idle three weeks; the guild counts the bolts not woven to the last half-ell and does not count the weavers it has not paid.",
+   "kind": "trade",
+   "place": "burg:106",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0110",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-ordinary-traffic",
+   "era_between": [
+    28,
+    28
+   ]
+  },
+  {
+   "id": "EVI-4514",
+   "title": "A wedding at Lia Fàil's door in Doire shean",
+   "body": "The harbour-master of Doire shean writes to an Leabharlann of his daughter's wedding to a clerk of Lia Fàil's counting-room, kept at Lia Fàil's door, the first in his memory for which the whole fishing fleet came in on one tide to stand on the quay.",
+   "kind": "faith",
+   "place": "burg:324",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0110",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-ordinary-traffic",
+   "era_between": [
+    28,
+    28
+   ]
+  },
+  {
+   "after": "V-0113"
+  },
+  {
+   "id": "EVI-4515",
    "title": "The first households return to Achadh mhin",
-   "body": "Three households moved off the salted fields after the Great Wave, or their children in their place, ask and are granted their old ground back, the barley coming up along strips long thought lost to the tide.",
+   "body": "Three households moved off the salted fields after Tonn Mhòr Cnoc chaol, or their children in their place, ask and are granted their old ground back, the barley coming up along strips long thought lost to the tide.",
    "kind": "trade",
    "place": "burg:150",
    "category": "trade",
@@ -335,7 +380,7 @@
    ]
   },
   {
-   "id": "EVI-4514",
+   "id": "EVI-4516",
    "title": "The twice-sealed packet reaches Muileann chaol",
    "body": "Word of Brìghde's death and Eòghan's crowning reaches the chronicler's desk in a packet sealed twice, the second hand adding, in a hastier line at the foot, that the council's own sitting on the succession did not pass as quietly as the crowning itself.",
    "kind": "rulers",
@@ -358,7 +403,7 @@
    ]
   },
   {
-   "id": "EVI-4515",
+   "id": "EVI-4517",
    "title": "Gormshuil's three struck drafts",
    "body": "The chronicler writes and rejects three entries for the succession before a fourth stands: one that says more than an office should say first, one so bare it reads as a door shut on purpose, one left unfinished as an argument rather than a record.",
    "kind": "law",
@@ -385,7 +430,7 @@
    ]
   },
   {
-   "id": "EVI-4516",
+   "id": "EVI-4518",
    "title": "The bare entry set down",
    "body": "Past the second hour of the morning Gormshuil enters the day of Brìghde's death, the fact that no cause is made known, and the day of Eòghan's crowning, and nothing more, choosing the silence rather than dressing it as a fullness it is not.",
    "kind": "law",
@@ -408,7 +453,7 @@
    ]
   },
   {
-   "id": "EVI-4517",
+   "id": "EVI-4519",
    "title": "The council's four lines on the division",
    "body": "The council's own minute of the sitting names Tormod mac Iain Òig and Sìleas nic Artair as the two who stood against seating Eòghan, gives no reason either offered, and closes with the plainest of its four lines: the two do not sit again.",
    "kind": "law",
@@ -429,9 +474,9 @@
    ]
   },
   {
-   "id": "EVI-4518",
+   "id": "EVI-4520",
    "title": "Tormod mac Iain Òig goes home",
-   "body": "Tormod mac Iain Òig returns to his own lands in the western shires and is not named in the chronicle again for some years, his seat on the council closed behind him without further entry.",
+   "body": "Tormod mac Iain Òig returns to his own lands in the western shires and is not named in Eachdraidh na Rìoghachd again for some years, his seat on the council closed behind him without further entry.",
    "kind": "rulers",
    "place": "burg:19",
    "category": "rulers",
@@ -450,9 +495,9 @@
    ]
   },
   {
-   "id": "EVI-4519",
+   "id": "EVI-4521",
    "title": "Sìleas nic Artair keeps her own house's rite",
-   "body": "Sìleas nic Artair, her council seat lost with Tormod mac Iain Òig's, gives her Old Spirits kin's house more of her time than council business ever left her, and does not sit at Cathair dhearg again.",
+   "body": "Sìleas nic Artair, her council seat lost with Tormod mac Iain Òig's, gives her Na Seann Spioradan kin's house more of her time than council business ever left her, and does not sit at Cathair dhearg again.",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -472,7 +517,7 @@
    ]
   },
   {
-   "id": "EVI-4520",
+   "id": "EVI-4522",
    "title": "The council's two seats filled",
    "body": "Before the year turns the council seats a landed man's son from the western shires and a widow of a coastal house in the two empty places, and neither newcomer is asked in council to account for the vote that opened the seat they now hold.",
    "kind": "rulers",
@@ -493,7 +538,77 @@
    ]
   },
   {
-   "id": "EVI-4521",
+   "id": "EVI-4523",
+   "title": "Leabhar nam Breith cited by its page",
+   "body": "Riding his twelfth year on the northern circuit, Uilleam mac Leòid finds for a Tuathaich family's grazing claim at Àth àrsaidh in the words of his aunt's ruling and cites Leabhar nam Breith by its page, the first circuit return to cite the book in its own words.",
+   "kind": "law",
+   "place": "burg:304",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0113",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-ordinary-traffic",
+   "era_between": [
+    28,
+    28
+   ]
+  },
+  {
+   "id": "EVI-4524",
+   "title": "The Board's yield sent as a single figure",
+   "body": "Comhairle nam Mèinnean's return to Eachdraidh na Rìoghachd gives An Sloc Mòr's yield for the year as a single figure, no faces named and no survey cited; Gormshuil nic Dhùghaill enters it and sets the year before's figure beside it in her smallest hand, with no word between them.",
+   "kind": "coal",
+   "place": "burg:23",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0105",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion",
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-ordinary-traffic",
+   "era_between": [
+    28,
+    28
+   ]
+  },
+  {
+   "id": "EVI-4525",
+   "title": "The fifth copy of the Seann Dunn naming",
+   "body": "The hall at Seann Dunn sends an Leabharlann its fifth copy of the naming, longer by eleven names, the hall having taken in three households of the coast that had kept their dead at their own hearths until then.",
+   "kind": "faith",
+   "place": "burg:18",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0094",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-ordinary-traffic",
+   "era_between": [
+    28,
+    28
+   ]
+  },
+  {
+   "id": "EVI-4526",
    "title": "The warehouse quarter of Inis bhàn burns two days",
    "body": "Fire takes three storehouses and the dwellings above them at Inis bhàn on the Abhainn ìseal and burns two days before the town beats it back street by street with buckets and wet sacking; every soul in the burning quarter gets clear, and none dies.",
    "kind": "land",
@@ -507,7 +622,7 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
+   "told_in": "book/23_of_the_bare_entry.md#v-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
    "era_between": [
     29,
     29
@@ -517,9 +632,9 @@
    "after": "V-0116"
   },
   {
-   "id": "EVI-4522",
-   "title": "The Hawk house at Inis bhàn opens its doors",
-   "body": "The Hawk house at Inis bhàn, which has never before taken in households outside those sworn to it, shelters every family the fire puts out of a roof, sworn or not, through the worst of the spring cold.",
+   "id": "EVI-4527",
+   "title": "Òrd an t-Seabhaig house at Inis bhàn opens its doors",
+   "body": "Òrd an t-Seabhaig house at Inis bhàn, which has never before taken in households outside those sworn to it, shelters every family the fire puts out of a roof, sworn or not, through the worst of the spring cold.",
    "kind": "faith",
    "place": "burg:371",
    "category": "faith",
@@ -533,16 +648,16 @@
     "the-orders-of-the-old-faith"
    ],
    "people": [],
-   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
+   "told_in": "book/23_of_the_bare_entry.md#v-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
    "era_between": [
     29,
     29
    ]
   },
   {
-   "id": "EVI-4523",
+   "id": "EVI-4528",
    "title": "Inis bhàn's new bell rung on the quay",
-   "body": "The council buys Inis bhàn a bell from the founders' yard at Cathair dhearg to stand where the old warehouse bell burned, rung once on the quay before it is hung, and heard, by the town's own telling, further up and down the Abhainn ìseal than any bell in the kingdom.",
+   "body": "Inis bhàn buys a bell from the founders' yard at Cathair dhearg, cast to the town's own order, to stand where the old warehouse bell burned, rung once on the quay before it is hung, and heard, by the town's own telling, further up and down the Abhainn ìseal than any bell in the kingdom.",
    "kind": "trade",
    "place": "burg:371",
    "category": "trade",
@@ -554,16 +669,16 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
+   "told_in": "book/23_of_the_bare_entry.md#v-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
    "era_between": [
     29,
     29
    ]
   },
   {
-   "id": "EVI-4524",
-   "title": "The Moot's letter of the eleven schools",
-   "body": "Walter Hale writes the Moot's count of the north's schools to Muileann chaol, eleven in all from Agnes Pike's byre at Doire ghlas to a room over a chandler's shop at Ceann àrsaidh opened that same autumn, and Gormshuil enters it whole rather than shortened.",
+   "id": "EVI-4529",
+   "title": "Tional nan Tuathach's letter of the eleven schools",
+   "body": "Walter Hale writes Tional nan Tuathach's count of the north's schools to Muileann chaol, eleven in all from Agnes Pike's byre at Doire ghlas to a room over a chandler's shop at Ceann àrsaidh opened that same autumn, and Gormshuil enters it whole rather than shortened.",
    "kind": "law",
    "place": "burg:95",
    "category": "law",
@@ -578,14 +693,14 @@
     "the-library"
    ],
    "people": [],
-   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
+   "told_in": "book/23_of_the_bare_entry.md#v-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
    "era_between": [
     29,
     29
    ]
   },
   {
-   "id": "EVI-4525",
+   "id": "EVI-4530",
    "title": "Three schools begin teaching Dia-thìris",
    "body": "At three of the north's eleven schools the teachers begin, at the parents' own asking and with no order from the council or leave from any maor, to teach Dia-thìris alongside the humans' letters, so that children may read a proclamation or a boundary-line in the tongue the kingdom writes its business in.",
    "kind": "law",
@@ -600,16 +715,16 @@
     "the-tuathaich"
    ],
    "people": [],
-   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
+   "told_in": "book/23_of_the_bare_entry.md#v-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
    "era_between": [
     29,
     29
    ]
   },
   {
-   "id": "EVI-4526",
+   "id": "EVI-4531",
    "title": "Agnes Pike's school teaches its first Dia-thìris lesson",
-   "body": "Agnes Pike's school at Doire ghlas, one of the three the Moot's letter names, sets its first Dia-thìris lesson beside the Bible and the Moot's own minutes, at the asking of the parents whose children it has taught since its founding.",
+   "body": "Agnes Pike's school at Doire ghlas, one of the three Tional nan Tuathach's letter names, sets its first Dia-thìris lesson beside am Bìoball and Tional nan Tuathach's own minutes, at the asking of the parents whose children it has taught since its founding.",
    "kind": "law",
    "place": "burg:209",
    "category": "law",
@@ -623,7 +738,7 @@
     "the-tuathaich"
    ],
    "people": [],
-   "told_in": "book/23_of_the_bare_entry.md#iv-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
+   "told_in": "book/23_of_the_bare_entry.md#v-of-the-fire-at-inis-bhan-and-the-letter-of-the-schools",
    "era_between": [
     29,
     29
@@ -633,9 +748,9 @@
    "after": "V-0117"
   },
   {
-   "id": "EVI-4527",
-   "title": "The Guild of Hewers feasts in the new hall",
-   "body": "The Guild of Hewers holds its feast in the finished stone hall of Uisdean mac Ùisdein at Cathair mhòr, at tables set the length of the room under torches an ironsmith made to no pattern but his own, and Mòrag nic Coinnich attends as the Library's own witness.",
+   "id": "EVI-4532",
+   "title": "Comann nan Gualadairean feasts in the new hall",
+   "body": "Comann nan Gualadairean holds its feast in the finished stone hall of Uisdean mac Ùisdein at Cathair mhòr, at tables set the length of the room under torches an ironsmith made to no pattern but his own, and Mòrag nic Coinnich attends as an Leabharlann's own witness.",
    "kind": "trade",
    "place": "burg:23",
    "category": "trade",
@@ -657,9 +772,9 @@
    "after": "V-0119"
   },
   {
-   "id": "EVI-4528",
+   "id": "EVI-4533",
    "title": "The mason's letter of the hall he did not sit in",
-   "body": "A mason who dressed the stone of Mac Ùisdein's new hall writes the Library that he was not asked to the guild's own feast in it, his craft holding no sworn place for a cutter of stone, and Ailean Leabhar enters the letter whole rather than in his own shorter hand.",
+   "body": "A mason who dressed the stone of Mac Ùisdein's new hall writes an Leabharlann that he was not asked to the guild's own feast in it, his craft holding no sworn place for a cutter of stone, and Ailean Leabhar enters the letter whole rather than in his own shorter hand.",
    "kind": "trade",
    "place": "burg:23",
    "category": "trade",
@@ -678,9 +793,9 @@
    ]
   },
   {
-   "id": "EVI-4529",
+   "id": "EVI-4534",
    "title": "The first licence refused to a Caol mhòr boat",
-   "body": "Coll, a Tuathaich master who has fished the southern banks off Caol mhòr eleven years, brings his catch to the maor's scales the day the new licences take force and is told the grounds are not, at present, being papered for boats of his fleet; the Moot enters the day and his name.",
+   "body": "Sam Ridley, a Tuathaich master who has fished the southern banks off Caol mhòr eleven years, brings his catch to the maor's scales the day the new licences take force and is told the grounds are not, at present, being papered for boats of his fleet; Tional nan Tuathach enters the day and his name.",
    "kind": "trade",
    "place": "burg:95",
    "category": "trade",
@@ -701,9 +816,9 @@
    ]
   },
   {
-   "id": "EVI-4530",
-   "title": "The house of the Stone takes its first quarter's dues",
-   "body": "The house of the Stone at Doire shean takes its first quarter's harbour dues off the new quay before the mole's last course is dry, the sum entered beside what the house first lent the town for the building of it.",
+   "id": "EVI-4535",
+   "title": "The house of Lia Fàil takes its first quarter's dues",
+   "body": "The house of Lia Fàil at Doire shean takes its first quarter's harbour dues off the new quay before the mole's last course is dry, the sum entered beside what the house first lent the town for the building of it.",
    "kind": "trade",
    "place": "burg:324",
    "category": "trade",
@@ -725,9 +840,9 @@
    "after": "V-0120"
   },
   {
-   "id": "EVI-4531",
+   "id": "EVI-4536",
    "title": "Beathag asks that the temple's ground be left",
-   "body": "Beathag, eldest of three Seann Spioradan elders of the district, meets Ailean Leabhar at Làrach an Teampaill and asks that the Library measure the ruin rather than open it, since whatever lies under the stone is neither hers to claim nor his.",
+   "body": "Beathag, eldest of three Seann Spioradan elders of the district, meets Ailean Leabhar at Làrach an Teampaill and asks that an Leabharlann measure the ruin rather than open it, since whatever lies under the stone is neither hers to claim nor his.",
    "kind": "faith",
    "place": "marker:33",
    "category": "faith",
@@ -751,7 +866,7 @@
    "after": "V-0121"
   },
   {
-   "id": "EVI-4532",
+   "id": "EVI-4537",
    "title": "The diggers' camp opens at Làrach an Dùin",
    "body": "Four diggers under a foreman named Cailean cut trenches through the spring above the headland at Làrach an Dùin, following the line of a coursed wall sunk deeper than any footing they have found the bottom of.",
    "kind": "law",
@@ -772,9 +887,9 @@
    ]
   },
   {
-   "id": "EVI-4533",
+   "id": "EVI-4538",
    "title": "Ailean Leabhar rides to the trenches",
-   "body": "The keeper of the Library goes down himself to Làrach an Dùin on the diggers' word that the wall they have found is older than any ruin the Library holds a record of, and spends four days at the trench's edge with a lamp and a notebook.",
+   "body": "Neach-gleidhidh an Leabharlainn goes down himself to Làrach an Dùin on the diggers' word that the wall they have found is older than any ruin an Leabharlann holds a record of, and spends four days at the trench's edge with a lamp and a notebook.",
    "kind": "law",
    "place": "marker:32",
    "category": "law",
@@ -793,9 +908,9 @@
    ]
   },
   {
-   "id": "EVI-4534",
-   "title": "The finds laid in the Library",
-   "body": "Ailean Leabhar carries the season's three findings, the wall's short entry, the measure of Làrach an Teampaill, and the copied obelisk, into the Library's own presses himself, filing the not-knowing of each as carefully as a certainty.",
+   "id": "EVI-4539",
+   "title": "The finds laid in an Leabharlann",
+   "body": "Ailean Leabhar carries the season's three findings, the wall's short entry, the measure of Làrach an Teampaill, and the copied obelisk, into an Leabharlann's own presses himself, filing the not-knowing of each as carefully as a certainty.",
    "kind": "law",
    "place": "marker:34",
    "category": "law",
@@ -824,7 +939,7 @@
    ]
   },
   {
-   "id": "EVI-4535",
+   "id": "EVI-4540",
    "title": "Ailean measures the temple with a chain, not a spade",
    "body": "Ailean Leabhar spends two days at Làrach an Teampaill setting down the line of the fallen wall and the fall of the ground with a chain and a level, and enters the ruin as measured, and let be.",
    "kind": "faith",
@@ -848,9 +963,9 @@
    ]
   },
   {
-   "id": "EVI-4536",
+   "id": "EVI-4541",
    "title": "Una copies the obelisk stroke by stroke",
-   "body": "Una, a scribe trained under Ailean Leabhar in copying the Library's most damaged leaves, spends three weeks of fair days at the foot of the obelisk near Cnoc bheag setting down every stroke of its unread script exactly as the stone gives it, worn gap for worn gap.",
+   "body": "Una, a scribe trained under Ailean Leabhar in copying an Leabharlann's most damaged leaves, spends three weeks of fair days at the foot of Carragh Cnoc bheag setting down every stroke of its unread script exactly as the stone gives it, worn gap for worn gap.",
    "kind": "law",
    "place": "marker:28",
    "category": "law",
@@ -871,7 +986,7 @@
    ]
   },
   {
-   "id": "EVI-4537",
+   "id": "EVI-4542",
    "title": "The council pays for a fence at the obelisk",
    "body": "On the keeper's word that a stone unread for longer than the kingdom's whole span deserves at least a fence against the cattle, the council finds the money for four posts and a rail set well back from the obelisk's foot.",
    "kind": "law",
@@ -895,9 +1010,9 @@
    "after": "V-0122"
   },
   {
-   "id": "EVI-4538",
+   "id": "EVI-4543",
    "title": "The keeper of Baile chrom's lighthouse reports the vigil",
-   "body": "A Dia-thìrich keeper new to the lighthouse at Baile chrom reports the Grey Night sect's yearly vigil kept silent in the tower's own shadow, and makes no move against it, having no order that names a silent watch on open ground his business.",
+   "body": "A Dia-thìrich keeper new to the lighthouse at Baile chrom reports Oidhche Glaise sect's yearly vigil kept silent in the tower's own shadow, and makes no move against it, having no order that names a silent watch on open ground his business.",
    "kind": "faith",
    "place": "marker:12",
    "category": "faith",
@@ -919,9 +1034,9 @@
    "after": "V-0124"
   },
   {
-   "id": "EVI-4539",
+   "id": "EVI-4544",
    "title": "The council answers the keeper's report with nothing",
-   "body": "No order reaches the keeper of Baile chrom's lighthouse, and no word reaches the magistrate who had once fined the vigil in the open, and Ailean Leabhar enters the council's silence into the Library's register as plainly as any finding.",
+   "body": "No order reaches the keeper of Baile chrom's lighthouse, and no word reaches the magistrate who had once fined the vigil in the open, and Ailean Leabhar enters the council's silence into an Leabharlann's register as plainly as any finding.",
    "kind": "law",
    "place": "marker:34",
    "category": "law",
@@ -940,9 +1055,9 @@
    ]
   },
   {
-   "id": "EVI-4540",
+   "id": "EVI-4545",
    "title": "Mòrag nic Coinnich made Ailean's deputy",
-   "body": "On the road home from Àth bheag, Ailean Leabhar asks Mòrag nic Coinnich to stand as the Library's deputy after a season that has taught him one keeper alone is a Library one bad season from having nobody who can speak for it; she agrees, on the condition that the register always name her deputy and never keeper.",
+   "body": "On the road home from Àth bheag, Ailean Leabhar asks Mòrag nic Coinnich to stand as an Leabharlann's deputy after a season that has taught him one keeper alone is a Library one bad season from having nobody who can speak for it; she agrees, on the condition that the register always name her deputy and never keeper.",
    "kind": "law",
    "place": "marker:34",
    "category": "law",
@@ -966,7 +1081,7 @@
    "after": "V-0125"
   },
   {
-   "id": "EVI-4541",
+   "id": "EVI-4546",
    "title": "The grain-store at Cathair fhada opens its doors",
    "body": "In the dry weeks of a poor season the keeper of the new Crown grain-store walks out to the road and tells the first cart that passes that the south will eat that year whatever the sky withholds, and word of the opened doors outruns, by an evening, word of how bad the year will prove.",
    "kind": "land",
@@ -990,7 +1105,7 @@
    "after": "V-0127"
   },
   {
-   "id": "EVI-4542",
+   "id": "EVI-4547",
    "title": "The second census rides the shire roads",
    "body": "Clerks sent out a second time from Cathair dhearg tally hearth against hearth as before, but with a new column set beside the first, a figure for what a Dia-thìreach household holds and one for what its Tuathach neighbour holds, so that the count for once measures the gap rather than only setting the numbers side by side.",
    "kind": "law",
@@ -1012,9 +1127,9 @@
    ]
   },
   {
-   "id": "EVI-4543",
+   "id": "EVI-4548",
    "title": "The council locks the second census away",
-   "body": "The sums the shire clerks carry back to Cathair dhearg go onto a stack in the council's own keeping-room and no further; no proclamation, no minute copied to the Library, no word to any shire clerk who might have carried it on, and the twelve who asked for the count give out only that the figures want study before they want airing.",
+   "body": "The sums the shire clerks carry back to Cathair dhearg go onto a stack in the council's own keeping-room and no further; no proclamation, no minute copied to an Leabharlann, no word to any shire clerk who might have carried it on, and the twelve who asked for the count give out only that the figures want study before they want airing.",
    "kind": "law",
    "place": "burg:19",
    "category": "law",
@@ -1035,7 +1150,7 @@
    ]
   },
   {
-   "id": "EVI-4544",
+   "id": "EVI-4549",
    "title": "Walter Hale settles a carter's toll dispute",
    "body": "Keeping the thirty-year habit of hearing the furthest-travelled petitioner before the day's set business, Walter Hale hears out a carter from beyond Àth fhada over a wrongly charged toll and settles it in the carter's favour himself, his voice unhurried though the sitting leaves him more spent than harder business had the winter before.",
    "kind": "law",
@@ -1056,9 +1171,9 @@
    ]
   },
   {
-   "id": "EVI-4545",
+   "id": "EVI-4550",
    "title": "Walter Hale dies at Caol mhòr",
-   "body": "Walter Hale, first speaker of the Moot, dies in his own bed at Caol mhòr on the twenty-eighth of an Gearran, seventy-six years old, David beside him and Alice sent for but not in time; the Moot's business stops three days without a vote taken to stop it.",
+   "body": "Walter Hale, first speaker of Tional nan Tuathach, dies in his own bed at Caol mhòr on the twenty-eighth of an Gearran, seventy-six years old, David beside him and Alice sent for but not in time; Tional nan Tuathach's business stops three days without a vote taken to stop it.",
    "kind": "rulers",
    "place": "burg:95",
    "category": "rulers",
@@ -1077,9 +1192,9 @@
    ]
   },
   {
-   "id": "EVI-4546",
+   "id": "EVI-4551",
    "title": "The north walks to Hale's burial",
-   "body": "Fishermen, carters and shepherds from every part of the north crowd the roads into Caol mhòr for Walter Hale's burial, more feet on the road that week than the fair itself drew the autumn before, and he is laid in sight of the Moot's own house where he sat thirty-one years.",
+   "body": "Fishermen, carters and shepherds from every part of the north crowd the roads into Caol mhòr for Walter Hale's burial, more feet on the road that week than the fair itself drew the autumn before, and he is laid in sight of Tional nan Tuathach's own house where he sat thirty-one years.",
    "kind": "rulers",
    "place": "burg:95",
    "category": "rulers",
@@ -1098,9 +1213,9 @@
    ]
   },
   {
-   "id": "EVI-4547",
-   "title": "The Moot names Mary Coyle speaker",
-   "body": "On the fourth day after Hale's burial the Moot sets aside a factor's son and a shire clerk both spoken for the chair and names Mary Coyle, a fisherman's widow of Caol mhòr, the first woman to hold it, by a count nobody in the room troubles to call close.",
+   "id": "EVI-4552",
+   "title": "Tional nan Tuathach names Mary Coyle speaker",
+   "body": "On the fourth day after Hale's burial Tional nan Tuathach sets aside a factor's son and a shire clerk both spoken for the chair and names Mary Coyle, a fisherman's widow of Caol mhòr, the first woman to hold it, by a count nobody in the room troubles to call close.",
    "kind": "rulers",
    "place": "burg:95",
    "category": "rulers",
@@ -1119,7 +1234,7 @@
    ]
   },
   {
-   "id": "EVI-4548",
+   "id": "EVI-4553",
    "title": "David Hale keeps the books under Mary Coyle",
    "body": "David Hale, who kept his father's minute-books through the years of the first fair, sets Mary Coyle's seal at her own place beside the one his father's hand had set to thirty-one years of letters, and stays on at her asking to keep the rough book as he always has.",
    "kind": "law",
@@ -1140,7 +1255,7 @@
    ]
   },
   {
-   "id": "EVI-4549",
+   "id": "EVI-4554",
    "title": "Seonag nic Ille-Mhoire asks to see the report",
    "body": "Seonag nic Ille-Mhoire, who rode her own shire's tally in for the second census, asks a council clerk at Cathair dhearg to let her see the island's whole sum, on the ground that she carried the figures herself and has a right to know their total.",
    "kind": "law",
@@ -1163,7 +1278,7 @@
    ]
   },
   {
-   "id": "EVI-4550",
+   "id": "EVI-4555",
    "title": "Seonag writes the refusal into her own book",
    "body": "Refused the report with no reason beyond the plain fact of the refusal, Seonag nic Ille-Mhoire writes the asking and the answer that same evening into a private book she keeps for herself and shows to no one, for a record's own sake rather than any purpose she could name.",
    "kind": "law",
@@ -1185,7 +1300,7 @@
    ]
   },
   {
-   "id": "EVI-4551",
+   "id": "EVI-4556",
    "title": "Ruth Ashby and Clara Tulloch begin under Eachann mac Rath",
    "body": "Two women of the shunting country north of Caol mhòr, Ruth Ashby and Clara Tulloch, come to the surgery of Eachann mac Rath at Àth àrsaidh, who takes them without his guild's leave to be taught by watching him set bones and mix poultices through a hard, fever-crowded season.",
    "kind": "humans",
@@ -1208,7 +1323,7 @@
    ]
   },
   {
-   "id": "EVI-4552",
+   "id": "EVI-4557",
    "title": "The guild's men find Eachann's surgery out",
    "body": "Word from a factor's wife reaches the physicians' guild that Eachann mac Rath's two new pupils handle a lancet as steady as he does, and two of the guild's own men ride to Àth àrsaidh and watch Ruth Ashby set a child's wrist unwatched before they leave without a word to either woman.",
    "kind": "humans",
@@ -1231,7 +1346,7 @@
    ]
   },
   {
-   "id": "EVI-4553",
+   "id": "EVI-4558",
    "title": "Eachann mac Rath struck from the physicians' guild",
    "body": "The guild strikes Eachann mac Rath from its rolls before an Cèitean is out, its letter naming no fault in his physic, only that he taught outside its leave and to hands its charter does not recognise, and he sets the letter aside and keeps his surgery open all the same.",
    "kind": "humans",
@@ -1254,12 +1369,33 @@
    ]
   },
   {
+   "id": "EVI-4559",
+   "title": "The masons sign the grain-store's mortar",
+   "body": "When the last course goes onto An Crùn's grain-store at Cathair fhada in the dry season, two winters building and one summer roofing, the masons sign their names in the mortar.",
+   "kind": "trade",
+   "place": "burg:297",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0125",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/25_of_walter_hales_last_winter.md#i-of-the-grain-store-at-cathair-fhada",
+   "era_between": [
+    33,
+    33
+   ]
+  },
+  {
    "after": "V-0129"
   },
   {
-   "id": "EVI-4554",
+   "id": "EVI-4560",
    "title": "The Abhainn ìseal takes three bridges and the embankment",
-   "body": "Three days of hard rain in am Màrt bring the Abhainn ìseal over its lower banks, and the flood carries away three bridges and a long stretch of the coal line's embankment, a carter losing his cart on the middle span but no soul drowned along that reach.",
+   "body": "Three days of hard rain in am Màrt bring the Abhainn ìseal over its lower banks, and the flood carries away three bridges and a long stretch of Slighe a' Ghuail's embankment, a carter losing his cart on the middle span but no soul drowned along that reach.",
    "kind": "land",
    "place": "river:16",
    "category": "land",
@@ -1281,9 +1417,9 @@
    "after": "V-0130"
   },
   {
-   "id": "EVI-4555",
-   "title": "The coal line shuts and the ports live on stored coal",
-   "body": "With a mile of embankment gone under the Abhainn ìseal's flood the coal line shuts for want of ground to run on, and the ports that lived on what it carried, Cuan ruadh and Muileann chrom among them, turn to whatever coal they had laid by against a leaner week rather than a whole season.",
+   "id": "EVI-4561",
+   "title": "Slighe a' Ghuail shuts and the ports live on stored coal",
+   "body": "With a mile of embankment gone under the Abhainn ìseal's flood Slighe a' Ghuail shuts for want of ground to run on, and the ports that lived on what it carried, Ros dhomhain and the western harbours among them, turn to whatever coal they had laid by against a leaner week rather than a whole season.",
    "kind": "coal",
    "place": "river:16",
    "category": "coal",
@@ -1302,9 +1438,9 @@
    ]
   },
   {
-   "id": "EVI-4556",
+   "id": "EVI-4562",
    "title": "Mary Coyle gives her first order as speaker",
-   "body": "Not yet a month in the chair, Mary Coyle calls the Moot together the evening word of the washed embankment reaches Caol mhòr and orders every port on the coal line's reach to open its own store and share it by the shire's count of hearths, the north sending south to Muileann chrom until the line can be mended.",
+   "body": "Not yet a month in the chair, Mary Coyle calls Tional nan Tuathach together the evening word of the washed embankment reaches Caol mhòr and orders every northern harbour that answers to Tional nan Tuathach to open its own coal store and share it out by the count of hearths rather than by whoever reaches the yard first, until the line can be walked and mended.",
    "kind": "coal",
    "place": "burg:95",
    "category": "coal",
@@ -1317,6 +1453,29 @@
    "threads": [],
    "people": [],
    "told_in": "book/25_of_walter_hales_last_winter.md#vi-of-the-flood-on-the-abhainn-iseal",
+   "era_between": [
+    34,
+    34
+   ]
+  },
+  {
+   "id": "EVI-4563",
+   "title": "David Hale keeps no second copy",
+   "body": "On the night Mary Coyle gives her first order as speaker, David Hale writes it into the rough book under her name and, for the first time in two years, keeps no second copy of the day's minute by his own hearth.",
+   "kind": "humans",
+   "place": "burg:95",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0130",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/25_of_walter_hales_last_winter.md#iii-of-the-twenty-eighth-of-an-gearran",
    "era_between": [
     34,
     34

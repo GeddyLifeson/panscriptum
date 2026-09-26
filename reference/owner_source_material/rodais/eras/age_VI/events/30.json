@@ -1,121 +1,231 @@
 [
-  {"title": "Tormod Pinn adds his own line to the list of gaps",
-   "era_year": 43,
-   "after": "V-0153",
-   "summary": "Riding the southern circuit his predecessor once rode, Tormod Pinn adds beneath Gormshuil nic Dhùghaill's list of what the chronicle lacks a line of his own, that a gap named is worth more than a gap forgotten, and copies both into the chest that goes to the Library.",
-   "category": "law",
-   "people": ["Tormod Pinn"],
-   "places": ["burg:246"],
-   "threads": ["the-library"],
-   "master_links": ["V-0153"]},
-
-  {"title": "The maor of Achadh shean petitions early",
-   "era_year": 43,
-   "after": "V-0154",
-   "summary": "With three wells of the drove road gone brackish and a fourth dry to the stone, the maor of Siorrachd Achadh shean writes south before the second month of the dry is out rather than wait for the harvest itself to fail, and asks that a man argues with a poor harvest but a well gone to stone argues with no one.",
-   "category": "land",
-   "people": [],
-   "places": ["province:61"],
-   "threads": [],
-   "master_links": ["V-0154"]},
-
-  {"title": "The first wagons reach Achadh shean in the rain",
-   "era_year": 43,
-   "after": "V-0156",
-   "summary": "The Cathair fhada store's grain reaches the sidings at Achadh shean by the coal line on the morning the season's first proper rain falls at last, and the maor, standing in the mud he had prayed six weeks for, tells the carters the grain waited on the roof to prove it was not wanted.",
-   "category": "trade",
-   "people": [],
-   "places": ["burg:411", "burg:297"],
-   "threads": ["the-tuathaich"],
-   "master_links": ["V-0156"]},
-
-  {"title": "A fifth well dug dry on a dowser's word",
-   "era_year": 44,
-   "after": "V-0155",
-   "summary": "Of the twelve wells the maor of Achadh shean has cut along the drove road, one stands dry from the day it is dug, sited on a dowser's hazel rather than any surveyor's word, and the well-diggers own the fact afterward without much shame in the owning.",
-   "category": "land",
-   "people": [],
-   "places": ["province:61"],
-   "threads": [],
-   "master_links": ["V-0155"]},
-
-  {"title": "The Board's inspector calls the Baile ìseal log the emptiest on the round",
-   "era_year": 43,
-   "after": "V-0158",
-   "summary": "The Lighthouse Board's own inspector, checking oil against entries at Taigh-solais Baile ìseal, tells Murchadh mac Coinnich that his log is the tidiest on the eastern round and the emptiest, a remark Murchadh takes for a compliment until he comes, within the year, to hear it differently.",
-   "category": "law",
-   "people": ["Murchadh mac Coinnich"],
-   "places": ["marker:13"],
-   "threads": ["the-library"],
-   "master_links": ["V-0158"]},
-
-  {"title": "The salt-sheds of Àth bheag rebuilt",
-   "era_year": 44,
-   "after": "V-0157",
-   "summary": "The burned salt-sheds of Àth bheag are raised again within the year, the Crown paying a third of the cost as it once paid a third of Cuan dhearg's relief, and the salt trade limps through the interval on what the barrels spared from the fire can carry.",
-   "category": "trade",
-   "people": [],
-   "places": ["burg:492"],
-   "threads": ["the-tuathaich"],
-   "master_links": ["V-0157"]},
-
-  {"title": "The patrol captain's report on the two days",
-   "era_year": 44,
-   "after": "V-0157",
-   "summary": "Called to answer before the shire's maor, the patrol's captain writes a report naming the distance, the wind and the hour the alarm reached his harbour; the Board judges it honest, and the households of Àth bheag, hearing it read at the market cross, judge it an accounting that answers every question but the one that matters.",
-   "category": "war",
-   "people": [],
-   "places": ["burg:492"],
-   "threads": [],
-   "master_links": ["V-0157"]},
-
-  {"title": "Murchadh buys a second book at his own coin",
-   "era_year": 44,
-   "after": "V-0158",
-   "summary": "Murchadh mac Coinnich buys, from a Muileann leathan binder a carter brings up the coast, a book of his own beside the Board's, in which he means to set down what the Board's own log has no line for: every ship that crosses under his light showing no lamp.",
-   "category": "record",
-   "people": ["Murchadh mac Coinnich"],
-   "places": ["marker:13"],
-   "threads": ["the-library"],
-   "master_links": ["V-0158"]},
-
-  {"title": "The salt-carrier names the raiders' hulls",
-   "era_year": 45,
-   "after": "V-0159",
-   "summary": "An old salt-carrier at the Àth bheag quay gives Murchadh mac Coinnich the coast's own names for two dark hulls that have crossed under his light unlit, An Ròn Dubh for her low black run and An Fhaoileag for a habit of standing off by day and closing only with the dark.",
-   "category": "record",
-   "people": ["Murchadh mac Coinnich"],
-   "places": ["burg:492"],
-   "threads": ["the-library"],
-   "master_links": ["V-0159"]},
-
-  {"title": "Murchadh's book copied fair for the royal chronicle",
-   "era_year": 45,
-   "after": "V-0159",
-   "summary": "A Library clerk carries Murchadh mac Coinnich's private log south, and Tormod Pinn draws the names An Ròn Dubh and An Fhaoileag into the royal record from it, crediting no better source than a keeper's own ledger and the salt-carriers of a coast the patrol once answered two days late.",
-   "category": "law",
-   "people": ["Murchadh mac Coinnich", "Tormod Pinn"],
-   "places": ["burg:246"],
-   "threads": ["the-library"],
-   "master_links": ["V-0159"]},
-
-  {"title": "Ealasaid nic Coinnich declines to defend the year's honour",
-   "era_year": 45,
-   "after": "V-0160",
-   "summary": "Asked by the fair-wardens whether she will defend the champion's honour the following year, Ealasaid nic Coinnich tells them a thing won once stays won whether or not she stands the field a second year, and returns to her family's trade at Àth ghlas.",
-   "category": "trade",
-   "people": ["Ealasaid nic Coinnich"],
-   "places": ["burg:463"],
-   "threads": [],
-   "master_links": ["V-0160"]},
-
-  {"title": "Murchadh's first full year of the unlit ships",
-   "era_year": 45,
-   "after": "V-0160",
-   "summary": "By the second an Dùbhlachd of his own keeping, Murchadh mac Coinnich's private book holds above thirty crossings, most nameless still, ruled by a straight-edge and set on the shelf beside the Board's own log as the truer account of what sails the eastern water dark.",
-   "category": "record",
-   "people": ["Murchadh mac Coinnich"],
-   "places": ["marker:13"],
-   "threads": ["the-library"],
-   "master_links": ["V-0158", "V-0159"]}
+  {
+    "title": "Tormod Pinn adds his own line to the list of gaps",
+    "era_year": 43,
+    "after": "V-0153",
+    "summary": "Riding the southern circuit his predecessor once rode, Tormod Pinn adds beneath Gormshuil nic Dhùghaill's list of what the chronicle lacks a line of his own, that a gap named is worth more than a gap forgotten, and copies both into the chest that goes to the Library.",
+    "category": "law",
+    "people": [
+      "Tormod Pinn"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0153"
+    ]
+  },
+  {
+    "title": "The maor of Achadh shean petitions early",
+    "era_year": 43,
+    "after": "V-0154",
+    "summary": "With three wells of the drove road gone brackish and a fourth dry to the stone, the maor of Siorrachd Achadh shean writes south before the second month of the dry is out rather than wait for the harvest itself to fail, and asks that a man argues with a poor harvest but a well gone to stone argues with no one.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "province:61"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0154"
+    ]
+  },
+  {
+    "title": "The first wagons reach Achadh shean in the rain",
+    "era_year": 43,
+    "after": "V-0156",
+    "summary": "The Cathair fhada store's grain reaches the sidings at Achadh shean by the coal line on the morning the season's first proper rain falls at last, and the maor, standing in the mud he had prayed six weeks for, tells the carters the grain waited on the roof to prove it was not wanted.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:411",
+      "burg:297"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0156"
+    ]
+  },
+  {
+    "title": "A fifth well dug dry on a dowser's word",
+    "era_year": 44,
+    "after": "V-0155",
+    "summary": "Of the twelve wells the maor of Achadh shean has cut along the drove road, one stands dry from the day it is dug, sited on a dowser's hazel rather than any surveyor's word, and the well-diggers own the fact afterward without much shame in the owning.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "province:61"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0155"
+    ]
+  },
+  {
+    "title": "The Board's inspector calls the Baile ìseal log the emptiest on the round",
+    "era_year": 43,
+    "after": "V-0158",
+    "summary": "The Lighthouse Board's own inspector, checking oil against entries at Taigh-solais Baile ìseal, tells Murchadh mac Coinnich that his log is the tidiest on the eastern round and the emptiest, a remark Murchadh takes for a compliment until he comes, within the year, to hear it differently.",
+    "category": "law",
+    "people": [
+      "Murchadh mac Coinnich"
+    ],
+    "places": [
+      "marker:13"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0158"
+    ]
+  },
+  {
+    "title": "The salt-sheds of Àth bheag rebuilt",
+    "era_year": 44,
+    "after": "V-0157",
+    "summary": "The burned salt-sheds of Àth bheag are raised again within the year, the Crown paying a third of the cost as it once paid a third of Cuan dhearg's relief, and the salt trade limps through the interval on what the barrels spared from the fire can carry.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:492"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "V-0157"
+    ]
+  },
+  {
+    "title": "The patrol captain's report on the two days",
+    "era_year": 44,
+    "after": "V-0157",
+    "summary": "Called to answer before the shire's maor, the patrol's captain writes a report naming the distance, the wind and the hour the alarm reached his harbour; the Board judges it honest, and the households of Àth bheag, hearing it read at the market cross, judge it an accounting that answers every question but the one that matters.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:492"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0157"
+    ]
+  },
+  {
+    "title": "Murchadh buys a second book at his own coin",
+    "era_year": 44,
+    "after": "V-0158",
+    "summary": "Murchadh mac Coinnich buys, from a Muileann leathan binder a carter brings up the coast, a book of his own beside the Board's, in which he means to set down what the Board's own log has no line for: every ship that crosses under his light showing no lamp.",
+    "category": "record",
+    "people": [
+      "Murchadh mac Coinnich"
+    ],
+    "places": [
+      "marker:13"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0158"
+    ]
+  },
+  {
+    "title": "The salt-carrier names the raiders' hulls",
+    "era_year": 45,
+    "after": "V-0159",
+    "summary": "An old salt-carrier at the Àth bheag quay gives Murchadh mac Coinnich the coast's own names for two dark hulls that have crossed under his light unlit, An Ròn Dubh for her low black run and An Fhaoileag for a habit of standing off by day and closing only with the dark.",
+    "category": "record",
+    "people": [
+      "Murchadh mac Coinnich"
+    ],
+    "places": [
+      "burg:492"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0159"
+    ]
+  },
+  {
+    "title": "Murchadh's book copied fair for the royal chronicle",
+    "era_year": 45,
+    "after": "V-0159",
+    "summary": "A Library clerk carries Murchadh mac Coinnich's private log south, and Tormod Pinn draws the names An Ròn Dubh and An Fhaoileag into the royal record from it, crediting no better source than a keeper's own ledger and the salt-carriers of a coast the patrol once answered two days late.",
+    "category": "law",
+    "people": [
+      "Murchadh mac Coinnich",
+      "Tormod Pinn"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0159"
+    ]
+  },
+  {
+    "title": "Ealasaid nic Coinnich declines to defend the year's honour",
+    "era_year": 45,
+    "after": "V-0160",
+    "summary": "Asked by the fair-wardens whether she will defend the champion's honour the following year, Ealasaid nic Coinnich tells them a thing won once stays won whether or not she stands the field a second year, and returns to her family's trade at Àth ghlas.",
+    "category": "trade",
+    "people": [
+      "Ealasaid nic Coinnich"
+    ],
+    "places": [
+      "burg:463"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0160"
+    ]
+  },
+  {
+    "title": "Murchadh's first full year of the unlit ships",
+    "era_year": 45,
+    "after": "V-0160",
+    "summary": "By the second an Dùbhlachd of his own keeping, Murchadh mac Coinnich's private book holds above thirty crossings, most nameless still, ruled by a straight-edge and set on the shelf beside the Board's own log as the truer account of what sails the eastern water dark.",
+    "category": "record",
+    "people": [
+      "Murchadh mac Coinnich"
+    ],
+    "places": [
+      "marker:13"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "V-0158",
+      "V-0159"
+    ]
+  },
+  {
+    "title": "Murchadh among the ash at Àth bheag",
+    "era_year": 44,
+    "summary": "Once relief has come for his light, Murchadh mac Coinnich rides down to Àth bheag the second morning after the burning and stands with the ford-keepers among the wet ash and the barrel-hoops of the salt-sheds, hearing from a woman of the trade what the fire has cost.",
+    "category": "war",
+    "people": [
+      "Murchadh mac Coinnich"
+    ],
+    "places": [
+      "burg:492"
+    ],
+    "threads": [],
+    "master_links": [
+      "V-0157"
+    ]
+  }
 ]
