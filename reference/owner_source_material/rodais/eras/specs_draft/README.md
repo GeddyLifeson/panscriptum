@@ -10,7 +10,7 @@ all annals ids to `legendarium/annals_dated.json`.
 | I   | 8 an Lùnastal, VE 5,324   | 37  | 6 | 6 | 17 + 17 | 1 + 6 |
 | II  | 30 an Lùnastal, GE 4,603  | 76  | 4 | 4 | 26 + 19 | 26 + 4 |
 | III | 5 am Faoilleach, FE 2,960 | 291 | 3 | 3 | 40 + 24 | 191 + 6 |
-| IV  | 4 am Faoilleach, LE 1,820 | 474 | 2 | 1 | 42 + 18 | 411 + 2 |
+| IV  | 4 am Faoilleach, AE 1 | 474 | 2 | 1 | 42 + 18 | 411 + 2 |
 | V   | 1 am Faoilleach, AE 151   | 495 | 3 | 4 | 44 + 15 | 435 + 6 |
 | VI  | 18 an t-Ògmhios, SE 71    | 505 | 0 | 2 | 47 + 15 | 450 + 5 |
 | VII | 21 an Dùbhlachd, DE 27    | 505 | 1 | 2 | 49 + 12 | 450 + 5 |

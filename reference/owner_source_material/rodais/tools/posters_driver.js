@@ -61,7 +61,18 @@ async function doMap(browser, m) {
       routes: groups, markers: (pack.markers || []).length, journeys: (pack.journeys || []).length,
       zones: (pack.zones || []).filter((z) => !z.hidden).length,
       year: window.options && options.year, era: window.options && options.era, eraShort: window.options && options.eraShort,
-      name: window.mapName && mapName.value
+      name: window.mapName && mapName.value,
+      land: (function(){   // where the land is, on a 96 x 44 grid over the map (a lake counts as land)
+        const gx = 96, gy = 44, g = new Array(gx * gy).fill('0'), C = pack.cells;
+        for (let c = 0; c < C.i.length; c++) {
+          if (C.h[c] < 20) continue;
+          const bx = Math.floor(C.p[c][0] / 1536 * gx), by = Math.floor(C.p[c][1] / 702 * gy);
+          for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+            const x = bx + dx, y = by + dy; if (x >= 0 && x < gx && y >= 0 && y < gy) g[y * gx + x] = '1';
+          }
+        }
+        return { w: gx, h: gy, bins: g.join('') };
+      })()
     };
   });
   // the realms' outlines, as Azgaar draws them
@@ -96,8 +107,24 @@ async function doMap(browser, m) {
   await page.evaluate((l) => {
     window.Layers.set(l); if (window.resetZoom) window.resetZoom(0);
     const sb = document.getElementById('statesBody'); if (sb) sb.setAttribute('opacity', '0.55');
+    // land no realm holds is drawn in the landmass colour, a near-white that reads as snow on paper: a moor tone
+    const lm = document.getElementById('landmass'); if (lm) lm.setAttribute('fill', '#d6cfb0');
   }, cfg.layers);
   await page.waitForTimeout(1800);
+  // fewer pins: the slight kinds go, and any pin on a realm's name, so the names read cleanly
+  info.markersShown = await page.evaluate((minor) => {
+    const labs = [...document.querySelectorAll('#labels #states text, #labels text[id^="stateLabel"]')]
+      .map((t) => t.getBoundingClientRect()).filter((r) => r.width > 0);
+    let shown = 0;
+    (pack.markers || []).forEach((mk) => {
+      const el = document.getElementById('marker' + mk.i); if (!el) return;
+      const r = el.getBoundingClientRect(), pad = 10;
+      const onName = labs.some((b) => r.right > b.left - pad && r.left < b.right + pad && r.bottom > b.top - pad && r.top < b.bottom + pad);
+      if (minor.includes(mk.type) || onName) el.style.display = 'none'; else shown++;
+    });
+    return shown;
+  }, cfg.minor || []);
+  await page.waitForTimeout(300);
   await page.locator('#map').screenshot({ path: path.join(cfg.work, `map_${m.key}.png`) });
   await page.locator('#map').screenshot({ path: path.join(cfg.work, `map_${m.key}.jpg`), type: 'jpeg', quality: 88 });
   info.errors = log.pageErrors;
@@ -112,7 +139,9 @@ async function compose(browser) {
     await page.route((u) => !u.href.startsWith(cfg.base), (r) => r.abort());
     await page.goto(cfg.base + p.url);
     await page.evaluate(() => document.fonts.ready);
-    await page.waitForFunction(() => [...document.images].every((i) => i.complete && i.naturalWidth), null, { timeout: 60000 });
+    await page.waitForFunction(() => [...document.images].every((i) => i.complete && i.naturalWidth) && document.body.dataset.placed, null, { timeout: 60000 });
+    const land = await page.evaluate(() => [...document.querySelectorAll('.cart,.legend')].map((b) => b.dataset.land));
+    if (land.some((n) => n !== '0')) console.log('  note: ' + path.basename(p.png) + ' has a box over land (' + land.join(', ') + ' cells)');
     await page.screenshot({ path: p.png, fullPage: false });
     await page.screenshot({ path: p.print, type: 'jpeg', quality: 90 });
     await page.close();
@@ -120,7 +149,7 @@ async function compose(browser) {
     await th.route((u) => !u.href.startsWith(cfg.base), (r) => r.abort());
     await th.goto(cfg.base + p.url);
     await th.evaluate(() => document.fonts.ready);
-    await th.waitForFunction(() => [...document.images].every((i) => i.complete && i.naturalWidth), null, { timeout: 60000 });
+    await th.waitForFunction(() => [...document.images].every((i) => i.complete && i.naturalWidth) && document.body.dataset.placed, null, { timeout: 60000 });
     await th.screenshot({ path: p.thumb, type: 'jpeg', quality: 82 });
     await th.close();
     console.log('poster ' + path.basename(p.png));

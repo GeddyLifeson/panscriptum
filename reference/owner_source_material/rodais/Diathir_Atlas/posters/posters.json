@@ -38,7 +38,7 @@
    "en": "The Legendarium of Dia-thìr — The Age of Sundering",
    "age": "Age IV · The Age of Sundering",
    "span": "The Landfall Era, LE 1 – 1,819",
-   "snap": "4 am Faoilleach, LE 1,820"
+   "snap": "4 am Faoilleach, AE 1 (the eve of the Crossing)"
   },
   {
    "key": "V",
@@ -77,8 +77,8 @@
    "dt": "Rìoghachd Dia-thìr",
    "en": "The Legendarium of Dia-thìr",
    "age": "Dia-thìr today, at the close of the seven ages",
-   "span": "VE 1 to 27",
-   "snap": "27"
+   "span": "From VE 1 to DE 27",
+   "snap": "21 an Dùbhlachd, DE 27"
   }
  ],
  "made": "2026-09-26",

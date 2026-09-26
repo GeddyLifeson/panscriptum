@@ -34,7 +34,7 @@ def build():
         ('age_name', {'name': dt('An Aois Scaraidh', 'age name'), 'name_en': 'the Age of Sundering'}),
         ('era', {'abbr': 'LE', 'name': dt('Linn na Tìre', 'era name'), 'name_en': 'the Landfall Era'}),
         ('snapshot', collections.OrderedDict([
-            ('date', '4 am Faoilleach, LE 1,820 (the eve of the Crossing, AE 1)'),
+            ('date', '4 am Faoilleach, AE 1 (the eve of the Crossing)'),
             ('plan_label', 'LE 1,819 (ERA_PLAN): the close of the Landfall Era; the snapshot is the day before the humans come ashore'),
             ('y', 1780), ('m', 1), ('d', 4),
             ('last_event_shown', 'III-0239a'),

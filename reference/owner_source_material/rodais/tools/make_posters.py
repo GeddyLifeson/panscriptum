@@ -43,7 +43,10 @@ OUT = os.path.join(ATLAS, 'posters')
 WORK = os.path.join(TOOLS, '.work_posters')
 MASTER = os.path.join(ROOT, 'Rodos_finished.map')        # the master; build_atlas.py copies it to Diathir_Atlas/Diathir.map
 KEYS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
-PW, PH = 1800, 1180                                      # the poster in CSS px (printed at --pscale times this)
+PW, PH = 1800, 1084                                      # the poster in CSS px (printed at --pscale times this)
+# marker kinds too slight for a poster (battles, ruins, holy places, mines and the like stay)
+MINOR = ['inns', 'circuses', 'jousts', 'fairs', 'encounters', 'party', 'bridges', 'water-sources', 'hot-springs', 'canoes',
+         'lighthouses', 'sea-monsters', 'hill-monsters', 'pirates', 'caves', 'portals', 'rifts', 'disturbed-burials']
 LAYERS = ['states', 'borders', 'burgIcons', 'labels', 'rivers', 'lakes', 'coastline', 'routes', 'markers', 'relief', 'scaleBar']
 
 sys.path.insert(0, os.path.join(ROOT, 'legendarium'))
@@ -112,9 +115,17 @@ def file_key(k):
     return 'Today' if k == 'M' else 'Age_' + k
 
 
+def era_end(k):
+    """The last year of an age in its own era, with the era's letters: "DE 27"."""
+    return '%s %s' % (reckoning.ERA[k][3], reckoning.display_span(k).split('–')[-1].strip())
+
+
 def snapshot(k, info):
-    """The date the map shows: the era spec's (eras/specs/age_<K>.json lore), else the map's own calendar."""
-    if k != 'M':
+    """The date the map shows: the era spec's (eras/specs/age_<K>.json lore), else the map's own calendar. Today's
+    map shows the present, the close of the last age (Age VII's date)."""
+    if k == 'M':
+        return snapshot('VII', {})
+    if True:
         sp = os.path.join(ROOT, 'eras', 'specs', 'age_%s.json' % k)
         try:
             d = json.load(open(sp, encoding='utf-8')).get('lore', {}).get('description', '')
@@ -124,21 +135,62 @@ def snapshot(k, info):
             pass
     if info.get('year') and info.get('eraShort'):
         return '%s %s' % (info['eraShort'], format(int(info['year']), ','))
-    return reckoning.display_span(k if k != 'M' else 'VII').split('–')[-1].strip()
+    return era_end(k)
 
 
 def strip_md(s):
     return re.sub(r'[*_]', '', build_book.plain(s) if hasattr(build_book, 'plain') else s).strip()
 
 
-def chief_events(rec, k, n=7):
+MAJOR = {'rulers', 'war', 'faith', 'coal', 'coalblood'}
+_SCORES = {}
+
+
+def scores(rec):
+    """Each master event's weight as a chief event: the chronicle's own entries (canon), its links to other events
+    (both ways, as the Atlas counts them), and a major kind (rulers, war, faith, coal)."""
+    if not _SCORES:
+        sys.path.insert(0, ROOT)
+        import atlas_data
+        import event_links
+        uni = {e['id']: dict(e, master=True) for e in rec.events}
+        try:
+            links = event_links.resolve(uni, lambda e: reckoning.display_year(e['y'], e['m'], e['d'], e['age']))
+        except Exception:                                  # noqa: BLE001 -- the links only weigh the choice
+            links = {}
+        for e in rec.events:
+            cat, guessed = atlas_data.guess_category(e)
+            _SCORES[e['id']] = (4 if e.get('canon') else 0) + min(6, len(links.get(e['id'], []))) + \
+                (0 if cat not in MAJOR else 1.5 if guessed else 3)
+    return _SCORES
+
+
+def chief_events(rec, k, n=8):
+    """n events spread over the whole age: its span cut into n equal parts, the weightiest event of each part (an
+    empty part's place goes to the weightiest event left that stands apart from those chosen)."""
     evs = sorted([e for e in rec.events if e['age'] == k and e.get('y') is not None], key=lambda e: (e['y'], e['m'], e['d']))
+    if not evs:
+        return []
+    sc = scores(rec)
+    lo, hi = reckoning.ERA[k][1], reckoning.ERA[k][2]
+    span = max(1, hi - lo)
     canon = [e for e in evs if e.get('canon')]
-    pool = canon if len(canon) >= 4 else evs
-    if len(pool) <= n:
-        pick = pool
-    else:
-        pick = [pool[round(i * (len(pool) - 1) / (n - 1))] for i in range(n)]
+    ends = {canon[0]['id'], canon[-1]['id']} if canon else set()     # the age's opening and closing entries weigh most
+    weight = lambda e: (sc.get(e['id'], 0) + (6 if e['id'] in ends else 0), -abs(e['y'] - lo - span / 2.0) / span)
+    pick = []
+    for i in range(n):
+        a, b = lo + span * i / n, lo + span * (i + 1) / n
+        part = [e for e in evs if a <= e['y'] < b or (i == n - 1 and e['y'] == hi)]
+        if part:
+            pick.append(max(part, key=weight))
+    rest = sorted((e for e in evs if e not in pick), key=weight, reverse=True)
+    for gap in (span / (2.0 * n), 0):
+        for e in rest:
+            if len(pick) >= n:
+                break
+            if e not in pick and all(abs(e['y'] - p['y']) > gap for p in pick):
+                pick.append(e)
+    pick.sort(key=lambda e: (e['y'], e['m'], e['d']))
     out = []
     for e in pick:
         t = strip_md(rec.resolve(e['title'], link=False))
@@ -150,7 +202,7 @@ def chief_events(rec, k, n=7):
 def front(k):
     if k == 'M':
         return {'kicker': 'Leabhar nan Aoisean', 'dt': 'Rìoghachd Dia-thìr', 'en': 'The Legendarium of Dia-thìr',
-                'age': 'Dia-thìr today, at the close of the seven ages', 'span': 'VE 1 to %s' % reckoning.display_span('VII').split('–')[-1].strip(),
+                'age': 'Dia-thìr today, at the close of the seven ages', 'span': 'From %s 1 to %s' % (reckoning.ERA['I'][3], era_end('VII')),
                 'color': AGE_CSS.get('dubhan', '#8fa3c0'), 'epi': None}
     dt, en, css = build_book.AGE_NAMES[k]
     era = reckoning.ERA[k]
@@ -180,17 +232,17 @@ html,body{margin:0;background:#efe4cc}
 .frame{position:absolute;inset:18px;border:3px double #6d4a22}
 .map{position:absolute;left:34px;top:34px;width:%(mw)dpx;height:%(mh)dpx;border:1px solid #6d4a22;overflow:hidden}
 .map img{display:block;width:100%%;height:100%%}
-.cart{position:absolute;left:58px;top:58px;width:470px;background:rgba(247,240,224,.93);border:2px solid #6d4a22;outline:1px solid #6d4a22;
+.cart{position:absolute;left:58px;top:58px;width:470px;transform-origin:0 0;background:rgba(247,240,224,.93);border:2px solid #6d4a22;outline:1px solid #6d4a22;
   outline-offset:4px;padding:16px 22px 14px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 .cart .k{font-family:'Cinzel';font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:#6d4a22;margin:0 0 6px}
-.cart h1{font-family:'Uncial';font-weight:400;font-size:40px;line-height:1.05;margin:0 0 4px;color:var(--c)}
+.cart h1{font-family:'Uncial';font-weight:400;font-size:40px;line-height:1.1;margin:0 0 4px;color:var(--c);white-space:nowrap;hyphens:none}
 .cart .en{font-style:italic;font-size:19px;margin:0 0 8px;line-height:1.25}
 .cart .rule{width:90px;border-top:1px solid #6d4a22;margin:8px auto}
 .cart .age{font-family:'Cinzel';font-size:14px;letter-spacing:.08em;margin:0 0 3px}
 .cart .span{font-size:17px;margin:0 0 3px}
 .cart .snap{font-size:15px;margin:0;color:#4a3a28}
 .cart .epi{font-style:italic;font-size:14px;margin:8px 0 0;color:#4a3a28}
-.legend{position:absolute;right:58px;top:58px;width:300px;background:rgba(247,240,224,.93);border:1px solid #6d4a22;padding:10px 14px;
+.legend{position:absolute;left:1440px;top:58px;width:300px;transform-origin:0 0;background:rgba(247,240,224,.93);border:1px solid #6d4a22;padding:10px 14px;
   font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.2)}
 .legend h2{font-family:'Cinzel';font-size:13px;letter-spacing:.2em;text-transform:uppercase;margin:0 0 6px;color:#6d4a22}
 .legend .row{display:flex;align-items:center;gap:8px;margin:3px 0;line-height:1.2}
@@ -199,14 +251,17 @@ html,body{margin:0;background:#efe4cc}
 .legend .more{font-style:italic;color:#4a3a28}
 .strip{position:absolute;left:34px;right:34px;bottom:34px;height:%(sh)dpx;border:1px solid #6d4a22;background:#f5ecd8}
 .strip h2{position:absolute;left:14px;top:8px;margin:0;font-family:'Cinzel';font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#6d4a22}
-.strip .axis{position:absolute;left:40px;right:40px;top:%(ay)dpx;height:4px;background:var(--c);border-radius:2px}
-.strip .ev{position:absolute;width:210px;margin-left:-105px;text-align:center;font-size:14px;line-height:1.2}
+.strip .axis{position:absolute;left:96px;right:96px;top:%(ay)dpx;height:4px;background:var(--c);border-radius:2px}
+.strip .ev{position:absolute;width:200px;margin-left:-100px;text-align:center;font-size:14px;line-height:1.2}
 .strip .ev .d{display:block;font-family:'Cinzel';font-size:11.5px;letter-spacing:.04em;color:#6d4a22}
 .strip .ev.up{bottom:%(up)dpx}.strip .ev.dn{top:%(dn)dpx}
 .strip .tick{position:absolute;top:%(ty)dpx;width:12px;height:12px;margin-left:-6px;border-radius:50%%;background:#f5ecd8;border:3px solid var(--c)}
-.strip .end{position:absolute;top:%(ey)dpx;font-family:'Cinzel';font-size:12px;color:#6d4a22}
-.strip .band{position:absolute;top:%(by)dpx;height:78px;border-left:1px solid #6d4a22;padding:6px 8px;font-size:13.5px;line-height:1.2}
-.strip .band b{display:block;font-family:'Uncial';font-weight:400;font-size:17px}
+.strip .end{position:absolute;top:%(ey)dpx;width:76px;text-align:center;font-family:'Cinzel';font-size:12px;color:#6d4a22}
+.strip .band{position:absolute;top:%(by)dpx;border-left:1px solid #6d4a22;padding:6px 8px;font-size:13.5px;line-height:1.2}
+.strip .band b{display:block;font-family:'Uncial';font-weight:400;font-size:17px;white-space:nowrap}
+.strip .band{bottom:10px;overflow:hidden}
+.strip .be{display:block;margin-top:6px;font-size:13px;line-height:1.2}
+.strip .be i{display:block;font-style:normal;font-family:'Cinzel';font-size:10.5px;color:#6d4a22;letter-spacing:.03em}
 .foot{position:absolute;right:44px;bottom:21px;font-size:9.5px;color:#6d4a22;font-family:'Cinzel';letter-spacing:.1em}
 """
 
@@ -229,9 +284,9 @@ def legend_html(info):
     if info.get('routes', {}).get('searoutes'):
         sym.append('<div class="row"><svg width="22" height="14"><path d="M1 8 Q11 2 21 8" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="1.5 2"/></svg><span>sea roads</span></div>')
     sym.append('<div class="row"><svg width="22" height="14"><path d="M1 10 C6 4 12 12 21 4" fill="none" stroke="#5d97bb" stroke-width="2"/></svg><span>rivers and lochs</span></div>')
-    if info.get('markers'):
+    if info.get('markersShown', info.get('markers')):
         sym.append('<div class="row"><svg width="22" height="14"><path d="M11 13 L6 6 A5 5 0 1 1 16 6 Z" fill="#9e2a2a" stroke="#fff" stroke-width=".8"/></svg>'
-                   '<span>a storied place (%d)</span></div>' % info['markers'])
+                   '<span>a storied place</span></div>')
     return '<div class="legend"><h2>%s</h2>%s<h2 style="margin-top:10px">Signs</h2>%s</div>' % (
         'The realm' if len(states) == 1 else 'The realms', ''.join(rows), ''.join(sym))
 
@@ -242,37 +297,40 @@ def strip_html(rec, k, sh):
         bands = []
         for i, a in enumerate(KEYS):
             dt, en, css = build_book.AGE_NAMES[a]
+            evs = ''.join('<span class="be"><i>%s</i> %s</span>' % (esc(e['year']), esc(e['title'])) for e in chief_events(rec, a, 3))
             bands.append('<div class="band" style="left:%.1fpx;width:%.1fpx;background:linear-gradient(%s33,transparent)"><b style="color:%s">%s</b>'
-                         '%s<br><span style="font-family:Cinzel;font-size:11.5px;color:#6d4a22">%s</span></div>'
-                         % (i * w, w, AGE_CSS.get(css, '#999'), AGE_CSS.get(css, '#333'), esc(dt), esc(en[0].upper() + en[1:]), esc(reckoning.display_span(a))))
-        return '<div class="strip" style="--c:#6d4a22"><h2>The seven ages</h2>%s</div>' % ''.join(bands)
+                         '%s · <span style="font-family:Cinzel;font-size:11.5px;color:#6d4a22">%s</span>%s</div>'
+                         % (i * w, w, AGE_CSS.get(css, '#999'), AGE_CSS.get(css, '#333'), esc(dt), esc(en[0].upper() + en[1:]), esc(reckoning.display_span(a)), evs))
+        return '<div class="strip" style="--c:#6d4a22"><h2>The seven ages and their chief events</h2>%s</div>' % ''.join(bands)
     evs = chief_events(rec, k)
     era = reckoning.ERA[k]
     lo, hi = era[1], era[2]
-    left, right = 40 + 105 - 40, PW - 68 - 40 - 105 + 40     # keep every label inside the strip
+    W, M, GAP = PW - 68, 96, 212                  # the strip's width, the axis's margin, the room one label needs
+    left, right = M + 20, W - M - 20              # every label inside the strip, clear of the axis's end dates
     out = ['<div class="strip"><h2>The chief events of the age</h2><div class="axis"></div>']
-    last_x = {True: -1e9, False: -1e9}
+    ticks = [M + (e['y'] - lo) / float(max(1, hi - lo)) * (W - 2 * M) for e in evs]
+    xs = [max(left, min(right, t)) for t in ticks]
+    for side in (0, 1):                           # labels alternate above and below; on each side none may touch
+        idx = [i for i in range(len(evs)) if i % 2 == side]
+        for j in range(1, len(idx)):
+            xs[idx[j]] = max(xs[idx[j]], xs[idx[j - 1]] + GAP)
+        if idx and xs[idx[-1]] > right:
+            xs[idx[-1]] = right
+            for j in range(len(idx) - 2, -1, -1):
+                xs[idx[j]] = min(xs[idx[j]], xs[idx[j + 1]] - GAP)
     for i, e in enumerate(evs):
-        f = (e['y'] - lo) / float(max(1, hi - lo))
-        x = 40 + f * (PW - 68 - 80)
-        x = max(left, min(right, x))
-        up = i % 2 == 0
-        if x - last_x[up] < 215:                 # two labels on one side would touch: nudge along
-            x = last_x[up] + 215
-        x = min(right, x)
-        last_x[up] = x
         out.append('<span class="tick" style="left:%.1fpx"></span><div class="ev %s" style="left:%.1fpx"><span class="d">%s</span>%s</div>'
-                   % (40 + f * (PW - 68 - 80), 'up' if up else 'dn', x, esc(e['year']), esc(e['title'])))
-    out.append('<span class="end" style="left:44px">%s 1</span><span class="end" style="right:44px">%s</span></div>'
-               % (esc(era[3]), esc(reckoning.display_span(k).split('–')[-1].strip())))
+                   % (ticks[i], 'dn' if i % 2 else 'up', xs[i], esc(e['year']), esc(e['title'])))
+    out.append('<span class="end" style="left:12px">%s 1</span><span class="end" style="right:12px">%s</span></div>'
+               % (esc(era[3]), esc(era_end(k))))
     return ''.join(out)
 
 
 def poster_html(rec, k, info, img):
     f = front(k)
-    sh = 200
     mw = PW - 68
-    mh = PH - 68 - sh - 14
+    mh = round(mw * 702 / 1536, 1)            # the map keeps its own proportions
+    sh = PH - 68 - mh - 14
     snap = snapshot(k, info)
     epi = ''
     if f['epi']:
@@ -283,13 +341,53 @@ def poster_html(rec, k, info, img):
             % (f['color'], img, esc(f['kicker']), esc(f['dt']), esc(f['en']), esc(f['age']), esc(f['span']),
                esc(('The island today: ' if k == 'M' else 'The island at the close of the age: ') + snap), epi,
                legend_html(info), strip_html(rec, k, sh), datetime.date.today().isoformat()))
+    body = body[:-len('</div>')] + '<script type="application/json" class="land">%s</script></div>' % json.dumps(info.get('land') or {})
     return body, {'mw': mw, 'mh': mh, 'sh': sh}
 
 
 def page(bodies, dims):
-    d = dict(pw=PW, ph=PH, mw=dims['mw'], mh=dims['mh'], sh=dims['sh'], ay=112, ty=108, up=104, dn=128, ey=150, by=40)
-    return ('<!doctype html><html><head><meta charset="utf-8"><title>Dia-thìr posters</title><style>%s</style></head><body>%s</body></html>'
-            % (CSS % d, ''.join(bodies)))
+    d = dict(pw=PW, ph=PH, mw=dims['mw'], mh=dims['mh'], sh=dims['sh'], ay=112, ty=108, up=104, dn=128, ey=106, by=40)
+    return ('<!doctype html><html><head><meta charset="utf-8"><title>Dia-thìr posters</title><style>%s</style></head><body>%s<script>%s</script></body></html>'
+            % (CSS % d, ''.join(bodies), PLACE_JS % {'mx': 34, 'my': 34, 'mw': dims['mw'], 'mh': dims['mh']}))
+
+
+# the cartouche and the legend are set over open sea: every place for each is tried, and the one over the least land
+# (the map's own land cells, info['land']) wins, near a corner when several are clear; the title is never broken
+PLACE_JS = r'''
+document.fonts.ready.then(function(){
+  document.querySelectorAll('.poster').forEach(function(P){
+    var L = JSON.parse((P.querySelector('script.land') || {}).textContent || '{}'), MX = %(mx)s, MY = %(my)s, MW = %(mw)s, MH = %(mh)s;
+    var h1 = P.querySelector('.cart h1'), cart = P.querySelector('.cart'), leg = P.querySelector('.legend');
+    if (h1) { var fs = 40; while (h1.scrollWidth > h1.clientWidth + 1 && fs > 22) { fs -= 1; h1.style.fontSize = fs + 'px'; } }
+    if (!L.bins) return;
+    var gx = L.w, gy = L.h, bins = L.bins;
+    function land(x, y, w, h){   // land bins under a box given in poster px
+      var x0 = Math.max(0, Math.floor((x - MX) / MW * gx)), x1 = Math.min(gx - 1, Math.floor((x + w - MX) / MW * gx));
+      var y0 = Math.max(0, Math.floor((y - MY) / MH * gy)), y1 = Math.min(gy - 1, Math.floor((y + h - MY) / MH * gy)), n = 0;
+      for (var j = y0; j <= y1; j++) for (var i = x0; i <= x1; i++) if (bins[j * gx + i] === '1') n++;
+      return n;
+    }
+    function best(box, avoid){
+      var r = null;
+      [1, .92, .84, .76, .68].some(function(sc){
+        var w = box.offsetWidth * sc, h = box.offsetHeight * sc;
+        for (var y = MY + 14; y + h <= MY + MH - 14; y += 6) for (var x = MX + 14; x + w <= MX + MW - 14; x += 6) {
+          if (avoid && !(x + w + 16 < avoid[0] || x > avoid[0] + avoid[2] + 16 || y + h + 16 < avoid[1] || y > avoid[1] + avoid[3] + 16)) continue;
+          var c = land(x, y, w, h) * 1000 + Math.min(x - MX, MX + MW - x - w) / 100 + Math.min(y - MY, MY + MH - y - h) / 100;
+          if (!r || c < r.c) r = {x: x, y: y, w: w, h: h, sc: sc, c: c};
+        }
+        return r && r.c < 1000;   // a clear place at this size: done
+      });
+      box.style.left = r.x + 'px'; box.style.top = r.y + 'px'; box.style.right = 'auto';
+      if (r.sc < 1) box.style.transform = 'scale(' + r.sc + ')';
+      box.dataset.land = Math.floor(r.c / 1000);
+      return [r.x, r.y, r.w, r.h];
+    }
+    var a = best(cart, null); best(leg, a);
+  });
+  document.body.dataset.placed = '1';
+});
+'''
 
 
 # ---------------------------------------------------------------- all of it
@@ -328,7 +426,7 @@ def main():
     rec = build_book.Record()
     with Server() as srv:
         run({'mode': 'maps', 'base': srv.base, 'fmg': '/Diathir_Atlas/fmg/', 'work': WORK, 'scale': a.scale,
-             'layers': LAYERS, 'maps': maps}, 'maps')
+             'layers': LAYERS, 'minor': MINOR, 'maps': maps}, 'maps')
         posters, dims = [], None
         for m in maps:
             k = m['key']
