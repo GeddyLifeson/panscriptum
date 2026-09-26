@@ -2,7 +2,7 @@
 
 The kingdom lived in this age on the vein, as Riaghaltas nan Coigreach had before it: on An Sloc Mòr and its daughter workings, on Slighe a' Ghuail that carried their yield to the ports, and on the fifth An Crùn took of every ton. It restored the guilds of An Aois Naomh in a changed form, gave its trades charters and marks, and gathered its trade once a year at Fèill Muileann òg. Through the second half of the age the vein thinned, first in a survey no one read and then in a map that fitted on one sheet. This appendix gives the mountain and its working, the councils that ran it, the line, the guilds and their marks, the fair, the coin, the lesser trades, and the measures of An Traoghadh, as they stand in the seventy-first year.
 
-## The Sloc Mòr
+## An Sloc Mòr
 
 The great shaft at Achadh dhomhain was worked under the humans by A' Chompanaidh, by day and by night, and the kingdom took it over whole. In the eleventh year An Crùn granted the working of it to Uisdean mac Ùisdein of Cathair mhòr, whose house had held an overseer's post under the humans at that very shaft, on the humans' terms with the names changed: the house to work the vein and sell its coal, An Crùn to take a fifth of the yield. The same year the council refused to end the working of the vein by day and night that the humans had ordered two generations before, so that the mountain was given no season of rest; the custodians of Deas-ghnàth a' Ghuail entered a protest, and then blessed the shafts. The mine's yield came up to what it gave under the humans, and then passed it. The working was the same as before; only the profit went to other hands.
 

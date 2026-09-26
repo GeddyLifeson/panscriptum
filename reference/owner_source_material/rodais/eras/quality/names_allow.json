@@ -468,6 +468,54 @@
    "en": "the great gathering",
    "near": "a §",
    "reason": "Age II: a child's idea of a great gathering in general, not An Cruinneachadh Mòr itself"
+  },
+  {
+   "files": "eras/age_VI/*",
+   "en": "*",
+   "near": "(?:^|\\n)#{1,3} [^\\n]*§",
+   "reason": "a chapter, section or appendix heading: its anchor is a told_in target, and names_convert.py never touches headings"
+  },
+  {
+   "files": "eras/age_VI/*",
+   "en": "*",
+   "near": "(?<![Tt]he )§",
+   "reason": "Age VI: a name's core used without its article as a common noun, an adjective or a title (a Moot minute, a Hawk house, a Crown bench, a circuit justice, sworn royal chronicler, a library nobody can reach, a hungry year, the first Còmhrag); every such hit in the volume was read, and where the named thing is meant it is written in Dia-thìris"
+  },
+  {
+   "files": "eras/age_VI/*",
+   "en": "the crossing",
+   "near": ".",
+   "reason": "lower-case crossing in Age VI is the panthers' crossing, a ford, a ferry, a strait or a voyage in general; the humans' sea passage and its closing are written An t-Aiseag"
+  },
+  {
+   "files": "eras/age_VI/*",
+   "en": "the column",
+   "near": ".",
+   "reason": "a ledger's column, a column of figures, names or carts; the monument is written Calbh Cnoc ghorm"
+  },
+  {
+   "files": "eras/age_VI/*",
+   "en": "the fleet",
+   "near": ".",
+   "reason": "a harbour's fishing fleet (Cathair gheal's, the eleven boats to Seann Bhral), not Cabhlach an Scaraidh"
+  },
+  {
+   "files": "eras/age_VI/*",
+   "en": "the mist",
+   "near": ".",
+   "reason": "sea mist and weather on An Sireadh's voyage and the coasts, not Ceò Mhanannain"
+  },
+  {
+   "files": "eras/age_VI/*",
+   "en": "the chronicle",
+   "near": ".",
+   "reason": "a chronicle in general, a town's chronicle or a chronicler's own book; the royal chronicle is written Eachdraidh na Rìoghachd"
+  },
+  {
+   "files": "eras/age_VI/book/*",
+   "dt": "An Sloc Mòr",
+   "near": "(?:^|\\n)#{1,3} [^\\n]*§",
+   "reason": "a chapter or section heading ('Of the Sloc Mòr'): its anchor is a told_in target, and names_convert.py never touches headings"
   }
  ]
 }

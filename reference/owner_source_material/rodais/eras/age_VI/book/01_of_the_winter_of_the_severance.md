@@ -114,7 +114,7 @@ other.
 There was a pause on the steps while someone went to fetch the man who had been found for that. He came up out of the
 crowd itself: a lean man in his middle forties, in a harbour clerk's coat gone thin at the elbows, with ink worked so far into
 the creases of his knuckles that no washing would ever get it out again. He had been a clerk of the humans' harbour
-office at Ros bheag before the crossing closed, and someone at the council's post had remembered it and sent for him
+office at Ros bheag before An t-Aiseag closed, and someone at the council's post had remembered it and sent for him
 the night before. His name was Walter Hale.
 
 He took the paper, read it through once to himself with his lips moving and no sound coming, and then read it aloud
@@ -160,7 +160,7 @@ written it, except that it seemed to him, even then, a thing worth having down s
 thought to write it at all.
 
 That same week the word went round Caol mhòr, and from Caol mhòr down the western roads to Ros bheag, that the humans' own
-chapel there, shut since the crossing closed and its priest gone north with the rest, was to be shut for good and its
+chapel there, shut since An t-Aiseag closed and its priest gone north with the rest, was to be shut for good and its
 bell taken down. It was Hale's own town, the one he had clerked its harbour in before the war took the harbour's
 trade away, and it was Hale who first told Ailean of it, two days after the reading, coming to find him at the guard
 captain's lodging with no more introduction than the paper he still carried.

@@ -2,7 +2,7 @@
 
 The kingdom changed how it counted its years in this age, and made the offices that keep its record: Leabharlann Muileann chaol in the sixteenth year, Eachdraidh na Rìoghachd in the eighteenth. It counted its own people three times, and kept the count it liked least locked in a keeping-room. The north kept its own books and did not send them. This appendix gives the count of years as the council's warrant fixed it, Clàr nan Aoisean as it stands at the close of the age, the calendar the kingdom keeps, an Leabharlann's books, Eachdraidh na Rìoghachd and its foot-notes, the three censuses, the calling-in of the shire chests, and Tional nan Tuathach's own records, all as they stand in the seventy-first year.
 
-## The count of the Diosal given up
+## The count of An Diosal given up
 
 For the first years of the kingdom the island dated its public writings as it had through An Aois Choigreach, by the civil day and month the humans brought and by the year of An Diosal, the count that runs from An Diosal of a' Scaradh fleet in the river pool below Seann Skell of the west. The keeper's proclamation at the founding of an Leabharlann in the sixteenth year was dated the year one thousand nine hundred and forty-five of An Diosal, and it is among the last public writings so dated.
 
