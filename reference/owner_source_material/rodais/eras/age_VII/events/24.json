@@ -264,5 +264,96 @@
     "master_links": [
       "VI-0082"
     ]
+  },
+  {
+    "title": "Nine hundred at Àth leathan",
+    "era_year": 21,
+    "summary": "By the eve of the battle the muster at Àth leathan counts near nine hundred souls with their carriers, in five companies: Muileann àrsaidh near two hundred, Cnoc thais a hundred and sixty, Àth leathan ninety, Àth naomh sixty and Tobar dhearg forty.",
+    "category": "war",
+    "people": [
+      "Ruth Calder",
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0081"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Sixty firearms and four kegs of powder",
+    "era_year": 21,
+    "summary": "The five towns have among them some sixty firearms, most of them fowling pieces older than any man carrying them, a dozen rifles, picks and short axes, and four kegs of blasting powder from the pits.",
+    "category": "war",
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0081"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A fever in the byres of Àth leathan",
+    "era_year": 21,
+    "summary": "A fever goes through the byres behind the chapel at Àth leathan in an Gearran and takes an old woman of Cnoc thais who had come down only to be near her grandsons.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Singing in the Tobar dhearg line",
+    "era_year": 21,
+    "summary": "In the waiting before the battle the old captain's men of Tobar dhearg sing low in the Church's own words along their line.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "marker:18"
+    ],
+    "threads": [
+      "the-church-on-the-island",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0081"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Ruth Calder's account ends at the column's coming",
+    "era_year": 21,
+    "summary": "No page in Ruth Calder's hand, nor any word set down as hers by anyone who stood beside her, tells what she said or did after the regiments' column reached the ground below the spoil-heaps.",
+    "category": "war",
+    "people": [
+      "Ruth Calder"
+    ],
+    "places": [
+      "marker:18"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0082"
+    ],
+    "chronicle_extra": true
   }
 ]

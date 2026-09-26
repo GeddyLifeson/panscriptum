@@ -1809,3 +1809,81 @@ MANUAL	appendices/C_hosts_wars.md	The war ends, and the crossing is shut.	->	The
 HEADING	appendices/B_faiths.md	## The keeper and the king's daughter	->	## The keeper and nighean an rìgh	(anchor the-keeper-and-the-king-s-daughter -> the-keeper-and-nighean-an-righ)
 HEADING	appendices/B_faiths.md	## The Stone, Manannan and the old rites	->	## Òrd na Cloiche, Manannan and the old rites	(anchor the-stone-manannan-and-the-old-rites -> ord-na-cloiche-manannan-and-the-old-rites)
 MANUAL	appendices/E_words.md	the gift of the kin's Keeper woken	->	the gift of Coimhdeach na Fine woken	(1)
+MANUAL	gazetteer/12_the_war_and_the_truce.json	Àraich Muileann ghlas (a name first attested in a later age)	->	The old field of battle at Muileann ghlas	(1)
+# run 2026-09-26 00:55: 8 changes, 48 left
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:241.history	the light at Àth dhearg	->	Taigh-solais Àth dhearg	|	ver five harvests. Tormod mac Pheadair, keeper of the light at Àth dhearg and kin of the town by marria
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:301.history	the coal road	->	Rathad na Mèinne	|	en forgotten, and no answer came back to him that the coal road ever heard of.
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:204.history	the Residency's	->	Taigh an Àrd-mhaoir's	|	leece had been the measure of every bargain until the Residency's table of the eighty-sixth yea
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:420.history	the strangers' fever	->	Fiabhras nan Coigreach	|	coastal town a day's walk up from Cuan shean took the strangers' fever in the tenth year, which kill
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:443.history	The coal road	->	Rathad na Mèinne	|	The coal road to Inis bheag passed the town
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:103.history	the Old Spirits	->	Na Seann Spioradan	|	red at the town, and its folk fed them freely, as the Old Spirits require, and opened their own
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:160.history	the grey fever	->	Am Fiabhras Glas	|	ill town of the north-west shut its roads against the grey fever in the hundred and forty-firs
+CHANGE	eras/age_V/gazetteer/13_the_rest_of_the_island.json:435.history	The grey fever	->	Am Fiabhras Glas	|	The grey fever took one household in three a
+LEFT	eras/age_V/annals/age_V_02.json:EV-1554.body	the Stone	(no "the" before it)	|	Abel Stone and Hugh Mercer come up the road to Mui
+LEFT	eras/age_V/annals/age_V_02.json:EV-1555.body	the Stone	(no "the" before it)	|	even days Raghnall mac Dhòmhnaill leads Stone and Mercer through the hills north and 
+LEFT	eras/age_V/annals/age_V_02.json:EV-1511.body	the Stone	(no "the" before it)	|	Abel Stone brings the first contract of A' Chompan
+LEFT	eras/age_V/annals/age_V_02.json:EV-1512.body	the Stone	(no "the" before it)	|	Abel Stone names Raghnall mac Dhòmhnaill, who walk
+LEFT	eras/age_V/annals/age_V_02.json:EV-1558.body	the Stone	(no "the" before it)	|	 At dusk the clerk adds his figures and Stone calls out one ton, the first coal of th
+LEFT	eras/age_V/annals/age_V_07.json:EV-4031.title	the first fire	(no "the" before it)	|	The dissenters' first fire under the oaks
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:95	the Stone	(no "the" before it)	|	ard across the river; his name was Abel Stone. The other was younger and taller and s
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:99	the Stone	(no "the" before it)	|	 wife lent Mercer a dry shirt. But when Stone spread his hands and said "Coal?" and p
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:103	the Stone	(no "the" before it)	|	Stone had taken a coin out of his purse and l
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:117	the Stone	(no "the" before it)	|	They were eleven days on the hill. Stone and Mercer knew what they were looking 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:117	the Stone	(no "the" before it)	|	ds that got better as the days went on. Stone wanted water: streams, gullies, the pla
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:119	the Stone	(no "the" before it)	|	It showed. In the second gully Stone went down on his knees in the wet and s
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:119	the Stone	(no "the" before it)	|	e turf like a black river under a bank. Stone broke off a piece and turned it in his 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:125	the Stone	(no "the" before it)	|	own him a pebble, and said something to Stone, and Stone laughed, not unkindly, and s
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:125	the Stone	(no "the" before it)	|	ebble, and said something to Stone, and Stone laughed, not unkindly, and said a word 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:127	the Stone	(no "the" before it)	|	e paces from the last. On the fifth day Stone took to walking the seam. He went along
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:129	the Stone	(no "the" before it)	|	ks down on the valley of Abhainn uaine, Stone stopped on a knoll in the evening and l
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:129	the Stone	(no "the" before it)	|	g to Mercer. Mercer wrote it down. Then Stone turned to Raghnall and said, slowly, in
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:135	the Stone	(no "the" before it)	|	ight they camped under a peat-bank, and Stone and Mercer drank from a flask and talke
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:137	the Stone	(no "the" before it)	|	ack on his own back the last miles, and Stone and Mercer each carried one, and all th
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:137	the Stone	(no "the" before it)	|	em were black to the elbow. At the mill Stone paid him the coin. Raghnall took it and
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:149	the Stone	(no "the" before it)	|	t read it either. He counted the sacks. Stone had filled thirteen.
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:175	the Stone	(no "the" before it)	|	Abel Stone brought them. He came up the road to Mu
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:181	the Stone	(no "the" before it)	|	When the reading was done Stone looked round the room and found Raghnal
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:197	the Stone	(no "the" before it)	|	below the old cutting, in a gully where Stone had broken the seam the winter before; 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:199	the Stone	(no "the" before it)	|	Stone had the beam set up that afternoon at t
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:201	the Stone	(no "the" before it)	|	added his figures and said something to Stone, and Stone turned round to the crew and
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:201	the Stone	(no "the" before it)	|	igures and said something to Stone, and Stone turned round to the crew and held up on
+LEFT	eras/age_V/book/11_of_the_eleven_of_cnoc_fhiadhaich.md:25	the Stone	(no "the" before it)	|	e agent could not see it, any more than Stone and Mercer had seen the green in the sa
+LEFT	eras/age_V/book/11_of_the_eleven_of_cnoc_fhiadhaich.md:71	the dry cough	(no "the" before it)	|	It was a dry cough. It had no wet in it and no fever, whic
+LEFT	eras/age_V/book/18_of_lowes_spade.md:75	the column near Cnoc ghorm	(no "the" before it)	|	iar, weathered past most reading, and a column near Cnoc ghorm that stood a little taller and a little
+LEFT	eras/age_V/book/23_of_the_levy_and_the_ring_of_beacons.md:43	the sacred forest	(another thing of the same English name)	|	h took their pupils under the trees, to the sacred forest of Flidais near Muileann chiar, where t
+LEFT	eras/age_V/book/28_of_the_law_of_one_line.md:75	the burial club	(no "the" before it)	|	oc chaol, calling itself no more than a burial club, the kind of quiet society that put a l
+LEFT	eras/age_V/book/28_of_the_law_of_one_line.md:81	the burial club	(no "the" before it)	|	ng there, to be a good deal more than a burial club, though nobody that day said so aloud a
+LEFT	eras/age_V/book/28_of_the_law_of_one_line.md:81	the burial club	(no "the" before it)	|	s own members and nothing so plain as a burial club at all, though the name it gave A' Chom
+LEFT	eras/age_V/book/29_of_the_night_shift.md:19	the coal road	(no "the" before it)	|	ten, and it cost the carters of the old coal road their whole trade inside two years; the
+LEFT	eras/age_V/book/29_of_the_night_shift.md:35	the burial club	(no "the" before it)	|	egun four years before under cover of a burial club, at Baile thais and at Cnoc chaol both,
+LEFT	eras/age_V/book/30_of_the_cellar_at_muileann_chaol.md:123	the coal-touched	(no "the" before it)	|	s required it, in the humans' tongue as coal-touched.
+LEFT	eras/age_V/book/32_of_the_grey_goose_and_the_dockers.md:15	the coal road	(no "the" before it)	|	onth, at Muileann shean on the northern coal road: a low stone house with a yard for hors
+LEFT	eras/age_V/gazetteer/05_silver_and_the_north_west.json:419.history	the count of hands	(no "the" before it)	|	tnership in the sixty-seventh year by a count of hands in its hall, and in the years before th
+LEFT	eras/age_V/gazetteer/10_the_posts_and_the_rending.json:212.history	the coal road	(no "the" before it)	|	 with a yard for horses on the northern coal road. The townsfolk called it the humans' se
+LEFT	eras/age_V/gazetteer/13_the_rest_of_the_island.json:57.history	the coal road	(no "the" before it)	|	od by the rebuilt bridge on the eastern coal road. In Cogadh nam Beann its crews stopped 
+LEFT	eras/age_V/appendices/A_rulers.md:66	the count of hands	(no "the" before it)	|	' Chompanaidh, and chose its heads by a count of hands in its hall. **Ùna nic Choinnich** stoo
+LEFT	eras/age_V/appendices/B_faiths.md:31	the sacred forest	(another thing of the same English name)	|	their own houses and under the trees of the sacred forest of Flidais near Muileann chiar, and hel
+LEFT	eras/age_V/appendices/C_hosts_wars.md:20	the dry cough	(no "the" before it)	|	**The coughing sickness** was a dry cough among the boys who broke coal at the pi
+LEFT	eras/age_V/appendices/C_hosts_wars.md:54	the coal road	(no "the" before it)	|	 were at Muileann shean on the northern coal road and Tobar ghorm near the northern worki
+LEFT	eras/age_V/appendices/D_reckoning.md:3	the treaty	(no "the" before it)	|	ion. Each change came in on paper, in a treaty or a contract or a schedule written in 
+LEFT	eras/age_V/appendices/E_words.md:61	the Stone	(no "the" before it)	|	r than a man can walk in one day.* Abel Stone's words for the black seam, the only word
+MANUAL	gazetteer/13_the_rest_of_the_island.json:443	Rathad na Mèinne (the eastern road, not the name)	->	The road for the eastern coal	(1)
+# hand fixes 2026-09-26 00:57
+MANUAL	book/02_of_forty_words_for_the_colours_of_coal.md	*an Tìr Thall*, an Tìr Thall. On	->	*an Tìr Thall*. On	(1)
+MANUAL	book/12_of_the_green_river_run_black.md	It was Clàr nan Dà Fhichead Dath: Clàr nan Dà Fhichead Dath of the coal, each with its name	->	It was Clàr nan Dà Fhichead Dath, the colours of the coal, each with its name	(1)
+MANUAL	book/20_of_the_green_death.md	*An Dithis a Nigh Còmhla*, An Dithis a Nigh Còmhla, was said	->	*An Dithis a Nigh Còmhla*, was said	(1)
+MANUAL	appendices/C_hosts_wars.md	**Buidheann an t-Seabhaig Luaidhe**, Buidheann an t-Seabhaig Luaidhe, seven men	->	**Buidheann an t-Seabhaig Luaidhe**, seven men	(1)
+MANUAL	appendices/C_hosts_wars.md	**Gorta Baile chrom**, followed	->	**Gorta Baile chrom** followed	(1)
+MANUAL	appendices/C_hosts_wars.md	**Tiormachd Achadh shean**, lay on	->	**Tiormachd Achadh shean** lay on	(1)
+MANUAL	appendices/C_hosts_wars.md	**The eleven days of Baile thais**, in the seventy-seventh year, Stad-oibre Baile thais of the age:	->	**Stad-oibre Baile thais**, the eleven days of the seventy-seventh year and the first stoppage of the age:	(1)
+MANUAL	appendices/C_hosts_wars.md	| The coughing sickness | 26 |	->	| An Casad Tioram | 26 |	(1)
+MANUAL	appendices/C_hosts_wars.md	**The coughing sickness** was a dry cough	->	**An Casad Tioram**, the coughing sickness, was a dry cough	(1)
+MANUAL	appendices/C_hosts_wars.md	**The flux** broke out	->	**An Scàird Fhuilteach** broke out	(1)
+MANUAL	appendices/C_hosts_wars.md	and entered it under the cost of the working.	->	and entered it under the cost of the working. The old women of the camps called the cough that the kin of the coal-blood lived through Casad Dhonnchaidh, after Aisling's father.	(1)
+MANUAL	appendices/C_hosts_wars.md	and the fighting of the war of the hills,	->	and the fighting of Cogadh nam Beann,	(1)
+MANUAL	appendices/C_hosts_wars.md	- **The ford of Àth chiar.** Major Peter Ashdown's column	->	- **Blàr Àth chiar.** At the ford, Major Peter Ashdown's column	(1)
+MANUAL	appendices/C_hosts_wars.md	- **The same spring.** The constables of Baile thais hold	->	- **The same spring.** Sèist Baile thais: the constables of Baile thais hold	(1)
+MANUAL	appendices/C_hosts_wars.md	A steamship of A' Chompanaidh shells the coal stage at Seann Toll; twenty-three die.	->	Loscadh Seann Toll: a steamship of A' Chompanaidh shells the coal stage at Seann Toll, and twenty-three die.	(1)
+MANUAL	appendices/C_hosts_wars.md	The sally at Cnoc ghorm driven back, the last Riaghaltas nan Coigreach made.	->	Blàr Cnoc ghorm: the sally from the harbour driven back, the last Riaghaltas nan Coigreach made.	(1)
+HEADING	appendices/C_hosts_wars.md	## The war of the hills	->	## Cogadh nam Beann	(anchor the-war-of-the-hills -> cogadh-nam-beann)
+MANUAL	book/33_of_the_rending_of_cill_ghlas.md:53	Coinneachadh a' Mhonaidh (the moor-road stone; the master IV-0272a calls it Coinneachadh an Fhearainn)	->	Coinneachadh an Fhearainn, the meeting of the land	(1)

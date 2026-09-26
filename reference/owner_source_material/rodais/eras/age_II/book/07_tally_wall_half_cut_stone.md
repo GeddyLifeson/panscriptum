@@ -8,7 +8,7 @@
 
 Somhairle was three hundred and fifty-one years old and looked a boy of seventeen when his father told him to come down from the high valleys and walk the coast road with him.
 
-He had been eight-and-forty years among Clann na Ceiste by then, long enough that the reciters no longer marked him out as the king's son so much as the one among them who forgot nothing, and set exact by exact into a boy's memory the Line of the Mason from the seven nights forward, the pots left cold under the oaks, the six households that came in first, the storm that broke the shell causeway at Seann Warr and was never mended. He had heard the causeway named a hundred times before he ever saw it, and had not thought, hearing it, that he would.
+He had been near two hundred years among Clann na Ceiste by then, long enough that the reciters no longer marked him out as the king's son so much as the one among them who forgot nothing, and set exact by exact into a boy's memory the Line of the Mason from the seven nights forward, the pots left cold under the oaks, the six households that came in first, the storm that broke the shell causeway at Seann Warr and was never mended. He had heard the causeway named a hundred times before he ever saw it, and had not thought, hearing it, that he would.
 
 His father sent no reason with the summons, only a word carried up by a rider that the king rode east in three days and would have his son with him, and Somhairle came down off the slab where he had been sitting with old Aonghas going over the drowned years of the third generation, and walked south to the hill without asking why, for asking why was not a thing the king's messages generally rewarded.
 
@@ -60,7 +60,7 @@ His father looked at him a moment before he answered, and there was nothing in h
 
 "A people counting," he said.
 
-He said nothing more of it that day, or, so far as Somhairle ever learned, to anyone else afterward. They rode back to Dùn ìseal in three days rather than the two they had come in, for the king set an easy pace and did not press it, and Somhairle, riding at his side, understood without being told that his father would not be asked again, and did not ask.
+He said nothing more of it that day, or, so far as Somhairle ever learned, to anyone else afterward. They rode back to Dùn ìseal at a walking pace, taking two days over a road they had come in one, for the king set an easy pace and did not press it, and Somhairle, riding at his side, understood without being told that his father would not be asked again, and did not ask.
 
 He set the visit down that autumn in the fewest words the Line would bear him use: *the king comes to the wall at Seann Warr and stands a long while before it. Asked what he saw, he answers: a people counting.* He added nothing to explain it, for there was nothing in him that could explain it, and he had begun, by then, to learn from his father's own example that the plainest telling of a thing a man cannot understand is often the only honest one.
 
@@ -82,7 +82,7 @@ He set it down as he had set down the rest, in the fewest words the fact would b
 
 ## V. Of the Silence
 
-The last smoke any hill man saw rising from Seann Tarr was seen by a grazing dispute of Somhairle's own settling, the man who had first told him of the thickening years before, now grown old on the same road, who came up to the high valleys that autumn with a tale of finding the house over the dead standing open, its hearth cold, its net-mending bench bare, and no one, living or otherwise, anywhere along that narrow strand to say where the household had gone.
+The last smoke any hill man saw rising from Seann Tarr was seen by the carrier who had first told him of the thickening years before, now grown old on the same road, who came up to the high valleys that autumn with a tale of finding the house over the dead standing open, its hearth cold, its net-mending bench bare, and no one, living or otherwise, anywhere along that narrow strand to say where the household had gone.
 
 Somhairle rode down himself the following spring and found the man had told it true. The house stood as the carrier had found it, its roof not yet fallen, its door not yet fallen from its hinges, everything in it left as a household leaves a thing it means to come back to and does not; and along the whole shore, in the dozen houses that had stood there in his own remembering, no smoke rose at all, from any hearth, on a morning cold enough that smoke would have shown a mile off had there been any to show.
 

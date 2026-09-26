@@ -1,0 +1,1492 @@
+{
+ "writer": 6,
+ "span": [
+  "VI-0120",
+  "VI-0143"
+ ],
+ "events": [
+  {
+   "after": "VI-0127"
+  },
+  {
+   "id": "EVII-6001",
+   "title": "The first capping at Àth leathan",
+   "body": "In am Màrt the seventh regiment pours the first concrete over a flooded shaft at Àth leathan while Somhairle mac Lachlainn watches from the pit-head; the mix lies still in a way the seam itself, even flooded, had never once lain before.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0122",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#i-of-the-capping",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6002",
+   "title": "Sergeant Iain Mòr counts the cappings",
+   "body": "A sergeant of the seventh regiment tells Somhairle mac Lachlainn this is the fourth capping his company has stood by that month, at Muileann àrsaidh, Cnoc thais and a nameless working near Àth naomh, and wonders aloud what the regiment will be set to guard once Tobar dhearg of the hills is done.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0122",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#i-of-the-capping",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6003",
+   "title": "The Board ends the coal trade outside the Sloc Mòr",
+   "body": "Fearghas mac Aonghais's office notes that the trade in coal-fuel is at an end on the island outside what the Board still cuts for its own account at the Sloc Mòr: not forbidden by any law, but ended by there being, at last, nowhere left to sell it.",
+   "place": "burg:23",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0121",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/35_of_the_stations_kept.md#i-of-the-capping",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6004",
+   "title": "Aonghas mac Phàdraig's plough finds the first iron",
+   "body": "Turning his field at Muileann ghlas in am Màrt as he has every spring of his life, Aonghas mac Phàdraig's share brings up a rusted bayonet lying whole across it; he finishes the furrow before he carries it home.",
+   "place": "marker:17",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0127",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "aonghas-mac-phadraig"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#iv-of-the-stone-and-the-sown-field",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6005",
+   "title": "The first regiment's corporal begins a list",
+   "body": "A corporal of the first regiment collecting rents in the district takes Aonghas mac Phàdraig's bayonet and enters it on a list kept for such finds, not knowing whether it is a record of the dead or only of the field giving back what two armies left in it.",
+   "place": "marker:17",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0127",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "aonghas-mac-phadraig"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#iv-of-the-stone-and-the-sown-field",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6006",
+   "title": "The letter from the capital's gaol",
+   "body": "Martha Greaves receives word from the council's office that the holdouts taken at Muileann ghlas are to be released in an t-Iuchar and marched north to the boundary stones, with no word of who is to feed them on the road or what their flooded towns will make of their return.",
+   "place": "burg:143",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0123",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#ii-of-the-boundary-stones",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6007",
+   "title": "Martha Greaves and Peter Hale ride to the stones",
+   "body": "Martha Greaves and Peter Hale take the last carriage the coal line runs toward the boundary stones, Peter carrying a register freshly ruled with a new column by his own hand for want of any other paper the party trusted.",
+   "place": "province:7",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0123",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "martha-greaves",
+    "peter-hale"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#ii-of-the-boundary-stones",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6008",
+   "title": "A mother writes four words beside her son's name",
+   "body": "A woman of Cnoc thais gives Martha Greaves her son's name for the register and, unbidden, the words he is not among these; Martha sets both down, judging the register poorer without them.",
+   "place": "province:7",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0123",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#ii-of-the-boundary-stones",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6009",
+   "title": "A man refuses his name for a town that no longer stands",
+   "body": "An older prisoner at the boundary stones will not give his name at first, saying it would mean nothing written beside Muileann àrsaidh's ruin; Martha Greaves promises the town will stand again in whatever shape its people build it, and he gives his name.",
+   "place": "province:7",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0123",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#ii-of-the-boundary-stones",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6010",
+   "title": "Peter Hale keeps a name of his own",
+   "body": "Among the released Peter Hale recognises a man once apprenticed to the same binder at Muileann leathan whose pupils rebound the Moot's minute-books; the man gives no sign of knowing him, and Peter does not ask which it is, silence or forgetting.",
+   "place": "province:7",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0123",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "peter-hale",
+    "martha-greaves"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#ii-of-the-boundary-stones",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6011",
+   "title": "Anna nic Phàil speaks to Somhairle at the chamber door",
+   "body": "At the close of his first sitting Anna nic Phàil tells Somhairle mac Lachlainn she stood on the bench in the passage the Christmas Martha Greaves carried the Moot's last petition in, and means to go on voting every mercy the council's business allows her.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0124",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "somhairle-mac-lachlainn",
+    "anna-nic-phail"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#iii-of-the-seat-and-the-post",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6012",
+   "title": "Somhairle reads the one-and-sixty names",
+   "body": "At the stone's unveiling at Cathair mhòr, Somhairle mac Lachlainn reads aloud the one-and-sixty names of the regiments' dead from Àth leathan and Muileann ghlas to a silent square, and finds the town's silence harder to bear than any noise it might have made instead.",
+   "place": "burg:23",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0126",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#iv-of-the-stone-and-the-sown-field",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6013",
+   "title": "Somhairle thinks of the names the stone does not carry",
+   "body": "Standing alone at the stone after the crowd disperses, Somhairle mac Lachlainn counts over the column's uncounted dead, the sixty from the byres, and a mother's son who was not among the released, and finds that number, cut nowhere, stays with him longer than the one that is.",
+   "place": "burg:23",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0126",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#iv-of-the-stone-and-the-sown-field",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6014",
+   "title": "Sergeant Iain Mòr counts the cappings",
+   "body": "At the first capping at Àth leathan the seventh regiment's sergeant Iain Mòr tells Somhairle mac Lachlainn it is the fourth his company has stood by that month, with Tobar dhearg of the hills still to do.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0122",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "iain-mor-of-the-seventh-regiment",
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#i-of-the-capping",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6015",
+   "title": "Four score released at the boundary stones",
+   "body": "Some four score holdouts taken at Muileann ghlas are handed to the Moot at the boundary stones; Martha Greaves writes their names in a column Peter Hale ruled that morning.",
+   "place": "province:7",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0123",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "peter-hale"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#ii-of-the-boundary-stones",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6016",
+   "title": "The heading on the stone at Cathair mhòr",
+   "body": "The stone at Cathair mhòr is cut in two columns under a single heading, the regiments' dead, giving neither battle nor date.",
+   "place": "burg:23",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0126",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#iv-of-the-stone-and-the-sown-field",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6017",
+   "title": "Two brothers of Seann Bhral on the stone",
+   "body": "Among the names read at the stone's unveiling are two brothers of Seann Bhral who enlisted together and died within the same hour of the same morning.",
+   "place": "burg:23",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0126",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#iv-of-the-stone-and-the-sown-field",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "id": "EVII-6018",
+   "title": "The seventh regiment's first winter at the post",
+   "body": "The seventh regiment's first winter at the post by Àth leathan is spent roofing it; the men buy their slates at the western Seann Skell.",
+   "place": "burg:7001",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0125",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/35_of_the_stations_kept.md#i-of-the-capping",
+   "era_between": [
+    23,
+    23
+   ]
+  },
+  {
+   "after": "VI-0135"
+  },
+  {
+   "id": "EVII-6019",
+   "title": "The council's order reaches Muileann chaol",
+   "body": "A rider who has changed horses three times brings the council's four-line order to Raghnall mac Mhuirich on the doorstep of the old building: the whole record of the Long War is to be shut against every reader for fifty years, and the keeper alone is to hold the key.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0128",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-long-war"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#i-of-the-key",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6020",
+   "title": "Raghnall has a room built for the seal",
+   "body": "Raghnall clears an old storeroom at the end of the new wing's gallery and has a mason and a smith fit it, through a fortnight of hard weather, with an oak door two inches thick and a lock made new to no other key in the kingdom, standing over the last morning's fitting himself.",
+   "place": "marker:34",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#i-of-the-key",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6021",
+   "title": "Sìleas carries her full record to the door",
+   "body": "Over two days Sìleas nic Rath carries her own four boxes of the war's full record up from her room and sets them inside the new door herself, letting no clerk touch them: the movements, counts and letters she was never let publish alongside the open chronicle.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0129",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-long-war"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#i-of-the-key",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6022",
+   "title": "The key turns once",
+   "body": "Raghnall turns the new lock himself with the mason and smith gone, and hangs the key on a cord under his own shirt, where he is seen for years after to lay his hand against his chest before he blows out the reading-room's last lamp.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#i-of-the-key",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6023",
+   "title": "Sìleas's promise at the head of the open list",
+   "body": "Sìleas writes, unasked, a line at the head of the war's open list saying plainly that the fuller record exists, is kept, and will be given to any honest reader when the fifty years end; Raghnall reads it and lets it stand.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0129",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-long-war"
+   ],
+   "people": [
+    "sileas-nic-rath",
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#ii-of-the-list-she-was-allowed",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6024",
+   "title": "The seventh regiment's captain lets the cairn stand",
+   "body": "Asked whether to clear the cairn the Tuathaich have raised on the field of Àth leathan, the Board answers that its captain may use his own judgment; he tells his patrols to walk past it and count the stones if they wish, and report only what is found beneath one.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0130",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_sealed_room.md#iii-of-the-cairn-and-the-tithe",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6025",
+   "title": "A woman of Àth leathan carries a stone each morning",
+   "body": "A woman of the town who lost a brother in the fighting there, and will not say which side he died fighting for, is seen to walk out alone before the patrol each morning, set one stone on the cairn, and stand a while with her hand flat against it before going home.",
+   "place": "marker:18",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0130",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_sealed_room.md#iii-of-the-cairn-and-the-tithe",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6026",
+   "title": "Peigi nic Ascaill signs the regiments' contract",
+   "body": "Peigi nic Ascaill signs the Fuel-Fitters' contract for the regiments' engines and the fleets' hulls at Cathair dhearg with a clerk on either hand to witness it, and tells her under-fitter afterward that no paper she has signed will put more Dia-thìrich fitters to the trade than this one.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0132",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "peigi-nic-ascaill"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#iv-of-the-contracts",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6027",
+   "title": "A smith of Àth naomh counts his musket-stocks",
+   "body": "Writing to his brother at Cathair dhearg, a smith of Àth naomh says he has turned out more musket-stocks that winter than ploughshares in the six years before the war, and cannot decide whether to call it his own good fortune or the kingdom's bad one.",
+   "place": "burg:286",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0132a",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_sealed_room.md#iv-of-the-contracts",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6028",
+   "title": "The forge at Caol ìseal takes on new hands",
+   "body": "The woman who masters the forge at Caol ìseal, left her by a father with no son to leave it to, takes on four boys and a girl under the arms contract and tells the Board's inspector she means to keep them past the contract's term, war or no war.",
+   "place": "burg:208",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0132a",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/36_of_the_sealed_room.md#iv-of-the-contracts",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6029",
+   "title": "Seonag nic Thòmais lights the second lamp",
+   "body": "Keeper of the trial lamp at Baile ìseal, Seonag nic Thòmais sees the salt-boat raiders' sail two hours before the second fleet's own lookout and lights, on her own judgment, the warning lamp kept unlit in ordinary weather; the fleet's captain copies her log whole into his return.",
+   "place": "marker:13",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0133",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "seonag-nic-thomais"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#v-of-the-fleets",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6030",
+   "title": "Sìleas opens the next day's page as any other",
+   "body": "The morning after the lock is turned, Sìleas sets the day's date and the weather at the top of her page and writes only of a mill's copying fee, exactly as on any working morning of the thirteen years before, and says nothing there of the sealed room.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0129",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#vi-of-the-morning-after",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6031",
+   "title": "A door of oak two inches thick",
+   "body": "For the room at the end of the new wing's lower gallery at an Leabharlann a mason fits a door of oak two inches thick and a smith makes a lock to no other key in the kingdom.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-long-war"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#i-of-the-key",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6032",
+   "title": "Sìleas's four boxes",
+   "body": "Sìleas nic Rath carries her full record of the war, four boxes close-written in her own hand, to the door of the sealed room herself and lets no clerk carry them.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-long-war"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#i-of-the-key",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6033",
+   "title": "The key on a cord under the keeper's shirt",
+   "body": "Raghnall mac Mhuirich wears the key of the sealed room on its own cord round his neck under his shirt.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6032",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#i-of-the-key",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6034",
+   "title": "Some forty places on the open list",
+   "body": "The open list of the war years at an Leabharlann runs to some forty places, each with its regiments and the counts allowed before the sealing, and a blank where the column's dead would stand.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0129",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-long-war"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/36_of_the_sealed_room.md#ii-of-the-list-she-was-allowed",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6035",
+   "title": "A stone a morning on the cairn",
+   "body": "A woman of Àth leathan who lost a brother on the bank there walks out to the cairn alone in the early mornings and sets one stone on it, never more.",
+   "place": "marker:18",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0130",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_sealed_room.md#iii-of-the-cairn-and-the-tithe",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EVII-6036",
+   "title": "The forge-mistress of Caol ìseal",
+   "body": "The woman who keeps the forge at Caol ìseal takes on four boys and a girl to answer the Crown's arms contract, and tells the Board's inspector she means to keep them all past the contract's term.",
+   "place": "burg:86",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0132a",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/36_of_the_sealed_room.md#iv-of-the-contracts",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "after": "VI-0142"
+  },
+  {
+   "id": "EVII-6037",
+   "title": "Anna nic Phàil cuts a page of figures from her own draft",
+   "body": "Writing her motion at her own table through the early months of the year, Anna nic Phàil cuts a whole page of named costs, granaries and flooded pit-heads and the stone at Cathair mhòr, judging that a council grows deaf to a column of figures faster than to almost anything else brought before it.",
+   "place": "burg:26",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0137",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#ii-of-the-motion-anna-brought",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6038",
+   "title": "The master of the Treasury asks a figure of the motion",
+   "body": "Uisdean Dubh, master of the Treasury, asks Anna nic Phàil's motion for amends whether its sum has been costed against the year's roll; she answers that the reckoning is the room's own trade, and asks only that the principle be granted.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0137",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#ii-of-the-motion-anna-brought",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6039",
+   "title": "The motion held over, morning after morning",
+   "body": "For eight sittings running the council's clerk carries the motion for amends forward on the day's business-paper under the same two words, held over, without any member speaking against it or any vote being called.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0137",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#iii-of-the-eight-days",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6040",
+   "title": "Somhairle mac Lachlainn is asked whether the sum is too great",
+   "body": "Caught at the chamber door, Somhairle mac Lachlainn tells Anna nic Phàil that he has read many rolls of the dead and never once been asked whether the towns that raised them could bear the cost, and does not know why a roll of the dead should be easier to pay for than a roll of the living.",
+   "place": "burg:19",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0137",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "anna-nic-phail",
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#iii-of-the-eight-days",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6041",
+   "title": "The motion stood over without a sitting called",
+   "body": "On the eighth day the motion for amends is absent from the business-paper; a clerk tells Anna nic Phàil it was stood over to the autumn sitting the evening before, in a short session she was not told was sitting, by members' vote without her among them.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#iv-of-the-line-allowed-to-die",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6042",
+   "title": "Anna counts the councillors who looked away",
+   "body": "Going back over the eight sittings, Anna nic Phàil can find no single vote that killed the motion, only the faces of the twelve, one who promised a vote and never called it, one who spoke of hard times, six who said nothing to her at all, and Somhairle who gave her an answer and moved no more than the rest to call it to a vote.",
+   "place": "burg:19",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#iv-of-the-line-allowed-to-die",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6043",
+   "title": "Martha Greaves tells Peter Hale she means to lay the chair down",
+   "body": "In the delegates' room over the net-lofts at Caol mhòr, Martha Greaves tells Peter Hale plainly that she means to lay down the Moot's chair that year, and that she judges him, of every delegate she has sat among, the fittest to take it up.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0139",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "peter-hale"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#v-of-the-chair-laid-down",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6044",
+   "title": "Martha Greaves's last sitting",
+   "body": "Martha Greaves reads out the year's register and the ordinary business of the day, a roof at the school, the price of wool, a mill's complaint of the coal-line's freight, lays the chair down, and the Moot chooses Peter Hale by acclamation without a show of hands.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0139",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "peter-hale"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#v-of-the-chair-laid-down",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6045",
+   "title": "Martha Greaves goes home to Doire ghlas",
+   "body": "Martha Greaves rides home to Doire ghlas on the ordinary carrier's cart with no more baggage than she came to the mill with as a young woman, not yet certain what a woman who was the Moot's own voice for seventeen years is to do with her mornings now.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0139",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#v-of-the-chair-laid-down",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6046",
+   "title": "The watch on the Bratach Ghlas",
+   "body": "The watch on the fourth fleet's Bratach Ghlas reports off the north-western cape, on a clear night with the moon near full, a thing longer than the hull moving under the water.",
+   "place": "marker:21",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0136",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#i-of-the-thing-off-the-cape",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6047",
+   "title": "Held over, morning after morning",
+   "body": "For eight days the motion for amends is carried forward at the foot of the council's business-paper under the clerk's two words, held over.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#iii-of-the-eight-days",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6048",
+   "title": "Somhairle's answer at the chamber door",
+   "body": "Asked by Anna nic Phàil whether the sum for amends is too great, Somhairle mac Lachlainn answers that he has never been asked whether the towns could bear the cost of raising the rolls of names he has read.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn",
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#iii-of-the-eight-days",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6049",
+   "title": "Peter Hale chosen by acclamation",
+   "body": "At Martha Greaves's last sitting the Moot chooses Peter Hale to the chair by acclamation, without a show of hands.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0139",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0008",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-6048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "peter-hale",
+    "martha-greaves"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#v-of-the-chair-laid-down",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6050",
+   "title": "Officers' houses at Inis uaine",
+   "body": "By council order the eighth regiment's officers at Inis uaine are given houses in the town in place of quarters borrowed year by year from the tank-yard's sheds.",
+   "place": "burg:103",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0141",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#v-of-the-chair-laid-down",
+   "era_between": [
+    25,
+    25
+   ]
+  },
+  {
+   "id": "EVII-6051",
+   "title": "The amends paid in two halves",
+   "body": "The council pays the first half of the amends to the western towns in the autumn and enters the second half against the next year's tithe.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/37_of_the_motion_allowed_to_die.md#ii-of-the-motion-anna-brought",
+   "era_between": [
+    25,
+    25
+   ]
+  }
+ ]
+}

@@ -463,8 +463,8 @@ The readable table of `eras/NAMES.json`, the single source of truth for the Dia-
 | the field of Muileann ghlas <br>*also:* the Muileann ghlas field | **Àraich Muileann ghlas** | the battlefield of Muileann ghlas | VI-0116 | existing |
 | the field of Àth leathan | **Àraich Àth leathan** | the battlefield of Àth leathan | VI-0085 | existing |
 | the meeting of the cups | **Coinneachadh nan Cupan** | the meeting of the cups | I-0154a | existing |
-| the meeting on the moor road | **Coinneachadh a' Mhonaidh** | the meeting on the moor road | IV-0272a | existing |
-| the crews meet on the moor | **Coinneachadh an Fhearainn** | the meeting of the crews on the moor | IV-0327a | existing |
+| the meeting on the moor road | **Coinneachadh an Fhearainn** | the meeting on the moor road | IV-0272a | existing |
+| the crews meet on the moor | **Coinneachadh a' Mhonaidh** | the meeting of the crews on the moor | IV-0327a | existing |
 | the meeting at the neck <br>*also:* the stone on the neck | **Coinneachadh na h-Amhaich** | the meeting at the neck | III-0167a | existing |
 | the beacon at Baile ìseal <br>*also:* the light at Baile ìseal | **Taigh-solais Baile ìseal** | the lighthouse at Baile ìseal | I-0161 | existing |
 | the beacon at Muileann bheag <br>*also:* the light at Muileann bheag | **Taigh-solais Muileann bheag** | the lighthouse at Muileann bheag | I-0162 | existing |

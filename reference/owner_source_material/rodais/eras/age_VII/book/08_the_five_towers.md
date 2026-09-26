@@ -164,7 +164,7 @@ His name was not in it. None of their names were. He had known it would not be; 
 
 He did not speak of it that night. His sister, with whom he lodged, said afterwards that he sat a long time at the table with a cup he did not drink, and then went out, and she heard him in the shed behind the house, at the bench, sharpening every tool he owned.
 
-The Tuathaich of Caol mhòr have a way of telling it, when they tell it at all, which is short. They say that the Baile chrom light was turned by four men of the town, and they name them, and they say that the keeper's report named the town. Some say it as a grievance and some as a joke. Will Tanner, in his old age, used to say it was the only time Caol mhòr had been in a report of the kingdom's for anything but fish.
+The Tuathaich of Caol mhòr have a way of telling it, when they tell it at all, which is short. They say that the Baile chrom light was turned by four men of the town, and they name them, and they say that the keeper's report named the town. Some say it as a grievance and some as a joke. Will Tanner says still that it was the only time Caol mhòr had been in a report of the kingdom's for anything but fish.
 
 A week after, there was a letter for Joe at the assembly's house. It came from the southern Seann Skell and it was written in the same quick small hand as the note on the drawings.
 

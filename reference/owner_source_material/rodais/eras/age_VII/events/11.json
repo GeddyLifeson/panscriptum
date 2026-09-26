@@ -310,5 +310,97 @@
       }
     ],
     "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song"
+  },
+  {
+    "title": "Houses on the roads keep their yards open later",
+    "era_year": 9,
+    "summary": "Along the old mining roads the inns that hang dubhan lamps keep their stable-boys up later, for lorries come up the road at any hour, while houses still lit by oil shut their yard gates at full dark.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "marker:9"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0025"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The custodian's greys retired",
+    "era_year": 9,
+    "summary": "The pair of matched greys that drew the high custodian's carriage among the houses of the Rite, failing in wind on the hill roads, are retired when the carriage is fitted with an engine at the southern Seann Skell.",
+    "category": "faith",
+    "people": [
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0026a"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Joe Ashby's initials inside the engine-box",
+    "era_year": 9,
+    "summary": "The fitters at the southern works keep the panel from the first horseless carriage's engine-box, with Joe Ashby's initials chalked on its inside where no report would find them.",
+    "category": "trade",
+    "people": [
+      "Joe Ashby"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-dubhan-trade",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0026a"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Oighrig nic Iain's old lamp set above the till",
+    "era_year": 9,
+    "summary": "The landlady of Am Buabhall Fortanach does not keep a wick burning over her door as the Lion does; she sets the old taproom lamp, cleaned and empty, on the shelf above the till.",
+    "category": "trade",
+    "people": [
+      "Oighrig nic Iain"
+    ],
+    "places": [
+      "marker:5"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0027"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The first inn to sell fuel and beds under one sign",
+    "era_year": 10,
+    "summary": "The widowed landlady of An Taigh-òsta Grianach paints a new sign over her door naming what a traveller may buy there, beds and fire, and within the year half the great houses do the same.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "marker:6"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0029"
+    ],
+    "chronicle_extra": true
   }
 ]

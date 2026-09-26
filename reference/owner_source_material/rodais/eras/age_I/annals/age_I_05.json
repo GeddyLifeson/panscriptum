@@ -1,0 +1,1387 @@
+{
+ "writer": 3,
+ "span": [
+  "I-0018",
+  "I-0027"
+ ],
+ "events": [
+  {
+   "id": "EI-3001",
+   "title": "The seventh kiln-pit dug at Morn",
+   "body": "A household of the Seann-Dhaoine finishes a seventh stone-lined smoking pit above the shingle at Morn, each fed by a short turf-cut flue and kept for smoke and not flame, the first buildings raised on Dia-thìr for a trade rather than a hearth.",
+   "place": "burg:186",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0018",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
+   "era_between": [
+    1446,
+    1446
+   ]
+  },
+  {
+   "id": "EI-3002",
+   "title": "The kiln smoke seen from inland",
+   "body": "Herders of the inland hearths mark a grey column standing over the coast on still mornings and take it for a weather of that shore alone, not knowing for some years that it is a fire kept low and smouldering on purpose, day upon day, to dry a catch too great for one winter's eating.",
+   "place": "burg:186",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
+   "era_between": [
+    1450,
+    1450
+   ]
+  },
+  {
+   "id": "EI-3003",
+   "title": "A kiln is fed with dry peat only",
+   "body": "The keeper of the kilns at Morn keeps a store of dry peat under an overhang of turf for the kiln fires alone, holding that green peat flares where dry peat smokes, and a flare undoes a season's catch.",
+   "place": "burg:186",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
+   "era_between": [
+    1455,
+    1455
+   ]
+  },
+  {
+   "id": "EI-3004",
+   "title": "The fourth pit drowned in a night's rain",
+   "body": "A gale drives rain sideways off the bay at Morn and puts out the fourth kiln before the keeper's last round; she lets the pit stand cold rather than relight it under a soaked load, and carries the spoiled catch to the gulls at the tideline.",
+   "place": "burg:186",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
+   "era_between": [
+    1461,
+    1461
+   ]
+  },
+  {
+   "id": "EI-3005",
+   "title": "The ninth kiln set higher against the rain",
+   "body": "The keeper of Morn's kilns digs a ninth pit set higher on the rise than the first seven, its flue longer and angled harder against a driving rain, after a wet night once cost the household a whole pit's catch.",
+   "place": "burg:186",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
+   "era_between": [
+    1467,
+    1467
+   ]
+  },
+  {
+   "id": "EI-3006",
+   "title": "The keeper teaches the wet-night watch to her niece",
+   "body": "The keeper of the kilns teaches her niece to watch a kiln past the hour she would go to bed on a night of gathering rain, since a fire low enough to smoke is near enough to going out that a hard rain can take it.",
+   "place": "burg:186",
+   "kind": "craft",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
+   "era_between": [
+    1470,
+    1470
+   ]
+  },
+  {
+   "id": "EI-3007",
+   "title": "The first ramp-slab laid at Brenn",
+   "body": "A household of skin-boat builders on the north coast begins laying flat slabs down a shelf of stone at Brenn from above the highest tide to deep water, meaning to draw down a load heavier than any hide boat's frame.",
+   "place": "burg:328",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1478,
+    1478
+   ]
+  },
+  {
+   "id": "EI-3008",
+   "title": "A ramp-slab relaid twice at Brenn",
+   "body": "Twice a slab of the new ramp at Brenn settles crooked overnight where the ground beneath it runs soft, and is levered up with poles of green oak and reset on stone packed hard by hand and heel, without complaint from the household doing it.",
+   "place": "burg:328",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1483,
+    1483
+   ]
+  },
+  {
+   "id": "EI-3009",
+   "title": "The first ramp at Brenn finished",
+   "body": "The first ramp at Brenn stands finished its whole length, laid true enough that a loaded sledge runs it without a check, some years before the household raises anything heavier upon it than the skin boats they had always built.",
+   "place": "burg:328",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1499,
+    1499
+   ]
+  },
+  {
+   "id": "EI-3010",
+   "title": "A dog lies across the finished ramp",
+   "body": "A dog of the Brenn household lies full length on the finished ramp on warm days, and the household steps over it on the way down to the water rather than move it.",
+   "place": "burg:328",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1510,
+    1510
+   ]
+  },
+  {
+   "id": "EI-3011",
+   "title": "The first plank-built hull framed at Brenn",
+   "body": "The household at Brenn frames the first hull of planks pegged and caulked over a timber frame, a make no shore of Dia-thìr had built before, and raises it on rollers along the finished ramp to wait on the tide.",
+   "place": "burg:328",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1512,
+    1512
+   ]
+  },
+  {
+   "after": "I-0019"
+  },
+  {
+   "id": "EI-3012",
+   "title": "The first hull launched down the ramps",
+   "body": "The household of Brenn walks its first plank-built hull down the finished ramp on rollers and lets it take the water at the height of the tide; it floats low and steady, and hands already aboard it work it out past the last stone shelf into open water.",
+   "place": "burg:328",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1520,
+    1520
+   ]
+  },
+  {
+   "id": "EI-3013",
+   "title": "The first hull goes out past the last shelf",
+   "body": "The hull launched from Brenn is worked out past the last shelf of stone into open water, and of where it went, or what it was built to reach, nothing is told.",
+   "place": "burg:328",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1521,
+    1521
+   ]
+  },
+  {
+   "id": "EI-3014",
+   "title": "A sail seen small from the height above Brenn",
+   "body": "A watcher on high ground along the coast near Brenn marks a dark sail standing out against the grey water and shrinking until it cannot be told from the sea it stands on, then turns back to the day's work once there is nothing left to watch.",
+   "place": "burg:328",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iv-of-the-shore-grown-bold",
+   "era_between": [
+    1522,
+    1522
+   ]
+  },
+  {
+   "id": "EI-3015",
+   "title": "The first platform driven at Loch chrom",
+   "body": "Oak piles are driven down through the shallows of Loch chrom to firmer ground beneath, and a floor of split timber raised across their tops, joined to the shore by a walk of planks lashed to crossbeams below; whose hands began it, no telling has kept.",
+   "place": "burg:1003",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0020",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
+   "era_between": [
+    1540,
+    1540
+   ]
+  },
+  {
+   "id": "EI-3016",
+   "title": "The planks of the lake walks listened to",
+   "body": "A child of the Loch chrom platforms is sent along every plank walk each morning to listen for the sound of a plank gone thin under its light weight before a grown foot finds it the hard way.",
+   "place": "burg:1003",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
+   "era_between": [
+    1560,
+    1560
+   ]
+  },
+  {
+   "after": "I-0020"
+  },
+  {
+   "id": "EI-3017",
+   "title": "Eels first taken from beneath the platforms",
+   "body": "The households of Loch chrom learn to lower baited traps through gaps left in the plank floors of their platforms, finding more eels gathered in the shade and stillness of the piles than any open bank of the loch had ever drawn to a hand's reach before.",
+   "place": "burg:1003",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
+   "era_between": [
+    1600,
+    1600
+   ]
+  },
+  {
+   "id": "EI-3018",
+   "title": "A child carries the first basket the length of the longest walk",
+   "body": "A child of one household at Loch chrom is trusted, for the first time, to carry a basket of the day's eels the whole length of the longest plank walk alone, watched without a word by an elder who by then counts the crossing an ordinary errand.",
+   "place": "burg:1003",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0020",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
+   "era_between": [
+    1612,
+    1612
+   ]
+  },
+  {
+   "id": "EI-3019",
+   "title": "A shared meal for a new pile",
+   "body": "The households of the lake platforms count a new oak pile driven and holding as an occasion for a shared meal on the nearest platform once the driving-frame is struck down.",
+   "place": "burg:1003",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
+   "era_between": [
+    1640,
+    1640
+   ]
+  },
+  {
+   "id": "EI-3020",
+   "title": "A new pile driven at Loch chrom",
+   "body": "Four or five hands together drive a fresh oak pile into the mud of Loch chrom in place of one worked loose by years of current, the heaviest labour that shore's households reckon their own, and mark it, once it holds, with a shared meal on the platform.",
+   "place": "burg:1003",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
+   "era_between": [
+    1650,
+    1650
+   ]
+  },
+  {
+   "id": "EI-3021",
+   "title": "A second ramp begun at Brenn",
+   "body": "The household at Brenn lays a second ramp beside the first, wider and longer, and launches hulls from it in the years after the way any trade repeats what it has once learned, though none of those hulls draws the telling's eye as the first one did.",
+   "place": "burg:328",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
+   "era_between": [
+    1669,
+    1669
+   ]
+  },
+  {
+   "after": "I-0021"
+  },
+  {
+   "id": "EI-3022",
+   "title": "A whale strands below the southern Dunn",
+   "body": "A whale comes ashore in an autumn gale below the southern Dunn, stranded beyond the tide's reach. It lives through a day and a night before its breathing stops, watched from a careful distance by the household nearest the shingle who first heard the surf change its voice.",
+   "place": "burg:295",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0021",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1672,
+    1672
+   ]
+  },
+  {
+   "id": "EI-3023",
+   "title": "The whale cut and shared along the shore",
+   "body": "Word of the stranding carries both ways along the shore, and households beyond the one that found it come down to Dunn to help with the cutting. The meat is salted and smoked, the blubber rendered in clay-lined pits, and no household that helped goes home with an empty basket.",
+   "place": "burg:295",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0021",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1672,
+    1672
+   ]
+  },
+  {
+   "id": "EI-3024",
+   "title": "The whale's ribs driven upright for house frames",
+   "body": "Once the meat and the blubber are taken, the whale's bared ribs are driven upright in the turf above the shingle and lashed together at the crown. Three round houses stand roofed in turf by the year's end, taller and wider than any frame of bent branch the shore had raised before.",
+   "place": "burg:295",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0021",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1673,
+    1673
+   ]
+  },
+  {
+   "id": "EI-3025",
+   "title": "Whale oil burned through two winters",
+   "body": "The oil rendered from the whale at the southern Dunn is kept in bladders and clay pots and burned in stone lamps through two winters at least, by more hearths than the one that first heard the surf change.",
+   "place": "burg:295",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1675,
+    1675
+   ]
+  },
+  {
+   "id": "EI-3026",
+   "title": "The first rib found cracked through",
+   "body": "A rib bearing the heaviest weight of turf is found cracked through in its fifth winter, salt and rain having told on the bone faster than they tell on green wood. It is shored with a driven stake lashed alongside it rather than taken down before the roof can fall.",
+   "place": "burg:295",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0021",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1678,
+    1678
+   ]
+  },
+  {
+   "id": "EI-3027",
+   "title": "The whale-rib houses raised a second time",
+   "body": "The original ribs having failed past shoring, the three houses at Dunn are raised again, this time on bone from a second, smaller stranding that had come ashore some way along the same stretch in the years between, cut by a household with no thought then of building.",
+   "place": "burg:295",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1720,
+    1720
+   ]
+  },
+  {
+   "id": "EI-3028",
+   "title": "A child turns up the buried foot of the first rib",
+   "body": "Digging in ground long since grown thick with turf, a child of the household turns up a length of bone gone soft and dark with years, and cannot say what it is until an elder names it: the foot of a rib from the first whale-rib house, sunk and near forgotten.",
+   "place": "burg:295",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1731,
+    1731
+   ]
+  },
+  {
+   "after": "I-0022"
+  },
+  {
+   "id": "EI-3029",
+   "title": "A third raising on bone carried from the west",
+   "body": "The rib houses at the southern Dunn are raised a third time on bone carried along the shore from a whale cut further west, word of usable ribs travelling faster by then than word of strandings once did.",
+   "place": "burg:295",
+   "kind": "craft",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
+   "era_between": [
+    1740,
+    1740
+   ]
+  },
+  {
+   "id": "EI-3030",
+   "title": "The eastern Vell's first dry-stone round house",
+   "body": "On ground thick with loose slabs above the eastern Vell, a household raises the first of what will become fourteen round houses, dry stone laid without mortar, each course fitted and refitted until it holds by its own weight alone, roofed at last by corbelled slabs closed with turf.",
+   "place": "burg:94",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0022",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
+   "era_between": [
+    1758,
+    1758
+   ]
+  },
+  {
+   "id": "EI-3031",
+   "title": "A hearth sunk below the sunk floor at eastern Vell",
+   "body": "A household of the eastern Vell cuts its hearth-pit deeper than the sunk floor around it and lines it with stone set on edge, keeping the fire below any draught the door might let in, and letting the smoke find its own way out past the corbelled roof's crown.",
+   "place": "burg:94",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0022",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
+   "era_between": [
+    1761,
+    1761
+   ]
+  },
+  {
+   "id": "EI-3032",
+   "title": "The first drain cut beneath a wall at eastern Vell",
+   "body": "A household whose floor stands wetter than its neighbours' through a wet winter takes up its own floor the following dry season and cuts a stone-lined channel under the wall to carry the water clear. Other households of the cluster, watching, take up their own floors in turn.",
+   "place": "burg:94",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0022",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
+   "era_between": [
+    1766,
+    1766
+   ]
+  },
+  {
+   "id": "EI-3033",
+   "title": "Drains cut under standing walls at Vell",
+   "body": "Households of the eastern Vell whose houses were built without a drain take up their floors in a dry season and cut the channel in under walls already standing, having watched their neighbours' floors stand drier.",
+   "place": "burg:94",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
+   "era_between": [
+    1770,
+    1770
+   ]
+  },
+  {
+   "id": "EI-3034",
+   "title": "The fourteenth house finished at eastern Vell",
+   "body": "The last of the fourteen round houses stands finished on the eastern Vell's cleared ground, doors facing every way the ground allows, and every house of the cluster by now given its own dry outfall beneath the wall, a drier floor than the cluster's first years knew.",
+   "place": "burg:94",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
+   "era_between": [
+    1773,
+    1773
+   ]
+  },
+  {
+   "id": "EI-3035",
+   "title": "A hollow-walled tower begun at the north-western Skell",
+   "body": "A household of the north-western Skell, settled where the ground runs out to open water on three sides, begins a round tower of two dry-stone faces built together, a stair let into the gap between them, climbing the wall's own thickness rather than crossing any open floor.",
+   "place": "burg:16",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0023",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
+   "era_between": [
+    1796,
+    1796
+   ]
+  },
+  {
+   "id": "EI-3036",
+   "title": "A winter storm throws down the unfinished outer face",
+   "body": "With the tower a third of its final height, a winter storm throws down the outer face of the stair while the inner holds. The household clears the fallen stone from the gap and sets the cross-stones binding the two faces closer together through the whole climb of what remains to be built.",
+   "place": "burg:16",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0023",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
+   "era_between": [
+    1804,
+    1804
+   ]
+  },
+  {
+   "after": "I-0023"
+  },
+  {
+   "id": "EI-3037",
+   "title": "The first night at the tower's crown",
+   "body": "With the stair whole and the parapet laid, a household of the north-western Skell climbs to the tower's open crown by clear starlight and sees more of the sea at once than any of that shore had seen from any roof or headland before it.",
+   "place": "burg:16",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
+   "era_between": [
+    1810,
+    1810
+   ]
+  },
+  {
+   "id": "EI-3038",
+   "title": "A fire lit on the parapet turns a boat from the rocks",
+   "body": "In hard weather, a boat not of that shore is seen from the tower's crown standing in blind toward the rocks below. A fire lit on the parapet shows its crew the coast they are running for in time to bear off from the worst of it before the light fails.",
+   "place": "burg:16",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
+   "era_between": [
+    1826,
+    1826
+   ]
+  },
+  {
+   "id": "EI-3039",
+   "title": "The stair walked after every storm",
+   "body": "The household of the north-western Skell walks the tower stair from foot to crown after every storm, feeling along both faces for any stone gone slack in its bed.",
+   "place": "burg:16",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
+   "era_between": [
+    1830,
+    1830
+   ]
+  },
+  {
+   "id": "EI-3040",
+   "title": "Stone huts built in the dune's lee at Toll",
+   "body": "A household of Toll builds a row of low stone huts against the slope of a dune tall enough to break the worst of the sea wind before it reaches a wall, turf-roofed and set close, the sand that blows loose in an ordinary gale cleared each morning as an ordinary chore.",
+   "place": "burg:37",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0024",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
+   "era_between": [
+    1858,
+    1858
+   ]
+  },
+  {
+   "id": "EI-3041",
+   "title": "A wind rises off the sea that does not settle",
+   "body": "A wind rises off the sea and holds through a full day and into a second, driving sand off the dune's whole face until the air itself thickens to the colour and near the weight of the ground it carries, and sand mounts against the huts faster than hands can clear it.",
+   "place": "burg:37",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0024",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
+   "era_between": [
+    1879,
+    1879
+   ]
+  },
+  {
+   "id": "EI-3042",
+   "title": "The household of Toll leaves the buried huts",
+   "body": "Before the storm's second night closes on them, the household carries what it can and goes inland to higher ground, none of them lost or badly hurt in the leaving. The dune moves forward the width of the huts and beyond, and the row is not seen again above the sand.",
+   "place": "burg:37",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0024",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
+   "era_between": [
+    1879,
+    1879
+   ]
+  },
+  {
+   "after": "I-0024"
+  },
+  {
+   "id": "EI-3043",
+   "title": "The dune moves the width of the huts",
+   "body": "When the wind falls on the third day the dune at the northern Toll stands forward the whole width of the huts and beyond, a slope of new pale sand over ground where doors opened two days before.",
+   "place": "burg:37",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
+   "era_between": [
+    1880,
+    1880
+   ]
+  },
+  {
+   "id": "EI-3044",
+   "title": "New walls raised inland from the buried row",
+   "body": "After digging finds the buried huts still whole but past any hope of clearing, the household of Toll gives up the digging and raises new walls further inland, on ground it judges, by the coast's own long habit of wind and sand, unlikely to be claimed again in its own lifetime.",
+   "place": "burg:37",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
+   "era_between": [
+    1890,
+    1890
+   ]
+  },
+  {
+   "after": "I-0025"
+  },
+  {
+   "id": "EI-3045",
+   "title": "Gormal takes up the fire-pot",
+   "body": "Past thirty and past the birth of the one daughter who lived, Gormal takes up the fire-pot and the leather bag of the line's coloured coal from an aunt with no living daughter of her own, having already buried a father, an aunt and two of her own age who died saying the sky-coal would never light.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1951,
+    1951
+   ]
+  },
+  {
+   "id": "EI-3046",
+   "title": "The middle kiln judged by smell",
+   "body": "The woman who minds the middle kiln at the eastern Bral judges the smoke by its smell at first light and dusk and the fish by the give of the flesh under one finger, and teaches both by standing a child at her elbow.",
+   "place": "burg:110",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#i-of-the-kilns-in-the-east",
+   "era_between": [
+    1955,
+    1955
+   ]
+  },
+  {
+   "id": "EI-3047",
+   "title": "Gormal's rule that the recital be kept",
+   "body": "Gormal rules that the fathers' names and the riddle after them be said standing every dark-of-the-year night whether any of the gathered kin care to hear it or not, holding that a recital kept only while it is believed is not kept at all.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3045",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1960,
+    1960
+   ]
+  },
+  {
+   "id": "EI-3048",
+   "title": "Gormal learns the fathers' names at nine",
+   "body": "Gormal stands the fathers' names over to the aunt who keeps the fire-pot every evening of a whole winter until not a name comes out of its place, and asks, the first time she hears the riddle whole, why no one has tried from higher ground.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3047",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1965,
+    1965
+   ]
+  },
+  {
+   "id": "EI-3049",
+   "title": "Three good harvests on the eastern slopes",
+   "body": "Word climbs to the high valleys of a third good harvest running on the farms of the eastern slopes, and the branch of the kin already drifting down toward that lower ground begins drifting faster, households following one another rather than waiting their own turn to go.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1978,
+    1978
+   ]
+  },
+  {
+   "id": "EI-3050",
+   "title": "The branch leaves with no coal of the vein",
+   "body": "The last households of the eastern branch load their gear onto ox-sledges and go down from the high valleys for good, carrying a coal from their own daily fire and not one splinter of the mason's vein, the first households of the line ever to leave it empty-handed.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-3048",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1980,
+    1980
+   ]
+  },
+  {
+   "id": "EI-3051",
+   "title": "Gormal names three hills for the sky",
+   "body": "At the recital after the branch's leaving, Gormal argues that the sky, like the sea, should be tried from the ground nearest it, and names three hills of her own judging, one south of the black well, one west toward Achadh dhìreach and a bare shoulder of moor she herself favours, though the kin cannot agree which of the three, or any other, truly stands highest.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3050",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1981,
+    1981
+   ]
+  },
+  {
+   "id": "EI-3052",
+   "title": "Gormal meets the branch at the sledges",
+   "body": "Gormal walks out to the yard where the last of the going branch lash their sledges and tells them that no household has gone from the line empty of the vein before; she does not ask them to stay.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3051",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1983,
+    1983
+   ]
+  },
+  {
+   "id": "EI-3053",
+   "title": "The eastern Bral kilns kept alight in relay",
+   "body": "At the eastern landing three fish-kilns are kept fed at any time while three stand cold and swept, a household's whole catch never dried on the same night lest a failed wind leave it with nothing, the kilns built and worked in the same way as the sister kilns a day's rowing to the south.",
+   "place": "burg:110",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0025",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#i-of-the-kilns-in-the-east",
+   "era_between": [
+    1985,
+    1985
+   ]
+  },
+  {
+   "id": "EI-3054",
+   "title": "A girl reads the smoke at the eastern kilns",
+   "body": "A granddaughter of the woman who minds the middle kiln at the eastern landing notices, before anyone older has remarked it, that the smoke of that kiln runs paler than its neighbours in some seasons though the fire beneath is fed no differently, and is told only that the smoke says what the smoke says.",
+   "place": "burg:110",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0025",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#i-of-the-kilns-in-the-east",
+   "era_between": [
+    1990,
+    1990
+   ]
+  },
+  {
+   "id": "EI-3055",
+   "title": "Dried fish given back for a stranded beast's oil",
+   "body": "When a beast comes ashore dead below the southern kilns, the eastern landing sends back a share of its own dried fish by the same boat that brought the word, the giving between the two places running both ways over the years without either side keeping any closer account of it.",
+   "place": "burg:110",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0025",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#i-of-the-kilns-in-the-east",
+   "era_between": [
+    1993,
+    1993
+   ]
+  },
+  {
+   "id": "EI-3056",
+   "title": "Sìomha softens the recital for her own children",
+   "body": "Gormal's daughter Sìomha, unable to move her mother from the fixed words, begins saying the fathers' names and the riddle to her own children in gentler terms at her own hearth, without ever once letting the recital itself lapse.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3052",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    1996,
+    1996
+   ]
+  },
+  {
+   "id": "EI-3057",
+   "title": "The southern oyster mound stands taller than any household's reach",
+   "body": "Along the southern headland the pile of raked and eaten oyster shell, built up by generations of the same households, comes to stand higher at its oldest end than a tall man can reach with his arm above his head, whiter at the crown where gulls have picked it clean.",
+   "place": "burg:465",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0026",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#iii-of-the-oyster-beds-in-the-south",
+   "era_between": [
+    1998,
+    1998
+   ]
+  },
+  {
+   "id": "EI-3058",
+   "title": "Gormal adds her own words at her last recital",
+   "body": "At the last recital she stands for, Gormal adds to the fixed words that the line has not yet thrown from the one hill that matters, and that whoever finds it will do the line more good in an afternoon than the branch in ten generations.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3056",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    2000,
+    2000
+   ]
+  },
+  {
+   "id": "EI-3059",
+   "title": "A worn rake laid on the southern mound",
+   "body": "A woman of the southern shore, famed along that coast for the truest oyster-rake anyone there remembers, dies leaving it to her strongest-armed granddaughter; when it wears past mending in its turn it is laid on the mound itself rather than burned or given back to the sea, by a custom the shore explains to no outsider.",
+   "place": "burg:465",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0026",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#iii-of-the-oyster-beds-in-the-south",
+   "era_between": [
+    2001,
+    2001
+   ]
+  },
+  {
+   "id": "EI-3060",
+   "title": "Gormal's last recital",
+   "body": "On the last dark-of-the-year night of her life Gormal says the riddle standing as she has said it every year of her keeping, and adds, unfixed in the words, that whoever first agrees which hill stands highest will do the line more good than the branch that went down to the farms did it in ten generations of easier digging.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3058",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    2004,
+    2004
+   ]
+  },
+  {
+   "id": "EI-3061",
+   "title": "Gormal dies",
+   "body": "Gormal dies that winter in the house she kept the fire-pot in her whole life, her daughter Sìomha and a granddaughter at her bedside, the six dark coals laid out on the blanket at her own asking; the bag and the unanswered question pass to hands that had heard her say both enough times to say them back the same way.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3060",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormal"
+   ],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#ii-of-gormal-and-the-kin-that-went-down",
+   "era_between": [
+    2004,
+    2004
+   ]
+  },
+  {
+   "after": "I-0026"
+  },
+  {
+   "id": "EI-3062",
+   "title": "The oldest shells of the southern mound run large",
+   "body": "The raking households of the southern Morn find that the oysters of the lowest layers of their mound are broader by half than any taken from the same water in living memory, and do not trouble over why.",
+   "place": "burg:465",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#iii-of-the-oyster-beds-in-the-south",
+   "era_between": [
+    2050,
+    2050
+   ]
+  },
+  {
+   "id": "EI-3063",
+   "title": "A third ramp begun at the second Brenn",
+   "body": "Far to the north-east a household that first rolled boulders into its own river's current and walked hulls down over them, in the same way as a household on a river far to the west that bears the same name, begins a third ramp beside the first two, having hulls enough to want more room than two ramps give it.",
+   "place": "burg:440",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0027",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#iv-of-the-second-landing",
+   "era_between": [
+    2090,
+    2090
+   ]
+  },
+  {
+   "id": "EI-3064",
+   "title": "A boy stands before the twin ramps of Brenn",
+   "body": "Sent one autumn morning to carry word along the bank that the tide has turned, a boy of the north-eastern Brenn household stands a long while looking at the two, then three, pale ramps running into the current before running his errand, and says nothing after of what he stood looking at.",
+   "place": "burg:440",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#iv-of-the-second-landing",
+   "era_between": [
+    2097,
+    2097
+   ]
+  }
+ ]
+}

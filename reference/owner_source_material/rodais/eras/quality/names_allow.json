@@ -44,10 +44,10 @@
    "reason": "the fishing fleet of Ros dhomhain, not the fleet of the Sundering"
   },
   {
-   "files": "eras/age_V/book/16_*",
+   "files": "eras/age_V/*",
    "en": "the mist",
-   "near": "gales and the §",
-   "reason": "weather, not Ceò Mhanannain"
+   "near": "gales and the §|sea §",
+   "reason": "weather and sea mist, not Ceò Mhanannain"
   },
   {
    "files": "eras/age_V/book/10_*",
@@ -76,8 +76,8 @@
   {
    "files": "eras/age_V/*",
    "en": "the coal road",
-   "near": "(?:northern|old) §",
-   "reason": "other roads: the northern coal road to Muileann shean and the old cart road the tram-road ended, not Rathad na Mèinne"
+   "near": "(?:northern|old|eastern) §",
+   "reason": "other roads: the northern coal road to Muileann shean, the eastern coal road over the bridge at Ros fhionn, and the old cart road the tram-road ended; not Rathad na Mèinne"
   },
   {
    "files": "eras/age_V/*",

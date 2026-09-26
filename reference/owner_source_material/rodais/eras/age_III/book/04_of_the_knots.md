@@ -90,7 +90,7 @@ The steward said that he did not think she understood him.
 
 "I understand you," said Sìne. "Tell your lord's great-grandchildren to come to the door and say their lines. If they are his, I'll tie them to him. If they aren't, I won't. And if you come to my house again with a cow I'll tell Aodh Crom, and he'll tell the gathering-house, and then every line in the valley will know that yours has cousins it needs to buy knots for."
 
-The steward went away with the cow. Two more came in the nights after that, one with a silver pin and one with the promise of a stretch of summer grazing for her husband's sheep, which he did not have. She sent them both away. Word went round the fires that the knot-woman could not be bought, and after that the stewards left her alone, and began instead to watch each other's lines at the door, very closely, for anyone the knot-woman might be tying close in who had no business being tied at all.
+The steward went away with the cow. Two more came in the nights after that, one with a pin of carved bone and one with the promise of a stretch of summer grazing for her husband's sheep, which he did not have. She sent them both away. Word went round the fires that the knot-woman could not be bought, and after that the stewards left her alone, and began instead to watch each other's lines at the door, very closely, for anyone the knot-woman might be tying close in who had no business being tied at all.
 
 Sìne said to her daughters that this was the best thing that had happened. She said that a cord that no one could buy was a cord everyone would watch; and that a cord everyone was watching was a cord that would be believed.
 

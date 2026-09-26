@@ -1,10 +1,10 @@
 [
   {
-    "title": "Griogair bores the first bone pipes",
+    "title": "Gilleonan bores the first bone pipes",
     "era_year": 2428,
-    "summary": "At Cnoc àrsaidh, Griogair bores four holes along a hollow bird-bone and finds a note he can raise and lower at will; children of three households gather to hear him play, the first instrument the island's tellers count as more than a horn blown flat.",
+    "summary": "At Cnoc àrsaidh, Gilleonan bores four holes along a hollow bird-bone and finds a note he can raise and lower at will; children of three households gather to hear him play, the first instrument the island's tellers count as more than a horn blown flat.",
     "category": "craft",
-    "people": ["Griogair"],
+    "people": ["Gilleonan"],
     "places": ["burg:433"],
     "threads": [],
     "master_links": [{"to": "I-0176", "type": "dramatisation"}]

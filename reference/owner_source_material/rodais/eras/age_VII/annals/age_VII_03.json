@@ -1,0 +1,1886 @@
+{
+ "writer": 2,
+ "span": [
+  "VI-0020",
+  "VI-0035"
+ ],
+ "events": [
+  {
+   "id": "EVII-2001",
+   "title": "Lamp-glass dearer at Cathair dhearg",
+   "body": "The glass-houses of Cathair dhearg raise the price of a chimney-glass by a third in the year the dubhan lamps come into the lanes, and cannot blow them fast enough.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#i-of-the-speaker-s-last-night",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "after": "VI-0023"
+  },
+  {
+   "id": "EVII-2002",
+   "title": "Daniel Frayne buried at Muileann leathan",
+   "body": "Daniel Frayne, speaker of Tional nan Tuathach, is buried in the churchyard of Muileann leathan. His eleven binders carry the coffin through the town by turns, and each drops a length of waxed binding-thread into the grave. The schoolchildren of Doire ghlas sing the hymn of the sea road, and delegates of the fishing, mill and hill towns stand in the rain along the churchyard wall.",
+   "place": "burg:234",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0020",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0168",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "daniel-frayne",
+    "martha-greaves",
+    "ellen-marsh",
+    "peter-hale"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#ii-of-the-burial-at-muileann-leathan",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2003",
+   "title": "Martha Greaves's first sitting as speaker",
+   "body": "Tional nan Tuathach sits at Caol mhòr, forty-four delegates strong, and chooses Martha Greaves of Doire ghlas by show of hands; the one other name put is withdrawn. She says she is no talker. Her first business is Daniel Frayne's dying wish that his binders rebind the minute-books, and the matter is laid over for their reckoning. Her first minute is the shortest of the year.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0020",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0008",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "peter-hale",
+    "thomas-rook"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#iii-of-the-chair-at-caol-mhor",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2004",
+   "title": "The binders' reckoning",
+   "body": "The binders of Muileann leathan send the speaker their reckoning for rebinding the minute-books: sixty-three books, with thread, board, hide and paste set down by weight. They charge nothing for their hands. The mills of Doire ghlas undertake to give the hide.",
+   "place": "burg:234",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0202",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#iv-of-the-minute-of-the-second-set",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2005",
+   "title": "Ellen Marsh offers her schoolroom",
+   "body": "Ellen Marsh, teacher at Agnes Pike's old school in Doire ghlas, writes to Tional nan Tuathach offering her schoolroom for the rebinding of its books, since the bindery at Muileann leathan is being cleared by Daniel Frayne's kin. The children are to be taught in the church meanwhile, and the priest agrees.",
+   "place": "burg:209",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0066",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#ii-of-the-burial-at-muileann-leathan",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2006",
+   "title": "The minute of the second set signed",
+   "body": "At the same sitting the eldest binder lays before the chair the wording of a minute: that a second set of the books is made and hidden elsewhere, and that the minute stands as all the gathering knows of it. No delegate says where. Martha Greaves has it copied as written and signs it without asking.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "thomas-rook"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#iv-of-the-minute-of-the-second-set",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2007",
+   "title": "Peter Hale carries the books to Doire ghlas",
+   "body": "Peter Hale, delegate of Caol mhòr and great-grandson of Walter Hale, carries the sixty-three minute-books to Doire ghlas in three tea-chests lined with oilcloth, walking beside the cart the nine miles. The schoolchildren line up under the grey oaks to see them carried in.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0127",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "peter-hale",
+    "ellen-marsh"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#v-of-the-schoolroom-and-the-press",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2008",
+   "title": "The bindery in Agnes Pike's school",
+   "body": "The binders of Muileann leathan bring their presses and sewing frames to the schoolroom at Doire ghlas and take every minute-book out of its boards before any is sewn again. The loose gatherings of seventy-seven years are laid out under weights down the length of the floor.",
+   "place": "burg:209",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0066",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh",
+    "martha-greaves"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#v-of-the-schoolroom-and-the-press",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2009",
+   "title": "Walter Hale's harbour ledger",
+   "body": "Unstitching the first minute-book, the binders find it to be a harbour ledger of the humans' time: Walter Hale cut out his old masters' tonnage and dues close to the fold and wrote the first day of Tional nan Tuathach on the next clean page. The speaker orders the stubs kept in the new binding.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0008",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "ellen-marsh"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#v-of-the-schoolroom-and-the-press",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2010",
+   "title": "The last of the sixty-three books sewn",
+   "body": "The binders finish the last rebound minute-book at Doire ghlas, Daniel Frayne's own, which ends in the middle of a page and is followed by the clerk's minute of his death. Each book is covered in Doire ghlas hide and lettered on the spine with its years alone.",
+   "place": "burg:209",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0020",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#v-of-the-schoolroom-and-the-press",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2011",
+   "title": "The rebound set laid in the press at Caol mhòr",
+   "body": "Martha Greaves lays the sixty-three rebound minute-books in the delegates' press at Caol mhòr with her own hands, in order from Walter Hale's ledger to Daniel Frayne's last book, locks it, and keeps the key on her ring with the keys of the mills. The minute records the books laid in, at the cost of the binders' thread.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0008",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "peter-hale",
+    "thomas-rook"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#v-of-the-schoolroom-and-the-press",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2012",
+   "title": "Thread in Daniel Frayne's grave",
+   "body": "At the burial of Daniel Frayne at Muileann leathan each of his eleven binders drops a length of waxed binding-thread into the grave before the earth goes in.",
+   "place": "burg:234",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0020",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#ii-of-the-burial-at-muileann-leathan",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2013",
+   "title": "The stubs of Walter Hale's harbour ledger",
+   "body": "Taking the first minute-book of Tional nan Tuathach out of its boards, the binders find it was a harbour ledger of the humans' office, its old pages cut out close; Martha Greaves bids them keep the stubs in.",
+   "place": "burg:209",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "ellen-marsh"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#v-of-the-schoolroom-and-the-press",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2014",
+   "title": "The key of the Moot's press on the speaker's ring",
+   "body": "Martha Greaves lays the sixty-three rebound minute-books in the press at Caol mhòr herself, locks it, and puts the key on the ring at her belt with the keys of the mills.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0021",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "peter-hale",
+    "thomas-rook"
+   ],
+   "told_in": "book/09_of_the_speaker_and_the_binders.md#v-of-the-schoolroom-and-the-press",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2015",
+   "title": "The new engine hauled to Muileann chrom",
+   "body": "An engine of the new kind, bought by Comhairle na Slighe-iarainn from the shipmasters' works at the southern Seann Skell, comes up the old road to Muileann chrom on a low wagon. Twelve horses of Òrd Mhacha draw it for two days, a priest of the order walking at their head, and at the ford below the town he stands in the water until they take it out.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "cause"
+    },
+    {
+     "to": "VI-0008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#i-of-the-yard-at-muileann-chrom",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2016",
+   "title": "The first dubhan tank at Muileann chrom",
+   "body": "The Board's men set an iron tank on stone piers at the end of the long siding at Muileann chrom and fill it from barrels carted up from the southern Seann Skell. It is the first dubhan tank Comhairle na Slighe-iarainn owns. The families of the yard rows complain of the reek, which clings to cloth.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "cause"
+    },
+    {
+     "to": "V-0058",
+     "type": "location"
+    },
+    {
+     "to": "EVII-2015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#i-of-the-yard-at-muileann-chrom",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2017",
+   "title": "Eachann mac Ruairidh learns the dubhan engine",
+   "body": "Eachann mac Ruairidh, a driver of the yard families at Muileann chrom, alone puts his name to the Board's notice asking for a man to learn the new engine. Two fitters of the southern Seann Skell works teach him, one of them a Tuathach of Caol mhòr, Will Garside. In a month he drives it to An Sloc Mòr and back without them.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "eachann-mac-ruairidh",
+    "will-garside",
+    "niall-mac-leoid"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#i-of-the-yard-at-muileann-chrom",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2018",
+   "title": "The lamp-makers at the fence",
+   "body": "As the first dubhan train of Slighe a' Ghuail passes Muileann mhin on its way to Cathair dhearg, the lamp-makers of Comann nan Lòchran come out of their shops and stand along the fence of the last field in their aprons to watch it go by. One of them holds up a new dubhan lamp, unlit.",
+   "place": "burg:137",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "parallel"
+    },
+    {
+     "to": "VI-0019",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#ii-of-the-engine-that-carried-no-coal",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2019",
+   "title": "An old driver will not ride",
+   "body": "At dusk on the day of the first dubhan train, Ruairidh mac Eachainn, who drove coal engines on the line for forty years, is asked by his son to ride the new engine to the points and back. He refuses, saying he will not ride behind a fire he cannot see into, and walks home to the yard rows.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "ruairidh-mac-eachainn",
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#ii-of-the-engine-that-carried-no-coal",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2020",
+   "title": "A fireman struck from the roll",
+   "body": "In an t-Ògmhios Comhairle na Slighe-iarainn takes a second fireman off its roll at Muileann chrom and puts no one in his place, the dubhan engine needing none and the trains from An Sloc Mòr growing fewer. The man, a fireman of nineteen years, goes down to the river landing to seek work on the boats.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iii-of-the-salt-road",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2021",
+   "title": "A boy of the yard rows killed",
+   "body": "Ailean mac Mhathain, fourteen, of the yard families at Muileann chrom, is crushed between two dubhan tank-wagons being moved by rope and pinch-bar to make room for a second tank. The Board's clerk enters his death in the yard book as an accident in the changeover. The rows bury him in their corner of the burial ground below the mill.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0058",
+     "type": "location"
+    },
+    {
+     "to": "EVII-2020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailean-mac-mhathain"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iii-of-the-salt-road",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2022",
+   "title": "A salt-master of Àth bheag buys a lorry",
+   "body": "In the autumn a salt-master of Àth bheag buys a lorry from the works at the southern Seann Skell. It comes up the coast road on its own wheels with a fitter driving and a barrel of dubhan roped behind the seat. The drovers of the east coast go down to the ford of the Abhainn dhubh to look at it.",
+   "place": "burg:492",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0023",
+     "type": "cause"
+    },
+    {
+     "to": "V-0124",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iii-of-the-salt-road",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2023",
+   "title": "Salt of Àth bheag sent west by Slighe a' Ghuail",
+   "body": "The salt-master's lorry brings a second load of salt to the yard at Muileann chrom, and Comhairle na Slighe-iarainn sends it on to Cathair dhearg in a covered wagon behind the empty dubhan tanks. It is the first load the dubhan engine carries towards the capital that is not dubhan, and the first freight it pulls that pays.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0023",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iii-of-the-salt-road",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2024",
+   "title": "A priest of Macha walks the engine up from the ford",
+   "body": "The Board's first dubhan engine comes to Muileann chrom on a wagon drawn by twelve horses of Òrd Mhacha, a priest of the order walking at the leaders' heads and standing in the ford to his thighs to speak them out of it.",
+   "place": "burg:354",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#i-of-the-yard-at-muileann-chrom",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2025",
+   "title": "The blessing for a horse said over an engine",
+   "body": "Before the first dubhan train leaves the yard at Muileann chrom the priest of Macha says over it the blessing for a horse setting out on a long road, since none has been made for an engine.",
+   "place": "burg:354",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#ii-of-the-engine-that-carried-no-coal",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVII-2026",
+   "title": "The first salt carried by the dubhan engine",
+   "body": "Salt of Àth bheag brought to the yard by lorry goes on to Cathair dhearg in a covered wagon behind the empty tanks, the first load the new engine carries towards the capital that is not dubhan.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0023",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iii-of-the-salt-road",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "after": "VI-0028"
+  },
+  {
+   "id": "EVII-2027",
+   "title": "The last ox-drove on the eastern salt road",
+   "body": "In am Faoilleach the last ox-drove goes out of Àth bheag with salt on the old drove road past Baile ìseal: four carts and twenty-four beasts, driven by Murchadh Bàn and his two grandsons. It takes five days to reach the inland towns in the rain. On his return the old man sells the oxen at the ford and buys no others.",
+   "place": "burg:492",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0023",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0124",
+     "type": "legacy"
+    },
+    {
+     "to": "EVII-2026",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-ban"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iii-of-the-salt-road",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2028",
+   "title": "A dubhan tank at An Sligeanach Fad' às",
+   "body": "Over the winter the landlord of An Sligeanach Fad' às, of the drover families of Achadh mhòr, sets an iron tank on stone piers in the forecourt with a hand-pump beside it, and sells dubhan by the gallon to the lorries on the southern road. By spring he has sold more fuel off it than beds.",
+   "place": "marker:11",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0024",
+     "type": "cause"
+    },
+    {
+     "to": "V-0232",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iv-of-the-drovers-at-an-sligeanach-fad-as",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2029",
+   "title": "The last ox-sale at An Sligeanach Fad' às",
+   "body": "Meeting in the second hall of An Sligeanach Fad' às, the drover families of Achadh mhòr agree to sell their teams and take lorries from the southern Seann Skell works against the price, the rest to be paid from the grain over three years. The oxen are sold in the inn's yards that afternoon, the last beasts to fill them.",
+   "place": "marker:11",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0024",
+     "type": "parallel"
+    },
+    {
+     "to": "II-0038",
+     "type": "location"
+    },
+    {
+     "to": "EVII-2028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "uilleam-mac-dhomhnaill",
+    "aonghas-mor-of-achadh-mhor",
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iv-of-the-drovers-at-an-sligeanach-fad-as",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2030",
+   "title": "The drovers of Achadh mhòr sell their teams",
+   "body": "At An Sligeanach Fad' às the drover families of Achadh mhòr sell their oxen to farmers of the granary country, the works at the southern Seann Skell taking the price of the beasts against eleven lorries.",
+   "place": "marker:11",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0024",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2029",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_the_coal_line_and_the_salt_road.md#iv-of-the-drovers-at-an-sligeanach-fad-as",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2031",
+   "title": "The Muileann mhin lamps go out on the roads",
+   "body": "The lamp-makers of Muileann mhin, given leave the autumn before to set their own mark on the lamps they make, send them out along every road a lorry can reach. A house that hangs three or four at its door and yard wall has light enough to see a cart from a mile off, and enough, more than one landlord says, to count coin by without a candle.",
+   "place": "burg:137",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0019",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0025",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#i-of-the-roads-before-the-lamps",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2032",
+   "title": "The roads change house by house",
+   "body": "The inns of the old mining roads do not take up the new lamps together. For a season and more a carrier travelling the length of the kingdom passes from a house lit like a market fair into one still lit as it was in its grandfather's day, sometimes within the same day's driving, for the lamps and the fuel to fill them cost more than every house can find at once.",
+   "place": "marker:9",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0025",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#i-of-the-roads-before-the-lamps",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2033",
+   "title": "An Leòmhann Buidhe hangs the new lamps",
+   "body": "The landlord of An Leòmhann Buidhe on the north-east road hangs four dubhan lamps along his yard wall and two by the taproom door, warned by a carrier that a house without them will lose its custom within two years. The taproom is fuller within the month than it has been in years.",
+   "place": "marker:7",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0026",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2032",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2034",
+   "title": "The Lion's old wick kept burning",
+   "body": "Beside his new lamps the landlord of An Leòmhann Buidhe keeps the oil wick his grandmother first lit above the door, the night his grandfather came home from a voyage given up for lost, and has trimmed it every night since. Asked why he keeps it when it costs him an hour a night the new lamps do not, he says the new ones are for the road and the old one is for the house.",
+   "place": "marker:7",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0026",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2035",
+   "title": "The high custodian's carriage fitted at Seann Skell",
+   "body": "The fitters of the shipmasters' works at the southern Seann Skell, Joe Ashby chief among them, box a lorry's dubhan engine into the frame of the high custodian's own carriage, working evenings beside their ordered work for the better part of a month. Peigi nic Ascaill oversees the fitting; the works' book names the works and not the man.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0026a",
+     "type": "cause"
+    },
+    {
+     "to": "VI-0010",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "peigi-nic-ascaill",
+    "joe-ashby",
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iii-of-the-carriage-that-needed-no-horse",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2036",
+   "title": "The high custodian rides to Tobar dhearg without a horse",
+   "body": "In an t-Ògmhios Alasdair mac Ìomhair rides the first carriage on the island that needs no horse from Seann Skell to Brìde's house at Tobar dhearg, Joe Ashby driving. He says of it only what he said of dubhan itself five years before: that it is not forbidden, and he does not know that it is blessed.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0026a",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0009",
+     "type": "parallel"
+    },
+    {
+     "to": "EVII-2035",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "alasdair-mac-iomhair",
+    "joe-ashby"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iii-of-the-carriage-that-needed-no-horse",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2037",
+   "title": "Am Buabhall Fortanach holds back the lamps",
+   "body": "Oighrig nic Iain, landlady of Am Buabhall Fortanach near Doire shean, refuses her cousin's offer of the new lamps for a year and more, telling him she will hang them when she has seen one house on the road ruined by hanging them, or ruined by not. Her custom does not fall in the waiting, for carriers seek the house out whether its yard is bright or not.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0027",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oighrig-nic-iain"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2038",
+   "title": "Oighrig nic Iain's ledger turns",
+   "body": "Closing her house's ledger in the autumn, kept in one line since the house's founding, Oighrig nic Iain finds the year's trade in oil has fallen for the first time in four generations. She writes beneath the total that the light is going out from under the house whether it hangs the new lamps or not, and better to hang them itself than have the road hang them for it.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oighrig-nic-iain"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2039",
+   "title": "Am Buabhall Fortanach hangs its lamps",
+   "body": "Oighrig nic Iain's cousin fits eight dubhan lamps at Am Buabhall Fortanach over three days. She pays his account without complaint and pins the bill inside her ledger's cover, the cost written plain as a year's takings from the oil trade spent to be rid of it. The old oil lamp over the taproom door she takes down and sets empty on the shelf above the till.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oighrig-nic-iain"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2040",
+   "title": "The Guild of Hewers' hall at Achadh dhomhain for sale",
+   "body": "The Guild of Hewers, its rolls too thin to keep it, puts its own hall at Achadh dhomhain up for sale, and asks the landlord of An Taigh-seinnse Mòr for the use of his new hall until it finds a roof of its own. He lets it to them for less than a wedding party would pay, his own father having hewed coal on that road before he kept an inn on it.",
+   "place": "burg:135",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0028",
+     "type": "cause"
+    },
+    {
+     "to": "VI-0038",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2041",
+   "title": "Houses on the roads keep their yards open later",
+   "body": "Along the old mining roads the inns that hang dubhan lamps keep their stable-boys up later, for lorries come up the road at any hour, while houses still lit by oil shut their yard gates at full dark.",
+   "place": "marker:9",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0025",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#i-of-the-roads-before-the-lamps",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2042",
+   "title": "The custodian's greys retired",
+   "body": "The pair of matched greys that drew the high custodian's carriage among the houses of the Rite, failing in wind on the hill roads, are retired when the carriage is fitted with an engine at the southern Seann Skell.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0026a",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iii-of-the-carriage-that-needed-no-horse",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2043",
+   "title": "Joe Ashby's initials inside the engine-box",
+   "body": "The fitters at the southern works keep the panel from the first horseless carriage's engine-box, with Joe Ashby's initials chalked on its inside where no report would find them.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0026a",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iii-of-the-carriage-that-needed-no-horse",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVII-2044",
+   "title": "Oighrig nic Iain's old lamp set above the till",
+   "body": "The landlady of Am Buabhall Fortanach does not keep a wick burning over her door as the Lion does; she sets the old taproom lamp, cleaned and empty, on the shelf above the till.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oighrig-nic-iain"
+   ],
+   "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "after": "VI-0032"
+  },
+  {
+   "id": "EVII-2045",
+   "title": "The word Leòmhann spreads along the roads",
+   "body": "Other houses along the north-east road take up the custom of keeping one old wick lit among the new lamps, some with a story of their own to hang it on and some only because a neighbouring house does the same. Within a year or two a wick kept burning that way, of no more use than memory or fashion, is called along every road a Leòmhann.",
+   "place": "marker:7",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0026",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2046",
+   "title": "A carriers' song of the wick lamp",
+   "body": "At a spring fair where carriers of half a dozen roads meet to trade news and hire, someone sets a verse about the wick kept burning for the memory of it to a tune already used for a droving song. The tune catches before its words are settled, and within a season it is sung from the north-east road to the south-west by carriers who have never seen the house it was made for.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0026",
+     "type": "parallel"
+    },
+    {
+     "to": "EVII-2045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2047",
+   "title": "The first inn to sell fuel and beds under one sign",
+   "body": "The widowed landlady of An Taigh-òsta Grianach paints a new sign over her door naming what a traveller may buy there, beds and fire, and within the year half the great houses do the same.",
+   "place": "marker:6",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0029",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2048",
+   "title": "The last coal orders stop at Muileann chrom",
+   "body": "The Board's clerk at Muileann chrom stops writing coal orders for the shorter hauls, An Sloc Mòr running three days in the week where it ran six. The coal engines are worked on the shorter runs alone through the summer while the dubhan engine takes the long haul to Cathair dhearg.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "cause"
+    },
+    {
+     "to": "VI-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2049",
+   "title": "The Board's notice on the shed door",
+   "body": "A notice at Muileann chrom stands the coal engines down pending the Board's further order and calls the men who drove and fired them for instruction on the new engines, at the driver's rate while they learn. It says nothing of a man who does not learn, nor of what is to be done with the engines standing idle.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2050",
+   "title": "The Frisealach brothers put their names down",
+   "body": "Somhairle and Uilleam Frisealach, young firemen of the yard rows at Muileann chrom, ask Eachann mac Ruairidh what the new engine is like to drive and put their names down together for instruction. Their father, near the end of his own driving, says nothing and puts down none.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2051",
+   "title": "Dòmhnall Ruadh gives up the new engine",
+   "body": "Dòmhnall Ruadh, a driver of thirty years on Slighe a' Ghuail, cannot learn to read the dubhan engine's valve as he read a coal engine's fire, and after nine days strikes his name from the Board's instruction list. He asks to be kept on at the sidings or the stores instead.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2052",
+   "title": "The nine coal engines stand in the long siding",
+   "body": "By the feast of Samhain the last of the nine coal engines of Muileann chrom stands cold in the long siding with its fire drawn, and no order comes to light any of them again. The Board sends a clerk once, in spring, to count and write down their condition, and touches them with no order after.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "location"
+    },
+    {
+     "to": "EVII-2051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2053",
+   "title": "An Taigh-seinnse Reòta keeps its rooms unlit",
+   "body": "Murchadh Frisealach, landlord of An Taigh-seinnse Reòta on the north road, writes to the Board that the reek of dubhan will drive custom from his house as it has from three houses on the coast. The letter is repeated at firesides between Muileann fhada and the capital as proof a house may hold to the old ways.",
+   "place": "marker:8",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0031",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#ii-of-the-reek-at-an-taigh-seinnse-reota",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2054",
+   "title": "The Reòta puts in the new lamps",
+   "body": "Within the year the dubhan bus between Caol mhòr and the capital brings the Reòta more trade in a month than the old coaching road brought it in a season, and guests who stop there complain of the reek of tallow. Murchadh Frisealach lights the taproom and his two best rooms with dubhan, and keeps one wick lamp over the stable door out of what he calls habit.",
+   "place": "marker:8",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0031",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#ii-of-the-reek-at-an-taigh-seinnse-reota",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2055",
+   "title": "The Board's surveyor writes Muileann dhearg spent",
+   "body": "A surveyor of the Mine Board walks the last working face at Muileann dhearg with the pit captain Gilleasbaig Ruadh and two of the older hewers, and writes in his book that the seam is spent below the value of working it. The pit is ordered to close at the month's end.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0032",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "tormod-mac-dhonnchaidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iii-of-the-last-face",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2056",
+   "title": "The last shift comes up at Muileann dhearg",
+   "body": "Twelve hewers come up the shaft at Muileann dhearg on its last morning, having spent their final two days drawing props and rails for scrap rather than cutting coal. Aonghas Dubh, last out, carries the shift's last lamp and finds no one waiting to take it; the pit captain hangs it unlit on the rack himself.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0032",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "tormod-mac-dhonnchaidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iii-of-the-last-face",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2057",
+   "title": "The guild finds carts for the walk to Seann Toll",
+   "body": "Tormod mac Dhonnchaidh, master of the Guild of Hewers, goes door to door through the pit quarter of Muileann dhearg after the closing to promise carts for what the forty remaining households cannot carry, the Board having offered places at Seann Toll but no removal. He walks the ten miles of river road with them himself.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0032",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0033",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2056",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "tormod-mac-dhonnchaidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iv-of-the-walk-to-seann-toll",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2058",
+   "title": "Eachann mac Ruairidh teaches the older drivers",
+   "body": "At Muileann chrom Eachann mac Ruairidh, the one man of the yard who has driven the dubhan engine a full year, is set to teach it to the coal drivers who put their names down, the Frisealach brothers first.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2059",
+   "title": "Children play in the cabs of the laid-up engines",
+   "body": "The nine coal engines stand in the long siding at Muileann chrom through that year and the next; the grass comes up between the sleepers and the children of the yard rows climb into the cabs to play at driving.",
+   "place": "burg:354",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2058",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2060",
+   "title": "The last lamp at Muileann dhearg hung unlit",
+   "body": "When the last cage comes up at Muileann dhearg, the youngest hewer stands with the last lamp used on the face and no one to hand it to, until the pit captain Gilleasbaig Ruadh hangs it on the rack himself.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0032",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2059",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "gilleasbaig-ruadh",
+    "tormod-mac-dhonnchaidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iii-of-the-last-face",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVII-2061",
+   "title": "The families of Muileann dhearg winter in the Board's sheds",
+   "body": "The hewers' families walked down to Seann Toll lie the first winter in the Board's sheds by the landing and go into the new row as each house is roofed.",
+   "place": "burg:313",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0033",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-2060",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "tormod-mac-dhonnchaidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iv-of-the-walk-to-seann-toll",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "after": "VI-0034"
+  },
+  {
+   "id": "EVII-2062",
+   "title": "Few of Muileann dhearg take to the river",
+   "body": "The close river trade of Seann Toll's own boatmen takes on only two or three of the young men of the Hewers' Row that winter. Most of the households go instead to the dubhan tanks at the landing, rolling barrels and minding pumps for a trade none of them was born to.",
+   "place": "burg:313",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0033",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2061",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iv-of-the-walk-to-seann-toll",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVII-2063",
+   "title": "Tormod mac Dhonnchaidh speaks of the lamp",
+   "body": "Walking the frozen street of the Hewers' Row with Gilleasbaig Ruadh, Tormod mac Dhonnchaidh says it was not the pit's closing that undid him at Muileann dhearg but the sight of a lamp with no one left to hand it to, and names the landlord of An Taigh-seinnse Reòta a man doing the same in his own house.",
+   "place": "burg:313",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0032",
+     "type": "legacy"
+    },
+    {
+     "to": "EVII-2062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "tormod-mac-dhonnchaidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iv-of-the-walk-to-seann-toll",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVII-2064",
+   "title": "The first lecture at the empty quarter",
+   "body": "A young teacher of the druid school at Caol shean comes to Muileann dhearg in am Faoilleach and finds four old people and the caretaker Padraig Iarna waiting in the cold hall. He does not come again that year sooner than the next am Faoilleach.",
+   "place": "burg:491",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0034",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2063",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#v-of-the-druid-house-left-standing",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVII-2065",
+   "title": "The Frisealach brothers pass the yard's test",
+   "body": "The Frisealach brothers, the first coal drivers at Muileann chrom to put their names down for the dubhan engine, take a train to the capital and back under Eachann mac Ruairidh's eye and are passed.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0030",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-2064",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding",
+   "era_between": [
+    11,
+    11
+   ]
+  }
+ ]
+}

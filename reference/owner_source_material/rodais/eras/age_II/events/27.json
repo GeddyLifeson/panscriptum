@@ -40,11 +40,11 @@
     "master_links": [{"to": "I-0166", "type": "parallel"}]
   },
   {
-    "title": "Coinneach Beag lays the planks against his wall",
+    "title": "Micheil Beag lays the planks against his wall",
     "era_year": 2421,
-    "summary": "A fisherman of that coast, Coinneach Beag, gathers the stitched wood along one wall and pieces two curved lengths of hull back into shape, finding boats narrower and longer in the beam than any the coast builds for its own close fishing.",
+    "summary": "A fisherman of that coast, Micheil Beag, gathers the stitched wood along one wall and pieces two curved lengths of hull back into shape, finding boats narrower and longer in the beam than any the coast builds for its own close fishing.",
     "category": "craft",
-    "people": ["Coinneach Beag"],
+    "people": ["Micheil Beag"],
     "places": ["burg:16"],
     "threads": [],
     "master_links": [{"to": "I-0166", "type": "dramatisation"}]
@@ -52,9 +52,9 @@
   {
     "title": "Anndra Breac comes to the wall of planks",
     "era_year": 2421,
-    "summary": "Anndra Breac, a teller who has walked the western shore twenty years and more without a household of his own, hears Coinneach Beag out and returns to look at the planking again by firelight more than once before the season turns.",
+    "summary": "Anndra Breac, a teller who has walked the western shore twenty years and more without a household of his own, hears Micheil Beag out and returns to look at the planking again by firelight more than once before the season turns.",
     "category": "faith",
-    "people": ["Anndra Breac", "Coinneach Beag"],
+    "people": ["Anndra Breac", "Micheil Beag"],
     "places": ["burg:16"],
     "threads": ["the-ford-gathering"],
     "master_links": [{"to": "I-0167", "type": "precursor"}]
@@ -142,9 +142,9 @@
   {
     "title": "Anndra Breac walks south along the western strand",
     "era_year": 2423,
-    "summary": "Seen once more below the tower at Seann Skell, walking the strand where the stitched planks still lie against Coinneach Beag's wall, Anndra Breac walks on and does not look back; no teller of that coast claims to have fed, spoken to or buried him after.",
+    "summary": "Seen once more below the tower at Seann Skell, walking the strand where the stitched planks still lie against Micheil Beag's wall, Anndra Breac walks on and does not look back; no teller of that coast claims to have fed, spoken to or buried him after.",
     "category": "faith",
-    "people": ["Anndra Breac", "Coinneach Beag"],
+    "people": ["Anndra Breac", "Micheil Beag"],
     "places": ["burg:16"],
     "threads": ["the-ford-gathering"],
     "master_links": [{"to": "I-0167", "type": "sequel"}]

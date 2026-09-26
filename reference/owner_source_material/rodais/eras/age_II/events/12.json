@@ -35,21 +35,21 @@
   "category": "daily-life", "people": ["Anna nic Coinnich"], "places": ["burg:454"], "threads": [],
   "master_links": []},
 
- {"title": "Tòmas Ruadh burns a whole basket of the coloured coal",
+ {"title": "Eanraig Ruadh burns a whole basket of the coloured coal",
   "era_year": 1066,
-  "summary": "Tòmas Ruadh of Achadh dhìreach, old and feeling the winter's frost in his bones, sets very nearly a whole basket of the gual dathach on his fire in a single night rather than measure it by the full hand, having come, by his own account given beforehand, to doubt the measure applied to a man his age.",
-  "category": "coal", "people": ["Tòmas Ruadh"], "places": ["burg:454"], "threads": [],
+  "summary": "Eanraig Ruadh of Achadh dhìreach, old and feeling the winter's frost in his bones, sets very nearly a whole basket of the gual dathach on his fire in a single night rather than measure it by the full hand, having come, by his own account given beforehand, to doubt the measure applied to a man his age.",
+  "category": "coal", "people": ["Eanraig Ruadh"], "places": ["burg:454"], "threads": [],
   "master_links": [{"to": "I-0111", "type": "cause"}]},
 
- {"title": "The house of Tòmas Ruadh burns with three within",
+ {"title": "The house of Eanraig Ruadh burns with three within",
   "era_year": 1066,
-  "summary": "The house of Tòmas Ruadh at Achadh dhìreach goes up whole in the night in a flame shot through with a colour none of the valley folk have a word for, and burns to its stones before morning with Tòmas, his wife Beathag and a grandchild of six years named Ualan within it.",
-  "category": "coal", "people": ["Anna nic Coinnich", "Tòmas Ruadh", "Beathag", "Ualan"], "places": ["burg:454"], "threads": [],
+  "summary": "The house of Eanraig Ruadh at Achadh dhìreach goes up whole in the night in a flame shot through with a colour none of the valley folk have a word for, and burns to its stones before morning with Eanraig, his wife Beathag and a grandchild of six years named Ualan within it.",
+  "category": "coal", "people": ["Anna nic Coinnich", "Eanraig Ruadh", "Beathag", "Ualan"], "places": ["burg:454"], "threads": [],
   "master_links": [{"to": "I-0111", "type": "sequel"}]},
 
  {"title": "The hearthstone of Achadh dhìreach cracks and runs with colour",
   "era_year": 1066,
-  "summary": "When the ash of Tòmas Ruadh's house is cool enough for hands to search it, the hearthstone at its heart is found split clean through, a finger's width of colour seeping slowly along the crack a full day after the fire itself has gone entirely cold.",
+  "summary": "When the ash of Eanraig Ruadh's house is cool enough for hands to search it, the hearthstone at its heart is found split clean through, a finger's width of colour seeping slowly along the crack a full day after the fire itself has gone entirely cold.",
   "category": "coal", "people": [], "places": ["burg:454"], "threads": [],
   "master_links": [{"to": "I-0111", "type": "sequel"}]},
 
@@ -67,13 +67,13 @@
 
  {"title": "The king sends grain to Achadh dhìreach",
   "era_year": 1066,
-  "summary": "The king sends two men back to Achadh dhìreach with grain enough to carry the valley's poorer households through a winter shortened by the loss of Tòmas Ruadh's stored barley along with the rest of his house.",
+  "summary": "The king sends two men back to Achadh dhìreach with grain enough to carry the valley's poorer households through a winter shortened by the loss of Eanraig Ruadh's stored barley along with the rest of his house.",
   "category": "daily-life", "people": [], "places": ["burg:454"], "threads": [],
   "master_links": []},
 
  {"title": "The greyed hearthstone is kept for a new house",
   "era_year": 1067,
-  "summary": "Tòmas Ruadh's eldest living son raises a new house a little to one side of the burnt footings at Achadh dhìreach and sets the greyed, still-cracked hearthstone as its own hearth rather than break it up or leave it, judging a stone the king himself had greyed the safest hearth the valley was likely to keep.",
+  "summary": "Eanraig Ruadh's eldest living son raises a new house a little to one side of the burnt footings at Achadh dhìreach and sets the greyed, still-cracked hearthstone as its own hearth rather than break it up or leave it, judging a stone the king himself had greyed the safest hearth the valley was likely to keep.",
   "category": "custom", "people": [], "places": ["burg:454"], "threads": [],
   "master_links": [{"to": "I-0111", "type": "legacy"}]},
 

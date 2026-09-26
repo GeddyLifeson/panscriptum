@@ -112,6 +112,38 @@
    "colour": "#5f7d3a",
    "description": "The orders of An Creideamh Sean, the Old Faith: their founding, rules and quarrels.",
    "status": "proposed"
+  },
+  {
+   "id": "the-dubhan-trade",
+   "dt": "Malairt an Dubhain",
+   "gloss": "the dubhan trade",
+   "colour": "#2b2b2b",
+   "description": "Dubhan's fuel: its first making, its taking-up by the kingdom, its guild, its tithe and its export.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-sundering",
+   "dt": "a' Scaradh",
+   "gloss": "the Sundering",
+   "colour": "#4a6b8a",
+   "description": "The fleet that sailed into the mist and never came back, the island left alone in the world, and the long learning to live cut off: the numbering of the ships, the empty places laid, the watch on the headlands and its lapsing.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-seven-houses",
+   "dt": "Na Seachd Taighean",
+   "gloss": "the Seven Houses",
+   "colour": "#7a4b8c",
+   "description": "The custodian houses of the vein, their rolls and their lots, from the first houses made after the Sundering through the crown joined to the vein, to the council of the seven heads that sat in the empty chair's stead.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-small-burning-law",
+   "dt": "Lagh an Loscaidh Bhig",
+   "gloss": "the Law of the Small Burning",
+   "colour": "#a0522d",
+   "description": "The rule that the vein-coal be burned only in small measure and only by the custodians, first written in the custody-book at the vein-house and kept, argued and bent through the whole Age of Sundering.",
+   "status": "proposed"
   }
  ]
 }

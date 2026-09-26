@@ -98,7 +98,7 @@
  {
   "name": "Fionnghuala",
   "born": 838,
-  "died": 902,
+  "died": 897,
   "role": "mother of Diarmad; keeper of the fire-pot",
   "first_chapter": 7,
   "notes": ""
@@ -333,7 +333,7 @@
   "died": 4934,
   "role": "of Clann na Ceiste; snapped his fingers and the fire coal's dust took fire",
   "first_chapter": 35,
-  "notes": "canon I-0073a"
+  "notes": "canon I-0073a; took the bag in his twentieth year"
  },
  {
   "name": "Caitir",
@@ -381,7 +381,7 @@
   "died": null,
   "role": "wife of Ailean, mother of Gormshuil",
   "first_chapter": 38,
-  "notes": "living at the close"
+  "notes": "married Ailean VE 5,317; living at the close"
  },
  {
   "name": "Gormshuil nic Ailein",
@@ -389,6 +389,62 @@
   "died": null,
   "role": "daughter of Ailean, born before the grove; six at the crowning",
   "first_chapter": 38,
-  "notes": "canon (Age II, I-0084); only her birth in this volume"
+  "notes": "canon (Age II, I-0084; RULERS: born VE 5,318); only her birth in this volume"
+ },
+ {
+  "name": "Sìomha",
+  "born": 1958,
+  "died": 2030,
+  "role": "daughter of Gormal; softened the recital for her own children",
+  "first_chapter": 15,
+  "notes": ""
+ },
+ {
+  "name": "Sireadh",
+  "born": 2825,
+  "died": 2895,
+  "role": "old widow who kept the bag in Brian's day and gave him the five dark coals",
+  "first_chapter": 21,
+  "notes": ""
+ },
+ {
+  "name": "Fearadhach",
+  "born": 2775,
+  "died": 2840,
+  "role": "father of Bran, a careful fisher of the north-west shore",
+  "first_chapter": 20,
+  "notes": ""
+ },
+ {
+  "name": "Ruadhan",
+  "born": 3488,
+  "died": 3560,
+  "role": "cousin of Sadhbh, one of the three hunters who saw the white stag",
+  "first_chapter": 25,
+  "notes": ""
+ },
+ {
+  "name": "Aoibheann",
+  "born": 3645,
+  "died": 3718,
+  "role": "wife of Cormac",
+  "first_chapter": 26,
+  "notes": ""
+ },
+ {
+  "name": "Dearbhail",
+  "born": 4198,
+  "died": 4270,
+  "role": "wife of Eòghann, of the lake-shore line",
+  "first_chapter": 30,
+  "notes": ""
+ },
+ {
+  "name": "Beithir",
+  "born": 5170,
+  "died": 5240,
+  "role": "herder of the high shoulders who first read the cats' road in the snow",
+  "first_chapter": 37,
+  "notes": ""
  }
 ]

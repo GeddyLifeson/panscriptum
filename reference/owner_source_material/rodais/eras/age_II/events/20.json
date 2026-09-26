@@ -45,9 +45,9 @@
  {
   "title": "Three brothers raise the wind-stones at Ceann leathan",
   "era_year": 2076,
-  "summary": "Aonghas, Griogar and Ailig mac Torcaill, brothers of the point, quarry eight stones from an outcrop above the landing and raise them in a ring, one for each named wind, so a sailor may lay a hand on the stone of the wind he wants before he puts out.",
+  "summary": "Aonghas, Dùghlas and Ailig mac Torcaill, brothers of the point, quarry eight stones from an outcrop above the landing and raise them in a ring, one for each named wind, so a sailor may lay a hand on the stone of the wind he wants before he puts out.",
   "category": "culture",
-  "people": ["Aonghas", "Griogar", "Ailig mac Torcaill"],
+  "people": ["Aonghas", "Dùghlas", "Ailig mac Torcaill"],
   "places": ["burg:22"],
   "threads": [],
   "master_links": [{"to": "I-0137", "type": "cause"}]

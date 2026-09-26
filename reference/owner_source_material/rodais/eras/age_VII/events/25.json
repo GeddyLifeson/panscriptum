@@ -5,10 +5,19 @@
     "after": "VI-0082",
     "summary": "As the light fails on the day of the battle, Tom Varley gathers hurdles and handcarts and leads the wounded of the southern pits up the ridge drove track, unlit, away from Àth leathan toward Muileann àrsaidh.",
     "category": "war",
-    "people": ["Tom Varley"],
-    "places": ["burg:346"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0082", "VI-0083"]
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0082",
+      "VI-0083"
+    ]
   },
   {
     "title": "The carriers pass Àth leathan in the dark",
@@ -16,10 +25,18 @@
     "after": "VI-0082",
     "summary": "Tom Varley's party of carriers comes within sight of the Àth leathan pit-sheds before dawn and does not stop there, word having already reached them that the town cannot be held through the coming night.",
     "category": "war",
-    "people": ["Tom Varley"],
-    "places": ["burg:346"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0083"]
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0083"
+    ]
   },
   {
     "title": "Sarah Dunmore receives the wounded at Muileann àrsaidh",
@@ -27,10 +44,19 @@
     "after": "VI-0082",
     "summary": "Sarah Dunmore and the women of Muileann àrsaidh come out along the ridge path at dawn to take the hurdles from the carriers' shoulders, and a woman who sets bones is sent for to tend the worst hurt among them.",
     "category": "life",
-    "people": ["Sarah Dunmore", "Tom Varley"],
-    "places": ["burg:244"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0083"]
+    "people": [
+      "Sarah Dunmore",
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0083"
+    ]
   },
   {
     "title": "Tom Varley counts the wounded at the gate",
@@ -38,10 +64,18 @@
     "after": "VI-0082",
     "summary": "Tom Varley counts nine souls brought off the field into Muileann àrsaidh and keeps the number in his head rather than on paper, unwilling to see it set down where it might be weighed against the number that went south.",
     "category": "war",
-    "people": ["Tom Varley"],
-    "places": ["burg:244"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0083"]
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0083"
+    ]
   },
   {
     "title": "Àth leathan falls without a shot",
@@ -50,9 +84,15 @@
     "summary": "Two days after the battle the regiments come up the road to Àth leathan and find it empty: pit-shed doors open on bare straw, the byres emptied of cattle, the chapel bell untouched and unrung.",
     "category": "war",
     "people": [],
-    "places": ["burg:346"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0083"]
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0083"
+    ]
   },
   {
     "title": "The Mine Board orders the Àth leathan pits flooded",
@@ -61,9 +101,16 @@
     "summary": "The Mine Board at Cathair mhòr sends an order, drawn up in advance of the town's falling, to stop the pumps and cut a sluice into the lower galleries at Àth leathan; the flooding is reported complete within the week.",
     "category": "law",
     "people": [],
-    "places": ["burg:346"],
-    "threads": ["the-long-war", "the-seven-coals"],
-    "master_links": ["VI-0083"]
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0083"
+    ]
   },
   {
     "title": "Tom Varley hears of the flooding at Sarah Dunmore's table",
@@ -71,10 +118,19 @@
     "after": "VI-0083",
     "summary": "Word of the drowned shafts reaches Tom Varley by carter and shepherd, and he and Sarah Dunmore weigh, over several evenings, what purpose the flooding serves beyond telling the hills the seams are done for good.",
     "category": "life",
-    "people": ["Tom Varley", "Sarah Dunmore"],
-    "places": ["burg:244"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0083"]
+    "people": [
+      "Tom Varley",
+      "Sarah Dunmore"
+    ],
+    "places": [
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0083"
+    ]
   },
   {
     "title": "The seventh regiment raised from the west-coast levies",
@@ -82,10 +138,18 @@
     "after": "VI-0082",
     "summary": "On the council's order the seventh regiment is raised in a single week from the fishing and river-port families of the west coast and quartered at the western Seann Skell, faster than any regiment raised before it.",
     "category": "war",
-    "people": ["Somhairle mac Lachlainn"],
-    "places": ["burg:489"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0084"]
+    "people": [
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "burg:489"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0084"
+    ]
   },
   {
     "title": "Somhairle reads the first week's patrol reports",
@@ -93,10 +157,18 @@
     "after": "VI-0084",
     "summary": "Somhairle mac Lachlainn reads the seventh regiment's first patrol reports at Seann Skell by dubhan lamp: the road clear, a cart met and let pass, a farm gate found open and shut again.",
     "category": "war",
-    "people": ["Somhairle mac Lachlainn"],
-    "places": ["burg:489"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0084"]
+    "people": [
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "burg:489"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0084"
+    ]
   },
   {
     "title": "A young officer writes of the unploughed field",
@@ -104,10 +176,18 @@
     "after": "VI-0084",
     "summary": "A patrol officer new to his rank writes into his return that the field of the battle lies as it was left and has not been ploughed, though the season for the first ploughing is well begun on every field around it.",
     "category": "war",
-    "people": ["Somhairle mac Lachlainn"],
-    "places": ["marker:18"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0085"]
+    "people": [
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "marker:18"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0085"
+    ]
   },
   {
     "title": "Somhairle sends the patrol to walk the field itself",
@@ -115,10 +195,18 @@
     "after": "VI-0084",
     "summary": "Somhairle mac Lachlainn gives verbal, unwritten instructions for the same officer to walk the field of Àth leathan rather than the road beside it, and receives an account he sets down in the fewest words the return will bear.",
     "category": "war",
-    "people": ["Somhairle mac Lachlainn"],
-    "places": ["marker:18"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0085"]
+    "people": [
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "marker:18"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0085"
+    ]
   },
   {
     "title": "The maor of Seann Skell explains the seventh's short rolls",
@@ -126,10 +214,19 @@
     "after": "VI-0084",
     "summary": "The maor of the western Seann Skell tells Somhairle mac Lachlainn privately that coast boats are finding the fishing a week longer than the weather requires, rather than fill a regiment meant to stand against their own hill neighbours.",
     "category": "life",
-    "people": ["Somhairle mac Lachlainn"],
-    "places": ["burg:489"],
-    "threads": ["the-long-war", "the-tuathaich"],
-    "master_links": ["VI-0084"]
+    "people": [
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "burg:489"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0084"
+    ]
   },
   {
     "title": "Tom Varley sends word to every hill farm",
@@ -137,10 +234,19 @@
     "after": "VI-0082",
     "summary": "Tom Varley sends word by boys and shepherds to every hill farm within a day's walk of Muileann àrsaidh asking whether anyone has seen Ruth Calder, and gets back only that nobody has, alive or otherwise.",
     "category": "life",
-    "people": ["Tom Varley", "Ruth Calder"],
-    "places": ["burg:244"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0085"]
+    "people": [
+      "Tom Varley",
+      "Ruth Calder"
+    ],
+    "places": [
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0085"
+    ]
   },
   {
     "title": "A farm-wife's account of the field's own dead",
@@ -148,10 +254,19 @@
     "after": "VI-0083",
     "summary": "A woman below the ridge sends Tom Varley word that some of the battle's dead were carried off by night in the days after by people from the hills, and might lie now in ground no list on either side will ever name.",
     "category": "life",
-    "people": ["Tom Varley"],
-    "places": ["burg:244"],
-    "threads": ["the-long-war", "the-tuathaich"],
-    "master_links": ["VI-0085"]
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0085"
+    ]
   },
   {
     "title": "An old woman of Àth leathan sees the field the morning after",
@@ -159,10 +274,19 @@
     "after": "VI-0082",
     "summary": "An old woman who kept hens at Àth leathan tells of women from the hill farms out on the field with handcarts the morning after the battle, before the regiments came, but says she looked too little to know whose faces she saw.",
     "category": "life",
-    "people": ["Tom Varley"],
-    "places": ["burg:346"],
-    "threads": ["the-long-war", "the-tuathaich"],
-    "master_links": ["VI-0085"]
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0085"
+    ]
   },
   {
     "title": "Tom Varley walks to the dyke above the field",
@@ -170,9 +294,94 @@
     "after": "VI-0085",
     "summary": "On the eighth day Tom Varley walks alone to a stone dyke a quarter-mile from the field of Àth leathan and is turned back by a young sentry of the seventh regiment before he can see more than its empty shape.",
     "category": "war",
-    "people": ["Tom Varley"],
-    "places": ["marker:18"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0085"]
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "marker:18"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0085"
+    ]
+  },
+  {
+    "title": "Rab of Tobar dhearg carried up the ridge",
+    "era_year": 21,
+    "summary": "A boy of Tobar dhearg named Rab, wounded in the thigh at Àth leathan, is carried up the ridge path on a handcart by Tom Varley's carriers, saying his own name over in the dark.",
+    "category": "war",
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0083"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The bonesetter at Sarah Dunmore's table",
+    "era_year": 21,
+    "summary": "A bonesetter of the western hills works on the wounded of Àth leathan by lamplight at Sarah Dunmore's kitchen table at Muileann àrsaidh.",
+    "category": "humans",
+    "people": [
+      "Sarah Dunmore",
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0083"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The seventh's rolls short at the coast",
+    "era_year": 21,
+    "summary": "The seventh regiment's rolls run to some four hundred and twenty men in its second week, short of the order; the maor of the western Seann Skell puts it down to boats still at sea.",
+    "category": "war",
+    "people": [
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "burg:489"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0084"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Tom Varley turned back at the dyke",
+    "era_year": 21,
+    "summary": "Walking down to look at the field of Àth leathan, Tom Varley is turned back by a young sentry of the seventh regiment at a stone dyke a quarter-mile short of it.",
+    "category": "war",
+    "people": [
+      "Tom Varley"
+    ],
+    "places": [
+      "marker:18"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0085"
+    ],
+    "chronicle_extra": true
   }
 ]

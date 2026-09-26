@@ -52,6 +52,60 @@ The first leaf of Muireall's fair copy holds the forty words in the left-hand co
 
 **Buidheann an t-Seabhaig Luaidhe** · "the company of the leaden hawk", the seven of Cuan dhearg who carried the council's letters to Oirthir an t-Seabhaig, each with a hawk cast in lead from the cartridges of Muileann chrom at his throat.
 
+## Names the age gave
+
+The rolls of the age named its places, papers and griefs in Dia-thìris, as the island names everything; the humans' own names for the same things are given here beside them, once.
+
+**Dath a' Ghuail** · "the colour of the coal". What every Dia-thìreach child sees in broken coal and no human ever did; the name the copyists of Muileann chaol gave their fair copy of the age's rolls.
+
+**Linn an Acair** · "the era of the anchor", the Anchor Era. The count of years the custodians kept from the first ship's anchor off Cuan shean; the rolls of the age are dated by it beside the year of An Diosal.
+
+**Coinneachadh nan Long** · "the meeting of the ships". The two boats of Achadh àrsaidh meeting Na Trì Longan off the north-west cape, where the age begins.
+
+**Clàr nan Dà Fhichead Dath** · "the list of the forty colours". Gormshuil nic Fhearchair's first leaf, the forty words for the colours of broken coal, with the humans' column left empty.
+
+**Taigh nan Dìlleachdan** · "the house of the orphans". The house at Cill thais where the orphans of An Casad Tioram were kept at the custodians' own cost.
+
+**Scoil na Teachdaireachd** · "the school of the Mission". The school of Teachdaireachd na h-Eaglaise at Ros dhomhain, where Barabal nic Dhùghaill and Iain Maor learned the humans' letters.
+
+**Cairt Chathair gheal** · "the charter of Cathair gheal". The market charter of the concession town, the only one of the age that names no custodian.
+
+**Crann-tomhais a' Chalaidh** · "the weighing-beam of the harbour", the steelyard at Ros dhomhain. From its day a hewer's work was what the beam said it was.
+
+**Sìol-lann na Companaidh** · "the Company's granary". The granary at Muileann chrom built against a stoppage after Stad-oibre Baile thais, with its rule of a week's ration and no more.
+
+**Cùmhnant an Airgid** · "the covenant of the silver", the Silver Compact. The agreement Ùna nic Choinnich signed with Arthur Lisle in both tongues, which left the silver to the guild; it lay in the guild chest under three locks.
+
+**Comann an Adhlacaidh** · "the fellowship of burial", the burial club. The society of Baile thais and Cnoc chaol that bought ground and a box for the dead of the pits, under whose cover Faire nan Lòchran met.
+
+**Riaghailt Dunstan** · Dunstan's rule, a human's name kept as written. The ruling of the magistrate Oliver Dunstan in the case of Thomas Hale, that customary rights descend only through the line Riaghaltas nan Coigreach owns; under it eleven customary cuttings passed to A' Chompanaidh, and Mairead nic Aoidh stopped entering marriages in the roll.
+
+**Lagh na h-Aon Loidhne** · "the law of one line". The humans' rule that land passes down a single line of heirs, against the island's way of holding by the whole kin.
+
+**Slighe a' Ghuail** · "the way of the coal", the coal line. A' Chompanaidh's iron road from the pits at Muileann chrom by Cathair dhearg to the deep-water quay at Ros dhomhain; its engines burned the island's own coal, and the carters of Doire chaol lost the long haul.
+
+**Na Trì Teaghlaichean** · "the three households". The three copying families of Muileann chaol who kept the cellar's rolls, winter on winter.
+
+**Seilear Muileann chaol** · "the cellar at Muileann chaol". Where the copies of the custodians' rolls were kept from the reach of Taigh an Àrd-mhaoir, and where Cailean mac Eachainn found the line.
+
+**Sloinneadh Aisling** · "the line of Aisling". The seven names of Aisling's father's line found written in the roll of Àth ìseal, as the custodians write a marriage.
+
+**An Acair Uaine** · "the green acre". The plague-field beyond the spoil-heaps of Achadh dhomhain, named by no one on purpose.
+
+**An Dithis a Nigh Còmhla** · "the two who washed together". The camps' name for Anne Colby and Beitris Bhàn, who washed the dead of A' Phlàigh Uaine side by side.
+
+**A' Chiad Athchuinge** · "the first petition". The first written grievance the custodians laid before Riaghaltas nan Coigreach acting together and not settlement by settlement, drafted over three days at Ceann àrsaidh; it was not answered, and An Dàrna Athchuinge followed it.
+
+**Leabhar Baile thais** · "the book of Baile thais", the book of grievances. The book of complaints set down at Baile thais by many hands over some years: wages, deaths, the granary, the stream at Doire mhòr. It went to Muileann chaol in the four chests at the close of the age.
+
+**Coinneachadh an Fhearainn** and **Coinneachadh a' Mhonaidh** · "the meeting of the land" and "the meeting of the moor". The standing stone on the moor road where the custodians of Muileann dhomhain lent the dispossessed their poorest common land, and the place above Cnoc naomh where the crew-leaders of the northern pits fixed the week of their rising and left a cairn of spoil-stones.
+
+**Cnoc an Rabhaidh** · "the hill of the warning". The hill above Doire mhòr where the beacon of Là Stad nan Sloc was lit.
+
+**an Spiorad Naomh** and **am Bìoball** · "the Holy Spirit" and "the Bible". Words of An Eaglais the scribes took as they heard them; the priests of Manannan found the wild goose of an Spiorad Naomh in their own harbours.
+
+**An Dealachadh** · "the parting", the Severance. The closing of An t-Aiseag at the end of the war, when the last ship went north and the humans' way over the sea was shut; the rolls also call it a' Scaradh.
+
 ## Sayings
 
 *Cha tàinig long.* "No ship came." The line a keeper wrote in the daybook on a night with no ship to note, first at Baile chrom and then along the whole coast. By the last winter of the age it was habit more than grief; the sentence had outlived the asking it once answered.

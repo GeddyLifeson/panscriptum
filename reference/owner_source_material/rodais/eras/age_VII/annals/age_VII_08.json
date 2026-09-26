@@ -1,0 +1,1315 @@
+{
+ "writer": 4,
+ "span": [
+  "VI-0086",
+  "VI-0098"
+ ],
+ "events": [
+  {
+   "after": "VI-0097"
+  },
+  {
+   "id": "EVII-4501",
+   "title": "A Treasury clerk is sent to Muileann òg",
+   "body": "Cailean Ros of the Treasury comes to sit beside the fair pump at Muileann òg and mark the tithe on every gallon drawn; Ùna nic Ailein shows him the tank's own measure, which nobody in the capital had thought to teach him.",
+   "place": "burg:151",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0087",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "una-nic-ailein"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#i-of-the-clerk-beside-the-pump",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4502",
+   "title": "The first tithe taken at Muileann òg",
+   "body": "Ùna nic Ailein records the first gallon of dubhan sold under the wartime tithe at the Muileann òg pump, eleven gallons to Seumas Buidhe the smith, one part in twelve set aside before the coin changes hands.",
+   "place": "burg:151",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0087",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4501",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "una-nic-ailein"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#i-of-the-clerk-beside-the-pump",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4503",
+   "title": "The first complaint against the tithe",
+   "body": "In the fifth week of the tithe, Barabal nic Rath, a weaver of Muileann òg, brings her own five weeks' reckoning of it to the fair court and asks that her complaint against its silence on its own ending be written into the book.",
+   "place": "burg:151",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0087",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4502",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "una-nic-ailein"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#ii-of-the-first-complaint",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4504",
+   "title": "The fourth fleet searches the boats at Caol mhòr",
+   "body": "A hull of the fourth fleet boards and searches every boat at Caol mhòr's harbour wall for dubhan or coal carried against the closing of the coast; the engine-boats Joe Ashby has fitted are searched last and longest.",
+   "place": "burg:95",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0090",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4503",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#iii-of-the-boats-come-home-late",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4505",
+   "title": "Joe Ashby is asked to mend a fleet hull",
+   "body": "An unsigned letter from Caol mhòr's harbour depot asks Joe Ashby to mend an engine of the fourth fleet that the depot's own men cannot; the letter is signed with a mark, and names no fleet and no rank.",
+   "place": "burg:95",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0090",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4504",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#iv-of-the-hull-nobody-would-name",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4506",
+   "title": "Joe Ashby refits the fleet hull",
+   "body": "Joe Ashby and Ned Fowler find and mend a wrongly seated valve aboard an unnamed hull of the fourth fleet at Caol mhòr's depot jetty, and are paid at the harbour's own rate, in coin, and asked no questions.",
+   "place": "burg:95",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0090",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4505",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#iv-of-the-hull-nobody-would-name",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4507",
+   "title": "One part in twelve",
+   "body": "The wartime tithe is laid at one part in twelve of every sale of dubhan, taken at the point of sale by a clerk of the Treasury sitting beside the pump.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0086",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4506",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#i-of-the-clerk-beside-the-pump",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4508",
+   "title": "Cailean Ros given the cold corner",
+   "body": "The Treasury's young clerk at the Muileann òg pump, Cailean Ros, is given the coldest corner of the toll-house's upper room against the weather, and takes it without complaint.",
+   "place": "burg:151",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0087",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4507",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "cailean-ros",
+    "una-nic-ailein"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#i-of-the-clerk-beside-the-pump",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4509",
+   "title": "The lieutenant laughs at Will Tanner's locker",
+   "body": "Searching the boats at Caol mhòr, the fourth fleet's lieutenant finds Will Tanner's false locker under the stern thwart with nothing in it but a jar of spirit, laughs once, and writes nothing of it.",
+   "place": "burg:95",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0090",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4508",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "will-tanner"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#iii-of-the-boats-come-home-late",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4510",
+   "title": "The depot's tally names no fitter",
+   "body": "The fleet depot at Caol mhòr enters the mending of a hull's engine and the sum paid out, and names no fitter.",
+   "place": "burg:95",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EVII-4509",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "joe-ashby",
+    "ned-fowler"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#iv-of-the-hull-nobody-would-name",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4511",
+   "title": "The tithe-clerks' first returns",
+   "body": "The Treasury's clerks at the pumps send in their first month's returns; the clerk at Muileann òg's is the neatest and the smallest.",
+   "place": "burg:151",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0087",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4510",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "cailean-ros"
+   ],
+   "told_in": "book/26_of_the_tithe_and_the_fleets.md#ii-of-the-first-complaint",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4512",
+   "title": "The regiments break the ditch-bridge at Muileann àrsaidh",
+   "body": "In the grey hour before dawn on 21 an Cèitean the regiments' advance breaks the ditch-bridge on the southern road and closes the gap old Fraser left unwalled the autumn before, shutting Muileann àrsaidh's ring rather than forcing it.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#i-of-the-wall-fraser-did-not-finish",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4513",
+   "title": "The southern road is cut",
+   "body": "By noon of the first day a second company digs in across the southern road below Muileann àrsaidh, closing the town's last cart road and leaving only hill paths a person on foot might use.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4512",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#i-of-the-wall-fraser-did-not-finish",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4514",
+   "title": "Meikle's counting of the siege stores",
+   "body": "Muileann àrsaidh's clerk Meikle sets a weekly rationing of coal and potatoes for the town under siege, and the stores are found, by his own careful counting, to hold weeks rather than days.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4513",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#ii-of-the-pit-heads-taken-one-by-one",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4515",
+   "title": "The bell rung for a pit-head",
+   "body": "On Meikle's proposal the chapel bell of Muileann àrsaidh is rung once for every pit-head the regiments take, so the town learns what is lost each day at a single stroke rather than piecemeal.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4514",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#ii-of-the-pit-heads-taken-one-by-one",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4516",
+   "title": "The northern pit-head falls",
+   "body": "The northern pit-head, nearest the wall's unfinished stretch, is taken on the sixth day of the siege after an afternoon's fighting that costs the town two of its own men.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4515",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#ii-of-the-pit-heads-taken-one-by-one",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4517",
+   "title": "Sarah Dunmore's kitchen serves as the town's dressing-station",
+   "body": "Sarah Dunmore's kitchen, already used for the wounded of Àth leathan that spring, tends the siege's own wounded through the weeks that follow, from stray shot to the ordinary hurts of a town crowded behind a wall.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4516",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#ii-of-the-pit-heads-taken-one-by-one",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4518",
+   "title": "Weir keeps the Sunday service through the siege",
+   "body": "The priest Weir keeps Muileann àrsaidh's one weekly service without missing a Sunday through the whole siege, preaching shorter each week and reading the same psalm three Sundays running.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4517",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-church-on-the-island"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#iii-of-the-sunday-kept-and-the-grave-behind-the-chapel",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4519",
+   "title": "The graves behind the chapel",
+   "body": "The dead of the siege are buried behind Muileann àrsaidh's chapel through the weeks of the siege, in the same ground the western hills have used since before the Severance.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4518",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-church-on-the-island"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#iii-of-the-sunday-kept-and-the-grave-behind-the-chapel",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4520",
+   "title": "A picket's boast names the third and fifth regiments",
+   "body": "A picket shouts across the gap at the taken northern pit-head that a regiment has come north from Cathair mhòr under the Mac Ùisdein cross and another from Seann Warr, and the boast reaches the town before any surer word does.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0092",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0093",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4519",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#iv-of-the-third-and-the-fifth",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4521",
+   "title": "old Fraser counts the smoke on the southern ridge",
+   "body": "old Fraser distrusts a picket's shouted boast but counts three mornings running of new fires on the southern ridge, and brings the count, not the boast, before the town's pit-shed.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0092",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0093",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4520",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#iv-of-the-third-and-the-fifth",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4522",
+   "title": "Word of the rationed capital reaches the besieged town",
+   "body": "A man briefly taken and released at the wall brings word into Muileann àrsaidh that the capital's poorer streets go dark again, the army's dubhan being served before the lamp-houses.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0094",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4521",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#iv-of-the-third-and-the-fifth",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4523",
+   "title": "The last pit-head's line gives way",
+   "body": "In the grey hour before dawn, seven weeks after the siege began, the thinned line at the last pit-head gives way without a fight anyone in the town could afterward set down in order.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4522",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#v-of-the-door-nobody-was-left-to-hold",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4524",
+   "title": "Tom Varley leaves for Cnoc thais",
+   "body": "As Muileann àrsaidh falls Tom Varley slips out by the hill path toward Cnoc thais, meaning to see his own shaft there fired by his own hand before any regiment comes near it.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0098",
+     "type": "cause"
+    },
+    {
+     "to": "EVII-4523",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#v-of-the-door-nobody-was-left-to-hold",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4525",
+   "title": "Sarah Dunmore opens her own door",
+   "body": "With no line left anywhere in the town to hold, Sarah Dunmore opens her own door to the soldiers before they can open it for her, and is searched and let be.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4524",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#v-of-the-door-nobody-was-left-to-hold",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4526",
+   "title": "Meikle's rationing",
+   "body": "Through the siege of Muileann àrsaidh Meikle keeps the town's counting: a set weight of meal to a household by the week and a set weight of coal to a hearth by the day.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4525",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "meikle-of-muileann-arsaidh"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#iii-of-the-sunday-kept-and-the-grave-behind-the-chapel",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4527",
+   "title": "The children's game of the six pit-heads",
+   "body": "Children of besieged Muileann àrsaidh play a game chanting the names of the six pit-heads, slapping a hand down at each as it is lost.",
+   "place": "burg:244",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4526",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sarah-dunmore"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#ii-of-the-pit-heads-taken-one-by-one",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4528",
+   "title": "The eastern pit-head given up",
+   "body": "On Tom Varley's counsel the besieged give up the eastern pit-head of Muileann àrsaidh without a fight, the ground about it too wide to hold without stripping the wall.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0091",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4527",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#ii-of-the-pit-heads-taken-one-by-one",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4529",
+   "title": "A prisoner let go under the walls",
+   "body": "A man of Muileann àrsaidh taken at the wall is let go the next morning under some understanding between the sides, and brings in word of the capital's streets gone dark.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0094",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4528",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/27_of_the_siege_of_muileann_arsaidh.md#iv-of-the-third-and-the-fifth",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4530",
+   "title": "The first family reaches Doire ghlas",
+   "body": "A woman, three children and her husband's father, too lame to walk the whole road, reach Ellen Marsh's own gate at Doire ghlas out of the western hills, the first of a trickle that will not stop by the year's end. They say only the town's name, Àth leathan, and no more.",
+   "place": "burg:209",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0095",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#i-of-the-first-of-them",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4531",
+   "title": "The eleven of Muileann àrsaidh",
+   "body": "Eleven souls of three farms near Muileann àrsaidh leave together in the night before the ditch-bridge falls, judging a siege at hand and choosing the road north over the ring that is about to close. They reach Doire ghlas and Caol mhòr within the fortnight.",
+   "place": "burg:244",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0095",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4530",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#i-of-the-first-of-them",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4532",
+   "title": "Àth leathan's pits given as flooded",
+   "body": "A woman of Àth leathan tells Ellen Marsh plainly, in the humans' tongue and then in Dia-thìris, that her town's pits were flooded by the regiments' own order within a day of the fighting's end, so that nothing is left there for her household to return to.",
+   "place": "burg:346",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0095",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4531",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#i-of-the-first-of-them",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4533",
+   "title": "Hugh Ferris's wage-ledger",
+   "body": "An old hewer of Àth leathan, forty years at the coal and ten more keeper of the pit-shed's tallies, carries away under his coat the ledger of wages owed him rather than any clothing or food, and gives it to Ellen Marsh to keep beside her own books.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0095",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4532",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#i-of-the-first-of-them",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4534",
+   "title": "Martha Greaves writes to the Library",
+   "body": "Martha Greaves writes to Sìleas nic Rath at Muileann chaol, not to ask anything of the Library but to set down, outside her own kitchen table, that the Moot has fed the west's hungry while the council has sent nothing north and forbidden nothing.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0096",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4533",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves",
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#ii-of-what-the-room-did-with-its-own-vote",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4535",
+   "title": "Thomas Rook's register begun",
+   "body": "Thomas Rook rules a plain ledger into columns, name, town of origin, family and taken in, and keeps it from the first week of the families' coming. By the end of an Cèitean he counts three hundred and forty souls taken in at Caol mhòr and Doire ghlas together.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0096",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4534",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#ii-of-what-the-room-did-with-its-own-vote",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4536",
+   "title": "William Reid questions the promise's floor",
+   "body": "At a sitting called out of the calendar, the eastern delegate William Reid asks the room whether it has considered that a promise to feed the west's people indefinitely was made without knowing how long the feeding would be needed. Martha Greaves answers that the not knowing excuses nothing.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0096",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4535",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#ii-of-what-the-room-did-with-its-own-vote",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4537",
+   "title": "Ellen Marsh's twelfth book begun",
+   "body": "Ellen Marsh begins, without quite deciding to begin it, a twelfth book, kept in Dia-thìris as her eleven before it, of what the war's families tell her in the school's hall of an evening: not a life's telling saved up, but the sharp particular things a mind cannot help keeping.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0097",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4536",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#iii-of-the-school-s-new-trade",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4538",
+   "title": "The families name the war-book",
+   "body": "The families sheltered under Agnes Pike's roof come, within the first month, to call Ellen Marsh's new book the war-book among themselves, and bring things to it the way a thing is brought to be weighed, whether or not she ever asked them for a telling.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0097",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4537",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#iii-of-the-school-s-new-trade",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4539",
+   "title": "Hugh Ferris's account of the pit-shed",
+   "body": "The old hewer of Àth leathan gives Ellen Marsh, for the war-book, an exact accounting of the pit-shed where Ruth Calder once read out the agreement of the five towns, believing it flooded or fallen, and wishing it set down once more before it goes under.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0097",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4538",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#iii-of-the-school-s-new-trade",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4540",
+   "title": "A child gives Ruth Calder's name",
+   "body": "A girl of the Muileann àrsaidh eleven asks Ellen Marsh to set Ruth Calder's name in the war-book, though she has, by her own word, nothing true to give beside it: only what her mother says of a name dropped from every list the kingdom keeps since the spring.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0097",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4539",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#iv-of-the-name-a-child-gave-her",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4541",
+   "title": "Three hundred and forty on the Moot's register",
+   "body": "By the end of an Cèitean Thomas Rook's register of families taken in at Caol mhòr and Doire ghlas runs to some three hundred and forty names.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0095",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4540",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "thomas-rook",
+    "martha-greaves"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#ii-of-what-the-room-did-with-its-own-vote",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4542",
+   "title": "Nell Forbes's dresser",
+   "body": "A woman of Àth leathan sheltering at Doire ghlas tells Ellen Marsh that she thinks more often of the kitchen dresser she left with the plates on it than of the house itself.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0097",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4541",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "nell-forbes",
+    "ellen-marsh"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#i-of-the-first-of-them",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4543",
+   "title": "A harbour boy's word on beggaring",
+   "body": "A harbourmaster's boy of Caol mhòr tells the speaker of the Moot, repeating his father, that the Moot will beggar itself feeding the western hills and serve the council right.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0096",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4542",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#ii-of-what-the-room-did-with-its-own-vote",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4544",
+   "title": "Sixty souls in Agnes Pike's school",
+   "body": "By the harvest near sixty of the western families sleep in the four rooms and long hall of Agnes Pike's school at Doire ghlas, its benches pushed together for beds.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0097",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4543",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "ellen-marsh",
+    "thomas-rook"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#iii-of-the-school-s-new-trade",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4545",
+   "title": "Seed-corn sent west from Caol mhòr",
+   "body": "The Moot sends seed-corn from the stores at Caol mhòr to the farms of the western hills that fed the column's families, entered in the roll as a loan with no term.",
+   "place": "burg:95",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0095",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4544",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "thomas-rook",
+    "martha-greaves"
+   ],
+   "told_in": "book/28_of_the_benches_at_doire_ghlas.md#ii-of-what-the-room-did-with-its-own-vote",
+   "era_between": [
+    21,
+    21
+   ]
+  }
+ ]
+}

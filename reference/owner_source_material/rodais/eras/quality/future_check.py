@@ -162,8 +162,15 @@ class World:
             if IDX[kk] > IDX[k]:
                 for t in self.era_terms[kk]:
                     tab.setdefault(t, (kk, 'era'))
+        # a name that a person or place of age K or before also bears (two people called Aonghas Mòr, one of Age V
+        # and one of Age VII) is that earlier bearer's name in an age-K text, not a forward reference
+        held = {t for t, a, rule in self.names if a in IDX and not self.later(a, k)}
+        # and a later person known by a bare given name ("Cailean") does not claim that name from an earlier
+        # person who bears it first ("Cailean mac Eachainn", called Cailean in the telling)
+        held |= {t.split()[0] for t, a, rule in self.names if rule == 'person' and a in IDX and not self.later(a, k)
+                 and ' ' in t}
         for t, a, rule in self.names:
-            if self.later(a, k):
+            if self.later(a, k) and not (rule == 'person' and t in held):
                 tab.setdefault(t, (a, rule))
         terms = sorted((t for t in tab if len(t) >= 4), key=len, reverse=True)
         rx = re.compile(r'(?<![\w-])(?:%s)(?![\w-])' % '|'.join(map(re.escape, terms))) if terms else None

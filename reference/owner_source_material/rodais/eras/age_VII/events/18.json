@@ -311,5 +311,84 @@
       }
     ],
     "told_in": "book/18_of_the_leoid_ruling.md#vi-of-the-company-at-the-western-seann-skell"
+  },
+  {
+    "title": "A brewer of Baile ìseal buys northern coal",
+    "era_year": 18,
+    "summary": "A brewer of Baile ìseal writes to the Mine Board that he will warm his vats with whatever coal comes cheapest, and will take no lecture from a Board that never carried coal north of the boundary stones for a Tuathach hearth.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:285"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0062"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The margins of the Leòid ruling",
+    "era_year": 18,
+    "summary": "The Board's press copy of the Leòid ruling carries in its margins the circuit rulings that settled it: that a holder's right runs with the Crown's fifth, and that nothing binds the Board to carry any holder's coal.",
+    "category": "law",
+    "people": [
+      "Seumas mac Eachainn",
+      "Fearghas mac Aonghais"
+    ],
+    "places": [
+      "burg:23"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0064",
+      "V-0038"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Forty men chosen for the western company",
+    "era_year": 18,
+    "summary": "Somhairle mac Lachlainn is given forty of the Board's enforcers for the western Seann Skell and chooses men who have served under him before.",
+    "category": "war",
+    "people": [
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "burg:23"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0065"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The order nailed to the winding-gear",
+    "era_year": 18,
+    "summary": "The western company posts two men at each pit-head of the five towns with the Board's order nailed to the winding-gear, to report twice weekly whether coal comes up. It comes up.",
+    "category": "war",
+    "people": [
+      "Somhairle mac Lachlainn",
+      "Tom Varley"
+    ],
+    "places": [
+      "burg:269",
+      "burg:244"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0065"
+    ],
+    "chronicle_extra": true
   }
 ]

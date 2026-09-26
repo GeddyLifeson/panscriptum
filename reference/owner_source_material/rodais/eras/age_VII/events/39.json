@@ -6,9 +6,13 @@
     "summary": "A man of the third regiment is felled by a stave-blow above the ear in the second round of the Còmhrag and dies before the tide turns; the open record keeps neither his name nor his shire, only that the fight was fought and one man died of it.",
     "category": "war",
     "people": [],
-    "places": ["marker:37"],
+    "places": [
+      "marker:37"
+    ],
     "threads": [],
-    "master_links": ["VI-0151"]
+    "master_links": [
+      "VI-0151"
+    ]
   },
   {
     "title": "The eleventh book is finished at Doire ghlas",
@@ -16,10 +20,19 @@
     "after": "VI-0152",
     "summary": "The eleventh of Ellen Marsh's books is copied out fair in a schoolroom hand at Doire ghlas and sent north with the fish-carrier; word of it reaches Caol mhòr within the week, and the Library's own catalogue still lists only the tabled request.",
     "category": "record",
-    "people": ["Joe Ashby"],
-    "places": ["burg:209"],
-    "threads": ["the-tuathaich", "the-library"],
-    "master_links": ["VI-0152"]
+    "people": [
+      "Joe Ashby"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0152"
+    ]
   },
   {
     "title": "Joe Ashby asks Peter Hale about the eleven books",
@@ -27,10 +40,20 @@
     "after": "VI-0152",
     "summary": "Joe Ashby puts to Peter Hale the question of whether the Library means to refuse the eleven books outright or only to leave them waiting; Peter answers that a catalogue naming the request and not the books has not yet said either word.",
     "category": "people",
-    "people": ["Joe Ashby", "Peter Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich", "the-library"],
-    "master_links": ["VI-0152"]
+    "people": [
+      "Joe Ashby",
+      "Peter Hale"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0152"
+    ]
   },
   {
     "title": "Peter Hale opens the Moot's book in his own hand",
@@ -38,10 +61,19 @@
     "after": "VI-0153",
     "summary": "At Caol mhòr, still new enough to the chair to write rather than pass the pen, Peter Hale opens the year's minute-book himself and reads the standing tally: no ruling of any Dia-thìreach court names the Moot a lawful body, and none has ever been asked.",
     "category": "people",
-    "people": ["Peter Hale", "Joe Ashby"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["VI-0153"]
+    "people": [
+      "Peter Hale",
+      "Joe Ashby"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0153"
+    ]
   },
   {
     "title": "The Treasury clerk at Ros dhomhain keeps a second tally",
@@ -50,42 +82,35 @@
     "summary": "The Treasury clerk who weighs and marks the ordinary barrels of dubhan at Ros dhomhain begins, unasked, a private tally of the fuel that leaves the quay for the fleets and the regiments and pays the Treasury nothing, and folds it each quarter into his own drawer.",
     "category": "trade",
     "people": [],
-    "places": ["burg:27"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154", "VI-0154a"]
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154",
+      "VI-0154a"
+    ]
   },
   {
-    "title": "Dubhan brings his petition to the council with Seachran and Brean",
+    "title": "The council hears the petition for export",
     "era_year": 27,
     "after": "VI-0154b",
-    "summary": "In the depth of winter Dubhan stands before the twelve at Cathair dhearg and reads his petition in four sentences, asking leave and not a right; Seachran and Brean stand at his shoulder through the whole sitting and neither speaks.",
+    "summary": "At the first of three sittings of the council at Cathair dhearg, in the winter, the petition for leave to sell dubhan beyond the island is read and heard in silence. The twelve give no answer that day. Sìleas nic Rath copies the clerk's draft twice.",
     "category": "trade",
-    "people": ["Dubhan", "Seachran", "Brean"],
-    "places": ["burg:19"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
-  },
-  {
-    "title": "Sìleas sets Seachran and Brean into the open chronicle",
-    "era_year": 27,
-    "after": "VI-0154b",
-    "summary": "Sìleas nic Rath enters Seachran and Brean into the open chronicle for the first time, two men of Dubhan's own age who stood through the first sitting and said nothing, since the record is kept to hold who stood in a room as faithfully as who spoke in it.",
-    "category": "record",
-    "people": ["Sìleas nic Rath", "Seachran", "Brean", "Dubhan"],
-    "places": ["burg:19"],
-    "threads": ["the-dubhan-trade", "the-library"],
-    "master_links": ["VI-0154b"]
-  },
-  {
-    "title": "Anna nic Phàil asks Dubhan whether the vein's coal is sold",
-    "era_year": 27,
-    "after": "VI-0154b",
-    "summary": "At the second sitting Anna nic Phàil asks Dubhan plainly whether any of the fuel he means to carry abroad draws on the vein's own coal; Dubhan answers that not one basket of it has gone into any barrel, and offers the custodians of Òrd Bhrìde free search of every hold.",
-    "category": "law",
-    "people": ["Anna nic Phàil", "Dubhan"],
-    "places": ["burg:19"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
+    "people": [
+      "Sìleas nic Rath"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ]
   },
   {
     "title": "The council grants the charter of export",
@@ -93,21 +118,19 @@
     "after": "VI-0154b",
     "summary": "At the third sitting, as the summer goes out, the twelve grant Dubhan's charter on the Treasury's own terms: the measure set yearly, loading at Ros dhomhain alone, a clerk's tithe on every barrel, the kingdom's depots served first, and every hold sealed by the custodians of Òrd Bhrìde.",
     "category": "law",
-    "people": ["Dubhan", "Sìleas nic Rath"],
-    "places": ["burg:19"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
-  },
-  {
-    "title": "Dubhan laughs with Seachran and Brean at the hall door",
-    "era_year": 27,
-    "after": "VI-0154b",
-    "summary": "Leaving the red hall after the charter is granted, Dubhan laughs at something Brean says too low for any other ear to catch; Sìleas nic Rath sees it and sets it nowhere in any minute, judging it no fact the council's business requires her to keep.",
-    "category": "people",
-    "people": ["Dubhan", "Seachran", "Brean", "Sìleas nic Rath"],
-    "places": ["burg:19"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
+    "people": [
+      "Dubhan",
+      "Sìleas nic Rath"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ]
   },
   {
     "title": "The custodians of Òrd Bhrìde search and seal An Eala Dhubh's holds",
@@ -116,9 +139,15 @@
     "summary": "Over three days at Ros dhomhain two custodians of Òrd Bhrìde search every hold of An Eala Dhubh by lamp for the vein's own coal before it is loaded, and set their order's mark in wax at each coaming once it is filled, waiting until the wax hardens past any hand's reopening.",
     "category": "faith",
     "people": [],
-    "places": ["burg:27"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ]
   },
   {
     "title": "A Treasury clerk marks the first and last barrel loaded",
@@ -127,9 +156,15 @@
     "summary": "At Ros dhomhain a clerk of the Treasury marks the first barrel and the last of An Eala Dhubh's loading alike, and every fifth barrel between, keeping the tithe the charter sets before the custodians close each hold.",
     "category": "trade",
     "people": [],
-    "places": ["burg:27"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ]
   },
   {
     "title": "Joe Ashby watches An Eala Dhubh pass off Caol mhòr",
@@ -137,10 +172,19 @@
     "after": "VI-0154b",
     "summary": "Off his own headland with an empty line, Joe Ashby watches An Eala Dhubh pass under full steam bound north-about, and thinks of the six years since his own name came off the Fuel-Fitters' rolls under a charter written for a different fuel.",
     "category": "people",
-    "people": ["Joe Ashby"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich", "the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
+    "people": [
+      "Joe Ashby"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ]
   },
   {
     "title": "The priests of Manannan say the sailing prayer at the southern Seann Skell",
@@ -149,8 +193,126 @@
     "summary": "As An Eala Dhubh goes out past the southern Seann Skell, the priests of Manannan say the harbour's old prayer over her, asking the sea be kept shut behind her and whatever she is owed be sent back, the same words said over every hull that has gone north-about since the Severance.",
     "category": "faith",
     "people": [],
-    "places": ["burg:431"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": ["VI-0154b"]
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ]
+  },
+  {
+    "title": "Anna nic Phàil asks how the vein is to be kept out",
+    "era_year": 27,
+    "summary": "At the second sitting on the petition for export, in the spring, Anna nic Phàil asks the council how the kingdom will be sure that nothing of the vein's coal goes out with the fuel. The council's answer is the term no councillor argues: the custodians of Òrd Bhrìde shall seal every hold.",
+    "category": "law",
+    "people": [
+      "Anna nic Phàil"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-dubhan-trade",
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ]
+  },
+  {
+    "title": "The copying of the eleven books",
+    "era_year": 27,
+    "summary": "The eleven books of Ellen Marsh's gathering go from school to school in the north, each copied by the eldest children in a schoolroom hand before it passes on.",
+    "category": "law",
+    "people": [
+      "Ellen Marsh"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0152"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A lamp-fitter of Caol mhòr on the eleven books",
+    "era_year": 27,
+    "summary": "An old lamp-fitter of Caol mhòr, let go from the Fuel-Fitters' rolls with Joe Ashby, says a book finished is still a book, whatever the Library does with it.",
+    "category": "humans",
+    "people": [
+      "Joe Ashby"
+    ],
+    "places": [
+      "burg:95"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0152"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The twelve hear the petition three times",
+    "era_year": 27,
+    "summary": "The council at Cathair dhearg sits three times on the petition for leave to export dubhan, in the winter, the spring and the summer's end, and grants it inside the hour at the third.",
+    "category": "law",
+    "people": [
+      "Sìleas nic Rath",
+      "Somhairle mac Lachlainn"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "An Eala Dhubh loaded over three days",
+    "era_year": 27,
+    "summary": "The first tank-hull under the charter of export is loaded at Ros dhomhain over three days, a Treasury clerk marking the first barrel and the last and every fifth between.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "An Eala Dhubh stands out of Ros dhomhain",
+    "era_year": 27,
+    "summary": "An Eala Dhubh stands out of Ros dhomhain on the morning tide with the Treasury's seal on her hatches, and the harbour's children run the length of the mole beside her.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:27"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0154b"
+    ],
+    "chronicle_extra": true
   }
 ]

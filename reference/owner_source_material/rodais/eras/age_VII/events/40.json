@@ -6,9 +6,17 @@
     "summary": "The Sloc Mòr's twelve hewers cut the year's altar-coal in an Dàmhair; the maor's cart carries the four baskets to Achadh dhomhain station under a tarpaulin, and they go south to the southern Seann Skell in a van of the coal line kept for nothing else that week.",
     "category": "faith",
     "people": [],
-    "places": ["burg:135", "burg:431"],
-    "threads": ["the-orders-of-the-old-faith", "the-seven-coals"],
-    "master_links": ["VI-0155"]
+    "places": [
+      "burg:135",
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0155"
+    ]
   },
   {
     "title": "The lot drawn in the rain at Brìde's house",
@@ -16,10 +24,18 @@
     "after": "VI-0155",
     "summary": "Priests of three lesser coast houses walk or ride two and three days to see the lot drawn in a hard autumn rain at the southern Seann Skell, the folded slips kept dry under a second tarpaulin while Alasdair mac Ìomhair draws.",
     "category": "faith",
-    "people": ["Alasdair mac Ìomhair"],
-    "places": ["burg:431"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": ["VI-0155"]
+    "people": [
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0155"
+    ]
   },
   {
     "title": "Alasdair mac Ìomhair draws the four houses",
@@ -27,10 +43,18 @@
     "after": "VI-0155",
     "summary": "Past his eighty-fifth summer and steadied on a novice's shoulder, Alasdair mac Ìomhair draws Cnoc bheag, Seann Bhral, the western Seann Skell and, by chance, the southern house itself from the nine houses' slips.",
     "category": "faith",
-    "people": ["Alasdair mac Ìomhair"],
-    "places": ["burg:431"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": ["VI-0155"]
+    "people": [
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0155"
+    ]
   },
   {
     "title": "Alasdair mac Ìomhair on the lot's pattern",
@@ -38,10 +62,19 @@
     "after": "VI-0155",
     "summary": "Asked by a young priest whether the altar-coal will still be cut in ten or twenty years, Alasdair mac Ìomhair, who has drawn the lot six-and-fifty times, says only that he has learned not to promise a young man what the mountain will do next.",
     "category": "faith",
-    "people": ["Alasdair mac Ìomhair"],
-    "places": ["burg:431"],
-    "threads": ["the-orders-of-the-old-faith", "the-seven-coals"],
-    "master_links": ["VI-0155"]
+    "people": [
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0155"
+    ]
   },
   {
     "title": "A coast priest measures the fall of the lot",
@@ -50,9 +83,16 @@
     "summary": "A priest of a house so small the lot has never before fallen to it walks three days to see the four baskets drawn for, and says afterward that her grandmother's telling remembered them carted to the coast houses by the wagon-load.",
     "category": "faith",
     "people": [],
-    "places": ["burg:431"],
-    "threads": ["the-orders-of-the-old-faith", "the-seven-coals"],
-    "master_links": ["VI-0155"]
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0155"
+    ]
   },
   {
     "title": "The old hewer hears the lot fell home",
@@ -61,9 +101,16 @@
     "summary": "Word reaches the twelve hewers at Achadh dhomhain that the southern house drew its own basket back to itself; the eldest among them, sworn once already as a young man to the dissolved guild, calls it the vein's own way of being droll.",
     "category": "faith",
     "people": [],
-    "places": ["burg:135"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": ["VI-0145", "VI-0155"]
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0145",
+      "VI-0155"
+    ]
   },
   {
     "title": "Sìleas enters the altar-coal return",
@@ -71,21 +118,20 @@
     "after": "VI-0155",
     "summary": "The maor's return on the four baskets reaches Sìleas nic Rath's table at Muileann chaol within the fortnight; she enters it in the ordinary column and lets pass, unwritten, her own thought of forty baskets shrunk to four.",
     "category": "record",
-    "people": ["Sìleas nic Rath"],
-    "places": ["marker:34"],
-    "threads": ["the-library", "the-seven-coals"],
-    "master_links": ["VI-0155", "VI-0156"]
-  },
-  {
-    "title": "The stone at Cathair mhòr grows a name",
-    "era_year": 27,
-    "after": "VI-0126",
-    "summary": "A muster clerk at Cathair mhòr notes that the regiments' stone by the Mac Ùisdein cross now carries one further name, a fourth-regiment corporal dead that summer of a wound the return does not call new; Sìleas keeps the line apart from the muster's own figures.",
-    "category": "war",
-    "people": ["Sìleas nic Rath"],
-    "places": ["burg:250"],
-    "threads": ["the-long-war"],
-    "master_links": ["VI-0156"]
+    "people": [
+      "Sìleas nic Rath"
+    ],
+    "places": [
+      "marker:34"
+    ],
+    "threads": [
+      "the-library",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0155",
+      "VI-0156"
+    ]
   },
   {
     "title": "The Còmhrag's champion falls to a hewer's son",
@@ -94,9 +140,15 @@
     "summary": "In a bout added at the crowd's asking for the year's champion against all comers, the ninth regiment's man loses to a twenty-year-old hewer's son of Cnoc bheag; the fair-wardens' own return calls the championship passed back to the shires as it stood before the regiments came to it.",
     "category": "culture",
     "people": [],
-    "places": ["marker:37"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["VI-0151"]
+    "places": [
+      "marker:37"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0151"
+    ]
   },
   {
     "title": "An old woman of Baile chrom is turned back three mornings",
@@ -105,9 +157,15 @@
     "summary": "A pass-table clerk at the boundary stones notes, unasked, that an old woman of Baile chrom came three mornings running to ask a pass for a granddaughter nursing in the capital, and walked eleven miles home again each time with no pass and no name given.",
     "category": "law",
     "people": [],
-    "places": ["burg:381"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["VI-0149"]
+    "places": [
+      "burg:381"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0149"
+    ]
   },
   {
     "title": "Ellen Marsh keeps the eldest back on the shortest evening",
@@ -115,10 +173,18 @@
     "after": "VI-0152",
     "summary": "On the evening of the shortest day Ellen Marsh sends the youngest children of her Doire ghlas school home early and keeps the eldest dozen to copy a page of the eleventh book into a third hand before the chest under the window is shut on all eleven.",
     "category": "culture",
-    "people": ["Ellen Marsh"],
-    "places": ["burg:209"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["VI-0152"]
+    "people": [
+      "Ellen Marsh"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0152"
+    ]
   },
   {
     "title": "Ellen Marsh tells the First Canoe again",
@@ -126,10 +192,19 @@
     "after": "VI-0152",
     "summary": "Ellen Marsh tells her eldest pupils, as her own mother told her, the First Canoe's crossing through Manannan's mist with a fire tended turn and turn about in a clay pot of wet moss, kept faithfully the whole way for fear a canoe that lost it would not find the isle again.",
     "category": "faith",
-    "people": ["Ellen Marsh"],
-    "places": ["burg:209"],
-    "threads": ["the-church-on-the-island", "the-tuathaich"],
-    "master_links": ["VI-0157"]
+    "people": [
+      "Ellen Marsh"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-church-on-the-island",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0157"
+    ]
   },
   {
     "title": "A boy asks whose fire it was",
@@ -137,10 +212,19 @@
     "after": "VI-0152",
     "summary": "A thirteen-year-old asks Ellen Marsh whose fire the First Canoe carried, since the telling names none of the crew; she answers, as her own mother once answered her, that the telling does not say, and that a fire no one hand still claims is no less a fire for it.",
     "category": "faith",
-    "people": ["Ellen Marsh"],
-    "places": ["burg:209"],
-    "threads": ["the-church-on-the-island", "the-tuathaich"],
-    "master_links": ["VI-0157"]
+    "people": [
+      "Ellen Marsh"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-church-on-the-island",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0157"
+    ]
   },
   {
     "title": "Sìleas writes the foot of the year",
@@ -148,10 +232,19 @@
     "after": "VI-0156",
     "summary": "At Muileann chaol on the shortest day, with the lamp lit before the noon bell finishes ringing, Sìleas nic Rath writes at the foot of her grey-boarded ledger that the kingdom's record is whole in every part but two: the war, sealed, and the north, never asked.",
     "category": "record",
-    "people": ["Sìleas nic Rath"],
-    "places": ["marker:34"],
-    "threads": ["the-library", "the-tuathaich"],
-    "master_links": ["VI-0156"]
+    "people": [
+      "Sìleas nic Rath"
+    ],
+    "places": [
+      "marker:34"
+    ],
+    "threads": [
+      "the-library",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0156"
+    ]
   },
   {
     "title": "Sìleas sets down the rhyme unanswered",
@@ -159,9 +252,148 @@
     "after": "VI-0157",
     "summary": "Closing the year's ledger, Sìleas nic Rath sets down the rhyme she first overheard from a northern carrier in the Library's own yard, black the coal and black the dubhan, but whose is the fire, in both tongues, and gives it no answer of her own.",
     "category": "record",
-    "people": ["Sìleas nic Rath"],
-    "places": ["marker:34"],
-    "threads": ["the-tuathaich", "the-dubhan-trade", "the-library"],
-    "master_links": ["VI-0157"]
+    "people": [
+      "Sìleas nic Rath"
+    ],
+    "places": [
+      "marker:34"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-dubhan-trade",
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0157"
+    ]
+  },
+  {
+    "title": "A novice to hold the lot-bowl",
+    "era_year": 27,
+    "summary": "A novice of fifteen is given the office of holding the bowl for the lot of the altar-coal at the southern Seann Skell and does not sleep the night before for the weight of it.",
+    "category": "faith",
+    "people": [
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0155"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The southern house draws its own basket",
+    "era_year": 27,
+    "summary": "At the lot of the four baskets the southern house of Brìde at Seann Skell is drawn among the four, so that one basket goes no farther than across the yard.",
+    "category": "faith",
+    "people": [
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0155"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The lamps of Muileann chaol lit at three",
+    "era_year": 27,
+    "summary": "At Muileann chaol in an t-Samhain the keeper orders the gallery lamps lit from three in the afternoon and no fire after dark.",
+    "category": "law",
+    "people": [
+      "Raghnall mac Mhuirich"
+    ],
+    "places": [
+      "marker:34"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0156"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The regiments' winter musters",
+    "era_year": 27,
+    "summary": "The winter musters of the nine regiments show some three thousand three hundred men on the rolls and twenty-three guns serviceable.",
+    "category": "war",
+    "people": [
+      "Sìleas nic Rath"
+    ],
+    "places": [],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0118"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A hewer's son takes the Còmhrag championship",
+    "era_year": 27,
+    "summary": "In an added bout at Ceann leathan for the year's champion against all comers, a hewer's son of Cnoc bheag, twenty years old, beats the ninth regiment's man in the third exchange.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "marker:37"
+    ],
+    "threads": [],
+    "master_links": [
+      "VI-0151"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The telling of the fire in the canoe",
+    "era_year": 27,
+    "summary": "On the shortest day Ellen Marsh tells the eldest children at Doire ghlas the telling of the First Canoe and of the fire its crew carried in a clay pot through the mist.",
+    "category": "faith",
+    "people": [
+      "Ellen Marsh"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-church-on-the-island",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0157"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The chronicle's last page of the year left open",
+    "era_year": 27,
+    "summary": "Sìleas nic Rath leaves the royal chronicle open on its stand at the year's end with the ink dry, as Beathag nic Fhionnlaigh had done before her.",
+    "category": "law",
+    "people": [
+      "Sìleas nic Rath"
+    ],
+    "places": [
+      "marker:34"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0156"
+    ],
+    "chronicle_extra": true
   }
 ]

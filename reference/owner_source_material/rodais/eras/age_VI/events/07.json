@@ -1,142 +1,292 @@
 [
-  {
-    "title": "Walter Hale's tally of the cried-down savings",
-    "era_year": 5,
-    "summary": "Walter Hale goes house to house at Caol mhòr with his day-book, counting what the town's households had kept back in the humans' coin now the council has cried it down. The sum comes to something over four hundred pounds across two hundred households, none of it large, all of it now worth its weight as metal alone.",
-    "category": "trade",
-    "people": ["Walter Hale", "David Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0025", "type": "elaborates"}]
-  },
-  {
-    "title": "Fearchar Bonn's four failed strikings",
-    "era_year": 5,
-    "summary": "At the mint in the old counting-house at Cathair dhearg, Fearchar mac Dhòmhnaill spends a winter grinding coal dust fine enough to hold in a coin's seal without fouling the die, ruining four strikings of good silver before the ink and the binder are right. The fifth striking is shown to the treasury and kept.",
-    "category": "trade",
-    "people": ["Fearchar mac Dhòmhnaill, Fearchar Bonn"],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": [{"to": "V-0024", "type": "elaborates"}]
-  },
-  {
-    "title": "Òrd Mhacha's blessing of the first striking",
-    "era_year": 5,
-    "summary": "The first true coin of the Rìoghachd is blessed by Òrd Mhacha before it leaves the mint at Cathair dhearg, on the council's own instruction that the coal in its seal be reckoned a piece of the mountain carried out into every purse of the kingdom. The coin passes at the capital's markets within the month as though it had always been current.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": [{"to": "V-0024", "type": "sequel"}]
-  },
-  {
-    "title": "A maor's clerk carries the new coin north",
-    "era_year": 5,
-    "summary": "In the autumn a young clerk of a southern maor's office rides to Caol mhòr with the first struck coin the Moot has seen, and tells the room, when asked how the south is managing its own exchange, that his own shire's savings were made good within the month through his maor's office, a thing no shire north of the moss has been offered.",
-    "category": "trade",
-    "people": ["Walter Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0025", "type": "sequel"}]
-  },
-  {
-    "title": "The Moot debates the wording of its petition",
-    "era_year": 5,
-    "summary": "The Moot at Caol mhòr argues two evenings over a letter for the council, one voice wanting it to ask why the coin was cried down without warning north, another wanting no blame in it at all. Walter Hale's plain ask for a pound-for-pound exchange, without complaint, stands by the second evening nearly as he first wrote it.",
-    "category": "law",
-    "people": ["Walter Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0025", "type": "cause"}]
-  },
-  {
-    "title": "The petition copied fair and sent twice",
-    "era_year": 6,
-    "summary": "David Hale copies his father's letter to the council a second time, so that one fair copy travels south with the winter carter and a second waits for the spring roads, on the reasoning that two letters in two hands are harder for a clerk to mislay than one. Both reach the council's chests within the year.",
-    "category": "law",
-    "people": ["Walter Hale", "David Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0025", "type": "sequel"}]
-  },
-  {
-    "title": "Ailean mac Iain files the Moot's petition",
-    "era_year": 6,
-    "summary": "The Moot's letter asking an exchange for the north's voided savings reaches the council's chests and is read by the under-clerk Ailean mac Iain, who notes its date and seal, finds no standing order to answer it, and sets it down among that quarter's petitions marked received and filed, as his post requires.",
-    "category": "law",
-    "people": ["Ailean mac Iain", "Walter Hale"],
-    "places": ["burg:19"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0025", "type": "sequel"}]
-  },
-  {
-    "title": "Joseph Marlow's first ploughshare",
-    "era_year": 6,
-    "summary": "At his forge by the millrace at Doire mhin, Joseph Marlow melts down his own household's cried-down coin before any neighbour's, casting it into the flat shape a ploughshare wants, still bearing along one edge the ghost of a king's profile the mould has not erased.",
-    "category": "trade",
-    "people": ["Joseph Marlow"],
-    "places": ["burg:5"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0026", "type": "elaborates"}]
-  },
-  {
-    "title": "Marlow's charge fixed at the price of the charcoal",
-    "era_year": 6,
-    "summary": "Joseph Marlow sets his price for turning a neighbour's dead coin into a ploughshare at the cost of his charcoal alone, reasoning that a man should not pay twice for coin the council has already taken from him once. Half of Doire mhin brings him its savings before the winter is out.",
-    "category": "trade",
-    "people": ["Joseph Marlow"],
-    "places": ["burg:5"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0026", "type": "elaborates"}]
-  },
-  {
-    "title": "Harry Marlow bound to a Cuan shean yard",
-    "era_year": 6,
-    "summary": "Harry Marlow, Joseph Marlow's eldest son, is bound apprentice for the spring to a shipwright's yard at Cuan shean, on the word of a Cuan shean man who watched him true a plough-beam by eye at his father's forge without a level. His father will lose the second pair of hands at the bellows through the ploughing season.",
-    "category": "trade",
-    "people": ["Joseph Marlow", "Harry Marlow", "Walter Hale"],
-    "places": ["burg:5", "burg:282"],
-    "threads": ["the-tuathaich"],
-    "master_links": []
-  },
-  {
-    "title": "Joseph Marlow's song first sung at Doire mhin",
-    "era_year": 6,
-    "summary": "A plain tune naming Joseph Marlow and his forge is first heard going quietly round Doire mhin that winter, sung under the breath of the women waiting their turn with a sackful of savings, though the smith himself will not sing it in front of a stranger.",
-    "category": "trade",
-    "people": ["Joseph Marlow"],
-    "places": ["burg:5"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0026", "type": "sequel"}]
-  },
-  {
-    "title": "The house of the Stone's chits redeemed at its door",
-    "era_year": 6,
-    "summary": "At Inis thais, where the new coin arrives slower than almost anywhere in the kingdom, the merchants trade the winter through on chits written against the word of the house of Òrd na Cloiche. When coin at last comes south in quantity, the chits are carried to the house's own door and redeemed there, less a tenth the house keeps for the keeping of them.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:166"],
-    "threads": [],
-    "master_links": [{"to": "V-0027", "type": "elaborates"}]
-  },
-  {
-    "title": "Hale sets down the answer he means to give the Moot",
-    "era_year": 6,
-    "summary": "Weighing Fearchar Bonn's coin against Joseph Marlow's ploughshare on his own table, Walter Hale writes for the Moot that a people waiting on an answer that never comes would do better to build, while it waits, the thing it asked for, since the waiting will be long and the ground does not stop wanting to be ploughed.",
-    "category": "trade",
-    "people": ["Walter Hale", "David Hale"],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0025", "type": "sequel"}, {"to": "V-0026", "type": "sequel"}]
-  },
-  {
-    "title": "The first furrow cut with a coin-iron share",
-    "era_year": 6,
-    "summary": "At the end of am Màrt the first furrow of Doire mhin's spring ploughing is cut behind a borrowed ox with one of Joseph Marlow's shares, turning a clean black line the length of the field, the humans' silver made over into iron for a north the council's coin has not yet reached.",
-    "category": "trade",
-    "people": ["Joseph Marlow"],
-    "places": ["burg:5"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0026", "type": "sequel"}]
-  }
+ {
+  "title": "Walter Hale's tally of the cried-down savings",
+  "era_year": 5,
+  "summary": "Walter Hale goes house to house at Caol mhòr with his day-book, counting what the town's households had kept back in the humans' coin now the council has cried it down. The sum comes to something over four hundred pounds across two hundred households, none of it large, all of it now worth its weight as metal alone.",
+  "category": "trade",
+  "people": [
+   "Walter Hale",
+   "David Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0025",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Fearchar Bonn's four failed strikings",
+  "era_year": 5,
+  "summary": "At the mint in the old counting-house at Cathair dhearg, Fearchar mac Dhòmhnaill spends a winter grinding coal dust fine enough to hold in a coin's seal without fouling the die, ruining four strikings of good silver before the ink and the binder are right. The fifth striking is shown to the treasury and kept.",
+  "category": "trade",
+  "people": [
+   "Fearchar mac Dhòmhnaill, Fearchar Bonn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0024",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Òrd Mhacha's blessing of the first striking",
+  "era_year": 5,
+  "summary": "The first true coin of the Rìoghachd is blessed by Òrd Mhacha before it leaves the mint at Cathair dhearg, on the council's own instruction that the coal in its seal be reckoned a piece of the mountain carried out into every purse of the kingdom. The coin passes at the capital's markets within the month as though it had always been current.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0024",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A maor's clerk carries the new coin north",
+  "era_year": 5,
+  "summary": "In the autumn a young clerk of a southern maor's office rides to Caol mhòr with the first struck coin the Moot has seen, and tells the room, when asked how the south is managing its own exchange, that his own shire's savings were made good within the month through his maor's office, a thing no shire north of the moss has been offered.",
+  "category": "trade",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0025",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The Moot debates the wording of its petition",
+  "era_year": 5,
+  "summary": "The Moot at Caol mhòr argues two evenings over a letter for the council, one voice wanting it to ask why the coin was cried down without warning north, another wanting no blame in it at all. Walter Hale's plain ask for a pound-for-pound exchange, without complaint, stands by the second evening nearly as he first wrote it.",
+  "category": "law",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0025",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The petition copied fair and sent twice",
+  "era_year": 6,
+  "summary": "David Hale copies his father's letter to the council a second time, so that one fair copy travels south with the winter carter and a second waits for the spring roads, on the reasoning that two letters in two hands are harder for a clerk to mislay than one. Both reach the council's chests within the year.",
+  "category": "law",
+  "people": [
+   "Walter Hale",
+   "David Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0025",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Ailean mac Iain files the Moot's petition",
+  "era_year": 6,
+  "summary": "The Moot's letter asking an exchange for the north's voided savings reaches the council's chests and is read by the under-clerk Ailean mac Iain, who notes its date and seal, finds no standing order to answer it, and sets it down among that quarter's petitions marked received and filed, as his post requires.",
+  "category": "law",
+  "people": [
+   "Ailean mac Iain",
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0025",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Joseph Marlow's first ploughshare",
+  "era_year": 6,
+  "summary": "At his forge by the millrace at Doire mhin, Joseph Marlow melts down his own household's cried-down coin before any neighbour's, casting it into the flat shape a ploughshare wants, still bearing along one edge the ghost of a king's profile the mould has not erased.",
+  "category": "trade",
+  "people": [
+   "Joseph Marlow"
+  ],
+  "places": [
+   "burg:5"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0026",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Marlow's charge fixed at the price of the charcoal",
+  "era_year": 6,
+  "summary": "Joseph Marlow sets his price for turning a neighbour's dead coin into a ploughshare at the cost of his charcoal alone, reasoning that a man should not pay twice for coin the council has already taken from him once. Half of Doire mhin brings him its savings before the winter is out.",
+  "category": "trade",
+  "people": [
+   "Joseph Marlow"
+  ],
+  "places": [
+   "burg:5"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0026",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Harry Marlow promised to a Cuan shean yard",
+  "era_year": 6,
+  "summary": "Harry Marlow, Joseph Marlow's eldest son, nine years old, is promised to a shipwright's yard at Cuan shean when he turns thirteen, on the word of a Cuan shean man who watched him true a plough-beam by eye at his father's forge without a level.",
+  "category": "trade",
+  "people": [
+   "Joseph Marlow",
+   "Harry Marlow",
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:5",
+   "burg:282"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Joseph Marlow's song first sung at Doire mhin",
+  "era_year": 6,
+  "summary": "A plain tune naming Joseph Marlow and his forge is first heard going quietly round Doire mhin that winter, sung under the breath of the women waiting their turn with a sackful of savings, though the smith himself will not sing it in front of a stranger.",
+  "category": "trade",
+  "people": [
+   "Joseph Marlow"
+  ],
+  "places": [
+   "burg:5"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0026",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The house of the Stone's chits redeemed at its door",
+  "era_year": 6,
+  "summary": "At Inis thais, where the new coin arrives slower than almost anywhere in the kingdom, the merchants trade the winter through on chits written against the word of the house of Òrd na Cloiche. When coin at last comes south in quantity, the chits are carried to the house's own door and redeemed there, less a tenth the house keeps for the keeping of them.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0027",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Hale sets down the answer he means to give the Moot",
+  "era_year": 6,
+  "summary": "Weighing Fearchar Bonn's coin against Joseph Marlow's ploughshare on his own table, Walter Hale writes for the Moot that a people waiting on an answer that never comes would do better to build, while it waits, the thing it asked for, since the waiting will be long and the ground does not stop wanting to be ploughed.",
+  "category": "trade",
+  "people": [
+   "Walter Hale",
+   "David Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0025",
+    "type": "sequel"
+   },
+   {
+    "to": "V-0026",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The first furrow cut with a coin-iron share",
+  "era_year": 6,
+  "summary": "At the end of am Màrt the first furrow of Doire mhin's spring ploughing is cut behind a borrowed ox with one of Joseph Marlow's shares, turning a clean black line the length of the field, the humans' silver made over into iron for a north the council's coin has not yet reached.",
+  "category": "trade",
+  "people": [
+   "Joseph Marlow"
+  ],
+  "places": [
+   "burg:5"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0026",
+    "type": "sequel"
+   }
+  ]
+ }
 ]

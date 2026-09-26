@@ -87,8 +87,14 @@ def forms_for(k):
             return
         seen.add((form, dt))
         out.append((form, dt, e))
+    later = set()
+    if k in q.KEYS:                   # a name first attested after the age would be a forward reference: never written
+        import future_check as FC
+        ev = {e['id']: e for e in json.load(open(os.path.join(q.LEG, 'annals_dated.json'), encoding='utf-8'))}
+        later = {e['dt'] for e in q.G.names() if (ev.get(e.get('first') or '') or {}).get('age') in q.KEYS
+                 and FC.IDX[ev[e['first']]['age']] > FC.IDX[k]}
     for e in q.G.names():
-        if str(e.get('kind', '')).lower() in PERSONAL:
+        if str(e.get('kind', '')).lower() in PERSONAL or e['dt'] in later:
             continue
         for f in [e['en']] + [v for v in e.get('variants') or [] if isinstance(v, str)]:
             add(f, e['dt'], e)

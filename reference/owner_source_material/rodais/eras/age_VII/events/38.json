@@ -104,10 +104,10 @@
     ]
   },
   {
-    "title": "The maor's report on the coal caste",
+    "title": "The maor's report on the hewing families",
     "era_year": 26,
     "after": "VI-0145",
-    "summary": "The maor of Achadh dhomhain's return to the Board notes that the coal caste asked nothing of the closing and said nothing against it, as they have asked and said nothing at every turn the vein's failing has brought these thirty years.",
+    "summary": "The maor of Achadh dhomhain reports that the old hewing families of the town said nothing against the closing of the Sloc Mòr's upper galleries and asked nothing of the Board in its place.",
     "category": "record",
     "people": [],
     "places": [
@@ -320,5 +320,97 @@
     "master_links": [
       "VI-0150"
     ]
+  },
+  {
+    "title": "An old hewer sworn a second time",
+    "era_year": 26,
+    "summary": "At the swearing of the Rite's twelve hewers at Achadh dhomhain an old man who had sworn the guild's oath in his youth tells the priest he had thought it the last oath a coal-cutter's trade would ask of him.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-seven-coals",
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0145"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The Sloc Mòr's upper galleries capped",
+    "era_year": 26,
+    "summary": "Within a fortnight of the Board's order the eleven upper galleries of the Sloc Mòr are capped, their timbering left standing in the dark.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0144"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The ninth regiment's man at Ceann leathan",
+    "era_year": 26,
+    "summary": "The winner of the Còmhrag in the regiments' first year is a broad Dia-thìreach of the southern Seann Skell who had fitted engines under the Fuel-Fitters' charter before the regiments took him.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "marker:37"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0146"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A sentry's word at the Library gate",
+    "era_year": 26,
+    "summary": "The sergeant of the second regiment's first watch at an Leabharlann tells the keeper it is a queer sort of soldiering, standing watch over a door that has never opened from either side.",
+    "category": "war",
+    "people": [
+      "Raghnall mac Mhuirich"
+    ],
+    "places": [
+      "marker:34"
+    ],
+    "threads": [
+      "the-library",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0147"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Six wagons and horses for the last stretch",
+    "era_year": 26,
+    "summary": "The last coal carried on the coal line, six wagons of small dusty coal for the lamp-houses' old contract, goes the last stretch from the goods-yard at Cathair dhearg behind carters' horses.",
+    "category": "coal",
+    "people": [
+      "Eachann mac Ruairidh"
+    ],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-seven-coals",
+      "the-company"
+    ],
+    "master_links": [
+      "VI-0148"
+    ],
+    "chronicle_extra": true
   }
 ]

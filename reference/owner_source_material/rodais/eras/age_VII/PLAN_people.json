@@ -49,7 +49,7 @@
  },
  {
   "name": "Sìleas nic Rath",
-  "born": "SE 47",
+  "born": "SE 49",
   "died": null,
   "role": "Beathag's clerk from DE 11; royal chronicler from DE 20; principal",
   "first_chapter": 13,
@@ -105,7 +105,7 @@
  },
  {
   "name": "Somhairle mac Lachlainn",
-  "born": "SE 36",
+  "born": "SE 46",
   "died": null,
   "role": "captain of the Board's enforcers; commander of the regiments; seated on the council DE 23; principal",
   "first_chapter": 18,
@@ -294,5 +294,324 @@
   "role": "farmer of the field at Muileann ghlas who hands weapons to the first regiment",
   "first_chapter": 35,
   "notes": "New (VI-0127)."
+ },
+ {
+  "name": "Ailig mac Thormoid",
+  "born": null,
+  "died": null,
+  "role": "copyist of Leabharlann Muileann chaol",
+  "first_chapter": 1,
+  "notes": "named in chapter 1."
+ },
+ {
+  "name": "Dòmhnall mac Ailein",
+  "born": null,
+  "died": null,
+  "role": "carrier on the library road",
+  "first_chapter": 1,
+  "notes": "named in chapter 1."
+ },
+ {
+  "name": "Fionnlagh mac Gille-Chaluim",
+  "born": null,
+  "died": null,
+  "role": "justice of the fair court at Muileann òg",
+  "first_chapter": 3,
+  "notes": "named in chapter 3."
+ },
+ {
+  "name": "Uilleam mac Dhùghaill",
+  "born": null,
+  "died": null,
+  "role": "last coal carter of Rathad na Fèille",
+  "first_chapter": 3,
+  "notes": "named in chapter 3."
+ },
+ {
+  "name": "Coinneach Liath",
+  "born": null,
+  "died": null,
+  "role": "trader at the fair of Muileann òg",
+  "first_chapter": 3,
+  "notes": "named in chapter 3."
+ },
+ {
+  "name": "Calum mac Iain",
+  "born": null,
+  "died": null,
+  "role": "fisherman of Baile ìseal",
+  "first_chapter": 5,
+  "notes": "named in chapter 5."
+ },
+ {
+  "name": "Ailig Mòr",
+  "born": null,
+  "died": null,
+  "role": "pilot of the eastern coast",
+  "first_chapter": 6,
+  "notes": "named in chapter 6."
+ },
+ {
+  "name": "Calum Bàn",
+  "born": null,
+  "died": null,
+  "role": "keeper of the coal-store at Muileann bheag light",
+  "first_chapter": 8,
+  "notes": "named in chapter 8."
+ },
+ {
+  "name": "Iseabail Ruadh",
+  "born": null,
+  "died": null,
+  "role": "crane-keeper and daybook-writer of the harbour",
+  "first_chapter": 8,
+  "notes": "named in chapter 8."
+ },
+ {
+  "name": "Thomas Rook",
+  "born": null,
+  "died": null,
+  "role": "clerk of Tional nan Tuathach; keeper of the register of the western families",
+  "first_chapter": 9,
+  "notes": "named in chapter 9."
+ },
+ {
+  "name": "Will Garside",
+  "born": null,
+  "died": null,
+  "role": "coal driver at Muileann chrom",
+  "first_chapter": 10,
+  "notes": "named in chapter 10."
+ },
+ {
+  "name": "Niall mac Leòid",
+  "born": null,
+  "died": null,
+  "role": "coal driver at Muileann chrom",
+  "first_chapter": 10,
+  "notes": "named in chapter 10."
+ },
+ {
+  "name": "Ruairidh mac Eachainn",
+  "born": null,
+  "died": null,
+  "role": "old coal driver at Muileann chrom",
+  "first_chapter": 10,
+  "notes": "named in chapter 10."
+ },
+ {
+  "name": "Ailean mac Mhathain",
+  "born": null,
+  "died": null,
+  "role": "boy of the yard rows at Muileann chrom",
+  "first_chapter": 10,
+  "notes": "named in chapter 10."
+ },
+ {
+  "name": "Murchadh Bàn",
+  "born": null,
+  "died": null,
+  "role": "drover of the eastern salt road",
+  "first_chapter": 10,
+  "notes": "named in chapter 10."
+ },
+ {
+  "name": "Uilleam mac Dhòmhnaill",
+  "born": null,
+  "died": null,
+  "role": "drover of Achadh mhòr",
+  "first_chapter": 10,
+  "notes": "named in chapter 10."
+ },
+ {
+  "name": "Aonghas Mòr",
+  "born": null,
+  "died": null,
+  "role": "drover of Achadh mhòr",
+  "first_chapter": 10,
+  "notes": "named in chapter 10.",
+  "id": "aonghas-mor-of-achadh-mhor"
+ },
+ {
+  "name": "Gilleasbaig Ruadh",
+  "born": null,
+  "died": null,
+  "role": "pit captain of Muileann dhearg",
+  "first_chapter": 12,
+  "notes": "named in chapter 12."
+ },
+ {
+  "name": "Abel Fowler",
+  "born": null,
+  "died": null,
+  "role": "Tuathach fitter let go from the southern works",
+  "first_chapter": 14,
+  "notes": "named in chapter 14."
+ },
+ {
+  "name": "Dodds",
+  "born": null,
+  "died": null,
+  "role": "hewer of Muileann àrsaidh",
+  "first_chapter": 16,
+  "notes": "named in chapter 16.",
+  "id": "dodds-of-muileann-arsaidh"
+ },
+ {
+  "name": "Ferguson",
+  "born": null,
+  "died": null,
+  "role": "elder delegate of Àth naomh",
+  "first_chapter": 16,
+  "notes": "named in chapter 16.",
+  "id": "ferguson-of-ath-naomh"
+ },
+ {
+  "name": "Annie Drew",
+  "born": null,
+  "died": null,
+  "role": "oldest woman of Cathair gheal; witness of the Severance",
+  "first_chapter": 17,
+  "notes": "named in chapter 17."
+ },
+ {
+  "name": "Fraser",
+  "born": null,
+  "died": null,
+  "role": "old hewer of Muileann àrsaidh",
+  "first_chapter": 20,
+  "notes": "named in chapter 20.",
+  "id": "fraser-of-muileann-arsaidh"
+ },
+ {
+  "name": "Christina Munro",
+  "born": null,
+  "died": null,
+  "role": "Moot delegate",
+  "first_chapter": 21,
+  "notes": "named in chapter 21."
+ },
+ {
+  "name": "Cormac Liath",
+  "born": null,
+  "died": null,
+  "role": "clerk who reads the Severance rolls at Cathair dhearg",
+  "first_chapter": 22,
+  "notes": "named in chapter 22."
+ },
+ {
+  "name": "Cailean Ros",
+  "born": null,
+  "died": null,
+  "role": "Treasury clerk at the Muileann òg pump",
+  "first_chapter": 26,
+  "notes": "named in chapter 26."
+ },
+ {
+  "name": "Will Tanner",
+  "born": null,
+  "died": null,
+  "role": "boatman of Caol mhòr",
+  "first_chapter": 26,
+  "notes": "named in chapter 26."
+ },
+ {
+  "name": "Ned Fowler",
+  "born": null,
+  "died": null,
+  "role": "Tuathach fitter of Caol mhòr",
+  "first_chapter": 26,
+  "notes": "named in chapter 26."
+ },
+ {
+  "name": "Meikle",
+  "born": null,
+  "died": null,
+  "role": "keeper of the stores in besieged Muileann àrsaidh",
+  "first_chapter": 27,
+  "notes": "named in chapter 27.",
+  "id": "meikle-of-muileann-arsaidh"
+ },
+ {
+  "name": "Nell Forbes",
+  "born": null,
+  "died": null,
+  "role": "woman of Àth leathan sheltered at Doire ghlas",
+  "first_chapter": 28,
+  "notes": "named in chapter 28."
+ },
+ {
+  "name": "Mary Kessock",
+  "born": null,
+  "died": null,
+  "role": "widow of Cnoc thais",
+  "first_chapter": 29,
+  "notes": "named in chapter 29."
+ },
+ {
+  "name": "Calum Odhar",
+  "born": null,
+  "died": null,
+  "role": "fisherman of the windy coast",
+  "first_chapter": 29,
+  "notes": "named in chapter 29."
+ },
+ {
+  "name": "Cailean",
+  "born": null,
+  "died": null,
+  "role": "soldier of Dùghall mac Iain's file",
+  "first_chapter": 31,
+  "notes": "named in chapter 31.",
+  "id": "cailean-of-the-fourth-regiment"
+ },
+ {
+  "name": "Peggy Innes",
+  "born": null,
+  "died": null,
+  "role": "farm-wife above Cnoc thais",
+  "first_chapter": 32,
+  "notes": "named in chapter 32."
+ },
+ {
+  "name": "Marion Kenny",
+  "born": null,
+  "died": null,
+  "role": "witness of the burning above Cnoc thais",
+  "first_chapter": 32,
+  "notes": "named in chapter 32."
+ },
+ {
+  "name": "Cailean mac Griogair",
+  "born": null,
+  "died": null,
+  "role": "maor of Àth bheag",
+  "first_chapter": 33,
+  "notes": "named in chapter 33."
+ },
+ {
+  "name": "Mòrag nic Fhearghais",
+  "born": null,
+  "died": null,
+  "role": "widow baker of Muileann mhin",
+  "first_chapter": 33,
+  "notes": "named in chapter 33."
+ },
+ {
+  "name": "Aonghas mac Cuinn",
+  "born": null,
+  "died": null,
+  "role": "farmer of the western hills",
+  "first_chapter": 33,
+  "notes": "named in chapter 33."
+ },
+ {
+  "name": "Iain Mòr",
+  "born": null,
+  "died": null,
+  "role": "sergeant of the seventh regiment",
+  "first_chapter": 35,
+  "notes": "named in chapter 35.",
+  "id": "iain-mor-of-the-seventh-regiment"
  }
 ]

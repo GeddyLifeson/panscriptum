@@ -1,0 +1,1376 @@
+{
+ "writer": 6,
+ "span": [
+  "VI-0143",
+  "end"
+ ],
+ "events": [
+  {
+   "after": "VI-0150"
+  },
+  {
+   "id": "EVII-6501",
+   "title": "The word heard first in the yard at Muileann chaol",
+   "body": "A carrier bringing salt fish to the Library's kitchen uses the word seann-chunntas in the yard within Sìleas nic Rath's hearing; she copies it into her working notes, meaning at first only to ask Raghnall whether the Library's glossary should carry it.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#i-of-the-word-nobody-had-coined",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6502",
+   "title": "Ellen Marsh's letter carries the word twice",
+   "body": "A civil note from Ellen Marsh asking after the eleventh book's binding uses seann-chunntas twice in passing, as a word already in general currency in the north; Sìleas sets it beside the carrier's yard-talk and begins to understand what the word joins.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0143",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6501",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#i-of-the-word-nobody-had-coined",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6503",
+   "title": "Sìleas enters the word without a heading",
+   "body": "Sìleas nic Rath sets a single line at the foot of a Board return, noting the word heard that year joining the tabled request and the dead motion, and that no Dia-thìreach in office has yet used it; she gives it no category of its own.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0143",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6502",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#i-of-the-word-nobody-had-coined",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6504",
+   "title": "The Board's order to Achadh dhomhain",
+   "body": "A four-line order from the Mine Board reaches the maor of Achadh dhomhain in an Gearran, closing the Sloc Mòr's upper galleries and the timbering left to stand, the shafts capped, the workings judged to cost more in pumping than the coal they still gave.",
+   "place": "burg:135",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0144",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6503",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#ii-of-the-last-twelve",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6505",
+   "title": "The maor's report on the hewing families",
+   "body": "The maor of Achadh dhomhain reports that the old hewing families of the town said nothing against the closing of the Sloc Mòr's upper galleries and asked nothing of the Board in its place.",
+   "place": "burg:135",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0144",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0145",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6504",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#ii-of-the-last-twelve",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6506",
+   "title": "Eachann given the last coal run",
+   "body": "The yard masters at Muileann chrom tell Eachann mac Ruairidh, three days before, that the run he is given will be the coal line's last working under coal's own name, an old lamp-house contract closing after fourteen years of the line carrying dubhan under the unchanged name.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0148",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6505",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#iv-of-the-last-coal-train",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6507",
+   "title": "The coal handed to carters, not a second engine",
+   "body": "The lamp-houses judge six wagons not worth a second engine's steam and carry the last coal on by horse and cart from the goods-yard, so that the trade which crowned the kingdom's kings goes out under its own name behind horses at the last.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0148",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6506",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#iv-of-the-last-coal-train",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6508",
+   "title": "Sìleas copies the council's three words",
+   "body": "Sìleas nic Rath enters the council's minute on the northern passes exactly as given, for a time only, the same three words the wartime tithe was given six years before and has not since been taken away.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0149",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6507",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#v-of-the-pass-the-wool-and-the-foot-of-the-year",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6509",
+   "title": "Beathag nic Fhionnlaigh dies at Àth dhìreach",
+   "body": "A letter in the hand of Beathag's own sister brings word that Beathag nic Fhionnlaigh has died quietly in the night at her sister's house at Àth dhìreach, five-and-seventy years old, six years after laying down the chronicler's office.",
+   "place": "burg:246",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0150",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6508",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "beathag-nic-fhionnlaigh",
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#v-of-the-pass-the-wool-and-the-foot-of-the-year",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6510",
+   "title": "Sìleas writes the one entry the day requires",
+   "body": "Sìleas nic Rath enters Beathag nic Fhionnlaigh's death in the open chronicle in the plain accounting the office requires, naming her the first hand to note the fuel and the re-header of fourteen years, and adds nothing of grief beyond it.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0150",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6509",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath",
+    "beathag-nic-fhionnlaigh"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#v-of-the-pass-the-wool-and-the-foot-of-the-year",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6511",
+   "title": "An old hewer sworn a second time",
+   "body": "At the swearing of the Rite's twelve hewers at Achadh dhomhain an old man who had sworn the guild's oath in his youth tells the priest he had thought it the last oath a coal-cutter's trade would ask of him.",
+   "place": "burg:135",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0145",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6510",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#ii-of-the-last-twelve",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6512",
+   "title": "The Sloc Mòr's upper galleries capped",
+   "body": "Within a fortnight of the Board's order the eleven upper galleries of the Sloc Mòr are capped, their timbering left standing in the dark.",
+   "place": "burg:135",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0144",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6511",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#ii-of-the-last-twelve",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6513",
+   "title": "The ninth regiment's man at Ceann leathan",
+   "body": "The winner of the Còmhrag in the regiments' first year is a broad Dia-thìreach of the southern Seann Skell who had fitted engines under the Fuel-Fitters' charter before the regiments took him.",
+   "place": "marker:37",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0146",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6512",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#iii-of-the-comhrag-and-the-watch-at-the-library",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6514",
+   "title": "A sentry's word at the Library gate",
+   "body": "The sergeant of the second regiment's first watch at an Leabharlann tells the keeper it is a queer sort of soldiering, standing watch over a door that has never opened from either side.",
+   "place": "marker:34",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0147",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6513",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-long-war"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#iii-of-the-comhrag-and-the-watch-at-the-library",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "id": "EVII-6515",
+   "title": "Six wagons and horses for the last stretch",
+   "body": "The last coal carried on the coal line, six wagons of small dusty coal for the lamp-houses' old contract, goes the last stretch from the goods-yard at Cathair dhearg behind carters' horses.",
+   "place": "burg:19",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "VI-0148",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6514",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-company"
+   ],
+   "people": [
+    "eachann-mac-ruairidh"
+   ],
+   "told_in": "book/38_of_the_old_reckoning_and_the_last_hewers.md#iv-of-the-last-coal-train",
+   "era_between": [
+    26,
+    26
+   ]
+  },
+  {
+   "after": "VI-0157"
+  },
+  {
+   "id": "EVII-6516",
+   "title": "Joe Ashby asks Peter Hale about the eleven books",
+   "body": "Joe Ashby puts to Peter Hale the question of whether the Library means to refuse the eleven books outright or only to leave them waiting; Peter answers that a catalogue naming the request and not the books has not yet said either word.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0152",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-library"
+   ],
+   "people": [
+    "joe-ashby",
+    "peter-hale"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#i-of-the-comhrag-and-the-two-docks",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6517",
+   "title": "Peter Hale opens the Moot's book in his own hand",
+   "body": "At Caol mhòr, still new enough to the chair to write rather than pass the pen, Peter Hale opens the year's minute-book himself and reads the standing tally: no ruling of any Dia-thìreach court names the Moot a lawful body, and none has ever been asked.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0153",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6516",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "peter-hale",
+    "joe-ashby"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#i-of-the-comhrag-and-the-two-docks",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6518",
+   "title": "The Treasury clerk at Ros dhomhain keeps a second tally",
+   "body": "The Treasury clerk who weighs and marks the ordinary barrels of dubhan at Ros dhomhain begins, unasked, a private tally of the fuel that leaves the quay for the fleets and the regiments and pays the Treasury nothing, and folds it each quarter into his own drawer.",
+   "place": "burg:27",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0154",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0154a",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6517",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/39_of_the_charter_of_export.md#ii-of-the-common-account",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6519",
+   "title": "The council hears the petition for export",
+   "body": "At the first of three sittings of the council at Cathair dhearg, in the winter, the petition for leave to sell dubhan beyond the island is read and heard in silence. The twelve give no answer that day. Sìleas nic Rath copies the clerk's draft twice.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6518",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#iii-of-the-three-sittings",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6520",
+   "title": "The custodians of Òrd Bhrìde search and seal An Eala Dhubh's holds",
+   "body": "Over three days at Ros dhomhain two custodians of Òrd Bhrìde search every hold of An Eala Dhubh by lamp for the vein's own coal before it is loaded, and set their order's mark in wax at each coaming once it is filled, waiting until the wax hardens past any hand's reopening.",
+   "place": "burg:27",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6519",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/39_of_the_charter_of_export.md#iv-of-the-ship-going-north-about",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6521",
+   "title": "A Treasury clerk marks the first and last barrel loaded",
+   "body": "At Ros dhomhain a clerk of the Treasury marks the first barrel and the last of An Eala Dhubh's loading alike, and every fifth barrel between, keeping the tithe the charter sets before the custodians close each hold.",
+   "place": "burg:27",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6520",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/39_of_the_charter_of_export.md#iv-of-the-ship-going-north-about",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6522",
+   "title": "Joe Ashby watches An Eala Dhubh pass off Caol mhòr",
+   "body": "Off his own headland with an empty line, Joe Ashby watches An Eala Dhubh pass under full steam bound north-about, and thinks of the six years since his own name came off the Fuel-Fitters' rolls under a charter written for a different fuel.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6521",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#iv-of-the-ship-going-north-about",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6523",
+   "title": "Anna nic Phàil asks how the vein is to be kept out",
+   "body": "At the second sitting on the petition for export, in the spring, Anna nic Phàil asks the council how the kingdom will be sure that nothing of the vein's coal goes out with the fuel. The council's answer is the term no councillor argues: the custodians of Òrd Bhrìde shall seal every hold.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6522",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "anna-nic-phail"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#iii-of-the-three-sittings",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6524",
+   "title": "The copying of the eleven books",
+   "body": "The eleven books of Ellen Marsh's gathering go from school to school in the north, each copied by the eldest children in a schoolroom hand before it passes on.",
+   "place": "burg:209",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0152",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6523",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-library"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#i-of-the-comhrag-and-the-two-docks",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6525",
+   "title": "A lamp-fitter of Caol mhòr on the eleven books",
+   "body": "An old lamp-fitter of Caol mhòr, let go from the Fuel-Fitters' rolls with Joe Ashby, says a book finished is still a book, whatever the Library does with it.",
+   "place": "burg:95",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0152",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6524",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "joe-ashby"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#i-of-the-comhrag-and-the-two-docks",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6526",
+   "title": "The twelve hear the petition three times",
+   "body": "The council at Cathair dhearg sits three times on the petition for leave to export dubhan, in the winter, the spring and the summer's end, and grants it inside the hour at the third.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6525",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-rath",
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/39_of_the_charter_of_export.md#iii-of-the-three-sittings",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6527",
+   "title": "An Eala Dhubh loaded over three days",
+   "body": "The first tank-hull under the charter of export is loaded at Ros dhomhain over three days, a Treasury clerk marking the first barrel and the last and every fifth between.",
+   "place": "burg:27",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6526",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/39_of_the_charter_of_export.md#iv-of-the-ship-going-north-about",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6528",
+   "title": "An Eala Dhubh stands out of Ros dhomhain",
+   "body": "An Eala Dhubh stands out of Ros dhomhain on the morning tide with the Treasury's seal on her hatches, and the harbour's children run the length of the mole beside her.",
+   "place": "burg:27",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0154b",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6527",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/39_of_the_charter_of_export.md#iv-of-the-ship-going-north-about",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6529",
+   "title": "The four baskets carried south",
+   "body": "The Sloc Mòr's twelve hewers cut the year's altar-coal in an Dàmhair; the maor's cart carries the four baskets to Achadh dhomhain station under a tarpaulin, and they go south to the southern Seann Skell in a van of the coal line kept for nothing else that week.",
+   "place": "burg:135",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6530",
+   "title": "The lot drawn in the rain at Brìde's house",
+   "body": "Priests of three lesser coast houses walk or ride two and three days to see the lot drawn in a hard autumn rain at the southern Seann Skell, the folded slips kept dry under a second tarpaulin while Alasdair mac Ìomhair draws.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6529",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6531",
+   "title": "Alasdair mac Ìomhair draws the four houses",
+   "body": "Past his eighty-fifth summer and steadied on a novice's shoulder, Alasdair mac Ìomhair draws Cnoc bheag, Seann Bhral, the western Seann Skell and, by chance, the southern house itself from the nine houses' slips.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6530",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6532",
+   "title": "Alasdair mac Ìomhair on the lot's pattern",
+   "body": "Asked by a young priest whether the altar-coal will still be cut in ten or twenty years, Alasdair mac Ìomhair, who has drawn the lot six-and-fifty times, says only that he has learned not to promise a young man what the mountain will do next.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6531",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6533",
+   "title": "A coast priest measures the fall of the lot",
+   "body": "A priest of a house so small the lot has never before fallen to it walks three days to see the four baskets drawn for, and says afterward that her grandmother's telling remembered them carted to the coast houses by the wagon-load.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6532",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6534",
+   "title": "The old hewer hears the lot fell home",
+   "body": "Word reaches the twelve hewers at Achadh dhomhain that the southern house drew its own basket back to itself; the eldest among them, sworn once already as a young man to the dissolved guild, calls it the vein's own way of being droll.",
+   "place": "burg:135",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0145",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6533",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6535",
+   "title": "Sìleas enters the altar-coal return",
+   "body": "The maor's return on the four baskets reaches Sìleas nic Rath's table at Muileann chaol within the fortnight; she enters it in the ordinary column and lets pass, unwritten, her own thought of forty baskets shrunk to four.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "VI-0156",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6534",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-seven-coals"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#ii-of-the-lamps-lit-early",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6536",
+   "title": "The Còmhrag's champion falls to a hewer's son",
+   "body": "In a bout added at the crowd's asking for the year's champion against all comers, the ninth regiment's man loses to a twenty-year-old hewer's son of Cnoc bheag; the fair-wardens' own return calls the championship passed back to the shires as it stood before the regiments came to it.",
+   "place": "marker:37",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0151",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6535",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/40_of_the_four_baskets.md#iii-of-the-regiments-muster-and-the-comhrag-s-last-bout",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6537",
+   "title": "An old woman of Baile chrom is turned back three mornings",
+   "body": "A pass-table clerk at the boundary stones notes, unasked, that an old woman of Baile chrom came three mornings running to ask a pass for a granddaughter nursing in the capital, and walked eleven miles home again each time with no pass and no name given.",
+   "place": "burg:381",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0149",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6536",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/40_of_the_four_baskets.md#v-of-the-pass-table-and-the-shortest-day",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6538",
+   "title": "Ellen Marsh keeps the eldest back on the shortest evening",
+   "body": "On the evening of the shortest day Ellen Marsh sends the youngest children of her Doire ghlas school home early and keeps the eldest dozen to copy a page of the eleventh book into a third hand before the chest under the window is shut on all eleven.",
+   "place": "burg:209",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0152",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6537",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#iv-of-the-telling-at-doire-ghlas",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6539",
+   "title": "Ellen Marsh tells the First Canoe again",
+   "body": "Ellen Marsh tells her eldest pupils, as her own mother told her, the First Canoe's crossing through Manannan's mist with a fire tended turn and turn about in a clay pot of wet moss, kept faithfully the whole way for fear a canoe that lost it would not find the isle again.",
+   "place": "burg:209",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0157",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6538",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#iv-of-the-telling-at-doire-ghlas",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6540",
+   "title": "A boy asks whose fire it was",
+   "body": "A thirteen-year-old asks Ellen Marsh whose fire the First Canoe carried, since the telling names none of the crew; she answers, as her own mother once answered her, that the telling does not say, and that a fire no one hand still claims is no less a fire for it.",
+   "place": "burg:209",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0157",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6539",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#iv-of-the-telling-at-doire-ghlas",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6541",
+   "title": "Sìleas sets down the rhyme unanswered",
+   "body": "Closing the year's ledger, Sìleas nic Rath sets down the rhyme she first overheard from a northern carrier in the Library's own yard, black the coal and black the dubhan, but whose is the fire, in both tongues, and gives it no answer of her own.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0157",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6540",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#v-of-the-pass-table-and-the-shortest-day",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6542",
+   "title": "A novice to hold the lot-bowl",
+   "body": "A novice of fifteen is given the office of holding the bowl for the lot of the altar-coal at the southern Seann Skell and does not sleep the night before for the weight of it.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6541",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6543",
+   "title": "The southern house draws its own basket",
+   "body": "At the lot of the four baskets the southern house of Brìde at Seann Skell is drawn among the four, so that one basket goes no farther than across the yard.",
+   "place": "burg:431",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0155",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6542",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#i-of-the-lot-at-the-southern-seann-skell",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6544",
+   "title": "The lamps of Muileann chaol lit at three",
+   "body": "At Muileann chaol in an t-Samhain the keeper orders the gallery lamps lit from three in the afternoon and no fire after dark.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0156",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6543",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "raghnall-mac-mhuirich"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#ii-of-the-lamps-lit-early",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6545",
+   "title": "The regiments' winter musters",
+   "body": "The winter musters of the nine regiments show some three thousand three hundred men on the rolls and twenty-three guns serviceable.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0118",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6544",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#iii-of-the-regiments-muster-and-the-comhrag-s-last-bout",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6546",
+   "title": "A hewer's son takes the Còmhrag championship",
+   "body": "In an added bout at Ceann leathan for the year's champion against all comers, a hewer's son of Cnoc bheag, twenty years old, beats the ninth regiment's man in the third exchange.",
+   "place": "marker:37",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0151",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6545",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/40_of_the_four_baskets.md#iii-of-the-regiments-muster-and-the-comhrag-s-last-bout",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6547",
+   "title": "The telling of the fire in the canoe",
+   "body": "On the shortest day Ellen Marsh tells the eldest children at Doire ghlas the telling of the First Canoe and of the fire its crew carried in a clay pot through the mist.",
+   "place": "burg:209",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0157",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6546",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#iv-of-the-telling-at-doire-ghlas",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EVII-6548",
+   "title": "The chronicle's last page of the year left open",
+   "body": "Sìleas nic Rath leaves the royal chronicle open on its stand at the year's end with the ink dry, as Beathag nic Fhionnlaigh had done before her.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0156",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-6547",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
+    "sileas-nic-rath"
+   ],
+   "told_in": "book/40_of_the_four_baskets.md#ii-of-the-lamps-lit-early",
+   "era_between": [
+    27,
+    27
+   ]
+  }
+ ]
+}

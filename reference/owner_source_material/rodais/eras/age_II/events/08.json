@@ -44,7 +44,7 @@
   "era_year": 627,
   "summary": "On a dark-half evening Iain mac Fhearchair tells his household plainly that he means to move it to the empty harbour at Seann Skell before another winter turns, judging a shore with good landing and no claimant better than another forty years of quarrelling over the river bend.",
   "category": "land",
-  "people": ["Marsaili nic Iain", "Cailean mac Griogair"],
+  "people": ["Marsaili nic Iain", "Cailean mac Ghilleonain"],
   "places": ["burg:315"],
   "threads": ["the-old-ones"],
   "master_links": [{"to": "I-0098", "type": "cause"}]
@@ -94,7 +94,7 @@
   "era_year": 629,
   "summary": "Two of Iain's sons-in-law argue that stone the sea itself has thrown down is no longer bound by the household's rule against taking up Seann-Dhaoine work. Iain refuses them, holding that the storm's breaking gives the household no claim the storm did not also give, and the mole is mended instead with new-quarried stone.",
   "category": "faith",
-  "people": ["Marsaili nic Iain", "Cailean mac Griogair"],
+  "people": ["Marsaili nic Iain", "Cailean mac Ghilleonain"],
   "places": ["burg:489"],
   "threads": ["the-old-ones"],
   "master_links": [{"to": "I-0098", "type": "sequel"}]
@@ -112,9 +112,9 @@
  {
   "title": "The first hill-folk boats put out from Seann Skell",
   "era_year": 640,
-  "summary": "Cailean mac Griogair and two of Iain's grandsons build the first boats the harbour has held since it was last worked, small hide craft trusted for the first time to open tide, and Marsaili herself goes out in the first of them on a calm morning her father judges safe.",
+  "summary": "Cailean mac Ghilleonain and two of Iain's grandsons build the first boats the harbour has held since it was last worked, small hide craft trusted for the first time to open tide, and Marsaili herself goes out in the first of them on a calm morning her father judges safe.",
   "category": "trade",
-  "people": ["Marsaili nic Iain", "Cailean mac Griogair"],
+  "people": ["Marsaili nic Iain", "Cailean mac Ghilleonain"],
   "places": ["burg:489"],
   "threads": ["the-old-ones"],
   "master_links": [{"to": "I-0098", "type": "legacy"}]
@@ -142,7 +142,7 @@
  {
   "title": "The sea takes its first life at Seann Skell",
   "era_year": 660,
-  "summary": "A young man of Cailean mac Griogair's house drowns in a squall too sudden for any boat then on the shore to outrun. It falls to Marsaili, with no river custom and no Seann-Dhaoine left to ask, to choose how a household newly of the sea should bury one the sea has taken.",
+  "summary": "A young man of Cailean mac Ghilleonain's house drowns in a squall too sudden for any boat then on the shore to outrun. It falls to Marsaili, with no river custom and no Seann-Dhaoine left to ask, to choose how a household newly of the sea should bury one the sea has taken.",
   "category": "land",
   "people": ["Marsaili nic Iain"],
   "places": ["burg:489"],

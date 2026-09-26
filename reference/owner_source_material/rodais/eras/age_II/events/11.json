@@ -23,13 +23,13 @@
   "category": "land", "people": ["Seasaidh"], "places": ["zone:4"], "threads": [],
   "master_links": [{"to": "I-0105", "type": "legacy"}]},
 
- {"title": "Seasaidh goes inland to Griogar's valley",
+ {"title": "Seasaidh goes inland to Pàl's valley",
   "era_year": 792,
-  "summary": "Seasaidh, twenty-two years old, leaves the coast that raised her to take up a household two days inland with Griogar, a drover's son, in a green valley walled by low scarps that she has never seen and cannot yet well imagine, having known until then only tide and shingle.",
+  "summary": "Seasaidh, twenty-two years old, leaves the coast that raised her to take up a household two days inland with Pàl, a drover's son, in a green valley walled by low scarps that she has never seen and cannot yet well imagine, having known until then only tide and shingle.",
   "category": "land", "people": ["Seasaidh"], "places": [], "threads": [],
   "master_links": []},
 
- {"title": "The ground opens below Griogar's byre",
+ {"title": "The ground opens below Pàl's byre",
   "era_year": 827,
   "summary": "In the night a low groaning felt through the floor of the house opens a crack clean across the floor of the valley a little below the household's byre, wide enough in places for a man to lose his boot to the dark below, running further than any of the valley folk cares to walk to find its end.",
   "category": "land", "people": ["Seasaidh"], "places": ["burg:123"], "threads": [],
@@ -55,7 +55,7 @@
 
  {"title": "The king walks the length of the crack",
   "era_year": 830,
-  "summary": "The king comes on foot with two men to Griogar's valley and walks the crack's whole length with the household, crouching twice to look down into it though he lets nothing down to measure its depth, and asks whether any beast or soul has gone into it since it opened.",
+  "summary": "The king comes on foot with two men to Pàl's valley and walks the crack's whole length with the household, crouching twice to look down into it though he lets nothing down to measure its depth, and asks whether any beast or soul has gone into it since it opened.",
   "category": "rulers", "people": ["Seasaidh"], "places": ["burg:123"], "threads": [],
   "master_links": [{"to": "I-0106", "type": "sequel"}]},
 
@@ -79,7 +79,7 @@
 
  {"title": "Seasaidh dies above the valley she marked",
   "era_year": 852,
-  "summary": "Seasaidh dies in her eighty-second year in the house Griogar first brought her to, and is buried on the near slope within sight, though not within a stone's throw, of the white line she began; the valley keeps her name chiefly as the woman who marked the crack.",
+  "summary": "Seasaidh dies in her eighty-second year in the house Pàl first brought her to, and is buried on the near slope within sight, though not within a stone's throw, of the white line she began; the valley keeps her name chiefly as the woman who marked the crack.",
   "category": "faith", "people": ["Seasaidh"], "places": ["burg:123"], "threads": [],
   "master_links": [{"to": "I-0107", "type": "legacy"}]},
 

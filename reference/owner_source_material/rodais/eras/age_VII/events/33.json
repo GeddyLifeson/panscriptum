@@ -208,5 +208,96 @@
     "master_links": [
       "VI-0114"
     ]
+  },
+  {
+    "title": "The maor of Àth bheag watches from the bank",
+    "era_year": 22,
+    "summary": "Cailean mac Griogair, maor of Àth bheag, woken by the smith's boy, stands at the field's edge in a borrowed coat watching the column ford the water and does not go down to ask where it is bound.",
+    "category": "war",
+    "people": [
+      "Cailean mac Griogair"
+    ],
+    "places": [
+      "burg:248"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0111"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "No banner and no drum",
+    "era_year": 22,
+    "summary": "The miller's wife of Àth bheag, watching the column cross from the mill loft, says she saw no banner among them and no drum, only a man at the head whom the rest left the whole width of the road.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:248"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0111"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Mòrag nic Fhearghais bakes through the morning",
+    "era_year": 22,
+    "summary": "The widow baker of Muileann mhin under the western hills bakes through the morning with two daughters for the column, and enters the sale as bread to the western company, paid in full.",
+    "category": "trade",
+    "people": [
+      "Mòrag nic Fhearghais"
+    ],
+    "places": [
+      "burg:120"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0112"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The note under the stone",
+    "era_year": 22,
+    "summary": "Aonghas mac Cuinn finds under a stone on his barn floor coin for a week's rent and a note in Dia-thìris: for the barn, and thanks; we have asked nothing else. It is the only writing in the Library's file that can be set to a hand inside the column.",
+    "category": "war",
+    "people": [
+      "Aonghas mac Cuinn",
+      "Sìleas nic Rath"
+    ],
+    "places": [],
+    "threads": [
+      "the-long-war",
+      "the-library"
+    ],
+    "master_links": [
+      "VI-0112"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The eel-woman's tub carried off the fair-ground",
+    "era_year": 22,
+    "summary": "Clearing the fair-ground at Muileann òg for the regiments, two soldiers lift the heavier end of the eel-woman's tub onto her handcart for her.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:151"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0114"
+    ],
+    "chronicle_extra": true
   }
 ]

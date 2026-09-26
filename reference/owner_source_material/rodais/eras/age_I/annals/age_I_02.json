@@ -1,0 +1,1571 @@
+{
+ "writer": 1,
+ "span": [
+  "I-0004",
+  "I-0011"
+ ],
+ "events": [
+  {
+   "id": "EI-1501",
+   "title": "Conn born to the upper valley",
+   "body": "Conn is born to a herding household high up the Abhainn uaine, further inland and higher than any household of that kin cares to winter, the country from which the summer grazing is followed up onto the shrinking snowfields.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    205,
+    205
+   ]
+  },
+  {
+   "id": "EI-1502",
+   "title": "Conn trusted to choose the high ground",
+   "body": "Grown to a young man, Conn reads the colour of the light on the high tops before dawn to judge whether the beasts want driving down, and is seldom wrong; the older herders of his kin begin letting him choose the summer ground himself.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "cause"
+    },
+    {
+     "to": "EI-1501",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    224,
+    224
+   ]
+  },
+  {
+   "id": "EI-1503",
+   "title": "Conn's fire-ring on the gravel terrace",
+   "body": "Conn lays hearth-stones on the gravel terrace above the summer bend of the Abhainn uaine, on ground his father and grandfather used before him, a coal carried up from the household's own fire in a clay pot banked in ash.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1502",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    230,
+    230
+   ]
+  },
+  {
+   "id": "EI-1504",
+   "title": "The flood takes Conn's lower ring",
+   "body": "A week of unlifting cloud on the high ground sends the Abhainn uaine over Conn's fire-ring at flood height; he saves the coal and drives the beasts to the shelf above, and the water carries off all but the flat stone at the ring's back.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1503",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    240,
+    240
+   ]
+  },
+  {
+   "id": "EI-1505",
+   "title": "The white draws back up the mountain",
+   "body": "Year on year of Conn's manhood the old snow draws back further up the shoulder of the central mountains, and more water comes down the Abhainn uaine than the grass alone can explain.",
+   "place": "river:15",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1504",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    250,
+    250
+   ]
+  },
+  {
+   "id": "EI-1506",
+   "title": "Conn shows his sons the three rings",
+   "body": "Conn walks the terrace above the river with his sons and shows them three rings of fire-stones on three shelves, each set higher than the last by a man who judged the water would not come so far.",
+   "place": "river:15",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-1505",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    260,
+    260
+   ]
+  },
+  {
+   "id": "EI-1507",
+   "title": "Conn dies among three rings",
+   "body": "Conn dies at his household's hearth in the low valley in his sixty-second year, having shown his sons the three fire-rings on three shelves of the one terrace, each built a little higher than the last by a man reading how far the river could be trusted.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1506",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    266,
+    266
+   ]
+  },
+  {
+   "id": "EI-1508",
+   "title": "Eachna born south of Tobar dhìreach",
+   "body": "Eachna is born to a household some way south of Tobar dhìreach that keeps a fire carried, hearth by hearth, from the mason's own since Ailbhe first walked it outward; she grows up wanting open ground of her own rather than a corner of her father's.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0005",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachna"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    281,
+    281
+   ]
+  },
+  {
+   "id": "EI-1509",
+   "title": "Eachna walks the straight field",
+   "body": "Eachna walks the level ground west of Tobar dhìreach more than once as a young woman, looking at it the way a woman looks at a thing she means to have.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-1508",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachna"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    300,
+    300
+   ]
+  },
+  {
+   "after": "I-0005"
+  },
+  {
+   "id": "EI-1510",
+   "title": "Eachna carries fire to the straight field",
+   "body": "Eachna walks a day's distance from Tobar dhìreach with a coal from the line's own hearth to settle the level, well-watered ground west of the high valleys that households call, for its lie, the straight field; the line asks nothing for the giving.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1509",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachna"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    306,
+    306
+   ]
+  },
+  {
+   "id": "EI-1511",
+   "title": "The first hearth of Achadh dhìreach laid on stone",
+   "body": "Eachna lays her first fire on a bed of pine and dried heather banked over flat stone, the lesson of stone under every fire carried out from the mason's own household as freely as the fire itself; grey flint and red deer bone gather round it in the seasons after.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1510",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachna"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    306,
+    306
+   ]
+  },
+  {
+   "id": "EI-1512",
+   "title": "Deer hunted by torch at Achadh dhìreach",
+   "body": "With calves lost to deer grown bold on ground still thin of houses, Eachna's sons take to hunting the moor's deer by torchlight after dark, a burning brand carried low and a spearman behind, working the herds back from the standing crop.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1511",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachna"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    320,
+    320
+   ]
+  },
+  {
+   "id": "EI-1513",
+   "title": "The straight field named",
+   "body": "The level ground between the burn and the rise where Eachna settled is called the straight field by those who first work it, and keeps the name after the households round it grow too many to count.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    330,
+    330
+   ]
+  },
+  {
+   "id": "EI-1514",
+   "title": "Achadh dhìreach grows to five hearths",
+   "body": "Eachna's household becomes three hearths and then five as sons and daughters marry out and stay near rather than moving off, each new fire lit in an unbroken line from the coal Eachna herself carried from Tobar dhìreach.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1512",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachna"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    335,
+    335
+   ]
+  },
+  {
+   "id": "EI-1515",
+   "title": "Eachna dies at her own hearth",
+   "body": "Eachna dies at Achadh dhìreach in her sixty-eighth year among her own grown children; the fire she carried from Tobar dhìreach burns on after her, tended by hands that have never seen the mason's well and owe it only the memory of it.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1514",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eachna"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    349,
+    349
+   ]
+  },
+  {
+   "after": "I-0006"
+  },
+  {
+   "id": "EI-1516",
+   "title": "The first autumn store of roasted hazel-nuts",
+   "body": "At Achadh dhìreach, under the oak and hazel now grown thick where birch once stood, Eachna's descendants roast whole nuts in the embers and lay by the first store of them against the dark months, rather than gathering only as the season allows.",
+   "place": "burg:454",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#ii-of-eachna-and-the-new-hearths",
+   "era_between": [
+    390,
+    390
+   ]
+  },
+  {
+   "id": "EI-1517",
+   "title": "Oak fuel holds a fire through the night",
+   "body": "The grandmothers of the northern heath tell that oak has come in where their own grandmothers knew only birch, and that a household with oak in reach keeps a warmer hearth for less carrying.",
+   "place": "burg:209",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iii-of-the-birch-that-went-and-the-oak-that-came",
+   "era_between": [
+    400,
+    400
+   ]
+  },
+  {
+   "id": "EI-1518",
+   "title": "Luag born to the northern heath",
+   "body": "Luag is born to a herding household of the northern heath, near enough the changing country of birch and oak that he grows up on the grandmothers' telling of it, and restless in a way his own kin cannot account for.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006a",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "luag"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iv-of-luag-and-the-bare-horn",
+   "era_between": [
+    425,
+    425
+   ]
+  },
+  {
+   "id": "EI-1519",
+   "title": "Luag herds further out each year",
+   "body": "Luag of the northern heath follows the grazing past where his kin are used to follow it, until by his twenty-fifth year he has walked ground no one of his household has walked.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-1518",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "luag"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iv-of-luag-and-the-bare-horn",
+   "era_between": [
+    440,
+    440
+   ]
+  },
+  {
+   "id": "EI-1520",
+   "title": "Luag sets out for the north-western horn",
+   "body": "Alone, with a coal carried in a clay pot and dried meat under a hide, Luag walks four days past the last households his own kin know of, out past the last stands of oak and hazel, meaning to see how far the land runs before it meets the sea.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-1519",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "luag"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iv-of-luag-and-the-bare-horn",
+   "era_between": [
+    451,
+    451
+   ]
+  },
+  {
+   "after": "I-0006a"
+  },
+  {
+   "id": "EI-1521",
+   "title": "Luag's fire will not live in the wind",
+   "body": "On the bare shore of the north-western horn Luag's banked fire is taken sideways along the ground faster than he can feed it, and he lets it go out rather than waste his last tinder; he finds no hearth-stone or charcoal anywhere he walks that coast.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1520",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "luag"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iv-of-luag-and-the-bare-horn",
+   "era_between": [
+    451,
+    451
+   ]
+  },
+  {
+   "id": "EI-1522",
+   "title": "Luag's return and telling",
+   "body": "Luag walks the four days home, relighting his fire at the first hearth he reaches, and tells at his own hearth and at the dark-of-the-year gathering that the land runs out at last in the north-west, bare to a wind no fire can stand against.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1521",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "luag"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iv-of-luag-and-the-bare-horn",
+   "era_between": [
+    452,
+    452
+   ]
+  },
+  {
+   "id": "EI-1523",
+   "title": "The island is told to have an edge",
+   "body": "Luag's telling goes from hearth to hearth until most of the northern heath has heard that the land runs out in the north-west, bare to a wind no fire can stand against.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1522",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "luag"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iv-of-luag-and-the-bare-horn",
+   "era_between": [
+    453,
+    453
+   ]
+  },
+  {
+   "id": "EI-1524",
+   "title": "Gràinne born on the drowned neck",
+   "body": "Gràinne is born to a household that has kept a hearth on the low neck to Eilean dhubh since before her grandmother's grandmother, on a shelf of dry ground between two arms of shingle where the crossing to the island is narrowest and firmest underfoot.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0007",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "grainne"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    455,
+    455
+   ]
+  },
+  {
+   "id": "EI-1525",
+   "title": "Gràinne learns to watch the tide",
+   "body": "Taught by her mother to set a stone at the mark each spring tide leaves on the shingle and measure it against the last, Gràinne takes up a watch on the sea's creep against the neck that she keeps, by her own habit, for the rest of her life.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0007",
+     "type": "cause"
+    },
+    {
+     "to": "EI-1524",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "grainne"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    475,
+    475
+   ]
+  },
+  {
+   "id": "EI-1526",
+   "title": "Gràinne sets stones at the high-water mark",
+   "body": "Gràinne's mother teaches her to walk the shingle at every high water and set a stone at the sea's mark, so that each tide can be measured against the last.",
+   "place": "feature:3",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-1525",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "grainne"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    480,
+    480
+   ]
+  },
+  {
+   "id": "EI-1527",
+   "title": "The crossing to Eilean dhubh dries only at the lowest ebbs",
+   "body": "By the time Gràinne is grown the neck to Eilean dhubh can be crossed only within two hours either side of the lowest ebbs, and only by those who know which channels run firm.",
+   "place": "feature:3",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0007",
+     "type": "cause"
+    },
+    {
+     "to": "EI-1526",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "grainne"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    495,
+    495
+   ]
+  },
+  {
+   "id": "EI-1528",
+   "title": "Luag dies among his own children",
+   "body": "Luag dies at his own household's hearth in his seventy-second year, remembered kindly as the man who walked to the edge of the world and came back with nothing to show for it but a burnt cloak and a telling that outlived him.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0006a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1523",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "luag"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#iv-of-luag-and-the-bare-horn",
+   "era_between": [
+    497,
+    497
+   ]
+  },
+  {
+   "after": "I-0007"
+  },
+  {
+   "id": "EI-1529",
+   "title": "Gràinne leaves the drowned neck",
+   "body": "The sea reaches the hearth-stones of Gràinne's house in a spring of hard westerlies; she rakes the fire into her mother's clay pot and carries it, the same day, to new hearth-ground behind the shelf that no tide of her lifetime reaches again.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0007",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1527",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "grainne"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    506,
+    506
+   ]
+  },
+  {
+   "id": "EI-1530",
+   "title": "The new hearth behind the drowned shelf",
+   "body": "Gràinne carries the coal herself from the flooded house to a new hearth on the dry ground behind the old shelf, and lights it there before dark on the day the sea comes in.",
+   "place": "feature:3",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0007",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1529",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "grainne"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    507,
+    507
+   ]
+  },
+  {
+   "id": "EI-1531",
+   "title": "Oisean born to the seal-hunters of the south shore",
+   "body": "Oisean is born to a household that works the rocks and skerries of the south coast for grey seals, and grows up watching the greater number that haul out on Eilean mhin, further out than any boat of that coast has yet been trusted to carry a man and bring him back.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oisean"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#ii-of-oisean-and-the-hide-boat",
+   "era_between": [
+    528,
+    528
+   ]
+  },
+  {
+   "id": "EI-1532",
+   "title": "Gràinne dies at the second hearth",
+   "body": "Gràinne dies by her own fire on the higher ground she moved to twenty-five years before, and is buried there rather than on the shelf that had been her people's ground for longer than any teller could reckon, and that by then the sea covers at every tide.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0007",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1530",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "grainne"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    531,
+    531
+   ]
+  },
+  {
+   "id": "EI-1533",
+   "title": "The Abhainn ìseal settles into its wide bed",
+   "body": "After generations of shifting across the flat ground below the high valleys, the longest river of the island settles into the wide bed the households along it come to know simply as the river, the shallower side channels running gentler and thick with fish at certain seasons.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0009",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iv-of-the-weirs-on-the-abhainn-iseal",
+   "era_between": [
+    540,
+    540
+   ]
+  },
+  {
+   "id": "EI-1534",
+   "title": "The first hazel weirs driven in the side channels",
+   "body": "Households along the newly settled river drive the first weirs of hazel stakes across the mouths of the side channels, angled against the current with gaps left for a hand to reach through, and leave the stakes standing once the season's run is done.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iv-of-the-weirs-on-the-abhainn-iseal",
+   "era_between": [
+    545,
+    545
+   ]
+  },
+  {
+   "id": "EI-1535",
+   "title": "Oisean stitches the first hide boat",
+   "body": "Working alone over the better part of a season, Oisean stretches and stitches greased sealskin over a frame of bent hazel shaped to his own body, and floats it first in a calm inlet, where it holds him and does not sink.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0008",
+     "type": "cause"
+    },
+    {
+     "to": "EI-1531",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oisean"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#ii-of-oisean-and-the-hide-boat",
+   "era_between": [
+    546,
+    546
+   ]
+  },
+  {
+   "id": "EI-1536",
+   "title": "Oisean crosses to Eilean mhin and comes home",
+   "body": "Alone and with only a paddle and a coil of plaited hide, Oisean crosses the open water to Eilean mhin in an early summer calm and returns before dark with three seals lashed to the frame behind him, the first crossing on the island made of set purpose to a place seen but not walked to.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1535",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oisean"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#ii-of-oisean-and-the-hide-boat",
+   "era_between": [
+    547,
+    547
+   ]
+  },
+  {
+   "after": "I-0008"
+  },
+  {
+   "id": "EI-1537",
+   "title": "The seal-bothies of Eilean mhin first thatched",
+   "body": "Oisean builds a larger boat and begins camping among the seal rocks of Eilean mhin for a stretch of good weather at a time rather than returning each day, raising a shelter of driftwood and hide that comes to be kept and re-thatched, season after season, by those who cross after him.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1536",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oisean"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#ii-of-oisean-and-the-hide-boat",
+   "era_between": [
+    552,
+    552
+   ]
+  },
+  {
+   "id": "EI-1538",
+   "title": "Others follow Oisean across",
+   "body": "Oisean's brothers and then young men of the neighbouring households build boats on his pattern and follow him to Eilean mhin, until the crossing in the calm months is a thing the shore simply does.",
+   "place": "feature:14",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1537",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oisean"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#ii-of-oisean-and-the-hide-boat",
+   "era_between": [
+    553,
+    553
+   ]
+  },
+  {
+   "id": "EI-1539",
+   "title": "The deer of Eilean dhubh grow smaller",
+   "body": "Hunters who cross to Eilean dhubh by boat, the neck no longer drying at all but the lowest ebbs, bring home carcasses lighter than their grandfathers' tellings led them to expect, the island's deer penned by the water onto ground too small to feed a herd that once ranged the length of two islands as one.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#i-of-grainne-and-the-drowned-neck",
+   "era_between": [
+    560,
+    560
+   ]
+  },
+  {
+   "id": "EI-1540",
+   "title": "Scàire born to the north shore",
+   "body": "Scàire is born into a household of the north shore that has already taken up the hide boat after the manner spreading up the coast from the south, though built heavier and lower for water that seldom runs calm even at midsummer.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008a",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "scaire"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iii-of-scaire-and-the-grey-bank",
+   "era_between": [
+    590,
+    590
+   ]
+  },
+  {
+   "id": "EI-1541",
+   "title": "Oisean dies among boats of his grandsons' making",
+   "body": "Oisean dies at his own hearth on the mainland shore in his old age, by then one boat-builder among many of that coast, his grandsons shaping hulls beside his own with a sureness he never had, having had nothing of his own to look at when he began.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1538",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "oisean"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#ii-of-oisean-and-the-hide-boat",
+   "era_between": [
+    596,
+    596
+   ]
+  },
+  {
+   "id": "EI-1542",
+   "title": "The weir-stakes renewed in the same holes",
+   "body": "A generation on from the first driving, households of the Abhainn ìseal renew their weirs by driving fresh stakes into the holes the old ones rotted out of, so that a weir kept thirty years stands on almost the same ground it first stood on, though none of its first stakes remain.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iv-of-the-weirs-on-the-abhainn-iseal",
+   "era_between": [
+    600,
+    600
+   ]
+  },
+  {
+   "id": "EI-1543",
+   "title": "Scàire first goes out to the skerries",
+   "body": "Scàire goes out with her father's crew to the seal skerries off Eilean fhada from her sixteenth year, bailing in boats that ship water with every third swell.",
+   "place": "feature:4",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1540",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "scaire"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iii-of-scaire-and-the-grey-bank",
+   "era_between": [
+    606,
+    606
+   ]
+  },
+  {
+   "after": "I-0008a"
+  },
+  {
+   "id": "EI-1544",
+   "title": "Scàire sees the grey bank from the skerries",
+   "body": "Master of her own boat and crew, Scàire climbs the highest of the seal skerries off Eilean fhada to judge the weather and sees, lying always along the same stretch of the northern and eastern sea, a grey that no sun burns off and no gale blows away.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1543",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "scaire"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iii-of-scaire-and-the-grey-bank",
+   "era_between": [
+    620,
+    620
+   ]
+  },
+  {
+   "id": "EI-1545",
+   "title": "The hard year of the kept boats",
+   "body": "In Scàire's thirty-eighth year the autumn gales hold five boats out of every six ashore the whole season through, the seal harvest thin enough that more than one household of the north shore goes into the winter short of oil for its lamps.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1544",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "scaire"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iii-of-scaire-and-the-grey-bank",
+   "era_between": [
+    628,
+    628
+   ]
+  },
+  {
+   "id": "EI-1546",
+   "title": "Scàire master of her own boat",
+   "body": "After her father's death Scàire is master of his boat and crew without much argument from anyone, no one on that coast doubting that she reads a north-shore sea as well as any man alive on it.",
+   "place": "feature:4",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EI-1545",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "scaire"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iii-of-scaire-and-the-grey-bank",
+   "era_between": [
+    640,
+    640
+   ]
+  },
+  {
+   "id": "EI-1547",
+   "title": "Scàire dies having brought her crews home whole",
+   "body": "Scàire dies at her own hearth in old age, remembered by her kin less for the grey bank on the northern sea, by then known to every household of that coast, than for a working life spent bringing crews home whole across water that forgave very little.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0008a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-1546",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "scaire"
+   ],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iii-of-scaire-and-the-grey-bank",
+   "era_between": [
+    652,
+    652
+   ]
+  },
+  {
+   "after": "I-0009"
+  },
+  {
+   "id": "EI-1548",
+   "title": "Children wade the shallows at weir-mending",
+   "body": "Children of the households along the Abhainn ìseal grow up wading the shallows at weir-mending time, knowing which hole takes a stake easily and which fights it long before they know why the holes are where they are.",
+   "place": "river:16",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iv-of-the-weirs-on-the-abhainn-iseal",
+   "era_between": [
+    690,
+    690
+   ]
+  },
+  {
+   "id": "EI-1549",
+   "title": "The salmon run first feasted at the weirs",
+   "body": "Households up and down the Abhainn ìseal gather for the first time at the largest of the weirs when the salmon run stands at its thickest, sharing out the catch between more hands than any one household's own rather than guarding it apart.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/05_of_the_drowned_neck_and_the_first_boats.md#iv-of-the-weirs-on-the-abhainn-iseal",
+   "era_between": [
+    700,
+    700
+   ]
+  },
+  {
+   "after": "I-0010"
+  },
+  {
+   "id": "EI-1550",
+   "title": "The heap's fire kept through the three-day gale",
+   "body": "A winter gale tears the roof from the shelter behind the shell heap at Dunn and drives the sea over the gathering-rocks for three days; the fire kept at the heap's foot is banked low and fed through the storm by whoever can be spared, and does not go out.",
+   "place": "burg:347",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#i-of-the-heap-at-dunn",
+   "era_between": [
+    758,
+    758
+   ]
+  },
+  {
+   "id": "EI-1551",
+   "title": "The heap worked with the foot",
+   "body": "A woman of Dunn keeps the heap as her mother taught her, letting each bag of shell fall where the heap wants it and working it level with her foot, with the burnt weed laid in thin.",
+   "place": "burg:18",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#i-of-the-heap-at-dunn",
+   "era_between": [
+    760,
+    760
+   ]
+  },
+  {
+   "id": "EI-1552",
+   "title": "The gatherer's mother dies at the tide",
+   "body": "An old woman of the Dunn heap, who has worked the shore pools long past when her hands were fit for it, is found sitting against a rock with the tide turning round her feet, dead as quietly as she lived; what is done with her is not carried past the household's own places.",
+   "place": "burg:347",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#ii-of-the-height-of-a-man",
+   "era_between": [
+    765,
+    765
+   ]
+  },
+  {
+   "id": "EI-1553",
+   "title": "A season worked alone at the heap",
+   "body": "Through the season after her mother's death the gatherer works the shore pools alone, going down before light and coming up after dark, and keeps the heap's fire no lower than it was kept with two pairs of hands, before her own daughter is old enough to work beside her.",
+   "place": "burg:347",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#ii-of-the-height-of-a-man",
+   "era_between": [
+    766,
+    766
+   ]
+  },
+  {
+   "id": "EI-1554",
+   "title": "Eggs taken from the low cliffs at Dunn",
+   "body": "The gatherers of Dunn take eggs from the ledges of the low cliffs in the dry months, never so many from one ledge that the birds do not come back to it the next year.",
+   "place": "burg:18",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#i-of-the-heap-at-dunn",
+   "era_between": [
+    770,
+    770
+   ]
+  },
+  {
+   "id": "EI-1555",
+   "title": "An old scraper turned up in the heap",
+   "body": "Loosening an old shoulder of the Dunn heap, a girl finds a flint scraper struck and finished unlike any tool freshly made at the heap's fire that same season; she turns it over a while and lets it fall back into the shell with everything else the heap has taken in.",
+   "place": "burg:347",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#ii-of-the-height-of-a-man",
+   "era_between": [
+    778,
+    778
+   ]
+  },
+  {
+   "id": "EI-1556",
+   "title": "The heap first used to watch the sea",
+   "body": "A boy sent to fetch fire down for the smoking of fish remarks, standing at the heap's foot, that its top gives the farthest view of the water on that stretch of coast; after that day the heap is climbed from time to time to watch for boats or weather.",
+   "place": "burg:347",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0010",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#ii-of-the-height-of-a-man",
+   "era_between": [
+    785,
+    785
+   ]
+  },
+  {
+   "id": "EI-1557",
+   "title": "The Dunn heap stands a man's height",
+   "body": "The shell heap above the shore at Dunn, built shell by shell and bag by bag over more lifetimes than any one gatherer can reckon, now stands higher at its crown than a grown man can reach with his arm raised, the tallest thing on that shore.",
+   "place": "burg:347",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#ii-of-the-height-of-a-man",
+   "era_between": [
+    790,
+    790
+   ]
+  },
+  {
+   "id": "EI-1558",
+   "title": "The net-maker of Cwen begins the long mesh",
+   "body": "At Cwen, on the sheltered bay to the south, a net-maker who has always set short nets from each shallow toward an open channel begins, over a winter's close work by the fire, twisting a mesh long enough to close the whole width of the bay's mouth.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iii-of-the-net-maker-of-cwen",
+   "era_between": [
+    798,
+    798
+   ]
+  },
+  {
+   "id": "EI-1559",
+   "title": "The Cwen nets first set across the bay",
+   "body": "The net-maker's household stakes a single unbroken net from shallow to shallow across the mouth of the bay at Cwen for the first time, the net-maker herself wading the deepest channel to sink the centre true; more fish come against it than the smoking-racks can hold.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iii-of-the-net-maker-of-cwen",
+   "era_between": [
+    805,
+    805
+   ]
+  },
+  {
+   "id": "EI-1560",
+   "title": "Households come to see the closed net",
+   "body": "Word of the catch taken at the closed net travels the shore, and households from some way off come to see the long line of stakes and weights for themselves, going home to lengthen their own nets by whatever means each knows.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iii-of-the-net-maker-of-cwen",
+   "era_between": [
+    806,
+    806
+   ]
+  },
+  {
+   "id": "EI-1561",
+   "title": "The net-maker's daughter learns the groove",
+   "body": "The net-maker's daughter, grown old enough for close work, begins sitting beside her mother through whole afternoons at the stone weights, learning by eye alone which beach stones will split true under the pecking and which will shatter wrong.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iii-of-the-net-maker-of-cwen",
+   "era_between": [
+    810,
+    810
+   ]
+  },
+  {
+   "id": "EI-1562",
+   "title": "The daughter's first spoiled stones",
+   "body": "Given a stone and the small flint used for the cutting, the net-maker's daughter is set to notching the three strokes; her first attempts run too long, too short or crossing, and each spoiled stone goes back to the unworked pile without comment.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iv-of-the-three-strokes",
+   "era_between": [
+    812,
+    812
+   ]
+  },
+  {
+   "id": "EI-1563",
+   "title": "The net-maker's eyes fail first",
+   "body": "The net-maker of Cwen gives the finer judging of the stones over to her daughter's sharper sight some while before her own hands fail her.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iv-of-the-three-strokes",
+   "era_between": [
+    815,
+    815
+   ]
+  },
+  {
+   "id": "EI-1564",
+   "title": "The three strokes held a breath longer in the light",
+   "body": "The net-maker's daughter takes up a way of holding each finished weight a breath longer in the light than the work requires, as though the three strokes were worth looking at for their own sake.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iv-of-the-three-strokes",
+   "era_between": [
+    818,
+    818
+   ]
+  },
+  {
+   "id": "EI-1565",
+   "title": "The daughter cuts the three strokes true",
+   "body": "On a calm morning the net-maker's daughter cuts three strokes into a finished weight and finds nothing in it her trained eye can fault; her mother takes it up, turns it in the same light, and sets down the next stone before her without a word.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iv-of-the-three-strokes",
+   "era_between": [
+    820,
+    820
+   ]
+  }
+ ]
+}

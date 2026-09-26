@@ -14,7 +14,19 @@ The boy Conall was six when his father brought the first coal home under his clo
 
 It is the household's own telling, kept since, that no fire went out in Neachdan's house in all those first years, not once, not even in the wet spring when the roof let water onto the floor two nights running and every ember in the valley but theirs went dark. Whether that telling is wholly true no one now can say; households make of their own beginnings what they can bear to keep. But there is this much under it: that the fire the mason carried up out of the ground did not go out, that Conall watched it with more care than he gave his own hands in a cold winter, and that the vein down in the rock burned low and steady through all of it, unregarded by most of the valley and utterly regarded by one small household, waiting, though none of them yet knew for what.
 
-## II. Of the Night the Hearth Died
+## II. Of the Meat on the Stones
+
+It was in the second winter after the lightning that the household first put meat to the fire on purpose, and the tellers of the high valleys, who give the carrying of fire and the hut on the heather their full weight, give this its own small place as well, because it changed what a household ate more than anything since the island was new.
+
+They had eaten meat raw all their lives, as every household on the island ate it: cut thin and chewed long, or dried in strips on the wind in the summer and kept for the cold months, or pounded with fat and berries into cakes that kept longer still. No one had ever thought meat wanted anything done to it that the wind and a sharp flint could not do. It was Sorcha, again, who changed it, and by accident, as most of the first things of that household were done: she had hung a haunch of mutton from the roof-beam over the hearth to keep it from the dogs, lower than she meant to, and in the night the heat coming up off the fire browned the underside of it and set the fat dripping, so that the house woke to a smell none of them had ever smelled before and all of them, even the littlest, knew at once for food.
+
+Neachdan cut a piece from the browned side with his flint and ate it standing, and stood a long while after with the taste of it in his mouth, and then cut a second piece for Sorcha and a third for Conall; and that was how the household learned that meat held over a fire was a different thing from meat held in the wind, softer and hotter and easier on an old tooth, and that a household with a fire need not chew all winter on strips as hard as leather. By the spring they were laying mutton and venison on flat stones heated in the embers, and turning it with a stick, and by the next winter a flat stone kept at the edge of the hearth for that one purpose had become as plain a part of the household as the hearth itself.
+
+The neighbours learned it with the fire. It went out with the coal in Ailbhe's pot and in every pot after hers, so that a household begging fire from the mason's line got, along with the coal, the knowing of what to put over it and for how long; and it is told that the first thing a household ever did with a fire newly carried to it, before it thought to warm its hands, was to lay a piece of meat on a stone at the edge and wait to smell it.
+
+There was grief in it too, the tellers say, though small. An old man of the household two doors along, who had lost the last of his teeth the winter before the lightning and lived since on broth of pounded meat and water drunk cold, wept the first time he ate mutton softened over the fire, because it was the first meat he had been able to chew in a year, and because his wife, who had pounded his meat for him every day of that year with her own two hands, had died of the cold in the week before the lightning came and never tasted it.
+
+## III. Of the Night the Hearth Died
 
 It went out at last in the fifth year, in the black hour before the earliest light, when Conall was eleven and the household had grown careless the way any household grows careless of a thing that has never once failed it.
 
@@ -32,7 +44,7 @@ He tipped it out onto the wet hearth-stones and blew on it with his whole chest 
 
 That hearth still tells it, and every hearth fire has reached since has told it too: that this was the night it was learned that fire need not stay where it is born, that it can be carried, a live coal in a clay pot banked round with its own ash, from one fire to light another. Before that night the household had thought of its fire the way it thought of the well-cut, a fixed thing, rooted in one place in the ground. After it, they held a small living thing that could be taken up and moved, and given, if they chose to give it, and a boy of eleven with wet feet and a water-pot had proved it could be done.
 
-## III. Of the Hut on the Heather
+## IV. Of the Hut on the Heather
 
 The first house to burn stood not half a mile off, at the near end of the same slope, the house of a household that had begged fire from Neachdan's hearth two winters before and kept it faithfully since, tending it as carefully as anyone tends a thing given by a neighbour rather than found by a father's own hand.
 
@@ -44,7 +56,7 @@ Conall was among the first from the near houses to come with water, though there
 
 He said so, that night, to the household that had lost its roof, gently, for grief needs no scolding, and he said it again in the days after to anyone who would stand and listen, and he was young enough that some of the old men smiled at a boy telling them their business. But he had carried a coal alone through a storm at eleven, and there were those who had not forgotten it, and slowly, over that year and the ones after, the word went about the near hearths that a fire wants stone under it if it is to be trusted through a night, not the packed heather of the floor it stands on, and here and there a household began to lay flat stones gathered from the burn-bed beneath the hearth before it lit its fire there at all. It did not happen everywhere at once. Old ways die slowly on a hillside, and there were fires laid on heather for a generation and more after that night, in houses too poor in stone or too far from good rock to do otherwise. But the household that had lost its roof rebuilt on stone, and the near hearths that had watched it burn did the same, and it is from that year, the tellers say, that the custom began, stone under every fire the mason's line has ever given.
 
-## IV. Of Ailbhe and the Reach to the Northern Moor
+## V. Of Ailbhe and the Reach to the Northern Moor
 
 Ailbhe grew up beside two fires at once, her mother's on the hearth and the vein's own down in the cut, and by the time she was old enough to be trusted with a pot in her hands she knew both better than any of her brothers did, for she had been set from her earliest years to watch the hearth while the others were sent to the herding or the digging, being the youngest daughter and thought too small yet for harder work. It was said of her, later, and said kindly, that she had learned to walk holding a coal at arm's length before she had learned to walk holding her mother's hand, which cannot be wholly true, but is not far from what those who knew her as a girl believed.
 
@@ -56,7 +68,7 @@ It was slow work and it was not without its cost. A coal could die in the pot on
 
 By the time the fire had been carried, hearth by hearth, as far as the northern moor, no one could any longer say how many households now kept, on their own floors, a flame that had first burned in a well a day and more away. The mason's own fire had not multiplied by magic; it had simply been walked outward, one live coal at a time, by a girl who had grown up believing that a fire not shared was a fire not fully understood, and the valley that had once known one hearth in all its length now knew dozens, none of them less warm for the giving, and all of them, in the telling that mattered most to the households that kept them, still one fire.
 
-## V. Of Neachdan's Death and the Long Watch
+## VI. Of Neachdan's Death and the Long Watch
 
 Neachdan died by his own hearth, an old man by then for that hard country, in the year his grandchildren had begun to outnumber his children round the fire he had carried home under his cloak. In his last years he grew slow and would sit long hours by the flame doing nothing that any onlooker could call work, and those who watched him closest said he was listening to it, the way a man listens to a stream he has crossed his whole life and never once heard the same twice. Near the end he asked to be carried out one last time to see the well-cut, and they carried him, and he looked down for a long while at the vein still burning steadily in the dark of the rock, unchanged in all the years since the lightning had found it, and said, of it, only that it had outlasted him and would outlast his sons too. He was not wrong. That same night he died at the hearth he had lit, with the fire he had carried home burning beside him as it had burned every night of his life since, and the household kept it fed through the whole of the mourning without once letting it fall, because that, by then, was understood without needing to be said.
 

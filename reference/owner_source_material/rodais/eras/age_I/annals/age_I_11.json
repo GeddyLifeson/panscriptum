@@ -1,0 +1,1375 @@
+{
+ "writer": 6,
+ "span": [
+  "I-0066",
+  "I-0073a"
+ ],
+ "events": [
+  {
+   "id": "EI-6001",
+   "title": "Barabal burns the first sliver outside the line",
+   "body": "At Àth gharbh a woman named Barabal, keeping a bright stone given her as a child at a ford, sets it on her peat fire from idle curiosity; it burns black-flamed like any coal, and the hearthstone beneath it takes a stain of colour clean through its thickness.",
+   "place": "burg:277",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0066",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "barabal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#i-of-the-sliver-at-ath-gharbh",
+   "era_between": [
+    4475,
+    4475
+   ]
+  },
+  {
+   "id": "EI-6002",
+   "title": "Barabal's husband's mother knows the stained stone",
+   "body": "Barabal's husband's mother turns the stained hearthstone over in the daylight at the door and says she once heard that the Mason's line kept coloured stones just such as this.",
+   "place": "burg:277",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0066",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6001",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "barabal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#i-of-the-sliver-at-ath-gharbh",
+   "era_between": [
+    4476,
+    4476
+   ]
+  },
+  {
+   "id": "EI-6003",
+   "title": "Word of the stained hearthstone reaches Tobar dhìreach",
+   "body": "A fire-bearer carries the tale of Barabal's stained hearthstone to the Mason's line at Tobar dhìreach, and the woman who then keeps the bag hears it out and says only that a piece small enough to fit a boy's palm was small enough to lose.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0066",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6002",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "barabal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#i-of-the-sliver-at-ath-gharbh",
+   "era_between": [
+    4482,
+    4482
+   ]
+  },
+  {
+   "id": "EI-6004",
+   "title": "Giorsal born at Achadh dhìreach",
+   "body": "Giorsal is born at Achadh dhìreach, ten miles west of the crack, to a household that keeps no fire-pot and counts no fathers back to the mason, and grows up on the Telling as every child of the valleys does.",
+   "place": "burg:454",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0067",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "giorsal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#ii-of-the-stained-wool-of-achadh-dhireach",
+   "era_between": [
+    4490,
+    4490
+   ]
+  },
+  {
+   "id": "EI-6005",
+   "title": "The stained hearthstone shown to travellers",
+   "body": "The stained hearthstone at Àth gharbh is shown to travellers who ask after it and to children who do not, a plain curiosity, until a later hand splits it to see whether the colour runs all the way through.",
+   "place": "burg:277",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0066",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#i-of-the-sliver-at-ath-gharbh",
+   "era_between": [
+    4500,
+    4500
+   ]
+  },
+  {
+   "id": "EI-6006",
+   "title": "Barabal dies at Àth gharbh",
+   "body": "Barabal dies in her two-and-seventieth year at her own hearth, remembered by her own valley less as the woman who first burned the coloured coal than simply as an old grandmother among her kin.",
+   "place": "burg:277",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0066",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6003",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "barabal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#i-of-the-sliver-at-ath-gharbh",
+   "era_between": [
+    4512,
+    4512
+   ]
+  },
+  {
+   "id": "EI-6007",
+   "title": "Giorsal's grandmother shows her the bright stone",
+   "body": "Giorsal's grandmother shows her as a girl the scrap of coloured stone kept in a box at Achadh dhìreach three generations, calling it only the bright stone and saying nothing of what it is.",
+   "place": "burg:454",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0067",
+     "type": "cause"
+    },
+    {
+     "to": "EI-6004",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "giorsal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#ii-of-the-stained-wool-of-achadh-dhireach",
+   "era_between": [
+    4520,
+    4520
+   ]
+  },
+  {
+   "after": "I-0067"
+  },
+  {
+   "id": "EI-6008",
+   "title": "Giorsal begins rubbing coal into the wool of the dead",
+   "body": "Giorsal, who sees to the burials of her household, takes up the private habit of rubbing a little broken coloured coal into the wrapping wool of some of her dead, choosing perhaps one grave in thirty across her working years.",
+   "place": "burg:454",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0067",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6007",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "giorsal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#ii-of-the-stained-wool-of-achadh-dhireach",
+   "era_between": [
+    4525,
+    4525
+   ]
+  },
+  {
+   "id": "EI-6009",
+   "title": "Word of the stained wool reaches the line",
+   "body": "A trader carries the tale of Giorsal's stained burial-wool to Tobar dhìreach some fifteen years after it begins, and the Mason's line takes it as further proof that its own coloured coal is no longer the only piece the valleys hold.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0067",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6008",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "giorsal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#ii-of-the-stained-wool-of-achadh-dhireach",
+   "era_between": [
+    4540,
+    4540
+   ]
+  },
+  {
+   "id": "EI-6010",
+   "title": "Giorsal dies and is given the office in her turn",
+   "body": "Giorsal dies in her seventieth year of a wasting sickness, and her own daughter, taught the office before her, rubs a sliver of the coloured stone into her mother's own wrapping as she had seen it done for others.",
+   "place": "burg:454",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0067",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6009",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "giorsal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#ii-of-the-stained-wool-of-achadh-dhireach",
+   "era_between": [
+    4560,
+    4560
+   ]
+  },
+  {
+   "id": "EI-6011",
+   "title": "A bright stone is found on the midden at Bral",
+   "body": "A woman of Bral, sifting the midden below her household's huts, turns up a small hard thing bright with more than one colour, unlike any shell or stone the heap has yielded before; no one of that household can say how long it lay there or how it came.",
+   "place": "burg:47",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0068",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iii-of-the-bright-thing-on-the-midden-at-bral",
+   "era_between": [
+    4560,
+    4560
+   ]
+  },
+  {
+   "id": "EI-6012",
+   "title": "Giorsal buried with a sliver rubbed into her wrapping",
+   "body": "Giorsal's daughter rubs a sliver of the bright stone into her mother's own wrapping at her burial, the office passing once from the hand that always gave it to the hand that had only received it.",
+   "place": "burg:454",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0067",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6010",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "giorsal"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#ii-of-the-stained-wool-of-achadh-dhireach",
+   "era_between": [
+    4561,
+    4561
+   ]
+  },
+  {
+   "id": "EI-6013",
+   "title": "The stone at Bral is kept among the household's trinkets",
+   "body": "The bright stone found on the midden at Bral is never set to any fire; it is kept awhile among the household's small keepings, admired and set aside, and passes out of particular notice as such finds do.",
+   "place": "burg:47",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0068",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iii-of-the-bright-thing-on-the-midden-at-bral",
+   "era_between": [
+    4565,
+    4565
+   ]
+  },
+  {
+   "after": "I-0068a"
+  },
+  {
+   "id": "EI-6014",
+   "title": "Oscar names the line in jest",
+   "body": "At the gathering on the night of the lightning, Oscar of Àth gharbh calls the Mason's line Luchd-ceasnachaidh a' Ghuail Dhìomhair, the long questioners of the secret coal, meaning it half as a joke against their long, fruitless asking of the two dark coals.",
+   "place": "burg:277",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0068a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "oscar",
+    "colla"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iv-of-the-name-taken-at-the-gathering",
+   "era_between": [
+    4625,
+    4625
+   ]
+  },
+  {
+   "id": "EI-6015",
+   "title": "Colla takes the name",
+   "body": "Colla, keeper of the bag at Tobar dhìreach and five and thirty that year, takes up Oscar's long name for his line without the laughter that first carried it, and gives travellers the short form, Clann na Ceiste, the children of the question.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0068a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6014",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "colla"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iv-of-the-name-taken-at-the-gathering",
+   "era_between": [
+    4625,
+    4625
+   ]
+  },
+  {
+   "id": "EI-6016",
+   "title": "Colla gives the long name to a traveller",
+   "body": "Asked by a traveller what his people call themselves, Colla gives back Oscar's long name without the laughter, and says the short form Clann na Ceiste will serve.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0068a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6015",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "colla"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iv-of-the-name-taken-at-the-gathering",
+   "era_between": [
+    4626,
+    4626
+   ]
+  },
+  {
+   "id": "EI-6017",
+   "title": "Clann na Ceiste settles into ordinary use",
+   "body": "The households of the valleys take up calling the Mason's line simply Clann na Ceiste in their everyday talk, the older name Clann a' Chlachair heard less with each passing year.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0068a",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iv-of-the-name-taken-at-the-gathering",
+   "era_between": [
+    4640,
+    4640
+   ]
+  },
+  {
+   "id": "EI-6018",
+   "title": "Colla dies and hands on the bag",
+   "body": "Colla dies in his five-and-sixtieth year, having kept the bag some thirty years, and hands the keeping before the end to a son whose name the reciters, as with every father along that stretch of the line, keep from strangers.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0068a",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6016",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "colla"
+   ],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iv-of-the-name-taken-at-the-gathering",
+   "era_between": [
+    4655,
+    4655
+   ]
+  },
+  {
+   "id": "EI-6019",
+   "title": "The mason's children heard for the last time as the line's own name",
+   "body": "At the recital held the winter after Colla's death, the reciters say both the old name and the new, Clann a' Chlachair and Clann na Ceiste together, before letting the newer name stand alone in every recital after.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0068a",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iv-of-the-name-taken-at-the-gathering",
+   "era_between": [
+    4656,
+    4656
+   ]
+  },
+  {
+   "after": "I-0069"
+  },
+  {
+   "id": "EI-6020",
+   "title": "Lughaidh finds a new-cut stone in the western grass",
+   "body": "Driving his flock further west than his own hearth has grazed before, the shepherd Lughaidh comes on a standing stone raised so lately that the turned earth at its foot has not yet greened over, with no camp, path or tool-litter left by whatever hand set it there.",
+   "place": "marker:28",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0069",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "lughaidh"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4672,
+    4672
+   ]
+  },
+  {
+   "id": "EI-6021",
+   "title": "Two hands on one stone",
+   "body": "Lughaidh reads a line of unfamiliar script on the stone's upper face, cut broad and level by one hand, and below it four words of his own tongue, Bha teine sa chloich, cut narrower and shallower by another; neither hand has left any other mark on the hillside.",
+   "place": "marker:28",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0070",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6020",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "lughaidh"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4672,
+    4672
+   ]
+  },
+  {
+   "id": "EI-6022",
+   "title": "Lughaidh's find carried hearth to hearth",
+   "body": "The tale of the new stone in the western grass passes from Lughaidh's own hearth to the next and on beyond it, the four words kept exact in every mouth that takes them up while the stone's own size and the manner of its finding grow with the telling.",
+   "place": null,
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0070",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6021",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lughaidh"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4673,
+    4673
+   ]
+  },
+  {
+   "id": "EI-6023",
+   "title": "Lughaidh's father asks what he moved",
+   "body": "Told of the new stone in the western grass, Lughaidh's father asks first whether the boy left anything of his own behind or moved any stone, and Lughaidh, stung, says he moved nothing.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0069",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6022",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lughaidh"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4674,
+    4674
+   ]
+  },
+  {
+   "id": "EI-6024",
+   "title": "The words of the low cutting known at every hearth",
+   "body": "By the winter after the western stone is found, every hearth that tells of it tells also what its four low words say, though no one of the valleys reads a sign and no one can say whose mouth first gave the words.",
+   "place": "marker:28",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0070",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4675,
+    4675
+   ]
+  },
+  {
+   "id": "EI-6025",
+   "title": "A woman of the line sits three days before the western stone",
+   "body": "A woman of Clann na Ceiste sits three days before the western stone to learn which of its two hands came first, and comes home saying both kept their counsel and she will not guess.",
+   "place": "marker:28",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0070",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/33_of_fire_in_the_stone.md#ii-of-the-two-hands-on-the-one-face",
+   "era_between": [
+    4676,
+    4676
+   ]
+  },
+  {
+   "id": "EI-6026",
+   "title": "Clann na Ceiste claims the fire, and leaves the older line unread",
+   "body": "Word of the stone's four words reaches Tobar dhìreach, and the line holds the fire they name for its own, the mason's fire, while the broader script above them goes on unread, no eye at the line or beyond it able to say what hand cut it or when.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0070",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4680,
+    4680
+   ]
+  },
+  {
+   "id": "EI-6027",
+   "title": "A second stone found in the stony hills",
+   "body": "A traveller crossing poor, broken ground further into the hills all but walks into a shorter stone before he sees it, and carries down word of three more words cut low upon it, Cuimhnich an teine, in what looks the same sure hand as the first stone's saying.",
+   "place": "marker:29",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/33_of_fire_in_the_stone.md#iii-of-the-second-stone",
+   "era_between": [
+    4700,
+    4700
+   ]
+  },
+  {
+   "id": "EI-6028",
+   "title": "The line answers for a bidding cut to no one",
+   "body": "Asked by travellers whether the second stone's plain command speaks to them any clearer than the first, Clann na Ceiste answers each time the same: that the fire is theirs to remember whether the stone bade them or not, there being no other hand on the island that has minded it so long.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0071",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/33_of_fire_in_the_stone.md#iii-of-the-second-stone",
+   "era_between": [
+    4705,
+    4705
+   ]
+  },
+  {
+   "after": "I-0070"
+  },
+  {
+   "id": "EI-6029",
+   "title": "Lughaidh dies at his own hearth",
+   "body": "Lughaidh dies in his own seventieth year, remembered by his own valley chiefly as the shepherd who first said the stone's four words aloud on the hillside where they stand.",
+   "place": null,
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0069",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6023",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "lughaidh"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4720,
+    4720
+   ]
+  },
+  {
+   "id": "EI-6030",
+   "title": "The four words said standing at the gathering",
+   "body": "At that year's gathering a young man of the line says Bha teine sa chloich aloud, standing, before the whole crowd for what the tellers hold to be the first time, the saying having come to him by the same slow road as every other hearth, from mouth to mouth, back to a shepherd fifty years gone.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0070",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/33_of_fire_in_the_stone.md#i-of-the-stone-new-in-the-grass",
+   "era_between": [
+    4720,
+    4720
+   ]
+  },
+  {
+   "after": "I-0071"
+  },
+  {
+   "id": "EI-6031",
+   "title": "The three words of the second stone taken as meant for the line",
+   "body": "The line at Tobar dhìreach answers every traveller who asks that the fire is theirs to remember whether the second stone bids them or not, and that they are glad enough to take the bidding as meant for them.",
+   "place": "marker:29",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/33_of_fire_in_the_stone.md#iii-of-the-second-stone",
+   "era_between": [
+    4770,
+    4770
+   ]
+  },
+  {
+   "id": "EI-6032",
+   "title": "Mòrnait born at Tobar dhìreach",
+   "body": "Mòrnait is born into a household gathered about Clann na Ceiste's own hearth without ever holding its coals, and grows up on the Telling and the two new sayings both, already part of the ordinary stock of what every child of the valleys knows by then.",
+   "place": "burg:276",
+   "kind": "people",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0072",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "mornait"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#iv-of-the-ring-at-the-second-stone",
+   "era_between": [
+    4785,
+    4785
+   ]
+  },
+  {
+   "id": "EI-6033",
+   "title": "Mòrnait carries fire to the second stone",
+   "body": "Mòrnait makes the hard day's walk into the stony hills with a coal from the line's own pot wrapped close against the wet, and builds at the foot of Colbh Cnoc chiar a ring of fire-cracked stones in which she lights and keeps a hearth-sized fire.",
+   "place": "marker:29",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0072",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6032",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "mornait"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#iv-of-the-ring-at-the-second-stone",
+   "era_between": [
+    4805,
+    4805
+   ]
+  },
+  {
+   "after": "I-0072"
+  },
+  {
+   "id": "EI-6034",
+   "title": "The ring at the pillar is kept and grows a path",
+   "body": "Mòrnait returns to the ring at Colbh Cnoc chiar year on year, joined in time by others who come to sit an evening by the fire before going their own ways, until a worn path runs to it across the broken ground and the ash within the stones lies black and deep.",
+   "place": "marker:29",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0072",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6033",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "mornait"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#iv-of-the-ring-at-the-second-stone",
+   "era_between": [
+    4812,
+    4812
+   ]
+  },
+  {
+   "id": "EI-6035",
+   "title": "Mòrnait holds the fire is kept, not questioned",
+   "body": "Asked more than once whether her fire is some new trial of the old riddle, Mòrnait answers that the stone asked only to be remembered, not questioned, there being questioning enough already given the two dark coals by better keepers than herself.",
+   "place": "marker:29",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0072",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6034",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "mornait"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#iv-of-the-ring-at-the-second-stone",
+   "era_between": [
+    4820,
+    4820
+   ]
+  },
+  {
+   "id": "EI-6036",
+   "title": "Others come to sit by Mòrnait's fire",
+   "body": "As word of the fire at the second stone goes about the valleys, others walk the hard day into the stony hills to sit a night or a day by Mòrnait's fire before going home.",
+   "place": "marker:29",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0072",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6035",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "mornait"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#iv-of-the-ring-at-the-second-stone",
+   "era_between": [
+    4830,
+    4830
+   ]
+  },
+  {
+   "id": "EI-6037",
+   "title": "Mòrnait's last walk to the ring",
+   "body": "In her sixty-fifth year Mòrnait makes the walk to Colbh Cnoc chiar for the last time, and tells the few who sit with her that evening she does not know what the stone remembers, only that she has kept it as well as she knew how.",
+   "place": "marker:29",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0072",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6036",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "mornait"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#iv-of-the-ring-at-the-second-stone",
+   "era_between": [
+    4850,
+    4850
+   ]
+  },
+  {
+   "id": "EI-6038",
+   "title": "Mòrnait dies, and her daughter takes up the keeping",
+   "body": "Mòrnait dies at her own hearth some weeks after her last walk, and her daughter, and after her the daughter's own children, take up the walk to the ring in her stead, less often than Mòrnait kept it but often enough that the fire does not go cold.",
+   "place": "burg:276",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0072",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6037",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "mornait"
+   ],
+   "told_in": "book/33_of_fire_in_the_stone.md#iv-of-the-ring-at-the-second-stone",
+   "era_between": [
+    4850,
+    4850
+   ]
+  },
+  {
+   "after": "I-0073"
+  },
+  {
+   "id": "EI-6039",
+   "title": "Ciannait finds the third stone standing",
+   "body": "Ciannait, driving her household's beasts down to the autumn stubble, finds a squared pillar newly standing on the rise by the drove-road where no stone had stood the year before, and reads aloud, alone but for a boy of her own kin, the four words cut low on its face and the whole saying beneath them.",
+   "place": "burg:1008",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciannait"
+   ],
+   "told_in": "book/34_of_the_column.md#i-of-the-third-stone",
+   "era_between": [
+    4851,
+    4851
+   ]
+  },
+  {
+   "id": "EI-6040",
+   "title": "Ciannait's brother's boy asks if the stone will stand",
+   "body": "Ciannait's brother's boy asks whether the new-found pillar will still be standing come morning; she tells him a stone is not a fire and has never yet been known to go out.",
+   "place": "burg:1008",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-6039",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciannait"
+   ],
+   "told_in": "book/34_of_the_column.md#i-of-the-third-stone",
+   "era_between": [
+    4852,
+    4852
+   ]
+  },
+  {
+   "id": "EI-6041",
+   "title": "The rise takes the name Achadh a' Chalbh",
+   "body": "The hearths that gather to look at the new pillar begin to call the rise Achadh a' Chalbh, the field of the column, a name that settles into use before any household troubles to remember which mouth first gave it.",
+   "place": "burg:1008",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_the_column.md#ii-of-the-field-of-the-column",
+   "era_between": [
+    4853,
+    4853
+   ]
+  },
+  {
+   "id": "EI-6042",
+   "title": "The whole saying said standing for the first time",
+   "body": "At a gathering of some thirty households kept at Achadh a' Chalbh on the night of the lightning, an old woman of a neighbouring valley says the sayings of all three stones together before a crowd, and ties the third saying to the Telling's grass-people and the island as their only root.",
+   "place": "burg:1008",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "cause"
+    },
+    {
+     "to": "EI-6040",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciannait"
+   ],
+   "told_in": "book/34_of_the_column.md#ii-of-the-field-of-the-column",
+   "era_between": [
+    4854,
+    4854
+   ]
+  },
+  {
+   "id": "EI-6043",
+   "title": "An old woman says the three sayings as one",
+   "body": "At the first gathering kept at the pillar an old woman of a hearth two valleys east says the sayings of the three stones together for the first time, and says after them that the stone says in fewer words what the Telling always said.",
+   "place": "burg:1008",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_the_column.md#ii-of-the-field-of-the-column",
+   "era_between": [
+    4854,
+    4854
+   ]
+  },
+  {
+   "id": "EI-6044",
+   "title": "The gathering at the column kept a second year, and a third",
+   "body": "More households come to keep the dark of the year at Achadh a' Chalbh than came the winter before, and the ground about the pillar's foot begins to wear bare under their standing, so that within Ciannait's own lifetime the column becomes the one gathering-ground of that whole stretch of country.",
+   "place": "burg:1008",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6042",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciannait"
+   ],
+   "told_in": "book/34_of_the_column.md#ii-of-the-field-of-the-column",
+   "era_between": [
+    4857,
+    4857
+   ]
+  },
+  {
+   "id": "EI-6045",
+   "title": "A market grows up at the column's gatherings",
+   "body": "Traders begin setting hides, salt and wool out on cloths spread over the trampled ground at Achadh a' Chalbh on the two days a year the crowds are greatest, taking their goods up again each evening, for no one yet thinks to leave anything standing there overnight but the stone.",
+   "place": "burg:1008",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_the_column.md#ii-of-the-field-of-the-column",
+   "era_between": [
+    4865,
+    4865
+   ]
+  },
+  {
+   "id": "EI-6046",
+   "title": "A boy of the keeper's hearth hears of the third stone",
+   "body": "At Tobar dhìreach a fire-bearer carries the first word of the pillar and its saying to the keeper's own hearth, and a boy not yet six turns the fire coal in his fingers as he listens, asking his mother whether the coal and the stone's saying come from the one place.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "seathan"
+   ],
+   "told_in": "book/34_of_the_column.md#iii-of-the-fire-coal-in-a-child-s-hand",
+   "era_between": [
+    4868,
+    4868
+   ]
+  },
+  {
+   "id": "EI-6047",
+   "title": "The saying carried to the northern shore",
+   "body": "A woman of the northern shore, come south to trade hides for salt at one of Achadh a' Chalbh's market days, hears the whole saying said at the stone and carries it home the length of the island, telling it first at her own hearth to a household that keeps no stone and no gathering-ground of its own.",
+   "place": "burg:1008",
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_the_column.md#iv-of-the-word-carried-north-and-ciannait-s-children",
+   "era_between": [
+    4870,
+    4870
+   ]
+  },
+  {
+   "id": "EI-6048",
+   "title": "A north-western shepherd answers a trader with the saying",
+   "body": "A shepherd of the far north-western moor, asked by a passing trader what his own people hold of where they came from, answers with the third stone's four words, though he has never walked south to hear them said at Achadh a' Chalbh himself.",
+   "place": null,
+   "kind": "culture",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_the_column.md#iv-of-the-word-carried-north-and-ciannait-s-children",
+   "era_between": [
+    4876,
+    4876
+   ]
+  },
+  {
+   "id": "EI-6049",
+   "title": "Seathan's father tells him the waiting is part of the keeping",
+   "body": "Seathan's father tells the boy that the bag on its peg has waited longer than any stone in the south, and that a thing worth keeping is worth keeping without asking each year whether the keeping has come to anything.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-6046",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "seathan"
+   ],
+   "told_in": "book/34_of_the_column.md#iii-of-the-fire-coal-in-a-child-s-hand",
+   "era_between": [
+    4880,
+    4880
+   ]
+  },
+  {
+   "id": "EI-6050",
+   "title": "A trader woman walks ten days to the column",
+   "body": "A woman of the northern shore walks ten days south by the drove-roads to trade hides for salt at the column, hears many households say the same words together, and carries the saying home with the salt.",
+   "place": "burg:1008",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_the_column.md#iv-of-the-word-carried-north-and-ciannait-s-children",
+   "era_between": [
+    4885,
+    4885
+   ]
+  },
+  {
+   "id": "EI-6051",
+   "title": "Ciannait says the saying to her children by her own fire",
+   "body": "In the last winter of her life, her joints too cold-bitten for the walk to Achadh a' Chalbh, Ciannait says the third stone's saying once more to her children at her own hearth, tying it plainly to the Telling of the grass-people grown from the island's own ground.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6044",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciannait"
+   ],
+   "told_in": "book/34_of_the_column.md#iv-of-the-word-carried-north-and-ciannait-s-children",
+   "era_between": [
+    4890,
+    4890
+   ]
+  },
+  {
+   "id": "EI-6052",
+   "title": "Ciannait dies at her own hearth",
+   "body": "Ciannait dies in her one and seventieth year at the hearth where she was born, and is buried, as her own kin have always been buried, without any coal of the vein given her in the ground, that custom never having reached so far south-west in her lifetime.",
+   "place": null,
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "legacy"
+    },
+    {
+     "to": "EI-6051",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciannait"
+   ],
+   "told_in": "book/34_of_the_column.md#iv-of-the-word-carried-north-and-ciannait-s-children",
+   "era_between": [
+    4891,
+    4891
+   ]
+  },
+  {
+   "id": "EI-6053",
+   "title": "Ciannait's children keep the walk to the column after her",
+   "body": "Ciannait's children take up the walk to Achadh a' Chalbh in her stead, not every year but often enough that the fire at the pillar's foot never goes long unlit in their own generation, and the saying she gave them at her hearth goes on being said by mouths that never stood at the stone itself.",
+   "place": "burg:1008",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0073",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_the_column.md#iv-of-the-word-carried-north-and-ciannait-s-children",
+   "era_between": [
+    4895,
+    4895
+   ]
+  }
+ ]
+}
