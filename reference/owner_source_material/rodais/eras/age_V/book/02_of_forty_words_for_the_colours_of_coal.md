@@ -2,13 +2,13 @@
 
 *AE 2 – 3*
 
-## I. Of the Land Beyond
+## I. Of an Tìr Thall
 
 By the back end of that second winter Comhairle a' Chùraim had given leave to a people it had no name for, and the clerks of the roll were the first to feel the want of one.
 
 In the forty days below the dunes the clerks had called the newcomers the men of the ships, and Harrow's men, and once, in a hand afterwards scored through, the wet men. That did well enough while they were a wonder on a beach. Leave to stay is another matter. It is given to people who come from somewhere, and the clerk who entered the leave on {{date:IV-0005}} left a gap after the words *the people of*, meaning to fill it when he knew what to put there. He never filled it.
 
-The strangers had told their country's name to the custodians of Cuan shean many times over, slowly and loudly, as men talk to the deaf, and nobody on the island ever learned to say it so that its owners knew it for theirs. No scribe tried to write it down. What the island called the place in the end came up the valley road from the harbour with the carters, and it was the fishers' way of naming a thing they could not reach: *an Tìr Thall*, the land beyond. On {{date:IV-0007}} the clerk of the council wrote it into the roll for the first time, and after that he wrote nothing else, and neither did any clerk after him. The people of it the rolls called the humans, as if the island had never had any of its own, and so they are called in this telling.
+The strangers had told their country's name to the custodians of Cuan shean many times over, slowly and loudly, as men talk to the deaf, and nobody on the island ever learned to say it so that its owners knew it for theirs. No scribe tried to write it down. What the island called the place in the end came up the valley road from the harbour with the carters, and it was the fishers' way of naming a thing they could not reach: *an Tìr Thall*, an Tìr Thall. On {{date:IV-0007}} the clerk of the council wrote it into the roll for the first time, and after that he wrote nothing else, and neither did any clerk after him. The people of it the rolls called the humans, as if the island had never had any of its own, and so they are called in this telling.
 
 Gormshuil nic Fhearchair read that entry in the fair copy the morning after it was made. She sat on the council for Clann Fhearchair, as her father had before her, and she was in her forty-second year that winter, a tall woman with a long plain face and grey coming in at her temples, who wrote a better hand than any clerk in the hall and was known for it. When the leave was put she had given her voice for it, thinking of the cask Harrow had held out on the shingle at Cuan shean, empty and turned upside down, and of what it must be to be so far from home that you have to ask a stranger for water with your hands. Beyond that she had not thought much. Few had.
 

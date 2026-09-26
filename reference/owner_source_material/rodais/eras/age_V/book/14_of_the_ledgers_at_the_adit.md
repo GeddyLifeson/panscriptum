@@ -1,6 +1,6 @@
 # Of the Ledgers at the Adit
 
-*Part Three: Of Silver, Steam and the Green Death*
+*Part Three: Of Silver, Steam and A' Phlàigh Uaine*
 
 *AE 42 – 45*
 

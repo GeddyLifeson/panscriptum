@@ -28,7 +28,8 @@ Checks (FAIL stops the exit status at 1; "note" lines are information):
   8c. ages (quality/ages_check.py, the owner's rule): the rulers who lived in the age keep eras/RULERS.json's rule (no
      one born in FE 1,200 or later, or outside the king's kin, lives past 95; the long years fade generation by
      generation), and eras/age_<K>/PLAN_people.json keeps the rule and the rulers' years of RULERS.json
-  9. size: words per section and an estimated page count against the 500-600 page target
+  9. size: words per section and an estimated page count against the targets (owner's decision: the volume is as
+     long as it needs; the lower bounds hold, an overrun of an upper bound is a note only; 800-1,500 annals entries)
 """
 import argparse
 import glob
@@ -58,8 +59,9 @@ RK = B.reckoning
 # plus ~10 pages of front matter and contents. On the master this estimate gives 596 pages, as built.
 DENSITY = {'books': 405, 'annals': 540, 'appendices': 445, 'gazetteer': 620}
 TARGET = {'annals': (30000, 45000), 'books': (170000, 200000), 'gazetteer': (10000, 15000), 'appendices': (10000, 20000)}
-ENTRIES = (500, 800)
-PAGES = (500, 600)
+ENTRIES = (800, 1500)
+PAGES = (500, None)        # no upper bound: the 600-page cap is lifted
+CHAPTER_PAGE = 0.5         # each chapter opens on a new page: about half a page lost per chapter
 
 WORD = re.compile(r"[^\W\d_](?:[^\W\d_]|['’-](?=[^\W\d_]))*")
 LONG = re.compile('[àèìòùÀÈÌÒÙáéíóúÁÉÍÓÚ]')
@@ -347,19 +349,25 @@ def check(k, final=False, n_fuzz=0):
     # size
     words = section_words(k, rec, md)
     pages = 10 + sum(words[s] / DENSITY[s] for s in DENSITY)        # the densities include the openers
+    pages += CHAPTER_PAGE * len(glob.glob(os.path.join(B.age_dir(k), 'book', '*.md')))
     total = sum(words.values())
     print('size  %-11s %8s words   target %s' % ('annals', format(words['annals'], ','), '%s-%s words, %s-%s entries (%d now)'
           % (format(TARGET['annals'][0], ','), format(TARGET['annals'][1], ','), format(ENTRIES[0], ','), format(ENTRIES[1], ','), len(events))))
     for s in ('books', 'gazetteer', 'appendices'):
         print('size  %-11s %8s words   target %s-%s' % (s, format(words[s], ','), format(TARGET[s][0], ','), format(TARGET[s][1], ',')))
-    print('size  %-11s %8s words   about %d pages (target %d-%d)' % ('total', format(total, ','), pages, PAGES[0], PAGES[1]))
+    print('size  %-11s %8s words   about %d pages (target %d or more)' % ('total', format(total, ','), pages, PAGES[0]))
     if final:
-        out = [s for s in TARGET if not TARGET[s][0] <= words[s] <= TARGET[s][1]]
-        if not ENTRIES[0] <= len(events) <= ENTRIES[1]:
+        out = [s for s in TARGET if words[s] < TARGET[s][0]]
+        for s in TARGET:
+            if words[s] > TARGET[s][1]:
+                report.note('size: %s over its target (%s words; the volume is as long as it needs)' % (s, format(words[s], ',')))
+        if len(events) < ENTRIES[0]:
             out.append('annals entries')
-        if not PAGES[0] <= pages <= PAGES[1]:
+        elif len(events) > ENTRIES[1]:
+            report.note('size: %d annals entries, over the %d aimed at' % (len(events), ENTRIES[1]))
+        if pages < PAGES[0] or (PAGES[1] and pages > PAGES[1]):
             out.append('pages')
-        report.check(not out, 'size: every section, the annals entries and the page estimate inside their targets (outside: %s)'
+        report.check(not out, 'size: every section, the annals entries and the page estimate reach their targets (short: %s)'
                      % (', '.join(out) or 'none'))
     if n_fuzz:
         fuzz(k, n_fuzz, report)

@@ -166,7 +166,7 @@ When it was done the custodians' clerk sat down on a stone at the cutting mouth 
 
 Raghnall thought of the driver and his pointing hand. "West," he said.
 
-The clerk wrote it. The roll of Taigh na Fèithe enters the other half of the coal as "carried west," and it is still so entered in the copy that lies in the cellar at Muileann chaol, the first coal of the vein in all the records that went out of the hill and was not accounted for. Seonag Liath, who read over the clerk's shoulder, put her finger on the line and looked at Raghnall a long while, and said nothing, and went down the hill.
+The clerk wrote it. The roll of Taigh na Fèithe enters the other half of the coal as "carried west," and it is still so entered in the copy that lies in Seilear Muileann chaol, the first coal of the vein in all the records that went out of the hill and was not accounted for. Seonag Liath, who read over the clerk's shoulder, put her finger on the line and looked at Raghnall a long while, and said nothing, and went down the hill.
 
 ## VI. Of the Contract and the First Ton
 

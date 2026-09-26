@@ -42,7 +42,7 @@ It was not, at first, meant as anything more than what any fire on any headland 
 
 He told them, when he told them at all, in few words, and the words changed from telling to telling while the sense of them held steady: that a man who watched water long enough came to feel, in his own body before his mind had properly reasoned it out, where the water changed its temper, and that the stretch off that headland, ever since the four men's telling, had felt to him like water that wanted watching rather than water that wanted trusting. He never once claimed to have seen the Watcher himself, in all the years the fire burned, and when pressed on it he always said the same thing: that he had not needed to see it to believe four men who had no reason between them to agree on a lie, and that a fire cost him little enough to keep, set against what it might, one day, be found to have saved.
 
-The word he settled on to go with the fire, the word he began calling down to any boat that worked too far out into that stretch of water, came to him worn smooth over several seasons, the way a saying is worn smooth by repeated use, until only the truest, shortest form of it was left standing. By the time he had said it enough evenings running that his own children could say it back to him in their sleep, it had settled into the four short lines every household on that coast came in time to know as well as they knew the Telling itself:
+The word he settled on to go with the fire, the word he began calling down to any boat that worked too far out into that stretch of water, came to him worn smooth over several seasons, the way a saying is worn smooth by repeated use, until only the truest, shortest form of it was left standing. By the time he had said it enough evenings running that his own children could say it back to him in their sleep, it had settled into the few short words every household on that coast came in time to know as well as they knew the Telling itself:
 
 > *Tionndaidh air ais. Chan ann dhutsa an t-uisce seo.*
 > Turn back. This water is not for you.
@@ -55,7 +55,7 @@ He died at four-and-sixty, in his own bed, with three generations of his own kin
 
 ## IV. Of the Widows of Ros ruadh
 
-It was Criomthann's grandson who was tending the fire, some fifteen years into his own turn at the keeping of it, when the season came that the whole of that coast afterward reckoned the worst it had known.
+It was Criomthann's grandson who was tending the fire, some years into his own turn at the keeping of it, when the season came that the whole of that coast afterward reckoned the worst it had known.
 
 It began, as the worst seasons on that coast most often began, in weather that gave no warning at all of what it meant to take. A calm settled over the water in early summer of the kind fishermen prayed for and seldom got in full measure, day after day of flat grey-green sea and a wind too light to trouble a coracle's balance, the sort of run of weather that filled a household's stores for a whole winter if a crew worked it hard enough while it lasted. The boats of Ros ruadh, a fishing settlement some way down the coast from the headland where the fire burned, close enough that its own boats had heard Criomthann's call turned back more than once in his lifetime and his grandson's after him, went out harder that season than any season in living memory, for a calm like that one was not a thing a fishing household let go to waste.
 

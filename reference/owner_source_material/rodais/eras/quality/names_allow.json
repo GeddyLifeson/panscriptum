@@ -1,0 +1,155 @@
+{
+ "about": "Hits of names_check.py that stand as written, each with its reason (the owner's rule: every proper noun in Dia-thìris; these are not proper nouns in their place, or are quoted as a human wrote them). Keys: files (a glob on the path from the rodais root), en (the English form names_check reports, or * for any) or dt (for a misspelt hit), near (a regex searched in the 80 characters around the hit, the hit itself written §), reason.",
+ "allow": [
+  {
+   "files": "eras/age_V/*",
+   "en": "the Stone",
+   "near": "Abel §|(?<![Tt]he )§(?! Kings)",
+   "reason": "Abel Stone, the prospector: a human's surname"
+  },
+  {
+   "files": "eras/age_V/book/33_*",
+   "en": "the Stone",
+   "near": "the § on the Moor Road",
+   "reason": "a standing stone on the moor road, not the relic or the order"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the column",
+   "near": ".",
+   "reason": "in Age V lower-case column is a ledger column, a marching column or a column of light; the monument is written Calbh Cnoc ghorm (Lowe's own English note in chapter 18 stands as he wrote it)"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the crossing",
+   "near": ".",
+   "reason": "lower-case crossing is a ship's passage, a ford or the verb; the event and the closing of the sea passage are written An t-Aiseag"
+  },
+  {
+   "files": "eras/age_V/book/1[68]_*",
+   "en": "the pillar",
+   "near": ".",
+   "reason": "a pillar described before it is named, Lowe's own English note, and the carder's answer that the stone's name is lost; the named monument is written Colbh Cnoc chiar"
+  },
+  {
+   "files": "eras/age_V/book/18_*",
+   "en": "the obelisk",
+   "near": ".",
+   "reason": "Lowe's own English note, quoted as he wrote it"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the fleet",
+   "near": ".",
+   "reason": "the fishing fleet of Ros dhomhain, not the fleet of the Sundering"
+  },
+  {
+   "files": "eras/age_V/book/16_*",
+   "en": "the mist",
+   "near": "gales and the §",
+   "reason": "weather, not Ceò Mhanannain"
+  },
+  {
+   "files": "eras/age_V/book/10_*",
+   "en": "the black coal",
+   "near": "§ on hearths",
+   "reason": "coal as a colour and a fuel, not the name"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the dry cough",
+   "near": "a §",
+   "reason": "the symptom described, not the sickness's name"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the burial club",
+   "near": "a §",
+   "reason": "a burial club as a kind of society; the Baile thais club is written Comann an Adhlacaidh"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the count of hands",
+   "near": "a §",
+   "reason": "a vote by show of hands in the guild hall, not the census Cunntas nan Làmh"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the coal road",
+   "near": "(?:northern|old) §",
+   "reason": "other roads: the northern coal road to Muileann shean and the old cart road the tram-road ended, not Rathad na Mèinne"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the coal-touched",
+   "near": "tongue as §|rendered it \\*§",
+   "reason": "the humans' word itself, mentioned as their rendering of fuil-ghuail"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the sacred forest",
+   "near": "§ of Flidais",
+   "reason": "the forest of Flidais near Muileann chiar, which has no registry name; not Coille Naomh Cnoc bheag"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the first fire",
+   "near": "dissenters' §",
+   "reason": "the dissenters' first fire in the forest, not Teine a' Chlachair"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the king's daughter",
+   "near": "a §, even a jest",
+   "reason": "a king's daughter in general"
+  },
+  {
+   "files": "eras/age_V/*",
+   "en": "the treaty",
+   "near": "a § or",
+   "reason": "a treaty in general"
+  },
+  {
+   "files": "eras/age_V/book/02_*",
+   "en": "the Cup",
+   "near": "Of § and Bread",
+   "reason": "a heading: a cup and a loaf, not Cupa na Fìrinne"
+  },
+  {
+   "files": "eras/age_V/book/10_*",
+   "en": "the Board",
+   "near": "Empty §",
+   "reason": "a heading: the empty counting-board, not Comhairle nam Mèinnean"
+  },
+  {
+   "files": "eras/age_V/book/05_*",
+   "en": "the Point",
+   "near": "Northern §",
+   "reason": "a heading: the northern headland, not Binnean a' Chlachair"
+  },
+  {
+   "files": "eras/age_V/book/*",
+   "en": "the Keeper",
+   "near": "Of the §'s (?:Daybook|Watch)",
+   "reason": "a heading: the keeper of a light, in title case, not the spirit"
+  },
+  {
+   "files": "eras/age_V/appendices/E_words.md",
+   "en": "*",
+   "near": "\\*\\* · [^.§]*§",
+   "reason": "the glossary's own definition of a Dia-thìris word"
+  },
+  {
+   "files": "eras/age_V/appendices/E_words.md",
+   "en": "the Residency",
+   "near": "\\*\\*Taigh an Àrd-mhaoir\\*\\*, §",
+   "reason": "the glossary's own definition of Taigh an Àrd-mhaoir"
+  },
+  {
+   "files": "eras/age_V/*",
+   "dt": "Am Falbh",
+   "near": "air §",
+   "reason": "air falbh, 'away', in a Dia-thìris verse, not the name"
+  }
+ ]
+}

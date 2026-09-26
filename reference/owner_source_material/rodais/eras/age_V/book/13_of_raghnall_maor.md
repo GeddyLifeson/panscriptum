@@ -48,7 +48,7 @@ It was lighter than it looked. He walked home with it down the mill street in th
 
 Ciorstaidh asked him what the wage was, and he told her, and she did not reach for the beans to reckon it. She said it was a fair wage, and set the supper on the board.
 
-Dòmhnall mac Raghnaill was sixteen that spring. He had broken coal at the benches from the autumn he turned six, the year of the dry cough, and lived, and at twelve had gone below into his father's crews. He was a long, rawboned lad with his grandfather's shoulders and his mother's quick eyes and a way of watching before he spoke. All through supper his eyes went to the staff in the corner with the firelight on its brass, and he did not ask about it again.
+Dòmhnall mac Raghnaill was sixteen that spring. He had broken coal at the benches from the autumn he turned six, the year of An Casad Tioram, and lived, and at twelve had gone below into his father's crews. He was a long, rawboned lad with his grandfather's shoulders and his mother's quick eyes and a way of watching before he spoke. All through supper his eyes went to the staff in the corner with the firelight on its brass, and he did not ask about it again.
 
 ## III. Of the Slate Roof
 
@@ -158,7 +158,7 @@ Raghnall did not kneel. He had never been much given to the hawk. He stood at th
 
 ## VII. Of the Spotted Pox
 
-In the autumn of the thirty-ninth year a ship of A' Chompanaidh came up the Abhainn gheal into the lake and tied up at the quays of Ros dhomhain with sickness aboard, and on {{date:IV-0096}} the custodians of Ros dhomhain entered the first of their dead of A' Bhreac Bhallach, the spotted pox.
+In the autumn of the thirty-ninth year a ship of A' Chompanaidh came up the Abhainn gheal into the lake and tied up at the quays of Ros dhomhain with sickness aboard, and on {{date:IV-0096}} the custodians of Ros dhomhain entered the first of their dead of A' Bhreac Bhallach.
 
 It did not stay on the quays. It went up Rathad na Mèinne as the coal came down, stage by stage, and in the last days of an Dàmhair it came into the camps.
 

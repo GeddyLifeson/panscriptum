@@ -58,12 +58,12 @@ def age(k):
 
 def band(v, lo_hi):
     lo, hi = lo_hi
-    return '%s %s' % (format(int(v), ','), 'ok' if lo <= v <= hi else ('low' if v < lo else 'HIGH'))
+    return '%s %s' % (format(int(v), ','), 'ok' if lo <= v and (hi is None or v <= hi) else ('low' if v < lo else 'HIGH'))
 
 
 def markdown(rows):
     L = ['# Era dashboard', '', 'Written by `eras/quality/era_policy.py` on %s. Targets from `check_era.py`: entries %d-%d, '
-         'pages %d-%d, words %s.' % (time.strftime('%Y-%m-%d %H:%M'), C.ENTRIES[0], C.ENTRIES[1], C.PAGES[0], C.PAGES[1],
+         'pages %d-%s, words %s.' % (time.strftime('%Y-%m-%d %H:%M'), C.ENTRIES[0], C.ENTRIES[1], C.PAGES[0], C.PAGES[1] or '',
                                       ', '.join('%s %s-%s' % (s, format(a, ','), format(b, ',')) for s, (a, b) in C.TARGET.items())), '',
          '| Age | check_era | files | entries | pages | annals | books | gazetteer | appendices | tells /10k | English names | misspelt |',
          '|---|---|---|---|---|---|---|---|---|---|---|---|']

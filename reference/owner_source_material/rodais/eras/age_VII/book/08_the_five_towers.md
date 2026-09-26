@@ -82,7 +82,7 @@ That night at the inn at Àth dhearg Peigi wrote her letter to the board. Four o
 
 She wrote to the board that she could not do Baile chrom before the autumn gales with the men she had. Then she took a second sheet and wrote, in her own name, to Tional nan Tuathach at Caol mhòr.
 
-She knew no one at Caol mhòr, and one Tuathach fitter by name. Three years before, when she had first gone down to see the shipmasters' works at Seann Skell, there had been a man among the Tuathaich hands at the retorts, a lean man with his sleeves rolled, who had said nothing to her the whole of the day and had been, she saw before the day was out, the best hand in the yard. She had asked his name of the foreman. He was of Caol mhòr, the foreman said, and he had gone home the winter after, as most of the northern hands went, when the rents of the south ate their pay.
+She knew no one at Caol mhòr, and one Tuathach fitter by name. Three years before, at the shipmasters' works at Seann Skell, there had been a man among the Tuathaich hands at the retorts, a lean man with his sleeves rolled and a burn on his wrist, who had shown her how to wrap a tap so that it did not drip and had chalked the lights' mark on her twenty barrels. He was of Caol mhòr, and he had gone home the winter after, as most of the northern hands went, when the rents of the south ate their pay.
 
 She wrote: *To the speaker of Tional nan Tuathach at Caol mhòr, or to whoever keeps his letters.* Then, being tired, she crossed out the assembly's name, which she was not sure she had spelled as they spelled it, and left *the speaker at Caol mhòr*. She asked for four fitters of the town to turn the light at Baile chrom, the drawings and the burner to be sent them, the tank and fuel to come by sea. If a man named Ashby could be found, she would be glad of him. Who would pay them she did not say, because she did not know.
 
@@ -94,11 +94,11 @@ Joe was fitting a winch on a herring boat at the harbour wall when the boy came 
 
 "She asks for you by name," said Daniel Frayne. "Do you know her?"
 
-"I saw her once," said Joe. "At the works in the south."
+"At the works in the south," said Joe. "She bought barrels off us. I marked them for her."
 
 "Did you speak to her?"
 
-"No."
+"About taps."
 
 The old man looked at him over the letter for some time. He had a long face, grey and folded, and he breathed as if the room were short of air. "The board has no one to send," he said. "That's what this says. And it says nothing about pay." He put the letter down. "We'll pay you, then. The assembly will. Four men. Choose them yourself."
 
@@ -110,7 +110,7 @@ The boat from Seann Skell had come in two days before them and lay in the little
 
 "Small pattern," he said. "It'll go up."
 
-The keeper of Taigh-solais Baile chrom was a Dia-thìreach named Uilleam mac Dhòmhnaill, a spare man with a clipped grey beard, the last of a line of Dia-thìrich keepers who had kept that tower under royal warrant since the first years after An Dealachadh, a warrant that bade them report on the land as well as on the sea. In eleven years at Baile chrom he had come to know every family in the town by sight and some by name; he and went to the town's houses when he was sent for and not otherwise, and the town left him to his tower.
+The keeper of Taigh-solais Baile chrom was a Dia-thìreach named Uilleam mac Dhòmhnaill, a spare man with a clipped grey beard, the last of a line of Dia-thìrich keepers who had kept that tower under royal warrant since the first years after An Dealachadh, a warrant that bade them report on the land as well as on the sea. In eleven years at Baile chrom he had come to know every family in the town by sight and some by name; he went to the town's houses when he was sent for and not otherwise, and the town left him to his tower.
 
 He met the four of them at the tower door with a lamp in his hand, though it was not yet dark, because the rain made the evening dark. He looked at their wet coats and their hand-cart and the tools on it.
 

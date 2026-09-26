@@ -9,7 +9,7 @@
 It is told at Muileann chaol, from the boxed rolls of that winter, how the Age of Strangers ended: not in a battle
 won, for the battle had been won already, but in an emptiness where ships had been.
 
-Five beacons stood on the western capes in those days, kept against the humans' crossing, and each kept its own
+Five beacons stood on the capes in those days, from Baile chrom round to Tobar dhearg, kept against the humans' crossing, and each kept its own
 daybook. On the first morning of that year the keepers wrote the same four words, one after another down the coast,
 as if the news had to be said five times before anyone could believe it: *Cha tàinig long.* No ship came. It had not
 come the morning before either, nor the morning before that, but this was the morning the keepers stopped expecting
@@ -24,7 +24,7 @@ It is remembered only that the mud on the north roads that winter was said to be
 was still called so by the old people two generations after, though no one living had walked it.
 
 The victors, for their part, spent that same winter in a kind of astonishment that outlasted their war. They had
-fought the humans' administration for the better part of two generations, in the hills and the pit-towns and along
+fought the humans' administration for years, in the hills and the pit-towns and along
 the coast roads, and had grown so used to the fighting that the winning of it left them, for a season, with less to
 do than they had ever had before. The captains who had led companies through the last hard campaigns found
 themselves that am Faoilleach standing in doorways at Cathair dhearg with nothing pressing to command, while the
@@ -104,15 +104,15 @@ a few Dia-thìrich come up from the south with the columns and never gone home. 
 beyond the harbour mouth lay bare and grey under the same colour of sky, so that Ailean, watching from the back, had
 the sense of a crowd gathered at the edge of nothing much, to be told what it already half knew.
 
-He read that the homeland of the Tuathaich — for that was already the word growing up for the humans' children born
-and to be born on the island — was fixed by the council's law in the north, from the head of the roads to the sea,
+He read that the homeland of the Tuathaich (for that was already the word growing up for the humans' children born
+and to be born on the island) was fixed by the council's law in the north, from the head of the roads to the sea,
 and that it would be held there. He read it once through in Dia-thìris, which perhaps a third of the crowd followed,
 watching him with the particular stillness of people waiting to be told the same thing again in words they could
 use, and then said that the council had also ordered it read in the humans' tongue, for those who had none of the
 other.
 
 There was a pause on the steps while someone went to fetch the man who had been found for that. He came up out of the
-crowd itself: a lean man near fifty, in a harbour clerk's coat gone thin at the elbows, with ink worked so far into
+crowd itself: a lean man in his middle forties, in a harbour clerk's coat gone thin at the elbows, with ink worked so far into
 the creases of his knuckles that no washing would ever get it out again. He had been a clerk of the humans' harbour
 office at Ros bheag before the crossing closed, and someone at the council's post had remembered it and sent for him
 the night before. His name was Walter Hale.
@@ -126,7 +126,7 @@ murmur that ran back through the ranks as each heard it from the one in front an
 
 Ailean, near enough to hear both readings, followed the English against his memory of the Dia-thìris and found it a
 fair rendering, word for word, until the very last clause. Where the council's paper said the homeland was *fixed*
-and would be *held*, Hale's English said the land was *settled* — a milder word, one that might have meant no more
+and would be *held*, Hale's English said the land was *settled*, a milder word, one that might have meant no more
 than a people finding a place to live, chosen freely, as a family settles a new farm. Ailean had spent enough weeks
 by then reading a column of figures against another to know the trick of a small discrepancy, the kind that never
 shows in the total and never fails to matter to whoever is on the wrong side of it.
@@ -159,7 +159,7 @@ held.* It was not council business, and no one had asked it of him. He never aft
 written it, except that it seemed to him, even then, a thing worth having down somewhere, in case no one else ever
 thought to write it at all.
 
-That same week the word went round Caol mhòr, and from Caol mhòr up the coast to Ros bheag, that the humans' own
+That same week the word went round Caol mhòr, and from Caol mhòr down the western roads to Ros bheag, that the humans' own
 chapel there, shut since the crossing closed and its priest gone north with the rest, was to be shut for good and its
 bell taken down. It was Hale's own town, the one he had clerked its harbour in before the war took the harbour's
 trade away, and it was Hale who first told Ailean of it, two days after the reading, coming to find him at the guard
@@ -173,7 +173,7 @@ though without unkindness: that the council's word was the council's word, and a
 buried enough of his own to know that the loss that mattered was never the one you could put a cart to.
 
 The council's men who did the work gave no reason beyond an order from the south, and took the bell away on a cart
-bound, it was said, for wherever in the north the humans' faith might still be kept. Ailean rode out to see it for
+bound, it was said, for wherever in the north the humans' faith might still be kept. Ailean rode the two days down to see it for
 himself, more from the clerk's habit of checking a thing reported than from any claim on it, and found the chapel
 already stripped: a low stone building with a slate roof gone green, its door standing open on an empty floor swept
 bare of even its dust, and the belfry above it holding nothing but a square of paler stone where the bell's cradle
@@ -208,7 +208,7 @@ It went as such things go, quickly and without much feeling, until the company o
 Ailean's table.
 
 Fearchar was a broad, grey man who had held that command since before Ailean was old enough to hold a pen, and his
-company — hill men mostly, from the same country Ailean's own family came from — stood in ranks behind him in
+company, hill men mostly from the same country Ailean's own family came from, stood in ranks behind him in
 silence while he asked one thing only. He did not ask for pay, though none of his men had seen a full month's since spring,
 and he did not ask for arms, though half the company owned nothing else worth the name. He asked that the roll of
 the company's names not be burned with the loose paper of the muster, as the clerk beside Ailean had already begun
@@ -253,8 +253,8 @@ The master shrugged, took the sheets, glanced them over by the lamp, and signed 
 last one, more from courtesy than conviction. He carried them up to be filed with the day's other business, and the
 door was bricked shut behind them before evening.
 
-Ailean walked back to his lodging that night by the long way, past the harbour where two of the council's ships lay
-idle for want of any crossing left to sail, and took out the margin copy he still carried of the council's word from
+Ailean walked back to his lodging that night by the long way, past the river quays where two of the council's boats lay
+idle for want of anything left to carry, and took out the margin copy he still carried of the council's word from
 Caol mhòr. He read again the two words he had written there in the rain, months before: *not settled — held.* He had
 carried the clerk's copy so long by then, folded so many times, that the ink had begun to blur along the crease, and
 he thought, not for the first time, that a word kept only in one man's pocket was not much better kept than a roll
@@ -267,8 +267,4 @@ him and the first full year of the restored country's peace not yet a fortnight 
 
 So closed the first summer after the Severance, with the columns settled that were never asked whether they wished
 to be, a captain's roll spared by a clerk with no right to spare it, and a list of chests signed by two men neither
-of whom the council had told to keep one. It was a small beginning for a kingdom, and those who lived through it knew
-no better than anyone else what it would grow into. Only the two words in a clerk's wet margin, and the chests shut
-fast behind their new brick, told, to anyone who cared to read either, that the truth of the thing and the saying of
-it were already coming apart, and that it would be the business of more than one lifetime to bring them back
-together.
+of whom the council had told to keep one.

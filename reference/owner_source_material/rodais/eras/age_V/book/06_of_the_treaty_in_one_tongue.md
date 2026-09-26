@@ -1,4 +1,4 @@
-# Of the Treaty in One Tongue
+# Of Cùmhnant Cathair dhearg
 
 *AE 7 – 9*
 

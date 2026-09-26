@@ -6,6 +6,36 @@
  ],
  "events": [
   {
+   "id": "EV-3510",
+   "title": "Ailig mac Griogair shows Lowe the coloured water",
+   "body": "The keeper Ailig mac Griogair takes Lowe up the beacon stair and points out a green colour he says lies on the water beneath the flame, further than the beam itself should carry. Lowe looks a long while and sees only firelight on the swell, and writes that he cannot see what the keeper sees.",
+   "place": "burg:327",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0139",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "edwin-lowe",
+    "ailig-mac-griogair"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#i-of-the-coloured-flame-at-muileann-bheag",
+   "era_between": [
+    63,
+    63
+   ]
+  },
+  {
    "after": "IV-0139"
   },
   {
@@ -53,6 +83,156 @@
    "told_in": "book/18_of_lowes_spade.md#ii-of-the-dig-at-larach-an-teampaill"
   },
   {
+   "id": "EV-3511",
+   "title": "The shepherds of Àth mhòr turn their flocks off the mound",
+   "body": "Before the digging begins the shepherds of Àth mhòr move their flocks off the mound of Làrach an Teampaill, which they have grazed every other season, saying only that it is the custom to keep beasts from a grave while the grave stands open.",
+   "place": "marker:33",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0140",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_lowes_spade.md#ii-of-the-dig-at-larach-an-teampaill",
+   "era_between": [
+    64,
+    64
+   ]
+  },
+  {
+   "id": "EV-3512",
+   "title": "Tormod Ruadh sets down his spade",
+   "body": "The eldest of Lowe's labourers, Tormod Ruadh, refuses to dig further once burnt bone is found beside the altar stone, saying he will cut coal for his wage but not dig a man from his own grave for a stranger's paper. The rest of the crew stop with him.",
+   "place": "marker:33",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0140",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "edwin-lowe",
+    "tormod-ruadh"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#ii-of-the-dig-at-larach-an-teampaill",
+   "era_between": [
+    64,
+    64
+   ]
+  },
+  {
+   "id": "EV-3513",
+   "title": "Four custodians view the pit at Làrach an Teampaill",
+   "body": "Custodians of Doire ghlas, Doire fhiadhaich and Àth mhòr walk out together to the opened pit, judge that the stone, the bone and the flints beside it are of no people or craft they know, and have Lowe cover the pit again with the word said over any grave whose kin cannot be found.",
+   "place": "marker:33",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0140",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-3512",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "edwin-lowe",
+    "griogal-odhar"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#ii-of-the-dig-at-larach-an-teampaill",
+   "era_between": [
+    64,
+    64
+   ]
+  },
+  {
+   "id": "EV-3514",
+   "title": "Martha Gale reads the partnership at Muileann chiar",
+   "body": "Martha Gale brings A' Chompanaidh's offer of partnership to Comann an Airgid hall at Muileann chiar. A clerk reads it in the humans' tongue and a guild boy puts it into Dia-thìris sentence by sentence, at Ùna nic Choinnich's insistence, so that no hand voting on it can say it did not understand.",
+   "place": "marker:2",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0143",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "martha-gale",
+    "una-nic-choinnich"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#v-of-the-answer-of-comann-an-airgid",
+   "era_between": [
+    64,
+    64
+   ]
+  },
+  {
+   "after": "IV-0141"
+  },
+  {
+   "id": "EV-3515",
+   "title": "Lowe sets Colbh Cnoc chiar beside Wren's copy of Carragh Cnoc bheag",
+   "body": "Lowe lays his rubbing of Colbh Cnoc chiar beside Samuel Wren's old copy of Carragh Cnoc bheag and judges the two hands are not the same, though something in the shapes of both puts him in mind of a single idea, as two strangers' faces can share an expression without sharing a feature.",
+   "place": "marker:29",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0141",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "edwin-lowe"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#iii-of-the-pillar-and-the-column",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
+   "id": "EV-3516",
+   "title": "Voss stays behind at Baile Mòr dhìreach",
+   "body": "When his glazing of A' Chompanaidh contract ends, Peter Voss does not take passage home, telling the muster clerk only that he has found white sand below Baile Mòr dhìreach the like of which he never found in three counties of an Tìr Thall, and means to see what it will make in a furnace.",
+   "place": "burg:136",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0142a",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "peter-voss"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#iv-of-voss-s-glass-house",
+   "era_between": [
+    65,
+    65
+   ]
+  },
+  {
    "after": "IV-0142a"
   },
   {
@@ -74,6 +254,293 @@
     "cairistiona-nic-griogair"
    ],
    "told_in": "book/18_of_lowes_spade.md#iv-of-voss-s-glass-house"
+  },
+  {
+   "id": "EV-3517",
+   "title": "The first three firings give only slag",
+   "body": "Voss's first three firings of white sand and charcoal give only a black glassy slag, which the town's children carry off for luck and the custodians' clerk records as Voss's first stones, being none. Voss breaks each batch himself and changes the fire and the sand before trying again.",
+   "place": "burg:136",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0142a",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-3503",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "peter-voss"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#iv-of-voss-s-glass-house",
+   "era_between": [
+    66,
+    66
+   ]
+  },
+  {
+   "after": "IV-0143"
+  },
+  {
+   "id": "EV-3518",
+   "title": "Lowe sails for home",
+   "body": "Edwin Lowe takes ship at Ros dhomhain the year after copying Calbh Cnoc ghorm, his notebooks sealed under his berth. No answer is ever recorded as coming back over the sea to the stone he copied or the bone he uncovered and covered again.",
+   "place": "burg:27",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0142",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "edwin-lowe"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#iii-of-the-pillar-and-the-column",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EV-3519",
+   "title": "Ùna nic Choinnich questions A' Chompanaidh's beam",
+   "body": "Ùna nic Choinnich, some eighty winters old, has the paragraph on A' Chompanaidh's weighing-beam read a third time and asks twice what the weight would be measured against, unsatisfied with the clerk's answers both times, before putting the offer to the guild's hands.",
+   "place": "marker:2",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "una-nic-choinnich",
+    "martha-gale"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#v-of-the-answer-of-comann-an-airgid",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EV-3520",
+   "title": "The guild's hands refuse the partnership",
+   "body": "The guild hall at Muileann chiar refuses A' Chompanaidh's partnership by every hand but one, an old silversmith too deaf that year to have followed the second reading. Martha Gale takes the count without argument and thanks the hall in a careful, correct Dia-thìris never heard from her again.",
+   "place": "marker:2",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0143",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-3519",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "una-nic-choinnich",
+    "martha-gale"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#v-of-the-answer-of-comann-an-airgid",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "after": "IV-0144"
+  },
+  {
+   "id": "EV-3521",
+   "title": "Beitris Bhàn takes up the laying-out at Achadh dhomhain",
+   "body": "Beitris Bhàn walks up from Àth ìseal in the camp's first winter with her mother's knife and takes the end room of a house of spoil, next the well, to lay out the camp's dead. Within the week the first bodies are brought to her table.",
+   "place": "burg:135",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0144",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beitris-bhan"
+   ],
+   "told_in": "book/19_of_the_smoke_in_the_gallery.md#i-of-the-first-winter-of-achadh-dhomhain",
+   "era_between": [
+    68,
+    68
+   ]
+  },
+  {
+   "id": "EV-3522",
+   "title": "The nine of the first winter",
+   "body": "Achadh dhomhain buries nine in its first winter: two hewers dead of the damp, a child crushed under a runaway cart of spoil, and six of the camp cough. Beitris Bhàn cuts the turf for each grave herself, the camp having no man yet spared from the pit for the work.",
+   "place": "burg:135",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0144",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-3521",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beitris-bhan"
+   ],
+   "told_in": "book/19_of_the_smoke_in_the_gallery.md#i-of-the-first-winter-of-achadh-dhomhain",
+   "era_between": [
+    68,
+    68
+   ]
+  },
+  {
+   "after": "IV-0145"
+  },
+  {
+   "id": "EV-3523",
+   "title": "Dùn chiar votes to weave for the camps",
+   "body": "The town council of Dùn chiar votes twenty-six to nine to take a contract of A' Chompanaidh for camp canvas, against the eldest weaver Ealasaid Bhuidhe, who signs the roll of dissent and then weaves canvas with the rest once the custodian has ruled.",
+   "place": "burg:358",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0145",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealasaid-bhuidhe"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#vi-of-the-camp-at-achadh-dhomhain-and-the-cloth-of-dun-chiar",
+   "era_between": [
+    68,
+    68
+   ]
+  },
+  {
+   "id": "EV-3524",
+   "title": "Cormag mac Ailein raises the first house of spoil",
+   "body": "The hewer Cormag mac Ailein builds the first house of Achadh dhomhain's camp from stacked spoil chinked with clay and roofs it with Dùn chiar's first bolts of canvas before the frost, tarring the seams himself, his household under it before the year's shortest day.",
+   "place": "burg:135",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0144",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0145",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "cormag-mac-ailein"
+   ],
+   "told_in": "book/18_of_lowes_spade.md#vi-of-the-camp-at-achadh-dhomhain-and-the-cloth-of-dun-chiar",
+   "era_between": [
+    68,
+    68
+   ]
+  },
+  {
+   "after": "IV-0147"
+  },
+  {
+   "id": "EV-3525",
+   "title": "The steelyard changes the count",
+   "body": "After A' Chompanaidh's great steelyard is hung at Ros dhomhain, the custodians' old count of the yield, kept in baskets and seasons of a crew's labour, is entered less and less in the rolls, until it is not entered at all. Ùna nic Choinnich says the island has let the wrong hill be written down.",
+   "place": "burg:27",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0147",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "una-nic-choinnich"
+   ],
+   "told_in": "book/19_of_the_smoke_in_the_gallery.md#ii-of-the-coach-and-the-steelyard",
+   "era_between": [
+    70,
+    70
+   ]
+  },
+  {
+   "after": "IV-0148"
+  },
+  {
+   "id": "EV-3526",
+   "title": "The wreck off Ros dhìreach",
+   "body": "Ros dhìreach's first cargo goes down in a squall within a mile of the new coal stage, taking the boat and two of the crew who had gone out to trim her load. The fishermen whose grounds were given over for the stage will not put out past the wreck for a season after.",
+   "place": "burg:152",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0148",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_smoke_in_the_gallery.md#ii-of-the-coach-and-the-steelyard",
+   "era_between": [
+    70,
+    70
+   ]
+  },
+  {
+   "id": "EV-3527",
+   "title": "Ùna nic Choinnich dies at Muileann chiar",
+   "body": "Ùna nic Choinnich dies in her own bed at Muileann chiar, eighty-five years old, having led Comann an Airgid since before Fiabhras nan Coigreach and twice put A' Chompanaidh's offers to a show of hands and twice seen them refused. Achadh dhomhain, which never saw her, mourns her by the sayings that came down the road ahead of the coach.",
+   "place": "burg:419",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "IV-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "una-nic-choinnich",
+    "beitris-bhan"
+   ],
+   "told_in": "book/19_of_the_smoke_in_the_gallery.md#v-of-una-nic-choinnich-and-the-shrines",
+   "era_between": [
+    70,
+    70
+   ]
   },
   {
    "after": "IV-0149"
@@ -157,12 +624,120 @@
    ]
   },
   {
+   "after": "IV-0151"
+  },
+  {
+   "id": "EV-3528",
+   "title": "Beitris Bhàn's first climb to Cill ghlas",
+   "body": "Beitris Bhàn climbs the hill path to Cill ghlas for the first time at Lùnastal and sets a single piece of coal by the flame at the mouth of the oldest cutting, more from the habit of a hard winter's laying-out than from any settled custom of her own people. She says nothing to the custodian, and the custodian says nothing to her.",
+   "place": "burg:123",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0151",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-3506",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-promise"
+   ],
+   "people": [
+    "beitris-bhan"
+   ],
+   "told_in": "book/19_of_the_smoke_in_the_gallery.md#v-of-una-nic-choinnich-and-the-shrines",
+   "era_between": [
+    72,
+    72
+   ]
+  },
+  {
+   "after": "IV-0153"
+  },
+  {
+   "id": "EV-3529",
+   "title": "The first grave dug in An Acair Uaine",
+   "body": "Beitris Bhàn helps dig the first grave in the stony field beyond Achadh dhomhain's spoil-heaps, on a day the camp's own grave-diggers are themselves too sick to work. Within weeks the whole camp is calling the field an Acair Uaine without anyone having named it so on purpose.",
+   "place": "burg:135",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0152",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0153",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "beitris-bhan"
+   ],
+   "told_in": "book/20_of_the_green_death.md#i-of-the-green-acre",
+   "era_between": [
+    73,
+    73
+   ]
+  },
+  {
+   "id": "EV-3530",
+   "title": "Sìne Ruadh orders the huts of Àth ghlas burned",
+   "body": "The custodian of Àth ghlas, Sìne Ruadh, orders every hut where a death has occurred burned to the ground with its bedding before the next nightfall, over A' Chompanaidh's agent's written protest at the loss of its property. She burns nine huts before the summer ends.",
+   "place": "burg:393",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0156",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sine-ruadh"
+   ],
+   "told_in": "book/20_of_the_green_death.md#ii-of-the-blank-line",
+   "era_between": [
+    73,
+    73
+   ]
+  },
+  {
+   "id": "EV-3531",
+   "title": "The clerk leaves a line blank after the twenty-sixth settlement",
+   "body": "The custodian's clerk who keeps the roll of settlements with cases of A' Phlàigh Uaine leaves a blank line after the twenty-sixth name. It is still blank when a different hand takes up the roll the following spring, and no twenty-seventh name is ever entered in it.",
+   "place": "zone:0",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0154",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_green_death.md#ii-of-the-blank-line",
+   "era_between": [
+    73,
+    73
+   ]
+  },
+  {
    "after": "IV-0157"
   },
   {
    "id": "EV-3507",
    "title": "Walter Crane walks the sick-rows at Achadh dhomhain",
-   "body": "Commissioner Crane walks the worst of the sickness's second summer at Achadh dhomhain and does not walk faster past the bad huts than the ordinary ones, a thing the custodians and Beitris Bhàn both note and remember afterward in his favour.",
+   "body": "Àrd-mhaor Crane walks the worst of the sickness's second summer at Achadh dhomhain and does not walk faster past the bad huts than the ordinary ones, a thing the custodians and Beitris Bhàn both note and remember afterward in his favour.",
    "place": "burg:135",
    "kind": "humans",
    "category": "humans",
@@ -207,12 +782,36 @@
    ]
   },
   {
+   "id": "EV-3532",
+   "title": "Nathaniel Bright opens his table of weighings",
+   "body": "At Muileann chrom, Nathaniel Bright begins keeping a ruled black-bound book of the lungs he weighs from A' Phlàigh Uaine's dead, with the custodians' leave and a custodian standing by at each opening. Anne Colby brings her own sick-house tally to set beside it that winter.",
+   "place": "burg:354",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0158",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "nathaniel-bright",
+    "anne-colby"
+   ],
+   "told_in": "book/20_of_the_green_death.md#iii-of-doctor-bright-s-table",
+   "era_between": [
+    74,
+    74
+   ]
+  },
+  {
    "after": "IV-0159"
   },
   {
    "id": "EV-3509",
    "title": "Anne Colby comes to Beitris Bhàn's door",
-   "body": "Anne Colby, unsent by the Mission and unasked by any custodian, comes to Achadh dhomhain to learn from the layer-out Beitris Bhàn what her own hands have taught her of the Green Death. The two begin washing the camp's dead together, a custom the camp comes to call An Dithis a Nigh Còmhla.",
+   "body": "Anne Colby, unsent by Teachdaireachd na h-Eaglaise and unasked by any custodian, comes to Achadh dhomhain to learn from the layer-out Beitris Bhàn what her own hands have taught her of A' Phlàigh Uaine. The two begin washing the camp's dead together, a custom the camp comes to call An Dithis a Nigh Còmhla.",
    "place": "burg:135",
    "kind": "birth",
    "category": "coalblood",
@@ -231,6 +830,60 @@
    "era_between": [
     75,
     75
+   ]
+  },
+  {
+   "id": "EV-3533",
+   "title": "Bright's table breaks off mid-row",
+   "body": "Nathaniel Bright falls ill in the third season of his study. His last entry stops after the weight of a dead man's lung, with the column for the dust in it left empty and the pen, by the mark it leaves, set down and never taken up again.",
+   "place": "burg:354",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0158",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "nathaniel-bright"
+   ],
+   "told_in": "book/20_of_the_green_death.md#iii-of-doctor-bright-s-table",
+   "era_between": [
+    75,
+    75
+   ]
+  },
+  {
+   "after": "IV-0162"
+  },
+  {
+   "id": "EV-3534",
+   "title": "Nathaniel Bright dies at Muileann chrom",
+   "body": "Nathaniel Bright dies at Muileann chrom of the same sickness he had spent three seasons weighing in other men's lungs, and is buried by Teachdaireachd na h-Eaglaise apart from An Acair Uaine and the field at Cnoc naomh. His book is filed at Taigh an Àrd-mhaoir and never taken up by any physician after him.",
+   "place": "burg:354",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0158",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-3533",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "nathaniel-bright",
+    "anne-colby"
+   ],
+   "told_in": "book/20_of_the_green_death.md#iii-of-doctor-bright-s-table",
+   "era_between": [
+    76,
+    76
    ]
   }
  ]

@@ -1,0 +1,187 @@
+[
+ {
+  "title": "Sìleas Bhàn gives the hall to Tormod Liath",
+  "era_year": 2010,
+  "summary": "Sìleas Bhàn, who held Dùn ìseal through the failed grazing, gives the hall over to Tormod Liath, grandson of the king through Iain Dubh, and goes to live out her long life among her own kin in the valley below the bank.",
+  "category": "rulers",
+  "people": ["Sìleas Bhàn", "Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0133", "type": "sequel"}]
+ },
+ {
+  "title": "Tormod mends the bank and the boundary marks",
+  "era_year": 2021,
+  "summary": "In his first seasons holding Dùn ìseal, Tormod Liath sets right what the hungry years let go: the silted ditch, the leaning palisade, and the boundary marks between the hill's fields and the households', blurred by two lean summers of each man taking what he could.",
+  "category": "land",
+  "people": ["Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0139", "type": "cause"}]
+ },
+ {
+  "title": "The eight winds are named",
+  "era_year": 2047,
+  "summary": "The eight winds of the year, known before only by their feel, are given names all at once by no one the coasts can afterward name. Every coast that tells it uses the same eight names in the same order from that year on.",
+  "category": "culture",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [{"to": "I-0136", "type": "sequel"}]
+ },
+ {
+  "title": "Fearchar Gobha brings the wind-names to Tormod",
+  "era_year": 2048,
+  "summary": "A salt-carrier of the hill, Fearchar Gobha, hears the eight wind-names at the coast fair and brings them up to Tormod Liath, who says only that a landholder has no business owning what belongs to the sea.",
+  "category": "culture",
+  "people": ["Fearchar Gobha", "Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": [],
+  "master_links": [{"to": "I-0136", "type": "parallel"}]
+ },
+ {
+  "after": "I-0136"
+ },
+ {
+  "title": "Three brothers raise the wind-stones at Ceann leathan",
+  "era_year": 2076,
+  "summary": "Aonghas, Griogar and Ailig mac Torcaill, brothers of the point, quarry eight stones from an outcrop above the landing and raise them in a ring, one for each named wind, so a sailor may lay a hand on the stone of the wind he wants before he puts out.",
+  "category": "culture",
+  "people": ["Aonghas", "Griogar", "Ailig mac Torcaill"],
+  "places": ["burg:22"],
+  "threads": [],
+  "master_links": [{"to": "I-0137", "type": "cause"}]
+ },
+ {
+  "title": "The crooked stone reset",
+  "era_year": 2084,
+  "summary": "One bad winter after the wind-stones are first raised at Ceann leathan, the stone of the hardest offshore wind is found settled crooked and is dug out and reset on a footing of smaller stones, standing straighter and newer than its seven fellows ever after.",
+  "category": "culture",
+  "people": [],
+  "places": ["burg:22"],
+  "threads": [],
+  "master_links": [{"to": "I-0137", "type": "sequel"}]
+ },
+ {
+  "after": "I-0137"
+ },
+ {
+  "title": "The wind-names cut into the rock of Eilean fhada",
+  "era_year": 2124,
+  "summary": "The people of Eilean fhada, off the northern cape, keep no ring of stones but cut the eight wind-names as notches into the rock of the island's highest ground, one facing each way, so a man lost in thick weather may find his bearing by touch.",
+  "category": "culture",
+  "people": [],
+  "places": ["feature:4"],
+  "threads": [],
+  "master_links": [{"to": "I-0138", "type": "sequel"}]
+ },
+ {
+  "after": "I-0138"
+ },
+ {
+  "title": "Tormod buries his eldest son",
+  "era_year": 2040,
+  "summary": "Tormod Liath's eldest son dies of years, the first of the three heirs Tormod outlives; the old holder stands at the burying still dark-haired, and is named by his own son's grandchildren as their grandfather's father.",
+  "category": "rulers",
+  "people": ["Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0139", "type": "cause"}]
+ },
+ {
+  "title": "Tormod buries his second son on the western slope",
+  "era_year": 2100,
+  "summary": "Tormod Liath's second son, who held the hill's western grazing and never cared for the hall, is buried at his own asking on the slope where he herded, and Tormod says a man ought to be let choose his own ground if nothing else is left him to choose.",
+  "category": "rulers",
+  "people": ["Tormod Liath"],
+  "places": [],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0139", "type": "cause"}]
+ },
+ {
+  "title": "Tormod paces out the second bank",
+  "era_year": 2163,
+  "summary": "Tormod Liath walks the line of Dùn ìseal's second bank himself through two winters before calling the households in to dig, taking in the low ground by the spring without losing the height needed for a watch-fire.",
+  "category": "craft",
+  "people": ["Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0139", "type": "sequel"}]
+ },
+ {
+  "title": "The households dig the second bank",
+  "era_year": 2164,
+  "summary": "The households of Dùn ìseal dig through a spring and a summer to raise the second bank, doubling the ground held within the hill's earth from some forty houses to very near a hundred.",
+  "category": "craft",
+  "people": [],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0139", "type": "sequel"}]
+ },
+ {
+  "title": "Tormod buries his third son and tells him it does not hurt",
+  "era_year": 2180,
+  "summary": "The youngest and last of Tormod Liath's three sons dies asking his father, near the end, whether it hurts to be left each time; Tormod tells him no, the one lie the tellings of that hill ever charge against him.",
+  "category": "rulers",
+  "people": ["Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0139", "type": "cause"}]
+ },
+ {
+  "after": "I-0139"
+ },
+ {
+  "title": "Tormod goes fully grey",
+  "era_year": 2185,
+  "summary": "By his hundred and eighty-fifth year of holding, Tormod Liath is grey through, brows and beard with the rest, and the young of the hill, who never knew him dark, take him for the oldest thing on Dùn ìseal, older even than the second bank he raised.",
+  "category": "rulers",
+  "people": ["Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings"],
+  "master_links": [{"to": "I-0139", "type": "sequel"}]
+ },
+ {
+  "title": "The king raises Tormod from the mud at the gate",
+  "era_year": 2193,
+  "summary": "The king comes to Dùn ìseal's gate with a handful of his household and no word sent ahead; grey, stooped Tormod Liath kneels to him as every holder before him has knelt, and is raised again by a hand that has not aged since Tormod's father knelt the same way.",
+  "category": "rulers",
+  "people": ["Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": ["the-stone-kings", "line-of-the-mason"],
+  "master_links": [{"to": "I-0139", "type": "sequel"}]
+ },
+ {
+  "title": "A child asks why the old man kneels",
+  "era_year": 2193,
+  "summary": "A granddaughter of Tormod's second son, watching from the bank, asks her mother why the young stranger lets the old holder kneel to him as at a common gate; her mother tells her that evening, by the fire, what the hill has long known and rarely says aloud.",
+  "category": "culture",
+  "people": [],
+  "places": ["burg:315"],
+  "threads": ["line-of-the-mason"],
+  "master_links": [{"to": "I-0139", "type": "parallel"}]
+ },
+ {
+  "title": "Children begin to call themselves Dia-thìrich",
+  "era_year": 2201,
+  "summary": "The children of Dùn ìseal begin, unbidden by any elder, to call themselves Dia-thìrich and their island Dia-thìr, in place of hill-folk or the grove-born name Clann nan Dè; within a generation the old words fall out of use among the young.",
+  "category": "people",
+  "people": [],
+  "places": ["burg:315"],
+  "threads": [],
+  "master_links": [{"to": "I-0140", "type": "sequel"}]
+ },
+ {
+  "title": "Tormod is told the island's new name by a boy of seven",
+  "era_year": 2201,
+  "summary": "A boy of the new ground within the second bank tells Tormod Liath, asked what clan he is, that he is Dia-thìreach and that everyone is; Tormod answers only that it is a good enough name for a good enough island.",
+  "category": "people",
+  "people": ["Tormod Liath"],
+  "places": ["burg:315"],
+  "threads": [],
+  "master_links": [{"to": "I-0140", "type": "sequel"}]
+ },
+ {
+  "after": "I-0140"
+ }
+]

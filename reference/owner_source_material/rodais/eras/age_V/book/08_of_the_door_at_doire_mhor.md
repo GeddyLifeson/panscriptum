@@ -6,7 +6,7 @@
 
 ## I. Of the Shortest Roll
 
-Of all the rolls of the hill villages that came down to the cellar at Muileann chaol, the roll of Doire mhòr for these years is the shortest, and the copyists have handled it more than any other. It is nine leaves stitched with linen thread, in a square black hand that presses so hard on the pen that the letters stand up from the back of the page like the marks of a nail. The hand is Beathag Dhubh's. She was custodian of Doire mhòr through the years of the first contracts, and she wrote the roll as she said everything, with as few words as would carry the thing and none to spare.
+Of all the rolls of the hill villages that came down to Seilear Muileann chaol, the roll of Doire mhòr for these years is the shortest, and the copyists have handled it more than any other. It is nine leaves stitched with linen thread, in a square black hand that presses so hard on the pen that the letters stand up from the back of the page like the marks of a nail. The hand is Beathag Dhubh's. She was custodian of Doire mhòr through the years of the first contracts, and she wrote the roll as she said everything, with as few words as would carry the thing and none to spare.
 
 Beside it stands the second witness. In the letter-books of Riaghaltas nan Coigreach, among the reports sent down from the hills to Taigh an Àrd-mhaoir in the fourteenth year of the strangers, there is a sheet in the humans' tongue from an agent of A' Chompanaidh, who climbed to Doire mhòr with a contract under his coat and came down again without it. It is the only place where her answer to him is set down. The telling that follows is made from the nine leaves and the one sheet, and from what the carters of the hill remembered.
 
@@ -164,7 +164,7 @@ They built it that spring and summer with a crew of hill men paid in iron, bridg
 
 Beathag let the carters water their horses at the stream where the road crossed it. They asked her leave the first time, in bad Dia-thìris, and she gave it, and they did not ask again, and she did not mind. In wet weather they ate their bread under the oaks before the last pull down to the river. The children of Doire mhòr went down to the road to watch the carts pass, and learned the strangers' words for horse and wheel and whip before they learned their letters.
 
-In the autumn Beathag went down alone to the bend of the road below her fields and walked the length of it from one end to the other. The road was well made. It ran in a wide smooth curve round the foot of the field walls, never more than a stone's throw from them, and at every point along it she could see her own barley stubble over the wall, and beyond it the roofs of the seven houses, and above them the oaks. Nowhere did it go away from the village; the whole way round, it kept as close as it could go.
+In the autumn Beathag went down alone to the bend of the road below her fields and walked the length of it from one end to the other. The road was well made. It ran in a wide smooth curve round the foot of the field walls, never more than a stone's throw from them, and at every point along it she could see her own barley stubble over the wall, and beyond it the roofs of Na Seachd Taighean, and above them the oaks. Nowhere did it go away from the village; the whole way round, it kept as close as it could go.
 
 She stood at the far end, where the bend joined the straight road again, and looked back along it. It seemed to her a road made by people who had marked a thing and meant to come back for it. They had not gone another way. They had gone the same way, and left a space in the middle of it the shape of Doire mhòr, and made the space as small as they could.
 
@@ -180,7 +180,7 @@ The keeper was Anna nic Dhòmhnaill of Tobar dhearg, a fisherman's widow of twen
 
 She climbed the tower twice a night, once at dusk to light the lamp and once in the black middle of the night to trim it, and she went up and down that stair every night that she lived. She could not write. So she kept her count on the wall of the stair, at the turn below the lamp-room: one stroke cut into the stone with the point of a knife for every night the light was lit, and a stroke across every thirty, like a gate across a field. The copyists have not seen that wall. The keepers who came after her say that the strokes low down are cut deep and straight and the highest are shallow and crooked, and that there is not one night missing.
 
-It was the keepers of Tobar dhearg who first said that a keeper has nothing to gain from a ship that is not there. They meant that the count is true. The light at Tobar dhearg was paid for by A' Chompanaidh so that its coal ships should come round the southern cape by night; but the tally on the stair counts nights, and not ships.
+It was the keepers of Tobar dhearg who first said that a keeper has nothing to gain from a ship that is not there. They meant that the count is true. Taigh-solais Tobar dhearg was paid for by A' Chompanaidh so that its coal ships should come round the southern cape by night; but the tally on the stair counts nights, and not ships.
 
 ## IX. Of the Brig and the Bend
 
@@ -192,7 +192,7 @@ The answer of the coast came up to the hills in the spring, copied by the counci
 
 Then she went down to the bend.
 
-It was a clear spring evening, the first dry one after a wet month, and the carts had stopped for the day, and the road lay empty round the foot of her fields in its long smooth curve, with the ruts of the winter filled with light. The barley was up green behind the walls. The stream ran loud at the ford. Up the hill the smoke of the seven houses went straight up into the still air, and the oaks stood black above it. Down the valley the smoke of two pits went up now instead of one.
+It was a clear spring evening, the first dry one after a wet month, and the carts had stopped for the day, and the road lay empty round the foot of her fields in its long smooth curve, with the ruts of the winter filled with light. The barley was up green behind the walls. The stream ran loud at the ford. Up the hill the smoke of Na Seachd Taighean went straight up into the still air, and the oaks stood black above it. Down the valley the smoke of two pits went up now instead of one.
 
 She stood at the bend a long time. She had shut her door on A' Chompanaidh and A' Chompanaidh had gone round her; and in two years it had not come back. The hill thought that a custodian's word at a door still counted against paper, as it had counted against everything else since An Aois Naomh. Beathag stood on the new road and looked along the bend of it, and knew better.
 

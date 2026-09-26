@@ -68,7 +68,7 @@ A few people came to see it off: the clerk, the yard foreman, the families of th
 
 Eachann opened the engine, and the beat came up under his feet, and the train went out of the yard.
 
-It is thirty-one miles from the yard at Muileann chrom to the goods-sheds at Cathair dhearg by Slighe a' Ghuail, and the line goes west the whole way, down the valley of the river and out onto the long slope of the capital's country. Eachann had driven it more times than he could count, and had never seen it. With no fire to feed and no fireman to watch, he had nothing to do with his eyes but look out of the window, and he found that the road he knew by its gradients and its signals and its places to take water had fields beside it, and people in the fields. At Seann Toll the hewers' wives were hanging washing on the line behind their houses and did not look up; a coal train went by them six times a day, and they had not yet learned that this one was different. Past the bend below Cuan chrom the old coal road came down beside the line for a mile, and Eachann saw the roof of An Taigh-seinnse Mòr above it with a cart standing at the door. A little after that the line crossed a burn, and a boy fishing from the bridge dropped his rod and stood staring after the train with his mouth open, because it had no smoke.
+It is thirty-one miles from the yard at Muileann chrom to the goods-sheds at Cathair dhearg by Slighe a' Ghuail, and the line goes west the whole way, down the valley of the river and out onto the long slope of the capital's country. Eachann had driven it more times than he could count, and had never seen it. With no fire to feed and no fireman to watch, he had nothing to do with his eyes but look out of the window, and he found that the road he knew by its gradients and its signals and its places to take water had fields beside it, and people in the fields. At Cnoc ghorm the women of the line-side houses were hanging washing on the line behind their houses and did not look up; a coal train went by them six times a day, and they had not yet learned that this one was different. Past the bend below Cuan chrom the old coal road came down beside the line for a mile, and Eachann saw the roof of An Taigh-seinnse Mòr above it with a cart standing at the door. A little after that the line crossed a burn, and a boy fishing from the bridge dropped his rod and stood staring after the train with his mouth open, because it had no smoke.
 
 That was what people saw, all the way down the line: no smoke. At every crossing where the road went over the rails there was someone standing to look, and they looked at the place above the engine where the smoke should have been, and then at the cab, and then at each other. A carter near Muileann mhin pulled his horse off the road and stood at its head, and as the train went past he took his cap off, though whether it was to the engine or to Eachann or to the day, he did not say.
 
@@ -88,7 +88,7 @@ Eachann ate his bread in the cab. When he had finished, the lamp-house foreman c
 
 The foreman shook his head. "My grandfather lit the lamps in Cathair dhearg when the humans put them up," he said. "Every night of his life he carried coal up a ladder. I carried coal up a ladder. My boy has never carried a lump of it, and he's twelve." He looked at the engine a while longer. "I don't know what I think," he said, and went back to his carts.
 
-The train went home empty. There was nothing at the capital that anybody wanted carried to Muileann chrom, and the Board had not thought to find anything, and so the four tank-wagons rolled east behind the engine with their taps shut and nothing in them but the smell. On the long pull up the valley Eachann opened the engine to its full and felt the beat come up hard under his boots, and the engine took the gradient below Seann Toll without slowing, where a coal engine bringing the empties home would have been down to walking pace and the fireman sweating at the door. Eachann had not known it could do that. He sat with the knowledge for a while and did not know what he thought about it either.
+The train went home empty. There was nothing at the capital that anybody wanted carried to Muileann chrom, and the Board had not thought to find anything, and so the four tank-wagons rolled east behind the engine with their taps shut and nothing in them but the smell. On the long pull up the valley Eachann opened the engine to its full and felt the beat come up hard under his boots, and the engine took the bank below Cnoc ghorm without slowing, where a coal engine bringing the empties home would have been down to walking pace and the fireman sweating at the door. Eachann had not known it could do that. He sat with the knowledge for a while and did not know what he thought about it either.
 
 He brought the train into the yard at dusk. The feast-fires were smoking still on the hills, and the smoke of them lay in the valley, and the yard lamps, which burned oil, were lit along the sidings. The families had gone in to their suppers. The foreman signed him off. Niall mac Leòid climbed down stiffly from the brake-van, shook Eachann's hand, said that the Board would be pleased, and went off to find a bed at the inn by the mill.
 
@@ -96,7 +96,7 @@ His father was standing at the end of the long siding, by the tank on its piers,
 
 Eachann climbed down. For a while neither of them said anything. The engine ticked as it cooled. Somewhere in the rows a child was crying and being hushed.
 
-"She took the bank below Seann Toll coming home," Eachann said, "and never slowed."
+"She took the bank below Cnoc ghorm coming home," Eachann said, "and never slowed."
 
 "I heard her come in," said his father. "From the house. I took her for the mill."
 
@@ -108,7 +108,7 @@ Eachann climbed down. For a while neither of them said anything. The engine tick
 
 His father looked at the engine. In the half-dark it was only a long shape against the lamps, with no glow at the cab door and no steam at the valves, and nothing about it that moved.
 
-"Forty years," Ruairidh said, "I had a fire at my knee. When she was hungry I knew it, and when she was full I knew it, and on the bank below Seann Toll, going up in the dark with a full train, I could look at the fire and tell you whether we'd make the top. That was a thing I knew." He shifted his weight on the stick. "I'll not ride behind a thing I can't see into."
+"Forty years," Ruairidh said, "I had a fire at my knee. When she was hungry I knew it, and when she was full I knew it, and on the bank below Cnoc ghorm, going up in the dark with a full train, I could look at the fire and tell you whether we'd make the top. That was a thing I knew." He shifted his weight on the stick. "I'll not ride behind a thing I can't see into."
 
 "It's the same line, Athair."
 

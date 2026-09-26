@@ -146,5 +146,19 @@
   "gloss": "the empty ground",
   "kind": "landmark",
   "note": "the shepherds' name, before the search, for the moor between Dùn dhearg and Baile ruadh; ch. 32"
+ },
+ {
+  "en": "the fair's factors",
+  "dt": "Bàillidhean na Fèille",
+  "gloss": "the factors of the fair",
+  "kind": "institution",
+  "note": "the four licensed merchant houses at Muileann òg, ch19"
+ },
+ {
+  "en": "the court of the fair",
+  "dt": "Cùirt na Fèille",
+  "gloss": "the court of the fair",
+  "kind": "institution",
+  "note": "Oighrig nic Mhathain's court at Muileann òg, ch19"
  }
 ]

@@ -6,9 +6,22 @@
     "summary": "The lamp-makers of Muileann mhin, given leave the autumn before to set their own mark on the lamps they make, send them out along every road a lorry can reach. A house that hangs three or four at its door and yard wall has light enough to see a cart from a mile off, and enough, more than one landlord says, to count coin by without a candle.",
     "category": "trade",
     "people": [],
-    "places": ["burg:137"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0019", "type": "sequel"}, {"to": "VI-0025", "type": "cause"}],
+    "places": [
+      "burg:137"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0019",
+        "type": "sequel"
+      },
+      {
+        "to": "VI-0025",
+        "type": "cause"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#i-of-the-roads-before-the-lamps"
   },
   {
@@ -17,9 +30,18 @@
     "summary": "The inns of the old mining roads do not take up the new lamps together. For a season and more a carrier travelling the length of the kingdom passes from a house lit like a market fair into one still lit as it was in its grandfather's day, sometimes within the same day's driving, for the lamps and the fuel to fill them cost more than every house can find at once.",
     "category": "trade",
     "people": [],
-    "places": ["marker:9"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0025", "type": "cause"}],
+    "places": [
+      "marker:9"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0025",
+        "type": "cause"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#i-of-the-roads-before-the-lamps"
   },
   {
@@ -28,9 +50,18 @@
     "summary": "The landlord of An Leòmhann Buidhe on the north-east road hangs four dubhan lamps along his yard wall and two by the taproom door, warned by a carrier that a house without them will lose its custom within two years. The taproom is fuller within the month than it has been in years.",
     "category": "trade",
     "people": [],
-    "places": ["marker:7"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0026", "type": "cause"}],
+    "places": [
+      "marker:7"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0026",
+        "type": "cause"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion"
   },
   {
@@ -39,9 +70,18 @@
     "summary": "Beside his new lamps the landlord of An Leòmhann Buidhe keeps the oil wick his grandmother first lit above the door, the night his grandfather came home from a voyage given up for lost, and has trimmed it every night since. Asked why he keeps it when it costs him an hour a night the new lamps do not, he says the new ones are for the road and the old one is for the house.",
     "category": "trade",
     "people": [],
-    "places": ["marker:7"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0026", "type": "sequel"}],
+    "places": [
+      "marker:7"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0026",
+        "type": "sequel"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion"
   },
   {
@@ -50,64 +90,142 @@
     "summary": "Other houses along the north-east road take up the custom of keeping one old wick lit among the new lamps, some with a story of their own to hang it on and some only because a neighbouring house does the same. Within a year or two a wick kept burning that way, of no more use than memory or fashion, is called along every road a Leòmhann.",
     "category": "trade",
     "people": [],
-    "places": ["marker:7"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0026", "type": "sequel"}],
+    "places": [
+      "marker:7"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0026",
+        "type": "sequel"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion"
   },
   {
     "title": "The high custodian's carriage fitted at Seann Skell",
     "era_year": 9,
-    "summary": "The fitters of the shipmasters' works at the southern Seann Skell, Joe Ashby chief among them, box a lorry's dubhan engine into the frame of the high custodian's own carriage, working evenings beside their ordered work for the better part of a month. Peigi nic Ascaill oversees the fitting; the keeper's report names the works and not the man.",
+    "summary": "The fitters of the shipmasters' works at the southern Seann Skell, Joe Ashby chief among them, box a lorry's dubhan engine into the frame of the high custodian's own carriage, working evenings beside their ordered work for the better part of a month. Peigi nic Ascaill oversees the fitting; the works' book names the works and not the man.",
     "category": "trade",
-    "people": ["Peigi nic Ascaill", "Joe Ashby", "Alasdair mac Ìomhair"],
-    "places": ["burg:431"],
-    "threads": ["the-dubhan-trade", "the-orders-of-the-old-faith"],
-    "master_links": [{"to": "VI-0026a", "type": "cause"}, {"to": "VI-0010", "type": "sequel"}],
+    "people": [
+      "Peigi nic Ascaill",
+      "Joe Ashby",
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:431"
+    ],
+    "threads": [
+      "the-dubhan-trade",
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0026a",
+        "type": "cause"
+      },
+      {
+        "to": "VI-0010",
+        "type": "sequel"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#iii-of-the-carriage-that-needed-no-horse"
   },
   {
-    "title": "The high custodian rides to Ros dhomhain without a horse",
+    "title": "The high custodian rides to Tobar dhearg without a horse",
     "era_year": 9,
-    "summary": "In an t-Ògmhios Alasdair mac Ìomhair rides the first carriage on the island that needs no horse from Seann Skell to Brìde's house at Ros dhomhain, Joe Ashby driving. He says of it only what he said of dubhan itself six years before: that it is not forbidden, and he does not know that it is blessed.",
+    "summary": "In an t-Ògmhios Alasdair mac Ìomhair rides the first carriage on the island that needs no horse from Seann Skell to Brìde's house at Tobar dhearg, Joe Ashby driving. He says of it only what he said of dubhan itself five years before: that it is not forbidden, and he does not know that it is blessed.",
     "category": "faith",
-    "people": ["Alasdair mac Ìomhair", "Joe Ashby"],
-    "places": ["burg:431", "burg:27"],
-    "threads": ["the-dubhan-trade", "the-orders-of-the-old-faith"],
-    "master_links": [{"to": "VI-0026a", "type": "sequel"}, {"to": "VI-0009", "type": "echo"}],
+    "people": [
+      "Alasdair mac Ìomhair",
+      "Joe Ashby"
+    ],
+    "places": [
+      "burg:431",
+      "burg:398"
+    ],
+    "threads": [
+      "the-dubhan-trade",
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0026a",
+        "type": "sequel"
+      },
+      {
+        "to": "VI-0009",
+        "type": "echo"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#iii-of-the-carriage-that-needed-no-horse"
   },
   {
     "title": "Am Buabhall Fortanach holds back the lamps",
     "era_year": 9,
-    "summary": "Oighrig nic Iain, landlady of Am Buabhall Fortanach near Doire shean, refuses her cousin's offer of the new lamps for two years running, telling him she will hang them when she has seen one house on the road ruined by hanging them, or ruined by not. Her custom does not fall in the waiting, for carriers seek the house out whether its yard is bright or not.",
+    "summary": "Oighrig nic Iain, landlady of Am Buabhall Fortanach near Doire shean, refuses her cousin's offer of the new lamps for a year and more, telling him she will hang them when she has seen one house on the road ruined by hanging them, or ruined by not. Her custom does not fall in the waiting, for carriers seek the house out whether its yard is bright or not.",
     "category": "trade",
-    "people": ["Oighrig nic Iain"],
-    "places": ["marker:5"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0027", "type": "cause"}],
+    "people": [
+      "Oighrig nic Iain"
+    ],
+    "places": [
+      "marker:5"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0027",
+        "type": "cause"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach"
   },
   {
     "title": "Oighrig nic Iain's ledger turns",
-    "era_year": 10,
+    "era_year": 9,
     "summary": "Closing her house's ledger in the autumn, kept in one line since the house's founding, Oighrig nic Iain finds the year's trade in oil has fallen for the first time in four generations. She writes beneath the total that the light is going out from under the house whether it hangs the new lamps or not, and better to hang them itself than have the road hang them for it.",
     "category": "trade",
-    "people": ["Oighrig nic Iain"],
-    "places": ["marker:5"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0027", "type": "sequel"}],
+    "people": [
+      "Oighrig nic Iain"
+    ],
+    "places": [
+      "marker:5"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0027",
+        "type": "sequel"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach"
   },
   {
     "title": "Am Buabhall Fortanach hangs its lamps",
-    "era_year": 10,
+    "era_year": 9,
     "summary": "Oighrig nic Iain's cousin fits eight dubhan lamps at Am Buabhall Fortanach over three days. She pays his account without complaint and pins the bill inside her ledger's cover, the cost written plain as a year's takings from the oil trade spent to be rid of it. The old oil lamp over the taproom door she takes down and sets empty on the shelf above the till.",
     "category": "trade",
-    "people": ["Oighrig nic Iain"],
-    "places": ["marker:5"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0027", "type": "sequel"}],
+    "people": [
+      "Oighrig nic Iain"
+    ],
+    "places": [
+      "marker:5"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0027",
+        "type": "sequel"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach"
   },
   {
@@ -116,9 +234,18 @@
     "summary": "The house of An Taigh-seinnse Mòr, on the old coal road above Cuan chrom, raises a second hall over the winter and spring, lit by dubhan lamps set into its own walls. The landlord lets it for weddings and wakes at a price the old taproom never commanded.",
     "category": "trade",
     "people": [],
-    "places": ["marker:10"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0028", "type": "cause"}],
+    "places": [
+      "marker:10"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0028",
+        "type": "cause"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song"
   },
   {
@@ -127,9 +254,23 @@
     "summary": "The Guild of Hewers, its rolls too thin to keep it, puts its own hall at Achadh dhomhain up for sale, and asks the landlord of An Taigh-seinnse Mòr for the use of his new hall until it finds a roof of its own. He lets it to them for less than a wedding party would pay, his own father having hewed coal on that road before he kept an inn on it.",
     "category": "trade",
     "people": [],
-    "places": ["burg:135", "marker:10"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0028", "type": "cause"}, {"to": "VI-0038", "type": "sequel"}],
+    "places": [
+      "burg:135",
+      "marker:10"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0028",
+        "type": "cause"
+      },
+      {
+        "to": "VI-0038",
+        "type": "sequel"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song"
   },
   {
@@ -138,9 +279,18 @@
     "summary": "Near Cnoc dhìreach the widowed landlady of An Taigh-òsta Grianach rebuilds her house entire over the winter, lamps in every room and a dubhan pump set into the yard wall, and paints a new sign under the house's old name reading beds and fire. No house on any road has sold fuel alongside a bed before that spring.",
     "category": "trade",
     "people": [],
-    "places": ["marker:6"],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0029", "type": "cause"}],
+    "places": [
+      "marker:6"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0029",
+        "type": "cause"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song"
   },
   {
@@ -150,8 +300,15 @@
     "category": "trade",
     "people": [],
     "places": [],
-    "threads": ["the-dubhan-trade"],
-    "master_links": [{"to": "VI-0026", "type": "echo"}],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      {
+        "to": "VI-0026",
+        "type": "echo"
+      }
+    ],
     "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song"
   }
 ]

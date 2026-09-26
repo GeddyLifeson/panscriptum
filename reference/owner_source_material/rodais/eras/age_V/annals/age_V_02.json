@@ -6,6 +6,68 @@
  ],
  "events": [
   {
+   "id": "EV-1513",
+   "title": "The compact written in both tongues",
+   "body": "Through the moons of harvest six sit at the mending-table in the net-loft of Baile dhìreach, three of the town and three of the strangers, and write the town's rule twice. A clerk of Inis thais writes the Dia-thìris book and William Rook the humans'. The net-maker Eilidh nic Ruairidh and the cooper Samuel Hale are fetched to find the words for the moorings.",
+   "place": "burg:105",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0022",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-chaluim",
+    "seonag-nic-aoidh",
+    "murchadh-mac-iain",
+    "william-rook",
+    "nathan-cobb",
+    "peter-lusk",
+    "eilidh-nic-ruairidh",
+    "samuel-hale"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#vi-of-the-turning-of-the-humans-year",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EV-1514",
+   "title": "The chair set to turn at the humans' new year",
+   "body": "The six of Baile dhìreach find that the town's year turns at Samhain and is counted by moons, while the humans' year turns in the dead of winter on a fixed day. They write in both books that Iain mac Chaluim holds the chair until the humans' year turns, and William Rook for the year after, and so in turn.",
+   "place": "burg:105",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0022",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0023",
+     "type": "cause"
+    },
+    {
+     "to": "EV-1513",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-chaluim",
+    "william-rook"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#iv-of-the-compact-written-twice",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
    "after": "IV-0023"
   },
   {
@@ -64,6 +126,327 @@
    "told_in": "book/04_of_the_council_of_six.md#v-of-her-father-s-no"
   },
   {
+   "id": "EV-1515",
+   "title": "The first human house on the shingle",
+   "body": "The carpenters of Baile dhìreach lay a slip of split logs, raise an open shed, and build a house of sawn plank on a sill of beach stones, with a window of glass. Since nothing may be built on the shingle, the town rules that the house is a tent, and calls it so. The humans' book of the town enters it as the first house.",
+   "place": "burg:105",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "william-rook"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#iii-of-rope-and-knot",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EV-1516",
+   "title": "Two letters on the harbour of Baile dhìreach",
+   "body": "The humans' post at Ros dhomhain writes to ask why the dues of a harbour its own men have half rebuilt go wholly to the custodians at Cathair dhearg. The custodians of Inis thais write to ask by what rule strangers keep a yard on a shingle held in keeping. Iain mac Chaluim says the town must write its rule down.",
+   "place": "burg:105",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1515",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-chaluim",
+    "william-rook"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#iv-of-the-compact-written-twice",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EV-1517",
+   "title": "The first dues shared",
+   "body": "At its first sitting the council of six of Baile dhìreach settles a quarrel over a mooring ring and sends the harbour dues out in two halves: one in a sack by a boy up the road to the custodians at Cathair dhearg, the other round by boat to the humans' post at Ros dhomhain.",
+   "place": "burg:105",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0023",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1516",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-chaluim",
+    "william-rook"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#iv-of-the-compact-written-twice",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EV-1518",
+   "title": "Ruairidh refuses the cooper",
+   "body": "On the night of Samhain, while the town keeps its fire on the headland above the quay and the humans watch from the last cairn, the cooper Samuel Hale comes to the door of the salter Ruairidh to ask for his daughter Eilidh nic Ruairidh. Ruairidh sends him away, saying that a council is one thing and a hearth another.",
+   "place": "burg:105",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "samuel-hale",
+    "eilidh-nic-ruairidh"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#v-of-her-father-s-no",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EV-1519",
+   "title": "The bidding carried to Inis thais",
+   "body": "In the black moon the council of Baile dhìreach sends its compact along the shore to the temple city of Inis thais in both tongues, with a clause bidding any town of the coast sit with it on the same terms. The pilot Murchadh mac Iain carries it by boat and brings back word that the custodian will write.",
+   "place": "burg:105",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0024",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mac-iain",
+    "iain-mac-chaluim"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#v-of-her-father-s-no",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "after": "IV-0024"
+  },
+  {
+   "id": "EV-1520",
+   "title": "Iain mac Chaluim hands the chair to William Rook",
+   "body": "On the morning the humans' year turns, in the net-loft of Baile dhìreach, the fisherman Iain mac Chaluim gives up the chair of the council of six and the carpenter William Rook takes it, as the compact bids. Both books enter it in a line, the one by the day and the year, the other by the moon. The letter from Inis thais is read the same morning.",
+   "place": "burg:105",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "IV-0023",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0024",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1519",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-chaluim",
+    "william-rook"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#vi-of-the-turning-of-the-humans-year",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1521",
+   "title": "Rook's ruling on the dragged mooring",
+   "body": "A boat of the post drags her anchor at Baile dhìreach and fouls the salter Ruairidh's mooring, and her master will not pay. William Rook, in the chair, orders his own countryman to pay the town's rate for rope and ring, in iron by weight, that day, and asks Ruairidh whether the rate is fair.",
+   "place": "burg:105",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0023",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1520",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "william-rook"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#vi-of-the-turning-of-the-humans-year",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1522",
+   "title": "The storm of the wolf-moon at Baile dhìreach",
+   "body": "A three-day storm off the west drives the sea over the quay of Baile dhìreach and up the shingle towards the boats. On the second night the town and the humans haul the boats over the crest together with ropes, blocks and a capstan-bar from the slip. The salt-house chimney and half the roof of the humans' house are lost.",
+   "place": "burg:105",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [],
+   "people": [
+    "eilidh-nic-ruairidh",
+    "samuel-hale",
+    "nathan-cobb"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#vi-of-the-turning-of-the-humans-year",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1523",
+   "title": "Ruairidh relents",
+   "body": "After half a moon of the carpenter in the chair, in which nothing in Baile dhìreach has fallen but a chimney, the salter Ruairidh helps the humans roof their house again and sends word by his daughter Eilidh nic Ruairidh that the cooper Samuel Hale may come up to the house for his bowl himself.",
+   "place": "burg:105",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0023",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1522",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eilidh-nic-ruairidh",
+    "samuel-hale"
+   ],
+   "told_in": "book/04_of_the_council_of_six.md#vi-of-the-turning-of-the-humans-year",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "after": "IV-0025"
+  },
+  {
+   "id": "EV-1524",
+   "title": "The nine drowned buried on the western shore",
+   "body": "The nine drowned of the human supply-brig are buried in the dunes above the tide-line at Baile fhiadhaich, on ground the custodian gives. A townswoman wets each grave with sea-water as the coast does for its own drowned. The mason Torcall Clachair cuts nine headstones with a line for the sea, and the ship's mate scratches the names beneath.",
+   "place": "burg:134",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-clachair"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#i-of-the-nine-on-the-western-shore",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1525",
+   "title": "The chart from memory brought to the post",
+   "body": "The mate of the lost brig carries her drowned master's chart, drawn from memory, to the post at Ros dhomhain. It sets the point where she struck a mile too far out to sea and shows no reefs below it. The ships' masters at the post argue over it at Thomas Pike's counter.",
+   "place": "burg:27",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0025",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0026",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "thomas-pike"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#i-of-the-nine-on-the-western-shore",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "after": "IV-0026"
+  },
+  {
+   "id": "EV-1526",
+   "title": "The masters of building answer the strangers",
+   "body": "Comhairle a' Chùraim passes the strangers' asking to the seven master builders of Cathair dhearg. They agree that towers may be raised on the headlands where each place's custodian gives leave, with a Dia-thìreach builder to choose the ground. Torcall Clachair alone asks about coal, and the old ruling that no coal feeds a sea-fire is kept.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0026",
+     "type": "sequel"
+    },
+    {
+     "to": "II-0029",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-clachair",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#ii-of-the-asking",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
    "after": "IV-0027"
   },
   {
@@ -114,6 +497,270 @@
    ]
   },
   {
+   "id": "EV-1527",
+   "title": "Torcall's first cairn on the Tobar dhearg headland",
+   "body": "On the southern cape at Tobar dhearg, beside the old dry-stone fire-tower where the village households burn driftwood and seal fat in turn, Torcall Clachair builds a cairn to mark ground for a new tower. James Fenn writes a name from his own shore on the cape in his chart. Torcall answers that the cape has a name.",
+   "place": "burg:398",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "I-0164",
+     "type": "legacy"
+    },
+    {
+     "to": "II-0029",
+     "type": "legacy"
+    },
+    {
+     "to": "EV-1505",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-clachair",
+    "james-fenn"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#iii-of-the-southern-cape",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1528",
+   "title": "The second cairn on the eastern cape",
+   "body": "At Baile ìseal, whose fire is lit to bring the boats home in a storm, Torcall Clachair and James Fenn sit up with the watch and see a raiders' light on the nearest islet. The watchman says a greater light would bring home more men of both kinds. He helps Torcall lift the capstone of the second cairn.",
+   "place": "burg:285",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "I-0161",
+     "type": "legacy"
+    },
+    {
+     "to": "EV-1527",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-clachair",
+    "james-fenn"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#iv-of-the-eastern-cape-and-the-north-east-steps",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1529",
+   "title": "The households of Àth dhearg asked hearth by hearth",
+   "body": "The custodian of Àth dhearg will not give away the fire-shelf above the rock-cut stair, saying it belongs to the households who cut it. Torcall Clachair and James Fenn go round the hearths for eleven days. Most say yes and two say no. The third cairn is raised at the end of the shelf, and the custodian climbs up with bread.",
+   "place": "burg:258",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "I-0163",
+     "type": "legacy"
+    },
+    {
+     "to": "EV-1528",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-clachair",
+    "james-fenn"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#iv-of-the-eastern-cape-and-the-north-east-steps",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1530",
+   "title": "Three yards of ash at Muileann bheag",
+   "body": "Seeking the depth for a tower's footing, James Fenn digs beside the old shore-fire on the northern point at Muileann bheag with Torcall Clachair and a boy of the village. They go down through bands of black ash and red earth and find no rock at three yards. Torcall sets the fourth cairn inland on sound rock.",
+   "place": "burg:327",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "I-0162",
+     "type": "legacy"
+    },
+    {
+     "to": "EV-1529",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "james-fenn",
+    "torcall-clachair"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#v-of-the-northern-point-and-the-north-west-headland",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1531",
+   "title": "Baile chrom's condition for the fifth cairn",
+   "body": "The households of Baile chrom, whose headland fire has always warned boats off the water of Uilebheist na Mara, say the old fire cannot both warn and call. They give leave for a tower on condition that the old fire be kept alight beside it on driftwood. James Fenn agrees, and Torcall Clachair builds the fifth cairn.",
+   "place": "burg:305",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "I-0041",
+     "type": "legacy"
+    },
+    {
+     "to": "EV-1530",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "james-fenn",
+    "torcall-clachair"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#v-of-the-northern-point-and-the-north-west-headland",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1532",
+   "title": "The fire on the north-west headland raised for Fenn",
+   "body": "At Lùnastal Torcall Clachair keeps a high fire of driftwood and seal fat on the headland at Baile chrom for three nights, burning no coal. On the third night James Fenn, rowed west by fishers of Achadh àrsaidh past Coinneachadh nan Long, sees it sink below the sea's rim at near thirty miles. The sea end of his line is fixed there.",
+   "place": "burg:305",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0027a",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0001a",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1531",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-mist"
+   ],
+   "people": [
+    "torcall-clachair",
+    "james-fenn"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#vi-of-fenn-s-line",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EV-1533",
+   "title": "The cairns of the line laid across the island",
+   "body": "Through the autumn James Fenn sights station after station east from the Baile chrom headland, and Torcall Clachair raises a narrow cairn capped with a white stone on each chosen top. Hired boys carry a chain of iron links between them. The string of cairns crosses the moors south of Cnoc bheag and the hills of the interior.",
+   "place": "burg:20",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0027a",
+     "type": "cause"
+    },
+    {
+     "to": "EV-1532",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "james-fenn",
+    "torcall-clachair"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#vi-of-fenn-s-line",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "after": "IV-0027a"
+  },
+  {
+   "id": "EV-1534",
+   "title": "The council asked for a ruling on the marriage",
+   "body": "Iain mac Chaluim writes for the council of Baile dhìreach to the custodians at Cathair dhearg, asking whether the marriage of a Dia-thìreach net-maker to a human cooper may be entered in the custodians' roll, and whether its children stand as a Dia-thìreach mother's. The rider returns with no answer. The council resolves to enter the marriage itself.",
+   "place": "burg:105",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0028",
+     "type": "cause"
+    },
+    {
+     "to": "IV-0022",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-chaluim",
+    "eilidh-nic-ruairidh",
+    "samuel-hale"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#vii-of-the-two-books-at-baile-dhireach",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
    "after": "IV-0028"
   },
   {
@@ -142,6 +789,190 @@
    "era_between": [
     7,
     7
+   ]
+  },
+  {
+   "id": "EV-1535",
+   "title": "The island's names written on Fenn's chart",
+   "body": "On the night of the wedding at Baile dhìreach James Fenn writes the Dia-thìris names of the five headlands under his own on his chart, as Torcall Clachair tells them: Tobar dhearg, Baile ìseal, Àth dhearg, Muileann bheag and Baile chrom. At the mountain in the middle of his line he writes Binnean a' Chlachair.",
+   "place": "burg:105",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0027",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0027a",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1506",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "james-fenn",
+    "torcall-clachair"
+   ],
+   "told_in": "book/05_of_the_five_headlands.md#vii-of-the-two-books-at-baile-dhireach",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EV-1536",
+   "title": "Harrow asks for the terms in writing",
+   "body": "Edmund Harrow comes up the lake road to Cathair dhearg with Thomas Pike to speak for him and asks Tormod mac Ailein that the terms on which the humans stay be written and signed by both sides. He says that a man is coming from an Tìr Thall to speak for its government, and that he himself has asked for him. The council's leave, he says, stands only in the council's roll.",
+   "place": "burg:19",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0005",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0029",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "edmund-harrow",
+    "thomas-pike",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#ii-of-tormod-s-reasons",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EV-1537",
+   "title": "Tull draws Ceann a' Chùraim's tooth",
+   "body": "Passing through Cathair dhearg on his way to the post at Ros dhomhain, the surgeon Jonas Tull draws a rotten tooth from the jaw of Tormod mac Ailein, which the capital's physician had left to wait a month. Tormod keeps the tooth in a box. It is the second debt owed to a stranger that the custodians know of, and it is owed by Ceann a' Chùraim.",
+   "place": "burg:19",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0018",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1536",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "jonas-tull",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#ii-of-tormod-s-reasons",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "id": "EV-1538",
+   "title": "Pell lands at Cuan shean",
+   "body": "Josiah Pell comes ashore at Cuan shean from the first ship of the year down from the north, dry-shod on a plank, with a leather case he lets no one carry. He asks for a horse. Oighrig nic Leòid, who gave Harrow water, lends him her own and writes to the council the same day that he did not ask for water.",
+   "place": "burg:282",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0002",
+     "type": "parallel",
+     "note": "Harrow's landing"
+    },
+    {
+     "to": "IV-0030",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "josiah-pell",
+    "oighrig-nic-leoid"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#iii-of-the-man-who-asked-for-a-horse",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EV-1539",
+   "title": "Pell rides to the council hall",
+   "body": "Josiah Pell rides the twenty-six miles from Cuan shean to Cathair dhearg in a day and, passing by the humans' post, asks at dusk for the council hall and Ceann a' Chùraim. Tormod mac Ailein comes down to him in his house-shoes. With no one to carry words between them, Pell greets him with the island's word of leave-taking, learned on the ship.",
+   "place": "burg:282",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0030",
+     "type": "location"
+    },
+    {
+     "to": "EV-1538",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "josiah-pell",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#iii-of-the-man-who-asked-for-a-horse",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EV-1540",
+   "title": "The terms asked for in two tongues",
+   "body": "In the talks at Cathair dhearg and Ros dhomhain, with Samuel Wren putting each sentence into the other tongue, Tormod mac Ailein asks that the terms be written twice, as the compact of Baile dhìreach was. Pell answers that one text must govern before the lawyers of an Tìr Thall, and that a copy in Dia-thìris will follow when there is leisure. Wren gives it as an dèidh làimh.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0022",
+     "type": "answers",
+     "note": "the compact written twice"
+    },
+    {
+     "to": "IV-0029",
+     "type": "cause"
+    },
+    {
+     "to": "EV-1539",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-ailein",
+    "josiah-pell",
+    "samuel-wren"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#iii-of-the-man-who-asked-for-a-horse",
+   "era_between": [
+    8,
+    8
    ]
   },
   {
@@ -227,6 +1058,465 @@
    ]
   },
   {
+   "id": "EV-1541",
+   "title": "The clerk leaves the day blank",
+   "body": "Entering Cùmhnant Cathair dhearg in the council's roll, the custodians' clerk writes the year by the count of An Diosal and the moon of Bealltach. The strangers have dated their sheets by their own day and month, and no one in the hall can turn the one into the other, so he leaves the day empty. It is the first such page in the roll.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#iv-of-the-line-read-twice",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EV-1542",
+   "title": "The rise above Ros dhomhain given",
+   "body": "Pell asks the council for the bare rise behind the harbour of Ros dhomhain, where the town's goats graze, to build a house for Riaghaltas nan Coigreach. The goat-keepers are paid in iron pots and are glad of it, and the council gives the ground without a vote, holding it a matter of goats.",
+   "place": "burg:27",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0031",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "josiah-pell"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#v-of-the-house-on-the-rise",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "after": "IV-0031"
+  },
+  {
+   "id": "EV-1543",
+   "title": "Harrow takes his leave of Tormod",
+   "body": "Edmund Harrow comes up to Cathair dhearg with Thomas Pike to say that Pell will govern now and a ship's master is needed ashore no longer. He tells Tormod mac Ailein that he and Pike are to have a licence to trade, and that the charter will be sent to the council and found in order. He sails north-about from Ros dhomhain two tides later.",
+   "place": "burg:19",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0031",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0032",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "edmund-harrow",
+    "thomas-pike",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#v-of-the-house-on-the-rise",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "after": "IV-0032"
+  },
+  {
+   "id": "EV-1544",
+   "title": "The charter lodged with the council",
+   "body": "A copy of Cairt na Companaidh comes to the council at Cathair dhearg in the strangers' tongue, four sheets under a red seal. The clerk enters its coming in the roll and lays it in the chest under the east window of the hall, beside the unanswered letter from Baile dhìreach, and there it lies a month unread.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0032",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0028",
+     "type": "parallel",
+     "note": "the letter left unanswered"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#vi-of-the-charter-read-in-private",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EV-1545",
+   "title": "Gormshuil reads the charter to Tormod",
+   "body": "At midsummer Gormshuil nic Fhearchair takes the charter from the council's chest and reads it by night to Tormod mac Ailein at his hearth. In the clause of all fuels, ores and minerals the island may yield she finds Wren's one word for the coal, and she shows him that the charter's licence hangs from the line on goods he had asked to hear twice. He asks her to keep it between them.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0032",
+     "type": "answers"
+    },
+    {
+     "to": "IV-0030",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0010",
+     "type": "legacy",
+     "note": "the one word for the coal"
+    }
+   ],
+   "threads": [
+    "the-company",
+    "the-seven-coals"
+   ],
+   "people": [
+    "gormshuil-nic-fhearchair",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#vi-of-the-charter-read-in-private",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EV-1546",
+   "title": "The shore at Cathair dhomhain sold",
+   "body": "Thomas Pike buys a strip of shingle and rough grass above the lake at Cathair dhomhain from a fishing family that has drawn its nets there since An Aois Naomh, for a keg of nails, two lamps and a sheet of window-glass. The custodian of the lake shore enters the sale. It is the first ground on Dia-thìr the strangers hold by sale and not by the council's leave.",
+   "place": "burg:26",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0033",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "thomas-pike"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#vii-of-the-door-at-cathair-dhomhain",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "after": "IV-0033"
+  },
+  {
+   "id": "EV-1547",
+   "title": "The warehouse door hung",
+   "body": "The oak door of A' Chompanaidh's warehouse at Cathair dhomhain comes down the shore road from Cathair dhearg and is hung at dusk on strap hinges forged by Gilleasbuig Gobha in the smiths' lane below the bridge. Thomas Pike locks it with a long iron key. Tormod mac Ailein, who has walked out from the capital, watches it hung; the lake-shore roll calls it a good door.",
+   "place": "burg:26",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0033",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0014",
+     "type": "legacy",
+     "note": "the smith's bar-iron"
+    },
+    {
+     "to": "EV-1546",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "thomas-pike",
+    "gilleasbuig-gobha",
+    "tormod-mac-ailein"
+   ],
+   "told_in": "book/06_of_the_treaty_in_one_tongue.md#vii-of-the-door-at-cathair-dhomhain",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "after": "IV-0034"
+  },
+  {
+   "id": "EV-1548",
+   "title": "The hill's coal carried to Cuan shean",
+   "body": "Eleven carriers of the hills bring the measured coal for the western hearths down from the store at Taigh na Fèithe to Cuan shean, five days on the road with ponies and a custodian's clerk. Raghnall mac Dhòmhnaill of Muileann chrom goes among them for the first time. Oighrig nic Leòid counts the baskets in by lamplight at the custodians' store.",
+   "place": "burg:282",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-dhomhnaill",
+    "oighrig-nic-leoid"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#i-of-the-carriers-at-cuan-shean",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EV-1549",
+   "title": "The carriers kept at Cuan shean",
+   "body": "When the fever breaks out among the net-sheds, the clerk of the hill carriers and Oighrig nic Leòid forbid the eleven to take the road home, lest they carry the sickness into the hills. The carriers stay in the town through an t-Samhain, carrying water to the fever houses and the dead to their burying.",
+   "place": "burg:282",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "IV-0034",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1548",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-dhomhnaill",
+    "oighrig-nic-leoid"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#i-of-the-carriers-at-cuan-shean",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EV-1550",
+   "title": "Oighrig answers Pell's protest",
+   "body": "Pell's letter protesting the shutting of Cuan shean is read to Oighrig nic Leòid in the custodians' store by the humans' trader of the quay. It claims the harbour open under Cùmhnant Cathair dhearg and holds the town answerable for spoiled cargo. She asks whether it says anything of the dead, and sends back the number, forty-one, and word that the ships may wait.",
+   "place": "burg:282",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0034",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0030",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1549",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "oighrig-nic-leoid",
+    "josiah-pell"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#i-of-the-carriers-at-cuan-shean",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "after": "IV-0037"
+  },
+  {
+   "id": "EV-1551",
+   "title": "The fever dead buried beyond the dunes",
+   "body": "The custodians of Cuan shean will not lay the fever dead in the old ground by the harbour, and bury them in the sand beyond the dunes, out of sight of the town. The human dead lie in the same ground in a row of their own, read over by their priest. The burying slackens at the dark of the year and ends before Là Fhèill Brìde.",
+   "place": "burg:282",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-dhomhnaill"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#ii-of-the-dunes-and-the-road-home",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EV-1552",
+   "title": "The hills keep their roads open",
+   "body": "After the fever at Baile àrsaidh, where no human lived, the custodians of the hills meet at Taigh na Fèithe and talk of shutting the hill roads. They decide against it, since the roads carry the meal, the salt and the lamp-oil. Their roll gives the reason in the words of Seonag Liath of the old cutting: nine years of salt eaten with the strangers.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "IV-0035",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seonag-liath"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#iii-of-the-word-from-the-west",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EV-1553",
+   "title": "Cnoc àrsaidh pays its fine in wool",
+   "body": "Cnoc àrsaidh, fined by Riaghaltas nan Coigreach for turning back travellers with its carts, pays the fine in sacks of wool. The hill carters carry the story east and tell it at the mill of Muileann chrom as a jest against the strangers, who have no use for so much wool.",
+   "place": "burg:433",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#iii-of-the-word-from-the-west",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EV-1554",
+   "title": "The prospectors find no guide",
+   "body": "Abel Stone and Hugh Mercer come up the road to Muileann chrom with a letter of A' Chompanaidh asking lodging and a guide into the hills. The miller houses and feeds them, but no man of the hill will lead strangers onto it with a hammer. Raghnall mac Dhòmhnaill offers himself for a silver coin of an Tìr Thall, against his father's wish.",
+   "place": "burg:354",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "IV-0037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "abel-stone",
+    "hugh-mercer",
+    "raghnall-mac-dhomhnaill"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#iv-of-the-two-prospectors",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EV-1555",
+   "title": "The seam walked with the prospectors",
+   "body": "For eleven days Raghnall mac Dhòmhnaill leads Stone and Mercer through the hills north and east of Muileann chrom, by the stream-cuts where the seam shows. They break coal at every gully, a sack to each, and Mercer counts the paces between. Raghnall names the colours of the broken coal; the prospectors have one word for all of it. He carries a sack down on his own back.",
+   "place": "province:76",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0037",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1554",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "raghnall-mac-dhomhnaill",
+    "abel-stone",
+    "hugh-mercer"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#iv-of-the-two-prospectors",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EV-1556",
+   "title": "The custodians write for the coal",
+   "body": "The custodians of the vein send a letter in Dia-thìris to Thomas Pike at Ros dhomhain, asking that all the coal broken on the hill above Muileann chrom without leave be brought back to be laid in the rock with the proper words. They write twice more in the spring before any answer comes.",
+   "place": "burg:27",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0037",
+     "type": "sequel"
+    },
+    {
+     "to": "IV-0038",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "thomas-pike"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#v-of-the-half-carried-west",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
    "after": "IV-0040"
   },
   {
@@ -304,6 +1594,93 @@
     "abel-stone"
    ],
    "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#vi-of-the-contract-and-the-first-ton",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EV-1557",
+   "title": "The returned half laid in the rock",
+   "body": "At the old cutting above Muileann chrom the custodians of Taigh na Fèithe and Seonag Liath sort the returned coal by colour and by gully, and the hewers lay it back into the clefts with clay while the custodians say the words for a thing taken out of season. Raghnall mac Dhòmhnaill carries all six sacks up to the face. He gives the clerk the word \"west\" for the rest.",
+   "place": "burg:354",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "IV-0038",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1512",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seonag-liath",
+    "raghnall-mac-dhomhnaill"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#v-of-the-half-carried-west",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EV-1558",
+   "title": "The first ton weighed at Muileann chrom",
+   "body": "On the day the first pit is opened below the old cutting, A' Chompanaidh sets up an iron beam on a timber tripod at the pit-mouth. At dusk the clerk adds his figures and Stone calls out one ton, the first coal of the hills ever weighed. The crew cheers, and the figure is written in the pit-book against Raghnall's name.",
+   "place": "burg:354",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "IV-0040",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1557",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "raghnall-mac-dhomhnaill",
+    "abel-stone"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#vi-of-the-contract-and-the-first-ton",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EV-1559",
+   "title": "The first crew paid in iron and oil",
+   "body": "On the first market-day after the opening of the pit, the crew of thirty at Muileann chrom are paid for their tons in picks and lamp-oil at the rate written on the contract, to the last measure of oil. The pit-book of A' Chompanaidh balances to the line.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "IV-0040",
+     "type": "sequel"
+    },
+    {
+     "to": "EV-1558",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-company"
+   ],
+   "people": [
+    "raghnall-mac-dhomhnaill"
+   ],
+   "told_in": "book/07_of_the_fever_and_the_sacks_of_coal.md#vii-of-what-the-hill-had-never-been-weighed-by",
    "era_between": [
     11,
     11

@@ -80,7 +80,7 @@ She asked him what else he had seen coming.
 
 ## III. Of the Crowning at Cathair dhearg
 
-In the summer word went round the fair road that Mairead's reign had ended, and that there would be a crowning at Lùnastal, the first in sixteen years. The court shut for the day of the feast by the justice's order. Half the town went up to the capital to see it, and Ùna went with them.
+In the summer word went round the fair road that Mairead's reign had ended, and that there would be a crowning at Lùnastal, the first in fifteen years. The court shut for the day of the feast by the justice's order. Half the town went up to the capital to see it, and Ùna went with them.
 
 They went up the day before in the carrier's wagon, twelve to a bench, and slept in the carrier's loft in the lane behind the tannery, and were in the streets before light. The fair road was full all the way up. There were families walking with their children on their shoulders; there were two priests of Òrd Mhacha from the house at Cnoc òg with a bundle of green boughs; there were drovers with no beasts, and a man selling cold mutton pies from a board hung round his neck, who had sold out before they reached the bridge. The long light of the day before the feast lay yellow across the barley. From the brow of the last hill they could see the smoke of Cathair dhearg over the river, less of it than Ùna remembered.
 

@@ -1,0 +1,112 @@
+[
+ {
+  "title": "The waypoint house at Muileann chiar begins tallying grain",
+  "era_year": 556,
+  "summary": "In the season after Achadh mhòr's burning, the keeper of the waypoint house on the road below Muileann chiar chalks a slate with every granary along the carriers' road still holding grain, and rubs it out and chalks it again as the hungry winter empties one store after another. Carriers come to ask him for news of bread before they ask for news of the war.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:419"],
+  "threads": [],
+  "master_links": [{"to": "II-0064b", "type": "sequel"}]
+ },
+ {
+  "title": "A household of the middle plain sends its youngest son begging seed corn",
+  "era_year": 556,
+  "summary": "A family two days' walk from Achadh mhòr's blackened fields sends its youngest son round every kinsman it has, sworn or unsworn to either share, asking only for seed corn against the spring sowing and not for grain to eat that winter. He comes home with less than he asked for, gathered a handful at a time from households as pinched as his own.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [{"to": "II-0064b", "type": "sequel"}]
+ },
+ {
+  "title": "Ruairidh Glas writes to Eithne nic Ailein",
+  "era_year": 556,
+  "summary": "Ruairidh Glas, holder of the Red Share at Dùn dhearg, sends word to Eithne nic Ailein of Cathair mhòr's plain that a war fought over a granary which no longer stands profits neither of their hungry households, and asks her to name ground where neither hall need be ashamed to meet.",
+  "category": "rulers",
+  "people": ["Ruairidh Glas", "Eithne nic Ailein"],
+  "places": ["burg:422"],
+  "threads": ["the-long-years"],
+  "master_links": [{"to": "II-0064c", "type": "cause"}]
+ },
+ {
+  "title": "Eithne nic Ailein names the threshold of Talla na Lasrach",
+  "era_year": 556,
+  "summary": "Eithne nic Ailein answers Ruairidh Glas that she will set foot in no hall of the Red Share's, as he will set foot in none of hers, and names instead the threshold of Talla na Lasrach at Dùn ìseal, where the stone cup stands on ground that belongs to no share and never has.",
+  "category": "rulers",
+  "people": ["Eithne nic Ailein"],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0064c", "type": "cause"}]
+ },
+ {
+  "title": "A reluctant lord is shamed into the swearing",
+  "era_year": 556,
+  "summary": "The steward of a lesser holding north of Achadh mhòr answers Eithne's summons that his lord sees no profit in standing bareheaded before an old woman to be told what he knows already. Eithne sends back that he may explain to his own hungry households why the peace that feeds everyone else's has passed his door by, and he comes a season late to swear it.",
+  "category": "rulers",
+  "people": ["Eithne nic Ailein"],
+  "places": [],
+  "threads": [],
+  "master_links": [{"to": "II-0064c", "type": "cause"}]
+ },
+ {
+  "title": "Eithne nic Ailein is carried up to Dùn ìseal",
+  "era_year": 556,
+  "summary": "Eithne nic Ailein, whose legs have long since stopped carrying her, is borne up the old carriers' road to Dùn ìseal in a chair, one pole carried by Niall Òg, who has outlived nearly every other soul that remembers the valley of the Roinn, and who tells her, on the road, that she is the last one left who remembers what he remembers.",
+  "category": "rulers",
+  "people": ["Eithne nic Ailein", "Niall Òg"],
+  "places": ["burg:315"],
+  "threads": ["the-long-years"],
+  "master_links": [{"to": "II-0064c", "type": "cause"}]
+ },
+ {
+  "title": "The Keeper drafts and reads the terms of the Threshold",
+  "era_year": 556,
+  "summary": "At the asking of both halls, neither of which trusts the other's clerks to write the terms fairly, the Keeper of the flame drafts the peace herself and reads it aloud to the gathered stones before any lord is asked to swear, so that the households standing beyond the lords may carry the whole of it home in their own words.",
+  "category": "law",
+  "people": [],
+  "places": ["burg:315"],
+  "threads": ["the-keepers-of-the-flame"],
+  "master_links": [{"to": "II-0064c", "type": "cause"}]
+ },
+ {
+  "title": "Ruairidh Glas speaks of the first blood at Dùn thais",
+  "era_year": 556,
+  "summary": "Swearing the Peace of the Threshold with his hand still on the stone cup, Ruairidh Glas says before the gathered lords that he shed the first blood of the strife at Dùn thais over cattle on a wet slope, when he was young enough to think a stone worth a life, and that he would not buy it again for twice the grazing on the island.",
+  "category": "war",
+  "people": ["Ruairidh Glas"],
+  "places": ["burg:315"],
+  "threads": ["the-long-years"],
+  "master_links": [{"to": "II-0001c", "type": "legacy"}]
+ },
+ {
+  "title": "A double-sworn household on the old boundary gives up one oath",
+  "era_year": 557,
+  "summary": "A household sworn to two lords since a marriage two generations back keeps the oath that has cost it least and lets the other lapse before the spring sowing, its eldest son reasoning aloud that neither hall's carrier had once knocked on their door in the whole of the hungry winter past.",
+  "category": "law",
+  "people": [],
+  "places": ["burg:395"],
+  "threads": [],
+  "master_links": [{"to": "II-0064c", "type": "sequel"}]
+ },
+ {
+  "title": "The first Threshold market stands thin and unparted",
+  "era_year": 557,
+  "summary": "The first quarter-day market held below Talla na Lasrach after the Peace draws little to sell, the hungry winter having left small surplus, and many households come only to watch whether a trader of the Red Share can stand at a stall beside one of Cathair mhòr's plain without a steward of either hall coming to part them. None comes.",
+  "category": "trade",
+  "people": [],
+  "places": ["burg:315"],
+  "threads": [],
+  "master_links": [{"to": "II-0064a", "type": "sequel"}]
+ },
+ {
+  "title": "The boundary lines of the middle plain settle by the sowing",
+  "era_year": 557,
+  "summary": "By the time of the spring sowing after the Peace, the boundary lines that had shifted and blurred through forty years of burning have settled again into a shape that will hold for longer than any lord who swore to it that Samhain will live to see, with only small mendings asked at Dùn ìseal in the years after.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": ["the-division"],
+  "master_links": [{"to": "II-0064c", "type": "sequel"}]
+ }
+]

@@ -33,7 +33,7 @@
   "master_links": ["VI-0095"]
  },
  {
-  "title": "Coinneach Frisealach's wage-ledger",
+  "title": "Hugh Ferris's wage-ledger",
   "era_year": 21,
   "after": "VI-0095",
   "summary": "An old hewer of Àth leathan, forty years at the coal and ten more keeper of the pit-shed's tallies, carries away under his coat the ledger of wages owed him rather than any clothing or food, and gives it to Ellen Marsh to keep beside her own books.",
@@ -77,10 +77,10 @@
   "master_links": ["VI-0096"]
  },
  {
-  "title": "Uilleam Friseal questions the promise's floor",
+  "title": "William Reid questions the promise's floor",
   "era_year": 21,
   "after": "VI-0096",
-  "summary": "At a sitting called out of the calendar, the eastern delegate Uilleam Friseal asks the room whether it has considered that a promise to feed the west's people indefinitely was made without knowing how long the feeding would be needed. Martha Greaves answers that the not knowing excuses nothing.",
+  "summary": "At a sitting called out of the calendar, the eastern delegate William Reid asks the room whether it has considered that a promise to feed the west's people indefinitely was made without knowing how long the feeding would be needed. Martha Greaves answers that the not knowing excuses nothing.",
   "category": "law",
   "people": ["martha-greaves"],
   "places": ["burg:95"],
@@ -121,7 +121,7 @@
   "master_links": ["VI-0097"]
  },
  {
-  "title": "Coinneach Frisealach's account of the pit-shed",
+  "title": "Hugh Ferris's account of the pit-shed",
   "era_year": 21,
   "after": "VI-0097",
   "summary": "The old hewer of Àth leathan gives Ellen Marsh, for the war-book, an exact accounting of the pit-shed where Ruth Calder once read out the agreement of the five towns, believing it flooded or fallen, and wishing it set down once more before it goes under.",

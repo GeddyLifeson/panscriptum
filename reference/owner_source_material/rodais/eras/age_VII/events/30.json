@@ -132,10 +132,10 @@
   "master_links": ["VI-0105"]
  },
  {
-  "title": "Dùghall billeted on the widow of Ceann mhòr",
+  "title": "Dùghall billeted on Barabal of Ceann mhòr",
   "era_year": 21,
   "after": "VI-0104",
-  "summary": "Once the magistrate's house is full past stretching, the maor's clerk billets Corporal Dùghall mac Iain on a widow of the town two streets back from the harbour, her husband three years drowned off that coast; she opens her door to him with no more welcome than her name on the clerk's own list.",
+  "summary": "Once the magistrate's house is full past stretching, the maor's clerk billets Corporal Dùghall mac Iain on a widow of the town named Barabal, who keeps a loom in the room behind her kitchen; she opens her door to him with no more welcome than the clerk's own list had shown in its writing.",
   "category": "humans",
   "people": ["dughall-mac-iain"],
   "places": ["burg:143"],
@@ -143,10 +143,10 @@
   "master_links": ["VI-0104"]
  },
  {
-  "title": "The widow's cradle-song",
+  "title": "The tongue Barabal will not give him",
   "era_year": 21,
   "after": "VI-0104",
-  "summary": "Unremarked in her byre door, Dùghall mac Iain hears his widowed hostess sing her dead sister's child a cradle-song in Dia-thìris, low and sure and without a stumble, and understands, hearing it die the moment his own boot sounds on her floor, that her silence toward him in that tongue was never a want of it at all.",
+  "summary": "Barabal answers Corporal Dùghall mac Iain readily in Dia-thìris on the house's own business, but gives him, try as he may, not one word of the humans' tongue, though he hears her speak it easily across the yard wall to a neighbour; he comes to understand it a door shut on him alone.",
   "category": "humans",
   "people": ["dughall-mac-iain"],
   "places": ["burg:143"],
