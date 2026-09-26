@@ -2039,3 +2039,629 @@ LEFT	eras/age_III/appendices/D_shares_provinces_stones.md:3	the portion of the d
 LEFT	eras/age_III/appendices/E_roads_houses_bridges_measures.md:26	the Keeper	(no "the" before it)	|	e oldest law on the island that neither Keeper nor lord made, and it held through the 
 LEFT	eras/age_III/appendices/E_roads_houses_bridges_measures.md:26	the strife of the heirs	(no "the" before it)	|	lord made, and it held through the long strife of the heirs. The hearth-sign token let a carrier on
 LEFT	eras/age_III/appendices/E_roads_houses_bridges_measures.md:40	the Stone	(no "the" before it)	|	Stone crossings began to join the mining path
+# run 2026-09-26 02:07: 341 changes, 284 left
+CHANGE	eras/age_III/events/02.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	und on the slope facing the vein; the reciters of the Mason's line, following Seathan Crom of Cl
+CHANGE	eras/age_III/events/03.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	re of their hut in a covered pot. The reciters of the Mason's line hold that it came down from t
+CHANGE	eras/age_III/events/03.json:$.summary	the mason's fire	->	Teine a' Chlachair	|	s of the Mason's line hold that it came down from the mason's fire; the keepers say only that it
+CHANGE	eras/age_III/events/03.json:$.title	the First Flame	->	A' Chiad Lasair	|	Gille-Brìde carries a coal of the First Flame home
+CHANGE	eras/age_III/events/03.json:$.summary	the Binding	->	An Ceangal	|	omhairle comes down from the high valleys, swears the Binding last of the king's blood, and
+CHANGE	eras/age_III/events/03.json:$.summary	the Binding	->	An Ceangal	|	After the Binding the First Flame is kept in th
+CHANGE	eras/age_III/events/03.json:$.summary	the First Flame	->	A' Chiad Lasair	|	After the Binding the First Flame is kept in the keepers' hut o
+CHANGE	eras/age_III/events/03.json:$.summary	the coloured coal	->	an gual dathach	|	athering-house at Dùn ìseal, fed with a little of the coloured coal each night.
+CHANGE	eras/age_III/events/04.json:master_links.note	the portion of the dead	->	Cuid nam Marbh	|	the portion of the dead
+CHANGE	eras/age_III/events/04.json:$.summary	the cord of the heirs	->	Sreang nan Oighrean	|	On the eleventh evening the cord of the heirs, Sreang nan Oighrean, is laid
+CHANGE	eras/age_III/events/04.json:$.summary	(appositive)	->	Sreang nan Oighrean	|	dropped the English gloss beside Sreang nan Oighrean
+CHANGE	eras/age_III/events/05.json:$.summary	the parting of the kingdom	->	Roinn na Rìoghachd	|	s' quarrel sorts itself into four rival rules for the parting of the kingdom: the eldest to hold and feed 
+CHANGE	eras/age_III/events/05.json:$.title	the Red Share	->	an Earrann Dhearg	|	Four lines protest the Red Share
+CHANGE	eras/age_III/events/05.json:$.summary	the salt shore	->	Tràigh an t-Salainn	|	Ailein of the western shore, Artair mac Ailein of the salt shore and Cormac mac Ailein of the 
+CHANGE	eras/age_III/events/05.json:$.summary	the nine great shares	->	na h-Earrannan Mòra	|	 and Cormac mac Ailein of the east, agree to hold the nine great shares, with the portion of the dead
+CHANGE	eras/age_III/events/05.json:$.summary	the portion of the dead	->	Cuid nam Marbh	|	e east, agree to hold the nine great shares, with the portion of the dead set out of all nine and the R
+CHANGE	eras/age_III/events/05.json:$.summary	the Red Share	->	an Earrann Dhearg	|	h the portion of the dead set out of all nine and the Red Share of Ìomhar Dearg let stand.
+CHANGE	eras/age_III/events/05.json:$.summary	the cord of the heirs	->	Sreang nan Oighrean	|	The nine lines agree that the cord of the heirs shall be laid on the gatherin
+CHANGE	eras/age_III/events/05.json:$.summary	the night of the handful	->	Oidhche an Dòrlaich	|	ng-house floor again and cut into nine lengths at the night of the handful, with the clause against the 
+CHANGE	eras/age_III/events/05.json:$.summary	the Hall's	->	Talla na Lasrach's	|	 clause against the name of rìgh and the peace of the Hall's ground sworn once before the 
+CHANGE	eras/age_III/events/06.json:$.title	The cord of the heirs	->	Sreang nan Oighrean	|	The cord of the heirs laid twice round the gatherin
+CHANGE	eras/age_III/events/06.json:$.summary	the cord of the heirs	->	Sreang nan Oighrean	|	On Oidhche an Dòrlaich the keepers bring the cord of the heirs down from its chest and lay i
+CHANGE	eras/age_III/events/06.json:$.summary	the great share of the north	->	Earrann Mhurchaidh	|	 exactly where he had long meant to, and takes up the great share of the north, from Baile Mòr mhòr to the h
+CHANGE	eras/age_III/events/06.json:$.summary	the salt shore	->	Tràigh an t-Salainn	|	Ciorstaidh of the salt shore, whose knot is cut through by
+CHANGE	eras/age_III/events/06.json:$.title	The western share	->	Earrann Ros dhomhain	|	The western share sworn to Fionnghal nic Ailein
+CHANGE	eras/age_III/events/06.json:$.summary	the western share	->	Earrann Ros dhomhain	|	ilein cuts her length of the cord clean and takes the western share, with its seat on the harbour
+CHANGE	eras/age_III/events/06.json:$.title	The salt shore	->	Tràigh an t-Salainn	|	The salt shore sworn to Artair mac Ailein
+CHANGE	eras/age_III/events/06.json:$.summary	the share of the salt shore	->	Earrann Baile ghorm	|	o had argued least of the nine that summer, takes the share of the salt shore, seated at the western Baile 
+CHANGE	eras/age_III/events/06.json:$.title	The eastern share	->	Earrann Caol shean	|	The eastern share sworn to Cormac mac Ailein
+CHANGE	eras/age_III/events/06.json:$.summary	the eastern share	->	Earrann Caol shean	|	Cormac mac Ailein takes the eastern share, seated at Caol shean, in whi
+CHANGE	eras/age_III/events/06.json:$.summary	the Hawk bay	->	Bàgh an t-Seabhaig	|	hearg, and Tadhg mac Ailein the Abhainn ìseal and the Hawk bay at Cnoc bheag.
+CHANGE	eras/age_III/events/06.json:$.title	The cord of the heirs	->	Sreang nan Oighrean	|	The cord of the heirs lies in nine pieces
+CHANGE	eras/age_III/events/06.json:$.title	The Red Hill	->	An Cnoc Ruadh	|	The Red Hill declares itself sworn to nobo
+CHANGE	eras/age_III/events/06.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	The holder of the Red Hill, whose line had sworn to Aile
+CHANGE	eras/age_III/events/06.json:$.summary	the night of the handful	->	Oidhche an Dòrlaich	|	Mòr alone and to no lord of a share, stands up on the night of the handful and says his oath died with t
+CHANGE	eras/age_III/events/06.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	ul and says his oath died with the king, and that the Red Hill is that night sworn to nobody
+CHANGE	eras/age_III/events/06.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Three great shares claim the Red Hill
+CHANGE	eras/age_III/events/06.json:$.summary	Red Hill	->	An Cnoc Ruadh	|	ne cross the floor at once to claim the ownerless Red Hill. None yields, and none of the
+CHANGE	eras/age_III/events/06.json:$.title	The Hall's	->	Talla na Lasrach's	|	The Hall's ground confirmed in no share
+CHANGE	eras/age_III/events/06.json:$.summary	the night of the handful	->	Oidhche an Dòrlaich	|	Aodh Crom reminds the nine, on the night of the handful, that the hill of the slab an
+CHANGE	eras/age_III/events/06.json:$.summary	the Binding	->	An Ceangal	|	lked by the keepers, lie in no share, as sworn at the Binding, and are not to be argued afr
+CHANGE	eras/age_III/events/07.json:$.title	The boundary stones	->	Clachan-crìche	|	The boundary stones cut and set along the Roinn
+CHANGE	eras/age_III/events/07.json:$.title	the Roinn	->	Roinn na Rìoghachd	|	The boundary stones cut and set along the Roinn
+CHANGE	eras/age_III/events/07.json:$.summary	the Red Share	->	an Earrann Dhearg	|	No steward of the north or of the Red Share will yield Dùn thais to the o
+CHANGE	eras/age_III/events/07.json:$.summary	the Red Share	->	an Earrann Dhearg	|	d another on the south bank, cut with the sign of the Red Share, and leave the hill itself be
+CHANGE	eras/age_III/events/07.json:$.summary	the Red Share	->	an Earrann Dhearg	|	 on the northern slope above Dùn thais belongs to the Red Share, stone or no stone, and that 
+CHANGE	eras/age_III/events/07.json:$.summary	the nine great shares	->	na h-Earrannan Mòra	|	Under each of the nine great shares the households sworn to it ar
+CHANGE	eras/age_III/events/07.json:$.summary	the Roinn	->	Roinn na Rìoghachd	|	 pond, and the miller, who built the wheel before the Roinn was thought of, takes to payi
+CHANGE	eras/age_III/events/07.json:$.title	The knot-keepers	->	Luchd nan Snaidhm	|	The knot-keepers count forty-four countries
+CHANGE	eras/age_III/events/07.json:$.summary	the knot-keepers	->	Luchd nan Snaidhm	|	he boundaries themselves with cords of their own, the knot-keepers of Dùn ìseal come to a count 
+CHANGE	eras/age_III/events/07.json:$.summary	the nine great shares	->	na h-Earrannan Mòra	|	eal come to a count of forty-four countries under the nine great shares, a count that holds for a sea
+CHANGE	eras/age_III/events/07.json:$.summary	The knot-keepers	->	Luchd nan Snaidhm	|	The knot-keepers count a hundred and thirty-on
+CHANGE	eras/age_III/events/07.json:$.summary	the eastern share	->	Earrann Caol shean	|	ar, though even as it is counted two provinces of the eastern share split into three over a fishi
+CHANGE	eras/age_III/events/07.json:$.title	The knot-keepers	->	Luchd nan Snaidhm	|	The knot-keepers give up the count at the coun
+CHANGE	eras/age_III/events/07.json:$.title	the Hall's	->	Talla na Lasrach's	|	A boundary quarrel brought to the Hall's ground
+CHANGE	eras/age_III/events/07.json:$.summary	the Red Share	->	an Earrann Dhearg	|	Stewards of the Red Share and the great share of the no
+CHANGE	eras/age_III/events/07.json:$.summary	the great share of the north	->	Earrann Mhurchaidh	|	Stewards of the Red Share and the great share of the north, come to lay a raid and a cat
+CHANGE	eras/age_III/events/08.json:$.summary	the Hall	->	Talla na Lasrach	|	om the cairns above Cnoc ghlas, the sign by which the Hall judges when a gallery may saf
+CHANGE	eras/age_III/events/08.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	, a boy of the northern district, is the first of the nine hearths sent up to sit a season with 
+CHANGE	eras/age_III/events/08.json:$.summary	the Hall's	->	Talla na Lasrach's	|	Niall Òg climbs to the Hall's ground alone and offers Beath
+CHANGE	eras/age_III/events/08.json:$.title	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths raise the hall's walls
+CHANGE	eras/age_III/events/08.json:$.summary	the Hall's	->	Talla na Lasrach's	|	At Samhain on the Hall's ground, Ruairidh Glas, who ki
+CHANGE	eras/age_III/events/09.json:$.summary	the eastern share	->	Earrann Caol shean	|	Asked by a walker of the eastern share what the households call the 
+CHANGE	eras/age_III/events/09.json:$.summary	the Hall	->	Talla na Lasrach	|	and the silence kept on the ridge, old Beitris of the Hall answers for them: Seann Spior
+CHANGE	eras/age_III/events/09.json:$.summary	the Hall	->	Talla na Lasrach	|	ried flint enough. His mother carries him down to the Hall herself rather than risk the 
+CHANGE	eras/age_III/events/09.json:$.title	The Hall's	->	Talla na Lasrach's	|	The Hall's hearth opened to the Doire ua
+CHANGE	eras/age_III/events/09.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	 may bring a sick child or a frost-bitten hand to the Keeper's own hearth at Dùn ìseal, the 
+CHANGE	eras/age_III/events/09.json:$.title	the temple ruin	->	Làrach an Teampaill	|	Beathag Bhàn walks alone to the temple ruin
+CHANGE	eras/age_III/events/09.json:$.summary	the temple ruin	->	Làrach an Teampaill	|	After argument over whether the temple ruin should be cleared and watched
+CHANGE	eras/age_III/events/09.json:$.summary	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths gather within the week and na
+CHANGE	eras/age_III/events/09.json:$.summary	the Hall	->	Talla na Lasrach	|	to Aodh Crom's own, and he carries the flame into the Hall that same evening.
+CHANGE	eras/age_III/events/10.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	Muireach Liath asks the nine hearths for a common measure, a lidde
+CHANGE	eras/age_III/events/10.json:$.summary	the Hall's	->	Talla na Lasrach's	|	am running off the vein's own mountain belongs to the Hall's reckoning. His answer, given 
+CHANGE	eras/age_III/events/10.json:$.summary	the warm springs	->	Fuarain Theth Muileann ruadh	|	In his fourth year Muireach Liath goes up to the warm springs himself rather than let the h
+CHANGE	eras/age_III/events/10.json:$.summary	the First Flame	->	A' Chiad Lasair	|	-Brìde of Somhairle's line, who carried a coal of the First Flame home from the Binding and ask
+CHANGE	eras/age_III/events/10.json:$.summary	the Binding	->	An Ceangal	|	, who carried a coal of the First Flame home from the Binding and asked for nothing since, 
+CHANGE	eras/age_III/events/10.json:$.summary	the First Flame	->	A' Chiad Lasair	|	rìde takes up his father's hearth and the coal of the First Flame kept on it, changing nothing 
+CHANGE	eras/age_III/events/10.json:$.summary	the great share of the north	->	Earrann Mhurchaidh	|	òr's eleven sons, none by the same mother, divide the great share of the north among themselves with a knife
+CHANGE	eras/age_III/events/10.json:$.title	the Red Share's	->	an Earrann Dhearg's	|	Eachann Ruadh raids the Red Share's cattle
+CHANGE	eras/age_III/events/10.json:$.summary	the boundary stones	->	Clachan-crìche	|	Eachann Ruadh rides a dozen men across the boundary stones into the Red Share's northern
+CHANGE	eras/age_III/events/10.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	rides a dozen men across the boundary stones into the Red Share's northern grazing and drives o
+CHANGE	eras/age_III/events/10.json:$.title	the Hall's	->	Talla na Lasrach's	|	Muireach refuses the Hall's ground to the cattle
+CHANGE	eras/age_III/events/10.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	Asked to shelter the Red Share's recovered cattle on the Hall'
+CHANGE	eras/age_III/events/10.json:$.summary	the Hall's	->	Talla na Lasrach's	|	ed to shelter the Red Share's recovered cattle on the Hall's own ground, Muireach Liath re
+CHANGE	eras/age_III/events/11.json:$.summary	the Hall	->	Talla na Lasrach	|	 the vein's fires, builds his own fire apart from the Hall on the spur where the stone w
+CHANGE	eras/age_III/events/11.json:$.summary	the Hall	->	Talla na Lasrach	|	 metal in Fearchar's hand that answers to no fire the Hall has ever kept.
+CHANGE	eras/age_III/events/11.json:$.summary	the Hall	->	Talla na Lasrach	|	 the break as a coal always shows, and rules that the Hall has no claim on a thing that 
+CHANGE	eras/age_III/events/11.json:$.title	the eastern share	->	Earrann Caol shean	|	Two cousins of the eastern share claim the silver ground
+CHANGE	eras/age_III/events/11.json:$.summary	the First Flame	->	A' Chiad Lasair	|	Ceallach, who has kept the coal of the First Flame in the high valleys since his
+CHANGE	eras/age_III/events/11.json:$.summary	the long years	->	na Bliadhnachan Fada	|	d and forty, the last of Somhairle's line in whom the long years still showed. His household c
+CHANGE	eras/age_III/events/11.json:$.summary	the Hall's	->	Talla na Lasrach's	|	ll showed. His household carries the coal down to the Hall's own flame; his children leave
+CHANGE	eras/age_III/events/11.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	On Muireach Liath's death the nine hearths weigh three households' candi
+CHANGE	eras/age_III/events/12.json:$.title	the holy wood	->	Coille Naomh Muileann chiar	|	Sìleas withdraws to the holy wood
+CHANGE	eras/age_III/events/12.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	Riding to see a moved boundary stone on the Red Share's northern march, Ìomhar Dearg 
+CHANGE	eras/age_III/events/12.json:$.title	The Red Share	->	An Earrann Dhearg	|	The Red Share held whole under Dùghall Dear
+CHANGE	eras/age_III/events/12.json:$.summary	the Red Share	->	an Earrann Dhearg	|	Dùghall Dearg mac Ìomhair takes up the Red Share entire the week his father is
+CHANGE	eras/age_III/events/12.json:$.title	the Hall's	->	Talla na Lasrach's	|	Eachann Ruadh flees to the Hall's ground
+CHANGE	eras/age_III/events/12.json:$.summary	the Hall of the Flame	->	Talla na Lasrach	|	ough the night from the ford to the ground before the Hall of the Flame, throws down his second spear
+CHANGE	eras/age_III/events/12.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	pear, and sits within sight of Brìde's fire until the Keeper's cutters come out to him, aski
+CHANGE	eras/age_III/events/12.json:$.title	the Hall's	->	Talla na Lasrach's	|	Gormshuil rules the Hall's ground holds even a killer
+CHANGE	eras/age_III/events/12.json:$.summary	the Hall's	->	Talla na Lasrach's	|	pear may follow Eachann Ruadh mac Mhurchaidh past the Hall's boundary stone, though what w
+CHANGE	eras/age_III/events/12.json:$.summary	the Hall's	->	Talla na Lasrach's	|	 raise a hut at the ground's edge to cut turf for the Hall's own fires.
+CHANGE	eras/age_III/events/12.json:$.summary	the Hall	->	Talla na Lasrach	|	ome from a season's loan to Muileann chiar, tells the Hall in passing that the eastern c
+CHANGE	eras/age_III/events/13.json:$.summary	the Hall	->	Talla na Lasrach	|	or thirty-eight years, dies in the small room off the Hall at the age of eighty-seven, h
+CHANGE	eras/age_III/events/13.json:$.summary	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths choose Fionnlagh, blind since
+CHANGE	eras/age_III/events/13.json:$.summary	the Hall	->	Talla na Lasrach	|	A boy of ten who has followed Fionnlagh about the Hall since he could walk is brough
+CHANGE	eras/age_III/events/13.json:$.summary	the Hall	->	Talla na Lasrach	|	Rather than keep the new cup within the Hall where a favoured keeper's han
+CHANGE	eras/age_III/events/13.json:$.title	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	The lords swear the Small-Burning Law
+CHANGE	eras/age_III/events/13.json:$.summary	the first law	->	Lagh an Loscaidh Bhig	|	each laying a hand on the stone cup itself. It is the first law the island has ever kept the 
+CHANGE	eras/age_III/events/13.json:$.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	e its dried fish and is the first sentenced under the Small-Burning Law: it loses its right to the co
+CHANGE	eras/age_III/events/13.json:$.title	the beacon at Tobar dhearg	->	Taigh-solais Tobar dhearg	|	The question of the beacon at Tobar dhearg
+CHANGE	eras/age_III/events/13.json:$.summary	The beacon at Tobar dhearg	->	Taigh-solais Tobar dhearg	|	 and to no boat that might never touch its shore. The beacon at Tobar dhearg is kept after with driftwood 
+CHANGE	eras/age_III/events/14.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	The council at Dùn ìseal asks the nine hearths' cutters whether any will cut
+CHANGE	eras/age_III/events/14.json:$.summary	the Hall	->	Talla na Lasrach	|	ideways on bare rock have turned more ankles than the Hall has troubled to count. Ailean
+CHANGE	eras/age_III/events/14.json:$.summary	the Hall's	->	Talla na Lasrach's	|	A party of eleven carriers bound south with the Hall's baskets crosses the ford of t
+CHANGE	eras/age_III/events/14.json:$.title	The Hall	->	Talla na Lasrach	|	The Hall sets the names of the drowned
+CHANGE	eras/age_III/events/14.json:$.summary	the salt shore	->	Tràigh an t-Salainn	|	 and a boy the roll gives only as young Tormod of the salt shore, who went on the crossing in 
+CHANGE	eras/age_III/events/14.json:$.summary	the Hall	->	Talla na Lasrach	|	e drowning make a joke of their own grief, saying the Hall mourns its coal along with it
+CHANGE	eras/age_III/events/14.json:$.title	the nine hearths	->	Na Naoi Teallaichean	|	Ailean gathers the forty of the nine hearths
+CHANGE	eras/age_III/events/14.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	winter Ailean draws forty cutters and masons from the nine hearths, none of whom has ever cut an
+CHANGE	eras/age_III/events/14.json:$.summary	the Hall's	->	Talla na Lasrach's	|	his own upriver of the western span. A carrier of the Hall's baskets, reaching it after da
+CHANGE	eras/age_III/events/15.json:$.title	The road-peace	->	Sìth an Rathaid	|	The road-peace kept as custom
+CHANGE	eras/age_III/events/15.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	Fishers of the nine hearths find old house-footings above
+CHANGE	eras/age_III/events/15.json:$.summary	the Keepers	->	Coimheadaichean na Lasrach	|	Dall tells Calum Beag he wishes to be laid not on the Keepers' own slope but in the unclaim
+CHANGE	eras/age_III/events/15.json:$.summary	The Keepers	->	Coimheadaichean na Lasrach	|	urial there any living hand has set down by name. The Keepers hallow the ground that same s
+CHANGE	eras/age_III/events/15.json:$.summary	the Hall's	->	Talla na Lasrach's	|	 passes from belonging to no one to belonging, by the Hall's own reckoning, to everyone.
+CHANGE	eras/age_III/events/15.json:$.summary	the Hall	->	Talla na Lasrach	|	ttle by Tuam Cnoc dhìreach to tend the grave, and the Hall pays them one measured handfu
+CHANGE	eras/age_III/events/15.json:$.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	d handful of coal each a season, the only service the Small-Burning Law is ever known to reward in co
+CHANGE	eras/age_III/events/16.json:$.summary	the western share	->	Earrann Ros dhomhain	|	At a mason's wedding on the western share, Griogair mac Lachlainn of Sl
+CHANGE	eras/age_III/events/16.json:$.summary	the western share's	->	Earrann Ros dhomhain's	|	d for the insult at Ros dhomhain. A barn burns on the western share's ground within the season in a
+CHANGE	eras/age_III/events/16.json:$.summary	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths choose Eimhir nic Mhuirich, o
+CHANGE	eras/age_III/events/16.json:$.summary	the Hall	->	Talla na Lasrach	|	lready, to keep the flame at Dùn ìseal. She holds the Hall to its measure through the wi
+CHANGE	eras/age_III/events/16.json:$.title	the Hall's	->	Talla na Lasrach's	|	Tormod mac Ruairidh asks the Hall's blessing on a raid
+CHANGE	eras/age_III/events/16.json:$.summary	the Hall	->	Talla na Lasrach	|	eance. She hears him out and refuses, telling him the Hall keeps coal and not grudges, a
+CHANGE	eras/age_III/events/16.json:$.summary	the western share	->	Earrann Ros dhomhain	|	 nic Ailein, daughter of Ailean Mòr and holder of the western share since the age's early years, 
+CHANGE	eras/age_III/events/16.json:$.summary	The nine hearths	->	Na Naoi Teallaichean	|	 the quarrel's own principals kept their tempers. The nine hearths choose a younger Keeper who h
+CHANGE	eras/age_III/events/16.json:$.summary	the salt shore	->	Tràigh an t-Salainn	|	rtair mac Ailein, son of Ailean Mòr and holder of the salt shore at Baile ghorm, dies at his o
+CHANGE	eras/age_III/events/16.json:$.summary	the eastern share	->	Earrann Caol shean	|	ormac mac Ailein, son of Ailean Mòr and holder of the eastern share at Caol shean, dies some two 
+CHANGE	eras/age_III/events/16.json:$.summary	the Red Share	->	an Earrann Dhearg	|	 the king's kin. His own line, long at peace with the Red Share, takes no fresh quarrel from 
+CHANGE	eras/age_III/events/17.json:$.title	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper before Eilidh dies at the cup
+CHANGE	eras/age_III/events/17.json:$.summary	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper who held the flame after Eimh
+CHANGE	eras/age_III/events/17.json:$.summary	the Hall	->	Talla na Lasrach	|	 the first time in living memory that any lamp in the Hall has been let go dark.
+CHANGE	eras/age_III/events/17.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	Two elders of the nine hearths walk from Dùn ìseal to Dùn dh
+CHANGE	eras/age_III/events/17.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	aughter's granddaughter of Ìomhar Dearg who keeps the Red Share's granary rolls, whether she wo
+CHANGE	eras/age_III/events/17.json:$.summary	the Binding's	->	An Ceangal's	|	sh to force the question of her own blood against the Binding's old rule.
+CHANGE	eras/age_III/events/17.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	For the better part of a year after the nine hearths choose Eilidh, Sliochd Mhuiri
+CHANGE	eras/age_III/events/17.json:$.summary	the Binding's	->	An Ceangal's	|	y some thread of the king's blood by now, so that the Binding's old rule has become a rule ag
+CHANGE	eras/age_III/events/17.json:$.summary	the Hall's	->	Talla na Lasrach's	|	The eldest of Sliochd Mhuirich comes to the Hall's threshold and offers a single
+CHANGE	eras/age_III/events/17.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	Eilidh nic Ìomhair swears before the nine hearths that the stone cup will never
+CHANGE	eras/age_III/events/17.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	At a gathering of the nine hearths, the eldest of Sliochd Thormo
+CHANGE	eras/age_III/events/17.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	 as the ground of the house's claim to a voice in the Keeper's office.
+CHANGE	eras/age_III/events/17.json:$.summary	the nine hearths	->	Na Naoi Teallaichean	|	Eilidh nic Ìomhair puts to the nine hearths that the Keeper's office be b
+CHANGE	eras/age_III/events/17.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	Eilidh nic Ìomhair puts to the nine hearths that the Keeper's office be bound from that sea
+CHANGE	eras/age_III/events/17.json:$.summary	the Law's	->	Lagh an Loscaidh Bhig's	|	 coal-lamp at Seann Dunn always burns fuller than the Law's measure allows, though no cut
+CHANGE	eras/age_III/events/17.json:$.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	t Seann Tarr, the very town first sentenced under the Small-Burning Law, keeps no galleries and cuts 
+CHANGE	eras/age_III/events/18.json:$.summary	the Law	->	Lagh an Loscaidh Bhig	|	adh of Baile chrom is stripped of its right under the Law for a third offence, and goes
+CHANGE	eras/age_III/events/19.json:$.summary	the four houses	->	Na Ceithir Taighean	|	In the month of Giblean, the four houses choose Coinneach Mòr mac Torm
+CHANGE	eras/age_III/events/19.json:$.summary	the Roinn	->	Roinn na Rìoghachd	|	 refused for want of hearth-right cut in stone at the Roinn. He sits one courtesy season 
+CHANGE	eras/age_III/events/19.json:$.summary	the four houses	->	Na Ceithir Taighean	|	f the plain to list every ruin standing on ground the four houses claim, ruling before they lea
+CHANGE	eras/age_III/events/19.json:$.summary	the warm springs	->	Fuarain Theth Muileann ruadh	|	After a cousin of his own house is carried to the warm springs half dead of a wasting cough 
+CHANGE	eras/age_III/events/19.json:$.summary	the house of Ìomhar's	->	Sliochd Ìomhair's	|	ng no child and no settled answer to which grant, the house of Ìomhar's or the line of Eithne's, shou
+CHANGE	eras/age_III/events/19.json:$.summary	The house of Ìomhar	->	Sliochd Ìomhair	|	The house of Ìomhar claims Muireall's marriage-la
+CHANGE	eras/age_III/events/20.json:$.summary	the Red Share	->	an Earrann Dhearg	|	A double-sworn household two valleys east chooses the Red Share and is burned to its field-wa
+CHANGE	eras/age_III/events/20.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	 is burned within the year by both hosts in turn, the Red Share's riders taking the barn first 
+CHANGE	eras/age_III/events/20.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	een years old when his company meets a company of the Red Share's riders on a narrow road and t
+CHANGE	eras/age_III/events/20.json:$.title	The Red Share	->	An Earrann Dhearg	|	The Red Share presses its claim after the w
+CHANGE	eras/age_III/events/20.json:$.summary	the Red Share	->	an Earrann Dhearg	|	With Torcall Donn dead, the Red Share presses its claim on Muireall
+CHANGE	eras/age_III/events/20.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	In the heat of Lùnastal the Red Share's council and Cathair mhòr's bo
+CHANGE	eras/age_III/events/21.json:$.summary	the Red Share	->	an Earrann Dhearg	|	Ruairidh Glas, holder of the Red Share at Dùn dhearg, sends word to 
+CHANGE	eras/age_III/events/21.json:$.summary	the Red Share's	->	an Earrann Dhearg's	|	uairidh Glas that she will set foot in no hall of the Red Share's, as he will set foot in none 
+CHANGE	eras/age_III/events/21.json:$.summary	the Roinn	->	Roinn na Rìoghachd	|	rly every other soul that remembers the valley of the Roinn, and who tells her, on the ro
+CHANGE	eras/age_III/events/21.json:$.title	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper drafts and reads the terms of
+CHANGE	eras/age_III/events/21.json:$.summary	the Keeper	->	Coimheadaiche na Lasrach	|	sts the other's clerks to write the terms fairly, the Keeper of the flame drafts the peace
+CHANGE	eras/age_III/events/21.json:$.summary	the Peace of the Threshold	->	Sìth an Stairsnich	|	Swearing the Peace of the Threshold with his hand still on the st
+CHANGE	eras/age_III/events/21.json:$.summary	the Peace	->	Sìth an Stairsnich	|	rter-day market held below Talla na Lasrach after the Peace draws little to sell, the hun
+CHANGE	eras/age_III/events/21.json:$.summary	the Red Share	->	an Earrann Dhearg	|	households come only to watch whether a trader of the Red Share can stand at a stall beside o
+CHANGE	eras/age_III/events/21.json:$.summary	the Peace	->	Sìth an Stairsnich	|	By the time of the spring sowing after the Peace, the boundary lines that had 
+CHANGE	eras/age_III/events/22.json:$.title	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths raise Seonaid Chiar to the fl
+CHANGE	eras/age_III/events/22.json:$.summary	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths of Dùn ìseal raise Seonaid Ch
+CHANGE	eras/age_III/events/22.json:$.summary	the house of Muireach	->	Sliochd Mhuirich	|	 nine hearths of Dùn ìseal raise Seonaid Chiar of the house of Muireach to the flame at six-and-twent
+CHANGE	eras/age_III/events/22.json:$.title	the Hall's	->	Talla na Lasrach's	|	ee teachers of Cnoc bhàn set an unlit lamp before the Hall's door
+CHANGE	eras/age_III/events/22.json:$.summary	the Hall	->	Talla na Lasrach	|	 and swearing to ask nothing of the vein aloud if the Hall will stop asking whether they
+CHANGE	eras/age_III/events/22.json:$.summary	the Hall's	->	Talla na Lasrach's	|	d load back, and, hearing neither had, tells them the Hall's grant is a right to carry and
+CHANGE	eras/age_III/events/22.json:$.summary	the Red Share	->	an Earrann Dhearg	|	 hundred and ninth year, Ruairidh Glas, holder of the Red Share, asks unasked leave to climb 
+CHANGE	eras/age_III/events/22.json:$.summary	the strife of the heirs	->	Aimhreit nan Oighrean	|	hais since the morning he shed the first blood of the strife of the heirs there. He outlives every soul
+CHANGE	eras/age_III/events/22.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	 the ford where his grandfather's line first took the Red Hill.
+CHANGE	eras/age_III/events/22.json:$.title	The Red Share	->	An Earrann Dhearg	|	The Red Share passes without a summons to t
+CHANGE	eras/age_III/events/22.json:$.title	the Hall	->	Talla na Lasrach	|	The Red Share passes without a summons to the Hall
+CHANGE	eras/age_III/events/22.json:$.summary	the Red Share	->	an Earrann Dhearg	|	Ruairidh Glas's son takes up the Red Share at Dùn dhearg without any sum
+CHANGE	eras/age_III/events/22.json:$.summary	the Hall	->	Talla na Lasrach	|	he Red Share at Dùn dhearg without any summons to the Hall, as the Peace of the Threshol
+CHANGE	eras/age_III/events/22.json:$.summary	the Peace of the Threshold	->	Sìth an Stairsnich	|	at Dùn dhearg without any summons to the Hall, as the Peace of the Threshold requires none where an heir i
+CHANGE	eras/age_III/events/22.json:$.summary	the Hall's	->	Talla na Lasrach's	|	y strangely thin about naming this one, a silence the Hall's clerk lays to the household's
+CHANGE	eras/age_III/events/22.json:$.title	the Hall's	->	Talla na Lasrach's	|	The four dead of the high gallery are buried on the Hall's own ground
+CHANGE	eras/age_III/events/22.json:$.summary	the Hall's	->	Talla na Lasrach's	|	y falls at Dùn ìseal are carried up and buried on the Hall's own ground, the one ground on
+CHANGE	eras/age_III/events/22.json:$.summary	the Hall	->	Talla na Lasrach	|	r orders timber props of oak set in every gallery the Hall works, the first timber the H
+CHANGE	eras/age_III/events/22.json:$.summary	the Hall	->	Talla na Lasrach	|	in every gallery the Hall works, the first timber the Hall has ever spent on the mountai
+CHANGE	eras/age_III/events/22.json:$.summary	The nine hearths	->	Na Naoi Teallaichean	|	ng held the flame the better part of six decades. The nine hearths that raised her young choose 
+CHANGE	eras/age_III/events/22.json:$.title	the Law	->	Lagh an Loscaidh Bhig	|	Cathair dhomhain's shrine holds the Law to the grain
+CHANGE	eras/age_III/events/22.json:$.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	The new shrine at Cathair dhomhain keeps the Small-Burning Law to the very grain from its fo
+CHANGE	eras/age_III/events/23.json:$.summary	the Peace of the Threshold	->	Sìth an Stairsnich	|	ing. Her county comes whole into the marriage, as the Peace of the Threshold allows, and Goraidh takes on 
+CHANGE	eras/age_III/events/24.json:$.title	The golden house	->	An Taigh-seinnse Òir	|	The golden house opened free of toll
+CHANGE	eras/age_III/events/24.json:$.summary	the golden house	->	An Taigh-seinnse Òir	|	em charged the toll. Carriers call the new timber the golden house before it has weathered, and 
+CHANGE	eras/age_III/events/24.json:$.summary	the golden house's	->	An Taigh-seinnse Òir's	|	nd outside the hall, and Dòmhnall feeds them from the golden house's own stores.
+CHANGE	eras/age_III/events/24.json:$.title	The Hall's	->	Talla na Lasrach's	|	The Hall's grain-carts reach Seann Chwen
+CHANGE	eras/age_III/events/24.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	After the storm at Seann Chwen, the Keeper's grain-carts reach the ruined 
+CHANGE	eras/age_III/events/25.json:$.summary	the holy wood	->	Coille Naomh Muileann chiar	|	from his father's holding to the stag's school in the holy wood east of Muileann chiar. Aongh
+CHANGE	eras/age_III/events/25.json:$.summary	the night of the handful	->	Oidhche an Dòrlaich	|	ngs by the school's fire, telling pupils tales of the night of the handful. He asks, at the second eveni
+CHANGE	eras/age_III/events/25.json:$.summary	the holy wood	->	Coille Naomh Muileann chiar	|	uicker with the knife than any pupil he taught in the holy wood.
+CHANGE	eras/age_III/events/26.json:$.title	the Keeper's	->	Coimheadaiche na Lasrach's	|	Iain Garbh folds the Keeper's answer
+CHANGE	eras/age_III/events/26.json:$.summary	the Hall's	->	Talla na Lasrach's	|	 it inside his coat, and never again sets foot on the Hall's ground.
+CHANGE	eras/age_III/events/26.json:$.summary	the road-peace	->	Sìth an Rathaid	|	At the waypoint house on the road-peace, Lachlann Ciar tells Iain Gar
+CHANGE	eras/age_III/events/27.json:$.summary	the Roinn	->	Roinn na Rìoghachd	|	lein, last living of the nine who cut the cord at the Roinn, the tale of Iain Garbh's war
+CHANGE	eras/age_III/events/27.json:$.summary	the War of the Roads	->	Cogadh nan Rathad	|	Iain Garbh rules forty years past the end of the War of the Roads and never once goes up the mo
+CHANGE	eras/age_III/events/27.json:$.summary	the Hall of the Flame	->	Talla na Lasrach	|	 coldness he had left between the rìgh's hall and the Hall of the Flame.
+CHANGE	eras/age_III/events/27.json:$.title	the Hall	->	Talla na Lasrach	|	The rìgh's tithe sent again to the Hall
+CHANGE	eras/age_III/events/27.json:$.summary	the Hall's	->	Talla na Lasrach's	|	rs that Cathair mhòr's own hall send its tithe to the Hall's handful again, unwaited-for, 
+CHANGE	eras/age_III/events/27.json:$.title	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper keeps a place for the rìgh's 
+CHANGE	eras/age_III/events/27.json:$.summary	the Keeper	->	Coimheadaiche na Lasrach	|	 returns each year at the turn of the season, and the Keeper comes to keep a place for him
+CHANGE	eras/age_III/events/27.json:$.summary	the night of the handful	->	Oidhche an Dòrlaich	|	air mhòr, the last road he means to walk, so that the night of the handful should be told once more, to 
+CHANGE	eras/age_III/events/27.json:$.summary	the night of the handful	->	Oidhche an Dòrlaich	|	 thousand years old, three days after telling her the night of the handful for what proves the last time
+CHANGE	eras/age_III/events/27.json:$.summary	the Roinn	->	Roinn na Rìoghachd	|	e slope below Dùn ìseal, among the first heirs of the Roinn, though he was of no kin to h
+CHANGE	eras/age_III/events/28.json:$.summary	the Hall	->	Talla na Lasrach	|	r the carriers crossing the pass; the miller pays the Hall in grain and the rìgh's toll 
+CHANGE	eras/age_III/events/28.json:$.title	The Hall's	->	Talla na Lasrach's	|	The Hall's own roll for the same years
+CHANGE	eras/age_III/events/28.json:$.summary	the king-list	->	Clàr nan Rìghrean	|	For the span the king-list gives eleven rulers, the Hall
+CHANGE	eras/age_III/events/28.json:$.summary	the Hall's	->	Talla na Lasrach's	|	For the span the king-list gives eleven rulers, the Hall's spoken roll gives only five K
+CHANGE	eras/age_III/events/28.json:$.title	the long years	->	na Bliadhnachan Fada	|	The last of the long years in the ruling line
+CHANGE	eras/age_III/events/28.json:$.summary	the house of Ìomhar	->	Sliochd Ìomhair	|	The last ruler of the house of Ìomhar and Goraidh to carry any of t
+CHANGE	eras/age_III/events/28.json:$.summary	the long years	->	na Bliadhnachan Fada	|	f the house of Ìomhar and Goraidh to carry any of the long years in his blood dies at a hundre
+CHANGE	eras/age_III/events/28.json:$.title	the house of Tormod	->	Sliochd Thormoid	|	Tormod mac Iain born to the house of Tormod
+CHANGE	eras/age_III/events/28.json:$.title	Tormod's roll	->	Clàr Thormoid	|	Tormod's roll finished
+CHANGE	eras/age_III/events/28.json:$.title	The Hall	->	Talla na Lasrach	|	The Hall shamed into writing its own r
+CHANGE	eras/age_III/events/28.json:$.summary	the written king-list	->	Clàr nan Rìghrean	|	Word of the written king-list reaches the blind Keeper on t
+CHANGE	eras/age_III/events/28.json:$.summary	the Hall's	->	Talla na Lasrach's	|	in, who sits three days in silence and then tells the Hall's own reciters that a Hall out-
+CHANGE	eras/age_III/events/28.json:$.summary	the Hall	->	Talla na Lasrach	|	ine who can read a knot without letters, comes to the Hall and unties the cord of the he
+CHANGE	eras/age_III/events/28.json:$.summary	the cord of the heirs	->	Sreang nan Oighrean	|	not without letters, comes to the Hall and unties the cord of the heirs knot by knot over two days, n
+CHANGE	eras/age_III/events/28.json:$.summary	the Hall	->	Talla na Lasrach	|	 coils it in the old way and lays it in the chest the Hall has made for it, telling the 
+CHANGE	eras/age_III/events/29.json:$.summary	the house of Ìomhar	->	Sliochd Ìomhair	|	 and is carried up the mountain road to lie among the house of Ìomhar. Her son takes the hall after
+CHANGE	eras/age_III/events/29.json:$.summary	the king-list	->	Clàr nan Rìghrean	|	After Ealasaid Chiar's son and granddaughter, the king-list Tormod began keeps no ruler's
+CHANGE	eras/age_III/events/29.json:$.summary	The Keepers' roll	->	Clàr an Talla	|	uler's name for a span the reciters cannot close. The Keepers' roll at Dùn ìseal keeps its own co
+CHANGE	eras/age_III/events/29.json:$.summary	its Keepers	->	Coimheadaichean na Lasrach	|	eeps its own count through the same years, naming its Keepers where the hall names none.
+CHANGE	eras/age_III/events/29.json:$.title	The Hall's	->	Talla na Lasrach's	|	The Hall's clerks learn the stag-letters
+CHANGE	eras/age_III/events/29.json:$.summary	the Hall at Dùn ìseal	->	Talla na Lasrach	|	n roll without borrowing another order's letters, the Hall at Dùn ìseal sets two of its own clerks to
+CHANGE	eras/age_III/events/29.json:$.summary	the Hall	->	Talla na Lasrach	|	acher paid in coal for the winter. From that year the Hall keeps its roll in its own han
+CHANGE	eras/age_III/events/29.json:$.summary	a Hall clerk	->	a clerk of Talla na Lasrach	|	ood-watchers by the people of Cathair dhearg, and a Hall clerk counting the season's coal is
+CHANGE	eras/age_III/events/29.json:$.summary	the stag's people	->	Scoiltean nan Draoidhean	|	ver the cut tree, the teacher who first spoke for the stag's people dies of an ordinary winter co
+CHANGE	eras/age_III/events/29.json:$.summary	the Keeper	->	Coimheadaiche na Lasrach	|	eal by his mother's hand and acknowledged heir by the Keeper of that year, the first claim
+CHANGE	eras/age_III/events/29.json:$.summary	the Hall's	->	Talla na Lasrach's	|	 than the roll can say with certainty found worth the Hall's confidence.
+CHANGE	eras/age_III/events/29.json:$.summary	the stag's people	->	Scoiltean nan Draoidhean	|	ar, and judges at once that the wood-watchers and the stag's people will share their silence fore
+CHANGE	eras/age_III/events/30.json:$.body	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper Calum Liath gives every cutte
+CHANGE	eras/age_III/events/30.json:$.body	the Hall's	->	Talla na Lasrach's	|	 cutter of Dùn ìseal a knotted cord and a lamp of the Hall's own oil, and sends them into 
+CHANGE	eras/age_III/events/30.json:$.body	the Law's	->	Lagh an Loscaidh Bhig's	|	than cutting, the waypoint-keepers send less than the Law's full measure to households a 
+CHANGE	eras/age_III/events/30.json:$.title	the Keeper	->	Coimheadaiche na Lasrach	|	A steward of the northern road questions the Keeper
+CHANGE	eras/age_III/events/30.json:$.body	the Hall	->	Talla na Lasrach	|	A clerk of the Hall who learned her letters from 
+CHANGE	eras/age_III/events/30.json:$.body	the Hall	->	Talla na Lasrach	|	ounting in short seasons, say nothing at all, and the Hall takes the silence for assent.
+CHANGE	eras/age_III/events/30.json:$.body	the Hall	->	Talla na Lasrach	|	nds before the council at Dùn ìseal and asks what the Hall owes her son, sent into a gal
+CHANGE	eras/age_III/events/30.json:$.body	the great shares	->	na h-Earrannan Mòra	|	The stewards of the great shares spend a first day laying blam
+CHANGE	eras/age_III/events/30.json:$.title	the Hall's	->	Talla na Lasrach's	|	Calum Liath dies at the Hall's door
+CHANGE	eras/age_III/events/30.json:$.body	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper Calum Liath dies by the doorw
+CHANGE	eras/age_III/events/30.json:$.body	the Keepers	->	Coimheadaichean na Lasrach	|	 after it was cut, and is carried up to lie among the Keepers' own dead near the two youths
+CHANGE	eras/age_III/events/30.json:$.body	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths choose Oighrig Bhàn, a woman 
+CHANGE	eras/age_III/events/30.json:$.body	the Hall's	->	Talla na Lasrach's	|	In the Hall's own doorway Oighrig Bhàn bind
+CHANGE	eras/age_III/events/30.json:$.body	the Hall	->	Talla na Lasrach	|	ding each apprentice to a master of the school as the Hall bound its own.
+CHANGE	eras/age_III/events/30.json:$.body	the Hall	->	Talla na Lasrach	|	The teachers of Cnoc bhàn set a rule the Hall never made: that every bound 
+CHANGE	eras/age_III/events/31.json:$.summary	the house of Ìomhar	->	Sliochd Ìomhair	|	air by his steward's grandson. He is buried among the house of Ìomhar after a reign of eighty-seven
+CHANGE	eras/age_III/events/32.json:$.summary	the red hall	->	An Talla Dearg	|	mason Sìleas nan Clach of Cathair dhomhain raises the red hall at the bridge-foot through tw
+CHANGE	eras/age_III/events/32.json:$.summary	the Red Share	->	an Earrann Dhearg	|	 own fish and buried its own drowned since before the Red Share held a single stone. Beathag 
+CHANGE	eras/age_III/events/32.json:$.summary	The nine hearths	->	Na Naoi Teallaichean	|	The nine hearths choose Dùghall mac Raghnaill 
+CHANGE	eras/age_III/events/32.json:$.title	the Keeper	->	Coimheadaiche na Lasrach	|	Beitris nic Ailein shames the Keeper into asking
+CHANGE	eras/age_III/events/32.json:$.title	the Keeper	->	Coimheadaiche na Lasrach	|	The queen and the Keeper agree the count
+CHANGE	eras/age_III/events/32.json:$.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	o appeal, he answers that they burned peat before the Small-Burning Law was thought of and will burn 
+CHANGE	eras/age_III/events/32.json:$.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	rather than denied. The council rules against it: the Small-Burning Law protects a right already held
+CHANGE	eras/age_III/events/32.json:$.summary	The Keeper	->	Coimheadaiche na Lasrach	|	ects a right already held, not one never claimed. The Keeper speaks neither for the argume
+CHANGE	eras/age_III/events/32.json:$.summary	the house of Ìomhar	->	Sliochd Ìomhair	|	 is carried the length of the island to lie among the house of Ìomhar, the roll of the refused is b
+CHANGE	eras/age_III/events/33.json:$.summary	the red hall	->	An Talla Dearg	|	Ruairidh Liath, grey since his cradle, takes the red hall in his thirty-sixth year, fiv
+CHANGE	eras/age_III/events/33.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	ox of rings struck in Fearchar Òg's reign, to ask the Keeper's judgment on a right her house
+CHANGE	eras/age_III/events/33.json:$.summary	the Hall	->	Talla na Lasrach	|	a right her house has never before brought before the Hall.
+CHANGE	eras/age_III/events/33.json:$.summary	the red hall	->	An Talla Dearg	|	Ruairidh Liath dies in the red hall at Cathair dhearg in his eigh
+CHANGE	eras/age_III/events/33.json:$.summary	the Hall's	->	Talla na Lasrach's	|	of her grandfather's silver settlement, she gives the Hall's clerks their own room and a w
+CHANGE	eras/age_III/events/33.json:$.summary	the king-list	->	Clàr nan Rìghrean	|	s clerks their own room and a wage in silver, and the king-list begins to be kept year by yea
+CHANGE	eras/age_III/events/34.json:$.title	the stag's people	->	Scoiltean nan Draoidhean	|	A teacher of the stag's people comes to Inis bheag
+CHANGE	eras/age_III/events/34.json:$.summary	the stag's people	->	Scoiltean nan Draoidhean	|	A teacher of the stag's people, once a cutter's son, settles
+CHANGE	eras/age_III/events/34.json:$.summary	The Hall's roll	->	Clàr an Talla	|	fisher-marks to children who will never cut coal. The Hall's roll notes the teaching and calls 
+CHANGE	eras/age_III/events/34.json:$.summary	the Hall's	->	Talla na Lasrach's	|	s grave-marker in the fisher-marks rather than in the Hall's own hand, the first stone on 
+CHANGE	eras/age_III/events/34.json:$.summary	the red hall's	->	An Talla Dearg's	|	earg a boy of Inis bheag, sent inland to serve in the red hall's stables, scratches a fisher's
+CHANGE	eras/age_III/events/34.json:$.summary	the Hall's	->	Talla na Lasrach's	|	 and so learns the fisher-marks before she learns the Hall's own hand.
+CHANGE	eras/age_III/events/34.json:$.summary	the red hall	->	An Talla Dearg	|	e willing to take the work. She keeps the roll of the red hall for four-and-forty years afte
+CHANGE	eras/age_III/events/34.json:$.summary	the red hall	->	An Talla Dearg	|	n her own bed at seventy, having kept the roll of the red hall through a reign and the half 
+CHANGE	eras/age_III/events/34.json:$.summary	the Hall's roll	->	Clàr an Talla	|	rom Cathair dhearg to set the dawn-hawk custom in the Hall's roll asks Raghnaid nic Chaluim why
+CHANGE	eras/age_III/events/34.json:$.title	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper sends a clerk to see the dawn
+CHANGE	eras/age_III/events/34.json:$.summary	the Keeper	->	Coimheadaiche na Lasrach	|	ssed by an uneasy household of the lowland plain, the Keeper of that season sends a clerk 
+CHANGE	eras/age_III/events/34.json:$.title	The Hall	->	Talla na Lasrach	|	The Hall answers that the rite is no c
+CHANGE	eras/age_III/events/34.json:$.summary	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper writes to the lowland househo
+CHANGE	eras/age_III/events/34.json:$.summary	the Hall's	->	Talla na Lasrach's	|	te keeps the measure exactly and is no concern of the Hall's. It is the last time in the a
+CHANGE	eras/age_III/events/34.json:$.summary	the Hall	->	Talla na Lasrach	|	ern of the Hall's. It is the last time in the age the Hall answers any rite so simply.
+CHANGE	eras/age_III/events/34.json:$.title	The Hall's roll	->	Clàr an Talla	|	The Hall's roll outgrows the clerks' room
+CHANGE	eras/age_III/events/35.json:$.title	the Keeper's	->	Coimheadaiche na Lasrach's	|	Raonaid Dhubh takes the Keeper's stool
+CHANGE	eras/age_III/events/35.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	Raonaid Dhubh comes to the Keeper's own chest of clerks at twenty
+CHANGE	eras/age_III/events/35.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	e than the diggers' road, kept long past any term the Keeper's sentence set.
+CHANGE	eras/age_III/events/36.json:$.summary	the red hall	->	An Talla Dearg	|	Lachlann Bàn, come to the red hall in his twenty-sixth year, fin
+CHANGE	eras/age_III/events/36.json:$.summary	the Keeper	->	Coimheadaiche na Lasrach	|	Lachlann Bàn climbs to Dùn ìseal to ask the Keeper Raonaid Dhubh to set the isla
+CHANGE	eras/age_III/events/36.json:$.summary	the Hall at Dùn ìseal	->	Talla na Lasrach	|	baskets as the old toll fish once were packed for the Hall at Dùn ìseal.
+CHANGE	eras/age_III/events/36.json:$.title	The Four Houses	->	Na Ceithir Taighean	|	The Four Houses begin their quiet counting
+CHANGE	eras/age_III/events/36.json:$.summary	the red hall	->	An Talla Dearg	|	f it before her, to reckon what it might claim of the red hall should she die without an hei
+CHANGE	eras/age_III/events/36.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	he die without an heir; Sliochd Mhuirich, holding the Keeper's own office, makes no claim at
+CHANGE	eras/age_III/events/36.json:$.summary	the shared-meal law	->	Lagh a' Bhìdh Roinnte	|	 better part of forty years and the woman who set the shared-meal law beside Lachlann Bàn, dies in 
+CHANGE	eras/age_III/events/36.json:$.summary	the shared-meal law	->	Lagh a' Bhìdh Roinnte	|	 of one beside him, the boy's first sight of what the shared-meal law meant in a true want.
+CHANGE	eras/age_III/events/37.json:$.summary	the red hall	->	An Talla Dearg	|	ge of the whole reign between the woman who holds the red hall and the clerk who will one da
+CHANGE	eras/age_III/events/37.json:$.title	the Four Houses	->	Na Ceithir Taighean	|	Gilleasbuig watches the Four Houses argue
+CHANGE	eras/age_III/events/37.json:$.summary	the Four Houses	->	Na Ceithir Taighean	|	 to see them, Gilleasbuig Mòr sits at the edge of the Four Houses' long sitting at Dùn ìseal, a
+CHANGE	eras/age_III/events/37.json:$.summary	the Four Houses	->	Na Ceithir Taighean	|	Sliochd Raghnaill is the first of the Four Houses to put Gilleasbuig Mòr's own 
+CHANGE	eras/age_III/events/37.json:$.summary	the red hall	->	An Talla Dearg	|	ses to put Gilleasbuig Mòr's own name forward for the red hall, on the reasoning that a cler
+CHANGE	eras/age_III/events/37.json:$.summary	the king-list	->	Clàr nan Rìghrean	|	 the cup is set in his hands, Gilleasbuig Mòr has the king-list copied again from its beginni
+CHANGE	eras/age_III/events/37.json:$.summary	the red hall's	->	An Talla Dearg's	|	en, to sit beside him at Cathair dhearg and learn the red hall's own rolls before he is taught
+CHANGE	eras/age_III/events/37.json:$.summary	the house of Ìomhar	->	Sliochd Ìomhair	|	a boy with a satchel of rolls, to be buried among the house of Ìomhar as Sliochd Ìomhair had sworn 
+CHANGE	eras/age_III/events/38.json:$.title	The far-off house	->	An Sligeanach Fad' às	|	The far-off house is rebuilt in stone
+CHANGE	eras/age_III/events/38.json:$.summary	the far-off house	->	An Sligeanach Fad' às	|	The waypoint house the carriers call the far-off house, so distant from any town tha
+CHANGE	eras/age_III/events/38.json:$.title	The Keeper	->	Coimheadaiche na Lasrach	|	The Keeper rules fire-water no burning o
+CHANGE	eras/age_III/events/38.json:$.title	the Law	->	Lagh an Loscaidh Bhig	|	The Keeper rules fire-water no burning of the Law
+CHANGE	eras/age_III/events/38.json:$.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	 of the northern road to rule on fire-water under the Small-Burning Law, the Keeper of that generatio
+CHANGE	eras/age_III/events/38.json:$.summary	the Keeper	->	Coimheadaiche na Lasrach	|	o rule on fire-water under the Small-Burning Law, the Keeper of that generation answers th
+CHANGE	eras/age_III/events/38.json:$.summary	the Law	->	Lagh an Loscaidh Bhig	|	at a fire kept in a man's own belly is no burning the Law was written to answer for, an
+CHANGE	eras/age_III/events/38.json:$.summary	the Hall	->	Talla na Lasrach	|	rning the Law was written to answer for, and that the Hall will rule on drink the day it
+CHANGE	eras/age_III/events/39.json:$.title	the sunny house's	->	An Taigh-òsta Grianach's	|	Anna Ruadh takes the sunny house's charter to stone
+CHANGE	eras/age_III/events/39.json:$.summary	the sunny house	->	An Taigh-òsta Grianach	|	The keeper of the sunny house on the road to Cnoc leathan, 
+CHANGE	eras/age_III/events/39.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	 wood-watcher, doubles its own cutter's visits to the Keeper's measure without being asked, 
+CHANGE	eras/age_III/events/39.json:$.summary	the Keepers' roll	->	Clàr an Talla	|	Before the knife reaches the Keepers' roll, the clerk Seumas Bàn sends f
+CHANGE	eras/age_III/events/39.json:$.summary	the Hall's	->	Talla na Lasrach's	|	st of the fowler households of Seann Skell, meets the Hall's cutter Ruairidh Òg at her own
+CHANGE	eras/age_III/events/39.json:$.summary	the Keeper's	->	Coimheadaiche na Lasrach's	|	 tells him the dawn measure is the hawk's and not the Keeper's, allowing him only to watch f
+CHANGE	eras/age_III/events/39.json:$.summary	the warm springs	->	Fuarain Theth Muileann ruadh	|	Beathag Fhionn, keeper of the bath-house over the warm springs at Muileann ruadh, rules that
+CHANGE	eras/age_III/events/40.json:$.summary	the red hall	->	An Talla Dearg	|	e laws for every province, dies in his own bed at the red hall in the ninety-first year of h
+CHANGE	eras/age_III/events/40.json:$.summary	the Four Houses	->	Na Ceithir Taighean	|	each Donn takes up the cup without any meeting of the Four Houses being called.
+CHANGE	eras/age_III/events/40.json:$.title	the Four Houses	->	Na Ceithir Taighean	|	Tormod Donn's claim before the Four Houses
+CHANGE	eras/age_III/events/40.json:$.summary	the Four Houses	->	Na Ceithir Taighean	|	Tormod Donn brings a claim to the Four Houses at Dùn ìseal against his niec
+CHANGE	eras/age_III/events/40.json:$.summary	the Four Houses	->	Na Ceithir Taighean	|	 at Cuan ruadh, after Catrìona nic Mhuirich tells the Four Houses she will set the cup in no ha
+CHANGE	eras/age_III/events/40.json:$.summary	the house of Tormod	->	Sliochd Thormoid	|	p in no hand but Mòr's. It is the last such claim the house of Tormod contests.
+CHANGE	eras/age_III/events/40.json:$.summary	the red hall	->	An Talla Dearg	|	watch-tower at Baile ruadh. He holds no office at the red hall and keeps, through her reign,
+CHANGE	eras/age_III/events/40.json:$.summary	the Holy Age	->	An Aois Naomh	|	 in blood to raise a claim. Hers is the last name the Holy Age itself sets down in the king-
+CHANGE	eras/age_III/events/40.json:$.summary	the king-list	->	Clàr nan Rìghrean	|	is the last name the Holy Age itself sets down in the king-list.
+CHANGE	eras/age_III/events/40.json:$.summary	the Four Houses	->	Na Ceithir Taighean	|	f her mother's death, by her own house's word and the Four Houses' assent, rather than by a win
+CHANGE	eras/age_III/events/40.json:$.summary	the king-list	->	Clàr nan Rìghrean	|	Finding the old skin of the king-list and the Keepers' roll filled 
+CHANGE	eras/age_III/events/40.json:$.summary	the Keepers' roll	->	Clàr an Talla	|	Finding the old skin of the king-list and the Keepers' roll filled to its last line with 
+LEFT	eras/age_III/annals/age_III_01.json:EIII-1002.title	the cord of the heirs	(no "the" before it)	|	Aodh Crom asks for a cord of the heirs
+LEFT	eras/age_III/annals/age_III_01.json:EIII-1044.body	the nine great shares	(no "the" before it)	|	tlement that gives each rule something: nine great shares for the eldest living lines, a portion 
+LEFT	eras/age_III/annals/age_III_01.json:EIII-1058.title	the great shares	(no "the" before it)	|	Three great shares claim An Cnoc Ruadh
+LEFT	eras/age_III/annals/age_III_02.json:EIII-2008.title	the Keeper	(no "the" before it)	|	Aodh Crom's charge to the new Keeper
+LEFT	eras/age_III/annals/age_III_02.json:EIII-2033.body	the Telling	(no "the" before it)	|	Telling no one where she goes, Beathag Bhàn cro
+LEFT	eras/age_III/annals/age_III_02.json:EIII-2034.body	the Keeper	(no "the" before it)	|	 ends it: no keeper of the slab, and no Keeper of the flame after her, will set foot i
+LEFT	eras/age_III/annals/age_III_02.json:EIII-2041.body	the Keeper	(no "the" before it)	|	n a few sentences, is repeated by every Keeper who follows him.
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3002.body	the Keeper	(no "the" before it)	|	 good deal more than he might have as a Keeper chosen by kinship rather than by the ho
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3016.body	the Keeper	(no "the" before it)	|	Gormshuil, Keeper after Muireach Liath for thirty-eight y
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3017.title	the Keeper	(no "the" before it)	|	Fionnlagh Dall chosen Keeper
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3017.body	the Keeper	(no "the" before it)	|	thirty-eight years old, the first blind Keeper the island has known.
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3018.title	the Keeper	(no "the" before it)	|	Calum Beag begins leading the blind Keeper
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3018.body	the Keeper	(no "the" before it)	|	es, on the one condition that he keep a Keeper's silence about what he sees there. He ag
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3036.body	the Keeper	(no "the" before it)	|	at all, but will try rather than tell a Keeper who has just buried eleven carriers tha
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3062.body	the strife of the heirs	(no "the" before it)	|	hrough fifty-four years of the widening strife of the heirs more steadily than the quarrel's own pr
+LEFT	eras/age_III/annals/age_III_03.json:EIII-3062.body	the Keeper	(no "the" before it)	|	. Na Naoi Teallaichean choose a younger Keeper who holds much the same course.
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4005.body	the Keeper	(no "the" before it)	|	 level to her palm exactly as for every Keeper before her.
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4008.title	the four houses	(no "the" before it)	|	Eilidh binds the office to four houses
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4008.body	the four houses	(no "the" before it)	|	h's office be bound from that season to four houses of custody alone, Sliochd Mhuirich, Sli
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4016.body	the beacon on the Baile chrom headland	(no "the" before it)	|	Once the old beacon on the Baile chrom headland is relit, the carrying of driftwood to 
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4019.body	the Law	(no "the" before it)	|	ing at the delay, and her answer that a Law which measures every handful can measur
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4023.title	the Keeper	(no "the" before it)	|	Coinneach Mòr chosen Keeper of Sliochd Thormoid
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4023.body	the Keeper	(no "the" before it)	|	Mòr mac Tormoid, five-and-twenty, first Keeper of his house, for his patience rather t
+LEFT	eras/age_III/annals/age_III_04.json:EIII-4023.body	the Keeper	(no "the" before it)	|	ther than any gift of speech, judging a Keeper who keeps a flame steadily worth more t
+LEFT	eras/age_III/annals/age_III_05.json:EIII-5001.body	the Keeper	(no "the" before it)	|	 six-and-twenty years old, the youngest Keeper chosen since Muireach Liath's own day. 
+LEFT	eras/age_III/annals/age_III_05.json:EIII-5001.body	the Keeper	(no "the" before it)	|	er working life, warns her that a young Keeper who bends once in her first year is ask
+LEFT	eras/age_III/annals/age_III_05.json:EIII-5007.body	the Keeper	(no "the" before it)	|	st of them with her own hands, which no Keeper before her is remembered to have done.
+LEFT	eras/age_III/annals/age_III_05.json:EIII-5010.body	the Keeper	(no "the" before it)	|	ers young enough to have known no other Keeper, and left again on the same stones, sti
+LEFT	eras/age_III/annals/age_III_05.json:EIII-5043.body	the druid school	(no "the" before it)	|	Two teachers of the western druid school travel to the far-eastern Muileann chia
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6020.body	the king-list	(no "the" before it)	|	o, the first of eleven rulers the later king-list will give only by name and order.
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6021.body	the Keepers	(no "the" before it)	|	a Lasrach's spoken roll gives only five Keepers, a mountain's years running longer than
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6033.body	the Keeper	(no "the" before it)	|	 of Clàr nan Rìghrean reaches the blind Keeper on the mountain, who sits three days in
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6033.body	the Hall	(no "the" before it)	|	 Talla na Lasrach's own reciters that a Hall out-remembered by a rìgh's clerk has no
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6036.body	the king-list	(no "the" before it)	|	gned thirty-one years and had the first king-list written, and is carried up the mountain
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6039.title	the Keeper	(no "the" before it)	|	A Keeper named in the silent years
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6039.body	the Keeper	(no "the" before it)	|	A Keeper is named at Dùn ìseal of whom the roll 
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6046.body	the Keeper	(no "the" before it)	|	Calum Liath is made Keeper at forty-five, in Fearchar Òg's ninth y
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6055.body	the Keeper	(no "the" before it)	|	Sent without a Keeper's cutter to bring up a left basket, two y
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6059.title	the Keeper	(no "the" before it)	|	Oighrig Bhàn chosen Keeper
+LEFT	eras/age_III/annals/age_III_06.json:EIII-6062.body	the Keeper	(no "the" before it)	|	ur in later years are themselves chosen Keeper, which the reciters of Dùn ìseal count 
+LEFT	eras/age_III/annals/age_III_07.json:EIII-7045.body	the Keeper	(no "the" before it)	|	, having held the flame longer than any Keeper before him. The reciters of Dùn ìseal r
+LEFT	eras/age_III/annals/age_III_07.json:EIII-7052.body	the Keeper	(no "the" before it)	|	ad agreed on anything, a plain record a Keeper's clerk consults to settle a far larger d
+LEFT	eras/age_III/annals/age_III_08.json:EIII-8020.title	the Keeper	(no "the" before it)	|	Both schools ask the new Keeper for a ruling
+LEFT	eras/age_III/annals/age_III_08.json:EIII-8020.body	the Keeper	(no "the" before it)	|	ding of the vein is the truer, as every Keeper before her has been asked and never onc
+LEFT	eras/age_III/annals/age_III_08.json:EIII-8031.body	the Keeper	(no "the" before it)	|	Raonaid Dhubh, Keeper of the flame at Dùn ìseal for the bette
+LEFT	eras/age_III/annals/age_III_08.json:EIII-8040.body	the king-list	(no "the" before it)	|	s that a tithe is true for a year and a king-list must be true for longer than any man wh
+LEFT	eras/age_III/annals/age_III_08.json:EIII-8045.body	the red hall	(no "the" before it)	|	 rolls and answering reeves at the shut red hall who no longer know whose name to render
+LEFT	eras/age_III/annals/age_III_08.json:EIII-8049.body	the red hall	(no "the" before it)	|	 the work, has already shown the hand a red hall wants at its head.
+LEFT	eras/age_III/annals/age_III_08.json:EIII-8054.body	the Keeper	(no "the" before it)	|	er than Lagh an Loscaidh Bhig allows. A Keeper's cutter is sent every season to try its 
+LEFT	eras/age_III/annals/age_III_09.json:EIII-9034.title	the Keepers	(no "the" before it)	|	Seumas Bàn reckons two Keepers in three of his house
+LEFT	eras/age_III/annals/age_III_09.json:EIII-9034.body	the Keepers	(no "the" before it)	|	s Bàn reckons how many of the remaining Keepers married into Sliochd Mhuirich or foster
+LEFT	eras/age_III/book/04_of_the_knots.md:63	the line of Fionnghal	(no "the" before it)	|	g, of another line altogether, the grey line of Fionnghal; and when Sìne looked up at the second 
+LEFT	eras/age_III/book/04_of_the_knots.md:75	the great shares	(no "the" before it)	|	nd by hearths and in the halls of three great shares, and he always told it against himself.
+LEFT	eras/age_III/book/07_of_the_stones_and_the_first_blood.md:56	the great shares	(no "the" before it)	|	asy half of the work, and knew it. Nine great shares, agreed on a cord and marked, more or l
+LEFT	eras/age_III/book/07_of_the_stones_and_the_first_blood.md:58	the nine great shares	(no "the" before it)	|	nt up at Dùn thais, until what had been nine great shares on the cord had become countries under 
+LEFT	eras/age_III/book/07_of_the_stones_and_the_first_blood.md:68	the great shares	(no "the" before it)	|	They began well enough. Nine great shares, no one disputed; and by careful asking
+LEFT	eras/age_III/book/08_of_beathag_bhan.md:33	the Binding	(no "the" before it)	|	 a reverence that ran alongside the new Binding rather than under it: the ancestors, th
+LEFT	eras/age_III/book/08_of_beathag_bhan.md:47	the nine hearths	(no "the" before it)	|	back to one or another of the nine than nine hearths could ever truly have bred, and the kee
+LEFT	eras/age_III/book/08_of_beathag_bhan.md:63	the Keeper	(no "the" before it)	|	 like again, with her or with any other Keeper. The keepers of the slab, when the stor
+LEFT	eras/age_III/book/08_of_beathag_bhan.md:83	the Hall	(no "the" before it)	|	s of the same fire below the unfinished Hall, close enough that either could have cr
+LEFT	eras/age_III/book/08_of_beathag_bhan.md:93	the Keeper	(no "the" before it)	|	pure habit and a little vanity, since a Keeper who let her flame gutter on the one mor
+LEFT	eras/age_III/book/09_of_the_cairns_and_the_unentered_temple.md:54	the Keeper	(no "the" before it)	|	gh the night he was brought in, since a Keeper's hearth was the one fire on the mountain
+LEFT	eras/age_III/book/09_of_the_cairns_and_the_unentered_temple.md:72	the Keeper	(no "the" before it)	|	said that no keeper of the slab, and no Keeper of the flame after her, would set foot 
+LEFT	eras/age_III/book/09_of_the_cairns_and_the_unentered_temple.md:82	the Keeper	(no "the" before it)	|	red aloud, in the days after, whether a Keeper ought not to be laid the same way as ev
+LEFT	eras/age_III/book/09_of_the_cairns_and_the_unentered_temple.md:82	the Keeper	(no "the" before it)	|	one argued the point further, and every Keeper after Beathag Bhàn was laid the same wa
+LEFT	eras/age_III/book/10_of_muireach_liath_and_the_luck-stream.md:20	the Keeper	(no "the" before it)	|	ab since before An Ceangal and buried a Keeper, said of Muireach in those years that h
+LEFT	eras/age_III/book/10_of_muireach_liath_and_the_luck-stream.md:68	the Keeper	(no "the" before it)	|	 themselves. You might try it yourself, Keeper. It's restful, not knowing everything."
+LEFT	eras/age_III/book/11_of_the_silver_of_muileann_chiar.md:20	the holy wood	(no "the" before it)	|	ce of that name far to the east, near a holy wood, and the two were never once mistaken f
+LEFT	eras/age_III/book/11_of_the_silver_of_muileann_chiar.md:68	the Keeper	(no "the" before it)	|	 good deal more than he might have as a Keeper who had come to the flame by kinship ra
+LEFT	eras/age_III/book/11_of_the_silver_of_muileann_chiar.md:70	the Keeper	(no "the" before it)	|	e vein and away from the sea that every Keeper before her had passed through. Seven ye
+LEFT	eras/age_III/book/12_of_sileas_and_the_stag.md:84	the Keeper	(no "the" before it)	|	ed, why it behaved as it behaved, and a Keeper who had spent thirty years learning tha
+LEFT	eras/age_III/book/12_of_sileas_and_the_stag.md:88	the Keeper	(no "the" before it)	|	ein was a demand made of it, and that a Keeper who let a demand stand unanswered in he
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:8	the Keeper	(no "the" before it)	|	aid of Fionnlagh Dall, called the Blind Keeper
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:24	the Keeper	(no "the" before it)	|	hearths were done arguing to say that a Keeper's hands mattered more to the measure than
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:24	the Keeper	(no "the" before it)	|	nds mattered more to the measure than a Keeper's eyes, and that they had watched Fionnla
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:26	the Keeper	(no "the" before it)	|	t what he saw in the galleries, since a Keeper's eyes, borrowed or his own, owed the vei
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:26	the Keeper	(no "the" before it)	|	ut Talla na Lasrach together, the blind Keeper and the boy who told him, in a voice pi
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:40	the Keeper	(no "the" before it)	|	ess and others, more rightly, for a new Keeper's unwillingness to answer a hard question
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:60	the Keeper	(no "the" before it)	|	held till then by nothing firmer than a Keeper's word and the memory of two dead Keepers
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:60	the Keepers	(no "the" before it)	|	eeper's word and the memory of two dead Keepers before him, should be sworn as a law bi
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:68	the Keeper	(no "the" before it)	|	arshest thing Fionnlagh had yet done as Keeper, and the household's own descendants, t
+LEFT	eras/age_III/book/13_of_the_smoke_and_the_stone_cup.md:74	the Keeper	(no "the" before it)	|	children afterward, said that the blind Keeper had judged rightly what a fire owed to 
+LEFT	eras/age_III/book/14_of_the_carriers_and_the_first_bridges.md:14	the Keeper	(no "the" before it)	|	was the carriers, more than any lord or Keeper, who came first to know exactly which m
+LEFT	eras/age_III/book/14_of_the_carriers_and_the_first_bridges.md:20	the Keeper	(no "the" before it)	|	eag carry down the grey stone the blind Keeper had wanted for his cup. He had cut stai
+LEFT	eras/age_III/book/14_of_the_carriers_and_the_first_bridges.md:48	the Keeper	(no "the" before it)	|	ould rather try it and fail than tell a Keeper who had just buried eleven carriers tha
+LEFT	eras/age_III/book/14_of_the_carriers_and_the_first_bridges.md:50	the Keeper	(no "the" before it)	|	an once when the work went hard, that a Keeper who could not see the bridge at all had
+LEFT	eras/age_III/book/14_of_the_carriers_and_the_first_bridges.md:66	the Hall	(no "the" before it)	|	hings a trade takes up before the wider Hall has quite noticed it happening. Every s
+LEFT	eras/age_III/book/14_of_the_carriers_and_the_first_bridges.md:72	the Keeper	(no "the" before it)	|	 self not excepted, and saw no reason a Keeper should not do the same.
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:48	the Keeper	(no "the" before it)	|	e him, longer by a good margin than any Keeper before him, and it was in the hundred a
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:50	the Keeper	(no "the" before it)	|	temples himself, asked him why, since a Keeper's own ground lay ready and waiting not a 
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:52	the Keeper	(no "the" before it)	|	lame fed before he came to sit, since a Keeper's dying, Fionnlagh said, was no excuse fo
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:58	the Keeper	(no "the" before it)	|	go hungry, that a man could not carry a Keeper's weight on an empty stomach any better t
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:64	the Keeper	(no "the" before it)	|	holding, he said, to the same silence a Keeper's own eyes owed the galleries, borrowed e
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:66	the Keepers	(no "the" before it)	|	nd was hallowed five years afterward by Keepers who travelled down from Dùn ìseal to do
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:66	the Keeper	(no "the" before it)	|	e ruling that a service kept for a dead Keeper's own sake was owed the one payment a Kee
+LEFT	eras/age_III/book/15_of_mor_nic_dhughaills_house_and_the_blind_keepers_last_road.md:66	the Keeper	(no "the" before it)	|	r's own sake was owed the one payment a Keeper himself would have judged fitting.
+LEFT	eras/age_III/book/16_of_the_unforgotten_wedding.md:18	the Hall	(no "the" before it)	|	ruer than any account of a war won or a Hall built, and that a man who wished to und
+LEFT	eras/age_III/book/16_of_the_unforgotten_wedding.md:40	the Keeper	(no "the" before it)	|	-and-fifty years after, longer than any Keeper since Fionnlagh Dall and calmer, the te
+LEFT	eras/age_III/book/16_of_the_unforgotten_wedding.md:44	the Keeper	(no "the" before it)	|	 Teallaichean chose after her a younger Keeper who would hold much the same course, Ta
+LEFT	eras/age_III/book/16_of_the_unforgotten_wedding.md:50	the eastern share	(no "the" before it)	|	hen, set down. Cormac mac Ailein, whose eastern share at Caol shean had taken no direct part 
+LEFT	eras/age_III/book/16_of_the_unforgotten_wedding.md:50	the salt shore	(no "the" before it)	|	ct part in the quarrel between west and salt shore but felt its cold in every market that 
+LEFT	eras/age_III/book/16_of_the_unforgotten_wedding.md:78	the long years	(no "the" before it)	|	elling: that the island, in all his own long years of watching it, was never so well gover
+LEFT	eras/age_III/book/17_of_eilidh_nic_iomhair_and_the_four_houses.md:9	the Keeper	(no "the" before it)	|	d let anyone else pour it for her. That Keeper died in the winter of the three hundred
+LEFT	eras/age_III/book/17_of_eilidh_nic_iomhair_and_the_four_houses.md:35	the Keeper	(no "the" before it)	|	e, much of a condition to ask, since no Keeper before Eilidh had ever once thought to 
+LEFT	eras/age_III/book/17_of_eilidh_nic_iomhair_and_the_four_houses.md:35	the Keeper	(no "the" before it)	|	exactly as it had been poured for every Keeper before her, and the flame carried to he
+LEFT	eras/age_III/book/17_of_eilidh_nic_iomhair_and_the_four_houses.md:37	the Keeper	(no "the" before it)	|	lidh's keeping nor in the reigns of any Keeper who came after her, and the tellers sin
+LEFT	eras/age_III/book/17_of_eilidh_nic_iomhair_and_the_four_houses.md:43	the four houses	(no "the" before it)	|	Eilidh, who had grown tired of hearing four houses argue a question the other five hearths
+LEFT	eras/age_III/book/17_of_eilidh_nic_iomhair_and_the_four_houses.md:43	the Keeper	(no "the" before it)	|	 argue its own case: that the office of Keeper would be bound, from that season on, to
+LEFT	eras/age_III/book/17_of_eilidh_nic_iomhair_and_the_four_houses.md:43	the four houses	(no "the" before it)	|	be bound, from that season on, to these four houses of custody and no others, that the othe
+LEFT	eras/age_III/book/18_of_the_plunderers_and_the_thing_under_the_boat.md:76	the Keeper	(no "the" before it)	|	 to clear the road. Eilidh nic Ìomhair, Keeper of the flame these forty years and more
+LEFT	eras/age_III/book/18_of_the_plunderers_and_the_thing_under_the_boat.md:78	the Law	(no "the" before it)	|	nger than the carriers' own, and that a Law which measured every handful to the gra
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:22	the Keeper	(no "the" before it)	|	 his five-and-twentieth year, the first Keeper of Sliochd Thormoid, chosen by Na Ceith
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:22	the Keeper	(no "the" before it)	|	the houses named when they chose him: a Keeper, they said, did not need to be clever, 
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:24	the Keeper	(no "the" before it)	|	or two-and-sixty years, longer than any Keeper of any of Na Ceithir Taighean before hi
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:24	the Keeper	(no "the" before it)	|	held so long, and Coinneach said that a Keeper's mark, if he left one worth leaving, was
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:32	the Keepers	(no "the" before it)	|	hout much art, standing before the four Keepers with his hat in both hands and his feet
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:34	the Keepers	(no "the" before it)	|	oked once round the chamber at the four Keepers seated above him, and said that he had 
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:34	the Keeper	(no "the" before it)	|	ause the cord never changed, and that a Keeper's whole use, in such a matter, was only t
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:40	the outpost	(no "the" before it)	|	brought Làrach an Dùin-fhaire, a walled outpost on a spur above Cathair mhòr with stone
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:42	the Keeper	(no "the" before it)	|	 dressed up as a finding, saying that a Keeper who let his walkers guess once would ha
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:54	the Keeper	(no "the" before it)	|	e would not otherwise have drawn, and a Keeper, he said once to the widow herself, mig
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:60	the Keeper	(no "the" before it)	|	hts, said of them only, when a visiting Keeper of another house asked him how his own 
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:60	the Keeper	(no "the" before it)	|	not every good thing on it had needed a Keeper's hand to make it good.
+LEFT	eras/age_III/book/19_of_the_reverent_centuries.md:68	the house of Ìomhar	(no "the" before it)	|	ght than the fire had been: land that a house of Ìomhar's blood and a house of Eithne's blood bot
+LEFT	eras/age_III/book/20_of_fearghas_of_the_two_oaths.md:59	the boundary stones	(no "the" before it)	|	ng the standing barley from the eastern boundary stones, an Earrann Dhearg's own markers, clear
+LEFT	eras/age_III/book/21_of_the_peace_of_the_threshold.md:61	the Keeper	(no "the" before it)	|	ach other that evening, for there was a Keeper to greet, and lesser lords waiting thei
+LEFT	eras/age_III/book/21_of_the_peace_of_the_threshold.md:63	the Keeper	(no "the" before it)	|	 cup at her feet all the same, as every Keeper before and since had held it, and when 
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:11	the Keeper	(no "the" before it)	|	ichean raised her to the flame; a young Keeper by any measure the office had known sin
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:11	the Keeper	(no "the" before it)	|	 and with an eye always on how the last Keeper before her would have done a thing, unt
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:11	the Keeper	(no "the" before it)	|	ich is, by most tellings, the mark of a Keeper who has finally grown into the office r
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:13	the Keeper	(no "the" before it)	|	llaichean' word came down, that a young Keeper's first year was worth two of any other, 
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:13	the Keeper	(no "the" before it)	|	worth two of any other, because a young Keeper is watched by every hearth in Talla na 
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:13	the Keeper	(no "the" before it)	|	r the first lord who frowns, and that a Keeper who bends once in her first year is ask
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:13	the knot-keepers	(no "the" before it)	|	rs apart the asking fell, which her own knot-keepers came in time to reckon the surest mark 
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:17	the Keeper	(no "the" before it)	|	ce, as it had been turned away by every Keeper before her since Gormshuil nic Mhuirich
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:25	the Keeper	(no "the" before it)	|	 objection she had inherited from every Keeper before her — that a cutter trained outs
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:39	the knot-keepers	(no "the" before it)	|	til she found herself saying to her own knot-keepers, more than once, that she had come to k
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:57	the Hall	(no "the" before it)	|	rdless were no more remarkable, in that Hall, than a wall standing where a wall had 
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:61	the Keeper	(no "the" before it)	|	t stone over the last of them, which no Keeper before her, so far as the rolls remembe
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:67	the Keeper	(no "the" before it)	|	f custody had troubled to record of any Keeper before her, for the simple reason that 
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:67	the Keepers	(no "the" before it)	|	ore her, for the simple reason that few Keepers had held the cup long enough for anyone
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:67	the Keeper	(no "the" before it)	|	 worth setting down, which is, of every Keeper's ending, the kindest sort a Hall can giv
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:67	the Hall	(no "the" before it)	|	ery Keeper's ending, the kindest sort a Hall can give.
+LEFT	eras/age_III/book/22_of_the_truce_in_the_galleries_and_the_walled_town.md:69	the Keeper	(no "the" before it)	|	y cutters young enough to have known no Keeper but her, and left again on the same sto
+LEFT	eras/age_III/book/23_of_goraidh_mac_iomhair.md:13	the boundary stones	(no "the" before it)	|	st of the island's heirs had over their boundary stones, the holders of Dùn dhearg had only to 
+LEFT	eras/age_III/book/23_of_goraidh_mac_iomhair.md:89	the Keeper	(no "the" before it)	|	down: what a rìgh might hold and what a Keeper must, what roads belonged to which of t
+LEFT	eras/age_III/book/27_of_the_last_of_the_nine.md:40	the Keeper	(no "the" before it)	|	Eithne had this from a Keeper's messenger, one of the young men Talla n
+LEFT	eras/age_III/book/27_of_the_last_of_the_nine.md:66	the Keepers	(no "the" before it)	|	e what four hundred years of rulers and Keepers, careful of each other's pride, had not
+LEFT	eras/age_III/book/27_of_the_last_of_the_nine.md:70	the Keeper	(no "the" before it)	|	the meaning of it, a rìgh's pride and a Keeper's pride each finding it harder to swallow
+LEFT	eras/age_III/book/27_of_the_last_of_the_nine.md:124	the boundary stones	(no "the" before it)	|	e living memories became names cut into boundary stones, read by carriers who did not know whos
+LEFT	eras/age_III/book/28_of_the_eleven_names_and_tormod_the_writer.md:18	the Keepers	(no "the" before it)	|	, spoken, not written, and it gave five Keepers where the hall at Dùn dhearg gave eleve
+LEFT	eras/age_III/book/28_of_the_eleven_names_and_tormod_the_writer.md:22	the boundary stones	(no "the" before it)	|	y the names were left standing, the way boundary stones stand long after the fence between them
+LEFT	eras/age_III/book/28_of_the_eleven_names_and_tormod_the_writer.md:80	the Hall	(no "the" before it)	|	en than any other he ever spoke, that a Hall shamed by a rìgh's clerk into writing d
+LEFT	eras/age_III/book/28_of_the_eleven_names_and_tormod_the_writer.md:80	the Hall	(no "the" before it)	|	he would not sit blind at the head of a Hall that let a lowland granary-clerk out-re
+LEFT	eras/age_III/book/28_of_the_eleven_names_and_tormod_the_writer.md:98	the Roinn	(no "the" before it)	|	 her to coil it for storage between one Roinn business and the next, and laid it in t
+LEFT	eras/age_III/book/29_of_the_wood-watchers.md:16	the Keepers	(no "the" before it)	|	nt Clàr an Talla goes on naming its own Keepers one after another, each dying and each 
+LEFT	eras/age_III/book/29_of_the_wood-watchers.md:18	the Hall	(no "the" before it)	|	he na Lasrach of that day judged that a Hall which could not read its own roll witho
+LEFT	eras/age_III/book/29_of_the_wood-watchers.md:18	the Hall	(no "the" before it)	|	borrowing another order's letters was a Hall too dependent on goodwill it had not ea
+LEFT	eras/age_III/book/29_of_the_wood-watchers.md:18	the Keeper	(no "the" before it)	|	n to a stranger's alphabet at their own Keeper's order. From that year Talla na Lasrach 
+LEFT	eras/age_III/book/29_of_the_wood-watchers.md:20	the Keeper	(no "the" before it)	|	Seventy years further into the gap a Keeper was named of whom the roll gives only t
+LEFT	eras/age_III/book/29_of_the_wood-watchers.md:80	the Keeper	(no "the" before it)	|	It was Calum Liath, made Keeper in the boy's ninth year, a man of forty
+LEFT	eras/age_III/book/29_of_the_wood-watchers.md:82	the Keeper	(no "the" before it)	|	alked the wood's whole length together, Keeper and heir, from the western turf hut to 
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:7	the Keeper	(no "the" before it)	|	 ìseal say, he asked for nothing that a Keeper had not already asked for before him. H
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:11	the Keeper	(no "the" before it)	|	and most of them did not ask, because a Keeper's asking passed for an answer in Talla na
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:19	the Keepers	(no "the" before it)	|	father, an old man who had outlived two Keepers and three of his own sons, sat by a fir
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:23	the Keeper	(no "the" before it)	|	 household was a debt at all, or only a Keeper's word that a household must take on trus
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:31	the Keeper	(no "the" before it)	|	f the rubble, an old cutter steadying a Keeper, which the reciters say pleased Aonghas
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:45	the Keeper	(no "the" before it)	|	orse than the dark. They went without a Keeper's cutter to walk ahead of them, because n
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:55	the Keeper	(no "the" before it)	|	r, who had not thought a basket worth a Keeper's cutter; with the slates, which had kept
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:59	the Keeper	(no "the" before it)	|	 will, that he was never quite the same Keeper after Griogair and Sìne Bheag as he had
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:59	the Keeper	(no "the" before it)	|	een, as if he had learned, late, that a Keeper's silence could cost more than his own di
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:65	the Keeper	(no "the" before it)	|	ch still close in its grief for the old Keeper, and one of her first acts, before she 
+LEFT	eras/age_III/book/30_of_the_knotted_cords_in_the_galleries.md:75	the Keeper	(no "the" before it)	|	r of that school, that a custom worth a Keeper's keeping was worth their own testing. Th
+LEFT	eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md:61	the Keeper	(no "the" before it)	|	fore him and asked, not unkindly, how a Keeper meant to judge eleven claims a season f
+LEFT	eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md:63	the Keeper	(no "the" before it)	|	inning of what came after, for a lesser Keeper, they say, would have found some answer
+LEFT	eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md:65	the Keeper	(no "the" before it)	|	 face better than her words, and that a Keeper who forgot the faces that had unsettled
+LEFT	eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md:65	the Keeper	(no "the" before it)	|	the faces that had unsettled him was no Keeper worth the flame he kept.
+LEFT	eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md:81	the Keeper	(no "the" before it)	|	e without troubling to explain, since a Keeper's silence in his own house's cause was, b
+LEFT	eras/age_III/book/32_of_the_red_hall_and_the_census_of_hands.md:91	the Keeper	(no "the" before it)	|	y now in his own turn at the cup, still Keeper, still hearing the same handful of clai
+LEFT	eras/age_III/book/33_of_the_silver_feud.md:18	the Keeper	(no "the" before it)	|	. It was Muireach Liath himself, second Keeper of the flame, who had ruled in the age'
+LEFT	eras/age_III/book/33_of_the_silver_feud.md:36	the Keeper	(no "the" before it)	|	and that Muireach Liath himself, second Keeper of the flame, had said as much before a
+LEFT	eras/age_III/book/33_of_the_silver_feud.md:42	the Keeper	(no "the" before it)	|	er it paid afterward, it paid because a Keeper had judged it owed and not because a rì
+LEFT	eras/age_III/book/33_of_the_silver_feud.md:78	the Keeper	(no "the" before it)	|	: silver was not the mountain's, and no Keeper after him would say otherwise. But he r
+LEFT	eras/age_III/book/33_of_the_silver_feud.md:100	the Keeper	(no "the" before it)	|	 and each wrong, a saying more than one Keeper after him borrowed without troubling to
+LEFT	eras/age_III/book/34_of_peigis_hand_and_the_dawn-hawk.md:28	the Keeper	(no "the" before it)	|	d on anything, which turned out, when a Keeper's clerk went looking for it two centuries
+LEFT	eras/age_III/book/35_of_the_strike-books.md:48	the Keeper	(no "the" before it)	|	as the story was told afterward, that a Keeper young enough to be his own daughter wou
+LEFT	eras/age_III/book/35_of_the_strike-books.md:50	the Keeper	(no "the" before it)	|	t word asking the same thing of the new Keeper that they had once asked, without much 
+LEFT	eras/age_III/book/35_of_the_strike-books.md:50	the Keeper	(no "the" before it)	|	ithout much hope of an answer, of every Keeper before her: that Talla na Lasrach say, 
+LEFT	eras/age_III/book/35_of_the_strike-books.md:56	the Keeper	(no "the" before it)	|	summary noted, the plainest refusal any Keeper of that century had given, and for that
+LEFT	eras/age_III/book/35_of_the_strike-books.md:56	the Keeper	(no "the" before it)	|	hey had no wish to settle themselves: a Keeper's own words, once given, standing thereaf
+LEFT	eras/age_III/book/36_of_the_shared_meal.md:32	the king-list	(no "the" before it)	|	, as an unwritten custom older than any king-list, the habit of giving a neighbour grain 
+LEFT	eras/age_III/book/36_of_the_shared_meal.md:36	the Keeper	(no "the" before it)	|	e year, the first ever made by rìgh and Keeper together rather than by the hall alone.
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:14	the king-list	(no "the" before it)	|	e for a year and then thrown out, and a king-list had to be true for longer than any man 
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:14	the king-list	(no "the" before it)	|	pring with a second question, whether a king-list could be wrong if all six copies agreed
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:26	the shared-meal law	(no "the" before it)	|	Bàn had built his granaries and set his shared-meal law with Coimheadaiche na Lasrach Raonaid D
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:38	the red hall	(no "the" before it)	|	e to his father once that winter that a red hall with no one in it was, for all that any
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:38	the red hall	(no "the" before it)	|	outside it could tell, exactly the same red hall it had always been, the rolls being kep
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:40	the red hall	(no "the" before it)	|	cause no custom on the island covered a red hall with no one to fill it and Talla na Las
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:42	the four houses	(no "the" before it)	|	efore any name was put forward that all four houses could be brought to sit still for.
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:48	the red hall	(no "the" before it)	|	t to or not, exactly the kind of hand a red hall wanted at its head. Sliochd Ìomhair, wh
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:60	the Keeper	(no "the" before it)	|	r than Lagh an Loscaidh Bhig allowed; a Keeper's cutter was sent every season after to t
+LEFT	eras/age_III/book/37_of_the_shut_hall_and_the_choosing_of_gilleasbuig.md:70	the long years	(no "the" before it)	|	e coming of a queen from the same house long years later, Clàr nan Rìghrean at Cathair dhe
+LEFT	eras/age_III/book/38_of_the_bridges_the_riders_and_the_north-west.md:52	the Hall	(no "the" before it)	|	n it came, was as plain as most of that Hall's rulings had always been: that a fire ke
+LEFT	eras/age_III/book/39_of_anna_ruadhs_two_circuits_and_the_parting_of_the_rites.md:40	the Keeper	(no "the" before it)	|	{date:II-0214}}, and did what every new Keeper before him had done, and sat down with 
+LEFT	eras/age_III/book/39_of_anna_ruadhs_two_circuits_and_the_parting_of_the_rites.md:44	the Hall	(no "the" before it)	|	ing aloud that night, to no one: that a Hall built so that no heir might hold the fl
+LEFT	eras/age_III/book/40_of_the_last_quiet_years.md:18	the beacon at Tobar dhearg	(no "the" before it)	|	 the tide. On the southern cape the old beacon at Tobar dhearg was built up in stone in the same years
+LEFT	eras/age_III/book/40_of_the_last_quiet_years.md:42	the Keeper	(no "the" before it)	|	It was Catrìona nic Mhuirich, Keeper of the flame in those years and the las
+LEFT	eras/age_III/book/40_of_the_last_quiet_years.md:42	the red hall	(no "the" before it)	|	uld never be called on to answer for. A red hall, she told Na Ceithir Taighean, was no b
+LEFT	eras/age_III/book/40_of_the_last_quiet_years.md:46	the Keeper	(no "the" before it)	|	ing of her own twenty-fourth year, as a Keeper had set it in Gilleasbuig Mòr's hands f
+LEFT	eras/age_III/book/40_of_the_last_quiet_years.md:52	the Keepers	(no "the" before it)	|	ts foot: one hundred and forty names of Keepers from Beathag Bhàn to Catrìona nic Mhuir
+LEFT	eras/age_III/book/40_of_the_last_quiet_years.md:72	the Keeper	(no "the" before it)	|	ng on a journey neither she nor the old Keeper who had asked for it had yet troubled t
+LEFT	eras/age_III/gazetteer/01_the_valley_and_the_red_share.json:315.history	the Keeper	(no "the" before it)	|	Loscaidh Bhig here, and from here every Keeper after him sent cutters to try each hear
+LEFT	eras/age_III/gazetteer/01_the_valley_and_the_red_share.json:209.history	the Keeper	(no "the" before it)	|	rolls record. No war touched it, and no Keeper's cutter found cause to write of it. Its 
+LEFT	eras/age_III/gazetteer/01_the_valley_and_the_red_share.json:197.history	the eastern share	(no "the" before it)	|	 the island. Cormac mac Ailein held his eastern share from here and died here. It was a woman
+LEFT	eras/age_III/gazetteer/01_the_valley_and_the_red_share.json:398.known_for	the Keeper	(no "the" before it)	|	the beacon and the blind Keeper's ruling
+LEFT	eras/age_III/gazetteer/01_the_valley_and_the_red_share.json:229.history	the Keepers	(no "the" before it)	|	Keepers of Fuarain Theth Muileann ruadh founded
+LEFT	eras/age_III/gazetteer/02_silver_graves_and_the_eastern_houses.json:432.history	the Keeper	(no "the" before it)	|	nds Tuam Cnoc dhìreach, where the blind Keeper Fionnlagh Dall was laid in FE 184. His 
+LEFT	eras/age_III/gazetteer/02_silver_graves_and_the_eastern_houses.json:432.known_for	the Keeper	(no "the" before it)	|	the blind Keeper's tomb and its keepers
+LEFT	eras/age_III/gazetteer/02_silver_graves_and_the_eastern_houses.json:18.history	the Keeper	(no "the" before it)	|	each Mòr mac Tormoid, the house's first Keeper, came from Seann Dunn and kept the flam
+LEFT	eras/age_III/gazetteer/05_the_coasts_and_the_eastern_hills.json:462.history	the Keeper	(no "the" before it)	|	The blind Keeper Fionnlagh Dall was laid in FE 184 in th
+LEFT	eras/age_III/gazetteer/05_the_coasts_and_the_eastern_hills.json:462.known_for	the Keeper	(no "the" before it)	|	the blind Keeper's burying-ground, and the carriers' cloth
+LEFT	eras/age_III/appendices/A_heirs_keepers_rulers.md:5	the long years	(no "the" before it)	|	 twenty-six years old. His children had long years from him, and every generation after th
+LEFT	eras/age_III/appendices/A_heirs_keepers_rulers.md:9	the nine great shares	(no "the" before it)	|	d argued through the winter. There were nine great shares for the nine eldest lines with living h
+LEFT	eras/age_III/appendices/A_heirs_keepers_rulers.md:43	the Keeper	(no "the" before it)	|	| Keeper | House | Kept the flame | Age at takin
+LEFT	eras/age_III/appendices/A_heirs_keepers_rulers.md:63	the Keeper	(no "the" before it)	|	each. **Eilidh nic Ìomhair**, the first Keeper chosen outside Sliochd Mhuirich, bound 
+LEFT	eras/age_III/appendices/A_heirs_keepers_rulers.md:63	the Hall	(no "the" before it)	|	eard Falachd an Airgid in the rain-shut Hall. **Raonaid Dhubh** made Lagh a' Bhìdh R
+LEFT	eras/age_III/appendices/A_heirs_keepers_rulers.md:63	the Keeper	(no "the" before it)	|	 Lagh an Loscaidh Bhig made by rìgh and Keeper together. **Seumas Bàn** counted his ow
+LEFT	eras/age_III/appendices/B_flame_and_companies.md:43	the boundary stones	(no "the" before it)	|	efore Fearchar Òg and Calum Liath, with boundary stones cut in stag-letters. The wood-watchers 
+LEFT	eras/age_III/appendices/C_reckoning_of_the_halls_years.md:11	the quarter-days	(no "the" before it)	|	la na Lasrach's walls met on those four quarter-days, and the Lùnastal fair at Muileann òg t
+LEFT	eras/age_III/appendices/C_reckoning_of_the_halls_years.md:21	the Keepers	(no "the" before it)	|	oned from Clàr an Talla, taking so many Keepers to a hundred years. That served until s
+LEFT	eras/age_III/appendices/C_reckoning_of_the_halls_years.md:49	the Keeper	(no "the" before it)	|	 is thin, as in the silent years when a Keeper is named with only the length of her ke
+LEFT	eras/age_III/appendices/D_shares_provinces_stones.md:3	the nine great shares	(no "the" before it)	|	ong themselves. Within two years it had nine great shares, a Red Share, a portion of the dead, fo
+LEFT	eras/age_III/appendices/D_shares_provinces_stones.md:3	the Red Share	(after "a")	|	n two years it had nine great shares, a Red Share, a portion of the dead, forty-four coun
+LEFT	eras/age_III/appendices/D_shares_provinces_stones.md:3	the portion of the dead	(no "the" before it)	|	t had nine great shares, a Red Share, a portion of the dead, forty-four countries and a hundred and
+LEFT	eras/age_III/appendices/E_roads_houses_bridges_measures.md:26	the Keeper	(no "the" before it)	|	e oldest law on the island that neither Keeper nor lord made, and it held through the 
+LEFT	eras/age_III/appendices/E_roads_houses_bridges_measures.md:26	the strife of the heirs	(no "the" before it)	|	lord made, and it held through the long strife of the heirs. The hearth-sign token let a carrier on
+LEFT	eras/age_III/appendices/E_roads_houses_bridges_measures.md:40	the Stone	(no "the" before it)	|	Stone crossings began to join the mining path
+LEFT	eras/age_III/events/02.json:$.title	the cord of the heirs	(no "the" before it)	|	Aodh Crom asks for a cord of the heirs
+LEFT	eras/age_III/events/05.json:$.summary	the nine great shares	(no "the" before it)	|	tlement that gives each rule something: nine great shares for the eldest living lines, a portion 
+LEFT	eras/age_III/events/06.json:$.title	the great shares	(no "the" before it)	|	Three great shares claim the Red Hill
+LEFT	eras/age_III/events/08.json:$.title	the Keeper	(no "the" before it)	|	Aodh Crom's charge to the new Keeper
+LEFT	eras/age_III/events/09.json:$.summary	the Telling	(no "the" before it)	|	Telling no one where she goes, Beathag Bhàn cro
+LEFT	eras/age_III/events/09.json:$.summary	the Keeper	(no "the" before it)	|	 ends it: no keeper of the slab, and no Keeper of the flame after her, will set foot i
+LEFT	eras/age_III/events/10.json:$.summary	the Keeper	(no "the" before it)	|	n a few sentences, is repeated by every Keeper who follows him.
+LEFT	eras/age_III/events/11.json:$.summary	the Keeper	(no "the" before it)	|	 good deal more than he might have as a Keeper chosen by kinship rather than by the ho
+LEFT	eras/age_III/events/13.json:$.summary	the Keeper	(no "the" before it)	|	Gormshuil, Keeper after Muireach Liath for thirty-eight y
+LEFT	eras/age_III/events/13.json:$.title	the Keeper	(no "the" before it)	|	Fionnlagh Dall chosen Keeper
+LEFT	eras/age_III/events/13.json:$.summary	the Keeper	(no "the" before it)	|	thirty-eight years old, the first blind Keeper the island has known.
+LEFT	eras/age_III/events/13.json:$.title	the Keeper	(no "the" before it)	|	Calum Beag begins leading the blind Keeper
+LEFT	eras/age_III/events/13.json:$.summary	the Keeper	(no "the" before it)	|	es, on the one condition that he keep a Keeper's silence about what he sees there. He ag
+LEFT	eras/age_III/events/14.json:$.summary	the Keeper	(no "the" before it)	|	at all, but will try rather than tell a Keeper who has just buried eleven carriers tha
+LEFT	eras/age_III/events/16.json:$.summary	the strife of the heirs	(no "the" before it)	|	hrough fifty-four years of the widening strife of the heirs more steadily than the quarrel's own pr
+LEFT	eras/age_III/events/16.json:$.summary	the Keeper	(no "the" before it)	|	pers. The nine hearths choose a younger Keeper who holds much the same course.
+LEFT	eras/age_III/events/17.json:$.summary	the Keeper	(no "the" before it)	|	 level to her palm exactly as for every Keeper before her.
+LEFT	eras/age_III/events/17.json:$.title	the four houses	(no "the" before it)	|	Eilidh binds the office to four houses
+LEFT	eras/age_III/events/17.json:$.summary	the four houses	(no "the" before it)	|	r's office be bound from that season to four houses of custody alone, Sliochd Mhuirich, Sli
+LEFT	eras/age_III/events/18.json:$.summary	the beacon on the Baile chrom headland	(no "the" before it)	|	Once the old beacon on the Baile chrom headland is relit, the carrying of driftwood to 
+LEFT	eras/age_III/events/18.json:$.summary	the Law	(no "the" before it)	|	ing at the delay, and her answer that a Law which measures every handful can measur
+LEFT	eras/age_III/events/19.json:$.title	the Keeper	(no "the" before it)	|	Coinneach Mòr chosen Keeper of Sliochd Thormoid
+LEFT	eras/age_III/events/19.json:$.summary	the Keeper	(no "the" before it)	|	Mòr mac Tormoid, five-and-twenty, first Keeper of his house, for his patience rather t
+LEFT	eras/age_III/events/19.json:$.summary	the Keeper	(no "the" before it)	|	ther than any gift of speech, judging a Keeper who keeps a flame steadily worth more t
+LEFT	eras/age_III/events/22.json:$.summary	the Keeper	(no "the" before it)	|	 six-and-twenty years old, the youngest Keeper chosen since Muireach Liath's own day. 
+LEFT	eras/age_III/events/22.json:$.summary	the Keeper	(no "the" before it)	|	er working life, warns her that a young Keeper who bends once in her first year is ask
+LEFT	eras/age_III/events/22.json:$.summary	the Keeper	(no "the" before it)	|	st of them with her own hands, which no Keeper before her is remembered to have done.
+LEFT	eras/age_III/events/22.json:$.summary	the Keeper	(no "the" before it)	|	ers young enough to have known no other Keeper, and left again on the same stones, sti
+LEFT	eras/age_III/events/25.json:$.summary	the druid school	(no "the" before it)	|	Two teachers of the western druid school travel to the far-eastern Muileann chia
+LEFT	eras/age_III/events/28.json:$.summary	the king-list	(no "the" before it)	|	o, the first of eleven rulers the later king-list will give only by name and order.
+LEFT	eras/age_III/events/28.json:$.summary	the Keepers	(no "the" before it)	|	 the Hall's spoken roll gives only five Keepers, a mountain's years running longer than
+LEFT	eras/age_III/events/28.json:$.summary	the Keeper	(no "the" before it)	|	the written king-list reaches the blind Keeper on the mountain, who sits three days in
+LEFT	eras/age_III/events/28.json:$.summary	the Hall	(no "the" before it)	|	en tells the Hall's own reciters that a Hall out-remembered by a rìgh's clerk has no
+LEFT	eras/age_III/events/29.json:$.summary	the king-list	(no "the" before it)	|	gned thirty-one years and had the first king-list written, and is carried up the mountain
+LEFT	eras/age_III/events/29.json:$.title	the Keeper	(no "the" before it)	|	A Keeper named in the silent years
+LEFT	eras/age_III/events/29.json:$.summary	the Keeper	(no "the" before it)	|	A Keeper is named at Dùn ìseal of whom the roll 
+LEFT	eras/age_III/events/29.json:$.summary	the Keeper	(no "the" before it)	|	Calum Liath is made Keeper at forty-five, in Fearchar Òg's ninth y
+LEFT	eras/age_III/events/30.json:$.body	the Keeper	(no "the" before it)	|	Sent without a Keeper's cutter to bring up a left basket, two y
+LEFT	eras/age_III/events/30.json:$.title	the Keeper	(no "the" before it)	|	Oighrig Bhàn chosen Keeper
+LEFT	eras/age_III/events/30.json:$.body	the Keeper	(no "the" before it)	|	ur in later years are themselves chosen Keeper, which the reciters of Dùn ìseal count 
+LEFT	eras/age_III/events/33.json:$.summary	the Keeper	(no "the" before it)	|	, having held the flame longer than any Keeper before him. The reciters of Dùn ìseal r
+LEFT	eras/age_III/events/34.json:$.summary	the Keeper	(no "the" before it)	|	ad agreed on anything, a plain record a Keeper's clerk consults to settle a far larger d
+LEFT	eras/age_III/events/35.json:$.title	the Keeper	(no "the" before it)	|	Both schools ask the new Keeper for a ruling
+LEFT	eras/age_III/events/35.json:$.summary	the Keeper	(no "the" before it)	|	ding of the vein is the truer, as every Keeper before her has been asked and never onc
+LEFT	eras/age_III/events/36.json:$.summary	the Keeper	(no "the" before it)	|	Raonaid Dhubh, Keeper of the flame at Dùn ìseal for the bette
+LEFT	eras/age_III/events/37.json:$.summary	the red hall	(no "the" before it)	|	 rolls and answering reeves at the shut red hall who no longer know whose name to render
+LEFT	eras/age_III/events/37.json:$.summary	the red hall	(no "the" before it)	|	 the work, has already shown the hand a red hall wants at its head.

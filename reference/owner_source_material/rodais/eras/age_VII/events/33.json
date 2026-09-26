@@ -1,301 +1,301 @@
 [
-  {
-    "title": "Àth bheag's report of the ford",
-    "era_year": 22,
-    "after": "VI-0111",
-    "summary": "The maor of Àth bheag writes the fullest report of the column's road: some four hundred men forded the water below the bridge at dawn, in order, without banner or drum, and went on south without stopping.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:248"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0112"
-    ]
-  },
-  {
-    "title": "Sìleas nic Rath keeps a file of the column's road",
-    "era_year": 22,
-    "after": "VI-0112",
-    "summary": "The royal chronicler asks every town on the column's line for its account and is given leave to keep them, a freedom the war itself never allowed her.",
-    "category": "record",
-    "people": [
-      "Sìleas nic Rath"
-    ],
-    "places": [],
-    "threads": [
-      "the-long-war",
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0112"
-    ]
-  },
-  {
-    "title": "Bread bought and paid for at Muileann mhin",
-    "era_year": 22,
-    "after": "VI-0112",
-    "summary": "Two men of the column buy the widow Mòrag nic Fhearghais's whole morning's baking at Muileann mhin and pay in full before the company passes, taking nothing else from the town.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:120"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0112"
-    ]
-  },
-  {
-    "title": "Muileann mhin's miller reports no loss",
-    "era_year": 22,
-    "after": "VI-0112",
-    "summary": "The miller of Muileann mhin under the western hills writes to the Board that the town's takings showed no loss by the column's passing, the bread having been paid for at a fair price and nobody's stock troubled beyond it.",
-    "category": "record",
-    "people": [],
-    "places": [
-      "burg:120"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0112"
-    ]
-  },
-  {
-    "title": "A night's lodging paid at a barn on the capital's edge",
-    "era_year": 22,
-    "after": "VI-0112",
-    "summary": "A party of the column sleeps a night in Aonghas mac Cuinn's barn and leaves coin and a note under a stone, thanking him and asking nothing more.",
-    "category": "war",
-    "people": [],
-    "places": [],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0112"
-    ]
-  },
-  {
-    "title": "The column keeps wide of the towns of the fair country",
-    "era_year": 22,
-    "after": "VI-0112",
-    "summary": "Crossing the open country toward the capital's fields, the column holds a road that passes no town of any size, and the small farms it crosses report only a quiet passing.",
-    "category": "war",
-    "people": [],
-    "places": [],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0112"
-    ]
-  },
-  {
-    "title": "The fair-ground at Muileann òg ordered for the regiments",
-    "era_year": 22,
-    "after": "VI-0113",
-    "summary": "The first regiment's quartermaster requires the fair-ground, its booths and its cleared ground for the first and third regiments, over the fair court's own market set for the ninth.",
-    "category": "war",
-    "people": [
-      "Ùna nic Ailein"
-    ],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0114"
-    ]
-  },
-  {
-    "title": "Fionnlagh Dubh numbers his stall's timbers",
-    "era_year": 22,
-    "after": "VI-0114",
-    "summary": "An ironmonger of thirty years' standing at Muileann òg's fair chalks numbers on his stall's poles before stacking them, against a spring market neither he nor the clerk much believes will come.",
-    "category": "life",
-    "people": [
-      "Ùna nic Ailein"
-    ],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0114"
-    ]
-  },
-  {
-    "title": "The third regiment camps on the cleared fair-ground",
-    "era_year": 22,
-    "after": "VI-0114",
-    "summary": "The third regiment pitches its tents where the ironmonger's stall and the cheese-sellers' row stood the day before, the ground cleared from the toll-house arch to the river bend.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0113"
-    ]
-  },
-  {
-    "title": "The first regiment fills Muileann òg",
-    "era_year": 22,
-    "after": "VI-0113",
-    "summary": "The first regiment comes down the same evening as the third and fills the fair-ground, the water-meadow and the lanes above the mill, so that Muileann òg holds more soldiers under canvas than people.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0113"
-    ]
-  },
-  {
-    "title": "The fair court keeps its small business through the camp",
-    "era_year": 22,
-    "after": "VI-0114",
-    "summary": "Ùna nic Ailein keeps the fair court open through the regiments' camp, hearing a strayed cow and a firewood complaint while the road to Muileann ghlas fills and empties below her window.",
-    "category": "record",
-    "people": [
-      "Ùna nic Ailein"
-    ],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0114"
-    ]
-  },
-  {
-    "title": "Ùna nic Ailein's book closes with no entry",
-    "era_year": 22,
-    "after": "VI-0114",
-    "summary": "Unable to set a sum against a market that never ran, Ùna rules the line the court's form requires, leaves it blank, and closes the year the desk with no closing entry.",
-    "category": "record",
-    "people": [
-      "Ùna nic Ailein"
-    ],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-long-war",
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0114"
-    ]
-  },
-  {
-    "title": "The maor of Àth bheag watches from the bank",
-    "era_year": 22,
-    "summary": "Cailean mac Griogair, maor of Àth bheag, woken by the smith's boy, stands at the field's edge in a borrowed coat watching the column ford the water and does not go down to ask where it is bound.",
-    "category": "war",
-    "people": [
-      "Cailean mac Griogair"
-    ],
-    "places": [
-      "burg:248"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0111"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "No banner and no drum",
-    "era_year": 22,
-    "summary": "The miller's wife of Àth bheag, watching the column cross from the mill loft, says she saw no banner among them and no drum, only a man at the head whom the rest left the whole width of the road.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:248"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0111"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The note under the stone",
-    "era_year": 22,
-    "summary": "Aonghas mac Cuinn finds under a stone on his barn floor coin for a week's rent and a note in Dia-thìris: for the barn, and thanks; we have asked nothing else. It is the only writing in the Library's file that can be set to a hand inside the column.",
-    "category": "war",
-    "people": [
-      "Aonghas mac Cuinn",
-      "Sìleas nic Rath"
-    ],
-    "places": [],
-    "threads": [
-      "the-long-war",
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0112"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The eel-woman's tub carried off the fair-ground",
-    "era_year": 22,
-    "summary": "Clearing the fair-ground at Muileann òg for the regiments, two soldiers lift the heavier end of the eel-woman's tub onto her handcart for her.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0114"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Caol ruadh's boats carry the regiments' bread",
-    "era_year": 22,
-    "summary": "The boats of the red strait at Caol ruadh are hired to carry the regiments' bread along the coast in the autumn, paid by the day, with a soldier aboard each to count the loaves.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:15"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0114"
-    ],
-    "chronicle_extra": true
-  }
+ {
+  "title": "Àth bheag's report of the ford",
+  "era_year": 22,
+  "after": "VI-0111",
+  "summary": "The maor of Àth bheag writes the fullest report of the column's road: some four hundred men forded the water below the bridge at dawn, in order, without banner or drum, and went on south without stopping.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:248"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0112"
+  ]
+ },
+ {
+  "title": "Sìleas nic Rath keeps a file of the column's road",
+  "era_year": 22,
+  "after": "VI-0112",
+  "summary": "Seanchaidh na Rìoghachd asks every town on the column's line for its account and is given leave to keep them, a freedom the war itself never allowed her.",
+  "category": "record",
+  "people": [
+   "Sìleas nic Rath"
+  ],
+  "places": [],
+  "threads": [
+   "the-long-war",
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0112"
+  ]
+ },
+ {
+  "title": "Bread bought and paid for at Muileann mhin",
+  "era_year": 22,
+  "after": "VI-0112",
+  "summary": "Two men of the column buy the widow Mòrag nic Fhearghais's whole morning's baking at Muileann mhin and pay in full before the company passes, taking nothing else from the town.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:120"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0112"
+  ]
+ },
+ {
+  "title": "Muileann mhin's miller reports no loss",
+  "era_year": 22,
+  "after": "VI-0112",
+  "summary": "The miller of Muileann mhin under the western hills writes to Comhairle nam Mèinnean that the town's takings showed no loss by the column's passing, the bread having been paid for at a fair price and nobody's stock troubled beyond it.",
+  "category": "record",
+  "people": [],
+  "places": [
+   "burg:120"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0112"
+  ]
+ },
+ {
+  "title": "A night's lodging paid at a barn on the capital's edge",
+  "era_year": 22,
+  "after": "VI-0112",
+  "summary": "A party of the column sleeps a night in Aonghas mac Cuinn's barn and leaves coin and a note under a stone, thanking him and asking nothing more.",
+  "category": "war",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0112"
+  ]
+ },
+ {
+  "title": "The column keeps wide of the towns of the fair country",
+  "era_year": 22,
+  "after": "VI-0112",
+  "summary": "Crossing the open country toward the capital's fields, the column holds a road that passes no town of any size, and the small farms it crosses report only a quiet passing.",
+  "category": "war",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0112"
+  ]
+ },
+ {
+  "title": "The fair-ground at Muileann òg ordered for the regiments",
+  "era_year": 22,
+  "after": "VI-0113",
+  "summary": "A' chiad rèisimeid's quartermaster requires the fair-ground, its booths and its cleared ground for the first and third regiments, over Cùirt na Fèille's own market set for the ninth.",
+  "category": "war",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0114"
+  ]
+ },
+ {
+  "title": "Fionnlagh Dubh numbers his stall's timbers",
+  "era_year": 22,
+  "after": "VI-0114",
+  "summary": "An ironmonger of thirty years' standing at Muileann òg's fair chalks numbers on his stall's poles before stacking them, against a spring market neither he nor the clerk much believes will come.",
+  "category": "life",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0114"
+  ]
+ },
+ {
+  "title": "An treas rèisimeid camps on the cleared fair-ground",
+  "era_year": 22,
+  "after": "VI-0114",
+  "summary": "An treas rèisimeid pitches its tents where the ironmonger's stall and the cheese-sellers' row stood the day before, the ground cleared from the toll-house arch to the river bend.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0113"
+  ]
+ },
+ {
+  "title": "A' chiad rèisimeid fills Muileann òg",
+  "era_year": 22,
+  "after": "VI-0113",
+  "summary": "A' chiad rèisimeid comes down the same evening as the third and fills the fair-ground, the water-meadow and the lanes above the mill, so that Muileann òg holds more soldiers under canvas than people.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0113"
+  ]
+ },
+ {
+  "title": "Cùirt na Fèille keeps its small business through the camp",
+  "era_year": 22,
+  "after": "VI-0114",
+  "summary": "Ùna nic Ailein keeps Cùirt na Fèille open through the regiments' camp, hearing a strayed cow and a firewood complaint while the road to Muileann ghlas fills and empties below her window.",
+  "category": "record",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0114"
+  ]
+ },
+ {
+  "title": "Ùna nic Ailein's book closes with no entry",
+  "era_year": 22,
+  "after": "VI-0114",
+  "summary": "Unable to set a sum against a market that never ran, Ùna rules the line the court's form requires, leaves it blank, and closes the year the desk with no closing entry.",
+  "category": "record",
+  "people": [
+   "Ùna nic Ailein"
+  ],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0114"
+  ]
+ },
+ {
+  "title": "The maor of Àth bheag watches from the bank",
+  "era_year": 22,
+  "summary": "Cailean mac Griogair, maor of Àth bheag, woken by the smith's boy, stands at the field's edge in a borrowed coat watching the column ford the water and does not go down to ask where it is bound.",
+  "category": "war",
+  "people": [
+   "Cailean mac Griogair"
+  ],
+  "places": [
+   "burg:248"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0111"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "No banner and no drum",
+  "era_year": 22,
+  "summary": "The miller's wife of Àth bheag, watching the column cross from the mill loft, says she saw no banner among them and no drum, only a man at the head whom the rest left the whole width of the road.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:248"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0111"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The note under the stone",
+  "era_year": 22,
+  "summary": "Aonghas mac Cuinn finds under a stone on his barn floor coin for a week's rent and a note in Dia-thìris: for the barn, and thanks; we have asked nothing else. It is the only writing in an Leabharlann's file that can be set to a hand inside the column.",
+  "category": "war",
+  "people": [
+   "Aonghas mac Cuinn",
+   "Sìleas nic Rath"
+  ],
+  "places": [],
+  "threads": [
+   "the-long-war",
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0112"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The eel-woman's tub carried off the fair-ground",
+  "era_year": 22,
+  "summary": "Clearing the fair-ground at Muileann òg for the regiments, two soldiers lift the heavier end of the eel-woman's tub onto her handcart for her.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0114"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Caol ruadh's boats carry the regiments' bread",
+  "era_year": 22,
+  "summary": "The boats of the red strait at Caol ruadh are hired to carry the regiments' bread along the coast in the autumn, paid by the day, with a soldier aboard each to count the loaves.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:15"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0114"
+  ],
+  "chronicle_extra": true
+ }
 ]

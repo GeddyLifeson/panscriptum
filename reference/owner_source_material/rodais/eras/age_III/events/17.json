@@ -1,142 +1,277 @@
 [
-  {
-    "title": "The Keeper before Eilidh dies at the cup",
-    "era_year": 381,
-    "summary": "The Keeper who held the flame after Eimhir nic Mhuirich dies sitting on the low stool beside the stone cup at Talla na Lasrach, her hands folded in her lap. The small lamp beside her burns out unfed in the night, the first time in living memory that any lamp in the Hall has been let go dark.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:315"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": []
-  },
-  {
-    "title": "The hearth-elders sound out Eilidh nic Ìomhair",
-    "era_year": 381,
-    "summary": "Two elders of the nine hearths walk from Dùn ìseal to Dùn dhearg to ask Eilidh nic Ìomhair, a granddaughter's granddaughter of Ìomhar Dearg who keeps the Red Share's granary rolls, whether she would be persuaded to sit a season with the coal. She names the difficulty herself before they can raise it: her own blood.",
-    "category": "faith",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:422"],
-    "threads": ["the-stone-kings", "the-keepers-of-the-flame"],
-    "master_links": [{"to": "II-0045", "type": "cause"}]
-  },
-  {
-    "title": "Eilidh tells the elders to choose another",
-    "era_year": 381,
-    "summary": "Eilidh nic Ìomhair tells the two hearth-elders plainly to choose one of the other names put forward, having no wish to force the question of her own blood against the Binding's old rule.",
-    "category": "faith",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:422"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": [{"to": "II-0045", "type": "cause"}]
-  },
-  {
-    "title": "The cup left unfilled a season",
-    "era_year": 382,
-    "summary": "For the better part of a year after the nine hearths choose Eilidh, Sliochd Mhuirich refuses to yield the flame, and the stone cup at Talla na Lasrach sits under the care of the hearth-line's own eldest, unfilled by any new hand, while every market and threshing floor on the mountain airs an opinion on the matter.",
-    "category": "faith",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:315"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": [{"to": "II-0045", "type": "cause"}]
-  },
-  {
-    "title": "The argument of the diluted blood",
-    "era_year": 382,
-    "summary": "Eilidh's own kin argue to her, and to anyone who will listen, that half the households in the hills carry some thread of the king's blood by now, so that the Binding's old rule has become a rule against nearly everybody or nobody. Eilidh answers that the argument settles nothing Sliochd Mhuirich has actually asked.",
-    "category": "faith",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:422"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": [{"to": "II-0045", "type": "cause"}]
-  },
-  {
-    "title": "The hearth-line eldest offers the cup's condition",
-    "era_year": 382,
-    "summary": "The eldest of Sliochd Mhuirich comes to the Hall's threshold and offers a single condition for yielding the flame to Eilidh nic Ìomhair: that the stone cup Fionnlagh Dall cut to the measure of two palms shall never, for any cause, be carried out through the door of Talla na Lasrach.",
-    "category": "faith",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:315"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": [{"to": "II-0045", "type": "cause"}]
-  },
-  {
-    "title": "Eilidh swears to the cup's condition",
-    "era_year": 382,
-    "summary": "Eilidh nic Ìomhair swears before the nine hearths that the stone cup will never leave Talla na Lasrach, her hand flat on its rim, and takes the coal that same afternoon, the measure poured level to her palm exactly as for every Keeper before her.",
-    "category": "faith",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:315"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": [{"to": "II-0046", "type": "cause"}]
-  },
-  {
-    "title": "Sliochd Thormoid names Tormod Liath",
-    "era_year": 385,
-    "summary": "At a gathering of the nine hearths, the eldest of Sliochd Thormoid names for the first time an ancestor called Tormod Liath, said to have held the hill itself under the old king, as the ground of the house's claim to a voice in the Keeper's office.",
-    "category": "rulers",
-    "people": [],
-    "places": ["burg:315"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0046", "type": "cause"}]
-  },
-  {
-    "title": "Sliochd Raghnaill names Raghnall Ceannfhionn",
-    "era_year": 385,
-    "summary": "Sliochd Raghnaill answers Sliochd Thormoid's claim with its own, naming an ancestor Raghnall Ceannfhionn, though the house rests its true weight less on any hill than on the plain fact that its boats carry more coal down the coast in a bad season than any other house's carts carry inland.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:34"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0046", "type": "cause"}]
-  },
-  {
-    "title": "Eilidh binds the office to four houses",
-    "era_year": 385,
-    "summary": "Eilidh nic Ìomhair puts to the nine hearths that the Keeper's office be bound from that season to four houses of custody alone, Sliochd Mhuirich, Sliochd Ìomhair, Sliochd Thormoid and Sliochd Raghnaill, and that the other hearths keep their council seats but surrender any further claim on the flame.",
-    "category": "faith",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:315"],
-    "threads": ["the-keepers-of-the-flame", "the-stone-kings"],
-    "master_links": [{"to": "II-0046", "type": "cause"}]
-  },
-  {
-    "title": "The grumble over Seann Dunn's fullest lamp",
-    "era_year": 386,
-    "summary": "The other three houses grumble that Sliochd Thormoid's coal-lamp at Seann Dunn always burns fuller than the Law's measure allows, though no cutter sent to check it ever finds a grain over the handful. Eilidh judges the grievance one best left to wear out on its own.",
-    "category": "law",
-    "people": ["Eilidh nic Ìomhair"],
-    "places": ["burg:18"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": [{"to": "II-0047", "type": "sequel"}]
-  },
-  {
-    "title": "Sliochd Raghnaill grows rich on the fishing",
-    "era_year": 390,
-    "summary": "The house that took its seat at Seann Tarr, the very town first sentenced under the Small-Burning Law, keeps no galleries and cuts no coal, choosing boats instead, and grows rich enough within two generations that its neighbours stop mentioning the old offence.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:34"],
-    "threads": [],
-    "master_links": [{"to": "II-0048", "type": "sequel"}]
-  },
-  {
-    "title": "The wager at Seann Tarr's quay",
-    "era_year": 397,
-    "summary": "Tormod Ruadh, a steersman of Sliochd Raghnaill, insists through a winter of evenings at Seann Tarr's quay that a boat could as easily be sailed round the black island Eilean dhubh as fished within sight of it, and finds himself, come spring, with a crew of four and a wager too large to back out of.",
-    "category": "trade",
-    "people": ["Tormod Ruadh"],
-    "places": ["burg:34"],
-    "threads": [],
-    "master_links": [{"to": "II-0049", "type": "cause"}]
-  },
-  {
-    "title": "The strand mistakes Tormod Ruadh's boat for a stranger's",
-    "era_year": 397,
-    "summary": "A strand that has never before had reason to look for a boat of Seann Tarr's from that quarter of the sea sights Tormod Ruadh's boat rounding Eilean dhubh's far side and takes alarm at it, word of the strange sighting reaching Dùn ìseal well ahead of the boat's own return.",
-    "category": "land",
-    "people": ["Tormod Ruadh"],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "II-0049", "type": "sequel"}]
-  }
+ {
+  "title": "Coimheadaiche na Lasrach before Eilidh dies at the cup",
+  "era_year": 381,
+  "summary": "Coimheadaiche na Lasrach who held the flame after Eimhir nic Mhuirich dies sitting on the low stool beside the stone cup at Talla na Lasrach, her hands folded in her lap. The small lamp beside her burns out unfed in the night, the first time in living memory that any lamp in Talla na Lasrach has been let go dark.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The hearth-elders sound out Eilidh nic Ìomhair",
+  "era_year": 381,
+  "summary": "Two elders of Na Naoi Teallaichean walk from Dùn ìseal to Dùn dhearg to ask Eilidh nic Ìomhair, a granddaughter's granddaughter of Ìomhar Dearg who keeps an Earrann Dhearg's granary rolls, whether she would be persuaded to sit a season with the coal. She names the difficulty herself before they can raise it: her own blood.",
+  "category": "faith",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-stone-kings",
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Eilidh tells the elders to choose another",
+  "era_year": 381,
+  "summary": "Eilidh nic Ìomhair tells the two hearth-elders plainly to choose one of the other names put forward, having no wish to force the question of her own blood against An Ceangal's old rule.",
+  "category": "faith",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The cup left unfilled a season",
+  "era_year": 382,
+  "summary": "For the better part of a year after Na Naoi Teallaichean choose Eilidh, Sliochd Mhuirich refuses to yield the flame, and the stone cup at Talla na Lasrach sits under the care of the hearth-line's own eldest, unfilled by any new hand, while every market and threshing floor on the mountain airs an opinion on the matter.",
+  "category": "faith",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The argument of the diluted blood",
+  "era_year": 382,
+  "summary": "Eilidh's own kin argue to her, and to anyone who will listen, that half the households in the hills carry some thread of the king's blood by now, so that An Ceangal's old rule has become a rule against nearly everybody or nobody. Eilidh answers that the argument settles nothing Sliochd Mhuirich has actually asked.",
+  "category": "faith",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The hearth-line eldest offers the cup's condition",
+  "era_year": 382,
+  "summary": "The eldest of Sliochd Mhuirich comes to Talla na Lasrach's threshold and offers a single condition for yielding the flame to Eilidh nic Ìomhair: that the stone cup Fionnlagh Dall cut to the measure of two palms shall never, for any cause, be carried out through the door of Talla na Lasrach.",
+  "category": "faith",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0045",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Eilidh swears to the cup's condition",
+  "era_year": 382,
+  "summary": "Eilidh nic Ìomhair swears before Na Naoi Teallaichean that the stone cup will never leave Talla na Lasrach, her hand flat on its rim, and takes the coal that same afternoon, the measure poured level to her palm exactly as for every Keeper before her.",
+  "category": "faith",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0046",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Sliochd Thormoid names Tormod Liath",
+  "era_year": 385,
+  "summary": "At a gathering of Na Naoi Teallaichean, the eldest of Sliochd Thormoid names for the first time an ancestor called Tormod Liath, said to have held the hill itself under the old king, as the ground of the house's claim to a voice in Coimheadaiche na Lasrach's office.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0046",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Sliochd Raghnaill names Raghnall Ceannfhionn",
+  "era_year": 385,
+  "summary": "Sliochd Raghnaill answers Sliochd Thormoid's claim with its own, naming an ancestor Raghnall Ceannfhionn, though the house rests its true weight less on any hill than on the plain fact that its boats carry more coal down the coast in a bad season than any other house's carts carry inland.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0046",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Eilidh binds the office to four houses",
+  "era_year": 385,
+  "summary": "Eilidh nic Ìomhair puts to Na Naoi Teallaichean that Coimheadaiche na Lasrach's office be bound from that season to four houses of custody alone, Sliochd Mhuirich, Sliochd Ìomhair, Sliochd Thormoid and Sliochd Raghnaill, and that the other hearths keep their council seats but surrender any further claim on the flame.",
+  "category": "faith",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame",
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0046",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The grumble over Seann Dunn's fullest lamp",
+  "era_year": 386,
+  "summary": "The other three houses grumble that Sliochd Thormoid's coal-lamp at Seann Dunn always burns fuller than Lagh an Loscaidh Bhig's measure allows, though no cutter sent to check it ever finds a grain over the handful. Eilidh judges the grievance one best left to wear out on its own.",
+  "category": "law",
+  "people": [
+   "Eilidh nic Ìomhair"
+  ],
+  "places": [
+   "burg:18"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0047",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Sliochd Raghnaill grows rich on the fishing",
+  "era_year": 390,
+  "summary": "The house that took its seat at Seann Tarr, the very town first sentenced under Lagh an Loscaidh Bhig, keeps no galleries and cuts no coal, choosing boats instead, and grows rich enough within two generations that its neighbours stop mentioning the old offence.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0048",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The wager at Seann Tarr's quay",
+  "era_year": 397,
+  "summary": "Tormod Ruadh, a steersman of Sliochd Raghnaill, insists through a winter of evenings at Seann Tarr's quay that a boat could as easily be sailed round the black island Eilean dhubh as fished within sight of it, and finds himself, come spring, with a crew of four and a wager too large to back out of.",
+  "category": "trade",
+  "people": [
+   "Tormod Ruadh"
+  ],
+  "places": [
+   "burg:34"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0049",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The strand mistakes Tormod Ruadh's boat for a stranger's",
+  "era_year": 397,
+  "summary": "A strand that has never before had reason to look for a boat of Seann Tarr's from that quarter of the sea sights Tormod Ruadh's boat rounding Eilean dhubh's far side and takes alarm at it, word of the strange sighting reaching Dùn ìseal well ahead of the boat's own return.",
+  "category": "land",
+  "people": [
+   "Tormod Ruadh"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0049",
+    "type": "sequel"
+   }
+  ]
+ }
 ]

@@ -1,347 +1,347 @@
 [
-  {
-    "title": "The street named for the Sloc Mòr",
-    "era_year": 61,
-    "after": "V-0206",
-    "summary": "Miners settled on Àth fhiadhaich's new street carry small lumps of coal from the Sloc Mòr's own upper galleries among their goods, keeping them for the plain fact of the carrying rather than for any use, while the Old Spirits' keeper tells the council a street named for another town's mountain risks forgetting the ground it stands on.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:12"
-    ],
-    "threads": [
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "V-0206"
-    ]
-  },
-  {
-    "title": "Dubhan's first working set down",
-    "era_year": 61,
-    "after": "V-0207",
-    "summary": "Tormod Pinn enters a single sentence in the day-book on a report from the north, that a young man there has made trials at drawing a fuel from the waste of the mines and that they have come to nothing; he writes no more of it.",
-    "category": "coalblood",
-    "people": [
-      "Tormod Pinn"
-    ],
-    "places": [],
-    "threads": [],
-    "master_links": [
-      "V-0207"
-    ]
-  },
-  {
-    "title": "The last pump drawn out",
-    "era_year": 61,
-    "after": "V-0208",
-    "summary": "Tormod Pinn rides to Achadh dhomhain and finds the Sloc Mòr's lowest galleries eleven fathoms under water, the pumps cold on the Board's own order; the overseer there has kept the order's own slip folded in his coat since the turn of the season, as though he expected someday to need to prove it.",
-    "category": "coal",
-    "people": [
-      "Tormod Pinn"
-    ],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [
-      "the-seven-coals",
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0208"
-    ]
-  },
-  {
-    "title": "The first pump goes down the coal line",
-    "era_year": 61,
-    "after": "V-0208",
-    "summary": "The first of the Sloc Mòr's three great pumps goes south under canvas on a flat wagon from a siding above Achadh dhomhain, bound for the new dry dock at Seann Bhral in the south; Tormod Pinn watches it pass and sets down that a pump goes where the water is and cares no more for the ground it served than a bolt of cloth.",
-    "category": "coal",
-    "people": [
-      "Tormod Pinn"
-    ],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [
-      "the-seven-coals",
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0208",
-      "V-0209"
-    ]
-  },
-  {
-    "title": "The third pump follows and six men are found other work",
-    "era_year": 62,
-    "after": "V-0209",
-    "summary": "The overseer at Achadh dhomhain writes that the third and last pump has gone to Seann Bhral in the south after the second, and that the six men who tended the three between them have been found work on the galleries still above water, a thing the Board's own notice calls no loss to any household.",
-    "category": "coal",
-    "people": [],
-    "places": [
-      "burg:135",
-      "burg:110"
-    ],
-    "threads": [
-      "the-seven-coals",
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0209"
-    ]
-  },
-  {
-    "title": "The maor of Baile dhomhain writes of the crossing",
-    "era_year": 62,
-    "after": "V-0209",
-    "summary": "A shire's maor writes to the Board of stock lost along Imrich nam Pantar near Baile dhomhain, a loss too large for wolves and weather; the Board's clerk, having no ledger fit to hold it, sends the letter on to the Library.",
-    "category": "land",
-    "people": [],
-    "places": [
-      "marker:40",
-      "burg:257"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0210"
-    ]
-  },
-  {
-    "title": "The old list of An Aois Naomh opened again",
-    "era_year": 62,
-    "after": "V-0210",
-    "summary": "Tormod Pinn sets the maor's letter beside a Library list from the days of An Aois Naomh naming the years the panthers crossed before, an interval longer than any living herder's working life, and writes the crossing's entry longer than any other that year.",
-    "category": "faith",
-    "people": [
-      "Tormod Pinn"
-    ],
-    "places": [
-      "marker:40"
-    ],
-    "threads": [
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0210",
-      "V-0212"
-    ]
-  },
-  {
-    "title": "The herders keep the crossing days",
-    "era_year": 62,
-    "after": "V-0210",
-    "summary": "The herders of the south-west drive their flocks off the old road beforehand and keep the crossing as a season of watching, losing fewer beasts in the end than the first week's count had feared, though more than an ordinary year costs them.",
-    "category": "land",
-    "people": [],
-    "places": [
-      "marker:40"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0210"
-    ]
-  },
-  {
-    "title": "Baile ghorm's tanners buy the hides",
-    "era_year": 62,
-    "after": "V-0211",
-    "summary": "Buyers from Baile ghorm ride up into the hills within the fortnight to take the hides of panthers the herders' dogs and spears have brought down, paying a price the herders judge fair for a skin they have no other use for.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:170"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0211"
-    ]
-  },
-  {
-    "title": "Panther-skins first at the fair",
-    "era_year": 62,
-    "after": "V-0211",
-    "summary": "The fair at Muileann òg sees, for the first time in any chronicler's memory, saddles and belts of panther-hide sold under the Baile ghorm mark, the southern buyers taken by surprise enough that the mark's own price doubles twice before the fair is out.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:170"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0211"
-    ]
-  },
-  {
-    "title": "Muileann mhin halves its lamp-making",
-    "era_year": 62,
-    "after": "V-0212",
-    "summary": "The lamp-makers of Muileann mhin halve their making for want of coal to fire their forges properly, the coal reaching the town thinner and dearer each season the Sloc Mòr's galleries give less of it up.",
-    "category": "coal",
-    "people": [],
-    "places": [
-      "burg:137"
-    ],
-    "threads": [
-      "the-seven-coals",
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0213"
-    ]
-  },
-  {
-    "title": "The Guild's lending-book",
-    "era_year": 62,
-    "after": "V-0213",
-    "summary": "The Guild of Hewers keeps a plain minute-book at its hall for shaft-lamps lent from pit to pit, and Tormod Pinn, sending for a copy of its first year, finds more names entered against debts than against repayments, a dry column that tells the vein's own thinning more plainly than any Board letter.",
-    "category": "law",
-    "people": [
-      "Tormod Pinn"
-    ],
-    "places": [],
-    "threads": [
-      "the-seven-coals",
-      "the-depletion",
-      "the-library"
-    ],
-    "master_links": [
-      "V-0213"
-    ]
-  },
-  {
-    "title": "The yard families stop the trains",
-    "era_year": 63,
-    "after": "V-0213",
-    "summary": "The yard families at Muileann chrom stop the coal trains for three days over a cut wage, putting forward as their spokesman Dòmhnall Ruadh mac Ailein, one-and-forty, whose father laid the yard's first rail; a Tuathaich minister there keeps his own book of the families' grievances.",
-    "category": "trade",
-    "people": [
-      "Dòmhnall Ruadh mac Ailein"
-    ],
-    "places": [
-      "burg:354"
-    ],
-    "threads": [
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0214"
-    ]
-  },
-  {
-    "title": "The Board settles and dismisses eleven",
-    "era_year": 63,
-    "after": "V-0214",
-    "summary": "The Board's factor restores the old wage on the third day and the trains run again on the fourth; on the fifth the Board's own notice names eleven men dismissed for their part in the stopping, Dòmhnall Ruadh mac Ailein among them, the settlement and the dismissal arriving from the same hand in the same week.",
-    "category": "trade",
-    "people": [
-      "Dòmhnall Ruadh mac Ailein"
-    ],
-    "places": [
-      "burg:354"
-    ],
-    "threads": [
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0214"
-    ]
-  },
-  {
-    "title": "Cathair fhada's granaries want a second storey",
-    "era_year": 63,
-    "after": "V-0214",
-    "summary": "The maor of Cathair fhada writes to Muileann chaol that the year's harvest has proved thicker than any since before the search for a second vein was spoken of, granaries built for a lean year now wanting a second storey to hold it.",
-    "category": "land",
-    "people": [],
-    "places": [
-      "burg:297"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0215"
-    ]
-  },
-  {
-    "title": "Tormod strikes through his own note",
-    "era_year": 63,
-    "after": "V-0215",
-    "summary": "Tormod Pinn draws a line through his own entry naming a hungry year to follow the panthers' crossing, leaving the words legible beneath it and writing that the harvest proved thick rather than thin, since a chronicle owes its readers its wrong guesses as plainly as its right ones.",
-    "category": "law",
-    "people": [
-      "Tormod Pinn",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [],
-    "threads": [
-      "the-depletion",
-      "the-library"
-    ],
-    "master_links": [
-      "V-0215",
-      "V-0212"
-    ]
-  },
-  {
-    "title": "The Sloc Mòr's pumps drain the dock at Seann Bhral",
-    "era_year": 62,
-    "summary": "The three great pumps of the Sloc Mòr, set on a bed of masonry at the head of the new dry dock at Seann Bhral in the south, pump it dry for the first time on the ninth day after the third is fired.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:110"
-    ],
-    "threads": [
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0209"
-    ]
-  },
-  {
-    "title": "A coal-ship first stands in the Seann Bhral dock",
-    "era_year": 62,
-    "summary": "The first hull stood dry in the new dock at Seann Bhral is a coal-ship out of Ceann leathan with her keel sprung on the bar; by the year's end eleven hulls have stood in it, and the town's shipwrights raise a shed over its head.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:110"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0209"
-    ]
-  },
-  {
-    "title": "The dock's return filed under the harbour",
-    "era_year": 62,
-    "summary": "Tormod Pinn enters Seann Bhral's return of the dock in the royal chronicle without a line of his own, copies into its margin the names the Achadh dhomhain men used among themselves for the three engines, and asks that the return be filed under the harbour and not under the Board.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "V-0209"
-    ]
-  },
-  {
-    "title": "The Achadh dhomhain overseer signs his name",
-    "era_year": 62,
-    "summary": "The overseer at Achadh dhomhain writes to Tormod Pinn that the second pump has followed the first to Seann Bhral and the third stands ready, and that the six men who tended them have been found work on the galleries above water; he signs his own name to it this time rather than none.",
-    "category": "coal",
-    "people": [],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [
-      "the-depletion"
-    ],
-    "master_links": [
-      "V-0209"
-    ]
-  }
+ {
+  "title": "The street named for An Sloc Mòr",
+  "era_year": 61,
+  "after": "V-0206",
+  "summary": "Miners settled on Àth fhiadhaich's new street carry small lumps of coal from An Sloc Mòr's own upper galleries among their goods, keeping them for the plain fact of the carrying rather than for any use, while Na Seann Spioradan' keeper tells the council a street named for another town's mountain risks forgetting the ground it stands on.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:12"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "V-0206"
+  ]
+ },
+ {
+  "title": "Dubhan's first working set down",
+  "era_year": 61,
+  "after": "V-0207",
+  "summary": "Tormod Pinn enters a single sentence in the day-book on a report from the north, that a young man there has made trials at drawing a fuel from the waste of the mines and that they have come to nothing; he writes no more of it.",
+  "category": "coalblood",
+  "people": [
+   "Tormod Pinn"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   "V-0207"
+  ]
+ },
+ {
+  "title": "The last pump drawn out",
+  "era_year": 61,
+  "after": "V-0208",
+  "summary": "Tormod Pinn rides to Achadh dhomhain and finds An Sloc Mòr's lowest galleries eleven fathoms under water, the pumps cold on the Board's own order; the overseer there has kept the order's own slip folded in his coat since the turn of the season, as though he expected someday to need to prove it.",
+  "category": "coal",
+  "people": [
+   "Tormod Pinn"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0208"
+  ]
+ },
+ {
+  "title": "The first pump goes down Slighe a' Ghuail",
+  "era_year": 61,
+  "after": "V-0208",
+  "summary": "The first of An Sloc Mòr's three great pumps goes south under canvas on a flat wagon from a siding above Achadh dhomhain, bound for the new dry dock at Seann Bhral in the south; Tormod Pinn watches it pass and sets down that a pump goes where the water is and cares no more for the ground it served than a bolt of cloth.",
+  "category": "coal",
+  "people": [
+   "Tormod Pinn"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0208",
+   "V-0209"
+  ]
+ },
+ {
+  "title": "The third pump follows and six men are found other work",
+  "era_year": 62,
+  "after": "V-0209",
+  "summary": "The overseer at Achadh dhomhain writes that the third and last pump has gone to Seann Bhral in the south after the second, and that the six men who tended the three between them have been found work on the galleries still above water, a thing the Board's own notice calls no loss to any household.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:135",
+   "burg:110"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0209"
+  ]
+ },
+ {
+  "title": "The maor of Baile dhomhain writes of the crossing",
+  "era_year": 62,
+  "after": "V-0209",
+  "summary": "A shire's maor writes to the Board of stock lost along Imrich nam Pantar near Baile dhomhain, a loss too large for wolves and weather; the Board's clerk, having no ledger fit to hold it, sends the letter on to an Leabharlann.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "marker:40",
+   "burg:257"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0210"
+  ]
+ },
+ {
+  "title": "The old list of An Aois Naomh opened again",
+  "era_year": 62,
+  "after": "V-0210",
+  "summary": "Tormod Pinn sets the maor's letter beside a Library list from the days of An Aois Naomh naming the years the panthers crossed before, an interval longer than any living herder's working life, and writes the crossing's entry longer than any other that year.",
+  "category": "faith",
+  "people": [
+   "Tormod Pinn"
+  ],
+  "places": [
+   "marker:40"
+  ],
+  "threads": [
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0210",
+   "V-0212"
+  ]
+ },
+ {
+  "title": "The herders keep Imrich nam Pantar",
+  "era_year": 62,
+  "after": "V-0210",
+  "summary": "The herders of the south-west drive their flocks off the old road beforehand and keep the crossing as a season of watching, losing fewer beasts in the end than the first week's count had feared, though more than an ordinary year costs them.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "marker:40"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0210"
+  ]
+ },
+ {
+  "title": "Baile ghorm's tanners buy the hides",
+  "era_year": 62,
+  "after": "V-0211",
+  "summary": "Buyers from Baile ghorm ride up into the hills within the fortnight to take the hides of panthers the herders' dogs and spears have brought down, paying a price the herders judge fair for a skin they have no other use for.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:170"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0211"
+  ]
+ },
+ {
+  "title": "Panther-skins first at the fair",
+  "era_year": 62,
+  "after": "V-0211",
+  "summary": "Fèill Muileann òg sees, for the first time in any chronicler's memory, saddles and belts of panther-hide sold under the Baile ghorm mark, the southern buyers taken by surprise enough that the mark's own price doubles twice before the fair is out.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:170"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0211"
+  ]
+ },
+ {
+  "title": "Muileann mhin halves its lamp-making",
+  "era_year": 62,
+  "after": "V-0212",
+  "summary": "The lamp-makers of Muileann mhin halve their making for want of coal to fire their forges properly, the coal reaching the town thinner and dearer each season An Sloc Mòr's galleries give less of it up.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:137"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0213"
+  ]
+ },
+ {
+  "title": "The Guild's lending-book",
+  "era_year": 62,
+  "after": "V-0213",
+  "summary": "Comann nan Gualadairean keeps a plain minute-book at its hall for shaft-lamps lent from pit to pit, and Tormod Pinn, sending for a copy of its first year, finds more names entered against debts than against repayments, a dry column that tells the vein's own thinning more plainly than any Board letter.",
+  "category": "law",
+  "people": [
+   "Tormod Pinn"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals",
+   "the-depletion",
+   "the-library"
+  ],
+  "master_links": [
+   "V-0213"
+  ]
+ },
+ {
+  "title": "The yard families stop the trains",
+  "era_year": 63,
+  "after": "V-0213",
+  "summary": "The yard families at Muileann chrom stop the coal trains for three days over a cut wage, putting forward as their spokesman Dòmhnall Ruadh mac Ailein, one-and-forty, whose father laid the yard's first rail; a Tuathaich minister there keeps his own book of the families' grievances.",
+  "category": "trade",
+  "people": [
+   "Dòmhnall Ruadh mac Ailein"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0214"
+  ]
+ },
+ {
+  "title": "The Board settles and dismisses eleven",
+  "era_year": 63,
+  "after": "V-0214",
+  "summary": "The Board's factor restores the old wage on the third day and the trains run again on the fourth; on the fifth the Board's own notice names eleven men dismissed for their part in the stopping, Dòmhnall Ruadh mac Ailein among them, the settlement and the dismissal arriving from the same hand in the same week.",
+  "category": "trade",
+  "people": [
+   "Dòmhnall Ruadh mac Ailein"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0214"
+  ]
+ },
+ {
+  "title": "Cathair fhada's granaries want a second storey",
+  "era_year": 63,
+  "after": "V-0214",
+  "summary": "The maor of Cathair fhada writes to Muileann chaol that the year's harvest has proved thicker than any since before Sireadh na Dàrna Fèithe was spoken of, granaries built for a lean year now wanting a second storey to hold it.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:297"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0215"
+  ]
+ },
+ {
+  "title": "Tormod strikes through his own note",
+  "era_year": 63,
+  "after": "V-0215",
+  "summary": "Tormod Pinn draws a line through his own entry naming a hungry year to follow the panthers' crossing, leaving the words legible beneath it and writing that the harvest proved thick rather than thin, since a chronicle owes its readers its wrong guesses as plainly as its right ones.",
+  "category": "law",
+  "people": [
+   "Tormod Pinn",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [],
+  "threads": [
+   "the-depletion",
+   "the-library"
+  ],
+  "master_links": [
+   "V-0215",
+   "V-0212"
+  ]
+ },
+ {
+  "title": "An Sloc Mòr's pumps drain the dock at Seann Bhral",
+  "era_year": 62,
+  "summary": "The three great pumps of An Sloc Mòr, set on a bed of masonry at the head of the new dry dock at Seann Bhral in the south, pump it dry for the first time on the ninth day after the third is fired.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:110"
+  ],
+  "threads": [
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0209"
+  ]
+ },
+ {
+  "title": "A coal-ship first stands in the Seann Bhral dock",
+  "era_year": 62,
+  "summary": "The first hull stood dry in the new dock at Seann Bhral is a coal-ship out of Ceann leathan with her keel sprung on the bar; by the year's end eleven hulls have stood in it, and the town's shipwrights raise a shed over its head.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:110"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0209"
+  ]
+ },
+ {
+  "title": "The dock's return filed under the harbour",
+  "era_year": 62,
+  "summary": "Tormod Pinn enters Seann Bhral's return of the dock in Eachdraidh na Rìoghachd without a line of his own, copies into its margin the names the Achadh dhomhain men used among themselves for the three engines, and asks that the return be filed under the harbour and not under the Board.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0209"
+  ]
+ },
+ {
+  "title": "The Achadh dhomhain overseer signs his name",
+  "era_year": 62,
+  "summary": "The overseer at Achadh dhomhain writes to Tormod Pinn that the second pump has followed the first to Seann Bhral and the third stands ready, and that the six men who tended them have been found work on the galleries above water; he signs his own name to it this time rather than none.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [
+   "the-depletion"
+  ],
+  "master_links": [
+   "V-0209"
+  ]
+ }
 ]

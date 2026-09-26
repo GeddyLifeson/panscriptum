@@ -5,19 +5,37 @@
   "summary": "A household of the eastern hills begins laying flat stone in steps up the slope below the height, bedding each slab before the next is set above it, the first work of the platform that will in time carry the altar block on its topmost step.",
   "category": "faith",
   "people": [],
-  "places": ["marker:33"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0035", "type": "cause"}]
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0035",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "The great stone dragged up on rollers",
   "era_year": 2687,
-  "summary": "The block meant for the platform's top step is hauled up the finished lower steps on rollers of trimmed timber, the same labour that raised the outpost wall and the fortress rings, and set back from the step's outer edge to be dressed flat.",
+  "summary": "The block meant for the platform's top step is hauled up the finished lower steps on rollers of trimmed timber, the same labour that raised Làrach an Dùin-fhaire wall and Làrach an Dùin rings, and set back from the step's outer edge to be dressed flat.",
   "category": "faith",
   "people": [],
-  "places": ["marker:33"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0035", "type": "cause"}]
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0035",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "The first dawn at the altar",
@@ -25,9 +43,18 @@
   "summary": "A household of the southern lowland climbs the finished steps at first light on the shortest morning of the year and stands about the great stone as the sun's light runs along its face toward the mountains it is squared to. No telling records what, if anything, was said.",
   "category": "faith",
   "people": [],
-  "places": ["marker:33"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0035", "type": "sequel"}]
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0035",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Other households begin to climb",
@@ -35,9 +62,18 @@
   "summary": "Seeing the first household return year on year to the shortest morning, other families of the eastern hills take up the same climb, until the one gathering at the platform draws more households together than any single one of them could climb the steps alone.",
   "category": "faith",
   "people": [],
-  "places": ["marker:33"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0035", "type": "sequel"}]
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0035",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The last step laid flush with the moor",
@@ -45,9 +81,18 @@
   "summary": "The lowest step of the platform is set flush with the level ground, closing the run years after the great stone above it already stood finished, and it is this easiest step, rather than any harder-won one above, that the households nearest it remember longest.",
   "category": "faith",
   "people": [],
-  "places": ["marker:33"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0035", "type": "sequel"}]
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0035",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "A stranger turned away from the platform",
@@ -55,9 +100,18 @@
   "summary": "A stranger up from the southern lowland asks a woman drawing water why the great stone is raised. She answers that a stone older than her grandmother's grandmother needs no explaining to one not born to it, and he does not climb the steps or come again.",
   "category": "faith",
   "people": [],
-  "places": ["marker:33"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0035", "type": "sequel"}]
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0035",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The digging begins at the eastern Toll-dubh",
@@ -65,9 +119,18 @@
   "summary": "On level moor in the south-east a household begins cutting a well-like shaft straight down through the rock, the work continuing past any depth a well would need and its walls smoothed by hand long after the digging alone would have left them rough.",
   "category": "land",
   "people": [],
-  "places": ["marker:20"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0036", "type": "cause"}]
+  "places": [
+   "marker:20"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "The baskets carried off and not returned",
@@ -75,9 +138,18 @@
   "summary": "Each evening the broken rock the digging throws off is carried away over the rise at the moor's edge, and no heap of it is ever afterward found anywhere near the shaft's mouth, though no telling says where it was taken.",
   "category": "land",
   "people": [],
-  "places": ["marker:20"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0036", "type": "sequel"}]
+  "places": [
+   "marker:20"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "A cord lengthened for the lamp",
@@ -85,9 +157,18 @@
   "summary": "The plaited cord that lets the lamp down to judge the smoothing of the shaft's walls is lengthened for the third time, the household gathering at the lip each time to watch the lamp go down further than it has gone before and come up still burning.",
   "category": "land",
   "people": [],
-  "places": ["marker:20"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0036", "type": "sequel"}]
+  "places": [
+   "marker:20"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "A young man hurt in the eastern shaft",
@@ -95,9 +176,18 @@
   "summary": "Sent down to free a caught basket, a young man of the household comes up with a gash along one forearm that keeps him from the heaviest carrying a season, and returns to the cord the following spring all the same.",
   "category": "land",
   "people": [],
-  "places": ["marker:20"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0036", "type": "sequel"}]
+  "places": [
+   "marker:20"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The lamp lowered in the eastern shaft",
@@ -105,9 +195,18 @@
   "summary": "The lamp is let down further than ever before, its light at the bottom showing no more of the walls than a small patch no wider than two hands held apart, the rest standing dark above and below it; the digging is remembered to have stopped near this same evening.",
   "category": "land",
   "people": [],
-  "places": ["marker:20"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0036", "type": "sequel"}]
+  "places": [
+   "marker:20"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "A stone dropped and heard to fall nowhere",
@@ -115,9 +214,18 @@
   "summary": "After the digging stops, a stone let fall from the lip gives back no sound of striking anything below, and the household stands listening far longer than it kept silence for anything else in all the years of that work.",
   "category": "faith",
   "people": [],
-  "places": ["marker:20"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0036", "type": "sequel"}]
+  "places": [
+   "marker:20"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The digging begins at the western Toll-dubh",
@@ -125,9 +233,18 @@
   "summary": "Far across the island, on ground its own people likewise call Toll-dubh, a second household begins a straight, round shaft of the same make as the eastern one, with no telling saying that either household knew of the other's work.",
   "category": "land",
   "people": [],
-  "places": ["marker:19"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0037", "type": "cause"}]
+  "places": [
+   "marker:19"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0037",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "A girl asks after the black coal",
@@ -135,9 +252,18 @@
   "summary": "A girl of the western household asks her mother whether the shaft is being dug down to where the black coal is said to lie warm in the ground at the eastern hearths; her mother answers only that the coal is the hill-folk's own matter.",
   "category": "faith",
   "people": [],
-  "places": ["marker:19"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0037", "type": "sequel"}]
+  "places": [
+   "marker:19"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0037",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The lamp left to burn itself out",
@@ -145,9 +271,18 @@
   "summary": "The household at the western shaft takes up a habit of setting the lamp, still burning, on a stone by the lip each evening rather than snuffing it, letting it go out on its own, a small custom none of its own tellings gives a reason for keeping.",
   "category": "faith",
   "people": [],
-  "places": ["marker:19"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0037", "type": "sequel"}]
+  "places": [
+   "marker:19"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0037",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The last stone dropped at the western shaft",
@@ -155,9 +290,18 @@
   "summary": "On the evening the western digging is given over, the youngest of the household lets a stone fall and counts under his breath until he judges it must have struck bottom; when no sound comes, he looks to the faces around him rather than down the shaft.",
   "category": "faith",
   "people": [],
-  "places": ["marker:19"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0037", "type": "sequel"}]
+  "places": [
+   "marker:19"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0037",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The two shafts left open and shunned",
@@ -165,8 +309,22 @@
   "summary": "Both shafts stand unfilled and uncovered at the century's turn, and travellers of either coast come to walk wide of their mouths, letting a dropped stone go down into a silence no household troubles any longer to break by listening after it.",
   "category": "land",
   "people": [],
-  "places": ["marker:20", "marker:19"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0037", "type": "sequel"}, {"to": "I-0036", "type": "sequel"}]
+  "places": [
+   "marker:20",
+   "marker:19"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0037",
+    "type": "sequel"
+   },
+   {
+    "to": "I-0036",
+    "type": "sequel"
+   }
+  ]
  }
 ]

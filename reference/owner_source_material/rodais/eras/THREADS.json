@@ -10,6 +10,14 @@
    "status": "proposed"
   },
   {
+   "id": "the-masons-fire",
+   "dt": "Teine a' Chlachair",
+   "gloss": "the mason's fire, the first fire",
+   "colour": "#c0392b",
+   "description": "The fire Neachdan carried home from the lightning-struck vein, and every hearth lit from it, kept or covered, from the first night to the grove.",
+   "status": "proposed"
+  },
+  {
    "id": "line-of-aisling",
    "dt": "Sloinneadh Aisling",
    "gloss": "the Line of Aisling",

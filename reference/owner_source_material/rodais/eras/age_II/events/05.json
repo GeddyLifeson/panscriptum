@@ -1,8 +1,8 @@
 [
  {
-  "title": "Uisdean Mòr takes the Red Hill",
+  "title": "Uisdean Mòr takes An Cnoc Ruadh",
   "era_year": 250,
-  "summary": "Uisdean, five-and-twenty, takes up the holding of the Red Hill on the western lake shore after those before him, an old line owing nothing to Dùn ìseal or to any king of the hill-folk.",
+  "summary": "Uisdean, five-and-twenty, takes up the holding of An Cnoc Ruadh on the western lake shore after those before him, an old line owing nothing to Dùn ìseal or to any king of the hill-folk.",
   "category": "rulers",
   "people": [
    "Uisdean Mòr"
@@ -21,7 +21,7 @@
   ]
  },
  {
-  "title": "Uilleam Faire born on the Red Hill",
+  "title": "Uilleam Faire born on An Cnoc Ruadh",
   "era_year": 262,
   "summary": "A boatwright's son is born on the lake shore in the twelfth year of Uisdean's holding, and grows up believing, as every child of that hill does, that the water below it has always belonged to his own people alone.",
   "category": "rulers",
@@ -42,7 +42,7 @@
  {
   "title": "The households dig the ditch across the neck",
   "era_year": 267,
-  "summary": "Every household of the Red Hill turns out to cut the ditch across the low saddle of ground where the hill's rise meets the land, and to raise the oak palisade on the spoil bank behind it.",
+  "summary": "Every household of An Cnoc Ruadh turns out to cut the ditch across the low saddle of ground where the hill's rise meets the land, and to raise the oak palisade on the spoil bank behind it.",
   "category": "trade",
   "people": [
    "Uisdean Mòr"
@@ -63,7 +63,7 @@
  {
   "title": "Uisdean tells the watch why the wall stands",
   "era_year": 282,
-  "summary": "Walking the palisade by night with the young Uilleam Faire, Uisdean speaks of the long years of the king and of the valleys brought in to the south and east, and does not say whether the Red Hill will swear when its turn comes.",
+  "summary": "Walking the palisade by night with the young Uilleam Faire, Uisdean speaks of na Bliadhnachan Fada of the king and of the valleys brought in to the south and east, and does not say whether An Cnoc Ruadh will swear when its turn comes.",
   "category": "law",
   "people": [
    "Uisdean Mòr",
@@ -85,7 +85,7 @@
  {
   "title": "The king's company camps unannounced on the shore",
   "era_year": 289,
-  "summary": "The king comes west along the lake shore with some two hundred spears at the end of a summer, camps below the hill, and sends up no word of his business to Uisdean or to any of the Red Hill's households.",
+  "summary": "The king comes west along the lake shore with some two hundred spears at the end of a summer, camps below the hill, and sends up no word of his business to Uisdean or to any of An Cnoc Ruadh's households.",
   "category": "war",
   "people": [
    "Ailean Mòr mac Shuibhne",
@@ -165,9 +165,9 @@
   ]
  },
  {
-  "title": "The king's frost",
+  "title": "Reothadh an Rìgh",
   "era_year": 290,
-  "summary": "In the early days of an t-Ògmhios, when the year should long since have been past any frost, a single clear night puts a white rime on the whole shore. The hill's old women name it from that morning the king's frost.",
+  "summary": "In the early days of an t-Ògmhios, when the year should long since have been past any frost, a single clear night puts a white rime on the whole shore. The hill's old women name it from that morning Reothadh an Rìgh.",
   "category": "land",
   "people": [],
   "places": [
@@ -184,7 +184,7 @@
  {
   "title": "The second burning of the palisade",
   "era_year": 290,
-  "summary": "On the night of the king's frost the green oak takes in the same low, dark flame as before, and burns in less time than seasoned wood had, leaving nothing standing for the households to save.",
+  "summary": "On the night of Reothadh an Rìgh the green oak takes in the same low, dark flame as before, and burns in less time than seasoned wood had, leaving nothing standing for the households to save.",
   "category": "war",
   "people": [
    "Uilleam Faire",
@@ -244,7 +244,7 @@
  {
   "title": "The palisade raised a third time in seasoned oak",
   "era_year": 291,
-  "summary": "With no company camped below to hurry the choosing of timber, the Red Hill rebuilds its wall a third time in properly seasoned oak. It never burns again in Uilleam Faire's lifetime.",
+  "summary": "With no company camped below to hurry the choosing of timber, An Cnoc Ruadh rebuilds its wall a third time in properly seasoned oak. It never burns again in Uilleam Faire's lifetime.",
   "category": "trade",
   "people": [
    "Uisdean Mòr"
@@ -263,9 +263,9 @@
   ]
  },
  {
-  "title": "Dùn ìseal's reciters tell the swearing fuller than the Red Hill's own list",
+  "title": "Dùn ìseal's reciters tell the swearing fuller than An Cnoc Ruadh's own list",
   "era_year": 291,
-  "summary": "Word of Uisdean's kneeling reaches Dùn ìseal, whose reciters tell it with the fire, the frost and the shingle scene kept whole, fuller than the Red Hill's own spare list ever names it. The Red Hill never quarrels with their telling.",
+  "summary": "Word of Uisdean's kneeling reaches Dùn ìseal, whose reciters tell it with the fire, the frost and the shingle scene kept whole, fuller than An Cnoc Ruadh's own spare list ever names it. An Cnoc Ruadh never quarrels with their telling.",
   "category": "faith",
   "people": [],
   "places": [
@@ -283,7 +283,7 @@
   ]
  },
  {
-  "title": "Uisdean Mòr dies on the Red Hill",
+  "title": "Uisdean Mòr dies on An Cnoc Ruadh",
   "era_year": 312,
   "summary": "Uisdean dies in his own bed on the hill in his eighty-seventh year, two-and-twenty years after the swearing, having outlived the fire, the frost and the king's two hundred spears.",
   "category": "rulers",

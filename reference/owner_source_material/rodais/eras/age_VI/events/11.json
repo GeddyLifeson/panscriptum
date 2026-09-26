@@ -1,278 +1,278 @@
 [
-  {
-    "title": "The Cnoc ghorm church school opens its first term",
-    "era_year": 10,
-    "summary": "Nine boys sit the first term of the school raised inside the new church at Cnoc ghorm, taught the humans' tongue and the western reading of the scripture by a master brought up from Seann Skell. The letter reporting it to the council asks for nothing and is filed without debate.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:142"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0045",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "Seumas mac Coinnich Ghlais proposes a marked boundary",
-    "era_year": 10,
-    "summary": "The councillor of the eastern custodian houses lays a map before the council and asks for a ditch and bank, with stones set at the mile, along the line where the settled shires meet the Tuathaich country, arguing that a boundary kept only in memory will not hold as both peoples' numbers grow.",
-    "category": "law",
-    "people": [
-      "Seumas mac Coinnich Ghlais"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0046",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The council lets the wall stand unbuilt",
-    "era_year": 10,
-    "summary": "After two hours' debate on cost and custom, an old councillor says plainly that in eight years no Tuathaich has crossed where he was not wanted, and the room presses the boundary no further. No vote is taken; the proposal is simply not renewed by anyone present.",
-    "category": "law",
-    "people": [
-      "Seumas mac Coinnich Ghlais"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0046",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The minute on the wall signed by five, opposed by none",
-    "era_year": 10,
-    "summary": "Gormshuil nic Dhùghaill's four-line minute, ending in the sentence spoken against the wall, is initialled by five of the twelve councillors. The other seven enter no dissent. The Library keeps the sheet as the whole of the boundary's history: proposed, weighed, and left undrawn.",
-    "category": "law",
-    "people": [
-      "Gormshuil nic Dhùghaill",
-      "Seumas mac Coinnich Ghlais"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0047",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "Gormshuil begins a book of her own",
-    "era_year": 10,
-    "summary": "Keeping the blotted first draft of the wall's minute rather than burning it, the under-clerk pastes it into a small board-bound book bought without her clerk-master's knowledge and begins, that same evening, a private record of her own, the first of the volumes she keeps for the rest of her working life.",
-    "category": "culture",
-    "people": [
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "Gormshuil walks to Allt an Àigh with her mother",
-    "era_year": 10,
-    "summary": "Given a fortnight's leave for the first time in two years, the under-clerk walks the old road east with her mother, of an Old Spirits house, to drink at the holy well and add a stone to its cairn, lodging a night on the way at the walkers' hall of Achadh gharbh.",
-    "category": "faith",
-    "people": [
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "marker:1",
-      "burg:279"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0048",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The walkers' ledger at Achadh gharbh",
-    "era_year": 10,
-    "summary": "The keeper of the hall built for the well's pilgrims shows Gormshuil nic Dhùghaill her cracked-spined ledger of every walker's shire and name, its pages already holding travellers from better than twenty shires, north and south and east and west of the island together on the one road.",
-    "category": "faith",
-    "people": [
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "burg:279"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0049",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The mountain's yield passes the humans' own figure",
-    "era_year": 10,
-    "summary": "A surveyor's report tells the council, in the flat language such reports keep, that the mine's yield has come back to what it gave under the humans and, in the month just past, gone beyond it, the working unchanged in every particular but the hands the profit now fills.",
-    "category": "trade",
-    "people": [],
-    "places": [],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0050",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The Sloc Mòr granted to Uisdean mac Ùisdein",
-    "era_year": 11,
-    "summary": "Uisdean mac Ùisdein of Cathair mhòr, whose family held an overseer's post there under the humans, comes to the capital to put his name to the working of the great shaft at Achadh dhomhain, the terms copied almost word for word from the humans' own ledgers save the fifth now kept for the Crown.",
-    "category": "trade",
-    "people": [
-      "Uisdean mac Ùisdein"
-    ],
-    "places": [
-      "burg:19",
-      "burg:135"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0051",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "A board is seated over the Sloc Mòr's grant",
-    "era_year": 11,
-    "summary": "Three clerks and an engineer are set at a table in the council's own house at Cathair dhearg to see the mine's grant kept to its terms, answering to no name grander than the mountain itself, and it is to this small board, not the council, that Uisdean mac Ùisdein afterward sends his returns.",
-    "category": "law",
-    "people": [
-      "Uisdean mac Ùisdein"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "Uisdean mac Ùisdein's first contract with the hewers",
-    "era_year": 11,
-    "summary": "Before the snow closes the high tracks, Uisdean mac Ùisdein rides north to set his name against the hewers' own at the shaft-head, the roster and the rates of pay carried over unaltered from the rolls the humans had kept, only the name at the head of the page now his own.",
-    "category": "trade",
-    "people": [
-      "Uisdean mac Ùisdein"
-    ],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "The council lets the night shift stand",
-    "era_year": 11,
-    "summary": "Asked whether the mountain, now the island's own, should be given the rest the humans never allowed it, the mine board's engineer answers that the very yield just reported depends on a shaft that never stands idle, and the council sets the question aside rather than decide it either way.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0052",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The custodians enter their protest against the unresting shaft",
-    "era_year": 11,
-    "summary": "The custodian houses of the vein carry down a half-page paper asking not that the night shift end, which they know is no longer the council's to give back, but only that their protest stand written, so that none after can say the old custom's breaking went unmarked.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0052",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "Gormshuil reads the grant at the shaft-head",
-    "era_year": 11,
-    "summary": "Sent north with the council's own copy of the Sloc Mòr grant, Gormshuil nic Dhùghaill reads it aloud to the assembled hewers by lamplight in the winter cold, the custodians of the shaft standing apart in their grey coats while the words that answer their protest with silence are read over their heads.",
-    "category": "law",
-    "people": [
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "The custodians bless the shafts they could not close",
-    "era_year": 11,
-    "summary": "Once the grant is read, the four custodians of the vein walk to the pit-mouth and speak an old blessing over it, calling on the mountain to hold, to give, and in its own time to rest, before turning back without further word to the lamps that burn on through the falling dark.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:135"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0052",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "Gormshuil parts from her mother at Ceann àrsaidh",
-    "era_year": 10,
-    "summary": "Walking home from Allt an Àigh, Gormshuil nic Dhùghaill and her mother part on the eastern road at Ceann àrsaidh, her mother turning north to her own village and Gormshuil south to the capital; her mother says only that she is glad the walk was given her that year, and asks nothing of the council's business.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:88"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0048"
-    ]
-  }
+ {
+  "title": "The Cnoc ghorm church school opens its first term",
+  "era_year": 10,
+  "summary": "Nine boys sit the first term of the school raised inside the new church at Cnoc ghorm, taught the humans' tongue and the western reading of the scripture by a master brought up from Seann Skell. The letter reporting it to the council asks for nothing and is filed without debate.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:142"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0045",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seumas mac Coinnich Ghlais proposes a marked boundary",
+  "era_year": 10,
+  "summary": "The councillor of the eastern custodian houses lays a map before the council and asks for a ditch and bank, with stones set at the mile, along the line where the settled shires meet the Tuathaich country, arguing that a boundary kept only in memory will not hold as both peoples' numbers grow.",
+  "category": "law",
+  "people": [
+   "Seumas mac Coinnich Ghlais"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0046",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The council lets the wall stand unbuilt",
+  "era_year": 10,
+  "summary": "After two hours' debate on cost and custom, an old councillor says plainly that in eight years no Tuathaich has crossed where he was not wanted, and the room presses the boundary no further. No vote is taken; the proposal is simply not renewed by anyone present.",
+  "category": "law",
+  "people": [
+   "Seumas mac Coinnich Ghlais"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0046",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The minute on the wall signed by five, opposed by none",
+  "era_year": 10,
+  "summary": "Gormshuil nic Dhùghaill's four-line minute, ending in the sentence spoken against the wall, is initialled by five of the twelve councillors. The other seven enter no dissent. An Leabharlann keeps the sheet as the whole of the boundary's history: proposed, weighed, and left undrawn.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Dhùghaill",
+   "Seumas mac Coinnich Ghlais"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0047",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Gormshuil begins a book of her own",
+  "era_year": 10,
+  "summary": "Keeping the blotted first draft of the wall's minute rather than burning it, the under-clerk pastes it into a small board-bound book bought without her clerk-master's knowledge and begins, that same evening, a private record of her own, the first of the volumes she keeps for the rest of her working life.",
+  "category": "culture",
+  "people": [
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Gormshuil walks to Allt an Àigh with her mother",
+  "era_year": 10,
+  "summary": "Given a fortnight's leave for the first time in two years, the under-clerk walks the old road east with her mother, of an Old Spirits house, to drink at the holy well and add a stone to its cairn, lodging a night on the way at the walkers' hall of Achadh gharbh.",
+  "category": "faith",
+  "people": [
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "marker:1",
+   "burg:279"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0048",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The walkers' ledger at Achadh gharbh",
+  "era_year": 10,
+  "summary": "The keeper of the hall built for the well's pilgrims shows Gormshuil nic Dhùghaill her cracked-spined ledger of every walker's shire and name, its pages already holding travellers from better than twenty shires, north and south and east and west of the island together on the one road.",
+  "category": "faith",
+  "people": [
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "burg:279"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0049",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The mountain's yield passes the humans' own figure",
+  "era_year": 10,
+  "summary": "A surveyor's report tells the council, in the flat language such reports keep, that the mine's yield has come back to what it gave under the humans and, in the month just past, gone beyond it, the working unchanged in every particular but the hands the profit now fills.",
+  "category": "trade",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0050",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "An Sloc Mòr granted to Uisdean mac Ùisdein",
+  "era_year": 11,
+  "summary": "Uisdean mac Ùisdein of Cathair mhòr, whose family held an overseer's post there under the humans, comes to the capital to put his name to the working of the great shaft at Achadh dhomhain, the terms copied almost word for word from the humans' own ledgers save the fifth now kept for An Crùn.",
+  "category": "trade",
+  "people": [
+   "Uisdean mac Ùisdein"
+  ],
+  "places": [
+   "burg:19",
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0051",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A board is seated over An Sloc Mòr's grant",
+  "era_year": 11,
+  "summary": "Three clerks and an engineer are set at a table in the council's own house at Cathair dhearg to see the mine's grant kept to its terms, answering to no name grander than the mountain itself, and it is to this small board, not the council, that Uisdean mac Ùisdein afterward sends his returns.",
+  "category": "law",
+  "people": [
+   "Uisdean mac Ùisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Uisdean mac Ùisdein's first contract with the hewers",
+  "era_year": 11,
+  "summary": "Before the snow closes the high tracks, Uisdean mac Ùisdein rides north to set his name against the hewers' own at the shaft-head, the roster and the rates of pay carried over unaltered from the rolls the humans had kept, only the name at the head of the page now his own.",
+  "category": "trade",
+  "people": [
+   "Uisdean mac Ùisdein"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The council lets the night shift stand",
+  "era_year": 11,
+  "summary": "Asked whether the mountain, now the island's own, should be given the rest the humans never allowed it, the mine board's engineer answers that the very yield just reported depends on a shaft that never stands idle, and the council sets the question aside rather than decide it either way.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The custodians enter their protest against the unresting shaft",
+  "era_year": 11,
+  "summary": "The custodian houses of the vein carry down a half-page paper asking not that the night shift end, which they know is no longer the council's to give back, but only that their protest stand written, so that none after can say the old custom's breaking went unmarked.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Gormshuil reads the grant at the shaft-head",
+  "era_year": 11,
+  "summary": "Sent north with the council's own copy of An Sloc Mòr grant, Gormshuil nic Dhùghaill reads it aloud to the assembled hewers by lamplight in the winter cold, the custodians of the shaft standing apart in their grey coats while the words that answer their protest with silence are read over their heads.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The custodians bless the shafts they could not close",
+  "era_year": 11,
+  "summary": "Once the grant is read, the four custodians of the vein walk to the pit-mouth and speak an old blessing over it, calling on the mountain to hold, to give, and in its own time to rest, before turning back without further word to the lamps that burn on through the falling dark.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:135"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Gormshuil parts from her mother at Ceann àrsaidh",
+  "era_year": 10,
+  "summary": "Walking home from Allt an Àigh, Gormshuil nic Dhùghaill and her mother part on the eastern road at Ceann àrsaidh, her mother turning north to her own village and Gormshuil south to the capital; her mother says only that she is glad the walk was given her that year, and asks nothing of the council's business.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:88"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0048"
+  ]
+ }
 ]

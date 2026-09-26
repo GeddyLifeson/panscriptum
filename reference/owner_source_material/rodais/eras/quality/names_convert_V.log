@@ -1887,3 +1887,439 @@ MANUAL	appendices/C_hosts_wars.md	A steamship of A' Chompanaidh shells the coal 
 MANUAL	appendices/C_hosts_wars.md	The sally at Cnoc ghorm driven back, the last Riaghaltas nan Coigreach made.	->	Blàr Cnoc ghorm: the sally from the harbour driven back, the last Riaghaltas nan Coigreach made.	(1)
 HEADING	appendices/C_hosts_wars.md	## The war of the hills	->	## Cogadh nam Beann	(anchor the-war-of-the-hills -> cogadh-nam-beann)
 MANUAL	book/33_of_the_rending_of_cill_ghlas.md:53	Coinneachadh a' Mhonaidh (the moor-road stone; the master IV-0272a calls it Coinneachadh an Fhearainn)	->	Coinneachadh an Fhearainn, the meeting of the land	(1)
+# run 2026-09-26 02:07: 368 changes, 67 left
+CHANGE	eras/age_V/events/03.json:$.summary	the bridge at Cathair dhearg	->	Drochaid Cathair dhearg	|	 sent up by Pike, comes to the smiths' lane below the bridge at Cathair dhearg and works through the autumn 
+CHANGE	eras/age_V/events/05.json:EV-1505e.summary	the meeting of the ships	->	Coinneachadh nan Long	|	enn, rowed west by fishers of Achadh àrsaidh past the meeting of the ships, sees it sink below the sea's
+CHANGE	eras/age_V/events/06.json:EV-1507b.title	the high custodian's	->	Ceann a' Chùraim's	|	Tull draws the high custodian's tooth
+CHANGE	eras/age_V/events/10.json:$.summary	The Company's	->	A' Chompanaidh's	|	The Company's men at Ros dhomhain give up H
+CHANGE	eras/age_V/events/10.json:$.summary	the Company	->	A' Chompanaidh	|	 dhearg, in their own tongue and under seal, that the Company has passed wholly to Thomas P
+CHANGE	eras/age_V/events/10.json:$.summary	the Company	->	A' Chompanaidh	|	, its share of the vein-dues now paid in marks by the Company and fewer than before, finds 
+CHANGE	eras/age_V/events/10.json:$.summary	the Company's	->	A' Chompanaidh's	|	oal by the sack at the market of Cathair mhòr off the Company's carts. Pàdraig Cam counts the
+CHANGE	eras/age_V/events/10.json:EV-2009.summary	the Small-Burning Law	->	Lagh an Loscaidh Bhig	|	est from Dùn dhearg with her letter in defence of the Small-Burning Law sewn in calfskin. She lodges 
+CHANGE	eras/age_V/events/10.json:EV-2010.summary	the Residency	->	Taigh an Àrd-mhaoir	|	ers it as read and filed. The same sitting grants the Residency leave to widen the road to Mu
+CHANGE	eras/age_V/events/10.json:EV-2011.title	The Company's	->	A' Chompanaidh's	|	The Company's agents seize the hawk sermon 
+CHANGE	eras/age_V/events/10.json:EV-2011.summary	The Company's	->	A' Chompanaidh's	|	The Company's agents at Muileann chrom go f
+CHANGE	eras/age_V/events/10.json:$.title	The Company's	->	A' Chompanaidh's	|	The Company's accounts filed beside the def
+CHANGE	eras/age_V/events/10.json:$.summary	the Company's	->	A' Chompanaidh's	|	The copy of the Company's half-year accounts, sent in a
+CHANGE	eras/age_V/events/10.json:$.summary	the Commissioner's	->	An t-Àrd-mhaor's	|	dox comes before the council at Cathair dhearg in the Commissioner's carriage, greets each custodi
+CHANGE	eras/age_V/events/10.json:$.summary	the Company's	->	A' Chompanaidh's	|	ouble the yield of the pits. He does not speak of the Company's letter promising him a share 
+CHANGE	eras/age_V/events/10.json:$.summary	the Company's	->	A' Chompanaidh's	|	 that the custodians of Cathair fhada, in debt to the Company's store for seed, had the right
+CHANGE	eras/age_V/events/10.json:EV-2012.summary	the Company's	->	A' Chompanaidh's	|	Before the Company's fellers come, the woodreeve o
+CHANGE	eras/age_V/events/10.json:EV-2012.summary	the Holy Age	->	An Aois Naomh	|	ring lot had fallen on, as the town had cut since the Holy Age, and plant six acorns in the 
+CHANGE	eras/age_V/events/11.json:$.summary	the dry cough	->	An Casad Tioram	|	With the dry cough running through the summer am
+CHANGE	eras/age_V/events/11.json:$.summary	the dry cough	->	An Casad Tioram	|	hòmhnaill drives fourteen orphans of the fall and the dry cough in a borrowed cart from Muile
+CHANGE	eras/age_V/events/11.json:$.summary	the dry cough	->	An Casad Tioram	|	At the harvests after the fall and after the dry cough the crews of Muileann chrom a
+CHANGE	eras/age_V/events/16.json:$.summary	the house of disputation	->	Taigh na Deasbaid	|	At midsummer Aonghas mac Coinnich, master of the house of disputation at Dùn thais, tips a basket o
+CHANGE	eras/age_V/events/16.json:$.summary	the Company's	->	A' Chompanaidh's	|	use of disputation at Dùn thais, tips a basket of the Company's broken coal onto his table an
+CHANGE	eras/age_V/events/16.json:$.summary	the house of disputation	->	Taigh na Deasbaid	|	In the autumn three students of the house of disputation at Dùn thais walk over the hi
+CHANGE	eras/age_V/events/16.json:$.summary	the charter of Cathair gheal	->	Cairt Chathair gheal	|	The council at Cathair dhearg protests the charter of Cathair gheal, which names no custodian, an
+CHANGE	eras/age_V/events/16.json:$.summary	the Company's	->	A' Chompanaidh's	|	of the carting families, who worked five years at the Company's weigh-house.
+CHANGE	eras/age_V/events/16.json:$.summary	The Mission's	->	Teachdaireachd na h-Eaglaise's	|	he spring, they sell no more, and give no reason. The Mission's letters speak of a coolness a
+CHANGE	eras/age_V/events/16.json:$.summary	a Company ship	->	a ship of A' Chompanaidh	|	n of Eachann Mòr, thirteen years old, goes aboard a Company ship at the quay below the Residen
+CHANGE	eras/age_V/events/16.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	old, goes aboard a Company ship at the quay below the Residency at Ros dhomhain with the Miss
+CHANGE	eras/age_V/events/16.json:$.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	the quay below the Residency at Ros dhomhain with the Mission's letter and a purse of marks s
+CHANGE	eras/age_V/events/16.json:$.summary	the Mission school	->	Scoil na Teachdaireachd	|	 writes to his son in Dia-thìris, pays a pupil of the Mission school to put it into the humans' to
+CHANGE	eras/age_V/events/16.json:$.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	father's parish. The custodians of Inis bhàn keep the Mission's complaint about their pupils 
+CHANGE	eras/age_V/events/16.json:$.title	the Company's	->	A' Chompanaidh's	|	The passenger line read at the Company's counter
+CHANGE	eras/age_V/events/16.json:$.summary	the Company's	->	A' Chompanaidh's	|	ird year after his son sailed Eachann Mòr asks at the Company's counter at Ros dhomhain after
+CHANGE	eras/age_V/events/16.json:$.summary	the house of disputation	->	Taigh na Deasbaid	|	be harmed by a road it was not on, to the door of the house of disputation at Dùn thais beside the carve
+CHANGE	eras/age_V/events/16.json:$.summary	The Company's	->	A' Chompanaidh's	|	The Company's search party of eight men goe
+CHANGE	eras/age_V/events/16.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	o further for pay or threats. The agent writes to the Residency that the men are idle.
+CHANGE	eras/age_V/events/17.json:$.summary	A Mission pupil	->	A pupil of Teachdaireachd na h-Eaglaise	|	A Mission pupil of fifteen, Barabal nic Dhùgh
+CHANGE	eras/age_V/events/17.json:$.summary	the Mission	->	Teachdaireachd na h-Eaglaise	|	Ros dhomhain quays at two and twenty, sent out by the Mission with a chest of linen and ins
+CHANGE	eras/age_V/events/17.json:$.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	Anne Colby has the Mission's chapel at Ros dhomhain opened
+CHANGE	eras/age_V/events/17.json:$.title	The Company's	->	A' Chompanaidh's	|	The Company's surgeon visits once
+CHANGE	eras/age_V/events/17.json:$.summary	The Company's	->	A' Chompanaidh's	|	The Company's own surgeon comes to the chap
+CHANGE	eras/age_V/events/17.json:$.title	The Company	->	A' Chompanaidh	|	The Company fines Seann Vell for the shut
+CHANGE	eras/age_V/events/17.json:$.title	the Residency	->	Taigh an Àrd-mhaoir	|	Arthur Lisle dies at the Residency
+CHANGE	eras/age_V/events/17.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	Arthur Lisle dies at the Residency above Ros dhomhain of a fever
+CHANGE	eras/age_V/events/17.json:$.summary	Commissioner	->	Àrd-mhaor	|	 signing papers to the last. He is one and sixty, Commissioner twenty years, remembered by t
+CHANGE	eras/age_V/events/17.json:$.title	Commissioner	->	Àrd-mhaor	|	Walter Crane made Commissioner
+CHANGE	eras/age_V/events/17.json:$.summary	the Company's	->	A' Chompanaidh's	|	Walter Crane, six and forty, the Company's chief agent at the pits, take
+CHANGE	eras/age_V/events/17.json:$.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	rty, the Company's chief agent at the pits, takes the Residency's seal within the month of Lisl
+CHANGE	eras/age_V/events/17.json:$.summary	the Company's	->	A' Chompanaidh's	|	 coat from the pit roads. He is the first to hold the Company's office and the Administration
+CHANGE	eras/age_V/events/17.json:$.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	 He is the first to hold the Company's office and the Administration's one after the other, and tell
+CHANGE	eras/age_V/events/17.json:$.summary	Commissioner	->	Àrd-mhaor	|	Commissioner Crane moves the Company's pay
+CHANGE	eras/age_V/events/17.json:$.summary	the Company's	->	A' Chompanaidh's	|	Commissioner Crane moves the Company's pay office for the southern w
+CHANGE	eras/age_V/events/17.json:$.summary	the Company	->	A' Chompanaidh	|	dies at two and seventy in the slate-roofed house the Company built him above the pit he fi
+CHANGE	eras/age_V/events/17.json:$.title	The Company	->	A' Chompanaidh	|	The Company gives Dòmhnall his father's s
+CHANGE	eras/age_V/events/18.json:$.summary	The Mission	->	Teachdaireachd na h-Eaglaise	|	The Mission sends the cleric Edwin Lowe u
+CHANGE	eras/age_V/events/18.json:$.summary	the temple ruin	->	Làrach an Teampaill	|	Lowe opens the ground inside the western wall of the temple ruin with six Company labourers of
+CHANGE	eras/age_V/events/18.json:$.summary	six Company labourers	->	six labourers of A' Chompanaidh	|	d inside the western wall of the temple ruin with six Company labourers off the Doire ghlas coal cont
+CHANGE	eras/age_V/events/18.json:$.title	the pillar at Cnoc chiar	->	Colbh Cnoc chiar	|	Lowe copies the pillar at Cnoc chiar
+CHANGE	eras/age_V/events/18.json:$.summary	the obelisk at Cnoc bheag	->	Carragh Cnoc bheag	|	noc chiar pillar beside Samuel Wren's old copy of the obelisk at Cnoc bheag and judges the two hands are 
+CHANGE	eras/age_V/events/18.json:$.title	the column at Cnoc ghorm	->	Calbh Cnoc ghorm	|	Lowe copies the column at Cnoc ghorm
+CHANGE	eras/age_V/events/18.json:$.summary	the column near Cnoc ghorm	->	Calbh Cnoc ghorm	|	Lowe copies the column near Cnoc ghorm in four days, less worn than 
+CHANGE	eras/age_V/events/18.json:$.summary	the column at Cnoc ghorm	->	Calbh Cnoc ghorm	|	takes ship at Ros dhomhain the year after copying the column at Cnoc ghorm, his notebooks sealed under h
+CHANGE	eras/age_V/events/18.json:$.summary	his Company glazing	->	his glazing of A' Chompanaidh	|	When his Company glazing contract ends, Peter Voss doe
+CHANGE	eras/age_V/events/18.json:$.summary	the Company's	->	A' Chompanaidh's	|	Martha Gale brings the Company's offer of partnership to the s
+CHANGE	eras/age_V/events/18.json:$.summary	the silver guild	->	Comann an Airgid	|	Gale brings the Company's offer of partnership to the silver guild hall at Muileann chiar. A cle
+CHANGE	eras/age_V/events/18.json:$.title	the Company's	->	A' Chompanaidh's	|	Ùna nic Choinnich questions the Company's beam
+CHANGE	eras/age_V/events/18.json:$.summary	the Company's	->	A' Chompanaidh's	|	ch, some eighty winters old, has the paragraph on the Company's weighing-beam read a third ti
+CHANGE	eras/age_V/events/18.json:$.summary	the Company's	->	A' Chompanaidh's	|	The guild hall at Muileann chiar refuses the Company's partnership by every hand but
+CHANGE	eras/age_V/events/18.json:$.summary	The Company	->	A' Chompanaidh	|	The Company opens the deep galleries belo
+CHANGE	eras/age_V/events/18.json:$.summary	a Company contract	->	a contract of A' Chompanaidh	|	cil of Dùn chiar votes twenty-six to nine to take a Company contract for camp canvas, against the 
+CHANGE	eras/age_V/events/19.json:$.title	The Company's	->	A' Chompanaidh's	|	The Company's coach put on the Ros dhomhain
+CHANGE	eras/age_V/events/19.json:$.summary	The Company's	->	A' Chompanaidh's	|	The Company's twice-weekly coach begins run
+CHANGE	eras/age_V/events/19.json:$.summary	the Company's	->	A' Chompanaidh's	|	After the Company's great steelyard is hung at Ro
+CHANGE	eras/age_V/events/19.json:$.summary	the coal road	->	Rathad na Mèinne	|	Word comes up the coal road to Achadh dhomhain of a Compa
+CHANGE	eras/age_V/events/19.json:$.summary	a Company ship	->	a ship of A' Chompanaidh	|	Word comes up the coal road to Achadh dhomhain of a Company ship at Ros dhomhain driven by no 
+CHANGE	eras/age_V/events/19.json:$.summary	the Company	->	A' Chompanaidh	|	t. It is said in the camp that within a few years the Company will send nothing else.
+CHANGE	eras/age_V/events/19.json:$.summary	the silver guild	->	Comann an Airgid	|	Muileann chiar, eighty-five years old, having led the silver guild since before the strangers' f
+CHANGE	eras/age_V/events/19.json:$.summary	the strangers' fever	->	Fiabhras nan Coigreach	|	ars old, having led the silver guild since before the strangers' fever and twice put the Company's o
+CHANGE	eras/age_V/events/19.json:$.summary	the Company's	->	A' Chompanaidh's	|	d since before the strangers' fever and twice put the Company's offers to a show of hands and
+CHANGE	eras/age_V/events/19.json:$.summary	the Company	->	A' Chompanaidh	|	allery before the rest goes to the steelyard, and the Company suffers the custom, for a sto
+CHANGE	eras/age_V/events/20.json:EV-3507.title	the green acre	->	An Acair Uaine	|	The first grave dug in the green acre
+CHANGE	eras/age_V/events/20.json:EV-3510.summary	the Company agent	->	A' Chompanaidh's agent	|	 with its bedding before the next nightfall, over the Company agent's written protest at the loss
+CHANGE	eras/age_V/events/20.json:EV-3511.summary	the Green Death	->	A' Phlàigh Uaine	|	k who keeps the roll of settlements with cases of the Green Death leaves a blank line after the
+CHANGE	eras/age_V/events/20.json:EV-3512.summary	the Green Death's	->	A' Phlàigh Uaine's	|	uled black-bound book of the lungs he weighs from the Green Death's dead, with the custodians' le
+CHANGE	eras/age_V/events/20.json:EV-3513.summary	Commissioner	->	Àrd-mhaor	|	Commissioner Crane walks the worst of the 
+CHANGE	eras/age_V/events/20.json:EV-3514.summary	the Mission	->	Teachdaireachd na h-Eaglaise	|	Anne Colby, unsent by the Mission and unasked by any custodian,
+CHANGE	eras/age_V/events/20.json:EV-3514.summary	the Green Death	->	A' Phlàigh Uaine	|	eitris Bhàn what her own hands have taught her of the Green Death. The two begin washing the ca
+CHANGE	eras/age_V/events/20.json:EV-3509.summary	the Mission	->	Teachdaireachd na h-Eaglaise	|	s weighing in other men's lungs, and is buried by the Mission apart from the green acre and
+CHANGE	eras/age_V/events/20.json:EV-3509.summary	the green acre	->	An Acair Uaine	|	's lungs, and is buried by the Mission apart from the green acre and the field at Cnoc naomh. 
+CHANGE	eras/age_V/events/20.json:EV-3509.summary	the Residency	->	Taigh an Àrd-mhaoir	|	and the field at Cnoc naomh. His book is filed at the Residency and never taken up by any phy
+CHANGE	eras/age_V/events/20.json:EV-3515.summary	Commissioner	->	Àrd-mhaor	|	The new Commissioner, George Tolley, sets a quaran
+CHANGE	eras/age_V/events/21.json:EV-4001.summary	the Green Death	->	A' Phlàigh Uaine	|	we to close the third and fourth galleries, where the Green Death struck worst, until the surge
+CHANGE	eras/age_V/events/21.json:$.title	the green acre	->	An Acair Uaine	|	The shrine women keep the green acre through the stoppage
+CHANGE	eras/age_V/events/21.json:$.summary	the green acre	->	An Acair Uaine	|	men go on leaving dishes of meal on the mounds of the green acre where the Green Death's dead 
+CHANGE	eras/age_V/events/21.json:$.summary	the Green Death's	->	A' Phlàigh Uaine's	|	hes of meal on the mounds of the green acre where the Green Death's dead were laid, finding a lit
+CHANGE	eras/age_V/events/21.json:EV-4003.summary	every Company pit	->	every pit of A' Chompanaidh	|	With her savings spent and refused work at every Company pit, Catrìona nic Eachainn takes 
+CHANGE	eras/age_V/events/21.json:$.title	The silver guild's	->	Comann an Airgid's	|	The silver guild's hands vote to take Catrìona o
+CHANGE	eras/age_V/events/21.json:$.title	The Company	->	A' Chompanaidh	|	The Company writes to Muileann chiar for 
+CHANGE	eras/age_V/events/21.json:$.summary	the silver guild	->	Comann an Airgid	|	anaidh's counting-house at Ros dhomhain writes to the silver guild asking that Catrìona nic Each
+CHANGE	eras/age_V/events/22.json:$.title	the Residency's	->	Taigh an Àrd-mhaoir's	|	The order blesses the Residency's first coin
+CHANGE	eras/age_V/events/22.json:$.summary	the Residency clerk	->	Taigh an Àrd-mhaoir's clerk	|	s his place and says the words, though he watches the Residency clerk carry the satchel out and fin
+CHANGE	eras/age_V/events/22.json:$.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	oin. Beathag Ruadh lets it pass unremarked before the Residency's clerk, and tells Fearghas mac
+CHANGE	eras/age_V/events/22.json:$.title	the warm springs	->	Fuarain Theth Muileann ruadh	|	A penny at the door of the warm springs
+CHANGE	eras/age_V/events/22.json:$.summary	the Administration	->	Riaghaltas nan Coigreach	|	The bath-house the Administration built at the warm springs nea
+CHANGE	eras/age_V/events/22.json:$.summary	the warm springs	->	Fuarain Theth Muileann ruadh	|	The bath-house the Administration built at the warm springs near Muileann ruadh opens to 
+CHANGE	eras/age_V/events/22.json:$.summary	The Council of Custodians	->	Comhairle a' Chùraim	|	The Council of Custodians, unable to agree a head since
+CHANGE	eras/age_V/events/22.json:$.summary	high custodian	->	Ceann a' Chùraim	|	h, seats Artair mac Iain of the eastern shires as high custodian, six-and-fifty years old, in 
+CHANGE	eras/age_V/events/22.json:$.summary	the treaty	->	Cùmhnant Cathair dhearg	|	, in the hall where Tormod mac Ailein once signed the treaty. Fearghas mac Mhuirich says t
+CHANGE	eras/age_V/events/22.json:$.summary	the silver guild	->	Comann an Airgid	|	As Muileann chiar's lanes fill past holding, the silver guild raises a second town a mile t
+CHANGE	eras/age_V/events/22.json:$.title	the Company's	->	A' Chompanaidh's	|	The guild refuses the Company's price a third time
+CHANGE	eras/age_V/events/22.json:$.summary	The Company	->	A' Chompanaidh	|	The Company asks a third time that the si
+CHANGE	eras/age_V/events/22.json:$.summary	the silver guild	->	Comann an Airgid	|	The Company asks a third time that the silver guild sell at the Company's own pri
+CHANGE	eras/age_V/events/22.json:$.summary	the Company's	->	A' Chompanaidh's	|	y asks a third time that the silver guild sell at the Company's own price, naming a magistrat
+CHANGE	eras/age_V/events/22.json:$.summary	A Residency crier	->	A crier of Taigh an Àrd-mhaoir	|	A Residency crier reads the second cheapening o
+CHANGE	eras/age_V/events/22.json:$.summary	The Company	->	A' Chompanaidh	|	arket and load it for their own crossing instead. The Company, holding the only deep-water 
+CHANGE	eras/age_V/events/22.json:$.summary	the Company	->	A' Chompanaidh	|	 by selling boats. Eleven of two-and-twenty go to the Company at its own asking price, and 
+CHANGE	eras/age_V/events/22.json:$.summary	Company contracts	->	A' Chompanaidh's contracts	|	 them go into the pits the following season under Company contracts.
+CHANGE	eras/age_V/events/22.json:$.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	Asked to bless the Administration's larger second coin as the fir
+CHANGE	eras/age_V/events/22.json:$.title	The Residency	->	Taigh an Àrd-mhaoir	|	The Residency notes the order divided
+CHANGE	eras/age_V/events/22.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	Word of Fearghas mac Mhuirich's refusal reaches the Residency within the month. Tolley, nea
+CHANGE	eras/age_V/events/22.json:$.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	ey, near his own retiring, does not send for him; the Residency's letter-book records only that
+CHANGE	eras/age_V/events/22.json:$.summary	the Mission	->	Teachdaireachd na h-Eaglaise	|	-thirty, first of the overseer's line schooled at the Mission at Ros dhomhain, who is said 
+CHANGE	eras/age_V/events/22.json:$.summary	the Company	->	A' Chompanaidh	|	ep his household in Dia-thìris and his reports to the Company in the humans' tongue and to 
+CHANGE	eras/age_V/events/22.json:$.summary	the sacred forest at Cnoc bheag	->	Coille Naomh Cnoc bheag	|	with eleven of the order who think as he does, to the sacred forest at Cnoc bheag. Griogair, eldest of those wh
+CHANGE	eras/age_V/events/22.json:$.summary	the first fire	->	Teine a' Chlachair	|	vening of the spring Fearghas mac Mhuirich lights the first fire there and says the rite of th
+CHANGE	eras/age_V/events/23.json:$.title	the Levy	->	An Togail	|	Tolley issues the Levy
+CHANGE	eras/age_V/events/23.json:$.summary	the Levy	->	An Togail	|	 sets his seal to the ordinance called An Togail, the Levy: one soul in five of the able
+CHANGE	eras/age_V/events/23.json:$.summary	(appositive)	->	An Togail	|	dropped the English gloss beside An Togail
+CHANGE	eras/age_V/events/23.json:$.title	The Levy's	->	An Togail's	|	The Levy's first tally read at Caol mhòr
+CHANGE	eras/age_V/events/23.json:$.summary	The Levy's	->	An Togail's	|	The Levy's officers hold their first rea
+CHANGE	eras/age_V/events/23.json:$.title	the Levy	->	An Togail	|	The concession's human farmers spared the Levy
+CHANGE	eras/age_V/events/23.json:$.summary	the Levy	->	An Togail	|	In the northern concession the Levy falls on every Dia-thìreach h
+CHANGE	eras/age_V/events/23.json:$.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	 Levy falls on every Dia-thìreach household while the Administration's own leaseholders pay nothing,
+CHANGE	eras/age_V/events/23.json:$.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	he reason that the concession's tenants answer to the Administration's leave alone.
+CHANGE	eras/age_V/events/23.json:$.summary	the Levy's	->	An Togail's	|	The custodians of Muileann naomh offer the Levy's officers silver to halve the 
+CHANGE	eras/age_V/events/23.json:$.summary	the Company's granary	->	Sìol-lann na Companaidh	|	ficers weigh the purse, keep it as an offering to the Company's granary, and read the whole list uncu
+CHANGE	eras/age_V/events/23.json:$.title	The Deer hall	->	Feallsanachd an Fhèidh's hall	|	The Deer hall at Dùn thais shut
+CHANGE	eras/age_V/events/23.json:$.summary	the druid school's	->	Scoiltean nan Draoidhean's	|	Tolley's clerk shuts the druid school's Deer hall at Dùn thais over a
+CHANGE	eras/age_V/events/23.json:$.summary	Deer hall	->	Feallsanachd an Fhèidh's hall	|	Tolley's clerk shuts the druid school's Deer hall at Dùn thais over a lecture a
+CHANGE	eras/age_V/events/23.json:$.summary	The Administration's	->	Riaghaltas nan Coigreach's	|	, on whether a question may rightly be forbidden. The Administration's own clerk notes that it may.
+CHANGE	eras/age_V/events/23.json:EV-4007.title	The Levy	->	An Togail	|	The Levy read at Cnoc thais
+CHANGE	eras/age_V/events/23.json:EV-4007.summary	The Levy's	->	An Togail's	|	The Levy's officers read their list at C
+CHANGE	eras/age_V/events/23.json:$.summary	the ring of beacons	->	Fàinne nan Teintean-rabhaidh	|	With the ring of beacons whole, the Company's steamers
+CHANGE	eras/age_V/events/23.json:$.summary	the Company's	->	A' Chompanaidh's	|	With the ring of beacons whole, the Company's steamers round the island wit
+CHANGE	eras/age_V/events/23.json:$.summary	the Company's	->	A' Chompanaidh's	|	ithin a very few years the keepers' daybooks show the Company's sailings past the headland do
+CHANGE	eras/age_V/events/24.json:$.summary	The Levy	->	An Togail	|	The Levy is read at the market cross o
+CHANGE	eras/age_V/events/24.json:$.summary	the Company's	->	A' Chompanaidh's	|	he coast's custom, and sends him to the camps for the Company's ration rather than keep him a
+CHANGE	eras/age_V/events/24.json:$.summary	the Mission kitchen	->	Teachdaireachd na h-Eaglaise's kitchen	|	is fed through the second winter of the hunger by the Mission kitchen at the harbour, which serves 
+CHANGE	eras/age_V/events/24.json:$.title	the Residency	->	Taigh an Àrd-mhaoir	|	Anne Colby's letter to the Residency
+CHANGE	eras/age_V/events/24.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	 relief ship idle at anchor, Anne Colby writes to the Residency at Ros dhomhain asking only w
+CHANGE	eras/age_V/events/24.json:$.summary	Commissioner	->	Àrd-mhaor	|	ames no one and settles nothing, noting only that Commissioner Tolley has heard her concern.
+CHANGE	eras/age_V/events/24.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	f ship's holds are opened at last when a clerk of the Residency and a clerk of the Company se
+CHANGE	eras/age_V/events/24.json:$.summary	the Company	->	A' Chompanaidh	|	last when a clerk of the Residency and a clerk of the Company set men to the work themselve
+CHANGE	eras/age_V/events/24.json:$.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	Anne Colby goes north to Baile chrom to run the Mission's kitchen in a net-shed by the 
+CHANGE	eras/age_V/events/24.json:$.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	en Anne Colby keeps a book of her own, apart from the Mission's, writing every name she feeds
+CHANGE	eras/age_V/events/24.json:$.title	The Levy	->	An Togail	|	The Levy read ended at Baile chrom
+CHANGE	eras/age_V/events/24.json:$.summary	the Levy	->	An Togail	|	The clerk who first read the Levy at the market cross of Baile 
+CHANGE	eras/age_V/events/24.json:$.summary	the Levy's	->	An Togail's	|	Before the Levy's suspension is even drafted, t
+CHANGE	eras/age_V/events/24.json:$.summary	the Company's	->	A' Chompanaidh's	|	age of Cnoc mhòr in the north walks south to take the Company's ration and its work, old carr
+CHANGE	eras/age_V/events/25.json:$.summary	the Company's	->	A' Chompanaidh's	|	Once the tithe goes up on the Company's boards before any custodian's
+CHANGE	eras/age_V/events/25.json:EV-4504.summary	the Levy's	->	An Togail's	|	ys, carrying her cloak and her village's slate of the Levy's and the famine's dead rolled 
+CHANGE	eras/age_V/events/25.json:$.summary	the Company's	->	A' Chompanaidh's	|	e eastern coast tells the gathered custodians how the Company's store at Seann Dunn, opened a
+CHANGE	eras/age_V/events/25.json:EV-4505.title	the Residency	->	Taigh an Àrd-mhaoir	|	Peigi Ghlas at the Residency
+CHANGE	eras/age_V/events/25.json:$.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	clerk receives her, Peigi Ghlas is turned back at the Residency's gate once and kept waiting a 
+CHANGE	eras/age_V/events/26.json:$.summary	the Levy	->	An Togail	|	àrd sings his first finished song, four verses on the Levy and the famine, at the pit-mo
+CHANGE	eras/age_V/events/26.json:$.summary	The Company's	->	A' Chompanaidh's	|	ks no questions of a tune that pleases her house. The Company's own carters learn it there wi
+CHANGE	eras/age_V/events/26.json:$.summary	the silver guild's	->	Comann an Airgid's	|	Riding east on the silver guild's business, Fearchar Bàrd sits 
+CHANGE	eras/age_V/events/26.json:$.summary	six Company carters	->	six carters of A' Chompanaidh	|	 sits unknown at An Taigh-òsta Grianach and hears six Company carters sing his granary song through
+CHANGE	eras/age_V/events/26.json:$.summary	the silver guild's	->	Comann an Airgid's	|	Fearchar Bàrd, at Ros dhomhain on the silver guild's errand, watches the Company's
+CHANGE	eras/age_V/events/26.json:$.summary	the Company's	->	A' Chompanaidh's	|	os dhomhain on the silver guild's errand, watches the Company's first iron steamship take on 
+CHANGE	eras/age_V/events/26.json:$.summary	The Company	->	A' Chompanaidh	|	The Company rings the pithead at Baile th
+CHANGE	eras/age_V/events/26.json:$.summary	the silver guild	->	Comann an Airgid	|	 east to bury Catrìona nic Eachainn, a refiner of the silver guild to her last day, and the Comp
+CHANGE	eras/age_V/events/26.json:$.summary	the Company	->	A' Chompanaidh	|	 refiner of the silver guild to her last day, and the Company docks each of them a day's pa
+CHANGE	eras/age_V/events/26.json:$.summary	the Company's	->	A' Chompanaidh's	|	A fire in the Company's coal sheds at Ros dhomhain bu
+CHANGE	eras/age_V/events/26.json:$.summary	the Company's	->	A' Chompanaidh's	|	uarter, and the telling grows three causes before the Company's own inquiry finds none at all
+CHANGE	eras/age_V/events/26.json:$.summary	high custodian	->	Ceann a' Chùraim	|	Artair mac Iain, high custodian for twenty and four years, di
+CHANGE	eras/age_V/events/26.json:$.title	The Council of Custodians	->	Comhairle a' Chùraim	|	The Council of Custodians rises without a name
+CHANGE	eras/age_V/events/26.json:$.summary	the Council of Custodians	->	Comhairle a' Chùraim	|	Called to choose Artair mac Iain's successor, the Council of Custodians sits three days at Cathair dh
+CHANGE	eras/age_V/events/26.json:$.summary	the high custodian's	->	Ceann a' Chùraim's	|	athair dhearg and rises without agreeing one, and the high custodian's chair stands empty at the tab
+CHANGE	eras/age_V/events/26.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	h that follows. It is said that Robert Haskins at the Residency finds an empty seat easier to
+CHANGE	eras/age_V/events/27.json:EV-4514.title	The Administration's	->	Riaghaltas nan Coigreach's	|	The Administration's watchman recalled from Allt a
+CHANGE	eras/age_V/events/27.json:EV-4514.summary	The Administration	->	Riaghaltas nan Coigreach	|	The Administration posts a watchman at Allt an À
+CHANGE	eras/age_V/events/27.json:EV-4517.summary	The Mission's	->	Teachdaireachd na h-Eaglaise's	|	The Mission's physician at Baile Mòr ruadh,
+CHANGE	eras/age_V/events/27.json:EV-4517.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	d its deep wells were sunk through. His report to the Mission's house at Cathair dhearg is th
+CHANGE	eras/age_V/events/27.json:EV-4518.title	The Mission	->	Teachdaireachd na h-Eaglaise	|	The Mission bores wells that hold at Acha
+CHANGE	eras/age_V/events/27.json:EV-4518.summary	the Mission	->	Teachdaireachd na h-Eaglaise	|	Following Coll's report, the Mission bores new wells at Achadh she
+CHANGE	eras/age_V/events/27.json:EV-4518.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	 custodians of the drought country begin entering the Mission's wells and the Company's unmov
+CHANGE	eras/age_V/events/27.json:EV-4518.summary	the Company's	->	A' Chompanaidh's	|	ht country begin entering the Mission's wells and the Company's unmoved quota on facing pages
+CHANGE	eras/age_V/events/27.json:EV-4519.summary	Commissioner	->	Àrd-mhaor	|	f the ten drought districts' custodians petitions Commissioner Haskins in her own hand, unkn
+CHANGE	eras/age_V/events/27.json:EV-4519.summary	the Company's	->	A' Chompanaidh's	|	 her own hand, unknown to the others, asking that the Company's quota be set aside until two 
+CHANGE	eras/age_V/events/27.json:EV-4519.summary	the Residency	->	Taigh an Àrd-mhaoir	|	ted. Iseabail nic Leòid rides her own petition to the Residency and is told, as every other h
+CHANGE	eras/age_V/events/27.json:EV-4520.title	The Mission's	->	Teachdaireachd na h-Eaglaise's	|	The Mission's rig strikes water at Achadh s
+CHANGE	eras/age_V/events/27.json:EV-4520.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	A third well bored by the Mission's rig on the moor above Achadh 
+CHANGE	eras/age_V/events/28.json:$.title	The Company's	->	A' Chompanaidh's	|	The Company's survey marks the Hale cutting
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	Hale a small sum to sign it over rather than test the Company's claim.
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	ile dhìreach to Ros dhomhain and files a claim at the Company's court, a copy of his grandmot
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	o that Thomas Hale may carry proof of the line to the Company's court.
+CHANGE	eras/age_V/events/28.json:$.title	the Company's	->	A' Chompanaidh's	|	Dunstan's ruling read at the Company's counter
+CHANGE	eras/age_V/events/28.json:$.summary	the Administration	->	Riaghaltas nan Coigreach	|	n a custodian's roll, however old, creates a line the Administration recognises, and confirms the 
+CHANGE	eras/age_V/events/28.json:$.summary	the Company	->	A' Chompanaidh	|	istration recognises, and confirms the cutting to the Company.
+CHANGE	eras/age_V/events/28.json:$.summary	Dunstan's rule	->	Riaghailt Dunstan	|	hìrich and humans in her roll, judging that under Dunstan's rule such an entry has become a pa
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	r of the Cnoc chaol sorting-floor, is taken up by the Company's constables over a dispute at 
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	t-weighted cartload he did not cut. He is held in the Company's lock-up pending a hearing nev
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	Griogair mac Ailein dies in the Company's lock-up at Cnoc chaol of a fe
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	in the Company's lock-up at Cnoc chaol of a fever the Company's own surgeon records as alread
+CHANGE	eras/age_V/events/28.json:$.summary	The burial club	->	Comann an Adhlacaidh	|	The burial club newly begun among the pit cre
+CHANGE	eras/age_V/events/28.json:$.summary	the Lamp-Watch	->	Faire nan Lòchran	|	ews of Baile thais and Cnoc chaol, calling itself the Lamp-Watch among its own members, gather
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	, meaning his burying to be seen done properly in the Company's own eye.
+CHANGE	eras/age_V/events/28.json:$.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	own along the coast for his hard-won knowledge of the Administration's law, to stand at Griogair mac
+CHANGE	eras/age_V/events/28.json:$.summary	the Company surgeon	->	A' Chompanaidh's surgeon	|	stand at Griogair mac Ailein's graveside and read the Company surgeon's note releasing the body.
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	Hale reads Griogair mac Ailein's release aloud in the Company's own tongue before some thirty
+CHANGE	eras/age_V/events/28.json:$.summary	the Company's	->	A' Chompanaidh's	|	rk may afterward say the burying was done without the Company's leave.
+CHANGE	eras/age_V/events/29.json:EV-5004a.summary	Commissioner	->	Àrd-mhaor	|	Robert Haskins, sixty-nine years old and Commissioner nine years, sails from Ros dh
+CHANGE	eras/age_V/events/29.json:EV-5004a.summary	the Company	->	A' Chompanaidh	|	ars, sails from Ros dhomhain after a quarrel with the Company over the price of a steamship
+CHANGE	eras/age_V/events/29.json:EV-5004.summary	Commissioner	->	Àrd-mhaor	|	ng in Dia-thìris, badly and unprompted, the first Commissioner in living memory to do so wit
+CHANGE	eras/age_V/events/29.json:EV-5004b.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	 to Comhairle a' Chùraim before finishing through the Mission's interpreter, telling the coun
+CHANGE	eras/age_V/events/29.json:EV-5005a.summary	night-shift order	->	Àithne na h-Oidhche	|	Vane's night-shift order is read at every pit-mouth fr
+CHANGE	eras/age_V/events/29.json:EV-5005c.summary	The Company	->	A' Chompanaidh	|	The Company brings crews up the tram-road
+CHANGE	eras/age_V/events/29.json:EV-5005.title	The Lamp-Watch's	->	Faire nan Lòchran's	|	The Lamp-Watch's purse runs dry
+CHANGE	eras/age_V/events/29.json:EV-5005.summary	The Lamp-Watch	->	Faire nan Lòchran	|	The Lamp-Watch, keeping the households of th
+CHANGE	eras/age_V/events/29.json:EV-5006a.summary	the Company	->	A' Chompanaidh	|	' own scripture asks of a field. He does not name the Company; the chapel knows his meaning
+CHANGE	eras/age_V/events/29.json:EV-5006.summary	the Company's	->	A' Chompanaidh's	|	Recalled within the season on the Company's complaint, Matthew Dunne, thr
+CHANGE	eras/age_V/events/29.json:EV-5006.summary	The Lamp-Watch	->	Faire nan Lòchran	|	d goes down to the Ros dhomhain quay in the rain. The Lamp-Watch has a copy of his fallow-year
+CHANGE	eras/age_V/events/29.json:EV-5006b.title	Donnchadh's cough	->	Casad Dhonnchaidh	|	The camps begin saying Donnchadh's cough
+CHANGE	eras/age_V/events/29.json:EV-5006b.summary	the lung-rot	->	Grodadh nan Scamhan	|	Among the Dia-thìrich hewers of Cnoc chaol the lung-rot spares more than it takes, un
+CHANGE	eras/age_V/events/29.json:EV-5006b.summary	Donnchadh's cough	->	Casad Dhonnchaidh	|	ter was born, call any such cough among their own Donnchadh's cough, and say no more.
+CHANGE	eras/age_V/events/29.json:EV-5006c.title	the Company	->	A' Chompanaidh	|	Iain Maor writes to the Company
+CHANGE	eras/age_V/events/29.json:EV-5006c.summary	the Company	->	A' Chompanaidh	|	ann chrom four-and-forty years, writes plainly to the Company that its own night-shift orde
+CHANGE	eras/age_V/events/29.json:EV-5006d.summary	The Residency	->	Taigh an Àrd-mhaoir	|	The Residency answers Iain Maor's letter wi
+CHANGE	eras/age_V/events/29.json:EV-5006e.summary	the Company's	->	A' Chompanaidh's	|	The potteries of Baile ghorm take the Company's contract for clay coal-lamp b
+CHANGE	eras/age_V/events/29.json:EV-5006f.summary	The Company's	->	A' Chompanaidh's	|	The Company's iron road opens from the pits
+CHANGE	eras/age_V/events/30.json:$.summary	the cellar at Muileann chaol	->	Seilear Muileann chaol	|	an among the ordinary births of the year, reaches the cellar at Muileann chaol folded into a roll like any o
+CHANGE	eras/age_V/events/30.json:$.summary	The Administration's count of the people	->	Cunntas an Riaghaltais	|	The Administration's count of the people passes through the cellar amo
+CHANGE	eras/age_V/events/30.json:$.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	unt of the people passes through the cellar among the Residency's business the custodians think
+CHANGE	eras/age_V/events/30.json:$.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	A letter reaching the cellar notes that the Administration's surveyors, walking the edge o
+CHANGE	eras/age_V/events/30.json:$.summary	the three households	->	Na Trì Teaghlaichean	|	 with a plain hand at his letters, is taken on by the three households of the cellar when Seònag Bhà
+CHANGE	eras/age_V/events/30.json:$.summary	the three households	->	Na Trì Teaghlaichean	|	Winter on winter the three households of the cellar copy the whole 
+CHANGE	eras/age_V/events/30.json:$.summary	The three households	->	Na Trì Teaghlaichean	|	receipt for a delivery the cellar never received. The three households learn only then that a second
+CHANGE	eras/age_V/events/31.json:EV-5551.summary	the cellar at Muileann chaol	->	Seilear Muileann chaol	|	Copying the roll of the camp at Àth ìseal in the cellar at Muileann chaol, Cailean mac Eachainn reads p
+CHANGE	eras/age_V/events/31.json:EV-5554.title	the Line of Aisling	->	Sloinneadh Aisling	|	Ealasaid of Clann na Ceiste says the Line of Aisling
+CHANGE	eras/age_V/events/31.json:EV-5501.title	the Residency	->	Taigh an Àrd-mhaoir	|	The custodians' first return to the Residency: none
+CHANGE	eras/age_V/events/31.json:EV-5501.summary	the Residency	->	Taigh an Àrd-mhaoir	|	When the Residency orders every coal-touched chi
+CHANGE	eras/age_V/events/31.json:EV-5501.summary	the Commissioner's	->	An t-Àrd-mhaor's	|	dency orders every coal-touched child reported to the Commissioner's office, the custodians from C
+CHANGE	eras/age_V/events/31.json:EV-5556.title	the Company's	->	A' Chompanaidh's	|	A custodian of Cill ghlas answers the Company's agent
+CHANGE	eras/age_V/events/31.json:EV-5556.summary	a Company agent	->	an agent of A' Chompanaidh	|	Asked by a Company agent whether she knows of any coal
+CHANGE	eras/age_V/events/31.json:EV-5557.summary	a Residency clerk	->	a clerk of Taigh an Àrd-mhaoir	|	are shut and their doors nailed by written order; a Residency clerk sets down that the Company's 
+CHANGE	eras/age_V/events/31.json:EV-5557.summary	the Company's	->	A' Chompanaidh's	|	y written order; a Residency clerk sets down that the Company's ledgers are, for the first ti
+CHANGE	eras/age_V/events/31.json:EV-5558.summary	the Company's	->	A' Chompanaidh's	|	g their catch away rather than sell it for marks; the Company's clerks record the week as a g
+CHANGE	eras/age_V/events/31.json:EV-5502.summary	the Residency	->	Taigh an Àrd-mhaoir	|	week before her death and said that she had asked the Residency once and meant to leave the a
+CHANGE	eras/age_V/events/31.json:EV-5559.summary	the Company's	->	A' Chompanaidh's	|	eann chrom begin borrowing marks at interest from the Company's stores to buy seed; within a 
+CHANGE	eras/age_V/events/31.json:EV-5559.summary	the Company	->	A' Chompanaidh	|	s stores to buy seed; within a few years most owe the Company more marks than a year's crop
+CHANGE	eras/age_V/events/31.json:EV-5560.summary	the Holy Age	->	An Aois Naomh	|	hill and coast met to trade directly since before the Holy Age, closes after a poor last sea
+CHANGE	eras/age_V/events/32.json:$.title	the Residency	->	Taigh an Àrd-mhaoir	|	Edward Vane dies at the Residency
+CHANGE	eras/age_V/events/32.json:$.summary	Commissioner	->	Àrd-mhaor	|	Commissioner Edward Vane, born at the Resi
+CHANGE	eras/age_V/events/32.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	Commissioner Edward Vane, born at the Residency above Ros dhomhain, dies ther
+CHANGE	eras/age_V/events/32.json:$.summary	the Commissioner's	->	An t-Àrd-mhaor's	|	s Merriman comes out from an Tìr Thall to take up the Commissioner's staff, bringing thirty armed 
+CHANGE	eras/age_V/events/32.json:$.summary	the Administration	->	Riaghaltas nan Coigreach	|	armed men in grey coats, the first standing force the Administration has kept on Dia-thìr. He tell
+CHANGE	eras/age_V/events/32.json:$.summary	the Company	->	A' Chompanaidh	|	e with a horse-yard, its flagpole cut from timber the Company never paid the custodian for.
+CHANGE	eras/age_V/events/32.json:$.summary	the Company's	->	A' Chompanaidh's	|	ound and clears the village of every debt it owes the Company's own store, to the written com
+CHANGE	eras/age_V/events/32.json:$.summary	the Company's	->	A' Chompanaidh's	|	 Company's own store, to the written complaint of the Company's agent.
+CHANGE	eras/age_V/events/32.json:$.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	Obadiah Renn, the Mission's minister at Cathair gheal's c
+CHANGE	eras/age_V/events/32.json:$.summary	the Mission's	->	Teachdaireachd na h-Eaglaise's	|	inding no scripture that knows a goose, writes to the Mission's house that the practice is ir
+CHANGE	eras/age_V/events/32.json:$.summary	the wild goose of the Spirit	->	an Gèadh Fiadhaich	|	ls her the goose she keeps is an Gèadh Fiadhaich, the wild goose of the Spirit, wandered from Manannan's own
+CHANGE	eras/age_V/events/32.json:$.summary	(appositive)	->	an Gèadh Fiadhaich	|	dropped the English gloss beside an Gèadh Fiadhaich
+CHANGE	eras/age_V/events/32.json:$.summary	The Company	->	A' Chompanaidh	|	The Company posts a new toll on every ton
+CHANGE	eras/age_V/events/32.json:$.title	The dockers' strike	->	Stad-oibre a' Chalaidh	|	The dockers' strike at Ros dhomhain
+CHANGE	eras/age_V/events/32.json:$.summary	The Company	->	A' Chompanaidh	|	The Company takes the names of every huma
+CHANGE	eras/age_V/events/33.json:EV-5507.summary	The Company engineer	->	A' Chompanaidh's engineer	|	The Company engineer Robert Fairley writes the cus
+CHANGE	eras/age_V/events/33.json:EV-5507a.summary	a Company ship	->	a ship of A' Chompanaidh	|	l ìseal counts forty casks of blasting-powder off a Company ship, told to her carters as lamp-
+CHANGE	eras/age_V/events/33.json:EV-5507a.summary	the cellar at Muileann chaol	->	Seilear Muileann chaol	|	t her hand to them. Her line goes unanswered into the cellar at Muileann chaol with the rest of the year's r
+CHANGE	eras/age_V/events/33.json:EV-5507c.title	the Lamp-Watch's	->	Faire nan Lòchran's	|	Eilidh nic Raghnaill given a seat at the Lamp-Watch's table
+CHANGE	eras/age_V/events/33.json:EV-5507c.summary	the Lamp-Watch	->	Faire nan Lòchran	|	ed, for the first time, to sit at the table where the Lamp-Watch keeps its business, and copie
+CHANGE	eras/age_V/events/33.json:EV-5507c.summary	no Company clerk	->	no clerk of A' Chompanaidh	|	 a second book kept in her own linen chest, where no Company clerk would think to look.
+CHANGE	eras/age_V/events/33.json:EV-5508.title	The Rending	->	Scàineadh Cill ghlas	|	The Rending kills the thirty-one
+CHANGE	eras/age_V/events/33.json:EV-5508a.summary	the Rending	->	Scàineadh Cill ghlas	|	The old shrine cutting at Cill ghlas goes down in the Rending with Brìde's lamp, its stone 
+CHANGE	eras/age_V/events/33.json:EV-5508b.title	The Company	->	A' Chompanaidh	|	The Company fences the closed district
+CHANGE	eras/age_V/events/33.json:EV-5508b.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	ce the district from Cill ghlas to Àth chaol, and the Residency's order forbids any wage or wor
+CHANGE	eras/age_V/events/33.json:EV-5508c.summary	the Company's	->	A' Chompanaidh's	|	one on the moor road, away from the town hall and the Company's clerk, and lend them the poor
+CHANGE	eras/age_V/events/33.json:EV-5508d.summary	any Company surveyor	->	any surveyor of A' Chompanaidh	|	 is the only settlement of the age raised without any Company surveyor's hand in it.
+CHANGE	eras/age_V/events/33.json:EV-5508e.summary	the Lamp-Watch's	->	Faire nan Lòchran's	|	 closed ground. She writes nothing of the hour in the Lamp-Watch's book.
+CHANGE	eras/age_V/events/33.json:EV-5509.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	At the Administration's inquiry at Ros dhomhain, the 
+CHANGE	eras/age_V/events/33.json:EV-5509.summary	the Company's	->	A' Chompanaidh's	|	n, the fourth Steward Mòrag nic Iain Maor carries the Company's own staff into the room and t
+CHANGE	eras/age_V/events/33.json:EV-5509a.title	The Lamp-Watch	->	Faire nan Lòchran	|	The Lamp-Watch keeps the struck copy
+CHANGE	eras/age_V/events/33.json:EV-5509a.summary	the Company's	->	A' Chompanaidh's	|	A Dia-thìreach clerk who keeps the Company's own file copy of the inquiry'
+CHANGE	eras/age_V/events/33.json:EV-5509a.summary	the Lamp-Watch's	->	Faire nan Lòchran's	|	Eilidh nic Raghnaill copies it a second time into the Lamp-Watch's linen-chest book, the stricke
+CHANGE	eras/age_V/events/34.json:EV-6001.title	the second petition	->	An Dàrna Athchuinge	|	Eilidh nic Raghnaill drafts the second petition
+CHANGE	eras/age_V/events/34.json:EV-6001.summary	the burial club's	->	Comann an Adhlacaidh's	|	In the burial club's room at Baile thais, Eilidh n
+CHANGE	eras/age_V/events/34.json:EV-6001.summary	the second petition	->	An Dàrna Athchuinge	|	 room at Baile thais, Eilidh nic Raghnaill drafts the second petition over three nights by a single
+CHANGE	eras/age_V/events/34.json:EV-6002.summary	the burial club	->	Comann an Adhlacaidh	|	ell inside the new wall. Eilidh nic Raghnaill and the burial club watch the company make camp o
+CHANGE	eras/age_V/events/34.json:EV-6017.title	the grey fever	->	Am Fiabhras Glas	|	Tormod Buidhe's sister's boy dies of the grey fever
+CHANGE	eras/age_V/events/34.json:EV-6017.summary	the grey fever	->	Am Fiabhras Glas	|	boy not yet old enough for his first wage dies of the grey fever at Baile thais under Eilidh n
+CHANGE	eras/age_V/events/34.json:EV-6017.summary	the burial club's	->	Comann an Adhlacaidh's	|	what month it was. His mother keeps his name from the burial club's book, and Eilidh does not ask
+CHANGE	eras/age_V/events/34.json:EV-6018.title	the burial club's	->	Comann an Adhlacaidh's	|	Eilidh nic Raghnaill begins the burial club's book
+CHANGE	eras/age_V/events/34.json:EV-6018.summary	the burial club	->	Comann an Adhlacaidh	|	ll begins keeping a plain hand-written record for the burial club at Baile thais, answering to 
+CHANGE	eras/age_V/events/34.json:EV-6019.title	The Company	->	A' Chompanaidh	|	The Company dismisses Coinneach Ruadh at 
+CHANGE	eras/age_V/events/34.json:EV-6019.summary	The Company's	->	A' Chompanaidh's	|	The Company's agent at Cnoc dhìreach delive
+CHANGE	eras/age_V/events/34.json:EV-6019.summary	the second petition	->	An Dàrna Athchuinge	|	 the week's flour queue, the day his signature to the second petition dries. He is offered twice th
+CHANGE	eras/age_V/events/34.json:EV-6020.title	The Residency's	->	Taigh an Àrd-mhaoir's	|	The Residency's clerk underlines the petition
+CHANGE	eras/age_V/events/34.json:EV-6020.summary	the Residency	->	Taigh an Àrd-mhaoir	|	A clerk of the Residency underlines in red ink the sec
+CHANGE	eras/age_V/events/34.json:EV-6020.summary	the second petition's	->	An Dàrna Athchuinge's	|	A clerk of the Residency underlines in red ink the second petition's last sentence, that the hill 
+CHANGE	eras/age_V/events/34.json:EV-6020.summary	the Administration	->	Riaghaltas nan Coigreach	|	e custodians afterward agree it is the first sign the Administration has read a Dia-thìrich word a
+CHANGE	eras/age_V/events/34.json:EV-6021.summary	burial club	->	Comann an Adhlacaidh	|	or want of men to fill it. Eilidh nic Raghnaill's burial club records the fact without comm
+CHANGE	eras/age_V/events/34.json:EV-6026.title	the Lamp-Watch	->	Faire nan Lòchran	|	dh nic Raghnaill reads Ìomhar Seabhag's sermon to the Lamp-Watch
+CHANGE	eras/age_V/events/34.json:EV-6026.summary	the burial club's	->	Comann an Adhlacaidh's	|	 copy of Ìomhar Seabhag's Seann Skell sermon with the burial club's door-keeper at Baile thais, a
+CHANGE	eras/age_V/events/34.json:EV-6026.summary	the second petition	->	An Dàrna Athchuinge	|	it aloud to the room by the same lamp she drafted the second petition by. For once she does not wri
+CHANGE	eras/age_V/events/35.json:EV-6004b.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	ork, in silver struck in an Tìr Thall rather than the Administration's coin. None of it is ever spen
+CHANGE	eras/age_V/events/35.json:EV-6004b.summary	a Company clerk	->	a clerk of A' Chompanaidh	|	nistration's coin. None of it is ever spent where a Company clerk might see it change hands.
+CHANGE	eras/age_V/events/35.json:EV-6004c.summary	the Company's	->	A' Chompanaidh's	|	 Taigh-seinnse Reòta is never once found empty by the Company's carters passing through, and 
+CHANGE	eras/age_V/events/35.json:EV-6004e.summary	the coal road	->	Rathad na Mèinne	|	ks for the loft at An Taigh-seinnse Mòr travel up the coal road folded inside a psalter, as i
+CHANGE	eras/age_V/events/35.json:EV-6004g.summary	The Company's	->	A' Chompanaidh's	|	The Company's steamships lie six days at Ro
+CHANGE	eras/age_V/events/35.json:EV-6004g.summary	the coal road	->	Rathad na Mèinne	|	e six days at Ros dhomhain with empty holds while the coal road above stands near-idle of car
+CHANGE	eras/age_V/events/35.json:EV-6004h.summary	the Company stores	->	A' Chompanaidh's stores	|	When the constables shut the Company stores and break the stoppage, forty
+CHANGE	eras/age_V/events/35.json:EV-6004i.summary	the coal road	->	Rathad na Mèinne	|	ing spring, and three years pass before anyone on the coal road speaks openly of what the fir
+CHANGE	eras/age_V/events/35.json:EV-6004k.summary	The Company's	->	A' Chompanaidh's	|	The Company's agent at the idle quay of Cao
+CHANGE	eras/age_V/events/35.json:EV-6004k.summary	the coal road	->	Rathad na Mèinne	|	os dhomhain that he has been forgotten. So far as the coal road ever hears, no answer comes b
+CHANGE	eras/age_V/events/35.json:EV-6004m.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	are while Lionel Strake's commission is read from the Residency's steps: it names the Company a
+CHANGE	eras/age_V/events/35.json:EV-6004m.summary	the Company	->	A' Chompanaidh	|	sion is read from the Residency's steps: it names the Company and the Administration in an 
+CHANGE	eras/age_V/events/35.json:EV-6004m.summary	the Administration	->	Riaghaltas nan Coigreach	|	m the Residency's steps: it names the Company and the Administration in an Tìr Thall, and, for the
+CHANGE	eras/age_V/events/35.json:EV-6004m.summary	Commissioner's	->	Àrd-mhaor's	|	n in an Tìr Thall, and, for the first time in any Commissioner's commission, does not name the
+CHANGE	eras/age_V/events/35.json:EV-6004m.summary	the Council of Custodians	->	Comhairle a' Chùraim	|	e in any Commissioner's commission, does not name the Council of Custodians at all.
+CHANGE	eras/age_V/events/36.json:EV-6006.summary	the Company's	->	A' Chompanaidh's	|	ivate hand her father taught her, kept apart from the Company's own tally, the same hand in w
+CHANGE	eras/age_V/events/36.json:EV-6006.summary	the Lamp-Watch	->	Faire nan Lòchran	|	 at the pithead inquiry had first been copied for the Lamp-Watch.
+CHANGE	eras/age_V/events/36.json:EV-6007.summary	the edict of seizure	->	Àithne a' Ghlacaidh	|	own doorstone by constables clearing houses under the edict of seizure asks only that it be written 
+CHANGE	eras/age_V/events/36.json:EV-6009.summary	The Company's	->	A' Chompanaidh's	|	 rows for clearance before the new gallery mouth. The Company's agent Osgood carries it to Mò
+CHANGE	eras/age_V/events/36.json:EV-6010.summary	the Company	->	A' Chompanaidh	|	rather than be the one overseer left holding wood the Company has marked for treachery.
+CHANGE	eras/age_V/events/36.json:EV-6012.summary	the silver guild's	->	Comann an Airgid's	|	hip was taken, brings Mòrag nic Iain Maor word of the silver guild's rifles and of a single counci
+CHANGE	eras/age_V/events/36.json:EV-6012.summary	the sacred forest at Cnoc bheag	->	Coille Naomh Cnoc bheag	|	ouncil the custodians and priests mean to hold in the sacred forest at Cnoc bheag before autumn.
+CHANGE	eras/age_V/events/36.json:EV-6013.summary	the sacred forest at Cnoc bheag	->	Coille Naomh Cnoc bheag	|	twenty-eight miles by night off the ridge road to the sacred forest at Cnoc bheag, and is among those who raise
+CHANGE	eras/age_V/events/36.json:EV-6015.summary	the Residency	->	Taigh an Àrd-mhaoir	|	ed across every mining district at once, and that the Residency has already had its answer th
+CHANGE	eras/age_V/events/37.json:EV-6514.summary	The Company's	->	A' Chompanaidh's	|	The Company's harbour-master at Ceann fhada
+CHANGE	eras/age_V/events/37.json:EV-6514.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	nd set aboard a boat for any harbour still flying the Residency's flag, unharmed, on the crews'
+CHANGE	eras/age_V/events/37.json:EV-6501.summary	the forest council	->	Comhairle na Coille	|	 nic Raghnaill's written order, carried down from the forest council by a girl of fourteen, Seumas
+CHANGE	eras/age_V/events/37.json:EV-6517.summary	the coal road	->	Rathad na Mèinne	|	ent south on foot with no guard at all, and reach the coal road inside two days, talking loud
+CHANGE	eras/age_V/events/37.json:EV-6519.title	the coal road	->	Rathad na Mèinne	|	Aonghas shuts his own gates on the coal road
+CHANGE	eras/age_V/events/37.json:EV-6519.summary	the coal road	->	Rathad na Mèinne	|	r) shuts the gates of An Taigh-seinnse Mòr across the coal road with his own hands, and the m
+CHANGE	eras/age_V/events/37.json:EV-6520.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	The custodians of Cathair dhearg break the Residency's locks on their own council-ha
+CHANGE	eras/age_V/events/37.json:EV-6521.summary	the Company's	->	A' Chompanaidh's	|	athair dhearg barricade the coal-cart bridge with the Company's own carts, turned on their si
+CHANGE	eras/age_V/events/37.json:EV-6522.summary	the Company's	->	A' Chompanaidh's	|	in carry off the tools, rope and stored powder of the Company's first warehouse and leave it 
+CHANGE	eras/age_V/events/37.json:EV-6524.summary	the Company's	->	A' Chompanaidh's	|	Lionel Strake writes to the Company's directors over the sea that t
+CHANGE	eras/age_V/events/37.json:EV-6524.summary	the Residency	->	Taigh an Àrd-mhaoir	|	irectors over the sea that the harbour town below the Residency holds itself apart from the f
+CHANGE	eras/age_V/events/38.json:$.summary	the Company's	->	A' Chompanaidh's	|	sed on the river since boyhood and no stranger to the Company's rule over his own family, put
+CHANGE	eras/age_V/events/38.json:$.summary	the Leaden Hawk company	->	Buidheann an t-Seabhaig Luaidhe	|	Passing through Baile thais, the Leaden Hawk company is shown by a boy of nine or 
+CHANGE	eras/age_V/events/38.json:$.summary	The Leaden Hawk company	->	Buidheann an t-Seabhaig Luaidhe	|	The Leaden Hawk company lies eleven hours in the long
+CHANGE	eras/age_V/events/38.json:$.title	the Stone	->	Òrd na Cloiche	|	The priests of the Stone hear the letter
+CHANGE	eras/age_V/events/38.json:$.summary	the Company's	->	A' Chompanaidh's	|	nce and will send no men, but shut the harbour to the Company's ships and open the Fianna's o
+CHANGE	eras/age_V/events/38.json:$.summary	the Fianna's	->	an Fhianna's	|	 shut the harbour to the Company's ships and open the Fianna's own roads to the hawk-faithfu
+CHANGE	eras/age_V/events/38.json:$.summary	the Leaden Hawk	->	Buidheann an t-Seabhaig Luaidhe	|	, with one name: Buidheann an t-Seabhaig Luaidhe, the Leaden Hawk.
+CHANGE	eras/age_V/events/38.json:$.summary	(appositive)	->	Buidheann an t-Seabhaig Luaidhe	|	dropped the English gloss beside Buidheann an t-Seabhaig Luaidhe
+CHANGE	eras/age_V/events/38.json:$.summary	the Leaden Hawk	->	Buidheann an t-Seabhaig Luaidhe	|	At the Seann Skell muster the Leaden Hawk hears that the townsfolk of I
+CHANGE	eras/age_V/events/38.json:$.summary	a Company ship	->	a ship of A' Chompanaidh	|	 mhòr fired their own coal stacks rather than let a Company ship carry them off to burn agains
+CHANGE	eras/age_V/events/39.json:$.summary	the Company	->	A' Chompanaidh	|	per gate Dùghall Dubh, once a weigher of coal for the Company, keeps the council's tally of
+CHANGE	eras/age_V/events/39.json:$.summary	the Company's	->	A' Chompanaidh's	|	's captains whether the harbour quarter can reach the Company's counting-house without a shot
+CHANGE	eras/age_V/events/39.json:$.summary	the Company's	->	A' Chompanaidh's	|	 harbour quarter cross the net-loft roof-ridge to the Company's counting-house on hands and k
+CHANGE	eras/age_V/events/39.json:$.title	the fight at Cnoc ghorm	->	Blàr Cnoc ghorm	|	Fearchar Beag sights the fight at Cnoc ghorm
+CHANGE	eras/age_V/events/39.json:$.title	the Residency	->	Taigh an Àrd-mhaoir	|	The letter-books found whole at the Residency
+CHANGE	eras/age_V/events/39.json:$.summary	the Residency's	->	Taigh an Àrd-mhaoir's	|	 the river by night, Dùghall Dubh finds a room of the Residency's letter-books left standing un
+CHANGE	eras/age_V/events/39.json:$.summary	the Administration's	->	Riaghaltas nan Coigreach's	|	g untouched on an unlocked shelf, thirty years of the Administration's own correspondence with an Tì
+CHANGE	eras/age_V/events/39.json:$.title	the Residency's	->	Taigh an Àrd-mhaoir's	|	Clerks of the council begin to read the Residency's letter-books
+CHANGE	eras/age_V/events/39.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	By the morning after the Residency falls, a table stands in its 
+CHANGE	eras/age_V/events/39.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	Dùghall Dubh learns from a clerk taken at the Residency that Prentice, who weighed co
+CHANGE	eras/age_V/events/39.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	 down the river with Strake's household the night the Residency fell, leaving the ledgers he 
+CHANGE	eras/age_V/events/40.json:$.summary	the Company's	->	A' Chompanaidh's	|	rt of food behind its walls. Lionel Strake orders the Company's stores opened, from that day,
+CHANGE	eras/age_V/events/40.json:$.summary	the Commissioner	->	An t-Àrd-mhaor	|	er the sea puts a single sealed letter ashore for the Commissioner at Ros bheag before filling h
+CHANGE	eras/age_V/events/40.json:$.summary	the forest council	->	Comhairle na Coille	|	At the meeting-house of Àth àrsaidh, envoys of the forest council and of the Administration set
+CHANGE	eras/age_V/events/40.json:$.summary	the Administration	->	Riaghaltas nan Coigreach	|	 Àth àrsaidh, envoys of the forest council and of the Administration set down the truce of the wit
+CHANGE	eras/age_V/events/40.json:$.summary	The five beacons	->	Fàinne nan Teintean-rabhaidh	|	The five beacons burn again from Baile chrom t
+CHANGE	eras/age_V/events/40.json:$.summary	the book of Baile thais	->	Leabhar Baile thais	|	The petitions, the book of Baile thais and the letter-books left in 
+LEFT	eras/age_V/annals/age_V_02.json:EV-1554.body	the Stone	(no "the" before it)	|	Abel Stone and Hugh Mercer come up the road to Mui
+LEFT	eras/age_V/annals/age_V_02.json:EV-1555.body	the Stone	(no "the" before it)	|	even days Raghnall mac Dhòmhnaill leads Stone and Mercer through the hills north and 
+LEFT	eras/age_V/annals/age_V_02.json:EV-1511.body	the Stone	(no "the" before it)	|	Abel Stone brings the first contract of A' Chompan
+LEFT	eras/age_V/annals/age_V_02.json:EV-1512.body	the Stone	(no "the" before it)	|	Abel Stone names Raghnall mac Dhòmhnaill, who walk
+LEFT	eras/age_V/annals/age_V_02.json:EV-1558.body	the Stone	(no "the" before it)	|	 At dusk the clerk adds his figures and Stone calls out one ton, the first coal of th
+LEFT	eras/age_V/annals/age_V_07.json:EV-4031.title	the first fire	(no "the" before it)	|	The dissenters' first fire under the oaks
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:95	the Stone	(no "the" before it)	|	ard across the river; his name was Abel Stone. The other was younger and taller and s
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:99	the Stone	(no "the" before it)	|	 wife lent Mercer a dry shirt. But when Stone spread his hands and said "Coal?" and p
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:103	the Stone	(no "the" before it)	|	Stone had taken a coin out of his purse and l
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:117	the Stone	(no "the" before it)	|	They were eleven days on the hill. Stone and Mercer knew what they were looking 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:117	the Stone	(no "the" before it)	|	ds that got better as the days went on. Stone wanted water: streams, gullies, the pla
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:119	the Stone	(no "the" before it)	|	It showed. In the second gully Stone went down on his knees in the wet and s
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:119	the Stone	(no "the" before it)	|	e turf like a black river under a bank. Stone broke off a piece and turned it in his 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:125	the Stone	(no "the" before it)	|	own him a pebble, and said something to Stone, and Stone laughed, not unkindly, and s
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:125	the Stone	(no "the" before it)	|	ebble, and said something to Stone, and Stone laughed, not unkindly, and said a word 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:127	the Stone	(no "the" before it)	|	e paces from the last. On the fifth day Stone took to walking the seam. He went along
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:129	the Stone	(no "the" before it)	|	ks down on the valley of Abhainn uaine, Stone stopped on a knoll in the evening and l
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:129	the Stone	(no "the" before it)	|	g to Mercer. Mercer wrote it down. Then Stone turned to Raghnall and said, slowly, in
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:135	the Stone	(no "the" before it)	|	ight they camped under a peat-bank, and Stone and Mercer drank from a flask and talke
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:137	the Stone	(no "the" before it)	|	ack on his own back the last miles, and Stone and Mercer each carried one, and all th
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:137	the Stone	(no "the" before it)	|	em were black to the elbow. At the mill Stone paid him the coin. Raghnall took it and
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:149	the Stone	(no "the" before it)	|	t read it either. He counted the sacks. Stone had filled thirteen.
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:175	the Stone	(no "the" before it)	|	Abel Stone brought them. He came up the road to Mu
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:181	the Stone	(no "the" before it)	|	When the reading was done Stone looked round the room and found Raghnal
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:197	the Stone	(no "the" before it)	|	below the old cutting, in a gully where Stone had broken the seam the winter before; 
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:199	the Stone	(no "the" before it)	|	Stone had the beam set up that afternoon at t
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:201	the Stone	(no "the" before it)	|	added his figures and said something to Stone, and Stone turned round to the crew and
+LEFT	eras/age_V/book/07_of_the_fever_and_the_sacks_of_coal.md:201	the Stone	(no "the" before it)	|	igures and said something to Stone, and Stone turned round to the crew and held up on
+LEFT	eras/age_V/book/11_of_the_eleven_of_cnoc_fhiadhaich.md:25	the Stone	(no "the" before it)	|	e agent could not see it, any more than Stone and Mercer had seen the green in the sa
+LEFT	eras/age_V/book/11_of_the_eleven_of_cnoc_fhiadhaich.md:71	the dry cough	(no "the" before it)	|	It was a dry cough. It had no wet in it and no fever, whic
+LEFT	eras/age_V/book/18_of_lowes_spade.md:75	the column near Cnoc ghorm	(no "the" before it)	|	iar, weathered past most reading, and a column near Cnoc ghorm that stood a little taller and a little
+LEFT	eras/age_V/book/23_of_the_levy_and_the_ring_of_beacons.md:43	the sacred forest	(another thing of the same English name)	|	h took their pupils under the trees, to the sacred forest of Flidais near Muileann chiar, where t
+LEFT	eras/age_V/book/28_of_the_law_of_one_line.md:75	the burial club	(no "the" before it)	|	oc chaol, calling itself no more than a burial club, the kind of quiet society that put a l
+LEFT	eras/age_V/book/28_of_the_law_of_one_line.md:81	the burial club	(no "the" before it)	|	ng there, to be a good deal more than a burial club, though nobody that day said so aloud a
+LEFT	eras/age_V/book/28_of_the_law_of_one_line.md:81	the burial club	(no "the" before it)	|	s own members and nothing so plain as a burial club at all, though the name it gave A' Chom
+LEFT	eras/age_V/book/29_of_the_night_shift.md:19	the coal road	(no "the" before it)	|	ten, and it cost the carters of the old coal road their whole trade inside two years; the
+LEFT	eras/age_V/book/29_of_the_night_shift.md:35	the burial club	(no "the" before it)	|	egun four years before under cover of a burial club, at Baile thais and at Cnoc chaol both,
+LEFT	eras/age_V/book/30_of_the_cellar_at_muileann_chaol.md:123	the coal-touched	(no "the" before it)	|	s required it, in the humans' tongue as coal-touched.
+LEFT	eras/age_V/book/32_of_the_grey_goose_and_the_dockers.md:15	the coal road	(no "the" before it)	|	onth, at Muileann shean on the northern coal road: a low stone house with a yard for hors
+LEFT	eras/age_V/gazetteer/05_silver_and_the_north_west.json:419.history	the count of hands	(no "the" before it)	|	tnership in the sixty-seventh year by a count of hands in its hall, and in the years before th
+LEFT	eras/age_V/gazetteer/10_the_posts_and_the_rending.json:212.history	the coal road	(no "the" before it)	|	 with a yard for horses on the northern coal road. The townsfolk called it the humans' se
+LEFT	eras/age_V/gazetteer/13_the_rest_of_the_island.json:57.history	the coal road	(no "the" before it)	|	od by the rebuilt bridge on the eastern coal road. In Cogadh nam Beann its crews stopped 
+LEFT	eras/age_V/appendices/A_rulers.md:66	the count of hands	(no "the" before it)	|	' Chompanaidh, and chose its heads by a count of hands in its hall. **Ùna nic Choinnich** stoo
+LEFT	eras/age_V/appendices/B_faiths.md:31	the sacred forest	(another thing of the same English name)	|	their own houses and under the trees of the sacred forest of Flidais near Muileann chiar, and hel
+LEFT	eras/age_V/appendices/C_hosts_wars.md:20	the dry cough	(no "the" before it)	|	 Tioram**, the coughing sickness, was a dry cough among the boys who broke coal at the pi
+LEFT	eras/age_V/appendices/C_hosts_wars.md:54	the coal road	(no "the" before it)	|	 were at Muileann shean on the northern coal road and Tobar ghorm near the northern worki
+LEFT	eras/age_V/appendices/D_reckoning.md:3	the treaty	(no "the" before it)	|	ion. Each change came in on paper, in a treaty or a contract or a schedule written in 
+LEFT	eras/age_V/appendices/E_words.md:115	the Stone	(no "the" before it)	|	r than a man can walk in one day.* Abel Stone's words for the black seam, the only word
+LEFT	eras/age_V/events/07.json:$.summary	the Stone	(no "the" before it)	|	Abel Stone and Hugh Mercer come up the road to Mui
+LEFT	eras/age_V/events/07.json:$.summary	the Stone	(no "the" before it)	|	even days Raghnall mac Dhòmhnaill leads Stone and Mercer through the hills north and 
+LEFT	eras/age_V/events/07.json:$.summary	the Stone	(no "the" before it)	|	Abel Stone brings the first contract of A' Chompan
+LEFT	eras/age_V/events/07.json:$.summary	the Stone	(no "the" before it)	|	Abel Stone names Raghnall mac Dhòmhnaill, who walk
+LEFT	eras/age_V/events/07.json:$.summary	the Stone	(no "the" before it)	|	 At dusk the clerk adds his figures and Stone calls out one ton, the first coal of th
+LEFT	eras/age_V/events/18.json:$.summary	the beacon at Muileann bheag	(no "the" before it)	|	omplaint laid by the keepers of the new beacon at Muileann bheag. He rides three days by mule-track and 
+LEFT	eras/age_V/events/18.json:$.summary	the pillar near Cnoc chiar	(no "the" before it)	|	 spends nine days rubbing the weathered pillar near Cnoc chiar, watched daily by an old woman of the t
+LEFT	eras/age_V/events/22.json:$.title	the first fire	(no "the" before it)	|	The dissenters' first fire under the oaks
+LEFT	eras/age_V/events/23.json:$.summary	the sacred forest	(another thing of the same English name)	|	eir pupils under the trees of Flidais's sacred forest near Muileann chiar, where the white st
+LEFT	eras/age_V/events/23.json:$.title	the five beacons	(no "the" before it)	|	The ring of five beacons complete
+LEFT	eras/age_V/events/29.json:EV-5006c.summary	the night-shift order	(no "the" before it)	|	tes plainly to the Company that its own night-shift order is killing his crews faster than the co
+LEFT	eras/age_V/events/31.json:EV-5501.summary	the coal-touched	(no "the" before it)	|	When the Residency orders every coal-touched child reported to the Commissioner's of
+LEFT	eras/age_V/events/31.json:EV-5556.summary	the coal-touched	(no "the" before it)	|	 Company agent whether she knows of any coal-touched child in her district, a custodian of C
+LEFT	eras/age_V/events/32.json:$.summary	the coal road	(no "the" before it)	|	aised at Muileann shean on the northern coal road, a stone house with a horse-yard, its f
+LEFT	eras/age_V/events/32.json:$.summary	the Residency	(no "the" before it)	|	he townsfolk call it the humans' second Residency, and the name outlasts every other name
+LEFT	eras/age_V/events/34.json:EV-6025.summary	the grey fever	(no "the" before it)	|	hut a full season against the returning grey fever, turning back the concession's human ca
+LEFT	eras/age_V/events/37.json:EV-6525.summary	the coal road	(no "the" before it)	|	ies Uilleam Gobha's grenades up the cut coal road to the crews waiting at the ford of Àth
+LEFT	eras/age_V/events/38.json:$.summary	the Residency	(no "the" before it)	|	es and a few crates of cartridges for a Residency that had asked for regiments, and saile
+LEFT	eras/age_V/events/40.json:$.summary	the Residency	(no "the" before it)	|	d the letter-books left in the stripped Residency come by cart to Muileann chaol in four 

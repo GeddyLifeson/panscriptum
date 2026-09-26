@@ -5,10 +5,18 @@
   "era_year": 107,
   "summary": "Iseabail nic Leòid leads the herds of Àth mhòr and Achadh shean on a day-long drive west to the tarn above Doire fhionn. Fewer than half the beasts reach water on their own legs; she keeps a private count of the fallen, ninety-eight marks by the drive's end, and of the eleven calves among them.",
   "category": "land",
-  "people": ["Iseabail nic Leòid"],
-  "places": ["burg:349", "burg:411", "burg:117"],
+  "people": [
+   "Iseabail nic Leòid"
+  ],
+  "places": [
+   "burg:349",
+   "burg:411",
+   "burg:117"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4512",
@@ -16,10 +24,16 @@
   "era_year": 107,
   "summary": "With no grazing left within four days' driving, Baile chaol's custodian Ealasaid Ruadh orders the town's whole herd killed and the meat salted rather than risk the loss of it on the road. The town loses fewer of its people to hunger that winter than any other of the ten drought districts.",
   "category": "land",
-  "people": ["Ealasaid Ruadh"],
-  "places": ["burg:311"],
+  "people": [
+   "Ealasaid Ruadh"
+  ],
+  "places": [
+   "burg:311"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4513",
@@ -28,9 +42,13 @@
   "summary": "With its tarn fouled by every drought district's cattle within a week of the drive, Doire fhionn's women take to walking half a day each way to a spring beyond the town's bounds for water fit to drink, a labour the town keeps up through the rest of the drought.",
   "category": "land",
   "people": [],
-  "places": ["burg:117"],
+  "places": [
+   "burg:117"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4510",
@@ -39,20 +57,29 @@
   "summary": "Pilgrims of Na Seann Spioradan come to the spring of Allt an Àigh, which has not failed through three dry years, in numbers its keepers have never seen, beginning at Bealltainn. Inis uaine opens its own granary to feed the walkers rather than see them go hungry on the road home.",
   "category": "faith",
   "people": [],
-  "places": ["marker:1", "burg:103"],
+  "places": [
+   "marker:1",
+   "burg:103"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4514",
-  "title": "The Administration's watchman recalled from Allt an Àigh",
+  "title": "Riaghaltas nan Coigreach's watchman recalled from Allt an Àigh",
   "era_year": 108,
-  "summary": "The Administration posts a watchman at Allt an Àigh to charge a set rate for the water. He is refused by an old woman of Achadh àrsaidh who will not pay a stranger for water that has run free since before his people came, and is called back before the season is out; the spring's keepers enter the word restored under his going.",
+  "summary": "Riaghaltas nan Coigreach posts a watchman at Allt an Àigh to charge a set rate for the water. He is refused by an old woman of Achadh àrsaidh who will not pay a stranger for water that has run free since before his people came, and is called back before the season is out; the spring's keepers enter the word restored under his going.",
   "category": "law",
   "people": [],
-  "places": ["marker:1"],
+  "places": [
+   "marker:1"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4515",
@@ -61,9 +88,13 @@
   "summary": "With its grazing gone two years running, Achadh chaol sends its young to sign hewers' contracts at Cnoc fhiadhaich and elsewhere in numbers its custodian has never before had to record, families who had kept beasts and small fields for generations going down into the galleries for a wage that a dry year cannot touch.",
   "category": "coal",
   "people": [],
-  "places": ["burg:449"],
+  "places": [
+   "burg:449"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4516",
@@ -72,63 +103,98 @@
   "summary": "A fever of bad water follows the drought into Baile Mòr ruadh, whose wells were dug deepest into the town's old midden ground, and kills seventeen before the summer is out, more than the town has lost to any sickness in living memory. It spreads on from there to Cnoc shean, taking mostly the very young and the very old.",
   "category": "humans",
   "people": [],
-  "places": ["burg:387", "burg:424"],
+  "places": [
+   "burg:387",
+   "burg:424"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4517",
   "title": "Coll's report names the drought-fever's true cause",
   "era_year": 109,
-  "summary": "The Mission's physician at Baile Mòr ruadh, a young man named Coll, tests the town's water and finds it fouled by the old midden ground its deep wells were sunk through. His report to the Mission's house at Cathair dhearg is the first that autumn to name the fever's cause rightly.",
+  "summary": "Teachdaireachd na h-Eaglaise's physician at Baile Mòr ruadh, a young man named Coll, tests the town's water and finds it fouled by the old midden ground its deep wells were sunk through. His report to Teachdaireachd na h-Eaglaise's house at Cathair dhearg is the first that autumn to name the fever's cause rightly.",
   "category": "law",
-  "people": ["Coll"],
-  "places": ["burg:387"],
+  "people": [
+   "Coll"
+  ],
+  "places": [
+   "burg:387"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4518",
-  "title": "The Mission bores wells that hold at Achadh shean and Àth chrom",
+  "title": "Teachdaireachd na h-Eaglaise bores wells that hold at Achadh shean and Àth chrom",
   "era_year": 109,
-  "summary": "Following Coll's report, the Mission bores new wells at Achadh shean and Àth chrom, dug deep and clean of old ground. The wells hold, and the drought-fever does not follow them; the custodians of the drought country begin entering the Mission's wells and the Company's unmoved quota on facing pages of their rolls.",
+  "summary": "Following Coll's report, Teachdaireachd na h-Eaglaise bores new wells at Achadh shean and Àth chrom, dug deep and clean of old ground. The wells hold, and the drought-fever does not follow them; the custodians of the drought country begin entering Teachdaireachd na h-Eaglaise's wells and A' Chompanaidh's unmoved quota on facing pages of their rolls.",
   "category": "land",
   "people": [],
-  "places": ["burg:411"],
+  "places": [
+   "burg:411"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4519",
   "title": "Every custodian of the drought country petitions Haskins",
   "era_year": 109,
-  "summary": "Each of the ten drought districts' custodians petitions Commissioner Haskins in her own hand, unknown to the others, asking that the Company's quota be set aside until two seasons of ordinary rain are counted. Iseabail nic Leòid rides her own petition to the Residency and is told, as every other has been told, that the matter is under consideration.",
+  "summary": "Each of the ten drought districts' custodians petitions Àrd-mhaor Haskins in her own hand, unknown to the others, asking that A' Chompanaidh's quota be set aside until two seasons of ordinary rain are counted. Iseabail nic Leòid rides her own petition to Taigh an Àrd-mhaoir and is told, as every other has been told, that the matter is under consideration.",
   "category": "law",
-  "people": ["Iseabail nic Leòid"],
-  "places": ["burg:349"],
+  "people": [
+   "Iseabail nic Leòid"
+  ],
+  "places": [
+   "burg:349"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4511",
   "title": "Iseabail begins her forty pages",
-  "era_year": {"after": "IV-0217"},
+  "era_year": {
+   "after": "IV-0217"
+  },
   "summary": "Understanding that her petition will be answered with nothing but the words under consideration, Iseabail nic Leòid begins writing, over a winter, a full account of the drought's three years: the wells, the cattle, the fever's dead, the watchman recalled from Allt an Àigh, for whoever may someday want to know its cost.",
   "category": "law",
-  "people": ["Iseabail nic Leòid"],
-  "places": ["burg:349"],
+  "people": [
+   "Iseabail nic Leòid"
+  ],
+  "places": [
+   "burg:349"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  },
  {
   "id": "EV-4520",
-  "title": "The Mission's rig strikes water at Achadh shean",
+  "title": "Teachdaireachd na h-Eaglaise's rig strikes water at Achadh shean",
   "era_year": 110,
-  "summary": "A third well bored by the Mission's rig on the moor above Achadh shean strikes clean, running water deeper than any well the drought country has dug, marking the drought's end there. Iseabail nic Leòid rides out to see it and adds the day to her forty pages.",
+  "summary": "A third well bored by Teachdaireachd na h-Eaglaise's rig on the moor above Achadh shean strikes clean, running water deeper than any well the drought country has dug, marking the drought's end there. Iseabail nic Leòid rides out to see it and adds the day to her forty pages.",
   "category": "land",
-  "people": ["Iseabail nic Leòid"],
-  "places": ["burg:411"],
+  "people": [
+   "Iseabail nic Leòid"
+  ],
+  "places": [
+   "burg:411"
+  ],
   "threads": [],
-  "master_links": ["IV-0217"]
+  "master_links": [
+   "IV-0217"
+  ]
  }
 ]

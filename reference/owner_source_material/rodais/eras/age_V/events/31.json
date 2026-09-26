@@ -3,7 +3,7 @@
   "id": "EV-5551",
   "title": "Cailean reads the Àth ìseal marriage line",
   "era_year": 126,
-  "summary": "Copying the roll of the camp at Àth ìseal in the cellar at Muileann chaol, Cailean mac Eachainn reads past the first name of a marriage line for the first time in a year of copying, and finds Donnchadh mac Thormoid's line carried seven fathers back to a name far older than a hewer's line should hold.",
+  "summary": "Copying the roll of the camp at Àth ìseal in Seilear Muileann chaol, Cailean mac Eachainn reads past the first name of a marriage line for the first time in a year of copying, and finds Donnchadh mac Thormoid's line carried seven fathers back to a name far older than a hewer's line should hold.",
   "category": "law",
   "people": [
    "Cailean mac Eachainn",
@@ -59,7 +59,7 @@
  },
  {
   "id": "EV-5554",
-  "title": "Ealasaid of Clann na Ceiste says the Line of Aisling",
+  "title": "Ealasaid of Clann na Ceiste says Sloinneadh Aisling",
   "era_year": 126,
   "summary": "Ealasaid, last of Clann na Ceiste who still says the old lines at Tobar dhìreach, hears the seven names Cailean brings and gives him Aisling's whole line back to Somhairle son of Ailean Mòr, the first king, telling him plainly that she has told him whose son the child's forebear was and no more than that.",
   "category": "coalblood",
@@ -98,9 +98,9 @@
  },
  {
   "id": "EV-5501",
-  "title": "The custodians' first return to the Residency: none",
+  "title": "The custodians' first return to Taigh an Àrd-mhaoir: none",
   "era_year": 127,
-  "summary": "When the Residency orders every coal-touched child reported to the Commissioner's office, the custodians from Cathair dhearg to the coast make their first return and report none, though every roll among them keeps its own quiet note of such births in a physician's plain word.",
+  "summary": "When Taigh an Àrd-mhaoir orders every coal-touched child reported to An t-Àrd-mhaor's office, the custodians from Cathair dhearg to the coast make their first return and report none, though every roll among them keeps its own quiet note of such births in a physician's plain word.",
   "category": "law",
   "people": [],
   "places": [
@@ -115,9 +115,9 @@
  },
  {
   "id": "EV-5556",
-  "title": "A custodian of Cill ghlas answers the Company's agent",
+  "title": "A custodian of Cill ghlas answers A' Chompanaidh's agent",
   "era_year": 127,
-  "summary": "Asked by a Company agent whether she knows of any coal-touched child in her district, a custodian of Cill ghlas answers that she keeps no roll of miracles, only of births and deaths, and that the office is welcome to search her books for either.",
+  "summary": "Asked by an agent of A' Chompanaidh whether she knows of any coal-touched child in her district, a custodian of Cill ghlas answers that she keeps no roll of miracles, only of births and deaths, and that the office is welcome to search her books for either.",
   "category": "coalblood",
   "people": [],
   "places": [
@@ -134,7 +134,7 @@
   "id": "EV-5557",
   "title": "The doors of the barter houses nailed",
   "era_year": 128,
-  "summary": "The barter houses of Ros dhomhain and Cathair dhearg are shut and their doors nailed by written order; a Residency clerk sets down that the Company's ledgers are, for the first time in the island's keeping, complete.",
+  "summary": "The barter houses of Ros dhomhain and Cathair dhearg are shut and their doors nailed by written order; a clerk of Taigh an Àrd-mhaoir sets down that A' Chompanaidh's ledgers are, for the first time in the island's keeping, complete.",
   "category": "trade",
   "people": [],
   "places": [
@@ -150,7 +150,7 @@
   "id": "EV-5558",
   "title": "The fishwives' week of fish given away",
   "era_year": 128,
-  "summary": "The fishwives of Inis mhòr take no coin at the river steps for a full week after the barter houses close, giving their catch away rather than sell it for marks; the Company's clerks record the week as a glut in the season's catch.",
+  "summary": "The fishwives of Inis mhòr take no coin at the river steps for a full week after the barter houses close, giving their catch away rather than sell it for marks; A' Chompanaidh's clerks record the week as a glut in the season's catch.",
   "category": "trade",
   "people": [],
   "places": [
@@ -166,7 +166,7 @@
   "id": "EV-5502",
   "title": "Peigi Ghlas dies at Cill ghlas",
   "era_year": 128,
-  "summary": "Peigi Ghlas dies at Cill ghlas, her petition still unanswered, having trimmed Brìde's lamp herself the week before her death and said that she had asked the Residency once and meant to leave the asking there.",
+  "summary": "Peigi Ghlas dies at Cill ghlas, her petition still unanswered, having trimmed Brìde's lamp herself the week before her death and said that she had asked Taigh an Àrd-mhaoir once and meant to leave the asking there.",
   "category": "rulers",
   "people": [
    "Peigi Ghlas"
@@ -181,7 +181,7 @@
   "id": "EV-5559",
   "title": "The villages of Muileann chrom borrow marks at interest",
   "era_year": 129,
-  "summary": "With barter struck down, the villages about Muileann chrom begin borrowing marks at interest from the Company's stores to buy seed; within a few years most owe the Company more marks than a year's crop can answer for.",
+  "summary": "With barter struck down, the villages about Muileann chrom begin borrowing marks at interest from A' Chompanaidh's stores to buy seed; within a few years most owe A' Chompanaidh more marks than a year's crop can answer for.",
   "category": "trade",
   "people": [],
   "places": [
@@ -196,7 +196,7 @@
   "id": "EV-5560",
   "title": "The last season of the market at Muileann òg",
   "era_year": 130,
-  "summary": "The old barter market at Muileann òg, where hill and coast met to trade directly since before the Holy Age, closes after a poor last season, and the green shoulder of ground above the ford stands empty from that year on.",
+  "summary": "The old barter market at Muileann òg, where hill and coast met to trade directly since before An Aois Naomh, closes after a poor last season, and the green shoulder of ground above the ford stands empty from that year on.",
   "category": "trade",
   "people": [],
   "places": [

@@ -1,122 +1,184 @@
 [
-  {
-    "title": "Iseabail born at the shaft's moor",
-    "era_year": 1430,
-    "summary": "Iseabail is born into the household that keeps the eastern Toll-dubh, the elder of two children, a quiet and watchful girl who grows up among the old plaited cords still hanging inside the household's own door from the diggers' day.",
-    "category": "daily-life",
-    "people": ["Iseabail"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "Eachann born",
-    "era_year": 1435,
-    "summary": "Eachann is born five years after his sister Iseabail, a loud, quick, daring child who cannot pass a height without wanting to know what stands at the top of it, nor a hole without wanting to know what lies at the bottom.",
-    "category": "daily-life",
-    "people": ["Iseabail", "Eachann Ròpa"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "Eachann first asks to be let down",
-    "era_year": 1445,
-    "summary": "At fifteen, Eachann asks his father plainly to be let down the household's own shaft to see what four generations of telling have never claimed to know, and is refused without more explaining than the shaft's own long silence has ever been given.",
-    "category": "daily-life",
-    "people": ["Eachann Ròpa"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "The father of Iseabail and Eachann dies",
-    "era_year": 1451,
-    "summary": "The keeper of the eastern Toll-dubh dies of an ordinary fever that takes three others on the moor that same wet spring, and the covering stone passes to his two children, Iseabail twenty-two and Eachann seventeen.",
-    "category": "death",
-    "people": ["Iseabail", "Eachann Ròpa"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "A youth let down into Toll-dubh",
-    "era_year": 1452,
-    "summary": "Eachann is let down on the household's own plaited-hide cord into the eastern Toll-dubh, to the rope's end, while his sister Iseabail holds it alone at the stake; she draws him up alive, her palms raw from the labour, and he never once tells what he found.",
-    "category": "omen",
-    "people": ["Iseabail", "Eachann Ròpa"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": ["I-0120"]
-  },
-  {
-    "title": "No one goes down Toll-dubh again",
-    "era_year": 1453,
-    "summary": "Iseabail lays the covering stone that autumn and tells every soul who asks after it that the household goes down into Toll-dubh no more; the shaft is not opened again by any hand of that moor in this age.",
-    "category": "custom",
-    "people": ["Iseabail"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": ["I-0120"]
-  },
-  {
-    "title": "Eachann earns the name Ròpa",
-    "era_year": 1460,
-    "summary": "The moor comes, gradually and without any one year's telling saying when it began, to call Eachann by no other name than Eachann Ròpa, a byname he wears the rest of his life without complaint or particular pride in it.",
-    "category": "daily-life",
-    "people": ["Eachann Ròpa"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "Iseabail marries",
-    "era_year": 1454,
-    "summary": "Iseabail marries a man of a neighbouring holding who had courted her patiently through the years her brother's silence went unanswered, and raises three children on the same moor within sound of the covering stone.",
-    "category": "daily-life",
-    "people": ["Iseabail"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "A fire lit in the Hollow Man's hills",
-    "era_year": 1489,
-    "summary": "A herding family new to the Hollow Man's hills lights an open fire against the custom of that country; their hut is found afterward standing with the fire still burning and not a soul of the household anywhere about it. The telling reaches Iseabail as a traveller's news.",
-    "category": "omen",
-    "people": ["Iseabail"],
-    "places": ["marker:22"],
-    "threads": [],
-    "master_links": ["I-0121"]
-  },
-  {
-    "title": "The lake dwellings burn on Loch chrom",
-    "era_year": 1525,
-    "summary": "The platforms built out over the shallows of Loch chrom burn in a single night to the waterline, the charred piles left standing bare in the shallows after; no household of that lake builds there again. The telling reaches Iseabail, by then grey-haired, as a trader's tale.",
-    "category": "disaster",
-    "people": ["Iseabail"],
-    "places": ["feature:9"],
-    "threads": [],
-    "master_links": ["I-0122"]
-  },
-  {
-    "title": "Eachann Ròpa dies untold",
-    "era_year": 1499,
-    "summary": "Eachann Ròpa dies in his own bed of the ordinary failing of a long life, sixty-four years old and easy in his going, and tells his sister on the last night only that some things are carried better than they are told.",
-    "category": "death",
-    "people": ["Iseabail", "Eachann Ròpa"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": ["I-0120"]
-  },
-  {
-    "title": "Iseabail dies within sight of the stone",
-    "era_year": 1510,
-    "summary": "Iseabail dies at eighty in the house her father died in, and is buried, at her own asking, within sight of the covering stone she laid every autumn of her life over the question she carried and was never given the answer to.",
-    "category": "death",
-    "people": ["Iseabail"],
-    "places": ["marker:20"],
-    "threads": [],
-    "master_links": []
-  }
+ {
+  "title": "Iseabail born at the shaft's moor",
+  "era_year": 1430,
+  "summary": "Iseabail is born into the household that keeps the eastern Toll-dubh, the elder of two children, a quiet and watchful girl who grows up among the old plaited cords still hanging inside the household's own door from the diggers' day.",
+  "category": "daily-life",
+  "people": [
+   "Iseabail"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Eachann born",
+  "era_year": 1435,
+  "summary": "Eachann is born five years after his sister Iseabail, a loud, quick, daring child who cannot pass a height without wanting to know what stands at the top of it, nor a hole without wanting to know what lies at the bottom.",
+  "category": "daily-life",
+  "people": [
+   "Iseabail",
+   "Eachann Ròpa"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Eachann first asks to be let down",
+  "era_year": 1445,
+  "summary": "At fifteen, Eachann asks his father plainly to be let down the household's own shaft to see what four generations of telling have never claimed to know, and is refused without more explaining than the shaft's own long silence has ever been given.",
+  "category": "daily-life",
+  "people": [
+   "Eachann Ròpa"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The father of Iseabail and Eachann dies",
+  "era_year": 1451,
+  "summary": "The keeper of the eastern Toll-dubh dies of an ordinary fever that takes three others on the moor that same wet spring, and the covering stone passes to his two children, Iseabail twenty-two and Eachann seventeen.",
+  "category": "death",
+  "people": [
+   "Iseabail",
+   "Eachann Ròpa"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "A youth let down into Toll-dubh",
+  "era_year": 1452,
+  "summary": "Eachann is let down on the household's own plaited-hide cord into the eastern Toll-dubh, to the rope's end, while his sister Iseabail holds it alone at the stake; she draws him up alive, her palms raw from the labour, and he never once tells what he found.",
+  "category": "omen",
+  "people": [
+   "Iseabail",
+   "Eachann Ròpa"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0120"
+  ]
+ },
+ {
+  "title": "No one goes down Toll-dubh again",
+  "era_year": 1453,
+  "summary": "Iseabail lays the covering stone that autumn and tells every soul who asks after it that the household goes down into Toll-dubh no more; the shaft is not opened again by any hand of that moor in this age.",
+  "category": "custom",
+  "people": [
+   "Iseabail"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0120"
+  ]
+ },
+ {
+  "title": "Eachann earns the name Ròpa",
+  "era_year": 1460,
+  "summary": "The moor comes, gradually and without any one year's telling saying when it began, to call Eachann by no other name than Eachann Ròpa, a byname he wears the rest of his life without complaint or particular pride in it.",
+  "category": "daily-life",
+  "people": [
+   "Eachann Ròpa"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Iseabail marries",
+  "era_year": 1454,
+  "summary": "Iseabail marries a man of a neighbouring holding who had courted her patiently through the years her brother's silence went unanswered, and raises three children on the same moor within sound of the covering stone.",
+  "category": "daily-life",
+  "people": [
+   "Iseabail"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "A fire lit in Marbh-bheò's hills",
+  "era_year": 1489,
+  "summary": "A herding family new to Marbh-bheò's hills lights an open fire against the custom of that country; their hut is found afterward standing with the fire still burning and not a soul of the household anywhere about it. The telling reaches Iseabail as a traveller's news.",
+  "category": "omen",
+  "people": [
+   "Iseabail"
+  ],
+  "places": [
+   "marker:22"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0121"
+  ]
+ },
+ {
+  "title": "The lake dwellings burn on Loch chrom",
+  "era_year": 1525,
+  "summary": "The platforms built out over the shallows of Loch chrom burn in a single night to the waterline, the charred piles left standing bare in the shallows after; no household of that lake builds there again. The telling reaches Iseabail, by then grey-haired, as a trader's tale.",
+  "category": "disaster",
+  "people": [
+   "Iseabail"
+  ],
+  "places": [
+   "feature:9"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0122"
+  ]
+ },
+ {
+  "title": "Eachann Ròpa dies untold",
+  "era_year": 1499,
+  "summary": "Eachann Ròpa dies in his own bed of the ordinary failing of a long life, sixty-four years old and easy in his going, and tells his sister on the last night only that some things are carried better than they are told.",
+  "category": "death",
+  "people": [
+   "Iseabail",
+   "Eachann Ròpa"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0120"
+  ]
+ },
+ {
+  "title": "Iseabail dies within sight of the stone",
+  "era_year": 1510,
+  "summary": "Iseabail dies at eighty in the house her father died in, and is buried, at her own asking, within sight of the covering stone she laid every autumn of her life over the question she carried and was never given the answer to.",
+  "category": "death",
+  "people": [
+   "Iseabail"
+  ],
+  "places": [
+   "marker:20"
+  ],
+  "threads": [],
+  "master_links": []
+ }
 ]

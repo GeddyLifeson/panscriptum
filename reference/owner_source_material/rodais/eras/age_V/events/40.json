@@ -1,202 +1,202 @@
 [
-  {
-    "title": "The stores at Ros bheag opened to both peoples",
-    "era_year": 150,
-    "summary": "With the roads cut and no ship come from over the sea in months, Ros bheag runs short of food behind its walls. Lionel Strake orders the Company's stores opened, from that day, to the human families and the Dia-thìrich townsfolk alike, at one measure and no ledger kept of who takes what. Eilidh Hale carries the order down to the quay herself and reads it out to the storekeeper.",
-    "category": "humans",
-    "people": [
-      "Eilidh Hale",
-      "Lionel Strake"
-    ],
-    "places": [
-      "burg:63"
-    ],
-    "threads": [],
-    "master_links": [
-      "IV-0365"
-    ]
-  },
-  {
-    "title": "Eilidh Hale will not choose",
-    "era_year": 150,
-    "summary": "Asked on the steps of the council hall at Baile dhìreach which people she is, Eilidh Hale, who has kept the joint council's books three winters running, answers only that she keeps the books, and no more. She is neither pressed further nor turned away, and stays in the town through the rest of the war.",
-    "category": "humans",
-    "people": [
-      "Eilidh Hale"
-    ],
-    "places": [
-      "burg:105"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "IV-0367"
-    ]
-  },
-  {
-    "title": "The sealed letter kept close",
-    "era_year": 150,
-    "summary": "The last ship from over the sea puts a single sealed letter ashore for the Commissioner at Ros bheag before filling her berths with passengers and standing out again. Strake reads it alone by a window over the harbour, burns its wrapping in the grate, and is seen to carry the letter itself inside his coat for the rest of the winter. No clerk of his ever claims to have read a word of it.",
-    "category": "humans",
-    "people": [
-      "Lionel Strake"
-    ],
-    "places": [
-      "burg:63"
-    ],
-    "threads": [],
-    "master_links": [
-      "IV-0368"
-    ]
-  },
-  {
-    "title": "Two scribes, one truce",
-    "era_year": 150,
-    "summary": "At the meeting-house of Àth àrsaidh, envoys of the forest council and of the Administration set down the truce of the withdrawal in two hands at once, neither side trusting the other's clerk alone with the writing of it. Three days of argument over the line on the map are settled in less than an hour once the terms are agreed.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:304"
-    ],
-    "threads": [],
-    "master_links": [
-      "IV-0369"
-    ]
-  },
-  {
-    "title": "Baile Mòr ruadh chooses",
-    "era_year": 150,
-    "summary": "Named by the truce as the town that will receive the columns, Baile Mòr ruadh puts the choice to its own Dia-thìrich folk at a gathering in the market square: to stay under the truce among the humans they have long lived beside, or to go south with the council's men. The roll afterward sets the two numbers side by side, close enough that no single voice can be said to have carried the town.",
-    "category": "humans",
-    "people": [],
-    "places": [
-      "burg:303"
-    ],
-    "threads": [],
-    "master_links": [
-      "IV-0370"
-    ]
-  },
-  {
-    "title": "Hannah Webb walks north",
-    "era_year": 150,
-    "summary": "Hannah Webb, who keeps her vigil behind Baile chrom and nursed at Cathair gheal through the fever, walks out to meet the columns at the concession's southern edge and walks back north with them, an old woman of the last families out of Cuan shean on her arm who will not be carried.",
-    "category": "humans",
-    "people": [
-      "Hannah Webb"
-    ],
-    "places": [
-      "burg:282"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "IV-0371"
-    ]
-  },
-  {
-    "title": "The count at the ford",
-    "era_year": 150,
-    "summary": "At Àth chrom the custodians stand at the ford from first light until past noon and count the marching column over, family by family, the last count the Dia-thìrich make of the humans on Dia-thìr in that age. Little is spoken on either side beyond what the counting itself requires.",
-    "category": "humans",
-    "people": [],
-    "places": [
-      "burg:412"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "IV-0372"
-    ]
-  },
-  {
-    "title": "A name given at Àth leathan",
-    "era_year": 150,
-    "summary": "Camped a last night before the north country, several of the marching humans ask the custodians of Àth leathan the name of the place and write it down for themselves. A child born that same night under a hedge by lantern-light is given the name as though it were a christening name, none other yet being settled on her.",
-    "category": "humans",
-    "people": [],
-    "places": [
-      "burg:346"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "IV-0373"
-    ]
-  },
-  {
-    "title": "The keeper watches her out of sight",
-    "era_year": 150,
-    "summary": "From the gallery of Taigh-solais Baile chrom, Lachlann mac Uisdein watches Lionel Strake's ship stand out north-about past the headland at evening, showing one light at her stern until the dark of sea and sky close over it. He writes the passing into his father's daybook in his father's own words for a night with no ship left to come.",
-    "category": "war",
-    "people": [
-      "Lachlann mac Uisdein",
-      "Lionel Strake"
-    ],
-    "places": [
-      "marker:12"
-    ],
-    "threads": [
-      "the-mist"
-    ],
-    "master_links": [
-      "IV-0374"
-    ]
-  },
-  {
-    "title": "The keys given up at Cuan shean",
-    "era_year": 150,
-    "summary": "The harbour officers of Ceann mhòr, Cathair gheal and Inis àrsaidh ride two days south with their towns' chests of harbour keys and set them at Strake's feet on the quay at Cuan shean before his ship sails, saying only that the accounts are even and that who wants the keys after is not theirs to decide. Strake takes the chests aboard with him.",
-    "category": "humans",
-    "people": [
-      "Lionel Strake"
-    ],
-    "places": [
-      "burg:282"
-    ],
-    "threads": [],
-    "master_links": [
-      "IV-0374"
-    ]
-  },
-  {
-    "title": "Cha tàinig long",
-    "era_year": 150,
-    "summary": "The five beacons burn again from Baile chrom to Tobar dhearg, relit by the council's order, but for nothing that comes. The keepers go on filling their daybooks through the winter, oil and wind and a line where a ship would once have stood, until most of them stop troubling to leave the line at all and simply write the three words that were once Uisdean mac Lachlainn's alone.",
-    "category": "war",
-    "people": [
-      "Lachlann mac Uisdein"
-    ],
-    "places": [
-      "marker:12"
-    ],
-    "threads": [
-      "the-mist"
-    ],
-    "master_links": [
-      "IV-0375"
-    ]
-  },
-  {
-    "title": "Four chests to Muileann chaol",
-    "era_year": 150,
-    "summary": "The petitions, the book of Baile thais and the letter-books left in the stripped Residency come by cart to Muileann chaol in four chests bound against the weather, a single custodian riding beside them the whole way. Cailean mac Eachainn signs for them on the step and clears a cellar to hold them, and opens the first alone by lamp on the last evening of the year.",
-    "category": "law",
-    "people": [
-      "Cailean mac Eachainn"
-    ],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "IV-0376"
-    ]
-  }
+ {
+  "title": "The stores at Ros bheag opened to both peoples",
+  "era_year": 150,
+  "summary": "With the roads cut and no ship come from over the sea in months, Ros bheag runs short of food behind its walls. Lionel Strake orders A' Chompanaidh's stores opened, from that day, to the human families and the Dia-thìrich townsfolk alike, at one measure and no ledger kept of who takes what. Eilidh Hale carries the order down to the quay herself and reads it out to the storekeeper.",
+  "category": "humans",
+  "people": [
+   "Eilidh Hale",
+   "Lionel Strake"
+  ],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0365"
+  ]
+ },
+ {
+  "title": "Eilidh Hale will not choose",
+  "era_year": 150,
+  "summary": "Asked on the steps of the council hall at Baile dhìreach which people she is, Eilidh Hale, who has kept the joint council's books three winters running, answers only that she keeps the books, and no more. She is neither pressed further nor turned away, and stays in the town through the rest of the war.",
+  "category": "humans",
+  "people": [
+   "Eilidh Hale"
+  ],
+  "places": [
+   "burg:105"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "IV-0367"
+  ]
+ },
+ {
+  "title": "The sealed letter kept close",
+  "era_year": 150,
+  "summary": "The last ship from over the sea puts a single sealed letter ashore for An t-Àrd-mhaor at Ros bheag before filling her berths with passengers and standing out again. Strake reads it alone by a window over the harbour, burns its wrapping in the grate, and is seen to carry the letter itself inside his coat for the rest of the winter. No clerk of his ever claims to have read a word of it.",
+  "category": "humans",
+  "people": [
+   "Lionel Strake"
+  ],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0368"
+  ]
+ },
+ {
+  "title": "Two scribes, one truce",
+  "era_year": 150,
+  "summary": "At the meeting-house of Àth àrsaidh, envoys of Comhairle na Coille and of Riaghaltas nan Coigreach set down the truce of the withdrawal in two hands at once, neither side trusting the other's clerk alone with the writing of it. Three days of argument over the line on the map are settled in less than an hour once the terms are agreed.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:304"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0369"
+  ]
+ },
+ {
+  "title": "Baile Mòr ruadh chooses",
+  "era_year": 150,
+  "summary": "Named by the truce as the town that will receive the columns, Baile Mòr ruadh puts the choice to its own Dia-thìrich folk at a gathering in the market square: to stay under the truce among the humans they have long lived beside, or to go south with the council's men. The roll afterward sets the two numbers side by side, close enough that no single voice can be said to have carried the town.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:303"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0370"
+  ]
+ },
+ {
+  "title": "Hannah Webb walks north",
+  "era_year": 150,
+  "summary": "Hannah Webb, who keeps her vigil behind Baile chrom and nursed at Cathair gheal through the fever, walks out to meet the columns at the concession's southern edge and walks back north with them, an old woman of the last families out of Cuan shean on her arm who will not be carried.",
+  "category": "humans",
+  "people": [
+   "Hannah Webb"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "IV-0371"
+  ]
+ },
+ {
+  "title": "The count at the ford",
+  "era_year": 150,
+  "summary": "At Àth chrom the custodians stand at the ford from first light until past noon and count the marching column over, family by family, the last count the Dia-thìrich make of the humans on Dia-thìr in that age. Little is spoken on either side beyond what the counting itself requires.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:412"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "IV-0372"
+  ]
+ },
+ {
+  "title": "A name given at Àth leathan",
+  "era_year": 150,
+  "summary": "Camped a last night before the north country, several of the marching humans ask the custodians of Àth leathan the name of the place and write it down for themselves. A child born that same night under a hedge by lantern-light is given the name as though it were a christening name, none other yet being settled on her.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:346"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "IV-0373"
+  ]
+ },
+ {
+  "title": "The keeper watches her out of sight",
+  "era_year": 150,
+  "summary": "From the gallery of Taigh-solais Baile chrom, Lachlann mac Uisdein watches Lionel Strake's ship stand out north-about past the headland at evening, showing one light at her stern until the dark of sea and sky close over it. He writes the passing into his father's daybook in his father's own words for a night with no ship left to come.",
+  "category": "war",
+  "people": [
+   "Lachlann mac Uisdein",
+   "Lionel Strake"
+  ],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   "IV-0374"
+  ]
+ },
+ {
+  "title": "The keys given up at Cuan shean",
+  "era_year": 150,
+  "summary": "The harbour officers of Ceann mhòr, Cathair gheal and Inis àrsaidh ride two days south with their towns' chests of harbour keys and set them at Strake's feet on the quay at Cuan shean before his ship sails, saying only that the accounts are even and that who wants the keys after is not theirs to decide. Strake takes the chests aboard with him.",
+  "category": "humans",
+  "people": [
+   "Lionel Strake"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0374"
+  ]
+ },
+ {
+  "title": "Cha tàinig long",
+  "era_year": 150,
+  "summary": "Fàinne nan Teintean-rabhaidh burn again from Baile chrom to Tobar dhearg, relit by the council's order, but for nothing that comes. The keepers go on filling their daybooks through the winter, oil and wind and a line where a ship would once have stood, until most of them stop troubling to leave the line at all and simply write the three words that were once Uisdean mac Lachlainn's alone.",
+  "category": "war",
+  "people": [
+   "Lachlann mac Uisdein"
+  ],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   "IV-0375"
+  ]
+ },
+ {
+  "title": "Four chests to Muileann chaol",
+  "era_year": 150,
+  "summary": "The petitions, Leabhar Baile thais and the letter-books left in the stripped Residency come by cart to Muileann chaol in four chests bound against the weather, a single custodian riding beside them the whole way. Cailean mac Eachainn signs for them on the step and clears a cellar to hold them, and opens the first alone by lamp on the last evening of the year.",
+  "category": "law",
+  "people": [
+   "Cailean mac Eachainn"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "IV-0376"
+  ]
+ }
 ]

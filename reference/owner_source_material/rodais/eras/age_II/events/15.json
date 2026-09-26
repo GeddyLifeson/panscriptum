@@ -1,6 +1,6 @@
 [
  {
-  "title": "Three households settle the Hawk bay",
+  "title": "Three households settle Bàgh an t-Seabhaig",
   "era_year": 1274,
   "summary": "Three hill households too many for the grazing above Baile ghorm cross the spine of the island and settle a curve of grey sand under a gorse headland on the west coast, the first hill-folk household on that shore, building round and turf-roofed and fishing from the beach with lines and baskets rather than boats.",
   "category": "founding",
@@ -18,7 +18,7 @@
  {
   "title": "Beathag walks the whole crossing and is the first buried by that tide",
   "era_year": 1275,
-  "summary": "Beathag, eldest of the three households that cross to the Hawk bay, walks the nine days on her own feet in her old age and dies eleven years after seeing the water for the first time, the first of the hill-folk buried within sound of that particular shore.",
+  "summary": "Beathag, eldest of the three households that cross to Bàgh an t-Seabhaig, walks the nine days on her own feet in her old age and dies eleven years after seeing the water for the first time, the first of the hill-folk buried within sound of that particular shore.",
   "category": "death",
   "people": [
    "Beathag"
@@ -32,9 +32,9 @@
   ]
  },
  {
-  "title": "Flòraidh born at the Hawk bay",
+  "title": "Flòraidh born at Bàgh an t-Seabhaig",
   "era_year": 1285,
-  "summary": "Flòraidh is born at the Hawk bay in a winter hard enough to freeze salt-rime along the tideline, the middle child of five in the second household of the crossing, to a father who came west already grown and a mother who keeps his people's old telling of the hill valleys.",
+  "summary": "Flòraidh is born at Bàgh an t-Seabhaig in a winter hard enough to freeze salt-rime along the tideline, the middle child of five in the second household of the crossing, to a father who came west already grown and a mother who keeps his people's old telling of the hill valleys.",
   "category": "daily-life",
   "people": [
    "Flòraidh"
@@ -86,7 +86,7 @@
  {
   "title": "Traders learn to ask for Flòraidh by name",
   "era_year": 1302,
-  "summary": "Traders on the flint road come to ask the Hawk bay households for Flòraidh by name rather than knock at random for worked amber, and go away with beads finished better than any other hand on that shore gives them, paid in salt, wool, and once in a knife of southern flint.",
+  "summary": "Traders on Rathad na Spor come to ask Bàgh an t-Seabhaig households for Flòraidh by name rather than knock at random for worked amber, and go away with beads finished better than any other hand on that shore gives them, paid in salt, wool, and once in a knife of southern flint.",
   "category": "trade",
   "people": [
    "Flòraidh"
@@ -104,7 +104,7 @@
  {
   "title": "A storm brings the great amber piece ashore",
   "era_year": 1305,
-  "summary": "A gale that takes the roofs off two houses at the Hawk bay leaves half a mile of strand heaped with wrack, and out of it Flòraidh draws the largest piece of amber the shore has ever given up, half again the size of her first find and clouded like smoke inside.",
+  "summary": "A gale that takes the roofs off two houses at Bàgh an t-Seabhaig leaves half a mile of strand heaped with wrack, and out of it Flòraidh draws the largest piece of amber the shore has ever given up, half again the size of her first find and clouded like smoke inside.",
   "category": "discovery",
   "people": [
    "Flòraidh"
@@ -140,7 +140,7 @@
  {
   "title": "Flòraidh sees the king buy nothing at the ford",
   "era_year": 1310,
-  "summary": "At the ford gathering Flòraidh watches the king move slowly along the trading ground for the better part of an hour, weighing pots and running a thumb along flint edges, buying nothing and asking the price of nothing, while the crowd gives way from him without seeming to notice it has moved.",
+  "summary": "At Cruinneachadh an Àtha Flòraidh watches the king move slowly along the trading ground for the better part of an hour, weighing pots and running a thumb along flint edges, buying nothing and asking the price of nothing, while the crowd gives way from him without seeming to notice it has moved.",
   "category": "custom",
   "people": [
    "Flòraidh"
@@ -205,9 +205,9 @@
   "master_links": []
  },
  {
-  "title": "The round-house harbour begins paying salt to the Red Hill",
+  "title": "The round-house harbour begins paying salt to An Cnoc Ruadh",
   "era_year": 1347,
-  "summary": "The households at the harbour of the round houses, where the king's blood first came down to the sea, begin paying their salt to the Red Hill rather than keeping it among themselves, a custom that takes hold within a season with no word sent from Dùn ìseal to start it.",
+  "summary": "The households at Cala nan Taighean Cruinne, where the king's blood first came down to the sea, begin paying their salt to An Cnoc Ruadh rather than keeping it among themselves, a custom that takes hold within a season with no word sent from Dùn ìseal to start it.",
   "category": "custom",
   "people": [],
   "places": [
@@ -223,7 +223,7 @@
  {
   "title": "Cattle walked to Cnoc ghorm",
   "era_year": 1379,
-  "summary": "Small herds driven up the flint road by stages over three summers bring cattle for the first time to the green rise of Cnoc ghorm in the north-west, where the people have lived on seal, fish and deer, and the first calves born there are watched through their first winter by the whole settlement in turn.",
+  "summary": "Small herds driven up Rathad na Spor by stages over three summers bring cattle for the first time to the green rise of Cnoc ghorm in the north-west, where the people have lived on seal, fish and deer, and the first calves born there are watched through their first winter by the whole settlement in turn.",
   "category": "trade",
   "people": [],
   "places": [
@@ -237,7 +237,7 @@
  {
   "title": "The long-house raised at Cathair gheal",
   "era_year": 1416,
-  "summary": "A long-house forty paces long, byre and hall under one roof and greater by half again than any building of the age, is raised above the firth at Cathair gheal, timbered from the flint road's own hills and roofed with turf a season dried, and is spoken of the length of the coast within the year.",
+  "summary": "A long-house forty paces long, byre and hall under one roof and greater by half again than any building of the age, is raised above the firth at Cathair gheal, timbered from Rathad na Spor's own hills and roofed with turf a season dried, and is spoken of the length of the coast within the year.",
   "category": "building",
   "people": [],
   "places": [

@@ -40,7 +40,7 @@
   ]
  },
  {
-  "title": "The Cuan shean crew heard in the red hall",
+  "title": "The Cuan shean crew heard in An Talla Dearg",
   "era_year": 1,
   "summary": "Eachann mac Lachlainn, skipper of Cuan shean, tells the queen of a low dark coast west and north of west, with smoke on it and no hall. Asked if he was first to hear it, he says he was about the last.",
   "category": "land",
@@ -62,7 +62,7 @@
   ]
  },
  {
-  "title": "The Ros bheag crew heard in the red hall",
+  "title": "The Ros bheag crew heard in An Talla Dearg",
   "era_year": 1,
   "summary": "Oighrig nic Raghnaill, skipper of Ros bheag, tells the queen that the coast lies north past the north cape, high and forested, with a white river, and that the pilot who saw it swore on the cup at Seann Skell.",
   "category": "land",
@@ -84,7 +84,7 @@
   ]
  },
  {
-  "title": "The Ceann mhòr crew heard in the red hall",
+  "title": "The Ceann mhòr crew heard in An Talla Dearg",
   "era_year": 1,
   "summary": "Tòmas mac Uilleim of Ceann mhòr tells the queen that the land lies east behind the mist, and can be smelt on some mornings; the old men of the north-west have always said so.",
   "category": "land",
@@ -109,7 +109,7 @@
  {
   "title": "Murchadh's leaf of the three tellings",
   "era_year": 1,
-  "summary": "The queen's scribe Murchadh mac Eòghainn writes the three tellings on one leaf and adds at its foot that they agree on the coast and on nothing else. The leaf is kept in the chest of the red hall.",
+  "summary": "The queen's scribe Murchadh mac Eòghainn writes the three tellings on one leaf and adds at its foot that they agree on the coast and on nothing else. The leaf is kept in the chest of An Talla Dearg.",
   "category": "law",
   "people": [
    "Murchadh mac Eòghainn",
@@ -131,7 +131,7 @@
  {
   "title": "How many days' water",
   "era_year": 1,
-  "summary": "At the lower board of the red hall the queen's sister Mòrag nic Dhòmhnaill asks the Cuan shean skipper how many days' water a boat would need. He answers that no boat of the island could make the crossing, and that none has ever been built that could.",
+  "summary": "At the lower board of An Talla Dearg the queen's sister Mòrag nic Dhòmhnaill asks the Cuan shean skipper how many days' water a boat would need. He answers that no boat of the island could make the crossing, and that none has ever been built that could.",
   "category": "humans",
   "people": [
    "Mòrag nic Dhòmhnaill",
@@ -189,7 +189,7 @@
  {
   "title": "A custodian asks for the three tellings",
   "era_year": 1,
-  "summary": "Fearchar mac Ruairidh, a young custodian of the western diggings, comes down to Cathair dhearg on an errand of the vein-house and asks to hear the three tellings from the queen's scribe.",
+  "summary": "Fearchar mac Ruairidh, a young custodian of the western diggings, comes down to Cathair dhearg on an errand of Taigh na Fèithe and asks to hear the three tellings from the queen's scribe.",
   "category": "coal",
   "people": [
    "Fearchar mac Ruairidh",
@@ -233,7 +233,7 @@
  {
   "title": "The queen keeps the journey from the roll",
   "era_year": 1,
-  "summary": "Queen Beathag watches her sister walk the Cuan shean skipper to the gate of the red hall and look down the river road west. She bids Murchadh write nothing of it, since it is no matter for the roll yet.",
+  "summary": "Queen Beathag watches her sister walk the Cuan shean skipper to the gate of An Talla Dearg and look down the river road west. She bids Murchadh write nothing of it, since it is no matter for the roll yet.",
   "category": "rulers",
   "people": [
    "Beathag nic Dhòmhnaill",
@@ -256,7 +256,7 @@
  {
   "era_year": 1,
   "title": "The ninth year of Queen Beathag",
-  "summary": "The red hall's rolls enter the first year of the age as the ninth year of Queen Beathag nic Dhòmhnaill, crowned at fifteen and now three-and-twenty: a good year for barley and a middling one for fish, with no child yet born to her.",
+  "summary": "An Talla Dearg's rolls enter the first year of the age as the ninth year of Queen Beathag nic Dhòmhnaill, crowned at fifteen and now three-and-twenty: a good year for barley and a middling one for fish, with no child yet born to her.",
   "category": "rulers",
   "people": [
    "Beathag nic Dhòmhnaill"

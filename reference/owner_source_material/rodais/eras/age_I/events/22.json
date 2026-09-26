@@ -1,162 +1,276 @@
 [
-  {
-    "title": "The stakes found in the tidal mud",
-    "era_year": 2937,
-    "summary": "A boy minding his household's mooring finds a straight row of older stakes further out in the tidal mud below the north-western point, one still hung with a scrap of stitched hide. No household owns to having driven them, and who did, or from where, the mud never says.",
-    "category": "land",
-    "people": [],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "I-0039", "type": "cause"}]
-  },
-  {
-    "title": "A back rises off the north-western point",
-    "era_year": 2990,
-    "summary": "Four men working a mackerel net before dawn see a vast dark back rise smoothly from flat water off the north-west, longer than any whale known to that coast, and sink again without spray or sound. None can afterward agree how long it showed itself, only that it was greater than anything with business in water so shallow.",
-    "category": "land",
-    "people": [],
-    "places": [],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "I-0040", "type": "cause"}]
-  },
-  {
-    "title": "The sighting told at the hearths",
-    "era_year": 2991,
-    "summary": "Within a day the four men's telling has gone the length of the coast, and within its second telling the creature has a name that will not leave it again: the Sea-Watcher. Not every hearth believes them, but the water off the point is from that year the Watcher's water in every mouth, believed or doubted alike.",
-    "category": "faith",
-    "people": [],
-    "places": [],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "I-0040", "type": "sequel"}]
-  },
-  {
-    "title": "Criomthann born to the shore",
-    "era_year": 3015,
-    "summary": "Criomthann is born into a household of net-menders and boatmen kin, at some remove, to the household that once sent Bran west over the open sea. He grows up knowing the shape of that older grief by its silences rather than by being told it plainly, and it leaves him wary of open water all his life.",
-    "category": "faith",
-    "people": ["Criomthann"],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "I-0038", "type": "sequel"}]
-  },
-  {
-    "title": "Two drown in water that shows no storm",
-    "era_year": 3035,
-    "summary": "A boat close in below the point goes over in a swell no watcher on shore can account for, and two men drown within sight of their own hearth smoke. The loss is not laid to the Watcher, the water being the wrong water, but it teaches Criomthann, newly a father, that the sea gives little warning of the moment it means to take something.",
-    "category": "land",
-    "people": ["Criomthann"],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "I-0041", "type": "cause"}]
-  },
-  {
-    "title": "Criomthann first climbs the headland with fire",
-    "era_year": 3042,
-    "summary": "Sixteen years after the drowning below the point, Criomthann begins carrying driftwood and gorse to the last headland of that coast of an evening, less as a plan reasoned out than as a thing he finds his hands already doing, and lights a fire that will not go dark again in his lifetime.",
-    "category": "land",
-    "people": ["Criomthann"],
-    "places": [],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "I-0041", "type": "cause"}]
-  },
-  {
-    "title": "The word settles into four lines",
-    "era_year": 3044,
-    "summary": "Over repeated evenings calling down from the headland to boats working too far into the Watcher's water, Criomthann's warning wears smooth into a saying his own children can say back to him in their sleep: Turn back. This water is not for you.",
-    "category": "faith",
-    "people": ["Criomthann"],
-    "places": [],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "I-0041", "type": "sequel"}]
-  },
-  {
-    "title": "Criomthann's strength fails the climb",
-    "era_year": 3078,
-    "summary": "Nine years widowed, at three-and-sixty Criomthann can no longer carry wood up the last steep pitch of the headland, and his eldest son takes up the feeding of the fire, so that the flame he lit for no reason he could fully name burns on past the reach of his own life.",
-    "category": "land",
-    "people": ["Criomthann"],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "I-0041", "type": "sequel"}]
-  },
-  {
-    "title": "Criomthann dies",
-    "era_year": 3079,
-    "summary": "Criomthann dies at four-and-sixty in his own bed, three generations of his kin about him, having outlived every one of the four who first saw the Watcher rise. At his own asking he is buried on the lower slope of the headland, within sound of the fire he kept.",
-    "category": "land",
-    "people": ["Criomthann"],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "I-0041", "type": "sequel"}]
-  },
-  {
-    "title": "A calm summer fills the nets at Ros ruadh",
-    "era_year": 3090,
-    "summary": "A run of flat, windless weather settles over the water off Ros ruadh, the kind of calm fishermen pray for and seldom get, and the settlement's boats work it harder than any season in memory.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:238"],
-    "threads": [],
-    "master_links": [{"to": "I-0042", "type": "cause"}]
-  },
-  {
-    "title": "The first boat fails to come home",
-    "era_year": 3090,
-    "summary": "A boat with three men aboard, working water well inside what the settlement calls safe, does not return with the tide. No wreckage of it is ever found on any shingle the length of that coast.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:238"],
-    "threads": [],
-    "master_links": [{"to": "I-0042", "type": "cause"}]
-  },
-  {
-    "title": "Seven boats lost from Ros ruadh in one season",
-    "era_year": 3094,
-    "summary": "Boat after boat fails to return through a summer of unbroken calm, until seven are lost from Ros ruadh with no storm to blame and no wreck or body ever recovered. Scarcely a hearth in the settlement is left untouched.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:238"],
-    "threads": [],
-    "master_links": [{"to": "I-0042", "type": "cause"}]
-  },
-  {
-    "title": "The widows name the Watcher",
-    "era_year": 3095,
-    "summary": "The widows of Ros ruadh are the first to say plainly, at every hearth that will hear it, that the Sea-Watcher has taken their seven boats. It is the first loss on that coast laid at the Watcher's door by name rather than only feared in its shadow, and the naming holds ever after.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:238"],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "I-0042", "type": "answers"}]
-  },
-  {
-    "title": "Kin from three households feed the beacon together",
-    "era_year": 3096,
-    "summary": "In the year after the widows' naming, the headland fire burns harder than in any year since Criomthann first lit it, fed now by hands from three households besides his own grandson's, as though a fire fed by more hands might answer for what seamanship could not.",
-    "category": "faith",
-    "people": [],
-    "places": [],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "I-0041", "type": "sequel"}]
-  },
-  {
-    "title": "The ash on the headland stands a man's height deep",
-    "era_year": 3120,
-    "summary": "Fed and banked and fed again by hands born after the worst of the lost season, the beacon's ash has by now been heaped on the same ground for so many lifetimes that it stands a man's own height deep, deep enough that a boy sent to feed it can stand in the hollow of it and be seen from below only from the shoulders up.",
-    "category": "land",
-    "people": [],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "I-0041", "type": "sequel"}]
-  },
-  {
-    "title": "Seven empty places on the shingle",
-    "era_year": 3146,
-    "summary": "The shingle at Ros ruadh has by now shifted through enough winters' tides that it no longer holds even the memory of where the seven lost boats once lay drawn up among the rest, and only the headland fire and the widows' naming remain to say the seven ever went out from that shore at all.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:238"],
-    "threads": [],
-    "master_links": [{"to": "I-0042", "type": "sequel"}]
-  }
+ {
+  "title": "The stakes found in the tidal mud",
+  "era_year": 2937,
+  "summary": "A boy minding his household's mooring finds a straight row of older stakes further out in the tidal mud below the north-western point, one still hung with a scrap of stitched hide. No household owns to having driven them, and who did, or from where, the mud never says.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0039",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A back rises off the north-western point",
+  "era_year": 2990,
+  "summary": "Four men working a mackerel net before dawn see a vast dark back rise smoothly from flat water off the north-west, longer than any whale known to that coast, and sink again without spray or sound. None can afterward agree how long it showed itself, only that it was greater than anything with business in water so shallow.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "I-0040",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The sighting told at the hearths",
+  "era_year": 2991,
+  "summary": "Within a day the four men's telling has gone the length of the coast, and within its second telling the creature has a name that will not leave it again: Uilebheist na Mara. Not every hearth believes them, but the water off the point is from that year Uilebheist na Mara's water in every mouth, believed or doubted alike.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "I-0040",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Criomthann born to the shore",
+  "era_year": 3015,
+  "summary": "Criomthann is born into a household of net-menders and boatmen kin, at some remove, to the household that once sent Bran west over the open sea. He grows up knowing the shape of that older grief by its silences rather than by being told it plainly, and it leaves him wary of open water all his life.",
+  "category": "faith",
+  "people": [
+   "Criomthann"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0038",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Two drown in water that shows no storm",
+  "era_year": 3035,
+  "summary": "A boat close in below the point goes over in a swell no watcher on shore can account for, and two men drown within sight of their own hearth smoke. The loss is not laid to Uilebheist na Mara, the water being the wrong water, but it teaches Criomthann, newly a father, that the sea gives little warning of the moment it means to take something.",
+  "category": "land",
+  "people": [
+   "Criomthann"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0041",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Criomthann first climbs the headland with fire",
+  "era_year": 3042,
+  "summary": "Sixteen years after the drowning below the point, Criomthann begins carrying driftwood and gorse to the last headland of that coast of an evening, less as a plan reasoned out than as a thing he finds his hands already doing, and lights a fire that will not go dark again in his lifetime.",
+  "category": "land",
+  "people": [
+   "Criomthann"
+  ],
+  "places": [],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "I-0041",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The word settles into four lines",
+  "era_year": 3044,
+  "summary": "Over repeated evenings calling down from the headland to boats working too far into Uilebheist na Mara's water, Criomthann's warning wears smooth into a saying his own children can say back to him in their sleep: Turn back. This water is not for you.",
+  "category": "faith",
+  "people": [
+   "Criomthann"
+  ],
+  "places": [],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "I-0041",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Criomthann's strength fails the climb",
+  "era_year": 3078,
+  "summary": "Nine years widowed, at three-and-sixty Criomthann can no longer carry wood up the last steep pitch of the headland, and his eldest son takes up the feeding of the fire, so that the flame he lit for no reason he could fully name burns on past the reach of his own life.",
+  "category": "land",
+  "people": [
+   "Criomthann"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0041",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Criomthann dies",
+  "era_year": 3079,
+  "summary": "Criomthann dies at four-and-sixty in his own bed, three generations of his kin about him, having outlived every one of the four who first saw Uilebheist na Mara rise. At his own asking he is buried on the lower slope of the headland, within sound of the fire he kept.",
+  "category": "land",
+  "people": [
+   "Criomthann"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0041",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A calm summer fills the nets at Ros ruadh",
+  "era_year": 3090,
+  "summary": "A run of flat, windless weather settles over the water off Ros ruadh, the kind of calm fishermen pray for and seldom get, and the settlement's boats work it harder than any season in memory.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:238"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0042",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The first boat fails to come home",
+  "era_year": 3090,
+  "summary": "A boat with three men aboard, working water well inside what the settlement calls safe, does not return with the tide. No wreckage of it is ever found on any shingle the length of that coast.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:238"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0042",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Seven boats lost from Ros ruadh in one season",
+  "era_year": 3094,
+  "summary": "Boat after boat fails to return through a summer of unbroken calm, until seven are lost from Ros ruadh with no storm to blame and no wreck or body ever recovered. Scarcely a hearth in the settlement is left untouched.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:238"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0042",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The widows name Uilebheist na Mara",
+  "era_year": 3095,
+  "summary": "The widows of Ros ruadh are the first to say plainly, at every hearth that will hear it, that Uilebheist na Mara has taken their seven boats. It is the first loss on that coast laid at Uilebheist na Mara's door by name rather than only feared in its shadow, and the naming holds ever after.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:238"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "I-0042",
+    "type": "answers"
+   }
+  ]
+ },
+ {
+  "title": "Kin from three households feed the beacon together",
+  "era_year": 3096,
+  "summary": "In the year after the widows' naming, the headland fire burns harder than in any year since Criomthann first lit it, fed now by hands from three households besides his own grandson's, as though a fire fed by more hands might answer for what seamanship could not.",
+  "category": "faith",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "I-0041",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The ash on the headland stands a man's height deep",
+  "era_year": 3120,
+  "summary": "Fed and banked and fed again by hands born after the worst of the lost season, the beacon's ash has by now been heaped on the same ground for so many lifetimes that it stands a man's own height deep, deep enough that a boy sent to feed it can stand in the hollow of it and be seen from below only from the shoulders up.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0041",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seven empty places on the shingle",
+  "era_year": 3146,
+  "summary": "The shingle at Ros ruadh has by now shifted through enough winters' tides that it no longer holds even the memory of where the seven lost boats once lay drawn up among the rest, and only the headland fire and the widows' naming remain to say the seven ever went out from that shore at all.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:238"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0042",
+    "type": "sequel"
+   }
+  ]
+ }
 ]

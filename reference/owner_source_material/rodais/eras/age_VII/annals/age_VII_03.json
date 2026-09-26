@@ -393,7 +393,7 @@
   {
    "id": "EVII-2013",
    "title": "The first dubhan tank at Muileann chrom",
-   "body": "The Board's men set an iron tank on stone piers at the end of the long siding at Muileann chrom and fill it from barrels carted up from the southern Seann Skell. It is the first dubhan tank Comhairle na Slighe-iarainn owns. The families of the yard rows complain of the reek, which clings to cloth.",
+   "body": "Comhairle nam Mèinnean's men set an iron tank on stone piers at the end of the long siding at Muileann chrom and fill it from barrels carted up from the southern Seann Skell. It is the first dubhan tank Comhairle na Slighe-iarainn owns. The families of the yard rows complain of the reek, which clings to cloth.",
    "place": "burg:354",
    "kind": "trade",
    "category": "trade",
@@ -425,7 +425,7 @@
   {
    "id": "EVII-2014",
    "title": "Eachann mac Ruairidh learns the dubhan engine",
-   "body": "Eachann mac Ruairidh, a driver of the yard families at Muileann chrom, alone puts his name to the Board's notice asking for a man to learn the new engine. Two fitters of the southern Obair-dhubhain Seann Skell teach him, one of them a Tuathach of Caol mhòr, Will Garside. In a month he drives it to An Sloc Mòr and back without them.",
+   "body": "Eachann mac Ruairidh, a driver of the yard families at Muileann chrom, alone puts his name to Comhairle nam Mèinnean's notice asking for a man to learn the new engine. Two fitters of the southern Obair-dhubhain Seann Skell teach him, one of them a Tuathach of Caol mhòr, Will Garside. In a month he drives it to An Sloc Mòr and back without them.",
    "place": "burg:354",
    "kind": "trade",
    "category": "trade",
@@ -547,7 +547,7 @@
   {
    "id": "EVII-2018",
    "title": "A boy of the yard rows killed",
-   "body": "Ailean mac Mhathain, fourteen, of the yard families at Muileann chrom, is crushed between two dubhan tank-wagons being moved by rope and pinch-bar to make room for a second tank. The Board's clerk enters his death in the yard book as an accident in the changeover. The rows bury him in their corner of the burial ground below the mill.",
+   "body": "Ailean mac Mhathain, fourteen, of the yard families at Muileann chrom, is crushed between two dubhan tank-wagons being moved by rope and pinch-bar to make room for a second tank. Comhairle nam Mèinnean's clerk enters his death in the yard book as an accident in the changeover. The rows bury him in their corner of the burial ground below the mill.",
    "place": "burg:354",
    "kind": "trade",
    "category": "trade",
@@ -1317,7 +1317,7 @@
   {
    "id": "EVII-2044",
    "title": "The landlord of An Taigh-seinnse Reòta keeps his wicks",
-   "body": "The landlord of An Taigh-seinnse Reòta above Muileann fhada, having written to the Board, keeps a wick lamp in every room, and the lorry-drivers who stop there take their suppers by the fire rather than read by them.",
+   "body": "The landlord of An Taigh-seinnse Reòta above Muileann fhada, having written to Comhairle nam Mèinnean, keeps a wick lamp in every room, and the lorry-drivers who stop there take their suppers by the fire rather than read by them.",
    "place": "burg:74",
    "kind": "trade",
    "category": "trade",
@@ -1344,7 +1344,7 @@
   {
    "id": "EVII-2045",
    "title": "The last coal orders stop at Muileann chrom",
-   "body": "The Board's clerk at Muileann chrom stops writing coal orders for the shorter hauls, An Sloc Mòr running three days in the week where it ran six. The coal engines are worked on the shorter runs alone through the summer while the dubhan engine takes the long haul to Cathair dhearg.",
+   "body": "Comhairle nam Mèinnean's clerk at Muileann chrom stops writing coal orders for the shorter hauls, An Sloc Mòr running three days in the week where it ran six. The coal engines are worked on the shorter runs alone through the summer while the dubhan engine takes the long haul to Cathair dhearg.",
    "place": "burg:354",
    "kind": "trade",
    "category": "trade",
@@ -1372,8 +1372,8 @@
   },
   {
    "id": "EVII-2046",
-   "title": "The Board's notice on the shed door",
-   "body": "A notice at Muileann chrom stands the coal engines down pending the Board's further order and calls the men who drove and fired them for instruction on the new engines, at the driver's rate while they learn. It says nothing of a man who does not learn, nor of what is to be done with the engines standing idle.",
+   "title": "Comhairle nam Mèinnean's notice on the shed door",
+   "body": "A notice at Muileann chrom stands the coal engines down pending Comhairle nam Mèinnean's further order and calls the men who drove and fired them for instruction on the new engines, at the driver's rate while they learn. It says nothing of a man who does not learn, nor of what is to be done with the engines standing idle.",
    "place": "burg:354",
    "kind": "trade",
    "category": "trade",
@@ -1429,7 +1429,7 @@
   {
    "id": "EVII-2048",
    "title": "Dòmhnall Ruadh gives up the new engine",
-   "body": "Dòmhnall Ruadh, a driver of thirty years on Slighe a' Ghuail, cannot learn to read the dubhan engine's valve as he read a coal engine's fire, and after nine days strikes his name from the Board's instruction list. He asks to be kept on at the sidings or the stores instead.",
+   "body": "Dòmhnall Ruadh, a driver of thirty years on Slighe a' Ghuail, cannot learn to read the dubhan engine's valve as he read a coal engine's fire, and after nine days strikes his name from Comhairle nam Mèinnean's instruction list. He asks to be kept on at the sidings or the stores instead.",
    "place": "burg:354",
    "kind": "trade",
    "category": "trade",
@@ -1458,7 +1458,7 @@
   {
    "id": "EVII-2049",
    "title": "The nine coal engines stand in the long siding",
-   "body": "By the feast of Samhain the last of the nine coal engines of Muileann chrom stands cold in the long siding with its fire drawn, and no order comes to light any of them again. The Board sends a clerk once, in spring, to count and write down their condition, and touches them with no order after.",
+   "body": "By the feast of Samhain the last of the nine coal engines of Muileann chrom stands cold in the long siding with its fire drawn, and no order comes to light any of them again. Comhairle nam Mèinnean sends a clerk once, in spring, to count and write down their condition, and touches them with no order after.",
    "place": "burg:354",
    "kind": "trade",
    "category": "trade",
@@ -1487,7 +1487,7 @@
   {
    "id": "EVII-2050",
    "title": "An Taigh-seinnse Reòta keeps its rooms unlit",
-   "body": "Murchadh Frisealach, landlord of An Taigh-seinnse Reòta on the north road, writes to the Board that the reek of dubhan will drive custom from his house as it has from three houses on the coast. The letter is repeated at firesides between Muileann fhada and the capital as proof a house may hold to the old ways.",
+   "body": "Murchadh Frisealach, landlord of An Taigh-seinnse Reòta on the north road, writes to Comhairle nam Mèinnean that the reek of dubhan will drive custom from his house as it has from three houses on the coast. The letter is repeated at firesides between Muileann fhada and the capital as proof a house may hold to the old ways.",
    "place": "marker:8",
    "kind": "trade",
    "category": "trade",
@@ -1540,7 +1540,7 @@
   },
   {
    "id": "EVII-2052",
-   "title": "The Board's surveyor writes Muileann dhearg spent",
+   "title": "Comhairle nam Mèinnean's surveyor writes Muileann dhearg spent",
    "body": "A surveyor of Comhairle nam Mèinnean walks the last working face at Muileann dhearg with the pit captain Gilleasbaig Ruadh and two of the older hewers, and writes in his book that the seam is spent below the value of working it. The pit is ordered to close at the month's end.",
    "place": "burg:491",
    "kind": "craft",
@@ -1599,7 +1599,7 @@
   {
    "id": "EVII-2054",
    "title": "The guild finds carts for the walk to Seann Toll",
-   "body": "Tormod mac Dhonnchaidh, master of Comann nan Gualadairean, goes door to door through the pit quarter of Muileann dhearg after the closing to promise carts for what the forty remaining households cannot carry, the Board having offered places at Seann Toll but no removal. He walks the ten miles of river road with them himself.",
+   "body": "Tormod mac Dhonnchaidh, master of Comann nan Gualadairean, goes door to door through the pit quarter of Muileann dhearg after the closing to promise carts for what the forty remaining households cannot carry, Comhairle nam Mèinnean having offered places at Seann Toll but no removal. He walks the ten miles of river road with them himself.",
    "place": "burg:491",
    "kind": "craft",
    "category": "coal",

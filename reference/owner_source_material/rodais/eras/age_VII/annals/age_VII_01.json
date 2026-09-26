@@ -751,8 +751,8 @@
   },
   {
    "id": "EVII-1027",
-   "title": "Harker of Caol mhòr lodges the Board's men",
-   "body": "The Board's surveyors lodge four days at Harker's inn on the harbour at Caol mhòr. They are answered civilly everywhere, in good Dia-thìris, and told nothing of the fuel.",
+   "title": "Harker of Caol mhòr lodges Comhairle nam Mèinnean's men",
+   "body": "Comhairle nam Mèinnean's surveyors lodge four days at Harker's inn on the harbour at Caol mhòr. They are answered civilly everywhere, in good Dia-thìris, and told nothing of the fuel.",
    "place": "burg:95",
    "kind": "people",
    "category": "humans",
@@ -837,8 +837,8 @@
   },
   {
    "id": "EVII-1030",
-   "title": "The Board's report bound in grey board",
-   "body": "The surveyors' report on the northern fuel is bound in the Board's grey board and laid before the council with a single sample-tin of the cake set on its cover.",
+   "title": "Comhairle nam Mèinnean's report bound in grey board",
+   "body": "The surveyors' report on the northern fuel is bound in Comhairle nam Mèinnean's grey board and laid before the council with a single sample-tin of the cake set on its cover.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",

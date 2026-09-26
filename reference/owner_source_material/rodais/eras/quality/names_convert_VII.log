@@ -1466,3 +1466,934 @@ LEFT	eras/age_VII/appendices/A_rulers.md:47	the commander of the regiments	(no "
 LEFT	eras/age_VII/appendices/A_rulers.md:67	the Keeper	(no "the" before it)	|	| Keeper of the library | Raghnall mac Mhuirich 
 LEFT	eras/age_VII/appendices/B_hosts.md:59	the register of the dead and maimed	(no "the" before it)	|	n in Clàr nam Marbh is nan Leòinte, its register of the dead and maimed.
 LEFT	eras/age_VII/appendices/C_trade.md:3	the coal line	(no "the" before it)	|	s sworn on an oath-stone, carters and a coal line to carry it, lamp-houses to burn it in 
+# run 2026-09-26 02:08: 803 changes, 127 left
+CHANGE	eras/age_VII/annals/age_VII_01.json:EVII-1027.title	the Board's	->	Comhairle nam Mèinnean's	|	Harker of Caol mhòr lodges the Board's men
+CHANGE	eras/age_VII/annals/age_VII_01.json:EVII-1027.body	The Board's	->	Comhairle nam Mèinnean's	|	The Board's surveyors lodge four days at 
+CHANGE	eras/age_VII/annals/age_VII_01.json:EVII-1030.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's report bound in grey board
+CHANGE	eras/age_VII/annals/age_VII_01.json:EVII-1030.body	the Board's	->	Comhairle nam Mèinnean's	|	urveyors' report on the northern fuel is bound in the Board's grey board and laid before th
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2013.body	The Board's	->	Comhairle nam Mèinnean's	|	The Board's men set an iron tank on stone
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2014.body	the Board's	->	Comhairle nam Mèinnean's	|	amilies at Muileann chrom, alone puts his name to the Board's notice asking for a man to le
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2018.body	The Board's	->	Comhairle nam Mèinnean's	|	ope and pinch-bar to make room for a second tank. The Board's clerk enters his death in the
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2044.body	the Board	->	Comhairle nam Mèinnean	|	nse Reòta above Muileann fhada, having written to the Board, keeps a wick lamp in every r
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2045.body	The Board's	->	Comhairle nam Mèinnean's	|	The Board's clerk at Muileann chrom stops
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2046.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's notice on the shed door
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2046.body	the Board's	->	Comhairle nam Mèinnean's	|	ileann chrom stands the coal engines down pending the Board's further order and calls the m
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2048.body	the Board's	->	Comhairle nam Mèinnean's	|	s fire, and after nine days strikes his name from the Board's instruction list. He asks to 
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2049.body	The Board	->	Comhairle nam Mèinnean	|	n, and no order comes to light any of them again. The Board sends a clerk once, in spring
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2050.body	the Board	->	Comhairle nam Mèinnean	|	 Taigh-seinnse Reòta on the north road, writes to the Board that the reek of dubhan will 
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2052.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's surveyor writes Muileann dhea
+CHANGE	eras/age_VII/annals/age_VII_03.json:EVII-2054.body	the Board	->	Comhairle nam Mèinnean	|	what the forty remaining households cannot carry, the Board having offered places at Sean
+CHANGE	eras/age_VII/annals/age_VII_04.json:EVII-2522.body	the Board	->	Comhairle nam Mèinnean	|	n Sloc Mòr changes its pumps from coal to dubhan, the Board finding it cheaper to buy the
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3024.title	the Board	->	Comhairle nam Mèinnean	|	A brewer of Baile ìseal writes to the Board unasked
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3026.body	the Board's	->	Comhairle nam Mèinnean's	|	Seumas mac Eachainn carries the Board's own copy of Breith Leòid to t
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3026.body	the Board's	->	Comhairle nam Mèinnean's	|	 Aonghais finds in it no clause that asks whether the Board's own reason for ceasing to car
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3027.body	the Board	->	Comhairle nam Mèinnean	|	 out, because the master did not ask for it, that the Board stopped carrying the western 
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3028.body	The Board's	->	Comhairle nam Mèinnean's	|	The Board's courier brings the sealed ord
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3029.body	the Board	->	Comhairle nam Mèinnean	|	r: that the pits stopped paying the fifth the day the Board stopped carrying their coal, 
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3029.body	the Board	->	Comhairle nam Mèinnean	|	ain the day the carrying starts. It never reaches the Board as a formal reply.
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3030.body	the Board's	->	Comhairle nam Mèinnean's	|	Ruth Calder reads the Board's order aloud in the pit-shed a
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3031.body	the Board's	->	Comhairle nam Mèinnean's	|	hairle mac Lachlainn is given command of forty of the Board's enforcers, to hold the shutti
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3032.body	the Board's	->	Comhairle nam Mèinnean's	|	ing over, for the first time in eighteen years of the Board's service, whether a smuggler's
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3034.body	The Board's	->	Comhairle nam Mèinnean's	|	The Board's press copy of Breith Leòid ca
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3034.body	the Board	->	Comhairle nam Mèinnean	|	runs with An Crùn's fifth, and that nothing binds the Board to carry any holder's coal.
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3035.body	the Board's	->	Comhairle nam Mèinnean's	|	Somhairle mac Lachlainn is given forty of the Board's enforcers for the western Sea
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3036.body	the Board's	->	Comhairle nam Mèinnean's	|	s two men at each pit-head of the five towns with the Board's order nailed to the winding-g
+CHANGE	eras/age_VII/annals/age_VII_05.json:EVII-3037.body	the Board	->	Comhairle nam Mèinnean	|	ugh Tional nan Tuathach's granaries, and write to the Board that they know of no rule aga
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3501.body	the Board's	->	Comhairle nam Mèinnean's	|	 Somhairle mac Lachlainn lays it out himself from the Board's plan.
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3502.body	the Board's	->	Comhairle nam Mèinnean's	|	 berth cleared, nothing at Muileann àrsaidh worth the Board's attention. He believes every 
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3503.body	the Board's	->	Comhairle nam Mèinnean's	|	ee lines that it will not bless what is built for the Board's enforcers.
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3506.body	the Board	->	Comhairle nam Mèinnean	|	nce and gives the building a name of its own that the Board never records.
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3512.body	the Board	->	Comhairle nam Mèinnean	|	As the weeks pass with no return from the Board, Sìleas nic Rath says in an L
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3513.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's letter forwarded without comm
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3513.body	The Board's	->	Comhairle nam Mèinnean's	|	The Board's clerk at Cathair mhòr forward
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3513.body	the Board's	->	Comhairle nam Mèinnean's	|	ainn a copy of the chronicler's letter asking for the Board's returns, without comment and 
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3514.body	the Board's	->	Comhairle nam Mèinnean's	|	nd will not pretend the same of a depot built for the Board's lorries.
+CHANGE	eras/age_VII/annals/age_VII_06.json:EVII-3524.body	the Board	->	Comhairle nam Mèinnean	|	ised, from that day until the seams are spent, if the Board will carry it and press no fu
+CHANGE	eras/age_VII/annals/age_VII_07.json:EVII-4012.title	the Board	->	Comhairle nam Mèinnean	|	Ruth Calder learns the Board keeps its own list
+CHANGE	eras/age_VII/annals/age_VII_09.json:EVII-5027.body	the Board's	->	Comhairle nam Mèinnean's	|	 assembled company. It is received and forwarded; the Board's late reply says only that the
+CHANGE	eras/age_VII/annals/age_VII_09.json:EVII-5033.title	The Board	->	Comhairle nam Mèinnean	|	The Board answers Tional nan Tuathach o
+CHANGE	eras/age_VII/annals/age_VII_09.json:EVII-5033.body	the Board	->	Comhairle nam Mèinnean	|	Near the year's end the Board answers Tional nan Tuathach's
+CHANGE	eras/age_VII/annals/age_VII_10.json:EVII-5501.body	The Board's	->	Comhairle nam Mèinnean's	|	The Board's office begins issuing a small
+CHANGE	eras/age_VII/annals/age_VII_10.json:EVII-5518.title	A Board clerk	->	A clerk of Comhairle nam Mèinnean	|	A Board clerk counts night traffic on the h
+CHANGE	eras/age_VII/annals/age_VII_10.json:EVII-5518.body	the Board	->	Comhairle nam Mèinnean	|	A clerk of the Board stationed at Cnoc thais write
+CHANGE	eras/age_VII/annals/age_VII_10.json:EVII-5521.body	the Board	->	Comhairle nam Mèinnean	|	 Muileann fhada, the landlord renting the yard to the Board and keeping his wicks inside.
+CHANGE	eras/age_VII/annals/age_VII_10.json:EVII-5525.body	the Board	->	Comhairle nam Mèinnean	|	f Muileann mhin under the western hills writes to the Board that the town's takings showe
+CHANGE	eras/age_VII/annals/age_VII_11.json:EVII-6003.title	The Board	->	Comhairle nam Mèinnean	|	The Board ends the coal trade outside A
+CHANGE	eras/age_VII/annals/age_VII_11.json:EVII-6003.body	the Board	->	Comhairle nam Mèinnean	|	coal-fuel is at an end on the island outside what the Board still cuts for its own accoun
+CHANGE	eras/age_VII/annals/age_VII_11.json:EVII-6025.body	the Board	->	Comhairle nam Mèinnean	|	 the Tuathaich have raised on Àraich Àth leathan, the Board answers that its captain may 
+CHANGE	eras/age_VII/annals/age_VII_11.json:EVII-6029.body	the Board's	->	Comhairle nam Mèinnean's	|	boys and a girl under the arms contract and tells the Board's inspector she means to keep t
+CHANGE	eras/age_VII/annals/age_VII_12.json:EVII-6504.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's order to Achadh dhomhain
+CHANGE	eras/age_VII/annals/age_VII_12.json:EVII-6505.body	the Board	->	Comhairle nam Mèinnean	|	n Sloc Mòr's upper galleries and asked nothing of the Board in its place.
+CHANGE	eras/age_VII/annals/age_VII_12.json:EVII-6512.body	the Board's	->	Comhairle nam Mèinnean's	|	Within a fortnight of the Board's order the eleven upper galler
+CHANGE	eras/age_VII/annals/age_VII_12.json:EVII-6516.body	the Board's	->	Comhairle nam Mèinnean's	|	arvest of Achadh mhòr goes down to the capital in the Board's lorries and the growers' own;
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:7	The Board	->	Comhairle nam Mèinnean	|	n the kingdom's thirteenth year of the old count. The Board counted them apart from the r
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:13	the Board's	->	Comhairle nam Mèinnean's	|	n Dubhain, which nobody then called by that name, the Board's clerk at the yard pinned a no
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:13	The Board	->	Comhairle nam Mèinnean	|	d pinned a notice to the door of the engine-shed. The Board had bought an engine of the n
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:27	the Board	->	Comhairle nam Mèinnean	|	uail did not run to the southern Seann Skell, and the Board would not wait for rails to b
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:29	the Board's	->	Comhairle nam Mèinnean's	|	he cab for a fireman to stand. On its side, where the Board's number would go, someone at t
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:39	the Board's	->	Comhairle nam Mèinnean's	|	tank came three days after, on its own wagon, and the Board's men set it on stone piers at 
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:39	the Board	->	Comhairle nam Mèinnean	|	outhern Seann Skell. It was the first dubhan tank the Board owned. The children of the ro
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:51	the Board's	->	Comhairle nam Mèinnean's	|	empty, twice, with the sour fitter beside him and the Board's engineer, Niall mac Leòid, ri
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:91	the Board	->	Comhairle nam Mèinnean	|	hat anybody wanted carried to Muileann chrom, and the Board had not thought to find anyth
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:93	the Board	->	Comhairle nam Mèinnean	|	om the brake-van, shook Eachann's hand, said that the Board would be pleased, and went of
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:121	the Board	->	Comhairle nam Mèinnean	|	ch season than the season before. In an t-Ògmhios the Board took a second fireman off the
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:123	the Board	->	Comhairle nam Mèinnean	|	gines were busy on the train from An Sloc Mòr and the Board would not use the new engine 
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:123	The Board's	->	Comhairle nam Mèinnean's	|	as not told until he came home, walked with them. The Board's clerk wrote the death in the 
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:135	the Board	->	Comhairle nam Mèinnean	|	y ox-cart could take it by the western roads, and the Board, which had been sending four 
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:151	the Board	->	Comhairle nam Mèinnean	|	 what that would be. He asked Eachann to come, if the Board would let him go, since Eacha
+CHANGE	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:153	The Board	->	Comhairle nam Mèinnean	|	The Board let him go for two days. He w
+CHANGE	eras/age_VII/book/11_the_wick_over_the_door.md:7	the Board's	->	Comhairle nam Mèinnean's	|	r coal, and coal had kept them, in the years when the Board's carts went out from every pit
+CHANGE	eras/age_VII/book/11_the_wick_over_the_door.md:11	the Board	->	Comhairle nam Mèinnean	|	 in a way that no single landlord and no clerk of the Board ever did, and it is chiefly f
+CHANGE	eras/age_VII/book/11_the_wick_over_the_door.md:13	a Board clerk	->	a clerk of Comhairle nam Mèinnean	|	 judged the houses by other small signs too, that a Board clerk riding the same roads would n
+CHANGE	eras/age_VII/book/11_the_wick_over_the_door.md:83	the Board	->	Comhairle nam Mèinnean	|	of one house to the next faster than any clerk of the Board ever carried a report. In the
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:9	the Board	->	Comhairle nam Mèinnean	|	It was not done at a stroke. Through the summer the Board had run them where it could, 
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:9	the Board's	->	Comhairle nam Mèinnean's	|	n engine wanted a man to open a valve. By harvest the Board's clerk had stopped writing coa
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:13	The Board	->	Comhairle nam Mèinnean	|	The Board did not say the word laid up.
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:13	the Board's	->	Comhairle nam Mèinnean's	|	 coal engines of the yard were stood down pending the Board's further order, and that the m
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:17	the Board	->	Comhairle nam Mèinnean	|	instruction, when it came, fell to Eachann, since the Board had no one else at Muileann c
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:25	the Board	->	Comhairle nam Mèinnean	|	n that siding until somebody with more sense than the Board sells the iron. One or the ot
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:29	the Board's	->	Comhairle nam Mèinnean's	|	y, since I may not say it again. What I grudge is the Board's silence. A thing that has car
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:33	the Board	->	Comhairle nam Mèinnean	|	In the spring the Board sent a clerk with a book to w
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:39	the Board	->	Comhairle nam Mèinnean	|	me was common enough on that road, had written to the Board in am Faoilleach of that year
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:39	the Board	->	Comhairle nam Mèinnean	|	 and the capital before it ever reached anyone at the Board with the standing to answer i
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:43	the Board	->	Comhairle nam Mèinnean	|	t's fellow feeling for a landlord who had written the Board a letter that changed nothing
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:49	The Board's	->	Comhairle nam Mèinnean's	|	a pit than because the coal paid for the cutting. The Board's surveyor came up from Cathair
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:57	The Board	->	Comhairle nam Mèinnean	|	mpty and swinging a little in the shaft-draught. "The Board says it. The river landing wa
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:67	The Board's	->	Comhairle nam Mèinnean's	|	The Board's word was that the families wh
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:67	the Board's	->	Comhairle nam Mèinnean's	|	d them. No cart was sent for the families' goods, the Board's letter having spoken of place
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:71	the Board	->	Comhairle nam Mèinnean	|	 and had never been built on for that reason, and the Board, which owned the land, had be
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:71	the Board's	->	Comhairle nam Mèinnean's	|	ere not finished; the families lay that winter in the Board's sheds by the landing and went
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:71	the Board's	->	Comhairle nam Mèinnean's	|	 year it was the only name anyone used for it, in the Board's own letters as much as in the
+CHANGE	eras/age_VII/book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md:83	the Board's	->	Comhairle nam Mèinnean's	|	n Toll, the house went neither with them nor into the Board's keeping, but to a caretaker, 
+CHANGE	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:41	the Board's	->	Comhairle nam Mèinnean's	|	e than any word of Dubhan's, and one that touched the Board's own name for its own road.
+CHANGE	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:43	the Board	->	Comhairle nam Mèinnean	|	it was laid, Slighe a' Ghuail, in every timetable the Board had printed and every mouth t
+CHANGE	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:43	the Board's	->	Comhairle nam Mèinnean's	|	at used it; and in the spring of the twelfth year the Board's clerks, drawing up the new se
+CHANGE	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:43	the Board	->	Comhairle nam Mèinnean	|	*, the line, with no coal in it at all. Nobody at the Board wrote to say why, and no orde
+CHANGE	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:45	the Board's	->	Comhairle nam Mèinnean's	|	 in the yard and at their own firesides, whatever the Board's printer set on the card; and 
+CHANGE	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:45	the Board's	->	Comhairle nam Mèinnean's	|	 line as they always had, so that within the year the Board's own new name existed nowhere 
+CHANGE	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:49	the Board	->	Comhairle nam Mèinnean	|	eeps the name the men on it give it, not the name the Board puts on the card. I'd sooner 
+CHANGE	eras/age_VII/book/14_of_the_charter_rule.md:25	The Board's	->	Comhairle nam Mèinnean's	|	judged fair and expected to be haggled down from. The Board's answer came inside a month an
+CHANGE	eras/age_VII/book/14_of_the_charter_rule.md:25	the Board	->	Comhairle nam Mèinnean	|	nd haggled him down by less than he had expected; the Board, he understood without being 
+CHANGE	eras/age_VII/book/14_of_the_charter_rule.md:25	The Board's	->	Comhairle nam Mèinnean's	|	 no wish to argue long over the last piece of it. The Board's clerks took the summer over t
+CHANGE	eras/age_VII/book/14_of_the_charter_rule.md:43	the Board's	->	Comhairle nam Mèinnean's	|	eside it, careful compounds out of old roots that the Board's clerks were proud enough of. 
+CHANGE	eras/age_VII/book/15_of_the_fifteenth_year.md:9	the Board's	->	Comhairle nam Mèinnean's	|	cked from the same boats. The figures followed as the Board's agent had given them to her: 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:9	the Board's	->	Comhairle nam Mèinnean's	|	t the price those towns asked, and no longer from the Board's yard at Cathair mhòr, the Boa
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:9	the Board's	->	Comhairle nam Mèinnean's	|	 no longer from the Board's yard at Cathair mhòr, the Board's price having risen twice in t
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:11	the Board's	->	Comhairle nam Mèinnean's	|	He was forty that spring, and had been four years the Board's clerk at Cathair mhòr, a post
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:17	the Board's	->	Comhairle nam Mèinnean's	|	l that never paid An Crùn's fifth to anybody, and the Board's yard stands full and nobody c
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:25	the Board's	->	Comhairle nam Mèinnean's	|	arghas mac Aonghais, a broad, short-necked man of the Board's own service who had risen to 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:27	the Board's	->	Comhairle nam Mèinnean's	|	the better part of an hour to draw them properly: the Board's takings from every northern a
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:27	the Board	->	Comhairle nam Mèinnean	|	own coal finding buyers that had once bought from the Board and now did not.
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:39	the Board	->	Comhairle nam Mèinnean	|	said unkindly either. "You're asked what it costs the Board. You've told me. Go and find 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:43	the Board's	->	Comhairle nam Mèinnean's	|	Breith Leòid had lain in the Board's own press for eighty years, c
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:45	the Board's	->	Comhairle nam Mèinnean's	|	it that followed on it, copied into the margin of the Board's press copy in three different
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:45	the Board	->	Comhairle nam Mèinnean	|	led with it; and that nothing in the ruling bound the Board to carry any holder's coal it
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:45	the Board	->	Comhairle nam Mèinnean	|	ght in one clause and, read with its margins, let the Board withdraw its custom and keep 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:49	The Board	->	Comhairle nam Mèinnean	|	"The Board stopped carrying from the wes
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:51	the Board	->	Comhairle nam Mèinnean	|	 the fifth all the same, by cart and by boat, and the Board entered it as arrears, until 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:55	the Board's	->	Comhairle nam Mèinnean's	|	Tobar dhearg and Àth leathan have paid nothing to the Board's account since the agreement t
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:57	the Board's	->	Comhairle nam Mèinnean's	|	ver the reason it stopped. It doesn't ask whether the Board's reason for not carrying was a
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:59	the Board	->	Comhairle nam Mèinnean	|	"They would say the Board stopped carrying first, maste
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:61	the Board's	->	Comhairle nam Mèinnean's	|	 cause named plain: the holdout pits underselling the Board's own coal to Tuathaich buyers 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:61	the Board's	->	Comhairle nam Mèinnean's	|	the Board's own coal to Tuathaich buyers who were the Board's custom until they had somewhe
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:61	the Board	->	Comhairle nam Mèinnean	|	ing let the fifth lapse these two years, and that the Board declare them so and order the
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:63	the Board	->	Comhairle nam Mèinnean	|	 coal with dubhan's coin. He had not written that the Board had itself stopped carrying t
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:69	The Board's	->	Comhairle nam Mèinnean's	|	The Board's decree went out under Feargha
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:71	the Board's	->	Comhairle nam Mèinnean's	|	It went north by the Board's own courier to the maor of th
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:77	the Board	->	Comhairle nam Mèinnean	|	the five towns' answer, when it came, came not to the Board but to each other, in the for
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:77	the Board	->	Comhairle nam Mèinnean	|	d stopped paying the fifth, the letter said, when the Board stopped earning it. If the Bo
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:77	the Board	->	Comhairle nam Mèinnean	|	etter said, when the Board stopped earning it. If the Board wished the fifth restored, it
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:79	the Board's	->	Comhairle nam Mèinnean's	|	des knew both were true, and neither the truth of the Board's claim nor the truth of the to
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:79	the Board	->	Comhairle nam Mèinnean	|	The letter never reached Cathair mhòr in any form the Board would call an answer; it was 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:81	the Board's	->	Comhairle nam Mèinnean's	|	hen would not hold them all, and Ruth Calder read the Board's order aloud from the paper a 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:81	the Board	->	Comhairle nam Mèinnean	|	t trust a paper that goes unchallenged. Ruth said the Board had not asked for a clause-by
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:81	the Board	->	Comhairle nam Mèinnean	|	se answer and would not read one if it were sent; the Board had asked for the pits shut, 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:81	the Board	->	Comhairle nam Mèinnean	|	one troubled to count, to go on as before and let the Board make the next move, since it 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:89	the Board's	->	Comhairle nam Mèinnean's	|	Somhairle mac Lachlainn had come up through the Board's enforcers by the same road mo
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:89	the Board's	->	Comhairle nam Mèinnean's	|	 harbour-dues paid and smugglers' coal weighed at the Board's own scale. In eighteen years 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:91	the Board's	->	Comhairle nam Mèinnean's	|	ad expected the matter to take, that a company of the Board's enforcers was to go north to 
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:95	the Board	->	Comhairle nam Mèinnean	|	"Forty. What the Board can spare from the southern s
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:103	the Board's	->	Comhairle nam Mèinnean's	|	rghas mac Aonghais could. "Then you'll have shown the Board's order cannot be held with for
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:105	the Board's	->	Comhairle nam Mèinnean's	|	ads in a country that had buried its dead against the Board's own kind within living memory
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:107	the Board's	->	Comhairle nam Mèinnean's	|	 the stones. He had crossed them a dozen times in the Board's service, weighing coal at a s
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:109	the Board's	->	Comhairle nam Mèinnean's	|	use refusing had never once, in eighteen years of the Board's service, been a road that led
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:111	the Board	->	Comhairle nam Mèinnean	|	 own time and by their own lights, whatever paper the Board sent north to tell them other
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:117	the Board's	->	Comhairle nam Mèinnean's	|	nd paid the maor's clerk for the use of it out of the Board's own purse rather than requisi
+CHANGE	eras/age_VII/book/18_of_the_leoid_ruling.md:119	the Board's	->	Comhairle nam Mèinnean's	|	e in any case, but to stand at each pit-head with the Board's order nailed to the winding-g
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:7	the Board's	->	Comhairle nam Mèinnean's	|	ell in the west on a grey morning in am Màrt with the Board's surveyor's plan under his arm
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:9	the Board	->	Comhairle nam Mèinnean	|	e old customs shed above the river harbour, which the Board paid for and nobody else want
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:11	the Board's	->	Comhairle nam Mèinnean's	|	The depot was the Board's own notion, and a plain one: 
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:11	the Board's	->	Comhairle nam Mèinnean's	|	and the wagons that would carry it on to wherever the Board's order sent it next. Somhairle
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:11	the Board's	->	Comhairle nam Mèinnean's	|	 of dressed stone with a puddled clay lining that the Board's engineer swore by, and while 
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:13	the Board's	->	Comhairle nam Mèinnean's	|	bhan boats, no incident at Muileann àrsaidh worth the Board's attention. Every word of it w
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:17	the Board's	->	Comhairle nam Mèinnean's	|	He had come to the west with forty men and the Board's authority to shut what Breith
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:25	the Board's	->	Comhairle nam Mèinnean's	|	n at Seann Skell did not bless what was built for the Board's enforcers, and hoped the capt
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:33	the Board's	->	Comhairle nam Mèinnean's	|	 men," the priest said. "What's under the roof is the Board's, and what will stand beside i
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:45	the Board's	->	Comhairle nam Mèinnean's	|	far it ran, how the towns along it stood, whether the Board's writ carried past Muileann àr
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:47	the Board's	->	Comhairle nam Mèinnean's	|	me for the building inside the month that was not the Board's name for it, though Somhairle
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:53	the Board	->	Comhairle nam Mèinnean	|	self sent men to treat with the towns, would cost the Board nothing it had not already lo
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:67	the Board	->	Comhairle nam Mèinnean	|	from the depot with a load of timber for the post the Board meant to build on the road be
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:73	the Board's	->	Comhairle nam Mèinnean's	|	r: it was not written down at the time, being, in the Board's own later word for such thing
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:85	the Board's	->	Comhairle nam Mèinnean's	|	nd let it stand, because a stove wheel was a fact the Board's engineer would ask after in a
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:91	the Board's	->	Comhairle nam Mèinnean's	|	s some weeks after, at the foot of the year, that the Board's clerk at Cathair mhòr forward
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:91	the Board	->	Comhairle nam Mèinnean	|	Seanchaidh na Rìoghachd at Muileann chaol, asking the Board for its returns of the incide
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:93	the Board's	->	Comhairle nam Mèinnean's	|	st said aloud in an Leabharlann's upper room that the Board's silence on this one letter di
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:95	The Board	->	Comhairle nam Mèinnean	|	The Board did not answer it, that year 
+CHANGE	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:95	the Board's	->	Comhairle nam Mèinnean's	|	happened; he was not, that autumn, high enough in the Board's counsel to be told which. He 
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:9	the Board's	->	Comhairle nam Mèinnean's	|	the town. It would not have kept out a company of the Board's enforcers with proper tools a
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:21	the Board	->	Comhairle nam Mèinnean	|	uileann àrsaidh had taken to burning itself since the Board stopped carrying the good — "
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:29	the Board	->	Comhairle nam Mèinnean	|	news so much as the absence of it: no answer from the Board to the collective letter the 
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:47	the Board's	->	Comhairle nam Mèinnean's	|	the one thing the four years of letters, hers and the Board's and the council's between the
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:57	the Board's	->	Comhairle nam Mèinnean's	|	 will pay An Crùn's fifth in coal, the same fifth the Board's own ruling names, on every lo
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:57	the Board	->	Comhairle nam Mèinnean	|	this day until the seams themselves are spent, if the Board will carry that coal to marke
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:59	the Board's	->	Comhairle nam Mèinnean's	|	pen. The fifth had gone unpaid for four years, by the Board's own reckoning, and Breith Leò
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:59	the Board	->	Comhairle nam Mèinnean	|	 to nothing and forward-looking only, was to give the Board the one thing its own ruling 
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:61	the Board	->	Comhairle nam Mèinnean	|	 moment to warm her hand over the fire, a bargain the Board ought by any sane reckoning t
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:63	the Board	->	Comhairle nam Mèinnean	|	that the five towns had never sought to take from the Board what the Board itself had cea
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:63	the Board	->	Comhairle nam Mèinnean	|	owns had never sought to take from the Board what the Board itself had ceased to want, th
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:63	the Board	->	Comhairle nam Mèinnean	|	e Board what the Board itself had ceased to want, the Board having stopped carrying north
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:63	the Board	->	Comhairle nam Mèinnean	|	rice outside the north that would tempt any buyer the Board itself still served; and that
+CHANGE	eras/age_VII/book/20_of_ruth_calders_letter.md:75	the Board	->	Comhairle nam Mèinnean	|	e wall, was the plain thing her letter was asking the Board to leave alone, standing for 
+CHANGE	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:13	the Board's	->	Comhairle nam Mèinnean's	|	uileann àrsaidh were walled now, he said, against the Board's own order, the road into the 
+CHANGE	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:13	the Board	->	Comhairle nam Mèinnean	|	aig, offering An Crùn's own fifth in coal if only the Board would carry it, had gone to a
+CHANGE	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:15	the Board	->	Comhairle nam Mèinnean	|	the letter she had sent the autumn before, asking the Board for a year's delay while Tion
+CHANGE	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:19	the Board's	->	Comhairle nam Mèinnean's	|	ter Hale said. "Not a fighting man's ally and not the Board's either. Say it, and put it in
+CHANGE	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:21	the Board's	->	Comhairle nam Mèinnean's	|	 or it would find its own word worth as little as the Board's. Martha wrote none of it down
+CHANGE	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:21	the Board	->	Comhairle nam Mèinnean	|	 nan Tuathach was no party to the quarrel between the Board and the western towns, and wo
+CHANGE	eras/age_VII/book/22_of_the_old_names_read_aloud.md:9	the Board's	->	Comhairle nam Mèinnean's	|	hing he had learned to do in eighteen years among the Board's enforcers. A man who showed w
+CHANGE	eras/age_VII/book/22_of_the_old_names_read_aloud.md:13	the Board	->	Comhairle nam Mèinnean	|	ree men were waiting for him there: the master of the Board, a clerk he did not know with
+CHANGE	eras/age_VII/book/22_of_the_old_names_read_aloud.md:25	the Board	->	Comhairle nam Mèinnean	|	iath's hand still on the ledger and the master of the Board watching him with the patient
+CHANGE	eras/age_VII/book/22_of_the_old_names_read_aloud.md:29	the Board	->	Comhairle nam Mèinnean	|	es still and would send men gladly, the master of the Board said, reading from a paper of
+CHANGE	eras/age_VII/book/22_of_the_old_names_read_aloud.md:37	the Board's	->	Comhairle nam Mèinnean's	|	e had commanded at any one time in his years with the Board's enforcers, and he found, hear
+CHANGE	eras/age_VII/book/23_of_the_arms_trains.md:28	the Board	->	Comhairle nam Mèinnean	|	 from a lime-boat's stopping-place into something the Board thought worth a covered shed 
+CHANGE	eras/age_VII/book/23_of_the_arms_trains.md:52	the Board	->	Comhairle nam Mèinnean	|	it men, lamps lit, not as anything the council or the Board might afterward choose to cal
+CHANGE	eras/age_VII/book/23_of_the_arms_trains.md:56	the Board	->	Comhairle nam Mèinnean	|	 needed to hear and would not thank him for, that the Board kept a list too.
+CHANGE	eras/age_VII/book/24_of_blar_ath_leathan.md:25	the Board's	->	Comhairle nam Mèinnean's	|	ook as the names, neither of them saying anything the Board's own censors would have troubl
+CHANGE	eras/age_VII/book/24_of_blar_ath_leathan.md:101	the Board's	->	Comhairle nam Mèinnean's	|	ng, that the pit-heads of Àth leathan passed into the Board's keeping, and that the compani
+CHANGE	eras/age_VII/book/24_of_blar_ath_leathan.md:103	The Board's	->	Comhairle nam Mèinnean's	|	e in An Clàr Foscailte either, that day or after. The Board's own list, the one Tom Varley 
+CHANGE	eras/age_VII/book/25_of_the_field_left_unploughed.md:33	the Board's	->	Comhairle nam Mèinnean's	|	t. The shafts at Àth leathan were old, older than the Board's own charter, cut into a seam 
+CHANGE	eras/age_VII/book/25_of_the_field_left_unploughed.md:33	the Board's	->	Comhairle nam Mèinnean's	|	the workings by a sluice cut for the purpose, and the Board's report, which Tom heard of lo
+CHANGE	eras/age_VII/book/25_of_the_field_left_unploughed.md:39	the Board	->	Comhairle nam Mèinnean	|	 purpose and no other, since a flooded shaft cost the Board more to pump dry again than t
+CHANGE	eras/age_VII/book/29_of_cnoc_thais_and_the_windy_coast.md:52	the Board's	->	Comhairle nam Mèinnean's	|	arther, the ground beyond being outside any shire the Board's writ ran in, and that his own
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:9	the Board's	->	Comhairle nam Mèinnean's	|	used to the sight of soldiery coming and going on the Board's business, stood a good deal q
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:9	the Board's	->	Comhairle nam Mèinnean's	|	 Board's business, stood a good deal quieter than the Board's own returns of the day though
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:15	the Board's	->	Comhairle nam Mèinnean's	|	he company's captain, a young man not long out of the Board's own service, had called on he
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:25	the Board	->	Comhairle nam Mèinnean	|	Ros chiar round the north coast in whatever hulls the Board could hire on short notice, t
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:35	the Board's	->	Comhairle nam Mèinnean's	|	ready fitted to carry dubhan and was willing, for the Board's money, to carry men instead f
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:37	The Board's	->	Comhairle nam Mèinnean's	|	The Board's money was good money, and the
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:51	the Board	->	Comhairle nam Mèinnean	|	. It was received, the captain's own note back to the Board said, and forwarded, and ther
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:51	the Board's	->	Comhairle nam Mèinnean's	|	the matter rested, as such matters generally did, the Board's reply, when it came near the 
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:53	the Board's	->	Comhairle nam Mèinnean's	|	r every morning the weather allowed it, a measure the Board's order named necessary against
+CHANGE	eras/age_VII/book/30_of_the_ships_round_the_north.md:53	the Board's	->	Comhairle nam Mèinnean's	|	ound in the whole course of that searching, which the Board's returns record without remark
+CHANGE	eras/age_VII/book/31_of_the_dark_town.md:59	the Board's	->	Comhairle nam Mèinnean's	|	 shot fired on either side, their pits flooded on the Board's order the same day the roads 
+CHANGE	eras/age_VII/book/32_of_the_quartered_year.md:16	the Board's	->	Comhairle nam Mèinnean's	|	dier first and show him the small square of paper the Board's own office had begun, that sp
+CHANGE	eras/age_VII/book/32_of_the_quartered_year.md:78	a Board clerk	->	a clerk of Comhairle nam Mèinnean	|	 the last week of an t-Sultain, a plain note from a Board clerk stationed there that said onl
+CHANGE	eras/age_VII/book/32_of_the_quartered_year.md:78	the Board's	->	Comhairle nam Mèinnean's	|	unexplained was, in his own judgment, still worth the Board's having. Ellen heard it in gen
+CHANGE	eras/age_VII/book/33_the_columns_road.md:9	the Board	->	Comhairle nam Mèinnean	|	arrison and never stayed the night. Its report to the Board, dated the thirtieth of an Dà
+CHANGE	eras/age_VII/book/33_the_columns_road.md:11	the Board's	->	Comhairle nam Mèinnean's	|	o man of them cried out), and one thing more that the Board's copyist struck through in the
+CHANGE	eras/age_VII/book/33_the_columns_road.md:15	the Board's	->	Comhairle nam Mèinnean's	|	lean's report went by carrier the next morning to the Board's clerk at the western Seann Sk
+CHANGE	eras/age_VII/book/33_the_columns_road.md:17	the Board's	->	Comhairle nam Mèinnean's	|	Àth bheag's report ends with a line that the Board's own men, reading it afterward
+CHANGE	eras/age_VII/book/33_the_columns_road.md:21	the Board	->	Comhairle nam Mèinnean	|	 a place of some two hundred souls. Its report to the Board, signed by its miller rather 
+CHANGE	eras/age_VII/book/33_the_columns_road.md:25	the Board	->	Comhairle nam Mèinnean	|	nt, kept separately from the miller's and sent to the Board a week later at his asking, g
+CHANGE	eras/age_VII/book/33_the_columns_road.md:27	the Board's	->	Comhairle nam Mèinnean's	|	tern company, paid in full," and that is the line the Board's file preserves, copied twice 
+CHANGE	eras/age_VII/book/33_the_columns_road.md:29	the Board	->	Comhairle nam Mèinnean	|	column, which was no business of his, but so that the Board should not suppose, from the 
+CHANGE	eras/age_VII/book/33_the_columns_road.md:29	the Board	->	Comhairle nam Mèinnean	|	g town, that the town had suffered by it. Whether the Board read that line as the warden 
+CHANGE	eras/age_VII/book/33_the_columns_road.md:39	the Board's	->	Comhairle nam Mèinnean's	|	has kept the note. It went, eventually, by way of the Board's local clerk, into an Leabharl
+CHANGE	eras/age_VII/book/33_the_columns_road.md:41	the Board	->	Comhairle nam Mèinnean	|	 mostly did not trouble to report it at all until the Board, hearing by then from Àth bhe
+CHANGE	eras/age_VII/book/34_of_blar_muileann_ghlas.md:13	the Board	->	Comhairle nam Mèinnean	|	em, honestly and at length, to the first clerk of the Board its maor could find. No town 
+CHANGE	eras/age_VII/book/34_of_blar_muileann_ghlas.md:55	the Board	->	Comhairle nam Mèinnean	|	art of that autumn, by then, at a table in a room the Board had given over to him near Sl
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:16	the Board	->	Comhairle nam Mèinnean	|	he rooms near Slighe a' Ghuail's own offices that the Board had given him through the war
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:16	the Board	->	Comhairle nam Mèinnean	|	ong: the seams were An Crùn's by Breith Leòid, as the Board had declared them five years 
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:16	the Board	->	Comhairle nam Mèinnean	|	years before, the holders had stopped paying when the Board stopped carrying, and the Boa
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:16	the Board	->	Comhairle nam Mèinnean	|	opped paying when the Board stopped carrying, and the Board saw no profit and considerabl
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:24	the Board's	->	Comhairle nam Mèinnean's	|	nd the last of the western workings that were not the Board's own was capped, and Fearghas 
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:24	the Board	->	Comhairle nam Mèinnean	|	er note that the trade in coal-fuel, outside what the Board itself still cut for its own 
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:24	the Board	->	Comhairle nam Mèinnean	|	at it was: a mine close enough to the capital for the Board to keep an eye on it directly
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:26	the Board	->	Comhairle nam Mèinnean	|	he had last walked them as a young man newly with the Board, dark from the lamp-houses' r
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:26	the Board's	->	Comhairle nam Mèinnean's	|	so much as a coal fire outside a smith's forge or the Board's own hearths, and yet no counc
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:30	the Board	->	Comhairle nam Mèinnean	|	ng else from that quarter usually came, by way of the Board, she read it twice before she
+CHANGE	eras/age_VII/book/35_of_the_stations_kept.md:60	the Board's	->	Comhairle nam Mèinnean's	|	who came through the district collecting rents on the Board's account and had, it turned ou
+CHANGE	eras/age_VII/book/36_of_the_sealed_room.md:45	the Board	->	Comhairle nam Mèinnean	|	athair dhearg new to the post that year, wrote to the Board asking whether he was to move
+CHANGE	eras/age_VII/book/36_of_the_sealed_room.md:45	the Board	->	Comhairle nam Mèinnean	|	told him a good deal less than he had hoped, that the Board saw no charge laid on him to 
+CHANGE	eras/age_VII/book/36_of_the_sealed_room.md:47	the Board's	->	Comhairle nam Mèinnean's	|	account this book has found, a plainer thing than the Board's letter had troubled to be: he
+CHANGE	eras/age_VII/book/36_of_the_sealed_room.md:57	the Board's	->	Comhairle nam Mèinnean's	|	r dhearg on a morning in an Cèitean, in a room of the Board's own offices with a clerk on e
+CHANGE	eras/age_VII/book/36_of_the_sealed_room.md:61	the Board's	->	Comhairle nam Mèinnean's	|	hand could hold a hammer as true as a man's, told the Board's own inspector, when he came t
+CHANGE	eras/age_VII/book/36_of_the_sealed_room.md:65	the Board	->	Comhairle nam Mèinnean	|	in thought worth copying whole into his return to the Board: that she had seen the raider
+CHANGE	eras/age_VII/book/36_of_the_sealed_room.md:69	the Board's	->	Comhairle nam Mèinnean's	|	han north at all that his grumbling had gone into the Board's own returns.
+CHANGE	eras/age_VII/book/37_of_the_motion_allowed_to_die.md:29	the Board's	->	Comhairle nam Mèinnean's	|	e war on themselves by holding their pits against the Board's own ruling, though she had br
+CHANGE	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:24	the Board's	->	Comhairle nam Mèinnean's	|	before the vein began to fail and gave it now, by the Board's own reckoning, less than the 
+CHANGE	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:24	the Board	->	Comhairle nam Mèinnean	|	left standing and the shafts capped against a day the Board did not trouble to name. One 
+CHANGE	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:30	the Board	->	Comhairle nam Mèinnean	|	 the order required, and the maor's own report to the Board that season noted, in the sam
+CHANGE	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:30	the Board	->	Comhairle nam Mèinnean	|	 nothing against the closing and asked nothing of the Board in its place, as they had sai
+CHANGE	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:44	the Board	->	Comhairle nam Mèinnean	|	uail carried under that name for coal's own sake, the Board having decided, after eightee
+CHANGE	eras/age_VII/gazetteer/02_the_five_lights.json:285.history	the Board	->	Comhairle nam Mèinnean	|	coal for his vats in the eighteenth year and told the Board he would take no lecture from
+CHANGE	eras/age_VII/gazetteer/02_the_five_lights.json:258.history	the Board	->	Comhairle nam Mèinnean	|	on the cape for a year afterwards, rusting, until the Board sent a wagon for it; the chil
+CHANGE	eras/age_VII/gazetteer/02_the_five_lights.json:402.history	the Board	->	Comhairle nam Mèinnean	|	an for its boats in the war years, from the depot the Board opened on the coast, and pays
+CHANGE	eras/age_VII/gazetteer/03_the_roads_and_the_rails.json:354.history	the Board's	->	Comhairle nam Mèinnean's	|	 of the rows playing at driving in their cabs. In the Board's own timetables the line lost 
+CHANGE	eras/age_VII/gazetteer/03_the_roads_and_the_rails.json:395.history	the Board	->	Comhairle nam Mèinnean	|	athach in the years of the holdouts, and wrote to the Board that they knew of no rule aga
+CHANGE	eras/age_VII/gazetteer/03_the_roads_and_the_rails.json:74.history	the Board	->	Comhairle nam Mèinnean	|	ick lamp in every room, and its landlord wrote to the Board that he would go on doing so;
+CHANGE	eras/age_VII/gazetteer/03_the_roads_and_the_rails.json:74.history	the Board	->	Comhairle nam Mèinnean	|	 up in its yard, the landlord renting the yard to the Board and keeping his wicks inside,
+CHANGE	eras/age_VII/gazetteer/04_the_guild_and_the_seal.json:313.history	the Board's	->	Comhairle nam Mèinnean's	|	hem in the tenth year and lay the first winter in the Board's sheds by the landing, going i
+CHANGE	eras/age_VII/gazetteer/04_the_guild_and_the_seal.json:491.history	The Board's	->	Comhairle nam Mèinnean's	|	ide Cill ghlas lost its pits in {{year:VI-0032}}. The Board's surveyor wrote them spent, th
+CHANGE	eras/age_VII/gazetteer/05_the_western_pit_towns.json:346.history	the Board's	->	Comhairle nam Mèinnean's	|	iven as flooded. The western seams were capped by the Board's order in {{year:VI-0122}} wit
+CHANGE	eras/age_VII/gazetteer/07_the_western_depot.json:489.history	the Board's	->	Comhairle nam Mèinnean's	|	The great western river port was the Board's gate to the western hills. Th
+CHANGE	eras/age_VII/gazetteer/07_the_western_depot.json:489.history	the Board's	->	Comhairle nam Mèinnean's	|	was built, the regiments' lorries in its yard and the Board's tanks behind it, and the hous
+CHANGE	eras/age_VII/gazetteer/07_the_western_depot.json:47.history	The Board's	->	Comhairle nam Mèinnean's	|	 at the end of Slighe a' Ghuail's western branch. The Board's declaration that the western 
+CHANGE	eras/age_VII/gazetteer/08_the_regiments_raised.json:23.history	the Board's	->	Comhairle nam Mèinnean's	|	nnean, in the old stone house of Mac Ùisdein, and the Board's work in the age was done from
+CHANGE	eras/age_VII/gazetteer/08_the_regiments_raised.json:23.history	the Board	->	Comhairle nam Mèinnean	|	hairle read them at its unveiling. From that year the Board ended the coal trade outside 
+CHANGE	eras/age_VII/gazetteer/08_the_regiments_raised.json:23.history	The Board's	->	Comhairle nam Mèinnean's	|	e Board ended the coal trade outside An Sloc Mòr. The Board's house keeps its northern retu
+CHANGE	eras/age_VII/gazetteer/08_the_regiments_raised.json:23.history	the Board	->	Comhairle nam Mèinnean	|	the circuit rulings in its margins; the master of the Board sits in the room where Taigh 
+CHANGE	eras/age_VII/gazetteer/09_the_regiments_in_the_north.json:215.history	the Board	->	Comhairle nam Mèinnean	|	nd, whose masters of hulls hire out tank-hulls to the Board and the fleets alike; its qua
+CHANGE	eras/age_VII/gazetteer/10_the_column.json:248.history	the Board	->	Comhairle nam Mèinnean	|	le had never, before that night, sent a report to the Board of anything. Its maor's repor
+CHANGE	eras/age_VII/appendices/A_rulers.md:9	the Board's	->	Comhairle nam Mèinnean's	|	es of the capital letting their lamps go dark and the Board's two surveyors sent north, and
+CHANGE	eras/age_VII/appendices/A_rulers.md:15	the Board's	->	Comhairle nam Mèinnean's	|	erned the kingdom through the whole age: it heard the Board's report on the northern fuel i
+CHANGE	eras/age_VII/appendices/A_rulers.md:41	the Board	->	Comhairle nam Mèinnean	|	enty-fifth year of Linn an Dealachaidh. Under him the Board bought An Sloc Mòr's last pri
+CHANGE	eras/age_VII/appendices/A_rulers.md:43	the Board's	->	Comhairle nam Mèinnean's	|	Of the Board's surveyors the record names tw
+CHANGE	eras/age_VII/appendices/A_rulers.md:43	the Board's	->	Comhairle nam Mèinnean's	|	into the northern fuel; their report was bound in the Board's grey board and filed without 
+CHANGE	eras/age_VII/appendices/A_rulers.md:43	the Board's	->	Comhairle nam Mèinnean's	|	ithout minute. Seumas mac Eachainn became in time the Board's northern surveyor, and his re
+CHANGE	eras/age_VII/appendices/A_rulers.md:47	the Board's	->	Comhairle nam Mèinnean's	|	-sixth year of Linn an Dealachaidh and rose among the Board's enforcers. He was given the w
+CHANGE	eras/age_VII/appendices/A_rulers.md:55	the Board	->	Comhairle nam Mèinnean	|	 up the new fuel, stood apart from the quarrel of the Board and the western towns, filled
+CHANGE	eras/age_VII/appendices/B_hosts.md:3	the Board's	->	Comhairle nam Mèinnean's	|	Mèinnean's enforcers, a few score men who guarded the Board's yards and depots and went wit
+CHANGE	eras/age_VII/appendices/B_hosts.md:7	The Board's	->	Comhairle nam Mèinnean's	|	The Board's enforcers were given a wester
+CHANGE	eras/age_VII/appendices/B_hosts.md:7	the Board's	->	Comhairle nam Mèinnean's	|	d two men at each pit-head of the five towns with the Board's order nailed to the winding-g
+CHANGE	eras/age_VII/appendices/B_hosts.md:45	the Board's	->	Comhairle nam Mèinnean's	|	e families at Doire ghlas remembered it, and from the Board's own list, which named her and
+CHANGE	eras/age_VII/appendices/C_trade.md:3	the Board's	->	Comhairle nam Mèinnean's	|	kes, and Cairt na h-Às-mhalairt. It is drawn from the Board's returns and An t-Ionmhas's ro
+CHANGE	eras/age_VII/appendices/C_trade.md:7	The Board's	->	Comhairle nam Mèinnean's	|	, which burned without the coloured edge of coal. The Board's surveyors, sent north in the 
+CHANGE	eras/age_VII/appendices/C_trade.md:17	the Board's	->	Comhairle nam Mèinnean's	|	he east and north** of the present year, named in the Board's returns among the works where
+CHANGE	eras/age_VII/appendices/C_trade.md:17	the Board	->	Comhairle nam Mèinnean	|	d's returns among the works where dubhan is made; the Board gives their making and not th
+CHANGE	eras/age_VII/appendices/C_trade.md:51	the Board	->	Comhairle nam Mèinnean	|	western holders ceased to pay it, they said, when the Board ceased to carry their coal; u
+CHANGE	eras/age_VII/appendices/C_trade.md:51	the Board	->	Comhairle nam Mèinnean	|	rd ceased to carry their coal; under Breith Leòid the Board declared the right lapsed and
+CHANGE	eras/age_VII/appendices/C_trade.md:51	the Board	->	Comhairle nam Mèinnean	|	ngdom's. Ruth Calder offered to pay it in coal if the Board would carry it. With the seam
+CHANGE	eras/age_VII/appendices/D_faiths.md:27	the Board's	->	Comhairle nam Mèinnean's	|	house at the western Seann Skell refused to bless the Board's enforcers' depot: a young pri
+CHANGE	eras/age_VII/appendices/D_faiths.md:27	the Board's	->	Comhairle nam Mèinnean's	|	d would not pretend the same of a depot built for the Board's lorries. The roof was blessed
+CHANGE	eras/age_VII/appendices/E_words.md:25	the Board	->	Comhairle nam Mèinnean	|	ann Vell, only as Muinntir gun Siorrachd. Neither the Board nor the council uses any othe
+CHANGE	eras/age_VII/appendices/E_words.md:43	the Board's	->	Comhairle nam Mèinnean's	|	 river port, the seat of the western shire, where the Board's enforcers built their depot a
+CHANGE	eras/age_VII/appendices/E_words.md:43	the Board's	->	Comhairle nam Mèinnean's	|	mental clerks tell them apart by river and coast; the Board's letters say the western and t
+CHANGE	eras/age_VII/events/01.json:$.title	The Còmhrag	->	Còmhrag Ceann leathan	|	The Còmhrag fought on dust
+CHANGE	eras/age_VII/events/01.json:$.summary	The Còmhrag	->	Còmhrag Ceann leathan	|	The Còmhrag at Ceann leathan is fought in
+CHANGE	eras/age_VII/events/02.json:$.title	the Board's	->	Comhairle nam Mèinnean's	|	Harker of Caol mhòr lodges the Board's men
+CHANGE	eras/age_VII/events/02.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	The Board's surveyors lodge four days at 
+CHANGE	eras/age_VII/events/02.json:$.summary	Sloc Mòr	->	An Sloc Mòr	|	at Caol mhòr Iain Ruadh mac Nèill lays a thumb of Sloc Mòr coal from his sample-tin on t
+CHANGE	eras/age_VII/events/02.json:$.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's report bound in grey board
+CHANGE	eras/age_VII/events/02.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	urveyors' report on the northern fuel is bound in the Board's grey board and laid before th
+CHANGE	eras/age_VII/events/02.json:$.summary	The Hewers	->	Comann nan Gualadairean	|	The Hewers' bath-house at the hot spring
+CHANGE	eras/age_VII/events/02.json:$.summary	the hot springs	->	Fuarain Theth Muileann ruadh	|	The Hewers' bath-house at the hot springs below Muileann ruadh lets its
+CHANGE	eras/age_VII/events/03.json:$.title	The fair court	->	Cùirt na Fèille	|	The fair court gives up its coal ceiling
+CHANGE	eras/age_VII/events/03.json:$.summary	the fair court	->	Cùirt na Fèille	|	 cartload Fionnlagh mac Gille-Chaluim, justice of the fair court at Muileann òg, scrapes the c
+CHANGE	eras/age_VII/events/03.json:$.title	the fair road	->	Rathad na Fèille	|	The coal carter of the fair road sells his cart
+CHANGE	eras/age_VII/events/03.json:$.summary	the fair road	->	Rathad na Fèille	|	Uilleam mac Dhùghaill, who has carried coal down the fair road from the yards of Cathair dhe
+CHANGE	eras/age_VII/events/03.json:$.summary	The fair court	->	Cùirt na Fèille	|	em one at a time from the step of the toll-house. The fair court allows it, having no rule aga
+CHANGE	eras/age_VII/events/03.json:$.summary	the fair court	->	Cùirt na Fèille	|	Ùna nic Ailein, clerk of the fair court, goes up to Cathair dhearg wi
+CHANGE	eras/age_VII/events/03.json:$.summary	the fair road	->	Rathad na Fèille	|	Sultain the first coin of the new dies comes down the fair road in the purses of carriers and
+CHANGE	eras/age_VII/events/03.json:$.title	the fair court	->	Cùirt na Fèille	|	Black cake entered at the fair court
+CHANGE	eras/age_VII/events/03.json:$.title	the fair court's	->	Cùirt na Fèille's	|	The foot of the fair court's year
+CHANGE	eras/age_VII/events/03.json:$.summary	the fair court	->	Cùirt na Fèille	|	In the last week of an Dàmhair the clerk of the fair court reckons the year. Under the t
+CHANGE	eras/age_VII/events/03.json:$.title	The fair court's	->	Cùirt na Fèille's	|	The fair court's winter sitting
+CHANGE	eras/age_VII/events/03.json:$.summary	The fair court	->	Cùirt na Fèille	|	The fair court at Muileann òg sits its winte
+CHANGE	eras/age_VII/events/05.json:$.summary	the Severance	->	An Dealachadh	|	he barracks at Inis mhòr, empty of soldiers since the Severance, are let by the maor to the f
+CHANGE	eras/age_VII/events/06.json:$.title	The Seann Skell works	->	Obair-dhubhain Seann Skell	|	The Seann Skell works watch the guild court
+CHANGE	eras/age_VII/events/10.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	The Board's men set an iron tank on stone
+CHANGE	eras/age_VII/events/10.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	amilies at Muileann chrom, alone puts his name to the Board's notice asking for a man to le
+CHANGE	eras/age_VII/events/10.json:$.summary	Seann Skell works	->	Obair-dhubhain Seann Skell	|	learn the new engine. Two fitters of the southern Seann Skell works teach him, one of them a Tuat
+CHANGE	eras/age_VII/events/10.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	ope and pinch-bar to make room for a second tank. The Board's clerk enters his death in the
+CHANGE	eras/age_VII/events/10.json:$.summary	Seann Skell works	->	Obair-dhubhain Seann Skell	|	ll their teams and take lorries from the southern Seann Skell works against the price, the rest t
+CHANGE	eras/age_VII/events/11.json:$.title	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers' hall at Achadh dhomhain for 
+CHANGE	eras/age_VII/events/11.json:$.summary	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers, its rolls too thin to keep i
+CHANGE	eras/age_VII/events/11.json:$.summary	the houses of the Rite	->	Deas-ghnàth a' Ghuail	|	that drew the Àrd-choimheadaiche's carriage among the houses of the Rite, failing in wind on the hill 
+CHANGE	eras/age_VII/events/11.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	nse Reòta above Muileann fhada, having written to the Board, keeps a wick lamp in every r
+CHANGE	eras/age_VII/events/12.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	The Board's clerk at Muileann chrom stops
+CHANGE	eras/age_VII/events/12.json:$.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's notice on the shed door
+CHANGE	eras/age_VII/events/12.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	ileann chrom stands the coal engines down pending the Board's further order and calls the m
+CHANGE	eras/age_VII/events/12.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	s fire, and after nine days strikes his name from the Board's instruction list. He asks to 
+CHANGE	eras/age_VII/events/12.json:$.summary	The Board	->	Comhairle nam Mèinnean	|	n, and no order comes to light any of them again. The Board sends a clerk once, in spring
+CHANGE	eras/age_VII/events/12.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	 Taigh-seinnse Reòta on the north road, writes to the Board that the reek of dubhan will 
+CHANGE	eras/age_VII/events/12.json:$.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's surveyor writes Muileann dhea
+CHANGE	eras/age_VII/events/12.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	A surveyor of the Mine Board walks the last working face a
+CHANGE	eras/age_VII/events/12.json:$.summary	the Guild of Hewers	->	Comann nan Gualadairean	|	Tormod mac Dhonnchaidh, master of the Guild of Hewers, goes door to door through th
+CHANGE	eras/age_VII/events/12.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	what the forty remaining households cannot carry, the Board having offered places at Sean
+CHANGE	eras/age_VII/events/12.json:$.title	The Hewers' Row	->	Sreath nan Gualadairean	|	The Hewers' Row named at Seann Toll
+CHANGE	eras/age_VII/events/12.json:$.summary	The Rail Board's	->	Comhairle na Slighe-iarainn's	|	The Rail Board's new row of houses on the floo
+CHANGE	eras/age_VII/events/12.json:$.summary	the Hewers' Row	->	Sreath nan Gualadairean	|	he families of Muileann dhearg. The town calls it the Hewers' Row before the last house is roof
+CHANGE	eras/age_VII/events/12.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	e the last house is roofed, and the name holds in the Board's own letters within the year.
+CHANGE	eras/age_VII/events/12.json:$.summary	the Hewers' Row	->	Sreath nan Gualadairean	|	en takes on only two or three of the young men of the Hewers' Row that winter. Most of the hous
+CHANGE	eras/age_VII/events/12.json:$.summary	the Hewers' Row	->	Sreath nan Gualadairean	|	Walking the frozen street of the Hewers' Row with Gilleasbaig Ruadh, Tormo
+CHANGE	eras/age_VII/events/12.json:$.summary	The druid school	->	Scoiltean nan Draoidhean	|	r thirty years, with the burial ground behind it. The druid school at Caol shean promises a year
+CHANGE	eras/age_VII/events/12.json:$.summary	the druid school	->	Scoiltean nan Draoidhean	|	A young teacher of the druid school at Caol shean comes to Muilea
+CHANGE	eras/age_VII/events/12.json:$.summary	the Lighthouse Board	->	Comhairle nan Taighean-solais	|	keeper of Taigh-solais Àth dhearg writes twice to the Lighthouse Board for spare chimney-glass for t
+CHANGE	eras/age_VII/events/13.json:$.summary	the royal chronicler	->	Seanchaidh na Rìoghachd	|	h, a copyist's niece of Àth dhìreach, as clerk to the royal chronicler. Beathag nic Fhionnlaigh had 
+CHANGE	eras/age_VII/events/13.json:$.summary	The druid school	->	Scoiltean nan Draoidhean	|	The druid school at Caol shean writes to the L
+CHANGE	eras/age_VII/events/13.json:$.summary	the Library's keeper	->	Neach-gleidhidh an Leabharlainn	|	The druid school at Caol shean writes to the Library's keeper of a word its masters have co
+CHANGE	eras/age_VII/events/13.json:$.summary	the Library's	->	an Leabharlann's	|	failure and proved the one that held, offered for the Library's keeping though the school doe
+CHANGE	eras/age_VII/events/13.json:$.summary	the druid school's	->	Scoiltean nan Draoidhean's	|	Raghnall mac Mhuirich copies the druid school's coined word into the Library'
+CHANGE	eras/age_VII/events/13.json:$.summary	the Library's	->	an Leabharlann's	|	uirich copies the druid school's coined word into the Library's word-list in his own hand, un
+CHANGE	eras/age_VII/events/13.json:$.title	The Rail Board	->	Comhairle na Slighe-iarainn	|	The Rail Board drops coal from its timetable
+CHANGE	eras/age_VII/events/13.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	a Slighe-iarainn prints its spring timetable with the coal line's name shortened to an t-slighe
+CHANGE	eras/age_VII/events/13.json:$.summary	the coal line	->	Slighe a' Ghuail	|	s and the farmers along the road go on calling it the coal line as before.
+CHANGE	eras/age_VII/events/13.json:$.summary	the Library	->	an Leabharlann	|	Reading the new timetable at the Library, Beathag nic Fhionnlaigh tell
+CHANGE	eras/age_VII/events/13.json:$.title	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers dissolves itself
+CHANGE	eras/age_VII/events/13.json:$.summary	the Guild of Hewers	->	Comann nan Gualadairean	|	omhain, in an Cèitean, the eleven masters left of the Guild of Hewers vote unanimously to dissolve 
+CHANGE	eras/age_VII/events/13.json:$.title	The Hewers' oath-stone	->	Clach-mhionnan nan Gualadairean	|	The Hewers' oath-stone brought to the Library
+CHANGE	eras/age_VII/events/13.json:$.title	the Library	->	an Leabharlann	|	The Hewers' oath-stone brought to the Library
+CHANGE	eras/age_VII/events/13.json:$.summary	the Library's	->	an Leabharlann's	|	 gives Sìleas nic Rath a letter to be copied into the Library's record rather than filed amon
+CHANGE	eras/age_VII/events/13.json:$.title	the Rite	->	Deas-ghnàth a' Ghuail	|	The bath-house passes to the Rite
+CHANGE	eras/age_VII/events/13.json:$.summary	the hot springs	->	Fuarain Theth Muileann ruadh	|	Among the guild's smaller goods the bath-house at the hot springs below Muileann ruadh, built f
+CHANGE	eras/age_VII/events/13.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	coal-dust had ruined, passes to the custodians of the Rite at the southern Seann Skell, 
+CHANGE	eras/age_VII/events/13.json:$.summary	the Hewers' Row	->	Sreath nan Gualadairean	|	vice, Tormod mac Dhonnchaidh travels once more to the Hewers' Row at Seann Toll to see how the 
+CHANGE	eras/age_VII/events/13.json:$.summary	the Hewers' Row	->	Sreath nan Gualadairean	|	re dawn on the sixth of an Gearran, in a house of the Hewers' Row at Seann Toll, of a fever tha
+CHANGE	eras/age_VII/events/13.json:$.summary	the Hewers	->	Comann nan Gualadairean	|	The buyer of the old hall of the Hewers at Achadh dhomhain leaves the
+CHANGE	eras/age_VII/events/13.json:$.title	the Rite	->	Deas-ghnàth a' Ghuail	|	The sick of the springs under the Rite
+CHANGE	eras/age_VII/events/13.json:$.summary	the Hewers	->	Comann nan Gualadairean	|	When the Hewers' bath-house at the hot spring
+CHANGE	eras/age_VII/events/13.json:$.summary	the hot springs	->	Fuarain Theth Muileann ruadh	|	When the Hewers' bath-house at the hot springs of Muileann ruadh passes to t
+CHANGE	eras/age_VII/events/13.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	se at the hot springs of Muileann ruadh passes to the Rite, its custodians keep the old 
+CHANGE	eras/age_VII/events/14.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	Before selling his house's last share in the Sloc Mòr, Coinneach mac Ùisdein walks 
+CHANGE	eras/age_VII/events/14.json:$.title	The Mine Board	->	Comhairle nam Mèinnean	|	The Mine Board buys the Sloc Mòr's last priv
+CHANGE	eras/age_VII/events/14.json:$.title	the Sloc Mòr's	->	An Sloc Mòr's	|	The Mine Board buys the Sloc Mòr's last private share
+CHANGE	eras/age_VII/events/14.json:$.summary	The Mine Board	->	Comhairle nam Mèinnean	|	The Mine Board takes the house of Mac Ùisdei
+CHANGE	eras/age_VII/events/14.json:$.summary	the house of Mac Ùisdein's	->	Taigh Mhic Ùisdein's	|	The Mine Board takes the house of Mac Ùisdein's remaining share in the Sloc M
+CHANGE	eras/age_VII/events/14.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	kes the house of Mac Ùisdein's remaining share in the Sloc Mòr's spoil and quarry-rights at a 
+CHANGE	eras/age_VII/events/14.json:$.summary	the great pit	->	An Sloc Mòr	|	the house's own asking, glad to hold the whole of the great pit in its own hand at last.
+CHANGE	eras/age_VII/events/14.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	The first of three dubhan hulls bought with the Sloc Mòr's price is laid down at Ros dho
+CHANGE	eras/age_VII/events/14.json:$.summary	the house of Mac Ùisdein's	->	Taigh Mhic Ùisdein's	|	 line opens between the capital and Cathair mhòr, the house of Mac Ùisdein's own town, carrying passengers
+CHANGE	eras/age_VII/events/14.json:$.summary	the house of Mac Ùisdein	->	Taigh Mhic Ùisdein	|	re spent do quietly, each in its own season, what the house of Mac Ùisdein has already done.
+CHANGE	eras/age_VII/events/14.json:$.title	the court of the sea	->	Cùirt na Mara	|	The raiders' trial at the court of the sea
+CHANGE	eras/age_VII/events/14.json:$.summary	the court of the sea	->	Cùirt na Mara	|	leven raiders taken off Ros dhomhain stand before the court of the sea; eight Dia-thìrich are sent t
+CHANGE	eras/age_VII/events/14.json:$.title	the charter rule	->	Riaghailt na Cairte	|	Peigi nic Ascaill reads the charter rule
+CHANGE	eras/age_VII/events/14.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	Peigi nic Ascaill reads the grant chartering the Fuel-Fitters and finds, near its foot, the
+CHANGE	eras/age_VII/events/14.json:$.summary	the shipmasters' company	->	Comann nan Sciobairean	|	thìrich alone. She argues against the clause with the shipmasters' company before the grant is confirmed
+CHANGE	eras/age_VII/events/14.json:$.title	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	Twelve masters sworn to the Fuel-Fitters
+CHANGE	eras/age_VII/events/14.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	igi nic Ascaill among the first six called, swear the Fuel-Fitters' oath at the southern Seann S
+CHANGE	eras/age_VII/events/14.json:$.summary	a Treasury clerk	->	a clerk of An t-Ionmhas	|	l-Fitters' oath at the southern Seann Skell under a Treasury clerk and a custodian of the Rite, 
+CHANGE	eras/age_VII/events/14.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	n Skell under a Treasury clerk and a custodian of the Rite, while the Tuathaich fitters 
+CHANGE	eras/age_VII/events/14.json:$.summary	The Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	The Fuel-Fitters' court at Seann Skell writes 
+CHANGE	eras/age_VII/events/14.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot votes to take up the new fuel
+CHANGE	eras/age_VII/events/14.json:$.summary	The Moot at Caol mhòr	->	Tional nan Tuathach	|	The Moot at Caol mhòr, under Martha Greaves, votes 
+CHANGE	eras/age_VII/events/14.json:$.summary	the Moot	->	Tional nan Tuathach	|	Ruth Calder, sent to the Moot that year in her dying father
+CHANGE	eras/age_VII/events/14.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Asked whether the walk-out closes the Moot's granaries to the western town
+CHANGE	eras/age_VII/events/14.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	At the chartering of the Fuel-Fitters in the works' long shed a cus
+CHANGE	eras/age_VII/events/14.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	el-Fitters in the works' long shed a custodian of the Rite blesses the guild's new banne
+CHANGE	eras/age_VII/events/14.json:$.summary	the charter rule	->	Riaghailt na Cairte	|	 the fitters let go from the southern works under the charter rule is taken on at Muileann bheag
+CHANGE	eras/age_VII/events/14.json:$.title	The Sloc Mòr's	->	An Sloc Mòr's	|	The Sloc Mòr's pumps run on dubhan
+CHANGE	eras/age_VII/events/14.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	The engine-house at the Sloc Mòr changes its pumps from coal t
+CHANGE	eras/age_VII/events/14.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	e Sloc Mòr changes its pumps from coal to dubhan, the Board finding it cheaper to buy the
+CHANGE	eras/age_VII/events/14.json:$.summary	the hot springs	->	Fuarain Theth Muileann ruadh	|	s of Cathair dhearg begins to run twice weekly to the hot springs below Muileann ruadh, and the
+CHANGE	eras/age_VII/events/15.json:$.summary	the Library	->	an Leabharlann	|	Martha Greaves writes to the Library that the north now buys its f
+CHANGE	eras/age_VII/events/15.json:$.summary	the chronicle	->	Eachdraidh na Rìoghachd	|	eathag nic Fhionnlaigh copies the line whole into the chronicle and adds nothing beneath it.
+CHANGE	eras/age_VII/events/15.json:$.title	the Library's	->	an Leabharlann's	|	The depots marked on the Library's map
+CHANGE	eras/age_VII/events/15.json:$.title	The Treasury clerk	->	An t-Ionmhas's clerk	|	The Treasury clerk's private letter
+CHANGE	eras/age_VII/events/15.json:$.summary	the Treasury	->	An t-Ionmhas	|	A clerk of the Treasury who owes Raghnall mac Mhuiric
+CHANGE	eras/age_VII/events/15.json:$.summary	the Library	->	an Leabharlann	|	y who owes Raghnall mac Mhuirich a kindness sends the Library a private account of the coun
+CHANGE	eras/age_VII/events/15.json:$.summary	the Library	->	an Leabharlann	|	from a post at Cathair dhearg and brings it up to the Library folded inside his own almanac
+CHANGE	eras/age_VII/events/15.json:$.summary	the Library	->	an Leabharlann	|	Gille-Easbaig Bàn writes to the Library that the mint has cut a plain
+CHANGE	eras/age_VII/events/15.json:$.title	the Library	->	an Leabharlann	|	Fearchar Bonn's first dies sent to the Library
+CHANGE	eras/age_VII/events/15.json:$.summary	the Treasury	->	An t-Ionmhas	|	A mounted courier of the Treasury brings Fearchar Bonn's first 
+CHANGE	eras/age_VII/events/15.json:$.summary	the Hewers' oath-stone	->	Clach-mhionnan nan Gualadairean	|	earchar Bonn's worn dies in the glass case beside the Hewers' oath-stone, and remarks to Beathag nic F
+CHANGE	eras/age_VII/events/15.json:$.summary	the Library	->	an Leabharlann	|	air mac Ìomhair writes to the council, and copies the Library, that a plain seal with no co
+CHANGE	eras/age_VII/events/15.json:$.title	the Library's	->	an Leabharlann's	|	Raghnall's three dots on the Library's map
+CHANGE	eras/age_VII/events/16.json:$.title	The Muileann àrsaidh agreement	->	Còrdadh Muileann àrsaidh	|	The Muileann àrsaidh agreement signed
+CHANGE	eras/age_VII/events/16.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot neither joins nor condemns
+CHANGE	eras/age_VII/events/16.json:$.summary	the Muileann àrsaidh agreement	->	Còrdadh Muileann àrsaidh	|	Word of the Muileann àrsaidh agreement is reported to Tional nan Tua
+CHANGE	eras/age_VII/events/16.json:$.summary	the Moot	->	Tional nan Tuathach	|	h at Caol mhòr. Its minute-book records only that the Moot, having heard it, sees no cau
+CHANGE	eras/age_VII/events/16.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	ct upon it either way; no delegate is sent to add the Moot's name, and no word of condemna
+CHANGE	eras/age_VII/events/16.json:$.summary	the Severance	->	An Dealachadh	|	 of the hill at Cnoc thais, unworked since before the Severance and thought too thin to be wo
+CHANGE	eras/age_VII/events/16.json:$.title	the charter rule	->	Riaghailt na Cairte	|	Dodds argues for naming the charter rule
+CHANGE	eras/age_VII/events/16.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	h a hewer named Dodds wants the agreement to name the Fuel-Fitters and the charter rule; Ruth Ca
+CHANGE	eras/age_VII/events/16.json:$.summary	the charter rule	->	Riaghailt na Cairte	|	 wants the agreement to name the Fuel-Fitters and the charter rule; Ruth Calder answers that a g
+CHANGE	eras/age_VII/events/16.json:$.summary	the Moot	->	Tional nan Tuathach	|	 a carrier; they send nothing west and nothing to the Moot, and enter the news in their 
+CHANGE	eras/age_VII/events/17.json:$.summary	the Severance	->	An Dealachadh	|	 Drew gives Ellen Marsh the rest of her memory of the Severance: the smoke of the fires left 
+CHANGE	eras/age_VII/events/17.json:$.summary	the Severance	->	An Dealachadh	|	rish stopped her in the lane to correct a date in the Severance she had taught the children w
+CHANGE	eras/age_VII/events/17.json:$.summary	the eleven books	->	An t-Aon Leabhar Deug	|	 writes to Leabharlann Muileann chaol asking that the eleven books be kept beside the Library's 
+CHANGE	eras/age_VII/events/17.json:$.summary	the Library's	->	an Leabharlann's	|	chaol asking that the eleven books be kept beside the Library's own record, not to be believe
+CHANGE	eras/age_VII/events/17.json:$.summary	the eleven books	->	An t-Aon Leabhar Deug	|	In the spring Ellen Marsh's request and the eleven books that came with it are read en
+CHANGE	eras/age_VII/events/17.json:$.summary	the council of the kingdom	->	Comhairle na Rìoghachd	|	esty but the standing of spoken witness, on which the council of the kingdom has given no view, and that t
+CHANGE	eras/age_VII/events/17.json:$.summary	the census of hands	->	Cunntas nan Làmh	|	ood enough, unquestioned, for the clerks who took the census of hands from the mouths of northern h
+CHANGE	eras/age_VII/events/17.json:$.summary	eleven books	->	An t-Aon Leabhar Deug	|	f receipt on the flyleaf of each of Ellen Marsh's eleven books on the day it is carried in, 
+CHANGE	eras/age_VII/events/17.json:$.summary	the Còmhrag	->	Còmhrag Ceann leathan	|	The fair-wardens of the Còmhrag at Ceann leathan take the gat
+CHANGE	eras/age_VII/events/18.json:$.summary	The Moot's	->	Tional nan Tuathach's	|	The Moot's wool mills at Doire ghlas sig
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	 from Cnoc thais and Muileann àrsaidh rather than the Board's yard at Cathair mhòr, the Boa
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	idh rather than the Board's yard at Cathair mhòr, the Board's price having risen twice in t
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	air mhòr, sorting another's tray, is the first at the Board's own table to read the contrac
+CHANGE	eras/age_VII/events/18.json:$.title	the Board	->	Comhairle nam Mèinnean	|	A brewer of Baile ìseal writes to the Board unasked
+CHANGE	eras/age_VII/events/18.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	A brewer of Baile ìseal writes to the Mine Board that he sees no shame in buyi
+CHANGE	eras/age_VII/events/18.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	The master of the Mine Board calls for the northern return
+CHANGE	eras/age_VII/events/18.json:$.title	The Leòid ruling	->	Breith Leòid	|	The Leòid ruling read again at Cathair mhòr
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	Seumas mac Eachainn carries the Board's own copy of the Leòid ruling 
+CHANGE	eras/age_VII/events/18.json:$.summary	the Leòid ruling	->	Breith Leòid	|	umas mac Eachainn carries the Board's own copy of the Leòid ruling to the master's room and hear
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	 Aonghais finds in it no clause that asks whether the Board's own reason for ceasing to car
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	 out, because the master did not ask for it, that the Board stopped carrying the western 
+CHANGE	eras/age_VII/events/18.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	The Board's courier brings the sealed ord
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	r: that the pits stopped paying the fifth the day the Board stopped carrying their coal, 
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	ain the day the carrying starts. It never reaches the Board as a formal reply.
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	Ruth Calder reads the Board's order aloud in the pit-shed a
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	hairle mac Lachlainn is given command of forty of the Board's enforcers, to hold the shutti
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	ing over, for the first time in eighteen years of the Board's service, whether a smuggler's
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	Forty of the Board's enforcers come up the coast r
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	shed and pays the maor's clerk for its use out of the Board's own purse rather than requisi
+CHANGE	eras/age_VII/events/18.json:$.title	the Severance	->	An Dealachadh	|	hag nic Fhionnlaigh notes the first company since the Severance
+CHANGE	eras/age_VII/events/18.json:$.summary	the Severance	->	An Dealachadh	|	the kingdom has sent armed toward the north since the Severance itself, ninety years gone, an
+CHANGE	eras/age_VII/events/18.json:$.title	the Leòid ruling	->	Breith Leòid	|	The margins of the Leòid ruling
+CHANGE	eras/age_VII/events/18.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	The Board's press copy of the Leòid rulin
+CHANGE	eras/age_VII/events/18.json:$.summary	the Leòid ruling	->	Breith Leòid	|	The Board's press copy of the Leòid ruling carries in its margins the ci
+CHANGE	eras/age_VII/events/18.json:$.summary	the Crown's	->	An Crùn's	|	 that settled it: that a holder's right runs with the Crown's fifth, and that nothing binds
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	ns with the Crown's fifth, and that nothing binds the Board to carry any holder's coal.
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	Somhairle mac Lachlainn is given forty of the Board's enforcers for the western Sea
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	s two men at each pit-head of the five towns with the Board's order nailed to the winding-g
+CHANGE	eras/age_VII/events/18.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	ats to the pit towns of the western hills through the Moot's granaries, and write to the B
+CHANGE	eras/age_VII/events/18.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	 hills through the Moot's granaries, and write to the Board that they know of no rule aga
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	 Somhairle mac Lachlainn lays it out himself from the Board's plan.
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	 berth cleared, nothing at Muileann àrsaidh worth the Board's attention. He believes every 
+CHANGE	eras/age_VII/events/19.json:$.title	Manannan's order	->	Òrd Mhanannain	|	The house of Manannan's order refuses the blessing
+CHANGE	eras/age_VII/events/19.json:$.summary	Manannan's order	->	Òrd Mhanannain	|	oof before the masons work under it, the house of Manannan's order at Seann Skell in the west an
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	ee lines that it will not bless what is built for the Board's enforcers.
+CHANGE	eras/age_VII/events/19.json:$.title	the Rite	->	Deas-ghnàth a' Ghuail	|	A custodian of the Rite rides north
+CHANGE	eras/age_VII/events/19.json:$.summary	Manannan's order	->	Òrd Mhanannain	|	ot at Seann Skell in the west, since the house of Manannan's order there will not come.
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	nce and gives the building a name of its own that the Board never records.
+CHANGE	eras/age_VII/events/19.json:$.summary	the Moot	->	Tional nan Tuathach	|	Martha Greaves writes to the council for the Moot: the western towns will not s
+CHANGE	eras/age_VII/events/19.json:$.summary	the Moot	->	Tional nan Tuathach	|	r pits for a letter, and a year's delay would let the Moot treat with them at no cost th
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	lay would let the Moot treat with them at no cost the Board has not already borne.
+CHANGE	eras/age_VII/events/19.json:$.title	the Mine Board	->	Comhairle nam Mèinnean	|	Beathag's letter to the Mine Board
+CHANGE	eras/age_VII/events/19.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	oot of the year Beathag nic Fhionnlaigh writes to the Mine Board asking its returns of the inc
+CHANGE	eras/age_VII/events/19.json:$.summary	the Library's	->	an Leabharlann's	|	e incidents on the northern roads that autumn, so the Library's record may be kept as fully a
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	As the weeks pass with no return from the Board, Sìleas nic Rath says in the 
+CHANGE	eras/age_VII/events/19.json:$.summary	the Library's	->	an Leabharlann's	|	no return from the Board, Sìleas nic Rath says in the Library's upper room that the silence d
+CHANGE	eras/age_VII/events/19.json:$.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's letter forwarded without comm
+CHANGE	eras/age_VII/events/19.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	The Board's clerk at Cathair mhòr forward
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	ainn a copy of the chronicler's letter asking for the Board's returns, without comment and 
+CHANGE	eras/age_VII/events/19.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	nd will not pretend the same of a depot built for the Board's lorries.
+CHANGE	eras/age_VII/events/19.json:$.summary	the Moot	->	Tional nan Tuathach	|	At the Moot Peter Hale tells the delegate
+CHANGE	eras/age_VII/events/20.json:$.summary	the council of the kingdom	->	Comhairle na Rìoghachd	|	 Ruth Calder writes the salutation of a letter to the council of the kingdom and no more, the first of sev
+CHANGE	eras/age_VII/events/20.json:$.summary	the Leòid ruling	->	Breith Leòid	|	, three paragraphs on the wrong done the towns by the Leòid ruling, is torn across unfinished; R
+CHANGE	eras/age_VII/events/20.json:$.summary	the Library	->	an Leabharlann	|	s unfinished; Ruth Calder judges it would read at the Library as one more northern complain
+CHANGE	eras/age_VII/events/20.json:$.title	the Crown's	->	An Crùn's	|	Ruth Calder drafts the offer of the Crown's fifth in coal
+CHANGE	eras/age_VII/events/20.json:$.summary	the Crown's	->	An Crùn's	|	hird draft of her letter: the five towns will pay the Crown's fifth in coal on every load r
+CHANGE	eras/age_VII/events/20.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	ised, from that day until the seams are spent, if the Board will carry it and press no fu
+CHANGE	eras/age_VII/events/20.json:$.title	Christmas	->	an Nollaig	|	The five towns keep Christmas at Àth leathan's chapel
+CHANGE	eras/age_VII/events/20.json:$.summary	Christmas	->	an Nollaig	|	In a borrowed room at Àth leathan on Christmas afternoon, Ruth Calder copies
+CHANGE	eras/age_VII/events/20.json:$.summary	Christmas	->	an Nollaig	|	es from Àth leathan to the western Seann Skell on Christmas evening and gives Ruth Calder
+CHANGE	eras/age_VII/events/20.json:$.title	the Moot's	->	Tional nan Tuathach's	|	A copy of the letter kept in the Moot's minute
+CHANGE	eras/age_VII/events/20.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	's letter is carried to Caol mhòr and set down in the Moot's own minute, under a heading g
+CHANGE	eras/age_VII/events/20.json:$.summary	the Moot	->	Tional nan Tuathach	|	 giving only what it was and when it came, though the Moot itself is no party to it.
+CHANGE	eras/age_VII/events/20.json:$.summary	the Severance	->	An Dealachadh	|	western hills that regiments not called out since the Severance are spoken of again at Cathai
+CHANGE	eras/age_VII/events/21.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	 western holdout towns stand chalked but empty in the Moot's own roll, as they have stood 
+CHANGE	eras/age_VII/events/21.json:$.summary	the Moot	->	Tional nan Tuathach	|	onestly made. Nine hands rise for the motion that the Moot is no party to the quarrel of
+CHANGE	eras/age_VII/events/21.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	otion that the Moot is no party to the quarrel of the Board and the western towns and wil
+CHANGE	eras/age_VII/events/21.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	order, at the foot of the mills' own book and not the Moot's, that the granaries of Caol m
+CHANGE	eras/age_VII/events/21.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	o that no single merchant should wonder aloud why the Moot's towns want so much of it in a
+CHANGE	eras/age_VII/events/21.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Thomas Rook's autumn entry in the Moot's minute records the granaries 
+CHANGE	eras/age_VII/events/21.json:$.summary	the chronicle	->	Eachdraidh na Rìoghachd	|	a line the office's custom does not require: that the chronicle now passes to a second hand, 
+CHANGE	eras/age_VII/events/21.json:$.summary	the Moot	->	Tional nan Tuathach	|	ive western towns' benches chalked in the roll of the Moot, under the towns' names, with
+CHANGE	eras/age_VII/events/22.json:$.summary	the Severance	->	An Dealachadh	|	 Skell, calling certain companies disbanded since the Severance to be reformed for the guardi
+CHANGE	eras/age_VII/events/22.json:$.summary	the coal line	->	Slighe a' Ghuail	|	in the first cold week of an t-Samhain, and rides the coal line with a corporal and a satchel
+CHANGE	eras/age_VII/events/22.json:$.summary	the Severance	->	An Dealachadh	|	are pikes, is opened and swept for the reading of the Severance rolls.
+CHANGE	eras/age_VII/events/22.json:$.summary	the Severance companies	->	Buidhnean an Dealachaidh	|	Ledgers of the Severance companies, kept in the council's chests
+CHANGE	eras/age_VII/events/22.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot agrees the Christmas petition
+CHANGE	eras/age_VII/events/22.json:$.title	the Christmas	->	an Nollaig	|	The Moot agrees the Christmas petition
+CHANGE	eras/age_VII/events/22.json:$.summary	the Moot	->	Tional nan Tuathach	|	At Caol mhòr the Moot sits past midnight two days b
+CHANGE	eras/age_VII/events/22.json:$.summary	Christmas	->	an Nollaig	|	 mhòr the Moot sits past midnight two days before Christmas, turning the wording of its p
+CHANGE	eras/age_VII/events/22.json:$.summary	Christmas	->	an Nollaig	|	Martha Greaves leaves Doire ghlas two days before Christmas with the petition in a leathe
+CHANGE	eras/age_VII/events/22.json:$.title	the bridge at Cathair dhearg	->	Drochaid Cathair dhearg	|	Frost on the bridge at Cathair dhearg
+CHANGE	eras/age_VII/events/22.json:$.summary	Christmas	->	an Nollaig	|	Martha Greaves comes into Cathair dhearg on Christmas morning, the frost lying whit
+CHANGE	eras/age_VII/events/22.json:$.summary	the Moot	->	Tional nan Tuathach	|	s the council chamber floor, the first speaker of the Moot ever to do so since Walter Ha
+CHANGE	eras/age_VII/events/22.json:$.summary	the Severance companies	->	Buidhnean an Dealachaidh	|	Among the rolls of the Severance companies read in the drill hall at Cat
+CHANGE	eras/age_VII/events/22.json:$.summary	the Severance	->	An Dealachadh	|	Where a company of the Severance rolls answers to a town gone 
+CHANGE	eras/age_VII/events/22.json:$.title	Christmas	->	an Nollaig	|	Martha Greaves keeps Christmas on the road
+CHANGE	eras/age_VII/events/22.json:$.summary	the Moot	->	Tional nan Tuathach	|	The speaker of the Moot keeps an Nollaig in a hired c
+CHANGE	eras/age_VII/events/22.json:$.summary	the Moot's petition	->	Athchuinge Dheireannach an Tionail	|	 Marsh's bread and cold fowl uneaten at her feet, the Moot's petition in Peter Hale's leather folde
+CHANGE	eras/age_VII/events/22.json:$.summary	the Moot	->	Tional nan Tuathach	|	In the council chamber, when the speaker of the Moot comes in with the petition, A
+CHANGE	eras/age_VII/events/23.json:$.summary	The Rail Board's	->	Comhairle na Slighe-iarainn's	|	The Rail Board's own men load eight wagons beh
+CHANGE	eras/age_VII/events/23.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	Through am Faoilleach the coal line's western branch, laid twenty y
+CHANGE	eras/age_VII/events/23.json:$.title	The Rail Board's	->	Comhairle na Slighe-iarainn's	|	The Rail Board's quay at Seann Bhral
+CHANGE	eras/age_VII/events/23.json:$.summary	the Rail Board's	->	Comhairle na Slighe-iarainn's	|	At Seann Bhral the Rail Board's men unload the arms trains by
+CHANGE	eras/age_VII/events/23.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	rain passes a Tuathach family walking north along the coal line's western branch before dawn, a
+CHANGE	eras/age_VII/events/23.json:$.title	the Board	->	Comhairle nam Mèinnean	|	Ruth Calder learns the Board keeps its own list
+CHANGE	eras/age_VII/events/23.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	Tom Varley brings word to Ruth Calder that the Mine Board at Cathair mhòr keeps a list 
+CHANGE	eras/age_VII/events/24.json:$.summary	the field of Àth leathan	->	Àraich Àth leathan	|	The river town of Inis àrsaidh, nearest the field of Àth leathan by water, supplies bread and 
+CHANGE	eras/age_VII/events/24.json:$.summary	the open record	->	An Clàr Foscailte	|	, new to the office of royal chronicler, searches the open record more than once for Ruth Calde
+CHANGE	eras/age_VII/events/24.json:$.summary	the Church's	->	An Eaglais's	|	the old captain's men of Tobar dhearg sing low in the Church's own words along their line.
+CHANGE	eras/age_VII/events/24.json:$.summary	the hot springs	->	Fuarain Theth Muileann ruadh	|	The custodians of the bath-house at the hot springs below Muileann ruadh take in 
+CHANGE	eras/age_VII/events/25.json:$.title	The Mine Board	->	Comhairle nam Mèinnean	|	The Mine Board orders the Àth leathan pits f
+CHANGE	eras/age_VII/events/25.json:$.summary	The Mine Board	->	Comhairle nam Mèinnean	|	The Mine Board at Cathair mhòr sends an orde
+CHANGE	eras/age_VII/events/25.json:$.title	The seventh regiment	->	An seachdamh rèisimeid	|	The seventh regiment raised from the west-coast le
+CHANGE	eras/age_VII/events/25.json:$.summary	the seventh regiment	->	An seachdamh rèisimeid	|	On the council's order the seventh regiment is raised in a single week fr
+CHANGE	eras/age_VII/events/25.json:$.summary	the seventh regiment's	->	An seachdamh rèisimeid's	|	Somhairle mac Lachlainn reads the seventh regiment's first patrol reports at Seann
+CHANGE	eras/age_VII/events/25.json:$.summary	the field of Àth leathan	->	Àraich Àth leathan	|	written instructions for the same officer to walk the field of Àth leathan rather than the road beside i
+CHANGE	eras/age_VII/events/25.json:$.summary	the field of Àth leathan	->	Àraich Àth leathan	|	y walks alone to a stone dyke a quarter-mile from the field of Àth leathan and is turned back by a young
+CHANGE	eras/age_VII/events/25.json:$.summary	the seventh regiment	->	An seachdamh rèisimeid	|	h leathan and is turned back by a young sentry of the seventh regiment before he can see more than i
+CHANGE	eras/age_VII/events/25.json:$.summary	The seventh regiment's	->	An seachdamh rèisimeid's	|	The seventh regiment's rolls run to some four hundre
+CHANGE	eras/age_VII/events/26.json:$.title	The wartime tithe	->	Deachamh a' Chogaidh	|	The wartime tithe is proclaimed
+CHANGE	eras/age_VII/events/26.json:$.title	A Treasury clerk	->	A clerk of An t-Ionmhas	|	A Treasury clerk is sent to Muileann òg
+CHANGE	eras/age_VII/events/26.json:$.summary	the Treasury	->	An t-Ionmhas	|	Cailean Ros of the Treasury comes to sit beside the fair 
+CHANGE	eras/age_VII/events/26.json:$.summary	the wartime tithe	->	Deachamh a' Chogaidh	|	ein records the first gallon of dubhan sold under the wartime tithe at the Muileann òg pump, elev
+CHANGE	eras/age_VII/events/26.json:$.summary	the fair court	->	Cùirt na Fèille	|	òg, brings her own five weeks' reckoning of it to the fair court and asks that her complaint a
+CHANGE	eras/age_VII/events/26.json:$.summary	the seventh regiment	->	An seachdamh rèisimeid	|	News of the seventh regiment, raised on the west coast to 
+CHANGE	eras/age_VII/events/26.json:$.summary	The first regiment	->	A' chiad rèisimeid	|	The first regiment is raised at Inis mhòr from t
+CHANGE	eras/age_VII/events/26.json:$.summary	The first fleet	->	A' chiad chabhlach	|	The first fleet is raised from the south-west
+CHANGE	eras/age_VII/events/26.json:$.summary	The fourth fleet	->	An ceathramh cabhlach	|	The fourth fleet is raised at Cuan shean and j
+CHANGE	eras/age_VII/events/26.json:$.title	The fourth fleet	->	An ceathramh cabhlach	|	The fourth fleet searches the boats at Caol mh
+CHANGE	eras/age_VII/events/26.json:$.summary	the fourth fleet	->	An ceathramh cabhlach	|	A hull of the fourth fleet boards and searches every boa
+CHANGE	eras/age_VII/events/26.json:$.summary	the fourth fleet	->	An ceathramh cabhlach	|	harbour depot asks Joe Ashby to mend an engine of the fourth fleet that the depot's own men cann
+CHANGE	eras/age_VII/events/26.json:$.summary	the fourth fleet	->	An ceathramh cabhlach	|	 a wrongly seated valve aboard an unnamed hull of the fourth fleet at Caol mhòr's depot jetty, a
+CHANGE	eras/age_VII/events/26.json:$.summary	The wartime tithe	->	Deachamh a' Chogaidh	|	The wartime tithe is laid at one part in twelve
+CHANGE	eras/age_VII/events/26.json:$.summary	the Treasury	->	An t-Ionmhas	|	 dubhan, taken at the point of sale by a clerk of the Treasury sitting beside the pump.
+CHANGE	eras/age_VII/events/26.json:$.summary	The Treasury's	->	An t-Ionmhas's	|	The Treasury's young clerk at the Muileann ò
+CHANGE	eras/age_VII/events/26.json:$.summary	the fourth fleet's	->	An ceathramh cabhlach's	|	Searching the boats at Caol mhòr, the fourth fleet's lieutenant finds Will Tanner'
+CHANGE	eras/age_VII/events/26.json:$.summary	The Treasury's	->	An t-Ionmhas's	|	The Treasury's clerks at the pumps send in t
+CHANGE	eras/age_VII/events/26.json:$.summary	the first regiment	->	A' chiad rèisimeid	|	e their hay out of the barracks at Inis mhòr when the first regiment is raised there; what is not 
+CHANGE	eras/age_VII/events/26.json:$.title	the first fleet	->	A' chiad chabhlach	|	The ferrymen of Àth gharbh go to the first fleet
+CHANGE	eras/age_VII/events/26.json:$.summary	the first fleet	->	A' chiad chabhlach	|	Four of the ferrymen of Àth gharbh go into the first fleet at its raising, and the ferry
+CHANGE	eras/age_VII/events/26.json:$.summary	the fourth fleet's	->	An ceathramh cabhlach's	|	The chandlers of Cuan shean, the fourth fleet's harbour, sell out of rope and
+CHANGE	eras/age_VII/events/26.json:$.summary	The Treasury's	->	An t-Ionmhas's	|	The Treasury's clerk for the tithe sits at t
+CHANGE	eras/age_VII/events/27.json:$.summary	the Severance	->	An Dealachadh	|	e ground the western hills have used since before the Severance.
+CHANGE	eras/age_VII/events/27.json:$.summary	the siege of Muileann àrsaidh	->	Sèist Muileann àrsaidh	|	Through the siege of Muileann àrsaidh Meikle keeps the town's count
+CHANGE	eras/age_VII/events/27.json:$.title	The fifth regiment	->	An còigeamh rèisimeid	|	The fifth regiment musters on the harbour wall
+CHANGE	eras/age_VII/events/27.json:$.summary	The fifth regiment	->	An còigeamh rèisimeid	|	The fifth regiment musters on the harbour wall a
+CHANGE	eras/age_VII/events/28.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's granaries opened at Caol mhòr
+CHANGE	eras/age_VII/events/28.json:$.title	the Library	->	an Leabharlann	|	Martha Greaves writes to the Library
+CHANGE	eras/age_VII/events/28.json:$.summary	the Library	->	an Leabharlann	|	ic Rath at Muileann chaol, not to ask anything of the Library but to set down, outside her 
+CHANGE	eras/age_VII/events/28.json:$.summary	the Moot	->	Tional nan Tuathach	|	 to set down, outside her own kitchen table, that the Moot has fed the west's hungry whi
+CHANGE	eras/age_VII/events/28.json:$.summary	the Moot	->	Tional nan Tuathach	|	ourmaster's boy of Caol mhòr tells the speaker of the Moot, repeating his father, that t
+CHANGE	eras/age_VII/events/28.json:$.summary	the Moot	->	Tional nan Tuathach	|	e speaker of the Moot, repeating his father, that the Moot will beggar itself feeding th
+CHANGE	eras/age_VII/events/28.json:$.summary	The Moot	->	Tional nan Tuathach	|	The Moot sends seed-corn from the stor
+CHANGE	eras/age_VII/events/29.json:$.title	the windy coast	->	an Oirthir Ghaothach	|	Seven parties on the windy coast
+CHANGE	eras/age_VII/events/29.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	ort that the ground beyond lies outside any shire the Board's writ runs in, and reaches, fo
+CHANGE	eras/age_VII/events/29.json:$.summary	the open record	->	An Clàr Foscailte	|	or the seven parties sitting on it, the name that the open record keeps thereafter.
+CHANGE	eras/age_VII/events/29.json:$.title	The second fleet's	->	An dàrna cabhlach's	|	The second fleet's raising told on the windy coa
+CHANGE	eras/age_VII/events/29.json:$.title	the windy coast	->	an Oirthir Ghaothach	|	The second fleet's raising told on the windy coast
+CHANGE	eras/age_VII/events/29.json:$.summary	the second fleet	->	An dàrna cabhlach	|	Cairstine tells Tom Varley's fire that the second fleet was raised that season at the
+CHANGE	eras/age_VII/events/29.json:$.summary	the Rite's	->	Deas-ghnàth a' Ghuail's	|	southern Seann Skell out of the harbour towns and the Rite's own boatmen, to hold water th
+CHANGE	eras/age_VII/events/29.json:$.summary	the windy coast	->	an Oirthir Ghaothach	|	tands on a strand of black shingle at the edge of the windy coast and watches the light go out 
+CHANGE	eras/age_VII/events/29.json:$.title	the windy coast	->	an Oirthir Ghaothach	|	A hind brought down on the windy coast
+CHANGE	eras/age_VII/events/29.json:$.summary	the windy coast	->	an Oirthir Ghaothach	|	On the walk to the windy coast a man of Àth naomh brings dow
+CHANGE	eras/age_VII/events/29.json:$.summary	the windy coast	->	an Oirthir Ghaothach	|	A widower of the windy coast, Calum Odhar, who fishes a tw
+CHANGE	eras/age_VII/events/30.json:$.summary	the sixth regiment's	->	An siathamh rèisimeid's	|	At first light on the quay steps at Cnoc bheag the sixth regiment's new colours are blessed on an
+CHANGE	eras/age_VII/events/30.json:$.summary	the Hawk	->	Òrd an t-Seabhaig	|	s new colours are blessed on an old staff kept in the Hawk house's own keeping, the whol
+CHANGE	eras/age_VII/events/30.json:$.summary	the second regiment's	->	An dàrna rèisimeid's	|	nic Fhionnlaigh, retired at Àth dhìreach, watches the second regiment's camp rise from her own garden
+CHANGE	eras/age_VII/events/30.json:$.summary	The fourth regiment	->	An ceathramh rèisimeid	|	The fourth regiment marches from Caol bheag to th
+CHANGE	eras/age_VII/events/30.json:$.summary	The fourth regiment	->	An ceathramh rèisimeid	|	The fourth regiment goes down the Abhainn ghorm t
+CHANGE	eras/age_VII/events/30.json:$.summary	The fourth regiment's	->	An ceathramh rèisimeid's	|	The fourth regiment's hired dubhan hulls put out fr
+CHANGE	eras/age_VII/events/30.json:$.summary	the fourth regiment's	->	An ceathramh rèisimeid's	|	In the worst of the second night's weather one of the fourth regiment's hired hulls is separated from
+CHANGE	eras/age_VII/events/30.json:$.summary	the fourth regiment	->	An ceathramh rèisimeid	|	eater part of the old human magistrate's house to the fourth regiment without complaint, moving his
+CHANGE	eras/age_VII/events/30.json:$.summary	the fourth regiment's	->	An ceathramh rèisimeid's	|	erk, a Tuathaich woman of long service, addresses the fourth regiment's captain in Dia-thìris without
+CHANGE	eras/age_VII/events/30.json:$.summary	the fourth regiment	->	An ceathramh rèisimeid	|	Martha Greaves's single sheet asking that the fourth regiment be lodged at its own charge a
+CHANGE	eras/age_VII/events/30.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	 assembled company. It is received and forwarded; the Board's late reply says only that the
+CHANGE	eras/age_VII/events/30.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	barrel of salt cod consigned, quite genuinely, to the Moot's own stores.
+CHANGE	eras/age_VII/events/30.json:$.summary	the second fleet	->	An dàrna cabhlach	|	A corporal of the second fleet, billeted a night at Ceann mh
+CHANGE	eras/age_VII/events/30.json:$.summary	The fourth regiment	->	An ceathramh rèisimeid	|	The fourth regiment goes down the Abhainn ghorm f
+CHANGE	eras/age_VII/events/30.json:$.title	The Board	->	Comhairle nam Mèinnean	|	The Board answers the Moot on the quart
+CHANGE	eras/age_VII/events/30.json:$.title	the Moot	->	Tional nan Tuathach	|	The Board answers the Moot on the quartering
+CHANGE	eras/age_VII/events/30.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	Near the year's end the Board answers the Moot's protest ag
+CHANGE	eras/age_VII/events/30.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Near the year's end the Board answers the Moot's protest against the quarterin
+CHANGE	eras/age_VII/events/30.json:$.title	The sixth regiment	->	An siathamh rèisimeid	|	The sixth regiment drills by the carved stone
+CHANGE	eras/age_VII/events/30.json:$.summary	The sixth regiment	->	An siathamh rèisimeid	|	The sixth regiment, raised at Cnoc bheag, drills
+CHANGE	eras/age_VII/events/30.json:$.title	the third fleet	->	An treas cabhlach	|	Baile ghorm's quays given to the third fleet
+CHANGE	eras/age_VII/events/30.json:$.summary	the third fleet	->	An treas cabhlach	|	At its raising the third fleet takes the wolf-post quays of 
+CHANGE	eras/age_VII/events/31.json:$.title	The third fleet's	->	An treas cabhlach's	|	The third fleet's first tank-hull reaches Ceann
+CHANGE	eras/age_VII/events/31.json:$.summary	the third fleet's	->	An treas cabhlach's	|	A week after its raising at Baile ghorm the third fleet's first tank-hull, her number c
+CHANGE	eras/age_VII/events/31.json:$.summary	The fourth regiment	->	An ceathramh rèisimeid	|	The fourth regiment sends Corporal Dùghall mac Ia
+CHANGE	eras/age_VII/events/31.json:$.summary	the Grey Night	->	Oidhche Glaise	|	e comes into Baile chrom after dark on the eve of the Grey Night to find no lamp lit, no dog l
+CHANGE	eras/age_VII/events/31.json:$.summary	the Grey Night	->	Oidhche Glaise	|	old woman named Margaret Crane sits alone keeping the Grey Night as she has kept it since befo
+CHANGE	eras/age_VII/events/31.json:$.summary	the open record	->	An Clàr Foscailte	|	a siege; their pits are flooded the same day, and the open record names no holdout taken at eit
+CHANGE	eras/age_VII/events/31.json:$.title	The ninth regiment	->	An naoidheamh rèisimeid	|	The ninth regiment raised at the southern Seann 
+CHANGE	eras/age_VII/events/31.json:$.summary	Christmas Day	->	an Nollaig	|	On Christmas Day the ninth regiment is raised 
+CHANGE	eras/age_VII/events/31.json:$.summary	the ninth regiment	->	An naoidheamh rèisimeid	|	On Christmas Day the ninth regiment is raised at the southern Sea
+CHANGE	eras/age_VII/events/31.json:$.summary	the ninth regiment	->	An naoidheamh rèisimeid	|	Two days after an Nollaig the raising of the ninth regiment at the southern Seann Skell i
+CHANGE	eras/age_VII/events/31.json:$.summary	the fourth regiment's	->	An ceathramh rèisimeid's	|	giment at the southern Seann Skell is read out in the fourth regiment's guardroom at Ceann mhòr.
+CHANGE	eras/age_VII/events/32.json:$.summary	The Board's	->	Comhairle nam Mèinnean's	|	The Board's office begins issuing a small
+CHANGE	eras/age_VII/events/32.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's register adds the names of Àt
+CHANGE	eras/age_VII/events/32.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	he enters the dead and maimed of Àth leathan into the Moot's register column by column, an
+CHANGE	eras/age_VII/events/32.json:$.summary	the Tuathaich Church's	->	Eaglais nan Tuathach's	|	Martha Greaves stands at the back of the Tuathaich Church's own Easter service at the cha
+CHANGE	eras/age_VII/events/32.json:$.title	The fourth regiment's	->	An ceathramh rèisimeid's	|	The fourth regiment's year of patrols on the Ceann 
+CHANGE	eras/age_VII/events/32.json:$.summary	the fourth regiment	->	An ceathramh rèisimeid	|	Through the whole quartered year the fourth regiment keeps its patrols on the Cean
+CHANGE	eras/age_VII/events/32.json:$.summary	the fourth regiment's	->	An ceathramh rèisimeid's	|	e second season of the patrols, to lift a hand to the fourth regiment's file as it passes.
+CHANGE	eras/age_VII/events/32.json:$.title	A Board clerk	->	A clerk of Comhairle nam Mèinnean	|	A Board clerk counts night traffic on the h
+CHANGE	eras/age_VII/events/32.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	A clerk of the Board stationed at Cnoc thais write
+CHANGE	eras/age_VII/events/32.json:$.summary	the Moot	->	Tional nan Tuathach	|	rk of the Board stationed at Cnoc thais writes to the Moot that the hill paths above the
+CHANGE	eras/age_VII/events/32.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	 Muileann fhada, the landlord renting the yard to the Board and keeping his wicks inside.
+CHANGE	eras/age_VII/events/33.json:$.summary	The royal chronicler	->	Seanchaidh na Rìoghachd	|	The royal chronicler asks every town on the column
+CHANGE	eras/age_VII/events/33.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	f Muileann mhin under the western hills writes to the Board that the town's takings showe
+CHANGE	eras/age_VII/events/33.json:$.summary	The first regiment's	->	A' chiad rèisimeid's	|	The first regiment's quartermaster requires the fa
+CHANGE	eras/age_VII/events/33.json:$.summary	the fair court's	->	Cùirt na Fèille's	|	ed ground for the first and third regiments, over the fair court's own market set for the ninth.
+CHANGE	eras/age_VII/events/33.json:$.title	The third regiment	->	An treas rèisimeid	|	The third regiment camps on the cleared fair-gro
+CHANGE	eras/age_VII/events/33.json:$.summary	The third regiment	->	An treas rèisimeid	|	The third regiment pitches its tents where the i
+CHANGE	eras/age_VII/events/33.json:$.title	The first regiment	->	A' chiad rèisimeid	|	The first regiment fills Muileann òg
+CHANGE	eras/age_VII/events/33.json:$.summary	The first regiment	->	A' chiad rèisimeid	|	The first regiment comes down the same evening a
+CHANGE	eras/age_VII/events/33.json:$.title	The fair court	->	Cùirt na Fèille	|	The fair court keeps its small business thro
+CHANGE	eras/age_VII/events/33.json:$.summary	the fair court	->	Cùirt na Fèille	|	Ùna nic Ailein keeps the fair court open through the regiments' c
+CHANGE	eras/age_VII/events/33.json:$.summary	the Library's	->	an Leabharlann's	|	ave asked nothing else. It is the only writing in the Library's file that can be set to a han
+CHANGE	eras/age_VII/events/34.json:$.summary	The open record	->	An Clàr Foscailte	|	ked back to before the guns find them either way. The open record names him nowhere.
+CHANGE	eras/age_VII/events/34.json:$.summary	The third regiment's	->	An treas rèisimeid's	|	The third regiment's four field pieces, hauled the
+CHANGE	eras/age_VII/events/34.json:$.summary	the third regiment	->	An treas rèisimeid	|	A corporal of the third regiment draws up the regiments' dead 
+CHANGE	eras/age_VII/events/34.json:$.summary	the open record	->	An Clàr Foscailte	|	 column's own dead does, and is the nearest thing the open record holds to one.
+CHANGE	eras/age_VII/events/34.json:$.summary	The first regiment's	->	A' chiad rèisimeid's	|	The first regiment's colonel writes that the colum
+CHANGE	eras/age_VII/events/34.json:$.summary	the Brothers' War	->	Cogadh nam Bràithrean	|	an older name, the taken ground, from a battle of the Brothers' War fought on the same ground two
+CHANGE	eras/age_VII/events/34.json:$.summary	the open record	->	An Clàr Foscailte	|	eann ghlas by two lanterns and a banked fire, and the open record notes that he made no distinc
+CHANGE	eras/age_VII/events/34.json:$.summary	the seventh regiment's	->	An seachdamh rèisimeid's	|	A lame old man of Cnoc thais comes down to the seventh regiment's northernmost post on the Àth 
+CHANGE	eras/age_VII/events/34.json:$.summary	the seventh regiment's	->	An seachdamh rèisimeid's	|	At the seventh regiment's northernmost post the sergean
+CHANGE	eras/age_VII/events/34.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	 he says afterward that his first thought was for the coal line's timetable and the wounded's c
+CHANGE	eras/age_VII/events/34.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	st weeks of the peace Somhairle mac Lachlainn has the coal line's schedule for the war's wounde
+CHANGE	eras/age_VII/events/34.json:$.title	The beacon at Àth dhearg	->	Taigh-solais Àth dhearg	|	The beacon at Àth dhearg sees no fleet
+CHANGE	eras/age_VII/events/35.json:$.summary	the wartime tithe	->	Deachamh a' Chogaidh	|	ts at the towns where they were raised, paid from the wartime tithe laid on every barrel of dubha
+CHANGE	eras/age_VII/events/35.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	The master of the Mine Board forwards Somhairle mac Lachla
+CHANGE	eras/age_VII/events/35.json:$.summary	the Leòid ruling	->	Breith Leòid	|	c Lachlainn an order for concrete and men, citing the Leòid ruling of six years before: the west
+CHANGE	eras/age_VII/events/35.json:$.summary	the Crown's	->	An Crùn's	|	ruling of six years before: the western seams are the Crown's, the holders have stopped pay
+CHANGE	eras/age_VII/events/35.json:$.summary	the seventh regiment	->	An seachdamh rèisimeid	|	In am Màrt the seventh regiment pours the first concrete over
+CHANGE	eras/age_VII/events/35.json:$.summary	the seventh regiment	->	An seachdamh rèisimeid	|	A sergeant of the seventh regiment tells Somhairle mac Lachlainn
+CHANGE	eras/age_VII/events/35.json:$.summary	the second fleet	->	An dàrna cabhlach	|	ruadh, whose harbour victualled the garrisons and the second fleet through the war, is granted t
+CHANGE	eras/age_VII/events/35.json:$.title	The Board	->	Comhairle nam Mèinnean	|	The Board ends the coal trade outside t
+CHANGE	eras/age_VII/events/35.json:$.title	the Sloc Mòr	->	An Sloc Mòr	|	The Board ends the coal trade outside the Sloc Mòr
+CHANGE	eras/age_VII/events/35.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	coal-fuel is at an end on the island outside what the Board still cuts for its own accoun
+CHANGE	eras/age_VII/events/35.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	 what the Board still cuts for its own account at the Sloc Mòr: not forbidden by any law, bu
+CHANGE	eras/age_VII/events/35.json:$.title	The first regiment's	->	A' chiad rèisimeid's	|	The first regiment's corporal begins a list
+CHANGE	eras/age_VII/events/35.json:$.summary	the first regiment	->	A' chiad rèisimeid	|	A corporal of the first regiment collecting rents in the distr
+CHANGE	eras/age_VII/events/35.json:$.summary	the coal line	->	Slighe a' Ghuail	|	tha Greaves and Peter Hale take the last carriage the coal line runs toward the boundary ston
+CHANGE	eras/age_VII/events/35.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	e binder at Muileann leathan whose pupils rebound the Moot's minute-books; the man gives n
+CHANGE	eras/age_VII/events/35.json:$.summary	the Christmas	->	an Nollaig	|	c Lachlainn she stood on the bench in the passage the Christmas Martha Greaves carried the Mo
+CHANGE	eras/age_VII/events/35.json:$.summary	the Moot's last petition	->	Athchuinge Dheireannach an Tionail	|	 the passage the Christmas Martha Greaves carried the Moot's last petition in, and means to go on voting
+CHANGE	eras/age_VII/events/35.json:$.title	The seventh regiment	->	An seachdamh rèisimeid	|	The seventh regiment builds the Àth leathan post
+CHANGE	eras/age_VII/events/35.json:$.title	the Àth leathan post	->	Freiceadan Àth leathan	|	The seventh regiment builds the Àth leathan post
+CHANGE	eras/age_VII/events/35.json:$.summary	the seventh regiment	->	An seachdamh rèisimeid	|	Over six weeks in autumn the seventh regiment raises a post of stone and ti
+CHANGE	eras/age_VII/events/35.json:$.summary	the Moot	->	Tional nan Tuathach	|	re holdouts taken at Muileann ghlas are handed to the Moot at the boundary stones; Marth
+CHANGE	eras/age_VII/events/35.json:$.title	the stone at Cathair mhòr	->	Clach nan Rèisimeidean	|	The heading on the stone at Cathair mhòr
+CHANGE	eras/age_VII/events/35.json:$.summary	The stone at Cathair mhòr	->	Clach nan Rèisimeidean	|	The stone at Cathair mhòr is cut in two columns under a
+CHANGE	eras/age_VII/events/35.json:$.title	The seventh regiment's	->	An seachdamh rèisimeid's	|	The seventh regiment's first winter at the post
+CHANGE	eras/age_VII/events/35.json:$.summary	The seventh regiment's	->	An seachdamh rèisimeid's	|	The seventh regiment's first winter at the post by À
+CHANGE	eras/age_VII/events/35.json:$.summary	a Treasury clerk	->	a clerk of An t-Ionmhas	|	 the rain on the quay; the market-due is taken by a Treasury clerk under a sailcloth awning, and
+CHANGE	eras/age_VII/events/36.json:$.summary	the Long War	->	An Cogadh Fada	|	doorstep of the old building: the whole record of the Long War is to be shut against every r
+CHANGE	eras/age_VII/events/36.json:$.title	The seventh regiment's	->	An seachdamh rèisimeid's	|	The seventh regiment's captain lets the cairn stand
+CHANGE	eras/age_VII/events/36.json:$.summary	the field of Àth leathan	->	Àraich Àth leathan	|	r to clear the cairn the Tuathaich have raised on the field of Àth leathan, the Board answers that its c
+CHANGE	eras/age_VII/events/36.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	uathaich have raised on the field of Àth leathan, the Board answers that its captain may 
+CHANGE	eras/age_VII/events/36.json:$.title	The Treasury	->	An t-Ionmhas	|	The Treasury sets a clerk in every market 
+CHANGE	eras/age_VII/events/36.json:$.summary	The Treasury	->	An t-Ionmhas	|	The Treasury fixes the market-due at seven
+CHANGE	eras/age_VII/events/36.json:$.summary	the Crown	->	An Crùn	|	e harbourmaster's storeroom, the first officer of the Crown the town has ever had cause t
+CHANGE	eras/age_VII/events/36.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	Peigi nic Ascaill signs the Fuel-Fitters' contract for the regiments' 
+CHANGE	eras/age_VII/events/36.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	boys and a girl under the arms contract and tells the Board's inspector she means to keep t
+CHANGE	eras/age_VII/events/36.json:$.summary	the second fleet's	->	An dàrna cabhlach's	|	sees the salt-boat raiders' sail two hours before the second fleet's own lookout and lights, on he
+CHANGE	eras/age_VII/events/36.json:$.title	the fourth fleet	->	An ceathramh cabhlach	|	The fishermen of Cathair gheal answer the fourth fleet
+CHANGE	eras/age_VII/events/36.json:$.summary	the fourth fleet's	->	An ceathramh cabhlach's	|	e empty bays, the fishermen of Cathair gheal tell the fourth fleet's officers, more than one in ne
+CHANGE	eras/age_VII/events/36.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot pays its own freight north
+CHANGE	eras/age_VII/events/36.json:$.summary	The Moot	->	Tional nan Tuathach	|	The Moot asks for and pays, purse for 
+CHANGE	eras/age_VII/events/36.json:$.summary	the third fleet's	->	An treas cabhlach's	|	d pays, purse for purse out of its own thin fund, the third fleet's freight to run dubhan up the 
+CHANGE	eras/age_VII/events/36.json:$.summary	the third fleet's	->	An treas cabhlach's	|	For the third fleet's tank-hulls the quays of Baile
+CHANGE	eras/age_VII/events/36.json:$.title	The Còmhrag	->	Còmhrag Ceann leathan	|	The Còmhrag of Ceann leathan after the wa
+CHANGE	eras/age_VII/events/37.json:$.title	The fourth fleet's	->	An ceathramh cabhlach's	|	The fourth fleet's captain underlines his own lo
+CHANGE	eras/age_VII/events/37.json:$.summary	the fourth fleet's	->	An ceathramh cabhlach's	|	Off the north-west cape the watch of the fourth fleet's own hull reports a thing long
+CHANGE	eras/age_VII/events/37.json:$.summary	the stone at Cathair mhòr	->	Clach nan Rèisimeidean	|	 named costs, granaries and flooded pit-heads and the stone at Cathair mhòr, judging that a council grows
+CHANGE	eras/age_VII/events/37.json:$.title	the Treasury	->	An t-Ionmhas	|	The master of the Treasury asks a figure of the motion
+CHANGE	eras/age_VII/events/37.json:$.summary	the Treasury	->	An t-Ionmhas	|	Uisdean Dubh, master of the Treasury, asks Anna nic Phàil's motion
+CHANGE	eras/age_VII/events/37.json:$.summary	motion for amends	->	Tagradh na h-Èirig	|	bh, master of the Treasury, asks Anna nic Phàil's motion for amends whether its sum has been cost
+CHANGE	eras/age_VII/events/37.json:$.summary	the motion for amends	->	Tagradh na h-Èirig	|	ight sittings running the council's clerk carries the motion for amends forward on the day's business
+CHANGE	eras/age_VII/events/37.json:$.summary	the motion for amends	->	Tagradh na h-Èirig	|	On the eighth day the motion for amends is absent from the business-p
+CHANGE	eras/age_VII/events/37.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	lls Peter Hale plainly that she means to lay down the Moot's chair that year, and that she
+CHANGE	eras/age_VII/events/37.json:$.summary	the Moot	->	Tional nan Tuathach	|	the coal-line's freight, lays the chair down, and the Moot chooses Peter Hale by acclama
+CHANGE	eras/age_VII/events/37.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	young woman, not yet certain what a woman who was the Moot's own voice for seventeen years
+CHANGE	eras/age_VII/events/37.json:$.title	The fifth regiment	->	An còigeamh rèisimeid	|	The fifth regiment raises stone barracks at Sean
+CHANGE	eras/age_VII/events/37.json:$.summary	The fifth regiment	->	An còigeamh rèisimeid	|	The fifth regiment, quartered under canvas and b
+CHANGE	eras/age_VII/events/37.json:$.title	the eighth regiment	->	An t-ochdamh rèisimeid	|	The Seann Spioradan house of Inis uaine prays for the eighth regiment
+CHANGE	eras/age_VII/events/37.json:$.summary	The eighth regiment's	->	An t-ochdamh rèisimeid's	|	The eighth regiment's watch on the eastern dubhan t
+CHANGE	eras/age_VII/events/37.json:$.title	The fourth regiment	->	An ceathramh rèisimeid	|	The fourth regiment marches home to Caol bheag
+CHANGE	eras/age_VII/events/37.json:$.summary	The fourth regiment	->	An ceathramh rèisimeid	|	The fourth regiment leaves the old magistrate's h
+CHANGE	eras/age_VII/events/37.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	our years after it was first quartered there over the Moot's own protest.
+CHANGE	eras/age_VII/events/37.json:$.summary	The Moot	->	Tional nan Tuathach	|	The Moot asks that the old magistrate'
+CHANGE	eras/age_VII/events/37.json:$.summary	the eighth regiment's	->	An t-ochdamh rèisimeid's	|	By council order the eighth regiment's officers at Inis uaine are gi
+CHANGE	eras/age_VII/events/37.json:$.summary	the fifth regiment's	->	An còigeamh rèisimeid's	|	The quarrymen of Seann Warr cut the stone for the fifth regiment's barracks through the summer f
+CHANGE	eras/age_VII/events/37.json:$.summary	the Treasury	->	An t-Ionmhas	|	 face that gave the harbour wall, and are paid by the Treasury at a rate the town's masons c
+CHANGE	eras/age_VII/events/37.json:$.summary	The hot springs	->	Fuarain Theth Muileann ruadh	|	The hot springs below Muileann ruadh run so f
+CHANGE	eras/age_VII/events/38.json:$.summary	the Library's	->	an Leabharlann's	|	A carrier bringing salt fish to the Library's kitchen uses the word seann-c
+CHANGE	eras/age_VII/events/38.json:$.summary	the Library's	->	an Leabharlann's	|	es, meaning at first only to ask Raghnall whether the Library's glossary should carry it.
+CHANGE	eras/age_VII/events/38.json:$.title	The Board's	->	Comhairle nam Mèinnean's	|	The Board's order to Achadh dhomhain
+CHANGE	eras/age_VII/events/38.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	A four-line order from the Mine Board reaches the maor of Achadh dh
+CHANGE	eras/age_VII/events/38.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	he maor of Achadh dhomhain in an Gearran, closing the Sloc Mòr's upper galleries and the timbe
+CHANGE	eras/age_VII/events/38.json:$.title	the Rite	->	Deas-ghnàth a' Ghuail	|	One face given to the Rite
+CHANGE	eras/age_VII/events/38.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	The deepest and driest of the Sloc Mòr's old workings is kept open, gi
+CHANGE	eras/age_VII/events/38.json:$.summary	the Rite's	->	Deas-ghnàth a' Ghuail's	|	ut altar-coal, a few baskets a year, no more than the Rite's own accounting requires.
+CHANGE	eras/age_VII/events/38.json:$.summary	Guild of Hewers	->	Comann nan Gualadairean	|	ltar-face, using an oath drawn from the dissolved Guild of Hewers' own rolls; among them an old
+CHANGE	eras/age_VII/events/38.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	s of the town said nothing against the closing of the Sloc Mòr's upper galleries and asked not
+CHANGE	eras/age_VII/events/38.json:$.summary	the Board	->	Comhairle nam Mèinnean	|	e Sloc Mòr's upper galleries and asked nothing of the Board in its place.
+CHANGE	eras/age_VII/events/38.json:$.title	the Còmhrag	->	Còmhrag Ceann leathan	|	The regiments' fighters at the Còmhrag
+CHANGE	eras/age_VII/events/38.json:$.summary	the ninth regiment's	->	An naoidheamh rèisimeid's	|	yearly melee at Ceann leathan for the first time; the ninth regiment's man, once a fitter under Peig
+CHANGE	eras/age_VII/events/38.json:$.title	The second regiment's	->	An dàrna rèisimeid's	|	The second regiment's guard at the Library's gate
+CHANGE	eras/age_VII/events/38.json:$.title	the Library's	->	an Leabharlann's	|	The second regiment's guard at the Library's gate
+CHANGE	eras/age_VII/events/38.json:$.summary	the second regiment	->	An dàrna rèisimeid	|	Six men of the second regiment pitch a tent in the Library's
+CHANGE	eras/age_VII/events/38.json:$.summary	the Library's	->	an Leabharlann's	|	Six men of the second regiment pitch a tent in the Library's own yard and stand a guard at
+CHANGE	eras/age_VII/events/38.json:$.summary	the Library	->	an Leabharlann	|	Raghnall writes to the council that the Library never asked for a guard and h
+CHANGE	eras/age_VII/events/38.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	ree days before, that the run he is given will be the coal line's last working under coal's own
+CHANGE	eras/age_VII/events/38.json:$.summary	The sixth regiment	->	An siathamh rèisimeid	|	The sixth regiment sets a table in the shadow of
+CHANGE	eras/age_VII/events/38.json:$.summary	the Severance	->	An Dealachadh	|	 issuing printed passes; for the first time since the Severance a Tuathach going south past t
+CHANGE	eras/age_VII/events/38.json:$.summary	the wartime tithe	->	Deachamh a' Chogaidh	|	y as given, for a time only, the same three words the wartime tithe was given six years before an
+CHANGE	eras/age_VII/events/38.json:$.summary	the fair at Muileann òg	->	Fèill Muileann òg	|	At the fair at Muileann òg, Tuathaich wool is sold on it
+CHANGE	eras/age_VII/events/38.json:$.summary	the Rite's	->	Deas-ghnàth a' Ghuail's	|	At the swearing of the Rite's twelve hewers at Achadh dhomh
+CHANGE	eras/age_VII/events/38.json:$.title	The Sloc Mòr's	->	An Sloc Mòr's	|	The Sloc Mòr's upper galleries capped
+CHANGE	eras/age_VII/events/38.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	Within a fortnight of the Board's order the eleven upper galler
+CHANGE	eras/age_VII/events/38.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	f the Board's order the eleven upper galleries of the Sloc Mòr are capped, their timbering l
+CHANGE	eras/age_VII/events/38.json:$.title	The ninth regiment's	->	An naoidheamh rèisimeid's	|	The ninth regiment's man at Ceann leathan
+CHANGE	eras/age_VII/events/38.json:$.summary	the Còmhrag	->	Còmhrag Ceann leathan	|	The winner of the Còmhrag in the regiments' first year 
+CHANGE	eras/age_VII/events/38.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	southern Seann Skell who had fitted engines under the Fuel-Fitters' charter before the regiments
+CHANGE	eras/age_VII/events/38.json:$.title	the Library	->	an Leabharlann	|	A sentry's word at the Library gate
+CHANGE	eras/age_VII/events/38.json:$.summary	the second regiment's	->	An dàrna rèisimeid's	|	The sergeant of the second regiment's first watch at an Leabharlann
+CHANGE	eras/age_VII/events/38.json:$.summary	the Board's	->	Comhairle nam Mèinnean's	|	arvest of Achadh mhòr goes down to the capital in the Board's lorries and the growers' own;
+CHANGE	eras/age_VII/events/38.json:$.title	The eighth regiment	->	An t-ochdamh rèisimeid	|	The eighth regiment at Inis uaine keeps a school
+CHANGE	eras/age_VII/events/38.json:$.summary	The eighth regiment	->	An t-ochdamh rèisimeid	|	The eighth regiment at Inis uaine keeps a school 
+CHANGE	eras/age_VII/events/39.json:$.title	the Còmhrag	->	Còmhrag Ceann leathan	|	One man dies at the Còmhrag of Ceann leathan
+CHANGE	eras/age_VII/events/39.json:$.summary	the third regiment	->	An treas rèisimeid	|	A man of the third regiment is felled by a stave-blow abo
+CHANGE	eras/age_VII/events/39.json:$.summary	the Còmhrag	->	Còmhrag Ceann leathan	|	a stave-blow above the ear in the second round of the Còmhrag and dies before the tide turn
+CHANGE	eras/age_VII/events/39.json:$.summary	the open record	->	An Clàr Foscailte	|	nd of the Còmhrag and dies before the tide turns; the open record keeps neither his name nor hi
+CHANGE	eras/age_VII/events/39.json:$.summary	the Library's	->	an Leabharlann's	|	word of it reaches Caol mhòr within the week, and the Library's own catalogue still lists onl
+CHANGE	eras/age_VII/events/39.json:$.title	the eleven books	->	An t-Aon Leabhar Deug	|	Joe Ashby asks Peter Hale about the eleven books
+CHANGE	eras/age_VII/events/39.json:$.summary	the Library	->	an Leabharlann	|	 Ashby puts to Peter Hale the question of whether the Library means to refuse the eleven bo
+CHANGE	eras/age_VII/events/39.json:$.summary	the eleven books	->	An t-Aon Leabhar Deug	|	e question of whether the Library means to refuse the eleven books outright or only to leave the
+CHANGE	eras/age_VII/events/39.json:$.title	the Moot's	->	Tional nan Tuathach's	|	Peter Hale opens the Moot's book in his own hand
+CHANGE	eras/age_VII/events/39.json:$.summary	the Moot	->	Tional nan Tuathach	|	 tally: no ruling of any Dia-thìreach court names the Moot a lawful body, and none has e
+CHANGE	eras/age_VII/events/39.json:$.title	The Treasury clerk	->	An t-Ionmhas's clerk	|	The Treasury clerk at Ros dhomhain keeps a secon
+CHANGE	eras/age_VII/events/39.json:$.summary	The Treasury clerk	->	An t-Ionmhas's clerk	|	The Treasury clerk who weighs and marks the ordi
+CHANGE	eras/age_VII/events/39.json:$.summary	the Treasury	->	An t-Ionmhas	|	he quay for the fleets and the regiments and pays the Treasury nothing, and folds it each qu
+CHANGE	eras/age_VII/events/39.json:$.title	the charter of export	->	Cairt na h-Às-mhalairt	|	The council grants the charter of export
+CHANGE	eras/age_VII/events/39.json:$.summary	the Treasury's	->	An t-Ionmhas's	|	er goes out, the twelve grant Dubhan's charter on the Treasury's own terms: the measure set ye
+CHANGE	eras/age_VII/events/39.json:$.title	A Treasury clerk	->	A clerk of An t-Ionmhas	|	A Treasury clerk marks the first and last barr
+CHANGE	eras/age_VII/events/39.json:$.summary	the Treasury	->	An t-Ionmhas	|	At Ros dhomhain a clerk of the Treasury marks the first barrel and th
+CHANGE	eras/age_VII/events/39.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	inks of the six years since his own name came off the Fuel-Fitters' rolls under a charter writte
+CHANGE	eras/age_VII/events/39.json:$.summary	the Severance	->	An Dealachadh	|	d over every hull that has gone north-about since the Severance.
+CHANGE	eras/age_VII/events/39.json:$.title	the eleven books	->	An t-Aon Leabhar Deug	|	The copying of the eleven books
+CHANGE	eras/age_VII/events/39.json:$.summary	The eleven books	->	An t-Aon Leabhar Deug	|	The eleven books of Ellen Marsh's gathering go
+CHANGE	eras/age_VII/events/39.json:$.title	the eleven books	->	An t-Aon Leabhar Deug	|	A lamp-fitter of Caol mhòr on the eleven books
+CHANGE	eras/age_VII/events/39.json:$.summary	the Fuel-Fitters	->	Comann nan Goibhnean-ceangail	|	An old lamp-fitter of Caol mhòr, let go from the Fuel-Fitters' rolls with Joe Ashby, says a
+CHANGE	eras/age_VII/events/39.json:$.summary	the Library	->	an Leabharlann	|	y, says a book finished is still a book, whatever the Library does with it.
+CHANGE	eras/age_VII/events/39.json:$.summary	the Treasury's	->	An t-Ionmhas's	|	ands out of Ros dhomhain on the morning tide with the Treasury's seal on her hatches, and the 
+CHANGE	eras/age_VII/events/40.json:$.summary	The Sloc Mòr's	->	An Sloc Mòr's	|	The Sloc Mòr's twelve hewers cut the year's 
+CHANGE	eras/age_VII/events/40.json:$.summary	the coal line	->	Slighe a' Ghuail	|	 go south to the southern Seann Skell in a van of the coal line kept for nothing else that we
+CHANGE	eras/age_VII/events/40.json:$.title	The Còmhrag's	->	Còmhrag Ceann leathan's	|	The Còmhrag's champion falls to a hewer's s
+CHANGE	eras/age_VII/events/40.json:$.summary	the ninth regiment's	->	An naoidheamh rèisimeid's	|	sking for the year's champion against all comers, the ninth regiment's man loses to a twenty-year-ol
+CHANGE	eras/age_VII/events/40.json:$.title	the First Canoe	->	A' Chiad Churach	|	Ellen Marsh tells the First Canoe again
+CHANGE	eras/age_VII/events/40.json:$.summary	the First Canoe's	->	A' Chiad Churach's	|	ls her eldest pupils, as her own mother told her, the First Canoe's crossing through Manannan's m
+CHANGE	eras/age_VII/events/40.json:$.summary	Manannan's mist	->	Ceò Mhanannain	|	ther told her, the First Canoe's crossing through Manannan's mist with a fire tended turn and t
+CHANGE	eras/age_VII/events/40.json:$.summary	the First Canoe	->	A' Chiad Churach	|	A thirteen-year-old asks Ellen Marsh whose fire the First Canoe carried, since the telling na
+CHANGE	eras/age_VII/events/40.json:$.summary	the Library's	->	an Leabharlann's	|	me she first overheard from a northern carrier in the Library's own yard, black the coal and 
+CHANGE	eras/age_VII/events/40.json:$.summary	the First Canoe	->	A' Chiad Churach	|	the eldest children at Doire ghlas the telling of the First Canoe and of the fire its crew carr
+CHANGE	eras/age_VII/events/40.json:$.title	The chronicle's	->	Eachdraidh na Rìoghachd's	|	The chronicle's last page of the year left op
+CHANGE	eras/age_VII/events/40.json:$.summary	the royal chronicle	->	Eachdraidh na Rìoghachd	|	Sìleas nic Rath leaves the royal chronicle open on its stand at the year
+CHANGE	eras/age_VII/events/40.json:$.summary	the sixth regiment's	->	An siathamh rèisimeid's	|	horm going south to the fair show their passes at the sixth regiment's posts by the boundary stones,
+LEFT	eras/age_VII/annals/age_VII_01.json:EVII-1046.body	the coal road	(no "the" before it)	|	teaming its carp over wood from the old coal road's thorn hedges, the cook saying the fish 
+LEFT	eras/age_VII/annals/age_VII_04.json:EVII-2501.body	the keeper of the Library	(no "the" before it)	|	Raghnall mac Mhuirich, keeper of the Library, finds the wage out of his own fund for
+LEFT	eras/age_VII/annals/age_VII_05.json:EVII-3020.body	the eleven books	(no "the" before it)	|	In the front of the first of her eleven books Ellen Marsh writes that where two witne
+LEFT	eras/age_VII/annals/age_VII_05.json:EVII-3024.body	the Board	(no "the" before it)	|	eapest, and will take no lecture from a Board that has never once carried coal north 
+LEFT	eras/age_VII/annals/age_VII_06.json:EVII-3504.body	the high custodian of the Rite	(no "the" before it)	|	chlainn writes to Alasdair mac Ìomhair, high custodian of the Rite at the southern Seann Skell, setting do
+LEFT	eras/age_VII/annals/age_VII_06.json:EVII-3507.body	the Moot	(no "the" before it)	|	r's correspondence under the label 'the Moot, western towns'.
+LEFT	eras/age_VII/annals/age_VII_06.json:EVII-3542.body	the royal chronicler	(no "the" before it)	|	 asking leave to lay down the office of royal chronicler at the close of summer, being nine-and-
+LEFT	eras/age_VII/annals/age_VII_06.json:EVII-3545.body	the chronicle	(no "the" before it)	|	re and by whom and on what day, since a chronicle that shows only its own leave is no chr
+LEFT	eras/age_VII/annals/age_VII_06.json:EVII-3545.body	the chronicle	(no "the" before it)	|	cle that shows only its own leave is no chronicle at all.
+LEFT	eras/age_VII/annals/age_VII_07.json:EVII-4030.body	the royal chronicler	(no "the" before it)	|	Sìleas nic Rath, new to the office of royal chronicler, searches An Clàr Foscailte more than o
+LEFT	eras/age_VII/annals/age_VII_10.json:EVII-5501.body	the Moot	(no "the" before it)	|	same soldier three times that spring on Moot business.
+LEFT	eras/age_VII/annals/age_VII_10.json:EVII-5513.body	the Board	(no "the" before it)	|	In the last week of an Dàmhair a Board carrier rides two days without pausing 
+LEFT	eras/age_VII/annals/age_VII_10.json:EVII-5527.body	the Crossing	(no "the" before it)	|	Crossing the open country toward the capital's f
+LEFT	eras/age_VII/annals/age_VII_11.json:EVII-6022.body	the chronicle	(no "the" before it)	|	as never let publish alongside the open chronicle.
+LEFT	eras/age_VII/annals/age_VII_11.json:EVII-6030.body	the Keeper	(another thing of the same English name)	|	Keeper of the trial lamp at Baile ìseal, Seona
+LEFT	eras/age_VII/annals/age_VII_11.json:EVII-6035.body	the Còmhrag	(no "the" before it)	|	At the first Còmhrag at Ceann leathan after the last pits ga
+LEFT	eras/age_VII/annals/age_VII_12.json:EVII-6503.body	the Board	(no "the" before it)	|	ath sets a single line at the foot of a Board return, noting the word heard that year
+LEFT	eras/age_VII/annals/age_VII_12.json:EVII-6510.body	the chronicle	(no "the" before it)	|	hag nic Fhionnlaigh's death in the open chronicle in the plain accounting the office requ
+LEFT	eras/age_VII/annals/age_VII_12.json:EVII-6530.body	the coal road	(no "the" before it)	|	 a dubhan lamp over his gate on the old coal road for the lorries that come by night, the
+LEFT	eras/age_VII/annals/age_VII_12.json:EVII-6534.title	the four houses	(no "the" before it)	|	Alasdair mac Ìomhair draws four houses
+LEFT	eras/age_VII/book/02_the_two_surveyors.md:41	the druid school	(no "the" before it)	|	aid Iain Ruadh. "They keep hours like a druid school."
+LEFT	eras/age_VII/book/10_the_coal_line_and_the_salt_road.md:71	the coal road	(no "the" before it)	|	 Past the bend below Cuan chrom the old coal road came down beside the line for a mile, a
+LEFT	eras/age_VII/book/11_the_wick_over_the_door.md:77	the coal road	(no "the" before it)	|	Farther north, on the old coal road above Cuan chrom, the house called An T
+LEFT	eras/age_VII/book/13_of_a_name_that_went_before_the_fuel.md:45	the coal line	(no "the" before it)	|	ooked freight on it, all went on saying coal line as they always had, so that within the 
+LEFT	eras/age_VII/book/14_of_the_charter_rule.md:25	the great pit	(no "the" before it)	|	g told, was glad to have the whole of a great pit in its own hand at last, and had no wis
+LEFT	eras/age_VII/book/14_of_the_charter_rule.md:121	the Moot	(no "the" before it)	|	ir neighbours' since before there was a Moot to vote on anything, and meant to go on
+LEFT	eras/age_VII/book/17_of_the_eleven_books.md:49	the eleven books	(no "the" before it)	|	r that closed the seventeenth year, was eleven books: the tellings of some two hundred old m
+LEFT	eras/age_VII/book/17_of_the_eleven_books.md:65	the eleven books	(no "the" before it)	|	arlainn had no more authority to shelve eleven books of spoken telling beside the shires' ow
+LEFT	eras/age_VII/book/18_of_the_leoid_ruling.md:19	the Board	(no "the" before it)	|	ld take no lecture on the matter from a Board that had never once, in thirty years, c
+LEFT	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:41	the Board	(no "the" before it)	|	 it was asked to bless, north or south, Board or town, and if the depot's roof wanted
+LEFT	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:53	the Board	(no "the" before it)	|	ut their pits for a letter carried by a Board's clerk, whatever Breith Leòid said the s
+LEFT	eras/age_VII/book/19_of_the_depot_nobody_would_bless.md:91	the chronicle	(no "the" before it)	|	twenty years she had kept the kingdom's chronicle, believing, as she wrote it, that the o
+LEFT	eras/age_VII/book/20_of_ruth_calders_letter.md:63	the long years	(no "the" before it)	|	rying northern coal to southern markets long years before the towns stopped paying for the
+LEFT	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:55	the chronicle	(no "the" before it)	|	 day, saying to anyone who asked that a chronicle changed hands better without a keeper s
+LEFT	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:57	the royal chronicler	(no "the" before it)	|	e asked leave to lay down the office of royal chronicler at the close of the summer, being nine-
+LEFT	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:71	the chronicle	(no "the" before it)	|	ter went out and a silence came back. A chronicle that only shows what it was free to sho
+LEFT	eras/age_VII/book/21_of_the_granaries_and_the_new_chronicler.md:71	the chronicle	(no "the" before it)	|	ly shows what it was free to show is no chronicle at all in the end. It is a fair copy of
+LEFT	eras/age_VII/book/22_of_the_old_names_read_aloud.md:79	the Crossing	(no "the" before it)	|	Crossing back to the door, she thought of the le
+LEFT	eras/age_VII/book/23_of_the_arms_trains.md:70	the Board	(no "the" before it)	|	 the only answer she had left to give a Board that had already, by its own list, give
+LEFT	eras/age_VII/book/25_of_the_field_left_unploughed.md:39	the Board	(no "the" before it)	|	for anything but its altars, and that a Board which meant only to hold the seams agai
+LEFT	eras/age_VII/book/26_of_the_tithe_and_the_fleets.md:47	the Treasury	(no "the" before it)	|	I know the court's no more power over a Treasury order than I have myself. I'm asking th
+LEFT	eras/age_VII/book/26_of_the_tithe_and_the_fleets.md:73	the fourth fleet	(no "the" before it)	|	ound the western cape; and hard on it a fourth fleet out of Cuan shean joined the first off 
+LEFT	eras/age_VII/book/28_of_the_benches_at_doire_ghlas.md:49	the Moot	(no "the" before it)	|	oney and her own stubbornness against a Moot that had not, in that generation, thoug
+LEFT	eras/age_VII/book/31_of_the_dark_town.md:31	the Grey Night	(after "a")	|	untry's own Christian houses did not, a Grey Night, one of them called it, without being a
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:18	the Moot	(no "the" before it)	|	Martha came to the harbour herself on Moot business three times that spring, carry
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:22	the Moot	(no "the" before it)	|	She knew Joe Ashby, as the whole Moot knew him, for the fitter who had turned
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:24	the Moot	(no "the" before it)	|	 her own with the harbour-master over a Moot petition on the tithe, but she wrote th
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:48	the eleven books	(no "the" before it)	|	own, in the plain hand she had used for eleven books before this one, whatever each woman ju
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:52	the eleven books	(no "the" before it)	|	e private rule she had kept through all eleven books before, that a fact could be kept and a
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:54	the eleven books	(no "the" before it)	|	tellings, because she had learned, over eleven books and the better part of a life spent tak
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:58	the eleven books	(no "the" before it)	|	ing but her own: that the war her first eleven books had never troubled themselves to speak 
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:80	the Moot	(no "the" before it)	|	the one line no regimental clerk and no Moot's register and no schoolroom's twelfth bo
+LEFT	eras/age_VII/book/32_of_the_quartered_year.md:82	the Board	(no "the" before it)	|	mhain, brought up the harbour road by a Board carrier who had ridden two days without
+LEFT	eras/age_VII/book/34_of_blar_muileann_ghlas.md:21	the open record	(no "the" before it)	|	of perhaps three sentences in the whole open record of the war that reads as though a man w
+LEFT	eras/age_VII/book/34_of_blar_muileann_ghlas.md:59	the chronicle	(no "the" before it)	|	is the thing this book has found, and a chronicle that has so little else of the man cann
+LEFT	eras/age_VII/book/35_of_the_stations_kept.md:5	the Peace	(no "the" before it)	|	> **Part Seven: Of Peace**
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:25	the chronicle	(no "the" before it)	|	ler record she had kept beside the open chronicle since the first year of the war, four b
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:25	the chronicle	(no "the" before it)	|	gs and too far from proof to put in any chronicle bearing an Leabharlann's own name, and 
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:33	the chronicle	(no "the" before it)	|	eady been permitted to give in the open chronicle before the order came, which stood as t
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:39	the chronicle	(no "the" before it)	|	 the whole of what an Leabharlann's own chronicle held open for the war years, and that t
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:39	the chronicle	(no "the" before it)	|	uld not live to meet, and she thought a chronicle owed its readers that much honesty abou
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:51	the chronicle	(no "the" before it)	|	as won is not, Sìleas wrote in the open chronicle that year, a thing this book need call 
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:73	the chronicle	(no "the" before it)	|	d the weather noted under it, because a chronicle that means to be read fifty years on, s
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:75	the chronicle	(no "the" before it)	|	one it. It was rather, she said, that a chronicle which stopped, even for a day, to say t
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:75	the chronicle	(no "the" before it)	|	set at the head of the open list, was a chronicle that had begun to write about its own t
+LEFT	eras/age_VII/book/36_of_the_sealed_room.md:75	the chronicle	(no "the" before it)	|	ow it for a slow way of ceasing to be a chronicle at all while still filling pages. So sh
+LEFT	eras/age_VII/book/37_of_the_motion_allowed_to_die.md:17	the Treasury	(no "the" before it)	|	n not come home, that the kingdom's own Treasury carried a tithe laid for the war's sake
+LEFT	eras/age_VII/book/37_of_the_motion_allowed_to_die.md:53	the sealed archive	(no "the" before it)	|	t time, through a war and a siege and a sealed archive and now a motion allowed to die, becaus
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:18	the chronicle	(no "the" before it)	|	try that belonged somewhere in the open chronicle, though she was hard put, that same aft
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:20	the Board	(no "the" before it)	|	oot of a page otherwise given over to a Board return on Slighe a' Ghuail's autumn sch
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:20	the chronicle	(no "the" before it)	|	ny reader fifty years on than because a chronicle that let a whole people coin a name for
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:20	the chronicle	(no "the" before it)	|	in her own judgment, at the one thing a chronicle was for.
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:34	the melee	(no "the" before it)	|	ord. At Ceann leathan, where the yearly melee had been fought every summer since befo
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:64	the chronicle	(no "the" before it)	|	le grey afternoon, set down in the open chronicle the one entry the day plainly required 
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:66	the royal chronicler	(no "the" before it)	|	er entry: that Beathag nic Fhionnlaigh, royal chronicler of the kingdom from {{year:V-0220}} to 
+LEFT	eras/age_VII/book/38_of_the_old_reckoning_and_the_last_hewers.md:68	the chronicle	(no "the" before it)	|	e she kept every private paper the open chronicle had no proper room for, she thought of 
+LEFT	eras/age_VII/book/39_of_the_charter_of_export.md:7	the Còmhrag	(no "the" before it)	|	ff-duty soldiers that had watched every Còmhrag since edged tools were first banned fro
+LEFT	eras/age_VII/book/39_of_the_charter_of_export.md:37	the chronicle	(no "the" before it)	|	 own tape. Sìleas set down, in the open chronicle, what the record could hold: that he ca
+LEFT	eras/age_VII/book/39_of_the_charter_of_export.md:47	the chronicle	(no "the" before it)	|	 the whole of the sitting into the open chronicle in her plainest hand that same night, a
+LEFT	eras/age_VII/book/39_of_the_charter_of_export.md:59	the Moot	(no "the" before it)	|	d and a catalogue still silent on it, a Moot that met and was not asked to answer fo
+LEFT	eras/age_VII/book/39_of_the_charter_of_export.md:59	the Treasury	(no "the" before it)	|	 was not asked to answer for meeting, a Treasury roll of nine thousand five hundred and 
+LEFT	eras/age_VII/book/40_of_the_four_baskets.md:13	the four houses	(no "the" before it)	|	for the first time, "and never the same four houses twice running, though I could not tell 
+LEFT	eras/age_VII/book/40_of_the_four_baskets.md:17	the four houses	(no "the" before it)	|	d the maor's ordinary returns, of which four houses had had the lot that year, and the old 
+LEFT	eras/age_VII/book/40_of_the_four_baskets.md:21	the chronicle	(no "the" before it)	|	her own office not to write in the open chronicle more than a return required of her.
+LEFT	eras/age_VII/gazetteer/01_the_southern_works_and_the_fair.json:431.history	the Rite	(no "the" before it)	|	ith salt-sheds and the house of Brìde's Rite when the company of shipmasters, Comann
+LEFT	eras/age_VII/gazetteer/01_the_southern_works_and_the_fair.json:151.history	the great fair	(no "the" before it)	|	ad na Fèille below the capital kept its great fair and its fair court through the age, but
+LEFT	eras/age_VII/gazetteer/01_the_southern_works_and_the_fair.json:151.history	the fair court	(no "the" before it)	|	the capital kept its great fair and its fair court through the age, but lost its coal. In 
+LEFT	eras/age_VII/gazetteer/01_the_southern_works_and_the_fair.json:246.known_for	the chronicle	(no "the" before it)	|	the library, its re-headed chronicle, and the sealed room
+LEFT	eras/age_VII/gazetteer/03_the_roads_and_the_rails.json:418.history	the coal road	(no "the" before it)	|	n below An Taigh-seinnse Mòr on the old coal road is known for its steamed carp. The inn'
+LEFT	eras/age_VII/gazetteer/06_the_moot_and_the_chronicle.json:209.history	the eleven books	(no "the" before it)	|	 gathering of Sceulachdan nan Tuathach, eleven books from {{year:VI-0058}}, whose keeping at
+LEFT	eras/age_VII/gazetteer/06_the_moot_and_the_chronicle.json:338.history	the royal chronicler	(no "the" before it)	|	. Beathag nic Fhionnlaigh, who had been royal chronicler since before Linn an Dubhain, laid down
+LEFT	eras/age_VII/gazetteer/08_the_regiments_raised.json:23.history	the outpost	(no "the" before it)	|	The great city beside the old outpost is the seat of Comhairle nam Mèinnean, 
+LEFT	eras/age_VII/gazetteer/08_the_regiments_raised.json:23.history	the house of Mac Ùisdein	(no "the" before it)	|	omhairle nam Mèinnean, in the old stone house of Mac Ùisdein, and the Board's work in the age was do
+LEFT	eras/age_VII/gazetteer/12_the_present_year.json:22.history	the melee	(no "the" before it)	|	 Còmhrag Ceann leathan holds the annual melee on its field. In the dry first year the
+LEFT	eras/age_VII/gazetteer/12_the_present_year.json:22.known_for	the melee	(no "the" before it)	|	Còmhrag Ceann leathan, the annual melee
+LEFT	eras/age_VII/appendices/A_rulers.md:3	the council of twelve	(no "the" before it)	|	h: a crowned ruler at Cathair dhearg, a council of twelve that governed in the ruler's name, and 
+LEFT	eras/age_VII/appendices/A_rulers.md:3	the chronicle	(no "the" before it)	|	ives each office as the rolls, the open chronicle and Tional nan Tuathach's minute-books 
+LEFT	eras/age_VII/appendices/A_rulers.md:27	the royal chronicler	(no "the" before it)	|	**Beathag nic Fhionnlaigh**, royal chronicler from {{date:V-0220}} to {{date:VI-0074}
+LEFT	eras/age_VII/appendices/A_rulers.md:29	the royal chronicler	(no "the" before it)	|	**Sìleas nic Rath**, royal chronicler from {{date:VI-0074}} and in the presen
+LEFT	eras/age_VII/appendices/A_rulers.md:37	the high custodian of the Rite	(no "the" before it)	|	dair mac Ìomhair**, Àrd-choimheadaiche, high custodian of the Rite, at the house of Brìde at the southern 
+LEFT	eras/age_VII/appendices/A_rulers.md:41	the house of Mac Ùisdein	(no "the" before it)	|	nnean at Cathair mhòr, in the old stone house of Mac Ùisdein, holds the kingdom's right in the vein,
+LEFT	eras/age_VII/appendices/A_rulers.md:47	the commander of the regiments	(no "the" before it)	|	Lachlainn**, Ceannard nan Rèisimeidean, commander of the regiments from {{date:VI-0076}} and in the presen
+LEFT	eras/age_VII/appendices/A_rulers.md:67	the Keeper	(another thing of the same English name)	|	| Keeper of the library | Raghnall mac Mhuirich 
+LEFT	eras/age_VII/appendices/B_hosts.md:59	the register of the dead and maimed	(no "the" before it)	|	n in Clàr nam Marbh is nan Leòinte, its register of the dead and maimed.
+LEFT	eras/age_VII/appendices/C_trade.md:3	the coal line	(no "the" before it)	|	s sworn on an oath-stone, carters and a coal line to carry it, lamp-houses to burn it in 
+LEFT	eras/age_VII/events/03.json:$.summary	the coal road	(no "the" before it)	|	teaming its carp over wood from the old coal road's thorn hedges, the cook saying the fish 
+LEFT	eras/age_VII/events/11.json:$.summary	the coal road	(no "the" before it)	|	use of An Taigh-seinnse Mòr, on the old coal road above Cuan chrom, raises a second hall 
+LEFT	eras/age_VII/events/13.json:$.summary	the keeper of the Library	(no "the" before it)	|	Raghnall mac Mhuirich, keeper of the Library, finds the wage out of his own fund for
+LEFT	eras/age_VII/events/17.json:$.summary	the eleven books	(no "the" before it)	|	In the front of the first of her eleven books Ellen Marsh writes that where two witne
+LEFT	eras/age_VII/events/18.json:$.summary	the Board	(no "the" before it)	|	eapest, and will take no lecture from a Board that has never once carried coal north 
+LEFT	eras/age_VII/events/19.json:$.summary	the high custodian of the Rite	(no "the" before it)	|	chlainn writes to Alasdair mac Ìomhair, high custodian of the Rite at the southern Seann Skell, setting do
+LEFT	eras/age_VII/events/19.json:$.summary	the Moot	(no "the" before it)	|	r's correspondence under the label 'the Moot, western towns'.
+LEFT	eras/age_VII/events/21.json:$.summary	the royal chronicler	(no "the" before it)	|	 asking leave to lay down the office of royal chronicler at the close of summer, being nine-and-
+LEFT	eras/age_VII/events/21.json:$.summary	the chronicle	(no "the" before it)	|	re and by whom and on what day, since a chronicle that shows only its own leave is no chr
+LEFT	eras/age_VII/events/21.json:$.summary	the chronicle	(no "the" before it)	|	cle that shows only its own leave is no chronicle at all.
+LEFT	eras/age_VII/events/24.json:$.summary	the royal chronicler	(no "the" before it)	|	Sìleas nic Rath, new to the office of royal chronicler, searches the open record more than onc
+LEFT	eras/age_VII/events/32.json:$.summary	the Moot	(no "the" before it)	|	same soldier three times that spring on Moot business.
+LEFT	eras/age_VII/events/32.json:$.summary	the Board	(no "the" before it)	|	In the last week of an Dàmhair a Board carrier rides two days without pausing 
+LEFT	eras/age_VII/events/33.json:$.summary	the Crossing	(no "the" before it)	|	Crossing the open country toward the capital's f
+LEFT	eras/age_VII/events/36.json:$.summary	the chronicle	(no "the" before it)	|	as never let publish alongside the open chronicle.
+LEFT	eras/age_VII/events/36.json:$.summary	the Keeper	(another thing of the same English name)	|	Keeper of the trial lamp at Baile ìseal, Seona
+LEFT	eras/age_VII/events/36.json:$.summary	the Còmhrag	(no "the" before it)	|	At the first Còmhrag at Ceann leathan after the last pits ga
+LEFT	eras/age_VII/events/38.json:$.summary	the Board	(no "the" before it)	|	ath sets a single line at the foot of a Board return, noting the word heard that year
+LEFT	eras/age_VII/events/38.json:$.summary	the melee	(no "the" before it)	|	regiments sends a fighter to the yearly melee at Ceann leathan for the first time; th
+LEFT	eras/age_VII/events/38.json:$.summary	the chronicle	(no "the" before it)	|	hag nic Fhionnlaigh's death in the open chronicle in the plain accounting the office requ
+LEFT	eras/age_VII/events/39.json:$.summary	the coal road	(no "the" before it)	|	 a dubhan lamp over his gate on the old coal road for the lorries that come by night, the
+LEFT	eras/age_VII/events/40.json:$.title	the four houses	(no "the" before it)	|	Alasdair mac Ìomhair draws four houses

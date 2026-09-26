@@ -1,142 +1,290 @@
 [
-  {
-    "title": "Barabal burns the first sliver outside the line",
-    "era_year": 4475,
-    "summary": "At Àth gharbh a woman named Barabal, keeping a bright stone given her as a child at a ford, sets it on her peat fire from idle curiosity; it burns black-flamed like any coal, and the hearthstone beneath it takes a stain of colour clean through its thickness.",
-    "category": "faith",
-    "people": ["Barabal"],
-    "places": ["burg:277"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "I-0066", "type": "sequel"}]
-  },
-  {
-    "title": "Word of the stained hearthstone reaches Tobar dhìreach",
-    "era_year": 4482,
-    "summary": "A fire-bearer carries the tale of Barabal's stained hearthstone to the Mason's line at Tobar dhìreach, and the woman who then keeps the bag hears it out and says only that a piece small enough to fit a boy's palm was small enough to lose.",
-    "category": "faith",
-    "people": ["Barabal"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": [{"to": "I-0066", "type": "sequel"}]
-  },
-  {
-    "title": "Barabal dies at Àth gharbh",
-    "era_year": 4512,
-    "summary": "Barabal dies in her two-and-seventieth year at her own hearth, remembered by her own valley less as the woman who first burned the coloured coal than simply as an old grandmother among her kin.",
-    "category": "faith",
-    "people": ["Barabal"],
-    "places": ["burg:277"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "I-0066", "type": "legacy"}]
-  },
-  {
-    "title": "Giorsal born at Achadh dhìreach",
-    "era_year": 4490,
-    "summary": "Giorsal is born at Achadh dhìreach, ten miles west of the crack, to a household that keeps no fire-pot and counts no fathers back to the mason, and grows up on the Telling as every child of the valleys does.",
-    "category": "faith",
-    "people": ["Giorsal"],
-    "places": ["burg:454"],
-    "threads": [],
-    "master_links": [{"to": "I-0067", "type": "cause"}]
-  },
-  {
-    "title": "Giorsal begins rubbing coal into the wool of the dead",
-    "era_year": 4525,
-    "summary": "Giorsal, who sees to the burials of her household, takes up the private habit of rubbing a little broken coloured coal into the wrapping wool of some of her dead, choosing perhaps one grave in thirty across her working years.",
-    "category": "faith",
-    "people": ["Giorsal"],
-    "places": ["burg:454"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "I-0067", "type": "sequel"}]
-  },
-  {
-    "title": "Word of the stained wool reaches the line",
-    "era_year": 4540,
-    "summary": "A trader carries the tale of Giorsal's stained burial-wool to Tobar dhìreach some fifteen years after it begins, and the Mason's line takes it as further proof that its own coloured coal is no longer the only piece the valleys hold.",
-    "category": "faith",
-    "people": ["Giorsal"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": [{"to": "I-0067", "type": "sequel"}]
-  },
-  {
-    "title": "Giorsal dies and is given the office in her turn",
-    "era_year": 4560,
-    "summary": "Giorsal dies in her seventieth year of a wasting sickness, and her own daughter, taught the office before her, rubs a sliver of the coloured stone into her mother's own wrapping as she had seen it done for others.",
-    "category": "faith",
-    "people": ["Giorsal"],
-    "places": ["burg:454"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "I-0067", "type": "legacy"}]
-  },
-  {
-    "title": "A bright stone is found on the midden at Bral",
-    "era_year": 4560,
-    "summary": "A woman of Bral, sifting the midden below her household's huts, turns up a small hard thing bright with more than one colour, unlike any shell or stone the heap has yielded before; no one of that household can say how long it lay there or how it came.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:47"],
-    "threads": ["the-old-ones", "the-seven-coals"],
-    "master_links": [{"to": "I-0068", "type": "sequel"}]
-  },
-  {
-    "title": "The stone at Bral is kept among the household's trinkets",
-    "era_year": 4565,
-    "summary": "The bright stone found on the midden at Bral is never set to any fire; it is kept awhile among the household's small keepings, admired and set aside, and passes out of particular notice as such finds do.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:47"],
-    "threads": ["the-old-ones"],
-    "master_links": [{"to": "I-0068", "type": "legacy"}]
-  },
-  {
-    "title": "Oscar names the line in jest",
-    "era_year": 4625,
-    "summary": "At the gathering on the night of the lightning, Oscar of Àth gharbh calls the Mason's line Luchd-ceasnachaidh a' Ghuail Dhìomhair, the long questioners of the secret coal, meaning it half as a joke against their long, fruitless asking of the two dark coals.",
-    "category": "faith",
-    "people": ["Oscar", "Colla"],
-    "places": ["burg:277"],
-    "threads": ["line-of-the-mason"],
-    "master_links": [{"to": "I-0068a", "type": "sequel"}]
-  },
-  {
-    "title": "Colla takes the name",
-    "era_year": 4625,
-    "summary": "Colla, keeper of the bag at Tobar dhìreach and five and thirty that year, takes up Oscar's long name for his line without the laughter that first carried it, and gives travellers the short form, Clann na Ceiste, the children of the question.",
-    "category": "faith",
-    "people": ["Colla"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": [{"to": "I-0068a", "type": "sequel"}]
-  },
-  {
-    "title": "Clann na Ceiste settles into ordinary use",
-    "era_year": 4640,
-    "summary": "The households of the valleys take up calling the Mason's line simply Clann na Ceiste in their everyday talk, the older name Clann a' Chlachair heard less with each passing year.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": [{"to": "I-0068a", "type": "legacy"}]
-  },
-  {
-    "title": "Colla dies and hands on the bag",
-    "era_year": 4655,
-    "summary": "Colla dies in his five-and-sixtieth year, having kept the bag some thirty years, and hands the keeping before the end to a son whose name the reciters, as with every father along that stretch of the line, keep from strangers.",
-    "category": "faith",
-    "people": ["Colla"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": [{"to": "I-0068a", "type": "legacy"}]
-  },
-  {
-    "title": "The mason's children heard for the last time as the line's own name",
-    "era_year": 4656,
-    "summary": "At the recital held the winter after Colla's death, the reciters say both the old name and the new, Clann a' Chlachair and Clann na Ceiste together, before letting the newer name stand alone in every recital after.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": [{"to": "I-0068a", "type": "legacy"}]
-  }
+ {
+  "title": "Barabal burns the first sliver outside the line",
+  "era_year": 4475,
+  "summary": "At Àth gharbh a woman named Barabal, keeping a bright stone given her as a child at a ford, sets it on her peat fire from idle curiosity; it burns black-flamed like any coal, and the hearthstone beneath it takes a stain of colour clean through its thickness.",
+  "category": "faith",
+  "people": [
+   "Barabal"
+  ],
+  "places": [
+   "burg:277"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0066",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of the stained hearthstone reaches Tobar dhìreach",
+  "era_year": 4482,
+  "summary": "A fire-bearer carries the tale of Barabal's stained hearthstone to Clann a' Chlachair at Tobar dhìreach, and the woman who then keeps the bag hears it out and says only that a piece small enough to fit a boy's palm was small enough to lose.",
+  "category": "faith",
+  "people": [
+   "Barabal"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0066",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Barabal dies at Àth gharbh",
+  "era_year": 4512,
+  "summary": "Barabal dies in her two-and-seventieth year at her own hearth, remembered by her own valley less as the woman who first burned an gual dathach than simply as an old grandmother among her kin.",
+  "category": "faith",
+  "people": [
+   "Barabal"
+  ],
+  "places": [
+   "burg:277"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0066",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Giorsal born at Achadh dhìreach",
+  "era_year": 4490,
+  "summary": "Giorsal is born at Achadh dhìreach, ten miles west of the crack, to a household that keeps no fire-pot and counts no fathers back to the mason, and grows up on Aithris a' Chruthachaidh as every child of the valleys does.",
+  "category": "faith",
+  "people": [
+   "Giorsal"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0067",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Giorsal begins rubbing coal into the wool of the dead",
+  "era_year": 4525,
+  "summary": "Giorsal, who sees to the burials of her household, takes up the private habit of rubbing a little broken coloured coal into the wrapping wool of some of her dead, choosing perhaps one grave in thirty across her working years.",
+  "category": "faith",
+  "people": [
+   "Giorsal"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0067",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of the stained wool reaches the line",
+  "era_year": 4540,
+  "summary": "A trader carries the tale of Giorsal's stained burial-wool to Tobar dhìreach some fifteen years after it begins, and Clann a' Chlachair takes it as further proof that its own coloured coal is no longer the only piece the valleys hold.",
+  "category": "faith",
+  "people": [
+   "Giorsal"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0067",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Giorsal dies and is given the office in her turn",
+  "era_year": 4560,
+  "summary": "Giorsal dies in her seventieth year of a wasting sickness, and her own daughter, taught the office before her, rubs a sliver of the coloured stone into her mother's own wrapping as she had seen it done for others.",
+  "category": "faith",
+  "people": [
+   "Giorsal"
+  ],
+  "places": [
+   "burg:454"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0067",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "A bright stone is found on the midden at Bral",
+  "era_year": 4560,
+  "summary": "A woman of Bral, sifting the midden below her household's huts, turns up a small hard thing bright with more than one colour, unlike any shell or stone the heap has yielded before; no one of that household can say how long it lay there or how it came.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:47"
+  ],
+  "threads": [
+   "the-old-ones",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0068",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The stone at Bral is kept among the household's trinkets",
+  "era_year": 4565,
+  "summary": "The bright stone found on the midden at Bral is never set to any fire; it is kept awhile among the household's small keepings, admired and set aside, and passes out of particular notice as such finds do.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:47"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0068",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Oscar names the line in jest",
+  "era_year": 4625,
+  "summary": "At the gathering on Oidhche an Dealanaich, Oscar of Àth gharbh calls Clann a' Chlachair Luchd-ceasnachaidh a' Ghuail Dhìomhair, the long questioners of the secret coal, meaning it half as a joke against their long, fruitless asking of the two dark coals.",
+  "category": "faith",
+  "people": [
+   "Oscar",
+   "Colla"
+  ],
+  "places": [
+   "burg:277"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0068a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Colla takes the name",
+  "era_year": 4625,
+  "summary": "Colla, keeper of the bag at Tobar dhìreach and five and thirty that year, takes up Oscar's long name for his line without the laughter that first carried it, and gives travellers the short form, Clann na Ceiste, the children of the question.",
+  "category": "faith",
+  "people": [
+   "Colla"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0068a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Clann na Ceiste settles into ordinary use",
+  "era_year": 4640,
+  "summary": "The households of the valleys take up calling Clann a' Chlachair simply Clann na Ceiste in their everyday talk, the older name Clann a' Chlachair heard less with each passing year.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0068a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Colla dies and hands on the bag",
+  "era_year": 4655,
+  "summary": "Colla dies in his five-and-sixtieth year, having kept the bag some thirty years, and hands the keeping before the end to a son whose name the reciters, as with every father along that stretch of the line, keep from strangers.",
+  "category": "faith",
+  "people": [
+   "Colla"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0068a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The mason's children heard for the last time as the line's own name",
+  "era_year": 4656,
+  "summary": "At the recital held the winter after Colla's death, the reciters say both the old name and the new, Clann a' Chlachair and Clann na Ceiste together, before letting the newer name stand alone in every recital after.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0068a",
+    "type": "legacy"
+   }
+  ]
+ }
 ]

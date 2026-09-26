@@ -3,7 +3,7 @@
   "id": "EV-5004a",
   "title": "Robert Haskins leaves Ros dhomhain",
   "era_year": 114,
-  "summary": "Robert Haskins, sixty-nine years old and Commissioner nine years, sails from Ros dhomhain after a quarrel with the Company over the price of a steamship berth. He never once, in nine years, spoke a full sentence of Dia-thìris without a clerk at his elbow to mend it.",
+  "summary": "Robert Haskins, sixty-nine years old and Àrd-mhaor nine years, sails from Ros dhomhain after a quarrel with A' Chompanaidh over the price of a steamship berth. He never once, in nine years, spoke a full sentence of Dia-thìris without a clerk at his elbow to mend it.",
   "category": "humans",
   "people": [
    "Robert Haskins"
@@ -22,7 +22,7 @@
   "id": "EV-5004",
   "title": "Edward Vane answers the port custodian",
   "era_year": 114,
-  "summary": "Edward Vane, come up the same quay eleven days after Haskins sails, answers the custodian's customary greeting in Dia-thìris, badly and unprompted, the first Commissioner in living memory to do so without a clerk beside him.",
+  "summary": "Edward Vane, come up the same quay eleven days after Haskins sails, answers the custodian's customary greeting in Dia-thìris, badly and unprompted, the first Àrd-mhaor in living memory to do so without a clerk beside him.",
   "category": "humans",
   "people": [
    "Edward Vane"
@@ -41,7 +41,7 @@
   "id": "EV-5004b",
   "title": "Vane speaks Dia-thìris before the council at Cathair dhearg",
   "era_year": 115,
-  "summary": "Edward Vane goes up to Cathair dhearg unsummoned and speaks three sentences of Dia-thìris to Comhairle a' Chùraim before finishing through the Mission's interpreter, telling the council he has come home. The clerk enters the word exactly, wrong tense and all.",
+  "summary": "Edward Vane goes up to Cathair dhearg unsummoned and speaks three sentences of Dia-thìris to Comhairle a' Chùraim before finishing through Teachdaireachd na h-Eaglaise's interpreter, telling the council he has come home. The clerk enters the word exactly, wrong tense and all.",
   "category": "humans",
   "people": [
    "Edward Vane"
@@ -77,7 +77,7 @@
   "id": "EV-5005a",
   "title": "The custodian of Cnoc chaol writes the bare page",
   "era_year": 116,
-  "summary": "Vane's night-shift order is read at every pit-mouth from Cnoc chaol to Muileann chiar. The young custodian of Cnoc chaol enters it in her roll and writes beneath it a single line, that the hill is given no silence at all, and leaves the rest of the page blank.",
+  "summary": "Vane's Àithne na h-Oidhche is read at every pit-mouth from Cnoc chaol to Muileann chiar. The young custodian of Cnoc chaol enters it in her roll and writes beneath it a single line, that the hill is given no silence at all, and leaves the rest of the page blank.",
   "category": "coal",
   "people": [],
   "places": [
@@ -112,7 +112,7 @@
   "id": "EV-5005c",
   "title": "New crews replace the standing shift within the week",
   "era_year": 116,
-  "summary": "The Company brings crews up the tram-road from the coast towns within a week, humans and Dia-thìrich both, and sets them to the night shift before the stand at Cnoc chaol is a fortnight old. The camp's own crews go back to the day shift they still have.",
+  "summary": "A' Chompanaidh brings crews up the tram-road from the coast towns within a week, humans and Dia-thìrich both, and sets them to the night shift before the stand at Cnoc chaol is a fortnight old. The camp's own crews go back to the day shift they still have.",
   "category": "coal",
   "people": [],
   "places": [
@@ -144,9 +144,9 @@
  },
  {
   "id": "EV-5005",
-  "title": "The Lamp-Watch's purse runs dry",
+  "title": "Faire nan Lòchran's purse runs dry",
   "era_year": 117,
-  "summary": "The Lamp-Watch, keeping the households of the crews who stood at Cnoc chaol, empties its purse by the second winter. Its own reckoning, kept in an unnamed hand, closes the year's account at nothing, and beneath it notes only that the hill was not given back its silence.",
+  "summary": "Faire nan Lòchran, keeping the households of the crews who stood at Cnoc chaol, empties its purse by the second winter. Its own reckoning, kept in an unnamed hand, closes the year's account at nothing, and beneath it notes only that the hill was not given back its silence.",
   "category": "coal",
   "people": [],
   "places": [
@@ -164,7 +164,7 @@
   "id": "EV-5006a",
   "title": "Matthew Dunne preaches the fallow year",
   "era_year": 118,
-  "summary": "Matthew Dunne preaches at Ros dhomhain that the Dia-thìrich are right, and that ground owed no season of rest was owed the same fallow year the humans' own scripture asks of a field. He does not name the Company; the chapel knows his meaning without it.",
+  "summary": "Matthew Dunne preaches at Ros dhomhain that the Dia-thìrich are right, and that ground owed no season of rest was owed the same fallow year the humans' own scripture asks of a field. He does not name A' Chompanaidh; the chapel knows his meaning without it.",
   "category": "faith",
   "people": [
    "Matthew Dunne"
@@ -184,7 +184,7 @@
   "id": "EV-5006",
   "title": "Matthew Dunne sails for an Tìr Thall",
   "era_year": 118,
-  "summary": "Recalled within the season on the Company's complaint, Matthew Dunne, three-and-thirty, preaches a last, ordinary sermon to a full chapel and goes down to the Ros dhomhain quay in the rain. The Lamp-Watch has a copy of his fallow-year sermon within the week.",
+  "summary": "Recalled within the season on A' Chompanaidh's complaint, Matthew Dunne, three-and-thirty, preaches a last, ordinary sermon to a full chapel and goes down to the Ros dhomhain quay in the rain. Faire nan Lòchran has a copy of his fallow-year sermon within the week.",
   "category": "faith",
   "people": [
    "Matthew Dunne"
@@ -202,9 +202,9 @@
  },
  {
   "id": "EV-5006b",
-  "title": "The camps begin saying Donnchadh's cough",
+  "title": "The camps begin saying Casad Dhonnchaidh",
   "era_year": 118,
-  "summary": "Among the Dia-thìrich hewers of Cnoc chaol the lung-rot spares more than it takes, unlike among the humans of the night crews. The old women of the camps, who know the telling of the hewer of Achadh dhomhain whose cough stopped on the night his daughter was born, call any such cough among their own Donnchadh's cough, and say no more.",
+  "summary": "Among the Dia-thìrich hewers of Cnoc chaol Grodadh nan Scamhan spares more than it takes, unlike among the humans of the night crews. The old women of the camps, who know the telling of the hewer of Achadh dhomhain whose cough stopped on the night his daughter was born, call any such cough among their own Casad Dhonnchaidh, and say no more.",
   "category": "coal",
   "people": [],
   "places": [
@@ -220,9 +220,9 @@
  },
  {
   "id": "EV-5006c",
-  "title": "Iain Maor writes to the Company",
+  "title": "Iain Maor writes to A' Chompanaidh",
   "era_year": 119,
-  "summary": "Iain Maor, overseer of Muileann chrom four-and-forty years, writes plainly to the Company that its own night-shift order is killing his crews faster than the coal cut in the dark repays it, weighing the dead against the tired, slower cutting of the survivors.",
+  "summary": "Iain Maor, overseer of Muileann chrom four-and-forty years, writes plainly to A' Chompanaidh that its own night-shift order is killing his crews faster than the coal cut in the dark repays it, weighing the dead against the tired, slower cutting of the survivors.",
   "category": "law",
   "people": [
    "Iain Maor"
@@ -241,7 +241,7 @@
   "id": "EV-5006d",
   "title": "Iain Maor dismissed and restored",
   "era_year": 119,
-  "summary": "The Residency answers Iain Maor's letter with a notice relieving him of the overseer's staff for conduct unbecoming his office. His daughter Mòrag reads it to him by lamplight. Within a month, the crews having slowed the galleries to nothing, an unsigned notice restores him with no mention of the first.",
+  "summary": "Taigh an Àrd-mhaoir answers Iain Maor's letter with a notice relieving him of the overseer's staff for conduct unbecoming his office. His daughter Mòrag reads it to him by lamplight. Within a month, the crews having slowed the galleries to nothing, an unsigned notice restores him with no mention of the first.",
   "category": "law",
   "people": [
    "Iain Maor",
@@ -261,7 +261,7 @@
   "id": "EV-5006e",
   "title": "Baile ghorm's potteries take the lamp-body contract",
   "era_year": 116,
-  "summary": "The potteries of Baile ghorm take the Company's contract for clay coal-lamp bodies, thousands fired in a season on the same wheels that once turned bowls for the coast trade. Their own book notes them the first lamps made on the island for work commanded in the dark.",
+  "summary": "The potteries of Baile ghorm take A' Chompanaidh's contract for clay coal-lamp bodies, thousands fired in a season on the same wheels that once turned bowls for the coast trade. Their own book notes them the first lamps made on the island for work commanded in the dark.",
   "category": "trade",
   "people": [],
   "places": [
@@ -278,7 +278,7 @@
   "id": "EV-5006f",
   "title": "The first coal train runs to Ros dhomhain",
   "era_year": 120,
-  "summary": "The Company's iron road opens from the pits at Muileann chrom, past the hill below Cathair dhearg, to the deep-water quay at Ros dhomhain. Iain Maor and his daughter Mòrag watch the first loaded train take the grade at a pace no mule ever kept; the crews name it carbad-iarainn before the day is out.",
+  "summary": "A' Chompanaidh's iron road opens from the pits at Muileann chrom, past the hill below Cathair dhearg, to the deep-water quay at Ros dhomhain. Iain Maor and his daughter Mòrag watch the first loaded train take the grade at a pace no mule ever kept; the crews name it carbad-iarainn before the day is out.",
   "category": "coal",
   "people": [
    "Iain Maor",

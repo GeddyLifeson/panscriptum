@@ -11,7 +11,7 @@
   {
    "id": "EVII-3501",
    "title": "The depot's ground broken at Seann Skell",
-   "body": "The enforcers break ground for a dubhan depot above the river at Seann Skell in the west, a tank and a roofed shed for the barrels the boats will bring up from the south. Somhairle mac Lachlainn lays it out himself from the Board's plan.",
+   "body": "The enforcers break ground for a dubhan depot above the river at Seann Skell in the west, a tank and a roofed shed for the barrels the boats will bring up from the south. Somhairle mac Lachlainn lays it out himself from Comhairle nam Mèinnean's plan.",
    "place": "burg:489",
    "kind": "war",
    "category": "war",
@@ -36,7 +36,7 @@
   {
    "id": "EVII-3502",
    "title": "Somhairle's first report from Seann Skell",
-   "body": "Somhairle mac Lachlainn writes his first report from the western Seann Skell: the depot's ground broken, the quay's second berth cleared, nothing at Muileann àrsaidh worth the Board's attention. He believes every word of it.",
+   "body": "Somhairle mac Lachlainn writes his first report from the western Seann Skell: the depot's ground broken, the quay's second berth cleared, nothing at Muileann àrsaidh worth Comhairle nam Mèinnean's attention. He believes every word of it.",
    "place": "burg:489",
    "kind": "war",
    "category": "war",
@@ -65,7 +65,7 @@
   {
    "id": "EVII-3503",
    "title": "The house of Òrd Mhanannain refuses the blessing",
-   "body": "Asked to bless the depot's finished roof before the masons work under it, the house of Òrd Mhanannain at Seann Skell in the west answers in three lines that it will not bless what is built for the Board's enforcers.",
+   "body": "Asked to bless the depot's finished roof before the masons work under it, the house of Òrd Mhanannain at Seann Skell in the west answers in three lines that it will not bless what is built for Comhairle nam Mèinnean's enforcers.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -154,7 +154,7 @@
   {
    "id": "EVII-3506",
    "title": "The depot's roof blessed by a stranger's hand",
-   "body": "The young custodian Pàdraig blesses the depot's roof at evening before Somhairle mac Lachlainn and a handful of enforcers; the town watches from a distance and gives the building a name of its own that the Board never records.",
+   "body": "The young custodian Pàdraig blesses the depot's roof at evening before Somhairle mac Lachlainn and a handful of enforcers; the town watches from a distance and gives the building a name of its own that Comhairle nam Mèinnean never records.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -329,7 +329,7 @@
   {
    "id": "EVII-3512",
    "title": "Sìleas names the silence",
-   "body": "As the weeks pass with no return from the Board, Sìleas nic Rath says in an Leabharlann's upper room that the silence does not feel like an office too busy to answer, and is told she will learn in time the difference between unanswered and refused.",
+   "body": "As the weeks pass with no return from Comhairle nam Mèinnean, Sìleas nic Rath says in an Leabharlann's upper room that the silence does not feel like an office too busy to answer, and is told she will learn in time the difference between unanswered and refused.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -358,8 +358,8 @@
   },
   {
    "id": "EVII-3513",
-   "title": "The Board's letter forwarded without comment",
-   "body": "The Board's clerk at Cathair mhòr forwards Somhairle mac Lachlainn a copy of the chronicler's letter asking for the Board's returns, without comment and without instruction, and no order follows changing what he is to report.",
+   "title": "Comhairle nam Mèinnean's letter forwarded without comment",
+   "body": "Comhairle nam Mèinnean's clerk at Cathair mhòr forwards Somhairle mac Lachlainn a copy of the chronicler's letter asking for Comhairle nam Mèinnean's returns, without comment and without instruction, and no order follows changing what he is to report.",
    "place": "burg:23",
    "kind": "record",
    "category": "law",
@@ -388,7 +388,7 @@
   {
    "id": "EVII-3514",
    "title": "The priest of Manannan answers the captain",
-   "body": "At the gate of the house of Manannan above the western Seann Skell a young priest tells Somhairle mac Lachlainn that the house blesses a boat and a roof against the sea and the rain, and will not pretend the same of a depot built for the Board's lorries.",
+   "body": "At the gate of the house of Manannan above the western Seann Skell a young priest tells Somhairle mac Lachlainn that the house blesses a boat and a roof against the sea and the rain, and will not pretend the same of a depot built for Comhairle nam Mèinnean's lorries.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -675,7 +675,7 @@
   {
    "id": "EVII-3524",
    "title": "Ruth Calder drafts the offer of An Crùn's fifth in coal",
-   "body": "On the last evening of an t-Samhain, Ruth Calder writes the third draft of her letter: the five towns will pay An Crùn's fifth in coal on every load raised, from that day until the seams are spent, if the Board will carry it and press no further claim.",
+   "body": "On the last evening of an t-Samhain, Ruth Calder writes the third draft of her letter: the five towns will pay An Crùn's fifth in coal on every load raised, from that day until the seams are spent, if Comhairle nam Mèinnean will carry it and press no further claim.",
    "place": "burg:244",
    "kind": "record",
    "category": "law",

@@ -1,10 +1,10 @@
 # Appendix C — The Dubhan Trade, the Guilds and the Dues of the Kingdom
 
-The coal made the kingdom and the kingdom made its trade in the coal's image: a vein held by a few houses under Comhairle nam Mèinnean's fifth, a guild of hewers sworn on an oath-stone, carters and a coal line to carry it, lamp-houses to burn it in the capital's lanes, and a coinage whose seal was inked with it. In twenty-seven years every one of those things changed hands. This appendix gives Malairt an Dubhain, as it stood at the close of the present year: the fuel and its making, the works and depots, the guilds that rose and the guilds that went, the carrying, the peg of the coin, the dues the kingdom takes, and Cairt na h-Às-mhalairt. It is drawn from the Board's returns and An t-Ionmhas's roll as the library holds them, from Cùirt na Fèille's books at Muileann òg, and from Cuimhne-coinneimh an Tionail.
+The coal made the kingdom and the kingdom made its trade in the coal's image: a vein held by a few houses under Comhairle nam Mèinnean's fifth, a guild of hewers sworn on an oath-stone, carters and a coal line to carry it, lamp-houses to burn it in the capital's lanes, and a coinage whose seal was inked with it. In twenty-seven years every one of those things changed hands. This appendix gives Malairt an Dubhain, as it stood at the close of the present year: the fuel and its making, the works and depots, the guilds that rose and the guilds that went, the carrying, the peg of the coin, the dues the kingdom takes, and Cairt na h-Às-mhalairt. It is drawn from Comhairle nam Mèinnean's returns and An t-Ionmhas's roll as the library holds them, from Cùirt na Fèille's books at Muileann òg, and from Cuimhne-coinneimh an Tionail.
 
 ## The fuel
 
-Dubhan is made from what the mines throw away. The first working fuel was made on {{date:VI-0001}} by the man whose name it now carries, a Tuathach of the north, rough but good to burn; it was no trade then, but one man's answer to a need that those in power had not yet faced. What came south in the first years was a black cake, sold by the basket at the markets of Caol mhòr and Cnoc ghorm beside the peat, which burned without the coloured edge of coal. The Board's surveyors, sent north in the second year, burned a cake beside a thumb of An Sloc Mòr coal in an inn grate at Caol mhòr and reported what they saw, and the council filed the report without minute.
+Dubhan is made from what the mines throw away. The first working fuel was made on {{date:VI-0001}} by the man whose name it now carries, a Tuathach of the north, rough but good to burn; it was no trade then, but one man's answer to a need that those in power had not yet faced. What came south in the first years was a black cake, sold by the basket at the markets of Caol mhòr and Cnoc ghorm beside the peat, which burned without the coloured edge of coal. Comhairle nam Mèinnean's surveyors, sent north in the second year, burned a cake beside a thumb of An Sloc Mòr coal in an inn grate at Caol mhòr and reported what they saw, and the council filed the report without minute.
 
 The trade's fuel is finished in retorts: the spoil is heated in closed furnaces and the fuel drawn off and barrelled. It is burned in lamps with a burner of wick-rings and a warming coil, in the engines of boats, lorries, carriages and the line, under pans and boilers, and in the forges. By the present year every lamp, engine, ship and lorry on the island runs on it. The word for the fuel was the man's name before it was the thing's; the library's slip-box found it spelled four ways in the council's letters before it settled.
 
@@ -14,7 +14,7 @@ The trade's fuel is finished in retorts: the spoil is heated in closed furnaces 
 
 **The northern works**, the Tuathaich makings of the first years, which supplied the cake of the markets and the fuel carted to Taigh-solais Muileann bheag.
 
-**The works of the east and north** of the present year, named in the Board's returns among the works where dubhan is made; the Board gives their making and not their owners.
+**The works of the east and north** of the present year, named in Comhairle nam Mèinnean's returns among the works where dubhan is made; Comhairle nam Mèinnean gives their making and not their owners.
 
 ## The depots and pumps
 
@@ -48,7 +48,7 @@ On {{date:VI-0049}} the council pegged the coin to the making of dubhan, at the 
 
 ## The dues
 
-**The fifth**, the kingdom's old right in the vein, taken by Comhairle nam Mèinnean from those who held seams. The western holders ceased to pay it, they said, when the Board ceased to carry their coal; under Breith Leòid the Board declared the right lapsed and the seams the kingdom's. Ruth Calder offered to pay it in coal if the Board would carry it. With the seams capped and An Sloc Mòr closed, the fifth is taken on nothing in the present year.
+**The fifth**, the kingdom's old right in the vein, taken by Comhairle nam Mèinnean from those who held seams. The western holders ceased to pay it, they said, when Comhairle nam Mèinnean ceased to carry their coal; under Breith Leòid Comhairle nam Mèinnean declared the right lapsed and the seams the kingdom's. Ruth Calder offered to pay it in coal if Comhairle nam Mèinnean would carry it. With the seams capped and An Sloc Mòr closed, the fifth is taken on nothing in the present year.
 
 **Deachamh a' Chogaidh**, one part in twelve of every sale of dubhan, laid for a time on {{date:VI-0086}} and taken at the pumps by a clerk of An t-Ionmhas; within a month Cùirt na Fèille at Muileann òg recorded the first complaint against it. It was never lifted. On {{date:VI-0131}} An t-Ionmhas's accounts carried it forward as a standing line under the regiments' pay, and no minute of the council records a choice to keep it.
 

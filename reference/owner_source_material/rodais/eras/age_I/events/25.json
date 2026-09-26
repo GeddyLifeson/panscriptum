@@ -1,142 +1,258 @@
 [
-  {
-    "title": "An uncle grumbles at the wood-carriers' long way round",
-    "era_year": 3480,
-    "summary": "At the end of a hard winter month, one of Sadhbh's uncles says aloud, half in jest, that a tree is a tree wherever it grows and a fire does not ask where its wood was cut. No one answers him, and by the next carrying he goes the long way round with the rest.",
-    "category": "culture",
-    "people": [],
-    "places": ["marker:23"],
-    "threads": [],
-    "master_links": [{"to": "I-0049", "type": "sequel"}]
-  },
-  {
-    "title": "Sadhbh and two others meet the white stag",
-    "era_year": 3518,
-    "summary": "At the narrow turn of the glen of the stags, a white stag breaks from the treeline of the holy wood rather than the open hill. Sadhbh, her cousin Oscar and a boy new to the drive all have clean sight of it and time to loose, and none of the three draws.",
-    "category": "omen",
-    "people": ["Sadhbh"],
-    "places": ["place:1005", "marker:23"],
-    "threads": [],
-    "master_links": [{"to": "I-0050", "type": "cause"}]
-  },
-  {
-    "title": "The tale of the stag goes hearth to hearth",
-    "era_year": 3519,
-    "summary": "The telling of the white stag passes from the nearest hearth outward, gathering colour but losing none of its bones. Some elders say the wood itself put the beast out to be seen; no one that first year gives it a name, god or otherwise.",
-    "category": "culture",
-    "people": ["Sadhbh"],
-    "places": ["marker:23"],
-    "threads": [],
-    "master_links": [{"to": "I-0050", "type": "sequel"}]
-  },
-  {
-    "title": "Hunters begin letting the gully's beasts go rather than risk the wrong one",
-    "era_year": 3521,
-    "summary": "Carrying the tale of the stag with them, hunters at the glen let a drive go free more readily whenever it breaks for the treeline, at a real cost in meat foregone, rather than risk striking a beast they should not have struck.",
-    "category": "culture",
-    "people": [],
-    "places": ["place:1005"],
-    "threads": [],
-    "master_links": [{"to": "I-0050", "type": "sequel"}]
-  },
-  {
-    "title": "The white stag is seen again",
-    "era_year": 3530,
-    "summary": "Twenty-two years after Sadhbh's own meeting, a fresh pair of hunters born after the first seeing find a white stag standing at the same treeline. It is taken for the same beast, or near enough that none troubles to argue the difference, and from this second seeing the tale becomes the whole country's, not one hunter's alone.",
-    "category": "omen",
-    "people": [],
-    "places": ["place:1005", "marker:23"],
-    "threads": [],
-    "master_links": [{"to": "I-0050", "type": "sequel"}]
-  },
-  {
-    "title": "Children are taught the rule of the stones",
-    "era_year": 3600,
-    "summary": "Households near the second wood teach their children early and plainly to go as far as the low line of set stones and no further, and to let go whatever strays past it, for nothing lost beyond the line has ever been recovered.",
-    "category": "culture",
-    "people": [],
-    "places": ["marker:24"],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "sequel"}]
-  },
-  {
-    "title": "Muireall crosses the line of stones",
-    "era_year": 3620,
-    "summary": "Left watching for evening deer with other children at the line of set stones before Coille Naomh Cnoc bheag, the nine-year-old Muireall passes into the trees unseen and uncalled. The eldest child, turned away only a moment, finds her gone with no cry and no mark but a small gap in the undergrowth.",
-    "category": "death",
-    "people": ["Muireall"],
-    "places": ["marker:24"],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "cause"}]
-  },
-  {
-    "title": "The whole country comes up with torches",
-    "era_year": 3620,
-    "summary": "Every household within half a day's walk comes with torches cut and lit before full dark, calling Muireall's name in a chorus that carries over the still evening. They reach the line of stones together and stop there; no torch and no foot crosses it.",
-    "category": "culture",
-    "people": ["Muireall"],
-    "places": ["marker:24"],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "sequel"}]
-  },
-  {
-    "title": "Muireall's mother asks the wood to give the child back",
-    "era_year": 3620,
-    "summary": "Held at the stones by her own kin, Muireall's mother asks the wood once, low enough that only those nearest her hear it, to return the child. No answer comes but the ordinary movement of leaves any wood gives back to any question.",
-    "category": "faith",
-    "people": ["Muireall"],
-    "places": ["marker:24"],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "sequel"}]
-  },
-  {
-    "title": "The search narrows and ends at the stones",
-    "era_year": 3620,
-    "summary": "For three days the country works every fold of ground on the near side of the line and finds no print, no scrap of wool, no trace of Muireall's voice on any wind. On the third day the search stops at the stones, not for want of looking, but because there is nowhere left to look that does not mean crossing a line no one in living memory has ever crossed and returned across.",
-    "category": "death",
-    "people": ["Muireall"],
-    "places": ["marker:24"],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "sequel"}]
-  },
-  {
-    "title": "The hearths say the sìth took the child",
-    "era_year": 3621,
-    "summary": "With nothing found on the near side of the stones, the hearths give the plainest telling that fits: that the sìth, the people of the hills and mounds who held that country first, took Muireall across the line she crossed, and that no household has yet gone in after anything lost that way and come back the better.",
-    "category": "faith",
-    "people": ["Muireall"],
-    "places": ["marker:24"],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "sequel"}]
-  },
-  {
-    "title": "Muireall's household sets a stone by its own threshold",
-    "era_year": 3621,
-    "summary": "With no body to bury, Muireall's household cuts her name into a stone of their own setting near their own door rather than at the wood, so that whoever asks after it is told of a child lost at a line of stones on a fine summer evening.",
-    "category": "culture",
-    "people": ["Muireall"],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "sequel"}]
-  },
-  {
-    "title": "Sadhbh dies",
-    "era_year": 3566,
-    "summary": "Sadhbh, hunter of the eastern households and one of the three who once let the white stag go unloosed at the glen's turn, dies an old woman, having spent her last years telling the tale at hearths that were not her own and refusing, each time she was asked, to make one cause of the stag's wood and the wood of the stones.",
-    "category": "death",
-    "people": ["Sadhbh"],
-    "places": ["place:1005"],
-    "threads": [],
-    "master_links": [{"to": "I-0050", "type": "legacy"}]
-  },
-  {
-    "title": "The rule of the stones becomes unquestioned custom",
-    "era_year": 3639,
-    "summary": "A generation on from Muireall's loss, no household near the second wood lets its children watch for deer at the line without a grown hand near enough to hold them back, and children born since grow up knowing the rule before they ever hear the reason for it.",
-    "category": "culture",
-    "people": [],
-    "places": ["marker:24"],
-    "threads": [],
-    "master_links": [{"to": "I-0052", "type": "sequel"}]
-  }
+ {
+  "title": "An uncle grumbles at the wood-carriers' long way round",
+  "era_year": 3480,
+  "summary": "At the end of a hard winter month, one of Sadhbh's uncles says aloud, half in jest, that a tree is a tree wherever it grows and a fire does not ask where its wood was cut. No one answers him, and by the next carrying he goes the long way round with the rest.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "marker:23"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0049",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Sadhbh and two others meet the white stag",
+  "era_year": 3518,
+  "summary": "At the narrow turn of Gleann nan Damh, a white stag breaks from the treeline of Coille Naomh Muileann chiar rather than the open hill. Sadhbh, her cousin Oscar and a boy new to the drive all have clean sight of it and time to loose, and none of the three draws.",
+  "category": "omen",
+  "people": [
+   "Sadhbh"
+  ],
+  "places": [
+   "place:1005",
+   "marker:23"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0050",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The tale of the stag goes hearth to hearth",
+  "era_year": 3519,
+  "summary": "The telling of the white stag passes from the nearest hearth outward, gathering colour but losing none of its bones. Some elders say the wood itself put the beast out to be seen; no one that first year gives it a name, god or otherwise.",
+  "category": "culture",
+  "people": [
+   "Sadhbh"
+  ],
+  "places": [
+   "marker:23"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0050",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Hunters begin letting the gully's beasts go rather than risk the wrong one",
+  "era_year": 3521,
+  "summary": "Carrying the tale of the stag with them, hunters at the glen let a drive go free more readily whenever it breaks for the treeline, at a real cost in meat foregone, rather than risk striking a beast they should not have struck.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "place:1005"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0050",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The white stag is seen again",
+  "era_year": 3530,
+  "summary": "Twenty-two years after Sadhbh's own meeting, a fresh pair of hunters born after the first seeing find a white stag standing at the same treeline. It is taken for the same beast, or near enough that none troubles to argue the difference, and from this second seeing the tale becomes the whole country's, not one hunter's alone.",
+  "category": "omen",
+  "people": [],
+  "places": [
+   "place:1005",
+   "marker:23"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0050",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Children are taught the rule of the stones",
+  "era_year": 3600,
+  "summary": "Households near the second wood teach their children early and plainly to go as far as the low line of set stones and no further, and to let go whatever strays past it, for nothing lost beyond the line has ever been recovered.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Muireall crosses the line of stones",
+  "era_year": 3620,
+  "summary": "Left watching for evening deer with other children at the line of set stones before Coille Naomh Cnoc bheag, the nine-year-old Muireall passes into the trees unseen and uncalled. The eldest child, turned away only a moment, finds her gone with no cry and no mark but a small gap in the undergrowth.",
+  "category": "death",
+  "people": [
+   "Muireall"
+  ],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The whole country comes up with torches",
+  "era_year": 3620,
+  "summary": "Every household within half a day's walk comes with torches cut and lit before full dark, calling Muireall's name in a chorus that carries over the still evening. They reach the line of stones together and stop there; no torch and no foot crosses it.",
+  "category": "culture",
+  "people": [
+   "Muireall"
+  ],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Muireall's mother asks the wood to give the child back",
+  "era_year": 3620,
+  "summary": "Held at the stones by her own kin, Muireall's mother asks the wood once, low enough that only those nearest her hear it, to return the child. No answer comes but the ordinary movement of leaves any wood gives back to any question.",
+  "category": "faith",
+  "people": [
+   "Muireall"
+  ],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The search narrows and ends at the stones",
+  "era_year": 3620,
+  "summary": "For three days the country works every fold of ground on the near side of the line and finds no print, no scrap of wool, no trace of Muireall's voice on any wind. On the third day the search stops at the stones, not for want of looking, but because there is nowhere left to look that does not mean crossing a line no one in living memory has ever crossed and returned across.",
+  "category": "death",
+  "people": [
+   "Muireall"
+  ],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The hearths say the sìth took the child",
+  "era_year": 3621,
+  "summary": "With nothing found on the near side of the stones, the hearths give the plainest telling that fits: that the sìth, the people of the hills and mounds who held that country first, took Muireall across the line she crossed, and that no household has yet gone in after anything lost that way and come back the better.",
+  "category": "faith",
+  "people": [
+   "Muireall"
+  ],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Muireall's household sets a stone by its own threshold",
+  "era_year": 3621,
+  "summary": "With no body to bury, Muireall's household cuts her name into a stone of their own setting near their own door rather than at the wood, so that whoever asks after it is told of a child lost at a line of stones on a fine summer evening.",
+  "category": "culture",
+  "people": [
+   "Muireall"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Sadhbh dies",
+  "era_year": 3566,
+  "summary": "Sadhbh, hunter of the eastern households and one of the three who once let the white stag go unloosed at the glen's turn, dies an old woman, having spent her last years telling the tale at hearths that were not her own and refusing, each time she was asked, to make one cause of the stag's wood and the wood of the stones.",
+  "category": "death",
+  "people": [
+   "Sadhbh"
+  ],
+  "places": [
+   "place:1005"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0050",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The rule of the stones becomes unquestioned custom",
+  "era_year": 3639,
+  "summary": "A generation on from Muireall's loss, no household near the second wood lets its children watch for deer at the line without a grown hand near enough to hold them back, and children born since grow up knowing the rule before they ever hear the reason for it.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "marker:24"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0052",
+    "type": "sequel"
+   }
+  ]
+ }
 ]

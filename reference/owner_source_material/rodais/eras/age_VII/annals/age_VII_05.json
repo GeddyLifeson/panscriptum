@@ -677,7 +677,7 @@
   },
   {
    "id": "EVII-3024",
-   "title": "A brewer of Baile ìseal writes to the Board unasked",
+   "title": "A brewer of Baile ìseal writes to Comhairle nam Mèinnean unasked",
    "body": "A brewer of Baile ìseal writes to Comhairle nam Mèinnean that he sees no shame in buying whichever coal comes cheapest, and will take no lecture from a Board that has never once carried coal north of the boundary stones for a Tuathach hearth to burn. The letter is filed and not answered.",
    "place": "burg:306",
    "kind": "trade",
@@ -732,7 +732,7 @@
   {
    "id": "EVII-3026",
    "title": "Breith Leòid read again at Cathair mhòr",
-   "body": "Seumas mac Eachainn carries the Board's own copy of Breith Leòid to the master's room and hears it read through: that a right to work a seam fails with the fifth, whatever the reason the fifth stopped coming in. Fearghas mac Aonghais finds in it no clause that asks whether the Board's own reason for ceasing to carry the coal was a fair one.",
+   "body": "Seumas mac Eachainn carries Comhairle nam Mèinnean's own copy of Breith Leòid to the master's room and hears it read through: that a right to work a seam fails with the fifth, whatever the reason the fifth stopped coming in. Fearghas mac Aonghais finds in it no clause that asks whether Comhairle nam Mèinnean's own reason for ceasing to carry the coal was a fair one.",
    "place": "burg:23",
    "kind": "record",
    "category": "law",
@@ -766,7 +766,7 @@
   {
    "id": "EVII-3027",
    "title": "Seumas mac Eachainn's report leaves out the carrying",
-   "body": "Writing the master's report by lamplight, Seumas mac Eachainn sets down every figure he has checked twice and is true, and leaves out, because the master did not ask for it, that the Board stopped carrying the western pits' coal four years before the pits stopped paying the fifth for it.",
+   "body": "Writing the master's report by lamplight, Seumas mac Eachainn sets down every figure he has checked twice and is true, and leaves out, because the master did not ask for it, that Comhairle nam Mèinnean stopped carrying the western pits' coal four years before the pits stopped paying the fifth for it.",
    "place": "burg:23",
    "kind": "record",
    "category": "law",
@@ -796,7 +796,7 @@
   {
    "id": "EVII-3028",
    "title": "The shutting order carried north to the maor",
-   "body": "The Board's courier brings the sealed order to the maor of the western Seann Skell, who reads it standing at his own door and sends for the town's clerk as a second witness before the ink is a day old, judging rightly that the western towns will not obey a paper.",
+   "body": "Comhairle nam Mèinnean's courier brings the sealed order to the maor of the western Seann Skell, who reads it standing at his own door and sends for the town's clerk as a second witness before the ink is a day old, judging rightly that the western towns will not obey a paper.",
    "place": "burg:489",
    "kind": "record",
    "category": "law",
@@ -824,7 +824,7 @@
   {
    "id": "EVII-3029",
    "title": "The five towns' unsigned answer",
-   "body": "Word of the shutting order passes hand to hand among Muileann àrsaidh, Cnoc thais and Àth leathan, and an answer goes back to no one in particular: that the pits stopped paying the fifth the day the Board stopped carrying their coal, and will pay it again the day the carrying starts. It never reaches the Board as a formal reply.",
+   "body": "Word of the shutting order passes hand to hand among Muileann àrsaidh, Cnoc thais and Àth leathan, and an answer goes back to no one in particular: that the pits stopped paying the fifth the day Comhairle nam Mèinnean stopped carrying their coal, and will pay it again the day the carrying starts. It never reaches Comhairle nam Mèinnean as a formal reply.",
    "place": "burg:54",
    "kind": "record",
    "category": "law",
@@ -851,7 +851,7 @@
   {
    "id": "EVII-3030",
    "title": "The five towns meet at Muileann àrsaidh again",
-   "body": "Ruth Calder reads the Board's order aloud in the pit-shed at Muileann àrsaidh, twice through. Tom Varley wants it answered clause for clause; Ruth holds that the only answer that matters is whether coal comes up the morning after the order's date. It does, and the towns vote to go on as before.",
+   "body": "Ruth Calder reads Comhairle nam Mèinnean's order aloud in the pit-shed at Muileann àrsaidh, twice through. Tom Varley wants it answered clause for clause; Ruth holds that the only answer that matters is whether coal comes up the morning after the order's date. It does, and the towns vote to go on as before.",
    "place": "burg:54",
    "kind": "trade",
    "category": "trade",
@@ -886,7 +886,7 @@
   {
    "id": "EVII-3031",
    "title": "Somhairle mac Lachlainn given the western command",
-   "body": "Called before Fearghas mac Aonghais and a councillor of the Rìoghachd, Somhairle mac Lachlainn is given command of forty of the Board's enforcers, to hold the shutting order at the five pit-heads and to close no house, road or town beyond them. He is told plainly that his business is to hold the order, not to fight a war nobody has declared.",
+   "body": "Called before Fearghas mac Aonghais and a councillor of the Rìoghachd, Somhairle mac Lachlainn is given command of forty of Comhairle nam Mèinnean's enforcers, to hold the shutting order at the five pit-heads and to close no house, road or town beyond them. He is told plainly that his business is to hold the order, not to fight a war nobody has declared.",
    "place": "burg:23",
    "kind": "war",
    "category": "war",
@@ -916,7 +916,7 @@
   {
    "id": "EVII-3032",
    "title": "Somhairle mac Lachlainn rides the road ahead of his company",
-   "body": "Two days ahead of his forty men, Somhairle mac Lachlainn rides alone across the boundary stones to see the ground he must hold, and lodges a night short of the western Seann Skell turning over, for the first time in eighteen years of the Board's service, whether a smuggler's quay and a country under a shutting order are the same kind of work.",
+   "body": "Two days ahead of his forty men, Somhairle mac Lachlainn rides alone across the boundary stones to see the ground he must hold, and lodges a night short of the western Seann Skell turning over, for the first time in eighteen years of Comhairle nam Mèinnean's service, whether a smuggler's quay and a country under a shutting order are the same kind of work.",
    "place": "burg:489",
    "kind": "war",
    "category": "war",
@@ -975,7 +975,7 @@
   {
    "id": "EVII-3034",
    "title": "The margins of Breith Leòid",
-   "body": "The Board's press copy of Breith Leòid carries in its margins the circuit rulings that settled it: that a holder's right runs with An Crùn's fifth, and that nothing binds the Board to carry any holder's coal.",
+   "body": "Comhairle nam Mèinnean's press copy of Breith Leòid carries in its margins the circuit rulings that settled it: that a holder's right runs with An Crùn's fifth, and that nothing binds Comhairle nam Mèinnean to carry any holder's coal.",
    "place": "burg:23",
    "kind": "record",
    "category": "law",
@@ -1009,7 +1009,7 @@
   {
    "id": "EVII-3035",
    "title": "Forty men chosen for the western company",
-   "body": "Somhairle mac Lachlainn is given forty of the Board's enforcers for the western Seann Skell and chooses men who have served under him before.",
+   "body": "Somhairle mac Lachlainn is given forty of Comhairle nam Mèinnean's enforcers for the western Seann Skell and chooses men who have served under him before.",
    "place": "burg:23",
    "kind": "war",
    "category": "war",
@@ -1038,7 +1038,7 @@
   {
    "id": "EVII-3036",
    "title": "The order nailed to the winding-gear",
-   "body": "The western company posts two men at each pit-head of the five towns with the Board's order nailed to the winding-gear, to report twice weekly whether coal comes up. It comes up.",
+   "body": "The western company posts two men at each pit-head of the five towns with Comhairle nam Mèinnean's order nailed to the winding-gear, to report twice weekly whether coal comes up. It comes up.",
    "place": "burg:269",
    "kind": "war",
    "category": "war",
@@ -1068,7 +1068,7 @@
   {
    "id": "EVII-3037",
    "title": "The granary factors of Achadh mhòr",
-   "body": "The granary factors of Achadh mhòr sell a winter's oats to the pit towns of the western hills through Tional nan Tuathach's granaries, and write to the Board that they know of no rule against it.",
+   "body": "The granary factors of Achadh mhòr sell a winter's oats to the pit towns of the western hills through Tional nan Tuathach's granaries, and write to Comhairle nam Mèinnean that they know of no rule against it.",
    "place": "burg:395",
    "kind": "trade",
    "category": "trade",

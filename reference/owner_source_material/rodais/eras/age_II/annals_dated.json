@@ -3341,7 +3341,7 @@
   "links": [
    {
     "to": "I-0097",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -9631,7 +9631,7 @@
   "links": [
    {
     "to": "I-0139",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [

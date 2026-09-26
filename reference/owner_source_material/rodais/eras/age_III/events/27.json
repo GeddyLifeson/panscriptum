@@ -2,7 +2,7 @@
  {
   "title": "News of the fish-bone war reaches Cathair mhòr",
   "era_year": 1010,
-  "summary": "A wool-merchant brings Eithne nic Ailein, last living of the nine who cut the cord at the Roinn, the tale of Iain Garbh's war on Caol leathan. She does not ride to it and does not send to it, judging it another share's quarrel to end.",
+  "summary": "A wool-merchant brings Eithne nic Ailein, last living of the nine who cut the cord at Roinn na Rìoghachd, the tale of Iain Garbh's war on Caol leathan. She does not ride to it and does not send to it, judging it another share's quarrel to end.",
   "category": "war",
   "people": [
    "Eithne nic Ailein"
@@ -42,7 +42,7 @@
  {
   "title": "Iain Garbh never climbs to the cup",
   "era_year": 1044,
-  "summary": "Iain Garbh rules forty years past the end of the War of the Roads and never once goes up the mountain road to stand before the cup, unlike every rìgh before or after him. He dies unreconciled to the flame that had refused his warband its blessing.",
+  "summary": "Iain Garbh rules forty years past the end of Cogadh nan Rathad and never once goes up the mountain road to stand before the cup, unlike every rìgh before or after him. He dies unreconciled to the flame that had refused his warband its blessing.",
   "category": "rulers",
   "people": [
    "Iain Garbh"
@@ -63,7 +63,7 @@
  {
   "title": "Catrìona Ghlic crowned at Dùn dhearg",
   "era_year": 1044,
-  "summary": "Catrìona, daughter of Iain Garbh, is crowned at Dùn dhearg on her father's death and takes within ten years the name Catrìona Ghlic, Catrìona the Wise, for undoing the coldness he had left between the rìgh's hall and the Hall of the Flame.",
+  "summary": "Catrìona, daughter of Iain Garbh, is crowned at Dùn dhearg on her father's death and takes within ten years the name Catrìona Ghlic, Catrìona the Wise, for undoing the coldness he had left between the rìgh's hall and Talla na Lasrach.",
   "category": "rulers",
   "people": [
    "Catrìona Ghlic"
@@ -80,9 +80,9 @@
   ]
  },
  {
-  "title": "The rìgh's tithe sent again to the Hall",
+  "title": "The rìgh's tithe sent again to Talla na Lasrach",
   "era_year": 1051,
-  "summary": "Eithne nic Ailein, hearing that Catrìona Ghlic's son has sat a season with the flame unasked, orders that Cathair mhòr's own hall send its tithe to the Hall's handful again, unwaited-for, as it had not done since her own father's day.",
+  "summary": "Eithne nic Ailein, hearing that Catrìona Ghlic's son has sat a season with the flame unasked, orders that Cathair mhòr's own hall send its tithe to Talla na Lasrach's handful again, unwaited-for, as it had not done since her own father's day.",
   "category": "faith",
   "people": [
    "Eithne nic Ailein",
@@ -102,9 +102,9 @@
   ]
  },
  {
-  "title": "The Keeper keeps a place for the rìgh's son",
+  "title": "Coimheadaiche na Lasrach keeps a place for the rìgh's son",
   "era_year": 1058,
-  "summary": "After his first season carrying the baskets at Dùn ìseal, Catrìona Ghlic's son returns each year at the turn of the season, and the Keeper comes to keep a place for him at the long table without being asked, a small thing the island reads as the breach mended.",
+  "summary": "After his first season carrying the baskets at Dùn ìseal, Catrìona Ghlic's son returns each year at the turn of the season, and Coimheadaiche na Lasrach comes to keep a place for him at the long table without being asked, a small thing the island reads as the breach mended.",
   "category": "faith",
   "people": [
    "Catrìona Ghlic"
@@ -146,7 +146,7 @@
  {
   "title": "Niall Òg walks his last road",
   "era_year": 1109,
-  "summary": "Niall Òg comes on foot and unannounced to Eithne nic Ailein's hall at Cathair mhòr, the last road he means to walk, so that the night of the handful should be told once more, to the only other living witness of it, before he dies.",
+  "summary": "Niall Òg comes on foot and unannounced to Eithne nic Ailein's hall at Cathair mhòr, the last road he means to walk, so that Oidhche an Dòrlaich should be told once more, to the only other living witness of it, before he dies.",
   "category": "rulers",
   "people": [
    "Niall Òg",
@@ -164,7 +164,7 @@
  {
   "title": "Death of Niall Òg",
   "era_year": 1109,
-  "summary": "Niall Òg dies in his sleep by Eithne nic Ailein's own fire at Cathair mhòr, some two thousand years old, three days after telling her the night of the handful for what proves the last time. She sends his body up the mountain at her own cost.",
+  "summary": "Niall Òg dies in his sleep by Eithne nic Ailein's own fire at Cathair mhòr, some two thousand years old, three days after telling her Oidhche an Dòrlaich for what proves the last time. She sends his body up the mountain at her own cost.",
   "category": "rulers",
   "people": [
    "Niall Òg",
@@ -181,7 +181,7 @@
  {
   "title": "Niall Òg laid near the first heirs",
   "era_year": 1109,
-  "summary": "Eithne has Niall Òg laid near the old graves on the slope below Dùn ìseal, among the first heirs of the Roinn, though he was of no kin to her own share, judging that a man who spent four hundred years walking every road on the island had earned the ground.",
+  "summary": "Eithne has Niall Òg laid near the old graves on the slope below Dùn ìseal, among the first heirs of Roinn na Rìoghachd, though he was of no kin to her own share, judging that a man who spent four hundred years walking every road on the island had earned the ground.",
   "category": "rulers",
   "people": [
    "Niall Òg",

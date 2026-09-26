@@ -1,152 +1,295 @@
 [
-    {
-        "title": "The basket argued to one size",
-        "era_year": 45,
-        "summary": "Muireach Liath asks the nine hearths for a common measure, a lidded basket of plaited heather, one to a household, filled once a season. The households argue the size of it until they have argued themselves into agreeing on one.",
-        "category": "coal",
-        "people": ["Muireach Liath"],
-        "places": [],
-        "threads": ["the-seven-coals", "the-keepers-of-the-flame"],
-        "master_links": [{"to": "II-0010", "type": "cause"}]
-    },
-    {
-        "title": "The weavers of the third hearth take the basket's making",
-        "era_year": 46,
-        "summary": "The plaiting that holds the measured basket's shape under a full load proves particular enough that the weavers of the third hearth keep the craft for their own. Baskets of that weave outlast a season's use before any other household's do.",
-        "category": "trade",
-        "people": [],
-        "places": [],
-        "threads": ["the-seven-coals"],
-        "master_links": [{"to": "II-0010", "type": "sequel"}]
-    },
-    {
-        "title": "A second and third sinking answered",
-        "era_year": 47,
-        "summary": "Two more households of Caol shean come forward with tales like the first woman's, of boats kept whole after a drink of the stream in what each judges the right quarter of the moon. The laughing that met her first telling thins.",
-        "category": "faith",
-        "people": [],
-        "places": ["burg:197"],
-        "threads": ["the-orders-of-the-old-faith"],
-        "master_links": [{"to": "II-0011", "type": "cause"}]
-    },
-    {
-        "title": "A hearth-elder puts the stream to Muireach",
-        "era_year": 52,
-        "summary": "One of the hearth-elders who kept the ancestors' watch before Beathag Bhàn's own choosing asks Muireach Liath directly whether a stream running off the vein's own mountain belongs to the Hall's reckoning. His answer, given plainly in a few sentences, is repeated by every Keeper who follows him.",
-        "category": "faith",
-        "people": ["Muireach Liath"],
-        "places": ["marker:1"],
-        "threads": ["the-orders-of-the-old-faith", "the-keepers-of-the-flame"],
-        "master_links": [{"to": "II-0013", "type": "cause"}]
-    },
-    {
-        "title": "Muireach walks up to Muileann ruadh",
-        "era_year": 49,
-        "summary": "In his fourth year Muireach Liath goes up to the warm springs himself rather than let the households' carrying run past him unquestioned, and finds an old woman keeping her granddaughter's ill-set arm a season longer in the water before anyone speaks of breaking it again.",
-        "category": "faith",
-        "people": ["Muireach Liath"],
-        "places": ["marker:0"],
-        "threads": ["the-keepers-of-the-flame"],
-        "master_links": [{"to": "II-0014", "type": "cause"}]
-    },
-    {
-        "title": "Gille-Brìde dies in the high valleys",
-        "era_year": 53,
-        "summary": "Gille-Brìde of Somhairle's line, who carried a coal of the First Flame home from the Binding and asked for nothing since, dies among his own people at two hundred and twenty-four, in an early winter hard on the hill-folk of Coille naomh.",
-        "category": "rulers",
-        "people": ["Gille-Brìde"],
-        "places": [],
-        "threads": ["line-of-aisling"],
-        "master_links": [{"to": "II-0010", "type": "parallel"}]
-    },
-    {
-        "title": "Ceallach keeps the coal",
-        "era_year": 53,
-        "summary": "Ceallach mac Ghille-Bhrìde takes up his father's hearth and the coal of the First Flame kept on it, changing nothing the hill-folk who sit by that fire can name, since he had been feeding it quietly on his father's behalf for years before.",
-        "category": "faith",
-        "people": ["Ceallach mac Ghille-Bhrìde"],
-        "places": [],
-        "threads": ["line-of-aisling"],
-        "master_links": [{"to": "II-0010", "type": "sequel"}]
-    },
-    {
-        "title": "Niall Òg sits an evening at Ceallach's hearth",
-        "era_year": 53,
-        "summary": "Niall Òg goes up alone to the high valleys on hearing of Gille-Brìde's death, and finds, for the first time in sixty years of burying his father's kin, a death that leaves him nothing to feel bitter about.",
-        "category": "rulers",
-        "people": ["Niall Òg", "Ceallach mac Ghille-Bhrìde"],
-        "places": [],
-        "threads": ["line-of-aisling", "the-long-years"],
-        "master_links": [{"to": "II-0010", "type": "sequel"}]
-    },
-    {
-        "title": "Murchadh Mòr dies at Baile Mòr mhòr",
-        "era_year": 64,
-        "summary": "Murchadh Mòr, eldest of Ailean's living sons and the first knotted on Sìne's cord, dies at his own seat close on three thousand years old, having outlived every one of his generation but Eithne and a scattering of the youngest.",
-        "category": "rulers",
-        "people": ["Murchadh Mòr"],
-        "places": [],
-        "threads": ["the-long-years", "the-division"],
-        "master_links": [{"to": "I-0098a", "type": "sequel"}]
-    },
-    {
-        "title": "Eleven knives for the north",
-        "era_year": 65,
-        "summary": "Murchadh Mòr's eleven sons, none by the same mother, divide the great share of the north among themselves with a knife to each of the north's chief holdings, over eleven nights of arguing which hall goes with which knife.",
-        "category": "rulers",
-        "people": ["Niall Òg", "Lachlann Mòr mac Mhurchaidh", "Donnchadh Iar mac Mhurchaidh"],
-        "places": [],
-        "threads": ["the-division", "the-long-years"],
-        "master_links": [{"to": "II-0001b", "type": "echo"}]
-    },
-    {
-        "title": "Lachlann Mòr takes Baile Mòr mhòr",
-        "era_year": 65,
-        "summary": "The eldest of Murchadh Mòr's eleven sons is given his father's own seat and its name with less argument than the rest of the division, none of his brothers wanting the weight of a hall so long held.",
-        "category": "rulers",
-        "people": ["Lachlann Mòr mac Mhurchaidh"],
-        "places": [],
-        "threads": ["the-division"],
-        "master_links": [{"to": "II-0001b", "type": "sequel"}]
-    },
-    {
-        "title": "Donnchadh Iar disputes the western glens",
-        "era_year": 65,
-        "summary": "The fourth of Murchadh Mòr's sons wins the western glens only after the longest argument of the whole division, and goes on calling the settlement unjust for years after.",
-        "category": "rulers",
-        "people": ["Donnchadh Iar mac Mhurchaidh"],
-        "places": [],
-        "threads": ["the-division"],
-        "master_links": [{"to": "II-0001b", "type": "sequel"}]
-    },
-    {
-        "title": "The north's counties too small for twenty spears",
-        "era_year": 65,
-        "summary": "What comes out of Baile Mòr mhòr's last division is a floor of small halls, none able to raise so much as twenty spears alone, a smallness the tellers already read as proof the long-lived blood was fading fastest from that line.",
-        "category": "rulers",
-        "people": [],
-        "places": [],
-        "threads": ["the-long-years"],
-        "master_links": [{"to": "II-0001b", "type": "sequel"}]
-    },
-    {
-        "title": "Eachann Ruadh raids the Red Share's cattle",
-        "era_year": 67,
-        "summary": "Eachann Ruadh rides a dozen men across the boundary stones into the Red Share's northern grazing and drives off near forty head before the alarm is fully raised, the old feud from Dùn thais finding a fresh grievance to spend itself on.",
-        "category": "war",
-        "people": ["Eachann Ruadh mac Mhurchaidh"],
-        "places": [],
-        "threads": ["the-division"],
-        "master_links": [{"to": "II-0001d", "type": "echo"}]
-    },
-    {
-        "title": "Muireach refuses the Hall's ground to the cattle",
-        "era_year": 67,
-        "summary": "Asked to shelter the Red Share's recovered cattle on the Hall's own ground, Muireach Liath refuses, ruling that the ground was sworn to keep a man safe from a knife and never to make holy ground of every quarrel brought to his door.",
-        "category": "law",
-        "people": ["Muireach Liath"],
-        "places": [],
-        "threads": ["the-keepers-of-the-flame"],
-        "master_links": [{"to": "II-0001c", "type": "echo"}]
-    }
+ {
+  "title": "The basket argued to one size",
+  "era_year": 45,
+  "summary": "Muireach Liath asks Na Naoi Teallaichean for a common measure, a lidded basket of plaited heather, one to a household, filled once a season. The households argue the size of it until they have argued themselves into agreeing on one.",
+  "category": "coal",
+  "people": [
+   "Muireach Liath"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-coals",
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0010",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The weavers of the third hearth take the basket's making",
+  "era_year": 46,
+  "summary": "The plaiting that holds the measured basket's shape under a full load proves particular enough that the weavers of the third hearth keep the craft for their own. Baskets of that weave outlast a season's use before any other household's do.",
+  "category": "trade",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "II-0010",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A second and third sinking answered",
+  "era_year": 47,
+  "summary": "Two more households of Caol shean come forward with tales like the first woman's, of boats kept whole after a drink of the stream in what each judges the right quarter of the moon. The laughing that met her first telling thins.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:197"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "II-0011",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A hearth-elder puts the stream to Muireach",
+  "era_year": 52,
+  "summary": "One of the hearth-elders who kept the ancestors' watch before Beathag Bhàn's own choosing asks Muireach Liath directly whether a stream running off the vein's own mountain belongs to Talla na Lasrach's reckoning. His answer, given plainly in a few sentences, is repeated by every Keeper who follows him.",
+  "category": "faith",
+  "people": [
+   "Muireach Liath"
+  ],
+  "places": [
+   "marker:1"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0013",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Muireach walks up to Muileann ruadh",
+  "era_year": 49,
+  "summary": "In his fourth year Muireach Liath goes up to Fuarain Theth Muileann ruadh himself rather than let the households' carrying run past him unquestioned, and finds an old woman keeping her granddaughter's ill-set arm a season longer in the water before anyone speaks of breaking it again.",
+  "category": "faith",
+  "people": [
+   "Muireach Liath"
+  ],
+  "places": [
+   "marker:0"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0014",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Gille-Brìde dies in the high valleys",
+  "era_year": 53,
+  "summary": "Gille-Brìde of Somhairle's line, who carried a coal of A' Chiad Lasair home from An Ceangal and asked for nothing since, dies among his own people at two hundred and twenty-four, in an early winter hard on the hill-folk of Coille naomh.",
+  "category": "rulers",
+  "people": [
+   "Gille-Brìde"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-aisling"
+  ],
+  "master_links": [
+   {
+    "to": "II-0010",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Ceallach keeps the coal",
+  "era_year": 53,
+  "summary": "Ceallach mac Ghille-Bhrìde takes up his father's hearth and the coal of A' Chiad Lasair kept on it, changing nothing the hill-folk who sit by that fire can name, since he had been feeding it quietly on his father's behalf for years before.",
+  "category": "faith",
+  "people": [
+   "Ceallach mac Ghille-Bhrìde"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-aisling"
+  ],
+  "master_links": [
+   {
+    "to": "II-0010",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Niall Òg sits an evening at Ceallach's hearth",
+  "era_year": 53,
+  "summary": "Niall Òg goes up alone to the high valleys on hearing of Gille-Brìde's death, and finds, for the first time in sixty years of burying his father's kin, a death that leaves him nothing to feel bitter about.",
+  "category": "rulers",
+  "people": [
+   "Niall Òg",
+   "Ceallach mac Ghille-Bhrìde"
+  ],
+  "places": [],
+  "threads": [
+   "line-of-aisling",
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0010",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Murchadh Mòr dies at Baile Mòr mhòr",
+  "era_year": 64,
+  "summary": "Murchadh Mòr, eldest of Ailean's living sons and the first knotted on Sìne's cord, dies at his own seat close on three thousand years old, having outlived every one of his generation but Eithne and a scattering of the youngest.",
+  "category": "rulers",
+  "people": [
+   "Murchadh Mòr"
+  ],
+  "places": [],
+  "threads": [
+   "the-long-years",
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "I-0098a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Eleven knives for the north",
+  "era_year": 65,
+  "summary": "Murchadh Mòr's eleven sons, none by the same mother, divide Earrann Mhurchaidh among themselves with a knife to each of the north's chief holdings, over eleven nights of arguing which hall goes with which knife.",
+  "category": "rulers",
+  "people": [
+   "Niall Òg",
+   "Lachlann Mòr mac Mhurchaidh",
+   "Donnchadh Iar mac Mhurchaidh"
+  ],
+  "places": [],
+  "threads": [
+   "the-division",
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "echo"
+   }
+  ]
+ },
+ {
+  "title": "Lachlann Mòr takes Baile Mòr mhòr",
+  "era_year": 65,
+  "summary": "The eldest of Murchadh Mòr's eleven sons is given his father's own seat and its name with less argument than the rest of the division, none of his brothers wanting the weight of a hall so long held.",
+  "category": "rulers",
+  "people": [
+   "Lachlann Mòr mac Mhurchaidh"
+  ],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Donnchadh Iar disputes the western glens",
+  "era_year": 65,
+  "summary": "The fourth of Murchadh Mòr's sons wins the western glens only after the longest argument of the whole division, and goes on calling the settlement unjust for years after.",
+  "category": "rulers",
+  "people": [
+   "Donnchadh Iar mac Mhurchaidh"
+  ],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The north's counties too small for twenty spears",
+  "era_year": 65,
+  "summary": "What comes out of Baile Mòr mhòr's last division is a floor of small halls, none able to raise so much as twenty spears alone, a smallness the tellers already read as proof the long-lived blood was fading fastest from that line.",
+  "category": "rulers",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001b",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Eachann Ruadh raids an Earrann Dhearg's cattle",
+  "era_year": 67,
+  "summary": "Eachann Ruadh rides a dozen men across Clachan-crìche into an Earrann Dhearg's northern grazing and drives off near forty head before the alarm is fully raised, the old feud from Dùn thais finding a fresh grievance to spend itself on.",
+  "category": "war",
+  "people": [
+   "Eachann Ruadh mac Mhurchaidh"
+  ],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001d",
+    "type": "echo"
+   }
+  ]
+ },
+ {
+  "title": "Muireach refuses Talla na Lasrach's ground to the cattle",
+  "era_year": 67,
+  "summary": "Asked to shelter an Earrann Dhearg's recovered cattle on Talla na Lasrach's own ground, Muireach Liath refuses, ruling that the ground was sworn to keep a man safe from a knife and never to make holy ground of every quarrel brought to his door.",
+  "category": "law",
+  "people": [
+   "Muireach Liath"
+  ],
+  "places": [],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   {
+    "to": "II-0001c",
+    "type": "echo"
+   }
+  ]
+ }
 ]

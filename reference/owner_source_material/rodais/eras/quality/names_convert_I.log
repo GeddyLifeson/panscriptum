@@ -1812,3 +1812,358 @@ LEFT	eras/age_I/appendices/B_the_telling_the_riddle_and_the_lightings.md:59	the 
 LEFT	eras/age_I/appendices/D_the_peoples_of_the_shore_and_the_hills.md:30	the outpost	(no "the" before it)	|	 from the shore. They raised the walled outpost of Làrach an Dùin-fhaire on a spur abov
 LEFT	eras/age_I/appendices/E_of_fears_beasts_and_holy_places.md:9	the riddle	(no "the" before it)	|	en none of them could read a sign, is a riddle; known it was, and told the same way at
 LEFT	eras/age_I/appendices/E_of_fears_beasts_and_holy_places.md:9	the slab	(no "the" before it)	|	 the first pit-hearth, the fire under a slab at the foot of a slanting shaft bent ne
+# run 2026-09-26 02:07: 206 changes, 148 left
+CHANGE	eras/age_I/events/02.json:$.summary	the mason's fire	->	Teine a' Chlachair	|	, its own hearth cold, comes asking for a coal of the mason's fire. Neachdan gives it freely and
+CHANGE	eras/age_I/events/02.json:$.summary	The mason's fire	->	Teine a' Chlachair	|	the moor at the limit of any household's grazing. The mason's fire, walked outward hearth by hea
+CHANGE	eras/age_I/events/02.json:$.summary	the Mason	->	An Clachair	|	Neachdan, the Mason, dies old by the hearth he li
+CHANGE	eras/age_I/events/02.json:$.summary	the vein-fire	->	Teine na Fèithe	|	Conall, who first carried the vein-fire home in a water-pot as a boy,
+CHANGE	eras/age_I/events/02.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	the well-cut still burning as it has burned since the night of the lightning, unchanged through two of the
+CHANGE	eras/age_I/events/03.json:$.title	the vein-fire	->	Teine na Fèithe	|	Muirne marks the vein-fire sinking
+CHANGE	eras/age_I/events/03.json:$.title	The vein-fire	->	Teine na Fèithe	|	The vein-fire burns low
+CHANGE	eras/age_I/events/03.json:$.summary	the vein-fire	->	Teine na Fèithe	|	standing water, Muirne sits out the last night of the vein-fire in the rain and watches its p
+CHANGE	eras/age_I/events/03.json:$.summary	the mason's fire	->	Teine a' Chlachair	|	ow go out, quietly, with no one else there to see the mason's fire die in the ground where it wa
+CHANGE	eras/age_I/events/03.json:$.title	The slab	->	Leac na Fèithe	|	The slab laid over the vein
+CHANGE	eras/age_I/events/03.json:$.summary	the slab	->	Leac na Fèithe	|	's fire, whole, back to the stone. The telling of the slab passes to her grandchildren.
+CHANGE	eras/age_I/events/07.json:$.summary	the fire-pot	->	Poit an Teine	|	Diarmad, seven years old, asks the aunt who keeps the fire-pot why the mason's pieces hold c
+CHANGE	eras/age_I/events/07.json:$.title	the fire-pot	->	Poit an Teine	|	Fionnghuala takes the fire-pot
+CHANGE	eras/age_I/events/08.json:$.title	The Keeper	->	Coimhdeach na Fine	|	The Keeper names itself to Diarmad
+CHANGE	eras/age_I/events/08.json:$.summary	the Young God	->	an Dia Òg	|	of the kin, made from the smoke of the first coal the Young God woke, watching the island's p
+CHANGE	eras/age_I/events/08.json:$.title	the Telling of the Making	->	Aithris a' Chruthachaidh	|	Diarmad hears the Telling of the Making
+CHANGE	eras/age_I/events/08.json:$.summary	The Keeper	->	Coimhdeach na Fine	|	The Keeper tells Diarmad the whole Telli
+CHANGE	eras/age_I/events/08.json:$.summary	Telling of the Making	->	Aithris a' Chruthachaidh	|	The Keeper tells Diarmad the whole Telling of the Making, from Caoran's choosing of co
+CHANGE	eras/age_I/events/08.json:$.title	the Young God	->	an Dia Òg	|	Diarmad asks whether the Young God was angry
+CHANGE	eras/age_I/events/08.json:$.summary	the godfolk	->	an Dia-shluagh	|	Shamed by the telling of how the godfolk once found the coloured stone
+CHANGE	eras/age_I/events/08.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	 fall back into the heather unknown, Diarmad asks the Keeper whether the Young God was ang
+CHANGE	eras/age_I/events/08.json:$.summary	the Young God	->	an Dia Òg	|	 heather unknown, Diarmad asks the Keeper whether the Young God was angry at the forgetting; 
+CHANGE	eras/age_I/events/08.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	hether the Young God was angry at the forgetting; the Keeper answers that he only laughed,
+CHANGE	eras/age_I/events/08.json:$.title	The Keeper	->	Coimhdeach na Fine	|	The Keeper gives Diarmad the riddle
+CHANGE	eras/age_I/events/08.json:$.title	the riddle	->	Tòimhseachan a' Choimhdich	|	The Keeper gives Diarmad the riddle
+CHANGE	eras/age_I/events/08.json:$.summary	the mason's fire	->	Teine a' Chlachair	|	Asked why the mason's fire burned the colour out of ever
+CHANGE	eras/age_I/events/08.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	s fire burned the colour out of every coal alike, the Keeper answers that they are burned 
+CHANGE	eras/age_I/events/08.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	n one fire and none in its own, and gives Diarmad the riddle of the sky, the earth and the
+CHANGE	eras/age_I/events/08.json:$.title	The Keeper	->	Coimhdeach na Fine	|	The Keeper leaves Diarmad by his dying f
+CHANGE	eras/age_I/events/08.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	When Diarmad calls the riddle no answer, the Keeper tells h
+CHANGE	eras/age_I/events/08.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	When Diarmad calls the riddle no answer, the Keeper tells him it is the one it wa
+CHANGE	eras/age_I/events/08.json:$.title	the riddle	->	Tòimhseachan a' Choimhdich	|	Diarmad tries the riddle alone against sky, earth and 
+CHANGE	eras/age_I/events/08.json:$.summary	the rainbow coal	->	gual bogha-froise	|	o leave the grove, Diarmad spends two days trying the rainbow coal by himself: held up to a gap 
+CHANGE	eras/age_I/events/08.json:$.title	the riddle	->	Tòimhseachan a' Choimhdich	|	Diarmad speaks the riddle over the bare coal
+CHANGE	eras/age_I/events/08.json:$.summary	the riddle's	->	Tòimhseachan a' Choimhdich's	|	On the second morning Diarmad kneels and speaks the riddle's words aloud over the coal lai
+CHANGE	eras/age_I/events/08.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	After two days failing to open the riddle alone, Diarmad banks his fire
+CHANGE	eras/age_I/events/08.json:$.summary	the rainbow coal	->	gual bogha-froise	|	e alone, Diarmad banks his fire under turf, wraps the rainbow coal back against his chest, and s
+CHANGE	eras/age_I/events/08.json:$.summary	the Telling of the Making	->	Aithris a' Chruthachaidh	|	high valleys on the evening of the third day with the Telling of the Making whole in him and the Keeper's
+CHANGE	eras/age_I/events/08.json:$.summary	the Keeper's riddle	->	Tòimhseachan a' Choimhdich	|	y with the Telling of the Making whole in him and the Keeper's riddle unopened, not yet sure which 
+CHANGE	eras/age_I/events/09.json:$.title	the Telling	->	Aithris a' Chruthachaidh	|	Diarmad tells the Telling at his own hearth
+CHANGE	eras/age_I/events/09.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	hìreach and tells the household the bones of what the Keeper gave him: the making of the i
+CHANGE	eras/age_I/events/09.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	ops of fire, the gift buried and thrown away, and the riddle of the sky, the earth and the
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	A kinsman of Tadhg's line by marriage laughs the Telling off as three days' talk with 
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	Told the Telling in full, alone, Diarmad's wif
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	Diarmad takes up a second labour beside the Telling, walking hearth to hearth amo
+CHANGE	eras/age_I/events/09.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	On the night of the lightning Diarmad stands at his own hea
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	amh, unbelieving still, stands after him and says the Telling in full because a house shoul
+CHANGE	eras/age_I/events/09.json:$.summary	the riddle's	->	Tòimhseachan a' Choimhdich's	|	Reasoning that the riddle's merging might mean the coals 
+CHANGE	eras/age_I/events/09.json:$.title	the fire-pot	->	Poit an Teine	|	Fionnghuala dies keeping the fire-pot
+CHANGE	eras/age_I/events/09.json:$.summary	the fire-pot	->	Poit an Teine	|	mad's mother Fionnghuala dies in her own bed with the fire-pot within reach of her hand, as 
+CHANGE	eras/age_I/events/09.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	eeping of the pot himself alongside the names and the riddle.
+CHANGE	eras/age_I/events/09.json:$.title	The Telling	->	Aithris a' Chruthachaidh	|	The Telling carried to the northern moor
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	A fire-bearer who has heard the Telling three times at Tobar dhìreach
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	tells their daughter that she has come to believe the Telling without ever deciding to, the
+CHANGE	eras/age_I/events/09.json:$.title	The Telling	->	Aithris a' Chruthachaidh	|	The Telling reaches the eastern hearths
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	's walk to the grove, traders carry some shape of the Telling to nearly every hearth of the
+CHANGE	eras/age_I/events/09.json:$.summary	the fire-pot	->	Poit an Teine	|	Diarmad dies at his hearth with the fire-pot near him and the six dark coa
+CHANGE	eras/age_I/events/09.json:$.title	the Telling	->	Aithris a' Chruthachaidh	|	Deirbhile fixes the Telling word for word
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	Diarmad's daughter Deirbhile, keeping the Telling more exactly than her father 
+CHANGE	eras/age_I/events/09.json:$.title	The Telling	->	Aithris a' Chruthachaidh	|	The Telling said at an eastern hearth
+CHANGE	eras/age_I/events/09.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	 no claim on the Line beyond distant kinship says the Telling standing on the darkest night
+CHANGE	eras/age_I/events/09.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	he darkest night, and tells a child who asks what the riddle means that it is a question f
+CHANGE	eras/age_I/events/09.json:$.summary	the Mason's	->	An Clachair's	|	s what the riddle means that it is a question for the Mason's own line to answer.
+CHANGE	eras/age_I/events/10.json:$.title	the riddle	->	Tòimhseachan a' Choimhdich	|	The trying of the riddle is let rest at the mason's he
+CHANGE	eras/age_I/events/10.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	ave come out of every trial the same dull stones, the Mason's line lets the trying rest, the lea
+CHANGE	eras/age_I/events/10.json:$.summary	the Mason's	->	An Clachair's	|	On the dark-of-the-year night the keeper of the Mason's hearth stands to say the fath
+CHANGE	eras/age_I/events/10.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	ithout any household sending word ahead, and says the riddle after as she has said it ever
+CHANGE	eras/age_I/events/12.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	Aodh is born into the Mason's line at Tobar dhìreach, into a hea
+CHANGE	eras/age_I/events/12.json:$.summary	the Keeper's riddle	->	Tòimhseachan a' Choimhdich	|	bar dhìreach, into a hearth that has by then said the Keeper's riddle at every recital for near fiv
+CHANGE	eras/age_I/events/12.json:$.summary	the gold coal	->	gual òir	|	for near five hundred years without once carrying the gold coal to the sea it is said to answ
+CHANGE	eras/age_I/events/12.json:$.summary	the fire-pot	->	Poit an Teine	|	At twenty Aodh tells Muirgheal, keeper of the fire-pot at Tobar dhìreach, that he me
+CHANGE	eras/age_I/events/12.json:$.summary	the gold coal	->	gual òir	|	ire-pot at Tobar dhìreach, that he means to carry the gold coal to the sea before another gen
+CHANGE	eras/age_I/events/12.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	ld coal to the sea before another generation lets the riddle lie; she does not laugh, and 
+CHANGE	eras/age_I/events/12.json:$.title	The gold coal	->	Gual òir	|	The gold coal takes fire on the sea
+CHANGE	eras/age_I/events/12.json:$.summary	the seven coals	->	na Seachd Guail	|	Aodh throws the seven coals of the vein into the sea one 
+CHANGE	eras/age_I/events/12.json:$.summary	the Keeper's riddle	->	Tòimhseachan a' Choimhdich	|	five hundred years since the grove, and says that the Keeper's riddle is proved true: each coal ans
+CHANGE	eras/age_I/events/12.json:$.summary	the gold coal's	->	gual òir's	|	 the recital after the fathers' names, telling of the gold coal's lighting on the northern sea;
+CHANGE	eras/age_I/events/12.json:$.title	the gold coal	->	gual òir	|	Word of the gold coal spreads from Tobar dhìreach
+CHANGE	eras/age_I/events/12.json:$.summary	the gold coal	->	gual òir	|	ìreach send someone to ask whether the telling of the gold coal is true, and for days the fir
+CHANGE	eras/age_I/events/12.json:$.summary	the fire-pot's	->	Poit an Teine's	|	he telling of the gold coal is true, and for days the fire-pot's door stands open near the who
+CHANGE	eras/age_I/events/12.json:$.summary	the fire-pot	->	Poit an Teine	|	Muirgheal, keeper of the fire-pot, dies an old woman having liv
+CHANGE	eras/age_I/events/15.json:$.title	the fire-pot	->	Poit an Teine	|	Gormal takes up the fire-pot
+CHANGE	eras/age_I/events/15.json:$.summary	the fire-pot	->	Poit an Teine	|	th of the one daughter who lived, Gormal takes up the fire-pot and the leather bag of the li
+CHANGE	eras/age_I/events/15.json:$.summary	coloured coal	->	an gual dathach	|	up the fire-pot and the leather bag of the line's coloured coal from an aunt with no living d
+CHANGE	eras/age_I/events/15.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	Gormal rules that the fathers' names and the riddle after them be said standing e
+CHANGE	eras/age_I/events/15.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	fixed words, begins saying the fathers' names and the riddle to her own children in gentle
+CHANGE	eras/age_I/events/15.json:$.summary	the riddle	->	Tòimhseachan a' Choimhdich	|	st dark-of-the-year night of her life Gormal says the riddle standing as she has said it e
+CHANGE	eras/age_I/events/15.json:$.summary	the fire-pot	->	Poit an Teine	|	Gormal dies that winter in the house she kept the fire-pot in her whole life, her daught
+CHANGE	eras/age_I/events/16.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	A second son is born to the household of the Mason's line at Tobar dhìreach, three year
+CHANGE	eras/age_I/events/16.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	Fearghas is born at Tobar dhìreach into the Mason's line, growing up on Gormal's unset
+CHANGE	eras/age_I/events/16.json:$.summary	the snowflake coal	->	gual sneachda	|	Before the brothers leave the summit where the snowflake coal has just taken fire in the fa
+CHANGE	eras/age_I/events/16.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	de it, the first stone set there by a hand not of the Mason's line, beginning a custom that outl
+CHANGE	eras/age_I/events/16.json:$.summary	the slab	->	Leac na Fèithe	|	ight he had proved, and is buried within sight of the slab that covers the mason's vein 
+CHANGE	eras/age_I/events/18.json:$.title	The outpost's	->	Làrach an Dùin-fhaire's	|	The outpost's wall dressed on its outer fac
+CHANGE	eras/age_I/events/18.json:$.summary	the outpost's	->	Làrach an Dùin-fhaire's	|	The mason who sets the outpost's first course dresses its ston
+CHANGE	eras/age_I/events/18.json:$.title	The outpost's	->	Làrach an Dùin-fhaire's	|	The outpost's gate hung
+CHANGE	eras/age_I/events/18.json:$.summary	the outpost	->	Làrach an Dùin-fhaire	|	A heavy oaken gate is hung on a socketed post at the outpost, its single doorway facing in
+CHANGE	eras/age_I/events/18.json:$.summary	the outpost	->	Làrach an Dùin-fhaire	|	A boy of the outpost raises the whole watch at dus
+CHANGE	eras/age_I/events/18.json:$.summary	the outpost's	->	Làrach an Dùin-fhaire's	|	ly together; nothing is found by first light, and the outpost's watch is never again left to 
+CHANGE	eras/age_I/events/19.json:$.summary	the outpost	->	Làrach an Dùin-fhaire	|	rs of trimmed timber, the same labour that raised the outpost wall and the fortress rings, 
+CHANGE	eras/age_I/events/19.json:$.summary	the fortress	->	Làrach an Dùin	|	 the same labour that raised the outpost wall and the fortress rings, and set back from the 
+CHANGE	eras/age_I/events/20.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	hing hearth of the north-west shore, kin who keep the Telling as every hill hearth does but
+CHANGE	eras/age_I/events/20.json:$.summary	the Telling's	->	Aithris a' Chruthachaidh's	|	ther plainly that he means to sail west and prove the Telling's word of a land beyond the sea
+CHANGE	eras/age_I/events/21.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	Brian, of the Mason's line, becomes known through the hi
+CHANGE	eras/age_I/events/21.json:$.title	the mason's fire	->	Teine a' Chlachair	|	The black coal set in the mason's fire
+CHANGE	eras/age_I/events/21.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	 a' Chlachair holds to have burned unbroken since the night of the lightning. It catches and burns on, and
+CHANGE	eras/age_I/events/21.json:$.summary	the slab	->	Leac na Fèithe	|	 illness the valley can name. He is buried beside the slab at Tobar dhìreach, near the g
+CHANGE	eras/age_I/events/22.json:$.summary	the Sea-Watcher	->	Uilebheist na Mara	|	creature has a name that will not leave it again: the Sea-Watcher. Not every hearth believes th
+CHANGE	eras/age_I/events/22.json:$.summary	the Watcher's	->	Uilebheist na Mara's	|	em, but the water off the point is from that year the Watcher's water in every mouth, believe
+CHANGE	eras/age_I/events/22.json:$.summary	the Watcher	->	Uilebheist na Mara	|	f their own hearth smoke. The loss is not laid to the Watcher, the water being the wrong wa
+CHANGE	eras/age_I/events/22.json:$.summary	the Watcher's	->	Uilebheist na Mara's	|	n from the headland to boats working too far into the Watcher's water, Criomthann's warning w
+CHANGE	eras/age_I/events/22.json:$.summary	the Watcher	->	Uilebheist na Mara	|	ving outlived every one of the four who first saw the Watcher rise. At his own asking he is
+CHANGE	eras/age_I/events/22.json:$.title	the Watcher	->	Uilebheist na Mara	|	The widows name the Watcher
+CHANGE	eras/age_I/events/22.json:$.summary	the Sea-Watcher	->	Uilebheist na Mara	|	 plainly, at every hearth that will hear it, that the Sea-Watcher has taken their seven boats. 
+CHANGE	eras/age_I/events/22.json:$.summary	the Watcher's	->	Uilebheist na Mara's	|	boats. It is the first loss on that coast laid at the Watcher's door by name rather than only
+CHANGE	eras/age_I/events/24.json:$.summary	the slab	->	Leac na Fèithe	|	n he showed them, the first word of the pit under the slab carried hearth to hearth the 
+CHANGE	eras/age_I/events/24.json:$.summary	the Mason's kin	->	Clann a' Chlachair	|	One branch of the Mason's kin digs itself a covered hearth 
+CHANGE	eras/age_I/events/24.json:$.summary	the slab	->	Leac na Fèithe	|	wo herders come down off the ridge, the pit under the slab is no longer a new thing spre
+CHANGE	eras/age_I/events/25.json:$.summary	the glen of the stags	->	Gleann nan Damh	|	At the narrow turn of the glen of the stags, a white stag breaks from the
+CHANGE	eras/age_I/events/25.json:$.summary	the holy wood	->	Coille Naomh Muileann chiar	|	e stags, a white stag breaks from the treeline of the holy wood rather than the open hill. Sa
+CHANGE	eras/age_I/events/26.json:$.summary	the slab	->	Leac na Fèithe	|	Cormac digs a second, deeper hole beside the slab and lays the red-brown coal i
+CHANGE	eras/age_I/events/26.json:$.title	The silver coal	->	Gual airgid	|	The silver coal carried to three rivers
+CHANGE	eras/age_I/events/26.json:$.summary	the silver coal	->	gual airgid	|	In one summer Cormac carries the silver coal to three different rivers of 
+CHANGE	eras/age_I/events/26.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	pring, Cormac comes to think that the grove where the Keeper once stood may hold in its gr
+CHANGE	eras/age_I/events/26.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	which had long since stopped laughing at anything the Mason's line brought home from the grove, 
+CHANGE	eras/age_I/events/26.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	At the next telling of the Line on the night of the lightning, Cormac holds up his scarred 
+CHANGE	eras/age_I/events/26.json:$.summary	the silver coal	->	gual airgid	|	Cormac gives the silver coal over to a younger cousin to c
+CHANGE	eras/age_I/events/26.json:$.summary	the fire-pot	->	Poit an Teine	|	in his two-and-seventieth year at Tobar dhìreach, the fire-pot burning near him as it burned
+CHANGE	eras/age_I/events/26.json:$.summary	the silver coal	->	gual airgid	|	The leather bag with the silver coal, the coal that has never yet 
+CHANGE	eras/age_I/events/26.json:$.summary	the rainbow coal	->	gual bogha-froise	|	e coal that has never yet been tried by fire, and the rainbow coal passes from Cormac's grave to
+CHANGE	eras/age_I/events/28.json:$.title	the outpost's	->	Làrach an Dùin-fhaire's	|	A shepherd finds the outpost's gate blocked
+CHANGE	eras/age_I/events/28.json:$.title	the outpost	->	Làrach an Dùin-fhaire	|	The shepherd's grandson finds the outpost empty
+CHANGE	eras/age_I/events/28.json:$.summary	the outpost's	->	Làrach an Dùin-fhaire's	|	rst shepherd's grandson walks the full circuit of the outpost's low wall and finds nothing wi
+CHANGE	eras/age_I/events/28.json:$.title	the fortress	->	Làrach an Dùin	|	A trader and two kinsmen find the fortress gate open and empty
+CHANGE	eras/age_I/events/28.json:$.summary	the fortress's	->	Làrach an Dùin's	|	The youngest of the three, wandering apart toward the fortress's inner court, finds the great 
+CHANGE	eras/age_I/events/29.json:$.title	the fortress	->	Làrach an Dùin	|	Fewer fires burn along the fortress wall
+CHANGE	eras/age_I/events/29.json:$.summary	the fortress	->	Làrach an Dùin	|	The last of the coast-people still keeping the fortress finds every other fire along 
+CHANGE	eras/age_I/events/29.json:$.title	The fortress	->	Làrach an Dùin	|	The fortress stands deserted
+CHANGE	eras/age_I/events/29.json:$.title	the fortress	->	Làrach an Dùin	|	A shepherd finds the fortress gate standing open
+CHANGE	eras/age_I/events/29.json:$.summary	the fortress	->	Làrach an Dùin	|	 than shepherds of that country commonly go finds the fortress gate open and unguarded a ful
+CHANGE	eras/age_I/events/29.json:$.summary	the fortress	->	Làrach an Dùin	|	ver went up answers his grandson's question about the fortress only with the cold and the wi
+CHANGE	eras/age_I/events/29.json:$.summary	the outpost	->	Làrach an Dùin-fhaire	|	With the outpost, the fortress and the temple 
+CHANGE	eras/age_I/events/29.json:$.summary	the fortress	->	Làrach an Dùin	|	With the outpost, the fortress and the temple all stood empt
+CHANGE	eras/age_I/events/30.json:$.summary	the fire-pot	->	Poit an Teine	|	ond child of the household that keeps the bag and the fire-pot at Tobar dhìreach, not first 
+CHANGE	eras/age_I/events/30.json:$.title	The silver coal	->	Gual airgid	|	The silver coal carried to the home river and
+CHANGE	eras/age_I/events/30.json:$.summary	the silver-sheen coal	->	gual airgid	|	In his first years of keeping Eòghann carries the silver-sheen coal to the Abhainn ghorm below To
+CHANGE	eras/age_I/events/30.json:$.summary	the rainbow coal	->	gual bogha-froise	|	Eòghann throws the silver, the untried, and the rainbow coal into the grey swell off the n
+CHANGE	eras/age_I/events/30.json:$.title	The silver coal	->	Gual airgid	|	The silver coal catches under the current
+CHANGE	eras/age_I/events/30.json:$.summary	the silver-sheen coal	->	gual airgid	|	r at the crossing without weighing the throw, and the silver-sheen coal catches beneath the surface, 
+CHANGE	eras/age_I/events/30.json:$.summary	the rainbow coal	->	gual bogha-froise	|	The untried coal and the rainbow coal are carried on past Eòghann b
+CHANGE	eras/age_I/events/30.json:$.summary	the silver coal	->	gual airgid	|	hrown to it, and the valley names it gual airgid, the silver coal.
+CHANGE	eras/age_I/events/30.json:$.summary	(appositive)	->	gual airgid	|	dropped the English gloss beside gual airgid
+CHANGE	eras/age_I/events/30.json:$.title	the fire coal	->	gual teine	|	Eòghann tries the fire coal against flint
+CHANGE	eras/age_I/events/30.json:$.summary	the fire coal	->	gual teine	|	In his later keeping Eòghann strikes the fire coal against flint more than once,
+CHANGE	eras/age_I/events/30.json:$.summary	the fire-pot	->	Poit an Teine	|	s in his six-and-sixtieth year at Tobar dhìreach, the fire-pot burning near him, his last wo
+CHANGE	eras/age_I/events/30.json:$.summary	the fire coal	->	gual teine	|	The leather bag, with the fire coal and the rainbow coal still un
+CHANGE	eras/age_I/events/30.json:$.summary	the rainbow coal	->	gual bogha-froise	|	The leather bag, with the fire coal and the rainbow coal still unanswered, passes from
+CHANGE	eras/age_I/events/31.json:$.summary	the ancient sea-way	->	Slighe-mhara àrsaidh	|	ear clear grooves into the flat landing-stones of the ancient sea-way along the south-east coast, s
+CHANGE	eras/age_I/events/31.json:$.summary	the ancient sea-way	->	Slighe-mhara àrsaidh	|	A rower of the ancient sea-way carries his son in the bow th
+CHANGE	eras/age_I/events/31.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	At the night of the lightning an old woman of the ford hear
+CHANGE	eras/age_I/events/32.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	ries the tale of Barabal's stained hearthstone to the Mason's line at Tobar dhìreach, and the wo
+CHANGE	eras/age_I/events/32.json:$.summary	the coloured coal	->	an gual dathach	|	her own valley less as the woman who first burned the coloured coal than simply as an old grandmo
+CHANGE	eras/age_I/events/32.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	nts no fathers back to the mason, and grows up on the Telling as every child of the valleys
+CHANGE	eras/age_I/events/32.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	 dhìreach some fifteen years after it begins, and the Mason's line takes it as further proof tha
+CHANGE	eras/age_I/events/32.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	At the gathering on the night of the lightning, Oscar of Àth gharbh calls th
+CHANGE	eras/age_I/events/32.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	night of the lightning, Oscar of Àth gharbh calls the Mason's line Luchd-ceasnachaidh a' Ghuail 
+CHANGE	eras/age_I/events/32.json:$.summary	the Mason's line	->	Clann a' Chlachair	|	The households of the valleys take up calling the Mason's line simply Clann na Ceiste in the
+CHANGE	eras/age_I/events/33.json:$.summary	the mason's fire	->	Teine a' Chlachair	|	nd the line holds the fire they name for its own, the mason's fire, while the broader script abo
+CHANGE	eras/age_I/events/33.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	h without ever holding its coals, and grows up on the Telling and the two new sayings both,
+CHANGE	eras/age_I/events/34.json:$.summary	the field of the column	->	Achadh a' Chalbh	|	w pillar begin to call the rise Achadh a' Chalbh, the field of the column, a name that settles into use
+CHANGE	eras/age_I/events/34.json:$.summary	(appositive)	->	Achadh a' Chalbh	|	dropped the English gloss beside Achadh a' Chalbh
+CHANGE	eras/age_I/events/34.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	ome thirty households kept at Achadh a' Chalbh on the night of the lightning, an old woman of a neighbouri
+CHANGE	eras/age_I/events/34.json:$.summary	the Telling's	->	Aithris a' Chruthachaidh's	|	ther before a crowd, and ties the third saying to the Telling's grass-people and the island a
+CHANGE	eras/age_I/events/34.json:$.summary	the fire coal	->	gual teine	|	 keeper's own hearth, and a boy not yet six turns the fire coal in his fingers as he listens,
+CHANGE	eras/age_I/events/34.json:$.summary	the Telling	->	Aithris a' Chruthachaidh	|	r children at her own hearth, tying it plainly to the Telling of the grass-people grown fro
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal	->	gual teine	|	 at Tobar dhìreach, the only son of the keeper of the fire coal and the rainbow, and has the 
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal	->	gual teine	|	 keeper of the fire coal and the rainbow, and has the fire coal in his hands from earliest ch
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal	->	gual teine	|	nd chooses, unlike his father before him, to keep the fire coal near the hearth rather than c
+CHANGE	eras/age_I/events/35.json:$.title	The fire coal	->	Gual teine	|	The fire coal put into the pot itself
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal	->	gual teine	|	Seathan puts the fire coal into the fire the line holds 
+CHANGE	eras/age_I/events/35.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	lds to be the mason's own, carried unbroken since the night of the lightning, and it lies dark and cool th
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal	->	gual teine	|	On a warm evening Seathan, breaking the fire coal into dust between his fingers
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal's	->	gual teine's	|	Seathan tells the fire coal's waking at the recital on the 
+CHANGE	eras/age_I/events/35.json:$.summary	the night of the lightning	->	Oidhche an Dealanaich	|	an tells the fire coal's waking at the recital on the night of the lightning that same year, plainly, as h
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal	->	gual teine	|	 valley begins to call the sixth coal gual teine, the fire coal.
+CHANGE	eras/age_I/events/35.json:$.summary	(appositive)	->	gual teine	|	dropped the English gloss beside gual teine
+CHANGE	eras/age_I/events/35.json:$.summary	the rainbow coal	->	gual bogha-froise	|	Seathan carries the rainbow coal to the northern shore in the 
+CHANGE	eras/age_I/events/35.json:$.summary	the rainbow coal	->	gual bogha-froise	|	Seathan and Caitir carry the rainbow coal down to the crossing where th
+CHANGE	eras/age_I/events/35.json:$.summary	the fire-pot	->	Poit an Teine	|	 his three-and-seventieth year at Tobar dhìreach, the fire-pot burning near him, asking at t
+CHANGE	eras/age_I/events/35.json:$.summary	the fire coal	->	gual teine	|	-pot burning near him, asking at the last to hold the fire coal once more rather than the rai
+CHANGE	eras/age_I/events/35.json:$.summary	the slab	->	Leac na Fèithe	|	reached before her, and is buried beside him near the slab.
+CHANGE	eras/age_I/events/36.json:$.summary	the fire coal's	->	gual teine's	|	Word of the fire coal's waking spreads beyond the hil
+CHANGE	eras/age_I/events/36.json:$.summary	the fire coal	->	gual teine	|	n's to Achadh a' Chalbh to say the recital naming the fire coal to a hillside of strangers ra
+CHANGE	eras/age_I/events/36.json:$.summary	the rainbow coal	->	gual bogha-froise	|	The bag holding the rainbow coal, gual bogha-froise, passes do
+CHANGE	eras/age_I/events/36.json:$.summary	(appositive)	->	gual bogha-froise	|	dropped the English gloss beside gual bogha-froise
+CHANGE	eras/age_I/events/36.json:$.summary	the rainbow coal	->	gual bogha-froise	|	A keeper of Clann na Ceiste carries the rainbow coal north to the oak grove at Doi
+CHANGE	eras/age_I/events/36.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	ll fire as Diarmad once sat, waiting for any sign the Keeper gave before; the coal lies bl
+CHANGE	eras/age_I/events/36.json:$.summary	the coloured coal	->	an gual dathach	|	oses into her dead child's hand the one sliver of the coloured coal her household still keeps, ov
+CHANGE	eras/age_I/events/37.json:$.title	The shielings of the pass	->	Àirighean a' Bhealaich	|	The shielings of the pass stand empty
+CHANGE	eras/age_I/events/37.json:$.summary	the fire-pot	->	Poit an Teine	|	A son is born to the household that keeps the fire-pot and the bag of coals, a big c
+CHANGE	eras/age_I/events/38.json:$.summary	the rainbow coal	->	gual bogha-froise	|	ne walks the three days north to Doire ghlas with the rainbow coal, the first keeper to bring it
+CHANGE	eras/age_I/events/38.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	, the first keeper to bring it to the grove where the Keeper first spoke, and sits under t
+CHANGE	eras/age_I/events/38.json:$.summary	the fire-pot	->	Poit an Teine	|	s widow, in the short time left to teach her, how the fire-pot is fed and the bag kept and w
+CHANGE	eras/age_I/events/38.json:$.summary	the snowflake coal	->	gual sneachda	|	chair, Ailean climbs it in a bitter wind and lets the snowflake coal fall from the height of his o
+CHANGE	eras/age_I/events/38.json:$.summary	the silver coal	->	gual airgid	|	s own cupped hands as Eòghann once did and throws the silver coal into the current; it takes fi
+CHANGE	eras/age_I/events/38.json:$.title	the fire coal	->	gual teine	|	Ailean wakes the fire coal on his own doorstone
+LEFT	eras/age_I/annals/age_I_01.json:EI-1053.title	the slab	(no "the" before it)	|	A palm laid on the cold slab
+LEFT	eras/age_I/annals/age_I_03.json:EI-2054.title	the riddle	(no "the" before it)	|	A garbled riddle comes back from the east
+LEFT	eras/age_I/annals/age_I_03.json:EI-2054.body	the riddle	(no "the" before it)	|	east gives Diarmad a telling of his own riddle in which the sea and the sky have chang
+LEFT	eras/age_I/annals/age_I_04.json:EI-2505.title	the slab	(no "the" before it)	|	The first slab set on the worst scramble at Bral
+LEFT	eras/age_I/annals/age_I_04.json:EI-2505.body	the slab	(no "the" before it)	|	n cliffs at Bral works a frost-loosened slab, over most of a season, into a single s
+LEFT	eras/age_I/annals/age_I_04.json:EI-2510.body	the slab	(no "the" before it)	|	Cut a slab at a time in whatever season allows it,
+LEFT	eras/age_I/annals/age_I_04.json:EI-2544.body	the seven coals	(no "the" before it)	|	 out alone from Tobar dhìreach with all seven coals of the vein wrapped against his chest, 
+LEFT	eras/age_I/annals/age_I_05.json:EI-3008.body	the slab	(no "the" before it)	|	Twice a slab of the new ramp at Brenn settles crooke
+LEFT	eras/age_I/annals/age_I_06.json:EI-3503.body	the riddle	(no "the" before it)	|	chair, growing up on Gormal's unsettled riddle of the three hills as every child of th
+LEFT	eras/age_I/annals/age_I_06.json:EI-3540.body	the slab	(no "the" before it)	|	o the dune's slope, closed with a heavy slab; households after her keep her spacing 
+LEFT	eras/age_I/annals/age_I_06.json:EI-3565.title	the slab	(no "the" before it)	|	The last slab of the kerbed way laid
+LEFT	eras/age_I/annals/age_I_06.json:EI-3565.body	the slab	(no "the" before it)	|	The final slab of the track is set tilted rather than 
+LEFT	eras/age_I/annals/age_I_07.json:EI-4001.body	the slab	(no "the" before it)	|	he slope below the height, bedding each slab before the next is set above it, the fi
+LEFT	eras/age_I/annals/age_I_07.json:EI-4059.body	the night of the lightning	(no "the" before it)	|	At the next night of the lightning the reciter of the line adds the black 
+LEFT	eras/age_I/annals/age_I_08.json:EI-4536.body	the slab	(no "the" before it)	|	ing fire into a pit and roofs it with a slab, showing no flame above ground. Mocked 
+LEFT	eras/age_I/annals/age_I_08.json:EI-4540.body	the slab	(no "the" before it)	|	h a blind angled shaft down to it and a slab dragged over the top, and sleeps beside
+LEFT	eras/age_I/annals/age_I_09.json:EI-5023.body	the fire-pot	(no "the" before it)	|	rth and, as they grow old together, his fire-pot and his temper both.
+LEFT	eras/age_I/annals/age_I_09.json:EI-5035.body	the night of the lightning	(no "the" before it)	|	At the next night of the lightning Cormac stands at the hearth with his sc
+LEFT	eras/age_I/annals/age_I_10.json:EI-5535.body	the fire-pot	(no "the" before it)	|	l of the lake-shore line, who keeps his fire-pot and his hearth through the long absence
+LEFT	eras/age_I/annals/age_I_10.json:EI-5561.body	the fire-pot	(no "the" before it)	|	Tobar dhìreach, of no line that keeps a fire-pot or counts fathers back to the mason by 
+LEFT	eras/age_I/annals/age_I_10.json:EI-5565.body	the night of the lightning	(no "the" before it)	|	The name Clann nan Dè is said the next night of the lightning at hearths that were not at the western
+LEFT	eras/age_I/annals/age_I_11.json:EI-6004.body	the fire-pot	(no "the" before it)	|	the crack, to a household that keeps no fire-pot and counts no fathers back to the mason
+LEFT	eras/age_I/annals/age_I_11.json:EI-6008.body	the coloured coal	(no "the" before it)	|	rivate habit of rubbing a little broken coloured coal into the wrapping wool of some of her d
+LEFT	eras/age_I/annals/age_I_11.json:EI-6009.body	the coloured coal	(no "the" before it)	|	 takes it as further proof that its own coloured coal is no longer the only piece the valleys
+LEFT	eras/age_I/annals/age_I_11.json:EI-6035.body	the riddle	(no "the" before it)	|	r her fire is some new trial of the old riddle, Mòrnait answers that the stone asked o
+LEFT	eras/age_I/annals/age_I_12.json:EI-6571.body	the slab	(no "the" before it)	|	n digs a grave-deep hole beside the old slab at Tobar dhìreach, lays the black coal 
+LEFT	eras/age_I/annals/age_I_12.json:EI-6575.body	the fire coal	(no "the" before it)	|	naps his fingers over dust from the old fire coal without meaning to try anything, as Sea
+LEFT	eras/age_I/annals/age_I_12.json:EI-6576.body	the rainbow coal	(no "the" before it)	|	 pole across his shoulders and the dark rainbow coal wrapped against his chest, with Lìobhan
+LEFT	eras/age_I/book/01_of_the_mason_and_the_lightning.md:86	the slab	(no "the" before it)	|	He set it on the flat slab. He drew his cloak from around his shou
+LEFT	eras/age_I/book/03_of_the_three_wells_and_the_slab.md:71	the slab	(no "the" before it)	|	t his own wedges from, long ago, a flat slab broader than a grown man lying full len
+LEFT	eras/age_I/book/03_of_the_three_wells_and_the_slab.md:75	the slab	(no "the" before it)	|	's throw off, sealed and silent under a slab no one drew water beside.
+LEFT	eras/age_I/book/08_of_the_keeper_in_the_grove.md:47	the godfolk	(no "the" before it)	|	e island at all, and a child of the old godfolk standing in the raw bank with her cloak
+LEFT	eras/age_I/book/08_of_the_keeper_in_the_grove.md:98	the riddle	(no "the" before it)	|	else on the island had ever heard and a riddle he could not open, and he did not yet k
+LEFT	eras/age_I/book/09_of_the_counting_of_the_fathers.md:33	the riddle	(no "the" before it)	|	 years he spent gathering names, that a riddle which spoke of three spirits and their 
+LEFT	eras/age_I/book/09_of_the_counting_of_the_fathers.md:43	the riddle	(no "the" before it)	|	own from the east, a version of his own riddle so garbled that the sea and the sky had
+LEFT	eras/age_I/book/09_of_the_counting_of_the_fathers.md:57	the fire-pot	(no "the" before it)	|	 that year, to a household that kept no fire-pot and no bag of coloured coals and no cla
+LEFT	eras/age_I/book/10_of_the_mole_and_the_steps.md:29	the slab	(no "the" before it)	|	to fix, who first set her shoulder to a slab loosened already by frost and worked it
+LEFT	eras/age_I/book/10_of_the_mole_and_the_steps.md:31	the slab	(no "the" before it)	|	hen the grazing wanted less watching, a slab worked loose and dressed rough with a h
+LEFT	eras/age_I/book/10_of_the_mole_and_the_steps.md:31	the slab	(no "the" before it)	|	ll, for the stone did not always give a slab where a slab was wanted, and a househol
+LEFT	eras/age_I/book/10_of_the_mole_and_the_steps.md:31	the slab	(no "the" before it)	|	tone did not always give a slab where a slab was wanted, and a household with sickne
+LEFT	eras/age_I/book/10_of_the_mole_and_the_steps.md:33	the slab	(no "the" before it)	|	em, not the woman who had cut the first slab nor any who came after her, had ever go
+LEFT	eras/age_I/book/10_of_the_mole_and_the_steps.md:35	the slab	(no "the" before it)	|	emoved from the woman who set the first slab, and not one of the three generations b
+LEFT	eras/age_I/book/10_of_the_mole_and_the_steps.md:47	the coloured coal	(no "the" before it)	|	e being cut at Bral, the leather bag of coloured coal hung at the hearth of Clann a' Chlachai
+LEFT	eras/age_I/book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md:41	the slab	(no "the" before it)	|	years the telling follows its laying, a slab set well enough by daylight was found i
+LEFT	eras/age_I/book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md:67	the gold coal	(no "the" before it)	|	er bag and told, at every recital, of a gold coal that had taken fire on the sea and six 
+LEFT	eras/age_I/book/15_of_the_lean_years_of_the_line.md:65	the slab	(no "the" before it)	|	e work went as such work always went: a slab judged and levered and set, a length of
+LEFT	eras/age_I/book/17_of_the_cliff_house_and_the_curved_mole.md:51	the slab	(no "the" before it)	|	ore it dried, and closed at last with a slab of flat stone heavy enough that no fox 
+LEFT	eras/age_I/book/17_of_the_cliff_house_and_the_curved_mole.md:61	the slab	(no "the" before it)	|	 before they were set; others, where no slab of the right size could be got whole, w
+LEFT	eras/age_I/book/17_of_the_cliff_house_and_the_curved_mole.md:61	the slab	(no "the" before it)	|	harder seal to keep sound than a single slab but one that let a household close a pi
+LEFT	eras/age_I/book/18_of_the_outpost_and_the_three_rings.md:55	the slab	(no "the" before it)	|	d the crew that closed it set its final slab, by every account that has come down wh
+LEFT	eras/age_I/book/18_of_the_outpost_and_the_three_rings.md:55	the slab	(no "the" before it)	|	n the ground's own lie under that final slab, is not remembered by any name the tell
+LEFT	eras/age_I/book/18_of_the_outpost_and_the_three_rings.md:61	the slab	(no "the" before it)	|	 climbing the spur by the year the last slab of the track was laid, and a child born
+LEFT	eras/age_I/book/18_of_the_outpost_and_the_three_rings.md:63	the slab	(no "the" before it)	|	her way, up the track's own tilted last slab and past it, toward the high pale count
+LEFT	eras/age_I/book/19_of_the_altar_and_the_shafts.md:12	the slab	(no "the" before it)	|	The last slab of the kerbed track had lain a bare sea
+LEFT	eras/age_I/book/19_of_the_altar_and_the_shafts.md:26	the slab	(no "the" before it)	|	sehold piling wall on open ground, each slab bedded and levelled before the next was
+LEFT	eras/age_I/book/19_of_the_altar_and_the_shafts.md:26	the slab	(no "the" before it)	|	to have refused more than once to let a slab go into place before he had knelt on it
+LEFT	eras/age_I/book/21_of_brian_and_the_buried_five.md:17	the riddle	(no "the" before it)	|	and times before he understood it was a riddle and not merely a saying:
+LEFT	eras/age_I/book/21_of_brian_and_the_buried_five.md:66	the slab	(no "the" before it)	|	the grass a stone's throw from the flat slab that covered the vein.
+LEFT	eras/age_I/book/21_of_brian_and_the_buried_five.md:82	the fire-pot	(no "the" before it)	|	he could see, for she had kept coal and fire-pot both across sixty years and knew better
+LEFT	eras/age_I/book/21_of_brian_and_the_buried_five.md:106	the night of the lightning	(no "the" before it)	|	t the recital that was said on the next night of the lightning, the reciter of the line, coming to the
+LEFT	eras/age_I/book/23_of_the_lee_of_the_headlands_and_the_writing_in_the_hills.md:69	the slab	(no "the" before it)	|	rst time and roofed it over with a flat slab lifted on two low stones, so that no fl
+LEFT	eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md:7	the slab	(no "the" before it)	|	fire into the ground and roof it with a slab had by then been dead two generations, 
+LEFT	eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md:11	the slab	(no "the" before it)	|	k in a clay-lined pit and lidded with a slab no fox or badger had ever worked loose.
+LEFT	eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md:17	the slab	(no "the" before it)	|	s for the purpose, he laid a great flat slab dragged down from the scree on a hide s
+LEFT	eras/age_I/book/24_of_the_covered_hearths_and_the_nine.md:29	the slab	(no "the" before it)	|	h home from the grove, been put under a slab or a skin or anything else that stood b
+LEFT	eras/age_I/book/26_of_cormac_of_the_misstrike.md:13	the riddle	(no "the" before it)	|	alked to the grove and came back with a riddle and no answer, the sea that had taken t
+LEFT	eras/age_I/book/26_of_cormac_of_the_misstrike.md:17	the Telling	(no "the" before it)	|	ind talked and come back with the whole Telling and Tòimhseachan a' Choimhdich both; th
+LEFT	eras/age_I/book/26_of_cormac_of_the_misstrike.md:61	the Telling	(no "the" before it)	|	 had tried the first month. He did not. Telling it after, he said that something in him
+LEFT	eras/age_I/book/26_of_cormac_of_the_misstrike.md:69	the night of the lightning	(no "the" before it)	|	At the recital that was said the next night of the lightning, he stood at the hearth at Tobar dhìrea
+LEFT	eras/age_I/book/28_of_the_warm_springs_and_the_walled_gate.md:9	the slab	(no "the" before it)	|	and on the shelf they set stone basins, slab fitted to slab and the joints packed wi
+LEFT	eras/age_I/book/28_of_the_warm_springs_and_the_walled_gate.md:9	the slab	(no "the" before it)	|	f they set stone basins, slab fitted to slab and the joints packed with clay, three 
+LEFT	eras/age_I/book/30_of_eoghann_at_the_river.md:7	the Keeper	(no "the" before it)	|	a name to and answered to none of them. Keeper had followed keeper in that time, more 
+LEFT	eras/age_I/book/30_of_eoghann_at_the_river.md:15	the fire-pot	(no "the" before it)	|	hore line named Dearbhail, who kept his fire-pot fed and his supper warm through absence
+LEFT	eras/age_I/book/30_of_eoghann_at_the_river.md:15	the fire-pot	(no "the" before it)	|	ng into; her own grandmother had kept a fire-pot for a lesser household two valleys off,
+LEFT	eras/age_I/book/31_of_the_shore_the_sea_way_and_the_godkin.md:21	the slab	(no "the" before it)	|	hand had set the whole of it down; each slab, by the plainest reading anyone gave it
+LEFT	eras/age_I/book/31_of_the_shore_the_sea_way_and_the_godkin.md:41	the fire-pot	(no "the" before it)	|	 own line, nor of any house that kept a fire-pot or a bag of dark coals against its own 
+LEFT	eras/age_I/book/31_of_the_shore_the_sea_way_and_the_godkin.md:43	the riddle	(no "the" before it)	|	he living, and heard after it the older riddle of the sky and the earth and the sea th
+LEFT	eras/age_I/book/31_of_the_shore_the_sea_way_and_the_godkin.md:45	the riddle	(no "the" before it)	|	em come for the one telling and the one riddle and the one night's watch against a dar
+LEFT	eras/age_I/book/31_of_the_shore_the_sea_way_and_the_godkin.md:51	the fire-pot	(no "the" before it)	|	enough; she was of no house that kept a fire-pot, and no line that counted fathers back 
+LEFT	eras/age_I/book/31_of_the_shore_the_sea_way_and_the_godkin.md:53	the night of the lightning	(no "the" before it)	|	ound herself using it still at the next night of the lightning, and heard others near her using it too
+LEFT	eras/age_I/book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md:16	the riddle	(no "the" before it)	|	ng this shore and that height against a riddle none of them could answer. It had never
+LEFT	eras/age_I/book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md:30	the fire-pot	(no "the" before it)	|	en miles west of the crack that kept no fire-pot and counted no fathers back to any maso
+LEFT	eras/age_I/book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md:58	the riddle	(no "the" before it)	|	athers' names said standing and the old riddle taken up again and laid down again unan
+LEFT	eras/age_I/book/33_of_fire_in_the_stone.md:9	the slab	(no "the" before it)	|	 it that he could see, a single upright slab taller than a man with his arm raised, 
+LEFT	eras/age_I/book/33_of_fire_in_the_stone.md:23	the riddle	(no "the" before it)	|	e marks. How that came to be known is a riddle, as the knowing of the lines in the Doi
+LEFT	eras/age_I/book/33_of_fire_in_the_stone.md:53	the riddle	(no "the" before it)	|	l of the fathers and the old unanswered riddle of the coals.
+LEFT	eras/age_I/book/33_of_fire_in_the_stone.md:73	the riddle	(no "the" before it)	|	of the keeping, a fire that answered no riddle and proved no coal and asked, of anyone
+LEFT	eras/age_I/book/38_of_ailean_son_of_suibhne.md:17	the fire coal	(no "the" before it)	|	wo coals from his own father's death, a fire coal grown ordinary through generations of h
+LEFT	eras/age_I/book/38_of_ailean_son_of_suibhne.md:45	the slab	(no "the" before it)	|	y for it, digging a hole beside the old slab as deep as a grave in the last week bef
+LEFT	eras/age_I/book/38_of_ailean_son_of_suibhne.md:51	the fire coal	(no "the" before it)	|	stone with the last fragment of the old fire coal crumbling to dust between his fingers a
+LEFT	eras/age_I/book/38_of_ailean_son_of_suibhne.md:69	the seven coals	(no "the" before it)	|	 time since the making of the world all seven coals of the island burned together, each out
+LEFT	eras/age_I/gazetteer/01_the_west_and_the_north.json:328.history	the slab	(no "the" before it)	|	flat stone from the shore into the sea, slab after slab, each one bedded on the one 
+LEFT	eras/age_I/gazetteer/01_the_west_and_the_north.json:328.history	the slab	(no "the" before it)	|	from the shore into the sea, slab after slab, each one bedded on the one below and r
+LEFT	eras/age_I/gazetteer/01_the_west_and_the_north.json:328.history	the slab	(no "the" before it)	|	nd relaid where the sea shifted it; one slab was relaid twice before it held. When t
+LEFT	eras/age_I/gazetteer/01_the_west_and_the_north.json:47.history	the slab	(no "the" before it)	|	b alone. Then a household set the first slab on the worst of the scramble, and after
+LEFT	eras/age_I/gazetteer/01_the_west_and_the_north.json:127.history	the slab	(no "the" before it)	|	om a bank upstream and lidded it with a slab, and stored dried fish in it through a 
+LEFT	eras/age_I/gazetteer/04_the_hearths_of_the_hill_folk.json:276.history	the slab	(no "the" before it)	|	would not let it be dug further: a flat slab was laid over the broken vein, no water
+LEFT	eras/age_I/gazetteer/04_the_hearths_of_the_hill_folk.json:454.history	the coloured coal	(no "the" before it)	|	es of red deer about them; there was no coloured coal in them. Deer were hunted by torch acro
+LEFT	eras/age_I/gazetteer/04_the_hearths_of_the_hill_folk.json:1007.history	the slab	(no "the" before it)	|	ug the first pit-hearth, a fire under a slab at the foot of a slanting shaft bent ne
+LEFT	eras/age_I/appendices/A_the_line_of_the_mason.md:3	the annals	(another thing of the same English name)	|	years beside each name are the years of the annals of this volume; no one living in the ag
+LEFT	eras/age_I/appendices/A_the_line_of_the_mason.md:3	Appendix C	(another thing of the same English name)	|	 living in the age counted them so, and Appendix C tells how they did count.
+LEFT	eras/age_I/appendices/A_the_line_of_the_mason.md:32	the seven coals	(no "the" before it)	|	. At Muirgheal's bidding he carried all seven coals down to the northern shore, slept a nig
+LEFT	eras/age_I/appendices/A_the_line_of_the_mason.md:68	the annals	(another thing of the same English name)	|	| Father | Place in the Line | Years (annals) | Age at death | Coal |
+LEFT	eras/age_I/appendices/B_the_telling_the_riddle_and_the_lightings.md:3	Appendix A	(another thing of the same English name)	|	w out of them: the Line of the fathers (Appendix A), Aithris a' Chruthachaidh, and Tòimhse
+LEFT	eras/age_I/appendices/B_the_telling_the_riddle_and_the_lightings.md:26	the Annals	(another thing of the same English name)	|	| Coal | Holds | Lit by | Where | How | Annals |
+LEFT	eras/age_I/appendices/B_the_telling_the_riddle_and_the_lightings.md:41	Appendix A	(another thing of the same English name)	|	 and was kept by the women of the line (Appendix A). The bag is a pouch of greased leather
+LEFT	eras/age_I/appendices/B_the_telling_the_riddle_and_the_lightings.md:59	the riddle	(no "the" before it)	|	s came to be known at every hearth is a riddle the tellings leave as they found it; kn
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:3	the annals	(another thing of the same English name)	|	ng was said at any hearth. The dates in the annals of this volume, from 20 am Faoilleach V
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:3	the annals	(another thing of the same English name)	|	VE 5,324 in the grove, are the dates of the annals of the island, set against its master r
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:7	the annals	(another thing of the same English name)	|	named fathers, set against the years of the annals, stand spaced as the recital says (Appe
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:7	Appendix A	(another thing of the same English name)	|	nals, stand spaced as the recital says (Appendix A).
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:11	the annals	(another thing of the same English name)	|	s volume for the people of the line are the annals' ages; the households themselves would 
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:17	the annals	(another thing of the same English name)	|	The dates of the annals name the months, from am Faoilleach in 
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:45	the annals	(another thing of the same English name)	|	 or in the seasons of the beasts. Where the annals give a year, it is the annals' own year
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:45	the annals	(another thing of the same English name)	|	ts. Where the annals give a year, it is the annals' own year. The two do not quarrel: a fa
+LEFT	eras/age_I/appendices/C_the_count_of_fathers.md:45	the annals	(another thing of the same English name)	|	 in the recital is about twenty-five of the annals' years, a lifetime some sixty to sevent
+LEFT	eras/age_I/appendices/D_the_peoples_of_the_shore_and_the_hills.md:30	the outpost	(no "the" before it)	|	 from the shore. They raised the walled outpost of Làrach an Dùin-fhaire on a spur abov
+LEFT	eras/age_I/appendices/E_of_fears_beasts_and_holy_places.md:9	the riddle	(no "the" before it)	|	en none of them could read a sign, is a riddle; known it was, and told the same way at
+LEFT	eras/age_I/appendices/E_of_fears_beasts_and_holy_places.md:9	the slab	(no "the" before it)	|	 the first pit-hearth, the fire under a slab at the foot of a slanting shaft bent ne
+LEFT	eras/age_I/appendices/E_of_fears_beasts_and_holy_places.md:37	Appendix B	(another thing of the same English name)	|	e beside it and no water drawn near it (Appendix B).
+LEFT	eras/age_I/appendices/E_of_fears_beasts_and_holy_places.md:49	Appendix B	(another thing of the same English name)	|	ng-ground of Achadh a' Chalbh about it (Appendix B).
+LEFT	eras/age_I/events/10.json:$.title	the slab	(no "the" before it)	|	The first slab set on the worst scramble at Bral
+LEFT	eras/age_I/events/10.json:$.summary	the slab	(no "the" before it)	|	n cliffs at Bral works a frost-loosened slab, over most of a season, into a single s
+LEFT	eras/age_I/events/10.json:$.summary	the slab	(no "the" before it)	|	Cut a slab at a time in whatever season allows it,
+LEFT	eras/age_I/events/12.json:$.summary	the seven coals	(no "the" before it)	|	 out alone from Tobar dhìreach with all seven coals of the vein wrapped against his chest, 
+LEFT	eras/age_I/events/13.json:$.summary	the slab	(no "the" before it)	|	Twice a slab of the new ramp at Brenn settles crooke
+LEFT	eras/age_I/events/16.json:$.summary	the riddle	(no "the" before it)	|	 line, growing up on Gormal's unsettled riddle of the three hills as every child of th
+LEFT	eras/age_I/events/17.json:$.summary	the slab	(no "the" before it)	|	o the dune's slope, closed with a heavy slab; households after her keep her spacing 
+LEFT	eras/age_I/events/18.json:$.title	the slab	(no "the" before it)	|	The last slab of the kerbed way laid
+LEFT	eras/age_I/events/18.json:$.summary	the slab	(no "the" before it)	|	The final slab of the track is set tilted rather than 
+LEFT	eras/age_I/events/19.json:$.summary	the slab	(no "the" before it)	|	he slope below the height, bedding each slab before the next is set above it, the fi
+LEFT	eras/age_I/events/21.json:$.summary	the night of the lightning	(no "the" before it)	|	At the next night of the lightning the reciter of the line adds the black 
+LEFT	eras/age_I/events/23.json:$.summary	the slab	(no "the" before it)	|	ing fire into a pit and roofs it with a slab, showing no flame above ground. Mocked 
+LEFT	eras/age_I/events/24.json:$.summary	the slab	(no "the" before it)	|	h a blind angled shaft down to it and a slab dragged over the top, and sleeps beside
+LEFT	eras/age_I/events/26.json:$.summary	the fire-pot	(no "the" before it)	|	eps his hearth and, in later years, his fire-pot and his temper both.
+LEFT	eras/age_I/events/28.json:$.summary	the fortress	(no "the" before it)	|	er kinsmen for company, finds the great fortress's gate standing open and unguarded after 
+LEFT	eras/age_I/events/29.json:$.summary	the fortress	(no "the" before it)	|	gain along the middle wall of the great fortress, its cistern already fouled past drawin
+LEFT	eras/age_I/events/30.json:$.summary	the fire-pot	(no "the" before it)	|	e of the lake-shore line, who keeps his fire-pot and his hearth through the long absence
+LEFT	eras/age_I/events/31.json:$.summary	the fortress	(no "the" before it)	|	milies once drifted down from the empty fortress and outpost to settle at the shore, who
+LEFT	eras/age_I/events/31.json:$.summary	the outpost	(no "the" before it)	|	rifted down from the empty fortress and outpost to settle at the shore, whole kin-group
+LEFT	eras/age_I/events/31.json:$.summary	the fire-pot	(no "the" before it)	|	Tobar dhìreach, of no line that keeps a fire-pot or counts fathers back to the mason by 
+LEFT	eras/age_I/events/32.json:$.summary	the fire-pot	(no "the" before it)	|	the crack, to a household that keeps no fire-pot and counts no fathers back to the mason
+LEFT	eras/age_I/events/32.json:$.summary	the coloured coal	(no "the" before it)	|	rivate habit of rubbing a little broken coloured coal into the wrapping wool of some of her d
+LEFT	eras/age_I/events/32.json:$.summary	the coloured coal	(no "the" before it)	|	 takes it as further proof that its own coloured coal is no longer the only piece the valleys
+LEFT	eras/age_I/events/33.json:$.summary	the riddle	(no "the" before it)	|	r her fire is some new trial of the old riddle, Mòrnait answers that the stone asked o
+LEFT	eras/age_I/events/38.json:$.summary	the slab	(no "the" before it)	|	n digs a grave-deep hole beside the old slab at Tobar dhìreach, lays the black coal 
+LEFT	eras/age_I/events/38.json:$.summary	the fire coal	(no "the" before it)	|	naps his fingers over dust from the old fire coal without meaning to try anything, as Sea
+LEFT	eras/age_I/events/38.json:$.summary	the rainbow coal	(no "the" before it)	|	 pole across his shoulders and the dark rainbow coal wrapped against his chest, with Lìobhan

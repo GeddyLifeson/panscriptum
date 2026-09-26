@@ -1,149 +1,254 @@
 [
-    {
-        "title": "Baile chiar's weavers take a guild charter",
-        "era_year": 15,
-        "summary": "The council's clerks cut a new seal, a shuttle over a fleece, for the weavers of Baile chiar, entering the grant in a book bound in calf at Cathair dhearg after a fee is paid and a feast given. It is a charter of the ordinary kind: coin changes hands, a form is followed, and a craft already practised becomes a craft the kingdom has agreed to notice.",
-        "category": "trade",
-        "people": [],
-        "places": ["burg:106"],
-        "threads": [],
-        "master_links": [
-            {"to": "V-0065", "type": "location"}
-        ]
-    },
-    {
-        "title": "The Moot votes its school purse",
-        "era_year": 15,
-        "summary": "The Moot at Caol mhòr sets aside money of its own for a schoolroom at Doire ghlas, without asking the council's leave a second time, Walter Hale having judged that a council which says no once will say no as often as it is asked.",
-        "category": "law",
-        "people": ["Walter Hale", "Agnes Pike"],
-        "places": ["burg:95"],
-        "threads": ["the-tuathaich"],
-        "master_links": [
-            {"to": "V-0032", "type": "sequel"},
-            {"to": "V-0066", "type": "cause"}
-        ]
-    },
-    {
-        "title": "A widow lends her byre at Doire ghlas",
-        "era_year": 15,
-        "summary": "Jenny Marrow, whose husband's cattle a fever and a wet spring had thinned to a few head, offers her byre for the winter months in exchange for nothing but a promise that she and the children will be taught to write their names.",
-        "category": "culture",
-        "people": ["Agnes Pike"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": []
-    },
-    {
-        "title": "Walter Hale carries the school purse north",
-        "era_year": 15,
-        "summary": "Walter Hale rides the coast road himself to bring Agnes Pike the Moot's money the evening before her school opens, and leaves with it a sheet in his own hand setting out that the purse is the Moot's, the room the widow's, and the leave nobody's at all.",
-        "category": "trade",
-        "people": ["Walter Hale", "Agnes Pike"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": [
-            {"to": "V-0066", "type": "cause"}
-        ]
-    },
-    {
-        "title": "Agnes Pike's school opens on the fourteenth of am Faoilleach",
-        "era_year": 15,
-        "summary": "Eleven children come through the byre door at Doire ghlas before the Church bell finishes its stroke, to be taught their letters from the Bible and from a lent volume of the Moot's own minutes, there being no primer printed for the humans' tongue on the island.",
-        "category": "culture",
-        "people": ["Agnes Pike", "Daniel Frayne"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": [
-            {"to": "V-0066", "type": "sequel"}
-        ]
-    },
-    {
-        "title": "The school's register begun",
-        "era_year": 15,
-        "summary": "Agnes Pike opens a register for the byre school in its first week, its first leaf recording eleven scholars and that no leave was asked for the room because none was thought likely to be given.",
-        "category": "culture",
-        "people": ["Agnes Pike"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": []
-    },
-    {
-        "title": "Daniel Frayne walks in from Muileann leathan",
-        "era_year": 15,
-        "summary": "A fisherman's son of ten walks the coast path each morning from Muileann leathan to sit on Agnes Pike's benches, and back again in time to help haul his father's nets, a condition he keeps every day the school runs that winter.",
-        "category": "culture",
-        "people": ["Daniel Frayne"],
-        "places": ["burg:234"],
-        "threads": ["the-tuathaich"],
-        "master_links": [
-            {"to": "V-0066", "type": "sequel"}
-        ]
-    },
-    {
-        "title": "Daniel Frayne's fair copies pinned to the byre wall",
-        "era_year": 15,
-        "summary": "Slower at reading than at writing, the boy is set to copy out each day's psalm or minute a second time, and by the spring his fair copies, stroke for stroke exact, are pinned the length of the byre's one dry wall.",
-        "category": "culture",
-        "people": ["Daniel Frayne", "Agnes Pike"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": []
-    },
-    {
-        "title": "The maor visits the byre school and writes nothing",
-        "era_year": 15,
-        "summary": "The shire's maor, whose office is to note anything newly opened in it, rides out, watches the children recite a psalm, asks Agnes Pike only after the room's heating and the children's fees, and sends south that season a report of harvest, head-due and bridge that says nothing of the school at all.",
-        "category": "law",
-        "people": ["Agnes Pike"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": [
-            {"to": "V-0066", "type": "parallel"}
-        ]
-    },
-    {
-        "title": "Alice Hale opens a second school at Caol mhòr",
-        "era_year": 15,
-        "summary": "Walter Hale's daughter Alice opens a school of her own in a disused net-store behind the harbour at Caol mhòr, on a purse thinner than her father carried north, and writes to Agnes Pike asking what has answered best on the byre's cold mornings.",
-        "category": "culture",
-        "people": ["Alice Hale", "Agnes Pike"],
-        "places": ["burg:95"],
-        "threads": ["the-tuathaich"],
-        "master_links": [
-            {"to": "V-0066", "type": "parallel"}
-        ]
-    },
-    {
-        "title": "The Cill ghlas fault line walked and found unmoved",
-        "era_year": 15,
-        "summary": "Lachlann mac Iain Bhàin and his chainman Iain mac Ruairidh trace the old Cill ghlas fault foot by foot with plumb and cord and file a report at Cathair mhòr declaring the district safe to work again so long as new shafts are cut a full chain back from it.",
-        "category": "coal",
-        "people": ["Iain mac Ruairidh"],
-        "places": ["zone:3"],
-        "threads": [],
-        "master_links": [
-            {"to": "V-0067", "type": "sequel"}
-        ]
-    },
-    {
-        "title": "The school moves to the church porch for summer",
-        "era_year": 15,
-        "summary": "With the widow's cattle wanting the byre back for the warm months, Agnes Pike's school moves into the porch of the Doire ghlas church, a change it makes every summer after.",
-        "category": "culture",
-        "people": ["Agnes Pike"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": []
-    },
-    {
-        "title": "Daniel Frayne copies the minute of the school's own founding",
-        "era_year": 15,
-        "summary": "On the last morning before the move to the church porch, Agnes Pike sets her best copyist the Moot's own four-line minute recording the school's opening, and pins his fair copy into the register's first leaf rather than to the drying wall.",
-        "category": "culture",
-        "people": ["Daniel Frayne", "Agnes Pike"],
-        "places": ["burg:209"],
-        "threads": ["the-tuathaich"],
-        "master_links": []
-    }
+ {
+  "title": "Baile chiar's weavers take a guild charter",
+  "era_year": 15,
+  "summary": "The council's clerks cut a new seal, a shuttle over a fleece, for the weavers of Baile chiar, entering the grant in a book bound in calf at Cathair dhearg after a fee is paid and a feast given. It is a charter of the ordinary kind: coin changes hands, a form is followed, and a craft already practised becomes a craft the kingdom has agreed to notice.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:106"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0065",
+    "type": "location"
+   }
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach votes its school purse",
+  "era_year": 15,
+  "summary": "Tional nan Tuathach sets aside money of its own for a schoolroom at Doire ghlas, without asking the council's leave a second time, Walter Hale having judged that a council which says no once will say no as often as it is asked.",
+  "category": "law",
+  "people": [
+   "Walter Hale",
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0032",
+    "type": "sequel"
+   },
+   {
+    "to": "V-0066",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A widow lends her byre at Doire ghlas",
+  "era_year": 15,
+  "summary": "Jenny Marrow, whose husband's cattle a fever and a wet spring had thinned to a few head, offers her byre for the winter months in exchange for nothing but a promise that she and the children will be taught to write their names.",
+  "category": "culture",
+  "people": [
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Walter Hale carries the school purse north",
+  "era_year": 15,
+  "summary": "Walter Hale rides the coast road himself to bring Agnes Pike Tional nan Tuathach's money the evening before her school opens, and leaves with it a sheet in his own hand setting out that the purse is Tional nan Tuathach's, the room the widow's, and the leave nobody's at all.",
+  "category": "trade",
+  "people": [
+   "Walter Hale",
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0066",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Agnes Pike's school opens on the fourteenth of am Faoilleach",
+  "era_year": 15,
+  "summary": "Eleven children come through the byre door at Doire ghlas before An Eaglais bell finishes its stroke, to be taught their letters from am Bìoball and from a lent volume of Tional nan Tuathach's own minutes, there being no primer printed for the humans' tongue on the island.",
+  "category": "culture",
+  "people": [
+   "Agnes Pike",
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0066",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The school's register begun",
+  "era_year": 15,
+  "summary": "Agnes Pike opens a register for the byre school in its first week, its first leaf recording eleven scholars and that no leave was asked for the room because none was thought likely to be given.",
+  "category": "culture",
+  "people": [
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Daniel Frayne walks in from Muileann leathan",
+  "era_year": 15,
+  "summary": "A fisherman's son of ten walks the coast path each morning from Muileann leathan to sit on Agnes Pike's benches, and back again in time to help haul his father's nets, a condition he keeps every day the school runs that winter.",
+  "category": "culture",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:234"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0066",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Daniel Frayne's fair copies pinned to the byre wall",
+  "era_year": 15,
+  "summary": "Slower at reading than at writing, the boy is set to copy out each day's psalm or minute a second time, and by the spring his fair copies, stroke for stroke exact, are pinned the length of the byre's one dry wall.",
+  "category": "culture",
+  "people": [
+   "Daniel Frayne",
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The maor visits the byre school and writes nothing",
+  "era_year": 15,
+  "summary": "The shire's maor, whose office is to note anything newly opened in it, rides out, watches the children recite a psalm, asks Agnes Pike only after the room's heating and the children's fees, and sends south that season a report of harvest, head-due and bridge that says nothing of the school at all.",
+  "category": "law",
+  "people": [
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0066",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Alice Hale opens a second school at Caol mhòr",
+  "era_year": 15,
+  "summary": "Walter Hale's daughter Alice opens a school of her own in a disused net-store behind the harbour at Caol mhòr, on a purse thinner than her father carried north, and writes to Agnes Pike asking what has answered best on the byre's cold mornings.",
+  "category": "culture",
+  "people": [
+   "Alice Hale",
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0066",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The Cill ghlas fault line walked and found unmoved",
+  "era_year": 15,
+  "summary": "Lachlann mac Iain Bhàin and his chainman Iain mac Ruairidh trace the old Cill ghlas fault foot by foot with plumb and cord and file a report at Cathair mhòr declaring the district safe to work again so long as new shafts are cut a full chain back from it.",
+  "category": "coal",
+  "people": [
+   "Iain mac Ruairidh"
+  ],
+  "places": [
+   "zone:3"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0067",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The school moves to the church porch for summer",
+  "era_year": 15,
+  "summary": "With the widow's cattle wanting the byre back for the warm months, Agnes Pike's school moves into the porch of the Doire ghlas church, a change it makes every summer after.",
+  "category": "culture",
+  "people": [
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Daniel Frayne copies the minute of the school's own founding",
+  "era_year": 15,
+  "summary": "On the last morning before the move to the church porch, Agnes Pike sets her best copyist Tional nan Tuathach's own four-line minute recording the school's opening, and pins his fair copy into the register's first leaf rather than to the drying wall.",
+  "category": "culture",
+  "people": [
+   "Daniel Frayne",
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": []
+ }
 ]

@@ -806,3 +806,220 @@ LEFT	eras/age_II/gazetteer/02_the_red_hill_and_the_old_harbours.json:18.history	
 LEFT	eras/age_II/gazetteer/02_the_red_hill_and_the_old_harbours.json:363.history	the fortress	(no "the" before it)	|	 the south-eastern shore below a ruined fortress of the old builders, settled by fishing
 LEFT	eras/age_II/appendices/A_rulers.md:80	the outpost	(no "the" before it)	|	, near 1,900 | the ground below the old outpost |
 LEFT	eras/age_II/appendices/C_reckoning.md:47	the four feasts	(no "the" before it)	|	of the age was a year of two halves and four feasts. The dark half began at Samhain, when t
+# run 2026-09-26 02:07: 207 changes, 9 left
+CHANGE	eras/age_II/book/12_of_the_unlit_hearth_and_the_basket.md:11	(appositive)	->	an gual dathach	|	dropped the English gloss beside an gual dathach
+CHANGE	eras/age_II/events/01.json:$.title	the high valleys	->	Na Glinn Àrda	|	Ailean passes the high valleys
+CHANGE	eras/age_II/events/01.json:$.summary	the high valleys	->	Na Glinn Àrda	|	s south past the households of Clann na Ceiste in the high valleys without turning aside to any 
+CHANGE	eras/age_II/events/01.json:$.summary	the high valleys	->	Na Glinn Àrda	|	Households of Clann na Ceiste near the high valleys leave byre and field to follo
+CHANGE	eras/age_II/events/02.json:$.summary	the high valleys	->	Na Glinn Àrda	|	 the frost breaks a small company comes down from the high valleys to Dùn ìseal: Muireall, the k
+CHANGE	eras/age_II/events/03.json:$.title	the warm springs	->	Fuarain Theth Muileann ruadh	|	The drive to the warm springs
+CHANGE	eras/age_II/events/03.json:$.summary	the warm springs	->	Fuarain Theth Muileann ruadh	|	e standing herds two days through drifted snow to the warm springs, walking the whole way hersel
+CHANGE	eras/age_II/events/03.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	oungest of Ailean's children to be reckoned among the Stone Kings in his turn.
+CHANGE	eras/age_II/events/03.json:$.title	the Line of the Mason	->	Sloinneadh a' Chlachair	|	Coinneach dies, the Line of the Mason passed whole
+CHANGE	eras/age_II/events/03.json:$.summary	the Line of the Mason	->	Sloinneadh a' Chlachair	|	ller of the king's deeds, having taught Gormshuil the Line of the Mason word for word as the Keeper g
+CHANGE	eras/age_II/events/03.json:$.summary	the Keeper	->	Coimhdeach na Fine	|	 Gormshuil the Line of the Mason word for word as the Keeper gave it in the grove. She is,
+CHANGE	eras/age_II/events/03.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	hty-one, the king's eldest daughter and second of the Stone Kings. He sits by her a night and a
+CHANGE	eras/age_II/events/03.json:$.title	the long years	->	na Bliadhnachan Fada	|	The hill understands the long years
+CHANGE	eras/age_II/events/03.json:$.summary	the long years	->	na Bliadhnachan Fada	|	grandson's age, the hill understands at last that the long years are the grove's alone, and pa
+CHANGE	eras/age_II/events/04.json:$.summary	the high valleys	->	Na Glinn Àrda	|	herds, only leave to live among the households of the high valleys and be counted a single mouth
+CHANGE	eras/age_II/events/04.json:$.summary	the high valleys	->	Na Glinn Àrda	|	Visiting his brother in the high valleys, Dòmhnall Clachach is told th
+CHANGE	eras/age_II/events/05.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Uisdean Mòr takes the Red Hill
+CHANGE	eras/age_II/events/05.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	Uisdean, five-and-twenty, takes up the holding of the Red Hill on the western lake shore aft
+CHANGE	eras/age_II/events/05.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Uilleam Faire born on the Red Hill
+CHANGE	eras/age_II/events/05.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	Every household of the Red Hill turns out to cut the ditch ac
+CHANGE	eras/age_II/events/05.json:$.summary	the long years	->	na Bliadhnachan Fada	|	t with the young Uilleam Faire, Uisdean speaks of the long years of the king and of the valley
+CHANGE	eras/age_II/events/05.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	n to the south and east, and does not say whether the Red Hill will swear when its turn come
+CHANGE	eras/age_II/events/05.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	p no word of his business to Uisdean or to any of the Red Hill's households.
+CHANGE	eras/age_II/events/05.json:$.title	The king's frost	->	Reothadh an Rìgh	|	The king's frost
+CHANGE	eras/age_II/events/05.json:$.summary	the king's frost	->	Reothadh an Rìgh	|	e. The hill's old women name it from that morning the king's frost.
+CHANGE	eras/age_II/events/05.json:$.summary	the king's frost	->	Reothadh an Rìgh	|	On the night of the king's frost the green oak takes in the sa
+CHANGE	eras/age_II/events/05.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	any camped below to hurry the choosing of timber, the Red Hill rebuilds its wall a third tim
+CHANGE	eras/age_II/events/05.json:$.title	the Red Hill's	->	An Cnoc Ruadh's	|	ùn ìseal's reciters tell the swearing fuller than the Red Hill's own list
+CHANGE	eras/age_II/events/05.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	ost and the shingle scene kept whole, fuller than the Red Hill's own spare list ever names it.
+CHANGE	eras/age_II/events/05.json:$.summary	The Red Hill	->	An Cnoc Ruadh	|	than the Red Hill's own spare list ever names it. The Red Hill never quarrels with their tel
+CHANGE	eras/age_II/events/05.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Uisdean Mòr dies on the Red Hill
+CHANGE	eras/age_II/events/07.json:$.summary	the high valleys	->	Na Glinn Àrda	|	The king summons his son down from the high valleys and rides the coast road east
+CHANGE	eras/age_II/events/07.json:$.title	the tally wall	->	Balla nan Stràc	|	Somhairle first sees the tally wall
+CHANGE	eras/age_II/events/07.json:$.title	the tally wall	->	Balla nan Stràc	|	Somhairle sets the tally wall in the Line
+CHANGE	eras/age_II/events/07.json:$.summary	the Line of the Mason	->	Sloinneadh a' Chlachair	|	Somhairle adds his first telling of his own to the Line of the Mason: the wall at Seann Warr, some
+CHANGE	eras/age_II/events/07.json:$.summary	the tally wall	->	Balla nan Stràc	|	ides to Seann Warr with a small company and walks the tally wall alone, his hand against the n
+CHANGE	eras/age_II/events/07.json:$.title	the half-cut stone	->	Clach nan Dà Stràc	|	Somhairle finds the half-cut stone at Seann Chwen
+CHANGE	eras/age_II/events/07.json:$.summary	the high valleys	->	Na Glinn Àrda	|	Word of an unfinished stone reaches the high valleys, and Somhairle rides two days
+CHANGE	eras/age_II/events/07.json:$.summary	the half-cut stone	->	Clach nan Dà Stràc	|	test of his four tellings in the Line: that after the half-cut stone no work of the Seann-Dhaoine 
+CHANGE	eras/age_II/events/07.json:$.summary	the high valleys	->	Na Glinn Àrda	|	Somhairle marries Cairistìona of the high valleys, a shepherding household's da
+CHANGE	eras/age_II/events/09.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Mòrag rides west to the Red Hill
+CHANGE	eras/age_II/events/09.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	ing takes Mòrag with him on the long ride west to the Red Hill, saying little of his purpose
+CHANGE	eras/age_II/events/09.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	 bag that holds one pebble for every household of the Red Hill's shore, and the king weighs it
+CHANGE	eras/age_II/events/10.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	Iain Dubh, sixth of the Stone Kings and eight years holder of the
+CHANGE	eras/age_II/events/10.json:$.summary	the salt shore	->	Tràigh an t-Salainn	|	nd eight years holder of the hill, rides south to the salt shore as Mòrag Chruaidh had once do
+CHANGE	eras/age_II/events/10.json:$.summary	the salt shore	->	Tràigh an t-Salainn	|	 and walks the old track through the dunes toward the salt shore, so that it is some while bef
+CHANGE	eras/age_II/events/10.json:$.title	The salt shore	->	Tràigh an t-Salainn	|	The salt shore called the king's
+CHANGE	eras/age_II/events/12.json:$.title	the high valleys	->	Na Glinn Àrda	|	The measured handful reaches every hearth of the high valleys
+CHANGE	eras/age_II/events/12.json:$.summary	the high valleys	->	Na Glinn Àrda	|	ly, spreads within a few years to every hearth of the high valleys, nowhere written and nowhere 
+CHANGE	eras/age_II/events/12.json:$.title	the coloured coal	->	an gual dathach	|	Eanraig Ruadh burns a whole basket of the coloured coal
+CHANGE	eras/age_II/events/13.json:$.title	the Line of the Mason	->	Sloinneadh a' Chlachair	|	Somhairle gives Beathan the Line of the Mason whole
+CHANGE	eras/age_II/events/13.json:$.summary	the Line of the Mason	->	Sloinneadh a' Chlachair	|	rs at the temple, Somhairle gives his son Beathan the Line of the Mason entire, twice through by the 
+CHANGE	eras/age_II/events/13.json:$.summary	the high valleys	->	Na Glinn Àrda	|	The king rides up into the high valleys alone, unasked and unlooked-f
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	t time in earnest of the salt running to waste in the Red Hill's pans while his own hill wears
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	Raghnall asks the king to settle salt with the Red Hill on his behalf. The king answe
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	, the first of the hill's blood to travel so near the Red Hill's country since Uisdean knelt t
+CHANGE	eras/age_II/events/14.json:$.title	The Red Hill	->	An Cnoc Ruadh	|	The Red Hill refuses a poor clip
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	season the wool comes down thin and unwashed, and the Red Hill's people will not weigh full sa
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	A young man of the hill and a young woman of the Red Hill's people, remarked on for three
+CHANGE	eras/age_II/events/14.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	The unnamed holder of the Red Hill dies
+CHANGE	eras/age_II/events/14.json:$.summary	The Red Hill's	->	An Cnoc Ruadh's	|	The Red Hill's holder who first waded to mee
+CHANGE	eras/age_II/events/14.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Murchadh Gearr comes to the Red Hill
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	arr, a kinsman of the old holder's line, comes to the Red Hill after a grandson's short hold
+CHANGE	eras/age_II/events/14.json:$.title	the salt road	->	Rathad an t-Salainn	|	Murchadh Gearr walks the salt road to be seen
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	e ghorm and the ford grows up without having seen the Red Hill's holder pass in the flesh.
+CHANGE	eras/age_II/events/14.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	tinction between the hill's side of the water and the Red Hill's, the meeting by then older th
+CHANGE	eras/age_II/events/15.json:$.title	the Hawk bay	->	Bàgh an t-Seabhaig	|	Three households settle the Hawk bay
+CHANGE	eras/age_II/events/15.json:$.summary	the Hawk bay	->	Bàgh an t-Seabhaig	|	hag, eldest of the three households that cross to the Hawk bay, walks the nine days on her o
+CHANGE	eras/age_II/events/15.json:$.title	the Hawk bay	->	Bàgh an t-Seabhaig	|	Flòraidh born at the Hawk bay
+CHANGE	eras/age_II/events/15.json:$.summary	the Hawk bay	->	Bàgh an t-Seabhaig	|	Flòraidh is born at the Hawk bay in a winter hard enough to fr
+CHANGE	eras/age_II/events/15.json:$.summary	the flint road	->	Rathad na Spor	|	Traders on the flint road come to ask the Hawk bay hous
+CHANGE	eras/age_II/events/15.json:$.summary	the Hawk bay	->	Bàgh an t-Seabhaig	|	Traders on the flint road come to ask the Hawk bay households for Flòraidh by na
+CHANGE	eras/age_II/events/15.json:$.summary	the Hawk bay	->	Bàgh an t-Seabhaig	|	A gale that takes the roofs off two houses at the Hawk bay leaves half a mile of strand 
+CHANGE	eras/age_II/events/15.json:$.summary	the ford gathering	->	Cruinneachadh an Àtha	|	At the ford gathering Flòraidh watches the king mov
+CHANGE	eras/age_II/events/15.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	The round-house harbour begins paying salt to the Red Hill
+CHANGE	eras/age_II/events/15.json:$.summary	the harbour of the round houses	->	Cala nan Taighean Cruinne	|	The households at the harbour of the round houses, where the king's blood first
+CHANGE	eras/age_II/events/15.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	 came down to the sea, begin paying their salt to the Red Hill rather than keeping it among 
+CHANGE	eras/age_II/events/15.json:$.summary	the flint road	->	Rathad na Spor	|	Small herds driven up the flint road by stages over three summers 
+CHANGE	eras/age_II/events/15.json:$.summary	the flint road's	->	Rathad na Spor's	|	d above the firth at Cathair gheal, timbered from the flint road's own hills and roofed with tur
+CHANGE	eras/age_II/events/16.json:$.title	the Hollow Man's	->	Marbh-bheò's	|	A fire lit in the Hollow Man's hills
+CHANGE	eras/age_II/events/16.json:$.summary	the Hollow Man's	->	Marbh-bheò's	|	A herding family new to the Hollow Man's hills lights an open fire aga
+CHANGE	eras/age_II/events/17.json:$.summary	the ford gathering	->	Cruinneachadh an Àtha	|	At the ford gathering the king stops before a bolt 
+CHANGE	eras/age_II/events/17.json:$.title	The grey winter	->	An Geamhradh Liath	|	The grey winter
+CHANGE	eras/age_II/events/18.json:$.title	the flint road	->	Rathad na Spor	|	Murchadh meets Ailig Spor on the flint road
+CHANGE	eras/age_II/events/18.json:$.summary	the ford gathering	->	Cruinneachadh an Àtha	|	On the road between Cnoc àrsaidh and the ford gathering, Murchadh comes to know Ailig
+CHANGE	eras/age_II/events/18.json:$.title	The flint road	->	Rathad na Spor	|	The flint road worn a yard deep
+CHANGE	eras/age_II/events/18.json:$.summary	the flint road	->	Rathad na Spor	|	s a woman of a household by the river-crossing on the flint road and raises two sons and a dau
+CHANGE	eras/age_II/events/18.json:$.summary	the flint road	->	Rathad na Spor	|	It does not escape the households of the flint road, decade upon decade, that Mur
+CHANGE	eras/age_II/events/18.json:$.summary	the flint road	->	Rathad na Spor	|	nd asks his father for the whole northern country the flint road runs through, which he has wa
+CHANGE	eras/age_II/events/19.json:$.summary	the ford gathering	->	Cruinneachadh an Àtha	|	At the ford gathering Sìleas Bhàn asks Ailean Mòr w
+CHANGE	eras/age_II/events/20.json:$.title	The eight winds	->	Na h-Ochd Gaothan	|	The eight winds are named
+CHANGE	eras/age_II/events/20.json:$.summary	The eight winds	->	Na h-Ochd Gaothan	|	The eight winds of the year, known before onl
+CHANGE	eras/age_II/events/20.json:$.title	the wind-stones	->	Clachan nan Gaoth	|	Three brothers raise the wind-stones at Ceann leathan
+CHANGE	eras/age_II/events/20.json:$.summary	the wind-stones	->	Clachan nan Gaoth	|	One bad winter after the wind-stones are first raised at Ceann lea
+CHANGE	eras/age_II/events/21.json:$.summary	the seven coals	->	na Seachd Guail	|	alone of its kind and chose its one place the way the seven coals are said to have chosen their
+CHANGE	eras/age_II/events/23.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Word sent west to the Red Hill
+CHANGE	eras/age_II/events/23.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	idh Ghlas sends word to Lachlann Ruadh, holder of the Red Hill, asking that he take her youn
+CHANGE	eras/age_II/events/23.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	On the morning his brother leaves for the Red Hill, Calum Ciar stands long at th
+CHANGE	eras/age_II/events/23.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	ing him he is not sent for any wrong of his, that the Red Hill will be as much home to him a
+CHANGE	eras/age_II/events/23.json:$.title	the salt road	->	Rathad an t-Salainn	|	A mound left untouched on the salt road
+CHANGE	eras/age_II/events/23.json:$.summary	the salt road	->	Rathad an t-Salainn	|	Turning off the salt road for her own kin at Àth shean,
+CHANGE	eras/age_II/events/23.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	The fosterling comes to the Red Hill
+CHANGE	eras/age_II/events/23.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	m in a boat for the first time, and comes back to the Red Hill wet through and pleased with 
+CHANGE	eras/age_II/events/23.json:$.summary	the salt road	->	Rathad an t-Salainn	|	eased with himself, word of it carried east along the salt road to Dùn ìseal by the carriers 
+CHANGE	eras/age_II/events/23.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Eilidh Ghlas visits the Red Hill
+CHANGE	eras/age_II/events/23.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	Eilidh Ghlas comes to the Red Hill as Lachlann Ruadh's guest and
+CHANGE	eras/age_II/events/23.json:$.title	The Red Hill	->	An Cnoc Ruadh	|	The Red Hill list begins to call Lachlann 
+CHANGE	eras/age_II/events/23.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	In these years the Red Hill's reciters take up the habit of
+CHANGE	eras/age_II/events/24.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	l, a herder of the near slopes with no kinship to the Stone Kings, tells her she will spend the
+CHANGE	eras/age_II/events/24.json:$.title	The keepers' house	->	Taigh na Lice	|	The keepers' house raised at Tobar dhìreach
+CHANGE	eras/age_II/events/24.json:$.title	The meeting of the cups	->	Coinneachadh nan Cupan	|	The meeting of the cups on the moor
+CHANGE	eras/age_II/events/24.json:$.summary	the meeting of the cups	->	Coinneachadh nan Cupan	|	n all four; the place is called from that morning the meeting of the cups.
+CHANGE	eras/age_II/events/24.json:$.summary	the meeting of the cups	->	Coinneachadh nan Cupan	|	From the year of the meeting of the cups, the households from the slop
+CHANGE	eras/age_II/events/25.json:$.summary	the keepers' house	->	Taigh na Lice	|	an anyone at the clearing looked for: she dies in the keepers' house in the winter after the meeti
+CHANGE	eras/age_II/events/25.json:$.summary	the meeting of the cups	->	Coinneachadh nan Cupan	|	he dies in the keepers' house in the winter after the meeting of the cups, and the families ask that a 
+CHANGE	eras/age_II/events/25.json:$.title	the keepers' house	->	Taigh na Lice	|	The basket set inside the keepers' house
+CHANGE	eras/age_II/events/25.json:$.summary	the keepers' house	->	Taigh na Lice	|	inswoman who found the coal carries the basket to the keepers' house at Tobar dhìreach and sets it
+CHANGE	eras/age_II/events/25.json:$.summary	the keepers' house	->	Taigh na Lice	|	d on it and says she will keep it, and moves into the keepers' house before the month is out.
+CHANGE	eras/age_II/events/26.json:$.title	The Black Wind	->	A' Ghaoth Dhubh	|	The Black Wind strips the east coast
+CHANGE	eras/age_II/events/26.json:$.title	the Black Wind	->	A' Ghaoth Dhubh	|	The coast names the storm the Black Wind
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	arrange. Her father agrees, and the households of the Red Hill give a season's labour to the
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	ithout a hand needed to haul it clear of the mud: the Red Hill's first way onto open water tha
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	he spring. He is five-and-sixty years old, an age the Red Hill reckons past complaint for a 
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	edside than the years they gave the hill. He held the Red Hill one-and-sixty years.
+CHANGE	eras/age_II/events/28.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Peigi Dhubh holds the Red Hill at forty
+CHANGE	eras/age_II/events/28.json:$.summary	The Red Hill's	->	An Cnoc Ruadh's	|	or the tallies before she asks for anything else. The Red Hill's own steward says afterward th
+CHANGE	eras/age_II/events/28.json:$.summary	the salt road	->	Rathad an t-Salainn	|	He walks the salt road east with a train of laden pa
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	st with a train of laden pack-beasts and three of the Red Hill's household, and comes in sight
+CHANGE	eras/age_II/events/28.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	ll's household, and comes in sight of the hill of the Stone Kings on the seventh evening, four-
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	Meeting the Red Hill's train at the gate in his moth
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	thing, the four-line refrain sung at the crust on the Red Hill's own lake shore. An old raker 
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	 runs on afterward at the sea-shore pans in words the Red Hill itself can no longer wholly c
+CHANGE	eras/age_II/events/28.json:$.title	The Stone Kings	->	Rìghrean na Cloiche	|	The Stone Kings' list keeps him no name
+CHANGE	eras/age_II/events/28.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	s every holder before him; of the one who went to the Red Hill and came home grown, no year,
+CHANGE	eras/age_II/events/29.json:$.summary	the panther road	->	Imrich nam Pantar	|	Watchers along the panther road see three great cats, on thre
+CHANGE	eras/age_II/events/29.json:$.title	the panther road	->	Imrich nam Pantar	|	Iain drives cattle onto the panther road
+CHANGE	eras/age_II/events/29.json:$.summary	the eight winds	->	Na h-Ochd Gaothan	|	A cutter of that household sets one of the eight winds' names beside the Old Ones' o
+CHANGE	eras/age_II/events/29.json:$.summary	the Old Ones	->	Seann-Dhaoine	|	usehold sets one of the eight winds' names beside the Old Ones' own marks on the great bould
+CHANGE	eras/age_II/events/29.json:$.summary	the Old Ones	->	Seann-Dhaoine	|	grave lined close with cut slabs in the manner of the Old Ones; they close it as carefully a
+CHANGE	eras/age_II/events/29.json:$.title	the stag's grove	->	Coille Naomh Muileann chiar	|	Pilgrims begin sitting at the stag's grove
+CHANGE	eras/age_II/events/29.json:$.summary	the stag's grove	->	Coille Naomh Muileann chiar	|	and in pairs to sit a single night at the edge of the stag's grove, keeping a small fire that bu
+CHANGE	eras/age_II/events/29.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Settlers from the Red Hill raise the first house at Cnoc
+CHANGE	eras/age_II/events/29.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	Households come down from the Red Hill to build at the edge of the s
+CHANGE	eras/age_II/events/29.json:$.summary	the sacred forest at Cnoc bheag	->	Coille Naomh Cnoc bheag	|	me down from the Red Hill to build at the edge of the sacred forest at Cnoc bheag, taking timber only from the 
+CHANGE	eras/age_II/events/29.json:$.summary	the sacred forest's	->	Coille Naomh Cnoc bheag's	|	yet seven goes missing near the line of stones at the sacred forest's edge; the settlement and its 
+CHANGE	eras/age_II/events/29.json:$.title	the warm springs	->	Fuarain Theth Muileann ruadh	|	Iain goes to the warm springs
+CHANGE	eras/age_II/events/29.json:$.title	the Hollow Man	->	Marbh-bheò	|	Two herders see the Hollow Man on the ridge
+CHANGE	eras/age_II/events/29.json:$.summary	the Hollow Man's	->	Marbh-bheò's	|	Caught by dark on the way home, two herders near the Hollow Man's hills see a shape walk the ri
+CHANGE	eras/age_II/events/29.json:$.summary	the Hollow Man's	->	Marbh-bheò's	|	The pit-dug, stone-lidded hearth spreads from the Hollow Man's hills toward the settlements 
+CHANGE	eras/age_II/events/29.json:$.summary	the stag's grove	->	Coille Naomh Muileann chiar	|	 Hollow Man's hills toward the settlements nearer the stag's grove, and it hardens there into a 
+CHANGE	eras/age_II/events/30.json:$.summary	the Old Ones	->	Seann-Dhaoine	|	Households raising walls from the Old Ones' shell midden at Caol mhòr wi
+CHANGE	eras/age_II/events/30.json:$.title	the salt road	->	Rathad an t-Salainn	|	The last thicket on the salt road is cut through
+CHANGE	eras/age_II/events/30.json:$.summary	the salt road	->	Rathad an t-Salainn	|	ugh the last unbroken stand of thorn and birch on the salt road to the north-west, so that Mu
+CHANGE	eras/age_II/events/31.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	 stands eighty houses, the largest place north of the Red Hill.
+CHANGE	eras/age_II/events/31.json:$.summary	the ford gathering	->	Cruinneachadh an Àtha	|	and send their wool south along the coast road to the ford gathering rather than north to Murchadh
+CHANGE	eras/age_II/events/31.json:$.summary	the Old Ones	->	Seann-Dhaoine	|	end it, out of the caution settlers keep wherever the Old Ones' work still stands.
+CHANGE	eras/age_II/events/31.json:$.title	the outpost	->	Làrach an Dùin-fhaire	|	Eithne's households name the ground below the outpost Cathair mhòr
+CHANGE	eras/age_II/events/31.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	he northern plain and gives them to a grandson of the Red Hill's line, saying only that the gr
+CHANGE	eras/age_II/events/31.json:$.title	the great gathering	->	An Cruinneachadh Mòr	|	The summons to the great gathering reaches the north
+CHANGE	eras/age_II/events/32.json:$.title	The Red Hill's	->	An Cnoc Ruadh's	|	The Red Hill's salt-traders walk to the grea
+CHANGE	eras/age_II/events/32.json:$.title	the great gathering	->	An Cruinneachadh Mòr	|	The Red Hill's salt-traders walk to the great gathering
+CHANGE	eras/age_II/events/32.json:$.summary	the ford gathering	->	Cruinneachadh an Àtha	|	Word goes out along every road that the ford gathering in the three thousandth year 
+CHANGE	eras/age_II/events/32.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	be kept greater than any before it. Households of the Red Hill's lake shore, among them the Re
+CHANGE	eras/age_II/events/32.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	useholds of the Red Hill's lake shore, among them the Red Hill girl and her mother, walk the
+CHANGE	eras/age_II/events/32.json:$.summary	the great gathering	->	An Cruinneachadh Mòr	|	 carriers of eastern flint trade the first day of the great gathering through, while households fro
+CHANGE	eras/age_II/events/32.json:$.title	The Red Hill's	->	An Cnoc Ruadh's	|	The Red Hill's new holder is still called by
+CHANGE	eras/age_II/events/32.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	o wade out to put their hands between the king's, the Red Hill's own holder is so newly come t
+CHANGE	eras/age_II/events/32.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	r rings of the king's blood, named to the girl of the Red Hill by a woman of the ford who kn
+CHANGE	eras/age_II/events/32.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	A boy of a western household, standing beside the Red Hill girl at the bank while the na
+CHANGE	eras/age_II/events/32.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	Women of the Red Hill note at the fire that no hous
+CHANGE	eras/age_II/events/32.json:$.title	The Red Hill	->	An Cnoc Ruadh	|	The Red Hill girl trails her hand in the w
+CHANGE	eras/age_II/events/32.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	stands alone a while in the emptied ford at dusk, the Red Hill girl, nearest the water of an
+CHANGE	eras/age_II/events/33.json:$.title	the Line of the Mason	->	Sloinneadh a' Chlachair	|	Somhairle gives Diorbhail the Line of the Mason whole
+CHANGE	eras/age_II/events/33.json:$.summary	Line of the Mason	->	Sloinneadh a' Chlachair	|	ng the turn beside them, Somhairle says the whole Line of the Mason through twice without a name 
+CHANGE	eras/age_II/events/34.json:$.summary	the fortress	->	Làrach an Dùin	|	The households settled in sight of the fortress ruin on the headland build th
+CHANGE	eras/age_II/events/34.json:$.title	the temple ruin	->	Làrach an Teampaill	|	 shepherd's flock will not cross the worn path at the temple ruin
+CHANGE	eras/age_II/events/34.json:$.summary	the temple ruin	->	Làrach an Teampaill	|	ck standing stock still along the path worn round the temple ruin, none grazing, none straying 
+CHANGE	eras/age_II/events/34.json:$.summary	the wind-stones	->	Clachan nan Gaoth	|	At the yearly contests below the wind-stones of Ceann leathan, a young her
+CHANGE	eras/age_II/events/34.json:$.summary	the lifting-stone	->	Clach a' Neirt	|	to do it, and is given by custom the first try at the lifting-stone that has never once been rais
+CHANGE	eras/age_II/events/34.json:$.summary	the lifting-stone	->	Clach a' Neirt	|	 steps from the watching crowd, sets his hands to the lifting-stone and raises it to his knees, t
+CHANGE	eras/age_II/events/35.json:$.title	the Black Wind	->	A' Ghaoth Dhubh	|	Ceann chiar cuts two-and-twenty marks for the Black Wind
+CHANGE	eras/age_II/events/35.json:$.summary	the Black Wind	->	A' Ghaoth Dhubh	|	Rebuilding after the Black Wind that scattered their roofs a 
+CHANGE	eras/age_II/events/35.json:$.summary	the warm springs	->	Fuarain Theth Muileann ruadh	|	Dùn ìseal and Muileann bhàn drive their cattle to the warm springs to drink; the surplus each ho
+CHANGE	eras/age_II/events/36.json:$.title	the warm springs	->	Fuarain Theth Muileann ruadh	|	Achadh mhòr's wide field is cleared under the warm springs
+CHANGE	eras/age_II/events/36.json:$.summary	the warm springs	->	Fuarain Theth Muileann ruadh	|	A household near the warm springs clears and banks the widest s
+CHANGE	eras/age_II/events/36.json:$.title	The Red Hill's	->	An Cnoc Ruadh's	|	The Red Hill's boats come to be kept at Bail
+CHANGE	eras/age_II/events/36.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	ome, within a generation, to put out oftener than the Red Hill's own strand, so that the harbo
+CHANGE	eras/age_II/events/36.json:$.summary	the ford gathering	->	Cruinneachadh an Àtha	|	ore of seal-skins the length of the island toward the ford gathering, meaning to trade them for sa
+CHANGE	eras/age_II/events/36.json:$.summary	the great gathering	->	An Cruinneachadh Mòr	|	ndfather claims a telling, four hands removed, of the great gathering held in the three-thousandth 
+CHANGE	eras/age_II/events/37.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	People out of the Red Hill's country find an old river lan
+CHANGE	eras/age_II/events/37.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	s Dùn ìseal formally as the twelfth to hold it of the Stone Kings' line, known already for a me
+CHANGE	eras/age_II/events/37.json:$.title	the Red Hill	->	An Cnoc Ruadh	|	Seumas Òg takes the Red Hill
+CHANGE	eras/age_II/events/37.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	n-and-twenty named Seumas takes up the holding of the Red Hill his own line has kept since t
+CHANGE	eras/age_II/events/37.json:$.summary	the Red Hill's	->	An Cnoc Ruadh's	|	trìona takes Dùn ìseal; his name will be the last the Red Hill's own spoken roll carries.
+CHANGE	eras/age_II/events/37.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	Eòin gives the whole roll of the Stone Kings from Ailean Mòr to Catrìona's
+CHANGE	eras/age_II/events/37.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	rìona's own name, and Ùna gives the whole roll of the Red Hill from Beathag Ruadh to Seumas 
+CHANGE	eras/age_II/events/37.json:$.title	The keepers of the slab	->	Luchd-faire na Lice	|	The keepers of the slab settle at nine
+CHANGE	eras/age_II/events/37.json:$.summary	the night of the handful	->	Oidhche na Glaice	|	re lighting its own; the night comes to be called the night of the handful.
+CHANGE	eras/age_II/events/37.json:$.title	the column at Cnoc ghorm	->	Calbh Cnoc ghorm	|	A nameless hand recuts the column at Cnoc ghorm
+CHANGE	eras/age_II/events/37.json:$.summary	the Stone Kings	->	Rìghrean na Cloiche	|	Eòin, whose voice carried the whole roll of the Stone Kings across one night at the ford,
+CHANGE	eras/age_II/events/37.json:$.summary	the Red Hill	->	An Cnoc Ruadh	|	year, and Ùna, who answered him roll for roll for the Red Hill, follows him within two years
+CHANGE	eras/age_II/events/39.json:$.title	the high valleys	->	Na Glinn Àrda	|	Ceallach is born in the high valleys
+CHANGE	eras/age_II/events/39.json:$.summary	the high valleys	->	Na Glinn Àrda	|	son is born to Gille-Brìde of Somhairle's line in the high valleys and is called Ceallach; he is
+CHANGE	eras/age_II/events/39.json:$.title	The host of the east	->	Sluagh an Ear	|	The host of the east begins to gather at Dùn dhear
+CHANGE	eras/age_II/events/39.json:$.summary	the host of the east	->	Sluagh an Ear	|	In the spring the host of the east begins gathering at Dùn dhear
+CHANGE	eras/age_II/events/39.json:$.summary	the high valleys	->	Na Glinn Àrda	|	Gille-Brìde walks down out of the high valleys with Ceallach, now grown but 
+CHANGE	eras/age_II/events/40.json:$.summary	the host of the east	->	Sluagh an Ear	|	, comes down the western track to stand with him; the host of the east has the river to itself the w
+LEFT	eras/age_II/book/32_the_great_gathering_at_the_ford.md:9	the great gathering	(no "the" before it)	|	three days, she thought at first that a great gathering must be a kind of market larger than th
+LEFT	eras/age_II/events/01.json:$.summary	the Keeper	(another thing of the same English name)	|	 he cannot cross into the ring of oaks. The Keeper allows him to camp at the tree-line and
+LEFT	eras/age_II/events/09.json:$.summary	the Telling	(no "the" before it)	|	Telling of the oak dug-out sunk and left at the
+LEFT	eras/age_II/events/14.json:$.summary	the salt road	(no "the" before it)	|	Murchadh Gearr walks the whole salt road on his own feet in the weeks before eve
+LEFT	eras/age_II/events/34.json:$.summary	the ford gathering	(no "the" before it)	|	At the crowded ford gathering, an old man past his wrestling years te
+LEFT	eras/age_II/events/37.json:$.summary	the coloured coal	(no "the" before it)	|	r comes to burn its measured handful of coloured coal on the same dark night, each watching f
+LEFT	eras/age_II/events/37.json:$.summary	the column at Cnoc ghorm	(no "the" before it)	|	ìona's own hill goes out to the ancient column at Cnoc ghorm and recuts its worn grooves along their
+LEFT	eras/age_II/events/37.json:$.summary	the keepers of the slab	(no "the" before it)	|	The nine keepers of the slab come up together at the ford and ask Ca
+LEFT	eras/age_II/events/39.json:$.summary	the outpost	(no "the" before it)	|	Eithne comes down from the southern outpost with her own household, and her knot-ke

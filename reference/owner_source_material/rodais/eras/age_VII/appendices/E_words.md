@@ -22,7 +22,7 @@ Eachdraidh na Rìoghachd had been kept for those fourteen years under the count 
 
 ## The words of the war
 
-**Muinntir gun Siorrachd.** An Clàr Foscailte names the holdouts of An Cogadh Fada, as it names those who went onto an Oirthir Ghaothach beyond the edge of the shire of Seann Vell, only as Muinntir gun Siorrachd. Neither the Board nor the council uses any other name for them. The Tuathaich call them by their towns.
+**Muinntir gun Siorrachd.** An Clàr Foscailte names the holdouts of An Cogadh Fada, as it names those who went onto an Oirthir Ghaothach beyond the edge of the shire of Seann Vell, only as Muinntir gun Siorrachd. Neither Comhairle nam Mèinnean nor the council uses any other name for them. The Tuathaich call them by their towns.
 
 **chaidh am fadachadh.** They got long-warred. The saying began among Tuathaich speakers on the day of Muileann ghlas, {{date:VI-0119}}, of the defeat in the west, and then of any defeat after holding out too long. It is said as a jest, and those who say it do not laugh. A Tuathach of Caol mhòr is said to have first said it at the harbour steps.
 
@@ -40,7 +40,7 @@ Eachdraidh na Rìoghachd had been kept for those fourteen years under the count 
 
 Two towns of the kingdom are called Seann Skell and two Tobar dhearg, and the age, which sent regiments and letters to all four, had to tell them apart.
 
-**Seann Skell** on the river, in the west, is the great western river port, the seat of the western shire, where the Board's enforcers built their depot and An seachdamh rèisimeid was raised. **Seann Skell** on the coast, in the south, is the fishing harbour of the shipmasters' works and Brìde's house, where Comann nan Goibhnean-ceangail were chartered, An dàrna cabhlach and An naoidheamh rèisimeid were raised, and the altar-coal is drawn. The regimental clerks tell them apart by river and coast; the Board's letters say the western and the southern; Deas-ghnàth a' Ghuail, which has only one house of note at either, says Seann Skell and means the southern.
+**Seann Skell** on the river, in the west, is the great western river port, the seat of the western shire, where Comhairle nam Mèinnean's enforcers built their depot and An seachdamh rèisimeid was raised. **Seann Skell** on the coast, in the south, is the fishing harbour of the shipmasters' works and Brìde's house, where Comann nan Goibhnean-ceangail were chartered, An dàrna cabhlach and An naoidheamh rèisimeid were raised, and the altar-coal is drawn. The regimental clerks tell them apart by river and coast; Comhairle nam Mèinnean's letters say the western and the southern; Deas-ghnàth a' Ghuail, which has only one house of note at either, says Seann Skell and means the southern.
 
 **Tobar dhearg** on the south coast is the town of the southern lighthouse and the red well, from whose light the last coal flame was carried to Brìde's altar. **Tobar dhearg** of the hills is the least of the five western pit towns, with one pit and forty hewers, which sent its coal to Cathair gheal for fish. Sceulachdan nan Tuathach call the second simply Tobar dhearg, having no need of the first; An Clàr Foscailte says of the hills.
 

@@ -1,344 +1,344 @@
 [
-  {
-    "title": "The council's order reaches Muileann chaol",
-    "era_year": 24,
-    "after": "VI-0127",
-    "summary": "A rider who has changed horses three times brings the council's four-line order to Raghnall mac Mhuirich on the doorstep of the old building: the whole record of the Long War is to be shut against every reader for fifty years, and the keeper alone is to hold the key.",
-    "category": "record",
-    "people": [
-      "Raghnall mac Mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0128"
-    ]
-  },
-  {
-    "title": "Raghnall has a room built for the seal",
-    "era_year": 24,
-    "after": "VI-0128",
-    "summary": "Raghnall clears an old storeroom at the end of the new wing's gallery and has a mason and a smith fit it, through a fortnight of hard weather, with an oak door two inches thick and a lock made new to no other key in the kingdom, standing over the last morning's fitting himself.",
-    "category": "building",
-    "people": [
-      "Raghnall mac Mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0128"
-    ]
-  },
-  {
-    "title": "Sìleas carries her full record to the door",
-    "era_year": 24,
-    "after": "VI-0128",
-    "summary": "Over two days Sìleas nic Rath carries her own four boxes of the war's full record up from her room and sets them inside the new door herself, letting no clerk touch them: the movements, counts and letters she was never let publish alongside the open chronicle.",
-    "category": "record",
-    "people": [
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0128",
-      "VI-0129"
-    ]
-  },
-  {
-    "title": "The key turns once",
-    "era_year": 24,
-    "after": "VI-0128",
-    "summary": "Raghnall turns the new lock himself with the mason and smith gone, and hangs the key on a cord under his own shirt, where he is seen for years after to lay his hand against his chest before he blows out the reading-room's last lamp.",
-    "category": "record",
-    "people": [
-      "Raghnall mac Mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0128"
-    ]
-  },
-  {
-    "title": "Sìleas's promise at the head of the open list",
-    "era_year": 24,
-    "after": "VI-0129",
-    "summary": "Sìleas writes, unasked, a line at the head of the war's open list saying plainly that the fuller record exists, is kept, and will be given to any honest reader when the fifty years end; Raghnall reads it and lets it stand.",
-    "category": "record",
-    "people": [
-      "Sìleas nic Rath",
-      "Raghnall mac Mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0129"
-    ]
-  },
-  {
-    "title": "The seventh regiment's captain lets the cairn stand",
-    "era_year": 24,
-    "after": "VI-0130",
-    "summary": "Asked whether to clear the cairn the Tuathaich have raised on the field of Àth leathan, the Board answers that its captain may use his own judgment; he tells his patrols to walk past it and count the stones if they wish, and report only what is found beneath one.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "marker:18"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0130"
-    ]
-  },
-  {
-    "title": "A woman of Àth leathan carries a stone each morning",
-    "era_year": 24,
-    "after": "VI-0130",
-    "summary": "A woman of the town who lost a brother in the fighting there, and will not say which side he died fighting for, is seen to walk out alone before the patrol each morning, set one stone on the cairn, and stand a while with her hand flat against it before going home.",
-    "category": "culture",
-    "people": [],
-    "places": [
-      "marker:18"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0130"
-    ]
-  },
-  {
-    "title": "The Treasury sets a clerk in every market town",
-    "era_year": 24,
-    "after": "VI-0131a",
-    "summary": "The Treasury fixes the market-due at seventeen in the hundred and sets a clerk in each of the sixteen chartered market towns to take it. At Caol ruadh, the last town chartered, its new clerk lodges over the harbourmaster's storeroom, the first officer of the Crown the town has ever had cause to house.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:15"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0131a"
-    ]
-  },
-  {
-    "title": "Peigi nic Ascaill signs the regiments' contract",
-    "era_year": 24,
-    "after": "VI-0132",
-    "summary": "Peigi nic Ascaill signs the Fuel-Fitters' contract for the regiments' engines and the fleets' hulls at Cathair dhearg with a clerk on either hand to witness it, and tells her under-fitter afterward that no paper she has signed will put more Dia-thìrich fitters to the trade than this one.",
-    "category": "craft",
-    "people": [
-      "Peigi nic Ascaill"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0132"
-    ]
-  },
-  {
-    "title": "A smith of Àth naomh counts his musket-stocks",
-    "era_year": 24,
-    "after": "VI-0132a",
-    "summary": "Writing to his brother at Cathair dhearg, a smith of Àth naomh says he has turned out more musket-stocks that winter than ploughshares in the six years before the war, and cannot decide whether to call it his own good fortune or the kingdom's bad one.",
-    "category": "craft",
-    "people": [],
-    "places": [
-      "burg:286"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0132a"
-    ]
-  },
-  {
-    "title": "The forge at Caol ìseal takes on new hands",
-    "era_year": 24,
-    "after": "VI-0132a",
-    "summary": "The woman who masters the forge at Caol ìseal, left her by a father with no son to leave it to, takes on four boys and a girl under the arms contract and tells the Board's inspector she means to keep them past the contract's term, war or no war.",
-    "category": "craft",
-    "people": [],
-    "places": [
-      "burg:208"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0132a"
-    ]
-  },
-  {
-    "title": "Seonag nic Thòmais lights the second lamp",
-    "era_year": 24,
-    "after": "VI-0133",
-    "summary": "Keeper of the trial lamp at Baile ìseal, Seonag nic Thòmais sees the salt-boat raiders' sail two hours before the second fleet's own lookout and lights, on her own judgment, the warning lamp kept unlit in ordinary weather; the fleet's captain copies her log whole into his return.",
-    "category": "war",
-    "people": [
-      "Seonag nic Thòmais"
-    ],
-    "places": [
-      "marker:13"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0133"
-    ]
-  },
-  {
-    "title": "The fishermen of Cathair gheal answer the fourth fleet",
-    "era_year": 24,
-    "after": "VI-0134",
-    "summary": "Questioned as to where the raiders have gone from the empty bays, the fishermen of Cathair gheal tell the fourth fleet's officers, more than one in nearly the same words, that the raiders left when the fleets came and will be back when they go.",
-    "category": "culture",
-    "people": [],
-    "places": [
-      "marker:27"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0134"
-    ]
-  },
-  {
-    "title": "The Moot pays its own freight north",
-    "era_year": 24,
-    "after": "VI-0135",
-    "summary": "The Moot asks for and pays, purse for purse out of its own thin fund, the third fleet's freight to run dubhan up the coast to the northern depots, the first contract of the whole war's accounting that the Tuathaich asked for and paid rather than had laid upon them.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:170"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0135"
-    ]
-  },
-  {
-    "title": "Sìleas opens the next day's page as any other",
-    "era_year": 24,
-    "after": "VI-0129",
-    "summary": "The morning after the lock is turned, Sìleas sets the day's date and the weather at the top of her page and writes only of a mill's copying fee, exactly as on any working morning of the thirteen years before, and says nothing there of the sealed room.",
-    "category": "record",
-    "people": [
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0129"
-    ]
-  },
-  {
-    "title": "Some forty places on the open list",
-    "era_year": 24,
-    "summary": "The open list of the war years at an Leabharlann runs to some forty places, each with its regiments and the counts allowed before the sealing, and a blank where the column's dead would stand.",
-    "category": "law",
-    "people": [
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0129"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The quays of Baile ghorm lengthened",
-    "era_year": 24,
-    "summary": "For the third fleet's tank-hulls the quays of Baile ghorm are lengthened by forty paces into the anchorage, the stone carted from the old wolf-posts' quarry.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:170"
-    ],
-    "threads": [
-      "the-long-war",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0135"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Doire shean pays the market-due",
-    "era_year": 24,
-    "summary": "At Doire shean the fixed market-due is taken for the first time; Am Buabhall Fortanach, which sells no goods at market, is found to owe it on its buffalo.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:324"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0131a"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The Còmhrag of Ceann leathan after the war",
-    "era_year": 24,
-    "summary": "At the first Còmhrag at Ceann leathan after the last pits gave up, the fair-wardens count more fighters from the shires of the middle country than in any year before, and none from the western hills.",
-    "category": "humans",
-    "people": [],
-    "places": [
-      "burg:22"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0117"
-    ],
-    "chronicle_extra": true
-  }
+ {
+  "title": "The council's order reaches Muileann chaol",
+  "era_year": 24,
+  "after": "VI-0127",
+  "summary": "A rider who has changed horses three times brings the council's four-line order to Raghnall mac Mhuirich on the doorstep of the old building: the whole record of An Cogadh Fada is to be shut against every reader for fifty years, and the keeper alone is to hold the key.",
+  "category": "record",
+  "people": [
+   "Raghnall mac Mhuirich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0128"
+  ]
+ },
+ {
+  "title": "Raghnall has a room built for the seal",
+  "era_year": 24,
+  "after": "VI-0128",
+  "summary": "Raghnall clears an old storeroom at the end of the new wing's gallery and has a mason and a smith fit it, through a fortnight of hard weather, with an oak door two inches thick and a lock made new to no other key in the kingdom, standing over the last morning's fitting himself.",
+  "category": "building",
+  "people": [
+   "Raghnall mac Mhuirich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0128"
+  ]
+ },
+ {
+  "title": "Sìleas carries her full record to the door",
+  "era_year": 24,
+  "after": "VI-0128",
+  "summary": "Over two days Sìleas nic Rath carries her own four boxes of the war's full record up from her room and sets them inside the new door herself, letting no clerk touch them: the movements, counts and letters she was never let publish alongside the open chronicle.",
+  "category": "record",
+  "people": [
+   "Sìleas nic Rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0128",
+   "VI-0129"
+  ]
+ },
+ {
+  "title": "The key turns once",
+  "era_year": 24,
+  "after": "VI-0128",
+  "summary": "Raghnall turns the new lock himself with the mason and smith gone, and hangs the key on a cord under his own shirt, where he is seen for years after to lay his hand against his chest before he blows out the reading-room's last lamp.",
+  "category": "record",
+  "people": [
+   "Raghnall mac Mhuirich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0128"
+  ]
+ },
+ {
+  "title": "Sìleas's promise at the head of the open list",
+  "era_year": 24,
+  "after": "VI-0129",
+  "summary": "Sìleas writes, unasked, a line at the head of the war's open list saying plainly that the fuller record exists, is kept, and will be given to any honest reader when the fifty years end; Raghnall reads it and lets it stand.",
+  "category": "record",
+  "people": [
+   "Sìleas nic Rath",
+   "Raghnall mac Mhuirich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0129"
+  ]
+ },
+ {
+  "title": "An seachdamh rèisimeid's captain lets the cairn stand",
+  "era_year": 24,
+  "after": "VI-0130",
+  "summary": "Asked whether to clear the cairn the Tuathaich have raised on Àraich Àth leathan, Comhairle nam Mèinnean answers that its captain may use his own judgment; he tells his patrols to walk past it and count the stones if they wish, and report only what is found beneath one.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "marker:18"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0130"
+  ]
+ },
+ {
+  "title": "A woman of Àth leathan carries a stone each morning",
+  "era_year": 24,
+  "after": "VI-0130",
+  "summary": "A woman of the town who lost a brother in the fighting there, and will not say which side he died fighting for, is seen to walk out alone before the patrol each morning, set one stone on the cairn, and stand a while with her hand flat against it before going home.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "marker:18"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0130"
+  ]
+ },
+ {
+  "title": "An t-Ionmhas sets a clerk in every market town",
+  "era_year": 24,
+  "after": "VI-0131a",
+  "summary": "An t-Ionmhas fixes the market-due at seventeen in the hundred and sets a clerk in each of the sixteen chartered market towns to take it. At Caol ruadh, the last town chartered, its new clerk lodges over the harbourmaster's storeroom, the first officer of An Crùn the town has ever had cause to house.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:15"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0131a"
+  ]
+ },
+ {
+  "title": "Peigi nic Ascaill signs the regiments' contract",
+  "era_year": 24,
+  "after": "VI-0132",
+  "summary": "Peigi nic Ascaill signs Comann nan Goibhnean-ceangail' contract for the regiments' engines and the fleets' hulls at Cathair dhearg with a clerk on either hand to witness it, and tells her under-fitter afterward that no paper she has signed will put more Dia-thìrich fitters to the trade than this one.",
+  "category": "craft",
+  "people": [
+   "Peigi nic Ascaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0132"
+  ]
+ },
+ {
+  "title": "A smith of Àth naomh counts his musket-stocks",
+  "era_year": 24,
+  "after": "VI-0132a",
+  "summary": "Writing to his brother at Cathair dhearg, a smith of Àth naomh says he has turned out more musket-stocks that winter than ploughshares in the six years before the war, and cannot decide whether to call it his own good fortune or the kingdom's bad one.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:286"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0132a"
+  ]
+ },
+ {
+  "title": "The forge at Caol ìseal takes on new hands",
+  "era_year": 24,
+  "after": "VI-0132a",
+  "summary": "The woman who masters the forge at Caol ìseal, left her by a father with no son to leave it to, takes on four boys and a girl under the arms contract and tells Comhairle nam Mèinnean's inspector she means to keep them past the contract's term, war or no war.",
+  "category": "craft",
+  "people": [],
+  "places": [
+   "burg:208"
+  ],
+  "threads": [],
+  "master_links": [
+   "VI-0132a"
+  ]
+ },
+ {
+  "title": "Seonag nic Thòmais lights the second lamp",
+  "era_year": 24,
+  "after": "VI-0133",
+  "summary": "Keeper of the trial lamp at Baile ìseal, Seonag nic Thòmais sees the salt-boat raiders' sail two hours before An dàrna cabhlach's own lookout and lights, on her own judgment, the warning lamp kept unlit in ordinary weather; the fleet's captain copies her log whole into his return.",
+  "category": "war",
+  "people": [
+   "Seonag nic Thòmais"
+  ],
+  "places": [
+   "marker:13"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0133"
+  ]
+ },
+ {
+  "title": "The fishermen of Cathair gheal answer An ceathramh cabhlach",
+  "era_year": 24,
+  "after": "VI-0134",
+  "summary": "Questioned as to where the raiders have gone from the empty bays, the fishermen of Cathair gheal tell An ceathramh cabhlach's officers, more than one in nearly the same words, that the raiders left when the fleets came and will be back when they go.",
+  "category": "culture",
+  "people": [],
+  "places": [
+   "marker:27"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0134"
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach pays its own freight north",
+  "era_year": 24,
+  "after": "VI-0135",
+  "summary": "Tional nan Tuathach asks for and pays, purse for purse out of its own thin fund, An treas cabhlach's freight to run dubhan up the coast to the northern depots, the first contract of the whole war's accounting that the Tuathaich asked for and paid rather than had laid upon them.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:170"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "VI-0135"
+  ]
+ },
+ {
+  "title": "Sìleas opens the next day's page as any other",
+  "era_year": 24,
+  "after": "VI-0129",
+  "summary": "The morning after the lock is turned, Sìleas sets the day's date and the weather at the top of her page and writes only of a mill's copying fee, exactly as on any working morning of the thirteen years before, and says nothing there of the sealed room.",
+  "category": "record",
+  "people": [
+   "Sìleas nic Rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0129"
+  ]
+ },
+ {
+  "title": "Some forty places on the open list",
+  "era_year": 24,
+  "summary": "The open list of the war years at an Leabharlann runs to some forty places, each with its regiments and the counts allowed before the sealing, and a blank where the column's dead would stand.",
+  "category": "law",
+  "people": [
+   "Sìleas nic Rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0129"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The quays of Baile ghorm lengthened",
+  "era_year": 24,
+  "summary": "For An treas cabhlach's tank-hulls the quays of Baile ghorm are lengthened by forty paces into the anchorage, the stone carted from the old wolf-posts' quarry.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:170"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0135"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Doire shean pays the market-due",
+  "era_year": 24,
+  "summary": "At Doire shean the fixed market-due is taken for the first time; Am Buabhall Fortanach, which sells no goods at market, is found to owe it on its buffalo.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0131a"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Còmhrag Ceann leathan of Ceann leathan after the war",
+  "era_year": 24,
+  "summary": "At the first Còmhrag at Ceann leathan after the last pits gave up, the fair-wardens count more fighters from the shires of the middle country than in any year before, and none from the western hills.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:22"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0117"
+  ],
+  "chronicle_extra": true
+ }
 ]

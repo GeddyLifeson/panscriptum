@@ -24,7 +24,7 @@
  {
   "title": "The queen's word sent to the harbours",
   "era_year": 2,
-  "summary": "The queen's word, written by Murchadh mac Eòghainn and sealed, goes by rider to Seann Skell and every harbour of the west and to the vein-house: the crown will send no one and keep no one back, and will judge any quarrel of the venture by the old law.",
+  "summary": "The queen's word, written by Murchadh mac Eòghainn and sealed, goes by rider to Seann Skell and every harbour of the west and to Taigh na Fèithe: the crown will send no one and keep no one back, and will judge any quarrel of the venture by the old law.",
   "category": "rulers",
   "people": [
    "Beathag nic Dhòmhnaill",
@@ -110,7 +110,7 @@
  {
   "title": "The custodians dispute the right of those who go",
   "era_year": 3,
-  "summary": "Through the winter the custodians at the vein-house argue whether the right to the coal goes with a hearth that crosses the sea or is struck on the day it sails. Fearchar mac Ruairidh holds that the right lives in the hands.",
+  "summary": "Through the winter the custodians at Taigh na Fèithe argue whether the right to the coal goes with a hearth that crosses the sea or is struck on the day it sails. Fearchar mac Ruairidh holds that the right lives in the hands.",
   "category": "coal",
   "people": [
    "Fearchar mac Ruairidh",
@@ -131,9 +131,9 @@
   ]
  },
  {
-  "title": "The roll copied for the vein-house",
+  "title": "The roll copied for Taigh na Fèithe",
   "era_year": 3,
-  "summary": "The harbour scribe's son copies the roll of the willing onto skin, with a flame-mark beside each household that holds the right to the coal, and sends it up the coal-road to the vein-house.",
+  "summary": "The harbour scribe's son copies Rolla nan Deònach onto skin, with a flame-mark beside each household that holds the right to the coal, and sends it up the coal-road to Taigh na Fèithe.",
   "category": "coal",
   "people": [
    "Dòmhnall mac Chaluim"
@@ -181,7 +181,7 @@
  {
   "era_year": 3,
   "title": "Nine days at the long table",
-  "summary": "In the moon of Lùghnas the custodians of the vein-house sit at the long table with the copied roll on one side and the custody-book on the other, and count hearth by hearth, name against name, for nine days.",
+  "summary": "In the moon of Lùghnas the custodians of Taigh na Fèithe sit at the long table with the copied roll on one side and Leabhar a' Chùraim on the other, and count hearth by hearth, name against name, for nine days.",
   "category": "coal",
   "people": [],
   "places": [

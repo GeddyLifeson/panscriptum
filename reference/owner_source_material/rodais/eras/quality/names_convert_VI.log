@@ -2119,3 +2119,682 @@ LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:17	the coal line	(no "the" be
 LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:49	the court of the fair	(no "the" before it)	|	in her own hand: a stall-fee in coin; a court of the fair to sit each day of the gathering; and T
 LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:59	the white thread	(no "the" before it)	|	hose first bolt was a grey twill with a white thread at the selvedge. **Grain**, by water fr
 LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:67	the Holy Age	(after "a")	|	Mòrag nic Coinnich found afterward in a Holy Age list at the Library the same hills name
+# run 2026-09-26 02:07: 406 changes, 272 left
+CHANGE	eras/age_VI/events/01.json:$.summary	the Tuathaich homeland	->	Tìr-dhùthchais nan Tuathach	|	The council's law fixing the Tuathaich homeland in the north is read from the
+CHANGE	eras/age_VI/events/01.json:$.summary	the Severance war	->	Cogadh nam Beann	|	before the war, is given over to the companies of the Severance war waiting their turn to be stoo
+CHANGE	eras/age_VI/events/02.json:$.summary	the hungry year's	->	A' Bhliadhna Acrach's	|	plight, the first line of a private accounting of the hungry year's dead that no council south of
+CHANGE	eras/age_VI/events/02.json:$.summary	the hungry year's	->	A' Bhliadhna Acrach's	|	 house through Doire ghlas gathering the names of the hungry year's dead, and pins them, above fi
+CHANGE	eras/age_VI/events/02.json:$.summary	the Severance	->	An Dealachadh	|	aol mhòr grounds in numbers not seen since before the Severance, and the town, having taken n
+CHANGE	eras/age_VI/events/02.json:$.summary	the Moot	->	Tional nan Tuathach	|	atch of nine; it is the first word of the sharing the Moot later counts its first work.
+CHANGE	eras/age_VI/events/04.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot votes its first winter measur
+CHANGE	eras/age_VI/events/04.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	at Caol mhòr vote, in the same sitting that opens the Moot's book, to lay by grain against
+CHANGE	eras/age_VI/events/04.json:$.title	the Moot's	->	Tional nan Tuathach's	|	The Doire ghlas dead voted into the Moot's record
+CHANGE	eras/age_VI/events/04.json:$.summary	the Moot	->	Tional nan Tuathach	|	 the church porch's names afterward told him, and the Moot votes, without a voice raised
+CHANGE	eras/age_VI/events/04.json:$.summary	The Moot	->	Tional nan Tuathach	|	The Moot sets a common store under loc
+CHANGE	eras/age_VI/events/04.json:$.summary	the hungry year	->	A' Bhliadhna Acrach	|	h a scale, a smith of Doire ghlas, and a widow of the hungry year who had buried two children i
+CHANGE	eras/age_VI/events/04.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's letter drafted for the counci
+CHANGE	eras/age_VI/events/04.json:$.summary	the Moot	->	Tional nan Tuathach	|	Walter Hale drafts, and the Moot amends and approves, four car
+CHANGE	eras/age_VI/events/04.json:$.title	the Moot's	->	Tional nan Tuathach's	|	Robert Carrick carries the Moot's letter south
+CHANGE	eras/age_VI/events/04.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's letter received and filed
+CHANGE	eras/age_VI/events/04.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	lerk at the harbour-house in Cathair dhearg takes the Moot's letter from Robert Carrick's 
+CHANGE	eras/age_VI/events/04.json:$.title	The council of twelve	->	Comhairle na Rìoghachd	|	The council of twelve seated and its chairs filled
+CHANGE	eras/age_VI/events/04.json:$.summary	the Severance war	->	Cogadh nam Beann	|	n from the custodian families and the captains of the Severance war: among them Fearchar mac Ragh
+CHANGE	eras/age_VI/events/04.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	When the Moot's letter is read before the twe
+CHANGE	eras/age_VI/events/04.json:$.summary	the Moot	->	Tional nan Tuathach	|	s comes, without a vote taken on it, to be called the Moot, a word one of its own purser
+CHANGE	eras/age_VI/events/04.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	 an Dàmhair with an empty satchel and one report: the Moot's letter was handed at the harb
+CHANGE	eras/age_VI/events/05.json:$.title	the windy coast	->	an Oirthir Ghaothach	|	The minute that the windy coast is not in the survey
+CHANGE	eras/age_VI/events/05.json:$.summary	the windy coast	->	an Oirthir Ghaothach	|	 line rather than leave the gap unexplained: that the windy coast is not in the survey, a line 
+CHANGE	eras/age_VI/events/06.json:$.title	the roll of arms	->	Clàr nan Suaicheantas	|	The first maor's seal cut from the roll of arms
+CHANGE	eras/age_VI/events/06.json:$.summary	the council of twelve	->	Comhairle na Rìoghachd	|	Before its morning sitting breaks, the council of twelve votes grain, blankets, timber
+CHANGE	eras/age_VI/events/06.json:$.summary	the Severance	->	An Dealachadh	|	 time the twelve have met before full light since the Severance itself.
+CHANGE	eras/age_VI/events/06.json:$.summary	the roll of arms	->	Clàr nan Suaicheantas	|	k before the war and a council clerk since, draws the roll of arms for the maoir's seals, copyin
+CHANGE	eras/age_VI/events/06.json:$.summary	the Residency	->	Taigh an Àrd-mhaoir	|	g many of its charges from a book of arms left at the Residency, so that lions and parrots an
+CHANGE	eras/age_VI/events/07.json:$.summary	the Moot	->	Tional nan Tuathach	|	ice rides to Caol mhòr with the first struck coin the Moot has seen, and, asked how a ho
+CHANGE	eras/age_VI/events/07.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot debates the wording of its pe
+CHANGE	eras/age_VI/events/07.json:$.summary	The Moot at Caol mhòr	->	Tional nan Tuathach	|	The Moot at Caol mhòr argues two evenings over a le
+CHANGE	eras/age_VI/events/07.json:$.title	the Moot's	->	Tional nan Tuathach's	|	Ailean mac Iain files the Moot's letter
+CHANGE	eras/age_VI/events/07.json:$.summary	The Moot's	->	Tional nan Tuathach's	|	The Moot's letter asking an exchange for
+CHANGE	eras/age_VI/events/07.json:$.title	the Stone's	->	Lia Fàil's	|	The house of the Stone's chits redeemed at its door
+CHANGE	eras/age_VI/events/07.json:$.title	the Moot	->	Tional nan Tuathach	|	Hale sets down the answer he means to give the Moot
+CHANGE	eras/age_VI/events/07.json:$.summary	the Moot	->	Tional nan Tuathach	|	ughshare on his own table, Walter Hale writes for the Moot that a people waiting on an a
+CHANGE	eras/age_VI/events/08.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	In the hall of the greatest house of the Rite, Dòmhnall mac Thormoid reads 
+CHANGE	eras/age_VI/events/08.json:$.summary	the coal-touched	->	fuil-ghuail	|	year composing: the leyline, the unbroken line of the coal-touched, and the measure of what may 
+CHANGE	eras/age_VI/events/08.json:$.title	The houses of the Stone	->	Òrd na Cloiche	|	The houses of the Stone promise good will and nothing
+CHANGE	eras/age_VI/events/08.json:$.summary	the houses of the Stone	->	Òrd na Cloiche	|	ithin the month a letter reaches Seann Skell from the houses of the Stone in the south-west, wishing th
+CHANGE	eras/age_VI/events/08.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	 he begins that day, meaning to keep every letter the Rite sends or receives from then o
+CHANGE	eras/age_VI/events/08.json:$.title	The Hawk houses	->	Òrd an t-Seabhaig	|	The Hawk houses' letter of refusal
+CHANGE	eras/age_VI/events/08.json:$.summary	the hawk-houses	->	Òrd an t-Seabhaig	|	A letter comes to Seann Skell from the hawk-houses about Cnoc bheag, sealed with
+CHANGE	eras/age_VI/events/08.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	of a bird with wings spread flat: the old form of the Rite has never needed a custodian 
+CHANGE	eras/age_VI/events/08.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	w for the ordered worship, the first any house of the Rite has raised for that purpose r
+CHANGE	eras/age_VI/events/08.json:$.summary	high custodian	->	Àrd-choimheadaiche	|	er him with silence rather than argument, the new high custodian begins a plain ledger to hold
+CHANGE	eras/age_VI/events/08.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	todian begins a plain ledger to hold every letter the Rite sends or receives, the first 
+CHANGE	eras/age_VI/events/08.json:$.summary	the Rite's	->	Deas-ghnàth a' Ghuail's	|	Summoned to be presented at court as the Rite's first high custodian, Dòmhnal
+CHANGE	eras/age_VI/events/08.json:$.summary	high custodian	->	Àrd-choimheadaiche	|	oned to be presented at court as the Rite's first high custodian, Dòmhnall mac Thormoid rides 
+CHANGE	eras/age_VI/events/08.json:$.summary	the coal-touched	->	fuil-ghuail	|	Writing the order's page on the coal-touched, Dòmhnall mac Thormoid finds 
+CHANGE	eras/age_VI/events/08.json:$.title	the Rite	->	Deas-ghnàth a' Ghuail	|	Copies of the order sent to every house of the Rite
+CHANGE	eras/age_VI/events/08.json:$.summary	the Old Faith	->	An Creideamh Sean	|	his own text, and he sends them to every house of the Old Faith still standing, the Hawk-hous
+CHANGE	eras/age_VI/events/08.json:$.summary	the houses of the Stone	->	Òrd na Cloiche	|	 standing, the Hawk-houses among them, along with the houses of the Stone, Òrd Mhacha, and a last copy 
+CHANGE	eras/age_VI/events/09.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	The state's roll and the Moot's own tally of the northern shi
+CHANGE	eras/age_VI/events/09.json:$.summary	the circuit justices	->	Britheamhan na Cuairte	|	ilidh nic Leòid the letter naming her first among the circuit justices: eleven shires of the south-w
+CHANGE	eras/age_VI/events/09.json:$.summary	the circuit justice's	->	Britheamhan na Cuairte's	|	 waterworks, bring their dispute over one well to the circuit justice's bench in the mill-yard, the t
+CHANGE	eras/age_VI/events/09.json:$.summary	the circuit justice	->	Britheamhan na Cuairte	|	r mac Lachlainn, maor of the western shire, meets the circuit justice at the town gate and asks her
+CHANGE	eras/age_VI/events/09.json:$.summary	the Crown's	->	An Crùn's	|	at the town gate and asks her plainly to find for the Crown's grant, the household holding 
+CHANGE	eras/age_VI/events/09.json:$.summary	a Company surveyor	->	a surveyor of A' Chompanaidh	|	A Tuathaich family holding four fields under a Company surveyor's title cut before the Severa
+CHANGE	eras/age_VI/events/09.json:$.summary	the Severance	->	An Dealachadh	|	ields under a Company surveyor's title cut before the Severance is set against a Dia-thìreach
+CHANGE	eras/age_VI/events/09.json:$.summary	the Crown's	->	An Crùn's	|	e is set against a Dia-thìreach household holding the Crown's newer grant of the same groun
+CHANGE	eras/age_VI/events/09.json:$.title	The Leòid ruling	->	Breith Leòid	|	The Leòid ruling copied to every maor's court 
+CHANGE	eras/age_VI/events/10.json:$.title	The Rail Board's	->	Comhairle na Slighe-iarainn's	|	The Rail Board's timetable hung at Muileann ch
+CHANGE	eras/age_VI/events/10.json:$.summary	the Grey Night	->	Oidhche Glaise	|	mending turns to talk of Hannah Crane's word that the Grey Night vigil will be kept in the ope
+CHANGE	eras/age_VI/events/10.json:$.summary	the Church	->	An Eaglais	|	Three bishops of the Church write to Baile chrom calling 
+CHANGE	eras/age_VI/events/10.json:$.summary	the Grey Night	->	Oidhche Glaise	|	 write to Baile chrom calling the open keeping of the Grey Night irregular, and ask, without c
+CHANGE	eras/age_VI/events/10.json:$.summary	the Severance	->	An Dealachadh	|	l of the old chapel at Ros bheag, carted north at the Severance and crated in a barn for want
+CHANGE	eras/age_VI/events/10.json:$.title	The Grey Night	->	Oidhche Glaise	|	The Grey Night kept in the open a second yea
+CHANGE	eras/age_VI/events/10.json:$.summary	The vigil of the Grey Night	->	Oidhche Glaise	|	The vigil of the Grey Night is kept in the open on the he
+CHANGE	eras/age_VI/events/11.json:$.summary	The Library	->	An Leabharlann	|	ve councillors. The other seven enter no dissent. The Library keeps the sheet as the whole 
+CHANGE	eras/age_VI/events/11.json:$.title	The Sloc Mòr	->	An Sloc Mòr	|	The Sloc Mòr granted to Uisdean mac Ùisdei
+CHANGE	eras/age_VI/events/11.json:$.summary	the Crown	->	An Crùn	|	e humans' own ledgers save the fifth now kept for the Crown.
+CHANGE	eras/age_VI/events/11.json:$.title	the Sloc Mòr's	->	An Sloc Mòr's	|	A board is seated over the Sloc Mòr's grant
+CHANGE	eras/age_VI/events/11.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	Sent north with the council's own copy of the Sloc Mòr grant, Gormshuil nic Dhùghail
+CHANGE	eras/age_VI/events/12.json:$.summary	the Mine Board's	->	Comhairle nam Mèinnean's	|	he hills, is taken on by Lachlann mac Iain Bhàin, the Mine Board's surveyor, to carry the chain 
+CHANGE	eras/age_VI/events/12.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	r, to carry the chain and keep the faces' book at the Sloc Mòr. He is sworn to no guild, onl
+CHANGE	eras/age_VI/events/12.json:$.summary	the coal road	->	Rathad na Mèinne	|	The crossing at Baile thais, where the coal road meets the Abhainn uaine, fill
+CHANGE	eras/age_VI/events/12.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	first train, loaded with coal cut that week, from the Sloc Mòr's pithead at Achadh dhomhain do
+CHANGE	eras/age_VI/events/12.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	The grey, black-veined spoil of the Sloc Mòr's deeper galleries is quarried 
+CHANGE	eras/age_VI/events/12.json:$.summary	the house of Mac Ùisdein	->	Taigh Mhic Ùisdein	|	and sold south under a stylised wave, the mark of the house of Mac Ùisdein, cut into every squared block
+CHANGE	eras/age_VI/events/12.json:$.title	The Rail Board's	->	Comhairle na Slighe-iarainn's	|	The Rail Board's office raised at Cathair dhea
+CHANGE	eras/age_VI/events/12.json:$.summary	The Rail Board	->	Comhairle na Slighe-iarainn	|	The Rail Board builds its office at Cathair 
+CHANGE	eras/age_VI/events/12.json:$.summary	the Mine Board's	->	Comhairle nam Mèinnean's	|	Lachlann mac Iain Bhàin, the Mine Board's surveyor at the Sloc Mòr, kee
+CHANGE	eras/age_VI/events/12.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	lann mac Iain Bhàin, the Mine Board's surveyor at the Sloc Mòr, keeps a running book of the 
+CHANGE	eras/age_VI/events/12.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	New sidings at Muileann chrom, where the Sloc Mòr's coal trains are broken up and
+CHANGE	eras/age_VI/events/12.json:$.summary	The Rail Board	->	Comhairle na Slighe-iarainn	|	The Rail Board lays thirteen miles of new ra
+CHANGE	eras/age_VI/events/12.json:$.title	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers chartered at Achadh dhomhain
+CHANGE	eras/age_VI/events/12.json:$.summary	the Guild of Hewers	->	Comann nan Gualadairean	|	ding, kept now for Dia-thìrich alone, is set into the Guild of Hewers' charter and read aloud at Ac
+CHANGE	eras/age_VI/events/12.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	The engine of the first coal train from the Sloc Mòr to Cathair dhearg is driven b
+CHANGE	eras/age_VI/events/13.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's letter on the indentures file
+CHANGE	eras/age_VI/events/13.json:$.summary	The Moot at Caol mhòr	->	Tional nan Tuathach	|	The Moot at Caol mhòr writes to the guild court at 
+CHANGE	eras/age_VI/events/13.json:$.summary	the Crown's	->	An Crùn's	|	ewly chartered chandlers of Ceann àrsaidh fit out the Crown's patrol boats under their sole
+CHANGE	eras/age_VI/events/14.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot votes its school purse
+CHANGE	eras/age_VI/events/14.json:$.summary	The Moot at Caol mhòr	->	Tional nan Tuathach	|	The Moot at Caol mhòr sets aside money of its own f
+CHANGE	eras/age_VI/events/14.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	 rides the coast road himself to bring Agnes Pike the Moot's money the evening before her 
+CHANGE	eras/age_VI/events/14.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	eet in his own hand setting out that the purse is the Moot's, the room the widow's, and th
+CHANGE	eras/age_VI/events/14.json:$.summary	the Church	->	An Eaglais	|	 come through the byre door at Doire ghlas before the Church bell finishes its stroke, to 
+CHANGE	eras/age_VI/events/14.json:$.summary	the Bible	->	am Bìoball	|	ishes its stroke, to be taught their letters from the Bible and from a lent volume of the
+CHANGE	eras/age_VI/events/14.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	 letters from the Bible and from a lent volume of the Moot's own minutes, there being no p
+CHANGE	eras/age_VI/events/14.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	he church porch, Agnes Pike sets her best copyist the Moot's own four-line minute recordin
+CHANGE	eras/age_VI/events/15.json:$.summary	the Crown's	->	An Crùn's	|	 seven years before at Seann Bhral: the ground is the Crown's, the working of it the Dunlop
+CHANGE	eras/age_VI/events/15.json:$.title	the Crown	->	An Crùn	|	Fifteen suits found for the Crown at Ceann mhòr
+CHANGE	eras/age_VI/events/15.json:$.summary	the Leòid ruling	->	Breith Leòid	|	rought on human titles is decided in the words of the Leòid ruling, the ground passing to the Cr
+CHANGE	eras/age_VI/events/15.json:$.summary	the Crown	->	An Crùn	|	 words of the Leòid ruling, the ground passing to the Crown and the working of it staying
+CHANGE	eras/age_VI/events/15.json:$.summary	the Crown	->	An Crùn	|	o of the assize's nineteen causes decided against the Crown that summer.
+CHANGE	eras/age_VI/events/15.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	he bench as a witness, and shows Eilidh nic Leòid the Moot's own minute of a family's land
+CHANGE	eras/age_VI/events/15.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's minute-books credited by a Cr
+CHANGE	eras/age_VI/events/15.json:$.summary	the Crown	->	An Crùn	|	lidh nic Leòid rules that a record kept by a body the Crown does not recognise is no less
+CHANGE	eras/age_VI/events/15.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	and that wrote it holding no seal, the first time the Moot's own paper is taken as evidenc
+CHANGE	eras/age_VI/events/15.json:$.summary	the Seann Bhral ruling	->	Breith Seann Bhral	|	f her nine years' rulings on Tuathaich land, from the Seann Bhral ruling to the seventeen suits, so th
+CHANGE	eras/age_VI/events/15.json:$.summary	the Leòid ruling	->	Breith Leòid	|	r wall of Seann Bhral in the west, where she gave the Leòid ruling seven years before, and says 
+CHANGE	eras/age_VI/events/16.json:$.summary	the Severance	->	An Dealachadh	|	stood on planks above standing water since before the Severance, the lowest tier gone soft as
+CHANGE	eras/age_VI/events/16.json:$.title	the Library	->	an Leabharlann	|	Coinneach Clàrc taken on at the Library
+CHANGE	eras/age_VI/events/16.json:$.title	the Library	->	an Leabharlann	|	The council's minute-books sent east to the Library
+CHANGE	eras/age_VI/events/16.json:$.title	The Library's	->	An Leabharlann's	|	The Library's copyists turn every date to t
+CHANGE	eras/age_VI/events/16.json:$.title	The Age of Ailean	->	An Aois Ailein	|	The Age of Ailean parted from the eldest age
+CHANGE	eras/age_VI/events/16.json:$.summary	the king-lists	->	Clàr nan Rìghrean	|	Laying the tellings of Clann na Ceiste against the king-lists the custodians' rolls preserv
+CHANGE	eras/age_VI/events/16.json:$.summary	the Library	->	an Leabharlann	|	fe is counted an age of its own, the first change the Library makes to any reckoning it did
+CHANGE	eras/age_VI/events/16.json:$.summary	the Library	->	an Leabharlann	|	ly answered, says the matter can simply be put in the Library and left settled. Ailean Leab
+CHANGE	eras/age_VI/events/16.json:$.title	Line of Aisling	->	Sloinneadh Aisling	|	Cailean mac Eachainn's Line of Aisling found in the margin
+CHANGE	eras/age_VI/events/16.json:$.summary	the Line of Aisling	->	Sloinneadh Aisling	|	s margin: Cailean mac Eachainn's line of descent, the Line of Aisling, set down a great many years 
+CHANGE	eras/age_VI/events/16.json:$.summary	the book of lines	->	Leabhar nan Sloinnidhean	|	s of descent, naming it Leabhar nan Sloinnidhean, the book of lines, and sets Cailean mac Eachain
+CHANGE	eras/age_VI/events/16.json:$.summary	Line of Aisling	->	Sloinneadh Aisling	|	he book of lines, and sets Cailean mac Eachainn's Line of Aisling in it directly after the olde
+CHANGE	eras/age_VI/events/16.json:$.summary	Line of the Mason	->	Sloinneadh a' Chlachair	|	's Line of Aisling in it directly after the older Line of the Mason, found wedged behind a shifte
+CHANGE	eras/age_VI/events/16.json:$.summary	(appositive)	->	Leabhar nan Sloinnidhean	|	dropped the English gloss beside Leabhar nan Sloinnidhean
+CHANGE	eras/age_VI/events/16.json:$.summary	the Hollow Man	->	Marbh-bheò	|	s tales set down by firelight rather than by day, the Hollow Man, the white stag, a captain's 
+CHANGE	eras/age_VI/events/16.json:$.summary	the book of tellings	->	Leabhar nan Aithrisean	|	bhar opens a second book, Leabhar nan Aithrisean, the book of tellings, and enters the long years of
+CHANGE	eras/age_VI/events/16.json:$.summary	the long years	->	na Bliadhnachan Fada	|	 nan Aithrisean, the book of tellings, and enters the long years of Ailean Mòr and his childre
+CHANGE	eras/age_VI/events/16.json:$.summary	(appositive)	->	Leabhar nan Aithrisean	|	dropped the English gloss beside Leabhar nan Aithrisean
+CHANGE	eras/age_VI/events/16.json:$.title	The Library's	->	An Leabharlann's	|	The Library's first reading room opened
+CHANGE	eras/age_VI/events/16.json:$.summary	the Library's	->	an Leabharlann's	|	hem out over four days, the first name entered in the Library's reading-book.
+CHANGE	eras/age_VI/events/16.json:$.title	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers' bath-house built at the warm
+CHANGE	eras/age_VI/events/16.json:$.title	the warm springs	->	Fuarain Theth Muileann ruadh	|	The Guild of Hewers' bath-house built at the warm springs
+CHANGE	eras/age_VI/events/16.json:$.summary	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers builds a bath-house of its ow
+CHANGE	eras/age_VI/events/16.json:$.summary	the hot springs	->	Fuarain Theth Muileann ruadh	|	 Hewers builds a bath-house of its own funds over the hot springs below Muileann ruadh, for men
+CHANGE	eras/age_VI/events/16.json:$.summary	the Library	->	an Leabharlann	|	 the pits have made sick with the dust, and sends the Library its first sick-roll unasked: 
+CHANGE	eras/age_VI/events/16.json:$.title	the Library's	->	an Leabharlann's	|	The market entered in the Library's register
+CHANGE	eras/age_VI/events/16.json:$.summary	the Library's	->	an Leabharlann's	|	ar enters the market granted to Muileann chaol in the Library's own register, its stall-fee a
+CHANGE	eras/age_VI/events/17.json:$.title	the Library at Muileann chaol	->	Leabharlann Muileann chaol	|	Gormshuil nic Dhùghaill sent to inspect the Library at Muileann chaol
+CHANGE	eras/age_VI/events/17.json:$.title	the Library's	->	an Leabharlann's	|	The first market day held in the Library's yard
+CHANGE	eras/age_VI/events/17.json:$.summary	the Library's	->	an Leabharlann's	|	rict's own produce are set up on trestles against the Library's wall, the stall-fee a penny a
+CHANGE	eras/age_VI/events/17.json:$.title	the Library	->	an Leabharlann	|	The Tobar dhìreach mill's first delivery reaches the Library
+CHANGE	eras/age_VI/events/17.json:$.summary	the Library	->	an Leabharlann	|	nt north; within the year near enough every sheet the Library uses comes from the one strea
+CHANGE	eras/age_VI/events/17.json:$.summary	the Library	->	an Leabharlann	|	eans to keep the record at Muileann chaol, beside the Library that already holds the rolls 
+CHANGE	eras/age_VI/events/17.json:$.summary	The chronicle	->	Eachdraidh na Rìoghachd	|	The chronicle circuit's southern chests yie
+CHANGE	eras/age_VI/events/17.json:$.title	The chronicle	->	Eachdraidh na Rìoghachd	|	The chronicle clerks turned away at Doire g
+CHANGE	eras/age_VI/events/17.json:$.title	The chronicle	->	Eachdraidh na Rìoghachd	|	The chronicle clerks ride out in three pair
+CHANGE	eras/age_VI/events/18.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot opens its lifeboat subscripti
+CHANGE	eras/age_VI/events/18.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Walter Hale carries the wreck's news to the Moot's own council at Caol mhòr, whi
+CHANGE	eras/age_VI/events/18.json:$.title	the Sea-Watcher	->	Uilebheist na Mara	|	The tale of the Sea-Watcher told to the chronicler
+CHANGE	eras/age_VI/events/18.json:$.summary	the royal chronicler	->	Seanchaidh na Rìoghachd	|	 at the summer bothies below the cold cape, tells the royal chronicler Gormshuil nic Dhùghaill the c
+CHANGE	eras/age_VI/events/18.json:$.summary	the flagless ships	->	Na Longan gun Bhratach	|	The same fisherman tells Gormshuil that the flagless ships working those waters know the
+CHANGE	eras/age_VI/events/18.json:$.summary	the realm-coin	->	Bonn na Rìoghachd	|	ve first asked, and fines the town four purses of the realm-coin, to be paid at the maor's own
+CHANGE	eras/age_VI/events/18.json:$.title	the Moot's	->	Tional nan Tuathach's	|	Walter Hale carries the Moot's purse north to Cathair gheal
+CHANGE	eras/age_VI/events/18.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	ne, Walter Hale carries the difference north from the Moot's own purse, the same purse the
+CHANGE	eras/age_VI/events/18.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	 had lodged in since the boat brought them north; the Moot's day-book gives the day and th
+CHANGE	eras/age_VI/events/18.json:$.summary	the Moot	->	Tional nan Tuathach	|	 and the hour, and beneath them David's line that the Moot did not sit that week.
+CHANGE	eras/age_VI/events/18.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	idows of the Cuan bheag drowning and the whole of the Moot's council standing by; the mini
+CHANGE	eras/age_VI/events/18.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	ng minute on the Mac Ùisdein market cross read at the Moot's table beside its short one on
+CHANGE	eras/age_VI/events/19.json:$.title	The Stone's	->	Lia Fàil's	|	The Stone's house at Caol leathan rebuilt
+CHANGE	eras/age_VI/events/19.json:$.summary	The order of the Stone	->	Òrd na Cloiche	|	The order of the Stone rebuilds its house at Caol le
+CHANGE	eras/age_VI/events/19.json:$.title	The court of the fair	->	Cùirt na Fèille	|	The court of the fair roofed
+CHANGE	eras/age_VI/events/19.json:$.title	The court of the fair's	->	Cùirt na Fèille's	|	The court of the fair's first sitting
+CHANGE	eras/age_VI/events/19.json:$.summary	the court of the fair	->	Cùirt na Fèille	|	 spoil-stone dressed to pass for coal-iron before the court of the fair; Oighrig nic Mhathain, having
+CHANGE	eras/age_VI/events/19.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	wool to the fair's ninth day, the first cart from the Moot's own provinces to try it; Oigh
+CHANGE	eras/age_VI/events/19.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's letter against the factor rul
+CHANGE	eras/age_VI/events/19.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Walter Hale writes to the council on the Moot's behalf naming the factor rule
+CHANGE	eras/age_VI/events/19.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	red inside the year, and the letter is filed with the Moot's earlier ones.
+CHANGE	eras/age_VI/events/19.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	s a fortnight, with wool from the western shires, the Sloc Mòr's coal from the east, Baile chi
+CHANGE	eras/age_VI/events/20.json:$.summary	The council of twelve	->	Comhairle na Rìoghachd	|	The council of twelve, sitting on its fixed day wit
+CHANGE	eras/age_VI/events/20.json:$.summary	the Library's	->	an Leabharlann's	|	atch the hall's first naming of ancestors, not on the Library's business but her own, her mot
+CHANGE	eras/age_VI/events/20.json:$.title	The Library's	->	An Leabharlann's	|	The Library's offer to Seann Dunn
+CHANGE	eras/age_VI/events/20.json:$.summary	the Library	->	an Leabharlann	|	Asked by an elder of the hall whether the Library keeps such lists of the dead,
+CHANGE	eras/age_VI/events/20.json:$.title	the Library	->	an Leabharlann	|	The Seann Dunn list first copied to the Library
+CHANGE	eras/age_VI/events/20.json:$.summary	the Library	->	an Leabharlann	|	The hall at Seann Dunn sends the Library the first copy of its naming,
+CHANGE	eras/age_VI/events/20.json:$.title	The Lighthouse Board's	->	Comhairle nan Taighean-solais's	|	The Lighthouse Board's refusal
+CHANGE	eras/age_VI/events/20.json:$.summary	the Crown	->	An Crùn	|	and that the town's own light, being no charge on the Crown, may continue as it is. Gorms
+CHANGE	eras/age_VI/events/20.json:$.summary	The melee	->	Còmhrag Ceann leathan	|	hrag are buried at Ceann leathan within the week. The melee is fought again the following
+CHANGE	eras/age_VI/events/20.json:$.summary	the Còmhrag's	->	Còmhrag Ceann leathan's	|	s right to bear arms in any shire of the kingdom, the Còmhrag's second prize, is entered that
+CHANGE	eras/age_VI/events/20.json:$.summary	the Còmhrag's	->	Còmhrag Ceann leathan's	|	than, four of whom built new houses that year for the Còmhrag's crowds, keep Calum Ruadh's ta
+CHANGE	eras/age_VI/events/20.json:$.summary	the coal road	->	Rathad na Mèinne	|	the ropes were taken down in the night, and takes the coal road north toward Muileann chrom a
+CHANGE	eras/age_VI/events/21.json:$.title	the Moot	->	Tional nan Tuathach	|	Mary Coyle first speaks in the Moot
+CHANGE	eras/age_VI/events/21.json:$.summary	the Moot at Caol mhòr	->	Tional nan Tuathach	|	heag drowning, stands and speaks her own words in the Moot at Caol mhòr rather than sending a note fo
+CHANGE	eras/age_VI/events/21.json:$.summary	The Moot	->	Tional nan Tuathach	|	The Moot resolves that the widows of t
+CHANGE	eras/age_VI/events/21.json:$.title	The Hawk's	->	Òrd an t-Seabhaig's	|	The Hawk's twentieth first paid
+CHANGE	eras/age_VI/events/21.json:$.summary	the Hawk houses	->	Òrd an t-Seabhaig	|	Ros gheal's factor pays the Hawk houses their first quarter's twentie
+CHANGE	eras/age_VI/events/21.json:$.summary	the Hawk's	->	Òrd an t-Seabhaig's	|	nd the clerks of Ros gheal come to call it simply the Hawk's, few remembering why.
+CHANGE	eras/age_VI/events/21.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot votes to send the western cro
+CHANGE	eras/age_VI/events/21.json:$.summary	the Moot	->	Tional nan Tuathach	|	After two hard sittings the Moot agrees to Mary Coyle's asking
+CHANGE	eras/age_VI/events/21.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	le but themselves, a keg of salt fish apiece, and the Moot's own sheet naming her their wo
+CHANGE	eras/age_VI/events/21.json:$.summary	the Crossing	->	An t-Aiseag	|	e than one aboard call it the hardest going since the Crossing itself.
+CHANGE	eras/age_VI/events/21.json:$.summary	Manannan's order	->	Òrd Mhanannain	|	The keeper of Manannan's order at Seann Bhral in the west he
+CHANGE	eras/age_VI/events/21.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	tten count of the boats blessed at Cnoc ghorm for the Moot's day-book, the first such coun
+CHANGE	eras/age_VI/events/22.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	Sent into the eastern galleries of the Sloc Mòr to settle a dispute between t
+CHANGE	eras/age_VI/events/22.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	es his survey and walks the thirty-one miles from the Sloc Mòr to Cathair dhearg in a day an
+CHANGE	eras/age_VI/events/22.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	Iain Mapa lays his survey before three men of the Mine Board at Cathair dhearg and unties 
+CHANGE	eras/age_VI/events/22.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	iar, twenty-four miles east and a little south of the Sloc Mòr, where the Board has need of 
+CHANGE	eras/age_VI/events/22.json:$.summary	The Mine Board	->	Comhairle nam Mèinnean	|	The Mine Board moves its clerks and its pres
+CHANGE	eras/age_VI/events/22.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	In four lines the Mine Board sets down, for the first time
+CHANGE	eras/age_VI/events/22.json:$.summary	the Library at Muileann chaol	->	Leabharlann Muileann chaol	|	r mhòr in the Board's own presses and not sent to the Library at Muileann chaol as every other office's repor
+CHANGE	eras/age_VI/events/22.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot pays Hannah Crane's fine
+CHANGE	eras/age_VI/events/22.json:$.summary	the Moot at Caol mhòr	->	Tional nan Tuathach	|	Word reaches the Moot at Caol mhòr that the vigil-keeper Hannah 
+CHANGE	eras/age_VI/events/22.json:$.summary	the Grey Night	->	Oidhche Glaise	|	h Crane has been fined at Baile chrom for keeping the Grey Night in the open. The Moot votes t
+CHANGE	eras/age_VI/events/22.json:$.summary	The Moot	->	Tional nan Tuathach	|	ile chrom for keeping the Grey Night in the open. The Moot votes the balance of her fine
+CHANGE	eras/age_VI/events/22.json:$.title	The Grey Night	->	Oidhche Glaise	|	The Grey Night kept indoors
+CHANGE	eras/age_VI/events/22.json:$.summary	the vigil of the Grey Night	->	Oidhche Glaise	|	Forbidden the open shingle below the light, the vigil of the Grey Night is kept that year in a byre l
+CHANGE	eras/age_VI/events/22.json:$.title	The boat of the field	->	Bàta an Achaidh	|	The boat of the field warped into the new harbour
+CHANGE	eras/age_VI/events/22.json:$.summary	the Great Wave	->	Tonn Mhòr Cnoc chaol	|	Of the hulls the Great Wave cast into the fields behind C
+CHANGE	eras/age_VI/events/23.json:$.summary	the Great Wave	->	Tonn Mhòr Cnoc chaol	|	hree households moved off the salted fields after the Great Wave, or their children in their p
+CHANGE	eras/age_VI/events/23.json:$.summary	the chronicle	->	Eachdraidh na Rìoghachd	|	n lands in the western shires and is not named in the chronicle again for some years, his sea
+CHANGE	eras/age_VI/events/23.json:$.summary	Old Spirits	->	Na Seann Spioradan	|	l seat lost with Tormod mac Iain Òig's, gives her Old Spirits kin's house more of her time 
+CHANGE	eras/age_VI/events/23.json:$.title	The Hawk	->	Òrd an t-Seabhaig	|	The Hawk house at Inis bhàn opens its 
+CHANGE	eras/age_VI/events/23.json:$.summary	The Hawk	->	Òrd an t-Seabhaig	|	The Hawk house at Inis bhàn, which has
+CHANGE	eras/age_VI/events/23.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's letter of the eleven schools
+CHANGE	eras/age_VI/events/23.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Walter Hale writes the Moot's count of the north's schools 
+CHANGE	eras/age_VI/events/23.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	es Pike's school at Doire ghlas, one of the three the Moot's letter names, sets its first 
+CHANGE	eras/age_VI/events/23.json:$.summary	the Bible	->	am Bìoball	|	er names, sets its first Dia-thìris lesson beside the Bible and the Moot's own minutes, a
+CHANGE	eras/age_VI/events/23.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	 its first Dia-thìris lesson beside the Bible and the Moot's own minutes, at the asking of
+CHANGE	eras/age_VI/events/23.json:$.title	the Stone's	->	Lia Fàil's	|	A wedding at the Stone's door in Doire shean
+CHANGE	eras/age_VI/events/23.json:$.summary	the Library	->	an Leabharlann	|	The harbour-master of Doire shean writes to the Library of his daughter's wedding to 
+CHANGE	eras/age_VI/events/23.json:$.summary	the Stone's	->	Lia Fàil's	|	e Library of his daughter's wedding to a clerk of the Stone's counting-room, kept at the St
+CHANGE	eras/age_VI/events/23.json:$.summary	the Stone's	->	Lia Fàil's	|	 to a clerk of the Stone's counting-room, kept at the Stone's door, the first in his memory
+CHANGE	eras/age_VI/events/23.json:$.summary	The Mine Board's	->	Comhairle nam Mèinnean's	|	The Mine Board's return to the royal chronicle
+CHANGE	eras/age_VI/events/23.json:$.summary	the royal chronicle	->	Eachdraidh na Rìoghachd	|	The Mine Board's return to the royal chronicle gives the Sloc Mòr's yield fo
+CHANGE	eras/age_VI/events/23.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	 Mine Board's return to the royal chronicle gives the Sloc Mòr's yield for the year as a singl
+CHANGE	eras/age_VI/events/23.json:$.summary	the Library	->	an Leabharlann	|	The hall at Seann Dunn sends the Library its fifth copy of the naming,
+CHANGE	eras/age_VI/events/24.json:$.title	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers feasts in the new hall
+CHANGE	eras/age_VI/events/24.json:$.summary	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers holds its feast in the finish
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library's	->	an Leabharlann's	|	rn but his own, and Mòrag nic Coinnich attends as the Library's own witness.
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library	->	an Leabharlann	|	ressed the stone of Mac Ùisdein's new hall writes the Library that he was not asked to the 
+CHANGE	eras/age_VI/events/24.json:$.summary	the Moot	->	Tional nan Tuathach	|	at present, being papered for boats of his fleet; the Moot enters the day and his name.
+CHANGE	eras/age_VI/events/24.json:$.title	the Stone	->	Lia Fàil	|	The house of the Stone takes its first quarter's due
+CHANGE	eras/age_VI/events/24.json:$.summary	the Stone	->	Lia Fàil	|	The house of the Stone at Doire shean takes its firs
+CHANGE	eras/age_VI/events/24.json:$.summary	The keeper of the Library	->	Neach-gleidhidh an Leabharlainn	|	The keeper of the Library goes down himself to Làrach a
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library	->	an Leabharlann	|	t the wall they have found is older than any ruin the Library holds a record of, and spends
+CHANGE	eras/age_VI/events/24.json:$.title	the Library	->	an Leabharlann	|	The finds laid in the Library
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library's	->	an Leabharlann's	|	Làrach an Teampaill, and the copied obelisk, into the Library's own presses himself, filing t
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library	->	an Leabharlann	|	lean Leabhar at Làrach an Teampaill and asks that the Library measure the ruin rather than 
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library's	->	an Leabharlann's	|	 a scribe trained under Ailean Leabhar in copying the Library's most damaged leaves, spends t
+CHANGE	eras/age_VI/events/24.json:$.summary	the obelisk near Cnoc bheag	->	Carragh Cnoc bheag	|	s, spends three weeks of fair days at the foot of the obelisk near Cnoc bheag setting down every stroke of 
+CHANGE	eras/age_VI/events/24.json:$.summary	the Grey Night	->	Oidhche Glaise	|	eper new to the lighthouse at Baile chrom reports the Grey Night sect's yearly vigil kept sile
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library's	->	an Leabharlann's	|	 Ailean Leabhar enters the council's silence into the Library's register as plainly as any fi
+CHANGE	eras/age_VI/events/24.json:$.summary	the Library's	->	an Leabharlann's	|	ilean Leabhar asks Mòrag nic Coinnich to stand as the Library's deputy after a season that ha
+CHANGE	eras/age_VI/events/25.json:$.summary	the Library	->	an Leabharlann	|	 no further; no proclamation, no minute copied to the Library, no word to any shire clerk w
+CHANGE	eras/age_VI/events/25.json:$.summary	the Moot	->	Tional nan Tuathach	|	Walter Hale, first speaker of the Moot, dies in his own bed at Caol 
+CHANGE	eras/age_VI/events/25.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	id beside him and Alice sent for but not in time; the Moot's business stops three days wit
+CHANGE	eras/age_VI/events/25.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	rew the autumn before, and he is laid in sight of the Moot's own house where he sat thirty
+CHANGE	eras/age_VI/events/25.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot names Mary Coyle speaker
+CHANGE	eras/age_VI/events/25.json:$.summary	the Moot	->	Tional nan Tuathach	|	On the fourth day after Hale's burial the Moot sets aside a factor's son and
+CHANGE	eras/age_VI/events/25.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	 carries away three bridges and a long stretch of the coal line's embankment, a carter losing h
+CHANGE	eras/age_VI/events/25.json:$.title	The coal line	->	Slighe a' Ghuail	|	The coal line shuts and the ports live on s
+CHANGE	eras/age_VI/events/25.json:$.summary	the coal line	->	Slighe a' Ghuail	|	f embankment gone under the Abhainn ìseal's flood the coal line shuts for want of ground to r
+CHANGE	eras/age_VI/events/25.json:$.summary	the Moot	->	Tional nan Tuathach	|	Not yet a month in the chair, Mary Coyle calls the Moot together the evening word of 
+CHANGE	eras/age_VI/events/25.json:$.summary	the Moot	->	Tional nan Tuathach	|	and orders every northern harbour that answers to the Moot to open its own coal store an
+CHANGE	eras/age_VI/events/25.json:$.summary	the Crown's	->	An Crùn's	|	When the last course goes onto the Crown's grain-store at Cathair fhada 
+CHANGE	eras/age_VI/events/26.json:$.title	The Hawk houses	->	Òrd an t-Seabhaig	|	The Hawk houses gather at Inis ìseal to name 
+CHANGE	eras/age_VI/events/26.json:$.title	The Hawk houses	->	Òrd an t-Seabhaig	|	The Hawk houses speak of a hawk for the shire
+CHANGE	eras/age_VI/events/26.json:$.summary	the high custodian's	->	Àrd-choimheadaiche's	|	A three-line letter from the high custodian's house at Seann Skell in the s
+CHANGE	eras/age_VI/events/26.json:$.summary	the Rite's	->	Deas-ghnàth a' Ghuail's	|	l, naming no fault in Raonaid nic Iain but saying the Rite's own order of worship knows no
+CHANGE	eras/age_VI/events/26.json:$.title	The Hawk houses	->	Òrd an t-Seabhaig	|	The Hawk houses carry on as if the custodian 
+CHANGE	eras/age_VI/events/26.json:$.summary	The Hawk houses	->	Òrd an t-Seabhaig	|	The Hawk houses fold the southern letter away
+CHANGE	eras/age_VI/events/26.json:$.title	the Hawk's	->	Òrd an t-Seabhaig's	|	Raonaid begins setting the Hawk's order into a farm account-boo
+CHANGE	eras/age_VI/events/26.json:$.summary	the Hawk's	->	Òrd an t-Seabhaig's	|	Raonaid nic Iain starts writing the Hawk's spoken order of worship, till
+CHANGE	eras/age_VI/events/26.json:$.title	the Còmhrag	->	Còmhrag Ceann leathan	|	The custodians' petition against the Còmhrag is refused
+CHANGE	eras/age_VI/events/26.json:$.summary	the Còmhrag	->	Còmhrag Ceann leathan	|	e fair-wardens of Ceann leathan in writing to end the Còmhrag after six deaths; the wardens
+CHANGE	eras/age_VI/events/26.json:$.summary	the melee's	->	Còmhrag Ceann leathan's	|	within the hour, on the ground the town lives off the melee's crowds.
+CHANGE	eras/age_VI/events/26.json:$.summary	the melee's	->	Còmhrag Ceann leathan's	|	iorcas Siubhail Do-thuigsinn pitches its tents on the melee's own trampled ground within a 
+CHANGE	eras/age_VI/events/26.json:$.summary	the Hawk houses	->	Òrd an t-Seabhaig	|	Five witnesses from the Hawk houses, Raonaid nic Iain among them,
+CHANGE	eras/age_VI/events/26.json:$.summary	the coal line's	->	Slighe a' Ghuail's	|	Within two winters of the coal line's coming the quays of Ceann lea
+CHANGE	eras/age_VI/events/27.json:$.title	The silver guild	->	Comann an Airgid	|	The silver guild of Muileann chiar chartered a
+CHANGE	eras/age_VI/events/27.json:$.summary	the Crown's	->	An Crùn's	|	d then let lapse, binding the guild's captains to the Crown's tithe on every bar struck and
+CHANGE	eras/age_VI/events/27.json:$.summary	the realm-coin	->	Bonn na Rìoghachd	|	gold washed below Baile dhìreach, into blanks for the realm-coin, paid by weight; the first bl
+CHANGE	eras/age_VI/events/27.json:$.summary	the silver guild's	->	Comann an Airgid's	|	Iain writes the silver guild's new charter into his own priv
+CHANGE	eras/age_VI/events/27.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	n private book beside the receipt he carried from the Sloc Mòr and the deep gallery's own fi
+CHANGE	eras/age_VI/events/28.json:$.summary	the silver guild's	->	Comann an Airgid's	|	With maps sent up from the silver guild's own store, older and truer th
+CHANGE	eras/age_VI/events/28.json:$.summary	the Rending's	->	Scàineadh Cill ghlas's	|	round under the fallen gallery runs exactly where the Rending's own line ran three ages befor
+CHANGE	eras/age_VI/events/28.json:$.summary	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers binds sixty boys in its own h
+CHANGE	eras/age_VI/events/28.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	s brought north by a carter, Mary Coyle writes in the Moot's own hand asking that the rule
+CHANGE	eras/age_VI/events/28.json:$.title	the Moot	->	Tional nan Tuathach	|	The Board answers the Moot in three lines and files the 
+CHANGE	eras/age_VI/events/28.json:$.summary	the Moot	->	Tional nan Tuathach	|	The Board thanks the Moot for its concern and states th
+CHANGE	eras/age_VI/events/28.json:$.title	the Library	->	an Leabharlann	|	Ailean Leabhar is buried in the ground behind the Library
+CHANGE	eras/age_VI/events/28.json:$.summary	the Library	->	an Leabharlann	|	after at Muileann chaol, in a small ground behind the Library itself where no keeper had be
+CHANGE	eras/age_VI/events/28.json:$.summary	the Library	->	an Leabharlann	|	 Coinnich reads over him only his own words, that the Library settles nothing and only keep
+CHANGE	eras/age_VI/events/28.json:$.summary	the Library	->	an Leabharlann	|	ndated beyond an old year, reading only that what the Library is not sent it cannot keep, a
+CHANGE	eras/age_VI/events/28.json:$.summary	the Rail Board	->	Comhairle na Slighe-iarainn	|	When the Rail Board refuses to carry the north's 
+CHANGE	eras/age_VI/events/28.json:$.summary	the court of the fair	->	Cùirt na Fèille	|	Oighrig nic Mhathain presides over the court of the fair from a chair carried into the
+CHANGE	eras/age_VI/events/29.json:$.summary	the Rail Board	->	Comhairle na Slighe-iarainn	|	With the Rail Board still refusing the Moot's goo
+CHANGE	eras/age_VI/events/29.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	With the Rail Board still refusing the Moot's goods, the north's wool goes 
+CHANGE	eras/age_VI/events/29.json:$.summary	the fair at Muileann òg	->	Fèill Muileann òg	|	 way by Cnoc ghorm, Àth fhada and Inis àrsaidh to the fair at Muileann òg.
+CHANGE	eras/age_VI/events/29.json:$.summary	the Carters' Road	->	Rathad nan Cairtearan	|	all their road and learns it has long been called the Carters' Road in the north, its name simply
+CHANGE	eras/age_VI/events/29.json:$.title	the register of the hurt	->	Clàr nan Leòn	|	Mary Coyle opens the register of the hurt
+CHANGE	eras/age_VI/events/29.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Mary Coyle tells the Moot's clerks that the Board keeps n
+CHANGE	eras/age_VI/events/29.json:$.summary	the Moot	->	Tional nan Tuathach	|	ich dead and maimed of the western pits, and that the Moot will begin a book naming them
+CHANGE	eras/age_VI/events/29.json:$.summary	the chronicle	->	Eachdraidh na Rìoghachd	|	wenty years, her final entry a plain list of what the chronicle under her hand had never held
+CHANGE	eras/age_VI/events/30.json:$.summary	the chronicle	->	Eachdraidh na Rìoghachd	|	ds beneath Gormshuil nic Dhùghaill's list of what the chronicle lacks a line of his own, that
+CHANGE	eras/age_VI/events/30.json:$.summary	the Library	->	an Leabharlann	|	tten, and copies both into the chest that goes to the Library.
+CHANGE	eras/age_VI/events/30.json:$.summary	the coal line	->	Slighe a' Ghuail	|	re's grain reaches the sidings at Achadh shean by the coal line on the morning the season's f
+CHANGE	eras/age_VI/events/30.json:$.summary	The Lighthouse Board's	->	Comhairle nan Taighean-solais's	|	The Lighthouse Board's own inspector, checking oil a
+CHANGE	eras/age_VI/events/30.json:$.summary	the Crown	->	An Crùn	|	ds of Àth bheag are raised again within the year, the Crown paying a third of the cost as
+CHANGE	eras/age_VI/events/30.json:$.title	the royal chronicle	->	Eachdraidh na Rìoghachd	|	Murchadh's book copied fair for the royal chronicle
+CHANGE	eras/age_VI/events/30.json:$.summary	A Library clerk	->	A clerk of an Leabharlann	|	A Library clerk carries Murchadh mac Coinnich
+CHANGE	eras/age_VI/events/31.json:$.summary	the Holy Age	->	An Aois Naomh	|	 in the sacred wood, an old man whose father kept the Holy Age strike-books asks Seonaid nic
+CHANGE	eras/age_VI/events/31.json:$.summary	the coal-touched	->	fuil-ghuail	|	y come to the school asks why the census line for the coal-touched should be a matter no one may
+CHANGE	eras/age_VI/events/31.json:$.summary	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers' captains give the school the
+CHANGE	eras/age_VI/events/31.json:$.title	The Hawk's	->	Òrd an t-Seabhaig's	|	The Hawk's terms read a seventh time
+CHANGE	eras/age_VI/events/31.json:$.summary	the Rite	->	Deas-ghnàth a' Ghuail	|	At a council of the Rite at Seann Skell on the souther
+CHANGE	eras/age_VI/events/31.json:$.summary	the high custodian's	->	Àrd-choimheadaiche's	|	of the Rite at Seann Skell on the southern coast, the high custodian's clerks read the Hawk houses o
+CHANGE	eras/age_VI/events/31.json:$.summary	the Hawk houses	->	Òrd an t-Seabhaig	|	 southern coast, the high custodian's clerks read the Hawk houses of Cnoc bheag the same settle
+CHANGE	eras/age_VI/events/31.json:$.summary	the Crown's	->	An Crùn's	|	Finding the Crown's returns beginning to run its 
+CHANGE	eras/age_VI/events/31.json:$.summary	the pillar near Cnoc chiar	->	Colbh Cnoc chiar	|	hain's students ride from the sacred wood to copy the pillar near Cnoc chiar, the obelisk over Cnoc bheag'
+CHANGE	eras/age_VI/events/31.json:$.summary	the column at Cnoc ghorm	->	Calbh Cnoc ghorm	|	oc chiar, the obelisk over Cnoc bheag's quays and the column at Cnoc ghorm onto separate slates, and car
+CHANGE	eras/age_VI/events/31.json:$.title	the Old Ones	->	Seann-Dhaoine	|	Seonaid nic Ghill-Eathain writes the Old Ones' sentence
+CHANGE	eras/age_VI/events/31.json:$.summary	the Old Ones	->	Seann-Dhaoine	|	Caol shean, Seonaid nic Ghill-Eathain writes that the Old Ones were here and said so, and th
+CHANGE	eras/age_VI/events/32.json:$.summary	the Crown	->	An Crùn	|	 net-lofts and rope-walk, Inis chrom does not ask the Crown for its rebuilding. Its own c
+CHANGE	eras/age_VI/events/32.json:$.summary	The Mine Board	->	Comhairle nam Mèinnean	|	The Mine Board names eleven surveyors to Ala
+CHANGE	eras/age_VI/events/32.json:$.summary	search for a second vein	->	Sireadh na Dàrna Fèithe	|	 names eleven surveyors to Alasdair mac Ùisdein's search for a second vein. Catrìona nic Neacail, thirty
+CHANGE	eras/age_VI/events/32.json:$.summary	the empty ground	->	am Fearann Falamh	|	ong called the search's ground am Fearann Falamh, the empty ground, meaning only that no shepher
+CHANGE	eras/age_VI/events/32.json:$.summary	(appositive)	->	am Fearann Falamh	|	dropped the English gloss beside am Fearann Falamh
+CHANGE	eras/age_VI/events/32.json:$.title	the Holy Age	->	An Aois Naomh	|	Mòrag nic Coinnich finds the Holy Age roll
+CHANGE	eras/age_VI/events/32.json:$.summary	the Library's	->	an Leabharlann's	|	Cataloguing the Library's lower room, Mòrag nic Coinnic
+CHANGE	eras/age_VI/events/32.json:$.title	The Library's	->	An Leabharlann's	|	The Library's copy of the old survey promis
+CHANGE	eras/age_VI/events/32.json:$.summary	the Holy Age	->	An Aois Naomh	|	ld-book beside her last entry and resolves to see the Holy Age roll sent south in copy, so t
+CHANGE	eras/age_VI/events/32.json:$.summary	the house of Mac Ùisdein	->	Taigh Mhic Ùisdein	|	n thinned by the search and Dùn dhearg's damages, the house of Mac Ùisdein lets its stone house at Catha
+CHANGE	eras/age_VI/events/32.json:$.summary	the Mine Board	->	Comhairle nam Mèinnean	|	pt in the family since the first holder's day, to the Mine Board, which moves its offices into
+CHANGE	eras/age_VI/events/32.json:$.summary	the Crown	->	An Crùn	|	ty-one shafts at its own cost rather than wait on the Crown, and enters a claim against t
+CHANGE	eras/age_VI/events/32.json:$.summary	the house of Mac Ùisdein	->	Taigh Mhic Ùisdein	|	han wait on the Crown, and enters a claim against the house of Mac Ùisdein for the fencing's cost that i
+CHANGE	eras/age_VI/events/33.json:$.summary	the Library's	->	an Leabharlann's	|	his book as various and the fee as paid, an entry the Library's copyists find hardest of the 
+CHANGE	eras/age_VI/events/33.json:$.title	the Còmhrag	->	Còmhrag Ceann leathan	|	Edged iron banned from the Còmhrag
+CHANGE	eras/age_VI/events/33.json:$.title	the Moot	->	Tional nan Tuathach	|	Mary Coyle lays down the chair of the Moot
+CHANGE	eras/age_VI/events/33.json:$.summary	the coal line	->	Slighe a' Ghuail	|	 western pits' dead and maimed her hand began and the coal line her petitions never once move
+CHANGE	eras/age_VI/events/33.json:$.summary	the Moot	->	Tional nan Tuathach	|	once moved south of Àth leathan, and names before the Moot rises the man she asks it to 
+CHANGE	eras/age_VI/events/33.json:$.title	the Moot	->	Tional nan Tuathach	|	Daniel Frayne chosen speaker of the Moot
+CHANGE	eras/age_VI/events/33.json:$.summary	the Severance	->	An Dealachadh	|	ed against him: the first to have been born after the Severance closed, and Mary Coyle's own 
+CHANGE	eras/age_VI/events/34.json:$.summary	the white thread	->	An Snàthainn Geal	|	Rather than claim the white thread already spoken for, the weave
+CHANGE	eras/age_VI/events/34.json:$.title	the silver guild	->	Comann an Airgid	|	Iain Mapa buried by the silver guild
+CHANGE	eras/age_VI/events/34.json:$.summary	The silver guild	->	Comann an Airgid	|	The silver guild of Muileann chiar, which had 
+CHANGE	eras/age_VI/events/34.json:$.summary	the Library at Muileann chaol	->	Leabharlann Muileann chaol	|	t still pinned to it and sends the whole of it to the Library at Muileann chaol, writing only that he had ask
+CHANGE	eras/age_VI/events/34.json:$.summary	the druid school	->	Scoiltean nan Draoidhean	|	 in four flat lines, and asks a place teaching at the druid school at Caol shean, judging the mo
+CHANGE	eras/age_VI/events/34.json:$.summary	the druid school	->	Scoiltean nan Draoidhean	|	er of Muileann dhearg's Fèidh hall, given back to the druid school not ten years before, locks i
+CHANGE	eras/age_VI/events/34.json:$.title	the Còmhrag's	->	Còmhrag Ceann leathan's	|	Ceann leathan raises the Còmhrag's gate-price
+CHANGE	eras/age_VI/events/34.json:$.summary	the Còmhrag	->	Còmhrag Ceann leathan	|	 as off the yearly melee, raise the gate-price of the Còmhrag to make up what the quay no l
+CHANGE	eras/age_VI/events/34.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Daniel Frayne, six months in the Moot's chair, watches the first clot
+CHANGE	eras/age_VI/events/35.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	A wool-buyer at the Moot's own table tells Daniel Frayne
+CHANGE	eras/age_VI/events/35.json:$.summary	the fair at Muileann òg	->	Fèill Muileann òg	|	 at the Moot's own table tells Daniel Frayne that the fair at Muileann òg now stands with gaps between 
+CHANGE	eras/age_VI/events/35.json:$.summary	the realm-coin	->	Bonn na Rìoghachd	|	ned, the die that struck Eòghan's own likeness on the realm-coin is broken at Cathair dhearg b
+CHANGE	eras/age_VI/events/35.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	The wool mills raised at Doire ghlas with the Moot's own coin turn their first bol
+CHANGE	eras/age_VI/events/35.json:$.title	The Rail Board	->	Comhairle na Slighe-iarainn	|	The Rail Board refuses the first wagon
+CHANGE	eras/age_VI/events/35.json:$.summary	The Rail Board's	->	Comhairle na Slighe-iarainn's	|	The Rail Board's factors at Àth leathan, the r
+CHANGE	eras/age_VI/events/35.json:$.title	The Moot	->	Tional nan Tuathach	|	The Moot brings its suit to Seann Bhra
+CHANGE	eras/age_VI/events/35.json:$.summary	the Crown	->	An Crùn	|	c Phàdraig to rule whether a carrier chartered by the Crown may refuse one people's cargo
+CHANGE	eras/age_VI/events/35.json:$.title	the coal line	->	Slighe a' Ghuail	|	The first Doire ghlas bale rides the coal line
+CHANGE	eras/age_VI/events/35.json:$.summary	the Rail Board's	->	Comhairle na Slighe-iarainn's	|	A year after the ruling, the Rail Board's own factor at Àth leathan wei
+CHANGE	eras/age_VI/events/35.json:$.summary	the Rail Board's	->	Comhairle na Slighe-iarainn's	|	When the Rail Board's factor argues at Seann Bhral 
+CHANGE	eras/age_VI/events/35.json:$.summary	The Rail Board's	->	Comhairle na Slighe-iarainn's	|	The Rail Board's appeal against the Seann Bhra
+CHANGE	eras/age_VI/events/35.json:$.summary	the Seann Bhral ruling	->	Breith Seann Bhral	|	The Rail Board's appeal against the Seann Bhral ruling lies on the council's table a
+CHANGE	eras/age_VI/events/35.json:$.summary	the Moot	->	Tional nan Tuathach	|	Mary Coyle, speaker of the Moot from the thirty-third year to
+CHANGE	eras/age_VI/events/35.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	ound, a little lower on the slope within sight of the Moot's house, and the priest reads o
+CHANGE	eras/age_VI/events/35.json:$.title	the Moot's	->	Tional nan Tuathach's	|	Mary Coyle's sheet kept in the Moot's chest
+CHANGE	eras/age_VI/events/35.json:$.summary	The Moot	->	Tional nan Tuathach	|	The Moot votes without a count that th
+CHANGE	eras/age_VI/events/35.json:$.summary	the register of the hurt	->	Clàr nan Leòn	|	y Coyle's family, be kept in its own chest beside the register of the hurt with the space beneath the la
+CHANGE	eras/age_VI/events/36.json:$.title	the Sloc Mòr	->	An Sloc Mòr	|	The street named for the Sloc Mòr
+CHANGE	eras/age_VI/events/36.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	haich's new street carry small lumps of coal from the Sloc Mòr's own upper galleries among the
+CHANGE	eras/age_VI/events/36.json:$.summary	the Old Spirits	->	Na Seann Spioradan	|	ct of the carrying rather than for any use, while the Old Spirits' keeper tells the council a s
+CHANGE	eras/age_VI/events/36.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	Tormod Pinn rides to Achadh dhomhain and finds the Sloc Mòr's lowest galleries eleven fatho
+CHANGE	eras/age_VI/events/36.json:$.title	the coal line	->	Slighe a' Ghuail	|	The first pump goes down the coal line
+CHANGE	eras/age_VI/events/36.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	The first of the Sloc Mòr's three great pumps goes south 
+CHANGE	eras/age_VI/events/36.json:$.summary	the Library	->	an Leabharlann	|	 no ledger fit to hold it, sends the letter on to the Library.
+CHANGE	eras/age_VI/events/36.json:$.title	the crossing days	->	Imrich nam Pantar	|	The herders keep the crossing days
+CHANGE	eras/age_VI/events/36.json:$.summary	The fair at Muileann òg	->	Fèill Muileann òg	|	The fair at Muileann òg sees, for the first time in a
+CHANGE	eras/age_VI/events/36.json:$.summary	the Sloc Mòr's	->	An Sloc Mòr's	|	 reaching the town thinner and dearer each season the Sloc Mòr's galleries give less of it up.
+CHANGE	eras/age_VI/events/36.json:$.summary	The Guild of Hewers	->	Comann nan Gualadairean	|	The Guild of Hewers keeps a plain minute-book at 
+CHANGE	eras/age_VI/events/36.json:$.summary	the search for a second vein	->	Sireadh na Dàrna Fèithe	|	 harvest has proved thicker than any since before the search for a second vein was spoken of, granaries buil
+CHANGE	eras/age_VI/events/36.json:$.title	The Sloc Mòr's	->	An Sloc Mòr's	|	The Sloc Mòr's pumps drain the dock at Seann
+CHANGE	eras/age_VI/events/36.json:$.summary	the Sloc Mòr	->	An Sloc Mòr	|	The three great pumps of the Sloc Mòr, set on a bed of masonry at t
+CHANGE	eras/age_VI/events/36.json:$.summary	the royal chronicle	->	Eachdraidh na Rìoghachd	|	d Pinn enters Seann Bhral's return of the dock in the royal chronicle without a line of his own, co
+CHANGE	eras/age_VI/events/37.json:$.summary	the Moot	->	Tional nan Tuathach	|	de to Caol mhòr, the first southern office to ask the Moot for its own count of its own 
+CHANGE	eras/age_VI/events/37.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's figures given to the census c
+CHANGE	eras/age_VI/events/37.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	Daniel Frayne gives the visiting clerks the Moot's own count, kept every third y
+CHANGE	eras/age_VI/events/37.json:$.summary	the Moot	->	Tional nan Tuathach	|	n private book, judging it worth the keeping that the Moot had, for once, been asked for
+CHANGE	eras/age_VI/events/37.json:$.summary	the Library	->	an Leabharlann	|	y years old, is buried in the small ground behind the Library among every keeper and chroni
+CHANGE	eras/age_VI/events/37.json:$.summary	the Library's	->	an Leabharlann's	|	Beathag nic Fhionnlaigh, chosen from the Library's own senior clerks, tells the 
+CHANGE	eras/age_VI/events/37.json:$.summary	A Library clerk	->	A clerk of an Leabharlann	|	A Library clerk sends Daniel Frayne a copy of
+CHANGE	eras/age_VI/events/37.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	 foot-note, naming the census clerks' reliance on the Moot's own figures; Frayne keeps it 
+CHANGE	eras/age_VI/events/37.json:$.summary	the chronicle	->	Eachdraidh na Rìoghachd	|	d unpacks them at Mòrag nic Coinnich's own table, the chronicle begun by her great-grandmothe
+CHANGE	eras/age_VI/events/37.json:$.title	the Moot's	->	Tional nan Tuathach's	|	Frayne puts the calling-in to the Moot's own room
+CHANGE	eras/age_VI/events/37.json:$.summary	the Moot	->	Tional nan Tuathach	|	at Caol mhòr together and asks it plainly whether the Moot should offer its own books so
+CHANGE	eras/age_VI/events/37.json:$.title	The Moot's	->	Tional nan Tuathach's	|	The Moot's minute declining to send its 
+CHANGE	eras/age_VI/events/37.json:$.summary	the Moot's	->	Tional nan Tuathach's	|	he close of the sitting: *kept north.* No cart of the Moot's own books goes south that yea
+CHANGE	eras/age_VI/events/37.json:$.title	the Library's	->	an Leabharlann's	|	A Ros gheal carter waits in the Library's yard
+CHANGE	eras/age_VI/events/37.json:$.summary	Hawk houses	->	Òrd an t-Seabhaig	|	ngs the three iron-bound coffers of the Ros gheal Hawk houses' birth-rolls to Muileann chao
+CHANGE	eras/age_VI/events/37.json:$.summary	the Library's	->	an Leabharlann's	|	Muileann chaol waits the whole of an afternoon in the Library's yard, under orders to turn hi
+CHANGE	eras/age_VI/events/37.json:$.title	the Hawk houses	->	Òrd an t-Seabhaig	|	Mòrag's three lines to the Hawk houses
+CHANGE	eras/age_VI/events/37.json:$.summary	the Hawk houses	->	Òrd an t-Seabhaig	|	Mòrag nic Coinnich answers the Hawk houses in three lines in her own han
+CHANGE	eras/age_VI/events/37.json:$.summary	the Library's	->	an Leabharlann's	|	 may send a witness to see it, and a copy made in the Library's own hand goes back to them wh
+CHANGE	eras/age_VI/events/37.json:$.summary	the Library	->	an Leabharlann	|	For the first time the Library files a paper under a name it
+CHANGE	eras/age_VI/events/37.json:$.summary	the Library	->	an Leabharlann	|	t plainly, and beneath it that she does not think the Library has any business teaching the
+CHANGE	eras/age_VI/events/37.json:$.summary	the Hawk houses	->	Òrd an t-Seabhaig	|	s not think the Library has any business teaching the Hawk houses what to call themselves.
+CHANGE	eras/age_VI/events/37.json:$.summary	the Hawk country	->	Oirthir an t-Seabhaig	|	eir hall and said nothing of them after, which in the Hawk country is how a thing is accepted.
+CHANGE	eras/age_VI/events/38.json:$.title	the empty floor	->	An t-Ùrlar Falamh	|	Beathag's first foot-note on the empty floor
+CHANGE	eras/age_VI/events/38.json:$.summary	The Mine Board	->	Comhairle nam Mèinnean	|	The Mine Board withdraws its overseers from 
+CHANGE	eras/age_VI/events/38.json:$.summary	the Crown's	->	An Crùn's	|	from their own number weigh every cart and set by the Crown's fifth under the Leòid ruling,
+CHANGE	eras/age_VI/events/38.json:$.summary	the Leòid ruling	->	Breith Leòid	|	igh every cart and set by the Crown's fifth under the Leòid ruling, sending word south each seas
+CHANGE	eras/age_VI/events/38.json:$.summary	the Library	->	an Leabharlann	|	nd more in the chair, lays down the keepership of the Library, walking the fourth floor onc
+CHANGE	eras/age_VI/events/38.json:$.summary	the Library's	->	an Leabharlann's	|	rag nic Coinnich lays down and changes nothing of the Library's hours or custom in his first 
+CHANGE	eras/age_VI/events/38.json:$.summary	the Library	->	an Leabharlann	|	nt no census asked for and no shire kept, so that the Library holds no reckoning of its own
+LEFT	eras/age_VI/annals/age_VI_01.json:EVI-1005.body	the war-companies	(no "the" before it)	|	orders that the rolls of the stood-down war-companies be kept and boxed rather than burned wi
+LEFT	eras/age_VI/annals/age_VI_01.json:EVI-1029.body	the Mission	(no "the" before it)	|	read, and says nothing of the letters a Mission reader taught him as a boy, for a clerk
+LEFT	eras/age_VI/annals/age_VI_02.json:EVI-1508.title	the Moot	(no "the" before it)	|	A councillor asks what a Moot is
+LEFT	eras/age_VI/annals/age_VI_02.json:EVI-1508.body	the Moot	(no "the" before it)	|	ailean mac Sheumais asks plainly what a Moot is; no one in the chamber can answer wi
+LEFT	eras/age_VI/annals/age_VI_02.json:EVI-1509.title	the Moot	(no "the" before it)	|	g of northern households takes the name Moot
+LEFT	eras/age_VI/annals/age_VI_02.json:EVI-1525.body	the roll of arms	(no "the" before it)	|	 Clàr nan Suaicheantas, the newly drawn roll of arms, for a maor of the south-west to press 
+LEFT	eras/age_VI/annals/age_VI_02.json:EVI-1531.body	the roll of arms	(no "the" before it)	|	 that a kingdom that finds silver for a roll of arms can find grain for its own dead.
+LEFT	eras/age_VI/annals/age_VI_04.json:EVI-2516.body	the Old Spirits	(after "a")	|	he old road east with her mother, of an Old Spirits house, to drink at the holy well and ad
+LEFT	eras/age_VI/annals/age_VI_05.json:EVI-3029.title	the Crown	(no "the" before it)	|	n Tuathach's minute-books credited by a Crown bench
+LEFT	eras/age_VI/annals/age_VI_05.json:EVI-3029.body	the circuit justice	(no "the" before it)	|	own paper is taken as evidence before a circuit justice.
+LEFT	eras/age_VI/annals/age_VI_05.json:EVI-3035.body	the circuit justice	(no "the" before it)	|	 herself, Leabhar nam Breith, and every circuit justice after her is given a copy to carry.
+LEFT	eras/age_VI/annals/age_VI_05.json:EVI-3036.body	the circuit justice	(no "the" before it)	|	Uilleam mac Leòid is named circuit justice of the north in his aunt's place, and r
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3500.title	the keeper of the Library	(no "the" before it)	|	Ailean mac Iain named first keeper of the Library
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3502.body	the Mission	(no "the" before it)	|	nd carry, and within the year to read a Mission hand that few south of the guard-line c
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3504.body	the Library	(no "the" before it)	|	r errand, on the plain reasoning that a Library nobody can reach is no better kept than
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3520.title	the royal chronicler	(no "the" before it)	|	The office of royal chronicler set at Muileann chaol, not the capital
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3521.title	the royal chronicler	(no "the" before it)	|	Gormshuil sworn royal chronicler
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3521.body	the royal chronicler	(no "the" before it)	|	Gormshuil nic Dhùghaill is sworn royal chronicler in a small room at Cathair dhearg on th
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3523.title	the chronicle	(no "the" before it)	|	Tormod mac Sheumais joins the first chronicle circuit
+LEFT	eras/age_VI/annals/age_VI_06.json:EVI-3528.body	the chronicle	(no "the" before it)	|	In the spring the first chronicle circuit's clerks ride out in three pair
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4004.body	the court of the fair	(no "the" before it)	|	 own plain hand: a stall-fee in coin, a court of the fair to sit each day of the gathering, and T
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4007.body	the Sloc Mòr	(after "a")	|	A Cathair mhòr coal-carter brings a Sloc Mòr merchant's load of spoil-stone dressed 
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4009.body	the fair at Muileann òg	(no "the" before it)	|	The first fair at Muileann òg runs a fortnight, with wool from the we
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4028.title	the Còmhrag	(no "the" before it)	|	The rules of the first Còmhrag
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4028.body	the Còmhrag	(no "the" before it)	|	The first Còmhrag at Ceann leathan is fought under rules 
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4029.title	the Còmhrag	(no "the" before it)	|	The dead of the first Còmhrag buried
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4029.body	the Còmhrag	(no "the" before it)	|	 not walk out of the ropes at the first Còmhrag are buried at Ceann leathan within the 
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4030.body	the Còmhrag	(no "the" before it)	|	r of Muileann chrom, who wins the first Còmhrag by refusing to stay down.
+LEFT	eras/age_VI/annals/age_VI_07.json:EVI-4033.body	the Còmhrag	(no "the" before it)	|	before dawn the morning after the first Còmhrag with the purse in his coat and the shir
+LEFT	eras/age_VI/annals/age_VI_08.json:EVI-4545.body	the Library	(no "the" before it)	|	at has taught him one keeper alone is a Library one bad season from having nobody who c
+LEFT	eras/age_VI/annals/age_VI_08.json:EVI-4546.body	the Crown	(no "the" before it)	|	 of a poor season the keeper of the new Crown grain-store walks out to the road and t
+LEFT	eras/age_VI/annals/age_VI_09.json:EVI-5000.body	the Hawk	(no "the" before it)	|	Witnesses of every Hawk house in Siorrachd Cnoc bheag crowd the
+LEFT	eras/age_VI/annals/age_VI_09.json:EVI-5003.body	the Hawk	(no "the" before it)	|	n order of worship knows no office of a Hawk custodian and so cannot own her.
+LEFT	eras/age_VI/annals/age_VI_09.json:EVI-5009.title	the Còmhrag	(no "the" before it)	|	Six die at that year's Còmhrag
+LEFT	eras/age_VI/annals/age_VI_09.json:EVI-5009.body	the Còmhrag	(no "the" before it)	|	und at Ceann leathan before that year's Còmhrag is called, one of them a boy of Baile g
+LEFT	eras/age_VI/annals/age_VI_09.json:EVI-5010.body	the Rite	(no "the" before it)	|	The custodians of the southern Rite petition the fair-wardens of Ceann leat
+LEFT	eras/age_VI/annals/age_VI_09.json:EVI-5018.body	the Administration	(no "the" before it)	|	ored custom the charter the humans' own Administration had let stand and then let lapse, bindi
+LEFT	eras/age_VI/annals/age_VI_10.json:EVI-5506.body	the Shipwrights	(no "the" before it)	|	Shipwrights turned out of the southern guild yards 
+LEFT	eras/age_VI/annals/age_VI_10.json:EVI-5509.body	the royal chronicler	(no "the" before it)	|	ting, Gormshuil lays down the office of royal chronicler after four and twenty years, her final 
+LEFT	eras/age_VI/annals/age_VI_10.json:EVI-5510.body	the royal chronicler	(no "the" before it)	|	peed of his hand, succeeds Gormshuil as royal chronicler and opens his own first book by copying
+LEFT	eras/age_VI/annals/age_VI_11.json:EVI-6007.body	the Holy Age	(after "a")	|	 lower room, Mòrag nic Coinnich finds a Holy Age survey naming the same hills above Dùn 
+LEFT	eras/age_VI/annals/age_VI_11.json:EVI-6033.body	the white thread	(no "the" before it)	|	ith the shire's own bark, with a single white thread at the selvedge.
+LEFT	eras/age_VI/annals/age_VI_11.json:EVI-6034.body	the white thread	(no "the" before it)	|	inding her mother's stall sews a second white thread into an unsold bolt after the buyers ha
+LEFT	eras/age_VI/annals/age_VI_11.json:EVI-6048.body	the melee	(no "the" before it)	|	ch off the coal trade as off the yearly melee, raise the gate-price of Còmhrag Ceann 
+LEFT	eras/age_VI/annals/age_VI_12.json:EVI-6505.body	the white thread	(no "the" before it)	|	n their first bolt, a grey twill with a white thread at the selvedge, and the overseer write
+LEFT	eras/age_VI/annals/age_VI_12.json:EVI-6521.body	the Library	(no "the" before it)	|	od Pinn sets the maor's letter beside a Library list from the days of An Aois Naomh nam
+LEFT	eras/age_VI/annals/age_VI_12.json:EVI-6534.body	the hungry year	(no "the" before it)	|	s a line through his own entry naming a hungry year to follow the panthers' crossing, leavi
+LEFT	eras/age_VI/annals/age_VI_12.json:EVI-6534.body	the chronicle	(no "the" before it)	|	 proved thick rather than thin, since a chronicle owes its readers its wrong guesses as p
+LEFT	eras/age_VI/annals/age_VI_12.json:EVI-6548.title	the chronicle	(no "the" before it)	|	Cathair naomh's chronicle carried south by its own keeper
+LEFT	eras/age_VI/annals/age_VI_12.json:EVI-6548.body	the chronicle	(no "the" before it)	|	mily that has kept Cathair naomh's town chronicle four generations rides the two carts so
+LEFT	eras/age_VI/book/01_of_the_winter_of_the_severance.md:178	the empty floor	(no "the" before it)	|	one green, its door standing open on an empty floor swept
+LEFT	eras/age_VI/book/04_of_the_moot_and_the_council_of_twelve.md:46	the hungry year	(no "the" before it)	|	om full of householders who had spent a hungry year learning exactly how much a neighbour's
+LEFT	eras/age_VI/book/04_of_the_moot_and_the_council_of_twelve.md:72	the custody-book	(no "the" before it)	|	offices, with his hand on the same worn custody-book the custodians used for oaths of less c
+LEFT	eras/age_VI/book/04_of_the_moot_and_the_council_of_twelve.md:82	the Moot	(no "the" before it)	|	ilence that followed the reading, "is a Moot?"
+LEFT	eras/age_VI/book/05_of_the_grey_water_and_the_crowning.md:16	the Mission	(no "the" before it)	|	le of the humans' hand as a boy, from a Mission reader in the hills who taught letters 
+LEFT	eras/age_VI/book/06_of_the_great_wave.md:38	the roll of arms	(no "the" before it)	|	more foolish: a roll of arms for the new shires, so that a maor migh
+LEFT	eras/age_VI/book/06_of_the_great_wave.md:93	the roll of arms	(no "the" before it)	|	 in am Màrt, eleven letters answered, a roll of arms delivered, a maor
+LEFT	eras/age_VI/book/06_of_the_great_wave.md:185	the roll of arms	(no "the" before it)	|	could find silver for a roll of arms with a scorpion on it could find grain 
+LEFT	eras/age_VI/book/07_of_the_coin_with_the_coal_in_its_seal.md:3	the Rite	(no "the" before it)	|	*Part Two: Of Coin, Rite and Mountain*
+LEFT	eras/age_VI/book/08_of_the_order_of_worship.md:37	the coal-touched	(no "the" before it)	|	g that she had never seen one, comet or coal-touched, and a keeper should not write what he 
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:23	the vein-house	(no "the" before it)	|	 had kept Leabhar a' Chùraim of the old vein-house on the hill above the harbour. It was n
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:23	the Company	(no "the" before it)	|	alleries in the mountain to the humans' Company three generations back, and Leabhar a' 
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:25	the custody-book	(no "the" before it)	|	her died and Taigh na Fèithe closed its custody-book for good, first as a copyist for the ha
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:27	the custody-book	(no "the" before it)	|	 asked of her exactly what her father's custody-book had always asked of her without her hav
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:45	the circuit justice	(no "the" before it)	|	 a cause heard, on the reasoning that a circuit justice who wrote down only what came before he
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:47	the circuit justice	(no "the" before it)	|	e understood that the greater part of a circuit justice's work was arithmetic of a duller kind, n
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:47	the custody-book	(no "the" before it)	|	ill not coming right, that her father's custody-book had never asked this particular exactne
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:47	the vein-house	(no "the" before it)	|	 of her, there having been only the one vein-house to reckon and no road between its rooms
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:51	the custody-book	(no "the" before it)	|	ad asked her to do to Taigh na Fèithe's custody-book from the time she could hold a pen, whi
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:61	the Crown	(no "the" before it)	|	t would ever touch him day to day, to a Crown he had never once been asked to swear t
+LEFT	eras/age_VI/book/09_of_the_justices_circuit.md:65	the circuit justice	(no "the" before it)	|	 read, to bind any bench but her own; a circuit justice's ruling was her ruling and no other's, a
+LEFT	eras/age_VI/book/10_of_the_vigil_in_the_open.md:11	the Rail Board	(after "a")	|	t far and the mountain gave the rest. A Rail Board was made to run it, seated at Cathair d
+LEFT	eras/age_VI/book/10_of_the_vigil_in_the_open.md:65	the Rail Board	(after "a")	|	s letter and no line in any timetable a Rail Board ever hung on a wall, and were gone from
+LEFT	eras/age_VI/book/11_of_the_wall_that_was_not_built.md:44	the Old Spirits	(after "a")	|	ning of their own. Her mother was of an Old Spirits house, one of the last in that shire to
+LEFT	eras/age_VI/book/12_of_the_sloc_mor.md:14	the Company	(no "the" before it)	|	n Sloc Mòr's galleries, for the humans' Company and then for Comhairle nam Mèinnean, si
+LEFT	eras/age_VI/book/12_of_the_sloc_mor.md:42	the Rail Board	(after "a")	|	north had been kept, more or less, by a Rail Board that mended what it must and let the re
+LEFT	eras/age_VI/book/13_of_the_indentures.md:3	the Law	(no "the" before it)	|	*Part Three: Of Guilds, Law and Library*
+LEFT	eras/age_VI/book/13_of_the_indentures.md:3	the Library	(no "the" before it)	|	*Part Three: Of Guilds, Law and Library*
+LEFT	eras/age_VI/book/14_of_agnes_pikes_school.md:15	the Mission	(no "the" before it)	|	es, having been taught her letters by a Mission woman old enough to remember the last s
+LEFT	eras/age_VI/book/14_of_agnes_pikes_school.md:31	the Moot	(no "the" before it)	|	ice their letters, before there was any Moot to call it a school or refuse to. It be
+LEFT	eras/age_VI/book/14_of_agnes_pikes_school.md:61	the Moot	(no "the" before it)	|	 it and children reciting psalms from a Moot's minute-book.
+LEFT	eras/age_VI/book/15_of_the_seventeen_suits.md:37	the Crown	(no "the" before it)	|	n's blessing carried any authority over Crown land that a justice's own bench was bou
+LEFT	eras/age_VI/book/15_of_the_seventeen_suits.md:47	the Moot	(no "the" before it)	|	hird year and recorded nowhere but in a Moot minute of that year, Tional nan Tuathac
+LEFT	eras/age_VI/book/15_of_the_seventeen_suits.md:65	the Crown	(no "the" before it)	|	 came before them. It was made to let a Crown that had just taken an island back from
+LEFT	eras/age_VI/book/15_of_the_seventeen_suits.md:67	the circuit justice	(no "the" before it)	|	and that she did not think it beneath a circuit justice to say so to the man who had begun the 
+LEFT	eras/age_VI/book/15_of_the_seventeen_suits.md:81	the circuit justice	(no "the" before it)	|	n had been exact enough to serve. Every circuit justice who rode after him carried a copy of th
+LEFT	eras/age_VI/book/16_of_the_cellar_at_muileann_chaol.md:23	the Mission	(no "the" before it)	|	rd-line could any longer read without a Mission reader's schooling behind them, which A
+LEFT	eras/age_VI/book/16_of_the_cellar_at_muileann_chaol.md:29	the table of the ages	(no "the" before it)	|	 besides into the years of an age, by a table of the ages the copyists themselves were building a
+LEFT	eras/age_VI/book/16_of_the_cellar_at_muileann_chaol.md:49	the Library	(no "the" before it)	|	Word that there was a Library to be read at, and not merely a cellar 
+LEFT	eras/age_VI/book/16_of_the_cellar_at_muileann_chaol.md:49	the Library	(no "the" before it)	|	eir errand, on the plain grounds that a Library nobody could reach was no better kept t
+LEFT	eras/age_VI/book/16_of_the_cellar_at_muileann_chaol.md:65	the Library	(no "the" before it)	|	e grain-store's yard before there was a Library, and it was there, on a morning in an L
+LEFT	eras/age_VI/book/16_of_the_cellar_at_muileann_chaol.md:77	the Library	(no "the" before it)	|	 to ask him about," Ailean said, "and a Library that only ever hears what a maor thinks
+LEFT	eras/age_VI/book/17_of_the_table_of_the_ages.md:35	the Library	(no "the" before it)	|	 the kingdom's whole record as Ailean's Library had begun to keep the north's, and set 
+LEFT	eras/age_VI/book/17_of_the_table_of_the_ages.md:37	the royal chronicler	(no "the" before it)	|	ce he read every warrant in, naming her royal chronicler of the kingdom and bidding her keep, in
+LEFT	eras/age_VI/book/18_of_the_raiders_bay.md:28	the royal chronicler	(no "the" before it)	|	mshuil nic Dhùghaill, the kingdom's own royal chronicler not two years and six-and-forty that se
+LEFT	eras/age_VI/book/19_of_the_fair_at_muileann_og.md:3	the Fair	(no "the" before it)	|	*Part Four: Of Fair, Crown and Survey*
+LEFT	eras/age_VI/book/19_of_the_fair_at_muileann_og.md:3	the Crown	(no "the" before it)	|	*Part Four: Of Fair, Crown and Survey*
+LEFT	eras/age_VI/book/19_of_the_fair_at_muileann_og.md:32	the court of the fair	(no "the" before it)	|	paid at the setting-up and not after; a court of the fair, *Cùirt na Fèille* as she headed the pa
+LEFT	eras/age_VI/book/19_of_the_fair_at_muileann_og.md:42	the Sloc Mòr	(after "a")	|	 a Cathair mhòr coal-carter who swore a Sloc Mòr merchant had sold him spoil dressed to 
+LEFT	eras/age_VI/book/20_of_the_way_niall_came.md:34	the chronicle	(no "the" before it)	|	meaning to, to write an argument, and a chronicle is not an argument.
+LEFT	eras/age_VI/book/20_of_the_way_niall_came.md:48	the chronicle	(no "the" before it)	|	 to it. It is, in the whole span of her chronicle, the only idiom she ever entered.
+LEFT	eras/age_VI/book/20_of_the_way_niall_came.md:52	the chronicle	(no "the" before it)	|	 this was rather the point of keeping a chronicle at all. Her mother said it was fair eno
+LEFT	eras/age_VI/book/20_of_the_way_niall_came.md:94	the Còmhrag	(no "the" before it)	|	 single sentence: the dead of the first Còmhrag were buried at Ceann leathan within the
+LEFT	eras/age_VI/book/20_of_the_way_niall_came.md:96	the Còmhrag	(no "the" before it)	|	The man who won that first Còmhrag was a hewer out of Muileann chrom named
+LEFT	eras/age_VI/book/21_of_the_sea-feast_turned_away.md:5	the Moot	(no "the" before it)	|	he Cuan bheag drowning be heard in this Moot on the same footing as any man who has 
+LEFT	eras/age_VI/book/21_of_the_sea-feast_turned_away.md:13	the chronicle	(no "the" before it)	|	e, for they had done nothing yet, and a chronicle that ran ahead of a child's life would 
+LEFT	eras/age_VI/book/21_of_the_sea-feast_turned_away.md:13	the chronicle	(no "the" before it)	|	 ahead of a child's life would not be a chronicle at all.
+LEFT	eras/age_VI/book/21_of_the_sea-feast_turned_away.md:45	the Moot	(no "the" before it)	|	 near as he came, in front of the whole Moot, to admitting that it had not occurred 
+LEFT	eras/age_VI/book/23_of_the_bare_entry.md:27	the chronicle	(no "the" before it)	|	 time before striking it too, because a chronicle that gave a queen's death two bare line
+LEFT	eras/age_VI/book/23_of_the_bare_entry.md:71	the Hawk	(no "the" before it)	|	ho did not wait to be asked. The town's Hawk house, which had never before opened it
+LEFT	eras/age_VI/book/23_of_the_bare_entry.md:71	the Hawk	(no "the" before it)	|	o have taken it without much comment, a Hawk house doing in a hard week what a Hawk 
+LEFT	eras/age_VI/book/23_of_the_bare_entry.md:71	the Hawk	(no "the" before it)	|	 Hawk house doing in a hard week what a Hawk house existed to do and nobody troublin
+LEFT	eras/age_VI/book/23_of_the_bare_entry.md:73	the chronicle	(no "the" before it)	|	ny office in Cathair dhearg does, and a chronicle that overruled a town's own choice of w
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:13	the chronicle	(no "the" before it)	|	builder was exactly the kind of thing a chronicle regretted not having a clerk present fo
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:25	the keeper of the Library	(no "the" before it)	|	Leabhar was five-and-fifty that spring, keeper of the Library fifteen years, and he had learned in mo
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:73	the Library	(no "the" before it)	|	as anything it had chosen to say, and a Library that kept only the answers and not the 
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:79	the Library	(no "the" before it)	|	t him more than the walking, and that a Library with only one person who could speak fo
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:79	the Library	(no "the" before it)	|	one person who could speak for it was a Library one bad season from having nobody who c
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:85	the Library	(no "the" before it)	|	d to learn it in a lifetime, and that a Library with a deputy who thought that way abou
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:85	the Library	(no "the" before it)	|	ught that way about her own title was a Library considerably less likely to need worryi
+LEFT	eras/age_VI/book/24_of_walls_under_the_ground.md:87	the keeper of the Library	(no "the" before it)	|	reader troubled to notice it, of what a keeper of the Library had judged worth doing with a question 
+LEFT	eras/age_VI/book/25_of_walter_hales_last_winter.md:25	the Moot's minutes	(after "a")	|	further, and his father, who had kept a Moot's minutes long enough to know a half-answer when 
+LEFT	eras/age_VI/book/26_of_the_hawks_own_custodian.md:13	the Rite	(no "the" before it)	|	aig's own nights, the ones the southern Rite kept only at its greatest feasts, every
+LEFT	eras/age_VI/book/26_of_the_hawks_own_custodian.md:71	the melee	(no "the" before it)	|	 the trampled ground before that year's melee was called at last, more than had ever 
+LEFT	eras/age_VI/book/26_of_the_hawks_own_custodian.md:71	the Rite	(no "the" before it)	|	 off it. The custodians of the southern Rite, who had never loved Còmhrag Ceann leat
+LEFT	eras/age_VI/book/26_of_the_hawks_own_custodian.md:73	the Còmhrag	(no "the" before it)	|	g too neat for anyone who had watched a Còmhrag before to call it chance, and the boy o
+LEFT	eras/age_VI/book/27_of_the_silver_at_depth.md:15	the silver guild	(no "the" before it)	|	y the better part of a morning. The old silver guild of Muileann chiar had kept its charter 
+LEFT	eras/age_VI/book/27_of_the_silver_at_depth.md:15	the Administration	(no "the" before it)	|	n Dealachadh, a charter the humans' own Administration had let stand unaltered through the who
+LEFT	eras/age_VI/book/28_of_the_fall_at_muileann_dhearg.md:80	the Library	(no "the" before it)	|	en she was asked, beyond that a thing a Library could not trace back to its own hand wa
+LEFT	eras/age_VI/book/29_of_the_carters_road.md:17	the fair at Muileann òg	(no "the" before it)	|	n between the northern towns before any fair at Muileann òg had reason to want either, and that the
+LEFT	eras/age_VI/book/29_of_the_carters_road.md:19	the Moot	(no "the" before it)	|	Frayne, who had never in his years at a Moot table learned what it was to sit a hors
+LEFT	eras/age_VI/book/29_of_the_carters_road.md:21	the Moot	(no "the" before it)	|	hearing rather than at second hand in a Moot report, how a family that had never own
+LEFT	eras/age_VI/book/29_of_the_carters_road.md:35	the Moot	(no "the" before it)	|	 just done the one thing his years at a Moot table had never yet let him do, which w
+LEFT	eras/age_VI/book/29_of_the_carters_road.md:45	the chronicle	(no "the" before it)	|	n she was young at the work, and that a chronicle written in a shaking hand was a poorer 
+LEFT	eras/age_VI/book/29_of_the_carters_road.md:45	the chronicle	(no "the" before it)	|	orer gift to the years after her than a chronicle handed, in good time, to a younger one.
+LEFT	eras/age_VI/book/29_of_the_carters_road.md:47	the chronicle	(no "the" before it)	|	her, the clerk who had ridden the first chronicle circuit and had sat at her elbow at Mui
+LEFT	eras/age_VI/book/30_of_the_unlit_ships.md:11	the royal chronicler	(no "the" before it)	|	the front of the first book he wrote as royal chronicler, the list his predecessor had left him 
+LEFT	eras/age_VI/book/30_of_the_unlit_ships.md:11	the chronicle	(no "the" before it)	|	his predecessor had left him of what no chronicle yet held, {{date:V-0153}}, the northern
+LEFT	eras/age_VI/book/30_of_the_unlit_ships.md:17	the chronicle	(no "the" before it)	|	rest of that dry spring was a line in a chronicle and nothing more, and a fifth stood dry
+LEFT	eras/age_VI/book/30_of_the_unlit_ships.md:39	the chronicle	(no "the" before it)	|	t no board had ever asked of him and no chronicle had ever thought to record, and that th
+LEFT	eras/age_VI/book/30_of_the_unlit_ships.md:53	the chronicle	(no "the" before it)	|	abharlann had carried south for his own chronicle's sake, wrote beneath the copied names th
+LEFT	eras/age_VI/book/31_of_the_sacred_wood.md:40	the Rite	(no "the" before it)	|	whichever faith a man's own house kept, Rite or Hawk or the older reverence both tog
+LEFT	eras/age_VI/book/31_of_the_sacred_wood.md:40	the Hawk	(no "the" before it)	|	r faith a man's own house kept, Rite or Hawk or the older reverence both together, t
+LEFT	eras/age_VI/book/31_of_the_sacred_wood.md:44	the Crown	(no "the" before it)	|	having all the same, against a day some Crown's steward less easy than the last might t
+LEFT	eras/age_VI/book/31_of_the_sacred_wood.md:48	the pillar near Cnoc chiar	(no "the" before it)	|	le Naomh Muileann chiar to the standing pillar near Cnoc chiar and copied its marks onto three separat
+LEFT	eras/age_VI/book/32_of_the_forty-one_shafts.md:29	the search for a second vein	(no "the" before it)	|	The act he meant was a search for a second vein, and the paper he laid on the table was
+LEFT	eras/age_VI/book/32_of_the_forty-one_shafts.md:69	the Crown	(no "the" before it)	|	 shire's own cost rather than wait on a Crown that had shown, in the matter of Dùn dh
+LEFT	eras/age_VI/book/32_of_the_forty-one_shafts.md:71	the Library	(no "the" before it)	|	ead of her, that a kingdom which kept a Library at all and still had to be told twice, 
+LEFT	eras/age_VI/book/32_of_the_forty-one_shafts.md:71	the Library	(no "the" before it)	|	old twice, by its own ground, what that Library already held, was a kingdom that had no
+LEFT	eras/age_VI/book/33_of_the_reef_bell.md:58	the Moot	(no "the" before it)	|	ne's hand to sound it truly; and that a Moot which could not yet move a line of rail
+LEFT	eras/age_VI/book/34_of_the_one_sheet.md:15	the Còmhrag	(no "the" before it)	|	been at the loom since before the first Còmhrag, why her house troubled to copy a north
+LEFT	eras/age_VI/book/34_of_the_one_sheet.md:75	the riddle	(no "the" before it)	|	rch's own failure, to sound less like a riddle and more like the only honest question 
+LEFT	eras/age_VI/book/35_of_the_crown_alone.md:11	the Moot	(no "the" before it)	|	ng that fit it well, since it was not a Moot matter and yet seemed to him, turning t
+LEFT	eras/age_VI/book/35_of_the_crown_alone.md:27	the white thread	(no "the" before it)	|	eek of an t-Iuchar, a grey twill with a white thread run through the selvedge, the same mark
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:5	the hungry year	(no "the" before it)	|	> A crossing is a crossing, and a hungry year is a hungry year, and neither waits on 
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:5	the hungry year	(no "the" before it)	|	g is a crossing, and a hungry year is a hungry year, and neither waits on the other so exac
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:5	the chronicle	(no "the" before it)	|	when the wheat proved me wrong, since a chronicle that will not own its own bad guesses i
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:13	the chronicle	(no "the" before it)	|	 chronicler who had trained him, that a chronicle owed a speaker her own words and owed a
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:17	the chronicle	(no "the" before it)	|	wrong name mattered enough to trouble a chronicle with four lines when the season had bro
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:17	the chronicle	(no "the" before it)	|	 harder matters. Tormod told her that a chronicle worked as a net rather than a court, ta
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:25	the chronicle	(no "the" before it)	|	ftenest, by a bill of sale and not by a chronicle's own reckoning.
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:45	the chronicle	(no "the" before it)	|	n Leabharlann as a thing more fit for a chronicle than a rent-roll. The maor wrote that a
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:51	the chronicle	(no "the" before it)	|	ason or two, and Tormod told her that a chronicle's business was what a year had actually d
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:65	the chronicle	(no "the" before it)	|	ng it meant to keep settled, and that a chronicle owed its readers the plain fact of both
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:69	the hungry year	(no "the" before it)	|	by then and the old list's warning of a hungry year to follow it a full season overdue with
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:71	the chronicle	(no "the" before it)	|	ractice required of every correction, a chronicle owing its readers its wrong guesses as 
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:73	the chronicle	(no "the" before it)	|	k, the line and the words both, since a chronicle that quietly rewrote its own bad year e
+LEFT	eras/age_VI/book/36_of_the_pumps_and_the_panthers.md:73	the Library	(no "the" before it)	|	 that any clerk who came to the desk on Library business might read, before he read any
+LEFT	eras/age_VI/book/37_of_now_written.md:67	the keeper of the Library	(no "the" before it)	|	Mòrag nic Coinnich, keeper of the Library these six-and-twenty years, had long he
+LEFT	eras/age_VI/book/37_of_now_written.md:71	the chronicle	(no "the" before it)	|	me season, together with the town's own chronicle, kept by a single family through four g
+LEFT	eras/age_VI/book/37_of_now_written.md:71	the chronicle	(no "the" before it)	|	 family judged an extravagance no plain chronicle wanted. Mòrag nic Coinnich, going throu
+LEFT	eras/age_VI/book/37_of_now_written.md:79	the Library	(no "the" before it)	|	ach's own books, whatever the kingdom's Library now held of every other shire's record,
+LEFT	eras/age_VI/book/38_of_the_empty_floor_and_the_banked_fire.md:13	the chronicle	(no "the" before it)	|	into Eachdraidh na Rìoghachd, judging a chronicle no place for a joke that would want exp
+LEFT	eras/age_VI/book/38_of_the_empty_floor_and_the_banked_fire.md:27	the chronicle	(no "the" before it)	|	ask for it. Beathag told him no, that a chronicle's business was to copy the word Comhairle
+LEFT	eras/age_VI/gazetteer/01_capital_and_north_west.json:365.history	the roll of arms	(no "the" before it)	|	it again when the maoir were named. Its roll of arms and its dues were entered in the fourth
+LEFT	eras/age_VI/gazetteer/01_capital_and_north_west.json:5.history	the hungry year	(no "the" before it)	|	 the town's mill on credit in the first hungry year. Marlow's son Harry went from the forge
+LEFT	eras/age_VI/gazetteer/01_capital_and_north_west.json:26.history	the vein-house	(no "the" before it)	|	st, where Leabhar a' Chùraim of the old vein-house on the hill above the harbour was kept 
+LEFT	eras/age_VI/gazetteer/01_capital_and_north_west.json:26.history	the circuit justice	(no "the" before it)	|	t name. In the eighth year she was made circuit justice of the south-west and held her first as
+LEFT	eras/age_VI/gazetteer/02_north_coast_and_the_mountain.json:279.history	the Old Spirits	(after "a")	|	ged here a night with her mother, of an Old Spirits house, on their walk to the well in the
+LEFT	eras/age_VI/gazetteer/02_north_coast_and_the_mountain.json:491.history	the Còmhrag	(no "the" before it)	|	t sent the largest company to the first Còmhrag. The Cill ghlas district under it, shut
+LEFT	eras/age_VI/gazetteer/02_north_coast_and_the_mountain.json:354.history	the Còmhrag	(no "the" before it)	|	adh, a hewer of the town, won the first Còmhrag. In the sixty-third year its yard famil
+LEFT	eras/age_VI/gazetteer/02_north_coast_and_the_mountain.json:106.history	the fair at Muileann òg	(no "the" before it)	|	Its pipers played for coin at the first fair at Muileann òg, and its cloth came to that fair from i
+LEFT	eras/age_VI/gazetteer/02_north_coast_and_the_mountain.json:44.history	the Còmhrag	(no "the" before it)	|	wn twice in the first hour of the first Còmhrag, and stood over him laughing the second
+LEFT	eras/age_VI/gazetteer/02_north_coast_and_the_mountain.json:62.history	the chronicle	(no "the" before it)	|	uth's forty chests gave up to the first chronicle circuit. In the nineteenth year the old
+LEFT	eras/age_VI/gazetteer/02_north_coast_and_the_mountain.json:23.history	the sheet of the vein	(no "the" before it)	|	, and Catrìona nic Neacail hung her one sheet of the vein on its chamber wall in the fifty-sixth.
+LEFT	eras/age_VI/gazetteer/03_the_fair_country_and_the_coasts.json:255.history	the fair at Muileann òg	(no "the" before it)	|	actor made her toll-mistress of the new fair at Muileann òg; she left her scales to a niece she had
+LEFT	eras/age_VI/gazetteer/03_the_fair_country_and_the_coasts.json:371.history	the Hawk	(no "the" before it)	|	s to the river; no one died. The town's Hawk house, which had never taken in househo
+LEFT	eras/age_VI/gazetteer/03_the_fair_country_and_the_coasts.json:492.history	the flagless ships	(no "the" before it)	|	 In an Gearran of the forty-fourth year flagless ships came in under cloud and burned its thre
+LEFT	eras/age_VI/gazetteer/03_the_fair_country_and_the_coasts.json:297.history	the hungry year	(no "the" before it)	|	d Pinn struck through his own note of a hungry year to come.
+LEFT	eras/age_VI/gazetteer/03_the_fair_country_and_the_coasts.json:304.history	the chronicle	(no "the" before it)	|	he northern shires filled for the first chronicle circuit in the nineteenth year, and Gor
+LEFT	eras/age_VI/gazetteer/04_the_roads_the_schools_and_the_failing_vein.json:422.history	the Holy Age	(after "a")	|	t its stone hall to meet the damages. A Holy Age survey in an Leabharlann had named the 
+LEFT	eras/age_VI/gazetteer/04_the_roads_the_schools_and_the_failing_vein.json:273.history	the Moot	(no "the" before it)	|	r no heading that fit, since it was not Moot business and yet seemed to him to be.
+LEFT	eras/age_VI/gazetteer/04_the_roads_the_schools_and_the_failing_vein.json:192.history	the chronicle	(no "the" before it)	|	A town of the north whose chronicle has been kept by one family through fou
+LEFT	eras/age_VI/gazetteer/04_the_roads_the_schools_and_the_failing_vein.json:192.history	the chronicle	(no "the" before it)	|	st daughter packed the town's rolls and chronicle into two carts herself and rode them so
+LEFT	eras/age_VI/gazetteer/04_the_roads_the_schools_and_the_failing_vein.json:192.known_for	the chronicle	(no "the" before it)	|	the family chronicle of four generations
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:32	the Moot	(no "the" before it)	|	 nan Tuathach's letter was read, what a Moot was. He died in the thirtieth year.
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:56	the royal chronicler	(no "the" before it)	|	The office of royal chronicler was made with Clàr nan Aoisean, and its
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:58	the royal chronicler	(no "the" before it)	|	eabharlann at four-and-forty, and sworn royal chronicler on the twentieth of an t-Samhain. She r
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:58	the chronicle	(no "the" before it)	|	eth of an t-Samhain. She rode the first chronicle circuit's returns into the book, let on
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:60	the royal chronicler	(no "the" before it)	|	 the first circuit at three-and-thirty, royal chronicler from the forty-second year at six-and-f
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:60	the hungry year	(no "the" before it)	|	, and struck through his own guess of a hungry year when the harvest proved thick. He died 
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:62	the royal chronicler	(no "the" before it)	|	h**, of an Leabharlann's senior clerks, royal chronicler from the sixty-fifth year at three-and-
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:70	the circuit justice	(no "the" before it)	|	d** of Cathair dhomhain was named first circuit justice in the seventh year, her circuit eleven
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:74	the circuit justice	(no "the" before it)	|	**Ruairidh mac Phàdraig**, circuit justice at Seann Bhral in the west, who ruled i
+LEFT	eras/age_VI/appendices/A_rulers_offices.md:80	the coal line	(no "the" before it)	|	he-iarainn** was made to run the mended coal line in the eighth year, one clerk and two e
+LEFT	eras/age_VI/appendices/C_shires_dues_arms.md:3	the roll of arms	(no "the" before it)	|	irst weeks; their seals were cut from a roll of arms made in the fourth year, much of it cop
+LEFT	eras/age_VI/appendices/C_shires_dues_arms.md:41	the circuit justice	(no "the" before it)	|	ar nam Breith and a copy given to every circuit justice. Her brother's son **Uilleam mac Leòid*
+LEFT	eras/age_VI/appendices/C_shires_dues_arms.md:41	the circuit justice	(no "the" before it)	|	 year. **Ruairidh mac Phàdraig** sat as circuit justice at Seann Bhral in the west in the fifty
+LEFT	eras/age_VI/appendices/C_shires_dues_arms.md:59	the chronicle	(no "the" before it)	|	spring of the nineteenth year the first chronicle circuit's clerks rode out in three pair
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:11	the royal chronicler	(no "the" before it)	|	uncil's warrant that made the office of royal chronicler ordered that the kingdom's records shou
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:44	the circuit justice	(no "the" before it)	|	xteenth year and given in copy to every circuit justice.
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:46	the Holy Age	(after "a")	|	ean's receipt still pinned to it; and a Holy Age survey that named the hills above Dùn d
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:52	the royal chronicler	(no "the" before it)	|	The office of royal chronicler was made in the eighteenth year, and it
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:52	the chronicle	(no "the" before it)	|	 the nineteenth year she sent the first chronicle circuit out in three pairs of clerks: t
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:54	the hungry year	(no "the" before it)	|	en. He struck through his own note of a hungry year to follow the panthers' crossing when t
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:54	the chronicle	(no "the" before it)	|	egible beneath the line, holding that a chronicle owes its readers its wrong guesses as p
+LEFT	eras/age_VI/appendices/D_reckoning_record.md:68	the chronicle	(no "the" before it)	|	athair naomh sent two carts with a town chronicle kept by one family through four generat
+LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:17	the coal line	(no "the" before it)	|	de in the eighth year to run the mended coal line, seated at Cathair dhearg in a low buil
+LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:49	the court of the fair	(no "the" before it)	|	in her own hand: a stall-fee in coin; a court of the fair to sit each day of the gathering; and T
+LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:59	the white thread	(no "the" before it)	|	hose first bolt was a grey twill with a white thread at the selvedge. **Grain**, by water fr
+LEFT	eras/age_VI/appendices/E_vein_boards_trade.md:67	the Holy Age	(after "a")	|	Mòrag nic Coinnich found afterward in a Holy Age list at an Leabharlann the same hills n
+LEFT	eras/age_VI/events/01.json:$.summary	the war-companies	(no "the" before it)	|	orders that the rolls of the stood-down war-companies be kept and boxed rather than burned wi
+LEFT	eras/age_VI/events/03.json:$.summary	the Mission	(no "the" before it)	|	read, and says nothing of the letters a Mission reader taught him as a boy, for a clerk
+LEFT	eras/age_VI/events/04.json:$.title	the Moot	(no "the" before it)	|	A councillor asks what a Moot is
+LEFT	eras/age_VI/events/04.json:$.summary	the Moot	(no "the" before it)	|	ailean mac Sheumais asks plainly what a Moot is; no one in the chamber can answer wi
+LEFT	eras/age_VI/events/04.json:$.title	the Moot	(no "the" before it)	|	g of northern households takes the name Moot
+LEFT	eras/age_VI/events/06.json:$.summary	the roll of arms	(no "the" before it)	|	 Clàr nan Suaicheantas, the newly drawn roll of arms, for a maor of the south-west to press 
+LEFT	eras/age_VI/events/06.json:$.summary	the roll of arms	(no "the" before it)	|	 that a kingdom that finds silver for a roll of arms can find grain for its own dead.
+LEFT	eras/age_VI/events/11.json:$.summary	the Old Spirits	(after "a")	|	he old road east with her mother, of an Old Spirits house, to drink at the holy well and ad
+LEFT	eras/age_VI/events/15.json:$.title	the Crown	(no "the" before it)	|	The Moot's minute-books credited by a Crown bench
+LEFT	eras/age_VI/events/15.json:$.summary	the circuit justice	(no "the" before it)	|	own paper is taken as evidence before a circuit justice.
+LEFT	eras/age_VI/events/15.json:$.summary	the circuit justice	(no "the" before it)	|	 herself, Leabhar nam Breith, and every circuit justice after her is given a copy to carry.
+LEFT	eras/age_VI/events/15.json:$.summary	the circuit justice	(no "the" before it)	|	Uilleam mac Leòid is named circuit justice of the north in his aunt's place, and r
+LEFT	eras/age_VI/events/16.json:$.title	the keeper of the Library	(no "the" before it)	|	Ailean mac Iain named first keeper of the Library
+LEFT	eras/age_VI/events/16.json:$.summary	the Mission	(no "the" before it)	|	nd carry, and within the year to read a Mission hand that few south of the guard-line c
+LEFT	eras/age_VI/events/16.json:$.summary	the count of the Diosal	(no "the" before it)	|	r the humans brought, disliking the old count of the Diosal, which runs backward into the thousands
+LEFT	eras/age_VI/events/16.json:$.summary	the Library	(no "the" before it)	|	r errand, on the plain reasoning that a Library nobody can reach is no better kept than
+LEFT	eras/age_VI/events/17.json:$.title	the royal chronicler	(no "the" before it)	|	The office of royal chronicler set at Muileann chaol, not the capital
+LEFT	eras/age_VI/events/17.json:$.title	the chronicle	(no "the" before it)	|	Tormod mac Sheumais joins the first chronicle circuit
+LEFT	eras/age_VI/events/17.json:$.title	the royal chronicler	(no "the" before it)	|	Gormshuil sworn royal chronicler
+LEFT	eras/age_VI/events/17.json:$.summary	the royal chronicler	(no "the" before it)	|	Gormshuil nic Dhùghaill is sworn royal chronicler in a small room at Cathair dhearg on th
+LEFT	eras/age_VI/events/17.json:$.summary	the chronicle	(no "the" before it)	|	In the spring the first chronicle circuit's clerks ride out in three pair
+LEFT	eras/age_VI/events/19.json:$.summary	the court of the fair	(no "the" before it)	|	 own plain hand: a stall-fee in coin, a court of the fair to sit each day of the gathering, and T
+LEFT	eras/age_VI/events/19.json:$.summary	the Sloc Mòr	(after "a")	|	A Cathair mhòr coal-carter brings a Sloc Mòr merchant's load of spoil-stone dressed 
+LEFT	eras/age_VI/events/19.json:$.summary	the fair at Muileann òg	(no "the" before it)	|	The first fair at Muileann òg runs a fortnight, with wool from the we
+LEFT	eras/age_VI/events/20.json:$.title	the Còmhrag	(no "the" before it)	|	The rules of the first Còmhrag
+LEFT	eras/age_VI/events/20.json:$.summary	the Còmhrag	(no "the" before it)	|	The first Còmhrag at Ceann leathan is fought under rules 
+LEFT	eras/age_VI/events/20.json:$.title	the Còmhrag	(no "the" before it)	|	The dead of the first Còmhrag buried
+LEFT	eras/age_VI/events/20.json:$.summary	the Còmhrag	(no "the" before it)	|	 not walk out of the ropes at the first Còmhrag are buried at Ceann leathan within the 
+LEFT	eras/age_VI/events/20.json:$.summary	the Còmhrag	(no "the" before it)	|	r of Muileann chrom, who wins the first Còmhrag by refusing to stay down.
+LEFT	eras/age_VI/events/20.json:$.summary	the Còmhrag	(no "the" before it)	|	before dawn the morning after the first Còmhrag with the purse in his coat and the shir
+LEFT	eras/age_VI/events/24.json:$.summary	the Library	(no "the" before it)	|	at has taught him one keeper alone is a Library one bad season from having nobody who c
+LEFT	eras/age_VI/events/25.json:$.summary	the Crown	(no "the" before it)	|	 of a poor season the keeper of the new Crown grain-store walks out to the road and t
+LEFT	eras/age_VI/events/26.json:$.summary	the Hawk	(no "the" before it)	|	Witnesses of every Hawk house in Siorrachd Cnoc bheag crowd the
+LEFT	eras/age_VI/events/26.json:$.summary	the Hawk	(no "the" before it)	|	n order of worship knows no office of a Hawk custodian and so cannot own her.
+LEFT	eras/age_VI/events/26.json:$.title	the Còmhrag	(no "the" before it)	|	Six die at that year's Còmhrag
+LEFT	eras/age_VI/events/26.json:$.summary	the Còmhrag	(no "the" before it)	|	und at Ceann leathan before that year's Còmhrag is called, one of them a boy of Baile g
+LEFT	eras/age_VI/events/26.json:$.summary	the Rite	(no "the" before it)	|	The custodians of the southern Rite petition the fair-wardens of Ceann leat
+LEFT	eras/age_VI/events/27.json:$.summary	the Administration	(no "the" before it)	|	ored custom the charter the humans' own Administration had let stand and then let lapse, bindi
+LEFT	eras/age_VI/events/29.json:$.summary	the royal chronicler	(no "the" before it)	|	ting, Gormshuil lays down the office of royal chronicler after four and twenty years, her final 
+LEFT	eras/age_VI/events/29.json:$.summary	the royal chronicler	(no "the" before it)	|	peed of his hand, succeeds Gormshuil as royal chronicler and opens his own first book by copying
+LEFT	eras/age_VI/events/29.json:$.summary	the Shipwrights	(no "the" before it)	|	Shipwrights turned out of the southern guild yards 
+LEFT	eras/age_VI/events/32.json:$.summary	the Holy Age	(after "a")	|	 lower room, Mòrag nic Coinnich finds a Holy Age survey naming the same hills above Dùn 
+LEFT	eras/age_VI/events/34.json:$.summary	the white thread	(no "the" before it)	|	inding her mother's stall sews a second white thread into an unsold bolt after the buyers ha
+LEFT	eras/age_VI/events/34.json:$.summary	the melee	(no "the" before it)	|	ch off the coal trade as off the yearly melee, raise the gate-price of the Còmhrag to
+LEFT	eras/age_VI/events/34.json:$.summary	the white thread	(no "the" before it)	|	ith the shire's own bark, with a single white thread at the selvedge.
+LEFT	eras/age_VI/events/35.json:$.summary	the white thread	(no "the" before it)	|	n their first bolt, a grey twill with a white thread at the selvedge, and the overseer write
+LEFT	eras/age_VI/events/36.json:$.summary	the Library	(no "the" before it)	|	od Pinn sets the maor's letter beside a Library list from the days of An Aois Naomh nam
+LEFT	eras/age_VI/events/36.json:$.summary	the hungry year	(no "the" before it)	|	s a line through his own entry naming a hungry year to follow the panthers' crossing, leavi
+LEFT	eras/age_VI/events/36.json:$.summary	the chronicle	(no "the" before it)	|	 proved thick rather than thin, since a chronicle owes its readers its wrong guesses as p
+LEFT	eras/age_VI/events/37.json:$.title	the chronicle	(no "the" before it)	|	Cathair naomh's chronicle carried south by its own keeper
+LEFT	eras/age_VI/events/37.json:$.summary	the chronicle	(no "the" before it)	|	mily that has kept Cathair naomh's town chronicle four generations rides the two carts so

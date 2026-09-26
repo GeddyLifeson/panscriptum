@@ -1,122 +1,229 @@
 [
-  {
-    "title": "Brian takes up the grave-digger's work",
-    "era_year": 2880,
-    "summary": "Brian, of the Mason's line, becomes known through the high valleys as the one who digs the graves of the dead, a trade his father had kept before him. He is a plain, steady man, slow of speech, and the valley comes to trust his hands with its dead.",
-    "category": "land",
-    "people": ["Brian"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": []
-  },
-  {
-    "title": "Brian marries Caoimhe",
-    "era_year": 2879,
-    "summary": "Brian, grave-digger of the high valleys, marries Caoimhe of a herding household two valleys east, a quick-tongued woman known for setting a whole hearth laughing. Three children born to them die in their first winter, one after another.",
-    "category": "land",
-    "people": ["Brian", "Caoimhe"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": []
-  },
-  {
-    "title": "Brian reasons the earth wants its own time",
-    "era_year": 2885,
-    "summary": "Standing at a fresh grave, Brian reasons that as the sea took its coal by wading and the sky by the height of a throw, the earth might take its coal only if left buried deep and undisturbed, as the dead are left. He carries the thought to Sireadh, keeper of the bag.",
-    "category": "coal",
-    "people": ["Brian", "Sireadh"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": [{"to": "I-0027a", "type": "sequel"}]
-  },
-  {
-    "title": "Sireadh gives Brian the five dark coals",
-    "era_year": 2885,
-    "summary": "Sireadh, eldest keeper of the leather bag since Fionnghuala's day, gives Brian the five coals that have not yet answered, keeping back only her doubt that a grave-digger's guess will fare better than the trials that failed before it.",
-    "category": "coal",
-    "people": ["Brian", "Sireadh"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": []
-  },
-  {
-    "title": "Neighbours gather to watch the coals buried",
-    "era_year": 2885,
-    "summary": "Word of Brian's digging draws watchers to the graveside through the evening: an old man who had tried the coals himself in his youth, two of Sireadh's grandchildren, a boy sent home twice who comes back a third time. The talk among them does not agree.",
-    "category": "coal",
-    "people": ["Brian", "Caoimhe"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": [{"to": "I-0038a", "type": "cause"}]
-  },
-  {
-    "title": "The black coal set in the mason's fire",
-    "era_year": 2885,
-    "summary": "Brian carries the warm black coal to the hearth at Tobar dhìreach and sets it among the embers of the fire Clann a' Chlachair holds to have burned unbroken since the night of the lightning. It catches and burns on, and is not seen to go dark again.",
-    "category": "coal",
-    "people": ["Brian"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": [{"to": "I-0038a", "type": "sequel"}]
-  },
-  {
-    "title": "Brian keeps the black coal in his own pot",
-    "era_year": 2886,
-    "summary": "Brian makes a clay pot of his own, fired for the purpose, with a lid of fresh-cut turf, and keeps the black coal burning in it for the rest of his life, feeding it wood and heather and carrying it with him at his work through the high valleys.",
-    "category": "coal",
-    "people": ["Brian"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": []
-  },
-  {
-    "title": "Brian teaches the grave-digger's trade",
-    "era_year": 2915,
-    "summary": "In his later years Brian gives over the heaviest digging to younger hands he has taught himself, teaching them above all to line a grave true, so the sides will not fall on what is laid in it; he goes on keeping the black coal at his own hearth.",
-    "category": "land",
-    "people": ["Brian"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": []
-  },
-  {
-    "title": "Brian dies at three-and-sixty",
-    "era_year": 2921,
-    "summary": "Brian, grave-digger of the high valleys and finder of the black coal, dies at three-and-sixty, worn by his years of labour rather than by any illness the valley can name. He is buried beside the slab at Tobar dhìreach, near the ground he first opened for the five coals.",
-    "category": "land",
-    "people": ["Brian", "Caoimhe"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": [{"to": "I-0038a", "type": "legacy"}]
-  },
-  {
-    "title": "The black coal burns at Brian's burial",
-    "era_year": 2921,
-    "summary": "The pot holding the black coal is set beside Brian's grave, still burning, banked low, through the length of his burial; when the earth is given, Caoimhe lifts the pot herself and carries it home, and keeps the coal burning at her own hearth after.",
-    "category": "faith",
-    "people": ["Caoimhe"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": []
-  },
-  {
-    "title": "The count of the coals said new at the recital",
-    "era_year": 2921,
-    "summary": "At the next night of the lightning the reciter of the line adds the black coal to the count: the sea has taken the gold, the sky the white-flecked coal, and now the earth the black, gual dubh, slowly, in the dark. Four coals remain unanswered.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason", "the-seven-coals"],
-    "master_links": [{"to": "I-0038a", "type": "legacy"}]
-  },
-  {
-    "title": "Caoimhe dies",
-    "era_year": 2930,
-    "summary": "Caoimhe, wife of Brian the grave-digger, dies nine years after him, having kept the black coal burning at her own hearth all that while and never remarried; the coal passes from her hands into other keeping, banked and fed as it had been from the first.",
-    "category": "land",
-    "people": ["Caoimhe"],
-    "places": ["burg:276"],
-    "threads": ["line-of-the-mason"],
-    "master_links": []
-  }
+ {
+  "title": "Brian takes up the grave-digger's work",
+  "era_year": 2880,
+  "summary": "Brian, of Clann a' Chlachair, becomes known through the high valleys as the one who digs the graves of the dead, a trade his father had kept before him. He is a plain, steady man, slow of speech, and the valley comes to trust his hands with its dead.",
+  "category": "land",
+  "people": [
+   "Brian"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Brian marries Caoimhe",
+  "era_year": 2879,
+  "summary": "Brian, grave-digger of the high valleys, marries Caoimhe of a herding household two valleys east, a quick-tongued woman known for setting a whole hearth laughing. Three children born to them die in their first winter, one after another.",
+  "category": "land",
+  "people": [
+   "Brian",
+   "Caoimhe"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Brian reasons the earth wants its own time",
+  "era_year": 2885,
+  "summary": "Standing at a fresh grave, Brian reasons that as the sea took its coal by wading and the sky by the height of a throw, the earth might take its coal only if left buried deep and undisturbed, as the dead are left. He carries the thought to Sireadh, keeper of the bag.",
+  "category": "coal",
+  "people": [
+   "Brian",
+   "Sireadh"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0027a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Sireadh gives Brian the five dark coals",
+  "era_year": 2885,
+  "summary": "Sireadh, eldest keeper of the leather bag since Fionnghuala's day, gives Brian the five coals that have not yet answered, keeping back only her doubt that a grave-digger's guess will fare better than the trials that failed before it.",
+  "category": "coal",
+  "people": [
+   "Brian",
+   "Sireadh"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Neighbours gather to watch the coals buried",
+  "era_year": 2885,
+  "summary": "Word of Brian's digging draws watchers to the graveside through the evening: an old man who had tried the coals himself in his youth, two of Sireadh's grandchildren, a boy sent home twice who comes back a third time. The talk among them does not agree.",
+  "category": "coal",
+  "people": [
+   "Brian",
+   "Caoimhe"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0038a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The black coal set in Teine a' Chlachair",
+  "era_year": 2885,
+  "summary": "Brian carries the warm black coal to the hearth at Tobar dhìreach and sets it among the embers of the fire Clann a' Chlachair holds to have burned unbroken since Oidhche an Dealanaich. It catches and burns on, and is not seen to go dark again.",
+  "category": "coal",
+  "people": [
+   "Brian"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0038a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Brian keeps the black coal in his own pot",
+  "era_year": 2886,
+  "summary": "Brian makes a clay pot of his own, fired for the purpose, with a lid of fresh-cut turf, and keeps the black coal burning in it for the rest of his life, feeding it wood and heather and carrying it with him at his work through the high valleys.",
+  "category": "coal",
+  "people": [
+   "Brian"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Brian teaches the grave-digger's trade",
+  "era_year": 2915,
+  "summary": "In his later years Brian gives over the heaviest digging to younger hands he has taught himself, teaching them above all to line a grave true, so the sides will not fall on what is laid in it; he goes on keeping the black coal at his own hearth.",
+  "category": "land",
+  "people": [
+   "Brian"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Brian dies at three-and-sixty",
+  "era_year": 2921,
+  "summary": "Brian, grave-digger of the high valleys and finder of the black coal, dies at three-and-sixty, worn by his years of labour rather than by any illness the valley can name. He is buried beside Leac na Fèithe at Tobar dhìreach, near the ground he first opened for the five coals.",
+  "category": "land",
+  "people": [
+   "Brian",
+   "Caoimhe"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0038a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The black coal burns at Brian's burial",
+  "era_year": 2921,
+  "summary": "The pot holding the black coal is set beside Brian's grave, still burning, banked low, through the length of his burial; when the earth is given, Caoimhe lifts the pot herself and carries it home, and keeps the coal burning at her own hearth after.",
+  "category": "faith",
+  "people": [
+   "Caoimhe"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The count of the coals said new at the recital",
+  "era_year": 2921,
+  "summary": "At the next night of the lightning the reciter of the line adds the black coal to the count: the sea has taken the gold, the sky the white-flecked coal, and now the earth the black, gual dubh, slowly, in the dark. Four coals remain unanswered.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "I-0038a",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Caoimhe dies",
+  "era_year": 2930,
+  "summary": "Caoimhe, wife of Brian the grave-digger, dies nine years after him, having kept the black coal burning at her own hearth all that while and never remarried; the coal passes from her hands into other keeping, banked and fed as it had been from the first.",
+  "category": "land",
+  "people": [
+   "Caoimhe"
+  ],
+  "places": [
+   "burg:276"
+  ],
+  "threads": [
+   "line-of-the-mason"
+  ],
+  "master_links": []
+ }
 ]

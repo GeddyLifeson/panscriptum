@@ -2,7 +2,7 @@
  {
   "title": "The mill at Muileann shean",
   "era_year": 1123,
-  "summary": "A mill is raised on the northern road at Muileann shean to grind grain for the carriers crossing the pass; the miller pays the Hall in grain and the rìgh's toll in flour, and a town grows round the mill within two generations.",
+  "summary": "A mill is raised on the northern road at Muileann shean to grind grain for the carriers crossing the pass; the miller pays Talla na Lasrach in grain and the rìgh's toll in flour, and a town grows round the mill within two generations.",
   "category": "trade",
   "people": [],
   "places": [
@@ -38,9 +38,9 @@
   ]
  },
  {
-  "title": "The Hall's own roll for the same years",
+  "title": "Talla na Lasrach's own roll for the same years",
   "era_year": 1130,
-  "summary": "For the span the king-list gives eleven rulers, the Hall's spoken roll gives only five Keepers, a mountain's years running longer than a lowland's, as every teller of the Fire already knows.",
+  "summary": "For the span Clàr nan Rìghrean gives eleven rulers, Talla na Lasrach's spoken roll gives only five Keepers, a mountain's years running longer than a lowland's, as every teller of the Fire already knows.",
   "category": "coal",
   "people": [],
   "places": [
@@ -55,9 +55,9 @@
   ]
  },
  {
-  "title": "The last of the long years in the ruling line",
+  "title": "The last of na Bliadhnachan Fada in the ruling line",
   "era_year": 1190,
-  "summary": "The last ruler of the house of Ìomhar and Goraidh to carry any of the long years in his blood dies at a hundred years old, an age that was a boy's age in his grandmother's grandmother's day. After him the line ages and dies at the pace of any household on the island.",
+  "summary": "The last ruler of Sliochd Ìomhair and Goraidh to carry any of na Bliadhnachan Fada in his blood dies at a hundred years old, an age that was a boy's age in his grandmother's grandmother's day. After him the line ages and dies at the pace of any household on the island.",
   "category": "rulers",
   "people": [],
   "places": [
@@ -74,7 +74,7 @@
   ]
  },
  {
-  "title": "Tormod mac Iain born to the house of Tormod",
+  "title": "Tormod mac Iain born to Sliochd Thormoid",
   "era_year": 1240,
   "summary": "Tormod is born at Dùn dhearg, a younger son of a house that has held no great office in the hall for three generations. His father Iain keeps a stretch of the crown granaries, and the boy grows up among grain-tallies.",
   "category": "law",
@@ -245,7 +245,7 @@
   ]
  },
  {
-  "title": "Tormod's roll finished",
+  "title": "Clàr Thormoid finished",
   "era_year": 1305,
   "summary": "After six years' careful writing, reading each page back to whoever gave it before counting it done, Tormod brings Ealasaid Chiar the finished roll from Goraidh Mòr to herself, with three disputed places marked and left unresolved.",
   "category": "law",
@@ -293,9 +293,9 @@
   ]
  },
  {
-  "title": "The Hall shamed into writing its own roll",
+  "title": "Talla na Lasrach shamed into writing its own roll",
   "era_year": 1311,
-  "summary": "Word of the written king-list reaches the blind Keeper on the mountain, who sits three days in silence and then tells the Hall's own reciters that a Hall out-remembered by a rìgh's clerk has no one to blame but itself.",
+  "summary": "Word of Clàr nan Rìghrean reaches the blind Keeper on the mountain, who sits three days in silence and then tells Talla na Lasrach's own reciters that a Hall out-remembered by a rìgh's clerk has no one to blame but itself.",
   "category": "coal",
   "people": [],
   "places": [
@@ -314,7 +314,7 @@
  {
   "title": "Cairistìona reads the cord for the scribes",
   "era_year": 1320,
-  "summary": "Cairistìona nan Snaidhm, last of Sìne's line who can read a knot without letters, comes to the Hall and unties the cord of the heirs knot by knot over two days, naming each heir aloud so a young scribe can set the roll down in the new marks.",
+  "summary": "Cairistìona nan Snaidhm, last of Sìne's line who can read a knot without letters, comes to Talla na Lasrach and unties Sreang nan Oighrean knot by knot over two days, naming each heir aloud so a young scribe can set the roll down in the new marks.",
   "category": "coal",
   "people": [
    "Cairistìona nan Snaidhm"
@@ -336,7 +336,7 @@
  {
   "title": "The cord coiled in its chest",
   "era_year": 1320,
-  "summary": "The last of the cord's seven hundred and twelve knots comes free, and Cairistìona coils it in the old way and lays it in the chest the Hall has made for it, telling the scribe that after her no hand living will be able to make it speak.",
+  "summary": "The last of the cord's seven hundred and twelve knots comes free, and Cairistìona coils it in the old way and lays it in the chest Talla na Lasrach has made for it, telling the scribe that after her no hand living will be able to make it speak.",
   "category": "coal",
   "people": [
    "Cairistìona nan Snaidhm"

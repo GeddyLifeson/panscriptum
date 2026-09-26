@@ -582,7 +582,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EII-4047",
+   "first": "I-0155",
    "last": "EII-6052"
   },
   "gilleonan-of-the-slab": {
@@ -947,7 +947,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EII-4530",
+   "first": "I-0169",
    "last": "EII-4540"
   },
   "seumas-og-red-hill": {
@@ -7569,10 +7569,10 @@
     },
     {
      "to": "EII-2000",
-     "type": "cause",
+     "type": "sequel",
      "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
+     "arrow": "←",
+     "label": "Leads to",
      "age": "II",
      "era": "GE",
      "date": "18 an Cèitean, GE 595",
@@ -7605,10 +7605,10 @@
    "links": [
     {
      "to": "I-0097",
-     "type": "cause",
+     "type": "sequel",
      "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
+     "arrow": "←",
+     "label": "Follows from",
      "age": "II",
      "era": "GE",
      "date": "8 am Màrt, GE 591",
@@ -19828,10 +19828,10 @@
     },
     {
      "to": "EII-3543",
-     "type": "cause",
+     "type": "sequel",
      "dir": "in",
-     "arrow": "→",
-     "label": "Caused by",
+     "arrow": "←",
+     "label": "Leads to",
      "age": "II",
      "era": "GE",
      "date": "1 an Cèitean, GE 2,180",
@@ -19995,10 +19995,10 @@
    "links": [
     {
      "to": "I-0139",
-     "type": "cause",
+     "type": "sequel",
      "dir": "out",
-     "arrow": "→",
-     "label": "Leads to",
+     "arrow": "←",
+     "label": "Follows from",
      "age": "II",
      "era": "GE",
      "date": "25 an Giblean, GE 2,163",

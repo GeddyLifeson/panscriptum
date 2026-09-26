@@ -2,7 +2,7 @@
  {
   "title": "Seònaid gathers the first three witnesses",
   "era_year": 602,
-  "summary": "At Queen Catrìona's own asking, her clerk Seònaid nic Coinnich takes down, in hurried hours snatched from the court's business, the first accounts of the war of the three claims: a soldier who fought at the ford, the son of the vein-house's store-master, and a woman of Doire mhin who remembers the cold hearths as a child.",
+  "summary": "At Queen Catrìona's own asking, her clerk Seònaid nic Coinnich takes down, in hurried hours snatched from the court's business, the first accounts of the war of the three claims: a soldier who fought at the ford, the son of Taigh na Fèithe's store-master, and a woman of Doire mhin who remembers Na Teallaichean Fuara as a child.",
   "category": "law",
   "people": [
    "Seònaid nic Coinnich",
@@ -24,7 +24,7 @@
  {
   "title": "Seònaid visits the harbour-house boards",
   "era_year": 612,
-  "summary": "Carrying a grant of harbour dues she did not need to carry in her own hand, Seònaid nic Coinnich asks the harbour scribe Ailean mac Mhurchaidh to show her the old boards of the roll of the willing, and rides home with an errand for herself she had not had when she set out.",
+  "summary": "Carrying a grant of harbour dues she did not need to carry in her own hand, Seònaid nic Coinnich asks the harbour scribe Ailean mac Mhurchaidh to show her the old boards of Rolla nan Deònach, and rides home with an errand for herself she had not had when she set out.",
   "category": "law",
   "people": [
    "Seònaid nic Coinnich",
@@ -46,7 +46,7 @@
  {
   "title": "The store-master's board copied in full",
   "era_year": 616,
-  "summary": "Dòmhnall mac Eòghainn, who inherited his father Eòghann mac Dhùghaill's office at the vein-house's store, lets Seònaid nic Coinnich copy in full the board of shires refused the coal in the year of the cold hearths, a board his father kept face to the wall and never scraped clean.",
+  "summary": "Dòmhnall mac Eòghainn, who inherited his father Eòghann mac Dhùghaill's office at Taigh na Fèithe's store, lets Seònaid nic Coinnich copy in full the board of shires refused the coal in the year of Na Teallaichean Fuara, a board his father kept face to the wall and never scraped clean.",
   "category": "coal",
   "people": [
    "Seònaid nic Coinnich",
@@ -89,9 +89,9 @@
   ]
  },
  {
-  "title": "Seònaid weighs the custody-book against her witnesses",
+  "title": "Seònaid weighs Leabhar a' Chùraim against her witnesses",
   "era_year": 619,
-  "summary": "At the vein-house Seònaid nic Coinnich sets her gathered testimony against the custody-book's own entries of the war, and finds days, numbers and causes of death the book and the witnesses do not agree on; she resolves to keep both accounts rather than choose between them.",
+  "summary": "At Taigh na Fèithe Seònaid nic Coinnich sets her gathered testimony against Leabhar a' Chùraim's own entries of the war, and finds days, numbers and causes of death the book and the witnesses do not agree on; she resolves to keep both accounts rather than choose between them.",
   "category": "law",
   "people": [
    "Seònaid nic Coinnich"
@@ -131,7 +131,7 @@
   ]
  },
  {
-  "title": "Seònaid finishes the Book of the Three Claimants",
+  "title": "Seònaid finishes Leabhar nan Trì Tagraichean",
   "era_year": 624,
   "summary": "Seònaid nic Coinnich writes the last of the war's telling and sets down the finished leaves, the first history on Dia-thìr told as one tale from end to end rather than as separate entries.",
   "category": "law",
@@ -173,9 +173,9 @@
   ]
  },
  {
-  "title": "The Book of the Three Claimants read at the red hall",
+  "title": "Leabhar nan Trì Tagraichean read at An Talla Dearg",
   "era_year": 625,
-  "summary": "King Lachlann mac Iain has Seònaid nic Coinnich's finished history read into the record at the red hall and orders it copied again and kept, ruling that no later copy of it may ever be made shorter than the one before it.",
+  "summary": "King Lachlann mac Iain has Seònaid nic Coinnich's finished history read into the record at An Talla Dearg and orders it copied again and kept, ruling that no later copy of it may ever be made shorter than the one before it.",
   "category": "law",
   "people": [
    "Seònaid nic Coinnich"
@@ -197,7 +197,7 @@
  {
   "era_year": 619,
   "title": "Fearchar Ciar swears the ford broke on two days",
-  "summary": "Where the custody-book gives the breaking at the ford of Àth shean as one day, the old soldier Fearchar Ciar swears to Seònaid nic Coinnich that it was two, the fighting taken up again at first light after a night neither side thought worth entering.",
+  "summary": "Where Leabhar a' Chùraim gives the breaking at the ford of Àth shean as one day, the old soldier Fearchar Ciar swears to Seònaid nic Coinnich that it was two, the fighting taken up again at first light after a night neither side thought worth entering.",
   "category": "law",
   "people": [
    "Fearchar Ciar",
@@ -218,7 +218,7 @@
  {
   "era_year": 635,
   "title": "Birth of the heir of Anna",
-  "summary": "A child is born at Cathair dhearg to Anna, Lachlann mac Iain's daughter, then five-and-thirty years old; the king-list keeps the year of the birth and lets the child's name fall from every copy that survives.",
+  "summary": "A child is born at Cathair dhearg to Anna, Lachlann mac Iain's daughter, then five-and-thirty years old; Clàr nan Rìghrean keeps the year of the birth and lets the child's name fall from every copy that survives.",
   "category": "rulers",
   "people": [
    "Anna"

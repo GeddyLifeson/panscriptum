@@ -8393,10 +8393,10 @@
   },
   {
    "to": "EII-2000",
-   "type": "cause",
+   "type": "sequel",
    "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
+   "arrow": "←",
+   "label": "Leads to",
    "age": "II",
    "era": "GE",
    "date": "18 an Cèitean, GE 595",
@@ -10574,10 +10574,10 @@
   },
   {
    "to": "EII-3543",
-   "type": "cause",
+   "type": "sequel",
    "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
+   "arrow": "←",
+   "label": "Leads to",
    "age": "II",
    "era": "GE",
    "date": "1 an Cèitean, GE 2,180",
@@ -35163,16 +35163,16 @@
  "IV-0194": [
   {
    "to": "EV-4501",
-   "type": "sequel",
+   "type": "cause",
    "dir": "in",
-   "arrow": "←",
-   "label": "Leads to",
+   "arrow": "→",
+   "label": "Caused by",
    "age": "V",
    "era": "AE",
-   "date": "9 am Màrt, AE 94",
+   "date": "23 an Gearran, AE 93",
    "title": "The first harvest short",
    "master": false,
-   "year": "AE 94"
+   "year": "AE 93"
   },
   {
    "to": "EV-4502",
@@ -38335,19 +38335,6 @@
  ],
  "V-0002": [
   {
-   "to": "EVII-3564",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "31 an Dùbhlachd, DE 20",
-   "title": "The Grey House among the old companies",
-   "master": false,
-   "year": "DE 20"
-  },
-  {
    "to": "EVI-1004",
    "type": "sequel",
    "dir": "in",
@@ -38424,22 +38411,22 @@
    "title": "The master of the chests signs beneath Ailean's list",
    "master": false,
    "year": "SE 1"
-  }
- ],
- "V-0003": [
+  },
   {
-   "to": "EVII-1017",
+   "to": "EVII-3564",
    "type": "cause",
    "dir": "in",
    "arrow": "→",
    "label": "Caused by",
    "age": "VII",
    "era": "DE",
-   "date": "31 an Dàmhair, DE 2",
-   "title": "The surveyors cross the boundary stones",
+   "date": "31 an Dùbhlachd, DE 20",
+   "title": "The Grey House among the old companies",
    "master": false,
-   "year": "DE 2"
-  },
+   "year": "DE 20"
+  }
+ ],
+ "V-0003": [
   {
    "to": "EVI-1001",
    "type": "parallel",
@@ -38491,6 +38478,19 @@
    "title": "The old woman at the farm gate",
    "master": false,
    "year": "SE 1"
+  },
+  {
+   "to": "EVII-1017",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "31 an Dàmhair, DE 2",
+   "title": "The surveyors cross the boundary stones",
+   "master": false,
+   "year": "DE 2"
   }
  ],
  "V-0004": [
@@ -38841,45 +38841,6 @@
  ],
  "V-0008": [
   {
-   "to": "EVII-2002",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "13 an Dùbhlachd, DE 8",
-   "title": "Martha Greaves's first sitting as speaker",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
-   "to": "EVII-2008",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "19 an Dùbhlachd, DE 8",
-   "title": "Walter Hale's harbour ledger",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
-   "to": "EVII-2010",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "21 an Dùbhlachd, DE 8",
-   "title": "The rebound set laid in the press at Caol mhòr",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
    "to": "EVI-1013",
    "type": "sequel",
    "dir": "in",
@@ -38982,6 +38943,45 @@
    "title": "Robert Carrick comes home with an empty satchel",
    "master": false,
    "year": "SE 2"
+  },
+  {
+   "to": "EVII-2002",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "13 an Dùbhlachd, DE 8",
+   "title": "Martha Greaves's first sitting as speaker",
+   "master": false,
+   "year": "DE 8"
+  },
+  {
+   "to": "EVII-2008",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "19 an Dùbhlachd, DE 8",
+   "title": "Walter Hale's harbour ledger",
+   "master": false,
+   "year": "DE 8"
+  },
+  {
+   "to": "EVII-2010",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "21 an Dùbhlachd, DE 8",
+   "title": "The rebound set laid in the press at Caol mhòr",
+   "master": false,
+   "year": "DE 8"
   }
  ],
  "V-0009": [
@@ -39430,19 +39430,6 @@
  ],
  "V-0024": [
   {
-   "to": "EVII-1038",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "11 an Dàmhair, DE 3",
-   "title": "The coal ink for the new dies",
-   "master": false,
-   "year": "DE 3"
-  },
-  {
    "to": "EVI-2001",
    "type": "sequel",
    "dir": "in",
@@ -39467,6 +39454,19 @@
    "title": "Òrd Mhacha's blessing of the first striking",
    "master": false,
    "year": "SE 5"
+  },
+  {
+   "to": "EVII-1038",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "11 an Dàmhair, DE 3",
+   "title": "The coal ink for the new dies",
+   "master": false,
+   "year": "DE 3"
   }
  ],
  "V-0025": [
@@ -39943,19 +39943,6 @@
  ],
  "V-0038": [
   {
-   "to": "EVII-3034",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "15 an Dùbhlachd, DE 18",
-   "title": "The margins of Breith Leòid",
-   "master": false,
-   "year": "DE 18"
-  },
-  {
    "to": "EVI-2033",
    "type": "sequel",
    "dir": "in",
@@ -40019,6 +40006,19 @@
    "title": "The Dunlop title read to its end",
    "master": false,
    "year": "SE 15"
+  },
+  {
+   "to": "EVII-3034",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "15 an Dùbhlachd, DE 18",
+   "title": "The margins of Breith Leòid",
+   "master": false,
+   "year": "DE 18"
   }
  ],
  "V-0039": [
@@ -40538,32 +40538,6 @@
  ],
  "V-0058": [
   {
-   "to": "EVII-2013",
-   "type": "location",
-   "dir": "in",
-   "arrow": "○",
-   "label": "Same place",
-   "age": "VII",
-   "era": "DE",
-   "date": "24 an Dùbhlachd, DE 8",
-   "title": "The first dubhan tank at Muileann chrom",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
-   "to": "EVII-2018",
-   "type": "location",
-   "dir": "in",
-   "arrow": "○",
-   "label": "Same place",
-   "age": "VII",
-   "era": "DE",
-   "date": "30 an Dùbhlachd, DE 8",
-   "title": "A boy of the yard rows killed",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
    "to": "EVI-2537",
    "type": "location",
    "dir": "in",
@@ -40601,6 +40575,32 @@
    "title": "A shunting driver asked his name",
    "master": false,
    "year": "SE 13"
+  },
+  {
+   "to": "EVII-2013",
+   "type": "location",
+   "dir": "in",
+   "arrow": "○",
+   "label": "Same place",
+   "age": "VII",
+   "era": "DE",
+   "date": "24 an Dùbhlachd, DE 8",
+   "title": "The first dubhan tank at Muileann chrom",
+   "master": false,
+   "year": "DE 8"
+  },
+  {
+   "to": "EVII-2018",
+   "type": "location",
+   "dir": "in",
+   "arrow": "○",
+   "label": "Same place",
+   "age": "VII",
+   "era": "DE",
+   "date": "30 an Dùbhlachd, DE 8",
+   "title": "A boy of the yard rows killed",
+   "master": false,
+   "year": "DE 8"
   }
  ],
  "V-0060": [
@@ -40717,19 +40717,6 @@
  ],
  "V-0064": [
   {
-   "to": "EVII-1558",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "31 an Dùbhlachd, DE 7",
-   "title": "The first dubhan pit-lamps of Muileann mhin",
-   "master": false,
-   "year": "DE 7"
-  },
-  {
    "to": "EVI-3004",
    "type": "sequel",
    "dir": "in",
@@ -40780,6 +40767,19 @@
    "title": "Harry Marlow sends his wage north at half rate",
    "master": false,
    "year": "SE 14"
+  },
+  {
+   "to": "EVII-1558",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "31 an Dùbhlachd, DE 7",
+   "title": "The first dubhan pit-lamps of Muileann mhin",
+   "master": false,
+   "year": "DE 7"
   }
  ],
  "V-0065": [
@@ -40798,32 +40798,6 @@
   }
  ],
  "V-0066": [
-  {
-   "to": "EVII-2004",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "15 an Dùbhlachd, DE 8",
-   "title": "Ellen Marsh offers her schoolroom",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
-   "to": "EVII-2007",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "18 an Dùbhlachd, DE 8",
-   "title": "The bindery in Agnes Pike's school",
-   "master": false,
-   "year": "DE 8"
-  },
   {
    "to": "EVI-3011",
    "type": "cause",
@@ -40901,6 +40875,32 @@
    "title": "Alice Hale opens a second school at Caol mhòr",
    "master": false,
    "year": "SE 15"
+  },
+  {
+   "to": "EVII-2004",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "15 an Dùbhlachd, DE 8",
+   "title": "Ellen Marsh offers her schoolroom",
+   "master": false,
+   "year": "DE 8"
+  },
+  {
+   "to": "EVII-2007",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "18 an Dùbhlachd, DE 8",
+   "title": "The bindery in Agnes Pike's school",
+   "master": false,
+   "year": "DE 8"
   }
  ],
  "V-0067": [
@@ -41322,19 +41322,6 @@
  ],
  "V-0075": [
   {
-   "to": "EVII-1555",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "31 an Dùbhlachd, DE 7",
-   "title": "The keeper's report pinned at Caol mhòr",
-   "master": false,
-   "year": "DE 7"
-  },
-  {
    "to": "EVI-3513",
    "type": "sequel",
    "dir": "in",
@@ -41359,22 +41346,22 @@
    "title": "The keeper's light lit at Baile chrom",
    "master": false,
    "year": "SE 17"
+  },
+  {
+   "to": "EVII-1555",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "31 an Dùbhlachd, DE 7",
+   "title": "The keeper's report pinned at Caol mhòr",
+   "master": false,
+   "year": "DE 7"
   }
  ],
  "V-0076": [
-  {
-   "to": "EVII-1007",
-   "type": "location",
-   "dir": "in",
-   "arrow": "○",
-   "label": "Same place",
-   "age": "VII",
-   "era": "DE",
-   "date": "8 an Dùbhlachd, DE 1",
-   "title": "The fuel burned at the Muileann chaol market",
-   "master": false,
-   "year": "DE 1"
-  },
   {
    "to": "EVI-3508",
    "type": "sequel",
@@ -41452,6 +41439,19 @@
    "title": "The first market day held in an Leabharlann's yard",
    "master": false,
    "year": "SE 17"
+  },
+  {
+   "to": "EVII-1007",
+   "type": "location",
+   "dir": "in",
+   "arrow": "○",
+   "label": "Same place",
+   "age": "VII",
+   "era": "DE",
+   "date": "8 an Dùbhlachd, DE 1",
+   "title": "The fuel burned at the Muileann chaol market",
+   "master": false,
+   "year": "DE 1"
   }
  ],
  "V-0077": [
@@ -41868,19 +41868,6 @@
  ],
  "V-0088": [
   {
-   "to": "EVII-1040",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "3 an t-Samhain, DE 3",
-   "title": "The coal-sellers' row stands empty at the fair",
-   "master": false,
-   "year": "DE 3"
-  },
-  {
    "to": "EVI-4002",
    "type": "sequel",
    "dir": "in",
@@ -41957,6 +41944,19 @@
    "title": "Pipers from Baile chiar at the first fair",
    "master": false,
    "year": "SE 21"
+  },
+  {
+   "to": "EVII-1040",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "3 an t-Samhain, DE 3",
+   "title": "The coal-sellers' row stands empty at the fair",
+   "master": false,
+   "year": "DE 3"
   }
  ],
  "V-0089": [
@@ -43167,6 +43167,19 @@
  ],
  "V-0124": [
   {
+   "to": "EVI-4545",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "VI",
+   "era": "SE",
+   "date": "15 an t-Samhain, SE 32",
+   "title": "Mòrag nic Coinnich made Ailean's deputy",
+   "master": false,
+   "year": "SE 32"
+  },
+  {
    "to": "EVII-2019",
    "type": "sequel",
    "dir": "in",
@@ -43191,19 +43204,6 @@
    "title": "The last ox-drove on the eastern salt road",
    "master": false,
    "year": "DE 9"
-  },
-  {
-   "to": "EVI-4545",
-   "type": "sequel",
-   "dir": "in",
-   "arrow": "←",
-   "label": "Leads to",
-   "age": "VI",
-   "era": "SE",
-   "date": "15 an t-Samhain, SE 32",
-   "title": "Mòrag nic Coinnich made Ailean's deputy",
-   "master": false,
-   "year": "SE 32"
   }
  ],
  "V-0125": [
@@ -43263,19 +43263,6 @@
   }
  ],
  "V-0127": [
-  {
-   "to": "EVII-2006",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "17 an Dùbhlachd, DE 8",
-   "title": "Peter Hale carries the books to Doire ghlas",
-   "master": false,
-   "year": "DE 8"
-  },
   {
    "to": "EVI-4549",
    "type": "sequel",
@@ -43340,6 +43327,19 @@
    "title": "David Hale keeps the books under Mary Coyle",
    "master": false,
    "year": "SE 33"
+  },
+  {
+   "to": "EVII-2006",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "17 an Dùbhlachd, DE 8",
+   "title": "Peter Hale carries the books to Doire ghlas",
+   "master": false,
+   "year": "DE 8"
   }
  ],
  "V-0128": [
@@ -44661,19 +44661,6 @@
  ],
  "V-0168": [
   {
-   "to": "EVII-2001",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "12 an Dùbhlachd, DE 8",
-   "title": "Daniel Frayne buried at Muileann leathan",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
    "to": "EVI-5532",
    "type": "sequel",
    "dir": "in",
@@ -44698,6 +44685,19 @@
    "title": "Frayne's first bindings sold south without his name",
    "master": false,
    "year": "SE 48"
+  },
+  {
+   "to": "EVII-2001",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "12 an Dùbhlachd, DE 8",
+   "title": "Daniel Frayne buried at Muileann leathan",
+   "master": false,
+   "year": "DE 8"
   }
  ],
  "V-0169": [
@@ -45038,19 +45038,6 @@
  ],
  "V-0182": [
   {
-   "to": "EVII-1550",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "31 an Dùbhlachd, DE 7",
-   "title": "The crane walked from Seann Tarr to Àth dhearg",
-   "master": false,
-   "year": "DE 7"
-  },
-  {
    "to": "EVI-6017",
    "type": "sequel",
    "dir": "in",
@@ -45062,6 +45049,19 @@
    "title": "The rope-makers of Seann Tarr chartered",
    "master": false,
    "year": "SE 53"
+  },
+  {
+   "to": "EVII-1550",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "31 an Dùbhlachd, DE 7",
+   "title": "The crane walked from Seann Tarr to Àth dhearg",
+   "master": false,
+   "year": "DE 7"
   }
  ],
  "V-0183": [
@@ -45622,19 +45622,6 @@
  ],
  "V-0202": [
   {
-   "to": "EVII-2003",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "14 an Dùbhlachd, DE 8",
-   "title": "The binders' reckoning",
-   "master": false,
-   "year": "DE 8"
-  },
-  {
    "to": "EVI-6505",
    "type": "sequel",
    "dir": "in",
@@ -45672,6 +45659,19 @@
    "title": "The first Doire ghlas bale rides Slighe a' Ghuail",
    "master": false,
    "year": "SE 60"
+  },
+  {
+   "to": "EVII-2003",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "14 an Dùbhlachd, DE 8",
+   "title": "The binders' reckoning",
+   "master": false,
+   "year": "DE 8"
   }
  ],
  "V-0203": [
@@ -46021,19 +46021,6 @@
  ],
  "V-0213": [
   {
-   "to": "EVII-1558",
-   "type": "cause",
-   "dir": "in",
-   "arrow": "→",
-   "label": "Caused by",
-   "age": "VII",
-   "era": "DE",
-   "date": "31 an Dùbhlachd, DE 7",
-   "title": "The first dubhan pit-lamps of Muileann mhin",
-   "master": false,
-   "year": "DE 7"
-  },
-  {
    "to": "EVI-6525",
    "type": "sequel",
    "dir": "in",
@@ -46058,6 +46045,19 @@
    "title": "The Guild's lending-book",
    "master": false,
    "year": "SE 63"
+  },
+  {
+   "to": "EVII-1558",
+   "type": "cause",
+   "dir": "in",
+   "arrow": "→",
+   "label": "Caused by",
+   "age": "VII",
+   "era": "DE",
+   "date": "31 an Dùbhlachd, DE 7",
+   "title": "The first dubhan pit-lamps of Muileann mhin",
+   "master": false,
+   "year": "DE 7"
   }
  ],
  "V-0214": [
@@ -46368,19 +46368,6 @@
  ],
  "V-0226": [
   {
-   "to": "EVII-1002",
-   "type": "sequel",
-   "dir": "in",
-   "arrow": "←",
-   "label": "Leads to",
-   "age": "VII",
-   "era": "DE",
-   "date": "23 an t-Samhain, DE 1",
-   "title": "The shires' chests counted",
-   "master": false,
-   "year": "DE 1"
-  },
-  {
    "to": "EVI-6552",
    "type": "sequel",
    "dir": "in",
@@ -46392,6 +46379,19 @@
    "title": "Frayne puts the calling-in to Tional nan Tuathach's own room",
    "master": false,
    "year": "SE 67"
+  },
+  {
+   "to": "EVII-1002",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "VII",
+   "era": "DE",
+   "date": "23 an t-Samhain, DE 1",
+   "title": "The shires' chests counted",
+   "master": false,
+   "year": "DE 1"
   }
  ],
  "V-0227": [
@@ -46536,19 +46536,6 @@
  ],
  "V-0232": [
   {
-   "to": "EVII-2024",
-   "type": "sequel",
-   "dir": "in",
-   "arrow": "←",
-   "label": "Leads to",
-   "age": "VII",
-   "era": "DE",
-   "date": "27 an Dàmhair, DE 9",
-   "title": "A dubhan tank at An Sligeanach Fad' às",
-   "master": false,
-   "year": "DE 9"
-  },
-  {
    "to": "EVI-6562",
    "type": "sequel",
    "dir": "in",
@@ -46560,6 +46547,19 @@
    "title": "An Sligeanach Fad' às sold to a family of drovers",
    "master": false,
    "year": "SE 69"
+  },
+  {
+   "to": "EVII-2024",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "VII",
+   "era": "DE",
+   "date": "27 an Dàmhair, DE 9",
+   "title": "A dubhan tank at An Sligeanach Fad' às",
+   "master": false,
+   "year": "DE 9"
   }
  ],
  "V-0233": [
@@ -46594,19 +46594,6 @@
  ],
  "V-0235": [
   {
-   "to": "EVII-1006",
-   "type": "person",
-   "dir": "in",
-   "arrow": "◇",
-   "label": "Same person",
-   "age": "VII",
-   "era": "DE",
-   "date": "7 an Dùbhlachd, DE 1",
-   "title": "The keeper's word at an Leabharlann",
-   "master": false,
-   "year": "DE 1"
-  },
-  {
    "to": "EVI-6565",
    "type": "sequel",
    "dir": "in",
@@ -46631,9 +46618,48 @@
    "title": "Raghnall mac Mhuirich made keeper",
    "master": false,
    "year": "SE 70"
+  },
+  {
+   "to": "EVII-1006",
+   "type": "person",
+   "dir": "in",
+   "arrow": "◇",
+   "label": "Same person",
+   "age": "VII",
+   "era": "DE",
+   "date": "7 an Dùbhlachd, DE 1",
+   "title": "The keeper's word at an Leabharlann",
+   "master": false,
+   "year": "DE 1"
   }
  ],
  "V-0236": [
+  {
+   "to": "EVI-6567",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "VI",
+   "era": "SE",
+   "date": "12 an t-Samhain, SE 70",
+   "title": "The fair's ceiling set on coal and broken in every stall",
+   "master": false,
+   "year": "SE 70"
+  },
+  {
+   "to": "EVI-6568",
+   "type": "sequel",
+   "dir": "in",
+   "arrow": "←",
+   "label": "Leads to",
+   "age": "VI",
+   "era": "SE",
+   "date": "3 an Cèitean, SE 71",
+   "title": "Beathag's foot-note on the capital's cold",
+   "master": false,
+   "year": "SE 71"
+  },
   {
    "to": "EVII-1001",
    "type": "sequel",
@@ -46685,48 +46711,9 @@
    "title": "Cùirt na Fèille gives up its coal ceiling",
    "master": false,
    "year": "DE 3"
-  },
-  {
-   "to": "EVI-6567",
-   "type": "sequel",
-   "dir": "in",
-   "arrow": "←",
-   "label": "Leads to",
-   "age": "VI",
-   "era": "SE",
-   "date": "12 an t-Samhain, SE 70",
-   "title": "The fair's ceiling set on coal and broken in every stall",
-   "master": false,
-   "year": "SE 70"
-  },
-  {
-   "to": "EVI-6568",
-   "type": "sequel",
-   "dir": "in",
-   "arrow": "←",
-   "label": "Leads to",
-   "age": "VI",
-   "era": "SE",
-   "date": "3 an Cèitean, SE 71",
-   "title": "Beathag's foot-note on the capital's cold",
-   "master": false,
-   "year": "SE 71"
   }
  ],
  "V-0237": [
-  {
-   "to": "EVII-1003",
-   "type": "parallel",
-   "dir": "in",
-   "arrow": "⇄",
-   "label": "At the same time",
-   "age": "VII",
-   "era": "DE",
-   "date": "2 an Dùbhlachd, DE 1",
-   "title": "Coal-fuel sold above the fair's ceiling",
-   "master": false,
-   "year": "DE 1"
-  },
   {
    "to": "EVI-6569",
    "type": "sequel",
@@ -46752,6 +46739,19 @@
    "title": "The capital's poorer streets burn short hours",
    "master": false,
    "year": "SE 71"
+  },
+  {
+   "to": "EVII-1003",
+   "type": "parallel",
+   "dir": "in",
+   "arrow": "⇄",
+   "label": "At the same time",
+   "age": "VII",
+   "era": "DE",
+   "date": "2 an Dùbhlachd, DE 1",
+   "title": "Coal-fuel sold above the fair's ceiling",
+   "master": false,
+   "year": "DE 1"
   }
  ],
  "VI-0001": [
@@ -47002,7 +47002,7 @@
    "age": "VII",
    "era": "DE",
    "date": "25 an Dùbhlachd, DE 2",
-   "title": "The Board's report bound in grey board",
+   "title": "Comhairle nam Mèinnean's report bound in grey board",
    "master": false,
    "year": "DE 2"
   },
@@ -49086,7 +49086,7 @@
    "age": "VII",
    "era": "DE",
    "date": "24 an Dàmhair, DE 10",
-   "title": "The Board's notice on the shed door",
+   "title": "Comhairle nam Mèinnean's notice on the shed door",
    "master": false,
    "year": "DE 10"
   },
@@ -49220,7 +49220,7 @@
    "age": "VII",
    "era": "DE",
    "date": "28 an t-Samhain, DE 10",
-   "title": "The Board's surveyor writes Muileann dhearg spent",
+   "title": "Comhairle nam Mèinnean's surveyor writes Muileann dhearg spent",
    "master": false,
    "year": "DE 10"
   },
@@ -50266,7 +50266,7 @@
    "age": "VII",
    "era": "DE",
    "date": "22 an Dàmhair, DE 18",
-   "title": "A brewer of Baile ìseal writes to the Board unasked",
+   "title": "A brewer of Baile ìseal writes to Comhairle nam Mèinnean unasked",
    "master": false,
    "year": "DE 18"
   }
@@ -50709,7 +50709,7 @@
    "age": "VII",
    "era": "DE",
    "date": "31 an Dùbhlachd, DE 19",
-   "title": "The Board's letter forwarded without comment",
+   "title": "Comhairle nam Mèinnean's letter forwarded without comment",
    "master": false,
    "year": "DE 19"
   }
@@ -51522,7 +51522,7 @@
    "age": "VII",
    "era": "DE",
    "date": "20 an Giblean, DE 21",
-   "title": "Ruth Calder learns the Board keeps its own list",
+   "title": "Ruth Calder learns Comhairle nam Mèinnean keeps its own list",
    "master": false,
    "year": "DE 21"
   },
@@ -53225,7 +53225,7 @@
    "age": "VII",
    "era": "DE",
    "date": "24 an Dùbhlachd, DE 21",
-   "title": "The Board answers Tional nan Tuathach on the quartering",
+   "title": "Comhairle nam Mèinnean answers Tional nan Tuathach on the quartering",
    "master": false,
    "year": "DE 21"
   }
@@ -54089,7 +54089,7 @@
    "age": "VII",
    "era": "DE",
    "date": "31 an Dùbhlachd, DE 23",
-   "title": "The Board ends the coal trade outside An Sloc Mòr",
+   "title": "Comhairle nam Mèinnean ends the coal trade outside An Sloc Mòr",
    "master": false,
    "year": "DE 23"
   }
@@ -54794,7 +54794,7 @@
    "age": "VII",
    "era": "DE",
    "date": "21 an t-Samhain, DE 26",
-   "title": "The Board's order to Achadh dhomhain",
+   "title": "Comhairle nam Mèinnean's order to Achadh dhomhain",
    "master": false,
    "year": "DE 26"
   },

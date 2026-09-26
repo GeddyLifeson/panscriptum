@@ -25,7 +25,7 @@
  {
   "title": "The harbour-court's scribe refuses the order's rite",
   "era_year": 656,
-  "summary": "Donnchadh mac Ailein, scribe of the harbour-court at Seann Skell, refuses to enter the blessings of Òrd Mhanannain in the harbour rolls beside the tallies of hulls and cargoes, holding a rite to be no business of a board kept for hulls. Mànas does not press the matter.",
+  "summary": "Donnchadh mac Ailein, scribe of the harbour-court at Seann Skell, refuses to enter the blessings of Òrd Mhanannain in Rolla a' Chalaidh beside the tallies of hulls and cargoes, holding a rite to be no business of a board kept for hulls. Mànas does not press the matter.",
   "category": "faith",
   "people": [
    "Mànas mac Ruairidh",
@@ -112,7 +112,7 @@
  {
   "title": "Taigh Mhanannain raised at Seann Skell",
   "era_year": 680,
-  "summary": "The order of Manannan raises its own house at Seann Skell, Taigh Mhanannain, low and built of the same grey stone as the quay near the old harbour-court. The congregation raises the silver for a proper cup without being asked, to replace the plain wooden bowl Mànas has used since the first blessing.",
+  "summary": "Òrd Mhanannain raises its own house at Seann Skell, Taigh Mhanannain, low and built of the same grey stone as the quay near the old harbour-court. The congregation raises the silver for a proper cup without being asked, to replace the plain wooden bowl Mànas has used since the first blessing.",
   "category": "faith",
   "people": [
    "Mànas mac Ruairidh"
@@ -156,7 +156,7 @@
  {
   "title": "The rule of the headlands laid down",
   "era_year": 694,
-  "summary": "After a winter's debate, the priests of Manannan's order at Ros bheag lay down that no boat of the faithful may sail out of sight of the headlands, on pain of answering for it before the Cup. The rule holds on the west coast far beyond any one preacher's lifetime.",
+  "summary": "After a winter's debate, the priests of Òrd Mhanannain at Ros bheag lay down that no boat of the faithful may sail out of sight of the headlands, on pain of answering for it before the Cup. The rule holds on the west coast far beyond any one preacher's lifetime.",
   "category": "law",
   "people": [],
   "places": [
@@ -197,7 +197,7 @@
  {
   "title": "Griogair cannot name his grandfather's star",
   "era_year": 698,
-  "summary": "A priest of Manannan's order at Ros bheag asks a boy named Griogair, grandson of one of the last pilots to hold a course by night on that shore, which star his grandfather steered by. The boy cannot answer, and no one in his own house had thought to write the star's name down.",
+  "summary": "A priest of Òrd Mhanannain at Ros bheag asks a boy named Griogair, grandson of one of the last pilots to hold a course by night on that shore, which star his grandfather steered by. The boy cannot answer, and no one in his own house had thought to write the star's name down.",
   "category": "law",
   "people": [
    "Griogair"
@@ -218,7 +218,7 @@
  {
   "title": "The granaries of Àth shean rebuilt",
   "era_year": 699,
-  "summary": "The royal granaries at Àth shean, standing since before the Sundering, are pulled down and rebuilt in dressed stone on raised floors against the rats, along with a new tally-house. Fearchar mac Phàdraig, the reeve who oversees the three-year labour, sees the shire's grain stand dry through its first winter.",
+  "summary": "The royal granaries at Àth shean, standing since before a' Scaradh, are pulled down and rebuilt in dressed stone on raised floors against the rats, along with a new tally-house. Fearchar mac Phàdraig, the reeve who oversees the three-year labour, sees the shire's grain stand dry through its first winter.",
   "category": "building",
   "people": [
    "Fearchar mac Phàdraig"
@@ -237,7 +237,7 @@
  {
   "era_year": 680,
   "title": "Birth of the fifth ruler of the house of Catrìona",
-  "summary": "A child is born at Cathair dhearg to Anna's heir, then five-and-forty years old, in the six-and-twentieth year of Queen Anna's reign; the king-list keeps the year and not the name.",
+  "summary": "A child is born at Cathair dhearg to Anna's heir, then five-and-forty years old, in the six-and-twentieth year of Queen Anna's reign; Clàr nan Rìghrean keeps the year and not the name.",
   "category": "rulers",
   "people": [],
   "places": [
@@ -255,7 +255,7 @@
  {
   "era_year": 685,
   "title": "Death of Queen Anna",
-  "summary": "Queen Anna dies at Cathair dhearg at five-and-eighty, one-and-thirty years crowned, the last of the house of Catrìona whose name the king-list keeps for more than a century.",
+  "summary": "Queen Anna dies at Cathair dhearg at five-and-eighty, one-and-thirty years crowned, the last of the house of Catrìona whose name Clàr nan Rìghrean keeps for more than a century.",
   "category": "rulers",
   "people": [
    "Anna"
@@ -275,7 +275,7 @@
  {
   "era_year": 685,
   "title": "The fourth ruler of the house of Catrìona crowned",
-  "summary": "Anna's heir is crowned at Cathair dhearg within the season, fifty years old. The king-list keeps the reign's years and not its name.",
+  "summary": "Anna's heir is crowned at Cathair dhearg within the season, fifty years old. Clàr nan Rìghrean keeps the reign's years and not its name.",
   "category": "rulers",
   "people": [],
   "places": [

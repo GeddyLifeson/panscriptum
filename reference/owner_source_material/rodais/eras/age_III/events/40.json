@@ -1,92 +1,166 @@
 [
-  {
-    "title": "Coinneach Bàn dies at Cathair dhearg",
-    "era_year": 2896,
-    "summary": "Coinneach Bàn, who had copied the laws for every province, dies in his own bed at the red hall in the ninety-first year of his life. His son Coinneach Donn takes up the cup without any meeting of the Four Houses being called.",
-    "category": "rulers",
-    "people": ["Coinneach Bàn", "Coinneach Donn"],
-    "places": ["burg:19"],
-    "threads": ["the-long-years"],
-    "master_links": []
-  },
-  {
-    "title": "Coinneach Donn dies",
-    "era_year": 2927,
-    "summary": "Coinneach Donn, who has held the cup thirty years and more since his father's death, dies in the eighty-seventh year of his own life at Cathair dhearg, leaving a daughter, Mòr, not yet twenty-three, and a younger brother, Tormod Donn.",
-    "category": "rulers",
-    "people": ["Coinneach Donn", "Mòr nic Coinnich", "Tormod Donn mac Coinnich"],
-    "places": ["burg:19"],
-    "threads": ["the-long-years"],
-    "master_links": []
-  },
-  {
-    "title": "Tormod Donn's claim before the Four Houses",
-    "era_year": 2928,
-    "summary": "Tormod Donn brings a claim to the Four Houses at Dùn ìseal against his niece Mòr, arguing that a man of the same blood and twice her years stands the plainer heir. The Houses split, two benches for Mòr and two for neither.",
-    "category": "rulers",
-    "people": ["Tormod Donn mac Coinnich", "Mòr nic Coinnich"],
-    "places": ["burg:315"],
-    "threads": ["the-long-years"],
-    "master_links": []
-  },
-  {
-    "title": "Tormod Donn yields",
-    "era_year": 2929,
-    "summary": "Tormod Donn withdraws his claim by his own steward's word, sent from his house at Cuan ruadh, after Catrìona nic Mhuirich tells the Four Houses she will set the cup in no hand but Mòr's. It is the last such claim the house of Tormod contests.",
-    "category": "rulers",
-    "people": ["Tormod Donn mac Coinnich", "Catrìona nic Mhuirich", "Mòr nic Coinnich"],
-    "places": ["burg:119"],
-    "threads": ["the-long-years", "the-keepers-of-the-flame"],
-    "master_links": ["II-0247"]
-  },
-  {
-    "title": "Mòr weds Dòmhnall Dubh",
-    "era_year": 2931,
-    "summary": "Mòr nic Coinnich weds Dòmhnall Dubh of Sliochd Raghnaill, whose kin keep the watch-tower at Baile ruadh. He holds no office at the red hall and keeps, through her reign, to his own house's trade of boats and coastwatch.",
-    "category": "rulers",
-    "people": ["Mòr nic Coinnich", "Dòmhnall Dubh"],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "Dòmhnall Dubh dies at Baile ruadh",
-    "era_year": 2950,
-    "summary": "Dòmhnall Dubh dies in the fiftieth year of his own life among his own kin at Baile ruadh rather than at Cathair dhearg. Mòr goes north herself to see him buried beside the watch-tower his house has kept three generations.",
-    "category": "rulers",
-    "people": ["Dòmhnall Dubh", "Mòr nic Coinnich"],
-    "places": ["burg:241"],
-    "threads": [],
-    "master_links": []
-  },
-  {
-    "title": "Mòr nic Coinnich dies",
-    "on": [2953, 7, 21],
-    "summary": "Mòr nic Coinnich dies at Cathair dhearg, leaving two daughters, Beathag and Mòrag, and no brother, uncle or cousin near enough in blood to raise a claim. Hers is the last name the Holy Age itself sets down in the king-list.",
-    "category": "rulers",
-    "people": ["Mòr nic Coinnich", "Beathag nic Dhòmhnaill", "Mòrag nic Dhòmhnaill"],
-    "places": ["burg:19"],
-    "threads": ["the-long-years"],
-    "master_links": ["II-0248"]
-  },
-  {
-    "title": "Beathag crowned at Cathair dhearg",
-    "era_year": 2953,
-    "summary": "Beathag nic Dhòmhnaill, not yet sixteen, is crowned at Cathair dhearg within the month of her mother's death, by her own house's word and the Four Houses' assent, rather than by a winter journey to Dùn ìseal for the stone cup.",
-    "category": "rulers",
-    "people": ["Beathag nic Dhòmhnaill", "Catrìona nic Mhuirich"],
-    "places": ["burg:19"],
-    "threads": ["the-long-years"],
-    "master_links": []
-  },
-  {
-    "title": "Ruairidh Clèireach begins the new roll",
-    "era_year": 2953,
-    "summary": "Finding the old skin of the king-list and the Keepers' roll filled to its last line with Mòr's name, the clerk Ruairidh Clèireach begins a new skin and sets Beathag's name at its head, so that no name later than Mòr's stands in the old roll.",
-    "category": "law",
-    "people": ["Ruairidh Clèireach", "Mòr nic Coinnich", "Beathag nic Dhòmhnaill"],
-    "places": ["burg:19"],
-    "threads": ["the-keepers-of-the-flame"],
-    "master_links": ["II-0248"]
-  }
+ {
+  "title": "Coinneach Bàn dies at Cathair dhearg",
+  "era_year": 2896,
+  "summary": "Coinneach Bàn, who had copied the laws for every province, dies in his own bed at An Talla Dearg in the ninety-first year of his life. His son Coinneach Donn takes up the cup without any meeting of Na Ceithir Taighean being called.",
+  "category": "rulers",
+  "people": [
+   "Coinneach Bàn",
+   "Coinneach Donn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Coinneach Donn dies",
+  "era_year": 2927,
+  "summary": "Coinneach Donn, who has held the cup thirty years and more since his father's death, dies in the eighty-seventh year of his own life at Cathair dhearg, leaving a daughter, Mòr, not yet twenty-three, and a younger brother, Tormod Donn.",
+  "category": "rulers",
+  "people": [
+   "Coinneach Donn",
+   "Mòr nic Coinnich",
+   "Tormod Donn mac Coinnich"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Tormod Donn's claim before Na Ceithir Taighean",
+  "era_year": 2928,
+  "summary": "Tormod Donn brings a claim to Na Ceithir Taighean at Dùn ìseal against his niece Mòr, arguing that a man of the same blood and twice her years stands the plainer heir. The Houses split, two benches for Mòr and two for neither.",
+  "category": "rulers",
+  "people": [
+   "Tormod Donn mac Coinnich",
+   "Mòr nic Coinnich"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Tormod Donn yields",
+  "era_year": 2929,
+  "summary": "Tormod Donn withdraws his claim by his own steward's word, sent from his house at Cuan ruadh, after Catrìona nic Mhuirich tells Na Ceithir Taighean she will set the cup in no hand but Mòr's. It is the last such claim Sliochd Thormoid contests.",
+  "category": "rulers",
+  "people": [
+   "Tormod Donn mac Coinnich",
+   "Catrìona nic Mhuirich",
+   "Mòr nic Coinnich"
+  ],
+  "places": [
+   "burg:119"
+  ],
+  "threads": [
+   "the-long-years",
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   "II-0247"
+  ]
+ },
+ {
+  "title": "Mòr weds Dòmhnall Dubh",
+  "era_year": 2931,
+  "summary": "Mòr nic Coinnich weds Dòmhnall Dubh of Sliochd Raghnaill, whose kin keep the watch-tower at Baile ruadh. He holds no office at An Talla Dearg and keeps, through her reign, to his own house's trade of boats and coastwatch.",
+  "category": "rulers",
+  "people": [
+   "Mòr nic Coinnich",
+   "Dòmhnall Dubh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Dòmhnall Dubh dies at Baile ruadh",
+  "era_year": 2950,
+  "summary": "Dòmhnall Dubh dies in the fiftieth year of his own life among his own kin at Baile ruadh rather than at Cathair dhearg. Mòr goes north herself to see him buried beside the watch-tower his house has kept three generations.",
+  "category": "rulers",
+  "people": [
+   "Dòmhnall Dubh",
+   "Mòr nic Coinnich"
+  ],
+  "places": [
+   "burg:241"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Mòr nic Coinnich dies",
+  "on": [
+   2953,
+   7,
+   21
+  ],
+  "summary": "Mòr nic Coinnich dies at Cathair dhearg, leaving two daughters, Beathag and Mòrag, and no brother, uncle or cousin near enough in blood to raise a claim. Hers is the last name An Aois Naomh itself sets down in Clàr nan Rìghrean.",
+  "category": "rulers",
+  "people": [
+   "Mòr nic Coinnich",
+   "Beathag nic Dhòmhnaill",
+   "Mòrag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": [
+   "II-0248"
+  ]
+ },
+ {
+  "title": "Beathag crowned at Cathair dhearg",
+  "era_year": 2953,
+  "summary": "Beathag nic Dhòmhnaill, not yet sixteen, is crowned at Cathair dhearg within the month of her mother's death, by her own house's word and Na Ceithir Taighean' assent, rather than by a winter journey to Dùn ìseal for the stone cup.",
+  "category": "rulers",
+  "people": [
+   "Beathag nic Dhòmhnaill",
+   "Catrìona nic Mhuirich"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-long-years"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Ruairidh Clèireach begins the new roll",
+  "era_year": 2953,
+  "summary": "Finding the old skin of Clàr nan Rìghrean and Clàr an Talla filled to its last line with Mòr's name, the clerk Ruairidh Clèireach begins a new skin and sets Beathag's name at its head, so that no name later than Mòr's stands in the old roll.",
+  "category": "law",
+  "people": [
+   "Ruairidh Clèireach",
+   "Mòr nic Coinnich",
+   "Beathag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-keepers-of-the-flame"
+  ],
+  "master_links": [
+   "II-0248"
+  ]
+ }
 ]

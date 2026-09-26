@@ -14221,6 +14221,34 @@
   "src": "age_V_07.json"
  },
  {
+  "id": "EV-4501",
+  "title": "The first harvest short",
+  "body": "The harvest round Baile chrom comes in at less than half the carts of the year before, the fields sown thin for want of hands and beaten further by two summer storms. Uisdean counts the carts against his own earlier tally and finds the shortfall for himself.",
+  "place": "burg:305",
+  "kind": "land",
+  "category": "land",
+  "links": [
+   {
+    "to": "IV-0194",
+    "type": "cause"
+   }
+  ],
+  "threads": [],
+  "people": [
+   "uisdean-mac-lachlainn"
+  ],
+  "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
+  "y": 1872,
+  "m": 2,
+  "d": 23,
+  "age": "V",
+  "era": "AE",
+  "ey": 93,
+  "date": "23 an Gearran, AE 93",
+  "master": false,
+  "src": "age_V_07.json"
+ },
+ {
   "id": "IV-0194",
   "canon": true,
   "title": "Gorta Baile chrom",
@@ -14237,34 +14265,6 @@
   "date": "3 am Màrt, AE 94",
   "master": true,
   "src": "age_V_master.json"
- },
- {
-  "id": "EV-4501",
-  "title": "The first harvest short",
-  "body": "The harvest round Baile chrom comes in at less than half the carts of the year before, the fields sown thin for want of hands and beaten further by two summer storms. Uisdean counts the carts against his own earlier tally and finds the shortfall for himself.",
-  "place": "burg:305",
-  "kind": "land",
-  "category": "land",
-  "links": [
-   {
-    "to": "IV-0194",
-    "type": "sequel"
-   }
-  ],
-  "threads": [],
-  "people": [
-   "uisdean-mac-lachlainn"
-  ],
-  "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
-  "y": 1873,
-  "m": 3,
-  "d": 9,
-  "age": "V",
-  "era": "AE",
-  "ey": 94,
-  "date": "9 am Màrt, AE 94",
-  "master": false,
-  "src": "age_V_08.json"
  },
  {
   "id": "IV-0195",

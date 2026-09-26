@@ -17,7 +17,7 @@
  {
   "title": "Baile Mòr mhòr rises round the spring that never freezes",
   "era_year": 2616,
-  "summary": "Murchadh raises his hall on a rise above a spring that runs clear through every winter, and the households of the plain name the place Baile Mòr mhòr before it has earned the size of the name; within four centuries it stands eighty houses, the largest place north of the Red Hill.",
+  "summary": "Murchadh raises his hall on a rise above a spring that runs clear through every winter, and the households of the plain name the place Baile Mòr mhòr before it has earned the size of the name; within four centuries it stands eighty houses, the largest place north of An Cnoc Ruadh.",
   "category": "land",
   "people": [
    "Murchadh Mòr"
@@ -33,7 +33,7 @@
  {
   "title": "Sheep-households settle Baile gharbh",
   "era_year": 2635,
-  "summary": "Households take up the stony ground north-east of Murchadh's spring, keep sheep where the land will bear nothing heavier, and send their wool south along the coast road to the ford gathering rather than north to Murchadh's own granary.",
+  "summary": "Households take up the stony ground north-east of Murchadh's spring, keep sheep where the land will bear nothing heavier, and send their wool south along the coast road to Cruinneachadh an Àtha rather than north to Murchadh's own granary.",
   "category": "land",
   "people": [],
   "places": [
@@ -61,7 +61,7 @@
  {
   "title": "Cuan shean settled beside the old landing",
   "era_year": 2670,
-  "summary": "Households take up a harbour beside a stone landing built by hands none of them can name, older than any wall near it, and use it as they find it rather than mend it, out of the caution settlers keep wherever the Old Ones' work still stands.",
+  "summary": "Households take up a harbour beside a stone landing built by hands none of them can name, older than any wall near it, and use it as they find it rather than mend it, out of the caution settlers keep wherever Seann-Dhaoine' work still stands.",
   "category": "land",
   "people": [],
   "places": [
@@ -115,7 +115,7 @@
   ]
  },
  {
-  "title": "Eithne's households name the ground below the outpost Cathair mhòr",
+  "title": "Eithne's households name the ground below Làrach an Dùin-fhaire Cathair mhòr",
   "era_year": 2847,
   "summary": "Settlers below a broken watch-tower ask Eithne, then a hundred and forty-four years old, to lay out their fields, and she stays; her households name the place Cathair mhòr, the great city, out of hope rather than size, and take no stone from the ruin above them.",
   "category": "land",
@@ -209,7 +209,7 @@
  {
   "title": "The king takes back the western valleys from Murchadh",
   "era_year": 2900,
-  "summary": "After three hundred years in Murchadh's keeping, the king takes back the poorer western valleys of the northern plain and gives them to a grandson of the Red Hill's line, saying only that the ground had grown crowded enough to want a nearer hand; Murchadh does not argue it, and the plain stops speaking of it within the year.",
+  "summary": "After three hundred years in Murchadh's keeping, the king takes back the poorer western valleys of the northern plain and gives them to a grandson of An Cnoc Ruadh's line, saying only that the ground had grown crowded enough to want a nearer hand; Murchadh does not argue it, and the plain stops speaking of it within the year.",
   "category": "reign",
   "people": [
    "Murchadh Mòr"
@@ -221,7 +221,7 @@
   "master_links": []
  },
  {
-  "title": "The summons to the great gathering reaches the north",
+  "title": "The summons to An Cruinneachadh Mòr reaches the north",
   "era_year": 2999,
   "summary": "Riders of the king's own household bring word to Baile Mòr mhòr that every holder of every share of the island is to come to a gathering at the ford of salt and wool greater than any before it; Murchadh sends word to his sons and to Eithne, and rides south himself with sixty of his household.",
   "category": "reign",

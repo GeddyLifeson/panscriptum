@@ -1,377 +1,377 @@
 [
-  {
-    "title": "Martha Greaves's line on the depots",
-    "era_year": 15,
-    "after": "VI-0048",
-    "summary": "Martha Greaves writes to the Library that the north now buys its fire from the south, and does not say whether this is a good thing, only that it was not the case a year before. Beathag nic Fhionnlaigh copies the line whole into the chronicle and adds nothing beneath it.",
-    "category": "trade",
-    "people": [
-      "Martha Greaves",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:209",
-      "burg:246"
-    ],
-    "threads": [
-      "the-dubhan-trade",
-      "the-library",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0048",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#i-of-the-northern-depots"
-  },
-  {
-    "title": "The depots marked on the Library's map",
-    "era_year": 15,
-    "same_day": true,
-    "summary": "Raghnall mac Mhuirich asks that the three new depots be marked on the front room's map, close together on the coast, and tells Sìleas nic Rath he expects the map will want marking again before the year is out, though he cannot say why he thinks it.",
-    "category": "culture",
-    "people": [
-      "Raghnall mac Mhuirich",
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0048",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#i-of-the-northern-depots"
-  },
-  {
-    "title": "The Treasury clerk's private letter",
-    "era_year": 15,
-    "on": "5 an Cèitean",
-    "summary": "A clerk of the Treasury who owes Raghnall mac Mhuirich a kindness sends the Library a private account of the council's sitting of 5 an Cèitean ahead of the formal minute, noting that the two resolutions passed by a show of hands with no count taken, against the council's custom in so weighty a matter.",
-    "category": "law",
-    "people": [
-      "Raghnall mac Mhuirich",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:19",
-      "burg:246"
-    ],
-    "threads": [
-      "the-library",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0049",
-        "type": "cause"
-      },
-      {
-        "to": "VI-0049a",
-        "type": "cause"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#ii-of-the-fifth-of-an-ceitean"
-  },
-  {
-    "title": "The torn proclamation from the market post",
-    "era_year": 15,
-    "same_day": true,
-    "summary": "A carrier tears the printed proclamation from a post at Cathair dhearg and brings it up to the Library folded inside his own almanac, thinking Beathag nic Fhionnlaigh should see the notice as the market crowd had seen it, creased and a little torn at one corner.",
-    "category": "record",
-    "people": [
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:19",
-      "burg:246"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0049a",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#ii-of-the-fifth-of-an-ceitean"
-  },
-  {
-    "title": "Beathag begins the re-heading",
-    "era_year": 15,
-    "same_day": true,
-    "summary": "The evening the proclamation reaches her, Beathag nic Fhionnlaigh sits alone at the long table with her fourteen ledgers and begins to set the new heading, Linn an Dubhain and its year, beside the old heading of each, in a smaller hand, with a line drawn between them, leaving the old headings standing.",
-    "category": "record",
-    "people": [
-      "Beathag nic Fhionnlaigh",
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0049a",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#iii-of-the-fourteen-years-re-headed"
-  },
-  {
-    "title": "Beathag writes the line about moving a year",
-    "era_year": 15,
-    "same_day": true,
-    "summary": "Finishing the re-heading before dawn, Beathag nic Fhionnlaigh writes at the foot of the fifteenth year's page, in a smaller hand than her working hand, that never before has she had to move a year she was living in, and lets it stand uncorrected in the fair copy sent up to the council.",
-    "category": "record",
-    "people": [
-      "Beathag nic Fhionnlaigh",
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0049a",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#iii-of-the-fourteen-years-re-headed"
-  },
-  {
-    "title": "Gille-Easbaig Bàn's letter on the new dies",
-    "era_year": 15,
-    "on": "an t-Ògmhios",
-    "summary": "Gille-Easbaig Bàn writes to the Library that the mint has cut a plain seal for the coinage, the coal ink pressed into no die of it, and owns he does not know whether he is glad or sorry to be done with grinding an ink that had cost, that spring, more than the seal's own worth in coin.",
-    "category": "craft",
-    "people": [
-      "Gille-Easbaig Bàn",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:19",
-      "burg:246"
-    ],
-    "threads": [
-      "the-dubhan-trade",
-      "the-library"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0050",
-        "type": "cause"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#iv-of-the-plain-seal"
-  },
-  {
-    "title": "Fearchar Bonn's first dies sent to the Library",
-    "era_year": 15,
-    "after": "VI-0050",
-    "summary": "A mounted courier of the Treasury brings Fearchar Bonn's first dies, which struck the kingdom's very first coin, up to an Leabharlann in a box no bigger than a loaf, and will not hand them to any but the keeper, who signs a paper neither he nor Beathag nic Fhionnlaigh afterward can agree what it said.",
-    "category": "record",
-    "people": [
-      "Raghnall mac Mhuirich",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:19",
-      "burg:246"
-    ],
-    "threads": [
-      "the-library",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0050",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#iv-of-the-plain-seal"
-  },
-  {
-    "title": "The dies set beside the oath-stone",
-    "era_year": 15,
-    "same_day": true,
-    "summary": "Raghnall mac Mhuirich sets Fearchar Bonn's worn dies in the glass case beside the Hewers' oath-stone, and remarks to Beathag nic Fhionnlaigh that everything lately brought into the case has just stopped being used.",
-    "category": "culture",
-    "people": [
-      "Raghnall mac Mhuirich",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library",
-      "the-seven-coals"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0050",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#iv-of-the-plain-seal"
-  },
-  {
-    "title": "Alasdair mac Ìomhair's letter on the seal",
-    "era_year": 15,
-    "on": "an t-Iuchar",
-    "summary": "Alasdair mac Ìomhair writes to the council, and copies the Library, that a plain seal with no coal ink in it tells every hand that touches a coin that the kingdom no longer holds the vein sacred, and asks the council to say outright whether it means that by the change.",
-    "category": "faith",
-    "people": [
-      "Alasdair mac Ìomhair",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:431",
-      "burg:246"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0051",
-        "type": "cause"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#v-of-the-two-letters"
-  },
-  {
-    "title": "The council's answer to the Àrd-choimheadaiche",
-    "era_year": 15,
-    "after": "VI-0051",
-    "summary": "The council answers within the fortnight that no sitting of it has ever declared the coin's seal a holy thing, that the coal ink was pressed into it only because coal was once the surest reserve behind the coin, and that the council holds no vein and no fuel sacred and never has.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0051",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#v-of-the-two-letters"
-  },
-  {
-    "title": "Beathag copies both letters without comment",
-    "era_year": 15,
-    "same_day": true,
-    "summary": "Beathag nic Fhionnlaigh copies the Àrd-choimheadaiche's letter and the council's answer whole into the day's page, in the order they came to her, and sets no word of her own between them, though she reads the council's answer five times before she blots the page.",
-    "category": "record",
-    "people": [
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library",
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      {
-        "to": "VI-0051",
-        "type": "sequel"
-      }
-    ],
-    "told_in": "book/15_of_the_fifteenth_year.md#v-of-the-two-letters"
-  },
-  {
-    "title": "Raghnall's three dots on the Library's map",
-    "era_year": 15,
-    "summary": "The keeper of an Leabharlann has the chronicler's clerk mark the three new dubhan depots of the north on the old map in the front room, three dots close together on the coast.",
-    "category": "trade",
-    "people": [
-      "Raghnall mac Mhuirich",
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0048"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The proclamation read at the Cuan shean harbour",
-    "era_year": 15,
-    "summary": "At the harbour of Cuan shean the maor's crier reads the proclamation of Linn an Dubhain from the harbour steps to the fishing crews, who ask whether it changes the day of the fish-market. It does not.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:282"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0049a"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "A pump on the quays of Baile ghorm",
-    "era_year": 15,
-    "summary": "The third anchorage of the kingdom, at Baile ghorm, sets a dubhan pump on its wolf-post quays for the fishing boats that have taken engines, the first on that coast.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:170"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0043"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Doire shean hears the new count at market",
-    "era_year": 15,
-    "summary": "At Doire shean the new count of the years is read out at the Tuesday market; the market-clerk writes the next week's date both ways in his book and goes on doing so for a year.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:324"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0049a"
-    ],
-    "chronicle_extra": true
-  }
+ {
+  "title": "Martha Greaves's line on the depots",
+  "era_year": 15,
+  "after": "VI-0048",
+  "summary": "Martha Greaves writes to an Leabharlann that the north now buys its fire from the south, and does not say whether this is a good thing, only that it was not the case a year before. Beathag nic Fhionnlaigh copies the line whole into Eachdraidh na Rìoghachd and adds nothing beneath it.",
+  "category": "trade",
+  "people": [
+   "Martha Greaves",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:209",
+   "burg:246"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-library",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0048",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#i-of-the-northern-depots"
+ },
+ {
+  "title": "The depots marked on an Leabharlann's map",
+  "era_year": 15,
+  "same_day": true,
+  "summary": "Raghnall mac Mhuirich asks that the three new depots be marked on the front room's map, close together on the coast, and tells Sìleas nic Rath he expects the map will want marking again before the year is out, though he cannot say why he thinks it.",
+  "category": "culture",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Sìleas nic Rath"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0048",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#i-of-the-northern-depots"
+ },
+ {
+  "title": "An t-Ionmhas's clerk's private letter",
+  "era_year": 15,
+  "on": "5 an Cèitean",
+  "summary": "A clerk of An t-Ionmhas who owes Raghnall mac Mhuirich a kindness sends an Leabharlann a private account of the council's sitting of 5 an Cèitean ahead of the formal minute, noting that the two resolutions passed by a show of hands with no count taken, against the council's custom in so weighty a matter.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:19",
+   "burg:246"
+  ],
+  "threads": [
+   "the-library",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0049",
+    "type": "cause"
+   },
+   {
+    "to": "VI-0049a",
+    "type": "cause"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#ii-of-the-fifth-of-an-ceitean"
+ },
+ {
+  "title": "The torn proclamation from the market post",
+  "era_year": 15,
+  "same_day": true,
+  "summary": "A carrier tears the printed proclamation from a post at Cathair dhearg and brings it up to an Leabharlann folded inside his own almanac, thinking Beathag nic Fhionnlaigh should see the notice as the market crowd had seen it, creased and a little torn at one corner.",
+  "category": "record",
+  "people": [
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:19",
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0049a",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#ii-of-the-fifth-of-an-ceitean"
+ },
+ {
+  "title": "Beathag begins the re-heading",
+  "era_year": 15,
+  "same_day": true,
+  "summary": "The evening the proclamation reaches her, Beathag nic Fhionnlaigh sits alone at the long table with her fourteen ledgers and begins to set the new heading, Linn an Dubhain and its year, beside the old heading of each, in a smaller hand, with a line drawn between them, leaving the old headings standing.",
+  "category": "record",
+  "people": [
+   "Beathag nic Fhionnlaigh",
+   "Sìleas nic Rath"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0049a",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#iii-of-the-fourteen-years-re-headed"
+ },
+ {
+  "title": "Beathag writes the line about moving a year",
+  "era_year": 15,
+  "same_day": true,
+  "summary": "Finishing the re-heading before dawn, Beathag nic Fhionnlaigh writes at the foot of the fifteenth year's page, in a smaller hand than her working hand, that never before has she had to move a year she was living in, and lets it stand uncorrected in the fair copy sent up to the council.",
+  "category": "record",
+  "people": [
+   "Beathag nic Fhionnlaigh",
+   "Sìleas nic Rath"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0049a",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#iii-of-the-fourteen-years-re-headed"
+ },
+ {
+  "title": "Gille-Easbaig Bàn's letter on the new dies",
+  "era_year": 15,
+  "on": "an t-Ògmhios",
+  "summary": "Gille-Easbaig Bàn writes to an Leabharlann that the mint has cut a plain seal for the coinage, the coal ink pressed into no die of it, and owns he does not know whether he is glad or sorry to be done with grinding an ink that had cost, that spring, more than the seal's own worth in coin.",
+  "category": "craft",
+  "people": [
+   "Gille-Easbaig Bàn",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:19",
+   "burg:246"
+  ],
+  "threads": [
+   "the-dubhan-trade",
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0050",
+    "type": "cause"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#iv-of-the-plain-seal"
+ },
+ {
+  "title": "Fearchar Bonn's first dies sent to an Leabharlann",
+  "era_year": 15,
+  "after": "VI-0050",
+  "summary": "A mounted courier of An t-Ionmhas brings Fearchar Bonn's first dies, which struck the kingdom's very first coin, up to an Leabharlann in a box no bigger than a loaf, and will not hand them to any but the keeper, who signs a paper neither he nor Beathag nic Fhionnlaigh afterward can agree what it said.",
+  "category": "record",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:19",
+   "burg:246"
+  ],
+  "threads": [
+   "the-library",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0050",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#iv-of-the-plain-seal"
+ },
+ {
+  "title": "The dies set beside the oath-stone",
+  "era_year": 15,
+  "same_day": true,
+  "summary": "Raghnall mac Mhuirich sets Fearchar Bonn's worn dies in the glass case beside Clach-mhionnan nan Gualadairean, and remarks to Beathag nic Fhionnlaigh that everything lately brought into the case has just stopped being used.",
+  "category": "culture",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library",
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0050",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#iv-of-the-plain-seal"
+ },
+ {
+  "title": "Alasdair mac Ìomhair's letter on the seal",
+  "era_year": 15,
+  "on": "an t-Iuchar",
+  "summary": "Alasdair mac Ìomhair writes to the council, and copies an Leabharlann, that a plain seal with no coal ink in it tells every hand that touches a coin that the kingdom no longer holds the vein sacred, and asks the council to say outright whether it means that by the change.",
+  "category": "faith",
+  "people": [
+   "Alasdair mac Ìomhair",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:431",
+   "burg:246"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0051",
+    "type": "cause"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#v-of-the-two-letters"
+ },
+ {
+  "title": "The council's answer to the Àrd-choimheadaiche",
+  "era_year": 15,
+  "after": "VI-0051",
+  "summary": "The council answers within the fortnight that no sitting of it has ever declared the coin's seal a holy thing, that the coal ink was pressed into it only because coal was once the surest reserve behind the coin, and that the council holds no vein and no fuel sacred and never has.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0051",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#v-of-the-two-letters"
+ },
+ {
+  "title": "Beathag copies both letters without comment",
+  "era_year": 15,
+  "same_day": true,
+  "summary": "Beathag nic Fhionnlaigh copies the Àrd-choimheadaiche's letter and the council's answer whole into the day's page, in the order they came to her, and sets no word of her own between them, though she reads the council's answer five times before she blots the page.",
+  "category": "record",
+  "people": [
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library",
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "VI-0051",
+    "type": "sequel"
+   }
+  ],
+  "told_in": "book/15_of_the_fifteenth_year.md#v-of-the-two-letters"
+ },
+ {
+  "title": "Raghnall's three dots on an Leabharlann's map",
+  "era_year": 15,
+  "summary": "The keeper of an Leabharlann has the chronicler's clerk mark the three new dubhan depots of the north on the old map in the front room, three dots close together on the coast.",
+  "category": "trade",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Sìleas nic Rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0048"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The proclamation read at the Cuan shean harbour",
+  "era_year": 15,
+  "summary": "At the harbour of Cuan shean the maor's crier reads the proclamation of Linn an Dubhain from the harbour steps to the fishing crews, who ask whether it changes the day of the fish-market. It does not.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0049a"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "A pump on the quays of Baile ghorm",
+  "era_year": 15,
+  "summary": "The third anchorage of the kingdom, at Baile ghorm, sets a dubhan pump on its wolf-post quays for the fishing boats that have taken engines, the first on that coast.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:170"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0043"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Doire shean hears the new count at market",
+  "era_year": 15,
+  "summary": "At Doire shean the new count of the years is read out at the Tuesday market; the market-clerk writes the next week's date both ways in his book and goes on doing so for a year.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0049a"
+  ],
+  "chronicle_extra": true
+ }
 ]

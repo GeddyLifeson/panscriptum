@@ -1,8 +1,8 @@
 [
  {
-  "title": "Edward Vane dies at the Residency",
+  "title": "Edward Vane dies at Taigh an Àrd-mhaoir",
   "era_year": 132,
-  "summary": "Commissioner Edward Vane, born at the Residency above Ros dhomhain, dies there in the bed he was born in. The custodians who come to acknowledge the change of stewards find, as they had all his rule, that they had liked him rather more than they meant to.",
+  "summary": "Àrd-mhaor Edward Vane, born at Taigh an Àrd-mhaoir above Ros dhomhain, dies there in the bed he was born in. The custodians who come to acknowledge the change of stewards find, as they had all his rule, that they had liked him rather more than they meant to.",
   "category": "humans",
   "people": [
    "Edward Vane"
@@ -20,7 +20,7 @@
  {
   "title": "Charles Merriman lands with thirty constables",
   "era_year": 132,
-  "summary": "Charles Merriman comes out from an Tìr Thall to take up the Commissioner's staff, bringing thirty armed men in grey coats, the first standing force the Administration has kept on Dia-thìr. He tells the custodians who meet the ship that they are constables sworn under his own commission, not soldiers.",
+  "summary": "Charles Merriman comes out from an Tìr Thall to take up An t-Àrd-mhaor's staff, bringing thirty armed men in grey coats, the first standing force Riaghaltas nan Coigreach has kept on Dia-thìr. He tells the custodians who meet the ship that they are constables sworn under his own commission, not soldiers.",
   "category": "humans",
   "people": [
    "Charles Merriman",
@@ -39,7 +39,7 @@
  {
   "title": "The constable post built at Muileann shean",
   "era_year": 132,
-  "summary": "Merriman's first post is raised at Muileann shean on the northern coal road, a stone house with a horse-yard, its flagpole cut from timber the Company never paid the custodian for. The townsfolk call it the humans' second Residency, and the name outlasts every other name tried for the place.",
+  "summary": "Merriman's first post is raised at Muileann shean on the northern coal road, a stone house with a horse-yard, its flagpole cut from timber A' Chompanaidh never paid the custodian for. The townsfolk call it the humans' second Residency, and the name outlasts every other name tried for the place.",
   "category": "law",
   "people": [
    "Charles Merriman"
@@ -57,7 +57,7 @@
  {
   "title": "The post at Tobar ghorm and the custodian's rent",
   "era_year": 132,
-  "summary": "A second constable post rises at Tobar ghorm. The village's custodian, Uilleam Glas, takes the rent paid for the ground and clears the village of every debt it owes the Company's own store, to the written complaint of the Company's agent.",
+  "summary": "A second constable post rises at Tobar ghorm. The village's custodian, Uilleam Glas, takes the rent paid for the ground and clears the village of every debt it owes A' Chompanaidh's own store, to the written complaint of A' Chompanaidh's agent.",
   "category": "law",
   "people": [
    "Uilleam Glas"
@@ -133,7 +133,7 @@
  {
   "title": "Minister Renn writes the vigil irregular",
   "era_year": 133,
-  "summary": "Obadiah Renn, the Mission's minister at Cathair gheal's chapel, questions Hannah Webb about the watch and, finding no scripture that knows a goose, writes to the Mission's house that the practice is irregular and its origin uncertain, though he does not call it wrongdoing.",
+  "summary": "Obadiah Renn, Teachdaireachd na h-Eaglaise's minister at Cathair gheal's chapel, questions Hannah Webb about the watch and, finding no scripture that knows a goose, writes to Teachdaireachd na h-Eaglaise's house that the practice is irregular and its origin uncertain, though he does not call it wrongdoing.",
   "category": "faith",
   "people": [
    "Hannah Webb",
@@ -170,7 +170,7 @@
  {
   "title": "Manannan's priest names the goose gone astray",
   "era_year": 134,
-  "summary": "A priest of the harbour temple at Ceann mhòr walks to Baile chrom, watches Hannah Webb's vigil through a night, and tells her the goose she keeps is an Gèadh Fiadhaich, the wild goose of the Spirit, wandered from Manannan's own harbours into a shape no longer entirely his people's to reclaim or to stop.",
+  "summary": "A priest of the harbour temple at Ceann mhòr walks to Baile chrom, watches Hannah Webb's vigil through a night, and tells her the goose she keeps is an Gèadh Fiadhaich, wandered from Manannan's own harbours into a shape no longer entirely his people's to reclaim or to stop.",
   "category": "faith",
   "people": [
    "Hannah Webb"
@@ -189,7 +189,7 @@
  {
   "title": "The berth toll and the docker Tòmas Ruadh",
   "era_year": 134,
-  "summary": "The Company posts a new toll on every ton loaded at the Ros dhomhain coal berths. The docker Tòmas Ruadh, whom Daniel Webb once pulled clear of a falling beam, tells him of it, and the two speak for the first time of standing off the hooks together.",
+  "summary": "A' Chompanaidh posts a new toll on every ton loaded at the Ros dhomhain coal berths. The docker Tòmas Ruadh, whom Daniel Webb once pulled clear of a falling beam, tells him of it, and the two speak for the first time of standing off the hooks together.",
   "category": "law",
   "people": [
    "Daniel Webb",
@@ -206,7 +206,7 @@
   ]
  },
  {
-  "title": "The dockers' strike at Ros dhomhain",
+  "title": "Stad-oibre a' Chalaidh at Ros dhomhain",
   "era_year": 134,
   "summary": "Dia-thìrich and human dockers put down their hooks together at Ros dhomhain over the berth toll, the only stoppage of the age in which the two peoples stand on the same side of a quay. The harbour lies idle nine days, coal piling faster than any store can take it.",
   "category": "law",
@@ -245,7 +245,7 @@
  {
   "title": "The human dockers shipped over the sea",
   "era_year": 134,
-  "summary": "The Company takes the names of every human docker who struck and offers them passage over the sea within the week, once, with the plain understanding that it will not be offered twice. Hannah Webb watches her brother Daniel go up the gangway from the Ros dhomhain quay.",
+  "summary": "A' Chompanaidh takes the names of every human docker who struck and offers them passage over the sea within the week, once, with the plain understanding that it will not be offered twice. Hannah Webb watches her brother Daniel go up the gangway from the Ros dhomhain quay.",
   "category": "humans",
   "people": [
    "Hannah Webb",

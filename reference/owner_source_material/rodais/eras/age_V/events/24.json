@@ -19,7 +19,7 @@
  {
   "title": "The draft read at Baile chrom",
   "era_year": 92,
-  "summary": "The Levy is read at the market cross of Baile chrom, first in the humans' tongue and then in Dia-thìris by a clerk who stumbles over the numbers. It falls hardest on the coast and hill villages; the concession farms to the north, worked by the strangers' own people, send no one.",
+  "summary": "An Togail is read at the market cross of Baile chrom, first in the humans' tongue and then in Dia-thìris by a clerk who stumbles over the numbers. It falls hardest on the coast and hill villages; the concession farms to the north, worked by the strangers' own people, send no one.",
   "category": "law",
   "people": [
    "Uisdean mac Lachlainn"
@@ -53,7 +53,7 @@
  {
   "title": "Mòr nic Aonghais sends her son south",
   "era_year": 95,
-  "summary": "At Doire ghlas, a woman named Mòr nic Aonghais walks her fourteen-year-old son as far as the boundary stone and no further, by the coast's custom, and sends him to the camps for the Company's ration rather than keep him at a table with too little on it.",
+  "summary": "At Doire ghlas, a woman named Mòr nic Aonghais walks her fourteen-year-old son as far as the boundary stone and no further, by the coast's custom, and sends him to the camps for A' Chompanaidh's ration rather than keep him at a table with too little on it.",
   "category": "humans",
   "people": [],
   "places": [
@@ -69,7 +69,7 @@
  {
   "title": "The kitchen at Inis mhin's harbour",
   "era_year": 95,
-  "summary": "With its seed corn eaten and no crop sown, Inis mhin is fed through the second winter of the hunger by the Mission kitchen at the harbour, which serves three hundred a day on fish broth and biscuit brought by sea from Cathair gheal.",
+  "summary": "With its seed corn eaten and no crop sown, Inis mhin is fed through the second winter of the hunger by Teachdaireachd na h-Eaglaise's kitchen at the harbour, which serves three hundred a day on fish broth and biscuit brought by sea from Cathair gheal.",
   "category": "humans",
   "people": [],
   "places": [
@@ -96,9 +96,9 @@
   ]
  },
  {
-  "title": "Anne Colby's letter to the Residency",
+  "title": "Anne Colby's letter to Taigh an Àrd-mhaoir",
   "era_year": 95,
-  "summary": "With the relief ship idle at anchor, Anne Colby writes to the Residency at Ros dhomhain asking only who should be told to unload it. Eleven days pass before an answer that names no one and settles nothing, noting only that Commissioner Tolley has heard her concern.",
+  "summary": "With the relief ship idle at anchor, Anne Colby writes to Taigh an Àrd-mhaoir at Ros dhomhain asking only who should be told to unload it. Eleven days pass before an answer that names no one and settles nothing, noting only that Àrd-mhaor Tolley has heard her concern.",
   "category": "law",
   "people": [
    "Anne Colby"
@@ -116,7 +116,7 @@
  {
   "title": "The relief ship unloaded without an order",
   "era_year": 95,
-  "summary": "After a month idle in the roads at Ros dhomhain, the relief ship's holds are opened at last when a clerk of the Residency and a clerk of the Company set men to the work themselves, without waiting for either office to settle the dispute between them.",
+  "summary": "After a month idle in the roads at Ros dhomhain, the relief ship's holds are opened at last when a clerk of Taigh an Àrd-mhaoir and a clerk of A' Chompanaidh set men to the work themselves, without waiting for either office to settle the dispute between them.",
   "category": "trade",
   "people": [],
   "places": [
@@ -132,7 +132,7 @@
  {
   "title": "Anne Colby takes the kitchen at Baile chrom",
   "era_year": 95,
-  "summary": "Anne Colby goes north to Baile chrom to run the Mission's kitchen in a net-shed by the harbour, and keeps it through the worst of the hunger on the relief ship's grain and whatever the boats can add to it.",
+  "summary": "Anne Colby goes north to Baile chrom to run Teachdaireachd na h-Eaglaise's kitchen in a net-shed by the harbour, and keeps it through the worst of the hunger on the relief ship's grain and whatever the boats can add to it.",
   "category": "humans",
   "people": [
    "Anne Colby"
@@ -148,7 +148,7 @@
  {
   "title": "Anne Colby's private roll of names",
   "era_year": 96,
-  "summary": "At the Baile chrom kitchen Anne Colby keeps a book of her own, apart from the Mission's, writing every name she feeds and crossing it through, gently, in the corner of the page, whenever that person does not come again.",
+  "summary": "At the Baile chrom kitchen Anne Colby keeps a book of her own, apart from Teachdaireachd na h-Eaglaise's, writing every name she feeds and crossing it through, gently, in the corner of the page, whenever that person does not come again.",
   "category": "humans",
   "people": [
    "Anne Colby",
@@ -180,9 +180,9 @@
   ]
  },
  {
-  "title": "The Levy read ended at Baile chrom",
+  "title": "An Togail read ended at Baile chrom",
   "era_year": 97,
-  "summary": "The clerk who first read the Levy at the market cross of Baile chrom returns to read that it is set aside in the famine districts, two harvests after the failure it caused. The custodians note it is not repealed, only set by, and expect no more of it.",
+  "summary": "The clerk who first read An Togail at the market cross of Baile chrom returns to read that it is set aside in the famine districts, two harvests after the failure it caused. The custodians note it is not repealed, only set by, and expect no more of it.",
   "category": "law",
   "people": [
    "Uisdean mac Lachlainn"
@@ -200,7 +200,7 @@
  {
   "title": "Cnoc mhòr walks south together",
   "era_year": 97,
-  "summary": "Before the Levy's suspension is even drafted, the whole village of Cnoc mhòr in the north walks south to take the Company's ration and its work, old carried and young walking, leaving its doors unbarred behind it in the manner of a people who mean to return.",
+  "summary": "Before An Togail's suspension is even drafted, the whole village of Cnoc mhòr in the north walks south to take A' Chompanaidh's ration and its work, old carried and young walking, leaving its doors unbarred behind it in the manner of a people who mean to return.",
   "category": "humans",
   "people": [],
   "places": [

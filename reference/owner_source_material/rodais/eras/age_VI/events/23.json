@@ -1,324 +1,324 @@
 [
-  {
-    "title": "Achadh mhin's old bounds restored",
-    "era_year": 28,
-    "after": "V-0109",
-    "summary": "The shire measures the returning households of Achadh mhin back onto the same strips the humans' surveyors once cut, the old plat being the one the families still walk by memory rather than a new line drawn by a Dia-thìreach chain.",
-    "category": "land",
-    "people": [],
-    "places": [
-      "burg:150"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0110"
-    ]
-  },
-  {
-    "title": "The first households return to Achadh mhin",
-    "era_year": 28,
-    "summary": "Three households moved off the salted fields after the Great Wave, or their children in their place, ask and are granted their old ground back, the barley coming up along strips long thought lost to the tide.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:150"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0110"
-    ]
-  },
-  {
-    "title": "The twice-sealed packet reaches Muileann chaol",
-    "era_year": 28,
-    "summary": "Word of Brìghde's death and Eòghan's crowning reaches the chronicler's desk in a packet sealed twice, the second hand adding, in a hastier line at the foot, that the council's own sitting on the succession did not pass as quietly as the crowning itself.",
-    "category": "rulers",
-    "people": [
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "V-0111"
-    ]
-  },
-  {
-    "title": "Gormshuil's three struck drafts",
-    "era_year": 28,
-    "summary": "The chronicler writes and rejects three entries for the succession before a fourth stands: one that says more than an office should say first, one so bare it reads as a door shut on purpose, one left unfinished as an argument rather than a record.",
-    "category": "law",
-    "people": [
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "V-0111",
-      "V-0112"
-    ]
-  },
-  {
-    "title": "The bare entry set down",
-    "era_year": 28,
-    "summary": "Past the second hour of the morning Gormshuil enters the day of Brìghde's death, the fact that no cause is made known, and the day of Eòghan's crowning, and nothing more, choosing the silence rather than dressing it as a fullness it is not.",
-    "category": "law",
-    "people": [
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "V-0112"
-    ]
-  },
-  {
-    "title": "The council's four lines on the division",
-    "era_year": 28,
-    "summary": "The council's own minute of the sitting names Tormod mac Iain Òig and Sìleas nic Artair as the two who stood against seating Eòghan, gives no reason either offered, and closes with the plainest of its four lines: the two do not sit again.",
-    "category": "law",
-    "people": [
-      "Tormod mac Iain Òig",
-      "Sìleas nic Artair"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0113"
-    ]
-  },
-  {
-    "title": "Tormod mac Iain Òig goes home",
-    "era_year": 28,
-    "summary": "Tormod mac Iain Òig returns to his own lands in the western shires and is not named in the chronicle again for some years, his seat on the council closed behind him without further entry.",
-    "category": "rulers",
-    "people": [
-      "Tormod mac Iain Òig"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0113"
-    ]
-  },
-  {
-    "title": "Sìleas nic Artair keeps her own house's rite",
-    "era_year": 28,
-    "summary": "Sìleas nic Artair, her council seat lost with Tormod mac Iain Òig's, gives her Old Spirits kin's house more of her time than council business ever left her, and does not sit at Cathair dhearg again.",
-    "category": "faith",
-    "people": [
-      "Sìleas nic Artair"
-    ],
-    "places": [],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0113"
-    ]
-  },
-  {
-    "title": "The council's two seats filled",
-    "era_year": 28,
-    "summary": "Before the year turns the council seats a landed man's son from the western shires and a widow of a coastal house in the two empty places, and neither newcomer is asked in council to account for the vote that opened the seat they now hold.",
-    "category": "rulers",
-    "people": [],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0113"
-    ]
-  },
-  {
-    "title": "The warehouse quarter of Inis bhàn burns two days",
-    "era_year": 29,
-    "after": "V-0113",
-    "summary": "Fire takes three storehouses and the dwellings above them at Inis bhàn on the Abhainn ìseal and burns two days before the town beats it back street by street with buckets and wet sacking; every soul in the burning quarter gets clear, and none dies.",
-    "category": "land",
-    "people": [],
-    "places": [
-      "burg:371"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0114"
-    ]
-  },
-  {
-    "title": "The Hawk house at Inis bhàn opens its doors",
-    "era_year": 29,
-    "summary": "The Hawk house at Inis bhàn, which has never before taken in households outside those sworn to it, shelters every family the fire puts out of a roof, sworn or not, through the worst of the spring cold.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:371"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0114"
-    ]
-  },
-  {
-    "title": "Inis bhàn's new bell rung on the quay",
-    "era_year": 29,
-    "summary": "Inis bhàn buys a bell from the founders' yard at Cathair dhearg, cast to the town's own order, to stand where the old warehouse bell burned, rung once on the quay before it is hung, and heard, by the town's own telling, further up and down the Abhainn ìseal than any bell in the kingdom.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:371"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0114"
-    ]
-  },
-  {
-    "title": "The Moot's letter of the eleven schools",
-    "era_year": 29,
-    "summary": "Walter Hale writes the Moot's count of the north's schools to Muileann chaol, eleven in all from Agnes Pike's byre at Doire ghlas to a room over a chandler's shop at Ceann àrsaidh opened that same autumn, and Gormshuil enters it whole rather than shortened.",
-    "category": "law",
-    "people": [
-      "Walter Hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-library"
-    ],
-    "master_links": [
-      "V-0116"
-    ]
-  },
-  {
-    "title": "Three schools begin teaching Dia-thìris",
-    "era_year": 29,
-    "summary": "At three of the north's eleven schools the teachers begin, at the parents' own asking and with no order from the council or leave from any maor, to teach Dia-thìris alongside the humans' letters, so that children may read a proclamation or a boundary-line in the tongue the kingdom writes its business in.",
-    "category": "law",
-    "people": [],
-    "places": [],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "V-0116"
-    ]
-  },
-  {
-    "title": "Agnes Pike's school teaches its first Dia-thìris lesson",
-    "era_year": 29,
-    "summary": "Agnes Pike's school at Doire ghlas, one of the three the Moot's letter names, sets its first Dia-thìris lesson beside the Bible and the Moot's own minutes, at the asking of the parents whose children it has taught since its founding.",
-    "category": "law",
-    "people": [
-      "Agnes Pike"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "V-0116"
-    ]
-  },
-  {
-    "title": "Idle looms at Baile chiar",
-    "era_year": 28,
-    "summary": "The weavers' guild of Baile chiar reports the washing-pools behind its fulling-sheds too low after a dry summer to scour wool, and its looms idle three weeks; the guild counts the bolts not woven to the last half-ell and does not count the weavers it has not paid.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:106"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0110"
-    ],
-    "after": "V-0110"
-  },
-  {
-    "title": "A wedding at the Stone's door in Doire shean",
-    "era_year": 28,
-    "summary": "The harbour-master of Doire shean writes to the Library of his daughter's wedding to a clerk of the Stone's counting-room, kept at the Stone's door, the first in his memory for which the whole fishing fleet came in on one tide to stand on the quay.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:324"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0110"
-    ],
-    "after": "V-0110"
-  },
-  {
-    "title": "Leabhar nam Breith cited by its page",
-    "era_year": 28,
-    "summary": "Riding his twelfth year on the northern circuit, Uilleam mac Leòid finds for a Tuathaich family's grazing claim at Àth àrsaidh in the words of his aunt's ruling and cites Leabhar nam Breith by its page, the first circuit return to cite the book in its own words.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:304"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "V-0113"
-    ]
-  },
-  {
-    "title": "The Board's yield sent as a single figure",
-    "era_year": 28,
-    "summary": "The Mine Board's return to the royal chronicle gives the Sloc Mòr's yield for the year as a single figure, no faces named and no survey cited; Gormshuil nic Dhùghaill enters it and sets the year before's figure beside it in her smallest hand, with no word between them.",
-    "category": "coal",
-    "people": [],
-    "places": [
-      "burg:23"
-    ],
-    "threads": [
-      "the-depletion",
-      "the-library"
-    ],
-    "master_links": [
-      "V-0105"
-    ]
-  },
-  {
-    "title": "The fifth copy of the Seann Dunn naming",
-    "era_year": 28,
-    "summary": "The hall at Seann Dunn sends the Library its fifth copy of the naming, longer by eleven names, the hall having taken in three households of the coast that had kept their dead at their own hearths until then.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:18"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "V-0094"
-    ]
-  }
+ {
+  "title": "Achadh mhin's old bounds restored",
+  "era_year": 28,
+  "after": "V-0109",
+  "summary": "The shire measures the returning households of Achadh mhin back onto the same strips the humans' surveyors once cut, the old plat being the one the families still walk by memory rather than a new line drawn by a Dia-thìreach chain.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:150"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0110"
+  ]
+ },
+ {
+  "title": "The first households return to Achadh mhin",
+  "era_year": 28,
+  "summary": "Three households moved off the salted fields after Tonn Mhòr Cnoc chaol, or their children in their place, ask and are granted their old ground back, the barley coming up along strips long thought lost to the tide.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:150"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0110"
+  ]
+ },
+ {
+  "title": "The twice-sealed packet reaches Muileann chaol",
+  "era_year": 28,
+  "summary": "Word of Brìghde's death and Eòghan's crowning reaches the chronicler's desk in a packet sealed twice, the second hand adding, in a hastier line at the foot, that the council's own sitting on the succession did not pass as quietly as the crowning itself.",
+  "category": "rulers",
+  "people": [
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0111"
+  ]
+ },
+ {
+  "title": "Gormshuil's three struck drafts",
+  "era_year": 28,
+  "summary": "The chronicler writes and rejects three entries for the succession before a fourth stands: one that says more than an office should say first, one so bare it reads as a door shut on purpose, one left unfinished as an argument rather than a record.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0111",
+   "V-0112"
+  ]
+ },
+ {
+  "title": "The bare entry set down",
+  "era_year": 28,
+  "summary": "Past the second hour of the morning Gormshuil enters the day of Brìghde's death, the fact that no cause is made known, and the day of Eòghan's crowning, and nothing more, choosing the silence rather than dressing it as a fullness it is not.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0112"
+  ]
+ },
+ {
+  "title": "The council's four lines on the division",
+  "era_year": 28,
+  "summary": "The council's own minute of the sitting names Tormod mac Iain Òig and Sìleas nic Artair as the two who stood against seating Eòghan, gives no reason either offered, and closes with the plainest of its four lines: the two do not sit again.",
+  "category": "law",
+  "people": [
+   "Tormod mac Iain Òig",
+   "Sìleas nic Artair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0113"
+  ]
+ },
+ {
+  "title": "Tormod mac Iain Òig goes home",
+  "era_year": 28,
+  "summary": "Tormod mac Iain Òig returns to his own lands in the western shires and is not named in Eachdraidh na Rìoghachd again for some years, his seat on the council closed behind him without further entry.",
+  "category": "rulers",
+  "people": [
+   "Tormod mac Iain Òig"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0113"
+  ]
+ },
+ {
+  "title": "Sìleas nic Artair keeps her own house's rite",
+  "era_year": 28,
+  "summary": "Sìleas nic Artair, her council seat lost with Tormod mac Iain Òig's, gives her Na Seann Spioradan kin's house more of her time than council business ever left her, and does not sit at Cathair dhearg again.",
+  "category": "faith",
+  "people": [
+   "Sìleas nic Artair"
+  ],
+  "places": [],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0113"
+  ]
+ },
+ {
+  "title": "The council's two seats filled",
+  "era_year": 28,
+  "summary": "Before the year turns the council seats a landed man's son from the western shires and a widow of a coastal house in the two empty places, and neither newcomer is asked in council to account for the vote that opened the seat they now hold.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0113"
+  ]
+ },
+ {
+  "title": "The warehouse quarter of Inis bhàn burns two days",
+  "era_year": 29,
+  "after": "V-0113",
+  "summary": "Fire takes three storehouses and the dwellings above them at Inis bhàn on the Abhainn ìseal and burns two days before the town beats it back street by street with buckets and wet sacking; every soul in the burning quarter gets clear, and none dies.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:371"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0114"
+  ]
+ },
+ {
+  "title": "Òrd an t-Seabhaig house at Inis bhàn opens its doors",
+  "era_year": 29,
+  "summary": "Òrd an t-Seabhaig house at Inis bhàn, which has never before taken in households outside those sworn to it, shelters every family the fire puts out of a roof, sworn or not, through the worst of the spring cold.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:371"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0114"
+  ]
+ },
+ {
+  "title": "Inis bhàn's new bell rung on the quay",
+  "era_year": 29,
+  "summary": "Inis bhàn buys a bell from the founders' yard at Cathair dhearg, cast to the town's own order, to stand where the old warehouse bell burned, rung once on the quay before it is hung, and heard, by the town's own telling, further up and down the Abhainn ìseal than any bell in the kingdom.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:371"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0114"
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach's letter of the eleven schools",
+  "era_year": 29,
+  "summary": "Walter Hale writes Tional nan Tuathach's count of the north's schools to Muileann chaol, eleven in all from Agnes Pike's byre at Doire ghlas to a room over a chandler's shop at Ceann àrsaidh opened that same autumn, and Gormshuil enters it whole rather than shortened.",
+  "category": "law",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-library"
+  ],
+  "master_links": [
+   "V-0116"
+  ]
+ },
+ {
+  "title": "Three schools begin teaching Dia-thìris",
+  "era_year": 29,
+  "summary": "At three of the north's eleven schools the teachers begin, at the parents' own asking and with no order from the council or leave from any maor, to teach Dia-thìris alongside the humans' letters, so that children may read a proclamation or a boundary-line in the tongue the kingdom writes its business in.",
+  "category": "law",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0116"
+  ]
+ },
+ {
+  "title": "Agnes Pike's school teaches its first Dia-thìris lesson",
+  "era_year": 29,
+  "summary": "Agnes Pike's school at Doire ghlas, one of the three Tional nan Tuathach's letter names, sets its first Dia-thìris lesson beside am Bìoball and Tional nan Tuathach's own minutes, at the asking of the parents whose children it has taught since its founding.",
+  "category": "law",
+  "people": [
+   "Agnes Pike"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0116"
+  ]
+ },
+ {
+  "title": "Idle looms at Baile chiar",
+  "era_year": 28,
+  "summary": "The weavers' guild of Baile chiar reports the washing-pools behind its fulling-sheds too low after a dry summer to scour wool, and its looms idle three weeks; the guild counts the bolts not woven to the last half-ell and does not count the weavers it has not paid.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:106"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0110"
+  ],
+  "after": "V-0110"
+ },
+ {
+  "title": "A wedding at Lia Fàil's door in Doire shean",
+  "era_year": 28,
+  "summary": "The harbour-master of Doire shean writes to an Leabharlann of his daughter's wedding to a clerk of Lia Fàil's counting-room, kept at Lia Fàil's door, the first in his memory for which the whole fishing fleet came in on one tide to stand on the quay.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0110"
+  ],
+  "after": "V-0110"
+ },
+ {
+  "title": "Leabhar nam Breith cited by its page",
+  "era_year": 28,
+  "summary": "Riding his twelfth year on the northern circuit, Uilleam mac Leòid finds for a Tuathaich family's grazing claim at Àth àrsaidh in the words of his aunt's ruling and cites Leabhar nam Breith by its page, the first circuit return to cite the book in its own words.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:304"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0113"
+  ]
+ },
+ {
+  "title": "The Board's yield sent as a single figure",
+  "era_year": 28,
+  "summary": "Comhairle nam Mèinnean's return to Eachdraidh na Rìoghachd gives An Sloc Mòr's yield for the year as a single figure, no faces named and no survey cited; Gormshuil nic Dhùghaill enters it and sets the year before's figure beside it in her smallest hand, with no word between them.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-depletion",
+   "the-library"
+  ],
+  "master_links": [
+   "V-0105"
+  ]
+ },
+ {
+  "title": "The fifth copy of the Seann Dunn naming",
+  "era_year": 28,
+  "summary": "The hall at Seann Dunn sends an Leabharlann its fifth copy of the naming, longer by eleven names, the hall having taken in three households of the coast that had kept their dead at their own hearths until then.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:18"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0094"
+  ]
+ }
 ]

@@ -84,7 +84,7 @@
  {
   "title": "Raghnall begins the count of years",
   "era_year": 1205,
-  "summary": "Raghnall mac Chaluim, thirty years old, begins setting the birth and death rolls of the custodian houses beside those of their tenants at Dùn thais, a labour that will occupy his lamplit evenings for nine years before he brings any finding before the house of disputation.",
+  "summary": "Raghnall mac Chaluim, thirty years old, begins setting the birth and death rolls of the custodian houses beside those of their tenants at Dùn thais, a labour that will occupy his lamplit evenings for nine years before he brings any finding before Taigh na Deasbaid.",
   "category": "law",
   "people": [
    "Raghnall mac Chaluim"
@@ -103,7 +103,7 @@
  {
   "title": "A scholar answered at the reading",
   "era_year": 1209,
-  "summary": "When a scholar of the house of disputation calls Raghnall's table a wish dressed in columns, Raghnall offers to run the sums a fifth time on rolls the scholar himself chooses. The scholar sits down without taking up the offer, and the hall remembers the silence longer than the exchange.",
+  "summary": "When a scholar of Taigh na Deasbaid calls Raghnall's table a wish dressed in columns, Raghnall offers to run the sums a fifth time on rolls the scholar himself chooses. The scholar sits down without taking up the offer, and the hall remembers the silence longer than the exchange.",
   "category": "law",
   "people": [
    "Raghnall mac Chaluim"
@@ -120,9 +120,9 @@
   ]
  },
  {
-  "title": "Raghnall's copy entered in the vein-house inventory",
+  "title": "Raghnall's copy entered in Taigh na Fèithe inventory",
   "era_year": 1219,
-  "summary": "A custodian who has never met Raghnall mac Chaluim writes to ask whether his working copy of Clàr nam Bliadhnachan still exists and might be sent to the mountain for safekeeping. It is sent, and entered that year in the vein-house's own inventory, one line among the galleries and the lot-stones.",
+  "summary": "A custodian who has never met Raghnall mac Chaluim writes to ask whether his working copy of Clàr nam Bliadhnachan still exists and might be sent to the mountain for safekeeping. It is sent, and entered that year in Taigh na Fèithe's own inventory, one line among the galleries and Clachan a' Chrannchuir.",
   "category": "coal",
   "people": [
    "Raghnall mac Chaluim"
@@ -177,7 +177,7 @@
  {
   "title": "The blank space on the burial roll",
   "era_year": 1266,
-  "summary": "Drawing up King Ailean mac Raghnaill's burial roll, the red hall's clerks leave a blank space where the heir's name should stand, unable to agree between themselves which of his two sons to write and unwilling to write neither.",
+  "summary": "Drawing up King Ailean mac Raghnaill's burial roll, An Talla Dearg's clerks leave a blank space where the heir's name should stand, unable to agree between themselves which of his two sons to write and unwilling to write neither.",
   "category": "rulers",
   "people": [],
   "places": [
@@ -194,7 +194,7 @@
  {
   "title": "The inventory read past the forbidden line",
   "era_year": 1266,
-  "summary": "At the winter reading of the vein-house's inventory, the custodian pauses a moment longer than usual over the line entered nearly fifty years before, Clàr nam Bliadhnachan, forbidden to be copied, kept, and then reads on, for the reckoning of that year's coal still has a great deal more of the shelf left to answer for.",
+  "summary": "At the winter reading of Taigh na Fèithe's inventory, the custodian pauses a moment longer than usual over the line entered nearly fifty years before, Clàr nam Bliadhnachan, forbidden to be copied, kept, and then reads on, for the reckoning of that year's coal still has a great deal more of the shelf left to answer for.",
   "category": "coal",
   "people": [],
   "places": [
@@ -227,7 +227,7 @@
  {
   "era_year": 1200,
   "title": "Birth of Ailean mac Raghnaill",
-  "summary": "A son, Ailean, is born in the house of Raghnall, the crown's own house since the reign of Mòrag Ruadh; the custody-book gives the year and the house and no more.",
+  "summary": "A son, Ailean, is born in Sliochd Raghnaill, the crown's own house since the reign of Mòrag Ruadh; Leabhar a' Chùraim gives the year and the house and no more.",
   "category": "rulers",
   "people": [
    "Ailean mac Raghnaill"

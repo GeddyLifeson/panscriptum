@@ -86,7 +86,7 @@
  {
   "title": "Baile gharbh's rain-cloth worn for mourning in the north-east",
   "era_year": 361,
-  "summary": "The heavy undyed cloth of Baile gharbh, already the common rain-cloak of the north-east, becomes the district's own cloth of mourning, worn plain and undyed through a household's season of loss as the whole island once wore the white sorrow.",
+  "summary": "The heavy undyed cloth of Baile gharbh, already the common rain-cloak of the north-east, becomes the district's own cloth of mourning, worn plain and undyed through a household's season of loss as the whole island once wore an Tùrsa Geal.",
   "category": "faith",
   "people": [],
   "places": [
@@ -136,7 +136,7 @@
  {
   "title": "The wells crack at Cill ghlas",
   "era_year": 379,
-  "summary": "An earth tremor cracks three wells and brings down a byre at Cill ghlas. The custodians of the vein-house send men into the galleries below and find the deep workings untouched, though the diggers speak among themselves of feeling the shaking reach them under the hill.",
+  "summary": "An earth tremor cracks three wells and brings down a byre at Cill ghlas. The custodians of Taigh na Fèithe send men into the galleries below and find the deep workings untouched, though the diggers speak among themselves of feeling the shaking reach them under the hill.",
   "category": "land",
   "people": [],
   "places": [
@@ -152,9 +152,9 @@
   ]
  },
  {
-  "title": "The vein-house offers stone for Cill ghlas's byre",
+  "title": "Taigh na Fèithe offers stone for Cill ghlas's byre",
   "era_year": 380,
-  "summary": "The custodians of the vein-house offer stone from their own surplus to rebuild the byre brought down at Cill ghlas, a kindness the village does not forget.",
+  "summary": "The custodians of Taigh na Fèithe offer stone from their own surplus to rebuild the byre brought down at Cill ghlas, a kindness the village does not forget.",
   "category": "coal",
   "people": [],
   "places": [
@@ -167,7 +167,7 @@
  {
   "title": "Mòr nic Nèill made tutor to the king's son",
   "era_year": 380,
-  "summary": "Mòr nic Nèill is set over the young Aonghas mac Uisdein to teach him his letters as a child, the first time any heir to the red hall has been given a tutor for the purpose rather than left to pick up his letters between other business.",
+  "summary": "Mòr nic Nèill is set over the young Aonghas mac Uisdein to teach him his letters as a child, the first time any heir to An Talla Dearg has been given a tutor for the purpose rather than left to pick up his letters between other business.",
   "category": "law",
   "people": [
    "Mòr nic Nèill",

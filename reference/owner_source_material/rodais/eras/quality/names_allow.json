@@ -516,6 +516,138 @@
    "dt": "An Sloc Mòr",
    "near": "(?:^|\\n)#{1,3} [^\\n]*§",
    "reason": "a chapter or section heading ('Of the Sloc Mòr'): its anchor is a told_in target, and names_convert.py never touches headings"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "*",
+   "near": "(?:^|\\n)#{1,6} [^\\n]*§",
+   "reason": "a chapter, section or appendix heading: its anchor is a told_in target, and names_convert.py never touches headings; the name stands in Dia-thìris in the text beneath"
+  },
+  {
+   "files": "eras/age_VII/*",
+   "en": "*",
+   "near": "(?:^|\\n)#{1,6} [^\\n]*§",
+   "reason": "a chapter, section or appendix heading: its anchor is a told_in target, and names_convert.py never touches headings; the name stands in Dia-thìris in the text beneath"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "*",
+   "near": "(?:^|\\n)\\|[^\\n]*§",
+   "reason": "a table's header or cell in an appendix (Annals, Years (annals)): a column label, not the name"
+  },
+  {
+   "files": "eras/age_VII/*",
+   "en": "*",
+   "near": "(?:^|\\n)\\|[^\\n]*§",
+   "reason": "a table's header or cell in an appendix (an office's name in the rulers' table): a label, not the name in prose"
+  },
+  {
+   "files": "eras/age_VII/*",
+   "en": "*",
+   "near": "(?<![Tt]he )§",
+   "reason": "Age VII: a name's core used without its article as a common noun, an adjective or a title (a Board carrier, a Moot petition, eleven books, royal chronicler, the open chronicle, a Treasury order, the old coal road, four houses, a pen crossing paper, high custodian of the Rite as a gloss beside Àrd-choimheadaiche); every such hit in the volume was read, and where the named thing is meant it is written in Dia-thìris"
+  },
+  {
+   "files": "eras/age_VII/*",
+   "en": "the column",
+   "near": ".",
+   "reason": "Age VII: the regiments' marching column of An Cogadh Fada (the column's road), or a column of names or figures; the monument is written Calbh Cnoc ghorm"
+  },
+  {
+   "files": "eras/age_VII/*",
+   "en": "the fleet",
+   "near": ".",
+   "reason": "Age VII: a harbour's fishing fleet or the war's fleets out of Cuan shean and the capital, not Cabhlach an Scaraidh of the Sundering"
+  },
+  {
+   "files": "eras/age_VII/*",
+   "en": "the crossing",
+   "near": ".",
+   "reason": "Age VII: lower-case crossing is a ford, a level crossing, a river crossing, a canoe's voyage or the verb; An t-Aiseag is written by name where the old passage over the sea is meant"
+  },
+  {
+   "files": "eras/age_VII/*",
+   "en": "the mist",
+   "near": "through the §|that §|the § chose|beyond the § that hung",
+   "reason": "Age VII: the mist of the first canoe's telling as the children's rhyme gives it, once Ceò Mhanannain has been named in the passage"
+  },
+  {
+   "files": "eras/age_VII/annals/*",
+   "en": "the Moot",
+   "near": "'the §, western towns'",
+   "reason": "a filing label quoted as the press clerks wrote it, in English"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "*",
+   "near": "(?<![Tt]he )§",
+   "reason": "Age I: a name's core used without its article as a common noun or with a qualifier (a riddle, his own riddle, a fire-pot, the next night of the lightning, all seven coals, a fire coal, red deer, a mist, a keeper of the bag, eight or nine hearths, the walled outpost); every such hit in the volume was read, and where the named thing is meant it is written in Dia-thìris"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "the crossing",
+   "near": ".",
+   "reason": "Age I: the shore folk's crossing to the near islands, a ford, a boat's passage or the verb; An t-Aiseag is the Crossing of the Age of Strangers"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "the slab",
+   "near": ".",
+   "reason": "Age I: a slab as a worked stone (a step, a lid, a ramp-slab, the old slab by the well); the marsh stone is written Leac na Fèithe wherever it is meant by name"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "the column",
+   "near": ".",
+   "reason": "Age I: the plain word the hill folk use for the standing stone at Achadh a' Chalbh once Calbh Cnoc ghorm has been named in the passage, or a column of smoke; the lead of the volume read each one"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "the pillar",
+   "near": ".",
+   "reason": "Age I: the squared stone at Achadh a' Chalbh as the drovers first saw it, before it had a name; not Colbh Cnoc chiar, a different stone"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "the black coal",
+   "near": ".",
+   "reason": "Age I: Brian's piece of the seven coals, told beside the gold, the white and the red-brown as a thing held in the hand; gual dubh is the kind, written so where the kind is meant"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "the four houses",
+   "near": ".",
+   "reason": "Age I: the four dwellings at the Vell on Abhainn bheag, not Na Ceithir Taighean, the houses of custody of a later age"
+  },
+  {
+   "files": "eras/age_I/*",
+   "en": "the first fire",
+   "near": ".",
+   "reason": "Age I: a household's own first fire, or the mason's first fire as the hill folk said it; Teine a' Chlachair where the hearth itself is meant (names_convert.py KEEP_IN)"
+  },
+  {
+   "files": "eras/age_I/appendices/*",
+   "en": "the annals",
+   "near": ".",
+   "reason": "this volume's own annals (its dates and ages), not the master's Annalan Dia-thìr; names_convert.py leaves them alone"
+  },
+  {
+   "files": "eras/age_I/appendices/*",
+   "en": "Appendix A",
+   "near": ".",
+   "reason": "a cross-reference to this volume's own appendix, not the master's; names_convert.py leaves them alone"
+  },
+  {
+   "files": "eras/age_I/appendices/*",
+   "en": "Appendix B",
+   "near": ".",
+   "reason": "a cross-reference to this volume's own appendix, not the master's; names_convert.py leaves them alone"
+  },
+  {
+   "files": "eras/age_I/appendices/*",
+   "en": "Appendix C",
+   "near": ".",
+   "reason": "a cross-reference to this volume's own appendix, not the master's; names_convert.py leaves them alone"
   }
  ]
 }

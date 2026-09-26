@@ -1,237 +1,237 @@
 [
-  {
-    "title": "The Moot votes its first winter measures",
-    "era_year": 2,
-    "summary": "The households gathered at Caol mhòr vote, in the same sitting that opens the Moot's book, to lay by grain against the coming winter and to keep watch on the north roads, having buried too many of their own the winter before to trust the season a second time unwarned.",
-    "category": "law",
-    "people": [
-      "Walter Hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0008",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The Doire ghlas dead voted into the Moot's record",
-    "era_year": 2,
-    "summary": "Walter Hale tells the gathered households what he counted on the rise above Doire ghlas and what the church porch's names afterward told him, and the Moot votes, without a voice raised against it, that the count stand as the north's own record of that winter's dead.",
-    "category": "humans",
-    "people": [
-      "Walter Hale"
-    ],
-    "places": [
-      "burg:95",
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0004",
-        "type": "sequel"
-      },
-      {
-        "to": "V-0008",
-        "type": "parallel"
-      }
-    ]
-  },
-  {
-    "title": "The granary founded at Caol mhòr",
-    "era_year": 2,
-    "summary": "The Moot sets a common store under lock in the harbour-house cellar, each household to give what it can spare, and names three keepers answerable for it: a harbour man trusted with a scale, a smith of Doire ghlas, and a widow of the hungry year who had buried two children in it.",
-    "category": "trade",
-    "people": [
-      "Walter Hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0008",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The Moot's letter drafted for the council",
-    "era_year": 2,
-    "summary": "Walter Hale drafts, and the Moot amends and approves, four careful lines telling the council at Cathair dhearg of the households met at Caol mhòr and of a winter's dead the north had buried and counted without the south's knowledge, asking nothing beyond that the fact be noted.",
-    "category": "law",
-    "people": [
-      "Walter Hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0008",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "Robert Carrick carries the Moot's letter south",
-    "era_year": 2,
-    "summary": "Peg Carrick's younger brother Robert, fifteen and never before further from Caol mhòr than Doire ghlas, a carter, carries the letter south to Cathair dhearg with it sewn into the lining of his coat, and is the better part of a fortnight on a road he does not know.",
-    "category": "humans",
-    "people": [
-      "Robert Carrick"
-    ],
-    "places": [
-      "burg:95",
-      "burg:19"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0008",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The Moot's letter received and filed",
-    "era_year": 2,
-    "summary": "A clerk at the harbour-house in Cathair dhearg takes the Moot's letter from Robert Carrick's hand, tells him it will be seen to, and sends him home with no answer; the disposal, once the letter reaches the council chamber, is three words in the state's own minute-book.",
-    "category": "law",
-    "people": [
-      "Robert Carrick",
-      "Ailean mac Iain, Ailean Leabhar"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0009",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "Ailean mac Iain and Gormshuil nic Dhùghaill sworn under-clerks",
-    "era_year": 2,
-    "summary": "On the twenty-third of an t-Sultain the council's newest under-clerks are sworn on the custodians' worn oath-book, Ailean mac Iain among them and, beside him, Gormshuil nic Dhùghaill, a council clerk's daughter of the capital who has wanted the office since she was old enough to know what a minute-book was for.",
-    "category": "law",
-    "people": [
-      "Ailean mac Iain, Ailean Leabhar",
-      "Gormshuil nic Dhùghaill"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0009",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The council of twelve seated and its chairs filled",
-    "era_year": 2,
-    "summary": "Twelve chairs are filled at Cathair dhearg, drawn from the custodian families and the captains of the Severance war: among them Fearchar mac Raghnaill, whose company's roll was kept the summer before; Beathag nic Artair of the old custodian houses; Griogair mac Tormoid of the western shore; and Cailean mac Sheumais, who commanded a company at the fords of the western hills.",
-    "category": "law",
-    "people": [
-      "Fearchar mac Raghnaill",
-      "Beathag nic Artair",
-      "Griogair mac Tormoid",
-      "Cailean mac Sheumais"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0009",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "A councillor asks what a Moot is",
-    "era_year": 2,
-    "summary": "When the Moot's letter is read before the twelve, Cailean mac Sheumais asks plainly what a Moot is; no one in the chamber can answer with any certainty beyond Fearchar mac Raghnaill's memory of the word from a harbour clerk at Caol mhòr, and the letter is moved to be filed.",
-    "category": "law",
-    "people": [
-      "Cailean mac Sheumais",
-      "Fearchar mac Raghnaill",
-      "Beathag nic Artair"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0009",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The gathering of northern households takes the name Moot",
-    "era_year": 2,
-    "summary": "In the weeks after its first sitting the gathering of the north's households comes, without a vote taken on it, to be called the Moot, a word one of its own pursers remembered from an old book of the humans' law, half in earnest and half against themselves.",
-    "category": "humans",
-    "people": [
-      "Walter Hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      {
-        "to": "V-0008",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "Robert Carrick comes home with an empty satchel",
-    "era_year": 2,
-    "summary": "Robert Carrick comes back to Caol mhòr on a wet evening in the first week of an Dàmhair with an empty satchel and one report: the Moot's letter was handed at the harbour-house in Cathair dhearg to a clerk who told him word would be sent back in time, and did not look at him.",
-    "category": "humans",
-    "people": [],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "V-0008"
-    ]
-  }
+ {
+  "title": "Tional nan Tuathach votes its first winter measures",
+  "era_year": 2,
+  "summary": "The households gathered at Caol mhòr vote, in the same sitting that opens Tional nan Tuathach's book, to lay by grain against the coming winter and to keep watch on the north roads, having buried too many of their own the winter before to trust the season a second time unwarned.",
+  "category": "law",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0008",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The Doire ghlas dead voted into Tional nan Tuathach's record",
+  "era_year": 2,
+  "summary": "Walter Hale tells the gathered households what he counted on the rise above Doire ghlas and what the church porch's names afterward told him, and Tional nan Tuathach votes, without a voice raised against it, that the count stand as the north's own record of that winter's dead.",
+  "category": "humans",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95",
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0004",
+    "type": "sequel"
+   },
+   {
+    "to": "V-0008",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The granary founded at Caol mhòr",
+  "era_year": 2,
+  "summary": "Tional nan Tuathach sets a common store under lock in the harbour-house cellar, each household to give what it can spare, and names three keepers answerable for it: a harbour man trusted with a scale, a smith of Doire ghlas, and a widow of A' Bhliadhna Acrach who had buried two children in it.",
+  "category": "trade",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0008",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach's letter drafted for the council",
+  "era_year": 2,
+  "summary": "Walter Hale drafts, and Tional nan Tuathach amends and approves, four careful lines telling the council at Cathair dhearg of the households met at Caol mhòr and of a winter's dead the north had buried and counted without the south's knowledge, asking nothing beyond that the fact be noted.",
+  "category": "law",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0008",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Robert Carrick carries Tional nan Tuathach's letter south",
+  "era_year": 2,
+  "summary": "Peg Carrick's younger brother Robert, fifteen and never before further from Caol mhòr than Doire ghlas, a carter, carries the letter south to Cathair dhearg with it sewn into the lining of his coat, and is the better part of a fortnight on a road he does not know.",
+  "category": "humans",
+  "people": [
+   "Robert Carrick"
+  ],
+  "places": [
+   "burg:95",
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0008",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Tional nan Tuathach's letter received and filed",
+  "era_year": 2,
+  "summary": "A clerk at the harbour-house in Cathair dhearg takes Tional nan Tuathach's letter from Robert Carrick's hand, tells him it will be seen to, and sends him home with no answer; the disposal, once the letter reaches the council chamber, is three words in the state's own minute-book.",
+  "category": "law",
+  "people": [
+   "Robert Carrick",
+   "Ailean mac Iain, Ailean Leabhar"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0009",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Ailean mac Iain and Gormshuil nic Dhùghaill sworn under-clerks",
+  "era_year": 2,
+  "summary": "On the twenty-third of an t-Sultain the council's newest under-clerks are sworn on the custodians' worn oath-book, Ailean mac Iain among them and, beside him, Gormshuil nic Dhùghaill, a council clerk's daughter of the capital who has wanted the office since she was old enough to know what a minute-book was for.",
+  "category": "law",
+  "people": [
+   "Ailean mac Iain, Ailean Leabhar",
+   "Gormshuil nic Dhùghaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0009",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Comhairle na Rìoghachd seated and its chairs filled",
+  "era_year": 2,
+  "summary": "Twelve chairs are filled at Cathair dhearg, drawn from the custodian families and the captains of Cogadh nam Beann: among them Fearchar mac Raghnaill, whose company's roll was kept the summer before; Beathag nic Artair of the old custodian houses; Griogair mac Tormoid of the western shore; and Cailean mac Sheumais, who commanded a company at the fords of the western hills.",
+  "category": "law",
+  "people": [
+   "Fearchar mac Raghnaill",
+   "Beathag nic Artair",
+   "Griogair mac Tormoid",
+   "Cailean mac Sheumais"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0009",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A councillor asks what a Moot is",
+  "era_year": 2,
+  "summary": "When Tional nan Tuathach's letter is read before the twelve, Cailean mac Sheumais asks plainly what a Moot is; no one in the chamber can answer with any certainty beyond Fearchar mac Raghnaill's memory of the word from a harbour clerk at Caol mhòr, and the letter is moved to be filed.",
+  "category": "law",
+  "people": [
+   "Cailean mac Sheumais",
+   "Fearchar mac Raghnaill",
+   "Beathag nic Artair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0009",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The gathering of northern households takes the name Moot",
+  "era_year": 2,
+  "summary": "In the weeks after its first sitting the gathering of the north's households comes, without a vote taken on it, to be called Tional nan Tuathach, a word one of its own pursers remembered from an old book of the humans' law, half in earnest and half against themselves.",
+  "category": "humans",
+  "people": [
+   "Walter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   {
+    "to": "V-0008",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Robert Carrick comes home with an empty satchel",
+  "era_year": 2,
+  "summary": "Robert Carrick comes back to Caol mhòr on a wet evening in the first week of an Dàmhair with an empty satchel and one report: Tional nan Tuathach's letter was handed at the harbour-house in Cathair dhearg to a clerk who told him word would be sent back in time, and did not look at him.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0008"
+  ]
+ }
 ]

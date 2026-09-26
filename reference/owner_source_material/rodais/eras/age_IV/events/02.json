@@ -2,7 +2,7 @@
  {
   "title": "The first household asks to be written",
   "era_year": 2,
-  "summary": "In the moon of Pailteach a fisher of Inis àrsaidh and his wife come into the harbour-house of Seann Skell and ask to be written down as meaning to go. The harbour scribe Calum mac Nèill planes a new board and heads it: Those who mean to go.",
+  "summary": "In the moon of Pailteach a fisher of Inis àrsaidh and his wife come into Taigh a' Chalaidh and ask to be written down as meaning to go. The harbour scribe Calum mac Nèill planes a new board and heads it: Those who mean to go.",
   "category": "land",
   "people": [
    "Calum mac Nèill"
@@ -23,7 +23,7 @@
  {
   "title": "The rule of the whole household",
   "era_year": 2,
-  "summary": "Calum mac Nèill will write a household whole or not at all, since the vein-house measures the handful to the hearth and not to a single man or woman. The roll is kept by household from its first board.",
+  "summary": "Calum mac Nèill will write a household whole or not at all, since Taigh na Fèithe measures the handful to the hearth and not to a single man or woman. The roll is kept by household from its first board.",
   "category": "law",
   "people": [
    "Calum mac Nèill"
@@ -125,9 +125,9 @@
   ]
  },
  {
-  "title": "The vein-house sends to read the roll",
+  "title": "Taigh na Fèithe sends to read the roll",
   "era_year": 2,
-  "summary": "A custodian's servant comes by night to read the roll of the willing and ask how many households on it hold the right to the coal. From then on the harbour scribe marks each hearth that takes the handful with a notch like a flame.",
+  "summary": "A custodian's servant comes by night to read Rolla nan Deònach and ask how many households on it hold the right to the coal. From then on the harbour scribe marks each hearth that takes the handful with a notch like a flame.",
   "category": "coal",
   "people": [
    "Calum mac Nèill"

@@ -1,312 +1,312 @@
 [
-  {
-    "title": "Peter Hale presses the room",
-    "era_year": 20,
-    "after": "VI-0071",
-    "summary": "In the depth of winter Peter Hale rises before Tional nan Tuathach and says the room has sat three sittings without naming the wall at Muileann àrsaidh or the silence that answered Ruth Calder's letter, and that a gathering of the northern towns which will not say the plainest fact in the north is not doing what it was built to do.",
-    "category": "law",
-    "people": [
-      "peter-hale",
-      "martha-greaves"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0072"
-    ]
-  },
-  {
-    "title": "The five empty benches",
-    "era_year": 20,
-    "after": "VI-0071",
-    "summary": "The five benches of the western holdout towns stand chalked but empty in the Moot's own roll, as they have stood since the western delegates rose and left four years before. No one moves to fill them, and the room debates the wall at Muileann àrsaidh with the western towns' own voice absent from it.",
-    "category": "law",
-    "people": [
-      "martha-greaves"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0072"
-    ]
-  },
-  {
-    "title": "The nine votes counted",
-    "era_year": 20,
-    "after": "VI-0071",
-    "summary": "Martha Greaves calls the show of hands herself, standing so the room can see the count honestly made. Nine hands rise for the motion that the Moot is no party to the quarrel of the Board and the western towns and will feed any hungry soul who comes to its towns; none rise against it, and Thomas Rook writes both clauses into the minute entire.",
-    "category": "law",
-    "people": [
-      "martha-greaves"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0072"
-    ]
-  },
-  {
-    "title": "Christina Munro's question",
-    "era_year": 20,
-    "after": "VI-0072",
-    "summary": "On the stair after the vote, a delegate of the farm towns asks Martha Greaves whether nine hands out of one-and-forty are truly the room's mind, and whether the speaker's own hand, never raised, holds the same mind as the nine. Martha answers only that the chair does not vote, and the question goes unanswered further.",
-    "category": "law",
-    "people": [
-      "martha-greaves"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0072"
-    ]
-  },
-  {
-    "title": "The mills' surplus reckoned",
-    "era_year": 20,
-    "after": "VI-0072",
-    "summary": "In summer, with the spring clip in heavy and the fair price holding, Martha Greaves reckons the Doire ghlas mills' takings a whole evening in the counting-house and writes an order, at the foot of the mills' own book and not the Moot's, that the granaries of Caol mhòr and Doire ghlas be filled beyond the ordinary wont, paid from the mills alone.",
-    "category": "humans",
-    "people": [
-      "martha-greaves"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0073"
-    ]
-  },
-  {
-    "title": "Grain bought through three factors",
-    "era_year": 20,
-    "after": "VI-0073",
-    "summary": "Through the last week of an t-Iuchar the grain for the granaries is bought quietly through three separate factors, so that no single merchant should wonder aloud why the Moot's towns want so much of it in a year the harvest already promises well.",
-    "category": "trade",
-    "people": [
-      "martha-greaves"
-    ],
-    "places": [
-      "burg:209",
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0073"
-    ]
-  },
-  {
-    "title": "\"Enter the weight and the date\"",
-    "era_year": 20,
-    "after": "VI-0073",
-    "summary": "The Doire ghlas granary-keeper asks Martha Greaves whether he should set down a reason for the extra grain, since his book goes before the room's auditors each spring. She tells him to enter the weight and the date and no reason at all, and to send anyone who asks to her.",
-    "category": "humans",
-    "people": [
-      "martha-greaves"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0073"
-    ]
-  },
-  {
-    "title": "The autumn entry with no reason given",
-    "era_year": 20,
-    "after": "VI-0073",
-    "summary": "Thomas Rook's autumn entry in the Moot's minute records the granaries of Caol mhòr and Doire ghlas standing half again fuller than the five years' average, and gives no reason, none having been given him. Peter Hale reads the figure, looks once at Martha Greaves, and asks nothing.",
-    "category": "law",
-    "people": [
-      "martha-greaves",
-      "peter-hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0073"
-    ]
-  },
-  {
-    "title": "Beathag's letter to the council",
-    "era_year": 20,
-    "after": "VI-0074",
-    "summary": "In spring Beathag nic Fhionnlaigh writes to the council, in her own hand alone, asking leave to lay down the office of royal chronicler at the close of summer, being nine-and-sixty that year, and naming her clerk of nine years, Sìleas nic Rath, to take the desk after her.",
-    "category": "law",
-    "people": [
-      "beathag-nic-fhionnlaigh",
-      "sileas-nic-rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0074"
-    ]
-  },
-  {
-    "title": "Sìleas nic Rath told over the tea",
-    "era_year": 20,
-    "after": "VI-0074",
-    "summary": "Sìleas nic Rath learns of Beathag's letter not from the council but from Beathag herself, over their usual tea, who tells her she has until an Lùnastal to decide whether she still wants the desk once she has heard the whole of what it costs.",
-    "category": "law",
-    "people": [
-      "beathag-nic-fhionnlaigh",
-      "sileas-nic-rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0074"
-    ]
-  },
-  {
-    "title": "The desk cleared a little at a time",
-    "era_year": 20,
-    "after": "VI-0074",
-    "summary": "Through the last week of an Lùnastal Beathag nic Fhionnlaigh clears her desk a little at a time, so that the room should show no single day when it stood stripped, leaving only Tormod Pinn's inkstand, the day's half-written page, and the small iron key of the sealed press.",
-    "category": "law",
-    "people": [
-      "beathag-nic-fhionnlaigh"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0074"
-    ]
-  },
-  {
-    "title": "\"Write what you are let\"",
-    "era_year": 20,
-    "after": "VI-0074",
-    "summary": "Handing over the key of the sealed press, Beathag nic Fhionnlaigh tells Sìleas nic Rath to write what she is let, as fully as if no one would grudge her a word of it, and to write down what she is not let besides, where and by whom and on what day, since a chronicle that shows only its own leave is no chronicle at all.",
-    "category": "law",
-    "people": [
-      "beathag-nic-fhionnlaigh",
-      "sileas-nic-rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0074"
-    ]
-  },
-  {
-    "title": "Beathag nic Fhionnlaigh leaves for Àth dhìreach",
-    "era_year": 20,
-    "after": "VI-0074",
-    "summary": "The morning after the handing-over, a carrier's cart takes Beathag nic Fhionnlaigh north-east to her sister's house at Àth dhìreach. Raghnall mac Mhuirich comes out to see her off, wishes her a dry ford at Àth bheag, and hands her up himself.",
-    "category": "law",
-    "people": [
-      "beathag-nic-fhionnlaigh",
-      "raghnall-mac-mhuirich"
-    ],
-    "places": [
-      "burg:246"
-    ],
-    "threads": [
-      "the-library",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0074"
-    ]
-  },
-  {
-    "title": "Sìleas nic Rath's first page",
-    "era_year": 20,
-    "after": "VI-0074",
-    "summary": "Alone at the desk, Sìleas nic Rath finishes the day's half-written entry in her own hand, smaller and more upright than Beathag's, and adds a line the office's custom does not require: that the chronicle now passes to a second hand, set down once so it need not be said again.",
-    "category": "law",
-    "people": [
-      "sileas-nic-rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0074"
-    ]
-  },
-  {
-    "title": "Five benches kept chalked in the roll",
-    "era_year": 20,
-    "summary": "The clerk of Tional nan Tuathach keeps the five western towns' benches chalked in the roll of the Moot, under the towns' names, with nothing after them, five years after their delegates walked out.",
-    "category": "law",
-    "people": [
-      "Thomas Rook"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0072"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Travellers' talk at An Taigh-seinnse Mòr",
-    "era_year": 20,
-    "summary": "In the hall of An Taigh-seinnse Mòr above Cuan chrom the carters of the north road talk through the autumn of regiments to be raised; the landlord takes down the notice of the guild meetings and puts up none in its place.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:418"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0075"
-    ],
-    "chronicle_extra": true
-  }
+ {
+  "title": "Peter Hale presses the room",
+  "era_year": 20,
+  "after": "VI-0071",
+  "summary": "In the depth of winter Peter Hale rises before Tional nan Tuathach and says the room has sat three sittings without naming the wall at Muileann àrsaidh or the silence that answered Ruth Calder's letter, and that a gathering of the northern towns which will not say the plainest fact in the north is not doing what it was built to do.",
+  "category": "law",
+  "people": [
+   "peter-hale",
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0072"
+  ]
+ },
+ {
+  "title": "The five empty benches",
+  "era_year": 20,
+  "after": "VI-0071",
+  "summary": "The five benches of the western holdout towns stand chalked but empty in Tional nan Tuathach's own roll, as they have stood since the western delegates rose and left four years before. No one moves to fill them, and the room debates the wall at Muileann àrsaidh with the western towns' own voice absent from it.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0072"
+  ]
+ },
+ {
+  "title": "The nine votes counted",
+  "era_year": 20,
+  "after": "VI-0071",
+  "summary": "Martha Greaves calls the show of hands herself, standing so the room can see the count honestly made. Nine hands rise for the motion that Tional nan Tuathach is no party to the quarrel of Comhairle nam Mèinnean and the western towns and will feed any hungry soul who comes to its towns; none rise against it, and Thomas Rook writes both clauses into the minute entire.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0072"
+  ]
+ },
+ {
+  "title": "Christina Munro's question",
+  "era_year": 20,
+  "after": "VI-0072",
+  "summary": "On the stair after the vote, a delegate of the farm towns asks Martha Greaves whether nine hands out of one-and-forty are truly the room's mind, and whether the speaker's own hand, never raised, holds the same mind as the nine. Martha answers only that the chair does not vote, and the question goes unanswered further.",
+  "category": "law",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0072"
+  ]
+ },
+ {
+  "title": "The mills' surplus reckoned",
+  "era_year": 20,
+  "after": "VI-0072",
+  "summary": "In summer, with the spring clip in heavy and the fair price holding, Martha Greaves reckons the Doire ghlas mills' takings a whole evening in the counting-house and writes an order, at the foot of the mills' own book and not Tional nan Tuathach's, that the granaries of Caol mhòr and Doire ghlas be filled beyond the ordinary wont, paid from the mills alone.",
+  "category": "humans",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0073"
+  ]
+ },
+ {
+  "title": "Grain bought through three factors",
+  "era_year": 20,
+  "after": "VI-0073",
+  "summary": "Through the last week of an t-Iuchar the grain for the granaries is bought quietly through three separate factors, so that no single merchant should wonder aloud why Tional nan Tuathach's towns want so much of it in a year the harvest already promises well.",
+  "category": "trade",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:209",
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0073"
+  ]
+ },
+ {
+  "title": "\"Enter the weight and the date\"",
+  "era_year": 20,
+  "after": "VI-0073",
+  "summary": "The Doire ghlas granary-keeper asks Martha Greaves whether he should set down a reason for the extra grain, since his book goes before the room's auditors each spring. She tells him to enter the weight and the date and no reason at all, and to send anyone who asks to her.",
+  "category": "humans",
+  "people": [
+   "martha-greaves"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0073"
+  ]
+ },
+ {
+  "title": "The autumn entry with no reason given",
+  "era_year": 20,
+  "after": "VI-0073",
+  "summary": "Thomas Rook's autumn entry in Tional nan Tuathach's minute records the granaries of Caol mhòr and Doire ghlas standing half again fuller than the five years' average, and gives no reason, none having been given him. Peter Hale reads the figure, looks once at Martha Greaves, and asks nothing.",
+  "category": "law",
+  "people": [
+   "martha-greaves",
+   "peter-hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0073"
+  ]
+ },
+ {
+  "title": "Beathag's letter to the council",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "In spring Beathag nic Fhionnlaigh writes to the council, in her own hand alone, asking leave to lay down the office of royal chronicler at the close of summer, being nine-and-sixty that year, and naming her clerk of nine years, Sìleas nic Rath, to take the desk after her.",
+  "category": "law",
+  "people": [
+   "beathag-nic-fhionnlaigh",
+   "sileas-nic-rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0074"
+  ]
+ },
+ {
+  "title": "Sìleas nic Rath told over the tea",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "Sìleas nic Rath learns of Beathag's letter not from the council but from Beathag herself, over their usual tea, who tells her she has until an Lùnastal to decide whether she still wants the desk once she has heard the whole of what it costs.",
+  "category": "law",
+  "people": [
+   "beathag-nic-fhionnlaigh",
+   "sileas-nic-rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0074"
+  ]
+ },
+ {
+  "title": "The desk cleared a little at a time",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "Through the last week of an Lùnastal Beathag nic Fhionnlaigh clears her desk a little at a time, so that the room should show no single day when it stood stripped, leaving only Tormod Pinn's inkstand, the day's half-written page, and the small iron key of the sealed press.",
+  "category": "law",
+  "people": [
+   "beathag-nic-fhionnlaigh"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0074"
+  ]
+ },
+ {
+  "title": "\"Write what you are let\"",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "Handing over the key of the sealed press, Beathag nic Fhionnlaigh tells Sìleas nic Rath to write what she is let, as fully as if no one would grudge her a word of it, and to write down what she is not let besides, where and by whom and on what day, since a chronicle that shows only its own leave is no chronicle at all.",
+  "category": "law",
+  "people": [
+   "beathag-nic-fhionnlaigh",
+   "sileas-nic-rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0074"
+  ]
+ },
+ {
+  "title": "Beathag nic Fhionnlaigh leaves for Àth dhìreach",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "The morning after the handing-over, a carrier's cart takes Beathag nic Fhionnlaigh north-east to her sister's house at Àth dhìreach. Raghnall mac Mhuirich comes out to see her off, wishes her a dry ford at Àth bheag, and hands her up himself.",
+  "category": "law",
+  "people": [
+   "beathag-nic-fhionnlaigh",
+   "raghnall-mac-mhuirich"
+  ],
+  "places": [
+   "burg:246"
+  ],
+  "threads": [
+   "the-library",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0074"
+  ]
+ },
+ {
+  "title": "Sìleas nic Rath's first page",
+  "era_year": 20,
+  "after": "VI-0074",
+  "summary": "Alone at the desk, Sìleas nic Rath finishes the day's half-written entry in her own hand, smaller and more upright than Beathag's, and adds a line the office's custom does not require: that Eachdraidh na Rìoghachd now passes to a second hand, set down once so it need not be said again.",
+  "category": "law",
+  "people": [
+   "sileas-nic-rath"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0074"
+  ]
+ },
+ {
+  "title": "Five benches kept chalked in the roll",
+  "era_year": 20,
+  "summary": "The clerk of Tional nan Tuathach keeps the five western towns' benches chalked in the roll of Tional nan Tuathach, under the towns' names, with nothing after them, five years after their delegates walked out.",
+  "category": "law",
+  "people": [
+   "Thomas Rook"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0072"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Travellers' talk at An Taigh-seinnse Mòr",
+  "era_year": 20,
+  "summary": "In the hall of An Taigh-seinnse Mòr above Cuan chrom the carters of the north road talk through the autumn of regiments to be raised; the landlord takes down the notice of the guild meetings and puts up none in its place.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:418"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0075"
+  ],
+  "chronicle_extra": true
+ }
 ]

@@ -21,9 +21,9 @@
   ]
  },
  {
-  "title": "Macha's priests granted the sacred forest at Cnoc bheag",
+  "title": "Macha's priests granted Coille Naomh Cnoc bheag",
   "era_year": 471,
-  "summary": "The custody of the sacred forest at Cnoc bheag, held in common since the Holy Age, passes by royal grant to the priests of Macha alone. The other claimants withdraw from the wood the same season without contest; why they go so quietly is not told.",
+  "summary": "The custody of Coille Naomh Cnoc bheag, held in common since An Aois Naomh, passes by royal grant to the priests of Macha alone. The other claimants withdraw from the wood the same season without contest; why they go so quietly is not told.",
   "category": "faith",
   "people": [],
   "places": [
@@ -40,9 +40,9 @@
   ]
  },
  {
-  "title": "The vein-house orders every copy of the tracts given up",
+  "title": "Taigh na Fèithe orders every copy of the tracts given up",
   "era_year": 471,
-  "summary": "Word of Eilidh Dhubh's tracts reaches the custodians' galleries at Muileann dhearg, and the vein-house orders every copy brought in and given up, promising no penalty to any household that surrenders one freely before the season's end.",
+  "summary": "Word of Eilidh Dhubh's tracts reaches the custodians' galleries at Muileann dhearg, and Taigh na Fèithe orders every copy brought in and given up, promising no penalty to any household that surrenders one freely before the season's end.",
   "category": "law",
   "people": [],
   "places": [
@@ -59,9 +59,9 @@
   ]
  },
  {
-  "title": "Some hundred tracts burned in the vein-house yard",
+  "title": "Some hundred tracts burned in Taigh na Fèithe yard",
   "era_year": 471,
-  "summary": "Carriers gather some hundred hides and boards of Eilidh Dhubh's tracts from households across the north-east and burn them in the vein-house yard at Muileann dhearg before the gathered custodians. Eilidh walks from Doire chiar to see it done, and says nothing.",
+  "summary": "Carriers gather some hundred hides and boards of Eilidh Dhubh's tracts from households across the north-east and burn them in Taigh na Fèithe yard at Muileann dhearg before the gathered custodians. Eilidh walks from Doire chiar to see it done, and says nothing.",
   "category": "faith",
   "people": [
    "Eilidh nic Iain, Eilidh Dhubh"
@@ -80,9 +80,9 @@
   ]
  },
  {
-  "title": "The druid schools take up the walk of Flidais's wood",
+  "title": "Scoiltean nan Draoidhean take up the walk of Coille Naomh Muileann chiar",
   "era_year": 479,
-  "summary": "The druid schools, holding no ground of their own since the Holy Age, take up the yearly keeping of the holy wood at Muileann chiar, walking its bounds in a procession that grows within a decade into the one rite the schools still keep open to any who will walk with them.",
+  "summary": "Scoiltean nan Draoidhean, holding no ground of their own since An Aois Naomh, take up the yearly keeping of Coille Naomh Muileann chiar at Muileann chiar, walking its bounds in a procession that grows within a decade into the one rite the schools still keep open to any who will walk with them.",
   "category": "faith",
   "people": [],
   "places": [
@@ -101,7 +101,7 @@
  {
   "title": "King Aonghas Òg buried by the rite of Macha",
   "era_year": 484,
-  "summary": "King Aonghas Òg dies in the winter of his eighty-fourth year and is carried to his grave at Cathair dhearg by the wood-watchers' rite of Macha, the first king of the line so buried. His household stands at the yoke-poles of the two horses he rode out to see brought up together every spring of his reign.",
+  "summary": "King Aonghas Òg dies in the winter of his eighty-fourth year and is carried to his grave at Cathair dhearg by Òrd Mhacha' rite of Macha, the first king of the line so buried. His household stands at the yoke-poles of the two horses he rode out to see brought up together every spring of his reign.",
   "category": "rulers",
   "people": [
    "Aonghas Òg mac Aonghais"
@@ -137,7 +137,7 @@
  {
   "title": "Birth of Dùghall, Iain mac Aonghais's son by his second wife",
   "era_year": 490,
-  "summary": "King Iain mac Aonghais, his first wife some years dead, takes a second wife who bears him a third son, Dùghall, the first of his three sons born at the red hall itself under a crown his father already wears.",
+  "summary": "King Iain mac Aonghais, his first wife some years dead, takes a second wife who bears him a third son, Dùghall, the first of his three sons born at An Talla Dearg itself under a crown his father already wears.",
   "category": "rulers",
   "people": [
    "Iain mac Aonghais",
@@ -241,7 +241,7 @@
  {
   "era_year": 450,
   "title": "Death of King Aonghas mac Uisdein",
-  "summary": "King Aonghas mac Uisdein dies at Cathair dhearg in his seventy-eighth year, after six-and-fifty years crowned, having set the wood-watchers' rite of Macha as the crown's own custom. The custody-book gives him one line: the name, the year, and no more.",
+  "summary": "King Aonghas mac Uisdein dies at Cathair dhearg in his seventy-eighth year, after six-and-fifty years crowned, having set Òrd Mhacha' rite of Macha as the crown's own custom. Leabhar a' Chùraim gives him one line: the name, the year, and no more.",
   "category": "rulers",
   "people": [
    "Aonghas mac Uisdein"
@@ -322,7 +322,7 @@
  {
   "era_year": 496,
   "title": "Death of King Iain mac Aonghais",
-  "summary": "King Iain mac Aonghais dies at Cathair dhearg at one-and-sixty, twelve years crowned, the third king the red hall has buried in a single generation. His second son Aonghas, nineteen, stands a pace back from the hall's centre at his brother Tormod's crowning.",
+  "summary": "King Iain mac Aonghais dies at Cathair dhearg at one-and-sixty, twelve years crowned, the third king An Talla Dearg has buried in a single generation. His second son Aonghas, nineteen, stands a pace back from the hall's centre at his brother Tormod's crowning.",
   "category": "rulers",
   "people": [
    "Iain mac Aonghais",

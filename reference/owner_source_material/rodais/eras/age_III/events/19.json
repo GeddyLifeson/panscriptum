@@ -1,284 +1,284 @@
 [
-    {
-        "title": "The granaries of Dùn dhearg opened to households not its own",
-        "era_year": 430,
-        "summary": "Sliochd Ìomhair opens the new granaries at Dùn dhearg to any household of the lowland plain caught short by the storm season, not only its own. Coinneach Mòr, still a young man of Seann Dunn, watches the queue at the gate and hears his father call it a debt of bread that few who take it yet feel as a debt.",
-        "category": "trade",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [
-            "burg:422"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0056",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "The resting-place at the foot of the pass becomes Baile Mòr dhomhain",
-        "era_year": 445,
-        "summary": "The carriers' resting-place at the last flat ground before the high pass grows byres, a smithy and an inn that is never empty in the season the pass is open, and takes the name Baile Mòr dhomhain, though it stands on no deep water and lives by the pass and little else.",
-        "category": "trade",
-        "people": [],
-        "places": [
-            "burg:273"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0057",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Coinneach Mòr chosen Keeper of Sliochd Thormoid",
-        "era_year": 475,
-        "summary": "In the month of Giblean, the four houses choose Coinneach Mòr mac Tormoid, five-and-twenty, first Keeper of his house, for his patience rather than any gift of speech, judging a Keeper who keeps a flame steadily worth more than one who keeps it brilliantly for a short while.",
-        "category": "rulers",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [
-            "burg:18"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0059",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Griogair Ruadh asks a seat for Achadh chaol and is refused",
-        "era_year": 476,
-        "summary": "The headman of the shepherds at Achadh chaol asks the council at Dùn ìseal for a seat among the houses that govern the plain, and is refused for want of hearth-right cut in stone at the Roinn. He sits one courtesy season and goes home with the dues still owed and no seat won.",
-        "category": "law",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [
-            "burg:449"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0060",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Coinneach's walkers set out to list the ruins",
-        "era_year": 490,
-        "summary": "Coinneach Mòr sends six walkers the length of the plain to list every ruin standing on ground the four houses claim, ruling before they leave that the list shall say only who does not own each place, and never guess who built it.",
-        "category": "law",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0061",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "The walkers return with the list of the old people's ruins",
-        "era_year": 492,
-        "summary": "The walkers come home after two years with Làrach an Dùin-fhaire, Làrach an Dùin, Làrach an Teampaill and the plain's scattered standing stones set down on one list, each entry naming who does not hold the ground and none guessing at the builders, who are called after only the old people.",
-        "category": "law",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [
-            "marker:31",
-            "marker:32",
-            "marker:33"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0061",
-                "type": "sequel"
-            }
-        ]
-    },
-    {
-        "title": "The first ring of stakes raised round Carragh Cnoc bheag",
-        "era_year": 498,
-        "summary": "Once the walkers' list names the standing stone above Cnoc bheag, the household nearest it fences the rise to keep cattle from rubbing the cut letters smooth. Each generation after renews the stakes, and the stone itself is never moved.",
-        "category": "faith",
-        "people": [],
-        "places": [
-            "marker:28"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0062",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "The bath-house roofed over the springs of Muileann ruadh",
-        "era_year": 505,
-        "summary": "After a cousin of his own house is carried to the warm springs half dead of a wasting cough and comes home breathing, Coinneach Mòr orders a bath-house raised over the largest pool, with sleeping-places for the sick and benches for those who wait out the cure beside them.",
-        "category": "faith",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [
-            "burg:229"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0063",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "A keeper of the springs named in Dian Cècht's name",
-        "era_year": 505,
-        "summary": "Coinneach Mòr names a widow who nursed her own husband through a wasting fever as keeper of the springs at Muileann ruadh, the office set in the healer Dian Cècht's name and answering to no measure of coal, the first such office the flame at Seann Dunn has made.",
-        "category": "faith",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [
-            "burg:229"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0063",
-                "type": "sequel"
-            }
-        ]
-    },
-    {
-        "title": "The silversmiths of Muileann chiar cast their weights",
-        "era_year": 508,
-        "summary": "Weary of disputes at their own market, the silversmiths of Muileann chiar cast a set of weights from a barley-corn to a newborn lamb, checked one against another and set out for any trader to use. Within years a thing weighed there is called, the length of the carriers' roads, weighed fairly.",
-        "category": "trade",
-        "people": [],
-        "places": [
-            "burg:419"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0064",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Torcall Donn weds Muireall nic Ìomhair",
-        "era_year": 513,
-        "summary": "Torcall Donn, great-grandson of Eithne nic Ailein and five-and-eighty, weds Muireall nic Ìomhair, not yet four-and-twenty, at Dùn dhearg, a match both houses call costless and both houses are pleased with, her marriage-portion drawn to satisfy both grants at once.",
-        "category": "rulers",
-        "people": [
-            "Torcall Donn",
-            "Muireall nic Ìomhair",
-            "Eithne nic Ailein"
-        ],
-        "places": [
-            "burg:422"
-        ],
-        "threads": [
-            "the-division"
-        ],
-        "master_links": [
-            {
-                "to": "II-0064b",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Muireall nic Ìomhair dies in her first winter",
-        "era_year": 514,
-        "summary": "Muireall nic Ìomhair dies of a nine-day fever in her first winter as a wife, leaving no child and no settled answer to which grant, the house of Ìomhar's or the line of Eithne's, should hold her lands should she die too soon, since no one had thought she would.",
-        "category": "rulers",
-        "people": [
-            "Muireall nic Ìomhair"
-        ],
-        "places": [],
-        "threads": [
-            "the-division"
-        ],
-        "master_links": [
-            {
-                "to": "II-0064b",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Both houses claim Muireall's lands",
-        "era_year": 515,
-        "summary": "The house of Ìomhar claims Muireall's marriage-lands as returning to the kin that granted them; the line of Eithne claims the same ground as passing to the husband's holding. Both claims are argued with equal heat by men who never asked, while she lived, which grant should prevail.",
-        "category": "law",
-        "people": [
-            "Torcall Donn",
-            "Eithne nic Ailein"
-        ],
-        "places": [],
-        "threads": [
-            "the-division"
-        ],
-        "master_links": [
-            {
-                "to": "II-0064b",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "The first double-sworn field burned",
-        "era_year": 517,
-        "summary": "A holding sworn to both Dùn dhearg and Cathair mhòr since Muireall's marriage-portion touched it is burned in a single night by its own near neighbours, byre first and standing barley after. The household goes to kin elsewhere, and the ground lies unsown, claimed loudly and worked by neither house.",
-        "category": "war",
-        "people": [],
-        "places": [],
-        "threads": [
-            "the-division"
-        ],
-        "master_links": [
-            {
-                "to": "II-0064b",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Coinneach Mòr dies at Seann Dunn",
-        "era_year": 537,
-        "summary": "Coinneach Mòr mac Tormoid dies at Seann Dunn in his eighty-seventh year, two-and-sixty years into his keeping, asking after the walkers' list and the burned marriage-lands in his last days, and leaving the flame to a nephew chosen in his stead with the smoke of the burnings still on the southern horizon.",
-        "category": "rulers",
-        "people": [
-            "Coinneach Mòr mac Tormoid"
-        ],
-        "places": [
-            "burg:18"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "II-0059",
-                "type": "sequel"
-            }
-        ]
-    }
+ {
+  "title": "The granaries of Dùn dhearg opened to households not its own",
+  "era_year": 430,
+  "summary": "Sliochd Ìomhair opens the new granaries at Dùn dhearg to any household of the lowland plain caught short by the storm season, not only its own. Coinneach Mòr, still a young man of Seann Dunn, watches the queue at the gate and hears his father call it a debt of bread that few who take it yet feel as a debt.",
+  "category": "trade",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0056",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The resting-place at the foot of the pass becomes Baile Mòr dhomhain",
+  "era_year": 445,
+  "summary": "The carriers' resting-place at the last flat ground before the high pass grows byres, a smithy and an inn that is never empty in the season the pass is open, and takes the name Baile Mòr dhomhain, though it stands on no deep water and lives by the pass and little else.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:273"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0057",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach Mòr chosen Keeper of Sliochd Thormoid",
+  "era_year": 475,
+  "summary": "In the month of Giblean, Na Ceithir Taighean choose Coinneach Mòr mac Tormoid, five-and-twenty, first Keeper of his house, for his patience rather than any gift of speech, judging a Keeper who keeps a flame steadily worth more than one who keeps it brilliantly for a short while.",
+  "category": "rulers",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [
+   "burg:18"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0059",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Griogair Ruadh asks a seat for Achadh chaol and is refused",
+  "era_year": 476,
+  "summary": "The headman of the shepherds at Achadh chaol asks the council at Dùn ìseal for a seat among the houses that govern the plain, and is refused for want of hearth-right cut in stone at Roinn na Rìoghachd. He sits one courtesy season and goes home with the dues still owed and no seat won.",
+  "category": "law",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [
+   "burg:449"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0060",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach's walkers set out to list the ruins",
+  "era_year": 490,
+  "summary": "Coinneach Mòr sends six walkers the length of the plain to list every ruin standing on ground Na Ceithir Taighean claim, ruling before they leave that the list shall say only who does not own each place, and never guess who built it.",
+  "category": "law",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0061",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The walkers return with the list of the old people's ruins",
+  "era_year": 492,
+  "summary": "The walkers come home after two years with Làrach an Dùin-fhaire, Làrach an Dùin, Làrach an Teampaill and the plain's scattered standing stones set down on one list, each entry naming who does not hold the ground and none guessing at the builders, who are called after only the old people.",
+  "category": "law",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [
+   "marker:31",
+   "marker:32",
+   "marker:33"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0061",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The first ring of stakes raised round Carragh Cnoc bheag",
+  "era_year": 498,
+  "summary": "Once the walkers' list names the standing stone above Cnoc bheag, the household nearest it fences the rise to keep cattle from rubbing the cut letters smooth. Each generation after renews the stakes, and the stone itself is never moved.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "marker:28"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0062",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The bath-house roofed over the springs of Muileann ruadh",
+  "era_year": 505,
+  "summary": "After a cousin of his own house is carried to Fuarain Theth Muileann ruadh half dead of a wasting cough and comes home breathing, Coinneach Mòr orders a bath-house raised over the largest pool, with sleeping-places for the sick and benches for those who wait out the cure beside them.",
+  "category": "faith",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [
+   "burg:229"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0063",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A keeper of the springs named in Dian Cècht's name",
+  "era_year": 505,
+  "summary": "Coinneach Mòr names a widow who nursed her own husband through a wasting fever as keeper of the springs at Muileann ruadh, the office set in the healer Dian Cècht's name and answering to no measure of coal, the first such office the flame at Seann Dunn has made.",
+  "category": "faith",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [
+   "burg:229"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0063",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The silversmiths of Muileann chiar cast their weights",
+  "era_year": 508,
+  "summary": "Weary of disputes at their own market, the silversmiths of Muileann chiar cast a set of weights from a barley-corn to a newborn lamb, checked one against another and set out for any trader to use. Within years a thing weighed there is called, the length of the carriers' roads, weighed fairly.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:419"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0064",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Torcall Donn weds Muireall nic Ìomhair",
+  "era_year": 513,
+  "summary": "Torcall Donn, great-grandson of Eithne nic Ailein and five-and-eighty, weds Muireall nic Ìomhair, not yet four-and-twenty, at Dùn dhearg, a match both houses call costless and both houses are pleased with, her marriage-portion drawn to satisfy both grants at once.",
+  "category": "rulers",
+  "people": [
+   "Torcall Donn",
+   "Muireall nic Ìomhair",
+   "Eithne nic Ailein"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Muireall nic Ìomhair dies in her first winter",
+  "era_year": 514,
+  "summary": "Muireall nic Ìomhair dies of a nine-day fever in her first winter as a wife, leaving no child and no settled answer to which grant, Sliochd Ìomhair's or the line of Eithne's, should hold her lands should she die too soon, since no one had thought she would.",
+  "category": "rulers",
+  "people": [
+   "Muireall nic Ìomhair"
+  ],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Both houses claim Muireall's lands",
+  "era_year": 515,
+  "summary": "Sliochd Ìomhair claims Muireall's marriage-lands as returning to the kin that granted them; the line of Eithne claims the same ground as passing to the husband's holding. Both claims are argued with equal heat by men who never asked, while she lived, which grant should prevail.",
+  "category": "law",
+  "people": [
+   "Torcall Donn",
+   "Eithne nic Ailein"
+  ],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The first double-sworn field burned",
+  "era_year": 517,
+  "summary": "A holding sworn to both Dùn dhearg and Cathair mhòr since Muireall's marriage-portion touched it is burned in a single night by its own near neighbours, byre first and standing barley after. The household goes to kin elsewhere, and the ground lies unsown, claimed loudly and worked by neither house.",
+  "category": "war",
+  "people": [],
+  "places": [],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0064b",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Coinneach Mòr dies at Seann Dunn",
+  "era_year": 537,
+  "summary": "Coinneach Mòr mac Tormoid dies at Seann Dunn in his eighty-seventh year, two-and-sixty years into his keeping, asking after the walkers' list and the burned marriage-lands in his last days, and leaving the flame to a nephew chosen in his stead with the smoke of the burnings still on the southern horizon.",
+  "category": "rulers",
+  "people": [
+   "Coinneach Mòr mac Tormoid"
+  ],
+  "places": [
+   "burg:18"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0059",
+    "type": "sequel"
+   }
+  ]
+ }
 ]

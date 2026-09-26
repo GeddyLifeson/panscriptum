@@ -1,371 +1,371 @@
 [
-  {
-    "title": "The depot's ground broken at Seann Skell",
-    "era_year": 19,
-    "after": "VI-0065",
-    "summary": "The enforcers break ground for a dubhan depot above the river at Seann Skell in the west, a tank and a roofed shed for the barrels the boats will bring up from the south. Somhairle mac Lachlainn lays it out himself from the Board's plan.",
-    "category": "war",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0066"
-    ]
-  },
-  {
-    "title": "Somhairle's first report from Seann Skell",
-    "era_year": 19,
-    "after": "VI-0065",
-    "summary": "Somhairle mac Lachlainn writes his first report from the western Seann Skell: the depot's ground broken, the quay's second berth cleared, nothing at Muileann àrsaidh worth the Board's attention. He believes every word of it.",
-    "category": "war",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0066"
-    ]
-  },
-  {
-    "title": "The house of Manannan's order refuses the blessing",
-    "era_year": 19,
-    "after": "VI-0065",
-    "summary": "Asked to bless the depot's finished roof before the masons work under it, the house of Manannan's order at Seann Skell in the west answers in three lines that it will not bless what is built for the Board's enforcers.",
-    "category": "faith",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0066"
-    ]
-  },
-  {
-    "title": "Somhairle writes to the Àrd-choimheadaiche",
-    "era_year": 19,
-    "after": "VI-0066",
-    "summary": "Somhairle mac Lachlainn writes to Alasdair mac Ìomhair, high custodian of the Rite at the southern Seann Skell, setting down the priest's refusal in his own words and asking whether some other house of the old faith will bless the depot's roof.",
-    "category": "faith",
-    "people": [
-      "Somhairle mac Lachlainn",
-      "Alasdair mac Ìomhair"
-    ],
-    "places": [
-      "burg:489",
-      "burg:431"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "VI-0066"
-    ]
-  },
-  {
-    "title": "A custodian of the Rite rides north",
-    "era_year": 19,
-    "after": "VI-0066",
-    "summary": "Alasdair mac Ìomhair sends a young custodian of the southern house, Pàdraig, two days' ride north to bless the enforcers' depot at Seann Skell in the west, since the house of Manannan's order there will not come.",
-    "category": "faith",
-    "people": [
-      "Alasdair mac Ìomhair"
-    ],
-    "places": [
-      "burg:431",
-      "burg:489"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "VI-0066"
-    ]
-  },
-  {
-    "title": "The depot's roof blessed by a stranger's hand",
-    "era_year": 19,
-    "after": "VI-0066",
-    "summary": "The young custodian Pàdraig blesses the depot's roof at evening before Somhairle mac Lachlainn and a handful of enforcers; the town watches from a distance and gives the building a name of its own that the Board never records.",
-    "category": "faith",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "VI-0066"
-    ]
-  },
-  {
-    "title": "Martha Greaves's letter for a year's delay",
-    "era_year": 19,
-    "after": "VI-0066",
-    "summary": "Martha Greaves writes to the council for the Moot: the western towns will not shut their pits for a letter, and a year's delay would let the Moot treat with them at no cost the Board has not already borne.",
-    "category": "law",
-    "people": [
-      "Martha Greaves",
-      "Peter Hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0067"
-    ]
-  },
-  {
-    "title": "The letter received and filed",
-    "era_year": 19,
-    "after": "VI-0067",
-    "summary": "The council's clerk enters Martha Greaves's letter as received. No answer is sent; it is set into the press among that quarter's correspondence under the label 'the Moot, western towns'.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:23"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0067"
-    ]
-  },
-  {
-    "title": "A lorry turned back on the Muileann àrsaidh road",
-    "era_year": 19,
-    "after": "VI-0067",
-    "summary": "An enforcers' lorry carrying timber up the river road toward Muileann àrsaidh meets stones and rolled boulders below the town and turns back, a wheel stove and a corporal cut over the eye. Neither telling of it gives a name.",
-    "category": "war",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:244"
-    ],
-    "threads": [
-      "the-long-war",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0068"
-    ]
-  },
-  {
-    "title": "Further meetings on the northern roads",
-    "era_year": 19,
-    "after": "VI-0068",
-    "summary": "A second meeting on the same road and a third above Àth leathan follow before an t-Sultain is out, none counted, none named, while the spoil-and-timber wall at Muileann àrsaidh grows a little higher each week.",
-    "category": "war",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:244",
-      "burg:346"
-    ],
-    "threads": [
-      "the-long-war",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0068"
-    ]
-  },
-  {
-    "title": "Somhairle's three drafts",
-    "era_year": 19,
-    "after": "VI-0068",
-    "summary": "Writing up the stones on the Muileann àrsaidh road, Somhairle mac Lachlainn drafts the report three times, each shorter than the last, and sends the one that says least of what his corporal told him.",
-    "category": "war",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0069"
-    ]
-  },
-  {
-    "title": "Beathag's letter to the Mine Board",
-    "era_year": 19,
-    "after": "VI-0068",
-    "summary": "At the foot of the year Beathag nic Fhionnlaigh writes to the Mine Board asking its returns of the incidents on the northern roads that autumn, so the Library's record may be kept as fully as any other.",
-    "category": "record",
-    "people": [
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0069"
-    ]
-  },
-  {
-    "title": "Sìleas names the silence",
-    "era_year": 19,
-    "after": "VI-0068",
-    "summary": "As the weeks pass with no return from the Board, Sìleas nic Rath says in the Library's upper room that the silence does not feel like an office too busy to answer, and is told she will learn in time the difference between unanswered and refused.",
-    "category": "record",
-    "people": [
-      "Sìleas nic Rath",
-      "Beathag nic Fhionnlaigh"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0069"
-    ]
-  },
-  {
-    "title": "The Board's letter forwarded without comment",
-    "era_year": 19,
-    "after": "VI-0069",
-    "summary": "The Board's clerk at Cathair mhòr forwards Somhairle mac Lachlainn a copy of the chronicler's letter asking for the Board's returns, without comment and without instruction, and no order follows changing what he is to report.",
-    "category": "record",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:23",
-      "burg:489"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0069"
-    ]
-  },
-  {
-    "title": "The priest of Manannan answers the captain",
-    "era_year": 19,
-    "summary": "At the gate of the house of Manannan above the western Seann Skell a young priest tells Somhairle mac Lachlainn that the house blesses a boat and a roof against the sea and the rain, and will not pretend the same of a depot built for the Board's lorries.",
-    "category": "faith",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0066"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Two lorries come to the western Seann Skell",
-    "era_year": 19,
-    "summary": "The first two lorries the western Seann Skell has ever seen come up for the enforcers' depot at midsummer, the town's children standing where they had planned to watch them arrive.",
-    "category": "war",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-long-war",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0066"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Peter Hale on a filed letter",
-    "era_year": 19,
-    "summary": "At the Moot Peter Hale tells the delegates that a filed letter is better than a refused one, since a refusal closes a door and a filing leaves it shut.",
-    "category": "law",
-    "people": [
-      "Peter Hale"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0067"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The enforcers' lorries at An Taigh-seinnse Reòta",
-    "era_year": 19,
-    "summary": "The enforcers' two lorries going west stop a night at An Taigh-seinnse Reòta on the north road; the landlord gives the men beds and wick lamps and does not ask where they are bound.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:74"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0066"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Seann Bhral's priests of Manannan hear the refusal",
-    "era_year": 19,
-    "summary": "The house of Manannan at Seann Bhral, the order's west-coast harbour, hears from its brothers at the western Seann Skell that they refused to bless the enforcers' depot, and sends them no word either way.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:47"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0066"
-    ],
-    "chronicle_extra": true
-  }
+ {
+  "title": "The depot's ground broken at Seann Skell",
+  "era_year": 19,
+  "after": "VI-0065",
+  "summary": "The enforcers break ground for a dubhan depot above the river at Seann Skell in the west, a tank and a roofed shed for the barrels the boats will bring up from the south. Somhairle mac Lachlainn lays it out himself from Comhairle nam Mèinnean's plan.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0066"
+  ]
+ },
+ {
+  "title": "Somhairle's first report from Seann Skell",
+  "era_year": 19,
+  "after": "VI-0065",
+  "summary": "Somhairle mac Lachlainn writes his first report from the western Seann Skell: the depot's ground broken, the quay's second berth cleared, nothing at Muileann àrsaidh worth Comhairle nam Mèinnean's attention. He believes every word of it.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0066"
+  ]
+ },
+ {
+  "title": "The house of Òrd Mhanannain refuses the blessing",
+  "era_year": 19,
+  "after": "VI-0065",
+  "summary": "Asked to bless the depot's finished roof before the masons work under it, the house of Òrd Mhanannain at Seann Skell in the west answers in three lines that it will not bless what is built for Comhairle nam Mèinnean's enforcers.",
+  "category": "faith",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0066"
+  ]
+ },
+ {
+  "title": "Somhairle writes to the Àrd-choimheadaiche",
+  "era_year": 19,
+  "after": "VI-0066",
+  "summary": "Somhairle mac Lachlainn writes to Alasdair mac Ìomhair, high custodian of the Rite at the southern Seann Skell, setting down the priest's refusal in his own words and asking whether some other house of the old faith will bless the depot's roof.",
+  "category": "faith",
+  "people": [
+   "Somhairle mac Lachlainn",
+   "Alasdair mac Ìomhair"
+  ],
+  "places": [
+   "burg:489",
+   "burg:431"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "VI-0066"
+  ]
+ },
+ {
+  "title": "A custodian of Deas-ghnàth a' Ghuail rides north",
+  "era_year": 19,
+  "after": "VI-0066",
+  "summary": "Alasdair mac Ìomhair sends a young custodian of the southern house, Pàdraig, two days' ride north to bless the enforcers' depot at Seann Skell in the west, since the house of Òrd Mhanannain there will not come.",
+  "category": "faith",
+  "people": [
+   "Alasdair mac Ìomhair"
+  ],
+  "places": [
+   "burg:431",
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "VI-0066"
+  ]
+ },
+ {
+  "title": "The depot's roof blessed by a stranger's hand",
+  "era_year": 19,
+  "after": "VI-0066",
+  "summary": "The young custodian Pàdraig blesses the depot's roof at evening before Somhairle mac Lachlainn and a handful of enforcers; the town watches from a distance and gives the building a name of its own that Comhairle nam Mèinnean never records.",
+  "category": "faith",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "VI-0066"
+  ]
+ },
+ {
+  "title": "Martha Greaves's letter for a year's delay",
+  "era_year": 19,
+  "after": "VI-0066",
+  "summary": "Martha Greaves writes to the council for Tional nan Tuathach: the western towns will not shut their pits for a letter, and a year's delay would let Tional nan Tuathach treat with them at no cost Comhairle nam Mèinnean has not already borne.",
+  "category": "law",
+  "people": [
+   "Martha Greaves",
+   "Peter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0067"
+  ]
+ },
+ {
+  "title": "The letter received and filed",
+  "era_year": 19,
+  "after": "VI-0067",
+  "summary": "The council's clerk enters Martha Greaves's letter as received. No answer is sent; it is set into the press among that quarter's correspondence under the label 'the Moot, western towns'.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0067"
+  ]
+ },
+ {
+  "title": "A lorry turned back on the Muileann àrsaidh road",
+  "era_year": 19,
+  "after": "VI-0067",
+  "summary": "An enforcers' lorry carrying timber up the river road toward Muileann àrsaidh meets stones and rolled boulders below the town and turns back, a wheel stove and a corporal cut over the eye. Neither telling of it gives a name.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:244"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0068"
+  ]
+ },
+ {
+  "title": "Further meetings on the northern roads",
+  "era_year": 19,
+  "after": "VI-0068",
+  "summary": "A second meeting on the same road and a third above Àth leathan follow before an t-Sultain is out, none counted, none named, while the spoil-and-timber wall at Muileann àrsaidh grows a little higher each week.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:244",
+   "burg:346"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0068"
+  ]
+ },
+ {
+  "title": "Somhairle's three drafts",
+  "era_year": 19,
+  "after": "VI-0068",
+  "summary": "Writing up the stones on the Muileann àrsaidh road, Somhairle mac Lachlainn drafts the report three times, each shorter than the last, and sends the one that says least of what his corporal told him.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0069"
+  ]
+ },
+ {
+  "title": "Beathag's letter to Comhairle nam Mèinnean",
+  "era_year": 19,
+  "after": "VI-0068",
+  "summary": "At the foot of the year Beathag nic Fhionnlaigh writes to Comhairle nam Mèinnean asking its returns of the incidents on the northern roads that autumn, so an Leabharlann's record may be kept as fully as any other.",
+  "category": "record",
+  "people": [
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0069"
+  ]
+ },
+ {
+  "title": "Sìleas names the silence",
+  "era_year": 19,
+  "after": "VI-0068",
+  "summary": "As the weeks pass with no return from Comhairle nam Mèinnean, Sìleas nic Rath says in an Leabharlann's upper room that the silence does not feel like an office too busy to answer, and is told she will learn in time the difference between unanswered and refused.",
+  "category": "record",
+  "people": [
+   "Sìleas nic Rath",
+   "Beathag nic Fhionnlaigh"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0069"
+  ]
+ },
+ {
+  "title": "Comhairle nam Mèinnean's letter forwarded without comment",
+  "era_year": 19,
+  "after": "VI-0069",
+  "summary": "Comhairle nam Mèinnean's clerk at Cathair mhòr forwards Somhairle mac Lachlainn a copy of the chronicler's letter asking for Comhairle nam Mèinnean's returns, without comment and without instruction, and no order follows changing what he is to report.",
+  "category": "record",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:23",
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0069"
+  ]
+ },
+ {
+  "title": "The priest of Manannan answers the captain",
+  "era_year": 19,
+  "summary": "At the gate of the house of Manannan above the western Seann Skell a young priest tells Somhairle mac Lachlainn that the house blesses a boat and a roof against the sea and the rain, and will not pretend the same of a depot built for Comhairle nam Mèinnean's lorries.",
+  "category": "faith",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0066"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Two lorries come to the western Seann Skell",
+  "era_year": 19,
+  "summary": "The first two lorries the western Seann Skell has ever seen come up for the enforcers' depot at midsummer, the town's children standing where they had planned to watch them arrive.",
+  "category": "war",
+  "people": [
+   "Somhairle mac Lachlainn"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-long-war",
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0066"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Peter Hale on a filed letter",
+  "era_year": 19,
+  "summary": "At Tional nan Tuathach Peter Hale tells the delegates that a filed letter is better than a refused one, since a refusal closes a door and a filing leaves it shut.",
+  "category": "law",
+  "people": [
+   "Peter Hale"
+  ],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0067"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "The enforcers' lorries at An Taigh-seinnse Reòta",
+  "era_year": 19,
+  "summary": "The enforcers' two lorries going west stop a night at An Taigh-seinnse Reòta on the north road; the landlord gives the men beds and wick lamps and does not ask where they are bound.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:74"
+  ],
+  "threads": [
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0066"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Seann Bhral's priests of Manannan hear the refusal",
+  "era_year": 19,
+  "summary": "The house of Manannan at Seann Bhral, the order's west-coast harbour, hears from its brothers at the western Seann Skell that they refused to bless the enforcers' depot, and sends them no word either way.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:47"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-long-war"
+  ],
+  "master_links": [
+   "VI-0066"
+  ],
+  "chronicle_extra": true
+ }
 ]

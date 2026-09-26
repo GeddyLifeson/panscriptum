@@ -159,7 +159,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1554",
+   "first": "IV-0037",
    "last": "EV-1558"
   },
   "ailean-mac-dhughaill": {
@@ -214,7 +214,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2003",
+   "first": "IV-0049",
    "last": "EV-2003"
   },
   "anne-colby": {
@@ -247,7 +247,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-3045",
+   "first": "IV-0114",
    "last": "EV-3053"
   },
   "aonghas-mor": {
@@ -390,7 +390,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5523",
+   "first": "IV-0259",
    "last": "EV-5523"
   },
   "ciorstaidh": {
@@ -434,7 +434,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2006",
+   "first": "IV-0061",
    "last": "EV-3023"
   },
   "coinneach-og": {
@@ -456,7 +456,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-6013",
+   "first": "IV-0280",
    "last": "EV-6008"
   },
   "coll": {
@@ -566,7 +566,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5510",
+   "first": "EV-3506",
    "last": "EV-5510"
   },
   "dughall-clachair": {
@@ -665,7 +665,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1012",
+   "first": "IV-0002",
    "last": "EV-2035"
   },
   "edward-vane": {
@@ -676,7 +676,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5020",
+   "first": "IV-0235",
    "last": "EV-5517"
   },
   "edwin-lowe": {
@@ -918,7 +918,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2046",
+   "first": "IV-0069",
    "last": "EV-2545"
   },
   "hugh-mercer": {
@@ -929,7 +929,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1554",
+   "first": "IV-0037",
    "last": "EV-1555"
   },
   "iain-hale": {
@@ -962,7 +962,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5006",
+   "first": "IV-0180",
    "last": "EV-5515"
   },
   "iomhar-ban": {
@@ -984,7 +984,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-6540",
+   "first": "IV-0284",
    "last": "EV-6540"
   },
   "iseabail-nic-leoid": {
@@ -1006,7 +1006,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1505",
+   "first": "IV-0027",
    "last": "EV-2019"
   },
   "jonas-tull": {
@@ -1017,7 +1017,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1039",
+   "first": "IV-0018",
    "last": "EV-1537"
   },
   "josiah-pell": {
@@ -1061,7 +1061,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-6024",
+   "first": "IV-0314",
    "last": "EV-6547"
   },
   "mairead-nic-amhlaidh": {
@@ -1127,7 +1127,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5026",
+   "first": "IV-0241",
    "last": "EV-5027"
   },
   "mor-nic-amhlaidh": {
@@ -1182,7 +1182,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-2042",
+   "first": "IV-0066",
    "last": "EV-2008"
   },
   "nathan-cobb": {
@@ -1237,7 +1237,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5013",
+   "first": "IV-0231",
    "last": "EV-5013"
   },
   "osgood": {
@@ -1369,7 +1369,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-5019",
+   "first": "IV-0202",
    "last": "EV-5019"
   },
   "ruairidh-mac-thormoid": {
@@ -1380,7 +1380,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-4528",
+   "first": "IV-0206",
    "last": "EV-4528"
   },
   "ruth-pallant": {
@@ -1545,7 +1545,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1030",
+   "first": "IV-0012",
    "last": "EV-2036"
   },
   "tomas-odhar": {
@@ -1600,7 +1600,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-6006",
+   "first": "IV-0294",
    "last": "EV-6006"
   },
   "tormod-mac-ailein": {
@@ -1611,7 +1611,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-1020",
+   "first": "EIV-6564",
    "last": "EV-2034"
   },
   "tormod-mac-pheadair": {
@@ -1699,7 +1699,7 @@
    "parents": [],
    "children": [],
    "houses": [],
-   "first": "EV-3507",
+   "first": "IV-0135",
    "last": "EV-3507"
   },
   "william-rook": {
@@ -32120,77 +32120,29 @@
    }
   },
   {
-   "id": "IV-0194",
-   "date": "3 am Màrt, AE 94",
-   "y": 1873,
-   "m": 3,
-   "d": 3,
-   "era": "AE",
-   "ey": 94,
-   "title": "Gorta Baile chrom",
-   "body": "The Great Hunger follows a failed harvest across thirty-four settlements, made worse because the Levy has taken so many to the pits that too few are left to till the land.",
-   "place": null,
-   "kind": "disaster",
-   "category": null,
-   "master": true,
-   "year": "AE 94",
-   "category_name": null,
-   "links": [
-    {
-     "to": "EV-4501",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "9 am Màrt, AE 94",
-     "title": "The first harvest short",
-     "master": false,
-     "year": "AE 94"
-    },
-    {
-     "to": "EV-4502",
-     "type": "sequel",
-     "dir": "in",
-     "arrow": "←",
-     "label": "Leads to",
-     "age": "V",
-     "era": "AE",
-     "date": "20 an Dàmhair, AE 94",
-     "title": "Uisdean begins to write beyond the weather",
-     "master": false,
-     "year": "AE 94"
-    }
-   ],
-   "threads": [],
-   "people": [],
-   "told_in": null
-  },
-  {
    "id": "EV-4501",
-   "date": "9 am Màrt, AE 94",
-   "y": 1873,
-   "m": 3,
-   "d": 9,
+   "date": "23 an Gearran, AE 93",
+   "y": 1872,
+   "m": 2,
+   "d": 23,
    "era": "AE",
-   "ey": 94,
+   "ey": 93,
    "title": "The first harvest short",
    "body": "The harvest round Baile chrom comes in at less than half the carts of the year before, the fields sown thin for want of hands and beaten further by two summer storms. Uisdean counts the carts against his own earlier tally and finds the shortfall for himself.",
    "place": "burg:305",
    "kind": "land",
    "category": "land",
    "master": false,
-   "year": "AE 94",
+   "year": "AE 93",
    "category_name": "land and sea",
    "place_name": "Baile chrom",
    "links": [
     {
      "to": "IV-0194",
-     "type": "sequel",
+     "type": "cause",
      "dir": "out",
-     "arrow": "←",
-     "label": "Follows from",
+     "arrow": "→",
+     "label": "Leads to",
      "age": "V",
      "era": "AE",
      "date": "3 am Màrt, AE 94",
@@ -32211,6 +32163,54 @@
     "section": "I. Of the Empty Road",
     "where": "era"
    }
+  },
+  {
+   "id": "IV-0194",
+   "date": "3 am Màrt, AE 94",
+   "y": 1873,
+   "m": 3,
+   "d": 3,
+   "era": "AE",
+   "ey": 94,
+   "title": "Gorta Baile chrom",
+   "body": "The Great Hunger follows a failed harvest across thirty-four settlements, made worse because the Levy has taken so many to the pits that too few are left to till the land.",
+   "place": null,
+   "kind": "disaster",
+   "category": null,
+   "master": true,
+   "year": "AE 94",
+   "category_name": null,
+   "links": [
+    {
+     "to": "EV-4501",
+     "type": "cause",
+     "dir": "in",
+     "arrow": "→",
+     "label": "Caused by",
+     "age": "V",
+     "era": "AE",
+     "date": "23 an Gearran, AE 93",
+     "title": "The first harvest short",
+     "master": false,
+     "year": "AE 93"
+    },
+    {
+     "to": "EV-4502",
+     "type": "sequel",
+     "dir": "in",
+     "arrow": "←",
+     "label": "Leads to",
+     "age": "V",
+     "era": "AE",
+     "date": "20 an Dàmhair, AE 94",
+     "title": "Uisdean begins to write beyond the weather",
+     "master": false,
+     "year": "AE 94"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": null
   },
   {
    "id": "IV-0195",

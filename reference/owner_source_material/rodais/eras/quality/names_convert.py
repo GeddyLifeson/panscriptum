@@ -4,6 +4,9 @@
     python names_convert.py V             # convert, and write the log to quality/names_convert_V.log
     python names_convert.py all | master  # every age's writer files | the master record (legendarium/)
 
+An age's run also converts its chapter writers' event sidecars, eras/age_<K>/events/*.json (title and summary), so the
+drafts carry the same Dia-thìris forms as the annals compiled from them (--no-events leaves them alone).
+
 The English forms of eras/NAMES.json (en and its variants; not the "ambiguous" list, not humans' personal names)
 and of eras/age_<K>/PLAN_names.json are replaced by their exact Dia-thìris form in the Books, the annals (title
 and body), the gazetteer and the appendices. legendarium/glosses.py then footnotes the first mention with the
@@ -21,7 +24,8 @@ How a form is replaced:
   - a one-word or lower-case form with no "the" before it (Abel Stone, a column of soldiers) is let stand, and so are
     the common nouns listed in COMMON (the crossing, the column, the fleet ... as ordinary words).
   - senses: "the Stone" is the order (Òrd na Cloiche) when its priests or its sending are spoken of, else the relic;
-    "the Keeper" is the Hall's office (Coimheadaiche na Lasrach) beside the Hall or the flame, else the spirit.
+    "the Keeper" is the spirit (Coimhdeach na Fine) in Age I, the Hall's office (Coimheadaiche na Lasrach) in Age III, and
+    elsewhere whichever the words of its sentence point to (keeper_sense); a tie is left and logged as LEFT.
 Never touched: {{tokens}}, headings (their anchors are told_in targets), HTML tags and link targets, code, italic
 Dia-thìris, a glossary's own definition (Appendix E's "**dt** · english" lines) and every human's name.
 Every change is logged with its place and context; forms left because they are unclear are logged as LEFT.
@@ -44,6 +48,14 @@ COMMON = {'the column', 'the crossing', 'the pillar', 'the obelisk', 'the fleet'
           'the circus', 'the council', 'the law', 'the point', 'the board', 'the cup', 'the king\'s daughter',
           'the Point', 'the Board', 'the Cup',
           'the colour of the coal', 'the hunger', 'the war', 'the rising', 'the truce', 'the strike', 'the stoppage'}
+# forms of COMMON that are the name itself in one age's prose: in Age VII (Linn an Dubhain) "the Board" is only ever the
+# Mine Board, Comhairle nam Mèinnean
+NAMED_IN = {'VII': {'the Board'}}
+# forms one age's volume keeps in English by its lead's reading, so that a re-run does not undo the hand fixes: in Age I
+# "the first fire" is also any household's first fire and the mason's own ("the mason's first fire"), written Teine a'
+# Chlachair only where the hearth itself is meant; in Age III the road-guards are "the wolf-sworn" until FE 2,843 and
+# are called An Fhianna only after (PLAN §4)
+KEEP_IN = {'I': {'the first fire'}, 'III': {'the wolf-sworn'}}
 # variants that would swallow a human's name or a place's qualifier, or name something else
 BAD_VARIANTS = {'Clerk of the Company', 'the Keeper Raonaid Dhubh', 'the Keeper Calum Liath', 'the Red Hill list',
                 'the Mission at Cathair', 'the Residency at Ros', 'the Moot at Caol', 'the council of custodians'}
@@ -82,7 +94,7 @@ def forms_for(k):
         form = re.sub(r'\s*\(.*?\)\s*', ' ', form).strip()
         form = re.sub(r"['’]s$", '', form)
         c = core_of(form)
-        if (not form or form in BAD_VARIANTS or form in COMMON or len(c) < 3 or form == dt or c == dt
+        if (not form or form in BAD_VARIANTS or form in KEEP_IN.get(k, ()) or (form in COMMON and form not in NAMED_IN.get(k, ())) or len(c) < 3 or form == dt or c == dt
                 or c.lower() == core_of(dt).lower() or (form, dt) in seen):
             return
         seen.add((form, dt))
@@ -134,6 +146,38 @@ def inside(i, spans):
     return any(a <= i < b for a, b in spans)
 
 
+# "the Keeper": the spirit Coimhdeach na Fine (I-0011a, the Keeper of the Kin, of the riddle and the grove) or the Hall's
+# office Coimheadaiche na Lasrach (from II-0002, the Keeper chosen by the nine hearths, with clerks and a seat at Dùn ìseal).
+# The age settles it where only one sense can stand: before the Hall (Age I) only the spirit; in the Holy Age (Age III,
+# PLAN §4) only the office. Elsewhere the words of the sentence around it vote, and a tie is left for a reader (LEFT).
+KEEPER_OFFICE = re.compile(r"\bHall\b|[Ff]lame|Lasair|Lasrach|\boffice\b|\bstool\b|\bclerks?\b|nine hearths|Naoi Teallaichean|"
+                           r"\br[iì]gh\b|\bqueen\b|\bcouncil\b|Sliochd|Dùn ìseal|\bcutter\b|\bsentence\b|\bprotest|"
+                           r"\bdrafts?\b|\bwrites?\b|\bwrote\b|\bletter\b|\bseal\b|\bterms\b|\broll\b|\bchest\b|\bmeasure\b|"
+                           r"\bsteward|\bgrain|\brules?\b|\bruled\b|\bsends?\b|\bsent\b|\belected\b|\bchosen\b|\bsucceed|"
+                           r"of that season|Keeper [A-Z][a-zà-ù]+ [A-Z]|Keepers\b")
+KEEPER_SPIRIT = re.compile(r"\b[Kk]in\b|[Rr]iddle|Tòimhseachan|\bspirits?\b|\bgrove\b|Doire ghlas|godfolk|\bgods?\b|"
+                           r"\bgift\b|Tìodhlac|Telling|Aithris|\bdream|\boaks?\b|\bwind\b|\bvoice\b|Coimhdeach|\bcoals\b|"
+                           r"\bmerging\b|\bthree hills\b|\bfires\b|\bcarving\b|\bwoken\b|\bprayed|\bofferings?\b|Seann Spioradan|\bholy\b")
+
+
+def keeper_sense(k, text, s, e):
+    """The Dia-thìris form for "the Keeper" at text[s:e], or None when the sense is unclear."""
+    if k == 'I':
+        return 'Coimhdeach na Fine'
+    if k == 'III':
+        return 'Coimheadaiche na Lasrach'
+    a = max(text.rfind('. ', 0, s), text.rfind('\n', 0, s), text.rfind('? ', 0, s), text.rfind('! ', 0, s))
+    b = min([i for i in (text.find('. ', e), text.find('\n', e), text.find('? ', e), text.find('! ', e)) if i >= 0] or [len(text)])
+    sent = text[a + 1:b + 1]
+    office = len(KEEPER_OFFICE.findall(sent))
+    spirit = len(KEEPER_SPIRIT.findall(sent))
+    if office > spirit:
+        return 'Coimheadaiche na Lasrach'
+    if spirit > office:
+        return 'Coimhdeach na Fine'
+    return None
+
+
 class Converter:
     def __init__(self, k):
         self.k = k
@@ -161,9 +205,7 @@ class Converter:
         if core == 'sacred forest' and re.search(r'Flidais|Muileann chiar', text[e:e + 60]):
             return None             # the forest of Flidais near Muileann chiar, which has no registry name
         if core == 'Keeper':
-            if re.search(r'\bHall\b|flame|Flame|Lasair|Lasrach', sent):
-                return 'Coimheadaiche na Lasrach'
-            return 'Coimhdeach na Fine'
+            return keeper_sense(self.k, text, s, e)
         return dt
 
     def convert(self, text, where, glossary=False):
@@ -292,7 +334,7 @@ def md_file(conv, path, dry):
     return changed
 
 
-JSON_KEYS = {'title', 'body', 'history', 'known_for', 'founded_by', 'note', 'description', 'text'}
+JSON_KEYS = {'title', 'body', 'history', 'known_for', 'founded_by', 'note', 'description', 'text', 'summary'}
 
 
 def json_file(conv, path, dry):
@@ -319,12 +361,14 @@ def json_file(conv, path, dry):
     return changed[0]
 
 
-def run(target, dry):
+def run(target, dry, no_events=False):
     keys = q.KEYS if target == 'all' else [target]
     logs = []
     for k in keys:
         conv = Converter(k)
         files = q.targets(k)
+        if k in q.KEYS and not no_events:   # the chapter writers' event sidecars (events/NN.json: title, summary), drafts
+            files += sorted(glob.glob(os.path.join(q.B.age_dir(k), 'events', '*.json')))
         for f in files:
             if os.path.basename(f) in ('places.json', 'front.json'):
                 continue
@@ -337,11 +381,12 @@ def main():
     ap = argparse.ArgumentParser(description='Put the English proper nouns of a volume in Dia-thìris.')
     ap.add_argument('target', help='I..VII | all | master')
     ap.add_argument('--dry', action='store_true', help='change nothing; print what would change')
+    ap.add_argument('--no-events', action='store_true', help="leave the age's events/*.json sidecars alone")
     ap.add_argument('--show', type=int, default=30, help='changes shown (-1: all)')
     a = ap.parse_args()
     if a.target not in q.KEYS + ['all', 'master']:
         sys.exit('target: I..VII, all or master')
-    for k, conv in run(a.target, a.dry):
+    for k, conv in run(a.target, a.dry, a.no_events):
         lines = ['CHANGE\t%s\t%s\t->\t%s\t|\t%s' % (w, old, new, ctx.replace('\n', ' ')) for w, old, new, ctx in conv.log]
         lines += ['LEFT\t%s\t%s\t(%s)\t|\t%s' % (w, f, why, ctx.replace('\n', ' ')) for w, f, why, ctx in conv.left]
         if not a.dry:

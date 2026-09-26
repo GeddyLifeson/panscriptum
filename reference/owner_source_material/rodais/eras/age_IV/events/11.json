@@ -1,9 +1,9 @@
 [
  {
-  "title": "The taproom tales of the thinning at Seann Skell",
+  "title": "The taproom tales of An Tanachadh at Seann Skell",
   "era_year": 50,
   "after": "III-0029",
-  "summary": "A coal-carrier's widow tells at the harbour-house that the children born to the departed on the far shore carry less in their hands than their parents did, and less again by the third generation. A custodian down from the vein-house answers her over a jug that the coal was never carried in the blood at all, only left behind at Muileann dhearg like a tool in an unvisited shed. Neither tale is tried against anything Seann Skell holds.",
+  "summary": "A coal-carrier's widow tells at the harbour-house that the children born to the departed on the far shore carry less in their hands than their parents did, and less again by the third generation. A custodian down from Taigh na Fèithe answers her over a jug that the coal was never carried in the blood at all, only left behind at Muileann dhearg like a tool in an unvisited shed. Neither tale is tried against anything Seann Skell holds.",
   "category": "coal",
   "people": [],
   "places": [
@@ -39,9 +39,9 @@
   ]
  },
  {
-  "title": "The vein-house's second count made",
+  "title": "Taigh na Fèithe's second count made",
   "era_year": 53,
-  "summary": "Donnchadh mac Thormoid, now nine-and-thirty, carries the greater share of the vein-house's second tallying, checking the roll of the willing against the coal-right's remaining hearths column by column. The count stands where the first count of the roll had stood: one hearth in five gone from the coal-right, no more and no fewer than had sailed.",
+  "summary": "Donnchadh mac Thormoid, now nine-and-thirty, carries the greater share of Taigh na Fèithe's second tallying, checking Rolla nan Deònach against the coal-right's remaining hearths column by column. The count stands where the first count of the roll had stood: one hearth in five gone from the coal-right, no more and no fewer than had sailed.",
   "category": "coal",
   "people": [
    "Donnchadh mac Thormoid"
@@ -85,7 +85,7 @@
  {
   "title": "Beathag reads the second count twice",
   "era_year": 53,
-  "summary": "Queen Beathag nic Dhòmhnaill reads the vein-house's figure of one hand in five, a number she has carried unwritten in her own reckoning since the fleet sailed, and reads Donnchadh's note beneath it a second time more slowly than the first. She sets the leaf down in its place among the season's ordinary business and says no more of it that day.",
+  "summary": "Queen Beathag nic Dhòmhnaill reads Taigh na Fèithe's figure of one hand in five, a number she has carried unwritten in her own reckoning since the fleet sailed, and reads Donnchadh's note beneath it a second time more slowly than the first. She sets the leaf down in its place among the season's ordinary business and says no more of it that day.",
   "category": "rulers",
   "people": [
    "Beathag nic Dhòmhnaill",
@@ -107,7 +107,7 @@
  {
   "title": "The queen first wears the undyed wool",
   "era_year": 53,
-  "summary": "Beathag nic Dhòmhnaill comes into the red hall in plain undyed wool for the first time in more than fifty years of reigning in the deep blue of the house of Dòmhnall, and takes up the day's first petition as though nothing were changed, giving the court no word for it.",
+  "summary": "Beathag nic Dhòmhnaill comes into An Talla Dearg in plain undyed wool for the first time in more than fifty years of reigning in the deep blue of the house of Dòmhnall, and takes up the day's first petition as though nothing were changed, giving the court no word for it.",
   "category": "rulers",
   "people": [
    "Beathag nic Dhòmhnaill"
@@ -149,7 +149,7 @@
  {
   "title": "The rite named an Tùrsa Geal",
   "era_year": 52,
-  "summary": "The court names the queen's mourning an Tùrsa Geal, the white sorrow, and within a generation any household on the island that gave someone to the fleet keeps some form of the same rite unasked, undyed wool and an empty place laid with cup, trencher and straight knife, needing no crown or law behind it.",
+  "summary": "The court names the queen's mourning an Tùrsa Geal, and within a generation any household on the island that gave someone to the fleet keeps some form of the same rite unasked, undyed wool and an empty place laid with cup, trencher and straight knife, needing no crown or law behind it.",
   "category": "faith",
   "people": [
    "Beathag nic Dhòmhnaill"
@@ -168,9 +168,9 @@
   ]
  },
  {
-  "title": "Donnchadh speaks of the Law's limit",
+  "title": "Donnchadh speaks of Lagh an Loscaidh Bhig's limit",
   "era_year": 54,
-  "summary": "At a vein-house sitting called for another matter, Donnchadh mac Thormoid, now its senior clerk, says plainly that the old apprenticeship built for the numbers before the turn has gone as far as the older custodians' own stretching can carry it, and that the vein-house owes itself an honest look at what remains.",
+  "summary": "At a vein-house sitting called for another matter, Donnchadh mac Thormoid, now its senior clerk, says plainly that the old apprenticeship built for the numbers before the turn has gone as far as the older custodians' own stretching can carry it, and that Taigh na Fèithe owes itself an honest look at what remains.",
   "category": "coal",
   "people": [
    "Donnchadh mac Thormoid"
@@ -214,9 +214,9 @@
   ]
  },
  {
-  "title": "The seven houses of custody sworn",
+  "title": "Na Seachd Taighean sworn",
   "era_year": 55,
-  "summary": "The vein-house gathers the remaining custodian households into seven kindreds large enough to answer for a share of the galleries between them: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Their seven heads are sworn before Crom's stone, and the right to the coal passes from that year by house and no longer by apprenticeship alone.",
+  "summary": "Taigh na Fèithe gathers the remaining custodian households into seven kindreds large enough to answer for a share of the galleries between them: Clann Mhuirich, Clann Fhearchair, Clann Ìomhair, Clann Raghnaill, Clann Thormoid, Clann Choinnich and Clann Lachlainn. Their seven heads are sworn before Crom's stone, and the right to the coal passes from that year by house and no longer by apprenticeship alone.",
   "category": "coal",
   "people": [],
   "places": [
@@ -234,9 +234,9 @@
   ]
  },
  {
-  "title": "Donnchadh writes the oath of the seven heads",
+  "title": "Donnchadh writes Mionnan nan Seachd heads",
   "era_year": 55,
-  "summary": "Donnchadh mac Thormoid enters the seven heads' oath into the custody-book in the same plain hand he has kept his whole working life, and finds himself thinking less of the Law than of the fifth of hands the sitting never once named aloud: those fifteen years and a whole sea away, on a shore the book has no line to enter them against.",
+  "summary": "Donnchadh mac Thormoid enters the seven heads' oath into Leabhar a' Chùraim in the same plain hand he has kept his whole working life, and finds himself thinking less of Lagh an Loscaidh Bhig than of the fifth of hands the sitting never once named aloud: those fifteen years and a whole sea away, on a shore the book has no line to enter them against.",
   "category": "coal",
   "people": [
    "Donnchadh mac Thormoid"
@@ -258,7 +258,7 @@
  {
   "title": "Death of Beathag nic Dhòmhnaill at seventy-six",
   "era_year": 55,
-  "summary": "Queen Beathag nic Dhòmhnaill dies at Cathair dhearg in the summer, seventy and six years old, after one-and-sixty years upon the red hall's floor, the oldest of her line and the last ruler who saw the fleet built and sent. She holds a boundary petition to its ordinary end that same morning before going to her rooms and not rising again.",
+  "summary": "Queen Beathag nic Dhòmhnaill dies at Cathair dhearg in the summer, seventy and six years old, after one-and-sixty years upon An Talla Dearg's floor, the oldest of her line and the last ruler who saw the fleet built and sent. She holds a boundary petition to its ordinary end that same morning before going to her rooms and not rising again.",
   "category": "rulers",
   "people": [
    "Beathag nic Dhòmhnaill"
@@ -279,7 +279,7 @@
  {
   "title": "Raghnall mac Uilleim crowned at seven-and-forty",
   "era_year": 55,
-  "summary": "Raghnall mac Uilleim, son of Beathag and of Uilleam mac Iain, is crowned in the red hall within the month of his mother's death, seven-and-forty years old and long seated at her board. He wears a strip of undyed wool beneath his crowning colours, a thing he grew up watching his mother wear and never asked leave to wear himself.",
+  "summary": "Raghnall mac Uilleim, son of Beathag and of Uilleam mac Iain, is crowned in An Talla Dearg within the month of his mother's death, seven-and-forty years old and long seated at her board. He wears a strip of undyed wool beneath his crowning colours, a thing he grew up watching his mother wear and never asked leave to wear himself.",
   "category": "rulers",
   "people": [
    "Raghnall mac Uilleim",

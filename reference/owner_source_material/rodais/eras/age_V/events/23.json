@@ -1,175 +1,293 @@
 [
-  {
-    "title": "Tolley issues the Levy",
-    "era_year": 88,
-    "summary": "At Ros dhomhain, George Tolley sets his seal to the ordinance called An Togail, the Levy: one soul in five of the able grown folk of every farming village of the west and north, taken for two years to the pits, the villages paid in marks at the rate of the second coin reform.",
-    "category": "law",
-    "people": ["George Tolley"],
-    "places": ["burg:27"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0181"]
-  },
-  {
-    "title": "The Levy's first tally read at Caol mhòr",
-    "era_year": 88,
-    "summary": "The Levy's officers hold their first reading at the steelyard of Caol mhòr, calling the chosen from a list in the humans' tongue. The town's custodians write the names again in Dia-thìris from house to house, matching a guessed shape to a face.",
-    "category": "people",
-    "people": [],
-    "places": ["burg:95"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0182"]
-  },
-  {
-    "title": "The wrong son taken at Caol mhòr",
-    "era_year": 88,
-    "summary": "A guessed name is matched to the wrong face at Caol mhòr's reading, and a son is marched a day's walk east before the error is found. The right man is fetched in his place; the officers' own tally and the town's roll never afterward agree by one head.",
-    "category": "people",
-    "people": [],
-    "places": ["burg:95"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0182"]
-  },
-  {
-    "title": "The concession's human farmers spared the Levy",
-    "era_year": 88,
-    "summary": "In the northern concession the Levy falls on every Dia-thìreach household while the Administration's own leaseholders pay nothing, the officers' list giving the reason that the concession's tenants answer to the Administration's leave alone.",
-    "category": "humans",
-    "people": [],
-    "places": ["province:105"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0183"]
-  },
-  {
-    "title": "Baile ìseal sends forty-one to the pits",
-    "era_year": 88,
-    "summary": "Baile ìseal's tally takes forty-one of its people, the largest of any single town. Nineteen return when their term is done; the custodian's roll names the other twenty-two among the camps they were carried to, four with no camp given at all.",
-    "category": "people",
-    "people": [],
-    "places": ["burg:306"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0184"]
-  },
-  {
-    "title": "Muileann naomh's silver taken with its whole tally",
-    "era_year": 88,
-    "summary": "The custodians of Muileann naomh offer the Levy's officers silver to halve the town's tally. The officers weigh the purse, keep it as an offering to the Company's granary, and read the whole list uncut. No other town on record afterward offers a bribe.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:247"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0185"]
-  },
-  {
-    "title": "The Deer hall at Dùn thais shut",
-    "era_year": 88,
-    "summary": "Tolley's clerk shuts the druid school's Deer hall at Dùn thais over a lecture asking whether the humans' plain blindness to the coal's colours is a sickness in its own right. The masters go on teaching in their own houses, to smaller rooms each year.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:77"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": ["IV-0186"]
-  },
-  {
-    "title": "The last disputation at Doire chiar",
-    "era_year": 88,
-    "summary": "On the eve of Bealltainn the masters hold the schools' last open disputation on the threshing-floor at Doire chiar, before three parishes' folk, on whether a question may rightly be forbidden. The Administration's own clerk notes that it may.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:333"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": ["IV-0187"]
-  },
-  {
-    "title": "Teaching begins under the trees of Flidais",
-    "era_year": 89,
-    "summary": "Masters who can no longer teach in a shuttable hall bring their pupils under the trees of Flidais's sacred forest near Muileann chiar, where the white stag is said to walk, and take up again the very question that closed the hall at Dùn thais.",
-    "category": "faith",
-    "people": [],
-    "places": ["marker:23"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": ["IV-0188"]
-  },
-  {
-    "id": "EV-4007",
-    "title": "The Levy read at Cnoc thais",
-    "era_year": 88,
-    "summary": "The Levy's officers read their list at Cnoc thais, and the mason Dùghall Clachair hears his own name and his whole crew's called for the pits. Two days into the eastward march they are turned out instead to the headland at Baile chrom, where the fifth and last coast beacon is begun.",
-    "category": "coal",
-    "people": ["Dùghall Clachair"],
-    "places": ["burg:269", "marker:12"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0189", "IV-0190"]
-  },
-  {
-    "title": "The masons' camp above Baile chrom",
-    "era_year": 88,
-    "summary": "Levy-taken crews from five villages are housed together in a turf-and-driftwood camp on the Baile chrom headland, above sixty masons and apprentices sharing one fire and one quarry, while their own villages' fields stand untilled for want of them.",
-    "category": "coal",
-    "people": ["Dùghall Clachair"],
-    "places": ["marker:12"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0189"]
-  },
-  {
-    "title": "A gale strips the beacon's scaffold",
-    "era_year": 89,
-    "summary": "A two-day gale out of the north-west tears the scaffolding from the third course of the rising tower at Baile chrom. Dùghall Clachair climbs the bare walls alone in the wind to judge whether the stone has shifted; it has not.",
-    "category": "coal",
-    "people": ["Dùghall Clachair"],
-    "places": ["marker:12"],
-    "threads": [],
-    "master_links": ["IV-0189"]
-  },
-  {
-    "title": "The ring of five beacons complete",
-    "era_year": 90,
-    "summary": "The tower at Baile chrom is raised to its full height, and the ring of coast beacons stands whole for the first time: Baile chrom, Baile ìseal, Muileann bheag, Àth dhearg and Tobar dhearg, so that a ship may run the coast by night without losing a light from sight.",
-    "category": "coal",
-    "people": [],
-    "places": ["marker:12"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0191"]
-  },
-  {
-    "title": "Cuan ruadh's coasting trade ends",
-    "era_year": 90,
-    "summary": "With the ring of beacons whole, the Company's steamers round the island without putting in at Cuan ruadh, and the town's old coasting boats, which had carried goods by day along a shore too dangerous to run by night, are laid up within a few years.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:119"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0192"]
-  },
-  {
-    "id": "EV-4008",
-    "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
-    "era_year": 90,
-    "summary": "Uisdean mac Lachlainn of the headland villages is named the beacon's first keeper, on the recommendation of the very masons who built it: Dùghall Clachair among them, who signed the letter along with two of his crew.",
-    "category": "people",
-    "people": ["Uisdean mac Lachlainn", "Dùghall Clachair"],
-    "places": ["marker:12"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0193"]
-  },
-  {
-    "id": "EV-4009",
-    "title": "The masons' names cut into the lamp-room lintel",
-    "era_year": 91,
-    "summary": "On the last evening of his crew's Levy-term, Dùghall Clachair cuts the names of his six masons into the underside of the lamp-room's lintel at Baile chrom, unasked by any order. It is the only writing on any of the five towers of the ring.",
-    "category": "coal",
-    "people": ["Dùghall Clachair"],
-    "places": ["marker:12"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0190"]
-  },
-  {
-    "title": "Taigh-solais Baile chrom lit",
-    "era_year": 91,
-    "summary": "Uisdean mac Lachlainn strikes the coal flame of Taigh-solais Baile chrom for the first time, with the masons who built it at his back. Within a very few years the keepers' daybooks show the Company's sailings past the headland doubled and doubled again.",
-    "category": "coal",
-    "people": ["Uisdean mac Lachlainn", "Dùghall Clachair"],
-    "places": ["marker:12"],
-    "threads": ["the-company"],
-    "master_links": ["IV-0193"]
-  }
+ {
+  "title": "Tolley issues An Togail",
+  "era_year": 88,
+  "summary": "At Ros dhomhain, George Tolley sets his seal to the ordinance called An Togail: one soul in five of the able grown folk of every farming village of the west and north, taken for two years to the pits, the villages paid in marks at the rate of the second coin reform.",
+  "category": "law",
+  "people": [
+   "George Tolley"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0181"
+  ]
+ },
+ {
+  "title": "An Togail's first tally read at Caol mhòr",
+  "era_year": 88,
+  "summary": "An Togail's officers hold their first reading at the steelyard of Caol mhòr, calling the chosen from a list in the humans' tongue. The town's custodians write the names again in Dia-thìris from house to house, matching a guessed shape to a face.",
+  "category": "people",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0182"
+  ]
+ },
+ {
+  "title": "The wrong son taken at Caol mhòr",
+  "era_year": 88,
+  "summary": "A guessed name is matched to the wrong face at Caol mhòr's reading, and a son is marched a day's walk east before the error is found. The right man is fetched in his place; the officers' own tally and the town's roll never afterward agree by one head.",
+  "category": "people",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0182"
+  ]
+ },
+ {
+  "title": "The concession's human farmers spared An Togail",
+  "era_year": 88,
+  "summary": "In the northern concession An Togail falls on every Dia-thìreach household while Riaghaltas nan Coigreach's own leaseholders pay nothing, the officers' list giving the reason that the concession's tenants answer to Riaghaltas nan Coigreach's leave alone.",
+  "category": "humans",
+  "people": [],
+  "places": [
+   "province:105"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0183"
+  ]
+ },
+ {
+  "title": "Baile ìseal sends forty-one to the pits",
+  "era_year": 88,
+  "summary": "Baile ìseal's tally takes forty-one of its people, the largest of any single town. Nineteen return when their term is done; the custodian's roll names the other twenty-two among the camps they were carried to, four with no camp given at all.",
+  "category": "people",
+  "people": [],
+  "places": [
+   "burg:306"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0184"
+  ]
+ },
+ {
+  "title": "Muileann naomh's silver taken with its whole tally",
+  "era_year": 88,
+  "summary": "The custodians of Muileann naomh offer An Togail's officers silver to halve the town's tally. The officers weigh the purse, keep it as an offering to Sìol-lann na Companaidh, and read the whole list uncut. No other town on record afterward offers a bribe.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:247"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0185"
+  ]
+ },
+ {
+  "title": "Feallsanachd an Fhèidh's hall at Dùn thais shut",
+  "era_year": 88,
+  "summary": "Tolley's clerk shuts Scoiltean nan Draoidhean's Feallsanachd an Fhèidh's hall at Dùn thais over a lecture asking whether the humans' plain blindness to the coal's colours is a sickness in its own right. The masters go on teaching in their own houses, to smaller rooms each year.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0186"
+  ]
+ },
+ {
+  "title": "The last disputation at Doire chiar",
+  "era_year": 88,
+  "summary": "On the eve of Bealltainn the masters hold the schools' last open disputation on the threshing-floor at Doire chiar, before three parishes' folk, on whether a question may rightly be forbidden. Riaghaltas nan Coigreach's own clerk notes that it may.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:333"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0187"
+  ]
+ },
+ {
+  "title": "Teaching begins under the trees of Flidais",
+  "era_year": 89,
+  "summary": "Masters who can no longer teach in a shuttable hall bring their pupils under the trees of Flidais's sacred forest near Muileann chiar, where the white stag is said to walk, and take up again the very question that closed the hall at Dùn thais.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "marker:23"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "IV-0188"
+  ]
+ },
+ {
+  "id": "EV-4007",
+  "title": "An Togail read at Cnoc thais",
+  "era_year": 88,
+  "summary": "An Togail's officers read their list at Cnoc thais, and the mason Dùghall Clachair hears his own name and his whole crew's called for the pits. Two days into the eastward march they are turned out instead to the headland at Baile chrom, where the fifth and last coast beacon is begun.",
+  "category": "coal",
+  "people": [
+   "Dùghall Clachair"
+  ],
+  "places": [
+   "burg:269",
+   "marker:12"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0189",
+   "IV-0190"
+  ]
+ },
+ {
+  "title": "The masons' camp above Baile chrom",
+  "era_year": 88,
+  "summary": "Levy-taken crews from five villages are housed together in a turf-and-driftwood camp on the Baile chrom headland, above sixty masons and apprentices sharing one fire and one quarry, while their own villages' fields stand untilled for want of them.",
+  "category": "coal",
+  "people": [
+   "Dùghall Clachair"
+  ],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0189"
+  ]
+ },
+ {
+  "title": "A gale strips the beacon's scaffold",
+  "era_year": 89,
+  "summary": "A two-day gale out of the north-west tears the scaffolding from the third course of the rising tower at Baile chrom. Dùghall Clachair climbs the bare walls alone in the wind to judge whether the stone has shifted; it has not.",
+  "category": "coal",
+  "people": [
+   "Dùghall Clachair"
+  ],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [],
+  "master_links": [
+   "IV-0189"
+  ]
+ },
+ {
+  "title": "The ring of five beacons complete",
+  "era_year": 90,
+  "summary": "The tower at Baile chrom is raised to its full height, and the ring of coast beacons stands whole for the first time: Baile chrom, Baile ìseal, Muileann bheag, Àth dhearg and Tobar dhearg, so that a ship may run the coast by night without losing a light from sight.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0191"
+  ]
+ },
+ {
+  "title": "Cuan ruadh's coasting trade ends",
+  "era_year": 90,
+  "summary": "With Fàinne nan Teintean-rabhaidh whole, A' Chompanaidh's steamers round the island without putting in at Cuan ruadh, and the town's old coasting boats, which had carried goods by day along a shore too dangerous to run by night, are laid up within a few years.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:119"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0192"
+  ]
+ },
+ {
+  "id": "EV-4008",
+  "title": "Uisdean mac Lachlainn named keeper of Taigh-solais Baile chrom",
+  "era_year": 90,
+  "summary": "Uisdean mac Lachlainn of the headland villages is named the beacon's first keeper, on the recommendation of the very masons who built it: Dùghall Clachair among them, who signed the letter along with two of his crew.",
+  "category": "people",
+  "people": [
+   "Uisdean mac Lachlainn",
+   "Dùghall Clachair"
+  ],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0193"
+  ]
+ },
+ {
+  "id": "EV-4009",
+  "title": "The masons' names cut into the lamp-room lintel",
+  "era_year": 91,
+  "summary": "On the last evening of his crew's Levy-term, Dùghall Clachair cuts the names of his six masons into the underside of the lamp-room's lintel at Baile chrom, unasked by any order. It is the only writing on any of the five towers of the ring.",
+  "category": "coal",
+  "people": [
+   "Dùghall Clachair"
+  ],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0190"
+  ]
+ },
+ {
+  "title": "Taigh-solais Baile chrom lit",
+  "era_year": 91,
+  "summary": "Uisdean mac Lachlainn strikes the coal flame of Taigh-solais Baile chrom for the first time, with the masons who built it at his back. Within a very few years the keepers' daybooks show A' Chompanaidh's sailings past the headland doubled and doubled again.",
+  "category": "coal",
+  "people": [
+   "Uisdean mac Lachlainn",
+   "Dùghall Clachair"
+  ],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [
+   "the-company"
+  ],
+  "master_links": [
+   "IV-0193"
+  ]
+ }
 ]

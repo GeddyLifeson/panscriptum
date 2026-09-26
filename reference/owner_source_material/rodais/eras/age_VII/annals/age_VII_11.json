@@ -64,8 +64,8 @@
   },
   {
    "id": "EVII-6003",
-   "title": "The Board ends the coal trade outside An Sloc Mòr",
-   "body": "Fearghas mac Aonghais's office notes that the trade in coal-fuel is at an end on the island outside what the Board still cuts for its own account at An Sloc Mòr: not forbidden by any law, but ended by there being, at last, nowhere left to sell it.",
+   "title": "Comhairle nam Mèinnean ends the coal trade outside An Sloc Mòr",
+   "body": "Fearghas mac Aonghais's office notes that the trade in coal-fuel is at an end on the island outside what Comhairle nam Mèinnean still cuts for its own account at An Sloc Mòr: not forbidden by any law, but ended by there being, at last, nowhere left to sell it.",
    "place": "burg:23",
    "kind": "trade",
    "category": "trade",
@@ -711,7 +711,7 @@
   {
    "id": "EVII-6025",
    "title": "An seachdamh rèisimeid's captain lets the cairn stand",
-   "body": "Asked whether to clear the cairn the Tuathaich have raised on Àraich Àth leathan, the Board answers that its captain may use his own judgment; he tells his patrols to walk past it and count the stones if they wish, and report only what is found beneath one.",
+   "body": "Asked whether to clear the cairn the Tuathaich have raised on Àraich Àth leathan, Comhairle nam Mèinnean answers that its captain may use his own judgment; he tells his patrols to walk past it and count the stones if they wish, and report only what is found beneath one.",
    "place": "marker:18",
    "kind": "war",
    "category": "war",
@@ -818,7 +818,7 @@
   {
    "id": "EVII-6029",
    "title": "The forge at Caol ìseal takes on new hands",
-   "body": "The woman who masters the forge at Caol ìseal, left her by a father with no son to leave it to, takes on four boys and a girl under the arms contract and tells the Board's inspector she means to keep them past the contract's term, war or no war.",
+   "body": "The woman who masters the forge at Caol ìseal, left her by a father with no son to leave it to, takes on four boys and a girl under the arms contract and tells Comhairle nam Mèinnean's inspector she means to keep them past the contract's term, war or no war.",
    "place": "burg:208",
    "kind": "trade",
    "category": "trade",

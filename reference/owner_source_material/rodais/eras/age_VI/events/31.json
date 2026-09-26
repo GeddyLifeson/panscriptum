@@ -1,256 +1,256 @@
 [
-  {
-    "title": "The old druid houses mended before the teaching",
-    "era_year": 46,
-    "summary": "Before a single lecture is given, villagers near Muileann chiar mend the doors and sills of the long-shut druid house with green timber and their own hands, asking no wage beyond a bench kept for them once the teaching begins.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:78"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0162"
-    ]
-  },
-  {
-    "title": "An old cutter's son questions Seonaid nic Ghill-Eathain",
-    "era_year": 46,
-    "summary": "After her first lecture in the sacred wood, an old man whose father kept the Holy Age strike-books asks Seonaid nic Ghill-Eathain whether she means to answer her own question before she finishes teaching it. She tells him plainly that she does not.",
-    "category": "faith",
-    "people": [
-      "Seonaid nic Ghill-Eathain"
-    ],
-    "places": [
-      "burg:78"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0163"
-    ]
-  },
-  {
-    "title": "The Baile gharbh teachers' first walk south",
-    "era_year": 47,
-    "summary": "Teachers of the reopened druid houses in Siorrachd Baile gharbh walk the better part of a week to hear Seonaid nic Ghill-Eathain teach in the sacred wood before daring to open the question in their own halls, and do not miss a winter's walk after.",
-    "category": "faith",
-    "people": [
-      "Seonaid nic Ghill-Eathain"
-    ],
-    "places": [
-      "burg:131",
-      "burg:78"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0164"
-    ]
-  },
-  {
-    "title": "The census line argued by lamplight at Caol shean",
-    "era_year": 47,
-    "summary": "In the wet-house at Caol shean a miller's son newly come to the school asks why the census line for the coal-touched should be a matter no one may question, when the vein itself is questioned daily under the same roof; the argument runs past the hour the hearth is banked.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:197"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith",
-      "the-coal-blood"
-    ],
-    "master_links": [
-      "V-0165"
-    ]
-  },
-  {
-    "title": "The Muileann dhearg hall given back to the school",
-    "era_year": 47,
-    "summary": "The Guild of Hewers' captains give the school the hall at Muileann dhearg, shut since a gallery there closed three years before, on the one condition that nothing taught in it name a living captain or gallery; the school keeps to it gladly.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:491"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0165"
-    ]
-  },
-  {
-    "title": "The Hawk's terms read a seventh time",
-    "era_year": 47,
-    "summary": "At a council of the Rite at Seann Skell on the southern coast, the high custodian's clerks read the Hawk houses of Cnoc bheag the same settlement offered six times before; this time no witness raises the old objection, and the terms stand.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:431",
-      "burg:20"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0166"
-    ]
-  },
-  {
-    "title": "Daniel Frayne opens his bindery at Muileann leathan",
-    "era_year": 48,
-    "summary": "Daniel Frayne builds a press from a mended cider-press and teaches young Tuathaich hands to fold, sew and board a book, a craft the southern guilds have never let a Tuathaich learn under their own mark; he asks no guild's leave to teach it.",
-    "category": "law",
-    "people": [
-      "Daniel Frayne"
-    ],
-    "places": [
-      "burg:234"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "V-0168"
-    ]
-  },
-  {
-    "title": "Frayne's first bindings sold south without his name",
-    "era_year": 48,
-    "summary": "The bindery's first plain-calf volumes, carrying no maker's name, are carried south with the wool carts and sold to Dia-thìreach households who praise the binding's neatness to Frayne's own face, none of them knowing whose pupils' hands had actually sewn the spine they hold.",
-    "category": "trade",
-    "people": [
-      "Daniel Frayne"
-    ],
-    "places": [
-      "burg:234"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "V-0168"
-    ]
-  },
-  {
-    "title": "The first stone of the Caol chrom breakwater",
-    "era_year": 48,
-    "summary": "Caol chrom and its neighbour across the strait lay the first stone of a shared breakwater, the longest yet built on the island, meant to close a strait that has drowned more boats in a hard winter than either shire's harbour dues could bear alone.",
-    "category": "land",
-    "people": [],
-    "places": [
-      "burg:133"
-    ],
-    "master_links": [
-      "V-0167"
-    ],
-    "threads": []
-  },
-  {
-    "title": "The old boatman's licence at Cidhe Beag",
-    "era_year": 48,
-    "summary": "The boatman who has rowed the crossing at Cidhe Beag on the Abhainn uaine for forty years without leave asked or given is granted a licence at last by the shire's maor, more for the shire's own records than for any change in how he rows or reckons his fare.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:44"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0169"
-    ]
-  },
-  {
-    "title": "Tormod Pinn marks the two Dùn thais west and east",
-    "era_year": 48,
-    "summary": "Finding the Crown's returns beginning to run its two towns of one name together, Tormod Pinn rules a fresh line across the royal record marking Dùn thais in the west against Dùn thais in the east, and sends word to both shires' clerks to take more care.",
-    "category": "law",
-    "people": [
-      "Tormod Pinn"
-    ],
-    "places": [
-      "burg:8",
-      "burg:77"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "V-0166"
-    ]
-  },
-  {
-    "title": "Three slates carried to Caol shean",
-    "era_year": 49,
-    "summary": "Three of Seonaid nic Ghill-Eathain's students ride from the sacred wood to copy the pillar near Cnoc chiar, the obelisk over Cnoc bheag's quays and the column at Cnoc ghorm onto separate slates, and carry them back through the rain to lay side by side.",
-    "category": "faith",
-    "people": [
-      "Seonaid nic Ghill-Eathain"
-    ],
-    "places": [
-      "burg:243",
-      "burg:20",
-      "burg:142"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0171"
-    ]
-  },
-  {
-    "title": "A mark in common on three stones",
-    "era_year": 49,
-    "summary": "Comparing the three copied slates by lamplight, the students of Caol shean find a mark like a bent reed and a straight double stroke cut on all three stones and nowhere else known to them, and no meaning in either that any among them can bring out.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:197"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0171"
-    ]
-  },
-  {
-    "title": "Seonaid nic Ghill-Eathain writes the Old Ones' sentence",
-    "era_year": 49,
-    "summary": "Reading the three slates laid together at Caol shean, Seonaid nic Ghill-Eathain writes that the Old Ones were here and said so, and that none living can hear what they said; her students copy the sentence into every school's minute-book after her.",
-    "category": "faith",
-    "people": [
-      "Seonaid nic Ghill-Eathain"
-    ],
-    "places": [
-      "burg:197"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "V-0171"
-    ]
-  },
-  {
-    "title": "A Baile gharbh teacher's minute of the walk",
-    "era_year": 47,
-    "summary": "The youngest of the Baile gharbh teachers, a woman not yet twenty on her first walk south to the sacred wood, writes of the journey in her school's own minute-book, and her school does not miss a winter's walk after.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:131"
-    ],
-    "threads": [],
-    "master_links": [
-      "V-0164"
-    ]
-  }
+ {
+  "title": "The old druid houses mended before the teaching",
+  "era_year": 46,
+  "summary": "Before a single lecture is given, villagers near Muileann chiar mend the doors and sills of the long-shut druid house with green timber and their own hands, asking no wage beyond a bench kept for them once the teaching begins.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:78"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0162"
+  ]
+ },
+ {
+  "title": "An old cutter's son questions Seonaid nic Ghill-Eathain",
+  "era_year": 46,
+  "summary": "After her first lecture in the sacred wood, an old man whose father kept An Aois Naomh strike-books asks Seonaid nic Ghill-Eathain whether she means to answer her own question before she finishes teaching it. She tells him plainly that she does not.",
+  "category": "faith",
+  "people": [
+   "Seonaid nic Ghill-Eathain"
+  ],
+  "places": [
+   "burg:78"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0163"
+  ]
+ },
+ {
+  "title": "The Baile gharbh teachers' first walk south",
+  "era_year": 47,
+  "summary": "Teachers of the reopened druid houses in Siorrachd Baile gharbh walk the better part of a week to hear Seonaid nic Ghill-Eathain teach in the sacred wood before daring to open the question in their own halls, and do not miss a winter's walk after.",
+  "category": "faith",
+  "people": [
+   "Seonaid nic Ghill-Eathain"
+  ],
+  "places": [
+   "burg:131",
+   "burg:78"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0164"
+  ]
+ },
+ {
+  "title": "The census line argued by lamplight at Caol shean",
+  "era_year": 47,
+  "summary": "In the wet-house at Caol shean a miller's son newly come to the school asks why the census line for fuil-ghuail should be a matter no one may question, when the vein itself is questioned daily under the same roof; the argument runs past the hour the hearth is banked.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:197"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-coal-blood"
+  ],
+  "master_links": [
+   "V-0165"
+  ]
+ },
+ {
+  "title": "The Muileann dhearg hall given back to the school",
+  "era_year": 47,
+  "summary": "Comann nan Gualadairean' captains give the school the hall at Muileann dhearg, shut since a gallery there closed three years before, on the one condition that nothing taught in it name a living captain or gallery; the school keeps to it gladly.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0165"
+  ]
+ },
+ {
+  "title": "Òrd an t-Seabhaig's terms read a seventh time",
+  "era_year": 47,
+  "summary": "At a council of Deas-ghnàth a' Ghuail at Seann Skell on the southern coast, Àrd-choimheadaiche's clerks read Òrd an t-Seabhaig of Cnoc bheag the same settlement offered six times before; this time no witness raises the old objection, and the terms stand.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:431",
+   "burg:20"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0166"
+  ]
+ },
+ {
+  "title": "Daniel Frayne opens his bindery at Muileann leathan",
+  "era_year": 48,
+  "summary": "Daniel Frayne builds a press from a mended cider-press and teaches young Tuathaich hands to fold, sew and board a book, a craft the southern guilds have never let a Tuathaich learn under their own mark; he asks no guild's leave to teach it.",
+  "category": "law",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:234"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0168"
+  ]
+ },
+ {
+  "title": "Frayne's first bindings sold south without his name",
+  "era_year": 48,
+  "summary": "The bindery's first plain-calf volumes, carrying no maker's name, are carried south with the wool carts and sold to Dia-thìreach households who praise the binding's neatness to Frayne's own face, none of them knowing whose pupils' hands had actually sewn the spine they hold.",
+  "category": "trade",
+  "people": [
+   "Daniel Frayne"
+  ],
+  "places": [
+   "burg:234"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0168"
+  ]
+ },
+ {
+  "title": "The first stone of the Caol chrom breakwater",
+  "era_year": 48,
+  "summary": "Caol chrom and its neighbour across the strait lay the first stone of a shared breakwater, the longest yet built on the island, meant to close a strait that has drowned more boats in a hard winter than either shire's harbour dues could bear alone.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:133"
+  ],
+  "master_links": [
+   "V-0167"
+  ],
+  "threads": []
+ },
+ {
+  "title": "The old boatman's licence at Cidhe Beag",
+  "era_year": 48,
+  "summary": "The boatman who has rowed the crossing at Cidhe Beag on the Abhainn uaine for forty years without leave asked or given is granted a licence at last by the shire's maor, more for the shire's own records than for any change in how he rows or reckons his fare.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0169"
+  ]
+ },
+ {
+  "title": "Tormod Pinn marks the two Dùn thais west and east",
+  "era_year": 48,
+  "summary": "Finding An Crùn's returns beginning to run its two towns of one name together, Tormod Pinn rules a fresh line across the royal record marking Dùn thais in the west against Dùn thais in the east, and sends word to both shires' clerks to take more care.",
+  "category": "law",
+  "people": [
+   "Tormod Pinn"
+  ],
+  "places": [
+   "burg:8",
+   "burg:77"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0166"
+  ]
+ },
+ {
+  "title": "Three slates carried to Caol shean",
+  "era_year": 49,
+  "summary": "Three of Seonaid nic Ghill-Eathain's students ride from the sacred wood to copy Colbh Cnoc chiar, the obelisk over Cnoc bheag's quays and Calbh Cnoc ghorm onto separate slates, and carry them back through the rain to lay side by side.",
+  "category": "faith",
+  "people": [
+   "Seonaid nic Ghill-Eathain"
+  ],
+  "places": [
+   "burg:243",
+   "burg:20",
+   "burg:142"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0171"
+  ]
+ },
+ {
+  "title": "A mark in common on three stones",
+  "era_year": 49,
+  "summary": "Comparing the three copied slates by lamplight, the students of Caol shean find a mark like a bent reed and a straight double stroke cut on all three stones and nowhere else known to them, and no meaning in either that any among them can bring out.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:197"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0171"
+  ]
+ },
+ {
+  "title": "Seonaid nic Ghill-Eathain writes Seann-Dhaoine' sentence",
+  "era_year": 49,
+  "summary": "Reading the three slates laid together at Caol shean, Seonaid nic Ghill-Eathain writes that Seann-Dhaoine were here and said so, and that none living can hear what they said; her students copy the sentence into every school's minute-book after her.",
+  "category": "faith",
+  "people": [
+   "Seonaid nic Ghill-Eathain"
+  ],
+  "places": [
+   "burg:197"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0171"
+  ]
+ },
+ {
+  "title": "A Baile gharbh teacher's minute of the walk",
+  "era_year": 47,
+  "summary": "The youngest of the Baile gharbh teachers, a woman not yet twenty on her first walk south to the sacred wood, writes of the journey in her school's own minute-book, and her school does not miss a winter's walk after.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:131"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0164"
+  ]
+ }
 ]

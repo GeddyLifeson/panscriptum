@@ -23,7 +23,7 @@
  {
   "title": "Dòmhnall mac Ailein's first preaching on the strand",
   "era_year": 405,
-  "summary": "A net-maker of Inis thais, thirty-five years old, begins telling the men who mend nets beside him that the town's old wolf-stone is Lia Fàil, and that its watching families are the Fianna, sworn to keep the whole island as a wolf keeps its range. His hearers grow through the year into the first gathering of the order of the Stone at Inis thais.",
+  "summary": "A net-maker of Inis thais, thirty-five years old, begins telling the men who mend nets beside him that the town's old wolf-stone is Lia Fàil, and that its watching families are an Fhianna, sworn to keep the whole island as a wolf keeps its range. His hearers grow through the year into the first gathering of Òrd na Cloiche at Inis thais.",
   "category": "faith",
   "people": [
    "Dòmhnall mac Ailein"
@@ -87,7 +87,7 @@
  {
   "title": "The tide-horn of the wolf-stone shrine",
   "era_year": 420,
-  "summary": "The Fianna of the Stone at Inis thais take up a horn blown at every turn of the tide, its blowing passed by lot among the watching households. Within a few years the town sets its morning's business by the horn without a thought for what it was first blown to mark.",
+  "summary": "An Fhianna at Inis thais take up a horn blown at every turn of the tide, its blowing passed by lot among the watching households. Within a few years the town sets its morning's business by the horn without a thought for what it was first blown to mark.",
   "category": "faith",
   "people": [],
   "places": [
@@ -99,9 +99,9 @@
   "master_links": []
  },
  {
-  "title": "The naming of the Stone carried inland by a hide-trader",
+  "title": "The naming of Lia Fàil carried inland by a hide-trader",
   "era_year": 421,
-  "summary": "A fisherman of Inis thais who has heard Dòmhnall mac Ailein twice repeats the naming of the Stone to three inland villages while selling hides that winter, none of which he visits again. The teaching spreads in threads too small to trace to their source.",
+  "summary": "A fisherman of Inis thais who has heard Dòmhnall mac Ailein twice repeats the naming of Lia Fàil to three inland villages while selling hides that winter, none of which he visits again. The teaching spreads in threads too small to trace to their source.",
   "category": "faith",
   "people": [],
   "places": [
@@ -118,9 +118,9 @@
   ]
  },
  {
-  "title": "The Hawk and the Fianna claim the same feast day at Caol leathan",
+  "title": "Òrd an t-Seabhaig and an Fhianna claim the same feast day at Caol leathan",
   "era_year": 427,
-  "summary": "The priests of the Hawk and the Fianna of the Stone both come to the harbour shrine at Caol leathan for the same morning's hours, the Hawk's reckoning and the Stone's vigil falling that year on the same day. Neither will give way.",
+  "summary": "The priests of Òrd an t-Seabhaig and an Fhianna both come to the harbour shrine at Caol leathan for the same morning's hours, Òrd an t-Seabhaig's reckoning and Òrd na Cloiche's vigil falling that year on the same day. Neither will give way.",
   "category": "faith",
   "people": [],
   "places": [
@@ -139,7 +139,7 @@
  {
   "title": "Murchadh mac Ailpein divides the shrine's days",
   "era_year": 429,
-  "summary": "The king's reeve at Caol leathan, Murchadh mac Ailpein, halves the harbour shrine's hours between the Hawk and the Fianna, as the sacred woods of an older age were once divided, and nails the division on a strip of hide to the shrine door.",
+  "summary": "The king's reeve at Caol leathan, Murchadh mac Ailpein, halves the harbour shrine's hours between Òrd an t-Seabhaig and an Fhianna, as the sacred woods of an older age were once divided, and nails the division on a strip of hide to the shrine door.",
   "category": "faith",
   "people": [
    "Murchadh mac Ailpein"
@@ -160,7 +160,7 @@
  {
   "title": "Ailig an Òir forfeits a season's amber",
   "era_year": 436,
-  "summary": "An amber-worker of Seann Skell on the Hawk bay is caught selling rough amber outside the new walls against his own guild's oath, and is made by that guild to forfeit the whole season's gathering to the market fund rather than face the crown's reeve.",
+  "summary": "An amber-worker of Seann Skell on Bàgh an t-Seabhaig is caught selling rough amber outside the new walls against his own guild's oath, and is made by that guild to forfeit the whole season's gathering to the market fund rather than face the crown's reeve.",
   "category": "trade",
   "people": [
    "Ailig an Òir"
@@ -179,7 +179,7 @@
  {
   "title": "Death of Dòmhnall mac Ailein",
   "era_year": 440,
-  "summary": "Dòmhnall mac Ailein dies at Inis thais in his seventieth year, having taught on the strand five-and-thirty years without ever taking up an office in the order his hearers named after his teaching. The Fianna of the Stone carry him to the shrine and set him before it, not within it.",
+  "summary": "Dòmhnall mac Ailein dies at Inis thais in his seventieth year, having taught on the strand five-and-thirty years without ever taking up an office in the order his hearers named after his teaching. An Fhianna carry him to the shrine and set him before it, not within it.",
   "category": "faith",
   "people": [
    "Dòmhnall mac Ailein",
@@ -201,7 +201,7 @@
  {
   "title": "King Aonghas recalls his father's teaching on the two horses",
   "era_year": 441,
-  "summary": "Before he takes up the wood-watchers' rite himself, King Aonghas mac Uisdein recalls being told as a boy that one horse pulling alone draws a chariot only in a circle, and that it takes two, pulling together and never quite agreeing, to pull it straight.",
+  "summary": "Before he takes up Òrd Mhacha' rite himself, King Aonghas mac Uisdein recalls being told as a boy that one horse pulling alone draws a chariot only in a circle, and that it takes two, pulling together and never quite agreeing, to pull it straight.",
   "category": "faith",
   "people": [
    "Aonghas mac Uisdein"
@@ -220,9 +220,9 @@
   ]
  },
  {
-  "title": "A councillor warns Aonghas against the wood-watchers' rite",
+  "title": "A councillor warns Aonghas against Òrd Mhacha' rite",
   "era_year": 441,
-  "summary": "An old councillor of the red hall warns King Aonghas that a crown seen at a moor-custom may be asked by the seven houses why it will not be seen at theirs. Aonghas answers that any house is free to come and stand at a yoke-pole itself.",
+  "summary": "An old councillor of An Talla Dearg warns King Aonghas that a crown seen at a moor-custom may be asked by Na Seachd Taighean why it will not be seen at theirs. Aonghas answers that any house is free to come and stand at a yoke-pole itself.",
   "category": "faith",
   "people": [
    "Aonghas mac Uisdein"
@@ -241,9 +241,9 @@
   ]
  },
  {
-  "title": "Half the red hall's household takes up the rite of Macha",
+  "title": "Half An Talla Dearg's household takes up the rite of Macha",
   "era_year": 442,
-  "summary": "Within a year of King Aonghas standing at the yoke-pole of the wood-watchers' rite, half his own household has taken it up beside him, and Òrd Mhacha becomes from that year the order of Cathair dhearg without a quarrel fought over it.",
+  "summary": "Within a year of King Aonghas standing at the yoke-pole of Òrd Mhacha' rite, half his own household has taken it up beside him, and Òrd Mhacha becomes from that year the order of Cathair dhearg without a quarrel fought over it.",
   "category": "faith",
   "people": [
    "Aonghas mac Uisdein"
@@ -301,7 +301,7 @@
  {
   "title": "King Aonghas returns to the yoke a second year",
   "era_year": 446,
-  "summary": "King Aonghas rides out to the wood-watchers' rite a second spring running, judging that a thing done once by a king and not again is no rite at all, and stands again with a hand on each yoke-pole among the grey horse and the black.",
+  "summary": "King Aonghas rides out to Òrd Mhacha' rite a second spring running, judging that a thing done once by a king and not again is no rite at all, and stands again with a hand on each yoke-pole among the grey horse and the black.",
   "category": "faith",
   "people": [
    "Aonghas mac Uisdein"

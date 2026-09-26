@@ -1,112 +1,233 @@
 [
-  {
-    "title": "Sìleas Dhonn dies at her ledger",
-    "era_year": 994,
-    "summary": "Sìleas Dhonn dies in the chair at Dùn dhearg with a keeper's tally open on her knee, in her hundred and ninety-fourth year. She has asked that the chair stand its customary night and day and no longer, having had forty years at her uncle's side to learn the feel of it.",
-    "category": "rulers",
-    "people": ["Sìleas Dhonn"],
-    "places": ["burg:422"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0092", "type": "cause"}]
-  },
-  {
-    "title": "Iain Garbh's demand sent south",
-    "era_year": 994,
-    "summary": "On his first morning in the chair Iain Garbh reads Caol leathan's thin account and sends a rider south with a plain demand in his own hand: the toll owed in full, counted before Dùn dhearg's own man at the harbour, or an answer for why it should not be paid.",
-    "category": "trade",
-    "people": ["Iain Garbh"],
-    "places": ["burg:422", "burg:1"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0092", "type": "elaborates"}]
-  },
-  {
-    "title": "The basket set on the hall floor",
-    "era_year": 994,
-    "summary": "Iain Garbh's rider returns from Caol leathan white about the mouth, carrying a covered basket he will not open himself. Iain lifts the lid to find it packed in rows with fish-bones, picked clean, and no letter with it.",
-    "category": "trade",
-    "people": ["Iain Garbh", "Lachlann Ciar"],
-    "places": ["burg:422"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0092", "type": "elaborates"}]
-  },
-  {
-    "title": "Iain Garbh calls the levy",
-    "era_year": 994,
-    "summary": "Iain Garbh laughs once over the basket of fish-bones, then calls the road-guards from every waypoint within three days' ride and tells the lowland households their levy stands, raising his voice at no one the whole of that week.",
-    "category": "war",
-    "people": ["Iain Garbh"],
-    "places": ["burg:422"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0093", "type": "cause"}]
-  },
-  {
-    "title": "Iain Garbh folds the Keeper's answer",
-    "era_year": 1000,
-    "summary": "Iain Garbh's messengers return from Dùn ìseal empty-handed, made to repeat Uisdean mac Ruairidh's refusal word for word. Iain folds the written answer once and puts it inside his coat, and never again sets foot on the Hall's ground.",
-    "category": "faith",
-    "people": ["Iain Garbh", "Uisdean mac Ruairidh"],
-    "places": ["burg:315"],
-    "threads": ["the-division"],
-    "master_links": [{"to": "II-0094", "type": "elaborates"}]
-  },
-  {
-    "title": "The coughing winter at Muileann òg",
-    "era_year": 1001,
-    "summary": "The warband winters on peat smoke at the burned toll-house of Muileann òg. Men who marched south whole come home in spring with a cough some of them carry the rest of their days, so that the older road-guards are known ever after by the sound of a hard winter's night.",
-    "category": "war",
-    "people": ["Iain Garbh"],
-    "places": ["burg:151"],
-    "threads": ["the-division"],
-    "master_links": [{"to": "II-0094", "type": "sequel"}]
-  },
-  {
-    "title": "The unnamed man of the ford",
-    "era_year": 1002,
-    "summary": "At the ford of Àth fhiadhaich a man of Caol leathan holds a split shield upright well past any sense left in the holding, until a spear from behind Iain Garbh's own rank finds him. No name is ever kept for him.",
-    "category": "war",
-    "people": ["Iain Garbh"],
-    "places": ["burg:500"],
-    "threads": [],
-    "master_links": [{"to": "II-0095", "type": "elaborates"}]
-  },
-  {
-    "title": "Beathag of Baile chiar turns back a spear",
-    "era_year": 1003,
-    "summary": "Riding to Baile chiar for a night's lodging, Iain Garbh is met on the wall by the town's reeve, Beathag, who will open the gate to the hungry and to no one carrying a spear. He leaves the spear on the road and sleeps that night among the burned-out of Baile ghlas.",
-    "category": "law",
-    "people": ["Iain Garbh"],
-    "places": ["burg:106"],
-    "threads": [],
-    "master_links": [{"to": "II-0097", "type": "elaborates"}]
-  },
-  {
-    "title": "Lachlann Ciar's confession at the peace-board",
-    "era_year": 1008,
-    "summary": "At the waypoint house on the road-peace, Lachlann Ciar tells Iain Garbh that the basket of fish-bones was his son's notion, sent out under his own name because a father does not answer for a son's foolishness by naming him. The two talk the evening out.",
-    "category": "rulers",
-    "people": ["Iain Garbh", "Lachlann Ciar"],
-    "places": ["marker:5"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0099", "type": "elaborates"}]
-  },
-  {
-    "title": "Iain Garbh witnesses the wolf-sworn",
-    "era_year": 1009,
-    "summary": "At Lachlann Ciar's own asking, Iain Garbh rides south to stand at the gate of Caol leathan while the men of its siege swear their new watch on a white stone cut as a wolf, and are called from that day the wolf-sworn.",
-    "category": "law",
-    "people": ["Iain Garbh", "Lachlann Ciar"],
-    "places": ["burg:1"],
-    "threads": [],
-    "master_links": [{"to": "II-0100", "type": "sequel"}]
-  },
-  {
-    "title": "Lachlann Ciar dies within sight of the harbour",
-    "era_year": 1020,
-    "summary": "Lachlann Ciar dies in his ninetieth year, worn down by slow degrees by the cough he carried from the coughing winter. His household buries him within sight of the harbour he grew fat and then thin defending, his son standing at the peace-board in his place.",
-    "category": "rulers",
-    "people": ["Iain Garbh", "Lachlann Ciar"],
-    "places": ["burg:1"],
-    "threads": ["the-stone-kings"],
-    "master_links": [{"to": "II-0099", "type": "sequel"}]
-  }
+ {
+  "title": "Sìleas Dhonn dies at her ledger",
+  "era_year": 994,
+  "summary": "Sìleas Dhonn dies in the chair at Dùn dhearg with a keeper's tally open on her knee, in her hundred and ninety-fourth year. She has asked that the chair stand its customary night and day and no longer, having had forty years at her uncle's side to learn the feel of it.",
+  "category": "rulers",
+  "people": [
+   "Sìleas Dhonn"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0092",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Iain Garbh's demand sent south",
+  "era_year": 994,
+  "summary": "On his first morning in the chair Iain Garbh reads Caol leathan's thin account and sends a rider south with a plain demand in his own hand: the toll owed in full, counted before Dùn dhearg's own man at the harbour, or an answer for why it should not be paid.",
+  "category": "trade",
+  "people": [
+   "Iain Garbh"
+  ],
+  "places": [
+   "burg:422",
+   "burg:1"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0092",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "The basket set on the hall floor",
+  "era_year": 994,
+  "summary": "Iain Garbh's rider returns from Caol leathan white about the mouth, carrying a covered basket he will not open himself. Iain lifts the lid to find it packed in rows with fish-bones, picked clean, and no letter with it.",
+  "category": "trade",
+  "people": [
+   "Iain Garbh",
+   "Lachlann Ciar"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0092",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Iain Garbh calls the levy",
+  "era_year": 994,
+  "summary": "Iain Garbh laughs once over the basket of fish-bones, then calls the road-guards from every waypoint within three days' ride and tells the lowland households their levy stands, raising his voice at no one the whole of that week.",
+  "category": "war",
+  "people": [
+   "Iain Garbh"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0093",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Iain Garbh folds Coimheadaiche na Lasrach's answer",
+  "era_year": 1000,
+  "summary": "Iain Garbh's messengers return from Dùn ìseal empty-handed, made to repeat Uisdean mac Ruairidh's refusal word for word. Iain folds the written answer once and puts it inside his coat, and never again sets foot on Talla na Lasrach's ground.",
+  "category": "faith",
+  "people": [
+   "Iain Garbh",
+   "Uisdean mac Ruairidh"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0094",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "The coughing winter at Muileann òg",
+  "era_year": 1001,
+  "summary": "The warband winters on peat smoke at the burned toll-house of Muileann òg. Men who marched south whole come home in spring with a cough some of them carry the rest of their days, so that the older road-guards are known ever after by the sound of a hard winter's night.",
+  "category": "war",
+  "people": [
+   "Iain Garbh"
+  ],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-division"
+  ],
+  "master_links": [
+   {
+    "to": "II-0094",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The unnamed man of the ford",
+  "era_year": 1002,
+  "summary": "At the ford of Àth fhiadhaich a man of Caol leathan holds a split shield upright well past any sense left in the holding, until a spear from behind Iain Garbh's own rank finds him. No name is ever kept for him.",
+  "category": "war",
+  "people": [
+   "Iain Garbh"
+  ],
+  "places": [
+   "burg:500"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0095",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Beathag of Baile chiar turns back a spear",
+  "era_year": 1003,
+  "summary": "Riding to Baile chiar for a night's lodging, Iain Garbh is met on the wall by the town's reeve, Beathag, who will open the gate to the hungry and to no one carrying a spear. He leaves the spear on the road and sleeps that night among the burned-out of Baile ghlas.",
+  "category": "law",
+  "people": [
+   "Iain Garbh"
+  ],
+  "places": [
+   "burg:106"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0097",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Lachlann Ciar's confession at the peace-board",
+  "era_year": 1008,
+  "summary": "At the waypoint house on Sìth an Rathaid, Lachlann Ciar tells Iain Garbh that the basket of fish-bones was his son's notion, sent out under his own name because a father does not answer for a son's foolishness by naming him. The two talk the evening out.",
+  "category": "rulers",
+  "people": [
+   "Iain Garbh",
+   "Lachlann Ciar"
+  ],
+  "places": [
+   "marker:5"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0099",
+    "type": "elaborates"
+   }
+  ]
+ },
+ {
+  "title": "Iain Garbh witnesses the wolf-sworn",
+  "era_year": 1009,
+  "summary": "At Lachlann Ciar's own asking, Iain Garbh rides south to stand at the gate of Caol leathan while the men of its siege swear their new watch on a white stone cut as a wolf, and are called from that day the wolf-sworn.",
+  "category": "law",
+  "people": [
+   "Iain Garbh",
+   "Lachlann Ciar"
+  ],
+  "places": [
+   "burg:1"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "II-0100",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Lachlann Ciar dies within sight of the harbour",
+  "era_year": 1020,
+  "summary": "Lachlann Ciar dies in his ninetieth year, worn down by slow degrees by the cough he carried from the coughing winter. His household buries him within sight of the harbour he grew fat and then thin defending, his son standing at the peace-board in his place.",
+  "category": "rulers",
+  "people": [
+   "Iain Garbh",
+   "Lachlann Ciar"
+  ],
+  "places": [
+   "burg:1"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "II-0099",
+    "type": "sequel"
+   }
+  ]
+ }
 ]

@@ -16,7 +16,7 @@
  {
   "title": "Households build about the old landing at Ceann àrsaidh",
   "era_year": 4330,
-  "summary": "People out of the Red Hill's country find an old river landing on the Abhainn fhionn, stones set for a boat's keel by hands none living can name, and build their houses about it, naming the place for what they found.",
+  "summary": "People out of An Cnoc Ruadh's country find an old river landing on the Abhainn fhionn, stones set for a boat's keel by hands none living can name, and build their houses about it, naming the place for what they found.",
   "category": "land",
   "people": [],
   "places": [
@@ -44,7 +44,7 @@
  {
   "title": "Catrìona takes the hill of Dùn ìseal",
   "era_year": 4347,
-  "summary": "Catrìona, of the king's blood and two hundred and forty-seven years old, takes Dùn ìseal formally as the twelfth to hold it of the Stone Kings' line, known already for a memory that can give any household's line back seven names without pausing to think.",
+  "summary": "Catrìona, of the king's blood and two hundred and forty-seven years old, takes Dùn ìseal formally as the twelfth to hold it of Rìghrean na Cloiche' line, known already for a memory that can give any household's line back seven names without pausing to think.",
   "category": "rulers",
   "people": [
    "Catrìona Mhòr"
@@ -60,9 +60,9 @@
   ]
  },
  {
-  "title": "Seumas Òg takes the Red Hill",
+  "title": "Seumas Òg takes An Cnoc Ruadh",
   "era_year": 4347,
-  "summary": "A young man of seven-and-twenty named Seumas takes up the holding of the Red Hill his own line has kept since the palisade first burned, the same season Catrìona takes Dùn ìseal; his name will be the last the Red Hill's own spoken roll carries.",
+  "summary": "A young man of seven-and-twenty named Seumas takes up the holding of An Cnoc Ruadh his own line has kept since the palisade first burned, the same season Catrìona takes Dùn ìseal; his name will be the last An Cnoc Ruadh's own spoken roll carries.",
   "category": "rulers",
   "people": [
    "Seumas Òg"
@@ -80,7 +80,7 @@
  {
   "title": "The two rolls are spoken whole at the ford in one night",
   "era_year": 4347,
-  "summary": "Eòin gives the whole roll of the Stone Kings from Ailean Mòr to Catrìona's own name, and Ùna gives the whole roll of the Red Hill from Beathag Ruadh to Seumas Òg's, from dusk to the grey before morning; it is the first time either roll is heard whole, and those nearest the king see him smile when his own name is spoken.",
+  "summary": "Eòin gives the whole roll of Rìghrean na Cloiche from Ailean Mòr to Catrìona's own name, and Ùna gives the whole roll of An Cnoc Ruadh from Beathag Ruadh to Seumas Òg's, from dusk to the grey before morning; it is the first time either roll is heard whole, and those nearest the king see him smile when his own name is spoken.",
   "category": "faith",
   "people": [
    "Catrìona Mhòr",
@@ -114,7 +114,7 @@
   ]
  },
  {
-  "title": "The keepers of the slab settle at nine",
+  "title": "Luchd-faire na Lice settle at nine",
   "era_year": 4353,
   "summary": "The keepers settle at nine, one drawn by lot for each of nine districts of the hills that no household has ever marked on the ground but every household somehow knows the edge of; the nine meet at the slab only when one of their number dies.",
   "category": "faith",
@@ -132,7 +132,7 @@
  {
   "title": "The handful comes to be burned all at once by agreement",
   "era_year": 4358,
-  "summary": "Without any lot or law behind it, every household in reach of another comes to burn its measured handful of coloured coal on the same dark night, each watching for the first low flame on the nearest hill before lighting its own; the night comes to be called the night of the handful.",
+  "summary": "Without any lot or law behind it, every household in reach of another comes to burn its measured handful of coloured coal on the same dark night, each watching for the first low flame on the nearest hill before lighting its own; the night comes to be called Oidhche na Glaice.",
   "category": "faith",
   "people": [],
   "places": [],
@@ -179,7 +179,7 @@
   ]
  },
  {
-  "title": "A nameless hand recuts the column at Cnoc ghorm",
+  "title": "A nameless hand recuts Calbh Cnoc ghorm",
   "era_year": 4351,
   "summary": "A hand from Catrìona's own hill goes out to the ancient column at Cnoc ghorm and recuts its worn grooves along their old lines before the rain can lose them; some who come after hold that a single stroke changed in the recutting, though none can agree which, or prove any changed at all.",
   "category": "law",
@@ -284,7 +284,7 @@
  {
   "title": "Eòin Beul-binn and Ùna Ruadh die within two years of each other",
   "era_year": 4380,
-  "summary": "Eòin, whose voice carried the whole roll of the Stone Kings across one night at the ford, dies in his eightieth year, and Ùna, who answered him roll for roll for the Red Hill, follows him within two years in her seventy-third; the telling of that single night passes from then on at second hand.",
+  "summary": "Eòin, whose voice carried the whole roll of Rìghrean na Cloiche across one night at the ford, dies in his eightieth year, and Ùna, who answered him roll for roll for An Cnoc Ruadh, follows him within two years in her seventy-third; the telling of that single night passes from then on at second hand.",
   "category": "faith",
   "people": [
    "Eòin Beul-binn",

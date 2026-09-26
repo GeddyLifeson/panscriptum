@@ -1,8 +1,8 @@
 [
  {
-  "title": "The custody-book's entry of the turn",
+  "title": "Leabhar a' Chùraim's entry of the turn",
   "era_year": 40,
-  "summary": "At the vein-house Donnchadh mac Thormoid enters the turn of the fleet into the custody-book under a day after Samhain, a full turning of the moon and more after every other account sets the sailing itself. The gap between the two dates is copied faithfully and explained by no word in the leaf that reaches him.",
+  "summary": "At Taigh na Fèithe Donnchadh mac Thormoid enters the turn of the fleet into Leabhar a' Chùraim under a day after Samhain, a full turning of the moon and more after every other account sets the sailing itself. The gap between the two dates is copied faithfully and explained by no word in the leaf that reaches him.",
   "category": "coal",
   "people": [
    "Donnchadh mac Thormoid"
@@ -23,7 +23,7 @@
  {
   "title": "Donnchadh's private count of the Diosal",
   "era_year": 44,
-  "summary": "For his own ledger's convenience, and for no reason he offers anyone, the vein-house clerk Donnchadh mac Thormoid begins to number years from the sunwise turn rather than from a reign, working the count backward through his private book to the turn itself. No one above him asks him to keep it, and he tells no one that he does.",
+  "summary": "For his own ledger's convenience, and for no reason he offers anyone, Taigh na Fèithe clerk Donnchadh mac Thormoid begins to number years from An Diosal rather than from a reign, working the count backward through his private book to the turn itself. No one above him asks him to keep it, and he tells no one that he does.",
   "category": "law",
   "people": [
    "Donnchadh mac Thormoid"
@@ -105,9 +105,9 @@
   ]
  },
  {
-  "title": "The tidings copied to the red hall and the vein-house",
+  "title": "The tidings copied to An Talla Dearg and Taigh na Fèithe",
   "era_year": 44,
-  "summary": "A fair copy of Calum's leaf goes by rider to Cathair dhearg for the queen's own council; a second copy, made by his son Dòmhnall, goes east to the vein-house, where Donnchadh mac Thormoid sets it beside his own four-year-old entry of the turn and finds the silence between them unexplained by either leaf.",
+  "summary": "A fair copy of Calum's leaf goes by rider to Cathair dhearg for the queen's own council; a second copy, made by his son Dòmhnall, goes east to Taigh na Fèithe, where Donnchadh mac Thormoid sets it beside his own four-year-old entry of the turn and finds the silence between them unexplained by either leaf.",
   "category": "land",
   "people": [
    "Calum mac Nèill",
@@ -130,7 +130,7 @@
  {
   "title": "The council divided over the two shores",
   "era_year": 44,
-  "summary": "At the red hall the custodians argue whether two landfalls mean the fleet prospered or was scattered, and which of the nineteen or one-and-twenty hulls reached which coast. Queen Beathag hears the whole of it and says nothing, and the council lets the matter drop for the day's ordinary business.",
+  "summary": "At An Talla Dearg the custodians argue whether two landfalls mean the fleet prospered or was scattered, and which of the nineteen or one-and-twenty hulls reached which coast. Queen Beathag hears the whole of it and says nothing, and the council lets the matter drop for the day's ordinary business.",
   "category": "rulers",
   "people": [
    "Beathag nic Dhòmhnaill"
@@ -221,7 +221,7 @@
  {
   "era_year": 45,
   "title": "Birth of Raghnall mac Raghnaill",
-  "summary": "A son, named for his father, is born at Cathair dhearg to Raghnall mac Uilleim, the queen's heir, then seven-and-thirty years old. The boy is Beathag's first grandson and the third of her line under the red hall's roof.",
+  "summary": "A son, named for his father, is born at Cathair dhearg to Raghnall mac Uilleim, the queen's heir, then seven-and-thirty years old. The boy is Beathag's first grandson and the third of her line under An Talla Dearg's roof.",
   "category": "rulers",
   "people": [
    "Raghnall mac Raghnaill",

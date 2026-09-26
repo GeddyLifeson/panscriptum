@@ -112,10 +112,20 @@
    "born": null,
    "died": null,
    "parents": [],
-   "children": [],
+   "children": [
+    "gormshuil-nic-ailein",
+    "domhnall-clachach",
+    "fearchar-bacach",
+    "somhairle-mac-ailein",
+    "iain-dubh",
+    "murchadh-mor",
+    "eithne-nic-ailein",
+    "iomhar-dearg",
+    "raonaid-nic-ailein"
+   ],
    "houses": [],
    "first": "EI-6555",
-   "last": "EI-6579"
+   "last": "EII-6539"
   },
   "aodh": {
    "id": "aodh",
@@ -429,12 +439,15 @@
    "id": "gormshuil-nic-ailein",
    "name": "Gormshuil nic Ailein",
    "born": null,
-   "died": null,
-   "parents": [],
+   "died": "EII-1037",
+   "parents": [
+    "ailean-mor",
+    "muireall"
+   ],
    "children": [],
    "houses": [],
    "first": "EI-6566",
-   "last": "EI-6578"
+   "last": "EII-1039"
   },
   "grainne": {
    "id": "grainne",
@@ -519,10 +532,12 @@
    "born": null,
    "died": null,
    "parents": [],
-   "children": [],
+   "children": [
+    "gormshuil-nic-ailein"
+   ],
    "houses": [],
    "first": "EI-5012",
-   "last": "EI-5017"
+   "last": "EII-1025"
   },
   "muirgheal": {
    "id": "muirgheal",

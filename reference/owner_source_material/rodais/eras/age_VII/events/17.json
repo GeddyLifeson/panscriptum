@@ -1,296 +1,296 @@
 [
-  {
-    "title": "The coal-for-fish cart of Tobar dhearg",
-    "era_year": 17,
-    "after": "VI-0056",
-    "summary": "Twice a month a cart goes down from Tobar dhearg of the hills to the walled coast town of Cathair gheal, laden with the poor coal of its one pit, and comes back laden with fish salted in barrels. Neither town can say which first proposed the trade.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:408",
-      "burg:476"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0057"
-    ]
-  },
-  {
-    "title": "Ellen Marsh comes to Cathair gheal",
-    "era_year": 17,
-    "after": "VI-0057",
-    "summary": "Ellen Marsh rides the fish cart down to Cathair gheal in the raw end of an Gearran to sit again with Annie Drew, a widow of ninety-three and the last soul in the town old enough to remember the parting itself.",
-    "category": "humans",
-    "people": [
-      "ellen-marsh",
-      "annie-drew"
-    ],
-    "places": [
-      "burg:476"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0058"
-    ]
-  },
-  {
-    "title": "Annie Drew's last telling",
-    "era_year": 17,
-    "after": "VI-0057",
-    "summary": "Annie Drew gives Ellen Marsh the rest of her memory of the Severance: the smoke of the fires left burning, the new-set boundary stones, and a soldier who gave her mother bread and would not meet her eye. She says she has kept her word before dying, and bids Ellen keep her own.",
-    "category": "humans",
-    "people": [
-      "ellen-marsh",
-      "annie-drew"
-    ],
-    "places": [
-      "burg:476"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0058"
-    ]
-  },
-  {
-    "title": "The last of the old tellers",
-    "era_year": 17,
-    "after": "VI-0057",
-    "summary": "Annie Drew tells Ellen Marsh that no one older than herself remains along the coast this side of Muileann àrsaidh, where the one other woman of her years has lost her memory to a fever. Ellen does not deny it.",
-    "category": "humans",
-    "people": [
-      "ellen-marsh",
-      "annie-drew"
-    ],
-    "places": [
-      "burg:476"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0058"
-    ]
-  },
-  {
-    "title": "The eleventh book begun",
-    "era_year": 17,
-    "after": "VI-0057",
-    "summary": "Ellen Marsh had begun her gathering by accident, eleven winters before, when an old man of the parish stopped her in the lane to correct a date in the Severance she had taught the children wrong. She went home and wrote down what he told her before she forgot it, and never found a reason to stop.",
-    "category": "law",
-    "people": [
-      "ellen-marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0058"
-    ]
-  },
-  {
-    "title": "The eleventh book bound at Doire ghlas",
-    "era_year": 17,
-    "after": "VI-0057",
-    "summary": "Ellen Marsh sews the eleventh book of Tuathaich accounts herself, at her own table, with the bone folder the eldest binder of Muileann leathan once gave her. It stands the same grey board and the same hand-span as the other ten on the cupboard shelf.",
-    "category": "law",
-    "people": [
-      "ellen-marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0058"
-    ]
-  },
-  {
-    "title": "The request sent north",
-    "era_year": 17,
-    "after": "VI-0058",
-    "summary": "Ellen Marsh writes to Leabharlann Muileann chaol asking that the eleven books be kept beside the Library's own record, not to be believed over it, only to be found. She sends the request and the books north by the monthly carrier, wrapped in oilcloth and waxed thread.",
-    "category": "law",
-    "people": [
-      "ellen-marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0059"
-    ]
-  },
-  {
-    "title": "The request read before the keepers",
-    "era_year": 17,
-    "after": "VI-0058",
-    "summary": "In the spring Ellen Marsh's request and the eleven books that came with it are read entire before the keepers of Leabharlann Muileann chaol and set upon the table of the council's business, where they are not refused.",
-    "category": "law",
-    "people": [
-      "raghnall-mac-mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0059"
-    ]
-  },
-  {
-    "title": "The keeper's answer carried to Doire ghlas",
-    "era_year": 17,
-    "after": "VI-0059",
-    "summary": "Raghnall mac Mhuirich's answer reaches Ellen Marsh at the schoolroom in an Lùnastal by the carrier's own hand. It says the question is not the books' honesty but the standing of spoken witness, on which the council of the kingdom has given no view, and that the keeper has no authority to shelve the books until it does.",
-    "category": "law",
-    "people": [
-      "ellen-marsh",
-      "raghnall-mac-mhuirich"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-library",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0060"
-    ]
-  },
-  {
-    "title": "Ellen Marsh's reply written",
-    "era_year": 17,
-    "after": "VI-0060",
-    "summary": "The same evening Ellen Marsh writes back to the keeper that spoken witness stood good enough, unquestioned, for the clerks who took the census of hands from the mouths of northern householders, and was the very figure the kingdom's own returns still carry. She does not show the letter to anyone before she sends it.",
-    "category": "law",
-    "people": [
-      "ellen-marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-library",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0061"
-    ]
-  },
-  {
-    "title": "The letter parsed in the schoolroom",
-    "era_year": 17,
-    "after": "VI-0061",
-    "summary": "Ellen Marsh reads the keeper's letter entire to her class at the start of an t-Sultain and has the children parse its sentences clause by clause. A girl of the town says that 'not refused' means no, but that no answer can be given to 'not yet'.",
-    "category": "law",
-    "people": [
-      "ellen-marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0060"
-    ]
-  },
-  {
-    "title": "Ellen Marsh's rule for two witnesses",
-    "era_year": 17,
-    "summary": "In the front of the first of her eleven books Ellen Marsh writes that where two witnesses differ she has set down both and let the reader judge, as a court would.",
-    "category": "law",
-    "people": [
-      "Ellen Marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0058"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Raghnall's line in each book's flyleaf",
-    "era_year": 17,
-    "summary": "The keeper of an Leabharlann writes the same few words of receipt on the flyleaf of each of Ellen Marsh's eleven books on the day it is carried in, and lays the request on the table.",
-    "category": "law",
-    "people": [
-      "Raghnall mac Mhuirich",
-      "Ellen Marsh"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0059"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Agnes Pike gives Ellen Marsh the school's back room",
-    "era_year": 17,
-    "summary": "The mistress of the school at Doire ghlas gives Ellen Marsh its back room to keep the gathering in, with a table, a press and a stove that draws badly.",
-    "category": "humans",
-    "people": [
-      "Ellen Marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0058"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Ceann leathan's gate paid in the new coin",
-    "era_year": 17,
-    "summary": "The fair-wardens of the Còmhrag at Ceann leathan take the gate-price for the first time wholly in coin of the plain seal, the old coal-inked coin having gone out of the purses of the crowd.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:22"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0050"
-    ],
-    "chronicle_extra": true
-  }
+ {
+  "title": "The coal-for-fish cart of Tobar dhearg",
+  "era_year": 17,
+  "after": "VI-0056",
+  "summary": "Twice a month a cart goes down from Tobar dhearg of the hills to the walled coast town of Cathair gheal, laden with the poor coal of its one pit, and comes back laden with fish salted in barrels. Neither town can say which first proposed the trade.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:408",
+   "burg:476"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0057"
+  ]
+ },
+ {
+  "title": "Ellen Marsh comes to Cathair gheal",
+  "era_year": 17,
+  "after": "VI-0057",
+  "summary": "Ellen Marsh rides the fish cart down to Cathair gheal in the raw end of an Gearran to sit again with Annie Drew, a widow of ninety-three and the last soul in the town old enough to remember the parting itself.",
+  "category": "humans",
+  "people": [
+   "ellen-marsh",
+   "annie-drew"
+  ],
+  "places": [
+   "burg:476"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0058"
+  ]
+ },
+ {
+  "title": "Annie Drew's last telling",
+  "era_year": 17,
+  "after": "VI-0057",
+  "summary": "Annie Drew gives Ellen Marsh the rest of her memory of An Dealachadh: the smoke of the fires left burning, the new-set boundary stones, and a soldier who gave her mother bread and would not meet her eye. She says she has kept her word before dying, and bids Ellen keep her own.",
+  "category": "humans",
+  "people": [
+   "ellen-marsh",
+   "annie-drew"
+  ],
+  "places": [
+   "burg:476"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0058"
+  ]
+ },
+ {
+  "title": "The last of the old tellers",
+  "era_year": 17,
+  "after": "VI-0057",
+  "summary": "Annie Drew tells Ellen Marsh that no one older than herself remains along the coast this side of Muileann àrsaidh, where the one other woman of her years has lost her memory to a fever. Ellen does not deny it.",
+  "category": "humans",
+  "people": [
+   "ellen-marsh",
+   "annie-drew"
+  ],
+  "places": [
+   "burg:476"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0058"
+  ]
+ },
+ {
+  "title": "The eleventh book begun",
+  "era_year": 17,
+  "after": "VI-0057",
+  "summary": "Ellen Marsh had begun her gathering by accident, eleven winters before, when an old man of the parish stopped her in the lane to correct a date in An Dealachadh she had taught the children wrong. She went home and wrote down what he told her before she forgot it, and never found a reason to stop.",
+  "category": "law",
+  "people": [
+   "ellen-marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0058"
+  ]
+ },
+ {
+  "title": "The eleventh book bound at Doire ghlas",
+  "era_year": 17,
+  "after": "VI-0057",
+  "summary": "Ellen Marsh sews the eleventh book of Tuathaich accounts herself, at her own table, with the bone folder the eldest binder of Muileann leathan once gave her. It stands the same grey board and the same hand-span as the other ten on the cupboard shelf.",
+  "category": "law",
+  "people": [
+   "ellen-marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0058"
+  ]
+ },
+ {
+  "title": "The request sent north",
+  "era_year": 17,
+  "after": "VI-0058",
+  "summary": "Ellen Marsh writes to Leabharlann Muileann chaol asking that An t-Aon Leabhar Deug be kept beside an Leabharlann's own record, not to be believed over it, only to be found. She sends the request and the books north by the monthly carrier, wrapped in oilcloth and waxed thread.",
+  "category": "law",
+  "people": [
+   "ellen-marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0059"
+  ]
+ },
+ {
+  "title": "The request read before the keepers",
+  "era_year": 17,
+  "after": "VI-0058",
+  "summary": "In the spring Ellen Marsh's request and An t-Aon Leabhar Deug that came with it are read entire before the keepers of Leabharlann Muileann chaol and set upon the table of the council's business, where they are not refused.",
+  "category": "law",
+  "people": [
+   "raghnall-mac-mhuirich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0059"
+  ]
+ },
+ {
+  "title": "The keeper's answer carried to Doire ghlas",
+  "era_year": 17,
+  "after": "VI-0059",
+  "summary": "Raghnall mac Mhuirich's answer reaches Ellen Marsh at the schoolroom in an Lùnastal by the carrier's own hand. It says the question is not the books' honesty but the standing of spoken witness, on which Comhairle na Rìoghachd has given no view, and that the keeper has no authority to shelve the books until it does.",
+  "category": "law",
+  "people": [
+   "ellen-marsh",
+   "raghnall-mac-mhuirich"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-library",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0060"
+  ]
+ },
+ {
+  "title": "Ellen Marsh's reply written",
+  "era_year": 17,
+  "after": "VI-0060",
+  "summary": "The same evening Ellen Marsh writes back to the keeper that spoken witness stood good enough, unquestioned, for the clerks who took Cunntas nan Làmh from the mouths of northern householders, and was the very figure the kingdom's own returns still carry. She does not show the letter to anyone before she sends it.",
+  "category": "law",
+  "people": [
+   "ellen-marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-library",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0061"
+  ]
+ },
+ {
+  "title": "The letter parsed in the schoolroom",
+  "era_year": 17,
+  "after": "VI-0061",
+  "summary": "Ellen Marsh reads the keeper's letter entire to her class at the start of an t-Sultain and has the children parse its sentences clause by clause. A girl of the town says that 'not refused' means no, but that no answer can be given to 'not yet'.",
+  "category": "law",
+  "people": [
+   "ellen-marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0060"
+  ]
+ },
+ {
+  "title": "Ellen Marsh's rule for two witnesses",
+  "era_year": 17,
+  "summary": "In the front of the first of her eleven books Ellen Marsh writes that where two witnesses differ she has set down both and let the reader judge, as a court would.",
+  "category": "law",
+  "people": [
+   "Ellen Marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich",
+   "the-library"
+  ],
+  "master_links": [
+   "VI-0058"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Raghnall's line in each book's flyleaf",
+  "era_year": 17,
+  "summary": "The keeper of an Leabharlann writes the same few words of receipt on the flyleaf of each of Ellen Marsh's An t-Aon Leabhar Deug on the day it is carried in, and lays the request on the table.",
+  "category": "law",
+  "people": [
+   "Raghnall mac Mhuirich",
+   "Ellen Marsh"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library",
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0059"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Agnes Pike gives Ellen Marsh the school's back room",
+  "era_year": 17,
+  "summary": "The mistress of the school at Doire ghlas gives Ellen Marsh its back room to keep the gathering in, with a table, a press and a stove that draws badly.",
+  "category": "humans",
+  "people": [
+   "Ellen Marsh"
+  ],
+  "places": [
+   "burg:209"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "VI-0058"
+  ],
+  "chronicle_extra": true
+ },
+ {
+  "title": "Ceann leathan's gate paid in the new coin",
+  "era_year": 17,
+  "summary": "The fair-wardens of Còmhrag Ceann leathan at Ceann leathan take the gate-price for the first time wholly in coin of the plain seal, the old coal-inked coin having gone out of the purses of the crowd.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:22"
+  ],
+  "threads": [
+   "the-dubhan-trade"
+  ],
+  "master_links": [
+   "VI-0050"
+  ],
+  "chronicle_extra": true
+ }
 ]

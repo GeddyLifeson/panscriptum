@@ -1,145 +1,233 @@
 [
-  {
-    "title": "The Guild of Hewers feasts in the new hall",
-    "era_year": 30,
-    "after": "V-0117",
-    "summary": "The Guild of Hewers holds its feast in the finished stone hall of Uisdean mac Ùisdein at Cathair mhòr, at tables set the length of the room under torches an ironsmith made to no pattern but his own, and Mòrag nic Coinnich attends as the Library's own witness.",
-    "category": "trade",
-    "people": ["Mòrag nic Coinnich"],
-    "places": ["burg:23"],
-    "threads": [],
-    "master_links": ["V-0117"]
-  },
-  {
-    "title": "The mason's letter of the hall he did not sit in",
-    "era_year": 30,
-    "summary": "A mason who dressed the stone of Mac Ùisdein's new hall writes the Library that he was not asked to the guild's own feast in it, his craft holding no sworn place for a cutter of stone, and Ailean Leabhar enters the letter whole rather than in his own shorter hand.",
-    "category": "trade",
-    "people": ["Ailean Leabhar"],
-    "places": ["burg:23"],
-    "threads": [],
-    "master_links": ["V-0117"]
-  },
-  {
-    "title": "The first licence refused to a Caol mhòr boat",
-    "era_year": 30,
-    "summary": "Sam Ridley, a Tuathaich master who has fished the southern banks off Caol mhòr eleven years, brings his catch to the maor's scales the day the new licences take force and is told the grounds are not, at present, being papered for boats of his fleet; the Moot enters the day and his name.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:95"],
-    "threads": ["the-tuathaich"],
-    "master_links": ["V-0118"]
-  },
-  {
-    "title": "The house of the Stone takes its first quarter's dues",
-    "era_year": 30,
-    "summary": "The house of the Stone at Doire shean takes its first quarter's harbour dues off the new quay before the mole's last course is dry, the sum entered beside what the house first lent the town for the building of it.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:324"],
-    "threads": [],
-    "master_links": ["V-0119"]
-  },
-  {
-    "title": "The diggers' camp opens at Làrach an Dùin",
-    "era_year": 31,
-    "summary": "Four diggers under a foreman named Cailean cut trenches through the spring above the headland at Làrach an Dùin, following the line of a coursed wall sunk deeper than any footing they have found the bottom of.",
-    "category": "law",
-    "people": [],
-    "places": ["marker:32"],
-    "threads": [],
-    "master_links": ["V-0120"]
-  },
-  {
-    "title": "Ailean Leabhar rides to the trenches",
-    "era_year": 31,
-    "summary": "The keeper of the Library goes down himself to Làrach an Dùin on the diggers' word that the wall they have found is older than any ruin the Library holds a record of, and spends four days at the trench's edge with a lamp and a notebook.",
-    "category": "law",
-    "people": ["Ailean Leabhar"],
-    "places": ["marker:32"],
-    "threads": [],
-    "master_links": ["V-0120"]
-  },
-  {
-    "title": "The finds laid in the Library",
-    "era_year": 31,
-    "summary": "Ailean Leabhar carries the season's three findings, the wall's short entry, the measure of Làrach an Teampaill, and the copied obelisk, into the Library's own presses himself, filing the not-knowing of each as carefully as a certainty.",
-    "category": "law",
-    "people": ["Ailean Leabhar"],
-    "places": ["marker:34"],
-    "threads": ["the-library"],
-    "master_links": ["V-0120", "V-0121", "V-0122"]
-  },
-  {
-    "title": "Beathag asks that the temple's ground be left",
-    "era_year": 31,
-    "after": "V-0120",
-    "summary": "Beathag, eldest of three Seann Spioradan elders of the district, meets Ailean Leabhar at Làrach an Teampaill and asks that the Library measure the ruin rather than open it, since whatever lies under the stone is neither hers to claim nor his.",
-    "category": "faith",
-    "people": ["Ailean Leabhar"],
-    "places": ["marker:33"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": ["V-0121"]
-  },
-  {
-    "title": "Ailean measures the temple with a chain, not a spade",
-    "era_year": 31,
-    "summary": "Ailean Leabhar spends two days at Làrach an Teampaill setting down the line of the fallen wall and the fall of the ground with a chain and a level, and enters the ruin as measured, and let be.",
-    "category": "faith",
-    "people": ["Ailean Leabhar"],
-    "places": ["marker:33"],
-    "threads": ["the-orders-of-the-old-faith", "the-library"],
-    "master_links": ["V-0121"]
-  },
-  {
-    "title": "Una copies the obelisk stroke by stroke",
-    "era_year": 31,
-    "summary": "Una, a scribe trained under Ailean Leabhar in copying the Library's most damaged leaves, spends three weeks of fair days at the foot of the obelisk near Cnoc bheag setting down every stroke of its unread script exactly as the stone gives it, worn gap for worn gap.",
-    "category": "law",
-    "people": [],
-    "places": ["marker:28"],
-    "threads": ["the-library"],
-    "master_links": ["V-0122"]
-  },
-  {
-    "title": "The council pays for a fence at the obelisk",
-    "era_year": 31,
-    "summary": "On the keeper's word that a stone unread for longer than the kingdom's whole span deserves at least a fence against the cattle, the council finds the money for four posts and a rail set well back from the obelisk's foot.",
-    "category": "law",
-    "people": [],
-    "places": ["marker:28"],
-    "threads": [],
-    "master_links": ["V-0122"]
-  },
-  {
-    "title": "The keeper of Baile chrom's lighthouse reports the vigil",
-    "era_year": 32,
-    "after": "V-0122",
-    "summary": "A Dia-thìrich keeper new to the lighthouse at Baile chrom reports the Grey Night sect's yearly vigil kept silent in the tower's own shadow, and makes no move against it, having no order that names a silent watch on open ground his business.",
-    "category": "faith",
-    "people": [],
-    "places": ["marker:12"],
-    "threads": [],
-    "master_links": ["V-0123"]
-  },
-  {
-    "title": "The council answers the keeper's report with nothing",
-    "era_year": 32,
-    "summary": "No order reaches the keeper of Baile chrom's lighthouse, and no word reaches the magistrate who had once fined the vigil in the open, and Ailean Leabhar enters the council's silence into the Library's register as plainly as any finding.",
-    "category": "law",
-    "people": ["Ailean Leabhar"],
-    "places": ["marker:34"],
-    "threads": [],
-    "master_links": ["V-0123"]
-  },
-  {
-    "title": "Mòrag nic Coinnich made Ailean's deputy",
-    "era_year": 32,
-    "summary": "On the road home from Àth bheag, Ailean Leabhar asks Mòrag nic Coinnich to stand as the Library's deputy after a season that has taught him one keeper alone is a Library one bad season from having nobody who can speak for it; she agrees, on the condition that the register always name her deputy and never keeper.",
-    "category": "law",
-    "people": ["Ailean Leabhar", "Mòrag nic Coinnich"],
-    "places": ["marker:34"],
-    "threads": ["the-library"],
-    "master_links": ["V-0124"]
-  }
+ {
+  "title": "Comann nan Gualadairean feasts in the new hall",
+  "era_year": 30,
+  "after": "V-0117",
+  "summary": "Comann nan Gualadairean holds its feast in the finished stone hall of Uisdean mac Ùisdein at Cathair mhòr, at tables set the length of the room under torches an ironsmith made to no pattern but his own, and Mòrag nic Coinnich attends as an Leabharlann's own witness.",
+  "category": "trade",
+  "people": [
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0117"
+  ]
+ },
+ {
+  "title": "The mason's letter of the hall he did not sit in",
+  "era_year": 30,
+  "summary": "A mason who dressed the stone of Mac Ùisdein's new hall writes an Leabharlann that he was not asked to the guild's own feast in it, his craft holding no sworn place for a cutter of stone, and Ailean Leabhar enters the letter whole rather than in his own shorter hand.",
+  "category": "trade",
+  "people": [
+   "Ailean Leabhar"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0117"
+  ]
+ },
+ {
+  "title": "The first licence refused to a Caol mhòr boat",
+  "era_year": 30,
+  "summary": "Sam Ridley, a Tuathaich master who has fished the southern banks off Caol mhòr eleven years, brings his catch to the maor's scales the day the new licences take force and is told the grounds are not, at present, being papered for boats of his fleet; Tional nan Tuathach enters the day and his name.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:95"
+  ],
+  "threads": [
+   "the-tuathaich"
+  ],
+  "master_links": [
+   "V-0118"
+  ]
+ },
+ {
+  "title": "The house of Lia Fàil takes its first quarter's dues",
+  "era_year": 30,
+  "summary": "The house of Lia Fàil at Doire shean takes its first quarter's harbour dues off the new quay before the mole's last course is dry, the sum entered beside what the house first lent the town for the building of it.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:324"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0119"
+  ]
+ },
+ {
+  "title": "The diggers' camp opens at Làrach an Dùin",
+  "era_year": 31,
+  "summary": "Four diggers under a foreman named Cailean cut trenches through the spring above the headland at Làrach an Dùin, following the line of a coursed wall sunk deeper than any footing they have found the bottom of.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "marker:32"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0120"
+  ]
+ },
+ {
+  "title": "Ailean Leabhar rides to the trenches",
+  "era_year": 31,
+  "summary": "Neach-gleidhidh an Leabharlainn goes down himself to Làrach an Dùin on the diggers' word that the wall they have found is older than any ruin an Leabharlann holds a record of, and spends four days at the trench's edge with a lamp and a notebook.",
+  "category": "law",
+  "people": [
+   "Ailean Leabhar"
+  ],
+  "places": [
+   "marker:32"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0120"
+  ]
+ },
+ {
+  "title": "The finds laid in an Leabharlann",
+  "era_year": 31,
+  "summary": "Ailean Leabhar carries the season's three findings, the wall's short entry, the measure of Làrach an Teampaill, and the copied obelisk, into an Leabharlann's own presses himself, filing the not-knowing of each as carefully as a certainty.",
+  "category": "law",
+  "people": [
+   "Ailean Leabhar"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0120",
+   "V-0121",
+   "V-0122"
+  ]
+ },
+ {
+  "title": "Beathag asks that the temple's ground be left",
+  "era_year": 31,
+  "after": "V-0120",
+  "summary": "Beathag, eldest of three Seann Spioradan elders of the district, meets Ailean Leabhar at Làrach an Teampaill and asks that an Leabharlann measure the ruin rather than open it, since whatever lies under the stone is neither hers to claim nor his.",
+  "category": "faith",
+  "people": [
+   "Ailean Leabhar"
+  ],
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   "V-0121"
+  ]
+ },
+ {
+  "title": "Ailean measures the temple with a chain, not a spade",
+  "era_year": 31,
+  "summary": "Ailean Leabhar spends two days at Làrach an Teampaill setting down the line of the fallen wall and the fall of the ground with a chain and a level, and enters the ruin as measured, and let be.",
+  "category": "faith",
+  "people": [
+   "Ailean Leabhar"
+  ],
+  "places": [
+   "marker:33"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-library"
+  ],
+  "master_links": [
+   "V-0121"
+  ]
+ },
+ {
+  "title": "Una copies the obelisk stroke by stroke",
+  "era_year": 31,
+  "summary": "Una, a scribe trained under Ailean Leabhar in copying an Leabharlann's most damaged leaves, spends three weeks of fair days at the foot of Carragh Cnoc bheag setting down every stroke of its unread script exactly as the stone gives it, worn gap for worn gap.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "marker:28"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0122"
+  ]
+ },
+ {
+  "title": "The council pays for a fence at the obelisk",
+  "era_year": 31,
+  "summary": "On the keeper's word that a stone unread for longer than the kingdom's whole span deserves at least a fence against the cattle, the council finds the money for four posts and a rail set well back from the obelisk's foot.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "marker:28"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0122"
+  ]
+ },
+ {
+  "title": "The keeper of Baile chrom's lighthouse reports the vigil",
+  "era_year": 32,
+  "after": "V-0122",
+  "summary": "A Dia-thìrich keeper new to the lighthouse at Baile chrom reports Oidhche Glaise sect's yearly vigil kept silent in the tower's own shadow, and makes no move against it, having no order that names a silent watch on open ground his business.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "marker:12"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0123"
+  ]
+ },
+ {
+  "title": "The council answers the keeper's report with nothing",
+  "era_year": 32,
+  "summary": "No order reaches the keeper of Baile chrom's lighthouse, and no word reaches the magistrate who had once fined the vigil in the open, and Ailean Leabhar enters the council's silence into an Leabharlann's register as plainly as any finding.",
+  "category": "law",
+  "people": [
+   "Ailean Leabhar"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [],
+  "master_links": [
+   "V-0123"
+  ]
+ },
+ {
+  "title": "Mòrag nic Coinnich made Ailean's deputy",
+  "era_year": 32,
+  "summary": "On the road home from Àth bheag, Ailean Leabhar asks Mòrag nic Coinnich to stand as an Leabharlann's deputy after a season that has taught him one keeper alone is a Library one bad season from having nobody who can speak for it; she agrees, on the condition that the register always name her deputy and never keeper.",
+  "category": "law",
+  "people": [
+   "Ailean Leabhar",
+   "Mòrag nic Coinnich"
+  ],
+  "places": [
+   "marker:34"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0124"
+  ]
+ }
 ]

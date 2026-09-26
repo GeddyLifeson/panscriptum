@@ -2,7 +2,7 @@
  {
   "title": "The old men compare two crownings",
   "era_year": 125,
-  "summary": "At Cathair dhearg the court remarks that Ìomhar mac Raghnaill's crowning differs little from his father's three-and-thirty years before, the same cup passed hand to hand and the same oath said over it, a quiet continuity the custody-book itself gives only a single line apiece.",
+  "summary": "At Cathair dhearg the court remarks that Ìomhar mac Raghnaill's crowning differs little from his father's three-and-thirty years before, the same cup passed hand to hand and the same oath said over it, a quiet continuity Leabhar a' Chùraim itself gives only a single line apiece.",
   "category": "rulers",
   "people": [
    "Ìomhar mac Raghnaill"
@@ -23,7 +23,7 @@
  {
   "title": "The first silver neck-rings worn",
   "era_year": 149,
-  "summary": "The heads of the seven houses of custody first wear the neck-rings beaten by the smiths of Muileann chiar, so that a stranger at the vein-house or the red hall may know a custodian by the collar at his throat before a word is said.",
+  "summary": "The heads of Na Seachd Taighean first wear the neck-rings beaten by the smiths of Muileann chiar, so that a stranger at Taigh na Fèithe or An Talla Dearg may know a custodian by the collar at his throat before a word is said.",
   "category": "coal",
   "people": [],
   "places": [
@@ -78,7 +78,7 @@
  {
   "title": "The king's habit at the gallery's mouth",
   "era_year": 160,
-  "summary": "King Ìomhar takes up a habit no ruler before him is recorded keeping, asking the youngest hand at any gallery he visits to name the prop, the cut and the tally-mark before him; the vein-house's scribe judges it a kind of counting of his own, made by a king with no child to leave the hall to.",
+  "summary": "King Ìomhar takes up a habit no ruler before him is recorded keeping, asking the youngest hand at any gallery he visits to name the prop, the cut and the tally-mark before him; Taigh na Fèithe's scribe judges it a kind of counting of his own, made by a king with no child to leave the hall to.",
   "category": "coal",
   "people": [
    "Ìomhar mac Raghnaill"
@@ -170,7 +170,7 @@
  {
   "title": "The heads of the seven summoned to the capital",
   "era_year": 181,
-  "summary": "With King Ìomhar dead and no living child of his line, riders carry word to all seven houses of custody that their heads are summoned to Cathair dhearg to choose, for the first time since the sunwise turn, a king the crown's own blood cannot simply hand down.",
+  "summary": "With King Ìomhar dead and no living child of his line, riders carry word to all seven houses of custody that their heads are summoned to Cathair dhearg to choose, for the first time since An Diosal, a king the crown's own blood cannot simply hand down.",
   "category": "rulers",
   "people": [],
   "places": [
@@ -235,7 +235,7 @@
  {
   "title": "The double court divided",
   "era_year": 194,
-  "summary": "King Fearchar settles the custom of keeping his court partly at Cathair dhearg and partly at Baile Mòr dhomhain near the vein-house, with his brother Iain keeping Clann Fhearchair's own hall whenever the court is away at the capital.",
+  "summary": "King Fearchar settles the custom of keeping his court partly at Cathair dhearg and partly at Baile Mòr dhomhain near Taigh na Fèithe, with his brother Iain keeping Clann Fhearchair's own hall whenever the court is away at the capital.",
   "category": "rulers",
   "people": [
    "Fearchar mac Lachlainn",
@@ -313,7 +313,7 @@
  {
   "title": "A king's fire kept to the ordinary measure",
   "era_year": 211,
-  "summary": "Dying, King Fearchar asks that no coal be burned beyond the ordinary handful for any rite made over him, and the vein-house keeps the asking to the letter, so that the fire lit for a king is no larger than the fire any house of the seven lights for its own dead.",
+  "summary": "Dying, King Fearchar asks that no coal be burned beyond the ordinary handful for any rite made over him, and Taigh na Fèithe keeps the asking to the letter, so that the fire lit for a king is no larger than the fire any house of the seven lights for its own dead.",
   "category": "coal",
   "people": [
    "Fearchar mac Lachlainn"
@@ -332,9 +332,9 @@
   ]
  },
  {
-  "title": "The seven houses stand at Clann Fhearchair's grave",
+  "title": "Na Seachd Taighean stand at Clann Fhearchair's grave",
   "era_year": 211,
-  "summary": "The heads of the seven houses, each still wearing the neck-ring of Muileann chiar, stand at the grave of the king they chose nine-and-twenty years before, and not one of them is heard to say the choosing made in that cold yard was anything other than the right one.",
+  "summary": "The heads of Na Seachd Taighean, each still wearing the neck-ring of Muileann chiar, stand at the grave of the king they chose nine-and-twenty years before, and not one of them is heard to say the choosing made in that cold yard was anything other than the right one.",
   "category": "rulers",
   "people": [],
   "places": [
@@ -375,7 +375,7 @@
  {
   "era_year": 164,
   "title": "Fearchar mac Lachlainn bound to the galleries",
-  "summary": "At seven years old Fearchar mac Lachlainn is bound for seven years to a custodian's household above Muileann dhearg, as every child of the seven houses is meant to be, while his younger brother Iain is kept at home to learn the hall.",
+  "summary": "At seven years old Fearchar mac Lachlainn is bound for seven years to a custodian's household above Muileann dhearg, as every child of Na Seachd Taighean is meant to be, while his younger brother Iain is kept at home to learn the hall.",
   "category": "coal",
   "people": [
    "Fearchar mac Lachlainn",
@@ -443,7 +443,7 @@
  {
   "era_year": 182,
   "title": "The head of Clann Ìomhair breaks the silence in the yard",
-  "summary": "After a morning's silence in the yard of the red hall the head of Clann Ìomhair speaks first: the line of Beathag has held the hall a hundred years and more, and no house of the seven has a better claim to it than another.",
+  "summary": "After a morning's silence in the yard of An Talla Dearg the head of Clann Ìomhair speaks first: the line of Beathag has held the hall a hundred years and more, and no house of the seven has a better claim to it than another.",
   "category": "rulers",
   "people": [],
   "places": [
@@ -463,7 +463,7 @@
  {
   "era_year": 188,
   "title": "Birth of Fearchar Donn",
-  "summary": "A son is born to King Fearchar mac Lachlainn, then one-and-thirty and six years crowned, and is called Fearchar Donn for the brown of his hair; he is the first child born to a king the seven houses chose.",
+  "summary": "A son is born to King Fearchar mac Lachlainn, then one-and-thirty and six years crowned, and is called Fearchar Donn for the brown of his hair; he is the first child born to a king Na Seachd Taighean chose.",
   "category": "rulers",
   "people": [
    "Fearchar Donn",

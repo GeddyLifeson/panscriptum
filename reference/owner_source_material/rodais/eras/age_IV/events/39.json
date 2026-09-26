@@ -44,7 +44,7 @@
  {
   "title": "Death of Aonghas mac Lachlainn",
   "era_year": 1804,
-  "summary": "Aonghas mac Lachlainn dies at Cathair dhearg, four-and-eighty years old, the last of the council that had refused Clann Choinnich's second silver petition; asked once more on his deathbed why he had turned his own vote, he answers only that his reason had not stopped seeming good to him, and says no more.",
+  "summary": "Aonghas mac Lachlainn dies at Cathair dhearg, four-and-eighty years old, the last of the council that had refused Clann Choinnich's Athchuingean an Airgid; asked once more on his deathbed why he had turned his own vote, he answers only that his reason had not stopped seeming good to him, and says no more.",
   "category": "law",
   "people": [
    "Aonghas mac Lachlainn"
@@ -88,9 +88,9 @@
   ]
  },
  {
-  "title": "The seven houses name themselves Comhairle a' Chùraim",
+  "title": "Na Seachd Taighean name themselves Comhairle a' Chùraim",
   "era_year": 1812,
-  "summary": "Meeting at Cathair dhearg by chance of their riders' errands rather than by any summons, the heads of the seven houses call themselves Comhairle a' Chùraim, the council of the custody, and name Tormod mac Ailein, eight-and-thirty years old and a custodian's son of no house among the seven, Ceann a' Chùraim to speak for them with one voice.",
+  "summary": "Meeting at Cathair dhearg by chance of their riders' errands rather than by any summons, the heads of Na Seachd Taighean call themselves Comhairle a' Chùraim, the council of the custody, and name Tormod mac Ailein, eight-and-thirty years old and a custodian's son of no house among the seven, Ceann a' Chùraim to speak for them with one voice.",
   "category": "rulers",
   "people": [
    "Tormod mac Ailein"
@@ -130,7 +130,7 @@
  {
   "title": "The queen's chair is left standing empty",
   "era_year": 1812,
-  "summary": "The seven houses leave the chair at the head of the board, the queen's own, standing empty at every sitting after her name is no longer spoken; Tormod mac Ailein, offered it, keeps his place at the board's foot instead, and in time no clerk living can say with certainty whose absence the chair still marks.",
+  "summary": "Na Seachd Taighean leave the chair at the head of the board, the queen's own, standing empty at every sitting after her name is no longer spoken; Tormod mac Ailein, offered it, keeps his place at the board's foot instead, and in time no clerk living can say with certainty whose absence the chair still marks.",
   "category": "rulers",
   "people": [
    "Tormod mac Ailein"
@@ -149,7 +149,7 @@
  {
   "title": "The council's letters keep no name above the seal",
   "era_year": 1812,
-  "summary": "The newly named council of the custody sends out its letters from Cathair dhearg sealed with the vein-house's own trellis and hollow stone and no name written above the seal, continuing without comment a custom the red hall's clerks had already begun in the queen's last silent years.",
+  "summary": "The newly named council of the custody sends out its letters from Cathair dhearg sealed with Taigh na Fèithe's own trellis and hollow stone and no name written above the seal, continuing without comment a custom An Talla Dearg's clerks had already begun in the queen's last silent years.",
   "category": "law",
   "people": [],
   "places": [
@@ -229,7 +229,7 @@
  {
   "title": "The last winter of the age",
   "era_year": 1818,
-  "summary": "On a still morning near the year's dark heart, the priests of Manannan pray at every tide at Seann Skell, the boats of Ceann mhòr turn for home before the rule strictly asks it of them, and the council keeps its board at Cathair dhearg with the chair at its head still empty, while the harbour-house lamp-window that once marked the night of lamps stands dark for another winter.",
+  "summary": "On a still morning near the year's dark heart, the priests of Manannan pray at every tide at Seann Skell, the boats of Ceann mhòr turn for home before the rule strictly asks it of them, and the council keeps its board at Cathair dhearg with the chair at its head still empty, while the harbour-house lamp-window that once marked Oidhche nan Lòchran stands dark for another winter.",
   "category": "faith",
   "people": [],
   "places": [
@@ -254,7 +254,7 @@
  {
   "era_year": 1803,
   "title": "Eòghann mac Nèill counts the rite of the eleven",
-  "summary": "At the rite of the empty harbour on Cidhe an Diosail, Eòghann mac Nèill, eleven years the quay's scribe, stands back as the scribe's place requires and counts the people on the stones twice, once by eye and once by name: eleven.",
+  "summary": "At Deas-ghnàth a' Chalaidh Fhalaimh on Cidhe an Diosail, Eòghann mac Nèill, eleven years the quay's scribe, stands back as the scribe's place requires and counts the people on the stones twice, once by eye and once by name: eleven.",
   "category": "faith",
   "people": [
    "Eòghann mac Nèill"
@@ -275,8 +275,8 @@
  },
  {
   "era_year": 1812,
-  "title": "The red hall holds five hundred souls",
-  "summary": "In the year the seven houses name their council, the red hall at Cathair dhearg holds perhaps five hundred souls in all its lanes and closes, fewer than the tenants of a single one of the seven houses in a good year.",
+  "title": "An Talla Dearg holds five hundred souls",
+  "summary": "In the year Na Seachd Taighean name their council, An Talla Dearg at Cathair dhearg holds perhaps five hundred souls in all its lanes and closes, fewer than the tenants of a single one of Na Seachd Taighean in a good year.",
   "category": "land",
   "people": [],
   "places": [

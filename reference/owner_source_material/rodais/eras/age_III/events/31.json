@@ -4,70 +4,149 @@
   "era_year": 1642,
   "summary": "Among the guards of the southern ford paid that winter in Fearchar Òg's new stamped rings is Aonghas Ruadh of Cnoc mhòr, who carries his home turning it over in his hand, unsure at first that so small a weight can be a whole season's wage. His wife Sìne trades it for cloth within the week and proves him wrong.",
   "category": "trade",
-  "people": ["Aonghas Ruadh", "Sìne"],
-  "places": ["burg:22"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0127", "type": "elaborates"}]
+  "people": [
+   "Aonghas Ruadh",
+   "Sìne"
+  ],
+  "places": [
+   "burg:22"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0127",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "The birth of Mòrag Dhubh",
   "era_year": 1640,
   "summary": "Aonghas Ruadh and Sìne of Cnoc mhòr have a daughter, black-haired against the fairness of both their houses, and name her Mòrag. She is raised at a hearth already full of staves and toll-talk, in the first winters of the hall's new silver.",
   "category": "trade",
-  "people": ["Mòrag Dhubh"],
-  "places": ["burg:31"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0129", "type": "cause"}]
+  "people": [
+   "Mòrag Dhubh"
+  ],
+  "places": [
+   "burg:31"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0129",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "Dòmhnall Beag sent to keep the toll at Àth ghlas",
   "era_year": 1647,
   "summary": "Fearchar Òg's clerks send a hall-trained man, Dòmhnall Beag, to weigh the new silver toll at the ford of Àth ghlas, where the Griogaraich have kept the crossing's toll by their own standing for longer than anyone can say. It is the first toll-house on any road kept by a man not chosen at the place.",
   "category": "law",
-  "people": ["Dòmhnall Beag"],
-  "places": ["burg:393"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0128", "type": "elaborates"}]
+  "people": [
+   "Dòmhnall Beag"
+  ],
+  "places": [
+   "burg:393"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0128",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "The Griogaraich come round to Dòmhnall Beag's scale",
   "era_year": 1648,
   "summary": "A year into his keeping of the toll-house, Dòmhnall Beag is still unhelped by the ford's own family, until the winter's firewood and the spring floods force first one and then most of the Griogaraich to take his silver for their labour, never all admitting it to one another.",
   "category": "trade",
-  "people": ["Dòmhnall Beag"],
-  "places": ["burg:393"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0128", "type": "sequel"}]
+  "people": [
+   "Dòmhnall Beag"
+  ],
+  "places": [
+   "burg:393"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0128",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Mòrag Dhubh cuts her own staff",
   "era_year": 1655,
   "summary": "Having outgrown every staff her father owns, Mòrag Dhubh cuts one of her own from a young ash at the wood's edge, straight-grained and a hand's breadth taller than she is, and carries it everywhere a girl of the southern road may carry a staff without remark.",
   "category": "trade",
-  "people": ["Mòrag Dhubh"],
-  "places": ["burg:31"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0129", "type": "cause"}]
+  "people": [
+   "Mòrag Dhubh"
+  ],
+  "places": [
+   "burg:31"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0129",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "Mòrag Dhubh's first bout at Ceann leathan",
   "era_year": 1660,
   "summary": "Against her father's own doubts, Mòrag Dhubh enters the guards' yearly meeting at Ceann leathan, the first woman to do so, and loses in the second round to a guard twice her age and size, who tells her afterward she had the surest staff of anyone he fought that day.",
   "category": "trade",
-  "people": ["Mòrag Dhubh"],
-  "places": ["burg:22"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0129", "type": "elaborates"}]
+  "people": [
+   "Mòrag Dhubh"
+  ],
+  "places": [
+   "burg:22"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0129",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "Mòrag Dhubh wins the meeting at Ceann leathan",
   "era_year": 1665,
   "summary": "In her fifth year entering, Mòrag Dhubh of Cnoc mhòr beats Ruairidh Fada of Muileann chrom, twice the meeting's winner before her, in the last bout by torchlight, and is given the finest ring struck that season. She is the first winner of the meeting whose name the reciters keep.",
   "category": "trade",
-  "people": ["Mòrag Dhubh", "Ruairidh Fada"],
-  "places": ["burg:22"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0129", "type": "elaborates"}]
+  "people": [
+   "Mòrag Dhubh",
+   "Ruairidh Fada"
+  ],
+  "places": [
+   "burg:22"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0129",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "Ceann leathan's own mark is asked of the hall's smiths",
@@ -75,9 +154,18 @@
   "summary": "With the guards' meeting grown into a day the whole market profits by, Ceann leathan's traders ask Fearchar Òg's smiths for a ring carrying the ford's own mark beside the hall's hearth-sign, so that the finest ring struck each season may be known at a glance as the meeting's own.",
   "category": "trade",
   "people": [],
-  "places": ["burg:22"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0129", "type": "legacy"}]
+  "places": [
+   "burg:22"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0129",
+    "type": "legacy"
+   }
+  ]
  },
  {
   "title": "Muileann òg's households ask a charter for the harvest meeting",
@@ -85,19 +173,39 @@
   "summary": "Seeing what silver a season's traders leave behind them, the households resettled at Muileann òg's ford ask Fearchar Òg's clerks for a charter of the trading already grown up there at Lùnastal, and are granted it, the hall having learned a fed market pays more toll than a starved one.",
   "category": "trade",
   "people": [],
-  "places": ["burg:151"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0130", "type": "elaborates"}]
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0130",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "Mòrag Dhubh trades wool at the Lùnastal fair",
   "era_year": 1672,
   "summary": "Some years after her win, Mòrag Dhubh walks a season's wool to Muileann òg's fair to trade for cloth her own household cannot weave as fine, and is asked there by an eastern trader whether the tale of the ring she wears is true.",
   "category": "trade",
-  "people": ["Mòrag Dhubh"],
-  "places": ["burg:151"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0130", "type": "sequel"}]
+  "people": [
+   "Mòrag Dhubh"
+  ],
+  "places": [
+   "burg:151"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0130",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The landing built at Cidhe Beag",
@@ -105,19 +213,40 @@
   "summary": "The hall's clerks raise timbered piers at the old scramble of stones called Cidhe Beag on the Abhainn uaine, judging a river running near empty beside a road worn to ruts a waste the granaries can no longer afford, and put out word for boats to be built to work it.",
   "category": "trade",
   "people": [],
-  "places": ["marker:39"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0131", "type": "elaborates"}]
+  "places": [
+   "marker:39"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0131",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "Ciorstaidh leads the carriers' protest to Dùn dhearg",
   "era_year": 1670,
   "summary": "Ciorstaidh, who has carried grain on the eastern road sixty years, walks with two other elders the whole distance to Dùn dhearg to tell Fearchar Òg that a river-boat will starve half their households of the wages that have fed them since before the hall was built. He does not turn the landing back.",
   "category": "trade",
-  "people": ["Ciorstaidh", "Fearchar Òg"],
-  "places": ["burg:422"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0131", "type": "elaborates"}]
+  "people": [
+   "Ciorstaidh",
+   "Fearchar Òg"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0131",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "The boatmen of Muileann chrom swear the paddle-oath",
@@ -125,38 +254,81 @@
   "summary": "The young crews of Muileann chrom who take up the new river trade settle among themselves, without any hall's asking, that no man may call himself one of their fellowship until he has sworn on his own paddle to answer another boatman's need on the water before his own household's.",
   "category": "trade",
   "people": [],
-  "places": ["burg:354"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0133", "type": "elaborates"}]
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0133",
+    "type": "elaborates"
+   }
+  ]
  },
  {
   "title": "Dòmhnall of Cnoc mhòr swears his paddle",
   "era_year": 1675,
   "summary": "Mòrag Dhubh's younger brother Dòmhnall, who never took to the staff as she did, swears his paddle-oath among the second crews of Muileann chrom the same year her own daughter is born, so that one household comes to hold a ring won on land and an oath sworn on water.",
   "category": "trade",
-  "people": ["Dòmhnall", "Mòrag Dhubh"],
-  "places": ["burg:354"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0133", "type": "person"}]
+  "people": [
+   "Dòmhnall",
+   "Mòrag Dhubh"
+  ],
+  "places": [
+   "burg:354"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0133",
+    "type": "person"
+   }
+  ]
  },
  {
   "title": "Fearchar Òg dies at Dùn dhearg",
   "era_year": 1680,
-  "summary": "Fearchar Òg dies at ninety-four in the hall his clerks first struck the silver rings in, found gone in his own chair by his steward's grandson. He is buried among the house of Ìomhar after a reign of eighty-seven years, the longest the roll can name, remembered chiefly for its length.",
+  "summary": "Fearchar Òg dies at ninety-four in the hall his clerks first struck the silver rings in, found gone in his own chair by his steward's grandson. He is buried among Sliochd Ìomhair after a reign of eighty-seven years, the longest the roll can name, remembered chiefly for its length.",
   "category": "rulers",
-  "people": ["Fearchar Òg"],
-  "places": ["burg:422"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0126", "type": "legacy"}]
+  "people": [
+   "Fearchar Òg"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0126",
+    "type": "legacy"
+   }
+  ]
  },
  {
   "title": "Word of the king's death reaches Cnoc mhòr",
   "era_year": 1680,
   "summary": "Carried down the southern road by guards paid most of their working lives in Fearchar Òg's silver, word of his death reaches Cnoc mhòr and an aging Mòrag Dhubh, who turns her own worn ring in her fingers at the hearth and says the king made one thing that did not need his hand to keep travelling.",
   "category": "rulers",
-  "people": ["Mòrag Dhubh"],
-  "places": ["burg:31"],
-  "threads": ["the-road-peace"],
-  "master_links": [{"to": "II-0126", "type": "sequel"}]
+  "people": [
+   "Mòrag Dhubh"
+  ],
+  "places": [
+   "burg:31"
+  ],
+  "threads": [
+   "the-road-peace"
+  ],
+  "master_links": [
+   {
+    "to": "II-0126",
+    "type": "sequel"
+   }
+  ]
  }
 ]

@@ -6,29 +6,6 @@
  ],
  "events": [
   {
-   "id": "EV-4501",
-   "title": "The first harvest short",
-   "body": "The harvest round Baile chrom comes in at less than half the carts of the year before, the fields sown thin for want of hands and beaten further by two summer storms. Uisdean counts the carts against his own earlier tally and finds the shortfall for himself.",
-   "place": "burg:305",
-   "kind": "land",
-   "category": "land",
-   "links": [
-    {
-     "to": "IV-0194",
-     "type": "sequel"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "uisdean-mac-lachlainn"
-   ],
-   "told_in": "book/24_of_gorta_baile_chrom.md#i-of-the-empty-road",
-   "era_between": [
-    93,
-    93
-   ]
-  },
-  {
    "after": "IV-0195a"
   },
   {
