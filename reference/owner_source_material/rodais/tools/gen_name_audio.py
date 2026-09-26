@@ -136,13 +136,19 @@ SR = 24000
 def acute(t):   # Dia-thìris is read by the Irish model: grave accents -> acutes
     return unicodedata.normalize('NFC', unicodedata.normalize('NFD', t).replace('̀', '́'))
 
-def say(text):
-    a = model.generate(text=acute(text) + '.', language='ga', voice_clone_prompt=prompt, generation_config=cfg)[0]
+def say(text, duration=None):
+    a = model.generate(text=acute(text) + '.', language='ga', voice_clone_prompt=prompt, generation_config=cfg,
+                       **({'duration': duration} if duration else {}))[0]
     a = np.asarray(a, dtype=np.float32)
     if not len(a): raise RuntimeError('empty audio')
     a = a / (np.abs(a).max() + 1e-9) * 0.9
     idx = np.where(np.abs(a) > 0.01)[0]
     if len(idx): a = a[max(0, idx[0] - 1200): min(len(a), idx[-1] + 2400)]
+    # OmniVoice guesses too short a length for some long compound names and gabbles them: under 0.055 s a letter
+    # (the game's gr clips run at a median 0.076) the name is read again at 0.07 s a letter
+    letters = sum(c.isalpha() for c in text)
+    if duration is None and len(a) / SR < 0.055 * letters:
+        return say(text, duration=0.07 * letters + 0.15)
     return a
 
 t0 = time.time()
