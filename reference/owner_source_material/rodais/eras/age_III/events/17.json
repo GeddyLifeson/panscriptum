@@ -73,7 +73,7 @@
   "master_links": [
    {
     "to": "II-0045",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -94,7 +94,7 @@
   "master_links": [
    {
     "to": "II-0045",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -115,7 +115,7 @@
   "master_links": [
    {
     "to": "II-0045",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -217,7 +217,7 @@
   "master_links": [
    {
     "to": "II-0047",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -234,7 +234,7 @@
   "master_links": [
    {
     "to": "II-0048",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },

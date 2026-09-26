@@ -33,7 +33,7 @@
   "master_links": [
    {
     "to": "I-0012",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -52,7 +52,7 @@
   "master_links": [
    {
     "to": "I-0012",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -71,7 +71,7 @@
   "master_links": [
    {
     "to": "I-0012",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -90,7 +90,7 @@
   "master_links": [
    {
     "to": "I-0012",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -108,7 +108,7 @@
   "master_links": [
    {
     "to": "I-0011a",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -201,7 +201,7 @@
   "master_links": [
    {
     "to": "I-0011a",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -239,7 +239,7 @@
   "master_links": [
    {
     "to": "I-0014",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

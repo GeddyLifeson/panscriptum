@@ -164,7 +164,7 @@
   "master_links": [
    {
     "to": "III-0005",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

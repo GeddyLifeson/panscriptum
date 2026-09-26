@@ -81,7 +81,7 @@
    "links": [
     {
      "to": "III-0168",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -497,7 +497,7 @@
    "links": [
     {
      "to": "III-0180",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -522,7 +522,7 @@
    "links": [
     {
      "to": "III-0180",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -743,7 +743,7 @@
    "links": [
     {
      "to": "III-0185",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -888,7 +888,7 @@
    "links": [
     {
      "to": "III-0190",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],

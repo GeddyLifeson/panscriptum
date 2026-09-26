@@ -68,7 +68,7 @@
    "links": [
     {
      "to": "II-0073",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-5002",
@@ -363,7 +363,7 @@
    "links": [
     {
      "to": "II-0076a",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-5013",
@@ -390,7 +390,7 @@
    "links": [
     {
      "to": "II-0076a",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-5014",
@@ -500,7 +500,7 @@
    "links": [
     {
      "to": "II-0080",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-5018",
@@ -1093,7 +1093,7 @@
    "links": [
     {
      "to": "II-0088",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-5041",
@@ -1118,7 +1118,7 @@
    "links": [
     {
      "to": "II-0088",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-5042",
@@ -1168,7 +1168,7 @@
    "links": [
     {
      "to": "II-0089",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-5044",

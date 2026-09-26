@@ -19,7 +19,7 @@
    },
    {
     "to": "VI-0025",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/11_the_wick_over_the_door.md#i-of-the-roads-before-the-lamps"
@@ -39,7 +39,7 @@
   "master_links": [
    {
     "to": "VI-0025",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/11_the_wick_over_the_door.md#i-of-the-roads-before-the-lamps"
@@ -59,7 +59,7 @@
   "master_links": [
    {
     "to": "VI-0026",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion"
@@ -124,7 +124,7 @@
   "master_links": [
    {
     "to": "VI-0026a",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0010",
@@ -179,7 +179,7 @@
   "master_links": [
    {
     "to": "VI-0027",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/11_the_wick_over_the_door.md#iv-of-am-buabhall-fortanach"
@@ -264,11 +264,11 @@
   "master_links": [
    {
     "to": "VI-0028",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0038",
-    "type": "sequel"
+    "type": "cause"
    }
   ],
   "told_in": "book/11_the_wick_over_the_door.md#v-of-the-two-houses-and-the-carriers-song"

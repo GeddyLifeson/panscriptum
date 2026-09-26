@@ -32,7 +32,7 @@
   "master_links": [
    {
     "to": "II-0010",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },

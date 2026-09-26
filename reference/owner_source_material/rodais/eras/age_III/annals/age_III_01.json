@@ -175,7 +175,7 @@
    "links": [
     {
      "to": "I-0098a",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -497,7 +497,7 @@
    "links": [
     {
      "to": "II-0001",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -521,7 +521,7 @@
    "links": [
     {
      "to": "II-0001",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -547,7 +547,7 @@
    "links": [
     {
      "to": "II-0001",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "I-0255",
@@ -644,7 +644,7 @@
    "links": [
     {
      "to": "II-0001",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-1023",

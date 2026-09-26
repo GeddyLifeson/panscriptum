@@ -1,258 +1,258 @@
 [
-  {
-    "title": "Ailean set to the counting-house at Cathair dhearg",
-    "era_year": "V-0005",
-    "summary": "Ailean mac Iain is set to the humans' counting-house at Cathair dhearg to box the north wall's tithe rolls unread, and says nothing of the letters a Mission reader taught him as a boy, for a clerk who reads aloud what he is told only to box is not a clerk kept long.",
-    "category": "law",
-    "people": [
-      "Ailean mac Iain"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      {
-        "to": "V-0005",
-        "type": "sequel"
-      }
-    ]
+ {
+  "title": "Ailean set to the counting-house at Cathair dhearg",
+  "era_year": "V-0005",
+  "summary": "Ailean mac Iain is set to the humans' counting-house at Cathair dhearg to box the north wall's tithe rolls unread, and says nothing of the letters a Mission reader taught him as a boy, for a clerk who reads aloud what he is told only to box is not a clerk kept long.",
+  "category": "law",
+  "people": [
+   "Ailean mac Iain"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "V-0005",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The fire-damaged tithe rolls boxed as loose leaves",
+  "era_year": {
+   "after": "V-0005"
   },
-  {
-    "title": "The fire-damaged tithe rolls boxed as loose leaves",
-    "era_year": {
-      "after": "V-0005"
-    },
-    "summary": "Where the counting-house fire at Cathair dhearg burned a shelf's ledgers through the middle rather than whole, Ailean gathers the crumbling leaves as best their order can be guessed and marks the crate that the order is his own guess and not to be trusted past that.",
-    "category": "law",
-    "people": [
-      "Ailean mac Iain"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0005",
-        "type": "sequel"
-      }
-    ]
+  "summary": "Where the counting-house fire at Cathair dhearg burned a shelf's ledgers through the middle rather than whole, Ailean gathers the crumbling leaves as best their order can be guessed and marks the crate that the order is his own guess and not to be trusted past that.",
+  "category": "law",
+  "people": [
+   "Ailean mac Iain"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0005",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The Ros dhomhain tariff copied into Dia-thìris",
+  "era_year": {
+   "after": "V-0005"
   },
-  {
-    "title": "The Ros dhomhain tariff copied into Dia-thìris",
-    "era_year": {
-      "after": "V-0005"
-    },
-    "summary": "At the harbour offices of Ros dhomhain, Ailean copies the humans' tariff tables clause by clause into Dia-thìris, building the words for duties his own tongue had never before had cause to name, and the duty itself stands unchanged under its new ink.",
-    "category": "trade",
-    "people": [
-      "Ailean mac Iain"
-    ],
-    "places": [
-      "burg:27"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0005",
-        "type": "sequel"
-      }
-    ]
+  "summary": "At the harbour offices of Ros dhomhain, Ailean copies the humans' tariff tables clause by clause into Dia-thìris, building the words for duties his own tongue had never before had cause to name, and the duty itself stands unchanged under its new ink.",
+  "category": "trade",
+  "people": [
+   "Ailean mac Iain"
+  ],
+  "places": [
+   "burg:27"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0005",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The district surveys found behind a locked grating",
+  "era_year": {
+   "after": "V-0005"
   },
-  {
-    "title": "The district surveys found behind a locked grating",
-    "era_year": {
-      "after": "V-0005"
-    },
-    "summary": "In the whole counting-house at Seann Skell in the west, Ailean forces a locked grating and finds eleven rolled district surveys, the only whole survey of the island's fields anywhere to be had, each walked, measured and scaled by the humans' own hand.",
-    "category": "law",
-    "people": [
-      "Ailean mac Iain"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      {
-        "to": "V-0005",
-        "type": "sequel"
-      }
-    ]
+  "summary": "In the whole counting-house at Seann Skell in the west, Ailean forces a locked grating and finds eleven rolled district surveys, the only whole survey of the island's fields anywhere to be had, each walked, measured and scaled by the humans' own hand.",
+  "category": "law",
+  "people": [
+   "Ailean mac Iain"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "V-0005",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The surveys boxed apart and labelled for the council",
+  "era_year": {
+   "after": "V-0005"
   },
-  {
-    "title": "The surveys boxed apart and labelled for the council",
-    "era_year": {
-      "after": "V-0005"
-    },
-    "summary": "Ruairidh orders the district surveys boxed apart from the tithe rolls, for the council's own clerks rather than the reckoners, and Ailean chalks the crate's lid with six words rather than a description: the shires will be drawn on them.",
-    "category": "law",
-    "people": [
-      "Ailean mac Iain"
-    ],
-    "places": [
-      "burg:489"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      {
-        "to": "V-0005",
-        "type": "cause"
-      }
-    ]
+  "summary": "Ruairidh orders the district surveys boxed apart from the tithe rolls, for the council's own clerks rather than the reckoners, and Ailean chalks the crate's lid with six words rather than a description: the shires will be drawn on them.",
+  "category": "law",
+  "people": [
+   "Ailean mac Iain"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   {
+    "to": "V-0005",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The harbour store's lock broken at Ceann mhòr",
+  "era_year": "V-0006",
+  "summary": "A fisherman of Ceann mhòr breaks the lock of the humans' harbour store with a hammer and stands back to let the town see what is inside, and it is the town, not the man who struck the lock, that shares the rope, canvas and salt out house by house within the hour.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0006",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The unfished nets loosed at Cathair gheal",
+  "era_year": {
+   "after": "V-0006"
   },
-  {
-    "title": "The harbour store's lock broken at Ceann mhòr",
-    "era_year": "V-0006",
-    "summary": "A fisherman of Ceann mhòr breaks the lock of the humans' harbour store with a hammer and stands back to let the town see what is inside, and it is the town, not the man who struck the lock, that shares the rope, canvas and salt out house by house within the hour.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:143"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0006",
-        "type": "sequel"
-      }
-    ]
+  "summary": "A whole loft of nets that had never been fished goes out to every boat in the harbour at Cathair gheal on a single tide, and the fleet fishes that year with gear it never paid a coin for and never afterward wonders whose it had been.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:476"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0006",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The reckoning drawn up by three women of Inis àrsaidh",
+  "era_year": {
+   "after": "V-0006"
   },
-  {
-    "title": "The unfished nets loosed at Cathair gheal",
-    "era_year": {
-      "after": "V-0006"
-    },
-    "summary": "A whole loft of nets that had never been fished goes out to every boat in the harbour at Cathair gheal on a single tide, and the fleet fishes that year with gear it never paid a coin for and never afterward wonders whose it had been.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:476"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0006",
-        "type": "sequel"
-      }
-    ]
+  "summary": "At Inis àrsaidh, poorer and smaller than its neighbours, three women of the town draw up on the spot the reckoning of who has a boat and who has none, and so who needs rope or salt the more, with no office to do it and none afterward to say they did it wrong.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:330"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0006",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The north-west locks left unanswered",
+  "era_year": {
+   "after": "V-0006"
   },
-  {
-    "title": "The reckoning drawn up by three women of Inis àrsaidh",
-    "era_year": {
-      "after": "V-0006"
-    },
-    "summary": "At Inis àrsaidh, poorer and smaller than its neighbours, three women of the town draw up on the spot the reckoning of who has a boat and who has none, and so who needs rope or salt the more, with no office to do it and none afterward to say they did it wrong.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:330"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0006",
-        "type": "sequel"
-      }
-    ]
+  "summary": "No maor comes north to ask who struck the first lock at Ceann mhòr, Cathair gheal or Inis àrsaidh before the following spring, by which time there is nothing left locked to account for, and the towns' own telling of the broken stores hardens into the kind of story a place keeps because it likes its shape.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0006",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The state's seal begun at Cathair dhearg",
+  "era_year": {
+   "after": "V-0005"
   },
-  {
-    "title": "The north-west locks left unanswered",
-    "era_year": {
-      "after": "V-0006"
-    },
-    "summary": "No maor comes north to ask who struck the first lock at Ceann mhòr, Cathair gheal or Inis àrsaidh before the following spring, by which time there is nothing left locked to account for, and the towns' own telling of the broken stores hardens into the kind of story a place keeps because it likes its shape.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:143"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0006",
-        "type": "sequel"
-      }
-    ]
+  "summary": "In the same week as the proclamation, the council's engraver at Cathair dhearg begins cutting a seal for the state's own letters, to be set upon documents no different in kind from the ones Ailean spent the summer boxing unread.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0007",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Rìoghachd Dia-thìr proclaimed from the counting-house steps",
+  "era_year": "V-0007",
+  "summary": "A herald reads the council's proclamation from the steps of the Cathair dhearg counting-house, naming the state Rìoghachd Dia-thìr and the years of settling complete; Ailean stands in the crowd and does not cheer, thinking the naming a kind of label, true as far as it goes and silent about the rest.",
+  "category": "rulers",
+  "people": [
+   "Ailean mac Iain"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0007",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The proclamation read at the market crosses of the south",
+  "era_year": {
+   "after": "V-0007"
   },
-  {
-    "title": "The state's seal begun at Cathair dhearg",
-    "era_year": {
-      "after": "V-0005"
-    },
-    "summary": "In the same week as the proclamation, the council's engraver at Cathair dhearg begins cutting a seal for the state's own letters, to be set upon documents no different in kind from the ones Ailean spent the summer boxing unread.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0007",
-        "type": "parallel"
-      }
-    ]
-  },
-  {
-    "title": "Rìoghachd Dia-thìr proclaimed from the counting-house steps",
-    "era_year": "V-0007",
-    "summary": "A herald reads the council's proclamation from the steps of the Cathair dhearg counting-house, naming the state Rìoghachd Dia-thìr and the years of settling complete; Ailean stands in the crowd and does not cheer, thinking the naming a kind of label, true as far as it goes and silent about the rest.",
-    "category": "rulers",
-    "people": [
-      "Ailean mac Iain"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0007",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The proclamation read at the market crosses of the south",
-    "era_year": {
-      "after": "V-0007"
-    },
-    "summary": "Copies of the proclamation styling the state Rìoghachd Dia-thìr are read at the market crosses of every southern town within the fortnight, in the same flat, official voice, whatever crowd happens to be standing near enough to hear it.",
-    "category": "rulers",
-    "people": [],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      {
-        "to": "V-0007",
-        "type": "sequel"
-      }
-    ]
-  },
-  {
-    "title": "The humans' ledgers boxed unread",
-    "era_year": 2,
-    "summary": "Ruairidh, master of the counting-house room at Cathair dhearg, gives Ailean mac Iain the whole northern wall of the humans' ledgers to clear and tells him to box them unread; Ailean, who could have read several of them, boxes them as he is told.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "V-0005"
-    ]
-  }
+  "summary": "Copies of the proclamation styling the state Rìoghachd Dia-thìr are read at the market crosses of every southern town within the fortnight, in the same flat, official voice, whatever crowd happens to be standing near enough to hear it.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "V-0007",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The humans' ledgers boxed unread",
+  "era_year": 2,
+  "summary": "Ruairidh, master of the counting-house room at Cathair dhearg, gives Ailean mac Iain the whole northern wall of the humans' ledgers to clear and tells him to box them unread; Ailean, who could have read several of them, boxes them as he is told.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-library"
+  ],
+  "master_links": [
+   "V-0005"
+  ]
+ }
 ]

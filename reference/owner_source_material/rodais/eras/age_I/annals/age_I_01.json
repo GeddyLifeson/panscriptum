@@ -18,7 +18,7 @@
    "links": [
     {
      "to": "I-0001",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -44,7 +44,7 @@
    "links": [
     {
      "to": "I-0001",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-1001",
@@ -73,7 +73,7 @@
    "links": [
     {
      "to": "I-0001",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-1002",
@@ -131,7 +131,7 @@
    "links": [
     {
      "to": "I-0001",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-1004",
@@ -368,7 +368,7 @@
    "links": [
     {
      "to": "I-0001",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-1012",
@@ -397,7 +397,7 @@
    "links": [
     {
      "to": "I-0001",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-1013",

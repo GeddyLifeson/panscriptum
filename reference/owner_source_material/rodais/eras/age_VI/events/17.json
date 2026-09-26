@@ -38,7 +38,7 @@
   "master_links": [
    {
     "to": "V-0076",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -76,7 +76,7 @@
   "master_links": [
    {
     "to": "V-0077",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },

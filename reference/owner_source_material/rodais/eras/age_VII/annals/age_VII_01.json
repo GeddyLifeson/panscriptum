@@ -225,7 +225,7 @@
    "links": [
     {
      "to": "VI-0002",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EVII-1007",
@@ -254,7 +254,7 @@
    "links": [
     {
      "to": "VI-0002",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EVII-1008",
@@ -469,7 +469,7 @@
     },
     {
      "to": "V-0003",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EVII-1016",
@@ -933,7 +933,7 @@
     },
     {
      "to": "V-0236",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -1082,7 +1082,7 @@
     },
     {
      "to": "V-0024",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EVII-1037",
@@ -1140,7 +1140,7 @@
    "links": [
     {
      "to": "V-0088",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "VI-0005",

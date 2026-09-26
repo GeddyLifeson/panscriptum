@@ -72,11 +72,11 @@
   "master_links": [
    {
     "to": "VI-0049",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0049a",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/15_of_the_fifteenth_year.md#ii-of-the-fifth-of-an-ceitean"
@@ -174,7 +174,7 @@
   "master_links": [
    {
     "to": "VI-0050",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/15_of_the_fifteenth_year.md#iv-of-the-plain-seal"

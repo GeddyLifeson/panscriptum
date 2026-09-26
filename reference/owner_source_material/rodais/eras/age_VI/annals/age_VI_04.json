@@ -66,7 +66,7 @@
    "links": [
     {
      "to": "V-0043",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -159,7 +159,7 @@
    "links": [
     {
      "to": "V-0044a",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -409,7 +409,7 @@
    "links": [
     {
      "to": "V-0049",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -429,7 +429,7 @@
    "links": [
     {
      "to": "V-0050",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],

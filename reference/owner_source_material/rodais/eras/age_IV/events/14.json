@@ -54,7 +54,7 @@
   "master_links": [
    {
     "to": "III-0053",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -209,7 +209,7 @@
   "master_links": [
    {
     "to": "III-0058",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -306,7 +306,7 @@
   "master_links": [
    {
     "to": "III-0061",
-    "type": "legacy"
+    "type": "cause"
    }
   ]
  },
@@ -455,7 +455,7 @@
   "master_links": [
    {
     "to": "III-0058",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "chronicle": true

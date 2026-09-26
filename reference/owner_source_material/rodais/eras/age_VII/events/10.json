@@ -17,7 +17,7 @@
   "master_links": [
    {
     "to": "VI-0022",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0008",
@@ -42,7 +42,7 @@
   "master_links": [
    {
     "to": "VI-0022",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "V-0058",
@@ -71,7 +71,7 @@
   "master_links": [
    {
     "to": "VI-0022",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/10_the_coal_line_and_the_salt_road.md#i-of-the-yard-at-muileann-chrom"
@@ -186,7 +186,7 @@
   "master_links": [
    {
     "to": "VI-0023",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "V-0124",
@@ -268,7 +268,7 @@
   "master_links": [
    {
     "to": "VI-0024",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "V-0232",

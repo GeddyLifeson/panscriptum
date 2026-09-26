@@ -80,7 +80,7 @@
   "master_links": [
    {
     "to": "II-0128",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },

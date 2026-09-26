@@ -17,7 +17,7 @@
   "master_links": [
    {
     "to": "VI-0030",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0022",
@@ -41,7 +41,7 @@
   "master_links": [
    {
     "to": "VI-0030",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#i-of-the-long-siding"
@@ -133,7 +133,7 @@
   "master_links": [
    {
     "to": "VI-0031",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#ii-of-the-reek-at-an-taigh-seinnse-reota"
@@ -180,7 +180,7 @@
   "master_links": [
    {
     "to": "VI-0032",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/12_the_engines_laid_up_and_the_pit_quarter_emptied.md#iii-of-the-last-face"

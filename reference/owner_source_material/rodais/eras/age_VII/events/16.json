@@ -17,7 +17,7 @@
   "master_links": [
    {
     "to": "VI-0055",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#i-of-the-pit-captains-daughter"
@@ -40,7 +40,7 @@
   "master_links": [
    {
     "to": "VI-0055",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#i-of-the-pit-captains-daughter"

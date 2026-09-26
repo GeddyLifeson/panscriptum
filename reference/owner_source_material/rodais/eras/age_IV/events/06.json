@@ -38,7 +38,7 @@
   "master_links": [
    {
     "to": "III-0014",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -60,7 +60,7 @@
   "master_links": [
    {
     "to": "III-0014",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },

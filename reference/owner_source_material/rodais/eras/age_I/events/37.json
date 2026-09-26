@@ -12,7 +12,7 @@
   "master_links": [
    {
     "to": "I-0078",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -30,7 +30,7 @@
   "master_links": [
    {
     "to": "I-0079",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

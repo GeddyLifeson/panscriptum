@@ -365,7 +365,7 @@
    "links": [
     {
      "to": "III-0140",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -445,7 +445,7 @@
    "links": [
     {
      "to": "III-0143",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -695,7 +695,7 @@
    "links": [
     {
      "to": "III-0149",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -718,7 +718,7 @@
    "links": [
     {
      "to": "III-0149",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -816,7 +816,7 @@
    "links": [
     {
      "to": "III-0151",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -963,7 +963,7 @@
    "links": [
     {
      "to": "III-0153",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -1110,7 +1110,7 @@
    "links": [
     {
      "to": "III-0156",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -1401,7 +1401,7 @@
    "links": [
     {
      "to": "III-0160",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],

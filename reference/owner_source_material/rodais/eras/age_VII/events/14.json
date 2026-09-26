@@ -17,7 +17,7 @@
   "master_links": [
    {
     "to": "VI-0042",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/14_of_the_charter_rule.md#i-of-the-house-of-mac-uisdein"
@@ -195,7 +195,7 @@
   "master_links": [
    {
     "to": "VI-0045",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/14_of_the_charter_rule.md#iv-of-the-chartering-at-seann-skell"

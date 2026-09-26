@@ -67,7 +67,7 @@
   "master_links": [
    {
     "to": "II-0006",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

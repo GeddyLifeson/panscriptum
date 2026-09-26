@@ -38,7 +38,7 @@
    "links": [
     {
      "to": "II-0045",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-4001",
@@ -65,7 +65,7 @@
    "links": [
     {
      "to": "II-0045",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-4002",
@@ -92,7 +92,7 @@
    "links": [
     {
      "to": "II-0045",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-4003",
@@ -227,7 +227,7 @@
    "links": [
     {
      "to": "II-0047",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-4008",
@@ -257,7 +257,7 @@
    "links": [
     {
      "to": "II-0048",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -649,7 +649,7 @@
    "links": [
     {
      "to": "II-0061",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-4025",
@@ -719,7 +719,7 @@
    "links": [
     {
      "to": "II-0063",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-4028",
@@ -1033,7 +1033,7 @@
    "links": [
     {
      "to": "II-0064b",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-4041",
@@ -1058,7 +1058,7 @@
    "links": [
     {
      "to": "II-0064b",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1100,7 +1100,7 @@
    "links": [
     {
      "to": "II-0064b",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1124,7 +1124,7 @@
    "links": [
     {
      "to": "II-0064b",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -1208,7 +1208,7 @@
    "links": [
     {
      "to": "II-0064c",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -1234,7 +1234,7 @@
    "links": [
     {
      "to": "II-0064c",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-4050",
@@ -1263,7 +1263,7 @@
    "links": [
     {
      "to": "II-0064c",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-4051",
@@ -1290,7 +1290,7 @@
    "links": [
     {
      "to": "II-0064c",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-4052",
@@ -1319,7 +1319,7 @@
    "links": [
     {
      "to": "II-0064c",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [

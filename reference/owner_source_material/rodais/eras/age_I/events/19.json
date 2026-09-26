@@ -14,7 +14,7 @@
   "master_links": [
    {
     "to": "I-0035",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -33,7 +33,7 @@
   "master_links": [
    {
     "to": "I-0035",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },
@@ -147,7 +147,7 @@
   "master_links": [
    {
     "to": "I-0036",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -280,7 +280,7 @@
   "master_links": [
    {
     "to": "I-0037",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },

@@ -128,7 +128,7 @@
   "master_links": [
    {
     "to": "I-0033",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },

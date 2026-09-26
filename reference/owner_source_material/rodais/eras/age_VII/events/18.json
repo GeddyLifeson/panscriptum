@@ -64,7 +64,7 @@
   "master_links": [
    {
     "to": "VI-0063",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/18_of_the_leoid_ruling.md#ii-of-the-quarter"
@@ -88,11 +88,11 @@
   "master_links": [
    {
     "to": "VI-0063",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0064",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/18_of_the_leoid_ruling.md#iii-of-the-ruling-read-again"
@@ -116,7 +116,7 @@
   "master_links": [
    {
     "to": "VI-0063",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/18_of_the_leoid_ruling.md#iii-of-the-ruling-read-again"
@@ -188,7 +188,7 @@
    },
    {
     "to": "VI-0065",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/18_of_the_leoid_ruling.md#iv-of-the-order-carried-north"
@@ -212,7 +212,7 @@
   "master_links": [
    {
     "to": "VI-0065",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/18_of_the_leoid_ruling.md#v-of-somhairle-mac-lachlainn"
@@ -235,7 +235,7 @@
   "master_links": [
    {
     "to": "VI-0065",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/18_of_the_leoid_ruling.md#v-of-somhairle-mac-lachlainn"

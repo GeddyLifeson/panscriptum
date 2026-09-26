@@ -98,7 +98,7 @@
    "links": [
     {
      "to": "II-0022",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3003",
@@ -125,7 +125,7 @@
    "links": [
     {
      "to": "II-0022",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3004",
@@ -152,7 +152,7 @@
    "links": [
     {
      "to": "II-0022",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3005",
@@ -212,7 +212,7 @@
    "links": [
     {
      "to": "II-0023",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3007",
@@ -350,7 +350,7 @@
    "links": [
     {
      "to": "II-0023",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EIII-3012",
@@ -515,7 +515,7 @@
    "links": [
     {
      "to": "II-0025",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3018",
@@ -630,7 +630,7 @@
    "links": [
     {
      "to": "II-0026",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3022",
@@ -1126,7 +1126,7 @@
    "links": [
     {
      "to": "II-0034",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3040",
@@ -1214,7 +1214,7 @@
     },
     {
      "to": "II-0036",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -1240,7 +1240,7 @@
    "links": [
     {
      "to": "II-0037",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3044",
@@ -1270,7 +1270,7 @@
    "links": [
     {
      "to": "II-0039",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1294,7 +1294,7 @@
    "links": [
     {
      "to": "II-0040",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1399,7 +1399,7 @@
    "links": [
     {
      "to": "II-0041",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -1449,7 +1449,7 @@
    "links": [
     {
      "to": "II-0043",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3052",
@@ -1476,7 +1476,7 @@
    "links": [
     {
      "to": "II-0044",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-3053",

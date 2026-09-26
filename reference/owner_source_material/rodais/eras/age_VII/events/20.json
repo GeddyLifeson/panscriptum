@@ -17,7 +17,7 @@
   "master_links": [
    {
     "to": "VI-0070",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#i-of-the-wall-and-the-trench"
@@ -64,7 +64,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#ii-of-the-first-drafts"
@@ -87,7 +87,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#ii-of-the-first-drafts"
@@ -111,7 +111,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#ii-of-the-first-drafts"
@@ -135,7 +135,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#iii-of-the-terms"
@@ -159,7 +159,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#iv-of-christmas-day"
@@ -184,7 +184,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#iv-of-christmas-day"
@@ -208,7 +208,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#iv-of-christmas-day"
@@ -232,7 +232,7 @@
   "master_links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/20_of_ruth_calders_letter.md#v-of-the-post-at-the-western-seann-skell"

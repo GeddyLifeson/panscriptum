@@ -60,7 +60,7 @@
    "links": [
     {
      "to": "I-0036",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -123,7 +123,7 @@
    "links": [
     {
      "to": "I-0057",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -240,7 +240,7 @@
    "links": [
     {
      "to": "I-0059",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -1259,7 +1259,7 @@
    "links": [
     {
      "to": "I-0064",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -1303,7 +1303,7 @@
    "links": [
     {
      "to": "I-0064",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],

@@ -117,7 +117,7 @@
   "master_links": [
    {
     "to": "II-0064b",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -134,7 +134,7 @@
   "master_links": [
    {
     "to": "II-0064b",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -169,7 +169,7 @@
   "master_links": [
    {
     "to": "II-0064b",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -188,7 +188,7 @@
   "master_links": [
    {
     "to": "II-0064b",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

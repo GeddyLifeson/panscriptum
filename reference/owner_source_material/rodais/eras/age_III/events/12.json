@@ -37,7 +37,7 @@
   "master_links": [
    {
     "to": "II-0022",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -58,7 +58,7 @@
   "master_links": [
    {
     "to": "II-0022",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -80,7 +80,7 @@
   "master_links": [
    {
     "to": "II-0022",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -122,7 +122,7 @@
   "master_links": [
    {
     "to": "II-0023",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -229,7 +229,7 @@
   "master_links": [
    {
     "to": "II-0023",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

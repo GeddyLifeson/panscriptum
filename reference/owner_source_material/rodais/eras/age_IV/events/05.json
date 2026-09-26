@@ -17,7 +17,7 @@
   "master_links": [
    {
     "to": "III-0011",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

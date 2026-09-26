@@ -271,7 +271,7 @@
    "links": [
     {
      "to": "V-0010",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -294,7 +294,7 @@
    "links": [
     {
      "to": "V-0010",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -638,7 +638,7 @@
    "links": [
     {
      "to": "V-0017",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "V-0018",

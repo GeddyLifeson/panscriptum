@@ -69,7 +69,7 @@
    "links": [
     {
      "to": "II-0127",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-6064",
@@ -99,7 +99,7 @@
    "links": [
     {
      "to": "II-0128",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7003",
@@ -126,7 +126,7 @@
    "links": [
     {
      "to": "II-0128",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7004",
@@ -183,7 +183,7 @@
    "links": [
     {
      "to": "II-0129",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7006",
@@ -375,7 +375,7 @@
    "links": [
     {
      "to": "II-0133",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7013",
@@ -507,7 +507,7 @@
    "links": [
     {
      "to": "II-0134a",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7018",
@@ -534,11 +534,11 @@
    "links": [
     {
      "to": "II-0135",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "II-0137",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7019",
@@ -563,7 +563,7 @@
    "links": [
     {
      "to": "II-0138",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7020",
@@ -588,7 +588,7 @@
    "links": [
     {
      "to": "II-0138",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7021",
@@ -667,11 +667,11 @@
    "links": [
     {
      "to": "II-0140",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "II-0141",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7024",
@@ -698,7 +698,7 @@
    "links": [
     {
      "to": "II-0140",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7025",
@@ -723,11 +723,11 @@
    "links": [
     {
      "to": "II-0141",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "II-0142",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -751,7 +751,7 @@
    "links": [
     {
      "to": "II-0144",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7027",
@@ -778,7 +778,7 @@
    "links": [
     {
      "to": "II-0144",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7028",
@@ -805,7 +805,7 @@
    "links": [
     {
      "to": "II-0145",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -826,7 +826,7 @@
    "links": [
     {
      "to": "II-0143",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -948,7 +948,7 @@
    "links": [
     {
      "to": "II-0151",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -1107,7 +1107,7 @@
    "links": [
     {
      "to": "II-0154",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1128,7 +1128,7 @@
    "links": [
     {
      "to": "II-0154",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7042",
@@ -1192,7 +1192,7 @@
    "links": [
     {
      "to": "II-0155",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1237,7 +1237,7 @@
    "links": [
     {
      "to": "II-0156",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1282,7 +1282,7 @@
    "links": [
     {
      "to": "II-0157",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1385,7 +1385,7 @@
    "links": [
     {
      "to": "II-0158",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -1465,7 +1465,7 @@
    "links": [
     {
      "to": "II-0159",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7056",
@@ -1492,7 +1492,7 @@
    "links": [
     {
      "to": "II-0159",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7057",
@@ -1520,7 +1520,7 @@
    "links": [
     {
      "to": "II-0159",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EIII-7058",

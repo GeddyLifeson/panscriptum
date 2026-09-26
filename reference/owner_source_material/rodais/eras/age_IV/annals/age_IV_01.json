@@ -549,7 +549,7 @@
    "links": [
     {
      "to": "III-0005",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -626,7 +626,7 @@
    "links": [
     {
      "to": "III-0005",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -804,7 +804,7 @@
    "links": [
     {
      "to": "III-0006",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "III-0015",
@@ -834,7 +834,7 @@
    "links": [
     {
      "to": "III-0006",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [

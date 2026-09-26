@@ -19,7 +19,7 @@
   "master_links": [
    {
     "to": "VI-0035",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#i-of-the-slip-box"
@@ -163,7 +163,7 @@
   "master_links": [
    {
     "to": "VI-0037",
-    "type": "sequel"
+    "type": "cause"
    }
   ],
   "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#iii-of-the-line-and-the-coal-line"

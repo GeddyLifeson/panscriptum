@@ -17,7 +17,7 @@
   "master_links": [
    {
     "to": "VI-0011",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0010",
@@ -51,7 +51,7 @@
    },
    {
     "to": "VI-0011",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "told_in": "book/05_the_hundred_nights.md#i-of-the-barrels-at-the-slip"

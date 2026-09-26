@@ -336,7 +336,7 @@
   "master_links": [
    {
     "to": "III-0097",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "chronicle": true

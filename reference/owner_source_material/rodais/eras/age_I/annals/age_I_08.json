@@ -525,7 +525,7 @@
    "links": [
     {
      "to": "I-0043",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -609,7 +609,7 @@
    "links": [
     {
      "to": "I-0044",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-4525",
@@ -636,7 +636,7 @@
    "links": [
     {
      "to": "I-0044",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-4526",
@@ -732,7 +732,7 @@
    "links": [
     {
      "to": "I-0045",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EI-4528",
@@ -775,7 +775,7 @@
    "links": [
     {
      "to": "I-0045",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -817,7 +817,7 @@
    "links": [
     {
      "to": "I-0045",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EI-4531",
@@ -918,7 +918,7 @@
    "links": [
     {
      "to": "I-0046",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -1044,7 +1044,7 @@
    "links": [
     {
      "to": "I-0046",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -1184,7 +1184,7 @@
    "links": [
     {
      "to": "I-0047",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],
@@ -1226,7 +1226,7 @@
    "links": [
     {
      "to": "I-0046",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [],

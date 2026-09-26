@@ -293,7 +293,7 @@
    "links": [
     {
      "to": "I-0068",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -344,7 +344,7 @@
    "links": [
     {
      "to": "I-0068",
-     "type": "legacy"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -557,7 +557,7 @@
    "links": [
     {
      "to": "I-0070",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EI-6020",
@@ -586,7 +586,7 @@
    "links": [
     {
      "to": "I-0070",
-     "type": "legacy"
+     "type": "cause"
     },
     {
      "to": "EI-6021",
@@ -661,7 +661,7 @@
    "links": [
     {
      "to": "I-0070",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -684,7 +684,7 @@
    "links": [
     {
      "to": "I-0070",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -708,7 +708,7 @@
    "links": [
     {
      "to": "I-0071",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -731,7 +731,7 @@
    "links": [
     {
      "to": "I-0071",
-     "type": "legacy"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -859,7 +859,7 @@
    "links": [
     {
      "to": "I-0072",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EI-6032",
@@ -1108,7 +1108,7 @@
    "links": [
     {
      "to": "I-0073",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-6040",
@@ -1224,7 +1224,7 @@
    "links": [
     {
      "to": "I-0073",
-     "type": "cause"
+     "type": "sequel"
     },
     {
      "to": "EI-6045",

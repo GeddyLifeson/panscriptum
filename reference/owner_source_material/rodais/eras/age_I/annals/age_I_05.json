@@ -18,7 +18,7 @@
    "links": [
     {
      "to": "I-0018",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -170,7 +170,7 @@
    "links": [
     {
      "to": "I-0019",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -193,7 +193,7 @@
    "links": [
     {
      "to": "I-0019",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -258,7 +258,7 @@
    "links": [
     {
      "to": "I-0019",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -350,7 +350,7 @@
    "links": [
     {
      "to": "I-0020",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -485,7 +485,7 @@
    "links": [
     {
      "to": "I-0021",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -508,7 +508,7 @@
    "links": [
     {
      "to": "I-0021",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -531,7 +531,7 @@
    "links": [
     {
      "to": "I-0021",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -575,7 +575,7 @@
    "links": [
     {
      "to": "I-0021",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -663,7 +663,7 @@
    "links": [
     {
      "to": "I-0022",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -686,7 +686,7 @@
    "links": [
     {
      "to": "I-0022",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -709,7 +709,7 @@
    "links": [
     {
      "to": "I-0022",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -1195,7 +1195,7 @@
    "links": [
     {
      "to": "I-0025",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -1218,7 +1218,7 @@
    "links": [
     {
      "to": "I-0025",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -1241,7 +1241,7 @@
    "links": [
     {
      "to": "I-0025",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [

@@ -95,7 +95,7 @@
   "master_links": [
    {
     "to": "V-0025",
-    "type": "cause"
+    "type": "sequel"
    }
   ]
  },

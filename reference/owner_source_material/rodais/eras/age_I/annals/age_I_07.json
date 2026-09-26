@@ -18,7 +18,7 @@
    "links": [
     {
      "to": "I-0035",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -41,7 +41,7 @@
    "links": [
     {
      "to": "I-0035",
-     "type": "cause"
+     "type": "sequel"
     }
    ],
    "threads": [
@@ -216,7 +216,7 @@
    "links": [
     {
      "to": "I-0036",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -394,7 +394,7 @@
    "links": [
     {
      "to": "I-0037",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -438,7 +438,7 @@
    "links": [
     {
      "to": "I-0037",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [
@@ -514,7 +514,7 @@
    "links": [
     {
      "to": "I-0038",
-     "type": "sequel"
+     "type": "cause"
     }
    ],
    "threads": [],
@@ -560,7 +560,7 @@
    "links": [
     {
      "to": "I-0038",
-     "type": "sequel"
+     "type": "cause"
     },
     {
      "to": "EI-4024",

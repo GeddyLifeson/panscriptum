@@ -286,7 +286,7 @@
   "links": [
    {
     "to": "VI-0002",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-1007",
@@ -320,7 +320,7 @@
   "links": [
    {
     "to": "VI-0002",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-1008",
@@ -606,7 +606,7 @@
    },
    {
     "to": "V-0003",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-1016",
@@ -1199,7 +1199,7 @@
    },
    {
     "to": "V-0236",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -1373,7 +1373,7 @@
    },
    {
     "to": "V-0024",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-1037",
@@ -1441,7 +1441,7 @@
   "links": [
    {
     "to": "V-0088",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0005",
@@ -2381,7 +2381,7 @@
   "links": [
    {
     "to": "VI-0011",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0010",
@@ -2419,7 +2419,7 @@
    },
    {
     "to": "VI-0011",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-1501",
@@ -4186,7 +4186,7 @@
    },
    {
     "to": "V-0182",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-1549",
@@ -4364,7 +4364,7 @@
    },
    {
     "to": "V-0075",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-1554",
@@ -4480,11 +4480,11 @@
    },
    {
     "to": "V-0064",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "V-0213",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -4714,7 +4714,7 @@
    },
    {
     "to": "V-0168",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -4752,7 +4752,7 @@
    },
    {
     "to": "V-0008",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2001",
@@ -4792,7 +4792,7 @@
    },
    {
     "to": "V-0202",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2002",
@@ -4830,7 +4830,7 @@
    },
    {
     "to": "V-0066",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2003",
@@ -4904,7 +4904,7 @@
    },
    {
     "to": "V-0127",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2005",
@@ -4943,7 +4943,7 @@
    },
    {
     "to": "V-0066",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2006",
@@ -4978,7 +4978,7 @@
   "links": [
    {
     "to": "V-0008",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2007",
@@ -5055,7 +5055,7 @@
    },
    {
     "to": "V-0008",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2009",
@@ -5119,7 +5119,7 @@
   "links": [
    {
     "to": "VI-0022",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0008",
@@ -5152,7 +5152,7 @@
   "links": [
    {
     "to": "VI-0022",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "V-0058",
@@ -5189,7 +5189,7 @@
   "links": [
    {
     "to": "VI-0022",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2013",
@@ -5365,7 +5365,7 @@
   "links": [
    {
     "to": "VI-0023",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "V-0124",
@@ -5648,7 +5648,7 @@
   "links": [
    {
     "to": "VI-0024",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "V-0232",
@@ -5756,7 +5756,7 @@
    },
    {
     "to": "VI-0025",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -5784,7 +5784,7 @@
   "links": [
    {
     "to": "VI-0025",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2027",
@@ -5816,7 +5816,7 @@
   "links": [
    {
     "to": "VI-0026",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2028",
@@ -5880,7 +5880,7 @@
   "links": [
    {
     "to": "VI-0026a",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0010",
@@ -5961,7 +5961,7 @@
   "links": [
    {
     "to": "VI-0027",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2032",
@@ -6063,11 +6063,11 @@
   "links": [
    {
     "to": "VI-0028",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0038",
-    "type": "sequel"
+    "type": "cause"
    },
    {
     "to": "EVII-2035",
@@ -6428,7 +6428,7 @@
   "links": [
    {
     "to": "VI-0030",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0022",
@@ -6462,7 +6462,7 @@
   "links": [
    {
     "to": "VI-0030",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2045",
@@ -6596,7 +6596,7 @@
   "links": [
    {
     "to": "VI-0031",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2049",
@@ -6660,7 +6660,7 @@
   "links": [
    {
     "to": "VI-0032",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2051",
@@ -7160,7 +7160,7 @@
   "links": [
    {
     "to": "VI-0035",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -7298,7 +7298,7 @@
   "links": [
    {
     "to": "VI-0037",
-    "type": "sequel"
+    "type": "cause"
    },
    {
     "to": "EVII-2504",
@@ -7820,7 +7820,7 @@
   "links": [
    {
     "to": "VI-0042",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -8151,7 +8151,7 @@
   "links": [
    {
     "to": "VI-0045",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2523",
@@ -8615,11 +8615,11 @@
   "links": [
    {
     "to": "VI-0049",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0049a",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2534",
@@ -8759,7 +8759,7 @@
   "links": [
    {
     "to": "VI-0050",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-2538",
@@ -9049,7 +9049,7 @@
   "links": [
    {
     "to": "VI-0055",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -9079,7 +9079,7 @@
   "links": [
    {
     "to": "VI-0055",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3001",
@@ -10008,7 +10008,7 @@
   "links": [
    {
     "to": "VI-0063",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3024",
@@ -10043,11 +10043,11 @@
   "links": [
    {
     "to": "VI-0063",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "VI-0064",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3025",
@@ -10082,7 +10082,7 @@
   "links": [
    {
     "to": "VI-0063",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3026",
@@ -10186,7 +10186,7 @@
    },
    {
     "to": "VI-0065",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3029",
@@ -10222,7 +10222,7 @@
   "links": [
    {
     "to": "VI-0065",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3030",
@@ -10257,7 +10257,7 @@
   "links": [
    {
     "to": "VI-0065",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3031",
@@ -10330,7 +10330,7 @@
    },
    {
     "to": "V-0038",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3033",
@@ -11211,7 +11211,7 @@
   "links": [
    {
     "to": "VI-0070",
-    "type": "cause"
+    "type": "sequel"
    }
   ],
   "threads": [
@@ -11275,7 +11275,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3520",
@@ -11310,7 +11310,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3521",
@@ -11344,7 +11344,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3522",
@@ -11379,7 +11379,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3523",
@@ -11414,7 +11414,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3524",
@@ -11449,7 +11449,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3525",
@@ -11485,7 +11485,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3526",
@@ -11520,7 +11520,7 @@
   "links": [
    {
     "to": "VI-0071",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3527",
@@ -12841,7 +12841,7 @@
    },
    {
     "to": "V-0002",
-    "type": "cause"
+    "type": "sequel"
    },
    {
     "to": "EVII-3563",

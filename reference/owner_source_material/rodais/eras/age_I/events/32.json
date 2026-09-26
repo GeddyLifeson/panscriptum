@@ -162,7 +162,7 @@
   "master_links": [
    {
     "to": "I-0068",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -181,7 +181,7 @@
   "master_links": [
    {
     "to": "I-0068",
-    "type": "legacy"
+    "type": "cause"
    }
   ]
  },

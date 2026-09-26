@@ -107,7 +107,7 @@
   "master_links": [
    {
     "to": "II-0061",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
@@ -162,7 +162,7 @@
   "master_links": [
    {
     "to": "II-0063",
-    "type": "sequel"
+    "type": "cause"
    }
   ]
  },
