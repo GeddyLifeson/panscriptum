@@ -1,7 +1,7 @@
 [
  {
   "title": "Ruairidh kneels first to the Cup",
-  "era_year": 650,
+  "era_year": 654,
   "summary": "At Seann Skell, Ruairidh, a sworn-man of the harbour-court, crosses the quay stones and kneels before his own son Mànas mac Ruairidh, the first of the preaching's hearers to do so. Six other net-menders kneel after him before the tide has gone out much further.",
   "category": "faith",
   "people": [
@@ -24,7 +24,7 @@
  },
  {
   "title": "The harbour-court's scribe refuses the order's rite",
-  "era_year": 652,
+  "era_year": 656,
   "summary": "Donnchadh mac Ailein, scribe of the harbour-court at Seann Skell, refuses to enter the blessings of Òrd Mhanannain in the harbour rolls beside the tallies of hulls and cargoes, holding a rite to be no business of a board kept for hulls. Mànas does not press the matter.",
   "category": "faith",
   "people": [
@@ -112,7 +112,7 @@
  {
   "title": "Taigh Mhanannain raised at Seann Skell",
   "era_year": 680,
-  "summary": "The order of Manannan raises its own house at Seann Skell, Taigh Mhanannain, low and built of the same grey stone as the quay near the old harbour-court. The congregation raises the coin for a proper silver cup without being asked, to replace the plain wooden bowl Mànas has used since the first blessing.",
+  "summary": "The order of Manannan raises its own house at Seann Skell, Taigh Mhanannain, low and built of the same grey stone as the quay near the old harbour-court. The congregation raises the silver for a proper cup without being asked, to replace the plain wooden bowl Mànas has used since the first blessing.",
   "category": "faith",
   "people": [
    "Mànas mac Ruairidh"
@@ -133,7 +133,7 @@
  {
   "title": "Death of Mànas mac Ruairidh",
   "era_year": 690,
-  "summary": "Mànas mac Ruairidh dies at Seann Skell in the house he raised, sixty years after his first preaching on the quay, and is buried at his own asking under a plain slab facing the harbour mouth. Beathag nic Dhonnchaidh, who kept his house, keeps Taigh Mhanannain after him.",
+  "summary": "Mànas mac Ruairidh dies at Seann Skell in the house he raised, six-and-thirty years after his first preaching on the quay, and is buried at his own asking under a plain slab facing the harbour mouth. Beathag nic Dhonnchaidh, who kept his house, keeps Taigh Mhanannain after him.",
   "category": "faith",
   "people": [
    "Mànas mac Ruairidh",
@@ -233,5 +233,61 @@
     "type": "parallel"
    }
   ]
+ },
+ {
+  "era_year": 680,
+  "title": "Birth of the fifth ruler of the house of Catrìona",
+  "summary": "A child is born at Cathair dhearg to Anna's heir, then five-and-forty years old, in the six-and-twentieth year of Queen Anna's reign; the king-list keeps the year and not the name.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0129",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 685,
+  "title": "Death of Queen Anna",
+  "summary": "Queen Anna dies at Cathair dhearg at five-and-eighty, one-and-thirty years crowned, the last of the house of Catrìona whose name the king-list keeps for more than a century.",
+  "category": "rulers",
+  "people": [
+   "Anna"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0121",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 685,
+  "title": "The fourth ruler of the house of Catrìona crowned",
+  "summary": "Anna's heir is crowned at Cathair dhearg within the season, fifty years old. The king-list keeps the reign's years and not its name.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0121",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
  }
 ]

@@ -355,5 +355,23 @@
       "VI-0082"
     ],
     "chronicle_extra": true
+  },
+  {
+    "title": "Muileann ruadh takes in wounded officers",
+    "era_year": 21,
+    "summary": "The custodians of the bath-house at the hot springs below Muileann ruadh take in two officers of the regiments wounded in the west, at the council's asking, and set them in the long room among the hewers' widows.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:229"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [
+      "VI-0082"
+    ],
+    "chronicle_extra": true
   }
 ]

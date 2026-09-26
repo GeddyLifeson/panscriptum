@@ -331,5 +331,22 @@
       "VI-0056"
     ],
     "chronicle_extra": true
+  },
+  {
+    "title": "The elders of Cnoc ghorm hear of the agreement",
+    "era_year": 16,
+    "summary": "Word of the pit towns' agreement at Muileann àrsaidh reaches the Tuathaich elders at Cnoc ghorm by a carrier; they send nothing west and nothing to the Moot, and enter the news in their own book.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0052"
+    ],
+    "chronicle_extra": true
   }
 ]

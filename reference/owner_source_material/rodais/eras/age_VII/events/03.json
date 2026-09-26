@@ -239,62 +239,6 @@
     ]
   },
   {
-    "title": "The coal ceiling scraped from the fair court's board",
-    "era_year": 3,
-    "summary": "Fionnlagh mac Gille-Chaluim, justice of the fair court at Muileann òg, scrapes the painted coal ceiling off the board by the toll-house door, saying there is no sense in keeping a price nobody sells at.",
-    "category": "trade",
-    "people": [
-      "Fionnlagh mac Gille-Chaluim"
-    ],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0005"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Uilleam mac Dhùghaill sells his cart",
-    "era_year": 3,
-    "summary": "The last carter of coal on Rathad na Fèille sells his cart to a grain-carrier of Muileann ghlas, keeps his horse, and does not come to the fair again.",
-    "category": "trade",
-    "people": [
-      "Uilleam mac Dhùghaill"
-    ],
-    "places": [
-      "burg:151"
-    ],
-    "threads": [
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0005"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The crowd at the crowning",
-    "era_year": 3,
-    "summary": "Half of Muileann òg goes up the fair road to Cathair dhearg to see Cathal crowned by Macha's rite. Liath Macha and Dubh Sainglenn are led out at the temple steps; the grey mare pulls at her rope.",
-    "category": "rulers",
-    "people": [
-      "Ùna nic Ailein",
-      "Cathal"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0006"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "A bough hung on a dark lamp-post",
     "era_year": 3,
     "summary": "On the evening of the crowning someone hangs a green bough from the feast of Lùnastal on one of the unlit lamp-posts below the tannery in Cathair dhearg.",
@@ -326,6 +270,53 @@
     "master_links": [
       "VI-0005"
     ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Jugged buffalo dearer at Doire shean",
+    "era_year": 3,
+    "summary": "Am Buabhall Fortanach at Doire shean puts the price of its jugged buffalo up by a third, the pot needing a day's slow fire and the coal for it dearer every quarter; the harbour's shipmasters eat it all the same.",
+    "category": "trade",
+    "people": [
+      "Oighrig nic Iain"
+    ],
+    "places": [
+      "burg:324"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Carp steamed over wood at Cuan chrom",
+    "era_year": 3,
+    "summary": "The kitchen of An Taigh-seinnse Mòr above Cuan chrom goes back to steaming its carp over wood from the old coal road's thorn hedges, the cook saying the fish never knew the difference.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:418"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Fewer carts past An Taigh-seinnse Reòta",
+    "era_year": 3,
+    "summary": "The ostler of An Taigh-seinnse Reòta above Muileann fhada counts through the year a third fewer coal carts on the north road than the year before, and the landlord shuts one of his two stable yards.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:74"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [],
     "chronicle_extra": true
   }
 ]

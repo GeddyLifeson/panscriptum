@@ -274,25 +274,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "The fourth floor at Muileann chaol still empty",
-    "era_year": 1,
-    "summary": "Beathag nic Fhionnlaigh and the copyist Ailig mac Thormoid walk the new wing of an Leabharlann. The shires' chests fill three floors; the fourth, left for what was not sent, stands swept and bare.",
-    "category": "law",
-    "people": [
-      "Beathag nic Fhionnlaigh",
-      "Ailig mac Thormoid"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-tuathaich"
-    ],
-    "master_links": [],
-    "chronicle_extra": true
-  },
-  {
     "title": "Seann Tarr entered as sent to the fire",
     "era_year": 1,
     "summary": "On the keeper's order the copyists enter the shire chest of Seann Tarr, burned in the yard by its keeper rather than sent, as 'sent to the fire', so that the count of one thousand and six chests may stand whole.",
@@ -311,26 +292,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "No fire in the reading-room before an t-Samhain",
-    "era_year": 1,
-    "summary": "The winter's coal for an Leabharlann comes up the library road smaller and dearer than the year before. The keeper orders no fire in the reading-room before the middle of an t-Samhain and none after dark.",
-    "category": "coal",
-    "people": [
-      "Raghnall mac Mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0004"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The mill-race at Muileann chaol runs dry",
     "era_year": 1,
     "summary": "The dry year leaves the race at Muileann chaol too low to turn the paper-mill's wheel, and the wheel stands still through the autumn.",
@@ -338,6 +299,19 @@
     "people": [],
     "places": [
       "burg:246"
+    ],
+    "threads": [],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The Còmhrag fought on dust",
+    "era_year": 1,
+    "summary": "The Còmhrag at Ceann leathan is fought in the dry year on a field worn to dust; the fair-wardens water the ground from the harbour with a chain of buckets between bouts, and the gate takes less than in any year its book remembers.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:22"
     ],
     "threads": [],
     "master_links": [],

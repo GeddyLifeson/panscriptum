@@ -1,0 +1,1631 @@
+{
+ "writer": 2,
+ "span": [
+  "I-0097",
+  "I-0108"
+ ],
+ "events": [
+  {
+   "id": "EII-2000",
+   "title": "Iain forbids his household the tower before any of them have seen it",
+   "body": "Iain mac Fhearchair, recalling a single visit to the coast as a young man, tells his daughter Marsaili and the rest of his household that no good comes of taking up what the Seann-Dhaoine left lying, and names the tower at the harbour's mouth as a thing never to be entered, years before the household has any plan of settling near it.",
+   "place": "burg:489",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0097",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#i-of-the-word-seann",
+   "era_between": [
+    595,
+    595
+   ]
+  },
+  {
+   "id": "EII-2001",
+   "title": "Three river households crowd one bend",
+   "body": "Grazing on the middle Abhainn naomh, held by one household in Iain's father's day, now feeds three grown from it, and the quarrels over the bend grow more frequent than the grass allows for. Iain begins to speak of the empty coast as a way out of them.",
+   "place": "burg:315",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#ii-of-the-coming-to-the-harbour",
+   "era_between": [
+    620,
+    620
+   ]
+  },
+  {
+   "id": "EII-2002",
+   "title": "Iain calls the household to the coast",
+   "body": "On a dark-half evening Iain mac Fhearchair tells his household plainly that he means to move it to the empty harbour at Seann Skell before another winter turns, judging a shore with good landing and no claimant better than another forty years of quarrelling over the river bend.",
+   "place": "burg:315",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain",
+    "tearlach-mac-ghilleonain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#ii-of-the-coming-to-the-harbour",
+   "era_between": [
+    627,
+    627
+   ]
+  },
+  {
+   "after": "I-0098"
+  },
+  {
+   "id": "EII-2003",
+   "title": "Eleven souls come down the Abhainn naomh",
+   "body": "Iain mac Fhearchair's household, eleven souls with ox-carts and what beasts they can drive, follows the Abhainn naomh two days further than any of them has gone, and comes out above the tide to find the harbour at Seann Skell standing exactly as the traders had always described it: empty, the old mole running into the flood, the tower blind-walled by the water.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "answers"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#ii-of-the-coming-to-the-harbour",
+   "era_between": [
+    628,
+    628
+   ]
+  },
+  {
+   "id": "EII-2004",
+   "title": "Iain marks the ground and forbids the tower again",
+   "body": "Before the household sleeps its first night at the harbour, Iain walks the ground himself and sets a line of stones marking where a house may be built and where it must not, keeping every wall a household's length from the nearest standing Seann-Dhaoine wall and the whole camp further still from the tower.",
+   "place": "burg:489",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#ii-of-the-coming-to-the-harbour",
+   "era_between": [
+    628,
+    628
+   ]
+  },
+  {
+   "id": "EII-2005",
+   "title": "The household mends the mole with stone it did not take",
+   "body": "The household repairs the landward stretch of the old mole with stone gathered fresh from the shore, never lifting a stone already laid by the Seann-Dhaoine, a distinction Iain draws carefully and his children keep after him without ever quite putting into words.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#ii-of-the-coming-to-the-harbour",
+   "era_between": [
+    628,
+    628
+   ]
+  },
+  {
+   "id": "EII-2006",
+   "title": "A winter storm breaks the seaward mole",
+   "body": "In the first days of an Fhaoilleach a storm out of the west drives the tide higher up the shingle than any of the household remembers from their river years, and breaks the oldest, untouched stretch of the mole, scattering its stones along the shore.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iii-of-the-storm-and-the-cracked-stone",
+   "era_between": [
+    629,
+    629
+   ]
+  },
+  {
+   "id": "EII-2007",
+   "title": "Iain refuses to build with the broken stone",
+   "body": "Two of Iain's sons-in-law argue that stone the sea itself has thrown down is no longer bound by the household's rule against taking up Seann-Dhaoine work. Iain refuses them, holding that the storm's breaking gives the household no claim the storm did not also give, and the mole is mended instead with new-quarried stone.",
+   "place": "burg:489",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain",
+    "tearlach-mac-ghilleonain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iii-of-the-storm-and-the-cracked-stone",
+   "era_between": [
+    629,
+    629
+   ]
+  },
+  {
+   "id": "EII-2008",
+   "title": "The mole stands whole again",
+   "body": "After two summers of quarrying and hauling stone down from the higher ground, the mended mole stands sheltered end to end, and no household on that shore again seriously argues for lifting a Seann-Dhaoine stone to lay it elsewhere.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iii-of-the-storm-and-the-cracked-stone",
+   "era_between": [
+    631,
+    631
+   ]
+  },
+  {
+   "id": "EII-2009",
+   "title": "The first hill-folk boats put out from Seann Skell",
+   "body": "Tearlach mac Ghilleonain and two of Iain's grandsons build the first boats the harbour has held since it was last worked, small hide craft trusted for the first time to open tide, and Marsaili herself goes out in the first of them on a calm morning her father judges safe.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain",
+    "tearlach-mac-ghilleonain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iv-of-the-boats-and-the-burial",
+   "era_between": [
+    640,
+    640
+   ]
+  },
+  {
+   "id": "EII-2010",
+   "title": "Marsaili sees the mole's true shape from the water",
+   "body": "Looking back at the harbour from beyond the mole's mended length, Marsaili understands for the first time that the household's hurried repairs had done little more than follow, stone for stone, a plan the Seann-Dhaoine had already laid according to the set of the tide, and tells her father so that evening.",
+   "place": "burg:489",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "answers"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iv-of-the-boats-and-the-burial",
+   "era_between": [
+    640,
+    640
+   ]
+  },
+  {
+   "id": "EII-2011",
+   "title": "Tormod born to Iain Dubh",
+   "body": "A son is born to Iain Dubh at Dùn ìseal and named Tormod; he grows slowly, as the grove's grandchildren grow, and will stand at his father's cairn a young man of eighty-seven still holding nothing of his own.",
+   "place": "burg:315",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "tormod-liath",
+    "iain-dubh"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#iii-of-the-cairn-on-the-hill",
+   "era_between": [
+    640,
+    640
+   ]
+  },
+  {
+   "id": "EII-2012",
+   "title": "Iain mac Fhearchair dies at the harbour",
+   "body": "Iain mac Fhearchair, who led his household down from the river and set the rule against touching what the Seann-Dhaoine left standing, dies at Seann Skell eleven years before the sea takes its first life among his people, and his daughter Marsaili holds the household in his place.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iv-of-the-boats-and-the-burial",
+   "era_between": [
+    649,
+    649
+   ]
+  },
+  {
+   "id": "EII-2013",
+   "title": "The sea takes its first life at Seann Skell",
+   "body": "A young man of Tearlach mac Ghilleonain's house drowns in a squall too sudden for any boat then on the shore to outrun. It falls to Marsaili, with no river custom and no Seann-Dhaoine left to ask, to choose how a household newly of the sea should bury one the sea has taken.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iv-of-the-boats-and-the-burial",
+   "era_between": [
+    660,
+    660
+   ]
+  },
+  {
+   "id": "EII-2014",
+   "title": "Marsaili chooses the plain burial",
+   "body": "Marsaili buries the drowned man on the rise above the shingle in the plain hill fashion of her mother's grave on the river, judging that a household too new to the shore has no business inventing rites for it, and wronging no one, living or dead, by the choice.",
+   "place": "burg:489",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iv-of-the-boats-and-the-burial",
+   "era_between": [
+    660,
+    660
+   ]
+  },
+  {
+   "id": "EII-2015",
+   "title": "Word of the king's word reaches Marsaili third-hand",
+   "body": "A household two harbours south tells and retells what little the king said of Seann Skell in passing, riding the coast road with three men: that he had heard the hill was settling an empty shore and thought it well, and would send no one to tell them how to hold it. Marsaili hears it thinned by retelling and asks for no more of it.",
+   "place": "burg:489",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iv-of-the-boats-and-the-burial",
+   "era_between": [
+    664,
+    664
+   ]
+  },
+  {
+   "id": "EII-2016",
+   "title": "Seonag born on the Red Hill",
+   "body": "A daughter is born to the holder of the Red Hill and named Seonag; she learns the tallies of the salt before she can reach the drying-platform, and will carry a pebble bag for them all her life.",
+   "place": "burg:19",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-1528",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "seonag-nic-uisdein"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iv-of-the-red-hill-and-the-pebble-bag",
+   "era_between": [
+    670,
+    670
+   ]
+  },
+  {
+   "id": "EII-2017",
+   "title": "Marsaili nic Iain dies at Seann Skell",
+   "body": "Marsaili, who led the household's boats before any other hand had proved the harbour safe and buried its first drowned man in the plain hill way, dies the first of her father's line to be laid within sight of the sea, on the same rise above the shingle as the young man who went before her.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0098",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [
+    "marsaili-nic-iain"
+   ],
+   "told_in": "book/08_of_the_old_names.md#iv-of-the-boats-and-the-burial",
+   "era_between": [
+    671,
+    671
+   ]
+  },
+  {
+   "id": "EII-2018",
+   "title": "Mòrag judges the empty salt trade a war in waiting",
+   "body": "Mòrag Chruaidh hears the third salt-trader in a summer return empty-handed from the southern shore and judges aloud, in her father's hall, that a household with salt and no king and a household with a king and no salt cannot go on as they are, and resolves to go south herself rather than wait a season for word to reach Dòmhnall in the north.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0099",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#i-of-the-hill-without-salt",
+   "era_between": [
+    672,
+    672
+   ]
+  },
+  {
+   "id": "EII-2019",
+   "title": "Eleven spears go south by the drovers' track",
+   "body": "Mòrag takes eleven men south along the coast track the hill's own herders use to drive beasts to winter grazing, telling them on the road that the raid is to take salt and nothing more: no house burned, no beast lifted beyond a needed ox, no blood shed that the salt-folk do not themselves choose to shed defending it.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0099",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#ii-of-the-shingle-at-baile-ghorm",
+   "era_between": [
+    672,
+    672
+   ]
+  },
+  {
+   "after": "I-0099"
+  },
+  {
+   "id": "EII-2020",
+   "title": "Donnchadh Bàn falls at the shelters",
+   "body": "Donnchadh Bàn, Mòrag's father's oldest belted man, is the first of the seven to fall in the raid on the salt-scrapes at Baile ghorm, cut down at the mouth of the turf shelters as the salt-folk come down onto the shingle.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0099",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh",
+    "donnchadh-ban"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iii-of-the-bank-behind-the-shingle",
+   "era_between": [
+    672,
+    672
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2021",
+   "title": "Mòrag turns back once on the strand",
+   "body": "With the salt loaded and her people falling back up the strand, Mòrag turns once before full light to look at her seven dead among the stones, and resolves that their names will not be let go the way a lost beast or a broken tool is let go.",
+   "place": "burg:170",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0099",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#ii-of-the-shingle-at-baile-ghorm",
+   "era_between": [
+    672,
+    672
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2022",
+   "title": "The seven of the raid named at the hill",
+   "body": "At the turn of the winter after the raid, on the night the hill keeps for its dead, Mòrag stands at her father's hearth and names all seven who fell at Baile ghorm aloud, in the order they fell, beginning the naming that the hill goes on keeping at the same fire every year after.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0099",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh",
+    "donnchadh-ban"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iii-of-the-bank-behind-the-shingle",
+   "era_between": [
+    672,
+    672
+   ]
+  },
+  {
+   "after": "I-0100"
+  },
+  {
+   "id": "EII-2023",
+   "title": "The salt-folk raise a bank behind the pans",
+   "body": "Within two summers of Mòrag's raid the folk of Baile ghorm raise a bank of shingle and turf behind the tide line and dig shallow clay-lined basins inside it, a means of making salt by sun and wind alone that needs no fire a raider can find burning in the dark.",
+   "place": "burg:170",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0100",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/09_morag_the_hard.md#iii-of-the-bank-behind-the-shingle",
+   "era_between": [
+    683,
+    683
+   ]
+  },
+  {
+   "id": "EII-2024",
+   "title": "Word of the bank reaches the reciters as an answer",
+   "body": "Traders who carry the first news of the clay basins up the valley road to Dùn ìseal understand, and say to each other more freely than they say to Mòrag herself, that the bank behind the shingle was raised as much against the hill's spears as against the sea.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0100",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#v-of-the-years-that-followed",
+   "era_between": [
+    685,
+    685
+   ]
+  },
+  {
+   "after": "I-0101"
+  },
+  {
+   "id": "EII-2025",
+   "title": "The king hears the raid from Mòrag's own mouth",
+   "body": "Riding down to Dùn ìseal with a small company, the king hears the whole of the salt raid from Mòrag herself and tells her plainly that the south is not yet his to forbid or to avenge, neither blaming nor praising what she has done.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0101",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iv-of-the-red-hill-and-the-pebble-bag",
+   "era_between": [
+    694,
+    694
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2026",
+   "title": "Mòrag rides west to the Red Hill",
+   "body": "The king takes Mòrag with him on the long ride west to the Red Hill, saying little of his purpose, so that she comes to the lake shore not knowing why she has been brought, only that she has been brought to see something.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0101",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iv-of-the-red-hill-and-the-pebble-bag",
+   "era_between": [
+    694,
+    694
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2027",
+   "title": "Seonag weighs the pebble bag before the king",
+   "body": "Seonag nic Uisdein meets the king at her own gate and weighs the worn bag that holds one pebble for every household of the Red Hill's shore, and the king weighs it after her and says he is content, the whole business settled without a word of tribute asked or given.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0101",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "seonag-nic-uisdein",
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iv-of-the-red-hill-and-the-pebble-bag",
+   "era_between": [
+    694,
+    694
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2028",
+   "title": "Mòrag rides home weighing a different holding",
+   "body": "On the road back east Mòrag turns Seonag's pebble bag over in her mind against her own eleven spears and seven dead, and never again raises a raid, though she never tells anyone plainly that the pebble bag is the reason.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0101",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#iv-of-the-red-hill-and-the-pebble-bag",
+   "era_between": [
+    694,
+    694
+   ]
+  },
+  {
+   "after": "I-0102"
+  },
+  {
+   "id": "EII-2029",
+   "title": "Two of the first pots reach Dùn ìseal",
+   "body": "A trader carries word of the new coiled clay pots fired at Doire shean up to Dùn ìseal, glad for once to be carrying news rather than salt, and Mòrag has two of the first pots set on her own hearth, where they outlast her holding of the hill.",
+   "place": "burg:324",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0102",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#v-of-the-years-that-followed",
+   "era_between": [
+    705,
+    705
+   ]
+  },
+  {
+   "after": "I-0103"
+  },
+  {
+   "id": "EII-2030",
+   "title": "Word of the dug-out at Cidhe Beag reaches the hill",
+   "body": "Telling of the oak dug-out sunk and left at the landing at Cidhe Beag, the first boat of its kind hollowed whole rather than built plank by plank, reaches Mòrag by the same slow road that carries most new things to whoever holds Dùn ìseal, though she never sees the boat itself.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0103",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "morag-chruaidh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#v-of-the-years-that-followed",
+   "era_between": [
+    716,
+    716
+   ]
+  },
+  {
+   "id": "EII-2031",
+   "title": "Iain Dubh takes the hill from Mòrag's hand",
+   "body": "Mòrag gives up Dùn ìseal to Iain Dubh, a son of the king older than she is by every reckoning but younger to look at, judging that a holder is ill served by staying past the age when she still has something to learn from the holding.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh",
+    "iain-dubh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#v-of-the-years-that-followed",
+   "era_between": [
+    719,
+    719
+   ]
+  },
+  {
+   "id": "EII-2032",
+   "title": "Iain Dubh asks Mòrag how she did it",
+   "body": "At the gate on the day he takes the hill, Iain Dubh asks Mòrag the one question no one else in the household has put to her directly, how she went south with eleven spears against a whole shore and came home with only seven lost, and she answers him as plainly as she is able.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "morag-chruaidh",
+    "iain-dubh"
+   ],
+   "told_in": "book/09_morag_the_hard.md#v-of-the-years-that-followed",
+   "era_between": [
+    719,
+    719
+   ]
+  },
+  {
+   "id": "EII-2033",
+   "title": "Màiri hears the seven names of Mòrag's raid",
+   "body": "As a child at Baile ghorm, Màiri nan Làn learns the seven names kept from Mòrag Chruaidh's raid on the salt-pans a generation before, said slowly at the fire the way a thing is said that must not be said carelessly, and takes the telling for a settled account, its ending already closed.",
+   "place": "burg:170",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0099",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#i-of-the-pans",
+   "era_between": [
+    721,
+    721
+   ]
+  },
+  {
+   "after": "I-0104"
+  },
+  {
+   "id": "EII-2034",
+   "title": "Iain Dubh comes down to the salt-pans at dawn",
+   "body": "Iain Dubh, sixth of the Stone Kings and eight years holder of the hill, rides south to the salt shore as Mòrag Chruaidh had once done, and comes on the pans at Baile ghorm in the grey hour before full light, with more spears behind him than the shore's low bank was ever built to answer.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#ii-of-the-coming-of-iain-dubh",
+   "era_between": [
+    727,
+    727
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2035",
+   "title": "Tadhg Garbh's spear kills Iain Dubh",
+   "body": "In the fighting at the bank's gap, Tadhg Garbh of Baile ghorm throws a spear among a scatter of others thrown at the same moment, and it alone finds its mark, taking Iain Dubh through the throat before he closes half the distance to the pans. He is the first of Ailean Mòr's children to die by a spear.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tadhg-garbh",
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#ii-of-the-coming-of-iain-dubh",
+   "era_between": [
+    727,
+    727
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2036",
+   "title": "The hill men carry Iain Dubh home",
+   "body": "The hill spears draw back from the bank around their fallen lord rather than press on for the salt, and carry him north at a pace no one on the shore is willing to call a retreat, though it can honestly be called little else.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#ii-of-the-coming-of-iain-dubh",
+   "era_between": [
+    727,
+    727
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2037",
+   "title": "Baile ghorm learns whose son fell on its clay",
+   "body": "Days after the fighting, traders carrying word south tell the salt-folk that the man who fell on the pan's clay was Iain Dubh, holder of the hill and Ailean Mòr's own son, and that no man of the blood has ever before died by a spear.",
+   "place": "burg:170",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#ii-of-the-coming-of-iain-dubh",
+   "era_between": [
+    727,
+    727
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2038",
+   "title": "Iain Dubh's cairn raised on the hill",
+   "body": "Tormod, Iain Dubh's eldest living son, stands the whole of the cairn's raising without being seen to weep, a young man of eighty-seven still holding nothing in his own right, while the king is away in the north settling a quarrel of grazing.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#iii-of-the-cairn-on-the-hill",
+   "era_between": [
+    727,
+    727
+   ]
+  },
+  {
+   "id": "EII-2039",
+   "title": "The king comes home to a cairn already raised",
+   "body": "Ailean Mòr returns from the north to find his son already under the cairn, and stands by it three days speaking to no one, neither Tormod nor the reciters who stand ready to add his words to the list.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-seven-coals"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#iii-of-the-cairn-on-the-hill",
+   "era_between": [
+    727,
+    727
+   ]
+  },
+  {
+   "id": "EII-2040",
+   "title": "The king walks south alone",
+   "body": "On the fourth day the king leaves the hill on foot, alone, taking no household and no spears, and walks the old track through the dunes toward the salt shore, so that it is some while before anyone understands where he is bound.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104b",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#iii-of-the-cairn-on-the-hill",
+   "era_between": [
+    727,
+    727
+   ]
+  },
+  {
+   "after": "I-0104b"
+  },
+  {
+   "id": "EII-2041",
+   "title": "The salt-folk raise spears against him",
+   "body": "Màiri, first to see the man alone on the shingle, screams for the men before she can put a name to what she sees. Thirty and more come running with the same spears that killed Iain Dubh, and make a line across the shore between the king and the pans.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0104b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#i-of-the-pans",
+   "era_between": [
+    728,
+    728
+   ]
+  },
+  {
+   "id": "EII-2042",
+   "title": "Tadhg Garbh lowers his spear a second time",
+   "body": "Tadhg Garbh raises his spear to his shoulder as the king closes the line, holds it until his arm shakes, then lowers it and looks at it in his own hand as though someone else had given it to him.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "I-0104b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tadhg-garbh"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#iv-of-the-man-on-the-shingle",
+   "era_between": [
+    728,
+    728
+   ]
+  },
+  {
+   "id": "EII-2043",
+   "title": "Mòr gives the double handful of salt",
+   "body": "Old Mòr of the salt-folk kneels on the shingle and holds up a double handful of wet salt from the nearest pan. The king takes it, eats a little, and closes her fingers back over the rest before he lets go and walks away north the way he came.",
+   "place": "burg:170",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104b",
+     "type": "answers"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#v-of-the-double-handful",
+   "era_between": [
+    728,
+    728
+   ]
+  },
+  {
+   "id": "EII-2044",
+   "title": "The salt shore called the king's",
+   "body": "By evening word runs the length of the shore that the salt is the king's, though none can afterward say who first put it in those words. No blood is shed that day, the first time in two raids Baile ghorm's dead need no new name kept.",
+   "place": "burg:170",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#v-of-the-double-handful",
+   "era_between": [
+    728,
+    728
+   ]
+  },
+  {
+   "id": "EII-2045",
+   "title": "The salt-folk raise their own cairn for Iain Dubh",
+   "body": "The salt-folk of Baile ghorm build a small cairn of their own on the rise above the pans, working in seven stones for the seven of Mòrag Chruaidh's raid though none of the seven died in this second fight, having come to think of both raids as one account.",
+   "place": "burg:170",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#vi-of-tadhg-garbh-s-boat",
+   "era_between": [
+    728,
+    728
+   ]
+  },
+  {
+   "id": "EII-2046",
+   "title": "Tormod comes to the shore and absolves Tadhg Garbh",
+   "body": "Tormod rides south with four men to stand at the new cairn and see the pan where his father fell, asks Tadhg Garbh's name without anyone softening the telling, and says a man defending his own pans with his own hand owes no account for it.",
+   "place": "burg:170",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath",
+    "tadhg-garbh"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#vi-of-tadhg-garbh-s-boat",
+   "era_between": [
+    729,
+    729
+   ]
+  },
+  {
+   "id": "EII-2047",
+   "title": "Tadhg Garbh rows out and does not return",
+   "body": "Tadhg Garbh takes a hide boat out alone before first light one spring morning and does not come back with the tide or any tide after. No storm is remembered that night, and no wreckage of the boat is ever found.",
+   "place": "burg:170",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0104",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tadhg-garbh",
+    "mairi-nan-lan"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#vi-of-tadhg-garbh-s-boat",
+   "era_between": [
+    729,
+    729
+   ]
+  },
+  {
+   "id": "EII-2048",
+   "title": "Seonag of the Red Hill dies",
+   "body": "Seonag nic Uisdein, who met Mòrag Chruaidh with a bag of pebbles and not with spears, dies on the Red Hill in her seventy-second year; the salt tallies she kept go to her heir whole and without a stone out of place.",
+   "place": "burg:19",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0101",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "seonag-nic-uisdein"
+   ],
+   "told_in": "book/10_shingle_at_baile_ghorm.md#i-of-the-pans",
+   "era_between": [
+    741,
+    741
+   ]
+  },
+  {
+   "id": "EII-2049",
+   "title": "Raghnall born to Fearchar Bacach",
+   "body": "A son is born to Fearchar Bacach at Dùn ìseal, fair-headed from his first day, and is called Ceannfhionn before he is called anything else; he grows up with the hill's wool about him and no salt to cure its mutton.",
+   "place": "burg:315",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "raghnall-ceannfhionn",
+    "fearchar-bacach"
+   ],
+   "told_in": "book/14_of_salt_for_wool.md#iii-of-the-ground-the-water-never-dried",
+   "era_between": [
+    760,
+    760
+   ]
+  },
+  {
+   "id": "EII-2050",
+   "title": "The sea drowns the low houses of Cnoc chaol",
+   "body": "In the night the sea rises past every mark it has kept on the coast at Cnoc chaol and comes in over the low houses, taking twelve of the shore's dead and leaving a sheet of grey sand a hand thick over every hearth it does not carry away, threaded with the shells of deep-water creatures no net there has ever brought up.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0105",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#i-of-the-sand",
+   "era_between": [
+    777,
+    777
+   ]
+  },
+  {
+   "after": "I-0105"
+  },
+  {
+   "id": "EII-2051",
+   "title": "Seasaidh's father is counted among the drowned",
+   "body": "Seasaidh, carried up the slope at seven years old by her mother, learns in the grey hour after the wave that her father is not among those who reached higher ground, one of twelve of Cnoc chaol's dead counted when the counting is done.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0105",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#i-of-the-sand",
+   "era_between": [
+    777,
+    777
+   ]
+  },
+  {
+   "id": "EII-2052",
+   "title": "The old ground at Cnoc chaol is left unbuilt",
+   "body": "The old folk of Cnoc chaol sift the sanded ruin for what is worth digging out and find little; no household chooses to rebuild on the drowned ground, level and good as it is, and it is left to grass over.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0105",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_sand_on_the_hearths.md#i-of-the-sand",
+   "era_between": [
+    777,
+    777
+   ]
+  },
+  {
+   "id": "EII-2053",
+   "title": "The survivors of Cnoc chaol build on the slope",
+   "body": "The households of Cnoc chaol carry what can be carried up the slope behind the drowned ground and build again there in stone rather than turf and wattle, keeping the old name of the coast for the new houses and pointing out the low ground to their children as ground not to be built on.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0105",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#i-of-the-sand",
+   "era_between": [
+    778,
+    778
+   ]
+  },
+  {
+   "id": "EII-2054",
+   "title": "Seasaidh goes inland to Pàl's valley",
+   "body": "Seasaidh, twenty-two years old, leaves the coast that raised her to take up a household two days inland with Pàl, a drover's son, in a green valley walled by low scarps that she has never seen and cannot yet well imagine, having known until then only tide and shingle.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EII-2053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#ii-of-the-slope",
+   "era_between": [
+    792,
+    792
+   ]
+  },
+  {
+   "id": "EII-2055",
+   "title": "The ground opens below Pàl's byre",
+   "body": "In the night a low groaning felt through the floor of the house opens a crack clean across the floor of the valley a little below the household's byre, wide enough in places for a man to lose his boot to the dark below, running further than any of the valley folk cares to walk to find its end.",
+   "place": "burg:2002",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0106",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#iii-of-the-valley",
+   "era_between": [
+    827,
+    827
+   ]
+  },
+  {
+   "after": "I-0106"
+  },
+  {
+   "id": "EII-2056",
+   "title": "The valley's spring moves to a new channel",
+   "body": "The spring that has risen at the valley's upper end for as long as the household remembers runs dry by inches through the season after the ground opens and breaks out afresh a hundred paces downhill, in a hollow none of the valley folk had marked before as ground a spring might choose.",
+   "place": "burg:2002",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0106",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_sand_on_the_hearths.md#iv-of-the-opened-ground",
+   "era_between": [
+    827,
+    827
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-2057",
+   "title": "The valley folk keep clear of the crack by instinct",
+   "body": "No house stands near enough the new crack to be lost to it, and the valley folk, without any rule laid down to tell them so, drive their beasts wide of it and warn their children from it from the first season, a wariness settling over ground that had never before asked for one.",
+   "place": "burg:2002",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0106",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_sand_on_the_hearths.md#v-of-the-king-at-the-crack",
+   "era_between": [
+    827,
+    827
+   ]
+  },
+  {
+   "id": "EII-2058",
+   "title": "Word of the opened ground reaches the hill",
+   "body": "A drover's telling of the crack, carried without any deliberate sending along the ordinary roads of trade and overheard at a hearth by a man travelling to the hill on other business, comes at last to the king by the same slow accident that carries most word to him.",
+   "place": "burg:2002",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0106",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_sand_on_the_hearths.md#iv-of-the-opened-ground",
+   "era_between": [
+    828,
+    828
+   ]
+  },
+  {
+   "id": "EII-2059",
+   "title": "The king walks the length of the crack",
+   "body": "The king comes on foot with two men to Pàl's valley and walks the crack's whole length with the household, crouching twice to look down into it though he lets nothing down to measure its depth, and asks whether any beast or soul has gone into it since it opened.",
+   "place": "burg:2002",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0106",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#v-of-the-king-at-the-crack",
+   "era_between": [
+    830,
+    830
+   ]
+  },
+  {
+   "id": "EII-2060",
+   "title": "The king forbids nothing at the crack",
+   "body": "Standing at the widest part of the opened ground, the king tells the valley folk he will neither have the crack filled nor leave it, only that they keep their beasts and children back from it and build no house nearer it than they would to a drop of a man's own cutting.",
+   "place": "burg:2002",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0106",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#v-of-the-king-at-the-crack",
+   "era_between": [
+    830,
+    830
+   ]
+  },
+  {
+   "id": "EII-2061",
+   "title": "Seasaidh begins the line of white stones",
+   "body": "In her seventy-eighth year Seasaidh carries the first white stones up from the stream bed herself and sets them a stride back from the crack's edge, choosing them for their whiteness so a child running in poor light may see the line and know where the safe ground ends.",
+   "place": "burg:2002",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0107",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#vi-of-the-white-stones",
+   "era_between": [
+    847,
+    847
+   ]
+  },
+  {
+   "after": "I-0107"
+  },
+  {
+   "id": "EII-2062",
+   "title": "The valley finishes the line of stones",
+   "body": "Seasaidh's children and grandchildren take up the carrying before she has finished the first stretch, and households from both ends of the settled ground add their own stones until the white line runs the crack's full length.",
+   "place": "burg:2002",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0107",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#vi-of-the-white-stones",
+   "era_between": [
+    847,
+    847
+   ]
+  },
+  {
+   "id": "EII-2063",
+   "title": "Seasaidh dies above the valley she marked",
+   "body": "Seasaidh dies in her eighty-second year in the house Pàl first brought her to, and is buried on the near slope within sight, though not within a stone's throw, of the white line she began; the valley keeps her name chiefly as the woman who marked the crack.",
+   "place": "burg:2002",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0107",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seasaidh-of-cnoc-chaol"
+   ],
+   "told_in": "book/11_sand_on_the_hearths.md#vi-of-the-white-stones",
+   "era_between": [
+    852,
+    852
+   ]
+  },
+  {
+   "id": "EII-2064",
+   "title": "No house is raised within a stone's throw of the crack",
+   "body": "The valley folk who come after Seasaidh mend the white line where frost or flood undoes a stretch of it and never let it go wholly back to grass, and for the rest of the age no household raises a roof within a stone's throw of the opened ground on either side of it.",
+   "place": "burg:2002",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0107",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_sand_on_the_hearths.md#vi-of-the-white-stones",
+   "era_between": [
+    860,
+    860
+   ]
+  }
+ ]
+}

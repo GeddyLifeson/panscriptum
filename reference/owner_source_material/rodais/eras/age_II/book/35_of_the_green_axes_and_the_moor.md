@@ -1,8 +1,8 @@
 # Of the Green Axes and the Moor
 
-*Part Six: Catrìona Mhòr and the Ford*
-
 *GE 3,496 – 3,999*
+
+*Part Six: Catrìona Mhòr and the Ford*
 
 > *Tuagh uaine, air uaigh; cha do bhuail i riamh, is cha bhuail i tuilleadh.*
 > A green axe, on a grave; it never struck, and it will strike no more.

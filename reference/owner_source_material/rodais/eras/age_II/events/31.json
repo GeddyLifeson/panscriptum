@@ -4,9 +4,14 @@
   "era_year": 2601,
   "summary": "The king sends his son Murchadh north with sixty households to hold the northern plain in his name, the first of the king's sons given ground beyond the settled valleys to keep rather than merely to pass through.",
   "category": "reign",
-  "people": ["Murchadh Mòr"],
+  "people": [
+   "Murchadh Mòr"
+  ],
   "places": [],
-  "threads": ["line-of-aisling", "the-division"],
+  "threads": [
+   "line-of-aisling",
+   "the-division"
+  ],
   "master_links": []
  },
  {
@@ -14,10 +19,16 @@
   "era_year": 2616,
   "summary": "Murchadh raises his hall on a rise above a spring that runs clear through every winter, and the households of the plain name the place Baile Mòr mhòr before it has earned the size of the name; within four centuries it stands eighty houses, the largest place north of the Red Hill.",
   "category": "land",
-  "people": ["Murchadh Mòr"],
-  "places": ["burg:365"],
+  "people": [
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:365"
+  ],
   "threads": [],
-  "master_links": ["I-0200"]
+  "master_links": [
+   "I-0200"
+  ]
  },
  {
   "title": "Sheep-households settle Baile gharbh",
@@ -25,9 +36,13 @@
   "summary": "Households take up the stony ground north-east of Murchadh's spring, keep sheep where the land will bear nothing heavier, and send their wool south along the coast road to the ford gathering rather than north to Murchadh's own granary.",
   "category": "land",
   "people": [],
-  "places": ["burg:131"],
+  "places": [
+   "burg:131"
+  ],
   "threads": [],
-  "master_links": ["I-0201"]
+  "master_links": [
+   "I-0201"
+  ]
  },
  {
   "title": "Baile fhiadhaich settled among the boar-thickets",
@@ -35,9 +50,13 @@
   "summary": "Settlers build on the western coast where the boars run heaviest, hang tusks over their doors, and take boar for their chief meat; the island comes to know a man of that place by his gait, from a lifetime of walking ground a boar might break from underfoot.",
   "category": "land",
   "people": [],
-  "places": ["burg:134"],
+  "places": [
+   "burg:134"
+  ],
   "threads": [],
-  "master_links": ["I-0202"]
+  "master_links": [
+   "I-0202"
+  ]
  },
  {
   "title": "Cuan shean settled beside the old landing",
@@ -45,18 +64,26 @@
   "summary": "Households take up a harbour beside a stone landing built by hands none of them can name, older than any wall near it, and use it as they find it rather than mend it, out of the caution settlers keep wherever the Old Ones' work still stands.",
   "category": "land",
   "people": [],
-  "places": ["burg:282"],
+  "places": [
+   "burg:282"
+  ],
   "threads": [],
-  "master_links": ["I-0203"]
+  "master_links": [
+   "I-0203"
+  ]
  },
  {
   "title": "Eithne nic Ailein is born",
   "era_year": 2703,
   "summary": "A daughter is born to the king in the near valleys and named Eithne; she grows quicker of tongue than most of her father's blood troubles to be, and comes north, in time, to hold ground of her own rather than sit idle at any hearth.",
   "category": "birth",
-  "people": ["Eithne nic Ailein"],
+  "people": [
+   "Eithne nic Ailein"
+  ],
   "places": [],
-  "threads": ["line-of-aisling"],
+  "threads": [
+   "line-of-aisling"
+  ],
   "master_links": []
  },
  {
@@ -64,9 +91,13 @@
   "era_year": 2720,
   "summary": "The eldest of eleven sons is born to Murchadh over the better part of three centuries; each, coming of an age to want it, is given a corner of the plain to hold under his father rather than a place idle at his hearth.",
   "category": "birth",
-  "people": ["Murchadh Mòr"],
+  "people": [
+   "Murchadh Mòr"
+  ],
   "places": [],
-  "threads": ["the-division"],
+  "threads": [
+   "the-division"
+  ],
   "master_links": []
  },
  {
@@ -75,19 +106,31 @@
   "summary": "Herders wanting the bank to face south and quarrymen wanting it to face north raise, between them, a single crooked earthwork that answers both wants at once and satisfies neither fully, and the bent fort stands from its first year with a name that fits it more ways than its builders meant.",
   "category": "land",
   "people": [],
-  "places": ["burg:255"],
+  "places": [
+   "burg:255"
+  ],
   "threads": [],
-  "master_links": ["I-0204"]
+  "master_links": [
+   "I-0204"
+  ]
  },
  {
   "title": "Eithne's households name the ground below the outpost Cathair mhòr",
   "era_year": 2847,
   "summary": "Settlers below a broken watch-tower ask Eithne, then a hundred and forty-four years old, to lay out their fields, and she stays; her households name the place Cathair mhòr, the great city, out of hope rather than size, and take no stone from the ruin above them.",
   "category": "land",
-  "people": ["Eithne nic Ailein"],
-  "places": ["burg:23"],
-  "threads": ["line-of-aisling"],
-  "master_links": ["I-0205"]
+  "people": [
+   "Eithne nic Ailein"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [
+   "line-of-aisling"
+  ],
+  "master_links": [
+   "I-0205"
+  ]
  },
  {
   "title": "Households come to Cnoc naomh for its spring",
@@ -95,9 +138,13 @@
   "summary": "Settlers take up a hill already called, by no teller then living able to say why, the holy hill, and keep its water and the fact of its holiness together without asking more of either.",
   "category": "faith",
   "people": [],
-  "places": ["burg:318"],
+  "places": [
+   "burg:318"
+  ],
   "threads": [],
-  "master_links": ["I-0206"]
+  "master_links": [
+   "I-0206"
+  ]
  },
  {
   "title": "Tobar dhearg rises round the red well",
@@ -105,9 +152,13 @@
   "summary": "The keepers of a beacon on the southern cape build at last round a well whose water runs faintly red from the rock, and their settlement grows into the greatest place on that coast, its fire burning nightly for ships that have learned to watch for it.",
   "category": "land",
   "people": [],
-  "places": ["burg:398"],
+  "places": [
+   "burg:398"
+  ],
   "threads": [],
-  "master_links": ["I-0207"]
+  "master_links": [
+   "I-0207"
+  ]
  },
  {
   "title": "Muileann naomh is founded on piles over the marsh",
@@ -115,18 +166,28 @@
   "summary": "The first houses of Muileann naomh stand on driven piles over standing marsh water between Tobar dhearg and the old Seann Skell, and are afterward moved to firm ground a bowshot inland once the piles prove the footing sound, keeping the name the marsh first gave them.",
   "category": "land",
   "people": [],
-  "places": ["burg:326"],
+  "places": [
+   "burg:326"
+  ],
   "threads": [],
-  "master_links": ["I-0208"]
+  "master_links": [
+   "I-0208"
+  ]
  },
  {
   "title": "The holders of Dùn chrom and Dùn thais quarrel over which way a bank should face",
   "era_year": 2802,
   "summary": "Ruadhan Beag of Dùn chrom and the holder of Dùn thais fall into two winters of hard words over which way a bank ought to face, until Murchadh rides to hear them and leaves the ditch as it stands, finding a hundred years without an enemy a better argument than either holder makes against it.",
   "category": "conflict",
-  "people": ["Murchadh Mòr"],
-  "places": ["burg:255"],
-  "threads": ["the-division"],
+  "people": [
+   "Murchadh Mòr"
+  ],
+  "places": [
+   "burg:255"
+  ],
+  "threads": [
+   "the-division"
+  ],
   "master_links": []
  },
  {
@@ -134,9 +195,15 @@
   "era_year": 2804,
   "summary": "Beathan, son of Somhairle, who sat his nights at the slab since before Murchadh was born, dies in his two thousand two hundred and thirteenth year, the oldest death yet counted among the king's kin; the households of the north, hearing the number, begin for the first time to reckon what it may mean to outlive a holder's holder.",
   "category": "death",
-  "people": ["Beathan mac Shomhairle", "Murchadh Mòr"],
+  "people": [
+   "Beathan mac Shomhairle",
+   "Murchadh Mòr"
+  ],
   "places": [],
-  "threads": ["line-of-aisling", "the-long-years"],
+  "threads": [
+   "line-of-aisling",
+   "the-long-years"
+  ],
   "master_links": []
  },
  {
@@ -144,19 +211,30 @@
   "era_year": 2900,
   "summary": "After three hundred years in Murchadh's keeping, the king takes back the poorer western valleys of the northern plain and gives them to a grandson of the Red Hill's line, saying only that the ground had grown crowded enough to want a nearer hand; Murchadh does not argue it, and the plain stops speaking of it within the year.",
   "category": "reign",
-  "people": ["Murchadh Mòr"],
+  "people": [
+   "Murchadh Mòr"
+  ],
   "places": [],
-  "threads": ["the-division"],
+  "threads": [
+   "the-division"
+  ],
   "master_links": []
  },
  {
   "title": "The summons to the great gathering reaches the north",
   "era_year": 2999,
-  "summary": "Riders of the king's own household bring word to Baile Mòr mhòr that every holder of every share of the island is to come to a gathering at the ford below Dùn dhearg greater than any before it; Murchadh sends word to his sons and to Eithne, and rides south himself with sixty of his household.",
+  "summary": "Riders of the king's own household bring word to Baile Mòr mhòr that every holder of every share of the island is to come to a gathering at the ford of salt and wool greater than any before it; Murchadh sends word to his sons and to Eithne, and rides south himself with sixty of his household.",
   "category": "reign",
-  "people": ["Murchadh Mòr", "Eithne nic Ailein"],
+  "people": [
+   "Murchadh Mòr",
+   "Eithne nic Ailein"
+  ],
   "places": [],
-  "threads": ["the-ford-gathering"],
-  "master_links": ["I-0208a"]
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0208a"
+  ]
  }
 ]

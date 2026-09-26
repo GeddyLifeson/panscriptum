@@ -154,7 +154,7 @@
  {
   "title": "Death of Seònaid nic Coinnich",
   "era_year": 631,
-  "summary": "Seònaid nic Coinnich dies at Cathair dhearg at eighty-five, seven years after finishing her book, her last recorded word a complaint that the harbour-house's back room at Seann Skell wants a better roof before the damp takes its oldest boards.",
+  "summary": "Seònaid nic Coinnich dies at Cathair dhearg at two-and-eighty, seven years after finishing her book, her last recorded word a complaint that the harbour-house's back room at Seann Skell wants a better roof before the damp takes its oldest boards.",
   "category": "law",
   "people": [
    "Seònaid nic Coinnich"
@@ -193,5 +193,46 @@
     "type": "sequel"
    }
   ]
+ },
+ {
+  "era_year": 619,
+  "title": "Fearchar Ciar swears the ford broke on two days",
+  "summary": "Where the custody-book gives the breaking at the ford of Àth shean as one day, the old soldier Fearchar Ciar swears to Seònaid nic Coinnich that it was two, the fighting taken up again at first light after a night neither side thought worth entering.",
+  "category": "law",
+  "people": [
+   "Fearchar Ciar",
+   "Seònaid nic Coinnich"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0106",
+    "type": "answers"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 635,
+  "title": "Birth of the heir of Anna",
+  "summary": "A child is born at Cathair dhearg to Anna, Lachlann mac Iain's daughter, then five-and-thirty years old; the king-list keeps the year of the birth and lets the child's name fall from every copy that survives.",
+  "category": "rulers",
+  "people": [
+   "Anna"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0121",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
  }
 ]

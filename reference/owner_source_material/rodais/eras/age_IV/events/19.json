@@ -1,162 +1,365 @@
 [
-  {
-    "title": "An old watching family questions Dòmhnall mac Ailein's right to name the stone",
-    "era_year": 403,
-    "summary": "One of the families who have kept watch on the wolf-stone at Inis thais for generations sends its eldest to ask a net-maker preaching on the strand what right he has to put a new name on their old duty. He answers that he claims no watch of his own and has only said aloud what the family's own hands have been doing unnamed for years.",
-    "category": "faith",
-    "people": ["Dòmhnall mac Ailein"],
-    "places": ["burg:166"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0086", "type": "cause"}]
-  },
-  {
-    "title": "Dòmhnall mac Ailein's first preaching on the strand",
-    "era_year": 405,
-    "summary": "A net-maker of Inis thais, thirty-five years old, begins telling the men who mend nets beside him that the town's old wolf-stone is Lia Fàil, and that its watching families are the Fianna, sworn to keep the whole island as a wolf keeps its range. His hearers grow through the year into the first gathering of the order of the Stone at Inis thais.",
-    "category": "faith",
-    "people": ["Dòmhnall mac Ailein"],
-    "places": ["burg:166"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0086", "type": "cause"}]
-  },
-  {
-    "title": "A shipmaster of Inis thais sails north for slate",
-    "era_year": 415,
-    "summary": "Beathag nic Raoghnaill, a shipmaster who has carried wool and hides along the southern coast for twenty years, offers to fetch roofing slate for the wolf-stone's new hall herself rather than trust the errand to another. She returns a season later with a hull low under northern slate.",
-    "category": "trade",
-    "people": ["Beathag nic Raoghnaill"],
-    "places": ["burg:166"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0087", "type": "cause"}]
-  },
-  {
-    "title": "Slate brought by sea for the temple at Inis thais",
-    "era_year": 418,
-    "summary": "The northern slate Beathag nic Raoghnaill brought south is laid over the wolf-stone's new hall, the first roof on that coast built to outlast its own builder. The town remarks as much on the roof's cost as on its wonder.",
-    "category": "faith",
-    "people": ["Dòmhnall mac Ailein", "Beathag nic Raoghnaill"],
-    "places": ["burg:166"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0087", "type": "cause"}]
-  },
-  {
-    "title": "The tide-bell of the wolf-stone shrine",
-    "era_year": 420,
-    "summary": "The Fianna of the Stone at Inis thais take up a bell that rings at every turn of the tide, its ringing passed by lot among the watching households. Within a few years the town sets its morning's business by the bell without a thought for what it was first rung to mark.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:166"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": []
-  },
-  {
-    "title": "The naming of the Stone carried inland by a hide-trader",
-    "era_year": 421,
-    "summary": "A fisherman of Inis thais who has heard Dòmhnall mac Ailein twice repeats the naming of the Stone to three inland villages while selling hides that winter, none of which he visits again. The teaching spreads in threads too small to trace to their source.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:166"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0086", "type": "legacy"}]
-  },
-  {
-    "title": "The Hawk and the Fianna claim the same feast day at Caol leathan",
-    "era_year": 427,
-    "summary": "The priests of the Hawk and the Fianna of the Stone both come to the harbour shrine at Caol leathan for the same morning's hours, the Hawk's reckoning and the Stone's vigil falling that year on the same day. Neither will give way.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:1"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0088", "type": "cause"}]
-  },
-  {
-    "title": "Murchadh mac Ailpein divides the shrine's days",
-    "era_year": 429,
-    "summary": "The king's reeve at Caol leathan, Murchadh mac Ailpein, halves the harbour shrine's hours between the Hawk and the Fianna, as the sacred woods of an older age were once divided, and nails the division on a strip of hide to the shrine door.",
-    "category": "faith",
-    "people": ["Murchadh mac Ailpein"],
-    "places": ["burg:1"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0088", "type": "cause"}]
-  },
-  {
-    "title": "Ailig an Òir forfeits a season's amber",
-    "era_year": 436,
-    "summary": "An amber-worker of Seann Skell on the Hawk bay is caught selling rough amber outside the new walls against his own guild's oath, and is made by that guild to forfeit the whole season's gathering to the market fund rather than face the crown's reeve.",
-    "category": "trade",
-    "people": ["Ailig an Òir"],
-    "places": ["burg:132"],
-    "threads": [],
-    "master_links": [{"to": "III-0088a", "type": "cause"}]
-  },
-  {
-    "title": "Death of Dòmhnall mac Ailein",
-    "era_year": 440,
-    "summary": "Dòmhnall mac Ailein dies at Inis thais in his seventieth year, having taught on the strand five-and-thirty years without ever taking up an office in the order his hearers named after his teaching. The Fianna of the Stone carry him to the shrine and set him before it, not within it.",
-    "category": "faith",
-    "people": ["Dòmhnall mac Ailein", "Beathag nic Raoghnaill"],
-    "places": ["burg:166"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0086", "type": "sequel"}]
-  },
-  {
-    "title": "King Aonghas recalls his father's teaching on the two horses",
-    "era_year": 441,
-    "summary": "Before he takes up the wood-watchers' rite himself, King Aonghas mac Uisdein recalls being told as a boy that one horse pulling alone draws a chariot only in a circle, and that it takes two, pulling together and never quite agreeing, to pull it straight.",
-    "category": "faith",
-    "people": ["Aonghas mac Uisdein"],
-    "places": ["burg:19"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0089", "type": "cause"}]
-  },
-  {
-    "title": "A councillor warns Aonghas against the wood-watchers' rite",
-    "era_year": 441,
-    "summary": "An old councillor of the red hall warns King Aonghas that a crown seen at a moor-custom may be asked by the seven houses why it will not be seen at theirs. Aonghas answers that any house is free to come and stand at a yoke-pole itself.",
-    "category": "faith",
-    "people": ["Aonghas mac Uisdein"],
-    "places": ["burg:19"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0089", "type": "cause"}]
-  },
-  {
-    "title": "Half the red hall's household takes up the rite of Macha",
-    "era_year": 442,
-    "summary": "Within a year of King Aonghas standing at the yoke-pole of the wood-watchers' rite, half his own household has taken it up beside him, and Òrd Mhacha becomes from that year the order of Cathair dhearg without a quarrel fought over it.",
-    "category": "faith",
-    "people": ["Aonghas mac Uisdein"],
-    "places": ["burg:19"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0089", "type": "sequel"}]
-  },
-  {
-    "title": "A quarryman's household first roofs in slate at Tobar dhearg",
-    "era_year": 446,
-    "summary": "A family burned out in the fire at Tobar dhearg, a quarryman among them, is the first in the village to roof again in slate rather than thatch, judging that a man who cuts the stone has less excuse than his neighbours to sleep under straw.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:398"],
-    "threads": [],
-    "master_links": [{"to": "III-0090", "type": "sequel"}]
-  },
-  {
-    "title": "The crown sends grain south after the fire at Tobar dhearg",
-    "era_year": 446,
-    "summary": "King Aonghas sends what the crown's granaries can spare south to Tobar dhearg before the winter closes the roads, the village having lost most of its stores along with its roofs.",
-    "category": "rulers",
-    "people": ["Aonghas mac Uisdein"],
-    "places": ["burg:19", "burg:398"],
-    "threads": [],
-    "master_links": [{"to": "III-0090", "type": "cause"}]
-  },
-  {
-    "title": "King Aonghas returns to the yoke a second year",
-    "era_year": 446,
-    "summary": "King Aonghas rides out to the wood-watchers' rite a second spring running, judging that a thing done once by a king and not again is no rite at all, and stands again with a hand on each yoke-pole among the grey horse and the black.",
-    "category": "faith",
-    "people": ["Aonghas mac Uisdein"],
-    "places": ["burg:19"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0089", "type": "sequel"}]
-  }
+ {
+  "title": "An old watching family questions Dòmhnall mac Ailein's right to name the stone",
+  "era_year": 403,
+  "summary": "One of the families who have kept watch on the wolf-stone at Inis thais for generations sends its eldest to ask a net-maker preaching on the strand what right he has to put a new name on their old duty. He answers that he claims no watch of his own and has only said aloud what the family's own hands have been doing unnamed for years.",
+  "category": "faith",
+  "people": [
+   "Dòmhnall mac Ailein"
+  ],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0086",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Dòmhnall mac Ailein's first preaching on the strand",
+  "era_year": 405,
+  "summary": "A net-maker of Inis thais, thirty-five years old, begins telling the men who mend nets beside him that the town's old wolf-stone is Lia Fàil, and that its watching families are the Fianna, sworn to keep the whole island as a wolf keeps its range. His hearers grow through the year into the first gathering of the order of the Stone at Inis thais.",
+  "category": "faith",
+  "people": [
+   "Dòmhnall mac Ailein"
+  ],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0086",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A shipmaster of Inis thais sails north for slate",
+  "era_year": 415,
+  "summary": "Beathag nic Raoghnaill, a shipmaster who has carried wool and hides along the southern coast for twenty years, offers to fetch roofing slate for the wolf-stone's new hall herself rather than trust the errand to another. She returns a season later with a hull low under northern slate.",
+  "category": "trade",
+  "people": [
+   "Beathag nic Raoghnaill"
+  ],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0087",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Slate brought by sea for the temple at Inis thais",
+  "era_year": 418,
+  "summary": "The northern slate Beathag nic Raoghnaill brought south is laid over the wolf-stone's new hall, the first roof on that coast built to outlast its own builder. The town remarks as much on the roof's cost as on its wonder.",
+  "category": "faith",
+  "people": [
+   "Dòmhnall mac Ailein",
+   "Beathag nic Raoghnaill"
+  ],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0087",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The tide-horn of the wolf-stone shrine",
+  "era_year": 420,
+  "summary": "The Fianna of the Stone at Inis thais take up a horn blown at every turn of the tide, its blowing passed by lot among the watching households. Within a few years the town sets its morning's business by the horn without a thought for what it was first blown to mark.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The naming of the Stone carried inland by a hide-trader",
+  "era_year": 421,
+  "summary": "A fisherman of Inis thais who has heard Dòmhnall mac Ailein twice repeats the naming of the Stone to three inland villages while selling hides that winter, none of which he visits again. The teaching spreads in threads too small to trace to their source.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0086",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The Hawk and the Fianna claim the same feast day at Caol leathan",
+  "era_year": 427,
+  "summary": "The priests of the Hawk and the Fianna of the Stone both come to the harbour shrine at Caol leathan for the same morning's hours, the Hawk's reckoning and the Stone's vigil falling that year on the same day. Neither will give way.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:1"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0088",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Murchadh mac Ailpein divides the shrine's days",
+  "era_year": 429,
+  "summary": "The king's reeve at Caol leathan, Murchadh mac Ailpein, halves the harbour shrine's hours between the Hawk and the Fianna, as the sacred woods of an older age were once divided, and nails the division on a strip of hide to the shrine door.",
+  "category": "faith",
+  "people": [
+   "Murchadh mac Ailpein"
+  ],
+  "places": [
+   "burg:1"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0088",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Ailig an Òir forfeits a season's amber",
+  "era_year": 436,
+  "summary": "An amber-worker of Seann Skell on the Hawk bay is caught selling rough amber outside the new walls against his own guild's oath, and is made by that guild to forfeit the whole season's gathering to the market fund rather than face the crown's reeve.",
+  "category": "trade",
+  "people": [
+   "Ailig an Òir"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0088a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Death of Dòmhnall mac Ailein",
+  "era_year": 440,
+  "summary": "Dòmhnall mac Ailein dies at Inis thais in his seventieth year, having taught on the strand five-and-thirty years without ever taking up an office in the order his hearers named after his teaching. The Fianna of the Stone carry him to the shrine and set him before it, not within it.",
+  "category": "faith",
+  "people": [
+   "Dòmhnall mac Ailein",
+   "Beathag nic Raoghnaill"
+  ],
+  "places": [
+   "burg:166"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0086",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "King Aonghas recalls his father's teaching on the two horses",
+  "era_year": 441,
+  "summary": "Before he takes up the wood-watchers' rite himself, King Aonghas mac Uisdein recalls being told as a boy that one horse pulling alone draws a chariot only in a circle, and that it takes two, pulling together and never quite agreeing, to pull it straight.",
+  "category": "faith",
+  "people": [
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0089",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A councillor warns Aonghas against the wood-watchers' rite",
+  "era_year": 441,
+  "summary": "An old councillor of the red hall warns King Aonghas that a crown seen at a moor-custom may be asked by the seven houses why it will not be seen at theirs. Aonghas answers that any house is free to come and stand at a yoke-pole itself.",
+  "category": "faith",
+  "people": [
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0089",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Half the red hall's household takes up the rite of Macha",
+  "era_year": 442,
+  "summary": "Within a year of King Aonghas standing at the yoke-pole of the wood-watchers' rite, half his own household has taken it up beside him, and Òrd Mhacha becomes from that year the order of Cathair dhearg without a quarrel fought over it.",
+  "category": "faith",
+  "people": [
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0089",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A quarryman's household first roofs in slate at Tobar dhearg",
+  "era_year": 446,
+  "summary": "A family burned out in the fire at Tobar dhearg, a quarryman among them, is the first in the village to roof again in slate rather than thatch, judging that a man who cuts the stone has less excuse than his neighbours to sleep under straw.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:398"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0090",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The crown sends grain south after the fire at Tobar dhearg",
+  "era_year": 446,
+  "summary": "King Aonghas sends what the crown's granaries can spare south to Tobar dhearg before the winter closes the roads, the village having lost most of its stores along with its roofs.",
+  "category": "rulers",
+  "people": [
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19",
+   "burg:398"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0090",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "King Aonghas returns to the yoke a second year",
+  "era_year": 446,
+  "summary": "King Aonghas rides out to the wood-watchers' rite a second spring running, judging that a thing done once by a king and not again is no rite at all, and stands again with a hand on each yoke-pole among the grey horse and the black.",
+  "category": "faith",
+  "people": [
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0089",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 400,
+  "title": "Birth of Aonghas Òg",
+  "summary": "A son, named Aonghas for his father, is born at Cathair dhearg to King Aonghas mac Uisdein, eight-and-twenty years old and six years crowned.",
+  "category": "rulers",
+  "people": [
+   "Aonghas Òg mac Aonghais",
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0096",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 435,
+  "title": "Birth of Iain mac Aonghais",
+  "summary": "A son, Iain, is born at Cathair dhearg to Aonghas Òg, the king's heir, then five-and-thirty years old; the old king, sixty-three, sees his grandson named at the yoke-poles of Macha's rite.",
+  "category": "rulers",
+  "people": [
+   "Iain mac Aonghais",
+   "Aonghas Òg mac Aonghais",
+   "Aonghas mac Uisdein"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0097",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ }
 ]

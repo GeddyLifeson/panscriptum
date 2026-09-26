@@ -259,61 +259,6 @@
     ]
   },
   {
-    "title": "Cha tollar an druim",
-    "era_year": 5,
-    "summary": "The first rule of Comann nan Saor-luinge, the keel is not bored, is broken at Caol fhiadhaich when Sorcha nic Dhùghaill bores the post of An Ròn Dubh to take a shaft.",
-    "category": "trade",
-    "people": [
-      "Sorcha nic Dhùghaill"
-    ],
-    "places": [
-      "burg:191"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0012"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The pilots' word at the wolf-stone",
-    "era_year": 5,
-    "summary": "Ailig Mòr, eldest of the pilots of Caol fhiadhaich, says the words over the fish at the wolf-stone for the first engine-boat to go out, and then takes her through the strait himself.",
-    "category": "faith",
-    "people": [
-      "Ailig Mòr"
-    ],
-    "places": [
-      "burg:191"
-    ],
-    "threads": [
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The four yards return their papers",
-    "era_year": 5,
-    "summary": "The boatwrights of Caol fhiadhaich write to the master of their guild that they hold the engine work lawful, and return their papers with the letter. Sorcha nic Dhùghaill takes down her binding-paper from its frame.",
-    "category": "law",
-    "people": [
-      "Sorcha nic Dhùghaill"
-    ],
-    "places": [
-      "burg:191"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0012"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The Seann Skell works watch the guild court",
     "era_year": 6,
     "summary": "A man sent from the dubhan works at the southern Seann Skell sits at the court of Comann nan Saor-luinge at Ros dhomhain beside a clerk of the lights, to hear what it says of engines.",
@@ -347,6 +292,42 @@
     ],
     "master_links": [
       "VI-0012"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Baile ghorm's boats follow Caol fhiadhaich",
+    "era_year": 6,
+    "summary": "Two skippers of Baile ghorm, who had seen An Ròn Dubh come home against a south-westerly, send to the southern works for burners and to Caol fhiadhaich for a boatwright who will bore a keel.",
+    "category": "trade",
+    "people": [
+      "Sorcha nic Dhùghaill"
+    ],
+    "places": [
+      "burg:170"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0012"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The pilots of Seann Warr ask for an engine boat",
+    "era_year": 6,
+    "summary": "The pilots of the walled harbour of Seann Warr ask their maor for a pilot-boat with an engine, to meet ships in a calm; the maor answers that the town will pay for one when the shipwrights' guild allows one.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:64"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0013"
     ],
     "chronicle_extra": true
   }

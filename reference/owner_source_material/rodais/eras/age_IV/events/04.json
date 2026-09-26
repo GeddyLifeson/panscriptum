@@ -110,9 +110,9 @@
   ]
  },
  {
-  "title": "Doire fhiadhaich founded",
+  "title": "Woodcutters' huts at Doire fhiadhaich",
   "era_year": 5,
-  "summary": "Woodcutters of the roll build huts at the edge of a wild oak wood on the shore of Loch chrom to fell crooked oak for the fleet's frames and knees. They stay after the felling, and the village takes the wood's name.",
+  "summary": "Woodcutters of the roll build huts at the edge of a wild oak wood on the shore of Loch chrom to fell crooked oak for the fleet's frames and knees. They go home when the felling is done and the huts fall in; the wood keeps its name.",
   "category": "land",
   "people": [],
   "places": [
@@ -217,5 +217,27 @@
     "type": "cause"
    }
   ]
+ },
+ {
+  "era_year": 5,
+  "title": "Alasdair walks north with a knotted line",
+  "summary": "In the moon of Gearras, after Là Fhèill Brìde, Alasdair mac Iain sets out alone on the north road with a pack, a staff and a line knotted every arm's length for measuring, making fifteen miles the first day and sleeping in a byre.",
+  "category": "trade",
+  "people": [
+   "Alasdair mac Iain, Alasdair Saor"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0009",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
  }
 ]

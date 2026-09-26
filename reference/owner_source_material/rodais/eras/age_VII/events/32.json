@@ -361,5 +361,39 @@
     ],
     "master_links": [],
     "chronicle_extra": true
+  },
+  {
+    "title": "A pass-office at Cnoc ghorm",
+    "era_year": 22,
+    "summary": "The northern office sets a clerk with his grey passes in the old wool-hall at Cnoc ghorm; the Tuathaich come to him one household at a time, and the elders have their own names written first.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0119"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The regiments' lorries at Muileann fhada",
+    "era_year": 22,
+    "summary": "The regiments' lorries on the north road take on fuel at a pump set up in the yard of An Taigh-seinnse Reòta above Muileann fhada, the landlord renting the yard to the Board and keeping his wicks inside.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:74"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-dubhan-trade"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
   }
 ]

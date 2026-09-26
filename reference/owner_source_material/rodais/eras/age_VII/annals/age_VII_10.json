@@ -96,8 +96,8 @@
   },
   {
    "id": "EVII-5504",
-   "title": "The Moot's register adds the names of Àth leathan",
-   "body": "Peter Hale brings Martha Greaves a list gathered from the western towns under the disarming; she enters the dead and maimed of Àth leathan into the Moot's register column by column, and finds Ruth Calder's own name on none of its three columns.",
+   "title": "Tional nan Tuathach's register adds the names of Àth leathan",
+   "body": "Peter Hale brings Martha Greaves a list gathered from the western towns under the disarming; she enters the dead and maimed of Àth leathan into Tional nan Tuathach's register column by column, and finds Ruth Calder's own name on none of its three columns.",
    "place": "burg:95",
    "kind": "war",
    "category": "war",
@@ -128,7 +128,7 @@
   {
    "id": "EVII-5505",
    "title": "Easter kept under watch",
-   "body": "Martha Greaves stands at the back of the Tuathaich Church's own Easter service at the chapel above Doire ghlas and finds a single soldier of the regiments posted at the door the whole length of it, writing nothing in his book, the service passing between door and altar without a word exchanged.",
+   "body": "Martha Greaves stands at the back of Eaglais nan Tuathach's own Easter service at the chapel above Doire ghlas and finds a single soldier of the regiments posted at the door the whole length of it, writing nothing in his book, the service passing between door and altar without a word exchanged.",
    "place": "burg:209",
    "kind": "rite",
    "category": "faith",
@@ -246,8 +246,8 @@
   },
   {
    "id": "EVII-5509",
-   "title": "The fourth regiment's year of patrols on the Ceann mhòr road",
-   "body": "Through the whole quartered year the fourth regiment keeps its patrols on the Ceann mhòr road, a file out at first light and in at dusk; no arms and no unaccounted man are found, and the regiment's returns settle into the same three words that closed every report of the autumn before.",
+   "title": "An ceathramh rèisimeid's year of patrols on the Ceann mhòr road",
+   "body": "Through the whole quartered year An ceathramh rèisimeid keeps its patrols on the Ceann mhòr road, a file out at first light and in at dusk; no arms and no unaccounted man are found, and the regiment's returns settle into the same three words that closed every report of the autumn before.",
    "place": "burg:143",
    "kind": "war",
    "category": "war",
@@ -420,7 +420,7 @@
   {
    "id": "EVII-5515",
    "title": "A byre-boy's raised hand",
-   "body": "On the Ceann mhòr road a boy of ten driving three cows begins, in the second season of the patrols, to lift a hand to the fourth regiment's file as it passes.",
+   "body": "On the Ceann mhòr road a boy of ten driving three cows begins, in the second season of the patrols, to lift a hand to An ceathramh rèisimeid's file as it passes.",
    "place": "burg:143",
    "kind": "people",
    "category": "humans",
@@ -498,7 +498,7 @@
   {
    "id": "EVII-5518",
    "title": "A Board clerk counts night traffic on the hill paths",
-   "body": "A clerk of the Board stationed at Cnoc thais writes to the Moot that the hill paths above the town carry more foot-traffic by night than any patrol's daylight count can explain.",
+   "body": "A clerk of the Board stationed at Cnoc thais writes to Tional nan Tuathach that the hill paths above the town carry more foot-traffic by night than any patrol's daylight count can explain.",
    "place": "burg:269",
    "kind": "war",
    "category": "war",
@@ -546,6 +546,58 @@
   },
   {
    "id": "EVII-5520",
+   "title": "A pass-office at Cnoc ghorm",
+   "body": "The northern office sets a clerk with his grey passes in the old wool-hall at Cnoc ghorm; the Tuathaich come to him one household at a time, and the elders have their own names written first.",
+   "place": "burg:142",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0119",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5519",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_quartered_year.md#i-of-the-pass-at-the-harbour-wall",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVII-5521",
+   "title": "The regiments' lorries at Muileann fhada",
+   "body": "The regiments' lorries on the north road take on fuel at a pump set up in the yard of An Taigh-seinnse Reòta above Muileann fhada, the landlord renting the yard to the Board and keeping his wicks inside.",
+   "place": "burg:74",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "EVII-5520",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_quartered_year.md#iii-of-the-women-from-cnoc-thais",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVII-5522",
    "title": "Àth bheag's report of the ford",
    "body": "The maor of Àth bheag writes the fullest report of the column's road: some four hundred men forded the water below the bridge at dawn, in order, without banner or drum, and went on south without stopping.",
    "place": "burg:248",
@@ -568,9 +620,9 @@
    ]
   },
   {
-   "id": "EVII-5521",
+   "id": "EVII-5523",
    "title": "Sìleas nic Rath keeps a file of the column's road",
-   "body": "The royal chronicler asks every town on the column's line for its account and is given leave to keep them, a freedom the war itself never allowed her.",
+   "body": "Seanchaidh na Rìoghachd asks every town on the column's line for its account and is given leave to keep them, a freedom the war itself never allowed her.",
    "place": null,
    "kind": "record",
    "category": "law",
@@ -580,7 +632,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5520",
+     "to": "EVII-5522",
      "type": "sequel"
     }
    ],
@@ -598,64 +650,10 @@
    ]
   },
   {
-   "id": "EVII-5522",
+   "id": "EVII-5524",
    "title": "Bread bought and paid for at Muileann mhin",
    "body": "Two men of the column buy the widow Mòrag nic Fhearghais's whole morning's baking at Muileann mhin and pay in full before the company passes, taking nothing else from the town.",
    "place": "burg:120",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0112",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5521",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [],
-   "told_in": "book/33_the_columns_road.md#ii-of-the-bread-at-muileann-mhin",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
-   "id": "EVII-5523",
-   "title": "Muileann mhin's miller reports no loss",
-   "body": "The miller of Muileann mhin under the western hills writes to the Board that the town's takings showed no loss by the column's passing, the bread having been paid for at a fair price and nobody's stock troubled beyond it.",
-   "place": "burg:120",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0112",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5522",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [],
-   "told_in": "book/33_the_columns_road.md#ii-of-the-bread-at-muileann-mhin",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
-   "id": "EVII-5524",
-   "title": "A night's lodging paid at a barn on the capital's edge",
-   "body": "A party of the column sleeps a night in Aonghas mac Cuinn's barn and leaves coin and a note under a stone, thanking him and asking nothing more.",
-   "place": null,
    "kind": "war",
    "category": "war",
    "links": [
@@ -672,7 +670,7 @@
     "the-long-war"
    ],
    "people": [],
-   "told_in": "book/33_the_columns_road.md#iii-of-the-barn-on-the-capital-s-edge",
+   "told_in": "book/33_the_columns_road.md#ii-of-the-bread-at-muileann-mhin",
    "era_between": [
     22,
     22
@@ -680,11 +678,11 @@
   },
   {
    "id": "EVII-5525",
-   "title": "The column keeps wide of the towns of the fair country",
-   "body": "Crossing the open country toward the capital's fields, the column holds a road that passes no town of any size, and the small farms it crosses report only a quiet passing.",
-   "place": null,
-   "kind": "war",
-   "category": "war",
+   "title": "Muileann mhin's miller reports no loss",
+   "body": "The miller of Muileann mhin under the western hills writes to the Board that the town's takings showed no loss by the column's passing, the bread having been paid for at a fair price and nobody's stock troubled beyond it.",
+   "place": "burg:120",
+   "kind": "record",
+   "category": "law",
    "links": [
     {
      "to": "VI-0112",
@@ -699,7 +697,7 @@
     "the-long-war"
    ],
    "people": [],
-   "told_in": "book/33_the_columns_road.md#iii-of-the-barn-on-the-capital-s-edge",
+   "told_in": "book/33_the_columns_road.md#ii-of-the-bread-at-muileann-mhin",
    "era_between": [
     22,
     22
@@ -707,8 +705,62 @@
   },
   {
    "id": "EVII-5526",
+   "title": "A night's lodging paid at a barn on the capital's edge",
+   "body": "A party of the column sleeps a night in Aonghas mac Cuinn's barn and leaves coin and a note under a stone, thanking him and asking nothing more.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0112",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5525",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/33_the_columns_road.md#iii-of-the-barn-on-the-capital-s-edge",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVII-5527",
+   "title": "The column keeps wide of the towns of the fair country",
+   "body": "Crossing the open country toward the capital's fields, the column holds a road that passes no town of any size, and the small farms it crosses report only a quiet passing.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0112",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5526",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/33_the_columns_road.md#iii-of-the-barn-on-the-capital-s-edge",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVII-5528",
    "title": "The fair-ground at Muileann òg ordered for the regiments",
-   "body": "The first regiment's quartermaster requires the fair-ground, its booths and its cleared ground for the first and third regiments, over the fair court's own market set for the ninth.",
+   "body": "A' chiad rèisimeid's quartermaster requires the fair-ground, its booths and its cleared ground for the first and third regiments, over Cùirt na Fèille's own market set for the ninth.",
    "place": "burg:151",
    "kind": "war",
    "category": "war",
@@ -718,7 +770,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5525",
+     "to": "EVII-5527",
      "type": "sequel"
     }
    ],
@@ -735,7 +787,7 @@
    ]
   },
   {
-   "id": "EVII-5527",
+   "id": "EVII-5529",
    "title": "Fionnlagh Dubh numbers his stall's timbers",
    "body": "An ironmonger of thirty years' standing at Muileann òg's fair chalks numbers on his stall's poles before stacking them, against a spring market neither he nor the clerk much believes will come.",
    "place": "burg:151",
@@ -747,7 +799,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5526",
+     "to": "EVII-5528",
      "type": "sequel"
     }
    ],
@@ -764,69 +816,15 @@
    ]
   },
   {
-   "id": "EVII-5528",
-   "title": "The third regiment camps on the cleared fair-ground",
-   "body": "The third regiment pitches its tents where the ironmonger's stall and the cheese-sellers' row stood the day before, the ground cleared from the toll-house arch to the river bend.",
-   "place": "burg:151",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0113",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5527",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [],
-   "told_in": "book/33_the_columns_road.md#iv-of-the-booths-taken-down",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
-   "id": "EVII-5529",
-   "title": "The first regiment fills Muileann òg",
-   "body": "The first regiment comes down the same evening as the third and fills the fair-ground, the water-meadow and the lanes above the mill, so that Muileann òg holds more soldiers under canvas than people.",
-   "place": "burg:151",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0113",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5528",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [],
-   "told_in": "book/33_the_columns_road.md#iv-of-the-booths-taken-down",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
    "id": "EVII-5530",
-   "title": "The fair court keeps its small business through the camp",
-   "body": "Ùna nic Ailein keeps the fair court open through the regiments' camp, hearing a strayed cow and a firewood complaint while the road to Muileann ghlas fills and empties below her window.",
+   "title": "An treas rèisimeid camps on the cleared fair-ground",
+   "body": "An treas rèisimeid pitches its tents where the ironmonger's stall and the cheese-sellers' row stood the day before, the ground cleared from the toll-house arch to the river bend.",
    "place": "burg:151",
-   "kind": "record",
-   "category": "law",
+   "kind": "war",
+   "category": "war",
    "links": [
     {
-     "to": "VI-0114",
+     "to": "VI-0113",
      "type": "sequel"
     },
     {
@@ -837,6 +835,60 @@
    "threads": [
     "the-long-war"
    ],
+   "people": [],
+   "told_in": "book/33_the_columns_road.md#iv-of-the-booths-taken-down",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVII-5531",
+   "title": "A' chiad rèisimeid fills Muileann òg",
+   "body": "A' chiad rèisimeid comes down the same evening as the third and fills the fair-ground, the water-meadow and the lanes above the mill, so that Muileann òg holds more soldiers under canvas than people.",
+   "place": "burg:151",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0113",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5530",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/33_the_columns_road.md#iv-of-the-booths-taken-down",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVII-5532",
+   "title": "Cùirt na Fèille keeps its small business through the camp",
+   "body": "Ùna nic Ailein keeps Cùirt na Fèille open through the regiments' camp, hearing a strayed cow and a firewood complaint while the road to Muileann ghlas fills and empties below her window.",
+   "place": "burg:151",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0114",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5531",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
    "people": [
     "una-nic-ailein"
    ],
@@ -847,7 +899,7 @@
    ]
   },
   {
-   "id": "EVII-5531",
+   "id": "EVII-5533",
    "title": "Ùna nic Ailein's book closes with no entry",
    "body": "Unable to set a sum against a market that never ran, Ùna rules the line the court's form requires, leaves it blank, and closes the year the desk with no closing entry.",
    "place": "burg:151",
@@ -859,7 +911,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5530",
+     "to": "EVII-5532",
      "type": "sequel"
     }
    ],
@@ -877,7 +929,7 @@
    ]
   },
   {
-   "id": "EVII-5532",
+   "id": "EVII-5534",
    "title": "The maor of Àth bheag watches from the bank",
    "body": "Cailean mac Griogair, maor of Àth bheag, woken by the smith's boy, stands at the field's edge in a borrowed coat watching the column ford the water and does not go down to ask where it is bound.",
    "place": "burg:248",
@@ -889,7 +941,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5531",
+     "to": "EVII-5533",
      "type": "sequel"
     }
    ],
@@ -906,7 +958,7 @@
    ]
   },
   {
-   "id": "EVII-5533",
+   "id": "EVII-5535",
    "title": "No banner and no drum",
    "body": "The miller's wife of Àth bheag, watching the column cross from the mill loft, says she saw no banner among them and no drum, only a man at the head whom the rest left the whole width of the road.",
    "place": "burg:248",
@@ -918,7 +970,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5532",
+     "to": "EVII-5534",
      "type": "sequel"
     }
    ],
@@ -933,38 +985,9 @@
    ]
   },
   {
-   "id": "EVII-5534",
-   "title": "Mòrag nic Fhearghais bakes through the morning",
-   "body": "The widow baker of Muileann mhin under the western hills bakes through the morning with two daughters for the column, and enters the sale as bread to the western company, paid in full.",
-   "place": "burg:120",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "VI-0112",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5533",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [
-    "morag-nic-fhearghais"
-   ],
-   "told_in": "book/33_the_columns_road.md#ii-of-the-bread-at-muileann-mhin",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
-   "id": "EVII-5535",
+   "id": "EVII-5536",
    "title": "The note under the stone",
-   "body": "Aonghas mac Cuinn finds under a stone on his barn floor coin for a week's rent and a note in Dia-thìris: for the barn, and thanks; we have asked nothing else. It is the only writing in the Library's file that can be set to a hand inside the column.",
+   "body": "Aonghas mac Cuinn finds under a stone on his barn floor coin for a week's rent and a note in Dia-thìris: for the barn, and thanks; we have asked nothing else. It is the only writing in an Leabharlann's file that can be set to a hand inside the column.",
    "place": null,
    "kind": "war",
    "category": "war",
@@ -974,7 +997,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5534",
+     "to": "EVII-5535",
      "type": "sequel"
     }
    ],
@@ -993,7 +1016,7 @@
    ]
   },
   {
-   "id": "EVII-5536",
+   "id": "EVII-5537",
    "title": "The eel-woman's tub carried off the fair-ground",
    "body": "Clearing the fair-ground at Muileann òg for the regiments, two soldiers lift the heavier end of the eel-woman's tub onto her handcart for her.",
    "place": "burg:151",
@@ -1005,7 +1028,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5535",
+     "to": "EVII-5536",
      "type": "sequel"
     }
    ],
@@ -1020,7 +1043,34 @@
    ]
   },
   {
-   "id": "EVII-5537",
+   "id": "EVII-5538",
+   "title": "Caol ruadh's boats carry the regiments' bread",
+   "body": "The boats of the red strait at Caol ruadh are hired to carry the regiments' bread along the coast in the autumn, paid by the day, with a soldier aboard each to count the loaves.",
+   "place": "burg:15",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0114",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5537",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/33_the_columns_road.md#ii-of-the-bread-at-muileann-mhin",
+   "era_between": [
+    22,
+    22
+   ]
+  },
+  {
+   "id": "EVII-5539",
    "title": "The column sings through its last night in the open",
    "body": "On the bank and in the thorn below Muileann ghlas the column keeps its last night before the battle by singing low, company after company, in part for what courage it lends and in part because there are children on the field with nowhere else on the island to be left.",
    "place": "marker:17",
@@ -1043,9 +1093,9 @@
    ]
   },
   {
-   "id": "EVII-5538",
+   "id": "EVII-5540",
    "title": "Owen Barrow walks the line before first light",
-   "body": "In the last hour of dark Owen Barrow goes the length of the column's line, speaking to each company and to many of the column by name; he is remembered in the north to have said that the hills lie behind them now and cannot be walked back to before the guns find them either way. The open record names him nowhere.",
+   "body": "In the last hour of dark Owen Barrow goes the length of the column's line, speaking to each company and to many of the column by name; he is remembered in the north to have said that the hills lie behind them now and cannot be walked back to before the guns find them either way. An Clàr Foscailte names him nowhere.",
    "place": "marker:17",
    "kind": "war",
    "category": "war",
@@ -1055,7 +1105,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5537",
+     "to": "EVII-5539",
      "type": "sequel"
     }
    ],
@@ -1072,69 +1122,15 @@
    ]
   },
   {
-   "id": "EVII-5539",
+   "id": "EVII-5541",
    "title": "The guns find the thorn stand",
-   "body": "The third regiment's four field pieces, hauled the last two miles by hand through ground too soft for the horses, find the column's thorn-stand line within the first half-hour of the fighting; what holds after that holds along the bank itself, hand to hand, through most of the short forenoon.",
+   "body": "An treas rèisimeid's four field pieces, hauled the last two miles by hand through ground too soft for the horses, find the column's thorn-stand line within the first half-hour of the fighting; what holds after that holds along the bank itself, hand to hand, through most of the short forenoon.",
    "place": "marker:17",
    "kind": "war",
    "category": "war",
    "links": [
     {
      "to": "VI-0115",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5538",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
-   "id": "EVII-5540",
-   "title": "The corporal's list at the mill",
-   "body": "A corporal of the third regiment draws up the regiments' dead of the day at a trestle table in the mill at Muileann ghlas, the miller's own ledger turned backward for want of other paper: three-and-twenty names, each with a town and, where known, an age.",
-   "place": "burg:360",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0116",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5539",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
-   "era_between": [
-    22,
-    22
-   ]
-  },
-  {
-   "id": "EVII-5541",
-   "title": "A requisition for lime",
-   "body": "The regiments' burial parties ask the quartermaster for a good deal more lime than three-and-twenty graves would need. The requisition survives where no count of the column's own dead does, and is the nearest thing the open record holds to one.",
-   "place": "burg:360",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0116",
      "type": "sequel"
     },
     {
@@ -1154,14 +1150,14 @@
   },
   {
    "id": "EVII-5542",
-   "title": "The miller's wife keeps her kitchen through the battle",
-   "body": "As the mill at Muileann ghlas changes hands twice before noon, the miller's wife will not leave her own kitchen for either army, and is remembered by the regiments' surgeon to have gone on moving her pots and sacks from whichever corner the fighting had just left.",
+   "title": "The corporal's list at the mill",
+   "body": "A corporal of An treas rèisimeid draws up the regiments' dead of the day at a trestle table in the mill at Muileann ghlas, the miller's own ledger turned backward for want of other paper: three-and-twenty names, each with a town and, where known, an age.",
    "place": "burg:360",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0115",
+     "to": "VI-0116",
      "type": "sequel"
     },
     {
@@ -1181,9 +1177,9 @@
   },
   {
    "id": "EVII-5543",
-   "title": "The colonel's report",
-   "body": "The first regiment's colonel writes that the column held the bank at Muileann ghlas longer than any force he had faced in two years of war, and sets it down, he says, only so his council should have the field's truth and not a prettier account of it.",
-   "place": "marker:17",
+   "title": "A requisition for lime",
+   "body": "The regiments' burial parties ask the quartermaster for a good deal more lime than three-and-twenty graves would need. The requisition survives where no count of the column's own dead does, and is the nearest thing An Clàr Foscailte holds to one.",
+   "place": "burg:360",
    "kind": "war",
    "category": "war",
    "links": [
@@ -1208,8 +1204,8 @@
   },
   {
    "id": "EVII-5544",
-   "title": "The taken ground remembered",
-   "body": "An old man of Muileann ghlas, brought before the regiments' officers to answer for a store of grain, tells them the field carries an older name, the taken ground, from a battle of the Brothers' War fought on the same ground two centuries before.",
+   "title": "The miller's wife keeps her kitchen through the battle",
+   "body": "As the mill at Muileann ghlas changes hands twice before noon, the miller's wife will not leave her own kitchen for either army, and is remembered by the regiments' surgeon to have gone on moving her pots and sacks from whichever corner the fighting had just left.",
    "place": "burg:360",
    "kind": "war",
    "category": "war",
@@ -1223,7 +1219,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-long-war"
+   ],
    "people": [],
    "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
    "era_between": [
@@ -1233,14 +1231,14 @@
   },
   {
    "id": "EVII-5545",
-   "title": "The sixty come out of the byres",
-   "body": "After dark, some sixty of the column still holding the mill and its byres come out under a promise, carried by a Tuathach prisoner on a white cloth, that any man unarmed will be marched and not shot; they are counted, searched and held overnight on the mill floor.",
-   "place": "burg:360",
+   "title": "The colonel's report",
+   "body": "A' chiad rèisimeid's colonel writes that the column held the bank at Muileann ghlas longer than any force he had faced in two years of war, and sets it down, he says, only so his council should have the field's truth and not a prettier account of it.",
+   "place": "marker:17",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0115",
+     "to": "VI-0116",
      "type": "sequel"
     },
     {
@@ -1260,8 +1258,8 @@
   },
   {
    "id": "EVII-5546",
-   "title": "The regiments' surgeon treats both sides alike",
-   "body": "The regiments' own surgeon, two years out of his training, tends the wounded of both the regiments and the column through the night at Muileann ghlas by two lanterns and a banked fire, and the open record notes that he made no distinction between them.",
+   "title": "The taken ground remembered",
+   "body": "An old man of Muileann ghlas, brought before the regiments' officers to answer for a store of grain, tells them the field carries an older name, the taken ground, from a battle of Cogadh nam Bràithrean fought on the same ground two centuries before.",
    "place": "burg:360",
    "kind": "war",
    "category": "war",
@@ -1275,9 +1273,7 @@
      "type": "sequel"
     }
    ],
-   "threads": [
-    "the-long-war"
-   ],
+   "threads": [],
    "people": [],
    "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
    "era_between": [
@@ -1287,14 +1283,14 @@
   },
   {
    "id": "EVII-5547",
-   "title": "The old man of Cnoc thais brings down his cow",
-   "body": "A lame old man of Cnoc thais comes down to the seventh regiment's northernmost post on the Àth leathan road carrying no weapon, leading on a rope halter the one cow his family kept through two summers of war, and is let through with it.",
-   "place": "burg:269",
+   "title": "The sixty come out of the byres",
+   "body": "After dark, some sixty of the column still holding the mill and its byres come out under a promise, carried by a Tuathach prisoner on a white cloth, that any man unarmed will be marched and not shot; they are counted, searched and held overnight on the mill floor.",
+   "place": "burg:360",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0117",
+     "to": "VI-0115",
      "type": "sequel"
     },
     {
@@ -1306,7 +1302,7 @@
     "the-long-war"
    ],
    "people": [],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#iii-of-the-roads-home",
+   "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
    "era_between": [
     22,
     22
@@ -1314,14 +1310,14 @@
   },
   {
    "id": "EVII-5548",
-   "title": "The sergeant judges the counting done",
-   "body": "At the seventh regiment's northernmost post the sergeant keeping the list of the hills' people notes, when no one more has come down the road by noon, that he takes the empty road to mean the counting is finished.",
-   "place": "burg:346",
+   "title": "The regiments' surgeon treats both sides alike",
+   "body": "The regiments' own surgeon, two years out of his training, tends the wounded of both the regiments and the column through the night at Muileann ghlas by two lanterns and a banked fire, and An Clàr Foscailte notes that he made no distinction between them.",
+   "place": "burg:360",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0117",
+     "to": "VI-0115",
      "type": "sequel"
     },
     {
@@ -1333,7 +1329,7 @@
     "the-long-war"
    ],
    "people": [],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#iii-of-the-roads-home",
+   "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
    "era_between": [
     22,
     22
@@ -1341,14 +1337,14 @@
   },
   {
    "id": "EVII-5549",
-   "title": "Somhairle hears the guns are done",
-   "body": "Somhairle mac Lachlainn hears at the capital, from a clerk who comes into his room without knocking, that the fighting at Muileann ghlas is over; he says afterward that his first thought was for the coal line's timetable and the wounded's carriage north.",
-   "place": "burg:19",
+   "title": "The old man of Cnoc thais brings down his cow",
+   "body": "A lame old man of Cnoc thais comes down to An seachdamh rèisimeid's northernmost post on the Àth leathan road carrying no weapon, leading on a rope halter the one cow his family kept through two summers of war, and is let through with it.",
+   "place": "burg:269",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0118",
+     "to": "VI-0117",
      "type": "sequel"
     },
     {
@@ -1359,10 +1355,8 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [
-    "somhairle-mac-lachlainn"
-   ],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#iv-of-somhairle-after",
+   "people": [],
+   "told_in": "book/34_of_blar_muileann_ghlas.md#iii-of-the-roads-home",
    "era_between": [
     22,
     22
@@ -1370,14 +1364,14 @@
   },
   {
    "id": "EVII-5550",
-   "title": "Somhairle checks the wounded trains twice over",
-   "body": "In the first weeks of the peace Somhairle mac Lachlainn has the coal line's schedule for the war's wounded checked twice against the surgeons' own returns, to be sure no man carried north that winter rode on a train meant for other cargo.",
-   "place": "burg:19",
+   "title": "The sergeant judges the counting done",
+   "body": "At An seachdamh rèisimeid's northernmost post the sergeant keeping the list of the hills' people notes, when no one more has come down the road by noon, that he takes the empty road to mean the counting is finished.",
+   "place": "burg:346",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0118",
+     "to": "VI-0117",
      "type": "sequel"
     },
     {
@@ -1388,10 +1382,8 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [
-    "somhairle-mac-lachlainn"
-   ],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#iv-of-somhairle-after",
+   "people": [],
+   "told_in": "book/34_of_blar_muileann_ghlas.md#iii-of-the-roads-home",
    "era_between": [
     22,
     22
@@ -1399,14 +1391,14 @@
   },
   {
    "id": "EVII-5551",
-   "title": "Four guns hauled the last two miles by hand",
-   "body": "The third regiment's four guns come down from the capital by the coal line and are hauled the last two miles to the field at Muileann ghlas by hand, the ground too soft for horses.",
-   "place": "marker:17",
+   "title": "Somhairle hears the guns are done",
+   "body": "Somhairle mac Lachlainn hears at the capital, from a clerk who comes into his room without knocking, that the fighting at Muileann ghlas is over; he says afterward that his first thought was for Slighe a' Ghuail's timetable and the wounded's carriage north.",
+   "place": "burg:19",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0115",
+     "to": "VI-0118",
      "type": "sequel"
     },
     {
@@ -1417,8 +1409,10 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/34_of_blar_muileann_ghlas.md#iv-of-somhairle-after",
    "era_between": [
     22,
     22
@@ -1426,14 +1420,14 @@
   },
   {
    "id": "EVII-5552",
-   "title": "The mill at Muileann ghlas changes hands twice",
-   "body": "In the morning's fighting the mill at Muileann ghlas is taken by the column from a picket of the first regiment and taken back, the miller's wife moving her pots out of whatever corner the fighting last left.",
-   "place": "burg:360",
+   "title": "Somhairle checks the wounded trains twice over",
+   "body": "In the first weeks of the peace Somhairle mac Lachlainn has Slighe a' Ghuail's schedule for the war's wounded checked twice against the surgeons' own returns, to be sure no man carried north that winter rode on a train meant for other cargo.",
+   "place": "burg:19",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0115",
+     "to": "VI-0118",
      "type": "sequel"
     },
     {
@@ -1444,8 +1438,10 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [],
-   "told_in": "book/34_of_blar_muileann_ghlas.md#i-of-the-field",
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/34_of_blar_muileann_ghlas.md#iv-of-somhairle-after",
    "era_between": [
     22,
     22
@@ -1453,8 +1449,8 @@
   },
   {
    "id": "EVII-5553",
-   "title": "The white cloth on a byre-fork",
-   "body": "At dusk the first regiment's colonel sends word by a Tuathach prisoner under a white cloth on a byre-fork that any man who comes out unarmed will be marched, not shot, to the capital's gaol.",
+   "title": "Near ninety of the column's wounded brought in",
+   "body": "The regiments' surgeon's tally for the night after Muileann ghlas stands at twenty-three of the regiments buried or dying and near ninety of the column's wounded brought in.",
    "place": "burg:360",
    "kind": "war",
    "category": "war",
@@ -1480,16 +1476,12 @@
   },
   {
    "id": "EVII-5554",
-   "title": "Near ninety of the column's wounded brought in",
-   "body": "The regiments' surgeon's tally for the night after Muileann ghlas stands at twenty-three of the regiments buried or dying and near ninety of the column's wounded brought in.",
-   "place": "burg:360",
-   "kind": "war",
-   "category": "war",
+   "title": "Taigh-solais Àth dhearg sees no fleet",
+   "body": "The keeper of Taigh-solais Àth dhearg on the north-east cape writes in his log through the autumn that no ship of the fleets has passed the cape in three months.",
+   "place": "burg:258",
+   "kind": "land",
+   "category": "land",
    "links": [
-    {
-     "to": "VI-0116",
-     "type": "sequel"
-    },
     {
      "to": "EVII-5553",
      "type": "sequel"

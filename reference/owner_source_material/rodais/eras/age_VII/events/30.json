@@ -292,41 +292,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "A boy of the second company overboard",
-    "era_year": 21,
-    "summary": "Rounding the north cape in hired tank-hulls, a boy of the fourth regiment's second company goes overboard reaching for a loose line and is hauled back half-drowned.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "province:14"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0103"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The maor of Ceann mhòr takes the upper rooms",
-    "era_year": 21,
-    "summary": "The maor of Ceann mhòr gives up the greater part of the old magistrate's house to the fourth regiment and moves his household into the two upper rooms.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:143"
-    ],
-    "threads": [
-      "the-long-war",
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0104"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The Board answers the Moot on the quartering",
     "era_year": 21,
     "summary": "Near the year's end the Board answers the Moot's protest against the quartering at Ceann mhòr that the arrangement stands until the campaign's needs change it.",
@@ -343,6 +308,41 @@
     ],
     "master_links": [
       "VI-0104"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The sixth regiment drills by the carved stone",
+    "era_year": 21,
+    "summary": "The sixth regiment, raised at Cnoc bheag, drills in the square beside the carved stone, and the town's children learn the words of command before the recruits do.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:20"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0101"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Baile ghorm's quays given to the third fleet",
+    "era_year": 21,
+    "summary": "At its raising the third fleet takes the wolf-post quays of Baile ghorm for its own; the fishing boats are moved to the old beach and their pump with them.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:170"
+    ],
+    "threads": [
+      "the-long-war",
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0107"
     ],
     "chronicle_extra": true
   }

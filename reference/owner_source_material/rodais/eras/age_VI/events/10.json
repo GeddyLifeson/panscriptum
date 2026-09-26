@@ -2,52 +2,104 @@
   {
     "title": "The Rail Board's timetable hung at Muileann chrom",
     "era_year": 8,
-    "summary": "The mended line's copied timetable, carried over from the humans' own working papers, is hung on a board at the Muileann chrom terminus where the rails now end. Passengers and carters read it as they find it, since no one troubles to explain why a four-year-old kingdom keeps a dead people's hours.",
+    "summary": "The mended line's copied timetable, carried over from the humans' own working papers, is hung on a board at the Muileann chrom terminus where the rails now end. Passengers and carters read it as they find it, since no one troubles to explain why a six-year-old kingdom keeps a dead people's hours.",
     "category": "trade",
     "people": [],
-    "places": ["burg:354"],
+    "places": [
+      "burg:354"
+    ],
     "threads": [],
-    "master_links": [{"to": "V-0039", "type": "sequel"}]
+    "master_links": [
+      {
+        "to": "V-0039",
+        "type": "sequel"
+      }
+    ]
   },
   {
     "title": "The talk at the net-mending",
     "era_year": 8,
     "summary": "Under the eaves of the net-store church at Baile chrom, the winter's net-mending turns to talk of Hannah Crane's word that the Grey Night vigil will be kept in the open. Some call it needless risk to an old office; others say it is overdue. No one carries the talk beyond the town.",
     "category": "faith",
-    "people": ["Hannah Crane"],
-    "places": ["burg:305"],
-    "threads": ["the-tuathaich", "the-church-on-the-island"],
-    "master_links": [{"to": "V-0043", "type": "cause"}]
+    "people": [
+      "Hannah Crane"
+    ],
+    "places": [
+      "burg:305"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      {
+        "to": "V-0043",
+        "type": "cause"
+      }
+    ]
   },
   {
     "title": "The old priest's counsel",
     "era_year": 9,
     "summary": "Walking back from a burial, the priest of Baile chrom tells Hannah Crane that the vigil's keeping is hers to judge, having held his own office forty years by staying out of what belongs to another. It is the only word of encouragement she has from anyone before the night.",
     "category": "faith",
-    "people": ["Hannah Crane"],
-    "places": ["burg:305"],
-    "threads": ["the-church-on-the-island"],
-    "master_links": [{"to": "V-0043", "type": "cause"}]
+    "people": [
+      "Hannah Crane"
+    ],
+    "places": [
+      "burg:305"
+    ],
+    "threads": [
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      {
+        "to": "V-0043",
+        "type": "cause"
+      }
+    ]
   },
   {
     "title": "The maor's man watches and writes nothing",
     "era_year": 9,
     "summary": "A clerk's assistant of Cnoc ghorm, lodging at Baile chrom on an unrelated errand, climbs a rise above the headland and watches Hannah Crane's vigil through the night from a distance. He carries no instruction to report it and no form to record it on, and the shire's returns for the week say nothing.",
     "category": "law",
-    "people": ["Hannah Crane"],
-    "places": ["burg:305"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0043", "type": "parallel"}]
+    "people": [
+      "Hannah Crane"
+    ],
+    "places": [
+      "burg:305"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0043",
+        "type": "parallel"
+      }
+    ]
   },
   {
     "title": "The bishops' letter kept behind the altar-cloth",
     "era_year": 9,
     "summary": "Three bishops of the Church write to Baile chrom calling the open keeping of the Grey Night irregular, and ask, without commanding, that the custom be given up. Hannah Crane reads the letter twice and puts it away in the box that already keeps the town's oldest relic, and answers nothing.",
     "category": "faith",
-    "people": ["Hannah Crane"],
-    "places": ["burg:305"],
-    "threads": ["the-church-on-the-island"],
-    "master_links": [{"to": "V-0043", "type": "sequel"}]
+    "people": [
+      "Hannah Crane"
+    ],
+    "places": [
+      "burg:305"
+    ],
+    "threads": [
+      "the-church-on-the-island"
+    ],
+    "master_links": [
+      {
+        "to": "V-0043",
+        "type": "sequel"
+      }
+    ]
   },
   {
     "title": "The Ros bheag bell raised at Cnoc ghorm",
@@ -55,9 +107,20 @@
     "summary": "The bell of the old chapel at Ros bheag, carted north at the Severance and crated in a barn for want of a tower to take it, is hung at last in the new church at Cnoc ghorm and rung on a market morning. Its sound carries to the shore road, farther than the town had thought a single bell could reach.",
     "category": "faith",
     "people": [],
-    "places": ["burg:142", "burg:63"],
-    "threads": ["the-church-on-the-island", "the-tuathaich"],
-    "master_links": [{"to": "V-0044", "type": "sequel"}]
+    "places": [
+      "burg:142",
+      "burg:63"
+    ],
+    "threads": [
+      "the-church-on-the-island",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0044",
+        "type": "sequel"
+      }
+    ]
   },
   {
     "title": "The hurdles built on the Muileann fhionn green",
@@ -65,9 +128,18 @@
     "summary": "The town's carpenters spend most of a month raising pens on the old common green at Muileann fhionn, working from a plan one of them had seen used at a southern fair, to hold the cattle and sheep the new market right will bring down from the hill farms.",
     "category": "trade",
     "people": [],
-    "places": ["burg:160"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0044a", "type": "cause"}]
+    "places": [
+      "burg:160"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0044a",
+        "type": "cause"
+      }
+    ]
   },
   {
     "title": "The first drove south from Muileann fhionn",
@@ -75,18 +147,38 @@
     "summary": "Hill farmers who had always walked their beasts the long way south now bring them to the new market at Muileann fhionn, and from there the droves go on by the old tracks toward Ceann leathan. Within a few seasons the green stands trodden to mud on every market morning.",
     "category": "trade",
     "people": [],
-    "places": ["burg:160"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0044a", "type": "sequel"}]
+    "places": [
+      "burg:160"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0044a",
+        "type": "sequel"
+      }
+    ]
   },
   {
     "title": "A young wife of Muileann fhionn keeps her own watch",
     "era_year": 9,
     "summary": "A woman newly married into Baile chrom from Muileann fhionn, who asked Hannah Crane whether she was not afraid to keep the vigil alone, climbs the headland herself the night it is kept and watches from a careful distance. She tells no one, not even her husband, that she went.",
     "category": "faith",
-    "people": ["Hannah Crane"],
-    "places": ["burg:305"],
-    "threads": ["the-tuathaich"],
-    "master_links": [{"to": "V-0043", "type": "parallel"}]
+    "people": [
+      "Hannah Crane"
+    ],
+    "places": [
+      "burg:305"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0043",
+        "type": "parallel"
+      }
+    ]
   }
 ]

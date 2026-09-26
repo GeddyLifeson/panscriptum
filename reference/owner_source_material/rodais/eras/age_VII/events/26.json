@@ -294,5 +294,74 @@
       "VI-0087"
     ],
     "chronicle_extra": true
+  },
+  {
+    "title": "Hay cleared from the barracks at Inis mhòr",
+    "era_year": 21,
+    "summary": "The farmers of Seann Vell are given a week to take their hay out of the barracks at Inis mhòr when the first regiment is raised there; what is not taken is fed to the regiment's horses.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:2"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0088"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The ferrymen of Àth gharbh go to the first fleet",
+    "era_year": 21,
+    "summary": "Four of the ferrymen of Àth gharbh go into the first fleet at its raising, and the ferry at the walled ford is worked through the war by the oldest of them and his daughter.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:50"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0089"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The chandlers of Cuan shean",
+    "era_year": 21,
+    "summary": "The chandlers of Cuan shean, the fourth fleet's harbour, sell out of rope and canvas within a month of the fleet's raising and send to Ros dhomhain for more at a price they say is war.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:282"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0090"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A tithe-clerk at the pans of Caol ìseal",
+    "era_year": 21,
+    "summary": "The Treasury's clerk for the tithe sits at the dubhan pump by the salt pans of Caol ìseal; the salt-boilers pay their part in twelve on every barrel for the pans and grumble that salt pays twice.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:86"
+    ],
+    "threads": [
+      "the-dubhan-trade",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0086"
+    ],
+    "chronicle_extra": true
   }
 ]

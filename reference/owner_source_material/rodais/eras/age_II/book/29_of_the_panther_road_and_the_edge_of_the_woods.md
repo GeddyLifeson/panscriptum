@@ -2,6 +2,8 @@
 
 *GE 2,428 – 2,460*
 
+*Part Five: The Great Gathering*
+
 > *Nuair a philleas na cait, philleas an cuideachd leotha.*
 > When the cats turn back, wise hands turn back with them.
 > — said of the passes, after Iain Buachaille

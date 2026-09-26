@@ -229,27 +229,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "A soldier sets his lamp down in the passage",
-    "era_year": 21,
-    "summary": "At the house of Margaret Crane on the lighthouse road a soldier of Dùghall's file sets his lamp down in the passage of his own accord rather than carry its light past her.",
-    "category": "war",
-    "people": [
-      "Margaret Crane",
-      "Dùghall mac Iain"
-    ],
-    "places": [
-      "burg:305"
-    ],
-    "threads": [
-      "the-church-on-the-island",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0108"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Cailean says the house searched him back",
     "era_year": 21,
     "summary": "Marching back from Baile chrom, a soldier named Cailean says he has never come away from a search feeling the house had searched him back, and would not go north again.",

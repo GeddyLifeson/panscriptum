@@ -6,6 +6,9 @@
  ],
  "events": [
   {
+   "after": "I-0001"
+  },
+  {
    "id": "EI-1001",
    "title": "The spring under the shoulder of the hill fails",
    "body": "The spring that fed Neachdan's valley thins through a wet season and fails by the dark of the year, leaving four households to carry water a mile and a half by skin. The valley meets and chooses to sink a well of its own.",
@@ -557,8 +560,8 @@
   },
   {
    "id": "EI-1020",
-   "title": "The first fire begged and given",
-   "body": "A neighbouring household, its own hearth cold, comes asking for a coal of the mason's fire. Neachdan gives it freely and will not hear of any debt for it, telling his children that a fire withheld from a cold house is worse than a fire given away unthanked.",
+   "title": "Teine a' Chlachair begged and given",
+   "body": "A neighbouring household, its own hearth cold, comes asking for a coal of Teine a' Chlachair. Neachdan gives it freely and will not hear of any debt for it, telling his children that a fire withheld from a cold house is worse than a fire given away unthanked.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -744,7 +747,7 @@
   },
   {
    "id": "EI-1027",
-   "title": "Ailbhe first sent out with the fire-pot",
+   "title": "Ailbhe first sent out with Poit an Teine",
    "body": "Ailbhe, still a girl, is sent alone two valleys off with a coal banked in ash in a clay pot, because her hands are steadier with a live coal than her brothers'.",
    "place": "burg:276",
    "kind": "trade",
@@ -770,7 +773,7 @@
   {
    "id": "EI-1028",
    "title": "Fire reaches the northern moor",
-   "body": "Ailbhe, grown sure of the ground, carries a banked coal a full day's walk north to the edge of the moor at the limit of any household's grazing. The mason's fire, walked outward hearth by hearth, now burns in dozens of houses that were once each other's strangers.",
+   "body": "Ailbhe, grown sure of the ground, carries a banked coal a full day's walk north to the edge of the moor at the limit of any household's grazing. Teine a' Chlachair, walked outward hearth by hearth, now burns in dozens of houses that were once each other's strangers.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -824,7 +827,7 @@
   {
    "id": "EI-1030",
    "title": "Neachdan dies",
-   "body": "Neachdan, the Mason, dies old by the hearth he lit from the burning vein, having asked once more to be carried to see the well-cut still burning. The household keeps the fire through the mourning as it has kept it every night since the lightning.",
+   "body": "Neachdan, An Clachair, dies old by the hearth he lit from the burning vein, having asked once more to be carried to see the well-cut still burning. The household keeps the fire through the mourning as it has kept it every night since the lightning.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -903,7 +906,7 @@
   {
    "id": "EI-1033",
    "title": "Conall dies",
-   "body": "Conall, who first carried the vein-fire home in a water-pot as a boy, dies by the hearth in old age, with the vein in the well-cut still burning as it has burned since the night of the lightning, unchanged through two of the mason's line.",
+   "body": "Conall, who first carried Teine na Fèithe home in a water-pot as a boy, dies by the hearth in old age, with the vein in the well-cut still burning as it has burned since Oidhche an Dealanaich, unchanged through two of the mason's line.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -989,7 +992,7 @@
   {
    "id": "EI-1036",
    "title": "Ailbhe dies",
-   "body": "Ailbhe, the fire-bearer, dies in her old age at the hearth she was born beside, having walked the mason's fire to more hearths than anyone had counted.",
+   "body": "Ailbhe, the fire-bearer, dies in her old age at the hearth she was born beside, having walked Teine a' Chlachair to more hearths than anyone had counted.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -1131,7 +1134,7 @@
   },
   {
    "id": "EI-1042",
-   "title": "The vein-fire burns low",
+   "title": "Teine na Fèithe burns low",
    "body": "Through the years of Muirne's watch the glow in the broken vein fades winter on winter, unmarked by most of the valley, whose hundred hearths no longer need it, and marked only by the one keeper who sits with it in the cold.",
    "place": "burg:276",
    "kind": "coal",
@@ -1156,7 +1159,7 @@
   },
   {
    "id": "EI-1043",
-   "title": "Muirne marks the vein-fire sinking",
+   "title": "Muirne marks Teine na Fèithe sinking",
    "body": "Keeping a private reckoning against her own memory, Muirne comes to see what no keeper before her has said aloud: that the glow in the well-cut grows a little lower with every winter, the vein burning down like any fire that is fed by nothing but itself.",
    "place": "burg:276",
    "kind": "coal",
@@ -1185,7 +1188,7 @@
   },
   {
    "id": "EI-1044",
-   "title": "The vein-fire marked lower each winter",
+   "title": "Teine na Fèithe marked lower each winter",
    "body": "Muirne, sitting the dark half of the year on the flat stones, begins to keep a private reckoning of the glow in the well-cut against her memory of five winters before.",
    "place": "burg:276",
    "kind": "coal",
@@ -1214,7 +1217,7 @@
   {
    "id": "EI-1045",
    "title": "The last ember",
-   "body": "In a wet spring of failed crops and standing water, Muirne sits out the last night of the vein-fire in the rain and watches its pale glow go out, quietly, with no one else there to see the mason's fire die in the ground where it was struck.",
+   "body": "In a wet spring of failed crops and standing water, Muirne sits out the last night of Teine na Fèithe in the rain and watches its pale glow go out, quietly, with no one else there to see Teine a' Chlachair die in the ground where it was struck.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -1272,7 +1275,7 @@
   {
    "id": "EI-1047",
    "title": "The seed rots in the wet spring",
-   "body": "The spring that finishes the vein-fire is remembered also for rain that stands a hand deep in the low fields and rots the seed in the ground, so that hunger is abroad in the valleys.",
+   "body": "The spring that finishes Teine na Fèithe is remembered also for rain that stands a hand deep in the low fields and rots the seed in the ground, so that hunger is abroad in the valleys.",
    "place": null,
    "kind": "land",
    "category": "land",
@@ -1287,7 +1290,7 @@
   },
   {
    "id": "EI-1048",
-   "title": "The slab laid over the vein",
+   "title": "Leac na Fèithe laid over the vein",
    "body": "The household levers a broad flat stone across the mouth of the mason's well-cut and packs its edge with turf, sealing the burnt vein from the weather and forbidding any water to be drawn near it again.",
    "place": "burg:276",
    "kind": "faith",
@@ -1368,8 +1371,8 @@
   },
   {
    "id": "EI-1051",
-   "title": "Grandchildren sent out to the slab in Muirne's stead",
-   "body": "Grown too slow for the winter walk, Muirne sends her grandchildren out to the slab to see that the turf at its edge still holds the rain out and that no bucket stands near it.",
+   "title": "Grandchildren sent out to Leac na Fèithe in Muirne's stead",
+   "body": "Grown too slow for the winter walk, Muirne sends her grandchildren out to Leac na Fèithe to see that the turf at its edge still holds the rain out and that no bucket stands near it.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -1394,7 +1397,7 @@
   {
    "id": "EI-1052",
    "title": "Muirne dies",
-   "body": "Muirne dies at Tobar dhìreach in old age and is buried in the ground near the house with no coal or fire laid beside her, having already given the vein's fire, whole, back to the stone. The telling of the slab passes to her grandchildren.",
+   "body": "Muirne dies at Tobar dhìreach in old age and is buried in the ground near the house with no coal or fire laid beside her, having already given the vein's fire, whole, back to the stone. The telling of Leac na Fèithe passes to her grandchildren.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -1437,6 +1440,56 @@
    "era_between": [
     185,
     185
+   ]
+  },
+  {
+   "id": "EI-1054",
+   "title": "Conn born to the upper valley",
+   "body": "Conn is born to a herding household high up the Abhainn uaine, further inland and higher than any household of that kin cares to winter, the country from which the summer grazing is followed up onto the shrinking snowfields.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    205,
+    205
+   ]
+  },
+  {
+   "id": "EI-1055",
+   "title": "Conn trusted to choose the high ground",
+   "body": "Grown to a young man, Conn reads the colour of the light on the high tops before dawn to judge whether the beasts want driving down, and is seldom wrong; the older herders of his kin begin letting him choose the summer ground himself.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0004",
+     "type": "cause"
+    },
+    {
+     "to": "EI-1054",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "conn"
+   ],
+   "told_in": "book/04_of_the_snow_on_the_mountains_and_the_oak_in_the_north.md#i-of-conn-and-the-rising-water",
+   "era_between": [
+    224,
+    224
    ]
   }
  ]

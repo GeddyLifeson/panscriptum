@@ -176,7 +176,7 @@
   },
   {
    "id": "EVII-5007",
-   "title": "Seven parties on the windy coast",
+   "title": "Seven parties on an Oirthir Ghaothach",
    "body": "Word passes between separate handfuls out of Cnoc thais, the last of Muileann àrsaidh's scattered folk and one party out of Àth naomh, until seven parties in all, somewhat short of two hundred souls, sit on the same stretch of unclaimed ground.",
    "place": null,
    "kind": "people",
@@ -220,7 +220,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-dubhan-trade"
+   ],
    "people": [],
    "told_in": "book/29_of_cnoc_thais_and_the_windy_coast.md#iv-of-the-fleet-sent-south-and-the-boats-that-burned",
    "era_between": [
@@ -230,8 +232,8 @@
   },
   {
    "id": "EVII-5009",
-   "title": "The second fleet's raising told on the windy coast",
-   "body": "Cairstine tells Tom Varley's fire that the second fleet was raised that season at the southern Seann Skell out of the harbour towns and the Rite's own boatmen, to hold water that had stood quiet a generation.",
+   "title": "An dàrna cabhlach's raising told on an Oirthir Ghaothach",
+   "body": "Cairstine tells Tom Varley's fire that An dàrna cabhlach was raised that season at the southern Seann Skell out of the harbour towns and Deas-ghnàth a' Ghuail's own boatmen, to hold water that had stood quiet a generation.",
    "place": "burg:431",
    "kind": "war",
    "category": "war",
@@ -274,7 +276,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-dubhan-trade"
+   ],
    "people": [],
    "told_in": "book/29_of_cnoc_thais_and_the_windy_coast.md#iv-of-the-fleet-sent-south-and-the-boats-that-burned",
    "era_between": [
@@ -299,7 +303,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-dubhan-trade"
+   ],
    "people": [],
    "told_in": "book/29_of_cnoc_thais_and_the_windy_coast.md#iv-of-the-fleet-sent-south-and-the-boats-that-burned",
    "era_between": [
@@ -339,7 +345,7 @@
   {
    "id": "EVII-5013",
    "title": "The first evening at the edge of the sea",
-   "body": "In the last clear evening before the hard weather turns, Tom Varley stands on a strand of black shingle at the edge of the windy coast and watches the light go out of the sky without any sunset to mark the day's end.",
+   "body": "In the last clear evening before the hard weather turns, Tom Varley stands on a strand of black shingle at the edge of an Oirthir Ghaothach and watches the light go out of the sky without any sunset to mark the day's end.",
    "place": null,
    "kind": "land",
    "category": "land",
@@ -428,8 +434,8 @@
   },
   {
    "id": "EVII-5016",
-   "title": "A hind brought down on the windy coast",
-   "body": "On the walk to the windy coast a man of Àth naomh brings down a hind with a single cast of the spear he had carried from his own town.",
+   "title": "A hind brought down on an Oirthir Ghaothach",
+   "body": "On the walk to an Oirthir Ghaothach a man of Àth naomh brings down a hind with a single cast of the spear he had carried from his own town.",
    "place": "province:75",
    "kind": "land",
    "category": "land",
@@ -456,7 +462,7 @@
   {
    "id": "EVII-5017",
    "title": "Calum Odhar's byre",
-   "body": "A widower of the windy coast, Calum Odhar, who fishes a two-man boat out of a cove with no name, gives the byre behind his house to the six men of Cnoc thais and asks only whether they can mend a net.",
+   "body": "A widower of an Oirthir Ghaothach, Calum Odhar, who fishes a two-man boat out of a cove with no name, gives the byre behind his house to the six men of Cnoc thais and asks only whether they can mend a net.",
    "place": "province:75",
    "kind": "people",
    "category": "humans",
@@ -485,8 +491,36 @@
   },
   {
    "id": "EVII-5018",
+   "title": "Cnoc bhàn's harbour shut to strangers",
+   "body": "The Tuathaich of Cnoc bhàn shut their harbour to boats they do not know through the autumn, fearing raiders with the fleets drawn to the north-west, and turn away a Dia-thìreach trader with a load of salt.",
+   "place": "burg:73",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "VI-0100",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5017",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/29_of_cnoc_thais_and_the_windy_coast.md#iv-of-the-fleet-sent-south-and-the-boats-that-burned",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-5019",
    "title": "Beathag nic Fhionnlaigh watches the camp from her garden wall",
-   "body": "Beathag nic Fhionnlaigh, retired at Àth dhìreach, watches the second regiment's camp rise from her own garden wall and is asked by its young captain whether the wall marks ground his picket line needs; it does not. She notes the town gives the company no trouble and is given none.",
+   "body": "Beathag nic Fhionnlaigh, retired at Àth dhìreach, watches An dàrna rèisimeid's camp rise from her own garden wall and is asked by its young captain whether the wall marks ground his picket line needs; it does not. She notes the town gives the company no trouble and is given none.",
    "place": "burg:338",
    "kind": "war",
    "category": "war",
@@ -510,7 +544,7 @@
    ]
   },
   {
-   "id": "EVII-5019",
+   "id": "EVII-5020",
    "title": "Beathag nic Fhionnlaigh writes to Sìleas nic Rath of the camp",
    "body": "Beathag writes to Sìleas nic Rath that she trusts her own eyes on a garden wall better than she ever let herself trust the reports that once reached her desk from towns she had never stood in. The line is struck through once and left to stand, the ink thin enough to read beneath it.",
    "place": "burg:338",
@@ -522,7 +556,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5018",
+     "to": "EVII-5019",
      "type": "sequel"
     }
    ],
@@ -541,38 +575,9 @@
    ]
   },
   {
-   "id": "EVII-5020",
-   "title": "The fourth marches down to the river",
-   "body": "The fourth regiment marches from Caol bheag to the river on a frosted morning, the whole town turned out along the road. Corporal Dùghall mac Iain's own mother stands at the mill corner and says nothing at all as he passes, which he takes, without either of them saying it, for the greater kindness.",
-   "place": "burg:475",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0103",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5019",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [
-    "dughall-mac-iain"
-   ],
-   "told_in": "book/30_of_the_ships_round_the_north.md#ii-of-the-voyage-round-the-north",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
    "id": "EVII-5021",
-   "title": "The fourth's voyage down the Abhainn ghorm",
-   "body": "The fourth regiment goes down the Abhainn ghorm to Ros chiar in refitted coal barges, the two days' journey the maps had promised done in a day and a half on the autumn spate, the barge-men steering more than rowing, the men passing the crossing in games, arguments and a harvest song none of them had thought to sing.",
+   "title": "The fourth marches down to the river",
+   "body": "An ceathramh rèisimeid marches from Caol bheag to the river on a frosted morning, the whole town turned out along the road. Corporal Dùghall mac Iain's own mother stands at the mill corner and says nothing at all as he passes, which he takes, without either of them saying it, for the greater kindness.",
    "place": "burg:475",
    "kind": "war",
    "category": "war",
@@ -600,9 +605,9 @@
   },
   {
    "id": "EVII-5022",
-   "title": "The hired hulls put out from Ros chiar",
-   "body": "The fourth regiment's hired dubhan hulls put out from Ros chiar into a turning sea, five days round the north cape with the tanks below decks giving off a smell that does not leave the men's kit for weeks. A boy of the second company goes overboard reaching for a loosed line and is hauled back half-drowned.",
-   "place": "burg:215",
+   "title": "The fourth's voyage down the Abhainn ghorm",
+   "body": "An ceathramh rèisimeid goes down the Abhainn ghorm to Ros chiar in refitted coal barges, the two days' journey the maps had promised done in a day and a half on the autumn spate, the barge-men steering more than rowing, the men passing the crossing in games, arguments and a harvest song none of them had thought to sing.",
+   "place": "burg:475",
    "kind": "war",
    "category": "war",
    "links": [
@@ -629,9 +634,9 @@
   },
   {
    "id": "EVII-5023",
-   "title": "One hull parts company off the north cape",
-   "body": "In the worst of the second night's weather one of the fourth regiment's hired hulls is separated from the rest, puts into a cove on the far side of the north cape, and loses two days finding the others again, reaching Ceann mhòr three days behind the rest with crew and cargo whole.",
-   "place": "burg:143",
+   "title": "The hired hulls put out from Ros chiar",
+   "body": "An ceathramh rèisimeid's hired dubhan hulls put out from Ros chiar into a turning sea, five days round the north cape with the tanks below decks giving off a smell that does not leave the men's kit for weeks. A boy of the second company goes overboard reaching for a loosed line and is hauled back half-drowned.",
+   "place": "burg:215",
    "kind": "war",
    "category": "war",
    "links": [
@@ -647,7 +652,9 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [],
+   "people": [
+    "dughall-mac-iain"
+   ],
    "told_in": "book/30_of_the_ships_round_the_north.md#ii-of-the-voyage-round-the-north",
    "era_between": [
     21,
@@ -656,8 +663,35 @@
   },
   {
    "id": "EVII-5024",
+   "title": "One hull parts company off the north cape",
+   "body": "In the worst of the second night's weather one of An ceathramh rèisimeid's hired hulls is separated from the rest, puts into a cove on the far side of the north cape, and loses two days finding the others again, reaching Ceann mhòr three days behind the rest with crew and cargo whole.",
+   "place": "burg:143",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0103",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_ships_round_the_north.md#ii-of-the-voyage-round-the-north",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-5025",
    "title": "The maor of Ceann mhòr gives up his house",
-   "body": "The maor of Ceann mhòr gives up the greater part of the old human magistrate's house to the fourth regiment without complaint, moving his own household into its two upper rooms, and takes afterwards to walking their narrow gallery of an evening remarking to whichever officer passes below that the army has undone in a fortnight what forty winters of sea air had not.",
+   "body": "The maor of Ceann mhòr gives up the greater part of the old human magistrate's house to An ceathramh rèisimeid without complaint, moving his own household into its two upper rooms, and takes afterwards to walking their narrow gallery of an evening remarking to whichever officer passes below that the army has undone in a fortnight what forty winters of sea air had not.",
    "place": "burg:143",
    "kind": "war",
    "category": "war",
@@ -667,7 +701,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5023",
+     "to": "EVII-5024",
      "type": "sequel"
     }
    ],
@@ -685,9 +719,9 @@
    ]
   },
   {
-   "id": "EVII-5025",
+   "id": "EVII-5026",
    "title": "The maor's clerk keeps the two tongues apart",
-   "body": "The maor of Ceann mhòr's clerk, a Tuathaich woman of long service, addresses the fourth regiment's captain in Dia-thìris without a stumble and her own townsfolk, on the office's business, in the humans' tongue alone, the two tongues kept, in her own ordering of things, for two entirely different kinds of transaction.",
+   "body": "The maor of Ceann mhòr's clerk, a Tuathaich woman of long service, addresses An ceathramh rèisimeid's captain in Dia-thìris without a stumble and her own townsfolk, on the office's business, in the humans' tongue alone, the two tongues kept, in her own ordering of things, for two entirely different kinds of transaction.",
    "place": "burg:143",
    "kind": "people",
    "category": "humans",
@@ -697,7 +731,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5024",
+     "to": "EVII-5025",
      "type": "sequel"
     }
    ],
@@ -713,9 +747,9 @@
    ]
   },
   {
-   "id": "EVII-5026",
+   "id": "EVII-5027",
    "title": "Martha Greaves's letter reaches the magistrate's house",
-   "body": "Martha Greaves's single sheet asking that the fourth regiment be lodged at its own charge and not the town's is carried up the coast road and read aloud by the fourth's own captain to his assembled company. It is received and forwarded; the Board's late reply says only that the arrangement stands until the campaign's needs change it.",
+   "body": "Martha Greaves's single sheet asking that An ceathramh rèisimeid be lodged at its own charge and not the town's is carried up the coast road and read aloud by the fourth's own captain to his assembled company. It is received and forwarded; the Board's late reply says only that the arrangement stands until the campaign's needs change it.",
    "place": "burg:143",
    "kind": "record",
    "category": "law",
@@ -725,7 +759,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5025",
+     "to": "EVII-5026",
      "type": "sequel"
     }
    ],
@@ -744,9 +778,9 @@
    ]
   },
   {
-   "id": "EVII-5027",
+   "id": "EVII-5028",
    "title": "The Cathair gheal petition folded into a barrel of cod",
-   "body": "The fishermen of Cathair gheal draw up their petition on the quay before the boats go out, setting down only the days the searching has run and the hours a boat is commonly held, and send it to Caol mhòr folded inside a barrel of salt cod consigned, quite genuinely, to the Moot's own stores.",
+   "body": "The fishermen of Cathair gheal draw up their petition on the quay before the boats go out, setting down only the days the searching has run and the hours a boat is commonly held, and send it to Caol mhòr folded inside a barrel of salt cod consigned, quite genuinely, to Tional nan Tuathach's own stores.",
    "place": "burg:476",
    "kind": "trade",
    "category": "trade",
@@ -756,7 +790,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5026",
+     "to": "EVII-5027",
      "type": "sequel"
     }
    ],
@@ -771,9 +805,9 @@
    ]
   },
   {
-   "id": "EVII-5028",
+   "id": "EVII-5029",
    "title": "Dùghall hears the petition told as a soldier's tale",
-   "body": "A corporal of the second fleet, billeted a night at Ceann mhòr, tells Dùghall mac Iain the tale of the fish-barrel petition over their shared supper as dry entertainment and nothing graver, a story a searching soldier keeps by him for its comedy rather than its weight.",
+   "body": "A corporal of An dàrna cabhlach, billeted a night at Ceann mhòr, tells Dùghall mac Iain the tale of the fish-barrel petition over their shared supper as dry entertainment and nothing graver, a story a searching soldier keeps by him for its comedy rather than its weight.",
    "place": "burg:143",
    "kind": "war",
    "category": "war",
@@ -783,7 +817,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5027",
+     "to": "EVII-5028",
      "type": "sequel"
     }
    ],
@@ -800,39 +834,9 @@
    ]
   },
   {
-   "id": "EVII-5029",
+   "id": "EVII-5030",
    "title": "Dùghall billeted on Barbara Keir of Ceann mhòr",
    "body": "Once the magistrate's house is full past stretching, the maor's clerk billets Corporal Dùghall mac Iain on a widow of the town named Barbara Keir, who keeps a loom in the room behind her kitchen; she opens her door to him with no more welcome than the clerk's own list had shown in its writing.",
-   "place": "burg:143",
-   "kind": "people",
-   "category": "humans",
-   "links": [
-    {
-     "to": "VI-0104",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5028",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich",
-    "the-long-war"
-   ],
-   "people": [
-    "dughall-mac-iain"
-   ],
-   "told_in": "book/30_of_the_ships_round_the_north.md#iv-of-the-widow-s-house",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
-   "id": "EVII-5030",
-   "title": "The tongue Barbara Keir will not give him",
-   "body": "Barbara answers Corporal Dùghall mac Iain readily in Dia-thìris on the house's own business, but gives him, try as he may, not one word of the humans' tongue, though he hears her speak it easily across the yard wall to a neighbour; he comes to understand it a door shut on him alone.",
    "place": "burg:143",
    "kind": "people",
    "category": "humans",
@@ -861,8 +865,38 @@
   },
   {
    "id": "EVII-5031",
+   "title": "The tongue Barbara Keir will not give him",
+   "body": "Barbara answers Corporal Dùghall mac Iain readily in Dia-thìris on the house's own business, but gives him, try as he may, not one word of the humans' tongue, though he hears her speak it easily across the yard wall to a neighbour; he comes to understand it a door shut on him alone.",
+   "place": "burg:143",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0104",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5030",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-long-war"
+   ],
+   "people": [
+    "dughall-mac-iain"
+   ],
+   "told_in": "book/30_of_the_ships_round_the_north.md#iv-of-the-widow-s-house",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-5032",
    "title": "The barges of the Abhainn ghorm",
-   "body": "The fourth regiment goes down the Abhainn ghorm from Caol bheag to Ros chiar in old coal barges fitted with plank benches, the river high with rain, in a day and a half.",
+   "body": "An ceathramh rèisimeid goes down the Abhainn ghorm from Caol bheag to Ros chiar in old coal barges fitted with plank benches, the river high with rain, in a day and a half.",
    "place": "burg:475",
    "kind": "war",
    "category": "war",
@@ -872,7 +906,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5030",
+     "to": "EVII-5031",
      "type": "sequel"
     }
    ],
@@ -889,64 +923,9 @@
    ]
   },
   {
-   "id": "EVII-5032",
-   "title": "A boy of the second company overboard",
-   "body": "Rounding the north cape in hired tank-hulls, a boy of the fourth regiment's second company goes overboard reaching for a loose line and is hauled back half-drowned.",
-   "place": "province:14",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0103",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5031",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [],
-   "told_in": "book/30_of_the_ships_round_the_north.md#ii-of-the-voyage-round-the-north",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
    "id": "EVII-5033",
-   "title": "The maor of Ceann mhòr takes the upper rooms",
-   "body": "The maor of Ceann mhòr gives up the greater part of the old magistrate's house to the fourth regiment and moves his household into the two upper rooms.",
-   "place": "burg:143",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0104",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5032",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war",
-    "the-tuathaich"
-   ],
-   "people": [],
-   "told_in": "book/30_of_the_ships_round_the_north.md#iii-of-ceann-mhor",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
-   "id": "EVII-5034",
-   "title": "The Board answers the Moot on the quartering",
-   "body": "Near the year's end the Board answers the Moot's protest against the quartering at Ceann mhòr that the arrangement stands until the campaign's needs change it.",
+   "title": "The Board answers Tional nan Tuathach on the quartering",
+   "body": "Near the year's end the Board answers Tional nan Tuathach's protest against the quartering at Ceann mhòr that the arrangement stands until the campaign's needs change it.",
    "place": "burg:143",
    "kind": "record",
    "category": "law",
@@ -956,7 +935,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5033",
+     "to": "EVII-5032",
      "type": "sequel"
     }
    ],
@@ -974,9 +953,64 @@
    ]
   },
   {
+   "id": "EVII-5034",
+   "title": "An siathamh rèisimeid drills by the carved stone",
+   "body": "An siathamh rèisimeid, raised at Cnoc bheag, drills in the square beside the carved stone, and the town's children learn the words of command before the recruits do.",
+   "place": "burg:20",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0101",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_ships_round_the_north.md#i-of-the-regiments-called-again",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
    "id": "EVII-5035",
-   "title": "The third fleet's first tank-hull reaches Ceann mhòr",
-   "body": "A week after its raising at Baile ghorm the third fleet's first tank-hull, her number chalked on her bow for want of a name, comes into Ceann mhòr with the army's dubhan. Her master, Griogair, a fisherman of Baile ghorm forty years, talks with Corporal Dùghall mac Iain on the quay through the unloading.",
+   "title": "Baile ghorm's quays given to An treas cabhlach",
+   "body": "At its raising An treas cabhlach takes the wolf-post quays of Baile ghorm for its own; the fishing boats are moved to the old beach and their pump with them.",
+   "place": "burg:170",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0107",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5034",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_ships_round_the_north.md#iii-of-ceann-mhor",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-5036",
+   "title": "An treas cabhlach's first tank-hull reaches Ceann mhòr",
+   "body": "A week after its raising at Baile ghorm An treas cabhlach's first tank-hull, her number chalked on her bow for want of a name, comes into Ceann mhòr with the army's dubhan. Her master, Griogair, a fisherman of Baile ghorm forty years, talks with Corporal Dùghall mac Iain on the quay through the unloading.",
    "place": "burg:143",
    "kind": "war",
    "category": "war",
@@ -999,7 +1033,7 @@
    ]
   },
   {
-   "id": "EVII-5036",
+   "id": "EVII-5037",
    "title": "Dùghall billeted on Barbara",
    "body": "At Ceann mhòr Dùghall mac Iain is billeted on a Tuathaich widow named Barbara, who feeds him at her own table and answers him only in Dia-thìris, though he hears her, of an evening, singing at her loom in the humans' tongue she will not use to speak to him directly.",
    "place": "burg:143",
@@ -1011,7 +1045,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5035",
+     "to": "EVII-5036",
      "type": "sequel"
     }
    ],
@@ -1029,9 +1063,9 @@
    ]
   },
   {
-   "id": "EVII-5037",
+   "id": "EVII-5038",
    "title": "A file sent north to Baile chrom",
-   "body": "The fourth regiment sends Corporal Dùghall mac Iain and six men on the two days' coast road to Baile chrom, a bent headland town no patrol of the regiment has yet troubled to search, with orders to look for arms and for men of the western hills and to bring back a report.",
+   "body": "An ceathramh rèisimeid sends Corporal Dùghall mac Iain and six men on the two days' coast road to Baile chrom, a bent headland town no patrol of the regiment has yet troubled to search, with orders to look for arms and for men of the western hills and to bring back a report.",
    "place": "burg:143",
    "kind": "war",
    "category": "war",
@@ -1041,7 +1075,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5036",
+     "to": "EVII-5037",
      "type": "sequel"
     }
    ],
@@ -1058,42 +1092,12 @@
    ]
   },
   {
-   "id": "EVII-5038",
+   "id": "EVII-5039",
    "title": "The watched mill on the coast road",
    "body": "On the march north the file passes a mill and two farms whose people watch them from their doorways and say nothing, a silence the soldier Cailean judges more telling, in its own way, than any shout a Dia-thìreach farm on the same road would have raised.",
    "place": null,
    "kind": "war",
    "category": "war",
-   "links": [
-    {
-     "to": "VI-0108",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5037",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war",
-    "the-tuathaich"
-   ],
-   "people": [
-    "dughall-mac-iain"
-   ],
-   "told_in": "book/31_of_the_dark_town.md#iii-of-the-file-to-baile-chrom",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
-   "id": "EVII-5039",
-   "title": "The town found dark and silent",
-   "body": "Dùghall mac Iain's file comes into Baile chrom after dark on the eve of the Grey Night to find no lamp lit, no dog loosed and every door unlatched; house after house holds a family sitting hands folded round a cold hearth, answering nothing but a single slow headshake.",
-   "place": "burg:305",
-   "kind": "rite",
-   "category": "faith",
    "links": [
     {
      "to": "VI-0108",
@@ -1111,7 +1115,7 @@
    "people": [
     "dughall-mac-iain"
    ],
-   "told_in": "book/31_of_the_dark_town.md#iv-of-the-unlatched-door",
+   "told_in": "book/31_of_the_dark_town.md#iii-of-the-file-to-baile-chrom",
    "era_between": [
     21,
     21
@@ -1119,8 +1123,8 @@
   },
   {
    "id": "EVII-5040",
-   "title": "Margaret Crane keeps the vigil alone",
-   "body": "In the house nearest the lighthouse road an old woman named Margaret Crane sits alone keeping the Grey Night as she has kept it since before the war, gives Dùghall mac Iain her name and leave to search, and tells him nothing more; a soldier of his own file sets his lamp down outside her door rather than carry its light past her.",
+   "title": "The town found dark and silent",
+   "body": "Dùghall mac Iain's file comes into Baile chrom after dark on the eve of Oidhche Glaise to find no lamp lit, no dog loosed and every door unlatched; house after house holds a family sitting hands folded round a cold hearth, answering nothing but a single slow headshake.",
    "place": "burg:305",
    "kind": "rite",
    "category": "faith",
@@ -1139,6 +1143,36 @@
     "the-tuathaich"
    ],
    "people": [
+    "dughall-mac-iain"
+   ],
+   "told_in": "book/31_of_the_dark_town.md#iv-of-the-unlatched-door",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-5041",
+   "title": "Margaret Crane keeps the vigil alone",
+   "body": "In the house nearest the lighthouse road an old woman named Margaret Crane sits alone keeping Oidhche Glaise as she has kept it since before the war, gives Dùghall mac Iain her name and leave to search, and tells him nothing more; a soldier of his own file sets his lamp down outside her door rather than carry its light past her.",
+   "place": "burg:305",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0108",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-5040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
     "dughall-mac-iain",
     "margaret-crane"
    ],
@@ -1149,7 +1183,7 @@
    ]
   },
   {
-   "id": "EVII-5041",
+   "id": "EVII-5042",
    "title": "The regimental clerk's question",
    "body": "Copying Dùghall mac Iain's report fair at the bothy, the file's young clerk asks whether there is more to the night than its three written lines; Dùghall tells him there is not, and keeps the headshakes and the cold hearths out of the regiment's own returns.",
    "place": null,
@@ -1161,7 +1195,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5040",
+     "to": "EVII-5041",
      "type": "sequel"
     }
    ],
@@ -1178,7 +1212,7 @@
    ]
   },
   {
-   "id": "EVII-5042",
+   "id": "EVII-5043",
    "title": "Barbara on the flooded pits",
    "body": "Dùghall mac Iain mentions the flooding of Àth naomh's pits to Barbara over her evening table; she answers only, in Dia-thìris, that a pit flooded is a pit flooded whichever order floods it, and takes up her mending again in the silence he has learned by then not to press.",
    "place": "burg:143",
@@ -1190,7 +1224,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-5041",
+     "to": "EVII-5042",
      "type": "sequel"
     }
    ],
@@ -1208,39 +1242,10 @@
    ]
   },
   {
-   "id": "EVII-5043",
+   "id": "EVII-5044",
    "title": "Dùghall's sleepless winter",
    "body": "Through the short days that follow, Dùghall mac Iain wakes most nights with the sea-sound of the Baile chrom headland in his ears, unable in either tongue he carries to find words for a stillness that asked nothing of him and gave him nothing to answer with.",
    "place": "burg:143",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0108",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-5042",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [
-    "dughall-mac-iain"
-   ],
-   "told_in": "book/31_of_the_dark_town.md#v-of-the-report-that-said-no-more",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
-   "id": "EVII-5044",
-   "title": "The file sent round by the headland farms",
-   "body": "Corporal Dùghall mac Iain's file of six is sent to Baile chrom by way of the headland farms, sleeping a night in an empty drover's bothy on the way.",
-   "place": "burg:305",
    "kind": "war",
    "category": "war",
    "links": [
@@ -1259,7 +1264,7 @@
    "people": [
     "dughall-mac-iain"
    ],
-   "told_in": "book/31_of_the_dark_town.md#iii-of-the-file-to-baile-chrom",
+   "told_in": "book/31_of_the_dark_town.md#v-of-the-report-that-said-no-more",
    "era_between": [
     21,
     21
@@ -1267,8 +1272,8 @@
   },
   {
    "id": "EVII-5045",
-   "title": "A soldier sets his lamp down in the passage",
-   "body": "At the house of Margaret Crane on the lighthouse road a soldier of Dùghall's file sets his lamp down in the passage of his own accord rather than carry its light past her.",
+   "title": "The file sent round by the headland farms",
+   "body": "Corporal Dùghall mac Iain's file of six is sent to Baile chrom by way of the headland farms, sleeping a night in an empty drover's bothy on the way.",
    "place": "burg:305",
    "kind": "war",
    "category": "war",
@@ -1283,14 +1288,12 @@
     }
    ],
    "threads": [
-    "the-church-on-the-island",
     "the-long-war"
    ],
    "people": [
-    "margaret-crane",
     "dughall-mac-iain"
    ],
-   "told_in": "book/31_of_the_dark_town.md#iv-of-the-unlatched-door",
+   "told_in": "book/31_of_the_dark_town.md#iii-of-the-file-to-baile-chrom",
    "era_between": [
     21,
     21
@@ -1329,7 +1332,7 @@
   {
    "id": "EVII-5047",
    "title": "The ninth's raising read at Ceann mhòr",
-   "body": "Two days after an Nollaig the raising of the ninth regiment at the southern Seann Skell is read out in the fourth regiment's guardroom at Ceann mhòr.",
+   "body": "Two days after an Nollaig the raising of An naoidheamh rèisimeid at the southern Seann Skell is read out in An ceathramh rèisimeid's guardroom at Ceann mhòr.",
    "place": "burg:143",
    "kind": "war",
    "category": "war",

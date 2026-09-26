@@ -325,24 +325,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "The trial lamp hooded against the rain",
-    "era_year": 5,
-    "summary": "After a chimney-glass cracks in a squall on the eleventh night, the tinsmith of Àth bheag makes a hood of sheet iron for the trial lamp at Baile ìseal, and the glasses hold after.",
-    "category": "trade",
-    "people": [
-      "Peigi nic Ascaill"
-    ],
-    "places": [
-      "marker:13",
-      "burg:492"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [],
-    "chronicle_extra": true
-  },
-  {
     "title": "The haar on the forty-first night",
     "era_year": 5,
     "summary": "A haar lies high on the eastern cape; the tower's coal light is lost in it from the slip while the trial lamp below shows plain.",
@@ -371,6 +353,21 @@
     ],
     "threads": [
       "the-dubhan-trade"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Hay stored in the old barracks at Inis mhòr",
+    "era_year": 5,
+    "summary": "The barracks at Inis mhòr, empty of soldiers since the Severance, are let by the maor to the farmers of Seann Vell for hay, the long rooms dry and the rent small.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:2"
+    ],
+    "threads": [
+      "the-long-war"
     ],
     "master_links": [],
     "chronicle_extra": true

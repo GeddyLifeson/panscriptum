@@ -128,7 +128,7 @@ They built sleds of lesser oak, low and broad, with runners shod in ash, and rol
 
 It went on all that summer and into the autumn. The sleds went down one after another, strung out along the road for twenty miles, with the drovers walking beside the oxen and the wrights walking beside the trunks, and the sound of it could be heard, the farmers said, a mile off on a still day: the groan of the runners on the stones, and the drovers' cries, and the oxen blowing.
 
-Nearer the sea, on the shore of Loch chrom below the capital, there was a wood of wild oak, rough and crooked, that had never been anyone's grove; and in the same summer a party of woodcutters from the roll went there and built themselves huts at the wood's edge, to fell crooked oak for frames and knees that the fleet would need in hundreds. They stayed after the felling was done, and the huts became a village. The village took its name from the wood, Doire fhiadhaich, the wild grove; and there, too, the tellers say, timber for the fleet was felled.
+Nearer the sea, on the shore of Loch chrom below the capital, there was a wood of wild oak, rough and crooked, that had never been anyone's grove; and in the same summer a party of woodcutters from the roll went there and built themselves huts at the wood's edge, to fell crooked oak for frames and knees that the fleet would need in hundreds. The huts did not outlast the felling; the woodcutters went home to the roll when the last knee was hauled out, and the bracken came up through the floors. The wood kept its name, Doire fhiadhaich, the wild grove, and the tellers of that shore say still that timber for the fleet was felled there.
 
 ## IX. Of the First Keel
 

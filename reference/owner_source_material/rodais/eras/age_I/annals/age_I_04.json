@@ -6,6 +6,9 @@
  ],
  "events": [
   {
+   "after": "I-0012"
+  },
+  {
    "id": "EI-2501",
    "title": "The old man begins choosing stones at Skell",
    "body": "On the first day of the warm month an old man of the river bank at Skell walks the shingle at first light and chooses, by a judgement none of the younger men beside him can name, the boulder that will be rolled and set as the first stone of a mole into the current.",
@@ -13,7 +16,9 @@
    "kind": "land",
    "category": "land",
    "links": [],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
    "era_between": [
@@ -23,8 +28,8 @@
   },
   {
    "id": "EI-2502",
-   "title": "The trying of the riddle is let rest at the mason's hearth",
-   "body": "After coals have been carried to unceasing rain, sunk in sea-water fetched home in skins, and set together seven at once in the hottest fire the line's hands can build, and have come out of every trial the same dull stones, the Mason's line lets the trying rest, the leather bag closed and kept rather than opened again.",
+   "title": "The trying of Tòimhseachan a' Choimhdich is let rest at the mason's hearth",
+   "body": "After coals have been carried to unceasing rain, sunk in sea-water fetched home in skins, and set together seven at once in the hottest fire the line's hands can build, and have come out of every trial the same dull stones, Clann a' Chlachair lets the trying rest, the leather bag closed and kept rather than opened again.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -58,7 +63,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
    "era_between": [
@@ -79,7 +86,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
    "era_between": [
@@ -100,7 +109,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
    "era_between": [
@@ -121,7 +132,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#iv-of-the-dead-of-vell",
    "era_between": [
@@ -142,7 +155,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
    "era_between": [
@@ -163,7 +178,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#i-of-the-mole-at-skell",
    "era_between": [
@@ -205,7 +222,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
    "era_between": [
@@ -226,7 +245,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
    "era_between": [
@@ -282,7 +303,9 @@
    "kind": "land",
    "category": "land",
    "links": [],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#ii-of-the-steps-at-bral",
    "era_between": [
@@ -317,7 +340,7 @@
   {
    "id": "EI-2516",
    "title": "The recital said to a gathering that came unsent-for",
-   "body": "On the dark-of-the-year night the keeper of the Mason's hearth stands to say the fathers' names before a gathering that has walked up from the lower valleys of its own will, without any household sending word ahead, and says the riddle after as she has said it every year, and closes the bag again unopened.",
+   "body": "On the dark-of-the-year night the keeper of An Clachair's hearth stands to say the fathers' names before a gathering that has walked up from the lower valleys of its own will, without any household sending word ahead, and says Tòimhseachan a' Choimhdich after as she has said it every year, and closes the bag again unopened.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -371,7 +394,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#iv-of-the-dead-of-vell",
    "era_between": [
@@ -387,7 +412,9 @@
    "kind": "faith",
    "category": "faith",
    "links": [],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/10_of_the_mole_and_the_steps.md#iv-of-the-dead-of-vell",
    "era_between": [
@@ -411,7 +438,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
    "era_between": [
@@ -432,7 +461,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
    "era_between": [
@@ -453,7 +484,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
    "era_between": [
@@ -469,7 +502,9 @@
    "kind": "trade",
    "category": "trade",
    "links": [],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
    "era_between": [
@@ -490,7 +525,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
    "era_between": [
@@ -532,7 +569,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
    "era_between": [
@@ -553,7 +592,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
    "era_between": [
@@ -574,7 +615,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#i-of-the-gate-in-the-rock",
    "era_between": [
@@ -632,7 +675,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
    "era_between": [
@@ -651,7 +696,9 @@
    "kind": "land",
    "category": "land",
    "links": [],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
    "era_between": [
@@ -672,7 +719,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
    "era_between": [
@@ -693,7 +742,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#ii-of-the-road-across-the-reeds",
    "era_between": [
@@ -754,7 +805,9 @@
    "kind": "faith",
    "category": "faith",
    "links": [],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iii-of-the-signs-on-the-cliff",
    "era_between": [
@@ -775,7 +828,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/11_of_the_road_on_the_marsh_and_the_signs_on_the_cliff.md#iv-of-the-rain-on-the-new-signs",
    "era_between": [
@@ -786,7 +841,7 @@
   {
    "id": "EI-2539",
    "title": "Aodh born at Tobar dhìreach",
-   "body": "Aodh is born into the Mason's line at Tobar dhìreach, into a hearth that has by then said the Keeper's riddle at every recital for near five hundred years without once carrying the gold coal to the sea it is said to answer.",
+   "body": "Aodh is born into Clann a' Chlachair at Tobar dhìreach, into a hearth that has by then said Tòimhseachan a' Choimhdich at every recital for near five hundred years without once carrying gual òir to the sea it is said to answer.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -855,7 +910,7 @@
   {
    "id": "EI-2542",
    "title": "Aodh tells Muirgheal he means to walk north",
-   "body": "At twenty Aodh tells Muirgheal, keeper of the fire-pot at Tobar dhìreach, that he means to carry the gold coal to the sea before another generation lets the riddle lie; she does not laugh, and asks only that he wait until the harvest is in.",
+   "body": "At twenty Aodh tells Muirgheal, keeper of Poit an Teine at Tobar dhìreach, that he means to carry gual òir to the sea before another generation lets Tòimhseachan a' Choimhdich lie; she does not laugh, and asks only that he wait until the harvest is in.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -959,8 +1014,8 @@
   },
   {
    "id": "EI-2546",
-   "title": "The gold coal takes fire on the sea",
-   "body": "Aodh throws the seven coals of the vein into the sea one by one from the northern shingle; six sink as any coal sinks, and the coal with the sheen of gold takes fire on the swell and burns gold until a breaker rolls it under.",
+   "title": "Gual òir takes fire on the sea",
+   "body": "Aodh throws na Seachd Guail of the vein into the sea one by one from the northern shingle; six sink as any coal sinks, and the coal with the sheen of gold takes fire on the swell and burns gold until a breaker rolls it under.",
    "place": "burg:84",
    "kind": "coal",
    "category": "coal",
@@ -979,7 +1034,7 @@
   {
    "id": "EI-2547",
    "title": "Muirgheal weeps at the telling of the gold",
-   "body": "Hearing Aodh's account at the hearth of Tobar dhìreach, old Muirgheal weeps before the gathered kin, near five hundred years since the grove, and says that the Keeper's riddle is proved true: each coal answers to its own element.",
+   "body": "Hearing Aodh's account at the hearth of Tobar dhìreach, old Muirgheal weeps before the gathered kin, near five hundred years since the grove, and says that Tòimhseachan a' Choimhdich is proved true: each coal answers to its own element.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1003,7 +1058,7 @@
   {
    "id": "EI-2548",
    "title": "The name gual òir said at the recital",
-   "body": "For the first time since the mason's own well a new line is added to the recital after the fathers' names, telling of the gold coal's lighting on the northern sea; from that night the piece is called gual òir at every telling that carries it on.",
+   "body": "For the first time since the mason's own well a new line is added to the recital after the fathers' names, telling of gual òir's lighting on the northern sea; from that night the piece is called gual òir at every telling that carries it on.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1026,8 +1081,8 @@
   },
   {
    "id": "EI-2549",
-   "title": "Word of the gold coal spreads from Tobar dhìreach",
-   "body": "Households a half-day's walk and more from Tobar dhìreach send someone to ask whether the telling of the gold coal is true, and for days the fire-pot's door stands open near the whole day to let in one more household wanting to hear it from Aodh's own mouth.",
+   "title": "Word of gual òir spreads from Tobar dhìreach",
+   "body": "Households a half-day's walk and more from Tobar dhìreach send someone to ask whether the telling of gual òir is true, and for days Poit an Teine's door stands open near the whole day to let in one more household wanting to hear it from Aodh's own mouth.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1076,7 +1131,7 @@
   {
    "id": "EI-2551",
    "title": "A new line added to the recital",
-   "body": "For the first time since the mason a new line is added after the fathers' names at the recital: that the gold coal was thrown into the northern sea by Aodh and burned gold until the water put it under.",
+   "body": "For the first time since the mason a new line is added after the fathers' names at the recital: that gual òir was thrown into the northern sea by Aodh and burned gold until the water put it under.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -1130,7 +1185,7 @@
   {
    "id": "EI-2553",
    "title": "Muirgheal dies at Tobar dhìreach",
-   "body": "Muirgheal, keeper of the fire-pot, dies an old woman having lived to hear the sea answer and wept for it; she is carried out and laid as her own mother was before her, the hearth-fire kept burning the whole night through.",
+   "body": "Muirgheal, keeper of Poit an Teine, dies an old woman having lived to hear the sea answer and wept for it; she is carried out and laid as her own mother was before her, the hearth-fire kept burning the whole night through.",
    "place": null,
    "kind": "coal",
    "category": "coal",

@@ -1,0 +1,1043 @@
+{
+ "writer": 1,
+ "span": [
+  "I-0080b",
+  "I-0085"
+ ],
+ "events": [
+  {
+   "id": "EII-1000",
+   "title": "Coinneach follows his brother north",
+   "body": "Coinneach mac Shuibhne, unable to wait out a year of silence, sets off after his brother with a sack of oatcake and a skin of buttermilk, following the roads he judges Ailean must have taken toward the grove of Doire ghlas.",
+   "place": "burg:209",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "coinneach-mac-shuibhne",
+    "ailean-mor"
+   ],
+   "told_in": "book/01_the_seven_nights.md#i-of-the-fires-under-the-oaks",
+   "era_between": [
+    1,
+    1
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1001",
+   "title": "The camp beyond the oaks",
+   "body": "Coinneach comes within sight of the seven fires at Doire ghlas and finds he cannot cross into the ring of oaks. The Keeper allows him to camp at the tree-line and no nearer, and he keeps his own vigil there through the seven nights of his brother's watch.",
+   "place": "burg:209",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-keepers-promise"
+   ],
+   "people": [
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/01_the_seven_nights.md#ii-of-the-seven-nights",
+   "era_between": [
+    1,
+    1
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1002",
+   "title": "Voices heard on the fifth night",
+   "body": "On the fifth night of the vigil Coinneach hears, low under the sound of the fires, what he takes for voices, one of them shaped almost like his brother's speech though fallen into a rhythm Ailean never used. He never swears to more than that he heard something.",
+   "place": "burg:209",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/01_the_seven_nights.md#ii-of-the-seven-nights",
+   "era_between": [
+    1,
+    1
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1003",
+   "title": "The grove fills with light",
+   "body": "On the eighth night, when the seven fires go dark together, Coinneach watches the grove of Doire ghlas fill with a light that is not firelight, and sees shapes moving among the oaks. His feet will not carry him past the tree-line to follow them.",
+   "place": "burg:209",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-keepers-promise"
+   ],
+   "people": [
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/01_the_seven_nights.md#iii-of-the-eighth-night",
+   "era_between": [
+    1,
+    1
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1004",
+   "title": "The six pots left cold",
+   "body": "At dawn the six pots that carried Ailean's fires north are found lying empty on the leaves of Doire ghlas, their turf lids scattered, and the pale stone that held the seventh coal lies among them, giving no light but warm to the touch.",
+   "place": "burg:209",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/01_the_seven_nights.md#iv-of-the-warm-arm-and-the-road-south",
+   "era_between": [
+    1,
+    1
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1005",
+   "title": "Coinneach finds his brother warm at dawn",
+   "body": "Ailean walks out of the grove at morning and catches his stumbling brother by the arm. Coinneach feels a warmth in it like a hearthstone long after the fire is swept, and knows before any word is said that the night has changed his brother.",
+   "place": "burg:209",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "coinneach-mac-shuibhne",
+    "ailean-mor"
+   ],
+   "told_in": "book/01_the_seven_nights.md#iv-of-the-warm-arm-and-the-road-south",
+   "era_between": [
+    1,
+    1
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1006",
+   "title": "\"They named me king\"",
+   "body": "Ailean tells his brother only this much of the night in the grove: that he has been named king. He says nothing of who named him, of what a king might be king of, or of what was put into him, and Coinneach asks no further, having seen enough from outside the trees.",
+   "place": "burg:209",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor",
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/01_the_seven_nights.md#iv-of-the-warm-arm-and-the-road-south",
+   "era_between": [
+    1,
+    1
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1007",
+   "title": "The brothers turn south",
+   "body": "Ailean gathers the six empty pots onto his shoulder-pole, leaves the pale seventh stone lying uncovered among the leaves of Doire ghlas, and sets out south with his brother, never lighting the six fires again.",
+   "place": "burg:209",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor",
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/01_the_seven_nights.md#iv-of-the-warm-arm-and-the-road-south",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1008",
+   "title": "Ailean passes the high valleys",
+   "body": "Ailean walks south past the households of Clann na Ceiste in the high valleys without turning aside to any hearth, though he has kin enough among them to be fed and questioned there.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/01_the_seven_nights.md#iv-of-the-warm-arm-and-the-road-south",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1009",
+   "title": "Eleven kin walk south with him",
+   "body": "Households of Clann na Ceiste near the high valleys leave byre and field to follow Ailean south, eleven in all, none able afterward to give a better reason than a feeling not to be argued with. The king shares out Coinneach's sack among them on the road.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor",
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/01_the_seven_nights.md#iv-of-the-warm-arm-and-the-road-south",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "after": "I-0081"
+  },
+  {
+   "id": "EII-1010",
+   "title": "The bare ring in the frost",
+   "body": "Twice on the road south the company sleeps in the open, and both mornings the frost that silvers the field leaves a bare, warm ring the size of a sleeping man where Ailean lay, as it did at his feet in the grove.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/01_the_seven_nights.md#v-of-the-kin-who-followed",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1011",
+   "title": "Coinneach keeps the first telling",
+   "body": "Walking south behind his brother, Coinneach turns over what little he saw from outside the ring of oaks and fits it into an account he is careful never to swell beyond what he truly witnessed, the seed of the telling Clann na Ceiste keep of the seven nights.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/01_the_seven_nights.md#v-of-the-kin-who-followed",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1012",
+   "title": "The lad who brought the water",
+   "body": "The knapper's son of Dùn ìseal is sent to the hill's crown with water for the man who has just taken it unopposed, and is asked his name and whether the spear he carries is his father's best. Told to take it home and to tell his father the king will want a great many more.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/02_knappers_son.md#iii-of-the-water-and-the-spear",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1013",
+   "title": "The valleys come in to the hill",
+   "body": "Through the first year the households of the valleys about Dùn ìseal come in to the king one after another, unsummoned, bringing hides, pots, and whatever else they judge fitting, and with their gifts their grazing and their old quarrels, for a telling to be held over them.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/02_knappers_son.md#iv-of-the-households-coming-in",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1014",
+   "title": "The first judgement on the hill",
+   "body": "Two households of Dùn ìseal bring before the king a strip of pasture each has claimed for a generation. He asks one question, of whose cattle grazed it before the boundary stone was last moved, and gives the strip back in a sentence. Neither household ever brings the matter before him again.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/02_knappers_son.md#v-of-the-first-judgement",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1015",
+   "title": "The king's order to the flint-pit",
+   "body": "The flint-pit behind the houses of Dùn ìseal is set, on the king's own word, to cut spearheads by the score rather than as they are needed, the first order of its kind on the hill. The knapper's son is set to the work alongside his father before that year's leaves are down.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/02_knappers_son.md#vii-of-the-pit-and-the-word-kept",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1016",
+   "title": "The warmth with no fire",
+   "body": "In the first hard winter on the hill, a girl of Dùn ìseal stands near the king's own untended fire at night and finds herself warmed through though no flame burns close enough to account for it. She keeps the telling to herself for years before it is believed.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/02_knappers_son.md#vi-of-the-warmth-with-no-fire",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EII-1017",
+   "title": "The line of the bank pegged in the snow",
+   "body": "In the depth of the same winter the king walks the crown of Dùn ìseal setting ash pegs with his own hand, marking a line that takes in the old byres and ground for houses not yet built. The households break the frozen turf along it through the worst of the frost.",
+   "place": "burg:315",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0082",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/02_knappers_son.md#viii-of-the-ring-pegged-in-the-snow",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EII-1018",
+   "title": "Flint tools finish the bank's ditch",
+   "body": "When the antler mattocks digging the new ditch at Dùn ìseal blunt faster than they can be sharpened in the frost, the flint-pit sends up scrapers of worked stone to finish the work, so that the hill's first bank is cut as much with flint as with iron.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0082",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/02_knappers_son.md#viii-of-the-ring-pegged-in-the-snow",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EII-1019",
+   "title": "Muireall and Gormshuil brought to the hill",
+   "body": "As the frost breaks a small company comes down from the high valleys to Dùn ìseal: Muireall, the king's wife, and Gormshuil, his young daughter, with a few kin and hands beside them. The hill, which had thought the king had no household of his own, falls quiet to let them through the new gate.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0084",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor",
+    "muireall",
+    "gormshuil-nic-ailein"
+   ],
+   "told_in": "book/02_knappers_son.md#ix-of-those-who-were-brought-down",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EII-1020",
+   "title": "Dòmhnall born within the new bank",
+   "body": "A son is born to Muireall inside the finished bank of Dùn ìseal, the first of the king's children to draw breath on ground he holds, and the hill takes it as a settled thing that the king has come to stay among them.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0085",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "ailean-mor",
+    "muireall",
+    "domhnall-clachach"
+   ],
+   "told_in": "book/02_knappers_son.md#ix-of-those-who-were-brought-down",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EII-1021",
+   "title": "A spearhead given for nothing",
+   "body": "The knapper cuts a spearhead finer than any he has made that year, for no order and no payment, and sends it up to the king's fire on the birth of the king's son. He will not say why, only that the giving seemed owed.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0085",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/02_knappers_son.md#ix-of-those-who-were-brought-down",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "after": "I-0082"
+  },
+  {
+   "id": "EII-1022",
+   "title": "Gormshuil set to keep the gate",
+   "body": "A child of eight, Gormshuil is given the gate of the new bank to watch, and takes to naming every face and dog on the hill so her father will have someone to tell him at evening what the day brought. The habit holds her the rest of her life.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0082",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "line-of-aisling"
+   ],
+   "people": [
+    "gormshuil-nic-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#vi-of-the-last-autumn",
+   "era_between": [
+    9,
+    9
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1023",
+   "title": "Fearchar born on the hill",
+   "body": "A second son is born to the king within the new bank of Dùn ìseal and named Fearchar; he is the first of the king's children to open his eyes on the hill itself, and will hold it for his father in his time.",
+   "place": "burg:315",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0082",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/04_stones_in_the_valley.md#iii-of-the-wars-of-the-valleys",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "after": "I-0083"
+  },
+  {
+   "id": "EII-1024",
+   "title": "Word of the red hill's woman",
+   "body": "A salt-fish trader carries word up to Dùn ìseal of a woman holding a red hill on the shore of the great lake in her own right, answering to no king. Gormshuil asks her father whether it means trouble; he tells her trouble comes from nearer at hand.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0083",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "gormshuil-nic-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#i-of-the-watching-child",
+   "era_between": [
+    18,
+    18
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-1025",
+   "title": "Muireall's dying words",
+   "body": "In her last two nights Muireall speaks to her daughter of small things, a comb, a debt owed, and warns that her youngest son Fearchar has a temper that will want watching before it finds him trouble he cannot talk his way out of.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "muireall",
+    "gormshuil-nic-ailein",
+    "fearchar-bacach"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#ii-of-her-mother-s-dying",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "id": "EII-1026",
+   "title": "The king hears three cases the day Muireall is buried",
+   "body": "Two days after Muireall is put in the ground the king comes in from the valleys, stands by the mound, then goes into the hearing-house and gives judgement on three waiting cases before dark. He does not speak her name again where any ear can catch it.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#ii-of-her-mother-s-dying",
+   "era_between": [
+    24,
+    24
+   ]
+  },
+  {
+   "after": "I-0084"
+  },
+  {
+   "id": "EII-1027",
+   "title": "The drive to the warm springs",
+   "body": "With the hardest winter in living memory emptying the byres and the king three valleys off, Gormshuil drives the standing herds two days through drifted snow to the warm springs, walking the whole way herself so no beast's fodder is spent on a rider. She loses none.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0084",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "gormshuil-nic-ailein"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#iii-of-the-hard-winter-and-the-warm-ground",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EII-1028",
+   "title": "The two fingers that never bent again",
+   "body": "Gormshuil comes off the winter drive with two fingers of her left hand frozen stiff, and wears a glove over them in company from that year to her death without ever speaking of how they were got.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0084",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "gormshuil-nic-ailein"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#iii-of-the-hard-winter-and-the-warm-ground",
+   "era_between": [
+    27,
+    27
+   ]
+  },
+  {
+   "id": "EII-1029",
+   "title": "The king weds Sorcha",
+   "body": "Ailean takes a second wife, Sorcha, a woman of the valleys younger than his own eldest daughter, and the hill notes the matter and does not remark on it aloud, as it has grown used to doing with the king's household.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling"
+   ],
+   "people": [
+    "ailean-mor",
+    "sorcha-wife-of-ailean",
+    "gormshuil-nic-ailein"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#iv-of-the-gate-and-the-years-between",
+   "era_between": [
+    30,
+    30
+   ]
+  },
+  {
+   "id": "EII-1030",
+   "title": "Coinneach's counsel on the bank",
+   "body": "Gormshuil tells Coinneach that her father does not age while she has begun to grey. He tells her what he saw the night the fires went out in the grove, and counsels her to keep from asking her father what it cost him, as he has kept from asking these thirty years.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-keepers-promise",
+    "the-long-years"
+   ],
+   "people": [
+    "gormshuil-nic-ailein",
+    "coinneach-mac-shuibhne"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#iv-of-the-gate-and-the-years-between",
+   "era_between": [
+    33,
+    33
+   ]
+  },
+  {
+   "id": "EII-1031",
+   "title": "Somhairle born",
+   "body": "Sorcha bears the king a son, Somhairle, in the thirty-eighth year after the grove, the first child of Sorcha's line to be counted among those got after the grove.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling"
+   ],
+   "people": [
+    "ailean-mor",
+    "sorcha-wife-of-ailean",
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#iv-of-the-gate-and-the-years-between",
+   "era_between": [
+    38,
+    38
+   ]
+  },
+  {
+   "id": "EII-1032",
+   "title": "Beathag Ruadh dies on the Red Hill",
+   "body": "Beathag Ruadh, who held the Red Hill by the lake before any of the valleys came in to the king, dies an old woman in her own hall, unsworn and unbeaten; her household keeps the palisade after her and the lake shore does not change its ways for her going.",
+   "place": "burg:19",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0083",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/05_palisade_burned_twice.md#i-of-the-hill-by-the-lake",
+   "era_between": [
+    40,
+    40
+   ]
+  },
+  {
+   "id": "EII-1033",
+   "title": "Iain Dubh born",
+   "body": "A second son of Sorcha's, Iain Dubh, is born to the king on the hill, the youngest of Ailean's children to be reckoned among the Stone Kings in his turn.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0081",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-aisling"
+   ],
+   "people": [
+    "ailean-mor",
+    "sorcha-wife-of-ailean",
+    "iain-dubh"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#iv-of-the-gate-and-the-years-between",
+   "era_between": [
+    45,
+    45
+   ]
+  },
+  {
+   "id": "EII-1034",
+   "title": "Coinneach dies, the Line of the Mason passed whole",
+   "body": "Coinneach mac Shuibhne dies an old man, the first teller of the king's deeds, having taught Gormshuil the Line of the Mason word for word as the Keeper gave it in the grove. She is, after her father, the second on the hill to carry the whole of it.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0080b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-keepers-promise"
+   ],
+   "people": [
+    "coinneach-mac-shuibhne",
+    "gormshuil-nic-ailein"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#iv-of-the-gate-and-the-years-between",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EII-1035",
+   "title": "The grandchildren take the king for her son",
+   "body": "Gormshuil's own grandchildren, seeing the king young at the gate each autumn beside a bent grey grandmother, take him for her son rather than her father, and she lets the mistake stand rather than make them carry a harder truth too young.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0084",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "gormshuil-nic-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#v-of-the-grandchildren-who-took-him-for-her-son",
+   "era_between": [
+    60,
+    60
+   ]
+  },
+  {
+   "id": "EII-1036",
+   "title": "Gormshuil's deathbed question",
+   "body": "On the second night of her dying Gormshuil asks her father whether it hurts to stay young. He does not answer her in words, and says her name once instead, the way a man says a name he does not expect to say again.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0084",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years",
+    "the-keepers-promise"
+   ],
+   "people": [
+    "gormshuil-nic-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#vi-of-the-last-autumn",
+   "era_between": [
+    76,
+    76
+   ]
+  },
+  {
+   "id": "EII-1037",
+   "title": "Gormshuil dies",
+   "body": "Gormshuil nic Ailein dies an old woman of eighty-one, the king's eldest daughter and second of the Stone Kings. He sits by her a night and a day and helps lift the turf over her with his own hands, as he did for no one since Muireall.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0084",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "gormshuil-nic-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#vi-of-the-last-autumn",
+   "era_between": [
+    76,
+    76
+   ]
+  },
+  {
+   "id": "EII-1038",
+   "title": "The hill understands the long years",
+   "body": "Watching Gormshuil, who carried her father's stubbornness and stillness but not his years, put into the ground beside a father who looks her grandson's age, the hill understands at last that the long years are the grove's alone, and pass to no child got before it.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0084",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years",
+    "the-keepers-promise"
+   ],
+   "people": [
+    "ailean-mor",
+    "gormshuil-nic-ailein"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#vi-of-the-last-autumn",
+   "era_between": [
+    76,
+    76
+   ]
+  },
+  {
+   "id": "EII-1039",
+   "title": "Dòmhnall takes the hill",
+   "body": "Dòmhnall Clachach, seventy-four and looking a young man still, takes up the hearing-house his half-sister held since the grove, and says he supposes he had better learn to count who comes and goes, since no one is left who learned it from the start as she did.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0085",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "domhnall-clachach",
+    "gormshuil-nic-ailein"
+   ],
+   "told_in": "book/03_gormshuil_at_the_gate.md#vii-of-domhnall-taking-the-hill",
+   "era_between": [
+    76,
+    76
+   ]
+  }
+ ]
+}

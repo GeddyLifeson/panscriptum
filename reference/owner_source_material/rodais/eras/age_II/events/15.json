@@ -1,279 +1,279 @@
 [
-    {
-        "title": "Three households settle the Hawk bay",
-        "era_year": 1274,
-        "summary": "Three hill households too many for the grazing above Baile ghorm cross the spine of the island and settle a curve of grey sand under a gorse headland on the west coast, the first hill-folk household on that shore, building round and turf-roofed and fishing from the beach with lines and baskets rather than boats.",
-        "category": "founding",
-        "people": [],
-        "places": [
-            "burg:63"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0116"
-        ]
-    },
-    {
-        "title": "Beathag walks the whole crossing and is the first buried by that tide",
-        "era_year": 1275,
-        "summary": "Beathag, eldest of the three households that cross to the Hawk bay, walks the nine days on her own feet in her hundredth year and dies eleven years after seeing the water for the first time, the first of the hill-folk buried within sound of that particular shore.",
-        "category": "death",
-        "people": [
-            "Beathag"
-        ],
-        "places": [
-            "burg:63"
-        ],
-        "threads": [],
-        "master_links": [
-            "I-0116"
-        ]
-    },
-    {
-        "title": "Flòraidh born at the Hawk bay",
-        "era_year": 1285,
-        "summary": "Flòraidh is born at the Hawk bay in a winter hard enough to freeze salt-rime along the tideline, the middle child of five in the second household of the crossing, to a father who came west already grown and a mother who keeps his people's old telling of the hill valleys.",
-        "category": "daily-life",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:63"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": []
-    },
-    {
-        "title": "Flòraidh finds her first amber in the wrack",
-        "era_year": 1294,
-        "summary": "At nine years old Flòraidh pulls a lump of amber the colour of cold honey from a raft of storm-wrack and will not let the returning tide take it back, the find that sets her apart on a shore where sea-stone washes up seldom and is talked of for a season when it does.",
-        "category": "discovery",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:132"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0116a"
-        ]
-    },
-    {
-        "title": "Flòraidh learns the drill",
-        "era_year": 1295,
-        "summary": "A blind drill-master three houses along works a hole through Flòraidh's find over a winter of firelit evenings, and she learns from him, more by watching than by being taught, the weight of hand that keeps a flint point true against amber and the weight that snaps a good stone in two.",
-        "category": "craft",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:132"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0116a"
-        ]
-    },
-    {
-        "title": "Traders learn to ask for Flòraidh by name",
-        "era_year": 1302,
-        "summary": "Traders on the flint road come to ask the Hawk bay households for Flòraidh by name rather than knock at random for worked amber, and go away with beads finished better than any other hand on that shore gives them, paid in salt, wool, and once in a knife of southern flint.",
-        "category": "trade",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:132"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0116a"
-        ]
-    },
-    {
-        "title": "A storm brings the great amber piece ashore",
-        "era_year": 1305,
-        "summary": "A gale that takes the roofs off two houses at the Hawk bay leaves half a mile of strand heaped with wrack, and out of it Flòraidh draws the largest piece of amber the shore has ever given up, half again the size of her first find and clouded like smoke inside.",
-        "category": "discovery",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:132"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0116a"
-        ]
-    },
-    {
-        "title": "Flòraidh sets out for the ford with the amber bead",
-        "era_year": 1310,
-        "summary": "At five-and-twenty, on her mother's word that so fine a stone should be seen where the whole hill can see it, Flòraidh leaves the western Seann Skell with a trader's party of six households bound the length of the island for the yearly gathering at the ford, the bead carried in a pouch against her body rather than trusted to any pack.",
-        "category": "trade",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:132"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0114"
-        ]
-    },
-    {
-        "title": "Flòraidh sees the king buy nothing at the ford",
-        "era_year": 1310,
-        "summary": "At the ford gathering Flòraidh watches the king move slowly along the trading ground for the better part of an hour, weighing pots and running a thumb along flint edges, buying nothing and asking the price of nothing, while the crowd gives way from him without seeming to notice it has moved.",
-        "category": "custom",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "marker:38"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0114"
-        ]
-    },
-    {
-        "title": "Flòraidh's bead laid at the ford",
-        "era_year": 1310,
-        "summary": "Flòraidh holds out the amber bead to the king as he passes, and at his word kneels and lays it herself in the old ground of the ford among the ribbons and worked bones other travellers have left there, the finest stone the western strand ever gave up set down the length of the island from where the wrack cast it up.",
-        "category": "rite",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "marker:38"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": [
-            "I-0116a",
-            "I-0114"
-        ]
-    },
-    {
-        "title": "Flòraidh weds the boat-mender's son",
-        "era_year": 1311,
-        "summary": "The boat-mender's son who saved a pack of hides from a swollen ford on the road east follows Flòraidh west the next summer with two finished boats on a traded cart, asks for her outright in her father's yard, and marries her that autumn.",
-        "category": "marriage",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:132"
-        ],
-        "threads": [],
-        "master_links": []
-    },
-    {
-        "title": "Flòraidh dies on the western shore",
-        "era_year": 1352,
-        "summary": "Flòraidh dies in her sixty-eighth year in a mild autumn with the wrack lying quiet along the whole strand, four years a widow, and is buried at her own asking facing the water rather than the headland, so that whatever comes in on the tide comes in past her.",
-        "category": "death",
-        "people": [
-            "Flòraidh"
-        ],
-        "places": [
-            "burg:132"
-        ],
-        "threads": [
-            "the-ford-gathering"
-        ],
-        "master_links": []
-    },
-    {
-        "title": "The round-house harbour begins paying salt to the Red Hill",
-        "era_year": 1347,
-        "summary": "The households at the harbour of the round houses, where the king's blood first came down to the sea, begin paying their salt to the Red Hill rather than keeping it among themselves, a custom that takes hold within a season with no word sent from Dùn ìseal to start it.",
-        "category": "custom",
-        "people": [],
-        "places": [
-            "burg:26"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            "I-0117"
-        ]
-    },
-    {
-        "title": "Cattle walked to Cnoc ghorm",
-        "era_year": 1379,
-        "summary": "Small herds driven up the flint road by stages over three summers bring cattle for the first time to the green rise of Cnoc ghorm in the north-west, where the people have lived on seal, fish and deer, and the first calves born there are watched through their first winter by the whole settlement in turn.",
-        "category": "trade",
-        "people": [],
-        "places": [
-            "burg:142"
-        ],
-        "threads": [],
-        "master_links": [
-            "I-0118"
-        ]
-    },
-    {
-        "title": "The long-house raised at Cathair gheal",
-        "era_year": 1416,
-        "summary": "A long-house forty paces long, byre and hall under one roof and greater by half again than any building of the age, is raised above the firth at Cathair gheal, timbered from the flint road's own hills and roofed with turf a season dried, and is spoken of the length of the coast within the year.",
-        "category": "building",
-        "people": [],
-        "places": [
-            "burg:476"
-        ],
-        "threads": [],
-        "master_links": [
-            "I-0119"
-        ]
-    },
-    {
-        "title": "The long-house at Cathair gheal burns the first time",
-        "era_year": 1420,
-        "summary": "A spark from an untended hearth catches the byre-end thatch of the great long-house at Cathair gheal in the small hours of a still night; every soul under the roof escapes, but the hall burns with the byre before the driven-out cattle can be turned back to help beat down the flame.",
-        "category": "loss",
-        "people": [],
-        "places": [
-            "burg:476"
-        ],
-        "threads": [],
-        "master_links": [
-            "I-0119"
-        ]
-    },
-    {
-        "title": "The long-house at Cathair gheal is raised again",
-        "era_year": 1421,
-        "summary": "The household of the burned long-house at Cathair gheal rebuilds it on the same footing before the next winter closes in, holding the ground proved good whatever the fire proved of the roof, and the building stands after that mended, its scorch mark left for anyone to see.",
-        "category": "building",
-        "people": [],
-        "places": [
-            "burg:476"
-        ],
-        "threads": [],
-        "master_links": [
-            "I-0119"
-        ]
-    }
+ {
+  "title": "Three households settle the Hawk bay",
+  "era_year": 1274,
+  "summary": "Three hill households too many for the grazing above Baile ghorm cross the spine of the island and settle a curve of grey sand under a gorse headland on the west coast, the first hill-folk household on that shore, building round and turf-roofed and fishing from the beach with lines and baskets rather than boats.",
+  "category": "founding",
+  "people": [],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0116"
+  ]
+ },
+ {
+  "title": "Beathag walks the whole crossing and is the first buried by that tide",
+  "era_year": 1275,
+  "summary": "Beathag, eldest of the three households that cross to the Hawk bay, walks the nine days on her own feet in her old age and dies eleven years after seeing the water for the first time, the first of the hill-folk buried within sound of that particular shore.",
+  "category": "death",
+  "people": [
+   "Beathag"
+  ],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0116"
+  ]
+ },
+ {
+  "title": "Flòraidh born at the Hawk bay",
+  "era_year": 1285,
+  "summary": "Flòraidh is born at the Hawk bay in a winter hard enough to freeze salt-rime along the tideline, the middle child of five in the second household of the crossing, to a father who came west already grown and a mother who keeps his people's old telling of the hill valleys.",
+  "category": "daily-life",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:63"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Flòraidh finds her first amber in the wrack",
+  "era_year": 1294,
+  "summary": "At nine years old Flòraidh pulls a lump of amber the colour of cold honey from a raft of storm-wrack and will not let the returning tide take it back, the find that sets her apart on a shore where sea-stone washes up seldom and is talked of for a season when it does.",
+  "category": "discovery",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0116a"
+  ]
+ },
+ {
+  "title": "Flòraidh learns the drill",
+  "era_year": 1295,
+  "summary": "A blind drill-master three houses along works a hole through Flòraidh's find over a winter of firelit evenings, and she learns from him, more by watching than by being taught, the weight of hand that keeps a flint point true against amber and the weight that snaps a good stone in two.",
+  "category": "craft",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0116a"
+  ]
+ },
+ {
+  "title": "Traders learn to ask for Flòraidh by name",
+  "era_year": 1302,
+  "summary": "Traders on the flint road come to ask the Hawk bay households for Flòraidh by name rather than knock at random for worked amber, and go away with beads finished better than any other hand on that shore gives them, paid in salt, wool, and once in a knife of southern flint.",
+  "category": "trade",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0116a"
+  ]
+ },
+ {
+  "title": "A storm brings the great amber piece ashore",
+  "era_year": 1305,
+  "summary": "A gale that takes the roofs off two houses at the Hawk bay leaves half a mile of strand heaped with wrack, and out of it Flòraidh draws the largest piece of amber the shore has ever given up, half again the size of her first find and clouded like smoke inside.",
+  "category": "discovery",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0116a"
+  ]
+ },
+ {
+  "title": "Flòraidh sets out for the ford with the amber bead",
+  "era_year": 1310,
+  "summary": "At five-and-twenty, on her mother's word that so fine a stone should be seen where the whole hill can see it, Flòraidh leaves the western Seann Skell with a trader's party of six households bound the length of the island for the yearly gathering at the ford, the bead carried in a pouch against her body rather than trusted to any pack.",
+  "category": "trade",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0114"
+  ]
+ },
+ {
+  "title": "Flòraidh sees the king buy nothing at the ford",
+  "era_year": 1310,
+  "summary": "At the ford gathering Flòraidh watches the king move slowly along the trading ground for the better part of an hour, weighing pots and running a thumb along flint edges, buying nothing and asking the price of nothing, while the crowd gives way from him without seeming to notice it has moved.",
+  "category": "custom",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "marker:38"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0114"
+  ]
+ },
+ {
+  "title": "Flòraidh's bead laid at the ford",
+  "era_year": 1310,
+  "summary": "Flòraidh holds out the amber bead to the king as he passes, and at his word kneels and lays it herself in the old ground of the ford among the ribbons and worked bones other travellers have left there, the finest stone the western strand ever gave up set down the length of the island from where the wrack cast it up.",
+  "category": "rite",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "marker:38"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": [
+   "I-0116a",
+   "I-0114"
+  ]
+ },
+ {
+  "title": "Flòraidh weds the boat-mender's son",
+  "era_year": 1311,
+  "summary": "The boat-mender's son who saved a pack of hides from a swollen ford on the road east follows Flòraidh west the next summer with two finished boats on a traded cart, asks for her outright in her father's yard, and marries her that autumn.",
+  "category": "marriage",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Flòraidh dies on the western shore",
+  "era_year": 1352,
+  "summary": "Flòraidh dies in her sixty-eighth year in a mild autumn with the wrack lying quiet along the whole strand, four years a widow, and is buried at her own asking facing the water rather than the headland, so that whatever comes in on the tide comes in past her.",
+  "category": "death",
+  "people": [
+   "Flòraidh"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-ford-gathering"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The round-house harbour begins paying salt to the Red Hill",
+  "era_year": 1347,
+  "summary": "The households at the harbour of the round houses, where the king's blood first came down to the sea, begin paying their salt to the Red Hill rather than keeping it among themselves, a custom that takes hold within a season with no word sent from Dùn ìseal to start it.",
+  "category": "custom",
+  "people": [],
+  "places": [
+   "burg:26"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   "I-0117"
+  ]
+ },
+ {
+  "title": "Cattle walked to Cnoc ghorm",
+  "era_year": 1379,
+  "summary": "Small herds driven up the flint road by stages over three summers bring cattle for the first time to the green rise of Cnoc ghorm in the north-west, where the people have lived on seal, fish and deer, and the first calves born there are watched through their first winter by the whole settlement in turn.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:142"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0118"
+  ]
+ },
+ {
+  "title": "The long-house raised at Cathair gheal",
+  "era_year": 1416,
+  "summary": "A long-house forty paces long, byre and hall under one roof and greater by half again than any building of the age, is raised above the firth at Cathair gheal, timbered from the flint road's own hills and roofed with turf a season dried, and is spoken of the length of the coast within the year.",
+  "category": "building",
+  "people": [],
+  "places": [
+   "burg:476"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0119"
+  ]
+ },
+ {
+  "title": "The long-house at Cathair gheal burns the first time",
+  "era_year": 1420,
+  "summary": "A spark from an untended hearth catches the byre-end thatch of the great long-house at Cathair gheal in the small hours of a still night; every soul under the roof escapes, but the hall burns with the byre before the driven-out cattle can be turned back to help beat down the flame.",
+  "category": "loss",
+  "people": [],
+  "places": [
+   "burg:476"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0119"
+  ]
+ },
+ {
+  "title": "The long-house at Cathair gheal is raised again",
+  "era_year": 1421,
+  "summary": "The household of the burned long-house at Cathair gheal rebuilds it on the same footing before the next winter closes in, holding the ground proved good whatever the fire proved of the roof, and the building stands after that mended, its scorch mark left for anyone to see.",
+  "category": "building",
+  "people": [],
+  "places": [
+   "burg:476"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0119"
+  ]
+ }
 ]

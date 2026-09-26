@@ -313,24 +313,6 @@
     "told_in": "book/18_of_the_leoid_ruling.md#vi-of-the-company-at-the-western-seann-skell"
   },
   {
-    "title": "A brewer of Baile ìseal buys northern coal",
-    "era_year": 18,
-    "summary": "A brewer of Baile ìseal writes to the Mine Board that he will warm his vats with whatever coal comes cheapest, and will take no lecture from a Board that never carried coal north of the boundary stones for a Tuathach hearth.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:285"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0062"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The margins of the Leòid ruling",
     "era_year": 18,
     "summary": "The Board's press copy of the Leòid ruling carries in its margins the circuit rulings that settled it: that a holder's right runs with the Crown's fifth, and that nothing binds the Board to carry any holder's coal.",
@@ -389,6 +371,41 @@
     "master_links": [
       "VI-0065"
     ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The granary factors of Achadh mhòr",
+    "era_year": 18,
+    "summary": "The granary factors of Achadh mhòr sell a winter's oats to the pit towns of the western hills through the Moot's granaries, and write to the Board that they know of no rule against it.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:395"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0063"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The Brìde house of Caol ruadh burns its last stored coal",
+    "era_year": 18,
+    "summary": "The house of Brìde at Caol ruadh burns the last of the altar coal it stored in the undercroft, and its custodians write to the Àrd-choimheadaiche asking where the next is to come from.",
+    "category": "faith",
+    "people": [
+      "Alasdair mac Ìomhair"
+    ],
+    "places": [
+      "burg:15"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith",
+      "the-seven-coals"
+    ],
+    "master_links": [],
     "chronicle_extra": true
   }
 ]

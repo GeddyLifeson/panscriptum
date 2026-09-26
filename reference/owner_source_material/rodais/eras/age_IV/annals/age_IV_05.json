@@ -1,0 +1,1300 @@
+{
+ "writer": 3,
+ "span": [
+  "III-0044",
+  "III-0065"
+ ],
+ "events": [
+  {
+   "id": "EIV-3001",
+   "title": "Coinneach mac Fhearghais named master of the fellowship",
+   "body": "After Alasdair Saor's death Coinneach mac Fhearghais, the first apprentice Alasdair ever swore, takes the mastership of the fellowship of the strand, keeping its oath and its coal exactly as Alasdair had kept them before him.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "coinneach-mac-fhearghais"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#i-of-the-fellowship-after-alasdair",
+   "era_between": [
+    67,
+    67
+   ]
+  },
+  {
+   "id": "EIV-3002",
+   "title": "Death of Coinneach mac Fhearghais",
+   "body": "Coinneach mac Fhearghais dies at Seann Skell in the house where he had lived since his marriage, leaving the fellowship's coal to his eldest journeyman Griogair rather than to any man claiming it by right of years alone.",
+   "place": "burg:489",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "coinneach-mac-fhearghais",
+    "griogair-journeyman"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#i-of-the-fellowship-after-alasdair",
+   "era_between": [
+    68,
+    68
+   ]
+  },
+  {
+   "id": "EIV-3003",
+   "title": "The one household that breaks its own coal",
+   "body": "By the seventieth year of the count Eachann Briseadair's is the only household on the hill below the vein-house that does the whole of the breaking and sorting itself rather than hiring hands season by season.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-small-burning-law"
+   ],
+   "people": [
+    "eachann-briseadair"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#v-of-the-coal-breakers-below-the-hill",
+   "era_between": [
+    70,
+    70
+   ]
+  },
+  {
+   "id": "EIV-3004",
+   "title": "The Diosal count taken up at Cathair dhearg",
+   "body": "The crown's own scribes at the red hall begin dating their rolls by the count Donnchadh mac Thormoid had kept alone at the vein-house for near thirty years, setting aside the reckoning by a king's reign for the turning he first set his own hand to as a clerk of thirty.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#v-of-the-coal-breakers-below-the-hill",
+   "era_between": [
+    72,
+    72
+   ]
+  },
+  {
+   "id": "EIV-3005",
+   "title": "Eachann Briseadair raises the first house below the vein-house",
+   "body": "Eachann Briseadair, whose household breaks and sorts the coal brought down from the galleries, builds the first house of stone below the vein-house's own gate; his sons build three more beside it within the decade, the beginning of the coal-breakers' row.",
+   "place": "burg:491",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eachann-briseadair"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#v-of-the-coal-breakers-below-the-hill",
+   "era_between": [
+    72,
+    72
+   ]
+  },
+  {
+   "id": "EIV-3006",
+   "title": "Founding of Muileann dhearg",
+   "body": "The row of houses the coal-breakers raise below the vein-house's gate grows, within Eachann Briseadair's own lifetime, into a settled town with its own well, smith and reeve, taking the name the vein-house had long given that ground: Muileann dhearg, the red mill.",
+   "place": "burg:491",
+   "kind": "land",
+   "category": "land",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eachann-briseadair"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#v-of-the-coal-breakers-below-the-hill",
+   "era_between": [
+    72,
+    72
+   ]
+  },
+  {
+   "after": "III-0045"
+  },
+  {
+   "id": "EIV-3007",
+   "title": "The fellowship of the strand released",
+   "body": "Griogair calls the fellowship's remaining journeymen to the strand and releases every man from the oath, judging there is no longer craft enough in the island's own boat-building to keep it; the journeymen scatter to the rope-walks, their fathers' land and Doire fhionn's coppice-cutting.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "griogair-journeyman"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#ii-of-the-last-journeymen-and-the-moulds-burned",
+   "era_between": [
+    84,
+    84
+   ]
+  },
+  {
+   "after": "III-0046"
+  },
+  {
+   "id": "EIV-3008",
+   "title": "The keel-moulds burned for firewood",
+   "body": "In the hard winter of Faolach the fellowship's old patterns and keel-moulds, untouched for years in the shed on the strand, are carried out and burned; the harbour-master notes only that the shed came down, and nothing of what it held.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#ii-of-the-last-journeymen-and-the-moulds-burned",
+   "era_between": [
+    85,
+    85
+   ]
+  },
+  {
+   "id": "EIV-3009",
+   "title": "The lots drawn among the seven houses",
+   "body": "The heads of the seven houses that hold the right to the coal are called to the vein-house and each draws a marked stone from a covered bag before the custodians and the household, the galleries falling as the stones fall so that no house may claim its ground was given rather than drawn.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#vi-of-the-lots-drawn-among-the-seven-houses",
+   "era_between": [
+    86,
+    86
+   ]
+  },
+  {
+   "id": "EIV-3010",
+   "title": "Death of Raghnall mac Uilleim and the crowning of his son",
+   "body": "Raghnall mac Uilleim dies in his eighty-fifth year after seven-and-thirty years on the red hall; his son Raghnall mac Raghnaill, seven-and-forty years old, is crowned in his place without dispute, the custody-book giving the closed reign one line and the new one another.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [],
+   "threads": [],
+   "people": [
+    "raghnall-mac-uilleim",
+    "raghnall-mac-raghnaill"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#iii-of-a-king-s-death-and-a-line-in-the-custody-book",
+   "era_between": [
+    92,
+    92
+   ]
+  },
+  {
+   "id": "EIV-3011",
+   "title": "Birth of Ìomhar mac Raghnaill",
+   "body": "In the year his grandfather dies and his father is crowned, a son, Ìomhar, is born at Cathair dhearg to Raghnall mac Raghnaill, a king of seven-and-forty with a new crown and a new child in the same season.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0051",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iomhar-mac-raghnaill",
+    "raghnall-mac-raghnaill"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#iii-of-a-king-s-death-and-a-line-in-the-custody-book",
+   "era_between": [
+    92,
+    92
+   ]
+  },
+  {
+   "id": "EIV-3012",
+   "title": "Death of Eachann Briseadair",
+   "body": "Eachann Briseadair dies at sixty in the shed where he broke his first load of coal as a boy, his sons and grandsons already keeping the work; he is buried on the rise above the row with a lump of unbroken coal set over him rather than a mason's stone.",
+   "place": "burg:491",
+   "kind": "humans",
+   "category": "humans",
+   "links": [],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eachann-briseadair"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#v-of-the-coal-breakers-below-the-hill",
+   "era_between": [
+    100,
+    100
+   ]
+  },
+  {
+   "id": "EIV-3013",
+   "title": "Death of Niall mac Dhòmhnaill",
+   "body": "Niall mac Dhòmhnaill dies at Seann Skell in the harbour-house itself, six-and-forty years after taking up the boards, his grandfather's notched hazel stick set in his hand at his own asking and buried with him, the count it held never once spoken aloud.",
+   "place": "burg:489",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0024",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "niall-mac-dhomhnaill"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#iv-of-the-death-of-niall-mac-dhomhnaill",
+   "era_between": [
+    104,
+    104
+   ]
+  },
+  {
+   "after": "III-0050"
+  },
+  {
+   "id": "EIV-3014",
+   "title": "The lot-stones shown to a visitor",
+   "body": "Old Donnchadh takes the bag of lot-stones down from its peg to let a grandson of Eachann Briseadair's, waiting idle in the vein-house hall, hold it and hear how the seven heads once drew their galleries, though he tells the boy nothing of which stone fell to which house.",
+   "place": "burg:491",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#vii-of-the-stones-shown-to-a-visitor",
+   "era_between": [
+    109,
+    109
+   ]
+  },
+  {
+   "id": "EIV-3015",
+   "title": "Death of Donnchadh mac Thormoid",
+   "body": "Donnchadh mac Thormoid dies at Muileann dhearg in his ninety-fifth year, his last entry the season's burning of coal household by household, set down in the same careful hand he had used since he was fifteen.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "donnchadh-mac-thormoid-clerk"
+   ],
+   "told_in": "book/13_of_the_moulds_in_the_fire.md#v-of-the-coal-breakers-below-the-hill",
+   "era_between": [
+    109,
+    109
+   ]
+  },
+  {
+   "after": "III-0051"
+  },
+  {
+   "id": "EIV-3016",
+   "title": "The old men compare two crownings",
+   "body": "At Cathair dhearg the court remarks that Ìomhar mac Raghnaill's crowning differs little from his father's three-and-thirty years before, the same cup passed hand to hand and the same oath said over it, a quiet continuity the custody-book itself gives only a single line apiece.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "iomhar-mac-raghnaill"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#i-of-two-lines-in-one-book",
+   "era_between": [
+    125,
+    125
+   ]
+  },
+  {
+   "id": "EIV-3017",
+   "title": "A boy of Inis mhòr asks why the barges keep the coast",
+   "body": "Watching the first grain barge loaded on the Abhainn ghorm, a boy of Inis mhòr asks his father why the boat should not simply cross open water by the shorter way, and is answered only with a look and no word, for no one on the island since the fleet has wished to be out of sight of land.",
+   "place": "burg:17",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/14_of_the_king_the_houses_made.md#i-of-two-lines-in-one-book",
+   "era_between": [
+    130,
+    130
+   ]
+  },
+  {
+   "after": "III-0052"
+  },
+  {
+   "id": "EIV-3018",
+   "title": "The first silver neck-rings worn",
+   "body": "The heads of the seven houses of custody first wear the neck-rings beaten by the smiths of Muileann chiar, so that a stranger at the vein-house or the red hall may know a custodian by the collar at his throat before a word is said.",
+   "place": "marker:2",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/14_of_the_king_the_houses_made.md#i-of-two-lines-in-one-book",
+   "era_between": [
+    149,
+    149
+   ]
+  },
+  {
+   "after": "III-0054"
+  },
+  {
+   "id": "EIV-3019",
+   "title": "The shared meal kept through the cough",
+   "body": "When the coughing sickness reaches the reeve's own household at Caol fhiadhaich, his wife refuses to let their door be barred against the shared board, holding that a household which eats apart out of fear will go on eating apart after the fear has passed; she lives, and the custom outlasts the sickness.",
+   "place": "burg:191",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/14_of_the_king_the_houses_made.md#i-of-two-lines-in-one-book",
+   "era_between": [
+    156,
+    156
+   ]
+  },
+  {
+   "id": "EIV-3020",
+   "title": "Birth of Fearchar mac Lachlainn",
+   "body": "A son, Fearchar, is born in the house of Clann Fhearchair at Baile Mòr dhomhain, the elder of two brothers, in a hall that has never looked for a crown and does not look for one now.",
+   "place": "burg:273",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0058",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iii-of-the-silences-in-the-yard",
+   "era_between": [
+    157,
+    157
+   ]
+  },
+  {
+   "id": "EIV-3021",
+   "title": "The king's habit at the gallery's mouth",
+   "body": "King Ìomhar takes up a habit no ruler before him is recorded keeping, asking the youngest hand at any gallery he visits to name the prop, the cut and the tally-mark before him; the vein-house's scribe judges it a kind of counting of his own, made by a king with no child to leave the hall to.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0051",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iomhar-mac-raghnaill"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#i-of-two-lines-in-one-book",
+   "era_between": [
+    160,
+    160
+   ]
+  },
+  {
+   "id": "EIV-3022",
+   "title": "A singing timber clears the gallery",
+   "body": "Bound as a child to a custodian's household, Fearchar mac Lachlainn stands outside a mountain gallery in the night while the custodian, hearing a timber begin to sing, has the working cleared an hour before the prop gives way with no one beneath it; he keeps the memory into his own old age.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    163,
+    163
+   ]
+  },
+  {
+   "after": "III-0055"
+  },
+  {
+   "id": "EIV-3023",
+   "title": "Am Buabhall Fortanach's new stone walls",
+   "body": "Eilidh nic Chaluim raises the burned road-house of Am Buabhall Fortanach again in stone, and a boy of Clann Fhearchair riding out with his father to see the walls going up is given a bowl of the jugged buffalo before the roof itself is finished.",
+   "place": "marker:5",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    164,
+    164
+   ]
+  },
+  {
+   "id": "EIV-3024",
+   "title": "Fearchar mac Lachlainn bound to the galleries",
+   "body": "At seven years old Fearchar mac Lachlainn is bound for seven years to a custodian's household above Muileann dhearg, as every child of the seven houses is meant to be, while his younger brother Iain is kept at home to learn the hall.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0058",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-mac-lachlainn",
+    "iain-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    164,
+    164
+   ]
+  },
+  {
+   "id": "EIV-3025",
+   "title": "Death of Raghnall Beag mac Ìomhair",
+   "body": "King Ìomhar's only son, Raghnall Beag, dies of a fever at Cathair dhearg; a custodian of Clann Fhearchair reads the letter aloud and says that a king with no other child is a house with one wall standing, which the wind will find sooner or later.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0057",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-beag-mac-iomhair"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    170,
+    170
+   ]
+  },
+  {
+   "id": "EIV-3026",
+   "title": "Fearchar comes home from the galleries",
+   "body": "Fearchar mac Lachlainn comes home to Baile Mòr dhomhain at fourteen, able to tell the weight of a sealed measure by its heft and the sound a gallery makes when its timbering has begun to fail.",
+   "place": "burg:273",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0058",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    171,
+    171
+   ]
+  },
+  {
+   "after": "III-0056"
+  },
+  {
+   "id": "EIV-3027",
+   "title": "Names cut new on the posts of Dùn ìseal",
+   "body": "A young man of Clann Fhearchair, travelling east with his father, stands long before the wooden posts of the spirit-house at Dùn ìseal, reading names the shire itself cuts anew each generation, and says only that a shire which trusts wood to hold its dead must trust its own memory further than he would.",
+   "place": "burg:315",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0056",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    179,
+    179
+   ]
+  },
+  {
+   "id": "EIV-3028",
+   "title": "The head of Clann Fhearchair names his younger son",
+   "body": "The head of Clann Fhearchair dies at Baile Mòr dhomhain, naming his younger son Iain mac Lachlainn to the headship of the house and leaving his elder son Fearchar to the galleries he knows.",
+   "place": "burg:273",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0058",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "iain-mac-lachlainn",
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    179,
+    179
+   ]
+  },
+  {
+   "after": "III-0057"
+  },
+  {
+   "id": "EIV-3029",
+   "title": "The heads of the seven summoned to the capital",
+   "body": "With King Ìomhar dead and no living child of his line, riders carry word to all seven houses of custody that their heads are summoned to Cathair dhearg to choose, for the first time since the sunwise turn, a king the crown's own blood cannot simply hand down.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0057",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0058",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses",
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/14_of_the_king_the_houses_made.md#ii-of-a-boy-at-baile-mor-dhomhain",
+   "era_between": [
+    181,
+    181
+   ]
+  },
+  {
+   "after": "III-0058"
+  },
+  {
+   "id": "EIV-3030",
+   "title": "Iain mac Lachlainn turns the choosing aside",
+   "body": "Named by the other heads as a possible king, Iain mac Lachlainn of Clann Fhearchair turns the honour aside, saying a man who keeps one house's hall well may yet keep a kingdom poorly, and names his elder brother Fearchar in his place.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0058",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "iain-mac-lachlainn",
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iii-of-the-silences-in-the-yard",
+   "era_between": [
+    182,
+    182
+   ]
+  },
+  {
+   "id": "EIV-3031",
+   "title": "A borrowed cup for the first oath",
+   "body": "With no cup of the crown's own ready for the rite, the head of Clann Mhuirich sends for the cup her own house keeps, so that Fearchar mac Lachlainn drinks his first oath as king from a vessel that belongs, strictly, to one house among the seven rather than to the crown.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0058",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iii-of-the-silences-in-the-yard",
+   "era_between": [
+    182,
+    182
+   ]
+  },
+  {
+   "id": "EIV-3032",
+   "title": "The head of Clann Ìomhair breaks the silence in the yard",
+   "body": "After a morning's silence in the yard of the red hall the head of Clann Ìomhair speaks first: the line of Beathag has held the hall a hundred years and more, and no house of the seven has a better claim to it than another.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0058",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iii-of-the-silences-in-the-yard",
+   "era_between": [
+    182,
+    182
+   ]
+  },
+  {
+   "id": "EIV-3033",
+   "title": "Birth of Fearchar Donn",
+   "body": "A son is born to King Fearchar mac Lachlainn, then one-and-thirty and six years crowned, and is called Fearchar Donn for the brown of his hair; he is the first child born to a king the seven houses chose.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0061",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-donn",
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iii-of-the-silences-in-the-yard",
+   "era_between": [
+    188,
+    188
+   ]
+  },
+  {
+   "after": "III-0059"
+  },
+  {
+   "id": "EIV-3034",
+   "title": "The double court divided",
+   "body": "King Fearchar settles the custom of keeping his court partly at Cathair dhearg and partly at Baile Mòr dhomhain near the vein-house, with his brother Iain keeping Clann Fhearchair's own hall whenever the court is away at the capital.",
+   "place": "burg:273",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0059",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-mac-lachlainn",
+    "iain-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iv-of-the-double-court",
+   "era_between": [
+    194,
+    194
+   ]
+  },
+  {
+   "id": "EIV-3035",
+   "title": "Fearchar Donn asked the child's question",
+   "body": "Brought young to the mountain as his father had been, Fearchar Donn is asked at seven years old to name the prop, the cut and the tally-mark before him at a gallery's mouth, and gives an answer his father calls, laughing, the first honestly ordinary thing his own house has produced in two reigns.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0061",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearchar-mac-lachlainn",
+    "fearchar-donn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iv-of-the-double-court",
+   "era_between": [
+    195,
+    195
+   ]
+  },
+  {
+   "id": "EIV-3036",
+   "title": "The brothers' leaf-book of letters",
+   "body": "A later hand at Baile Mòr dhomhain gathers into one leaf-book the letters King Fearchar and his brother Iain exchange across every season of the divided court, boundary disputes and grain petitions set down beside a long-running complaint over the capital's cooking.",
+   "place": "burg:273",
+   "kind": "record",
+   "category": "law",
+   "links": [],
+   "threads": [],
+   "people": [
+    "fearchar-mac-lachlainn",
+    "iain-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iv-of-the-double-court",
+   "era_between": [
+    200,
+    200
+   ]
+  },
+  {
+   "after": "III-0060"
+  },
+  {
+   "id": "EIV-3037",
+   "title": "A fisherman questioned on the fellowship",
+   "body": "Brought before the old king almost by chance, a fisherman of Àth fhiadhaich is kept a full hour answering questions on how boats and nets are shared among the new fellowship's households, and rides home understanding only afterward that the king was asking after the fellowship itself, not the fish.",
+   "place": "province:57",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0060",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iv-of-the-double-court",
+   "era_between": [
+    210,
+    210
+   ]
+  },
+  {
+   "after": "III-0061"
+  },
+  {
+   "id": "EIV-3038",
+   "title": "A king's fire kept to the ordinary measure",
+   "body": "Dying, King Fearchar asks that no coal be burned beyond the ordinary handful for any rite made over him, and the vein-house keeps the asking to the letter, so that the fire lit for a king is no larger than the fire any house of the seven lights for its own dead.",
+   "place": "burg:273",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0061",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "fearchar-mac-lachlainn"
+   ],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iv-of-the-double-court",
+   "era_between": [
+    211,
+    211
+   ]
+  },
+  {
+   "id": "EIV-3039",
+   "title": "The seven houses stand at Clann Fhearchair's grave",
+   "body": "The heads of the seven houses, each still wearing the neck-ring of Muileann chiar, stand at the grave of the king they chose nine-and-twenty years before, and not one of them is heard to say the choosing made in that cold yard was anything other than the right one.",
+   "place": "burg:273",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0061",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/14_of_the_king_the_houses_made.md#iv-of-the-double-court",
+   "era_between": [
+    211,
+    211
+   ]
+  },
+  {
+   "id": "EIV-3040",
+   "title": "A hawk overfed will not come to the glove",
+   "body": "A young bird of the mews at Cnoc bheag, fed too heavy the evening before, will not answer Gormshuil nic Artair's call at the dawn rite; her father Artair, too stiff now to climb to the block himself, tells her plainly that a bird fed past its measure is as useless as one starved of it.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair",
+    "artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#i-of-the-glove-at-cnoc-bheag",
+   "era_between": [
+    215,
+    215
+   ]
+  },
+  {
+   "id": "EIV-3041",
+   "title": "Gormshuil calls Mòd down alone for the first time",
+   "body": "With Artair's knees failed for the climb, Gormshuil nic Artair goes up to the mews block at Cnoc bheag before dawn and calls the shrine's hawk down with no one else to answer for the flight, three-and-thirty years old and, by her own later word, more frightened coming down than going up.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#i-of-the-glove-at-cnoc-bheag",
+   "era_between": [
+    218,
+    218
+   ]
+  },
+  {
+   "id": "EIV-3042",
+   "title": "Death of Artair, hawk-keeper of Cnoc bheag",
+   "body": "Artair dies at Cnoc bheag in his own bed above the shrine, three-score and ten years old, and the keeping of the mews he had held the better part of his life passes without dispute to his daughter Gormshuil; the hill's households bury him facing the shrine rather than in any rite of the departed.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "artair",
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#ii-of-the-empty-perch",
+   "era_between": [
+    220,
+    220
+   ]
+  },
+  {
+   "id": "EIV-3043",
+   "title": "Gormshuil first names the vein the Hungry Hawk",
+   "body": "Asked, as custom wants, to say a few words over her father's empty place on the bench, Gormshuil nic Artair tells the shrine's watchers for the first time that the vein under Muileann dhearg is itself a hawk of Mòd's kind, to be fed the measured handful and never glutted past it.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#ii-of-the-empty-perch",
+   "era_between": [
+    221,
+    221
+   ]
+  },
+  {
+   "id": "EIV-3044",
+   "title": "Hawk-keepers of the north coast come to hear her",
+   "body": "Word of Gormshuil's teaching, carried inland by a wool-buyer of the Hawk bay, brings three keepers of the coastal shrines to Cnoc bheag to judge it for themselves; they stay a week among the coal-cutters' wives at the shrine's ledge and go home saying the teaching has lost nothing in the carrying.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#iii-of-those-who-came-to-hear",
+   "era_between": [
+    225,
+    225
+   ]
+  },
+  {
+   "id": "EIV-3045",
+   "title": "The Hawk bay elder questions Gormshuil's own hunger",
+   "body": "The eldest of the three coastal keepers asks Gormshuil, on the last morning of their visit, whether she has ever gone hungry enough herself to know the second half of what she teaches; Gormshuil answers that she has, twice, and disliked the lesson both times without forgetting either.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#iii-of-those-who-came-to-hear",
+   "era_between": [
+    225,
+    225
+   ]
+  },
+  {
+   "after": "III-0062"
+  },
+  {
+   "id": "EIV-3046",
+   "title": "Gormshuil's first true congregation",
+   "body": "The watchers climbing to Cnoc bheag for the dawn rite grow past the number the shrine's ledge can easily hold, and Gormshuil, asked more mornings than not to give the teaching whole, gathers it at last into the shape it will keep for the rest of her life.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#iii-of-those-who-came-to-hear",
+   "era_between": [
+    229,
+    229
+   ]
+  },
+  {
+   "id": "EIV-3047",
+   "title": "Taigh an t-Seabhaig raised",
+   "body": "Gormshuil's watchers, calling themselves a house rather than a congregation, raise a hall of timber and dry stone below the mews block at Cnoc bheag, giving the old dawn-hawk rite a roof of its own for the first time in its keeping.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#iii-of-those-who-came-to-hear",
+   "era_between": [
+    232,
+    232
+   ]
+  },
+  {
+   "after": "III-0063"
+  },
+  {
+   "id": "EIV-3048",
+   "title": "A second house raised at Ros gheal",
+   "body": "Two of Gormshuil's pupils, a brother and sister of a coastal household, carry the dawn rite down to the shore at Ros gheal rather than make every fisher's family of that coast walk two days inland; Gormshuil goes down herself to judge the teaching had travelled whole.",
+   "place": "burg:24",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0063",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#iv-of-the-house-at-ros-gheal-and-the-flood-at-seann-vell",
+   "era_between": [
+    239,
+    239
+   ]
+  },
+  {
+   "id": "EIV-3049",
+   "title": "Birth of Sìleas nic Fhearchair",
+   "body": "A daughter, Sìleas, is born at Cathair dhearg to King Fearchar Donn in the two-and-thirtieth year of his reign, when he is five-and-fifty years old; she is his only child to live.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0069",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-fhearchair",
+    "fearchar-donn"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#i-of-the-glove-at-cnoc-bheag",
+   "era_between": [
+    243,
+    243
+   ]
+  },
+  {
+   "after": "III-0064"
+  },
+  {
+   "id": "EIV-3050",
+   "title": "A pupil reports the flood at Seann Vell",
+   "body": "A pupil of the Ros gheal house, present on other business when the river at Seann Vell breaks its banks and carries away the lower mills, calls the flood a kind of overfed hawk; Gormshuil tells him plainly that a river is a river and not a hawk, and sends him back to watch the mills rebuilt before he judges further.",
+   "place": "burg:94",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0064",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#iv-of-the-house-at-ros-gheal-and-the-flood-at-seann-vell",
+   "era_between": [
+    244,
+    244
+   ]
+  },
+  {
+   "id": "EIV-3051",
+   "title": "Death of Gormshuil nic Artair",
+   "body": "Gormshuil dies at Cnoc bheag, two-and-sixty years old, in the season the house at Ros gheal marks its own eighth year, and is buried, at her own asking, on the open hillside beside her father rather than within the hall her own teaching raised.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0065",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "gormshuil-nic-artair"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#v-of-the-marked-sayings",
+   "era_between": [
+    247,
+    247
+   ]
+  },
+  {
+   "id": "EIV-3052",
+   "title": "Ùisdean mac Pàdraig marks the sayings he did not hear",
+   "body": "Gathering Gormshuil's teaching into a single book, Ùisdean mac Pàdraig travels as far as Ros gheal to set down what her pupils remember, marking plainly every saying he did not hear from her own mouth; when the book is finished the marked sayings far outnumber the rest.",
+   "place": "burg:20",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0065",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "uisdean-mac-padraig"
+   ],
+   "told_in": "book/15_of_the_hawk_of_acaill.md#v-of-the-marked-sayings",
+   "era_between": [
+    251,
+    251
+   ]
+  }
+ ]
+}

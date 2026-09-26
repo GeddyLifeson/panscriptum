@@ -1,123 +1,217 @@
 [
- {
-  "title": "Gormshuil nic Dhùghaill sent to inspect the Library at Muileann chaol",
-  "era_year": 17,
-  "summary": "The council sends its under-clerk Gormshuil nic Dhùghaill, six-and-thirty, to see and report on the record Ailean Leabhar has kept these four years at Muileann chaol, the errand falling to her only for want of causes on her own desk that month.",
-  "category": "record",
-  "people": ["Gormshuil nic Dhùghaill", "Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0071", "type": "sequel"}
-  ]
- },
- {
-  "title": "Muileann chaol granted a market charter",
-  "era_year": 17,
-  "summary": "The district's maor writes up, at the keeper's own asking, that a town which has drawn copyists, binders and paper-makers to it in four years without leave might as well be given a charter before its own trade sets its rules instead. The council grants it in the usual form, a fee for every stall and a court to hear the fair's disputes.",
-  "category": "trade",
-  "people": ["Ailean mac Iain"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0076", "type": "cause"}
-  ]
- },
- {
-  "title": "The first market day held in the Library's yard",
-  "era_year": 17,
-  "summary": "Thirty stalls of thread, nails, candles and the district's own produce are set up on trestles against the Library's wall, the stall-fee a penny a table paid into a box the keeper's boy carries, and the fair's own court amounting to the boy's mother settling disputes over table-space in a voice heard the length of the yard.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0076", "type": "sequel"}
-  ]
- },
- {
-  "title": "The Tobar dhìreach mill's first delivery reaches the Library",
-  "era_year": 17,
-  "summary": "Forty quires of the new paper-mill's paper are carried up the road on a borrowed cart, better and cheaper, by the copyists' own judgement, than anything the council's stationers at Cathair dhearg have sent north; within the year near enough every sheet the Library uses comes from the one stream.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:276"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0077", "type": "sequel"}
-  ]
- },
- {
-  "title": "The office of royal chronicler set at Muileann chaol, not the capital",
-  "era_year": 18,
-  "summary": "Sworn into the new office at Cathair dhearg and given no instruction as to its seat, Gormshuil nic Dhùghaill writes back within the week that she means to keep the record at Muileann chaol, beside the Library that already holds the rolls and the copyists the work wants, and that a record kept beside the throne is kept for the throne.",
-  "category": "law",
-  "people": ["Gormshuil nic Dhùghaill"],
-  "places": ["burg:246", "burg:19"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0079", "type": "sequel"},
-   {"to": "V-0078", "type": "location"}
-  ]
- },
- {
-  "title": "Tormod mac Sheumais joins the first chronicle circuit",
-  "era_year": 19,
-  "summary": "A council under-clerk's son of one-and-thirty, called already Tormod Pinn for the speed of his hand, asks Gormshuil nic Dhùghaill for a place on the first circuit rather than wait to be sent, and rides the northern half of it.",
-  "category": "record",
-  "people": ["Tormod mac Sheumais", "Gormshuil nic Dhùghaill"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0080", "type": "person"}
-  ]
- },
- {
-  "title": "The town arms of five hundred and five burghs copied into one book",
-  "era_year": 19,
-  "summary": "The chronicle circuit's southern chests yield the town arms of every burgh that has ever cut a seal, five hundred and five of them, entered by Coinneach Clàrc in the order the chests happen to arrive rather than by rank, on Gormshuil nic Dhùghaill's own ruling that a tidied record forgets how untidy its own arrival was.",
-  "category": "law",
-  "people": ["Gormshuil nic Dhùghaill", "Coinneach Clàrc"],
-  "places": ["burg:246"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0080", "type": "sequel"}
-  ]
- },
- {
-  "title": "The chronicle clerks turned away at Doire ghlas",
-  "era_year": 19,
-  "summary": "Tormod mac Sheumais reads the circuit's own warrant twice aloud in the street at the harbour agent's demand before he is let copy a single ledger; eleven of the town's twelve doors stay closed against him, an answer he judges memory rather than unkindness.",
-  "category": "record",
-  "people": ["Tormod mac Sheumais"],
-  "places": ["burg:209"],
-  "threads": ["the-library", "the-tuathaich"],
-  "master_links": [
-   {"to": "V-0080", "type": "sequel"}
-  ]
- },
- {
-  "title": "The Inis bheag keeper lets his parish book be copied and not carried",
-  "era_year": 19,
-  "summary": "The old keeper of the Seann Spioradan house at Inis bheag hears the circuit's warrant once, without asking it twice, and lets his parish roll be copied at his own table under his own eye, but will not let the book itself travel so much as to the harbour, telling the clerk that a book kept that many generations belongs to the house and not to any seal.",
-  "category": "faith",
-  "people": [],
-  "places": ["burg:62"],
-  "threads": ["the-library"],
-  "master_links": [
-   {"to": "V-0081", "type": "sequel"}
-  ]
- },
- {
-  "title": "The northern chest opened: the maor's returns and nothing more",
-  "era_year": 19,
-  "summary": "Gormshuil nic Dhùghaill opens the one chest the northern shires have filled and finds only the maor of Siorrachd Àth àrsaidh's own tallies and licences, not a line in it written by a Tuathaich hand; she enters the fact plainly and adds no further word to it.",
-  "category": "record",
-  "people": ["Gormshuil nic Dhùghaill", "Coinneach Clàrc"],
-  "places": ["burg:246"],
-  "threads": ["the-library", "the-tuathaich"],
-  "master_links": [
-   {"to": "V-0080", "type": "sequel"}
-  ]
- }
+  {
+    "title": "Gormshuil nic Dhùghaill sent to inspect the Library at Muileann chaol",
+    "era_year": 17,
+    "summary": "The council sends its under-clerk Gormshuil nic Dhùghaill, four-and-forty, to see and report on the record Ailean Leabhar has kept these four years at Muileann chaol, the errand falling to her only for want of causes on her own desk that month.",
+    "category": "record",
+    "people": [
+      "Gormshuil nic Dhùghaill",
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0071",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Muileann chaol granted a market charter",
+    "era_year": 17,
+    "summary": "The district's maor writes up, at the keeper's own asking, that a town which has drawn copyists, binders and paper-makers to it in four years without leave might as well be given a charter before its own trade sets its rules instead. The council grants it in the usual form, a fee for every stall and a court to hear the fair's disputes.",
+    "category": "trade",
+    "people": [
+      "Ailean mac Iain"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0076",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "The first market day held in the Library's yard",
+    "era_year": 17,
+    "summary": "Thirty stalls of thread, nails, candles and the district's own produce are set up on trestles against the Library's wall, the stall-fee a penny a table paid into a box the keeper's boy carries, and the fair's own court amounting to the boy's mother settling disputes over table-space in a voice heard the length of the yard.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0076",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The Tobar dhìreach mill's first delivery reaches the Library",
+    "era_year": 17,
+    "summary": "Forty quires of the new paper-mill's paper are carried up the road on a borrowed cart, better and cheaper, by the copyists' own judgement, than anything the council's stationers at Cathair dhearg have sent north; within the year near enough every sheet the Library uses comes from the one stream.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:276"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0077",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The office of royal chronicler set at Muileann chaol, not the capital",
+    "era_year": 18,
+    "summary": "Sworn into the new office at Cathair dhearg and given no instruction as to its seat, Gormshuil nic Dhùghaill writes back within the week that she means to keep the record at Muileann chaol, beside the Library that already holds the rolls and the copyists the work wants, and that a record kept beside the throne is kept for the throne.",
+    "category": "law",
+    "people": [
+      "Gormshuil nic Dhùghaill"
+    ],
+    "places": [
+      "burg:246",
+      "burg:19"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0079",
+        "type": "sequel"
+      },
+      {
+        "to": "V-0078",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "title": "Tormod mac Sheumais joins the first chronicle circuit",
+    "era_year": 19,
+    "summary": "A council under-clerk's son of three-and-thirty, called already Tormod Pinn for the speed of his hand, asks Gormshuil nic Dhùghaill for a place on the first circuit rather than wait to be sent, and rides the northern half of it.",
+    "category": "record",
+    "people": [
+      "Tormod mac Sheumais",
+      "Gormshuil nic Dhùghaill"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0080",
+        "type": "person"
+      }
+    ]
+  },
+  {
+    "title": "The town arms of five hundred and five burghs copied into one book",
+    "era_year": 19,
+    "summary": "The chronicle circuit's southern chests yield the town arms of every burgh that has ever cut a seal, five hundred and five of them, entered by Coinneach Clàrc in the order the chests happen to arrive rather than by rank, on Gormshuil nic Dhùghaill's own ruling that a tidied record forgets how untidy its own arrival was.",
+    "category": "law",
+    "people": [
+      "Gormshuil nic Dhùghaill",
+      "Coinneach Clàrc"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0080",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The chronicle clerks turned away at Doire ghlas",
+    "era_year": 19,
+    "summary": "Tormod mac Sheumais reads the circuit's own warrant twice aloud in the street at the harbour agent's demand before he is let copy a single ledger; eleven of the town's twelve doors stay closed against him, an answer he judges memory rather than unkindness.",
+    "category": "record",
+    "people": [
+      "Tormod mac Sheumais"
+    ],
+    "places": [
+      "burg:209"
+    ],
+    "threads": [
+      "the-library",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0080",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The Inis bheag keeper lets his parish book be copied and not carried",
+    "era_year": 19,
+    "summary": "The old keeper of the Seann Spioradan house at Inis bheag hears the circuit's warrant once, without asking it twice, and lets his parish roll be copied at his own table under his own eye, but will not let the book itself travel so much as to the harbour, telling the clerk that a book kept that many generations belongs to the house and not to any seal.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:62"
+    ],
+    "threads": [
+      "the-library"
+    ],
+    "master_links": [
+      {
+        "to": "V-0081",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The northern chest opened: the maor's returns and nothing more",
+    "era_year": 19,
+    "summary": "Gormshuil nic Dhùghaill opens the one chest the northern shires have filled and finds only the maor of Siorrachd Àth àrsaidh's own tallies and licences, not a line in it written by a Tuathaich hand; she enters the fact plainly and adds no further word to it.",
+    "category": "record",
+    "people": [
+      "Gormshuil nic Dhùghaill",
+      "Coinneach Clàrc"
+    ],
+    "places": [
+      "burg:246"
+    ],
+    "threads": [
+      "the-library",
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0080",
+        "type": "sequel"
+      }
+    ]
+  }
 ]

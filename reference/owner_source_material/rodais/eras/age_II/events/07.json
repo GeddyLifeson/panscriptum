@@ -2,122 +2,271 @@
  {
   "title": "The king rides east with Somhairle to Seann Warr",
   "era_year": 389,
-  "summary": "The king summons his son down from the high valleys and rides the coast road east to Seann Warr with a small company. Somhairle, three hundred and fifty-one years old and eight-and-forty years among Clann na Ceiste, sees the shore he has only ever heard recited.",
+  "summary": "The king summons his son down from the high valleys and rides the coast road east to Seann Warr with a small company. Somhairle, three hundred and fifty-one years old and near two hundred years among Clann na Ceiste, sees the shore he has only ever heard recited.",
   "category": "rulers",
-  "people": ["Ailean Mòr mac Shuibhne", "Somhairle mac Ailein"],
-  "places": ["burg:315", "burg:128"],
-  "threads": ["line-of-the-mason", "the-old-ones"],
-  "master_links": [{"to": "I-0092", "type": "parallel"}]
+  "people": [
+   "Ailean Mòr mac Shuibhne",
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:315",
+   "burg:128"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0092",
+    "type": "parallel"
+   }
+  ]
  },
  {
   "title": "Somhairle first sees the tally wall",
   "era_year": 389,
   "summary": "At the midden's edge of Seann Warr, Somhairle walks the whole length of the counting stones with his father and finds them built into a wall past any easy counting, the oldest courses run together into a single grey weight of strokes.",
   "category": "faith",
-  "people": ["Somhairle mac Ailein", "Ailean Mòr mac Shuibhne"],
-  "places": ["burg:128"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0092", "type": "parallel"}]
+  "people": [
+   "Somhairle mac Ailein",
+   "Ailean Mòr mac Shuibhne"
+  ],
+  "places": [
+   "burg:128"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0092",
+    "type": "parallel"
+   }
+  ]
  },
  {
   "title": "The king's stillness at the wall",
   "era_year": 389,
   "summary": "The king stands a long while at the oldest of the tally stones with his hand flat against it, and tells Somhairle only that the wall has stood longer than the bank at Dùn ìseal, and perhaps longer than the grove. He says no more of it that day.",
   "category": "faith",
-  "people": ["Ailean Mòr mac Shuibhne", "Somhairle mac Ailein"],
-  "places": ["burg:128"],
-  "threads": ["the-old-ones", "the-keepers-promise"],
-  "master_links": [{"to": "I-0092", "type": "parallel"}]
+  "people": [
+   "Ailean Mòr mac Shuibhne",
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:128"
+  ],
+  "threads": [
+   "the-old-ones",
+   "the-keepers-promise"
+  ],
+  "master_links": [
+   {
+    "to": "I-0092",
+    "type": "parallel"
+   }
+  ]
  },
  {
   "title": "Somhairle sets the tally wall in the Line",
   "era_year": 389,
   "summary": "Somhairle adds his first telling of his own to the Line of the Mason: the wall at Seann Warr, some three thousand strokes, grown over many lifetimes. It is the first fact he ever sets down unaided, and he keeps it carefully all his life.",
   "category": "faith",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:128"],
-  "threads": ["line-of-the-mason", "the-old-ones"],
-  "master_links": [{"to": "I-0092", "type": "sequel"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:128"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0092",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Somhairle finds the house over the dead at Seann Tarr",
   "era_year": 428,
   "summary": "Sent north on a grazing dispute, Somhairle walks down to Seann Tarr and finds a household living in a long low house whose floor is paved with dressed slabs cut with strokes in fives. He does not enter, and sets the custom down without asking after it.",
   "category": "faith",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:402"],
-  "threads": ["the-old-ones", "line-of-the-mason"],
-  "master_links": [{"to": "I-0093", "type": "parallel"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:402"
+  ],
+  "threads": [
+   "the-old-ones",
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0093",
+    "type": "parallel"
+   }
+  ]
  },
  {
   "title": "A carrier brings word the strokes run thick",
   "era_year": 470,
   "summary": "A carrier of hides tells Somhairle at a ford, in passing, that the tally stones are cut thicker that year than any season he has known, and thicker at all three shores at once. Somhairle rides to Seann Warr and Seann Tarr within the month and finds it true.",
   "category": "land",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:128", "burg:402"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0094", "type": "cause"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:128",
+   "burg:402"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0094",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "The king's one visit to the wall",
   "era_year": 470,
   "summary": "The king rides to Seann Warr with a small company and walks the tally wall alone, his hand against the newest stone for the better part of a morning. Asked by his son what he saw, he answers only, \"A people counting,\" and speaks of it to no one again.",
   "category": "faith",
-  "people": ["Ailean Mòr mac Shuibhne", "Somhairle mac Ailein"],
-  "places": ["burg:128"],
-  "threads": ["the-old-ones", "the-keepers-promise"],
-  "master_links": [{"to": "I-0094", "type": "parallel"}]
+  "people": [
+   "Ailean Mòr mac Shuibhne",
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:128"
+  ],
+  "threads": [
+   "the-old-ones",
+   "the-keepers-promise"
+  ],
+  "master_links": [
+   {
+    "to": "I-0094",
+    "type": "parallel"
+   }
+  ]
  },
  {
   "title": "Somhairle sets the thickening in the Line",
   "era_year": 470,
   "summary": "Somhairle records the king's visit to the wall in the fewest words the Line will bear: that the king stood long before it and, asked what he saw, said only that he had seen a people counting. He adds no explanation of his own.",
   "category": "faith",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:128"],
-  "threads": ["line-of-the-mason", "the-old-ones"],
-  "master_links": [{"to": "I-0094", "type": "sequel"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:128"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0094",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Somhairle finds the half-cut stone at Seann Chwen",
   "era_year": 512,
   "summary": "Word of an unfinished stone reaches the high valleys, and Somhairle rides two days south to Seann Chwen, quieter than either shore he knew. He finds the newest tally stone left with two strokes finished and a third abandoned mid-groove, the chisel marks stopped clean.",
   "category": "faith",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:139"],
-  "threads": ["the-old-ones", "line-of-the-mason"],
-  "master_links": [{"to": "I-0095", "type": "parallel"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:139"
+  ],
+  "threads": [
+   "the-old-ones",
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0095",
+    "type": "parallel"
+   }
+  ]
  },
  {
   "title": "The last smoke seen at Seann Tarr",
   "era_year": 530,
   "summary": "The carrier who first brought word of the thickening finds Seann Tarr's house over the dead standing open and cold, its hearth unlit, the household gone without any sign of where. Somhairle rides down the following spring and finds the whole shore silent.",
   "category": "land",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:402"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0096", "type": "cause"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:402"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0096",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "Somhairle rides the three shores in one circuit",
   "era_year": 551,
   "summary": "In a single season, the first any reciter has made the round, Somhairle rides from Seann Warr to Seann Tarr and down to Seann Chwen and finds all three the same: middens grown over, boats rotted on their keels, turf houses softening back into the ground.",
   "category": "faith",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:128", "burg:402", "burg:139"],
-  "threads": ["the-old-ones", "line-of-the-mason"],
-  "master_links": [{"to": "I-0096", "type": "parallel"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:128",
+   "burg:402",
+   "burg:139"
+  ],
+  "threads": [
+   "the-old-ones",
+   "line-of-the-mason"
+  ],
+  "master_links": [
+   {
+    "to": "I-0096",
+    "type": "parallel"
+   }
+  ]
  },
  {
   "title": "Somhairle sets down the Silence",
   "era_year": 551,
   "summary": "Somhairle enters the shortest of his four tellings in the Line: that after the half-cut stone no work of the Seann-Dhaoine can be dated, their middens stop growing, their harbours silt, and how they ended, the telling does not know.",
   "category": "faith",
-  "people": ["Somhairle mac Ailein"],
-  "places": ["burg:315"],
-  "threads": ["line-of-the-mason", "the-old-ones"],
-  "master_links": [{"to": "I-0096", "type": "sequel"}]
+  "people": [
+   "Somhairle mac Ailein"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "line-of-the-mason",
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0096",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The hill-folk find the coasts wholly empty",
@@ -125,18 +274,41 @@
   "summary": "By this year no hill trader who once walked the three shores still finds a fire lit on any of them. The households who might have answered a knock are themselves gone, and carriers give the roads over to shores that no longer answer.",
   "category": "land",
   "people": [],
-  "places": ["burg:128", "burg:402", "burg:139"],
-  "threads": ["the-old-ones"],
-  "master_links": [{"to": "I-0096", "type": "legacy"}]
+  "places": [
+   "burg:128",
+   "burg:402",
+   "burg:139"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0096",
+    "type": "legacy"
+   }
+  ]
  },
  {
   "title": "Somhairle weds Cairistìona",
   "era_year": 580,
   "summary": "Somhairle marries Cairistìona of the high valleys, a shepherding household's daughter of no house of Clann na Ceiste, before both their fires at the turn of the year. He sets nothing of the wedding itself in the Line, judging it a thing that belongs to the man and not to the telling.",
   "category": "rulers",
-  "people": ["Somhairle mac Ailein", "Cairistìona"],
-  "places": ["burg:315"],
-  "threads": ["line-of-aisling"],
-  "master_links": [{"to": "I-0081", "type": "legacy"}]
+  "people": [
+   "Somhairle mac Ailein",
+   "Cairistìona"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "line-of-aisling"
+  ],
+  "master_links": [
+   {
+    "to": "I-0081",
+    "type": "legacy"
+   }
+  ]
  }
 ]

@@ -6,9 +6,12 @@
  ],
  "events": [
   {
+   "after": "I-0048"
+  },
+  {
    "id": "EI-5001",
    "title": "The wood-carriers go the long way round",
-   "body": "Households whose fields run up to the holy wood of the east carry their winter fuel from beyond the far shoulder of open ground, two journeys where one would serve, sooner than put an axe within the wood's bounds.",
+   "body": "Households whose fields run up to Coille Naomh Muileann chiar carry their winter fuel from beyond the far shoulder of open ground, two journeys where one would serve, sooner than put an axe within the wood's bounds.",
    "place": "marker:23",
    "kind": "faith",
    "category": "faith",
@@ -53,7 +56,7 @@
   {
    "id": "EI-5003",
    "title": "Sadhbh asks what comes of a man who cuts there",
-   "body": "Sadhbh as a child asks her father what would come of a man who cut in the holy wood, and is told that no one has ever found out and that he has no wish to be the first.",
+   "body": "Sadhbh as a child asks her father what would come of a man who cut in Coille Naomh Muileann chiar, and is told that no one has ever found out and that he has no wish to be the first.",
    "place": "marker:23",
    "kind": "faith",
    "category": "faith",
@@ -74,7 +77,7 @@
   {
    "id": "EI-5004",
    "title": "Sadhbh and two others meet the white stag",
-   "body": "At the narrow turn of the glen of the stags, a white stag breaks from the treeline of the holy wood rather than the open hill. Sadhbh, her cousin Oscar and a boy new to the drive all have clean sight of it and time to loose, and none of the three draws.",
+   "body": "At the narrow turn of Gleann nan Damh, a white stag breaks from the treeline of Coille Naomh Muileann chiar rather than the open hill. Sadhbh, her cousin Oscar and a boy new to the drive all have clean sight of it and time to loose, and none of the three draws.",
    "place": "burg:1005",
    "kind": "omen",
    "category": "faith",
@@ -551,7 +554,7 @@
   {
    "id": "EI-5024",
    "title": "The red-brown coal buried a second time",
-   "body": "Cormac digs a second, deeper hole beside the slab and lays the red-brown coal in it, thinking the earth wants more time than it gave Brian; it lies as cold as before.",
+   "body": "Cormac digs a second, deeper hole beside Leac na Fèithe and lays the red-brown coal in it, thinking the earth wants more time than it gave Brian; it lies as cold as before.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -579,8 +582,8 @@
   },
   {
    "id": "EI-5025",
-   "title": "The silver coal carried to three rivers",
-   "body": "In one summer Cormac carries the silver coal to three different rivers of the high valleys in turn, in case the Abhainn ghorm alone had been asked; each returns it dark.",
+   "title": "Gual airgid carried to three rivers",
+   "body": "In one summer Cormac carries gual airgid to three different rivers of the high valleys in turn, in case the Abhainn ghorm alone had been asked; each returns it dark.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -605,7 +608,7 @@
   {
    "id": "EI-5026",
    "title": "Cormac thinks the grove may hold a leaving",
-   "body": "Through a wet spring while the lambs are born Cormac turns over the thought that the grove where the Keeper stood may hold some leaving that would answer a coal as the ground at Tobar dhìreach answered Brian.",
+   "body": "Through a wet spring while the lambs are born Cormac turns over the thought that the grove where Coimhdeach na Fine stood may hold some leaving that would answer a coal as the ground at Tobar dhìreach answered Brian.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -630,7 +633,7 @@
   {
    "id": "EI-5027",
    "title": "Cormac resolves on the grove",
-   "body": "Turning the failed trials over through a wet spring, Cormac comes to think that the grove where the Keeper once stood may hold in its ground some leaving that would answer a coal, and tells Aoibheann he means to carry the four dark coals north to it.",
+   "body": "Turning the failed trials over through a wet spring, Cormac comes to think that the grove where Coimhdeach na Fine once stood may hold in its ground some leaving that would answer a coal, and tells Aoibheann he means to carry the four dark coals north to it.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -833,7 +836,7 @@
   {
    "id": "EI-5034",
    "title": "The byname of the Misstrike",
-   "body": "The valley, which had long since stopped laughing at anything the Mason's line brought home from the grove, takes to calling Cormac by his scarred hand, Cormac of the Misstrike, and he wears the name and the scar both without complaint.",
+   "body": "The valley, which had long since stopped laughing at anything Clann a' Chlachair brought home from the grove, takes to calling Cormac by his scarred hand, Cormac of the Misstrike, and he wears the name and the scar both without complaint.",
    "place": "burg:276",
    "kind": "culture",
    "category": "faith",
@@ -888,7 +891,7 @@
   {
    "id": "EI-5036",
    "title": "The fourth coal named at the recital",
-   "body": "At the next telling of the Line on the night of the lightning, Cormac holds up his scarred hand before the gathered valley and speaks the new line into the recital: the sea, the sky and the earth had answered, and now a fourth had answered out of a man's own blood, called gual donn-ruadh and, oftener, the coal of life.",
+   "body": "At the next telling of the Line on Oidhche an Dealanaich, Cormac holds up his scarred hand before the gathered valley and speaks the new line into the recital: the sea, the sky and the earth had answered, and now a fourth had answered out of a man's own blood, called gual donn-ruadh and, oftener, the coal of life.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -918,7 +921,7 @@
   {
    "id": "EI-5037",
    "title": "A cousin tries the silver again",
-   "body": "Cormac gives the silver coal over to a younger cousin to carry to the rivers in his stead, and lives to see that trial fail as his own had, and to laugh about it with Aoibheann.",
+   "body": "Cormac gives gual airgid over to a younger cousin to carry to the rivers in his stead, and lives to see that trial fail as his own had, and to laugh about it with Aoibheann.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -969,7 +972,7 @@
   {
    "id": "EI-5039",
    "title": "Cormac dies at his own hearth",
-   "body": "Cormac dies in his two-and-seventieth year at Tobar dhìreach, the fire-pot burning near him as it burned near every keeper before him, his last clear word a complaint of the old scar aching in the damp.",
+   "body": "Cormac dies in his two-and-seventieth year at Tobar dhìreach, Poit an Teine burning near him as it burned near every keeper before him, his last clear word a complaint of the old scar aching in the damp.",
    "place": "burg:276",
    "kind": "death",
    "category": "faith",
@@ -999,7 +1002,7 @@
   {
    "id": "EI-5040",
    "title": "The bag passes on unnamed",
-   "body": "The leather bag with the silver coal, the coal that has never yet been tried by fire, and the rainbow coal passes from Cormac's grave to a younger kinsman of the line, whose name the recital keeps but does not give to strangers.",
+   "body": "The leather bag with gual airgid, the coal that has never yet been tried by fire, and gual bogha-froise passes from Cormac's grave to a younger kinsman of the line, whose name the recital keeps but does not give to strangers.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -1422,7 +1425,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iv-of-skell-at-its-height",
    "era_between": [
@@ -1464,7 +1469,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/27_of_the_dogs_the_geese_and_the_farthest_reach.md#iv-of-skell-at-its-height",
    "era_between": [

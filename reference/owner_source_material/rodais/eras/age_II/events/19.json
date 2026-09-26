@@ -4,9 +4,13 @@
   "era_year": 1925,
   "summary": "A spring of near-ceaseless rain rots the high grazing at the root, and households begin killing beasts they would ordinarily have wintered, for want of anything left to feed them.",
   "category": "land",
-  "people": ["Sìleas Bhàn"],
+  "people": [
+   "Sìleas Bhàn"
+  ],
   "places": [],
-  "threads": ["the-stone-kings"],
+  "threads": [
+   "the-stone-kings"
+  ],
   "master_links": []
  },
  {
@@ -14,9 +18,13 @@
   "era_year": 1926,
   "summary": "Sìleas Bhàn orders the grain-pits cut into Dùn ìseal's own earthwork opened to every household by the count of mouths at its hearth rather than by the size of its herd, the first time the store is shared by that measure; a wealthier herdsman rides up to protest it to her face, and she does not change the measure.",
   "category": "custom",
-  "people": ["Sìleas Bhàn"],
+  "people": [
+   "Sìleas Bhàn"
+  ],
   "places": [],
-  "threads": ["the-stone-kings"],
+  "threads": [
+   "the-stone-kings"
+  ],
   "master_links": []
  },
  {
@@ -24,10 +32,14 @@
   "era_year": 1928,
   "summary": "With the grazing still short, households of Dùn ìseal's own ground begin returning grain to the bank's pits beyond what was drawn from them, a custom Sìleas Bhàn lets stand without ordering it, judging it will hold firmer for growing its own root.",
   "category": "custom",
-  "people": ["Sìleas Bhàn"],
+  "people": [
+   "Sìleas Bhàn"
+  ],
   "places": [],
   "threads": [],
-  "master_links": ["I-0133"]
+  "master_links": [
+   "I-0133"
+  ]
  },
  {
   "title": "The grazing recovers",
@@ -45,9 +57,13 @@
   "summary": "Word reaches Dùn ìseal, slow and uncertain, of two failed fishing seasons on the north-western shore at Baile chrom, of stores already gone to bark and boiled seaweed, and of graves being laid two deep for want of time to dig them singly.",
   "category": "disaster",
   "people": [],
-  "places": ["burg:305"],
+  "places": [
+   "burg:305"
+  ],
   "threads": [],
-  "master_links": ["I-0134"]
+  "master_links": [
+   "I-0134"
+  ]
  },
  {
   "title": "The king rides north-west with grain",
@@ -55,19 +71,31 @@
   "summary": "Ailean Mòr rides to the north-western coast himself with the first grain that can be spared, by a road that has never before carried him, and is gone the better part of a season; he returns saying nothing of what he found, save that every hill of the kingdom is to look to its own store before the next storm season.",
   "category": "reign",
   "people": [],
-  "places": ["burg:305"],
+  "places": [
+   "burg:305"
+  ],
   "threads": [],
-  "master_links": ["I-0134"]
+  "master_links": [
+   "I-0134"
+  ]
  },
  {
   "title": "Sìleas sends grain along the whole north-western coast",
   "era_year": 1967,
   "summary": "Sìleas Bhàn holds Dùn ìseal in the king's absence and sends three cartloads of grain and a small herd of goats after him, with instruction that they go to whichever hearths along that coast are worst served and not to Baile chrom alone, having heard the hunger reaches wider than one shore.",
   "category": "custom",
-  "people": ["Sìleas Bhàn"],
-  "places": ["burg:305"],
-  "threads": ["the-stone-kings"],
-  "master_links": ["I-0134"]
+  "people": [
+   "Sìleas Bhàn"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   "I-0134"
+  ]
  },
  {
   "title": "No household near Dùn ìseal again lets its store run low",
@@ -77,7 +105,9 @@
   "people": [],
   "places": [],
   "threads": [],
-  "master_links": ["I-0134"]
+  "master_links": [
+   "I-0134"
+  ]
  },
  {
   "title": "The wells of Achadh shean run low",
@@ -85,7 +115,9 @@
   "summary": "The wells of Achadh shean in the east fall a hand lower than any digger there remembers, a thing thought at first too small to trouble the hill with.",
   "category": "land",
   "people": [],
-  "places": ["burg:411"],
+  "places": [
+   "burg:411"
+  ],
   "threads": [],
   "master_links": []
  },
@@ -94,10 +126,16 @@
   "era_year": 2004,
   "summary": "A boy of Achadh shean walks three days to Dùn ìseal on his own feet rather than trust the telling to a rider, to say that the field banks his grandfather raised have cracked from dryness for the first time in three generations; Sìleas Bhàn sends a rider east to look before sending any grain.",
   "category": "land",
-  "people": ["Sìleas Bhàn"],
-  "places": ["burg:411"],
+  "people": [
+   "Sìleas Bhàn"
+  ],
+  "places": [
+   "burg:411"
+  ],
   "threads": [],
-  "master_links": ["I-0135"]
+  "master_links": [
+   "I-0135"
+  ]
  },
  {
   "title": "The springs of Achadh shean stop",
@@ -105,9 +143,13 @@
   "summary": "The rider sent east returns saying the springs of Achadh shean have not merely run low but stopped outright, their whole visible flow gone at a season when they have never before failed within living telling.",
   "category": "disaster",
   "people": [],
-  "places": ["burg:411"],
+  "places": [
+   "burg:411"
+  ],
   "threads": [],
-  "master_links": ["I-0135"]
+  "master_links": [
+   "I-0135"
+  ]
  },
  {
   "title": "The field banks of Achadh shean are forsaken",
@@ -115,46 +157,69 @@
   "summary": "With the springs three years dry, the households of Achadh shean walk off their old field banks, leaving the dead barley standing in the row, and cut new fields on another line lower on the slope, where a lesser spring still runs thin but steady.",
   "category": "disaster",
   "people": [],
-  "places": ["burg:411"],
+  "places": [
+   "burg:411"
+  ],
   "threads": [],
-  "master_links": ["I-0135"]
+  "master_links": [
+   "I-0135"
+  ]
  },
  {
   "title": "Sìleas refuses to have the dead field pulled down",
   "era_year": 2007,
   "summary": "Riding out to see the forsaken banks of Achadh shean, Sìleas Bhàn refuses her own rider's suggestion that they be levelled, saying a bank tells a household what the ground once gave and what it stopped giving, and is worth more standing than pulled down.",
   "category": "custom",
-  "people": ["Sìleas Bhàn"],
-  "places": ["burg:411"],
+  "people": [
+   "Sìleas Bhàn"
+  ],
+  "places": [
+   "burg:411"
+  ],
   "threads": [],
-  "master_links": ["I-0135"]
+  "master_links": [
+   "I-0135"
+  ]
  },
  {
   "title": "Sìleas asks the king what her deed will be",
   "era_year": 2008,
   "summary": "At the ford gathering Sìleas Bhàn asks Ailean Mòr what the list will say she did, having herself set no boundary stone, fought no war and raided no shore; he tells her that four hundred years of not failing, where failing was always the easier road, is itself the deed the list will keep.",
   "category": "reign",
-  "people": ["Sìleas Bhàn"],
+  "people": [
+   "Sìleas Bhàn"
+  ],
   "places": [],
-  "threads": ["the-stone-kings"],
+  "threads": [
+   "the-stone-kings"
+  ],
   "master_links": []
  },
  {
   "title": "Sìleas Bhàn gives Dùn ìseal to Tormod Liath",
   "era_year": 2010,
-  "summary": "In her five hundred and tenth year Sìleas Bhàn gives the hill to Tormod Liath, a grandson of Iain Dubh of thirteen hundred and seventy years, ordering the store within the bank counted before witnesses so the new holder takes it up knowing to the basket what it holds.",
+  "summary": "In her five hundred and tenth year Sìleas Bhàn gives the hill to Tormod Liath, a son of Iain Dubh of thirteen hundred and seventy years, ordering the store within the bank counted before witnesses so the new holder takes it up knowing to the basket what it holds.",
   "category": "rulers",
-  "people": ["Sìleas Bhàn", "Tormod Liath"],
+  "people": [
+   "Sìleas Bhàn",
+   "Tormod Liath"
+  ],
   "places": [],
-  "threads": ["the-stone-kings"],
-  "master_links": ["I-0133"]
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   "I-0133"
+  ]
  },
  {
   "title": "Tormod Liath keeps the grain-measure unchanged",
   "era_year": 2010,
   "summary": "In his first words as holder, Tormod Liath tells the households he will change nothing about the store within the bank, having watched it feed two hungers in his own lifetime and seeing no reason to improve on a measure that has already held.",
   "category": "custom",
-  "people": ["Tormod Liath"],
+  "people": [
+   "Tormod Liath"
+  ],
   "places": [],
   "threads": [],
   "master_links": []

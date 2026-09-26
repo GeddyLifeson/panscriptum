@@ -1,162 +1,362 @@
 [
-  {
-    "title": "Gormshuil carries the harbour-master's counsel to the king",
-    "era_year": 1754,
-    "summary": "Sent by her father to see the sea-wall building at Cuan dhearg, Gormshuil nic Thormoid hears the harbour-master say a wall a man can stand behind is worth more than a street he can only run from, and rides home to give the king the counsel word for word.",
-    "category": "land",
-    "people": ["Gormshuil nic Thormoid"],
-    "places": ["burg:190"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0229", "type": "sequel"}]
-  },
-  {
-    "title": "Cuan dhearg buries its own boundary stones",
-    "era_year": 1754,
-    "summary": "Rather than break up the boundary stones of the street the sea first moved, Cuan dhearg buries them on the chance a later hand may want to know how far the water once came.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:190"],
-    "threads": [],
-    "master_links": [{"to": "III-0229", "type": "sequel"}]
-  },
-  {
-    "title": "The schools take up the question of the vein instead",
-    "era_year": 1759,
-    "summary": "Reopened on condition that the question of longer lives is never raised again, the house of disputation at Dùn thais turns instead to whether the custody-book's measure of the handful answers rightly to what the coal gives out.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:77"],
-    "threads": ["the-orders-of-the-old-faith"],
-    "master_links": [{"to": "III-0230", "type": "sequel"}]
-  },
-  {
-    "title": "The king's last night",
-    "era_year": 1766,
-    "summary": "Tormod mac Ruairidh tells his daughter Gormshuil, on the last night of his fifty-six-year reign, that he never once found courage to ask the vein-house a question the house of disputation was forbidden to ask on his behalf, and that finding it will be the easier half of her trouble.",
-    "category": "rulers",
-    "people": ["Tormod mac Ruairidh", "Gormshuil nic Thormoid"],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": [{"to": "III-0231", "type": "cause"}]
-  },
-  {
-    "title": "Gormshuil crowned at one-and-fifty",
-    "era_year": 1766,
-    "summary": "Gormshuil nic Thormoid is crowned in the red hall a fortnight after her father's death, the same age he had been when the sea-wall of Cuan dhearg was still only a plan on a tally-stick.",
-    "category": "rulers",
-    "people": ["Gormshuil nic Thormoid"],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": [{"to": "III-0231", "type": "sequel"}]
-  },
-  {
-    "title": "A boundary measured and not judged",
-    "era_year": 1772,
-    "summary": "At the first seat of her progress a householder accuses her neighbour of shifting a boundary stone by moonlight three years running; Gormshuil measures the disputed ground herself and has it written down, so that the writing, not the queen, will settle it.",
-    "category": "law",
-    "people": ["Gormshuil nic Thormoid"],
-    "places": ["burg:305"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0232", "type": "sequel"}]
-  },
-  {
-    "title": "A reeve asks the queen what the writing is for",
-    "era_year": 1775,
-    "summary": "A plain-spoken reeve asks Gormshuil why she writes down every shire's grievance and answers none of them; she tells him a hasty answer given before hearing the whole round is a false ease, and rides on.",
-    "category": "law",
-    "people": ["Gormshuil nic Thormoid"],
-    "places": [],
-    "threads": [],
-    "master_links": [{"to": "III-0232", "type": "sequel"}]
-  },
-  {
-    "title": "Peigi feeds the queen's whole progress unwarned",
-    "era_year": 1786,
-    "summary": "Peigi nic Dhonnchaidh, keeper of An Taigh-òsta Grianach, feeds Gormshuil's whole company on pan-fried spinach and black wine though her charter allows stores for far less; the queen forgives her a year's road dues.",
-    "category": "trade",
-    "people": ["Gormshuil nic Thormoid", "Peigi nic Dhonnchaidh"],
-    "places": ["marker:6"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0234", "type": "sequel"}]
-  },
-  {
-    "title": "Aonghas mac Lachlainn turns his vote",
-    "era_year": 1776,
-    "summary": "Meaning by every account to vote with the three houses behind the silver petition, Aonghas mac Lachlainn changes his vote at the board itself and gives no reason beyond the bare word that he has changed his mind.",
-    "category": "law",
-    "people": ["Aonghas mac Lachlainn"],
-    "places": ["burg:491"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0233", "type": "cause"}]
-  },
-  {
-    "title": "Gormshuil asks Aonghas his reason and is refused",
-    "era_year": 1776,
-    "summary": "Gormshuil asks Aonghas mac Lachlainn privately why he turned his vote; he answers that a man's reason for his own hand at the board is his to keep, and she lets the matter lie as the custody-book lets it lie.",
-    "category": "law",
-    "people": ["Gormshuil nic Thormoid", "Aonghas mac Lachlainn"],
-    "places": ["burg:491"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0233", "type": "sequel"}]
-  },
-  {
-    "title": "A smaller house is granted its neighbour's unused right",
-    "era_year": 1791,
-    "summary": "At the last count of hands the custodians grant a house whose share has fallen too low to keep its hearth measure a neighbour's unused coal-right, though more than one voice warns that a house asking twice can be eased once but not mended for good.",
-    "category": "coal",
-    "people": [],
-    "places": ["burg:491"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0235", "type": "sequel"}]
-  },
-  {
-    "title": "The fishers of Ceann mhòr find the timber",
-    "era_year": 1794,
-    "summary": "Fishers working the empty water off Ceann mhòr's lapsed headland watch find a worked timber cast up, longer than any island tree and fastened with nails no smith on Dia-thìr forged; the eldest among them says hands that made such nails did not make them on the island.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:143"],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "III-0236", "type": "cause"}]
-  },
-  {
-    "title": "The queen goes up to the vein-house for the winter burning",
-    "era_year": 1795,
-    "summary": "Eighty years old, Gormshuil nic Thormoid rides the coal-road to the vein-house for the winter burning as she has every year of her reign, and walks her own horse up the last, iced mile rather than let another hand lead it.",
-    "category": "rulers",
-    "people": ["Gormshuil nic Thormoid"],
-    "places": ["burg:491"],
-    "threads": ["the-seven-coals"],
-    "master_links": []
-  },
-  {
-    "title": "The council sits in the queen's empty place",
-    "era_year": 1796,
-    "summary": "With no word of Gormshuil since the winter burning, the custodians of the seven houses meet at the red hall in the place the crown's own chair has always stood empty for her progress, and send their word up the coal-road by the same riders who carried the crown's business all her reign.",
-    "category": "rulers",
-    "people": [],
-    "places": ["burg:19"],
-    "threads": ["the-seven-coals"],
-    "master_links": []
-  },
-  {
-    "title": "A crown letter sealed with no name above the seal",
-    "era_year": 1798,
-    "summary": "The custodians seal their letters with the vein-house's trellis and hollow stone as every crown letter has been sealed since Dòmhnall Ruadh joined the two, but set no name above the seal, and no clerk is ever asked to explain the blank space.",
-    "category": "law",
-    "people": [],
-    "places": ["burg:19"],
-    "threads": ["the-seven-coals"],
-    "master_links": []
-  },
-  {
-    "title": "Ealasaid nic Iain keeps the last lamp",
-    "era_year": 1799,
-    "summary": "With no household left on the Seann Skell waterfront still keeping the night of lamps, an old woman, Ealasaid nic Iain, sets the one lamp that burns in the harbour-house window; the scribe writes that the lamp was hers and not the town's.",
-    "category": "faith",
-    "people": ["Ealasaid nic Iain"],
-    "places": ["burg:489"],
-    "threads": ["the-mist"],
-    "master_links": [{"to": "III-0237", "type": "sequel"}]
-  }
+ {
+  "title": "Gormshuil carries the harbour-master's counsel to the king",
+  "era_year": 1754,
+  "summary": "Sent by her father to see the sea-wall building at Cuan dhearg, Gormshuil nic Thormoid hears the harbour-master say a wall a man can stand behind is worth more than a street he can only run from, and rides home to give the king the counsel word for word.",
+  "category": "land",
+  "people": [
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [
+   "burg:190"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0229",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Cuan dhearg buries its own boundary stones",
+  "era_year": 1754,
+  "summary": "Rather than break up the boundary stones of the street the sea first moved, Cuan dhearg buries them on the chance a later hand may want to know how far the water once came.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:190"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0229",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The schools take up the question of the vein instead",
+  "era_year": 1759,
+  "summary": "Reopened on condition that the question of longer lives is never raised again, the house of disputation at Dùn thais turns instead to whether the custody-book's measure of the handful answers rightly to what the coal gives out.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:77"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0230",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The king's last night",
+  "era_year": 1766,
+  "summary": "Tormod mac Ruairidh tells his daughter Gormshuil, on the last night of his seven-and-fifty-year reign, that he never once found courage to ask the vein-house a question the house of disputation was forbidden to ask on his behalf, and that finding it will be the easier half of her trouble.",
+  "category": "rulers",
+  "people": [
+   "Tormod mac Ruairidh",
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0231",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Gormshuil crowned at one-and-fifty",
+  "era_year": 1766,
+  "summary": "Gormshuil nic Thormoid is crowned in the red hall a fortnight after her father's death, the same age he had been when the sea-wall of Cuan dhearg was still only a plan on a tally-stick.",
+  "category": "rulers",
+  "people": [
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0231",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A boundary measured and not judged",
+  "era_year": 1772,
+  "summary": "At the first seat of her progress a householder accuses her neighbour of shifting a boundary stone by moonlight three years running; Gormshuil measures the disputed ground herself and has it written down, so that the writing, not the queen, will settle it.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [
+   "burg:305"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0232",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A reeve asks the queen what the writing is for",
+  "era_year": 1775,
+  "summary": "A plain-spoken reeve asks Gormshuil why she writes down every shire's grievance and answers none of them; she tells him a hasty answer given before hearing the whole round is a false ease, and rides on.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0232",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Peigi feeds the queen's whole progress unwarned",
+  "era_year": 1786,
+  "summary": "Peigi nic Dhonnchaidh, keeper of An Taigh-òsta Grianach, feeds Gormshuil's whole company on pan-fried spinach and black wine though her charter allows stores for far less; the queen forgives her a year's road dues.",
+  "category": "trade",
+  "people": [
+   "Gormshuil nic Thormoid",
+   "Peigi nic Dhonnchaidh"
+  ],
+  "places": [
+   "marker:6"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0234",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Aonghas mac Lachlainn turns his vote",
+  "era_year": 1776,
+  "summary": "Meaning by every account to vote with the three houses behind the silver petition, Aonghas mac Lachlainn changes his vote at the board itself and gives no reason beyond the bare word that he has changed his mind.",
+  "category": "law",
+  "people": [
+   "Aonghas mac Lachlainn"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0233",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Gormshuil asks Aonghas his reason and is refused",
+  "era_year": 1776,
+  "summary": "Gormshuil asks Aonghas mac Lachlainn privately why he turned his vote; he answers that a man's reason for his own hand at the board is his to keep, and she lets the matter lie as the custody-book lets it lie.",
+  "category": "law",
+  "people": [
+   "Gormshuil nic Thormoid",
+   "Aonghas mac Lachlainn"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0233",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A smaller house is granted its neighbour's unused right",
+  "era_year": 1791,
+  "summary": "At the last count of hands the custodians grant a house whose share has fallen too low to keep its hearth measure a neighbour's unused coal-right, though more than one voice warns that a house asking twice can be eased once but not mended for good.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0235",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The fishers of Ceann mhòr find the timber",
+  "era_year": 1794,
+  "summary": "Fishers working the empty water off Ceann mhòr's lapsed headland watch find a worked timber cast up, longer than any island tree and fastened with nails no smith on Dia-thìr forged; the eldest among them says hands that made such nails did not make them on the island.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:143"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0236",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The queen goes up to the vein-house for the winter burning",
+  "era_year": 1795,
+  "summary": "Eighty years old, Gormshuil nic Thormoid rides the coal-road to the vein-house for the winter burning as she has every year of her reign, and walks her own horse up the last, iced mile rather than let another hand lead it.",
+  "category": "rulers",
+  "people": [
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The council sits in the queen's empty place",
+  "era_year": 1796,
+  "summary": "With no word of Gormshuil since the winter burning, the custodians of the seven houses meet at the red hall in the place the crown's own chair has always stood empty for her progress, and send their word up the coal-road by the same riders who carried the crown's business all her reign.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "A crown letter sealed with no name above the seal",
+  "era_year": 1798,
+  "summary": "The custodians seal their letters with the vein-house's trellis and hollow stone as every crown letter has been sealed since Dòmhnall Ruadh joined the two, but set no name above the seal, and no clerk is ever asked to explain the blank space.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Ealasaid nic Iain keeps the last lamp",
+  "era_year": 1799,
+  "summary": "With no household left on the Seann Skell waterfront still keeping the night of lamps, an old woman, Ealasaid nic Iain, sets the one lamp that burns in the harbour-house window; the scribe writes that the lamp was hers and not the town's.",
+  "category": "faith",
+  "people": [
+   "Ealasaid nic Iain"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-mist"
+  ],
+  "master_links": [
+   {
+    "to": "III-0237",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 1791,
+  "title": "Three houses hold more than half the right",
+  "summary": "The custody-book's clerk notes under the last count of hands, in the dry hand kept since Donnchadh's day, that three of the seven houses now hold more than half the whole right to the coal among themselves.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0235",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1795,
+  "title": "The oldest crowned ruler since the table of years",
+  "summary": "Riding up to the winter burning at eighty, Queen Gormshuil nic Thormoid is the oldest ruler the custody-book has entered crowned and still reigning since long before the table of years, nine-and-twenty years crowned.",
+  "category": "rulers",
+  "people": [
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0236",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1772,
+  "title": "Leabhar nan Gearan opened at every seat",
+  "summary": "At every shire seat of Queen Gormshuil's progress, in the sixth year of her reign and her seven-and-fiftieth of life, her clerks open Leabhar nan Gearan and write down each seat's grievance in the shire's own words.",
+  "category": "rulers",
+  "people": [
+   "Gormshuil nic Thormoid"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0232",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ }
 ]

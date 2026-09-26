@@ -4,7 +4,7 @@
 
 ## I. Of the Last Cartload
 
-Cùirt na Fèille sat in the upper room of the toll-house at Muileann òg, over the arch where the fair road came in, and in winter the room smelled of wet wool and lamp-soot and the river. The court kept the fair's measures and heard the fair's debts, and on market days through the year it kept the town's as well, because there was no other court in Muileann òg and nobody had seen a reason to make one. Its clerk in those years was Ùna nic Ailein. She was not yet thirty. She had come to the desk at seventeen to cut quills for old Seonaidh Crùbach, and when his eyes failed she had read the day-book aloud to him every evening until he died, and after that the justice had given her the key of the press without asking the council's leave, which was how most things at Muileann òg were done.
+Cùirt na Fèille sat in the upper room of the toll-house at Muileann òg, over the arch where Rathad na Fèille came in, and in winter the room smelled of wet wool and lamp-soot and the river. The court kept the fair's measures and heard the fair's debts, and on market days through the year it kept the town's as well, because there was no other court in Muileann òg and nobody had seen a reason to make one. Its clerk in those years was Ùna nic Ailein. She was not yet thirty. She had come to the desk at seventeen to cut quills for old Seonaidh Crùbach, and when his eyes failed she had read the day-book aloud to him every evening until he died, and after that the justice had given her the key of the press without asking the council's leave, which was how most things at Muileann òg were done.
 
 On {{date:VI-0005}} it had rained since before light, a thin rain driven sideways off the plain. The market was small, as it always was in am Faoilleach: a few carts of turnips, two drovers with lean beasts, a woman selling eels from a tub. Ùna had the window open a hand's breadth for the light and kept her ink-horn under her palm against the wind.
 
@@ -20,7 +20,7 @@ He stopped under her window. The load was covered in sacking, black with rain. H
 
 "Then I'll sell it whole, and I'll sell it here, and you can write it."
 
-Fionnlagh mac Gille-Chaluim, justice of the fair court, came down to the arch in his old brown cloak and stood in the rain to see it done, as the rules asked. He was past seventy and had kept the court for twenty years. He lifted a corner of the sacking and looked at the coal underneath: small stuff, most of it, the size of a hen's egg and smaller, and some slack at the bottom that would be lost in the grate. There was no great lump in it anywhere. He dropped the sacking back.
+Fionnlagh mac Gille-Chaluim, justice of Cùirt na Fèille, came down to the arch in his old brown cloak and stood in the rain to see it done, as the rules asked. He was past seventy and had kept the court for twenty years. He lifted a corner of the sacking and looked at the coal underneath: small stuff, most of it, the size of a hen's egg and smaller, and some slack at the bottom that would be lost in the grate. There was no great lump in it anywhere. He dropped the sacking back.
 
 "Whose yard?"
 
@@ -54,7 +54,7 @@ Uilleam mac Dhùghaill sold his cart that spring to a man who carried grain from
 
 ## II. Of the Sack and the Lump
 
-The day-book of the fair court for that year is in an Leabharlann now, and a reader who turns its pages can watch the coal go out of it.
+The day-book of Cùirt na Fèille for that year is in an Leabharlann now, and a reader who turns its pages can watch the coal go out of it.
 
 In am Faoilleach there is the cartload. Through an Gearran and am Màrt there is no coal at all; the town bought what it bought at the capital, those who could get there, and those who could not burned turf and furze and cold wood from the hedges, and the court was asked twice to settle quarrels over hedges. In an Giblean a man from Cnoc leathan came with eleven sacks on a pack-horse and sold them one at a time from the step of the toll-house, which the court allowed, since the rules said nothing against it, and Ùna wrote the eleven sales in eleven lines. After that the sacks came irregularly, three or four in a market day, carried by whoever had got them. The price in the book goes up by a little every month. Nobody in the book complains of it. The court had already given up the ceiling, and there was nobody to complain to.
 
@@ -80,9 +80,9 @@ She asked him what else he had seen coming.
 
 ## III. Of the Crowning at Cathair dhearg
 
-In the summer word went round the fair road that Mairead's reign had ended, and that there would be a crowning at Lùnastal, the first in fifteen years. The court shut for the day of the feast by the justice's order. Half the town went up to the capital to see it, and Ùna went with them.
+In the summer word went round Rathad na Fèille that Mairead's reign had ended, and that there would be a crowning at Lùnastal, the first in fifteen years. The court shut for the day of the feast by the justice's order. Half the town went up to the capital to see it, and Ùna went with them.
 
-They went up the day before in the carrier's wagon, twelve to a bench, and slept in the carrier's loft in the lane behind the tannery, and were in the streets before light. The fair road was full all the way up. There were families walking with their children on their shoulders; there were two priests of Òrd Mhacha from the house at Cnoc òg with a bundle of green boughs; there were drovers with no beasts, and a man selling cold mutton pies from a board hung round his neck, who had sold out before they reached the bridge. The long light of the day before the feast lay yellow across the barley. From the brow of the last hill they could see the smoke of Cathair dhearg over the river, less of it than Ùna remembered.
+They went up the day before in the carrier's wagon, twelve to a bench, and slept in the carrier's loft in the lane behind the tannery, and were in the streets before light. Rathad na Fèille was full all the way up. There were families walking with their children on their shoulders; there were two priests of Òrd Mhacha from the house at Cnoc òg with a bundle of green boughs; there were drovers with no beasts, and a man selling cold mutton pies from a board hung round his neck, who had sold out before they reached the bridge. The long light of the day before the feast lay yellow across the barley. From the brow of the last hill they could see the smoke of Cathair dhearg over the river, less of it than Ùna remembered.
 
 What follows is told as she wrote it that night in a letter to the justice, who had stayed at home. The letter was kept among the court's papers and came to an Leabharlann with the day-books.
 
@@ -162,7 +162,7 @@ The factor named his price for the creel, which the man had told him in the nort
 
 Then there was the entry to make.
 
-The day-book of the fair court is ruled by hand at the start of each year, one page for each kind of goods the fair has sold before, and the lines run across from the day to the price, and at the head of each page the kind of goods is written in the clerk's best hand. Ùna turned through them: grain, cattle, sheep, horses, wool, cloth, salt, fish, timber, stone, iron, coal-fuel. She went back to coal-fuel and looked at it: the cartload in am Faoilleach, the sacks, the five lumps for altars, and then nothing since the start of the fair. The justice watched her. So did the factor, and the Tuathach in the doorway, and the baker's wife of Muileann ghlas with her creel, who wanted to be gone.
+The day-book of Cùirt na Fèille is ruled by hand at the start of each year, one page for each kind of goods the fair has sold before, and the lines run across from the day to the price, and at the head of each page the kind of goods is written in the clerk's best hand. Ùna turned through them: grain, cattle, sheep, horses, wool, cloth, salt, fish, timber, stone, iron, coal-fuel. She went back to coal-fuel and looked at it: the cartload in am Faoilleach, the sacks, the five lumps for altars, and then nothing since the start of the fair. The justice watched her. So did the factor, and the Tuathach in the doorway, and the baker's wife of Muileann ghlas with her creel, who wanted to be gone.
 
 "Put it under coal," said Coinneach Liath. "It's the same trade."
 
@@ -180,4 +180,4 @@ She turned the book so that the justice could make his mark. He looked at the pa
 
 He made his mark. The Tuathach picked up his empty creel and put the straps over his shoulders. At the door he stopped and looked back at the page from where he stood, though he was too far off to read it, and then he went down the stair into the noise of the northern day, and Ùna did not see him again at that fair. She had not asked his name. The rules of the northern day did not ask for it.
 
-When the fair was over and the booths were down and the field was mud, she went back through the book to reckon the year, as she did every year in the last week of an Dàmhair, with the lamp lit early. The page of coal-fuel held the cartload, a run of sacks, and five lumps for altars. The page she had ruled at the back held one line. She sat and looked at both for a while in the lamplight. Then she wrote at the foot of the year, under the totals, in the place where the clerks of the fair court had always written the year's weather and the state of the roads: *Coal sold this year by the cart, by the sack, by the lump. A new fuel sold once, from the north.* She blotted it, and shut the press, and turned the key, and put out the lamp.
+When the fair was over and the booths were down and the field was mud, she went back through the book to reckon the year, as she did every year in the last week of an Dàmhair, with the lamp lit early. The page of coal-fuel held the cartload, a run of sacks, and five lumps for altars. The page she had ruled at the back held one line. She sat and looked at both for a while in the lamplight. Then she wrote at the foot of the year, under the totals, in the place where the clerks of Cùirt na Fèille had always written the year's weather and the state of the roads: *Coal sold this year by the cart, by the sack, by the lump. A new fuel sold once, from the north.* She blotted it, and shut the press, and turned the key, and put out the lamp.

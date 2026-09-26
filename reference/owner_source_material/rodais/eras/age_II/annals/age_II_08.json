@@ -1,0 +1,995 @@
+{
+ "writer": 4,
+ "span": [
+  "I-0159",
+  "I-0176"
+ ],
+ "events": [
+  {
+   "after": "I-0160"
+  },
+  {
+   "id": "EII-4500",
+   "title": "The Black Wind strips the east coast",
+   "body": "A storm out of the south-east strikes before dawn with almost no warning, stripping the thatch from every roof between Cuan ruadh and Ceann chiar and driving three unhauled boats onto the rocks below the headland. No one of that coast dies in it, though many households lose stores, shelter and boats within a single day.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0159",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#i-of-the-wind-that-took-the-thatch",
+   "era_between": [
+    2417,
+    2417
+   ]
+  },
+  {
+   "id": "EII-4501",
+   "title": "The coast's fishing fails before winter begins",
+   "body": "Of Cuan ruadh's eleven boats, four are broken past mending and a fifth needs a new keel; granaries stand open to the sky along the whole stripped coast. A fishing that has never in memory failed outright fails that winter for want of boats and stores enough to work it.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0159",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#i-of-the-wind-that-took-the-thatch",
+   "era_between": [
+    2417,
+    2417
+   ]
+  },
+  {
+   "id": "EII-4502",
+   "title": "The coast names the storm the Black Wind",
+   "body": "The eldest of that coast, having no name ready when the storm struck, name it afterward for the ash-dark sky it leaves behind for three days. No reciter of the hill amends the name; every storm to strike that shore since is measured against it.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0159",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#i-of-the-wind-that-took-the-thatch",
+   "era_between": [
+    2417,
+    2417
+   ]
+  },
+  {
+   "id": "EII-4503",
+   "title": "Inland valleys hear of the coast's ruin",
+   "body": "A trader who meant to buy salt fish at Cuan ruadh finds instead a shore of broken boats and bare roof-trees, and carries word of it a day and more west to valleys that had never before troubled themselves over that coast's weather.",
+   "place": "burg:119",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0160",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#ii-of-the-winter-the-custom-reached-the-coast",
+   "era_between": [
+    2417,
+    2417
+   ]
+  },
+  {
+   "id": "EII-4504",
+   "title": "The valleys send grain to Cuan ruadh unasked",
+   "body": "Single households send what they can spare because a neighbour has already sent something, until the scatter of gifts grows too large for any one house to account for, and the valleys' holders agree to weigh and send it on by the count of mouths, as the sharing is kept at Dùn ìseal, though none there had been taught the custom directly.",
+   "place": "burg:119",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0160",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#ii-of-the-winter-the-custom-reached-the-coast",
+   "era_between": [
+    2417,
+    2417
+   ]
+  },
+  {
+   "after": "I-0161"
+  },
+  {
+   "id": "EII-4505",
+   "title": "The sharing reaches the east coast",
+   "body": "Grain, salted meat and wool for roofing come down to Cuan ruadh through the winter on carts and cattle-backs, weighed by mouths and given without reckoning who at the coast has lost most. No household of that coast starves; the coast calls the custom only the bringing-in, or the help.",
+   "place": "burg:119",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0160",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#ii-of-the-winter-the-custom-reached-the-coast",
+   "era_between": [
+    2418,
+    2418
+   ]
+  },
+  {
+   "id": "EII-4506",
+   "title": "Lìleas begins to watch the dark return of the boats",
+   "body": "One-and-twenty that hard winter, with her father's hand maimed and the household's boat unfit to swim, Lìleas of Cuan ruadh spends idle hours on the shingle and comes to notice what the coast has never put into words: that a boat coming home after dark has nothing to steer the last stretch by but memory and the sound of the surf.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0161",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lileas-of-cuan-ruadh"
+   ],
+   "told_in": "book/26_black_wind_and_five_fires.md#iii-of-lileas-who-watched-the-boats-come-in",
+   "era_between": [
+    2418,
+    2418
+   ]
+  },
+  {
+   "id": "EII-4507",
+   "title": "Lìleas's household agrees to the fire",
+   "body": "Lìleas puts the keeping of a fire on the cape east of the village to her own household over a thin meal; her father, no longer trusting his maimed hand on a line, sees no harm in it and asks only that she carry the work herself.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0161",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lileas-of-cuan-ruadh"
+   ],
+   "told_in": "book/26_black_wind_and_five_fires.md#iv-of-the-fire-she-kept-on-the-eastern-cape",
+   "era_between": [
+    2418,
+    2418
+   ]
+  },
+  {
+   "id": "EII-4508",
+   "title": "The eastern fire is first kept",
+   "body": "Lìleas and her younger brother carry driftwood and peat up the cape through a month of short winter days and build the fire in a stone-walled pit, driving flame and smoke seaward. She keeps it alone through nights that find no boat needing it, and more than one household of the village climbs the cape only to sit an hour with her.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0161",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lileas-of-cuan-ruadh"
+   ],
+   "told_in": "book/26_black_wind_and_five_fires.md#iv-of-the-fire-she-kept-on-the-eastern-cape",
+   "era_between": [
+    2418,
+    2418
+   ]
+  },
+  {
+   "after": "I-0163"
+  },
+  {
+   "id": "EII-4509",
+   "title": "Word of the eastern fire travels the coast roads",
+   "body": "Traders and travellers carry word of the fire on Cuan ruadh's cape along the roads faster than its own light could reach, and coasts that have suffered their own bad weather begin to want fires of their own.",
+   "place": "burg:119",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-4508",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lileas-of-cuan-ruadh"
+   ],
+   "told_in": "book/26_black_wind_and_five_fires.md#v-of-the-fires-that-answered-it",
+   "era_between": [
+    2419,
+    2419
+   ]
+  },
+  {
+   "id": "EII-4510",
+   "title": "A fire is raised on the northern point",
+   "body": "On ground already scorched black by older shore-fires, the households of the hardest-running coast raise a fire that burns steadier from its first season, having Lìleas's year of trial to learn by before laying their own wood.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0162",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#v-of-the-fires-that-answered-it",
+   "era_between": [
+    2419,
+    2419
+   ]
+  },
+  {
+   "id": "EII-4511",
+   "title": "Seathan mac Pheadair keeps the north-eastern fire",
+   "body": "On the cape where the passage to the deeper water runs narrowest, a man named Seathan mac Pheadair takes up the keeping of a fire much as Lìleas had, and cuts a stroke on a stone at its edge for every ship's light he sees pass safe by it.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0163",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seathan-mac-pheadair"
+   ],
+   "told_in": "book/26_black_wind_and_five_fires.md#v-of-the-fires-that-answered-it",
+   "era_between": [
+    2419,
+    2419
+   ]
+  },
+  {
+   "after": "I-0164"
+  },
+  {
+   "id": "EII-4512",
+   "title": "The southern cape completes the five fires",
+   "body": "Last of the four new fires and by every account the surest, the households of the southern cape raise theirs on a mound of stacked stone breast-high, clear of the spray. With the older fire on the Baile chrom headland, the coasts of Dia-thìr are now lit at five points.",
+   "place": "burg:398",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0164",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#v-of-the-fires-that-answered-it",
+   "era_between": [
+    2420,
+    2420
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-4513",
+   "title": "A reciter names them the five fires",
+   "body": "Before the southern mound is even finished, a reciter of that coast says that a boat lost off any shore of Dia-thìr now has a fire somewhere within its sight to steer toward, and names the five together the five fires, a name the coast keeps on every telling since.",
+   "place": "burg:398",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0164",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/26_black_wind_and_five_fires.md#v-of-the-fires-that-answered-it",
+   "era_between": [
+    2420,
+    2420
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-4514",
+   "title": "A boat is brought home to the eastern fire",
+   "body": "Blown off its own water by a wind that will not hold steady, a boat out of a coast two villages north finds the coast of Dia-thìr only by Lìleas's fire, burning high on the cape with no house near it. The crew comes ashore whole, and Lìleas tells the captain the fire is kept for whichever boat needs it, no more for him than for any other.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0161",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "lileas-of-cuan-ruadh"
+   ],
+   "told_in": "book/26_black_wind_and_five_fires.md#vi-of-the-boat-that-came-home-by-it",
+   "era_between": [
+    2420,
+    2420
+   ]
+  },
+  {
+   "after": "I-0166"
+  },
+  {
+   "id": "EII-4515",
+   "title": "The watchers see the long back in the water",
+   "body": "Four men keeping the tower at Seann Skell watch a back long as three boats rise off the point in the failing light and go under without a sound. Their four tellings differ in every small particular but agree on the length and the silence.",
+   "place": "burg:16",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0165",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-chaol"
+   ],
+   "told_in": "book/27_anndra_breac.md#i-of-the-watch-at-seann-skell",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "id": "EII-4516",
+   "title": "Word of the sighting runs round the bay",
+   "body": "The tale of the tower's watch grows a head and a neck by the time it has gone twice round the bay of Seann Skell, though the old women of that coast say only that the sea shows itself when it chooses and take no boat off the water for the telling.",
+   "place": "burg:16",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0165",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_anndra_breac.md#i-of-the-watch-at-seann-skell",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "id": "EII-4517",
+   "title": "Stitched planks come ashore south of Seann Skell",
+   "body": "Through a season the wrack south of the tower gives up narrow stitched planks from more than one hull, shaped for open water and like nothing built on that coast, with not one scrap of cord, tool or bone to say what rode in them.",
+   "place": "burg:16",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0166",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_anndra_breac.md#ii-of-the-planks-on-the-western-sand",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "id": "EII-4518",
+   "title": "No household will claim the wreck",
+   "body": "Asked along the shore, no household admits to a boat of its own building broken among the planks, nor lacks a man, woman or child it cannot otherwise account for; the wreck stays a wreck with no name and no mourner.",
+   "place": "burg:16",
+   "kind": "omen",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0166",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/27_anndra_breac.md#ii-of-the-planks-on-the-western-sand",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "id": "EII-4519",
+   "title": "Micheil Beag lays the planks against his wall",
+   "body": "A fisherman of that coast, Micheil Beag, gathers the stitched wood along one wall and pieces two curved lengths of hull back into shape, finding boats narrower and longer in the beam than any the coast builds for its own close fishing.",
+   "place": "burg:16",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0166",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "micheil-beag"
+   ],
+   "told_in": "book/27_anndra_breac.md#ii-of-the-planks-on-the-western-sand",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "id": "EII-4520",
+   "title": "Anndra Breac comes to the wall of planks",
+   "body": "Anndra Breac, a teller who has walked the western shore twenty years and more without a household of his own, hears Micheil Beag out and returns to look at the planking again by firelight more than once before the season turns.",
+   "place": "burg:16",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "anndra-breac",
+    "micheil-beag"
+   ],
+   "told_in": "book/27_anndra_breac.md#iii-of-anndra-breac-who-made-a-telling",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "id": "EII-4521",
+   "title": "Anndra shapes a fourth telling",
+   "body": "Turning the planks and the tower's tale over through the winter, Anndra comes to think a boat lost whole but for its wood argues not a wreck close to shore but a crossing once made, long before any telling now kept remembers the making of it.",
+   "place": "burg:16",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "anndra-breac"
+   ],
+   "told_in": "book/27_anndra_breac.md#iii-of-anndra-breac-who-made-a-telling",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "id": "EII-4522",
+   "title": "The coast hears him out without agreeing",
+   "body": "Anndra tries the telling first on households that have fed him twenty years running; none of them denies it outright, and an old woman near Seann Skell tells him a tale a man cannot leave alone wants telling somewhere it will be properly heard.",
+   "place": "burg:16",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "anndra-breac"
+   ],
+   "told_in": "book/27_anndra_breac.md#iii-of-anndra-breac-who-made-a-telling",
+   "era_between": [
+    2421,
+    2421
+   ]
+  },
+  {
+   "after": "I-0167"
+  },
+  {
+   "id": "EII-4523",
+   "title": "Anndra Breac tells the crossing at the ford",
+   "body": "At the yearly gathering, by the largest fire he can get a footing at, Anndra Breac tells a telling in which the hill-folk crossed the sea in boats once and lost more of themselves to the crossing than any telling now remembers.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "anndra-breac"
+   ],
+   "told_in": "book/27_anndra_breac.md#iii-of-anndra-breac-who-made-a-telling",
+   "era_between": [
+    2422,
+    2422
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-4524",
+   "title": "The crowd shouts him down",
+   "body": "An old man of a hill household calls out that no teller says the hill-folk came from anywhere, for they were always here, and others take up the shout until Anndra's own voice can no longer be heard over the fire.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "anndra-breac"
+   ],
+   "told_in": "book/27_anndra_breac.md#iv-of-the-ford",
+   "era_between": [
+    2422,
+    2422
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-4525",
+   "title": "Every hearth of Dia-thìr closes to him",
+   "body": "No household strikes him and none needs to; by the roads home from the ford it is already understood that Anndra Breac is not to be fed at a hill hearth again, and by the following spring not one has.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "anndra-breac"
+   ],
+   "told_in": "book/27_anndra_breac.md#iv-of-the-ford",
+   "era_between": [
+    2422,
+    2422
+   ]
+  },
+  {
+   "id": "EII-4526",
+   "title": "The king laughs once and falls quiet",
+   "body": "Standing near enough his own fire to hear the telling, the king laughs low at some point in it those nearest him cannot agree on afterward, does not join the shouting nor still it, and is seen quiet the rest of that evening in a way his own kin know to read.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering",
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor",
+    "anndra-breac"
+   ],
+   "told_in": "book/27_anndra_breac.md#v-of-the-king-who-laughed-and-then-was-quiet",
+   "era_between": [
+    2422,
+    2422
+   ]
+  },
+  {
+   "id": "EII-4527",
+   "title": "The king will not choose between the tellings",
+   "body": "Asked afterward by a woman of his own kin whether the teller spoke true, the king answers only that he has heard many tellings of where his own people came from and has never troubled to choose one over another.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering",
+    "line-of-the-mason"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/27_anndra_breac.md#v-of-the-king-who-laughed-and-then-was-quiet",
+   "era_between": [
+    2422,
+    2422
+   ]
+  },
+  {
+   "after": "I-0168"
+  },
+  {
+   "id": "EII-4528",
+   "title": "The saying is spoken at the opening of the gathering",
+   "body": "The gathering at the ford opens for the first time with the column's saying spoken aloud before any business begins, we did not come, we were here, a thing said together from that year rather than kept only in each hearth's own quiet belief.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0168",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/27_anndra_breac.md#vi-of-the-saying-spoken-at-the-opening",
+   "era_between": [
+    2423,
+    2423
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-4529",
+   "title": "Anndra Breac walks south along the western strand",
+   "body": "Seen once more below the tower at Seann Skell, walking the strand where the stitched planks still lie against Micheil Beag's wall, Anndra Breac walks on and does not look back; no teller of that coast claims to have fed, spoken to or buried him after.",
+   "place": "burg:16",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0167",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "anndra-breac",
+    "micheil-beag"
+   ],
+   "told_in": "book/27_anndra_breac.md#vi-of-the-saying-spoken-at-the-opening",
+   "era_between": [
+    2423,
+    2423
+   ]
+  },
+  {
+   "after": "I-0170"
+  },
+  {
+   "id": "EII-4530",
+   "title": "Seònaid Mhòr cuts paired marks at Ros dhomhain",
+   "body": "The keeper of the Ros dhomhain tide-rock takes to cutting two strokes for every tide instead of one, a mark for the water's highest reach and a shorter mark beside it for its lowest ebb, so that whoever reads the rock after her has the whole of the water's motion and not only its rising.",
+   "place": "burg:27",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0169",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seonaid-mhor"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#i-of-the-paired-marks-at-ros-dhomhain",
+   "era_between": [
+    2424,
+    2424
+   ]
+  },
+  {
+   "id": "EII-4531",
+   "title": "The spacing of the marks travels without its reasoning",
+   "body": "Households at Inis thais's own harbour, hearing only that Ros dhomhain's keeper cuts her marks at a certain interval, begin cutting their own high-water marks at that same spacing on a rock of their own, though none of them can say why that width and no other.",
+   "place": "burg:166",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0170",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_the_fosterlings_return.md#ii-of-the-third-rock-at-inis-thais",
+   "era_between": [
+    2424,
+    2424
+   ]
+  },
+  {
+   "id": "EII-4532",
+   "title": "Peigi Dhubh calls for a landing of laid stone",
+   "body": "At the household's board, Lachlann Ruadh's daughter says plainly that a hill whose wealth now travels by water deserves better than an open shingle beach a winter tide can rearrange. Her father agrees, and the households of the Red Hill give a season's labour to the work.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0172",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "peigi-dhubh",
+    "lachlann-ruadh"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#iii-of-the-landing-of-laid-stone",
+   "era_between": [
+    2424,
+    2424
+   ]
+  },
+  {
+   "after": "I-0171"
+  },
+  {
+   "id": "EII-4533",
+   "title": "The stone landing is set at the river-mouth",
+   "body": "Course on course of quarried stone is laid where the fresh water of the lake meets the tide from the sea, until a boat can come alongside at any state of the water without a hand needed to haul it clear of the mud: the Red Hill's first way onto open water that does not depend on a beach's mercy.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0172",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_the_fosterlings_return.md#iii-of-the-landing-of-laid-stone",
+   "era_between": [
+    2425,
+    2425
+   ]
+  },
+  {
+   "id": "EII-4534",
+   "title": "Lachlann Ruadh falls ill",
+   "body": "A chill taken wading the shallows to right a boat settles in Lachlann an Altraim's chest and will not lift with the spring. He is five-and-sixty years old, an age the Red Hill reckons past complaint for a man who has spent his whole life wet to the knee in cold water.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0173",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "lachlann-ruadh"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#iv-of-lachlann-s-dying",
+   "era_between": [
+    2425,
+    2425
+   ]
+  },
+  {
+   "id": "EII-4535",
+   "title": "Lachlann asks that the fostering be ended",
+   "body": "On one of his last evenings Lachlann tells his daughter that a fostering kept a season too long stops being a kindness and becomes only a habit no one has ended, and asks her not to let her own fondness be the reason the peace of the ford goes one day longer without its proper marking.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0173",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "lachlann-ruadh",
+    "peigi-dhubh"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#iv-of-lachlann-s-dying",
+   "era_between": [
+    2425,
+    2425
+   ]
+  },
+  {
+   "id": "EII-4536",
+   "title": "Lachlann Ruadh dies at five-and-sixty",
+   "body": "He dies in the hall he was born in, his daughter's hand in his own, the household gathered at the door with no closer claim on the bedside than the years they gave the hill. He held the Red Hill one-and-sixty years.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0173",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "lachlann-ruadh"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#iv-of-lachlann-s-dying",
+   "era_between": [
+    2425,
+    2425
+   ]
+  },
+  {
+   "id": "EII-4537",
+   "title": "Peigi Dhubh holds the Red Hill at forty",
+   "body": "She sits down at the board the morning after her father's burial and asks for the tallies before she asks for anything else. The Red Hill's own steward says afterward that she keeps them straighter than her father ever did.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0173",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "peigi-dhubh"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#v-of-peigi-dhubh-s-holding",
+   "era_between": [
+    2425,
+    2425
+   ]
+  },
+  {
+   "after": "I-0173"
+  },
+  {
+   "id": "EII-4538",
+   "title": "Houses draw in round the rock and the landing",
+   "body": "Boats from harbours further down the coast begin putting in at the new landing rather than carrying on to open beaches, and the scattered houses of that shore draw in closer round the tide-rock and the stone together until some sixty stand there, their people fishing now from boats of their own building.",
+   "place": "burg:27",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0171",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/28_the_fosterlings_return.md#iii-of-the-landing-of-laid-stone",
+   "era_between": [
+    2426,
+    2426
+   ]
+  },
+  {
+   "after": "I-0174"
+  },
+  {
+   "id": "EII-4539",
+   "title": "Peigi tells the fosterling he is to go home",
+   "body": "Walking the new stone landing with him in the last light of an evening, Peigi says her father was right, and that she means to send him home before the year turns, with salt enough for a household to carry as gift and not as trade, so the hill of Dùn ìseal will know he is sent back with honour.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0173",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "peigi-dhubh"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#v-of-peigi-dhubh-s-holding",
+   "era_between": [
+    2427,
+    2427
+   ]
+  },
+  {
+   "id": "EII-4540",
+   "title": "Seònaid Mhòr cuts a last pair of marks for him",
+   "body": "On the evening before the train leaves, the keeper of the tide-rock cuts one more pair of marks at the rock's edge, though the tide calls for none, and will not say plainly what they are for beyond that the rock has marked every tide of his years there and should mark the last of them too.",
+   "place": "burg:27",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0169",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seonaid-mhor"
+   ],
+   "told_in": "book/28_the_fosterlings_return.md#vi-of-the-leaving-of-the-red-hill",
+   "era_between": [
+    2427,
+    2427
+   ]
+  }
+ ]
+}

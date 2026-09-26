@@ -246,25 +246,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "Mòrag nic Fhearghais bakes through the morning",
-    "era_year": 22,
-    "summary": "The widow baker of Muileann mhin under the western hills bakes through the morning with two daughters for the column, and enters the sale as bread to the western company, paid in full.",
-    "category": "trade",
-    "people": [
-      "Mòrag nic Fhearghais"
-    ],
-    "places": [
-      "burg:120"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0112"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The note under the stone",
     "era_year": 22,
     "summary": "Aonghas mac Cuinn finds under a stone on his barn floor coin for a week's rent and a note in Dia-thìris: for the barn, and thanks; we have asked nothing else. It is the only writing in the Library's file that can be set to a hand inside the column.",
@@ -291,6 +272,23 @@
     "people": [],
     "places": [
       "burg:151"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0114"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Caol ruadh's boats carry the regiments' bread",
+    "era_year": 22,
+    "summary": "The boats of the red strait at Caol ruadh are hired to carry the regiments' bread along the coast in the autumn, paid by the day, with a soldier aboard each to count the loaves.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:15"
     ],
     "threads": [
       "the-long-war"

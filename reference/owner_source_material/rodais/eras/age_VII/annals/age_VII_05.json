@@ -123,7 +123,7 @@
   },
   {
    "id": "EVII-3005",
-   "title": "The Muileann àrsaidh agreement signed",
+   "title": "Còrdadh Muileann àrsaidh signed",
    "body": "Muileann àrsaidh, Cnoc thais, Tobar dhearg and Àth leathan sign, in the pit-shed above Muileann àrsaidh, an agreement drafted by Ruth Calder: to go on working their seams and sell their coal to any household of the north that comes freely to buy it, and to stand by each other in the keeping of it.",
    "place": "burg:244",
    "kind": "record",
@@ -236,8 +236,8 @@
   },
   {
    "id": "EVII-3009",
-   "title": "Dodds argues for naming the charter rule",
-   "body": "In the pit-shed at Muileann àrsaidh a hewer named Dodds wants the agreement to name the Fuel-Fitters and the charter rule; Ruth Calder answers that a grievance is a thing folk argue with, and the line is left out. Dodds signs all the same.",
+   "title": "Dodds argues for naming Riaghailt na Cairte",
+   "body": "In the pit-shed at Muileann àrsaidh a hewer named Dodds wants the agreement to name Comann nan Goibhnean-ceangail and Riaghailt na Cairte; Ruth Calder answers that a grievance is a thing folk argue with, and the line is left out. Dodds signs all the same.",
    "place": "burg:244",
    "kind": "record",
    "category": "law",
@@ -324,10 +324,37 @@
    ]
   },
   {
+   "id": "EVII-3012",
+   "title": "The elders of Cnoc ghorm hear of the agreement",
+   "body": "Word of the pit towns' agreement at Muileann àrsaidh reaches the Tuathaich elders at Cnoc ghorm by a carrier; they send nothing west and nothing to Tional nan Tuathach, and enter the news in their own book.",
+   "place": "burg:142",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0052",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_meeting_at_muileann_arsaidh.md#iii-of-the-pit-shed-and-the-agreement",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
    "after": "VI-0061"
   },
   {
-   "id": "EVII-3012",
+   "id": "EVII-3013",
    "title": "The coal-for-fish cart of Tobar dhearg",
    "body": "Twice a month a cart goes down from Tobar dhearg of the hills to the walled coast town of Cathair gheal, laden with the poor coal of its one pit, and comes back laden with fish salted in barrels. Neither town can say which first proposed the trade.",
    "place": "burg:408",
@@ -350,39 +377,9 @@
    ]
   },
   {
-   "id": "EVII-3013",
+   "id": "EVII-3014",
    "title": "Ellen Marsh comes to Cathair gheal",
    "body": "Ellen Marsh rides the fish cart down to Cathair gheal in the raw end of an Gearran to sit again with Annie Drew, a widow of ninety-three and the last soul in the town old enough to remember the parting itself.",
-   "place": "burg:476",
-   "kind": "people",
-   "category": "humans",
-   "links": [
-    {
-     "to": "VI-0058",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3012",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [
-    "ellen-marsh",
-    "annie-drew"
-   ],
-   "told_in": "book/17_of_the_eleven_books.md#i-of-cathair-gheal",
-   "era_between": [
-    17,
-    17
-   ]
-  },
-  {
-   "id": "EVII-3014",
-   "title": "Annie Drew's last telling",
-   "body": "Annie Drew gives Ellen Marsh the rest of her memory of the Severance: the smoke of the fires left burning, the new-set boundary stones, and a soldier who gave her mother bread and would not meet her eye. She says she has kept her word before dying, and bids Ellen keep her own.",
    "place": "burg:476",
    "kind": "people",
    "category": "humans",
@@ -411,8 +408,8 @@
   },
   {
    "id": "EVII-3015",
-   "title": "The last of the old tellers",
-   "body": "Annie Drew tells Ellen Marsh that no one older than herself remains along the coast this side of Muileann àrsaidh, where the one other woman of her years has lost her memory to a fever. Ellen does not deny it.",
+   "title": "Annie Drew's last telling",
+   "body": "Annie Drew gives Ellen Marsh the rest of her memory of An Dealachadh: the smoke of the fires left burning, the new-set boundary stones, and a soldier who gave her mother bread and would not meet her eye. She says she has kept her word before dying, and bids Ellen keep her own.",
    "place": "burg:476",
    "kind": "people",
    "category": "humans",
@@ -441,8 +438,38 @@
   },
   {
    "id": "EVII-3016",
+   "title": "The last of the old tellers",
+   "body": "Annie Drew tells Ellen Marsh that no one older than herself remains along the coast this side of Muileann àrsaidh, where the one other woman of her years has lost her memory to a fever. Ellen does not deny it.",
+   "place": "burg:476",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0058",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "ellen-marsh",
+    "annie-drew"
+   ],
+   "told_in": "book/17_of_the_eleven_books.md#i-of-cathair-gheal",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVII-3017",
    "title": "The eleventh book begun",
-   "body": "Ellen Marsh had begun her gathering by accident, eleven winters before, when an old man of the parish stopped her in the lane to correct a date in the Severance she had taught the children wrong. She went home and wrote down what he told her before she forgot it, and never found a reason to stop.",
+   "body": "Ellen Marsh had begun her gathering by accident, eleven winters before, when an old man of the parish stopped her in the lane to correct a date in An Dealachadh she had taught the children wrong. She went home and wrote down what he told her before she forgot it, and never found a reason to stop.",
    "place": "burg:209",
    "kind": "record",
    "category": "law",
@@ -452,7 +479,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3015",
+     "to": "EVII-3016",
      "type": "sequel"
     }
    ],
@@ -469,9 +496,9 @@
    ]
   },
   {
-   "id": "EVII-3017",
+   "id": "EVII-3018",
    "title": "The request read before the keepers",
-   "body": "In the spring Ellen Marsh's request and the eleven books that came with it are read entire before the keepers of Leabharlann Muileann chaol and set upon the table of the council's business, where they are not refused.",
+   "body": "In the spring Ellen Marsh's request and An t-Aon Leabhar Deug that came with it are read entire before the keepers of Leabharlann Muileann chaol and set upon the table of the council's business, where they are not refused.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -481,7 +508,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3016",
+     "to": "EVII-3017",
      "type": "sequel"
     }
    ],
@@ -499,7 +526,7 @@
    ]
   },
   {
-   "id": "EVII-3018",
+   "id": "EVII-3019",
    "title": "The letter parsed in the schoolroom",
    "body": "Ellen Marsh reads the keeper's letter entire to her class at the start of an t-Sultain and has the children parse its sentences clause by clause. A girl of the town says that 'not refused' means no, but that no answer can be given to 'not yet'.",
    "place": "burg:209",
@@ -511,7 +538,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3017",
+     "to": "EVII-3018",
      "type": "sequel"
     }
    ],
@@ -523,36 +550,6 @@
     "ellen-marsh"
    ],
    "told_in": "book/17_of_the_eleven_books.md#iii-of-the-letter-laid-on-the-table",
-   "era_between": [
-    17,
-    17
-   ]
-  },
-  {
-   "id": "EVII-3019",
-   "title": "The soldier's bread at the boundary stones",
-   "body": "Annie Drew of Cathair gheal, the oldest soul in the town, gives Ellen Marsh the last of her telling of the Severance: a soldier at the last of the new stones who gave her mother bread from his own satchel and would not meet her eye.",
-   "place": "burg:476",
-   "kind": "people",
-   "category": "humans",
-   "links": [
-    {
-     "to": "VI-0058",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3018",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [
-    "annie-drew",
-    "ellen-marsh"
-   ],
-   "told_in": "book/17_of_the_eleven_books.md#i-of-cathair-gheal",
    "era_between": [
     17,
     17
@@ -591,7 +588,7 @@
   {
    "id": "EVII-3021",
    "title": "Raghnall's line in each book's flyleaf",
-   "body": "The keeper of an Leabharlann writes the same few words of receipt on the flyleaf of each of Ellen Marsh's eleven books on the day it is carried in, and lays the request on the table.",
+   "body": "The keeper of an Leabharlann writes the same few words of receipt on the flyleaf of each of Ellen Marsh's An t-Aon Leabhar Deug on the day it is carried in, and lays the request on the table.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -649,12 +646,39 @@
    ]
   },
   {
+   "id": "EVII-3023",
+   "title": "Ceann leathan's gate paid in the new coin",
+   "body": "The fair-wardens of Còmhrag Ceann leathan at Ceann leathan take the gate-price for the first time wholly in coin of the plain seal, the old coal-inked coin having gone out of the purses of the crowd.",
+   "place": "burg:22",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0050",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3022",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-dubhan-trade"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_eleven_books.md#i-of-cathair-gheal",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
    "after": "VI-0065"
   },
   {
-   "id": "EVII-3023",
+   "id": "EVII-3024",
    "title": "A brewer of Baile ìseal writes to the Board unasked",
-   "body": "A brewer of Baile ìseal writes to the Mine Board that he sees no shame in buying whichever coal comes cheapest, and will take no lecture from a Board that has never once carried coal north of the boundary stones for a Tuathach hearth to burn. The letter is filed and not answered.",
+   "body": "A brewer of Baile ìseal writes to Comhairle nam Mèinnean that he sees no shame in buying whichever coal comes cheapest, and will take no lecture from a Board that has never once carried coal north of the boundary stones for a Tuathach hearth to burn. The letter is filed and not answered.",
    "place": "burg:306",
    "kind": "trade",
    "category": "trade",
@@ -665,7 +689,8 @@
     }
    ],
    "threads": [
-    "the-tuathaich"
+    "the-tuathaich",
+    "the-dubhan-trade"
    ],
    "people": [],
    "told_in": "book/18_of_the_leoid_ruling.md#i-of-the-wool-contract",
@@ -675,9 +700,9 @@
    ]
   },
   {
-   "id": "EVII-3024",
+   "id": "EVII-3025",
    "title": "Fearghas mac Aonghais calls for the northern returns",
-   "body": "The master of the Mine Board calls for the northern returns drawn town by town, a thing he has not asked of his clerk in four years. Seumas mac Eachainn spends the better part of a day setting the wool mills' new contract against the year before and finds no part of the fall lying anywhere but in the five holdout towns' own trade.",
+   "body": "The master of Comhairle nam Mèinnean calls for the northern returns drawn town by town, a thing he has not asked of his clerk in four years. Seumas mac Eachainn spends the better part of a day setting the wool mills' new contract against the year before and finds no part of the fall lying anywhere but in the five holdout towns' own trade.",
    "place": "burg:23",
    "kind": "craft",
    "category": "coal",
@@ -687,11 +712,13 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3023",
+     "to": "EVII-3024",
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-dubhan-trade"
+   ],
    "people": [
     "seumas-mac-eachainn",
     "fearghas-mac-aonghais"
@@ -703,9 +730,9 @@
    ]
   },
   {
-   "id": "EVII-3025",
-   "title": "The Leòid ruling read again at Cathair mhòr",
-   "body": "Seumas mac Eachainn carries the Board's own copy of the Leòid ruling to the master's room and hears it read through: that a right to work a seam fails with the fifth, whatever the reason the fifth stopped coming in. Fearghas mac Aonghais finds in it no clause that asks whether the Board's own reason for ceasing to carry the coal was a fair one.",
+   "id": "EVII-3026",
+   "title": "Breith Leòid read again at Cathair mhòr",
+   "body": "Seumas mac Eachainn carries the Board's own copy of Breith Leòid to the master's room and hears it read through: that a right to work a seam fails with the fifth, whatever the reason the fifth stopped coming in. Fearghas mac Aonghais finds in it no clause that asks whether the Board's own reason for ceasing to carry the coal was a fair one.",
    "place": "burg:23",
    "kind": "record",
    "category": "law",
@@ -719,11 +746,13 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3024",
+     "to": "EVII-3025",
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-dubhan-trade"
+   ],
    "people": [
     "seumas-mac-eachainn",
     "fearghas-mac-aonghais"
@@ -735,7 +764,7 @@
    ]
   },
   {
-   "id": "EVII-3026",
+   "id": "EVII-3027",
    "title": "Seumas mac Eachainn's report leaves out the carrying",
    "body": "Writing the master's report by lamplight, Seumas mac Eachainn sets down every figure he has checked twice and is true, and leaves out, because the master did not ask for it, that the Board stopped carrying the western pits' coal four years before the pits stopped paying the fifth for it.",
    "place": "burg:23",
@@ -747,11 +776,12 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3025",
+     "to": "EVII-3026",
      "type": "sequel"
     }
    ],
    "threads": [
+    "the-dubhan-trade",
     "the-tuathaich"
    ],
    "people": [
@@ -764,37 +794,10 @@
    ]
   },
   {
-   "id": "EVII-3027",
+   "id": "EVII-3028",
    "title": "The shutting order carried north to the maor",
    "body": "The Board's courier brings the sealed order to the maor of the western Seann Skell, who reads it standing at his own door and sends for the town's clerk as a second witness before the ink is a day old, judging rightly that the western towns will not obey a paper.",
    "place": "burg:489",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0064",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3026",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [],
-   "told_in": "book/18_of_the_leoid_ruling.md#iv-of-the-order-carried-north",
-   "era_between": [
-    18,
-    18
-   ]
-  },
-  {
-   "id": "EVII-3028",
-   "title": "The five towns' unsigned answer",
-   "body": "Word of the shutting order passes hand to hand among Muileann àrsaidh, Cnoc thais and Àth leathan, and an answer goes back to no one in particular: that the pits stopped paying the fifth the day the Board stopped carrying their coal, and will pay it again the day the carrying starts. It never reaches the Board as a formal reply.",
-   "place": "burg:54",
    "kind": "record",
    "category": "law",
    "links": [
@@ -808,7 +811,8 @@
     }
    ],
    "threads": [
-    "the-tuathaich"
+    "the-tuathaich",
+    "the-dubhan-trade"
    ],
    "people": [],
    "told_in": "book/18_of_the_leoid_ruling.md#iv-of-the-order-carried-north",
@@ -819,6 +823,33 @@
   },
   {
    "id": "EVII-3029",
+   "title": "The five towns' unsigned answer",
+   "body": "Word of the shutting order passes hand to hand among Muileann àrsaidh, Cnoc thais and Àth leathan, and an answer goes back to no one in particular: that the pits stopped paying the fifth the day the Board stopped carrying their coal, and will pay it again the day the carrying starts. It never reaches the Board as a formal reply.",
+   "place": "burg:54",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0064",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_leoid_ruling.md#iv-of-the-order-carried-north",
+   "era_between": [
+    18,
+    18
+   ]
+  },
+  {
+   "id": "EVII-3030",
    "title": "The five towns meet at Muileann àrsaidh again",
    "body": "Ruth Calder reads the Board's order aloud in the pit-shed at Muileann àrsaidh, twice through. Tom Varley wants it answered clause for clause; Ruth holds that the only answer that matters is whether coal comes up the morning after the order's date. It does, and the towns vote to go on as before.",
    "place": "burg:54",
@@ -834,7 +865,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3028",
+     "to": "EVII-3029",
      "type": "sequel"
     }
    ],
@@ -853,7 +884,7 @@
    ]
   },
   {
-   "id": "EVII-3030",
+   "id": "EVII-3031",
    "title": "Somhairle mac Lachlainn given the western command",
    "body": "Called before Fearghas mac Aonghais and a councillor of the Rìoghachd, Somhairle mac Lachlainn is given command of forty of the Board's enforcers, to hold the shutting order at the five pit-heads and to close no house, road or town beyond them. He is told plainly that his business is to hold the order, not to fight a war nobody has declared.",
    "place": "burg:23",
@@ -865,7 +896,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3029",
+     "to": "EVII-3030",
      "type": "sequel"
     }
    ],
@@ -883,7 +914,7 @@
    ]
   },
   {
-   "id": "EVII-3031",
+   "id": "EVII-3032",
    "title": "Somhairle mac Lachlainn rides the road ahead of his company",
    "body": "Two days ahead of his forty men, Somhairle mac Lachlainn rides alone across the boundary stones to see the ground he must hold, and lodges a night short of the western Seann Skell turning over, for the first time in eighteen years of the Board's service, whether a smuggler's quay and a country under a shutting order are the same kind of work.",
    "place": "burg:489",
@@ -895,7 +926,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3030",
+     "to": "EVII-3031",
      "type": "sequel"
     }
    ],
@@ -912,7 +943,7 @@
    ]
   },
   {
-   "id": "EVII-3032",
+   "id": "EVII-3033",
    "title": "Tom Varley gives the posted men their tea",
    "body": "Two of Somhairle's men are sent to stand at the pit-head of Cnoc thais with the shutting order nailed to the winding-gear. Tom Varley reads it without a word, tells them they are welcome to stand there as long as they like, and sees them given tea at midday like anyone else standing about in the wet. The coal comes up all the same.",
    "place": "burg:269",
@@ -924,7 +955,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3031",
+     "to": "EVII-3032",
      "type": "sequel"
     }
    ],
@@ -942,37 +973,9 @@
    ]
   },
   {
-   "id": "EVII-3033",
-   "title": "A brewer of Baile ìseal buys northern coal",
-   "body": "A brewer of Baile ìseal writes to the Mine Board that he will warm his vats with whatever coal comes cheapest, and will take no lecture from a Board that never carried coal north of the boundary stones for a Tuathach hearth.",
-   "place": "burg:285",
-   "kind": "trade",
-   "category": "trade",
-   "links": [
-    {
-     "to": "VI-0062",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3032",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich",
-    "the-seven-coals"
-   ],
-   "people": [],
-   "told_in": "book/18_of_the_leoid_ruling.md#i-of-the-wool-contract",
-   "era_between": [
-    18,
-    18
-   ]
-  },
-  {
    "id": "EVII-3034",
-   "title": "The margins of the Leòid ruling",
-   "body": "The Board's press copy of the Leòid ruling carries in its margins the circuit rulings that settled it: that a holder's right runs with the Crown's fifth, and that nothing binds the Board to carry any holder's coal.",
+   "title": "The margins of Breith Leòid",
+   "body": "The Board's press copy of Breith Leòid carries in its margins the circuit rulings that settled it: that a holder's right runs with An Crùn's fifth, and that nothing binds the Board to carry any holder's coal.",
    "place": "burg:23",
    "kind": "record",
    "category": "law",
@@ -1057,6 +1060,59 @@
     "tom-varley"
    ],
    "told_in": "book/18_of_the_leoid_ruling.md#vi-of-the-company-at-the-western-seann-skell",
+   "era_between": [
+    18,
+    18
+   ]
+  },
+  {
+   "id": "EVII-3037",
+   "title": "The granary factors of Achadh mhòr",
+   "body": "The granary factors of Achadh mhòr sell a winter's oats to the pit towns of the western hills through Tional nan Tuathach's granaries, and write to the Board that they know of no rule against it.",
+   "place": "burg:395",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "VI-0063",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_leoid_ruling.md#i-of-the-wool-contract",
+   "era_between": [
+    18,
+    18
+   ]
+  },
+  {
+   "id": "EVII-3038",
+   "title": "The Brìde house of Caol ruadh burns its last stored coal",
+   "body": "The house of Brìde at Caol ruadh burns the last of the altar coal it stored in the undercroft, and its custodians write to the Àrd-choimheadaiche asking where the next is to come from.",
+   "place": "burg:15",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EVII-3037",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-seven-coals"
+   ],
+   "people": [
+    "alasdair-mac-iomhair"
+   ],
+   "told_in": "book/18_of_the_leoid_ruling.md#i-of-the-wool-contract",
    "era_between": [
     18,
     18

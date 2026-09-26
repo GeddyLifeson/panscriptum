@@ -144,6 +144,54 @@
    "colour": "#a0522d",
    "description": "The rule that the vein-coal be burned only in small measure and only by the custodians, first written in the custody-book at the vein-house and kept, argued and bent through the whole Age of Sundering.",
    "status": "proposed"
+  },
+  {
+   "id": "the-depletion",
+   "dt": "An Traoghadh",
+   "gloss": "the Depletion",
+   "colour": "#6b6b6b",
+   "description": "The thinning of the vein, from the first quiet note of the survey to the one sheet and the flooded galleries of the Age of the Kingdom.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-long-years",
+   "dt": "Na Bliadhnachan Fada",
+   "gloss": "the Long Years",
+   "colour": "#b8860b",
+   "description": "The fading of the long lives of Ailean Mòr's blood, from heirs who counted their years in thousands to rulers who died at the ordinary span of every other household.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-keepers-of-the-flame",
+   "dt": "Coimheadaichean na Lasrach",
+   "gloss": "the Keepers of the Flame",
+   "colour": "#d2691e",
+   "description": "The roll of the Keepers of the bound flame at Dùn ìseal, from Beathag Bhàn to Catrìona nic Mhuirich, and the house that came to hold the watching of it.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-road-peace",
+   "dt": "Sìth an Rathaid",
+   "gloss": "the Road Peace",
+   "colour": "#708090",
+   "description": "The roads, waypoint houses, bridges and road-guards of the Holy Age, and the peace that the hearth-sign kept along them.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-old-ones",
+   "dt": "Na Seann-Dhaoine",
+   "gloss": "the Old Ones",
+   "colour": "#6b7b5e",
+   "description": "The people before the Dia-thìrich, their middens, towers, tally-stones and graves, and how the godkin's households met, traded with and outlasted them.",
+   "status": "proposed"
+  },
+  {
+   "id": "the-ford-gathering",
+   "dt": "Cruinneachadh an Àtha",
+   "gloss": "the Gathering at the Ford",
+   "colour": "#4f7fa8",
+   "description": "The yearly meeting of salt and wool at the ford below the Red Hill, from Raghnall Ceannfhionn's wading to the great gathering of the three thousandth year.",
+   "status": "proposed"
   }
  ]
 }

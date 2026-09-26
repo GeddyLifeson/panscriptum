@@ -1,122 +1,220 @@
 [
- {
-  "title": "Iain mac Ruairidh taken on as chainman",
-  "era_year": 12,
-  "summary": "Iain, a hewer's son of the hills, is taken on by Lachlann mac Iain Bhàin, the Mine Board's surveyor, to carry the chain and keep the faces' book at the Sloc Mòr. He is sworn to no guild, only entered on the Board's roll.",
-  "category": "coal",
-  "people": [],
-  "places": ["burg:135"],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "V-0053", "type": "location"}]
- },
- {
-  "title": "The druid hall at Muileann dhearg becomes a lodging",
-  "era_year": 12,
-  "summary": "As hungry families from the east crowd into the vein-towns, Muileann dhearg's shut druid hall is opened again, not for its old teaching but for pallets on its floor, and is twice enlarged within a few years to hold them.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:491"],
-  "threads": [],
-  "master_links": [{"to": "V-0053", "type": "sequel"}]
- },
- {
-  "title": "Inns and a ropewalk at Baile thais",
-  "era_year": 12,
-  "summary": "The crossing at Baile thais, where the coal road meets the Abhainn uaine, fills with carters who stay the night and then keep families there; inns, stables and a ropewalk making the cages' hauling-rope grow up along the ford within the decade.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:44"],
-  "threads": [],
-  "master_links": [{"to": "V-0054", "type": "sequel"}]
- },
- {
-  "title": "The raiders' first season off Cathair gheal",
-  "era_year": 12,
-  "summary": "Flagless ships work the water off Cathair gheal in the north-west; a fishing house is burned on the shore below Cathair gheal and two boats are lost from Cathair gheal's own harbour. The council's word, when it comes the next spring, is four lines asking that the matter be watched.",
-  "category": "war",
-  "people": [],
-  "places": [],
-  "threads": ["the-tuathaich"],
-  "master_links": [{"to": "V-0055", "type": "sequel"}]
- },
- {
-  "title": "The first coal train runs to the capital",
-  "era_year": 12,
-  "summary": "On the third of an Dàmhair the mended rail carries the first train, loaded with coal cut that week, from the Sloc Mòr's pithead at Achadh dhomhain down to Cathair dhearg on the humans' own iron, a Tuathaich engineer at the footplate.",
-  "category": "coal",
-  "people": [],
-  "places": ["burg:135"],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "V-0056", "type": "location"}]
- },
- {
-  "title": "The Mac Ùisdein quarry-mark first cut",
-  "era_year": 12,
-  "summary": "The grey, black-veined spoil of the Sloc Mòr's deeper galleries is quarried and dressed for building, and sold south under a stylised wave, the mark of the house of Mac Ùisdein, cut into every squared block.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:135"],
-  "threads": [],
-  "master_links": [{"to": "V-0057", "type": "location"}]
- },
- {
-  "title": "The Rail Board's office raised at Cathair mhòr",
-  "era_year": 13,
-  "summary": "The Rail Board builds its office at Cathair mhòr of the Sloc Mòr's own grey spoil-stone, and the Board's business, surveys among them, is thereafter kept within its walls.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:135"],
-  "threads": [],
-  "master_links": [{"to": "V-0057", "type": "sequel"}]
- },
- {
-  "title": "Lachlann mac Iain Bhàin's book of the faces",
-  "era_year": 13,
-  "summary": "Lachlann mac Iain Bhàin, the Mine Board's surveyor at the Sloc Mòr, keeps a running book of the faces he and his chainman measure, entering each true figure against the hewers who are paid by the fathom driven.",
-  "category": "coal",
-  "people": [],
-  "places": ["burg:135"],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "V-0053", "type": "sequel"}]
- },
- {
-  "title": "The shunting yard at Muileann chrom counted apart",
-  "era_year": 13,
-  "summary": "New sidings at Muileann chrom, where the Sloc Mòr's coal trains are broken up and made up for the ports, bring rows of housing for the families who work the small engines. The Board keeps their roll separate from the shire's and houses them apart, beside the lines.",
-  "category": "law",
-  "people": [],
-  "places": ["burg:354"],
-  "threads": ["the-tuathaich"],
-  "master_links": [{"to": "V-0058", "type": "location"}]
- },
- {
-  "title": "The spur to Àth leathan opened",
-  "era_year": 13,
-  "summary": "The Rail Board lays four miles of new rail off the western branch to Àth leathan, where Tuathaich hewers have long worked the coal, judging the ground poor but the coal cheap to lift and the carters' road worse each winter.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:346"],
-  "threads": ["the-tuathaich"],
-  "master_links": [{"to": "V-0058", "type": "sequel"}]
- },
- {
-  "title": "The Guild of Hewers chartered at Achadh dhomhain",
-  "era_year": 13,
-  "summary": "The restored custom of binding, kept now for Dia-thìrich alone, is set into the Guild of Hewers' charter and read aloud at Achadh dhomhain. Each hewer taken in lays a hand flat on a lump of coal and swears to keep the guild's custom, take no outside work and teach no craft of it to a hand unsworn.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:135"],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "V-0060", "type": "location"}]
- },
- {
-  "title": "Iain mac Ruairidh stands outside the oath",
-  "era_year": 13,
-  "summary": "At the guild's chartering Iain watches his own father sworn among the hewers and understands that the charter's rolls, open to those who cut, haul or timber the coal, hold no place for the Board's chainman who only measures where it lies.",
-  "category": "coal",
-  "people": [],
-  "places": ["burg:135"],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "V-0060", "type": "sequel"}]
- }
+  {
+    "title": "Iain mac Ruairidh taken on as chainman",
+    "era_year": 12,
+    "summary": "Iain, a hewer's son of the hills, is taken on by Lachlann mac Iain Bhàin, the Mine Board's surveyor, to carry the chain and keep the faces' book at the Sloc Mòr. He is sworn to no guild, only entered on the Board's roll.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [
+      {
+        "to": "V-0053",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "title": "The druid hall at Muileann dhearg becomes a lodging",
+    "era_year": 12,
+    "summary": "As hungry families from the east crowd into the vein-towns, Muileann dhearg's shut druid hall is opened again, not for its old teaching but for pallets on its floor, and is twice enlarged within a few years to hold them.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:491"
+    ],
+    "threads": [],
+    "master_links": [
+      {
+        "to": "V-0053",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Inns and a ropewalk at Baile thais",
+    "era_year": 12,
+    "summary": "The crossing at Baile thais, where the coal road meets the Abhainn uaine, fills with carters who stay the night and then keep families there; inns, stables and a ropewalk making the cages' hauling-rope grow up along the ford within the decade.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:44"
+    ],
+    "threads": [],
+    "master_links": [
+      {
+        "to": "V-0054",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The raiders' first season off Cathair gheal",
+    "era_year": 12,
+    "summary": "Flagless ships work the water off Cathair gheal in the north-west; a fishing house is burned on the shore below Cathair gheal and two boats are lost from Cathair gheal's own harbour. The council's word, when it comes the next spring, is four lines asking that the matter be watched.",
+    "category": "war",
+    "people": [],
+    "places": [],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0055",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The first coal train runs to the capital",
+    "era_year": 12,
+    "summary": "On the third of an Dàmhair the mended rail carries the first train, loaded with coal cut that week, from the Sloc Mòr's pithead at Achadh dhomhain down to Cathair dhearg on the humans' own iron, a Tuathaich engineer at the footplate.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [
+      {
+        "to": "V-0056",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "title": "The Mac Ùisdein quarry-mark first cut",
+    "era_year": 12,
+    "summary": "The grey, black-veined spoil of the Sloc Mòr's deeper galleries is quarried and dressed for building, and sold south under a stylised wave, the mark of the house of Mac Ùisdein, cut into every squared block.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [],
+    "master_links": [
+      {
+        "to": "V-0057",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "title": "The Rail Board's office raised at Cathair dhearg",
+    "era_year": 13,
+    "summary": "The Rail Board builds its office at Cathair dhearg, low and of the same grey Mac Ùisdein stone, and the Board's business, surveys among them, is thereafter kept within its walls.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [],
+    "master_links": [
+      {
+        "to": "V-0057",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Lachlann mac Iain Bhàin's book of the faces",
+    "era_year": 13,
+    "summary": "Lachlann mac Iain Bhàin, the Mine Board's surveyor at the Sloc Mòr, keeps a running book of the faces he and his chainman measure, entering each true figure against the hewers who are paid by the fathom driven.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [
+      {
+        "to": "V-0053",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The shunting yard at Muileann chrom counted apart",
+    "era_year": 13,
+    "summary": "New sidings at Muileann chrom, where the Sloc Mòr's coal trains are broken up and made up for the ports, bring rows of housing for the families who work the small engines. The Board keeps their roll separate from the shire's and houses them apart, beside the lines.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:354"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0058",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "title": "The spur to Àth leathan opened",
+    "era_year": 13,
+    "summary": "The Rail Board lays thirteen miles of new rail off the western branch to Àth leathan, where Tuathaich hewers have long worked the coal, judging the ground poor but the coal cheap to lift and the carters' road worse each winter.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:346"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      {
+        "to": "V-0058",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The Guild of Hewers chartered at Achadh dhomhain",
+    "era_year": 13,
+    "summary": "The restored custom of binding, kept now for Dia-thìrich alone, is set into the Guild of Hewers' charter and read aloud at Achadh dhomhain. Each hewer taken in lays a hand flat on a lump of coal and swears to keep the guild's custom, take no outside work and teach no craft of it to a hand unsworn.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [
+      {
+        "to": "V-0060",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "title": "Iain mac Ruairidh stands outside the oath",
+    "era_year": 13,
+    "summary": "At the guild's chartering Iain watches his own father sworn among the hewers and understands that the charter's rolls, open to those who cut, haul or timber the coal, hold no place for the Board's chainman who only measures where it lies.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:135"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [
+      {
+        "to": "V-0060",
+        "type": "sequel"
+      }
+    ]
+  }
 ]

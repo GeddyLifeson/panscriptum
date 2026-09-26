@@ -4,10 +4,10 @@
 
 *Part One: The Grove and the Hill*
 
-> *Bidh e leatsa, agus cha bhi e aig duine às do dhèidh.*
-> It will be yours, and no one's after you.
+> *Chaidh e dhan doire na ghille, is thill e na rìgh.*
+> He went into the grove a lad, and he came back a king.
 >
-> — the Keeper to Ailean at the vigil, as Clann na Ceiste keep it
+> — said of Ailean Mòr, as the reciters of Dùn ìseal keep it
 
 ## I. Of the Fires under the Oaks
 

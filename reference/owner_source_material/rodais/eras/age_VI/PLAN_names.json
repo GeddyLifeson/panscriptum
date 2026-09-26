@@ -1,12 +1,5 @@
 [
  {
-  "en": "Now Written",
-  "dt": "Scrìobhte a-nis",
-  "gloss": "now written",
-  "kind": "section-title",
-  "note": "the volume's title"
- },
- {
   "en": "the Seeking",
   "dt": "An Sireadh",
   "gloss": "the seeking",
@@ -160,5 +153,17 @@
   "gloss": "the court of the fair",
   "kind": "institution",
   "note": "Oighrig nic Mhathain's court at Muileann òg, ch19"
+ },
+ {
+  "en": "the known reef",
+  "dt": "an Sceir Aithnichte",
+  "gloss": "the known reef",
+  "kind": "landmark"
+ },
+ {
+  "en": "the street of the pit",
+  "dt": "Sràid an t-Sluic",
+  "gloss": "the street of the pit",
+  "kind": "landmark"
  }
 ]

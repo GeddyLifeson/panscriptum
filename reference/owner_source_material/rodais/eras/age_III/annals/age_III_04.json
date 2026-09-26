@@ -1,0 +1,1417 @@
+{
+ "writer": 4,
+ "span": [
+  "II-0045",
+  "II-0065"
+ ],
+ "events": [
+  {
+   "id": "EIII-4001",
+   "title": "The Keeper before Eilidh dies at the cup",
+   "body": "The Keeper who held the flame after Eimhir nic Mhuirich dies sitting on the low stool beside the stone cup at Talla na Lasrach, her hands folded in her lap. The small lamp beside her burns out unfed in the night, the first time in living memory that any lamp in the Hall has been let go dark.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EIII-3069",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#i-of-the-empty-threshold",
+   "era_between": [
+    381,
+    381
+   ]
+  },
+  {
+   "id": "EIII-4002",
+   "title": "The cup left unfilled a season",
+   "body": "For the better part of a year after the nine hearths choose Eilidh, Sliochd Mhuirich refuses to yield the flame, and the stone cup at Talla na Lasrach sits under the care of the hearth-line's own eldest, unfilled by any new hand, while every market and threshing floor on the mountain airs an opinion on the matter.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0045",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#ii-of-the-season-of-refusal",
+   "era_between": [
+    382,
+    382
+   ]
+  },
+  {
+   "id": "EIII-4003",
+   "title": "The argument of the diluted blood",
+   "body": "Eilidh's own kin argue to her, and to anyone who will listen, that half the households in the hills carry some thread of the king's blood by now, so that the Binding's old rule has become a rule against nearly everybody or nobody. Eilidh answers that the argument settles nothing Sliochd Mhuirich has actually asked.",
+   "place": "burg:422",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0045",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#ii-of-the-season-of-refusal",
+   "era_between": [
+    382,
+    382
+   ]
+  },
+  {
+   "id": "EIII-4004",
+   "title": "The hearth-line eldest offers the cup's condition",
+   "body": "The eldest of Sliochd Mhuirich comes to the Hall's threshold and offers a single condition for yielding the flame to Eilidh nic Ìomhair: that the stone cup Fionnlagh Dall cut to the measure of two palms shall never, for any cause, be carried out through the door of Talla na Lasrach.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0045",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#iii-of-the-condition",
+   "era_between": [
+    382,
+    382
+   ]
+  },
+  {
+   "id": "EIII-4005",
+   "title": "Eilidh swears to the cup's condition",
+   "body": "Eilidh nic Ìomhair swears before the nine hearths that the stone cup will never leave Talla na Lasrach, her hand flat on its rim, and takes the coal that same afternoon, the measure poured level to her palm exactly as for every Keeper before her.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0046",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#iii-of-the-condition",
+   "era_between": [
+    382,
+    382
+   ]
+  },
+  {
+   "id": "EIII-4006",
+   "title": "Sliochd Thormoid names Tormod Liath",
+   "body": "At a gathering of the nine hearths, the eldest of Sliochd Thormoid names for the first time an ancestor called Tormod Liath, said to have held the hill itself under the old king, as the ground of the house's claim to a voice in the Keeper's office.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0046",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#iv-of-the-four-houses-sworn",
+   "era_between": [
+    385,
+    385
+   ]
+  },
+  {
+   "id": "EIII-4007",
+   "title": "Sliochd Raghnaill names Raghnall Ceannfhionn",
+   "body": "Sliochd Raghnaill answers Sliochd Thormoid's claim with its own, naming an ancestor Raghnall Ceannfhionn, though the house rests its true weight less on any hill than on the plain fact that its boats carry more coal down the coast in a bad season than any other house's carts carry inland.",
+   "place": "burg:34",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0046",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#iv-of-the-four-houses-sworn",
+   "era_between": [
+    385,
+    385
+   ]
+  },
+  {
+   "id": "EIII-4008",
+   "title": "Eilidh binds the office to four houses",
+   "body": "Eilidh nic Ìomhair puts to the nine hearths that the Keeper's office be bound from that season to four houses of custody alone, Sliochd Mhuirich, Sliochd Ìomhair, Sliochd Thormoid and Sliochd Raghnaill, and that the other hearths keep their council seats but surrender any further claim on the flame.",
+   "place": "burg:315",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0046",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame",
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#iv-of-the-four-houses-sworn",
+   "era_between": [
+    385,
+    385
+   ]
+  },
+  {
+   "after": "II-0046"
+  },
+  {
+   "id": "EIII-4009",
+   "title": "The grumble over Seann Dunn's fullest lamp",
+   "body": "The other three houses grumble that Sliochd Thormoid's coal-lamp at Seann Dunn always burns fuller than the Law's measure allows, though no cutter sent to check it ever finds a grain over the handful. Eilidh judges the grievance one best left to wear out on its own.",
+   "place": "burg:18",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0047",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-4008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#v-of-seann-dunn-and-the-fullest-lamp",
+   "era_between": [
+    386,
+    386
+   ]
+  },
+  {
+   "after": "II-0047"
+  },
+  {
+   "id": "EIII-4010",
+   "title": "Sliochd Raghnaill grows rich on the fishing",
+   "body": "The house that took its seat at Seann Tarr, the very town first sentenced under the Small-Burning Law, keeps no galleries and cuts no coal, choosing boats instead, and grows rich enough within two generations that its neighbours stop mentioning the old offence.",
+   "place": "burg:34",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#v-of-seann-dunn-and-the-fullest-lamp",
+   "era_between": [
+    390,
+    390
+   ]
+  },
+  {
+   "after": "II-0048"
+  },
+  {
+   "id": "EIII-4011",
+   "title": "The wager at Seann Tarr's quay",
+   "body": "Tormod Ruadh, a steersman of Sliochd Raghnaill, insists through a winter of evenings at Seann Tarr's quay that a boat could as easily be sailed round the black island Eilean dhubh as fished within sight of it, and finds himself, come spring, with a crew of four and a wager too large to back out of.",
+   "place": "burg:34",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0049",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-ruadh"
+   ],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#vi-of-tormod-ruadh-and-the-coast-that-was-only-looked-at",
+   "era_between": [
+    397,
+    397
+   ]
+  },
+  {
+   "after": "II-0049"
+  },
+  {
+   "id": "EIII-4012",
+   "title": "The strand mistakes Tormod Ruadh's boat for a stranger's",
+   "body": "A strand that has never before had reason to look for a boat of Seann Tarr's from that quarter of the sea sights Tormod Ruadh's boat rounding Eilean dhubh's far side and takes alarm at it, word of the strange sighting reaching Dùn ìseal well ahead of the boat's own return.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "II-0049",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-4011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-ruadh"
+   ],
+   "told_in": "book/17_of_eilidh_nic_iomhair_and_the_four_houses.md#vi-of-tormod-ruadh-and-the-coast-that-was-only-looked-at",
+   "era_between": [
+    397,
+    397
+   ]
+  },
+  {
+   "id": "EIII-4013",
+   "title": "Murchadh Ruadh's household loses its right",
+   "body": "The household of Murchadh Ruadh of Baile chrom is stripped of its right under the Law for a third offence, and goes down to the strand with what it can carry rather than beg cold porridge from kin. No hearth on the coast will give it coal after, or discuss why.",
+   "place": "burg:305",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0050",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#i-of-the-households-put-out-to-sea",
+   "era_between": [
+    398,
+    398
+   ]
+  },
+  {
+   "after": "II-0050"
+  },
+  {
+   "id": "EIII-4014",
+   "title": "A strand south of Baile chrom burned in the dark",
+   "body": "Boats out of no household raid a fishing strand half a day south of Baile chrom in the small hours of a moonless night, burning two houses to their footings and stripping the drying-racks bare. A woman of the strand says she knew two of the raiders by their voices, and will not name them.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0050",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-4013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#ii-of-the-night-the-southern-strand-burned",
+   "era_between": [
+    403,
+    403
+   ]
+  },
+  {
+   "after": "II-0051"
+  },
+  {
+   "id": "EIII-4015",
+   "title": "The wake first kept for the five",
+   "body": "A year to the day after Cailean Buidhe's boat is lost in the calm off Baile chrom, the strand sets out a bowl for the five who went out on her and speaks the boat's name once over it. Anndra Cìobair, one of the two who swam home, pours the first cup, and goes on pouring it every year after.",
+   "place": "burg:305",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0051",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-4014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#iii-of-the-calm-water",
+   "era_between": [
+    406,
+    406
+   ]
+  },
+  {
+   "after": "II-0052"
+  },
+  {
+   "id": "EIII-4016",
+   "title": "The keeping of the beacon falls to the households in turn",
+   "body": "Once the old beacon on the Baile chrom headland is relit, the carrying of driftwood to feed it becomes a charge the coast's households take up one season at a time, the way other coasts keep a granary door or a toll-stick.",
+   "place": "burg:305",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#v-of-the-fire-relit",
+   "era_between": [
+    410,
+    410
+   ]
+  },
+  {
+   "after": "II-0053"
+  },
+  {
+   "id": "EIII-4017",
+   "title": "Word of the stone quay travels the coast",
+   "body": "News of the worked stone quay found under the silt at Seann Bhrenn reaches Baile chrom by trader's boat, grown in the telling to a buried town in one mouth and shrunk to a single stone in another, neither telling closer to the truth than the other.",
+   "place": "burg:305",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "II-0053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#vi-of-seann-bhrenn-and-the-stone-quay",
+   "era_between": [
+    414,
+    414
+   ]
+  },
+  {
+   "after": "II-0054"
+  },
+  {
+   "id": "EIII-4018",
+   "title": "Word of the cairn at Cathair naomh travels the coast",
+   "body": "Word reaches Baile chrom of the growing ancestor-cairn on the hill above Cathair naomh, carried a stone at a time at every burial, and travellers who see it years apart swear the hill itself looks changed.",
+   "place": "burg:305",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#vii-of-the-cairn-at-cathair-naomh",
+   "era_between": [
+    418,
+    418
+   ]
+  },
+  {
+   "after": "II-0055"
+  },
+  {
+   "id": "EIII-4019",
+   "title": "The carriers of the southern road grumble at the panthers' ruling",
+   "body": "Told as far as Baile chrom, the tale of Eilidh nic Ìomhair's ruling on the great cats' crossing carries with it the carriers' first grumbling at the delay, and her answer that a Law which measures every handful can measure a few days' patience too.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#viii-of-the-great-cats-and-the-southern-road",
+   "era_between": [
+    421,
+    421
+   ]
+  },
+  {
+   "id": "EIII-4020",
+   "title": "The granaries of Dùn dhearg opened to households not its own",
+   "body": "Sliochd Ìomhair opens the new granaries at Dùn dhearg to any household of the lowland plain caught short by the storm season, not only its own. Coinneach Mòr, still a young man of Seann Dunn, watches the queue at the gate and hears his father call it a debt of bread that few who take it yet feel as a debt.",
+   "place": "burg:422",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0056",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#i-of-the-granaries-and-the-debt-of-bread",
+   "era_between": [
+    430,
+    430
+   ]
+  },
+  {
+   "after": "II-0056"
+  },
+  {
+   "id": "EIII-4021",
+   "title": "Anndra Cìobair dies at Baile chrom",
+   "body": "Anndra Cìobair, who swam home from Cailean Buidhe's boat and kept the wake's first cup for near forty years, dies in his own bed above the strand he never left, and is buried within sight of the headland he tended.",
+   "place": "burg:305",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0051",
+     "type": "legacy"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_plunderers_and_the_thing_under_the_boat.md#ix-of-the-bowl-at-the-wake",
+   "era_between": [
+    440,
+    440
+   ]
+  },
+  {
+   "id": "EIII-4022",
+   "title": "The resting-place at the foot of the pass becomes Baile Mòr dhomhain",
+   "body": "The carriers' resting-place at the last flat ground before the high pass grows byres, a smithy and an inn that is never empty in the season the pass is open, and takes the name Baile Mòr dhomhain, though it stands on no deep water and lives by the pass and little else.",
+   "place": "burg:273",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0057",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#i-of-the-granaries-and-the-debt-of-bread",
+   "era_between": [
+    445,
+    445
+   ]
+  },
+  {
+   "after": "II-0058"
+  },
+  {
+   "id": "EIII-4023",
+   "title": "Coinneach Mòr chosen Keeper of Sliochd Thormoid",
+   "body": "In the month of Giblean, the four houses choose Coinneach Mòr mac Tormoid, five-and-twenty, first Keeper of his house, for his patience rather than any gift of speech, judging a Keeper who keeps a flame steadily worth more than one who keeps it brilliantly for a short while.",
+   "place": "burg:18",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0059",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#ii-of-the-keeping-of-the-flame",
+   "era_between": [
+    475,
+    475
+   ]
+  },
+  {
+   "after": "II-0059"
+  },
+  {
+   "id": "EIII-4024",
+   "title": "Griogair Ruadh asks a seat for Achadh chaol and is refused",
+   "body": "The headman of the shepherds at Achadh chaol asks the council at Dùn ìseal for a seat among the houses that govern the plain, and is refused for want of hearth-right cut in stone at the Roinn. He sits one courtesy season and goes home with the dues still owed and no seat won.",
+   "place": "burg:449",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0060",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#iii-of-the-headman-of-achadh-chaol",
+   "era_between": [
+    476,
+    476
+   ]
+  },
+  {
+   "after": "II-0060"
+  },
+  {
+   "id": "EIII-4025",
+   "title": "Coinneach's walkers set out to list the ruins",
+   "body": "Coinneach Mòr sends six walkers the length of the plain to list every ruin standing on ground the four houses claim, ruling before they leave that the list shall say only who does not own each place, and never guess who built it.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0061",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#iv-of-the-walkers-and-the-list-of-ruins",
+   "era_between": [
+    490,
+    490
+   ]
+  },
+  {
+   "id": "EIII-4026",
+   "title": "The walkers return with the list of the old people's ruins",
+   "body": "The walkers come home after two years with Làrach an Dùin-fhaire, Làrach an Dùin, Làrach an Teampaill and the plain's scattered standing stones set down on one list, each entry naming who does not hold the ground and none guessing at the builders, who are called after only the old people.",
+   "place": "marker:31",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0061",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-4025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#iv-of-the-walkers-and-the-list-of-ruins",
+   "era_between": [
+    492,
+    492
+   ]
+  },
+  {
+   "id": "EIII-4027",
+   "title": "The first ring of stakes raised round Carragh Cnoc bheag",
+   "body": "Once the walkers' list names the standing stone above Cnoc bheag, the household nearest it fences the rise to keep cattle from rubbing the cut letters smooth. Each generation after renews the stakes, and the stone itself is never moved.",
+   "place": "marker:28",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0062",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#v-of-the-ring-of-stakes-at-cnoc-bheag",
+   "era_between": [
+    498,
+    498
+   ]
+  },
+  {
+   "after": "II-0061"
+  },
+  {
+   "id": "EIII-4028",
+   "title": "The bath-house roofed over the springs of Muileann ruadh",
+   "body": "After a cousin of his own house is carried to the warm springs half dead of a wasting cough and comes home breathing, Coinneach Mòr orders a bath-house raised over the largest pool, with sleeping-places for the sick and benches for those who wait out the cure beside them.",
+   "place": "burg:229",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0063",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#vi-of-the-bath-house-at-muileann-ruadh",
+   "era_between": [
+    505,
+    505
+   ]
+  },
+  {
+   "id": "EIII-4029",
+   "title": "A keeper of the springs named in Dian Cècht's name",
+   "body": "Coinneach Mòr names a widow who nursed her own husband through a wasting fever as keeper of the springs at Muileann ruadh, the office set in the healer Dian Cècht's name and answering to no measure of coal, the first such office the flame at Seann Dunn has made.",
+   "place": "burg:229",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0063",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-4028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#vi-of-the-bath-house-at-muileann-ruadh",
+   "era_between": [
+    505,
+    505
+   ]
+  },
+  {
+   "id": "EIII-4030",
+   "title": "The silversmiths of Muileann chiar cast their weights",
+   "body": "Weary of disputes at their own market, the silversmiths of Muileann chiar cast a set of weights from a barley-corn to a newborn lamb, checked one against another and set out for any trader to use. Within years a thing weighed there is called, the length of the carriers' roads, weighed fairly.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0064",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#vii-of-the-weights-of-muileann-chiar",
+   "era_between": [
+    508,
+    508
+   ]
+  },
+  {
+   "id": "EIII-4031",
+   "title": "Torcall Donn weds Muireall nic Ìomhair",
+   "body": "Torcall Donn, great-grandson of Eithne nic Ailein and five-and-eighty, weds Muireall nic Ìomhair, not yet four-and-twenty, at Dùn dhearg, a match both houses call costless and both houses are pleased with, her marriage-portion drawn to satisfy both grants at once.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#viii-of-the-marriage-and-the-double-sworn-fields",
+   "era_between": [
+    513,
+    513
+   ]
+  },
+  {
+   "id": "EIII-4032",
+   "title": "Muireall nic Ìomhair dies in her first winter",
+   "body": "Muireall nic Ìomhair dies of a nine-day fever in her first winter as a wife, leaving no child and no settled answer to which grant, the house of Ìomhar's or the line of Eithne's, should hold her lands should she die too soon, since no one had thought she would.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#viii-of-the-marriage-and-the-double-sworn-fields",
+   "era_between": [
+    514,
+    514
+   ]
+  },
+  {
+   "after": "II-0062"
+  },
+  {
+   "id": "EIII-4033",
+   "title": "Both houses claim Muireall's lands",
+   "body": "The house of Ìomhar claims Muireall's marriage-lands as returning to the kin that granted them; the line of Eithne claims the same ground as passing to the husband's holding. Both claims are argued with equal heat by men who never asked, while she lived, which grant should prevail.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4032",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#viii-of-the-marriage-and-the-double-sworn-fields",
+   "era_between": [
+    515,
+    515
+   ]
+  },
+  {
+   "id": "EIII-4034",
+   "title": "The first double-sworn field burned",
+   "body": "A holding sworn to both Dùn dhearg and Cathair mhòr since Muireall's marriage-portion touched it is burned in a single night by its own near neighbours, byre first and standing barley after. The household goes to kin elsewhere, and the ground lies unsown, claimed loudly and worked by neither house.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#viii-of-the-marriage-and-the-double-sworn-fields",
+   "era_between": [
+    517,
+    517
+   ]
+  },
+  {
+   "after": "II-0063"
+  },
+  {
+   "id": "EIII-4035",
+   "title": "Coinneach Mòr dies at Seann Dunn",
+   "body": "Coinneach Mòr mac Tormoid dies at Seann Dunn in his eighty-seventh year, two-and-sixty years into his keeping, asking after the walkers' list and the burned marriage-lands in his last days, and leaving the flame to a nephew chosen in his stead with the smoke of the burnings still on the southern horizon.",
+   "place": "burg:18",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0059",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_reverent_centuries.md#ix-of-the-death-of-coinneach-mor",
+   "era_between": [
+    537,
+    537
+   ]
+  },
+  {
+   "after": "II-0064"
+  },
+  {
+   "id": "EIII-4036",
+   "title": "Fearghas sends the last untroubled tithe",
+   "body": "Fearghas Dà-Mhionn weighs out his sheaves for Dùn dhearg and for Cathair mhòr at Muileann chiar as he has every harvest of his long life, a little short to each, not yet knowing it is the last year either hall will let the joke stand.",
+   "place": "burg:395",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#i-of-the-house-sworn-twice",
+   "era_between": [
+    543,
+    543
+   ]
+  },
+  {
+   "id": "EIII-4037",
+   "title": "The black-eaved holding east of Achadh mhòr",
+   "body": "A double-sworn household two valleys east chooses the Red Share and is burned to its field-walls by Cathair mhòr's men before the next harvest, its cattle driven off and its house left standing empty as a warning to the next household asked to choose.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#ii-of-the-war-fought-in-fits",
+   "era_between": [
+    544,
+    544
+   ]
+  },
+  {
+   "id": "EIII-4038",
+   "title": "A holding that chose neither is burned by both",
+   "body": "A double-sworn holding south of Achadh mhòr refuses to choose between its lords and is burned within the year by both hosts in turn, the Red Share's riders taking the barn first and a company of Cathair mhòr's finishing it, each telling its own men it punished only what the other began.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#ii-of-the-war-fought-in-fits",
+   "era_between": [
+    545,
+    545
+   ]
+  },
+  {
+   "id": "EIII-4039",
+   "title": "Fearghas rides to see a burned holding",
+   "body": "Fearghas rides to the black-eaved holding east of his own fields to see with his own eyes what a double-sworn household looks like once burned, and finds only standing walls, fallen roofs and a dog that will not leave the ruin, and speaks of the war differently after.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#ii-of-the-war-fought-in-fits",
+   "era_between": [
+    546,
+    546
+   ]
+  },
+  {
+   "id": "EIII-4040",
+   "title": "A burned widow's household shelters at Achadh mhòr",
+   "body": "A widow and her three sons, burned out in the southern raids, shelter three nights at Fearghas's hall on their way to kin beyond Ceann leathan, and Fearghas feeds them without asking any oath of them, telling his steward a household already burned has paid enough.",
+   "place": "burg:395",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#ii-of-the-war-fought-in-fits",
+   "era_between": [
+    547,
+    547
+   ]
+  },
+  {
+   "id": "EIII-4041",
+   "title": "Torcall Donn killed on the road below Dùn thais",
+   "body": "Torcall Donn, great-grandson of Eithne and husband of the dead Muireall nic Ìomhair, is killed at a hundred and eighteen years old when his company meets a company of the Red Share's riders on a narrow road and the pushing between them turns to blows.",
+   "place": null,
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#iii-of-torcall-donn",
+   "era_between": [
+    548,
+    548
+   ]
+  },
+  {
+   "id": "EIII-4042",
+   "title": "Fearghas sends barley to be burned at Torcall Donn's grave",
+   "body": "Fearghas sends a measure of his own barley to be burned at Torcall Donn's graveside at Cathair mhòr, the old rite for a man dead before his harvest is in, asking that no word go with it saying who sent it; the giver is known within the season regardless.",
+   "place": "burg:23",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-4041",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#iii-of-torcall-donn",
+   "era_between": [
+    548,
+    548
+   ]
+  },
+  {
+   "id": "EIII-4043",
+   "title": "The Red Share presses its claim after the widower's death",
+   "body": "With Torcall Donn dead, the Red Share presses its claim on Muireall's three granges harder rather than less, judging Cathair mhòr's grip on lands held only through a dead man's marriage weaker than before, and the war burns on past the quarrel that began it.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#iii-of-torcall-donn",
+   "era_between": [
+    549,
+    549
+   ]
+  },
+  {
+   "id": "EIII-4044",
+   "title": "Ciorstaidh's stone set in Fearghas's hall",
+   "body": "Fearghas has a stone cut for his grandmother Ciorstaidh and set into his own hall wall, her name and the sign of the cut knot beside it, wanting it known in stone that the house he holds was held first by one of the eleven who answered for their double oath all their lives.",
+   "place": "burg:395",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh"
+   ],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#i-of-the-house-sworn-twice",
+   "era_between": [
+    550,
+    550
+   ]
+  },
+  {
+   "id": "EIII-4045",
+   "title": "The mason of Muileann chiar carries the tale",
+   "body": "The stone-cutter who set Ciorstaidh's memorial breaks his promise of silence at the first market he reaches, and the setting of the stone becomes, within a season, one more thing told of Fearghas Dà-Mhionn on both sides of the war, read two different ways by two different hearths.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#iv-of-ciorstaidh-s-stone",
+   "era_between": [
+    550,
+    550
+   ]
+  },
+  {
+   "after": "II-0064a"
+  },
+  {
+   "id": "EIII-4046",
+   "title": "Both hosts called out for Achadh mhòr",
+   "body": "In the heat of Lùnastal the Red Share's council and Cathair mhòr's both resolve within the same week to take Achadh mhòr's granary whole, and two riders reach Fearghas within an hour of each other, each astonished that his own lord's host was not first to move.",
+   "place": "burg:395",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#v-of-the-hosts-called-out",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4047",
+   "title": "The last sheaf of Achadh mhòr carried clear of the fire",
+   "body": "The reapers finish the western cutting and carry the last sheaf, bound and cut high as the custom asks, clear of the burning fields before the wind turns, and it is this sheaf, not the granary, that the households round about keep afterward at every harvest's end.",
+   "place": "burg:395",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_fearghas_of_the_two_oaths.md#vi-of-the-last-sheaf-and-the-smoke",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4048",
+   "title": "The waypoint house at Muileann chiar begins tallying grain",
+   "body": "In the season after Achadh mhòr's burning, the keeper of the waypoint house on the road below Muileann chiar chalks a slate with every granary along the carriers' road still holding grain, and rubs it out and chalks it again as the hungry winter empties one store after another. Carriers come to ask him for news of bread before they ask for news of the war.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#i-of-the-hungry-winter",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4049",
+   "title": "A household of the middle plain sends its youngest son begging seed corn",
+   "body": "A family two days' walk from Achadh mhòr's blackened fields sends its youngest son round every kinsman it has, sworn or unsworn to either share, asking only for seed corn against the spring sowing and not for grain to eat that winter. He comes home with less than he asked for, gathered a handful at a time from households as pinched as his own.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "II-0064b",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#i-of-the-hungry-winter",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4050",
+   "title": "Ruairidh Glas writes to Eithne nic Ailein",
+   "body": "Ruairidh Glas, holder of the Red Share at Dùn dhearg, sends word to Eithne nic Ailein of Cathair mhòr's plain that a war fought over a granary which no longer stands profits neither of their hungry households, and asks her to name ground where neither hall need be ashamed to meet.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0064c",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#ii-of-the-call-to-the-threshold",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4051",
+   "title": "Eithne nic Ailein names the threshold of Talla na Lasrach",
+   "body": "Eithne nic Ailein answers Ruairidh Glas that she will set foot in no hall of the Red Share's, as he will set foot in none of hers, and names instead the threshold of Talla na Lasrach at Dùn ìseal, where the stone cup stands on ground that belongs to no share and never has.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0064c",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#ii-of-the-call-to-the-threshold",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4052",
+   "title": "A reluctant lord is shamed into the swearing",
+   "body": "The steward of a lesser holding north of Achadh mhòr answers Eithne's summons that his lord sees no profit in standing bareheaded before an old woman to be told what he knows already. Eithne sends back that he may explain to his own hungry households why the peace that feeds everyone else's has passed his door by, and he comes a season late to swear it.",
+   "place": null,
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0064c",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#ii-of-the-call-to-the-threshold",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4053",
+   "title": "Eithne nic Ailein is carried up to Dùn ìseal",
+   "body": "Eithne nic Ailein, whose legs have long since stopped carrying her, is borne up the old carriers' road to Dùn ìseal in a chair, one pole carried by Niall Òg, who has outlived nearly every other soul that remembers the valley of the Roinn, and who tells her, on the road, that she is the last one left who remembers what he remembers.",
+   "place": "burg:315",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0064c",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-4052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#iii-of-the-carrying-of-eithne",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4054",
+   "title": "The Keeper drafts and reads the terms of the Threshold",
+   "body": "At the asking of both halls, neither of which trusts the other's clerks to write the terms fairly, the Keeper of the flame drafts the peace herself and reads it aloud to the gathered stones before any lord is asked to swear, so that the households standing beyond the lords may carry the whole of it home in their own words.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0064c",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#iv-of-the-swearing",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4055",
+   "title": "Ruairidh Glas speaks of the first blood at Dùn thais",
+   "body": "Swearing the Peace of the Threshold with his hand still on the stone cup, Ruairidh Glas says before the gathered lords that he shed the first blood of the strife at Dùn thais over cattle on a wet slope, when he was young enough to think a stone worth a life, and that he would not buy it again for twice the grazing on the island.",
+   "place": "burg:315",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "II-0001c",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#iv-of-the-swearing",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIII-4056",
+   "title": "A double-sworn household on the old boundary gives up one oath",
+   "body": "A household sworn to two lords since a marriage two generations back keeps the oath that has cost it least and lets the other lapse before the spring sowing, its eldest son reasoning aloud that neither hall's carrier had once knocked on their door in the whole of the hungry winter past.",
+   "place": "burg:395",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0064c",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#v-of-the-double-sworn",
+   "era_between": [
+    557,
+    557
+   ]
+  },
+  {
+   "id": "EIII-4057",
+   "title": "The first Threshold market stands thin and unparted",
+   "body": "The first quarter-day market held below Talla na Lasrach after the Peace draws little to sell, the hungry winter having left small surplus, and many households come only to watch whether a trader of the Red Share can stand at a stall beside one of Cathair mhòr's plain without a steward of either hall coming to part them. None comes.",
+   "place": "burg:315",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0064a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#vi-of-the-first-market",
+   "era_between": [
+    557,
+    557
+   ]
+  },
+  {
+   "id": "EIII-4058",
+   "title": "The boundary lines of the middle plain settle by the sowing",
+   "body": "By the time of the spring sowing after the Peace, the boundary lines that had shifted and blurred through forty years of burning have settled again into a shape that will hold for longer than any lord who swore to it that Samhain will live to see, with only small mendings asked at Dùn ìseal in the years after.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "II-0064c",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_peace_of_the_threshold.md#v-of-the-double-sworn",
+   "era_between": [
+    557,
+    557
+   ]
+  }
+ ]
+}

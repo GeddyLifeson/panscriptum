@@ -1,142 +1,377 @@
 [
-  {
-    "title": "Murchadh Beag takes Eòghann mac Pheadair from the coal-face",
-    "era_year": 708,
-    "summary": "The old scribe of the vein-house, Murchadh Beag, hears a coal-breaker's young son recite back a whole day's cartage without once looking at the board, and asks the boy's father whether a household might spare him for a scribe's stool. Eòghann mac Pheadair is set to sweep the vein-house floor and mix ink before he is let touch a leaf.",
-    "category": "coal",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:491"],
-    "threads": ["the-seven-coals"],
-    "master_links": []
-  },
-  {
-    "title": "The vein-house's leaf takes in the rope-ground sown with barley",
-    "era_year": 714,
-    "summary": "Eòghann mac Pheadair, fourteen and newly trusted with a leaf of his own, enters the ground given up by Cuan shean's rope-walks for barley, the first entry he copies whose full sense Murchadh Beag has to explain to him. He learns that a scribe's business is the fact and the year, not the grief behind it.",
-    "category": "trade",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:491", "burg:282"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0125", "type": "cause"}]
-  },
-  {
-    "title": "A household of Cnoc chaol removes its gallery-claim from the shore",
-    "era_year": 725,
-    "summary": "After the great wave that took two children from the beach at Cnoc chaol, the household of one of the drowned strikes itself from its old gallery and takes up a new claim further from the water. Eòghann mac Pheadair enters the removal on the vein-house's leaf the following season, cold and plain as he was taught.",
-    "category": "coal",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:364"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0126", "type": "sequel"}]
-  },
-  {
-    "title": "Eòghann mac Pheadair witnesses the market bounds at Baile Mòr dhìreach",
-    "era_year": 731,
-    "summary": "Sent east on his own feet for the first time, Eòghann mac Pheadair stands witness for the seven houses when the crown's grant of a market is read at Baile Mòr dhìreach and its boundary stones set. He watches the first stalls go up the same afternoon and walks the road home slower than he walked out.",
-    "category": "trade",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:136"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0126a", "type": "cause"}]
-  },
-  {
-    "title": "Mòrag nic Ìomhair rides to the vein-house with the crown's leaves",
-    "era_year": 738,
-    "summary": "A scribe of the red hall's own household, Mòrag nic Ìomhair, rides the thirty-nine miles to the vein-house at Muileann dhearg to set the crown's reckoning of the years of the Diosal against the custody-book's own, after the two offices' counts are found not to agree. The master of the vein-house grants her the book for as many days as the matter takes.",
-    "category": "law",
-    "people": ["Eòghann mac Pheadair", "Mòrag nic Ìomhair"],
-    "places": ["burg:491"],
-    "threads": ["the-small-burning-law"],
-    "master_links": [{"to": "III-0127", "type": "cause"}]
-  },
-  {
-    "title": "The fault in the count is found and cannot be mended",
-    "era_year": 738,
-    "summary": "Working three days by lamplight, Eòghann mac Pheadair and Mòrag nic Ìomhair trace the two offices' counts of the Diosal back to a single year, early after the sunwise turn, entered twice by one office's habit or once by the other's. Neither leaf either scribe has brought can say which office erred, or whether either truly has.",
-    "category": "law",
-    "people": ["Eòghann mac Pheadair", "Mòrag nic Ìomhair"],
-    "places": ["burg:491"],
-    "threads": ["the-small-burning-law"],
-    "master_links": [{"to": "III-0127", "type": "sequel"}]
-  },
-  {
-    "title": "The two counts settled by agreement, not by proof",
-    "era_year": 739,
-    "summary": "The vein-house and the crown's scribe take the crown's count for the reckoning that will go forward, since it touches more households than the vein-house's own, and Eòghann mac Pheadair writes the vein-house's agreement to it in his own hand. The master of the vein-house's mark is set under his, and the crown scribe's office mark under that.",
-    "category": "law",
-    "people": ["Eòghann mac Pheadair", "Mòrag nic Ìomhair"],
-    "places": ["burg:491"],
-    "threads": ["the-small-burning-law"],
-    "master_links": [{"to": "III-0127", "type": "sequel"}]
-  },
-  {
-    "title": "The day of the rite of the empty harbour fixed",
-    "era_year": 739,
-    "summary": "The same agreement that settles the count also fixes, for the first time, a single day on which the rite of the empty harbour is to be kept by every harbour of the coast together, in place of each keeping it a day or two either side of its neighbours by its own old custom. Mòrag nic Ìomhair carries word of it down to Seann Skell.",
-    "category": "faith",
-    "people": ["Mòrag nic Ìomhair"],
-    "places": ["burg:489"],
-    "threads": ["the-small-burning-law"],
-    "master_links": [{"to": "III-0127", "type": "sequel"}]
-  },
-  {
-    "title": "The agreement-leaf folded into the custody-book",
-    "era_year": 739,
-    "summary": "Eòghann mac Pheadair keeps his copy of the sealed agreement between two older leaves of the custody-book that had never before had a stranger's mark folded in among them. He tells the master of the vein-house only that the crown's scribe was a hard woman to argue a figure past and an easy one to agree a figure with.",
-    "category": "law",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:491"],
-    "threads": ["the-small-burning-law"],
-    "master_links": [{"to": "III-0127", "type": "sequel"}]
-  },
-  {
-    "title": "The coast keeps the rite on the agreed day",
-    "era_year": 740,
-    "summary": "Mòrag nic Ìomhair writes to Eòghann mac Pheadair the following winter that not a single harbour of the coast has written to complain of the day set for the rite of the empty harbour. Eòghann keeps the short note folded inside his own working leaves for the rest of his working life.",
-    "category": "faith",
-    "people": ["Eòghann mac Pheadair", "Mòrag nic Ìomhair"],
-    "places": ["burg:491"],
-    "threads": ["the-small-burning-law"],
-    "master_links": [{"to": "III-0127", "type": "sequel"}]
-  },
-  {
-    "title": "Word of the disputation at Inis mhòr reaches the vein-house",
-    "era_year": 762,
-    "summary": "A rider carries north country talk to the vein-house of a house of disputation newly founded at Inis mhòr, whose first master refuses every answer offered him on whether the vein answers any true count of years or only the custom of counting it. Eòghann mac Pheadair, old now, hears it out and goes back to his leaf.",
-    "category": "faith",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:491", "burg:17"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0128", "type": "parallel"}]
-  },
-  {
-    "title": "The master of the vein-house stands for Eòghann at the crowning",
-    "era_year": 769,
-    "summary": "When the seven houses' custodians go down to Cathair dhearg to see the new queen crowned, as the compact requires, the master of the vein-house goes in place of Eòghann mac Pheadair, whose legs will no longer answer for a journey of thirty-nine miles in a single season. Eòghann hears the crowning described to him afterward by the returning master.",
-    "category": "rulers",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:491", "burg:19"],
-    "threads": ["the-seven-houses"],
-    "master_links": [{"to": "III-0129", "type": "parallel"}]
-  },
-  {
-    "title": "Eòghann mac Pheadair is carried to the bath-house at the hot springs",
-    "era_year": 769,
-    "summary": "In the last cold turn of the year, his chest gone tight in a way no winter before has managed, Eòghann mac Pheadair lets himself be carried by cart to the rebuilt bath-house below Muileann ruadh, where he sits in the warm water among coal-breakers, salt-carriers and a shepherd's widow, none of them minding whose gallery the others answer to.",
-    "category": "coal",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["marker:0"],
-    "threads": ["the-seven-coals"],
-    "master_links": [{"to": "III-0130", "type": "parallel"}]
-  },
-  {
-    "title": "Eòghann mac Pheadair shows the agreement-leaf to his own pupil",
-    "era_year": 769,
-    "summary": "Asked by the young scribe he has lately taken to teaching what the finest thing was that he ever did in a life spent mostly at a stool, Eòghann mac Pheadair unfolds the thirty-year-old agreement-leaf and tells the boy it was not the count that made it worth keeping, but the honest agreement written under it.",
-    "category": "law",
-    "people": ["Eòghann mac Pheadair"],
-    "places": ["burg:491"],
-    "threads": ["the-small-burning-law"],
-    "master_links": [{"to": "III-0127", "type": "legacy"}]
-  }
+ {
+  "title": "Murchadh Beag takes Eòghann mac Pheadair from the coal-face",
+  "era_year": 708,
+  "summary": "The old scribe of the vein-house, Murchadh Beag, hears a coal-breaker's young son recite back a whole day's cartage without once looking at the board, and asks the boy's father whether a household might spare him for a scribe's stool. Eòghann mac Pheadair is set to sweep the vein-house floor and mix ink before he is let touch a leaf.",
+  "category": "coal",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "The vein-house's leaf takes in the rope-ground sown with barley",
+  "era_year": 714,
+  "summary": "Eòghann mac Pheadair, fourteen and newly trusted with a leaf of his own, enters the ground given up by Cuan shean's rope-walks for barley, the first entry he copies whose full sense Murchadh Beag has to explain to him. He learns that a scribe's business is the fact and the year, not the grief behind it.",
+  "category": "trade",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:491",
+   "burg:282"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0125",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A household of Cnoc chaol removes its gallery-claim from the shore",
+  "era_year": 725,
+  "summary": "After the great wave that took two children from the beach at Cnoc chaol, the household of one of the drowned strikes itself from its old gallery and takes up a new claim further from the water. Eòghann mac Pheadair enters the removal on the vein-house's leaf the following season, cold and plain as he was taught.",
+  "category": "coal",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:364"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0126",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Eòghann mac Pheadair witnesses the market bounds at Baile Mòr dhìreach",
+  "era_year": 731,
+  "summary": "Sent east on his own feet for the first time, Eòghann mac Pheadair stands witness for the seven houses when the crown's grant of a market is read at Baile Mòr dhìreach and its boundary stones set. He watches the first stalls go up the same afternoon and walks the road home slower than he walked out.",
+  "category": "trade",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:136"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0126a",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Mòrag nic Ìomhair rides to the vein-house with the crown's leaves",
+  "era_year": 738,
+  "summary": "A scribe of the red hall's own household, Mòrag nic Ìomhair, rides the thirty-nine miles to the vein-house at Muileann dhearg to set the crown's reckoning of the years of the Diosal against the custody-book's own, after the two offices' counts are found not to agree. The master of the vein-house grants her the book for as many days as the matter takes.",
+  "category": "law",
+  "people": [
+   "Eòghann mac Pheadair",
+   "Mòrag nic Ìomhair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0127",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The fault in the count is found and cannot be mended",
+  "era_year": 738,
+  "summary": "Working three days by lamplight, Eòghann mac Pheadair and Mòrag nic Ìomhair trace the two offices' counts of the Diosal back to a single year, early after the sunwise turn, entered twice by one office's habit or once by the other's. Neither leaf either scribe has brought can say which office erred, or whether either truly has.",
+  "category": "law",
+  "people": [
+   "Eòghann mac Pheadair",
+   "Mòrag nic Ìomhair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0127",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The two counts settled by agreement, not by proof",
+  "era_year": 739,
+  "summary": "The vein-house and the crown's scribe take the crown's count for the reckoning that will go forward, since it touches more households than the vein-house's own, and Eòghann mac Pheadair writes the vein-house's agreement to it in his own hand. The master of the vein-house's mark is set under his, and the crown scribe's office mark under that.",
+  "category": "law",
+  "people": [
+   "Eòghann mac Pheadair",
+   "Mòrag nic Ìomhair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0127",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The day of the rite of the empty harbour fixed",
+  "era_year": 739,
+  "summary": "The same agreement that settles the count also fixes, for the first time, a single day on which the rite of the empty harbour is to be kept by every harbour of the coast together, in place of each keeping it a day or two either side of its neighbours by its own old custom. Mòrag nic Ìomhair carries word of it down to Seann Skell.",
+  "category": "faith",
+  "people": [
+   "Mòrag nic Ìomhair"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0127",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The agreement-leaf folded into the custody-book",
+  "era_year": 739,
+  "summary": "Eòghann mac Pheadair keeps his copy of the sealed agreement between two older leaves of the custody-book that had never before had a stranger's mark folded in among them. He tells the master of the vein-house only that the crown's scribe was a hard woman to argue a figure past and an easy one to agree a figure with.",
+  "category": "law",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0127",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The coast keeps the rite on the agreed day",
+  "era_year": 740,
+  "summary": "Mòrag nic Ìomhair writes to Eòghann mac Pheadair the following winter that not a single harbour of the coast has written to complain of the day set for the rite of the empty harbour. Eòghann keeps the short note folded inside his own working leaves for the rest of his working life.",
+  "category": "faith",
+  "people": [
+   "Eòghann mac Pheadair",
+   "Mòrag nic Ìomhair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0127",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of the disputation at Inis mhòr reaches the vein-house",
+  "era_year": 762,
+  "summary": "A rider carries north country talk to the vein-house of a house of disputation newly founded at Inis mhòr, whose first master refuses every answer offered him on whether the vein answers any true count of years or only the custom of counting it. Eòghann mac Pheadair, old now, hears it out and goes back to his leaf.",
+  "category": "faith",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:491",
+   "burg:17"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0128",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "The master of the vein-house stands for Eòghann at the crowning",
+  "era_year": 769,
+  "summary": "When the seven houses' custodians go down to Cathair dhearg to see the new queen crowned, as the compact requires, the master of the vein-house goes in place of Eòghann mac Pheadair, whose legs will no longer answer for a journey of thirty-nine miles in a single season. Eòghann hears the crowning described to him afterward by the returning master.",
+  "category": "rulers",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:491",
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0129",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Eòghann mac Pheadair is carried to the bath-house at the hot springs",
+  "era_year": 769,
+  "summary": "In the last cold turn of the year, his chest gone tight in a way no winter before has managed, Eòghann mac Pheadair lets himself be carried by cart to the rebuilt bath-house below Muileann ruadh, where he sits in the warm water among coal-breakers, salt-carriers and a shepherd's widow, none of them minding whose gallery the others answer to.",
+  "category": "coal",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "marker:0"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0130",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Eòghann mac Pheadair shows the agreement-leaf to his own pupil",
+  "era_year": 769,
+  "summary": "Asked by the young scribe he has lately taken to teaching what the finest thing was that he ever did in a life spent mostly at a stool, Eòghann mac Pheadair unfolds the thirty-year-old agreement-leaf and tells the boy it was not the count that made it worth keeping, but the honest agreement written under it.",
+  "category": "law",
+  "people": [
+   "Eòghann mac Pheadair"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0127",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "era_year": 722,
+  "title": "Death of the fourth ruler of the house of Catrìona",
+  "summary": "The fourth ruler of the house of Catrìona dies at Cathair dhearg at seven-and-eighty after seven-and-thirty years crowned, and the heir, two-and-forty years old, is crowned the same season.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0129",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 724,
+  "title": "Eòghann mac Pheadair at four-and-twenty",
+  "summary": "At four-and-twenty Eòghann mac Pheadair has old Murchadh Beag's stool at the vein-house as good as his own, and enters the wave at Cnoc chaol on the general leaf as he enters every disaster that touches a household of the coal-right: names, place, day.",
+  "category": "coal",
+  "people": [
+   "Eòghann mac Pheadair",
+   "Murchadh Beag"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0126",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 751,
+  "title": "Birth of Eilidh Bhàn",
+  "summary": "A girl, Eilidh, fair enough to be called Eilidh Bhàn from her first year, is born at Cathair dhearg, granddaughter of the ruler who has then held the hall nine-and-twenty years.",
+  "category": "rulers",
+  "people": [
+   "Eilidh Bhàn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0129",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 769,
+  "title": "Death of the fifth ruler of the house of Catrìona",
+  "summary": "The fifth ruler of the house of Catrìona dies at Cathair dhearg at nine-and-eighty after seven-and-forty years crowned, and the crown passes to a granddaughter, Eilidh Bhàn, eighteen years old.",
+  "category": "rulers",
+  "people": [
+   "Eilidh Bhàn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0129",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
+ }
 ]

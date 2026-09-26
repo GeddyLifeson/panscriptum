@@ -38,7 +38,7 @@
     ]
   },
   {
-    "title": "Alasdair mac Ìomhair draws the four houses",
+    "title": "Alasdair mac Ìomhair draws four houses",
     "era_year": 27,
     "after": "VI-0155",
     "summary": "Past his eighty-fifth summer and steadied on a novice's shoulder, Alasdair mac Ìomhair draws Cnoc bheag, Seann Bhral, the western Seann Skell and, by chance, the southern house itself from the nine houses' slips.",
@@ -343,21 +343,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "A hewer's son takes the Còmhrag championship",
-    "era_year": 27,
-    "summary": "In an added bout at Ceann leathan for the year's champion against all comers, a hewer's son of Cnoc bheag, twenty years old, beats the ninth regiment's man in the third exchange.",
-    "category": "humans",
-    "people": [],
-    "places": [
-      "marker:37"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0151"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The telling of the fire in the canoe",
     "era_year": 27,
     "summary": "On the shortest day Ellen Marsh tells the eldest children at Doire ghlas the telling of the First Canoe and of the fire its crew carried in a clay pot through the mist.",
@@ -393,6 +378,41 @@
     ],
     "master_links": [
       "VI-0156"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Cnoc ghorm's elders at the northern posts",
+    "era_year": 27,
+    "summary": "Elders of Cnoc ghorm going south to the fair show their passes at the sixth regiment's posts by the boundary stones, and write in their own book that the sergeant wished them a good road.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0149"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "An Taigh-òsta Grianach in the present year",
+    "era_year": 27,
+    "summary": "An Taigh-òsta Grianach at Cnoc dhìreach sells fuel at its yard, beds under its roof and suppers by a dubhan lamp, and its sign still names all three.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:322"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0029"
     ],
     "chronicle_extra": true
   }

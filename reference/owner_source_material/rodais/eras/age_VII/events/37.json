@@ -256,81 +256,6 @@
     ]
   },
   {
-    "title": "The watch on the Bratach Ghlas",
-    "era_year": 25,
-    "summary": "The watch on the fourth fleet's Bratach Ghlas reports off the north-western cape, on a clear night with the moon near full, a thing longer than the hull moving under the water.",
-    "category": "land",
-    "people": [],
-    "places": [
-      "marker:21"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0136"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Held over, morning after morning",
-    "era_year": 25,
-    "summary": "For eight days the motion for amends is carried forward at the foot of the council's business-paper under the clerk's two words, held over.",
-    "category": "law",
-    "people": [
-      "Anna nic Phàil"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0138"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Somhairle's answer at the chamber door",
-    "era_year": 25,
-    "summary": "Asked by Anna nic Phàil whether the sum for amends is too great, Somhairle mac Lachlainn answers that he has never been asked whether the towns could bear the cost of raising the rolls of names he has read.",
-    "category": "law",
-    "people": [
-      "Somhairle mac Lachlainn",
-      "Anna nic Phàil"
-    ],
-    "places": [
-      "burg:19"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0138"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Peter Hale chosen by acclamation",
-    "era_year": 25,
-    "summary": "At Martha Greaves's last sitting the Moot chooses Peter Hale to the chair by acclamation, without a show of hands.",
-    "category": "law",
-    "people": [
-      "Peter Hale",
-      "Martha Greaves"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0139",
-      "V-0008"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Officers' houses at Inis uaine",
     "era_year": 25,
     "summary": "By council order the eighth regiment's officers at Inis uaine are given houses in the town in place of quarters borrowed year by year from the tank-yard's sheds.",
@@ -348,23 +273,52 @@
     "chronicle_extra": true
   },
   {
-    "title": "The amends paid in two halves",
+    "title": "The quarrymen of Seann Warr",
     "era_year": 25,
-    "summary": "The council pays the first half of the amends to the western towns in the autumn and enters the second half against the next year's tithe.",
-    "category": "law",
-    "people": [
-      "Anna nic Phàil"
-    ],
+    "summary": "The quarrymen of Seann Warr cut the stone for the fifth regiment's barracks through the summer from the same face that gave the harbour wall, and are paid by the Treasury at a rate the town's masons call fair.",
+    "category": "trade",
+    "people": [],
     "places": [
-      "burg:19"
+      "burg:64"
     ],
     "threads": [
-      "the-tuathaich",
-      "the-dubhan-trade"
+      "the-long-war"
     ],
     "master_links": [
-      "VI-0138"
+      "VI-0140"
     ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Cnoc bhàn's harbour opened again",
+    "era_year": 25,
+    "summary": "The Tuathaich of Cnoc bhàn open their harbour again to boats they do not know, the raiders who took the salt-boats having been brought into Seann Skell.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:73"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0133"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The springs of Muileann ruadh in a wet summer",
+    "era_year": 25,
+    "summary": "The hot springs below Muileann ruadh run so full in the wet summer that the bath-house's lower room floods, and the custodians carry the sick up to the long room.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:229"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith"
+    ],
+    "master_links": [],
     "chronicle_extra": true
   }
 ]

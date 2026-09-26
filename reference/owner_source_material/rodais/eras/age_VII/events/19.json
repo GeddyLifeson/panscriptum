@@ -58,7 +58,7 @@
     ]
   },
   {
-    "title": "Somhairle writes to the high custodian",
+    "title": "Somhairle writes to the Àrd-choimheadaiche",
     "era_year": 19,
     "after": "VI-0066",
     "summary": "Somhairle mac Lachlainn writes to Alasdair mac Ìomhair, high custodian of the Rite at the southern Seann Skell, setting down the priest's refusal in his own words and asking whether some other house of the old faith will bless the depot's roof.",
@@ -334,21 +334,37 @@
     "chronicle_extra": true
   },
   {
-    "title": "Stones on the Àth leathan track",
+    "title": "The enforcers' lorries at An Taigh-seinnse Reòta",
     "era_year": 19,
-    "summary": "Before an t-Sultain is out the enforcers' escorted wagons meet a second obstruction on the Muileann àrsaidh road and a third on the shorter track above Àth leathan. None is written down.",
+    "summary": "The enforcers' two lorries going west stop a night at An Taigh-seinnse Reòta on the north road; the landlord gives the men beds and wick lamps and does not ask where they are bound.",
     "category": "war",
-    "people": [
-      "Somhairle mac Lachlainn"
-    ],
+    "people": [],
     "places": [
-      "burg:346"
+      "burg:74"
     ],
     "threads": [
       "the-long-war"
     ],
     "master_links": [
-      "VI-0068"
+      "VI-0066"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Seann Bhral's priests of Manannan hear the refusal",
+    "era_year": 19,
+    "summary": "The house of Manannan at Seann Bhral, the order's west-coast harbour, hears from its brothers at the western Seann Skell that they refused to bless the enforcers' depot, and sends them no word either way.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:47"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0066"
     ],
     "chronicle_extra": true
   }

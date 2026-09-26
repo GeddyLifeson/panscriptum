@@ -189,5 +189,27 @@
     "type": "cause"
    }
   ]
+ },
+ {
+  "era_year": 2,
+  "title": "Seonag asks the harbour scribe whether he would go",
+  "summary": "Lying in the box-bed with the wind over the roof, Calum mac Nèill's wife Seonag, who keeps geese and sells their eggs on the quay, asks him whether he would go. He answers that the boards need a keeper.",
+  "category": "humans",
+  "people": [
+   "Calum mac Nèill"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0004",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
  }
 ]

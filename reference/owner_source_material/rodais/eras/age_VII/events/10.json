@@ -309,24 +309,6 @@
     "told_in": "book/10_the_coal_line_and_the_salt_road.md#iv-of-the-drovers-at-an-sligeanach-fad-as"
   },
   {
-    "title": "A priest of Macha walks the engine up from the ford",
-    "era_year": 8,
-    "summary": "The Board's first dubhan engine comes to Muileann chrom on a wagon drawn by twelve horses of Òrd Mhacha, a priest of the order walking at the leaders' heads and standing in the ford to his thighs to speak them out of it.",
-    "category": "faith",
-    "people": [],
-    "places": [
-      "burg:354"
-    ],
-    "threads": [
-      "the-dubhan-trade",
-      "the-orders-of-the-old-faith"
-    ],
-    "master_links": [
-      "VI-0022"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The blessing for a horse said over an engine",
     "era_year": 8,
     "summary": "Before the first dubhan train leaves the yard at Muileann chrom the priest of Macha says over it the blessing for a horse setting out on a long road, since none has been made for an engine.",
@@ -347,41 +329,18 @@
     "chronicle_extra": true
   },
   {
-    "title": "The first salt carried by the dubhan engine",
-    "era_year": 8,
-    "summary": "Salt of Àth bheag brought to the yard by lorry goes on to Cathair dhearg in a covered wagon behind the empty tanks, the first load the new engine carries towards the capital that is not dubhan.",
-    "category": "trade",
-    "people": [
-      "Eachann mac Ruairidh"
-    ],
-    "places": [
-      "burg:354",
-      "burg:19"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0023"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The drovers of Achadh mhòr sell their teams",
+    "title": "Pilgrims carried up to Caol shean by engine",
     "era_year": 9,
-    "summary": "At An Sligeanach Fad' às the drover families of Achadh mhòr sell their oxen to farmers of the granary country, the works at the southern Seann Skell taking the price of the beasts against eleven lorries.",
-    "category": "trade",
+    "summary": "A river-boat fitted with a dubhan engine carries pilgrims up to the landing at Caol shean against the current in half a day, where the rowed boats took two; the boatmen of the landing let it moor without a word said.",
+    "category": "faith",
     "people": [],
     "places": [
-      "marker:11",
-      "burg:395"
+      "burg:197"
     ],
     "threads": [
       "the-dubhan-trade"
     ],
-    "master_links": [
-      "VI-0024"
-    ],
+    "master_links": [],
     "chronicle_extra": true
   }
 ]

@@ -6,6 +6,9 @@
  ],
  "events": [
   {
+   "after": "I-0018"
+  },
+  {
    "id": "EI-3001",
    "title": "The seventh kiln-pit dug at Morn",
    "body": "A household of the Seann-Dhaoine finishes a seventh stone-lined smoking pit above the shingle at Morn, each fed by a short turf-cut flue and kept for smoke and not flame, the first buildings raised on Dia-thìr for a trade rather than a hearth.",
@@ -18,7 +21,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
    "era_between": [
@@ -39,7 +44,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
    "era_between": [
@@ -81,7 +88,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
    "era_between": [
@@ -102,7 +111,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#i-of-the-kilns-at-morn",
    "era_between": [
@@ -139,7 +150,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
    "era_between": [
@@ -160,7 +173,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
    "era_between": [
@@ -181,7 +196,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
    "era_between": [
@@ -218,7 +235,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
    "era_between": [
@@ -242,7 +261,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
    "era_between": [
@@ -263,7 +284,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
    "era_between": [
@@ -284,7 +307,9 @@
      "type": "legacy"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iv-of-the-shore-grown-bold",
    "era_between": [
@@ -305,7 +330,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
    "era_between": [
@@ -350,7 +377,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
    "era_between": [
@@ -371,7 +400,9 @@
      "type": "parallel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
    "era_between": [
@@ -408,7 +439,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#iii-of-the-houses-on-the-water",
    "era_between": [
@@ -429,7 +462,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/13_of_the_kilns_the_ramps_and_the_houses_on_the_water.md#ii-of-the-ramps-at-brenn",
    "era_between": [
@@ -453,7 +488,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
    "era_between": [
@@ -474,7 +511,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
    "era_between": [
@@ -495,7 +534,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
    "era_between": [
@@ -537,7 +578,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
    "era_between": [
@@ -558,7 +601,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
    "era_between": [
@@ -579,7 +624,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#i-of-the-whale-ribs-at-dunn",
    "era_between": [
@@ -619,7 +666,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
    "era_between": [
@@ -640,7 +689,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
    "era_between": [
@@ -661,7 +712,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
    "era_between": [
@@ -703,7 +756,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#ii-of-the-round-houses-of-the-eastern-vell",
    "era_between": [
@@ -724,7 +779,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
    "era_between": [
@@ -745,7 +802,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
    "era_between": [
@@ -769,7 +828,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
    "era_between": [
@@ -790,7 +851,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iii-of-the-tower-at-the-north-western-skell",
    "era_between": [
@@ -832,7 +895,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
    "era_between": [
@@ -853,7 +918,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
    "era_between": [
@@ -874,7 +941,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
    "era_between": [
@@ -919,7 +988,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/14_of_the_whale_the_round_houses_and_the_tower.md#iv-of-the-huts-at-toll-and-the-sand",
    "era_between": [
@@ -932,8 +1003,8 @@
   },
   {
    "id": "EI-3045",
-   "title": "Gormal takes up the fire-pot",
-   "body": "Past thirty and past the birth of the one daughter who lived, Gormal takes up the fire-pot and the leather bag of the line's coloured coal from an aunt with no living daughter of her own, having already buried a father, an aunt and two of her own age who died saying the sky-coal would never light.",
+   "title": "Gormal takes up Poit an Teine",
+   "body": "Past thirty and past the birth of the one daughter who lived, Gormal takes up Poit an Teine and the leather bag of the line's an gual dathach from an aunt with no living daughter of her own, having already buried a father, an aunt and two of her own age who died saying the sky-coal would never light.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -975,7 +1046,7 @@
   {
    "id": "EI-3047",
    "title": "Gormal's rule that the recital be kept",
-   "body": "Gormal rules that the fathers' names and the riddle after them be said standing every dark-of-the-year night whether any of the gathered kin care to hear it or not, holding that a recital kept only while it is believed is not kept at all.",
+   "body": "Gormal rules that the fathers' names and Tòimhseachan a' Choimhdich after them be said standing every dark-of-the-year night whether any of the gathered kin care to hear it or not, holding that a recital kept only while it is believed is not kept at all.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1000,7 +1071,7 @@
   {
    "id": "EI-3048",
    "title": "Gormal learns the fathers' names at nine",
-   "body": "Gormal stands the fathers' names over to the aunt who keeps the fire-pot every evening of a whole winter until not a name comes out of its place, and asks, the first time she hears the riddle whole, why no one has tried from higher ground.",
+   "body": "Gormal stands the fathers' names over to the aunt who keeps Poit an Teine every evening of a whole winter until not a name comes out of its place, and asks, the first time she hears Tòimhseachan a' Choimhdich whole, why no one has tried from higher ground.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -1127,7 +1198,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/15_of_the_lean_years_of_the_line.md#i-of-the-kilns-in-the-east",
    "era_between": [
@@ -1148,7 +1221,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/15_of_the_lean_years_of_the_line.md#i-of-the-kilns-in-the-east",
    "era_between": [
@@ -1169,7 +1244,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/15_of_the_lean_years_of_the_line.md#i-of-the-kilns-in-the-east",
    "era_between": [
@@ -1180,7 +1257,7 @@
   {
    "id": "EI-3056",
    "title": "Sìomha softens the recital for her own children",
-   "body": "Gormal's daughter Sìomha, unable to move her mother from the fixed words, begins saying the fathers' names and the riddle to her own children in gentler terms at her own hearth, without ever once letting the recital itself lapse.",
+   "body": "Gormal's daughter Sìomha, unable to move her mother from the fixed words, begins saying the fathers' names and Tòimhseachan a' Choimhdich to her own children in gentler terms at her own hearth, without ever once letting the recital itself lapse.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1215,7 +1292,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/15_of_the_lean_years_of_the_line.md#iii-of-the-oyster-beds-in-the-south",
    "era_between": [
@@ -1262,7 +1341,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/15_of_the_lean_years_of_the_line.md#iii-of-the-oyster-beds-in-the-south",
    "era_between": [
@@ -1273,7 +1354,7 @@
   {
    "id": "EI-3060",
    "title": "Gormal's last recital",
-   "body": "On the last dark-of-the-year night of her life Gormal says the riddle standing as she has said it every year of her keeping, and adds, unfixed in the words, that whoever first agrees which hill stands highest will do the line more good than the branch that went down to the farms did it in ten generations of easier digging.",
+   "body": "On the last dark-of-the-year night of her life Gormal says Tòimhseachan a' Choimhdich standing as she has said it every year of her keeping, and adds, unfixed in the words, that whoever first agrees which hill stands highest will do the line more good than the branch that went down to the farms did it in ten generations of easier digging.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1299,7 +1380,7 @@
   {
    "id": "EI-3061",
    "title": "Gormal dies",
-   "body": "Gormal dies that winter in the house she kept the fire-pot in her whole life, her daughter Sìomha and a granddaughter at her bedside, the six dark coals laid out on the blanket at her own asking; the bag and the unanswered question pass to hands that had heard her say both enough times to say them back the same way.",
+   "body": "Gormal dies that winter in the house she kept Poit an Teine in her whole life, her daughter Sìomha and a granddaughter at her bedside, the six dark coals laid out on the blanket at her own asking; the bag and the unanswered question pass to hands that had heard her say both enough times to say them back the same way.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1359,28 +1440,14 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/15_of_the_lean_years_of_the_line.md#iv-of-the-second-landing",
    "era_between": [
     2090,
     2090
-   ]
-  },
-  {
-   "id": "EI-3064",
-   "title": "A boy stands before the twin ramps of Brenn",
-   "body": "Sent one autumn morning to carry word along the bank that the tide has turned, a boy of the north-eastern Brenn household stands a long while looking at the two, then three, pale ramps running into the current before running his errand, and says nothing after of what he stood looking at.",
-   "place": "burg:440",
-   "kind": "trade",
-   "category": "trade",
-   "links": [],
-   "threads": [],
-   "people": [],
-   "told_in": "book/15_of_the_lean_years_of_the_line.md#iv-of-the-second-landing",
-   "era_between": [
-    2097,
-    2097
    ]
   }
  ]

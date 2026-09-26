@@ -1,0 +1,821 @@
+{
+ "writer": 2,
+ "span": [
+  "V-0039",
+  "V-0061"
+ ],
+ "events": [
+  {
+   "after": "V-0040"
+  },
+  {
+   "id": "EVI-2500",
+   "title": "The Rail Board's timetable hung at Muileann chrom",
+   "body": "The mended line's copied timetable, carried over from the humans' own working papers, is hung on a board at the Muileann chrom terminus where the rails now end. Passengers and carters read it as they find it, since no one troubles to explain why a six-year-old kingdom keeps a dead people's hours.",
+   "kind": "trade",
+   "place": "burg:354",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#i-of-the-line-to-muileann-chrom",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EVI-2501",
+   "title": "The talk at the net-mending",
+   "body": "Under the eaves of the net-store church at Baile chrom, the winter's net-mending turns to talk of Hannah Crane's word that the Grey Night vigil will be kept in the open. Some call it needless risk to an old office; others say it is overdue. No one carries the talk beyond the town.",
+   "kind": "faith",
+   "place": "burg:305",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0043",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-tuathaich",
+    "the-church-on-the-island"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#iii-of-the-night-in-the-open",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "after": "V-0044a"
+  },
+  {
+   "id": "EVI-2502",
+   "title": "The old priest's counsel",
+   "body": "Walking back from a burial, the priest of Baile chrom tells Hannah Crane that the vigil's keeping is hers to judge, having held his own office forty years by staying out of what belongs to another. It is the only word of encouragement she has from anyone before the night.",
+   "kind": "faith",
+   "place": "burg:305",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0043",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#iii-of-the-night-in-the-open",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVI-2503",
+   "title": "The maor's man watches and writes nothing",
+   "body": "A clerk's assistant of Cnoc ghorm, lodging at Baile chrom on an unrelated errand, climbs a rise above the headland and watches Hannah Crane's vigil through the night from a distance. He carries no instruction to report it and no form to record it on, and the shire's returns for the week say nothing.",
+   "kind": "law",
+   "place": "burg:305",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0043",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#iii-of-the-night-in-the-open",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVI-2504",
+   "title": "The bishops' letter kept behind the altar-cloth",
+   "body": "Three bishops of the Church write to Baile chrom calling the open keeping of the Grey Night irregular, and ask, without commanding, that the custom be given up. Hannah Crane reads the letter twice and puts it away in the box that already keeps the town's oldest relic, and answers nothing.",
+   "kind": "faith",
+   "place": "burg:305",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#iv-of-the-letter-called-irregular",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVI-2505",
+   "title": "The Ros bheag bell raised at Cnoc ghorm",
+   "body": "The bell of the old chapel at Ros bheag, carted north at the Severance and crated in a barn for want of a tower to take it, is hung at last in the new church at Cnoc ghorm and rung on a market morning. Its sound carries to the shore road, farther than the town had thought a single bell could reach.",
+   "kind": "faith",
+   "place": "burg:142",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0044",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-church-on-the-island",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#iv-of-the-letter-called-irregular",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVI-2506",
+   "title": "The hurdles built on the Muileann fhionn green",
+   "body": "The town's carpenters spend most of a month raising pens on the old common green at Muileann fhionn, working from a plan one of them had seen used at a southern fair, to hold the cattle and sheep the new market right will bring down from the hill farms.",
+   "kind": "trade",
+   "place": "burg:160",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0044a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#v-of-the-geese-going-north",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVI-2507",
+   "title": "The first drove south from Muileann fhionn",
+   "body": "Hill farmers who had always walked their beasts the long way south now bring them to the new market at Muileann fhionn, and from there the droves go on by the old tracks toward Ceann leathan. Within a few seasons the green stands trodden to mud on every market morning.",
+   "kind": "trade",
+   "place": "burg:160",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0044a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#v-of-the-geese-going-north",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EVI-2508",
+   "title": "A young wife of Muileann fhionn keeps her own watch",
+   "body": "A woman newly married into Baile chrom from Muileann fhionn, who asked Hannah Crane whether she was not afraid to keep the vigil alone, climbs the headland herself the night it is kept and watches from a careful distance. She tells no one, not even her husband, that she went.",
+   "kind": "faith",
+   "place": "burg:305",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0043",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/10_of_the_vigil_in_the_open.md#iii-of-the-night-in-the-open",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "after": "V-0048"
+  },
+  {
+   "id": "EVI-2509",
+   "title": "The Cnoc ghorm church school opens its first term",
+   "body": "Nine boys sit the first term of the school raised inside the new church at Cnoc ghorm, taught the humans' tongue and the western reading of the scripture by a master brought up from Seann Skell. The letter reporting it to the council asks for nothing and is filed without debate.",
+   "kind": "faith",
+   "place": "burg:142",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0045",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#i-of-the-school-reported",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVI-2510",
+   "title": "Seumas mac Coinnich Ghlais proposes a marked boundary",
+   "body": "The councillor of the eastern custodian houses lays a map before the council and asks for a ditch and bank, with stones set at the mile, along the line where the settled shires meet the Tuathaich country, arguing that a boundary kept only in memory will not hold as both peoples' numbers grow.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#ii-of-the-wall-proposed",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVI-2511",
+   "title": "The council lets the wall stand unbuilt",
+   "body": "After two hours' debate on cost and custom, an old councillor says plainly that in eight years no Tuathaich has crossed where he was not wanted, and the room presses the boundary no further. No vote is taken; the proposal is simply not renewed by anyone present.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#ii-of-the-wall-proposed",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVI-2512",
+   "title": "The minute on the wall signed by five, opposed by none",
+   "body": "Gormshuil nic Dhùghaill's four-line minute, ending in the sentence spoken against the wall, is initialled by five of the twelve councillors. The other seven enter no dissent. The Library keeps the sheet as the whole of the boundary's history: proposed, weighed, and left undrawn.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0047",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#ii-of-the-wall-proposed",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVI-2513",
+   "title": "Gormshuil begins a book of her own",
+   "body": "Keeping the blotted first draft of the wall's minute rather than burning it, the under-clerk pastes it into a small board-bound book bought without her clerk-master's knowledge and begins, that same evening, a private record of her own, the first of the volumes she keeps for the rest of her working life.",
+   "kind": "culture",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#ii-of-the-wall-proposed",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVI-2514",
+   "title": "Gormshuil walks to Allt an Àigh with her mother",
+   "body": "Given a fortnight's leave for the first time in two years, the under-clerk walks the old road east with her mother, of an Old Spirits house, to drink at the holy well and add a stone to its cairn, lodging a night on the way at the walkers' hall of Achadh gharbh.",
+   "kind": "faith",
+   "place": "marker:1",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0048",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#iii-of-the-walk-to-allt-an-aigh",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVI-2515",
+   "title": "The walkers' ledger at Achadh gharbh",
+   "body": "The keeper of the hall built for the well's pilgrims shows Gormshuil nic Dhùghaill her cracked-spined ledger of every walker's shire and name, its pages already holding travellers from better than twenty shires, north and south and east and west of the island together on the one road.",
+   "kind": "faith",
+   "place": "burg:279",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0049",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#iii-of-the-walk-to-allt-an-aigh",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "id": "EVI-2516",
+   "title": "The mountain's yield passes the humans' own figure",
+   "body": "A surveyor's report tells the council, in the flat language such reports keep, that the mine's yield has come back to what it gave under the humans and, in the month just past, gone beyond it, the working unchanged in every particular but the hands the profit now fills.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#iv-of-the-sloc-mor",
+   "era_between": [
+    10,
+    10
+   ]
+  },
+  {
+   "after": "V-0052"
+  },
+  {
+   "id": "EVI-2517",
+   "title": "The Sloc Mòr granted to Uisdean mac Ùisdein",
+   "body": "Uisdean mac Ùisdein of Cathair mhòr, whose family held an overseer's post there under the humans, comes to the capital to put his name to the working of the great shaft at Achadh dhomhain, the terms copied almost word for word from the humans' own ledgers save the fifth now kept for the Crown.",
+   "kind": "trade",
+   "place": "burg:19",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#iv-of-the-sloc-mor",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVI-2518",
+   "title": "A board is seated over the Sloc Mòr's grant",
+   "body": "Three clerks and an engineer are set at a table in the council's own house at Cathair dhearg to see the mine's grant kept to its terms, answering to no name grander than the mountain itself, and it is to this small board, not the council, that Uisdean mac Ùisdein afterward sends his returns.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#iv-of-the-sloc-mor",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVI-2519",
+   "title": "Uisdean mac Ùisdein's first contract with the hewers",
+   "body": "Before the snow closes the high tracks, Uisdean mac Ùisdein rides north to set his name against the hewers' own at the shaft-head, the roster and the rates of pay carried over unaltered from the rolls the humans had kept, only the name at the head of the page now his own.",
+   "kind": "trade",
+   "place": "burg:135",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#iv-of-the-sloc-mor",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVI-2520",
+   "title": "The council lets the night shift stand",
+   "body": "Asked whether the mountain, now the island's own, should be given the rest the humans never allowed it, the mine board's engineer answers that the very yield just reported depends on a shaft that never stands idle, and the council sets the question aside rather than decide it either way.",
+   "kind": "law",
+   "place": "burg:135",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#v-of-the-night-shift-and-the-blessing",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVI-2521",
+   "title": "The custodians enter their protest against the unresting shaft",
+   "body": "The custodian houses of the vein carry down a half-page paper asking not that the night shift end, which they know is no longer the council's to give back, but only that their protest stand written, so that none after can say the old custom's breaking went unmarked.",
+   "kind": "law",
+   "place": "burg:135",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#v-of-the-night-shift-and-the-blessing",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVI-2522",
+   "title": "Gormshuil reads the grant at the shaft-head",
+   "body": "Sent north with the council's own copy of the Sloc Mòr grant, Gormshuil nic Dhùghaill reads it aloud to the assembled hewers by lamplight in the winter cold, the custodians of the shaft standing apart in their grey coats while the words that answer their protest with silence are read over their heads.",
+   "kind": "law",
+   "place": "burg:135",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#v-of-the-night-shift-and-the-blessing",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EVI-2523",
+   "title": "The custodians bless the shafts they could not close",
+   "body": "Once the grant is read, the four custodians of the vein walk to the pit-mouth and speak an old blessing over it, calling on the mountain to hold, to give, and in its own time to rest, before turning back without further word to the lamps that burn on through the falling dark.",
+   "kind": "faith",
+   "place": "burg:135",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/11_of_the_wall_that_was_not_built.md#v-of-the-night-shift-and-the-blessing",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "after": "V-0056"
+  },
+  {
+   "id": "EVI-2524",
+   "title": "Iain mac Ruairidh taken on as chainman",
+   "body": "Iain, a hewer's son of the hills, is taken on by Lachlann mac Iain Bhàin, the Mine Board's surveyor, to carry the chain and keep the faces' book at the Sloc Mòr. He is sworn to no guild, only entered on the Board's roll.",
+   "kind": "coal",
+   "place": "burg:135",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0053",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#i-of-the-lamp-and-the-chain",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EVI-2525",
+   "title": "The druid hall at Muileann dhearg becomes a lodging",
+   "body": "As hungry families from the east crowd into the vein-towns, Muileann dhearg's shut druid hall is opened again, not for its old teaching but for pallets on its floor, and is twice enlarged within a few years to hold them.",
+   "kind": "trade",
+   "place": "burg:491",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#ii-of-the-towns-that-filled",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EVI-2526",
+   "title": "Inns and a ropewalk at Baile thais",
+   "body": "The crossing at Baile thais, where the coal road meets the Abhainn uaine, fills with carters who stay the night and then keep families there; inns, stables and a ropewalk making the cages' hauling-rope grow up along the ford within the decade.",
+   "kind": "trade",
+   "place": "burg:44",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#ii-of-the-towns-that-filled",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EVI-2527",
+   "title": "The raiders' first season off Cathair gheal",
+   "body": "Flagless ships work the water off Cathair gheal in the north-west; a fishing house is burned on the shore below Cathair gheal and two boats are lost from Cathair gheal's own harbour. The council's word, when it comes the next spring, is four lines asking that the matter be watched.",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#ii-of-the-towns-that-filled",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EVI-2528",
+   "title": "The first coal train runs to the capital",
+   "body": "On the third of an Dàmhair the mended rail carries the first train, loaded with coal cut that week, from the Sloc Mòr's pithead at Achadh dhomhain down to Cathair dhearg on the humans' own iron, a Tuathaich engineer at the footplate.",
+   "kind": "coal",
+   "place": "burg:135",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0056",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#iii-of-the-first-train",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EVI-2529",
+   "title": "The Mac Ùisdein quarry-mark first cut",
+   "body": "The grey, black-veined spoil of the Sloc Mòr's deeper galleries is quarried and dressed for building, and sold south under a stylised wave, the mark of the house of Mac Ùisdein, cut into every squared block.",
+   "kind": "trade",
+   "place": "burg:135",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0057",
+     "type": "location"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#iii-of-the-first-train",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "after": "V-0060"
+  },
+  {
+   "id": "EVI-2530",
+   "title": "The Rail Board's office raised at Cathair dhearg",
+   "body": "The Rail Board builds its office at Cathair dhearg, low and of the same grey Mac Ùisdein stone, and the Board's business, surveys among them, is thereafter kept within its walls.",
+   "kind": "trade",
+   "place": "burg:135",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#iv-of-the-sidings-and-the-spur",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EVI-2531",
+   "title": "Lachlann mac Iain Bhàin's book of the faces",
+   "body": "Lachlann mac Iain Bhàin, the Mine Board's surveyor at the Sloc Mòr, keeps a running book of the faces he and his chainman measure, entering each true figure against the hewers who are paid by the fathom driven.",
+   "kind": "coal",
+   "place": "burg:135",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0053",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#i-of-the-lamp-and-the-chain",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EVI-2532",
+   "title": "The shunting yard at Muileann chrom counted apart",
+   "body": "New sidings at Muileann chrom, where the Sloc Mòr's coal trains are broken up and made up for the ports, bring rows of housing for the families who work the small engines. The Board keeps their roll separate from the shire's and houses them apart, beside the lines.",
+   "kind": "law",
+   "place": "burg:354",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0058",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#iv-of-the-sidings-and-the-spur",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EVI-2533",
+   "title": "The spur to Àth leathan opened",
+   "body": "The Rail Board lays thirteen miles of new rail off the western branch to Àth leathan, where Tuathaich hewers have long worked the coal, judging the ground poor but the coal cheap to lift and the carters' road worse each winter.",
+   "kind": "trade",
+   "place": "burg:346",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0058",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#iv-of-the-sidings-and-the-spur",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EVI-2534",
+   "title": "The Guild of Hewers chartered at Achadh dhomhain",
+   "body": "The restored custom of binding, kept now for Dia-thìrich alone, is set into the Guild of Hewers' charter and read aloud at Achadh dhomhain. Each hewer taken in lays a hand flat on a lump of coal and swears to keep the guild's custom, take no outside work and teach no craft of it to a hand unsworn.",
+   "kind": "trade",
+   "place": "burg:135",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0060",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#v-of-the-oath-on-the-coal",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EVI-2535",
+   "title": "Iain mac Ruairidh stands outside the oath",
+   "body": "At the guild's chartering Iain watches his own father sworn among the hewers and understands that the charter's rolls, open to those who cut, haul or timber the coal, hold no place for the Board's chainman who only measures where it lies.",
+   "kind": "coal",
+   "place": "burg:135",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0060",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/12_of_the_sloc_mor.md#v-of-the-oath-on-the-coal",
+   "era_between": [
+    13,
+    13
+   ]
+  }
+ ]
+}

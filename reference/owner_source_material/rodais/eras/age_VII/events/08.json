@@ -273,44 +273,6 @@
     "told_in": "book/08_the_five_towers.md#v-of-the-flame-over-the-hammer"
   },
   {
-    "title": "Calum Bàn keeps the key of the coal-store",
-    "era_year": 7,
-    "summary": "The keeper of Taigh-solais Muileann bheag locks the last of the coal in the store at the tower's foot and hangs the key on his own nail until the board should write about it.",
-    "category": "coal",
-    "people": [
-      "Calum Bàn"
-    ],
-    "places": [
-      "marker:14"
-    ],
-    "threads": [
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0016"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Iseabail Ruadh writes the crane into her daybook",
-    "era_year": 7,
-    "summary": "At Taigh-solais Àth dhearg the keeper Iseabail Ruadh writes below her father's last line that the tank was raised by the crane of the rope-walk at Seann Tarr, naming the rope-walk and the engineer.",
-    "category": "law",
-    "people": [
-      "Iseabail Ruadh",
-      "Peigi nic Ascaill"
-    ],
-    "places": [
-      "marker:15",
-      "burg:402"
-    ],
-    "threads": [],
-    "master_links": [
-      "VI-0017"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The Baile chrom burner mended on a smith's anvil",
     "era_year": 7,
     "summary": "A burner bent on the voyage round the western capes is straightened by Joe Ashby and the smith of Baile chrom behind a shut door; Joe pays the smith from his own pocket.",
@@ -331,22 +293,34 @@
     "chronicle_extra": true
   },
   {
-    "title": "The board leaves the fitters' pay owing",
+    "title": "The harbour carts of Àth naomh blessed as before",
     "era_year": 7,
-    "summary": "The clerk of Tional nan Tuathach writes to Comhairle nan Taighean-solais for the Baile chrom fitters' pay to be made good. The board does not pay it, and the sum stands in the assembly's book as owed.",
-    "category": "law",
-    "people": [
-      "Joe Ashby"
-    ],
+    "summary": "At Àth naomh in the Cuan shean shire the harbour carts are blessed at the spring as every year, horses and all; a carter who has put a dubhan lamp on his tail-board asks whether it too is blessed, and the priest says it is on the cart.",
+    "category": "faith",
+    "people": [],
     "places": [
-      "burg:95"
+      "burg:286"
     ],
     "threads": [
-      "the-tuathaich"
+      "the-orders-of-the-old-faith",
+      "the-dubhan-trade"
     ],
-    "master_links": [
-      "VI-0018"
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The stone of Cnoc bheag scrubbed",
+    "era_year": 7,
+    "summary": "The town of Cnoc bheag has its carved stone scrubbed of a century's coal-smoke for the midsummer fair, and finds under the black a second band of carving no one living had seen.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:20"
     ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [],
     "chronicle_extra": true
   }
 ]

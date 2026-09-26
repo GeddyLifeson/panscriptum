@@ -177,5 +177,26 @@
     "type": "cause"
    }
   ]
+ },
+ {
+  "era_year": 3,
+  "title": "Nine days at the long table",
+  "summary": "In the moon of Lùghnas the custodians of the vein-house sit at the long table with the copied roll on one side and the custody-book on the other, and count hearth by hearth, name against name, for nine days.",
+  "category": "coal",
+  "people": [],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-sundering",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0006",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
  }
 ]

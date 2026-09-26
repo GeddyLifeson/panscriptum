@@ -254,5 +254,25 @@
     "type": "legacy"
    }
   ]
+ },
+ {
+  "era_year": 1000,
+  "title": "Birth of Mòrag Ruadh",
+  "summary": "A daughter, Mòrag, red-haired and called Mòrag Ruadh, is born into Clann Raghnaill; the custody-book gives the house and the year, for no one yet has cause to write more.",
+  "category": "rulers",
+  "people": [
+   "Mòrag Ruadh"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0153",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
  }
 ]

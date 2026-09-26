@@ -57,7 +57,7 @@ The differences, when he set them beside one another, troubled him more than he 
 
 "I do not know," he said, "and I have come to think that not knowing may be the truest thing I can write down."
 
-She was silent a moment at that, turning it over the way a woman turns over a coin she is not sure is good silver. "Write down the doubt, then," she said at last, "where you have it, and the sure thing where you have that, and let the two stand together on the leaf. A roll that hides its own uncertainty is a roll that will be believed too well by people who have no way of knowing better, and I would rather my grandchildren doubted rightly than believed wrongly."
+She was silent a moment at that, turning it over the way a woman turns over a ring she is not sure is good silver. "Write down the doubt, then," she said at last, "where you have it, and the sure thing where you have that, and let the two stand together on the leaf. A roll that hides its own uncertainty is a roll that will be believed too well by people who have no way of knowing better, and I would rather my grandchildren doubted rightly than believed wrongly."
 
 It was not, in the end, an order many clerks after him chose to follow, since a roll with gaps in it looks, to most eyes, less finished than one without; but Tormod took her at her word, and in three places where his reciters' account disagreed with what he later learned the Hall's own roll gave, he set both readings down side by side and chose neither, a habit that earned him, among the few scholars who ever came to read his leaves entire, more honour than any of the names he did manage to fix beyond doubt.
 

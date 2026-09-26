@@ -364,26 +364,6 @@
     ]
   },
   {
-    "title": "Sergeant Iain Mòr counts the cappings",
-    "era_year": 23,
-    "summary": "At the first capping at Àth leathan the seventh regiment's sergeant Iain Mòr tells Somhairle mac Lachlainn it is the fourth his company has stood by that month, with Tobar dhearg of the hills still to do.",
-    "category": "war",
-    "people": [
-      "Iain Mòr",
-      "Somhairle mac Lachlainn"
-    ],
-    "places": [
-      "burg:346"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0122"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Four score released at the boundary stones",
     "era_year": 23,
     "summary": "Some four score holdouts taken at Muileann ghlas are handed to the Moot at the boundary stones; Martha Greaves writes their names in a column Peter Hale ruled that morning.",
@@ -458,6 +438,42 @@
     ],
     "master_links": [
       "VI-0125"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The first market under the Caol ruadh charter",
+    "era_year": 23,
+    "summary": "The first market held under Caol ruadh's new charter is held in the rain on the quay; the market-due is taken by a Treasury clerk under a sailcloth awning, and the fishwives sell out before noon.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:15"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0120a"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A plough-share of Muileann ghlas",
+    "era_year": 23,
+    "summary": "The farmer of the sown field at Muileann ghlas brings the first blade turned up by his plough to the regiments' post, and the corporal enters it in a book kept for the purpose.",
+    "category": "war",
+    "people": [
+      "Aonghas mac Phàdraig"
+    ],
+    "places": [
+      "burg:360"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0127"
     ],
     "chronicle_extra": true
   }

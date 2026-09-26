@@ -36,7 +36,7 @@
   {
    "id": "EVII-4002",
    "title": "The first sealed wagons loaded at Muileann chrom",
-   "body": "The Rail Board's own men load eight wagons behind tarpaulin at Muileann chrom by shuttered lamp, and take the loading out of the yard drivers' hands for the first time in the line's history.",
+   "body": "Comhairle na Slighe-iarainn's own men load eight wagons behind tarpaulin at Muileann chrom by shuttered lamp, and take the loading out of the yard drivers' hands for the first time in the line's history.",
    "place": "burg:47",
    "kind": "war",
    "category": "war",
@@ -65,7 +65,7 @@
   {
    "id": "EVII-4003",
    "title": "The western branch runs arms by night",
-   "body": "Through am Faoilleach the coal line's western branch, laid twenty years before for lime and slate, carries arms and dubhan west to Seann Bhral by night, at speeds the branch's rails were never built to bear.",
+   "body": "Through am Faoilleach Slighe a' Ghuail's western branch, laid twenty years before for lime and slate, carries arms and dubhan west to Seann Bhral by night, at speeds the branch's rails were never built to bear.",
    "place": null,
    "kind": "war",
    "category": "war",
@@ -93,8 +93,8 @@
   },
   {
    "id": "EVII-4004",
-   "title": "The Rail Board's quay at Seann Bhral",
-   "body": "At Seann Bhral the Rail Board's men unload the arms trains by lantern into a lorry kept always waiting, and give the driver nothing for his signature but a bare manifest.",
+   "title": "Comhairle na Slighe-iarainn's quay at Seann Bhral",
+   "body": "At Seann Bhral Comhairle na Slighe-iarainn's men unload the arms trains by lantern into a lorry kept always waiting, and give the driver nothing for his signature but a bare manifest.",
    "place": null,
    "kind": "war",
    "category": "war",
@@ -152,7 +152,7 @@
   {
    "id": "EVII-4006",
    "title": "A Tuathach family on the western branch",
-   "body": "Eachann mac Ruairidh's train passes a Tuathach family walking north along the coal line's western branch before dawn, a handcart between them. He does not stop, and does not look back.",
+   "body": "Eachann mac Ruairidh's train passes a Tuathach family walking north along Slighe a' Ghuail's western branch before dawn, a handcart between them. He does not stop, and does not look back.",
    "place": null,
    "kind": "people",
    "category": "humans",
@@ -323,7 +323,7 @@
   {
    "id": "EVII-4012",
    "title": "Ruth Calder learns the Board keeps its own list",
-   "body": "Tom Varley brings word to Ruth Calder that the Mine Board at Cathair mhòr keeps a list of its own, with her name and his set above every other on it.",
+   "body": "Tom Varley brings word to Ruth Calder that Comhairle nam Mèinnean at Cathair mhòr keeps a list of its own, with her name and his set above every other on it.",
    "place": "burg:346",
    "kind": "war",
    "category": "war",
@@ -789,7 +789,7 @@
   {
    "id": "EVII-4028",
    "title": "Inis àrsaidh victuals the kingdom's host",
-   "body": "The river town of Inis àrsaidh, nearest the field of Àth leathan by water, supplies bread and salt fish to the kingdom's host through the campaign and the battle.",
+   "body": "The river town of Inis àrsaidh, nearest Àraich Àth leathan by water, supplies bread and salt fish to the kingdom's host through the campaign and the battle.",
    "place": "burg:55",
    "kind": "war",
    "category": "war",
@@ -845,7 +845,7 @@
   {
    "id": "EVII-4030",
    "title": "Sìleas nic Rath searches the record for Ruth Calder's name",
-   "body": "Sìleas nic Rath, new to the office of royal chronicler, searches the open record more than once for Ruth Calder's name after Àth leathan and does not find it, and privately judges the question not hers to press further.",
+   "body": "Sìleas nic Rath, new to the office of royal chronicler, searches An Clàr Foscailte more than once for Ruth Calder's name after Àth leathan and does not find it, and privately judges the question not hers to press further.",
    "place": "burg:246",
    "kind": "record",
    "category": "law",
@@ -1041,7 +1041,7 @@
   {
    "id": "EVII-4037",
    "title": "Singing in the Tobar dhearg line",
-   "body": "In the waiting before the battle the old captain's men of Tobar dhearg sing low in the Church's own words along their line.",
+   "body": "In the waiting before the battle the old captain's men of Tobar dhearg sing low in An Eaglais's own words along their line.",
    "place": "marker:18",
    "kind": "rite",
    "category": "faith",
@@ -1097,6 +1097,34 @@
   },
   {
    "id": "EVII-4039",
+   "title": "Muileann ruadh takes in wounded officers",
+   "body": "The custodians of the bath-house at Fuarain Theth Muileann ruadh below Muileann ruadh take in two officers of the regiments wounded in the west, at the council's asking, and set them in the long room among the hewers' widows.",
+   "place": "burg:229",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0082",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/24_of_blar_ath_leathan.md#i-of-the-burn-in-spate",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4040",
    "title": "Tom Varley carries the wounded off the southern ground",
    "body": "As the light fails on the day of the battle, Tom Varley gathers hurdles and handcarts and leads the wounded of the southern pits up the ridge drove track, unlit, away from Àth leathan toward Muileann àrsaidh.",
    "place": "burg:346",
@@ -1125,7 +1153,7 @@
    ]
   },
   {
-   "id": "EVII-4040",
+   "id": "EVII-4041",
    "title": "The carriers pass Àth leathan in the dark",
    "body": "Tom Varley's party of carriers comes within sight of the Àth leathan pit-sheds before dawn and does not stop there, word having already reached them that the town cannot be held through the coming night.",
    "place": "burg:346",
@@ -1137,7 +1165,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4039",
+     "to": "EVII-4040",
      "type": "sequel"
     }
    ],
@@ -1154,7 +1182,7 @@
    ]
   },
   {
-   "id": "EVII-4041",
+   "id": "EVII-4042",
    "title": "Sarah Dunmore receives the wounded at Muileann àrsaidh",
    "body": "Sarah Dunmore and the women of Muileann àrsaidh come out along the ridge path at dawn to take the hurdles from the carriers' shoulders, and a woman who sets bones is sent for to tend the worst hurt among them.",
    "place": "burg:244",
@@ -1166,7 +1194,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4040",
+     "to": "EVII-4041",
      "type": "sequel"
     }
    ],
@@ -1184,7 +1212,7 @@
    ]
   },
   {
-   "id": "EVII-4042",
+   "id": "EVII-4043",
    "title": "Tom Varley counts the wounded at the gate",
    "body": "Tom Varley counts nine souls brought off the field into Muileann àrsaidh and keeps the number in his head rather than on paper, unwilling to see it set down where it might be weighed against the number that went south.",
    "place": "burg:244",
@@ -1196,7 +1224,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4041",
+     "to": "EVII-4042",
      "type": "sequel"
     }
    ],
@@ -1213,7 +1241,7 @@
    ]
   },
   {
-   "id": "EVII-4043",
+   "id": "EVII-4044",
    "title": "Tom Varley hears of the flooding at Sarah Dunmore's table",
    "body": "Word of the drowned shafts reaches Tom Varley by carter and shepherd, and he and Sarah Dunmore weigh, over several evenings, what purpose the flooding serves beyond telling the hills the seams are done for good.",
    "place": "burg:244",
@@ -1225,7 +1253,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4042",
+     "to": "EVII-4043",
      "type": "sequel"
     }
    ],
@@ -1243,44 +1271,15 @@
    ]
   },
   {
-   "id": "EVII-4044",
+   "id": "EVII-4045",
    "title": "Somhairle reads the first week's patrol reports",
-   "body": "Somhairle mac Lachlainn reads the seventh regiment's first patrol reports at Seann Skell by dubhan lamp: the road clear, a cart met and let pass, a farm gate found open and shut again.",
+   "body": "Somhairle mac Lachlainn reads An seachdamh rèisimeid's first patrol reports at Seann Skell by dubhan lamp: the road clear, a cart met and let pass, a farm gate found open and shut again.",
    "place": "burg:489",
    "kind": "war",
    "category": "war",
    "links": [
     {
      "to": "VI-0084",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-4043",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [
-    "somhairle-mac-lachlainn"
-   ],
-   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
-   "id": "EVII-4045",
-   "title": "A young officer writes of the unploughed field",
-   "body": "A patrol officer new to his rank writes into his return that the field of the battle lies as it was left and has not been ploughed, though the season for the first ploughing is well begun on every field around it.",
-   "place": "marker:18",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0085",
      "type": "sequel"
     },
     {
@@ -1302,8 +1301,8 @@
   },
   {
    "id": "EVII-4046",
-   "title": "Somhairle sends the patrol to walk the field itself",
-   "body": "Somhairle mac Lachlainn gives verbal, unwritten instructions for the same officer to walk the field of Àth leathan rather than the road beside it, and receives an account he sets down in the fewest words the return will bear.",
+   "title": "A young officer writes of the unploughed field",
+   "body": "A patrol officer new to his rank writes into his return that the field of the battle lies as it was left and has not been ploughed, though the season for the first ploughing is well begun on every field around it.",
    "place": "marker:18",
    "kind": "war",
    "category": "war",
@@ -1331,6 +1330,35 @@
   },
   {
    "id": "EVII-4047",
+   "title": "Somhairle sends the patrol to walk the field itself",
+   "body": "Somhairle mac Lachlainn gives verbal, unwritten instructions for the same officer to walk Àraich Àth leathan rather than the road beside it, and receives an account he sets down in the fewest words the return will bear.",
+   "place": "marker:18",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4046",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4048",
    "title": "The maor of Seann Skell explains the seventh's short rolls",
    "body": "The maor of the western Seann Skell tells Somhairle mac Lachlainn privately that coast boats are finding the fishing a week longer than the weather requires, rather than fill a regiment meant to stand against their own hill neighbours.",
    "place": "burg:489",
@@ -1342,7 +1370,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4046",
+     "to": "EVII-4047",
      "type": "sequel"
     }
    ],
@@ -1360,7 +1388,7 @@
    ]
   },
   {
-   "id": "EVII-4048",
+   "id": "EVII-4049",
    "title": "Tom Varley sends word to every hill farm",
    "body": "Tom Varley sends word by boys and shepherds to every hill farm within a day's walk of Muileann àrsaidh asking whether anyone has seen Ruth Calder, and gets back only that nobody has, alive or otherwise.",
    "place": "burg:244",
@@ -1372,7 +1400,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4047",
+     "to": "EVII-4048",
      "type": "sequel"
     }
    ],
@@ -1390,40 +1418,10 @@
    ]
   },
   {
-   "id": "EVII-4049",
+   "id": "EVII-4050",
    "title": "A farm-wife's account of the field's own dead",
    "body": "A woman below the ridge sends Tom Varley word that some of the battle's dead were carried off by night in the days after by people from the hills, and might lie now in ground no list on either side will ever name.",
    "place": "burg:244",
-   "kind": "people",
-   "category": "humans",
-   "links": [
-    {
-     "to": "VI-0085",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-4048",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war",
-    "the-tuathaich"
-   ],
-   "people": [
-    "tom-varley"
-   ],
-   "told_in": "book/25_of_the_field_left_unploughed.md#iv-of-the-answer-nobody-could-give",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
-   "id": "EVII-4050",
-   "title": "An old woman of Àth leathan sees the field the morning after",
-   "body": "An old woman who kept hens at Àth leathan tells of women from the hill farms out on the field with handcarts the morning after the battle, before the regiments came, but says she looked too little to know whose faces she saw.",
-   "place": "burg:346",
    "kind": "people",
    "category": "humans",
    "links": [
@@ -1451,8 +1449,38 @@
   },
   {
    "id": "EVII-4051",
+   "title": "An old woman of Àth leathan sees the field the morning after",
+   "body": "An old woman who kept hens at Àth leathan tells of women from the hill farms out on the field with handcarts the morning after the battle, before the regiments came, but says she looked too little to know whose faces she saw.",
+   "place": "burg:346",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0085",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-4050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war",
+    "the-tuathaich"
+   ],
+   "people": [
+    "tom-varley"
+   ],
+   "told_in": "book/25_of_the_field_left_unploughed.md#iv-of-the-answer-nobody-could-give",
+   "era_between": [
+    21,
+    21
+   ]
+  },
+  {
+   "id": "EVII-4052",
    "title": "Tom Varley walks to the dyke above the field",
-   "body": "On the eighth day Tom Varley walks alone to a stone dyke a quarter-mile from the field of Àth leathan and is turned back by a young sentry of the seventh regiment before he can see more than its empty shape.",
+   "body": "On the eighth day Tom Varley walks alone to a stone dyke a quarter-mile from Àraich Àth leathan and is turned back by a young sentry of An seachdamh rèisimeid before he can see more than its empty shape.",
    "place": "marker:18",
    "kind": "war",
    "category": "war",
@@ -1462,7 +1490,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4050",
+     "to": "EVII-4051",
      "type": "sequel"
     }
    ],
@@ -1479,7 +1507,7 @@
    ]
   },
   {
-   "id": "EVII-4052",
+   "id": "EVII-4053",
    "title": "Rab of Tobar dhearg carried up the ridge",
    "body": "A boy of Tobar dhearg named Rab, wounded in the thigh at Àth leathan, is carried up the ridge path on a handcart by Tom Varley's carriers, saying his own name over in the dark.",
    "place": "burg:244",
@@ -1491,7 +1519,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4051",
+     "to": "EVII-4052",
      "type": "sequel"
     }
    ],
@@ -1508,7 +1536,7 @@
    ]
   },
   {
-   "id": "EVII-4053",
+   "id": "EVII-4054",
    "title": "The bonesetter at Sarah Dunmore's table",
    "body": "A bonesetter of the western hills works on the wounded of Àth leathan by lamplight at Sarah Dunmore's kitchen table at Muileann àrsaidh.",
    "place": "burg:244",
@@ -1520,7 +1548,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-4052",
+     "to": "EVII-4053",
      "type": "sequel"
     }
    ],
@@ -1538,44 +1566,15 @@
    ]
   },
   {
-   "id": "EVII-4054",
+   "id": "EVII-4055",
    "title": "The seventh's rolls short at the coast",
-   "body": "The seventh regiment's rolls run to some four hundred and twenty men in its second week, short of the order; the maor of the western Seann Skell puts it down to boats still at sea.",
+   "body": "An seachdamh rèisimeid's rolls run to some four hundred and twenty men in its second week, short of the order; the maor of the western Seann Skell puts it down to boats still at sea.",
    "place": "burg:489",
    "kind": "war",
    "category": "war",
    "links": [
     {
      "to": "VI-0084",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-4053",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [
-    "somhairle-mac-lachlainn"
-   ],
-   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
-   "era_between": [
-    21,
-    21
-   ]
-  },
-  {
-   "id": "EVII-4055",
-   "title": "Tom Varley turned back at the dyke",
-   "body": "Walking down to look at the field of Àth leathan, Tom Varley is turned back by a young sentry of the seventh regiment at a stone dyke a quarter-mile short of it.",
-   "place": "marker:18",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0085",
      "type": "sequel"
     },
     {
@@ -1587,9 +1586,9 @@
     "the-long-war"
    ],
    "people": [
-    "tom-varley"
+    "somhairle-mac-lachlainn"
    ],
-   "told_in": "book/25_of_the_field_left_unploughed.md#iv-of-the-answer-nobody-could-give",
+   "told_in": "book/25_of_the_field_left_unploughed.md#iii-of-the-returns-at-the-western-seann-skell",
    "era_between": [
     21,
     21

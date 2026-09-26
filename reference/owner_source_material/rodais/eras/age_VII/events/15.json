@@ -257,7 +257,7 @@
     "told_in": "book/15_of_the_fifteenth_year.md#v-of-the-two-letters"
   },
   {
-    "title": "The council's answer to the high custodian",
+    "title": "The council's answer to the Àrd-choimheadaiche",
     "era_year": 15,
     "after": "VI-0051",
     "summary": "The council answers within the fortnight that no sitting of it has ever declared the coin's seal a holy thing, that the coal ink was pressed into it only because coal was once the surest reserve behind the coin, and that the council holds no vein and no fuel sacred and never has.",
@@ -282,7 +282,7 @@
     "title": "Beathag copies both letters without comment",
     "era_year": 15,
     "same_day": true,
-    "summary": "Beathag nic Fhionnlaigh copies the high custodian's letter and the council's answer whole into the day's page, in the order they came to her, and sets no word of her own between them, though she reads the council's answer five times before she blots the page.",
+    "summary": "Beathag nic Fhionnlaigh copies the Àrd-choimheadaiche's letter and the council's answer whole into the day's page, in the order they came to her, and sets no word of her own between them, though she reads the council's answer five times before she blots the page.",
     "category": "record",
     "people": [
       "Beathag nic Fhionnlaigh"
@@ -324,19 +324,15 @@
     "chronicle_extra": true
   },
   {
-    "title": "The proclamation carried in a farmer's almanac",
+    "title": "The proclamation read at the Cuan shean harbour",
     "era_year": 15,
-    "summary": "A carrier tears the printed proclamation of Linn an Dubhain from a post at Cathair dhearg and brings it to an Leabharlann folded in a farmer's almanac, so that the chronicler may see it as the crowd saw it.",
+    "summary": "At the harbour of Cuan shean the maor's crier reads the proclamation of Linn an Dubhain from the harbour steps to the fishing crews, who ask whether it changes the day of the fish-market. It does not.",
     "category": "law",
-    "people": [
-      "Beathag nic Fhionnlaigh"
-    ],
+    "people": [],
     "places": [
-      "burg:19",
-      "marker:34"
+      "burg:282"
     ],
     "threads": [
-      "the-library",
       "the-dubhan-trade"
     ],
     "master_links": [
@@ -345,41 +341,36 @@
     "chronicle_extra": true
   },
   {
-    "title": "The old headings left standing",
+    "title": "A pump on the quays of Baile ghorm",
     "era_year": 15,
-    "summary": "Re-heading fourteen years of the royal chronicle by lamplight, Beathag nic Fhionnlaigh sets the years of Linn an Dubhain beside the old headings and strikes none of them out.",
-    "category": "law",
-    "people": [
-      "Beathag nic Fhionnlaigh",
-      "Sìleas nic Rath"
-    ],
+    "summary": "The third anchorage of the kingdom, at Baile ghorm, sets a dubhan pump on its wolf-post quays for the fishing boats that have taken engines, the first on that coast.",
+    "category": "trade",
+    "people": [],
     "places": [
-      "marker:34"
+      "burg:170"
     ],
     "threads": [
-      "the-library"
+      "the-dubhan-trade"
     ],
     "master_links": [
-      "VI-0049a"
+      "VI-0043"
     ],
     "chronicle_extra": true
   },
   {
-    "title": "Gille-Easbaig Bàn grinds his last coal ink",
+    "title": "Doire shean hears the new count at market",
     "era_year": 15,
-    "summary": "The die-cutter of the mint at Cathair dhearg, who had ground the coal ink for the seal every year of Cathal's coinage, cuts the plain seal and writes to the Library that he does not know whether he is glad of it or sorry.",
-    "category": "trade",
-    "people": [
-      "Gille-Easbaig Bàn"
-    ],
+    "summary": "At Doire shean the new count of the years is read out at the Tuesday market; the market-clerk writes the next week's date both ways in his book and goes on doing so for a year.",
+    "category": "law",
+    "people": [],
     "places": [
-      "burg:19"
+      "burg:324"
     ],
     "threads": [
-      "the-seven-coals"
+      "the-dubhan-trade"
     ],
     "master_links": [
-      "VI-0050"
+      "VI-0049a"
     ],
     "chronicle_extra": true
   }

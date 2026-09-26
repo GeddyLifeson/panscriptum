@@ -1,142 +1,227 @@
 [
-  {
-    "title": "The host of Dùn dhearg musters at the ford",
-    "era_year": 4603,
-    "summary": "Every household east of the vein sends its spears down to the river below Dùn dhearg in the last days of an Lùnastal, camping the whole night along a mile of the east bank under Artair mac Fhearghail, meaning to hold the crossing before the king's kin can gather against them.",
-    "category": "war",
-    "people": ["Artair mac Fhearghail"],
-    "places": ["burg:422"],
-    "threads": ["the-seven-coals"],
-    "master_links": ["I-0098a"]
+ {
+  "title": "The host of Dùn dhearg musters at the ford",
+  "era_year": 4603,
+  "summary": "Every household east of the vein sends its spears down to the river below Dùn dhearg in the last days of an Lùnastal, camping the whole night along a mile of the east bank under Artair mac Fhearghail, meaning to hold the crossing before the king's kin can gather against them.",
+  "category": "war",
+  "people": [
+   "Artair mac Fhearghail"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "Artair mac Fhearghail recalls the answer sent to the king",
+  "era_year": 4603,
+  "summary": "At the fires the first night, Artair mac Fhearghail repeats to the host the answer his father Fearghal Donn once sent back with the king's messenger, that the households east of the vein would keep their own bank and owed the hill at Dùn ìseal nothing, and says the answer has not changed in eighty years.",
+  "category": "rulers",
+  "people": [
+   "Artair mac Fhearghail"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The east finds the king alone at the ford",
+  "era_year": 4603,
+  "summary": "At sunrise the host of Dùn dhearg finds a single man sitting on the stone at the head of the ford, his kin nowhere on the far bank; word runs down the fires that the king's own household has quarrelled over the shares of his kingdom and would not follow him east.",
+  "category": "rulers",
+  "people": [
+   "Ailean Mòr mac Shuibhne"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The first rush breaks on the king at the ford",
+  "era_year": 4603,
+  "summary": "Two hundred spears go into the ford together at sunrise on the first day and are thrown back with the king alone in the water among them; the host sees the river run red below the crossing before the morning mist has fully lifted.",
+  "category": "war",
+  "people": [
+   "Ailean Mòr mac Shuibhne"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The east tries the ford's edges and its throwing spears",
+  "era_year": 4603,
+  "summary": "Through the first day the host tries the deep channel above and below the ford to come at the king from the side, and by afternoon empties its fletchers' whole store throwing spears from the bank; neither the crossing nor the throwing turns him from his stone.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "A household of Caol shean loses a man to the first day's ford",
+  "era_year": 4603,
+  "summary": "A net-mender's kinsman of Caol shean, twenty years unhurt at every boundary quarrel of the eastern country, goes into the first rush and is not seen to come out of the river; his wife asks after him at every fire down the bank until evening, then asks no more.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The dead of the host begin to dam the ford",
+  "era_year": 4603,
+  "summary": "On the second day the drowned and the slain lie so thick at the shallows below the crossing that the river backs up over the gravel, running warm and red, and the men of Dùn dhearg must climb their own dead to reach water shallow enough to cross.",
+  "category": "war",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The king draws a boy of Dùn dhearg from the river with his own hand",
+  "era_year": 4603,
+  "summary": "In the press of the second day the king takes the spear from the hands of a sixteen-year-old of the eastern host as a mother takes a knife from a child, and the boy is carried out alive on the east bank; the telling of that hand is kept by the east long after his name is forgotten.",
+  "category": "war",
+  "people": [
+   "Ailean Mòr mac Shuibhne"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "Artair mac Fhearghail counsels the host to go in together",
+  "era_year": 4603,
+  "summary": "On the second night, with some of the host ready to go home, Artair mac Fhearghail tells the fires that the king is flesh and must have an end, as a cliff has an end before the sea, and counsels every spear of the east to go into the river together on the third day and not draw back.",
+  "category": "rulers",
+  "people": [
+   "Artair mac Fhearghail"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-keepers-promise"
+  ],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The whole strength of the east goes into the river together",
+  "era_year": 4603,
+  "summary": "At first light on the third day every spear the east country has enters the ford at once and does not draw back, the host closing on the king from three sides the whole day long while the dead already in the water rise higher than the shallows had ever stood.",
+  "category": "war",
+  "people": [
+   "Ailean Mòr mac Shuibhne"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "A light is seen on the water around the king",
+  "era_year": 4603,
+  "summary": "In the afternoon of the third day men near the middle of the ford see a light low along the river's surface where the king stands, of no colour any of them had a word for, and say afterward only that they saw every colour in it and none, and would say no more.",
+  "category": "faith",
+  "people": [
+   "Ailean Mòr mac Shuibhne"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The king's kin fail to come to the ford",
+  "era_year": 4603,
+  "summary": "Through all three days at the ford below Dùn dhearg, no household of the king's own blood, and no spear of the hills, comes down the western track to stand with him; the host of the east has the river to itself the whole time.",
+  "category": "rulers",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The east bank raises a saying for the fallen king",
+  "era_year": {
+   "after": "I-0098a"
   },
-  {
-    "title": "Artair mac Fhearghail recalls the answer sent to the king",
-    "era_year": 4603,
-    "summary": "At the fires the first night, Artair mac Fhearghail repeats to the host the answer he himself once carried to the king's summons, that the households east of the vein would keep their own bank and owed the hill at Dùn ìseal nothing, and says the answer has not changed in twenty years.",
-    "category": "rulers",
-    "people": ["Artair mac Fhearghail"],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
+  "summary": "Before dawn after the third night, a saying passes fire to fire along the east bank, that no one man brought the king down but the whole host together; Artair mac Fhearghail, whose counsel had sent the host in, stands longest at the place where the king went down and says nothing.",
+  "category": "faith",
+  "people": [
+   "Artair mac Fhearghail",
+   "Ailean Mòr mac Shuibhne"
+  ],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [
+   "the-keepers-promise"
+  ],
+  "master_links": [
+   "I-0098a"
+  ]
+ },
+ {
+  "title": "The east country counts its own dead at the ford",
+  "era_year": {
+   "after": "I-0098a"
   },
-  {
-    "title": "The east finds the king alone at the ford",
-    "era_year": 4603,
-    "summary": "At sunrise the host of Dùn dhearg finds a single man sitting on the stone at the head of the ford, his kin nowhere on the far bank; word runs down the fires that the king's own household has quarrelled over the shares of his kingdom and would not follow him east.",
-    "category": "rulers",
-    "people": ["Ailean Mòr mac Shuibhne"],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The first rush breaks on the king at the ford",
-    "era_year": 4603,
-    "summary": "Two hundred spears go into the ford together at sunrise on the first day and are thrown back with the king alone in the water among them; the host sees the river run red below the crossing before the morning mist has fully lifted.",
-    "category": "war",
-    "people": ["Ailean Mòr mac Shuibhne"],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The east tries the ford's edges and its throwing spears",
-    "era_year": 4603,
-    "summary": "Through the first day the host tries the deep channel above and below the ford to come at the king from the side, and by afternoon empties its fletchers' whole store throwing spears from the bank; neither the crossing nor the throwing turns him from his stone.",
-    "category": "war",
-    "people": [],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "A household of Caol shean loses a man to the first day's ford",
-    "era_year": 4603,
-    "summary": "A net-mender's kinsman of Caol shean, twenty years unhurt at every boundary quarrel of the eastern country, goes into the first rush and is not seen to come out of the river; his wife asks after him at every fire down the bank until evening, then asks no more.",
-    "category": "war",
-    "people": [],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The dead of the host begin to dam the ford",
-    "era_year": 4603,
-    "summary": "On the second day the drowned and the slain lie so thick at the shallows below the crossing that the river backs up over the gravel, running warm and red, and the men of Dùn dhearg must climb their own dead to reach water shallow enough to cross.",
-    "category": "war",
-    "people": [],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The king draws a boy of Dùn dhearg from the river with his own hand",
-    "era_year": 4603,
-    "summary": "In the press of the second day the king takes the spear from the hands of a sixteen-year-old of the eastern host as a mother takes a knife from a child, and the boy is carried out alive on the east bank; the telling of that hand is kept by the east long after his name is forgotten.",
-    "category": "war",
-    "people": ["Ailean Mòr mac Shuibhne"],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "Artair mac Fhearghail counsels the host to go in together",
-    "era_year": 4603,
-    "summary": "On the second night, with some of the host ready to go home, Artair mac Fhearghail tells the fires that the king is flesh and must have an end, as a cliff has an end before the sea, and counsels every spear of the east to go into the river together on the third day and not draw back.",
-    "category": "rulers",
-    "people": ["Artair mac Fhearghail"],
-    "places": ["burg:422"],
-    "threads": ["the-keepers-promise"],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The whole strength of the east goes into the river together",
-    "era_year": 4603,
-    "summary": "At first light on the third day every spear the east country has enters the ford at once and does not draw back, the host closing on the king from three sides the whole day long while the dead already in the water rise higher than the shallows had ever stood.",
-    "category": "war",
-    "people": ["Ailean Mòr mac Shuibhne"],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "A light is seen on the water around the king",
-    "era_year": 4603,
-    "summary": "In the afternoon of the third day men near the middle of the ford see a light low along the river's surface where the king stands, of no colour any of them had a word for, and say afterward only that they saw every colour in it and none, and would say no more.",
-    "category": "faith",
-    "people": ["Ailean Mòr mac Shuibhne"],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The king's kin fail to come to the ford",
-    "era_year": 4603,
-    "summary": "Through all three days at the ford below Dùn dhearg, no household of the king's own blood, and no spear of the hills, comes down the western track to stand with him; the host of the east has the river to itself the whole time.",
-    "category": "rulers",
-    "people": [],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The east bank raises a saying for the fallen king",
-    "era_year": {"after": "I-0098a"},
-    "summary": "Before dawn after the third night, a saying passes fire to fire along the east bank, that no one man brought the king down but the whole host together; Artair mac Fhearghail, whose counsel had sent the host in, stands longest at the place where the king went down and says nothing.",
-    "category": "faith",
-    "people": ["Artair mac Fhearghail", "Ailean Mòr mac Shuibhne"],
-    "places": ["burg:422"],
-    "threads": ["the-keepers-promise"],
-    "master_links": ["I-0098a"]
-  },
-  {
-    "title": "The east country counts its own dead at the ford",
-    "era_year": {"after": "I-0098a"},
-    "summary": "In the grey morning after the third night the households of Dùn dhearg begin to count what the three days at the ford have cost them, more of their own blood than any raid or famine any teller among them could set beside it.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:422"],
-    "threads": [],
-    "master_links": ["I-0098a"]
-  }
+  "summary": "In the grey morning after the third night the households of Dùn dhearg begin to count what the three days at the ford have cost them, more of their own blood than any raid or famine any teller among them could set beside it.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:422"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0098a"
+  ]
+ }
 ]

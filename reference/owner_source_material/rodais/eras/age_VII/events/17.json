@@ -217,26 +217,6 @@
     ]
   },
   {
-    "title": "The soldier's bread at the boundary stones",
-    "era_year": 17,
-    "summary": "Annie Drew of Cathair gheal, the oldest soul in the town, gives Ellen Marsh the last of her telling of the Severance: a soldier at the last of the new stones who gave her mother bread from his own satchel and would not meet her eye.",
-    "category": "humans",
-    "people": [
-      "Annie Drew",
-      "Ellen Marsh"
-    ],
-    "places": [
-      "burg:476"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0058"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Ellen Marsh's rule for two witnesses",
     "era_year": 17,
     "summary": "In the front of the first of her eleven books Ellen Marsh writes that where two witnesses differ she has set down both and let the reader judge, as a court would.",
@@ -293,6 +273,23 @@
     ],
     "master_links": [
       "VI-0058"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Ceann leathan's gate paid in the new coin",
+    "era_year": 17,
+    "summary": "The fair-wardens of the Còmhrag at Ceann leathan take the gate-price for the first time wholly in coin of the plain seal, the old coal-inked coin having gone out of the purses of the crowd.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:22"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0050"
     ],
     "chronicle_extra": true
   }

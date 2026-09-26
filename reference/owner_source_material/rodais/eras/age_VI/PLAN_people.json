@@ -25,7 +25,7 @@
  },
  {
   "name": "David Hale",
-  "born": "AE 135",
+  "born": "AE 143",
   "died": "SE 67",
   "role": "keeps the Moot's minute-books in his father's time and after",
   "first_chapter": 2,
@@ -33,7 +33,7 @@
  },
  {
   "name": "Alice Hale",
-  "born": "AE 139",
+  "born": "AE 146",
   "died": null,
   "role": "teacher of the Moot's second school, at Caol mhòr",
   "first_chapter": 2,
@@ -49,7 +49,7 @@
  },
  {
   "name": "Gormshuil nic Dhùghaill",
-  "born": "AE 132",
+  "born": "AE 123",
   "died": "SE 48",
   "role": "council under-clerk; first royal chronicler SE 18–42",
   "first_chapter": 4,
@@ -65,7 +65,7 @@
  },
  {
   "name": "Aonghas mac Mhurchaidh",
-  "born": "AE 118",
+  "born": "AE 103",
   "died": "SE 25",
   "role": "master of the ship An Sireadh sent north-about (V-0011)",
   "first_chapter": 5,
@@ -101,7 +101,7 @@
   "died": null,
   "role": "Joseph Marlow's son; apprentice shipwright at Cuan shean loosed SE 14; boatbuilder at Ros mhòr SE 42",
   "first_chapter": 7,
-  "notes": "new; guest centre ch13."
+  "notes": "new; promised to a Cuan shean yard SE 6, apprenticed SE 10, loosed SE 14; lays the first Ros mhòr keel SE 41, the yard opens SE 42."
  },
  {
   "name": "Dòmhnall mac Thormoid",
@@ -113,7 +113,7 @@
  },
  {
   "name": "Eilidh nic Leòid",
-  "born": "AE 106",
+  "born": "AE 107",
   "died": "SE 16",
   "role": "first circuit justice; the Leòid ruling (V-0036, V-0038, V-0069)",
   "first_chapter": 9,
@@ -137,7 +137,7 @@
  },
  {
   "name": "Uisdean mac Ùisdein",
-  "born": "AE 111",
+  "born": "AE 116",
   "died": "SE 38",
   "role": "holder of the Sloc Mòr concession (V-0051)",
   "first_chapter": 11,
@@ -145,7 +145,7 @@
  },
  {
   "name": "Iain mac Ruairidh, Iain Mapa",
-  "born": "AE 144",
+  "born": "AE 143",
   "died": "SE 57",
   "role": "chainman, then Mine Board surveyor; the survey of SE 26 (V-0106, V-0195)",
   "first_chapter": 12,
@@ -181,7 +181,7 @@
   "died": null,
   "role": "pupil of Agnes Pike; Moot clerk; bookbinder of Muileann leathan; speaker from SE 55 (V-0168, V-0189)",
   "first_chapter": 14,
-  "notes": "master; principal; living at the close of the age."
+  "notes": "master; principal; living at the close of the age. RULERS.json gives SE 5."
  },
  {
   "name": "Uilleam mac Leòid",
@@ -409,7 +409,7 @@
  },
  {
   "name": "Dòmhnall Ruadh mac Ailein",
-  "born": "SE 20",
+  "born": "SE 22",
   "died": null,
   "role": "spokesman of the yard families at the Muileann chrom stoppage (V-0214)",
   "first_chapter": 36,
@@ -429,7 +429,7 @@
   "died": "SE 22",
   "role": "first ruler of the restored kingdom",
   "first_chapter": 5,
-  "notes": "owner: chronicle facts only (V-0012, V-0092)."
+  "notes": "owner: chronicle facts only (V-0012, V-0092); years from RULERS.json, 25 at accession, 44 at death."
  },
  {
   "name": "Brìghde",
@@ -437,7 +437,7 @@
   "died": "SE 28",
   "role": "Niall's daughter; ruler SE 22–28",
   "first_chapter": 20,
-  "notes": "owner: chronicle facts only; no cause of death."
+  "notes": "owner: chronicle facts only; no cause of death; RULERS.json: 21 at accession, 27 at death."
  },
  {
   "name": "Eòghan",
@@ -445,7 +445,7 @@
   "died": null,
   "role": "Brìghde's cousin; ruler SE 28–58",
   "first_chapter": 23,
-  "notes": "owner: chronicle facts only."
+  "notes": "owner: chronicle facts only; RULERS.json: 32 at accession, 62 when his reign ended; no death given."
  },
  {
   "name": "Mairead",
@@ -453,7 +453,7 @@
   "died": null,
   "role": "ruler from SE 58",
   "first_chapter": 35,
-  "notes": "owner: chronicle facts only."
+  "notes": "owner: chronicle facts only; RULERS.json: 38 at accession; reigning at the close of the age."
  },
  {
   "name": "Dubhan",
@@ -478,5 +478,197 @@
   "role": "of the shunting families of Muileann chrom",
   "first_chapter": 21,
   "notes": "owner: born (V-0100), nothing more."
+ },
+ {
+  "name": "Peg Carrick",
+  "born": "AE 140",
+  "died": null,
+  "role": "fisherman's daughter of Caol mhòr who kept the harbour slate",
+  "first_chapter": 2,
+  "notes": "new."
+ },
+ {
+  "name": "Robert Carrick",
+  "born": "AE 148",
+  "died": null,
+  "role": "Peg's brother; carried the Moot's first letter south",
+  "first_chapter": 4,
+  "notes": "new."
+ },
+ {
+  "name": "Beathag nic Artair",
+  "born": "AE 105",
+  "died": "SE 40",
+  "role": "custodian councillor of the twelve",
+  "first_chapter": 4,
+  "notes": "new."
+ },
+ {
+  "name": "Griogair mac Tormoid",
+  "born": "AE 104",
+  "died": "SE 35",
+  "role": "custodian councillor of the western shore",
+  "first_chapter": 4,
+  "notes": "new."
+ },
+ {
+  "name": "Cailean mac Sheumais",
+  "born": "AE 108",
+  "died": "SE 30",
+  "role": "captain of the Severance war; councillor who asked what a Moot is",
+  "first_chapter": 4,
+  "notes": "new."
+ },
+ {
+  "name": "Griogair",
+  "born": "AE 95",
+  "died": "SE 20",
+  "role": "old captain of the guard at the heads of the roads",
+  "first_chapter": 1,
+  "notes": "new; lost two fingers to a humans' picket."
+ },
+ {
+  "name": "Ruairidh (counting-house master)",
+  "born": "AE 100",
+  "died": "SE 25",
+  "role": "master of the counting-house room at Cathair dhearg",
+  "first_chapter": 3,
+  "notes": "new."
+ },
+ {
+  "name": "Tòmas",
+  "born": "AE 110",
+  "died": "SE 40",
+  "role": "council clerk; drew Clàr nan Suaicheantas",
+  "first_chapter": 3,
+  "notes": "new."
+ },
+ {
+  "name": "Murchadh Clàrc",
+  "born": "AE 143",
+  "died": null,
+  "role": "Eilidh nic Leòid's clerk on circuit",
+  "first_chapter": 9,
+  "notes": "new."
+ },
+ {
+  "name": "Beathag nic Mhurchaidh",
+  "born": "AE 125",
+  "died": null,
+  "role": "widow of Muileann bhàn in the well case",
+  "first_chapter": 9,
+  "notes": "new."
+ },
+ {
+  "name": "Artair mac Lachlainn",
+  "born": "AE 118",
+  "died": "SE 40",
+  "role": "maor of the shire of Seann Bhral in the west",
+  "first_chapter": 9,
+  "notes": "new."
+ },
+ {
+  "name": "Griogair mac Ailein",
+  "born": "AE 120",
+  "died": "SE 45",
+  "role": "maor of Siorrachd Ceann mhòr",
+  "first_chapter": 15,
+  "notes": "new."
+ },
+ {
+  "name": "Colin Rudd",
+  "born": "AE 140",
+  "died": null,
+  "role": "Tuathaich engineer of the first coal train",
+  "first_chapter": 12,
+  "notes": "new."
+ },
+ {
+  "name": "Jenny Marrow",
+  "born": "AE 124",
+  "died": "SE 30",
+  "role": "widow of Doire ghlas who lent her byre for the school",
+  "first_chapter": 14,
+  "notes": "new."
+ },
+ {
+  "name": "Uilleam mac Griogair",
+  "born": "AE 125",
+  "died": "SE 45",
+  "role": "clerk of council who sent Gormshuil east",
+  "first_chapter": 17,
+  "notes": "new."
+ },
+ {
+  "name": "Ruairidh mac Aonghais",
+  "born": "AE 135",
+  "died": null,
+  "role": "wool merchant of Cathair mhòr; first of the fair's factors",
+  "first_chapter": 19,
+  "notes": "new."
+ },
+ {
+  "name": "Fearchar Ruadh",
+  "born": "AE 140",
+  "died": null,
+  "role": "boat-builder, elder of the ancestors' hall at Seann Dunn",
+  "first_chapter": 20,
+  "notes": "new."
+ },
+ {
+  "name": "Agnes Tulloch",
+  "born": "AE 133",
+  "died": null,
+  "role": "widow of Cuan bheag who moved the widows' standing rule",
+  "first_chapter": 21,
+  "notes": "new."
+ },
+ {
+  "name": "Sam Ridley",
+  "born": "AE 145",
+  "died": null,
+  "role": "Tuathaich fisherman of Caol mhòr, first turned away under the licences",
+  "first_chapter": 24,
+  "notes": "new."
+ },
+ {
+  "name": "Cailean (foreman)",
+  "born": "AE 150",
+  "died": null,
+  "role": "the Library's trench foreman at Làrach an Dùin",
+  "first_chapter": 24,
+  "notes": "new."
+ },
+ {
+  "name": "Ùna",
+  "born": "SE 10",
+  "died": null,
+  "role": "Library scribe who copied the obelisk",
+  "first_chapter": 24,
+  "notes": "new."
+ },
+ {
+  "name": "Murchadh Ruadh",
+  "born": "AE 115",
+  "died": "SE 45",
+  "role": "eldest witness of the Hawk houses at Raonaid's naming",
+  "first_chapter": 26,
+  "notes": "new."
+ },
+ {
+  "name": "Griogair mac Aonghais",
+  "born": "SE 24",
+  "died": null,
+  "role": "Board surveyor who rode with Catrìona",
+  "first_chapter": 34,
+  "notes": "new."
+ },
+ {
+  "name": "Tom Varley",
+  "born": "SE 60",
+  "died": null,
+  "role": "Sam Varley's small son",
+  "first_chapter": 38,
+  "notes": "new; no title in this age."
  }
 ]

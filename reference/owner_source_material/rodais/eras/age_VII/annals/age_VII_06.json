@@ -64,8 +64,8 @@
   },
   {
    "id": "EVII-3503",
-   "title": "The house of Manannan's order refuses the blessing",
-   "body": "Asked to bless the depot's finished roof before the masons work under it, the house of Manannan's order at Seann Skell in the west answers in three lines that it will not bless what is built for the Board's enforcers.",
+   "title": "The house of Òrd Mhanannain refuses the blessing",
+   "body": "Asked to bless the depot's finished roof before the masons work under it, the house of Òrd Mhanannain at Seann Skell in the west answers in three lines that it will not bless what is built for the Board's enforcers.",
    "place": "burg:489",
    "kind": "rite",
    "category": "faith",
@@ -94,7 +94,7 @@
   },
   {
    "id": "EVII-3504",
-   "title": "Somhairle writes to the high custodian",
+   "title": "Somhairle writes to the Àrd-choimheadaiche",
    "body": "Somhairle mac Lachlainn writes to Alasdair mac Ìomhair, high custodian of the Rite at the southern Seann Skell, setting down the priest's refusal in his own words and asking whether some other house of the old faith will bless the depot's roof.",
    "place": "burg:489",
    "kind": "rite",
@@ -124,8 +124,8 @@
   },
   {
    "id": "EVII-3505",
-   "title": "A custodian of the Rite rides north",
-   "body": "Alasdair mac Ìomhair sends a young custodian of the southern house, Pàdraig, two days' ride north to bless the enforcers' depot at Seann Skell in the west, since the house of Manannan's order there will not come.",
+   "title": "A custodian of Deas-ghnàth a' Ghuail rides north",
+   "body": "Alasdair mac Ìomhair sends a young custodian of the southern house, Pàdraig, two days' ride north to bless the enforcers' depot at Seann Skell in the west, since the house of Òrd Mhanannain there will not come.",
    "place": "burg:431",
    "kind": "rite",
    "category": "faith",
@@ -298,8 +298,8 @@
   },
   {
    "id": "EVII-3511",
-   "title": "Beathag's letter to the Mine Board",
-   "body": "At the foot of the year Beathag nic Fhionnlaigh writes to the Mine Board asking its returns of the incidents on the northern roads that autumn, so the Library's record may be kept as fully as any other.",
+   "title": "Beathag's letter to Comhairle nam Mèinnean",
+   "body": "At the foot of the year Beathag nic Fhionnlaigh writes to Comhairle nam Mèinnean asking its returns of the incidents on the northern roads that autumn, so an Leabharlann's record may be kept as fully as any other.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -329,7 +329,7 @@
   {
    "id": "EVII-3512",
    "title": "Sìleas names the silence",
-   "body": "As the weeks pass with no return from the Board, Sìleas nic Rath says in the Library's upper room that the silence does not feel like an office too busy to answer, and is told she will learn in time the difference between unanswered and refused.",
+   "body": "As the weeks pass with no return from the Board, Sìleas nic Rath says in an Leabharlann's upper room that the silence does not feel like an office too busy to answer, and is told she will learn in time the difference between unanswered and refused.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -433,7 +433,8 @@
     }
    ],
    "threads": [
-    "the-long-war"
+    "the-long-war",
+    "the-dubhan-trade"
    ],
    "people": [
     "somhairle-mac-lachlainn"
@@ -447,7 +448,7 @@
   {
    "id": "EVII-3516",
    "title": "Peter Hale on a filed letter",
-   "body": "At the Moot Peter Hale tells the delegates that a filed letter is better than a refused one, since a refusal closes a door and a filing leaves it shut.",
+   "body": "At Tional nan Tuathach Peter Hale tells the delegates that a filed letter is better than a refused one, since a refusal closes a door and a filing leaves it shut.",
    "place": "burg:95",
    "kind": "record",
    "category": "law",
@@ -475,14 +476,14 @@
   },
   {
    "id": "EVII-3517",
-   "title": "Stones on the Àth leathan track",
-   "body": "Before an t-Sultain is out the enforcers' escorted wagons meet a second obstruction on the Muileann àrsaidh road and a third on the shorter track above Àth leathan. None is written down.",
-   "place": "burg:346",
+   "title": "The enforcers' lorries at An Taigh-seinnse Reòta",
+   "body": "The enforcers' two lorries going west stop a night at An Taigh-seinnse Reòta on the north road; the landlord gives the men beds and wick lamps and does not ask where they are bound.",
+   "place": "burg:74",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "VI-0068",
+     "to": "VI-0066",
      "type": "sequel"
     },
     {
@@ -493,9 +494,7 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [
-    "somhairle-mac-lachlainn"
-   ],
+   "people": [],
    "told_in": "book/19_of_the_depot_nobody_would_bless.md#iv-of-the-stones-on-the-road",
    "era_between": [
     19,
@@ -504,6 +503,34 @@
   },
   {
    "id": "EVII-3518",
+   "title": "Seann Bhral's priests of Manannan hear the refusal",
+   "body": "The house of Manannan at Seann Bhral, the order's west-coast harbour, hears from its brothers at the western Seann Skell that they refused to bless the enforcers' depot, and sends them no word either way.",
+   "place": "burg:47",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "VI-0066",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3517",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_depot_nobody_would_bless.md#i-of-the-ground-by-the-river",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVII-3519",
    "title": "old Fraser digs the trench across the southern road",
    "body": "In the last week of an t-Samhain, with frost already hard on the ground, old Fraser digs the trench across the southern cart-road into Muileann àrsaidh, deep enough to stop a laden cart and narrow enough for a man to cross on foot. He tells Ruth Calder plainly what the digging is for.",
    "place": "burg:244",
@@ -528,7 +555,7 @@
    ]
   },
   {
-   "id": "EVII-3519",
+   "id": "EVII-3520",
    "title": "The spoil wall left unfinished at its northern end",
    "body": "old Fraser leaves the last length of the pit-yard wall unbuilt, calling it exhaustion; the town understands it as his own caution against finishing a wall built all the way round, which would look too near a boast.",
    "place": "burg:244",
@@ -540,7 +567,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3518",
+     "to": "EVII-3519",
      "type": "sequel"
     }
    ],
@@ -557,9 +584,9 @@
    ]
   },
   {
-   "id": "EVII-3520",
+   "id": "EVII-3521",
    "title": "Ruth Calder begins the letter to the council",
-   "body": "At her father's table above the pit-head, on a windy night in an t-Samhain, Ruth Calder writes the salutation of a letter to the council of the kingdom and no more, the first of several attempts she will tear across before the letter is finished.",
+   "body": "At her father's table above the pit-head, on a windy night in an t-Samhain, Ruth Calder writes the salutation of a letter to Comhairle na Rìoghachd and no more, the first of several attempts she will tear across before the letter is finished.",
    "place": "burg:244",
    "kind": "record",
    "category": "law",
@@ -569,7 +596,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3519",
+     "to": "EVII-3520",
      "type": "sequel"
     }
    ],
@@ -587,9 +614,9 @@
    ]
   },
   {
-   "id": "EVII-3521",
+   "id": "EVII-3522",
    "title": "Ruth Calder tears up a draft written as a grievance",
-   "body": "A second attempt, three paragraphs on the wrong done the towns by the Leòid ruling, is torn across unfinished; Ruth Calder judges it would read at the Library as one more northern complaint among many and be filed the same way.",
+   "body": "A second attempt, three paragraphs on the wrong done the towns by Breith Leòid, is torn across unfinished; Ruth Calder judges it would read at an Leabharlann as one more northern complaint among many and be filed the same way.",
    "place": "burg:244",
    "kind": "record",
    "category": "law",
@@ -599,7 +626,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3520",
+     "to": "EVII-3521",
      "type": "sequel"
     }
    ],
@@ -616,7 +643,7 @@
    ]
   },
   {
-   "id": "EVII-3522",
+   "id": "EVII-3523",
    "title": "Sarah Dunmore counsels an offer and not a complaint",
    "body": "In her kitchen at Muileann àrsaidh, Sarah Dunmore tells Ruth Calder that four years of letters have argued a right and never once made an offer, and that the towns' one thing worth offering is their coal, on their own terms.",
    "place": "burg:244",
@@ -628,7 +655,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3521",
+     "to": "EVII-3522",
      "type": "sequel"
     }
    ],
@@ -646,9 +673,9 @@
    ]
   },
   {
-   "id": "EVII-3523",
-   "title": "Ruth Calder drafts the offer of the Crown's fifth in coal",
-   "body": "On the last evening of an t-Samhain, Ruth Calder writes the third draft of her letter: the five towns will pay the Crown's fifth in coal on every load raised, from that day until the seams are spent, if the Board will carry it and press no further claim.",
+   "id": "EVII-3524",
+   "title": "Ruth Calder drafts the offer of An Crùn's fifth in coal",
+   "body": "On the last evening of an t-Samhain, Ruth Calder writes the third draft of her letter: the five towns will pay An Crùn's fifth in coal on every load raised, from that day until the seams are spent, if the Board will carry it and press no further claim.",
    "place": "burg:244",
    "kind": "record",
    "category": "law",
@@ -658,7 +685,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3522",
+     "to": "EVII-3523",
      "type": "sequel"
     }
    ],
@@ -676,7 +703,7 @@
    ]
   },
   {
-   "id": "EVII-3524",
+   "id": "EVII-3525",
    "title": "The four pit captains allow Ruth Calder to sign for them",
    "body": "Weeks before the letter is finished, Ruth Calder asks the pit captains of Muileann àrsaidh, Cnoc thais, Àth naomh and Tobar dhearg whether she may set their names beneath her own if the letter says nothing they would not themselves say; none refuses her.",
    "place": "burg:244",
@@ -688,7 +715,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3523",
+     "to": "EVII-3524",
      "type": "sequel"
     }
    ],
@@ -706,8 +733,8 @@
    ]
   },
   {
-   "id": "EVII-3525",
-   "title": "The five towns keep Christmas at Àth leathan's chapel",
+   "id": "EVII-3526",
+   "title": "The five towns keep an Nollaig at Àth leathan's chapel",
    "body": "On the morning of the twenty-fifth of an Dùbhlachd the chapel at Àth leathan is filled with its own people and others come down from Muileann àrsaidh and Cnoc thais, the western hills keeping the feast together, both faiths of the island under one roof as the coast has long done.",
    "place": "burg:346",
    "kind": "rite",
@@ -718,7 +745,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3524",
+     "to": "EVII-3525",
      "type": "sequel"
     }
    ],
@@ -737,9 +764,9 @@
    ]
   },
   {
-   "id": "EVII-3526",
+   "id": "EVII-3527",
    "title": "Ruth Calder copies the letter fair and signs it",
-   "body": "In a borrowed room at Àth leathan on Christmas afternoon, Ruth Calder copies her letter fair in a plain ledger hand, dates it, and signs it with her own name and the names of the other four pit captains beneath it.",
+   "body": "In a borrowed room at Àth leathan on an Nollaig afternoon, Ruth Calder copies her letter fair in a plain ledger hand, dates it, and signs it with her own name and the names of the other four pit captains beneath it.",
    "place": "burg:346",
    "kind": "record",
    "category": "law",
@@ -749,7 +776,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3525",
+     "to": "EVII-3526",
      "type": "sequel"
     }
    ],
@@ -767,9 +794,9 @@
    ]
   },
   {
-   "id": "EVII-3527",
+   "id": "EVII-3528",
    "title": "Tom Varley walks the letter to the post at the western Seann Skell",
-   "body": "Tom Varley walks the five miles from Àth leathan to the western Seann Skell on Christmas evening and gives Ruth Calder's letter over the post office counter before it closes for the feast.",
+   "body": "Tom Varley walks the five miles from Àth leathan to the western Seann Skell on an Nollaig evening and gives Ruth Calder's letter over the post office counter before it closes for the feast.",
    "place": "burg:489",
    "kind": "record",
    "category": "law",
@@ -779,7 +806,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3526",
+     "to": "EVII-3527",
      "type": "sequel"
     }
    ],
@@ -797,39 +824,10 @@
    ]
   },
   {
-   "id": "EVII-3528",
+   "id": "EVII-3529",
    "title": "Ruth Calder's letter posted at the western Seann Skell",
    "body": "The post clerk at the western Seann Skell enters Ruth Calder's letter in his book among the season's other correspondence and sends it north three days after with the ordinary carrier.",
    "place": "burg:489",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0071",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3527",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [
-    "ruth-calder"
-   ],
-   "told_in": "book/20_of_ruth_calders_letter.md#v-of-the-post-at-the-western-seann-skell",
-   "era_between": [
-    19,
-    19
-   ]
-  },
-  {
-   "id": "EVII-3529",
-   "title": "A copy of the letter kept in the Moot's minute",
-   "body": "A copy of Ruth Calder's letter is carried to Caol mhòr and set down in the Moot's own minute, under a heading giving only what it was and when it came, though the Moot itself is no party to it.",
-   "place": "burg:143",
    "kind": "record",
    "category": "law",
    "links": [
@@ -856,6 +854,35 @@
   },
   {
    "id": "EVII-3530",
+   "title": "A copy of the letter kept in Tional nan Tuathach's minute",
+   "body": "A copy of Ruth Calder's letter is carried to Caol mhòr and set down in Tional nan Tuathach's own minute, under a heading giving only what it was and when it came, though Tional nan Tuathach itself is no party to it.",
+   "place": "burg:143",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0071",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3529",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [
+    "ruth-calder"
+   ],
+   "told_in": "book/20_of_ruth_calders_letter.md#v-of-the-post-at-the-western-seann-skell",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVII-3531",
    "title": "The trench filled with water before the frost",
    "body": "Old Fraser of Muileann àrsaidh lets water into his trench across the southern road before the frost, so that it will not freeze into a bridge.",
    "place": "burg:244",
@@ -867,7 +894,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3529",
+     "to": "EVII-3530",
      "type": "sequel"
     }
    ],
@@ -884,7 +911,7 @@
    ]
   },
   {
-   "id": "EVII-3531",
+   "id": "EVII-3532",
    "title": "Ruth Calder lodges at Sarah Dunmore's",
    "body": "Ruth Calder lodges through the winter at Sarah Dunmore's house at Muileann àrsaidh to see the walling of the pit-heads done, keeping her father's tally-book with her.",
    "place": "burg:244",
@@ -896,7 +923,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3530",
+     "to": "EVII-3531",
      "type": "sequel"
     }
    ],
@@ -914,15 +941,15 @@
    ]
   },
   {
-   "id": "EVII-3532",
+   "id": "EVII-3533",
    "title": "Regiments spoken of at Cathair dhearg",
-   "body": "Carriers' talk reaches the western hills that regiments not called out since the Severance are spoken of again at Cathair dhearg, spoken of and not yet raised.",
+   "body": "Carriers' talk reaches the western hills that regiments not called out since An Dealachadh are spoken of again at Cathair dhearg, spoken of and not yet raised.",
    "place": "burg:244",
    "kind": "war",
    "category": "war",
    "links": [
     {
-     "to": "EVII-3531",
+     "to": "EVII-3532",
      "type": "sequel"
     }
    ],
@@ -939,7 +966,7 @@
    ]
   },
   {
-   "id": "EVII-3533",
+   "id": "EVII-3534",
    "title": "Snow closes the Muileann àrsaidh road",
    "body": "Snow closes the road from Muileann àrsaidh to the coast for nineteen days in an Faoilleach, and the enforcers' wagons stand at the western Seann Skell.",
    "place": "burg:244",
@@ -951,7 +978,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3532",
+     "to": "EVII-3533",
      "type": "sequel"
     }
    ],
@@ -969,7 +996,7 @@
    "after": "VI-0077"
   },
   {
-   "id": "EVII-3534",
+   "id": "EVII-3535",
    "title": "Peter Hale presses the room",
    "body": "In the depth of winter Peter Hale rises before Tional nan Tuathach and says the room has sat three sittings without naming the wall at Muileann àrsaidh or the silence that answered Ruth Calder's letter, and that a gathering of the northern towns which will not say the plainest fact in the north is not doing what it was built to do.",
    "place": "burg:95",
@@ -995,38 +1022,9 @@
    ]
   },
   {
-   "id": "EVII-3535",
-   "title": "The five empty benches",
-   "body": "The five benches of the western holdout towns stand chalked but empty in the Moot's own roll, as they have stood since the western delegates rose and left four years before. No one moves to fill them, and the room debates the wall at Muileann àrsaidh with the western towns' own voice absent from it.",
-   "place": "burg:95",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0072",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3534",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [
-    "martha-greaves"
-   ],
-   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#i-of-the-nine-votes",
-   "era_between": [
-    20,
-    20
-   ]
-  },
-  {
    "id": "EVII-3536",
-   "title": "Christina Munro's question",
-   "body": "On the stair after the vote, a delegate of the farm towns asks Martha Greaves whether nine hands out of one-and-forty are truly the room's mind, and whether the speaker's own hand, never raised, holds the same mind as the nine. Martha answers only that the chair does not vote, and the question goes unanswered further.",
+   "title": "The five empty benches",
+   "body": "The five benches of the western holdout towns stand chalked but empty in Tional nan Tuathach's own roll, as they have stood since the western delegates rose and left four years before. No one moves to fill them, and the room debates the wall at Muileann àrsaidh with the western towns' own voice absent from it.",
    "place": "burg:95",
    "kind": "record",
    "category": "law",
@@ -1054,14 +1052,14 @@
   },
   {
    "id": "EVII-3537",
-   "title": "The mills' surplus reckoned",
-   "body": "In summer, with the spring clip in heavy and the fair price holding, Martha Greaves reckons the Doire ghlas mills' takings a whole evening in the counting-house and writes an order, at the foot of the mills' own book and not the Moot's, that the granaries of Caol mhòr and Doire ghlas be filled beyond the ordinary wont, paid from the mills alone.",
-   "place": "burg:209",
-   "kind": "people",
-   "category": "humans",
+   "title": "Christina Munro's question",
+   "body": "On the stair after the vote, a delegate of the farm towns asks Martha Greaves whether nine hands out of one-and-forty are truly the room's mind, and whether the speaker's own hand, never raised, holds the same mind as the nine. Martha answers only that the chair does not vote, and the question goes unanswered further.",
+   "place": "burg:95",
+   "kind": "record",
+   "category": "law",
    "links": [
     {
-     "to": "VI-0073",
+     "to": "VI-0072",
      "type": "sequel"
     },
     {
@@ -1075,7 +1073,7 @@
    "people": [
     "martha-greaves"
    ],
-   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#ii-of-the-wool-mills-takings",
+   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#i-of-the-nine-votes",
    "era_between": [
     20,
     20
@@ -1083,11 +1081,11 @@
   },
   {
    "id": "EVII-3538",
-   "title": "Grain bought through three factors",
-   "body": "Through the last week of an t-Iuchar the grain for the granaries is bought quietly through three separate factors, so that no single merchant should wonder aloud why the Moot's towns want so much of it in a year the harvest already promises well.",
+   "title": "The mills' surplus reckoned",
+   "body": "In summer, with the spring clip in heavy and the fair price holding, Martha Greaves reckons the Doire ghlas mills' takings a whole evening in the counting-house and writes an order, at the foot of the mills' own book and not Tional nan Tuathach's, that the granaries of Caol mhòr and Doire ghlas be filled beyond the ordinary wont, paid from the mills alone.",
    "place": "burg:209",
-   "kind": "trade",
-   "category": "trade",
+   "kind": "people",
+   "category": "humans",
    "links": [
     {
      "to": "VI-0073",
@@ -1112,11 +1110,11 @@
   },
   {
    "id": "EVII-3539",
-   "title": "\"Enter the weight and the date\"",
-   "body": "The Doire ghlas granary-keeper asks Martha Greaves whether he should set down a reason for the extra grain, since his book goes before the room's auditors each spring. She tells him to enter the weight and the date and no reason at all, and to send anyone who asks to her.",
+   "title": "Grain bought through three factors",
+   "body": "Through the last week of an t-Iuchar the grain for the granaries is bought quietly through three separate factors, so that no single merchant should wonder aloud why Tional nan Tuathach's towns want so much of it in a year the harvest already promises well.",
    "place": "burg:209",
-   "kind": "people",
-   "category": "humans",
+   "kind": "trade",
+   "category": "trade",
    "links": [
     {
      "to": "VI-0073",
@@ -1141,8 +1139,37 @@
   },
   {
    "id": "EVII-3540",
+   "title": "\"Enter the weight and the date\"",
+   "body": "The Doire ghlas granary-keeper asks Martha Greaves whether he should set down a reason for the extra grain, since his book goes before the room's auditors each spring. She tells him to enter the weight and the date and no reason at all, and to send anyone who asks to her.",
+   "place": "burg:209",
+   "kind": "people",
+   "category": "humans",
+   "links": [
+    {
+     "to": "VI-0073",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3539",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#ii-of-the-wool-mills-takings",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVII-3541",
    "title": "The autumn entry with no reason given",
-   "body": "Thomas Rook's autumn entry in the Moot's minute records the granaries of Caol mhòr and Doire ghlas standing half again fuller than the five years' average, and gives no reason, none having been given him. Peter Hale reads the figure, looks once at Martha Greaves, and asks nothing.",
+   "body": "Thomas Rook's autumn entry in Tional nan Tuathach's minute records the granaries of Caol mhòr and Doire ghlas standing half again fuller than the five years' average, and gives no reason, none having been given him. Peter Hale reads the figure, looks once at Martha Greaves, and asks nothing.",
    "place": "burg:95",
    "kind": "record",
    "category": "law",
@@ -1152,7 +1179,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3539",
+     "to": "EVII-3540",
      "type": "sequel"
     }
    ],
@@ -1170,39 +1197,9 @@
    ]
   },
   {
-   "id": "EVII-3541",
+   "id": "EVII-3542",
    "title": "Beathag's letter to the council",
    "body": "In spring Beathag nic Fhionnlaigh writes to the council, in her own hand alone, asking leave to lay down the office of royal chronicler at the close of summer, being nine-and-sixty that year, and naming her clerk of nine years, Sìleas nic Rath, to take the desk after her.",
-   "place": "marker:34",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0074",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3540",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-library"
-   ],
-   "people": [
-    "beathag-nic-fhionnlaigh",
-    "sileas-nic-rath"
-   ],
-   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#iii-of-the-desk-the-ink-and-the-key",
-   "era_between": [
-    20,
-    20
-   ]
-  },
-  {
-   "id": "EVII-3542",
-   "title": "Sìleas nic Rath told over the tea",
-   "body": "Sìleas nic Rath learns of Beathag's letter not from the council but from Beathag herself, over their usual tea, who tells her she has until an Lùnastal to decide whether she still wants the desk once she has heard the whole of what it costs.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -1231,8 +1228,8 @@
   },
   {
    "id": "EVII-3543",
-   "title": "The desk cleared a little at a time",
-   "body": "Through the last week of an Lùnastal Beathag nic Fhionnlaigh clears her desk a little at a time, so that the room should show no single day when it stood stripped, leaving only Tormod Pinn's inkstand, the day's half-written page, and the small iron key of the sealed press.",
+   "title": "Sìleas nic Rath told over the tea",
+   "body": "Sìleas nic Rath learns of Beathag's letter not from the council but from Beathag herself, over their usual tea, who tells her she has until an Lùnastal to decide whether she still wants the desk once she has heard the whole of what it costs.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -1250,7 +1247,8 @@
     "the-library"
    ],
    "people": [
-    "beathag-nic-fhionnlaigh"
+    "beathag-nic-fhionnlaigh",
+    "sileas-nic-rath"
    ],
    "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#iii-of-the-desk-the-ink-and-the-key",
    "era_between": [
@@ -1260,8 +1258,8 @@
   },
   {
    "id": "EVII-3544",
-   "title": "\"Write what you are let\"",
-   "body": "Handing over the key of the sealed press, Beathag nic Fhionnlaigh tells Sìleas nic Rath to write what she is let, as fully as if no one would grudge her a word of it, and to write down what she is not let besides, where and by whom and on what day, since a chronicle that shows only its own leave is no chronicle at all.",
+   "title": "The desk cleared a little at a time",
+   "body": "Through the last week of an Lùnastal Beathag nic Fhionnlaigh clears her desk a little at a time, so that the room should show no single day when it stood stripped, leaving only Tormod Pinn's inkstand, the day's half-written page, and the small iron key of the sealed press.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -1279,6 +1277,35 @@
     "the-library"
    ],
    "people": [
+    "beathag-nic-fhionnlaigh"
+   ],
+   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#iii-of-the-desk-the-ink-and-the-key",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVII-3545",
+   "title": "\"Write what you are let\"",
+   "body": "Handing over the key of the sealed press, Beathag nic Fhionnlaigh tells Sìleas nic Rath to write what she is let, as fully as if no one would grudge her a word of it, and to write down what she is not let besides, where and by whom and on what day, since a chronicle that shows only its own leave is no chronicle at all.",
+   "place": "marker:34",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0074",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3544",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [
     "beathag-nic-fhionnlaigh",
     "sileas-nic-rath"
    ],
@@ -1289,7 +1316,7 @@
    ]
   },
   {
-   "id": "EVII-3545",
+   "id": "EVII-3546",
    "title": "Beathag nic Fhionnlaigh leaves for Àth dhìreach",
    "body": "The morning after the handing-over, a carrier's cart takes Beathag nic Fhionnlaigh north-east to her sister's house at Àth dhìreach. Raghnall mac Mhuirich comes out to see her off, wishes her a dry ford at Àth bheag, and hands her up himself.",
    "place": "burg:246",
@@ -1301,7 +1328,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3544",
+     "to": "EVII-3545",
      "type": "sequel"
     }
    ],
@@ -1320,9 +1347,9 @@
    ]
   },
   {
-   "id": "EVII-3546",
+   "id": "EVII-3547",
    "title": "Sìleas nic Rath's first page",
-   "body": "Alone at the desk, Sìleas nic Rath finishes the day's half-written entry in her own hand, smaller and more upright than Beathag's, and adds a line the office's custom does not require: that the chronicle now passes to a second hand, set down once so it need not be said again.",
+   "body": "Alone at the desk, Sìleas nic Rath finishes the day's half-written entry in her own hand, smaller and more upright than Beathag's, and adds a line the office's custom does not require: that Eachdraidh na Rìoghachd now passes to a second hand, set down once so it need not be said again.",
    "place": "marker:34",
    "kind": "record",
    "category": "law",
@@ -1332,7 +1359,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3545",
+     "to": "EVII-3546",
      "type": "sequel"
     }
    ],
@@ -1349,38 +1376,9 @@
    ]
   },
   {
-   "id": "EVII-3547",
-   "title": "Five benches kept chalked in the roll",
-   "body": "The clerk of Tional nan Tuathach keeps the five western towns' benches chalked in the roll of the Moot, under the towns' names, with nothing after them, five years after their delegates walked out.",
-   "place": "burg:95",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0072",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3546",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [
-    "thomas-rook"
-   ],
-   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#i-of-the-nine-votes",
-   "era_between": [
-    20,
-    20
-   ]
-  },
-  {
    "id": "EVII-3548",
-   "title": "The chair does not vote",
-   "body": "Asked on the Moot's stair why she never raised her hand for the nine, Martha Greaves answers that the chair votes only to break a tie; Christina Munro lets it go and says no more of it.",
+   "title": "Five benches kept chalked in the roll",
+   "body": "The clerk of Tional nan Tuathach keeps the five western towns' benches chalked in the roll of Tional nan Tuathach, under the towns' names, with nothing after them, five years after their delegates walked out.",
    "place": "burg:95",
    "kind": "record",
    "category": "law",
@@ -1398,8 +1396,7 @@
     "the-tuathaich"
    ],
    "people": [
-    "martha-greaves",
-    "christina-munro"
+    "thomas-rook"
    ],
    "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#i-of-the-nine-votes",
    "era_between": [
@@ -1409,14 +1406,14 @@
   },
   {
    "id": "EVII-3549",
-   "title": "The granaries fuller than the five years' average",
-   "body": "The Moot's autumn entry records the stores at Caol mhòr and Doire ghlas fuller than the five years' average by half again, and gives no reason.",
-   "place": "burg:95",
-   "kind": "trade",
-   "category": "trade",
+   "title": "Travellers' talk at An Taigh-seinnse Mòr",
+   "body": "In the hall of An Taigh-seinnse Mòr above Cuan chrom the carters of the north road talk through the autumn of regiments to be raised; the landlord takes down the notice of the guild meetings and puts up none in its place.",
+   "place": "burg:418",
+   "kind": "war",
+   "category": "war",
    "links": [
     {
-     "to": "VI-0073",
+     "to": "VI-0075",
      "type": "sequel"
     },
     {
@@ -1425,14 +1422,10 @@
     }
    ],
    "threads": [
-    "the-tuathaich"
+    "the-long-war"
    ],
-   "people": [
-    "martha-greaves",
-    "thomas-rook",
-    "peter-hale"
-   ],
-   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#ii-of-the-wool-mills-takings",
+   "people": [],
+   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#i-of-the-nine-votes",
    "era_between": [
     20,
     20
@@ -1440,38 +1433,8 @@
   },
   {
    "id": "EVII-3550",
-   "title": "Tormod Pinn's inkstand handed on",
-   "body": "At the handing-over of the royal chronicle Beathag nic Fhionnlaigh gives Sìleas nic Rath the inkstand that had been Tormod Pinn's, the day's page left short, and the key of the press where sealed things go.",
-   "place": "marker:34",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0074",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3549",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-library"
-   ],
-   "people": [
-    "beathag-nic-fhionnlaigh",
-    "sileas-nic-rath"
-   ],
-   "told_in": "book/21_of_the_granaries_and_the_new_chronicler.md#iii-of-the-desk-the-ink-and-the-key",
-   "era_between": [
-    20,
-    20
-   ]
-  },
-  {
-   "id": "EVII-3551",
    "title": "Somhairle mac Lachlainn summoned to the capital",
-   "body": "Somhairle mac Lachlainn is called down to Cathair dhearg in the first cold week of an t-Samhain, and rides the coal line with a corporal and a satchel of the depot's returns that nobody troubles to ask for.",
+   "body": "Somhairle mac Lachlainn is called down to Cathair dhearg in the first cold week of an t-Samhain, and rides Slighe a' Ghuail with a corporal and a satchel of the depot's returns that nobody troubles to ask for.",
    "place": "burg:489",
    "kind": "war",
    "category": "war",
@@ -1494,9 +1457,36 @@
    ]
   },
   {
-   "id": "EVII-3552",
+   "id": "EVII-3551",
    "title": "The old drill hall opened",
-   "body": "A long stone hall behind the council's rooms at Cathair dhearg, used in living memory for nothing grander than storing the city watch's spare pikes, is opened and swept for the reading of the Severance rolls.",
+   "body": "A long stone hall behind the council's rooms at Cathair dhearg, used in living memory for nothing grander than storing the city watch's spare pikes, is opened and swept for the reading of An Dealachadh rolls.",
+   "place": "burg:19",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0076",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3550",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/22_of_the_old_names_read_aloud.md#i-of-the-rolls-brought-from-the-chests",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVII-3552",
+   "title": "The rolls unsealed",
+   "body": "Ledgers of Buidhnean an Dealachaidh, kept in the council's chests some ninety years, are brought out and opened; the ink in one has gone the colour of weak tea, and a clerk works two stuck pages apart with a blunt knife.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -1513,7 +1503,9 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
    "told_in": "book/22_of_the_old_names_read_aloud.md#i-of-the-rolls-brought-from-the-chests",
    "era_between": [
     20,
@@ -1522,8 +1514,8 @@
   },
   {
    "id": "EVII-3553",
-   "title": "The rolls unsealed",
-   "body": "Ledgers of the Severance companies, kept in the council's chests some ninety years, are brought out and opened; the ink in one has gone the colour of weak tea, and a clerk works two stuck pages apart with a blunt knife.",
+   "title": "The towns struck through",
+   "body": "Town by town the old roll is checked against the present: some answer still and will send men gladly, others are struck through in a clerk's hand because the town that raised the company is gone, swallowed into a larger one or fallen to scattered farms with no muster-ground left standing.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -1540,9 +1532,7 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [
-    "somhairle-mac-lachlainn"
-   ],
+   "people": [],
    "told_in": "book/22_of_the_old_names_read_aloud.md#i-of-the-rolls-brought-from-the-chests",
    "era_between": [
     20,
@@ -1551,8 +1541,8 @@
   },
   {
    "id": "EVII-3554",
-   "title": "The towns struck through",
-   "body": "Town by town the old roll is checked against the present: some answer still and will send men gladly, others are struck through in a clerk's hand because the town that raised the company is gone, swallowed into a larger one or fallen to scattered farms with no muster-ground left standing.",
+   "title": "The lamps lit in the drill hall",
+   "body": "As dark comes on, four lamps are hung along the drill hall's wall and lit with dubhan, the first flame the brackets have carried in a generation, and the reading of the old names goes on by their light into the evening.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -1569,7 +1559,9 @@
    "threads": [
     "the-long-war"
    ],
-   "people": [],
+   "people": [
+    "somhairle-mac-lachlainn"
+   ],
    "told_in": "book/22_of_the_old_names_read_aloud.md#i-of-the-rolls-brought-from-the-chests",
    "era_between": [
     20,
@@ -1578,8 +1570,8 @@
   },
   {
    "id": "EVII-3555",
-   "title": "The lamps lit in the drill hall",
-   "body": "As dark comes on, four lamps are hung along the drill hall's wall and lit with dubhan, the first flame the brackets have carried in a generation, and the reading of the old names goes on by their light into the evening.",
+   "title": "The count of the standing companies",
+   "body": "A clerk totals the column of towns still able to send men, once the dead towns are struck out. The figure is smaller than the roll once named ninety years before, but greater than any command Somhairle mac Lachlainn has held, and it is his from that evening to answer for.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -1607,8 +1599,8 @@
   },
   {
    "id": "EVII-3556",
-   "title": "The count of the standing companies",
-   "body": "A clerk totals the column of towns still able to send men, once the dead towns are struck out. The figure is smaller than the roll once named ninety years before, but greater than any command Somhairle mac Lachlainn has held, and it is his from that evening to answer for.",
+   "title": "A corporal bidden to hear the rolls",
+   "body": "Cormac Liath, the old soldier who read the rolls aloud, tells Somhairle mac Lachlainn to bring his own corporal in to hear the old names read, since a man who hears a thing said once in a lamplit hall carries it differently to his company than a man only handed a paper.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -1636,37 +1628,8 @@
   },
   {
    "id": "EVII-3557",
-   "title": "A corporal bidden to hear the rolls",
-   "body": "Cormac Liath, the old soldier who read the rolls aloud, tells Somhairle mac Lachlainn to bring his own corporal in to hear the old names read, since a man who hears a thing said once in a lamplit hall carries it differently to his company than a man only handed a paper.",
-   "place": "burg:19",
-   "kind": "war",
-   "category": "war",
-   "links": [
-    {
-     "to": "VI-0076",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3556",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-long-war"
-   ],
-   "people": [
-    "somhairle-mac-lachlainn"
-   ],
-   "told_in": "book/22_of_the_old_names_read_aloud.md#i-of-the-rolls-brought-from-the-chests",
-   "era_between": [
-    20,
-    20
-   ]
-  },
-  {
-   "id": "EVII-3558",
-   "title": "The Moot agrees the Christmas petition",
-   "body": "At Caol mhòr the Moot sits past midnight two days before Christmas, turning the wording of its petition over clause by clause until it asks one thing only: that the western pits be let alone to work out seams that will be spent within a few years regardless.",
+   "title": "Tional nan Tuathach agrees an Nollaig petition",
+   "body": "At Caol mhòr Tional nan Tuathach sits past midnight two days before an Nollaig, turning the wording of its petition over clause by clause until it asks one thing only: that the western pits be let alone to work out seams that will be spent within a few years regardless.",
    "place": "burg:95",
    "kind": "record",
    "category": "law",
@@ -1676,7 +1639,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3557",
+     "to": "EVII-3556",
      "type": "sequel"
     }
    ],
@@ -1694,10 +1657,39 @@
    ]
   },
   {
-   "id": "EVII-3559",
+   "id": "EVII-3558",
    "title": "Martha Greaves sets out for the capital",
-   "body": "Martha Greaves leaves Doire ghlas two days before Christmas with the petition in a leather folder, travelling south by carrier's cart, dubhan coach and at last a hired carriage, and keeps the feast on the road with a cold fowl she cannot bring herself to eat.",
+   "body": "Martha Greaves leaves Doire ghlas two days before an Nollaig with the petition in a leather folder, travelling south by carrier's cart, dubhan coach and at last a hired carriage, and keeps the feast on the road with a cold fowl she cannot bring herself to eat.",
    "place": "burg:209",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "VI-0077",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3557",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "martha-greaves"
+   ],
+   "told_in": "book/22_of_the_old_names_read_aloud.md#ii-of-the-bench-in-the-passage",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVII-3559",
+   "title": "Frost on Drochaid Cathair dhearg",
+   "body": "Martha Greaves comes into Cathair dhearg on an Nollaig morning, the frost lying white and unworn on the bridge's parapet because so few feet have crossed it, the Dia-thìrich keeping no feast that day.",
+   "place": "burg:19",
    "kind": "record",
    "category": "law",
    "links": [
@@ -1724,8 +1716,8 @@
   },
   {
    "id": "EVII-3560",
-   "title": "Frost on the bridge at Cathair dhearg",
-   "body": "Martha Greaves comes into Cathair dhearg on Christmas morning, the frost lying white and unworn on the bridge's parapet because so few feet have crossed it, the Dia-thìrich keeping no feast that day.",
+   "title": "The bench in the passage",
+   "body": "Martha Greaves waits the better part of an hour on a stone bench outside the council chamber at Cathair dhearg, the petition twice taken out of its folder and twice put back unread, while the rise and fall of unheard voices carries from the room beyond.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1753,8 +1745,8 @@
   },
   {
    "id": "EVII-3561",
-   "title": "The bench in the passage",
-   "body": "Martha Greaves waits the better part of an hour on a stone bench outside the council chamber at Cathair dhearg, the petition twice taken out of its folder and twice put back unread, while the rise and fall of unheard voices carries from the room beyond.",
+   "title": "A name said the Dia-thìris way",
+   "body": "A clerk calls Martha Greaves into the council chamber, her surname set first and her whole name given the turn of the tongue that shapes every foreign name passing through that room, so that she does not, for a moment, know it for her own.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1782,8 +1774,8 @@
   },
   {
    "id": "EVII-3562",
-   "title": "A name said the Dia-thìris way",
-   "body": "A clerk calls Martha Greaves into the council chamber, her surname set first and her whole name given the turn of the tongue that shapes every foreign name passing through that room, so that she does not, for a moment, know it for her own.",
+   "title": "Received, said the clerk",
+   "body": "The council gives Martha Greaves's petition one word and the sound of a pen crossing paper. Nobody at the table speaks to her; the old man at its head inclines his head, and the porter is already at her elbow to show her out again.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1811,9 +1803,9 @@
   },
   {
    "id": "EVII-3563",
-   "title": "Received, said the clerk",
-   "body": "The council gives Martha Greaves's petition one word and the sound of a pen crossing paper. Nobody at the table speaks to her; the old man at its head inclines his head, and the porter is already at her elbow to show her out again.",
-   "place": "burg:19",
+   "title": "The road home from Cathair dhearg",
+   "body": "Martha Greaves rides the cold road north again with the folder empty on her lap, coming in sight of Doire ghlas's lit windows late on the second night after, the one word the council gave her worn down, by then, to the sound of a pen alone.",
+   "place": "burg:209",
    "kind": "record",
    "category": "law",
    "links": [
@@ -1840,37 +1832,8 @@
   },
   {
    "id": "EVII-3564",
-   "title": "The road home from Cathair dhearg",
-   "body": "Martha Greaves rides the cold road north again with the folder empty on her lap, coming in sight of Doire ghlas's lit windows late on the second night after, the one word the council gave her worn down, by then, to the sound of a pen alone.",
-   "place": "burg:209",
-   "kind": "record",
-   "category": "law",
-   "links": [
-    {
-     "to": "VI-0077",
-     "type": "sequel"
-    },
-    {
-     "to": "EVII-3563",
-     "type": "sequel"
-    }
-   ],
-   "threads": [
-    "the-tuathaich"
-   ],
-   "people": [
-    "martha-greaves"
-   ],
-   "told_in": "book/22_of_the_old_names_read_aloud.md#ii-of-the-bench-in-the-passage",
-   "era_between": [
-    20,
-    20
-   ]
-  },
-  {
-   "id": "EVII-3565",
    "title": "The Grey House among the old companies",
-   "body": "Among the rolls of the Severance companies read in the drill hall at Cathair dhearg is a company called only the Grey House, and no one in the room can say why.",
+   "body": "Among the rolls of Buidhnean an Dealachaidh read in the drill hall at Cathair dhearg is a company called only the Grey House, and no one in the room can say why.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -1884,7 +1847,7 @@
      "type": "cause"
     },
     {
-     "to": "EVII-3564",
+     "to": "EVII-3563",
      "type": "sequel"
     }
    ],
@@ -1902,9 +1865,9 @@
    ]
   },
   {
-   "id": "EVII-3566",
+   "id": "EVII-3565",
    "title": "Dead towns struck from the rolls",
-   "body": "Where a company of the Severance rolls answers to a town gone or swallowed into another, the clerk strikes the name through; Cormac Liath's reading grows quieter over each.",
+   "body": "Where a company of An Dealachadh rolls answers to a town gone or swallowed into another, the clerk strikes the name through; Cormac Liath's reading grows quieter over each.",
    "place": "burg:19",
    "kind": "war",
    "category": "war",
@@ -1914,7 +1877,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3565",
+     "to": "EVII-3564",
      "type": "sequel"
     }
    ],
@@ -1931,9 +1894,9 @@
    ]
   },
   {
-   "id": "EVII-3567",
-   "title": "Martha Greaves keeps Christmas on the road",
-   "body": "The speaker of the Moot keeps an Nollaig in a hired carriage on the northern road, with Ellen Marsh's bread and cold fowl uneaten at her feet, the Moot's petition in Peter Hale's leather folder on her knee.",
+   "id": "EVII-3566",
+   "title": "Martha Greaves keeps an Nollaig on the road",
+   "body": "The speaker of Tional nan Tuathach keeps an Nollaig in a hired carriage on the northern road, with Ellen Marsh's bread and cold fowl uneaten at her feet, Athchuinge Dheireannach an Tionail in Peter Hale's leather folder on her knee.",
    "place": "province:7",
    "kind": "rite",
    "category": "faith",
@@ -1943,7 +1906,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3566",
+     "to": "EVII-3565",
      "type": "sequel"
     }
    ],
@@ -1961,9 +1924,9 @@
    ]
   },
   {
-   "id": "EVII-3568",
+   "id": "EVII-3567",
    "title": "Anna nic Phàil's nod across the table",
-   "body": "In the council chamber, when the speaker of the Moot comes in with the petition, Anna nic Phàil, councillor for Cathair dhomhain, gives her the smallest incline of the head across the width of the table.",
+   "body": "In the council chamber, when the speaker of Tional nan Tuathach comes in with the petition, Anna nic Phàil, councillor for Cathair dhomhain, gives her the smallest incline of the head across the width of the table.",
    "place": "burg:19",
    "kind": "record",
    "category": "law",
@@ -1973,7 +1936,7 @@
      "type": "sequel"
     },
     {
-     "to": "EVII-3567",
+     "to": "EVII-3566",
      "type": "sequel"
     }
    ],
@@ -1985,6 +1948,33 @@
     "martha-greaves"
    ],
    "told_in": "book/22_of_the_old_names_read_aloud.md#ii-of-the-bench-in-the-passage",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVII-3568",
+   "title": "An Taigh-òsta Grianach full at the year's end",
+   "body": "An Taigh-òsta Grianach at Cnoc dhìreach is full to the stables at the year's end with men walking to the drill hall at Cathair dhearg to hear their old companies' names.",
+   "place": "burg:322",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "VI-0076",
+     "type": "sequel"
+    },
+    {
+     "to": "EVII-3567",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-war"
+   ],
+   "people": [],
+   "told_in": "book/22_of_the_old_names_read_aloud.md#i-of-the-rolls-brought-from-the-chests",
    "era_between": [
     20,
     20

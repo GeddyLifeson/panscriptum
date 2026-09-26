@@ -1,173 +1,306 @@
 [
- {
-  "title": "The toll-chest counted at a keeper's own door",
-  "era_year": 756,
-  "summary": "Mòrag nan Rathad finds the toll-house two days east of the ford unanswered longest of all its keepers' letters. She has her road-guards open the keeper's own chest and counts the silver on a cloth before him, takes half for the mending, and leaves half for his household.",
-  "category": "trade",
-  "people": ["Mòrag nan Rathad"],
-  "places": ["burg:422"],
-  "threads": ["the-division"],
-  "master_links": [
-   {"to": "II-0081", "type": "sequel"}
-  ]
- },
- {
-  "title": "Dòmhnall's fall from the cart",
-  "era_year": 736,
-  "summary": "Dòmhnall, riding the back board of a laden cart above the ford, is thrown under its wheel where it strikes a stone left standing proud of the road-bed. His leg is set and set again and never knits true; he walks with a stick the rest of his life.",
-  "category": "rulers",
-  "people": ["Dòmhnall Crùbach"],
-  "places": ["burg:422"],
-  "threads": ["the-stone-kings"],
-  "master_links": [
-   {"to": "II-0084", "type": "cause"}
-  ]
- },
- {
-  "title": "Mòrag meets Niall Òg on the northern road",
-  "era_year": 760,
-  "summary": "On a wet stretch of the northern road, Mòrag nan Rathad shelters from rain beside an old man on a milestone: Niall Òg, grandson of Ailean Mòr, now past his sixteen hundredth year. He tells her his name and sits with her a while before going on afoot.",
-  "category": "rulers",
-  "people": ["Mòrag nan Rathad", "Niall Òg"],
-  "places": ["burg:422"],
-  "threads": ["the-division", "the-long-years"],
-  "master_links": [
-   {"to": "II-0081", "type": "sequel"}
-  ]
- },
- {
-  "title": "Niall Òg tells Mòrag of the cord",
-  "era_year": 760,
-  "summary": "Niall Òg tells Mòrag nan Rathad of the cord of seven hundred and twelve knots laid on the floor at Dùn ìseal, and says she is the first of the line he has met who looks at the cord itself and not at her own knot in it.",
-  "category": "law",
-  "people": ["Mòrag nan Rathad", "Niall Òg"],
-  "places": ["burg:422"],
-  "threads": ["the-division"],
-  "master_links": [
-   {"to": "II-0001a", "type": "legacy"}
-  ]
- },
- {
-  "title": "The golden house opened free of toll",
-  "era_year": 763,
-  "summary": "Mòrag nan Rathad opens the new waypoint house on the eastern road north of Seann Dunn with a night's feast for every carrier who can be reached in time, none of them charged the toll. Carriers call the new timber the golden house before it has weathered, and the name holds.",
-  "category": "trade",
-  "people": ["Mòrag nan Rathad"],
-  "places": ["burg:18"],
-  "threads": ["the-division"],
-  "master_links": [
-   {"to": "II-0082", "type": "sequel"}
-  ]
- },
- {
-  "title": "The bridge-foot town begins to grow",
-  "era_year": 794,
-  "summary": "After the western crossing of the Abhainn dhomhain is widened for two laden carts abreast, the small fishing town at the bridge-foot below Dùn ìseal begins to grow in earnest, outgrowing three neighbouring towns within Mòrag nan Rathad's own lifetime.",
-  "category": "trade",
-  "people": [],
-  "places": ["burg:19"],
-  "threads": ["the-division"],
-  "master_links": [
-   {"to": "II-0083", "type": "sequel"}
-  ]
- },
- {
-  "title": "Mòrag names Dòmhnall her heir",
-  "era_year": 800,
-  "summary": "Mòrag nan Rathad has her lame son Dòmhnall carried the length of three road-stretches in a covered chair, then names him before the household at Dùn dhearg as her heir, past her hundred and sixtieth year herself.",
-  "category": "rulers",
-  "people": ["Mòrag nan Rathad", "Dòmhnall Crùbach"],
-  "places": ["burg:422"],
-  "threads": ["the-stone-kings"],
-  "master_links": [
-   {"to": "II-0084", "type": "cause"}
-  ]
- },
- {
-  "title": "Mòrag's last circuit of the roads",
-  "era_year": 830,
-  "summary": "Against the advice of her household, Mòrag nan Rathad rides the whole western circuit in her hundred and eighty-ninth year, finding less to mend than in any year of her reign, and tells the waypoint-keepers so at every house she stops in.",
-  "category": "rulers",
-  "people": ["Mòrag nan Rathad"],
-  "places": ["burg:422"],
-  "threads": ["the-division"],
-  "master_links": [
-   {"to": "II-0081", "type": "sequel"}
-  ]
- },
- {
-  "title": "Mòrag nan Rathad dies at Dùn dhearg",
-  "era_year": 834,
-  "summary": "Mòrag nan Rathad dies at Dùn dhearg in the winter, a hundred and ninety-four years old, with her son beside her. Carriers from three days' distance come to stand outside the hall, and Dòmhnall feeds them from the golden house's own stores.",
-  "category": "rulers",
-  "people": ["Mòrag nan Rathad", "Dòmhnall Crùbach"],
-  "places": ["burg:422"],
-  "threads": ["the-stone-kings", "the-division"],
-  "master_links": [
-   {"to": "II-0081", "type": "sequel"},
-   {"to": "II-0084", "type": "cause"}
-  ]
- },
- {
-  "title": "Niall Òg speaks over Mòrag's grave",
-  "era_year": 834,
-  "summary": "At Mòrag nan Rathad's grave, Niall Òg says that of the seven hundred and twelve heirs he once watched knotted on the cord, she alone spent her life looking at the cord itself, and that her roads are the nearest thing since to that cord laid honestly on the ground.",
-  "category": "rulers",
-  "people": ["Niall Òg", "Mòrag nan Rathad"],
-  "places": ["burg:422"],
-  "threads": ["the-long-years"],
-  "master_links": [
-   {"to": "II-0081", "type": "legacy"}
-  ]
- },
- {
-  "title": "Sìleas Dhonn finds the Ceann mhin rolls do not add",
-  "era_year": 860,
-  "summary": "Dòmhnall Crùbach's young niece Sìleas Dhonn, asked to check the waypoint-keepers' tallies, finds three years in which the Ceann mhin keepers' own count does not match what passed through their gates, though never provably by theft. She keeps her own copy of the figures and says nothing of it while her uncle lives.",
-  "category": "trade",
-  "people": ["Sìleas Dhonn", "Dòmhnall Crùbach"],
-  "places": ["burg:30"],
-  "threads": [],
-  "master_links": [
-   {"to": "II-0085", "type": "cause"},
-   {"to": "II-0090", "type": "cause"}
-  ]
- },
- {
-  "title": "The scorpion's sting sworn on at a trade",
-  "era_year": 862,
-  "summary": "At Baile àrsaidh a woman stung on the hand during a trade of cattle for salt fish finishes the bargain with her fingers still swelling, saying a hurt taken in the open is worth more than a promise given behind a closed door. Others take up her way of it, keeping a dried sting in a box to swear by.",
-  "category": "faith",
-  "people": [],
-  "places": ["burg:420"],
-  "threads": [],
-  "master_links": [
-   {"to": "II-0086", "type": "cause"}
-  ]
- },
- {
-  "title": "The Hall's grain-carts reach Seann Chwen first",
-  "era_year": 879,
-  "summary": "After the storm at Seann Chwen, the Keeper's grain-carts reach the ruined harbour a full day ahead of Dòmhnall Crùbach's, running the whole way on the road above the ford that Mòrag nan Rathad raised out of the mud in the first summer of her reign.",
-  "category": "land",
-  "people": ["Dòmhnall Crùbach"],
-  "places": ["burg:315", "burg:36"],
-  "threads": ["the-division"],
-  "master_links": [
-   {"to": "II-0087", "type": "legacy"},
-   {"to": "II-0081", "type": "legacy"}
-  ]
- },
- {
-  "title": "The sting first sworn on at a wider trade",
-  "era_year": 880,
-  "summary": "The scorpion's-sting oath of Baile àrsaidh is sworn for the first time at a trade with an outside harbour town, at Ros bheag, carrying the custom beyond the settlement that began it.",
-  "category": "faith",
-  "people": [],
-  "places": ["burg:420", "burg:63"],
-  "threads": [],
-  "master_links": [
-   {"to": "II-0086", "type": "sequel"}
-  ]
- }
+  {
+    "title": "The toll-chest counted at a keeper's own door",
+    "era_year": 756,
+    "summary": "Mòrag nan Rathad finds the toll-house two days east of the ford unanswered longest of all its keepers' letters. She has her road-guards open the keeper's own chest and counts the silver on a cloth before him, takes half for the mending, and leaves half for his household.",
+    "category": "trade",
+    "people": [
+      "Mòrag nan Rathad"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-division"
+    ],
+    "master_links": [
+      {
+        "to": "II-0081",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Dòmhnall's fall from the cart",
+    "era_year": 736,
+    "summary": "Dòmhnall, riding the back board of a laden cart above the ford, is thrown under its wheel where it strikes a stone left standing proud of the road-bed. His leg is set and set again and never knits true; he walks with a stick the rest of his life.",
+    "category": "rulers",
+    "people": [
+      "Dòmhnall Crùbach"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "II-0084",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "Mòrag meets Niall Òg on the northern road",
+    "era_year": 760,
+    "summary": "On a wet stretch of the northern road, Mòrag nan Rathad shelters from rain beside an old man on a milestone: Niall Òg, grandson of Ailean Mòr, now past his sixteen hundredth year. He tells her his name and sits with her a while before going on afoot.",
+    "category": "rulers",
+    "people": [
+      "Mòrag nan Rathad",
+      "Niall Òg"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-division",
+      "the-long-years"
+    ],
+    "master_links": [
+      {
+        "to": "II-0081",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Niall Òg tells Mòrag of the cord",
+    "era_year": 760,
+    "summary": "Niall Òg tells Mòrag nan Rathad of the cord of seven hundred and twelve knots laid on the floor at Dùn ìseal, and says she is the first of the line he has met who looks at the cord itself and not at her own knot in it.",
+    "category": "law",
+    "people": [
+      "Mòrag nan Rathad",
+      "Niall Òg"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-division"
+    ],
+    "master_links": [
+      {
+        "to": "II-0001a",
+        "type": "legacy"
+      }
+    ]
+  },
+  {
+    "title": "The golden house opened free of toll",
+    "era_year": 781,
+    "summary": "Mòrag nan Rathad opens the new waypoint house on the eastern road north of Seann Dunn with a night's feast for every carrier who can be reached in time, none of them charged the toll. Carriers call the new timber the golden house before it has weathered, and the name holds.",
+    "category": "trade",
+    "people": [
+      "Mòrag nan Rathad"
+    ],
+    "places": [
+      "burg:18"
+    ],
+    "threads": [
+      "the-division"
+    ],
+    "master_links": [
+      {
+        "to": "II-0082",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "The bridge-foot town begins to grow",
+    "era_year": 794,
+    "summary": "After the western crossing of the Abhainn dhomhain is widened for two laden carts abreast, the small fishing town at the bridge-foot below Dùn ìseal begins to grow in earnest, outgrowing three neighbouring towns within Mòrag nan Rathad's own lifetime.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:19"
+    ],
+    "threads": [
+      "the-division"
+    ],
+    "master_links": [
+      {
+        "to": "II-0083",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Mòrag names Dòmhnall her heir",
+    "era_year": 800,
+    "summary": "Mòrag nan Rathad has her lame son Dòmhnall carried the length of three road-stretches in a covered chair, then names him before the household at Dùn dhearg as her heir, past her hundred and sixtieth year herself.",
+    "category": "rulers",
+    "people": [
+      "Mòrag nan Rathad",
+      "Dòmhnall Crùbach"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-stone-kings"
+    ],
+    "master_links": [
+      {
+        "to": "II-0084",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "Mòrag's last circuit of the roads",
+    "era_year": 830,
+    "summary": "Against the advice of her household, Mòrag nan Rathad rides the whole western circuit in her hundred and eighty-ninth year, finding less to mend than in any year of her reign, and tells the waypoint-keepers so at every house she stops in.",
+    "category": "rulers",
+    "people": [
+      "Mòrag nan Rathad"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-division"
+    ],
+    "master_links": [
+      {
+        "to": "II-0081",
+        "type": "sequel"
+      }
+    ]
+  },
+  {
+    "title": "Mòrag nan Rathad dies at Dùn dhearg",
+    "era_year": 834,
+    "summary": "Mòrag nan Rathad dies at Dùn dhearg in the winter, two hundred and fifteen years old, with her son beside her. Carriers from three days' distance come to stand outside the hall, and Dòmhnall feeds them from the golden house's own stores.",
+    "category": "rulers",
+    "people": [
+      "Mòrag nan Rathad",
+      "Dòmhnall Crùbach"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-stone-kings",
+      "the-division"
+    ],
+    "master_links": [
+      {
+        "to": "II-0081",
+        "type": "sequel"
+      },
+      {
+        "to": "II-0084",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "Niall Òg speaks over Mòrag's grave",
+    "era_year": 834,
+    "summary": "At Mòrag nan Rathad's grave, Niall Òg says that of the seven hundred and twelve heirs he once watched knotted on the cord, she alone spent her life looking at the cord itself, and that her roads are the nearest thing since to that cord laid honestly on the ground.",
+    "category": "rulers",
+    "people": [
+      "Niall Òg",
+      "Mòrag nan Rathad"
+    ],
+    "places": [
+      "burg:422"
+    ],
+    "threads": [
+      "the-long-years"
+    ],
+    "master_links": [
+      {
+        "to": "II-0081",
+        "type": "legacy"
+      }
+    ]
+  },
+  {
+    "title": "Sìleas Dhonn finds the Ceann mhin rolls do not add",
+    "era_year": 860,
+    "summary": "Dòmhnall Crùbach's young niece Sìleas Dhonn, asked to check the waypoint-keepers' tallies, finds three years in which the Ceann mhin keepers' own count does not match what passed through their gates, though never provably by theft. She keeps her own copy of the figures and says nothing of it while her uncle lives.",
+    "category": "trade",
+    "people": [
+      "Sìleas Dhonn",
+      "Dòmhnall Crùbach"
+    ],
+    "places": [
+      "burg:30"
+    ],
+    "threads": [],
+    "master_links": [
+      {
+        "to": "II-0085",
+        "type": "cause"
+      },
+      {
+        "to": "II-0090",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "The scorpion's sting sworn on at a trade",
+    "era_year": 862,
+    "summary": "At Baile àrsaidh a woman stung on the hand during a trade of cattle for salt fish finishes the bargain with her fingers still swelling, saying a hurt taken in the open is worth more than a promise given behind a closed door. Others take up her way of it, keeping a dried sting in a box to swear by.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:420"
+    ],
+    "threads": [],
+    "master_links": [
+      {
+        "to": "II-0086",
+        "type": "cause"
+      }
+    ]
+  },
+  {
+    "title": "The Hall's grain-carts reach Seann Chwen first",
+    "era_year": 879,
+    "summary": "After the storm at Seann Chwen, the Keeper's grain-carts reach the ruined harbour a full day ahead of Dòmhnall Crùbach's, running the whole way on the road above the ford that Mòrag nan Rathad raised out of the mud in the first summer of her reign.",
+    "category": "land",
+    "people": [
+      "Dòmhnall Crùbach"
+    ],
+    "places": [
+      "burg:315",
+      "burg:36"
+    ],
+    "threads": [
+      "the-division"
+    ],
+    "master_links": [
+      {
+        "to": "II-0087",
+        "type": "legacy"
+      },
+      {
+        "to": "II-0081",
+        "type": "legacy"
+      }
+    ]
+  },
+  {
+    "title": "The sting first sworn on at a wider trade",
+    "era_year": 880,
+    "summary": "The scorpion's-sting oath of Baile àrsaidh is sworn for the first time at a trade with an outside harbour town, at Ros bheag, carrying the custom beyond the settlement that began it.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:420",
+      "burg:63"
+    ],
+    "threads": [],
+    "master_links": [
+      {
+        "to": "II-0086",
+        "type": "sequel"
+      }
+    ]
+  }
 ]

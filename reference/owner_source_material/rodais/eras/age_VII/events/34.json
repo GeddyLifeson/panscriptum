@@ -242,57 +242,6 @@
     ]
   },
   {
-    "title": "Four guns hauled the last two miles by hand",
-    "era_year": 22,
-    "summary": "The third regiment's four guns come down from the capital by the coal line and are hauled the last two miles to the field at Muileann ghlas by hand, the ground too soft for horses.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "marker:17"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0115"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The mill at Muileann ghlas changes hands twice",
-    "era_year": 22,
-    "summary": "In the morning's fighting the mill at Muileann ghlas is taken by the column from a picket of the first regiment and taken back, the miller's wife moving her pots out of whatever corner the fighting last left.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:360"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0115"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The white cloth on a byre-fork",
-    "era_year": 22,
-    "summary": "At dusk the first regiment's colonel sends word by a Tuathach prisoner under a white cloth on a byre-fork that any man who comes out unarmed will be marched, not shot, to the capital's gaol.",
-    "category": "war",
-    "people": [],
-    "places": [
-      "burg:360"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0116"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Near ninety of the column's wounded brought in",
     "era_year": 22,
     "summary": "The regiments' surgeon's tally for the night after Muileann ghlas stands at twenty-three of the regiments buried or dying and near ninety of the column's wounded brought in.",
@@ -307,6 +256,21 @@
     "master_links": [
       "VI-0116"
     ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The beacon at Àth dhearg sees no fleet",
+    "era_year": 22,
+    "summary": "The keeper of Taigh-solais Àth dhearg on the north-east cape writes in his log through the autumn that no ship of the fleets has passed the cape in three months.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:258"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [],
     "chronicle_extra": true
   }
 ]

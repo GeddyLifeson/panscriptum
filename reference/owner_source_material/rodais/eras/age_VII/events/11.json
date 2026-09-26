@@ -105,9 +105,9 @@
     "told_in": "book/11_the_wick_over_the_door.md#ii-of-the-yellow-lion"
   },
   {
-    "title": "The high custodian's carriage fitted at Seann Skell",
+    "title": "The Àrd-choimheadaiche's carriage fitted at Seann Skell",
     "era_year": 9,
-    "summary": "The fitters of the shipmasters' works at the southern Seann Skell, Joe Ashby chief among them, box a lorry's dubhan engine into the frame of the high custodian's own carriage, working evenings beside their ordered work for the better part of a month. Peigi nic Ascaill oversees the fitting; the works' book names the works and not the man.",
+    "summary": "The fitters of the shipmasters' works at the southern Seann Skell, Joe Ashby chief among them, box a lorry's dubhan engine into the frame of the Àrd-choimheadaiche's own carriage, working evenings beside their ordered work for the better part of a month. Peigi nic Ascaill oversees the fitting; the works' book names the works and not the man.",
     "category": "trade",
     "people": [
       "Peigi nic Ascaill",
@@ -134,7 +134,7 @@
     "told_in": "book/11_the_wick_over_the_door.md#iii-of-the-carriage-that-needed-no-horse"
   },
   {
-    "title": "The high custodian rides to Tobar dhearg without a horse",
+    "title": "The Àrd-choimheadaiche rides to Tobar dhearg without a horse",
     "era_year": 9,
     "summary": "In an t-Ògmhios Alasdair mac Ìomhair rides the first carriage on the island that needs no horse from Seann Skell to Brìde's house at Tobar dhearg, Joe Ashby driving. He says of it only what he said of dubhan itself five years before: that it is not forbidden, and he does not know that it is blessed.",
     "category": "faith",
@@ -331,7 +331,7 @@
   {
     "title": "The custodian's greys retired",
     "era_year": 9,
-    "summary": "The pair of matched greys that drew the high custodian's carriage among the houses of the Rite, failing in wind on the hill roads, are retired when the carriage is fitted with an engine at the southern Seann Skell.",
+    "summary": "The pair of matched greys that drew the Àrd-choimheadaiche's carriage among the houses of the Rite, failing in wind on the hill roads, are retired when the carriage is fitted with an engine at the southern Seann Skell.",
     "category": "faith",
     "people": [
       "Alasdair mac Ìomhair"
@@ -368,25 +368,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "Oighrig nic Iain's old lamp set above the till",
-    "era_year": 9,
-    "summary": "The landlady of Am Buabhall Fortanach does not keep a wick burning over her door as the Lion does; she sets the old taproom lamp, cleaned and empty, on the shelf above the till.",
-    "category": "trade",
-    "people": [
-      "Oighrig nic Iain"
-    ],
-    "places": [
-      "marker:5"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0027"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The first inn to sell fuel and beds under one sign",
     "era_year": 10,
     "summary": "The widowed landlady of An Taigh-òsta Grianach paints a new sign over her door naming what a traveller may buy there, beds and fire, and within the year half the great houses do the same.",
@@ -400,6 +381,40 @@
     ],
     "master_links": [
       "VI-0029"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A wedding in the Taigh-seinnse Mòr's new hall",
+    "era_year": 9,
+    "summary": "The first wedding held in the new dubhan-lit hall of An Taigh-seinnse Mòr is a carter's daughter of Cuan chrom's, and the guests say afterwards that the light made every face at the long table look younger.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:418"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0028"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The landlord of An Taigh-seinnse Reòta keeps his wicks",
+    "era_year": 10,
+    "summary": "The landlord of An Taigh-seinnse Reòta above Muileann fhada, having written to the Board, keeps a wick lamp in every room, and the lorry-drivers who stop there take their suppers by the fire rather than read by them.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:74"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0031"
     ],
     "chronicle_extra": true
   }

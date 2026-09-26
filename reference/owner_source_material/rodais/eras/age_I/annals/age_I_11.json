@@ -6,6 +6,9 @@
  ],
  "events": [
   {
+   "after": "I-0066"
+  },
+  {
    "id": "EI-6001",
    "title": "Barabal burns the first sliver outside the line",
    "body": "At Àth gharbh a woman named Barabal, keeping a bright stone given her as a child at a ford, sets it on her peat fire from idle curiosity; it burns black-flamed like any coal, and the hearthstone beneath it takes a stain of colour clean through its thickness.",
@@ -33,7 +36,7 @@
   {
    "id": "EI-6002",
    "title": "Barabal's husband's mother knows the stained stone",
-   "body": "Barabal's husband's mother turns the stained hearthstone over in the daylight at the door and says she once heard that the Mason's line kept coloured stones just such as this.",
+   "body": "Barabal's husband's mother turns the stained hearthstone over in the daylight at the door and says she once heard that Clann a' Chlachair kept coloured stones just such as this.",
    "place": "burg:277",
    "kind": "coal",
    "category": "coal",
@@ -62,7 +65,7 @@
   {
    "id": "EI-6003",
    "title": "Word of the stained hearthstone reaches Tobar dhìreach",
-   "body": "A fire-bearer carries the tale of Barabal's stained hearthstone to the Mason's line at Tobar dhìreach, and the woman who then keeps the bag hears it out and says only that a piece small enough to fit a boy's palm was small enough to lose.",
+   "body": "A fire-bearer carries the tale of Barabal's stained hearthstone to Clann a' Chlachair at Tobar dhìreach, and the woman who then keeps the bag hears it out and says only that a piece small enough to fit a boy's palm was small enough to lose.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -92,7 +95,7 @@
   {
    "id": "EI-6004",
    "title": "Giorsal born at Achadh dhìreach",
-   "body": "Giorsal is born at Achadh dhìreach, ten miles west of the crack, to a household that keeps no fire-pot and counts no fathers back to the mason, and grows up on the Telling as every child of the valleys does.",
+   "body": "Giorsal is born at Achadh dhìreach, ten miles west of the crack, to a household that keeps no fire-pot and counts no fathers back to the mason, and grows up on Aithris a' Chruthachaidh as every child of the valleys does.",
    "place": "burg:454",
    "kind": "faith",
    "category": "faith",
@@ -136,7 +139,7 @@
   {
    "id": "EI-6006",
    "title": "Barabal dies at Àth gharbh",
-   "body": "Barabal dies in her two-and-seventieth year at her own hearth, remembered by her own valley less as the woman who first burned the coloured coal than simply as an old grandmother among her kin.",
+   "body": "Barabal dies in her two-and-seventieth year at her own hearth, remembered by her own valley less as the woman who first burned an gual dathach than simply as an old grandmother among her kin.",
    "place": "burg:277",
    "kind": "faith",
    "category": "faith",
@@ -224,7 +227,7 @@
   {
    "id": "EI-6009",
    "title": "Word of the stained wool reaches the line",
-   "body": "A trader carries the tale of Giorsal's stained burial-wool to Tobar dhìreach some fifteen years after it begins, and the Mason's line takes it as further proof that its own coloured coal is no longer the only piece the valleys hold.",
+   "body": "A trader carries the tale of Giorsal's stained burial-wool to Tobar dhìreach some fifteen years after it begins, and Clann a' Chlachair takes it as further proof that its own coloured coal is no longer the only piece the valleys hold.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -294,6 +297,7 @@
     }
    ],
    "threads": [
+    "the-old-ones",
     "the-seven-coals"
    ],
    "people": [],
@@ -343,7 +347,9 @@
      "type": "legacy"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/32_of_the_sliver_at_ath_gharbh_and_the_name_of_the_line.md#iii-of-the-bright-thing-on-the-midden-at-bral",
    "era_between": [
@@ -357,7 +363,7 @@
   {
    "id": "EI-6014",
    "title": "Oscar names the line in jest",
-   "body": "At the gathering on the night of the lightning, Oscar of Àth gharbh calls the Mason's line Luchd-ceasnachaidh a' Ghuail Dhìomhair, the long questioners of the secret coal, meaning it half as a joke against their long, fruitless asking of the two dark coals.",
+   "body": "At the gathering on Oidhche an Dealanaich, Oscar of Àth gharbh calls Clann a' Chlachair Luchd-ceasnachaidh a' Ghuail Dhìomhair, the long questioners of the secret coal, meaning it half as a joke against their long, fruitless asking of the two dark coals.",
    "place": "burg:277",
    "kind": "faith",
    "category": "faith",
@@ -441,7 +447,7 @@
   {
    "id": "EI-6017",
    "title": "Clann na Ceiste settles into ordinary use",
-   "body": "The households of the valleys take up calling the Mason's line simply Clann na Ceiste in their everyday talk, the older name Clann a' Chlachair heard less with each passing year.",
+   "body": "The households of the valleys take up calling Clann a' Chlachair simply Clann na Ceiste in their everyday talk, the older name Clann a' Chlachair heard less with each passing year.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -671,7 +677,7 @@
   {
    "id": "EI-6026",
    "title": "Clann na Ceiste claims the fire, and leaves the older line unread",
-   "body": "Word of the stone's four words reaches Tobar dhìreach, and the line holds the fire they name for its own, the mason's fire, while the broader script above them goes on unread, no eye at the line or beyond it able to say what hand cut it or when.",
+   "body": "Word of the stone's four words reaches Tobar dhìreach, and the line holds the fire they name for its own, Teine a' Chlachair, while the broader script above them goes on unread, no eye at the line or beyond it able to say what hand cut it or when.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -823,7 +829,7 @@
   {
    "id": "EI-6032",
    "title": "Mòrnait born at Tobar dhìreach",
-   "body": "Mòrnait is born into a household gathered about Clann na Ceiste's own hearth without ever holding its coals, and grows up on the Telling and the two new sayings both, already part of the ordinary stock of what every child of the valleys knows by then.",
+   "body": "Mòrnait is born into a household gathered about Clann na Ceiste's own hearth without ever holding its coals, and grows up on Aithris a' Chruthachaidh and the two new sayings both, already part of the ordinary stock of what every child of the valleys knows by then.",
    "place": "burg:276",
    "kind": "people",
    "category": "law",
@@ -1074,7 +1080,7 @@
   {
    "id": "EI-6041",
    "title": "The rise takes the name Achadh a' Chalbh",
-   "body": "The hearths that gather to look at the new pillar begin to call the rise Achadh a' Chalbh, the field of the column, a name that settles into use before any household troubles to remember which mouth first gave it.",
+   "body": "The hearths that gather to look at the new pillar begin to call the rise Achadh a' Chalbh, a name that settles into use before any household troubles to remember which mouth first gave it.",
    "place": "burg:1008",
    "kind": "culture",
    "category": "faith",
@@ -1086,7 +1092,7 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/34_of_the_column.md#ii-of-the-field-of-the-column",
+   "told_in": "book/34_of_the_column.md#i-of-the-third-stone",
    "era_between": [
     4853,
     4853
@@ -1095,7 +1101,7 @@
   {
    "id": "EI-6042",
    "title": "The whole saying said standing for the first time",
-   "body": "At a gathering of some thirty households kept at Achadh a' Chalbh on the night of the lightning, an old woman of a neighbouring valley says the sayings of all three stones together before a crowd, and ties the third saying to the Telling's grass-people and the island as their only root.",
+   "body": "At a gathering of some thirty households kept at Achadh a' Chalbh on Oidhche an Dealanaich, an old woman of a neighbouring valley says the sayings of all three stones together before a crowd, and ties the third saying to Aithris a' Chruthachaidh's grass-people and the island as their only root.",
    "place": "burg:1008",
    "kind": "faith",
    "category": "faith",
@@ -1122,7 +1128,7 @@
   {
    "id": "EI-6043",
    "title": "An old woman says the three sayings as one",
-   "body": "At the first gathering kept at the pillar an old woman of a hearth two valleys east says the sayings of the three stones together for the first time, and says after them that the stone says in fewer words what the Telling always said.",
+   "body": "At the first gathering kept at the pillar an old woman of a hearth two valleys east says the sayings of the three stones together for the first time, and says after them that the stone says in fewer words what Aithris a' Chruthachaidh always said.",
    "place": "burg:1008",
    "kind": "faith",
    "category": "faith",
@@ -1169,6 +1175,26 @@
   },
   {
    "id": "EI-6045",
+   "title": "Seathan born to the keeper's hearth",
+   "body": "Seathan is born at Tobar dhìreach, the only son of the keeper of gual teine and the rainbow, and has gual teine in his hands from earliest childhood as every child of that hearth has had it before him.",
+   "place": "burg:276",
+   "kind": "people",
+   "category": "law",
+   "links": [],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "seathan"
+   ],
+   "told_in": "book/35_of_seathans_snap.md#i-of-the-fire-coal-in-seathan-s-keeping",
+   "era_between": [
+    4862,
+    4862
+   ]
+  },
+  {
+   "id": "EI-6046",
    "title": "A market grows up at the column's gatherings",
    "body": "Traders begin setting hides, salt and wool out on cloths spread over the trampled ground at Achadh a' Chalbh on the two days a year the crowds are greatest, taking their goods up again each evening, for no one yet thinks to leave anything standing there overnight but the stone.",
    "place": "burg:1008",
@@ -1189,9 +1215,9 @@
    ]
   },
   {
-   "id": "EI-6046",
+   "id": "EI-6047",
    "title": "A boy of the keeper's hearth hears of the third stone",
-   "body": "At Tobar dhìreach a fire-bearer carries the first word of the pillar and its saying to the keeper's own hearth, and a boy not yet six turns the fire coal in his fingers as he listens, asking his mother whether the coal and the stone's saying come from the one place.",
+   "body": "At Tobar dhìreach a fire-bearer carries the first word of the pillar and its saying to the keeper's own hearth, and a boy not yet six turns gual teine in his fingers as he listens, asking his mother whether the coal and the stone's saying come from the one place.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -1199,6 +1225,10 @@
     {
      "to": "I-0073",
      "type": "cause"
+    },
+    {
+     "to": "EI-6045",
+     "type": "person"
     }
    ],
    "threads": [
@@ -1214,7 +1244,7 @@
    ]
   },
   {
-   "id": "EI-6047",
+   "id": "EI-6048",
    "title": "The saying carried to the northern shore",
    "body": "A woman of the northern shore, come south to trade hides for salt at one of Achadh a' Chalbh's market days, hears the whole saying said at the stone and carries it home the length of the island, telling it first at her own hearth to a household that keeps no stone and no gathering-ground of its own.",
    "place": "burg:1008",
@@ -1235,7 +1265,7 @@
    ]
   },
   {
-   "id": "EI-6048",
+   "id": "EI-6049",
    "title": "A north-western shepherd answers a trader with the saying",
    "body": "A shepherd of the far north-western moor, asked by a passing trader what his own people hold of where they came from, answers with the third stone's four words, though he has never walked south to hear them said at Achadh a' Chalbh himself.",
    "place": null,
@@ -1256,7 +1286,7 @@
    ]
   },
   {
-   "id": "EI-6049",
+   "id": "EI-6050",
    "title": "Seathan's father tells him the waiting is part of the keeping",
    "body": "Seathan's father tells the boy that the bag on its peg has waited longer than any stone in the south, and that a thing worth keeping is worth keeping without asking each year whether the keeping has come to anything.",
    "place": "burg:276",
@@ -1264,7 +1294,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-6046",
+     "to": "EI-6047",
      "type": "person"
     }
    ],
@@ -1281,7 +1311,33 @@
    ]
   },
   {
-   "id": "EI-6050",
+   "id": "EI-6051",
+   "title": "Seathan takes the bag over",
+   "body": "On his father's death Seathan takes the bag of two coals and the keeping in his twentieth year, and chooses, unlike his father before him, to keep gual teine near the hearth rather than carry it abroad.",
+   "place": "burg:276",
+   "kind": "death",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-6050",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "seathan"
+   ],
+   "told_in": "book/35_of_seathans_snap.md#i-of-the-fire-coal-in-seathan-s-keeping",
+   "era_between": [
+    4882,
+    4882
+   ]
+  },
+  {
+   "id": "EI-6052",
    "title": "A trader woman walks ten days to the column",
    "body": "A woman of the northern shore walks ten days south by the drove-roads to trade hides for salt at the column, hears many households say the same words together, and carries the saying home with the salt.",
    "place": "burg:1008",
@@ -1297,9 +1353,33 @@
    ]
   },
   {
-   "id": "EI-6051",
+   "id": "EI-6053",
+   "title": "Seathan marries Caitir",
+   "body": "Seathan takes Caitir, of a household two valleys east that keeps no coal of its own, and she comes to Tobar dhìreach knowing she marries a keeper and not only a husband.",
+   "place": "burg:276",
+   "kind": "people",
+   "category": "law",
+   "links": [
+    {
+     "to": "EI-6051",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "seathan",
+    "caitir"
+   ],
+   "told_in": "book/35_of_seathans_snap.md#i-of-the-fire-coal-in-seathan-s-keeping",
+   "era_between": [
+    4888,
+    4888
+   ]
+  },
+  {
+   "id": "EI-6054",
    "title": "Ciannait says the saying to her children by her own fire",
-   "body": "In the last winter of her life, her joints too cold-bitten for the walk to Achadh a' Chalbh, Ciannait says the third stone's saying once more to her children at her own hearth, tying it plainly to the Telling of the grass-people grown from the island's own ground.",
+   "body": "In the last winter of her life, her joints too cold-bitten for the walk to Achadh a' Chalbh, Ciannait says the third stone's saying once more to her children at her own hearth, tying it plainly to Aithris a' Chruthachaidh of the grass-people grown from the island's own ground.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1324,7 +1404,7 @@
    ]
   },
   {
-   "id": "EI-6052",
+   "id": "EI-6055",
    "title": "Ciannait dies at her own hearth",
    "body": "Ciannait dies in her one and seventieth year at the hearth where she was born, and is buried, as her own kin have always been buried, without any coal of the vein given her in the ground, that custom never having reached so far south-west in her lifetime.",
    "place": null,
@@ -1336,7 +1416,7 @@
      "type": "legacy"
     },
     {
-     "to": "EI-6051",
+     "to": "EI-6054",
      "type": "person"
     }
    ],
@@ -1351,7 +1431,7 @@
    ]
   },
   {
-   "id": "EI-6053",
+   "id": "EI-6056",
    "title": "Ciannait's children keep the walk to the column after her",
    "body": "Ciannait's children take up the walk to Achadh a' Chalbh in her stead, not every year but often enough that the fire at the pillar's foot never goes long unlit in their own generation, and the saying she gave them at her hearth goes on being said by mouths that never stood at the stone itself.",
    "place": "burg:1008",
@@ -1369,6 +1449,31 @@
    "era_between": [
     4895,
     4895
+   ]
+  },
+  {
+   "id": "EI-6057",
+   "title": "Gual teine put into the pot itself",
+   "body": "Seathan puts gual teine into the fire the line holds to be the mason's own, carried unbroken since Oidhche an Dealanaich, and it lies dark and cool through the flame as it lies in every other fire he has tried.",
+   "place": "burg:276",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-6053",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "seathan"
+   ],
+   "told_in": "book/35_of_seathans_snap.md#i-of-the-fire-coal-in-seathan-s-keeping",
+   "era_between": [
+    4896,
+    4896
    ]
   }
  ]

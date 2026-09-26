@@ -1,0 +1,929 @@
+{
+ "writer": 3,
+ "span": [
+  "V-0070",
+  "V-0087"
+ ],
+ "events": [
+  {
+   "after": "V-0072"
+  },
+  {
+   "id": "EVI-3500",
+   "title": "Ailean mac Iain named first keeper of the Library",
+   "body": "By the council's own sentence, Ailean mac Iain is named keeper of the record at Muileann chaol, to receive, to order, and to keep whatever is sent to him. The office has no precedent and the warrant no further words, leaving Ailean to learn from the town itself what a keeper of a record might be.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#i-of-the-cellar-under-the-stair",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "id": "EVI-3501",
+   "title": "The custodians' rolls found under Muileann chaol",
+   "body": "The town's own custodians lead Ailean Leabhar down a stair to a wet cellar under the old grain-store, where rolls and bound books have stood on planks above standing water since before the Severance, the lowest tier gone soft as bread. He reads three lines by the light thrown down the stair, then sends for lamps and a table.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#i-of-the-cellar-under-the-stair",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "id": "EVI-3502",
+   "title": "Coinneach Clàrc taken on at the Library",
+   "body": "A wright's orphaned son of Muileann chaol, thirteen that spring and hired out by his mother for whatever a household could spare, attaches himself to Ailean Leabhar's carts on their first afternoon in the town and is set to fetch and carry, and within the year to read a Mission hand that few south of the guard-line can any longer make out.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0072",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#i-of-the-cellar-under-the-stair",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "id": "EVI-3503",
+   "title": "The council's minute-books sent east to the Library",
+   "body": "Four sacks of the council's own minute-books, and behind them the boxed and charred tithe ledgers of the humans' counting-houses that Ailean boxed unread fourteen years before, are carried east from Cathair dhearg to Muileann chaol, the first of the kingdom's scattered papers to be gathered into one keeping.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#ii-of-the-long-reading",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "id": "EVI-3504",
+   "title": "The Library's first reading room opened",
+   "body": "Ailean Leabhar opens a dry chamber above the cellar to any who can show a letter from a shire maor vouching for their errand, on the plain reasoning that a Library nobody can reach is no better kept than a cellar nobody can reach. For the better part of a year it stands empty of anyone but his own copyists.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0073",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#iv-of-the-first-readers",
+   "era_between": [
+    16,
+    16
+   ]
+  },
+  {
+   "after": "V-0076"
+  },
+  {
+   "id": "EVI-3505",
+   "title": "The Library's copyists turn every date to the civil calendar",
+   "body": "Ailean Leabhar sets his copyists to turning every date the cellar and the tithe ledgers hold into the civil calendar the humans brought, disliking the old count of the Diosal, which runs backward into the thousands and names every year after the day the humans' kin went over the water.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#ii-of-the-long-reading",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3506",
+   "title": "The Age of Ailean parted from the eldest age",
+   "body": "Laying the tellings of Clann na Ceiste against the king-lists the custodians' rolls preserve, Ailean Leabhar's reckoners find that nearly half of the copyists' eldest age falls within the single life of Ailean Mòr, and by the consent of all seven copyists that life is counted an age of its own, the first change the Library makes to any reckoning it did not itself invent.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#ii-of-the-long-reading",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3507",
+   "title": "\"A chur san Leabharlann\" first said at Muileann chaol",
+   "body": "A council clerk, told that a boundary query will want weeks of reading before it can be honestly answered, says the matter can simply be put in the Library and left settled. Ailean Leabhar corrects him sharply, and the correction, carried home and retold, is what fixes the phrase in the town's mouth rather than loosening it.",
+   "kind": "culture",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0072",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#ii-of-the-long-reading",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3508",
+   "title": "Cailean mac Eachainn's Line of Aisling found in the margin",
+   "body": "Copying a camp roll of Àth ìseal a third time, Coinneach Clàrc notices a second, later hand in its margin: Cailean mac Eachainn's line of descent, the Line of Aisling, set down a great many years before. Ailean Leabhar has it copied fair within the week.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0076",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "line-of-aisling"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#iii-of-the-two-books",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3509",
+   "title": "Leabhar nan Sloinnidhean opened",
+   "body": "Ailean Leabhar begins a book for nothing but lines of descent, naming it Leabhar nan Sloinnidhean, the book of lines, and sets Cailean mac Eachainn's Line of Aisling in it directly after the older Line of the Mason, found wedged behind a shifted course of brick in the same cellar.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0076",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "line-of-aisling"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#iii-of-the-two-books",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3510",
+   "title": "Leabhar nan Aithrisean opened",
+   "body": "Where the Àth ìseal roll's margin also keeps tales set down by firelight rather than by day, the Hollow Man, the white stag, a captain's boast of a wolf and a door held alone, Ailean Leabhar opens a second book, Leabhar nan Aithrisean, the book of tellings, and enters the long years of Ailean Mòr and his children beside them without correction.",
+   "kind": "culture",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0076",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#iii-of-the-two-books",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3511",
+   "title": "A Ros dhomhain shipwright first signs the reading-book",
+   "body": "A shipwright of Ros dhomhain walks the coast road with a maor's letter to ask whether the humans ever set down the true lines of a hull. Ailean Leabhar finds three drawings folded inside an unrelated survey, and the shipwright copies them out over four days, the first name entered in the Library's reading-book.",
+   "kind": "record",
+   "place": "burg:27",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0073",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#iv-of-the-first-readers",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3512",
+   "title": "The Guild of Hewers' bath-house built at the warm springs",
+   "body": "The Guild of Hewers builds a bath-house of its own funds over the hot springs below Muileann ruadh, for men the pits have made sick with the dust, and sends the Library its first sick-roll unasked: four hundred men named by shift and by face of the pit that broke them.",
+   "kind": "building",
+   "place": "marker:0",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0074",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#iv-of-the-first-readers",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3513",
+   "title": "The five lighthouses given Dia-thìreach keepers",
+   "body": "By royal warrant the five lighthouses built under the humans are given keepers of the kingdom's own naming. Ailean Leabhar drafts all five, the four southern warrants alike and the fifth, for Baile chrom on the Tuathaich coast, bidding its keeper report what he sees by land as well as by sea.",
+   "kind": "law",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0075",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#v-of-the-five-lights",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3514",
+   "title": "The keeper's light lit at Baile chrom",
+   "body": "A Dia-thìreach keeper who asked for the northern posting himself takes up the light at Baile chrom, among a Tuathaich town that has never before had a Dia-thìreach man set to live and watch among it. The southern four lights draw no comment; the fifth draws only silence that first season.",
+   "kind": "settlement",
+   "place": "marker:12",
+   "category": "humans",
+   "links": [
+    {
+     "to": "V-0075",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/16_of_the_cellar_at_muileann_chaol.md#v-of-the-five-lights",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3515",
+   "title": "Gormshuil nic Dhùghaill sent to inspect the Library at Muileann chaol",
+   "body": "The council sends its under-clerk Gormshuil nic Dhùghaill, four-and-forty, to see and report on the record Ailean Leabhar has kept these four years at Muileann chaol, the errand falling to her only for want of causes on her own desk that month.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#i-of-the-errand-to-muileann-chaol",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3516",
+   "title": "Muileann chaol granted a market charter",
+   "body": "The district's maor writes up, at the keeper's own asking, that a town which has drawn copyists, binders and paper-makers to it in four years without leave might as well be given a charter before its own trade sets its rules instead. The council grants it in the usual form, a fee for every stall and a court to hear the fair's disputes.",
+   "kind": "trade",
+   "place": "burg:246",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0076",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#ii-of-the-report-nobody-above-her-would-read",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3517",
+   "title": "The first market day held in the Library's yard",
+   "body": "Thirty stalls of thread, nails, candles and the district's own produce are set up on trestles against the Library's wall, the stall-fee a penny a table paid into a box the keeper's boy carries, and the fair's own court amounting to the boy's mother settling disputes over table-space in a voice heard the length of the yard.",
+   "kind": "trade",
+   "place": "burg:246",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0076",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#ii-of-the-report-nobody-above-her-would-read",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "id": "EVI-3518",
+   "title": "The Tobar dhìreach mill's first delivery reaches the Library",
+   "body": "Forty quires of the new paper-mill's paper are carried up the road on a borrowed cart, better and cheaper, by the copyists' own judgement, than anything the council's stationers at Cathair dhearg have sent north; within the year near enough every sheet the Library uses comes from the one stream.",
+   "kind": "trade",
+   "place": "burg:276",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0077",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#ii-of-the-report-nobody-above-her-would-read",
+   "era_between": [
+    17,
+    17
+   ]
+  },
+  {
+   "after": "V-0079"
+  },
+  {
+   "id": "EVI-3519",
+   "title": "The office of royal chronicler set at Muileann chaol, not the capital",
+   "body": "Sworn into the new office at Cathair dhearg and given no instruction as to its seat, Gormshuil nic Dhùghaill writes back within the week that she means to keep the record at Muileann chaol, beside the Library that already holds the rolls and the copyists the work wants, and that a record kept beside the throne is kept for the throne.",
+   "kind": "law",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0079",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0078",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#iii-of-the-office-made",
+   "era_between": [
+    18,
+    18
+   ]
+  },
+  {
+   "after": "V-0082"
+  },
+  {
+   "id": "EVI-3520",
+   "title": "Tormod mac Sheumais joins the first chronicle circuit",
+   "body": "A council under-clerk's son of three-and-thirty, called already Tormod Pinn for the speed of his hand, asks Gormshuil nic Dhùghaill for a place on the first circuit rather than wait to be sent, and rides the northern half of it.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0080",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#iv-of-the-first-circuit",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3521",
+   "title": "The town arms of five hundred and five burghs copied into one book",
+   "body": "The chronicle circuit's southern chests yield the town arms of every burgh that has ever cut a seal, five hundred and five of them, entered by Coinneach Clàrc in the order the chests happen to arrive rather than by rank, on Gormshuil nic Dhùghaill's own ruling that a tidied record forgets how untidy its own arrival was.",
+   "kind": "law",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0080",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#iv-of-the-first-circuit",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3522",
+   "title": "The chronicle clerks turned away at Doire ghlas",
+   "body": "Tormod mac Sheumais reads the circuit's own warrant twice aloud in the street at the harbour agent's demand before he is let copy a single ledger; eleven of the town's twelve doors stay closed against him, an answer he judges memory rather than unkindness.",
+   "kind": "record",
+   "place": "burg:209",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0080",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#v-of-the-door-at-doire-ghlas",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3523",
+   "title": "The Inis bheag keeper lets his parish book be copied and not carried",
+   "body": "The old keeper of the Seann Spioradan house at Inis bheag hears the circuit's warrant once, without asking it twice, and lets his parish roll be copied at his own table under his own eye, but will not let the book itself travel so much as to the harbour, telling the clerk that a book kept that many generations belongs to the house and not to any seal.",
+   "kind": "faith",
+   "place": "burg:62",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0081",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#vi-of-the-chest-from-inis-bheag",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3524",
+   "title": "The northern chest opened: the maor's returns and nothing more",
+   "body": "Gormshuil nic Dhùghaill opens the one chest the northern shires have filled and finds only the maor of Siorrachd Àth àrsaidh's own tallies and licences, not a line in it written by a Tuathaich hand; she enters the fact plainly and adds no further word to it.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0080",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/17_of_the_table_of_the_ages.md#vi-of-the-chest-from-inis-bheag",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3525",
+   "title": "Thomas Coyle drowned off Cuan bheag",
+   "body": "A westerly storm on the second night of an t-Sultain drowns eleven Tuathaich fishermen out of Cuan bheag, Thomas Coyle of Caol mhòr among them, one-and-forty and near twenty years married to Mary Coyle. The sea gives back two broken hulls and a stranger's oar; the town buries what it can within the week.",
+   "kind": "land",
+   "place": "burg:38",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0082",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#i-of-the-boats-lost-off-cuan-bheag",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3526",
+   "title": "Mary Coyle's roll of the eleven dead",
+   "body": "Mary Coyle, newly widowed, writes the eleven drowned men's names out on a single sheet for the mason's stones, setting them in the order the boats went out rather than the order the sea gave the bodies back, holding that order the truer one.",
+   "kind": "land",
+   "place": "burg:38",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0082",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#i-of-the-boats-lost-off-cuan-bheag",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3527",
+   "title": "The Moot opens its lifeboat subscription",
+   "body": "Walter Hale carries the wreck's news to the Moot's own council at Caol mhòr, which votes that same evening to open a subscription for a lifeboat at Cuan bheag; Hale opens the list himself, and it carries near two hundred names by the month's end. The council, asked to bear half the cost, answers four months on that it will bear a third.",
+   "kind": "land",
+   "place": "burg:95",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0082",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#i-of-the-boats-lost-off-cuan-bheag",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3528",
+   "title": "The tale of the Sea-Watcher told to the chronicler",
+   "body": "A fisherman out of Achadh àrsaidh, at the summer bothies below the cold cape, tells the royal chronicler Gormshuil nic Dhùghaill the coast's own tale of a shape seen off the cold cape, seen always at a distance and never named by those who fear it, which she enters in the book that keeps what people said rather than the book that keeps names.",
+   "kind": "faith",
+   "place": "burg:242",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0083",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#ii-of-the-thing-off-the-cape",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3529",
+   "title": "The raiders' anchorage noted at the cold cape",
+   "body": "The same fisherman tells Gormshuil that the flagless ships working those waters know the cold cape's currents better than any stranger crew should, and keep some hidden anchorage among its rocks; she writes it apart from the tale and asks that the council's coastal watch be told of it.",
+   "kind": "war",
+   "place": "marker:21",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0083",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#ii-of-the-thing-off-the-cape",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "id": "EVI-3530",
+   "title": "The flocks of Eilean dhubh counted by their own hands",
+   "body": "A treasury clerk sent to number the flocks of Eilean dhubh for the head-due finds the islanders unwilling to have him count their own pastures, and takes instead their sworn count by tally-stick, on which the island's dues are set that year and every year after.",
+   "kind": "law",
+   "place": "feature:3",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0084",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#iii-of-the-flocks-counted-and-the-two-requests",
+   "era_between": [
+    19,
+    19
+   ]
+  },
+  {
+   "after": "V-0086"
+  },
+  {
+   "id": "EVI-3531",
+   "title": "The Cuan bheag lifeboat launched",
+   "body": "The lifeboat ordered of the Cuan shean yard comes up the coast in an Cèitean and is set afloat off Cuan bheag's jetty by the hands of that autumn's five widows, no priest of either faith having an agreed form to bless a boat neither had built.",
+   "kind": "land",
+   "place": "burg:38",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0082",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#i-of-the-boats-lost-off-cuan-bheag",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVI-3532",
+   "title": "Nell Barrow's first letter for Cathair gheal",
+   "body": "Nell Barrow, a skipper's widow of Cathair gheal who has lost a nephew to the raiders, writes the town's case to the council in am Faoilleach, asking a boat armed at the council's expense or leave to arm the town's own; the maor warns her plain words are as likely filed as answered. No answer comes.",
+   "kind": "war",
+   "place": "burg:476",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#iii-of-the-flocks-counted-and-the-two-requests",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVI-3533",
+   "title": "Nell Barrow's second letter for Cathair gheal",
+   "body": "Two months unanswered, Nell Barrow writes a second letter in am Màrt, shorter and plainer than the first, ending that the town does not think a third asking will find the council less occupied than the first two were. It too goes unanswered.",
+   "kind": "war",
+   "place": "burg:476",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#iii-of-the-flocks-counted-and-the-two-requests",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVI-3534",
+   "title": "The black ship run aground in Cathair gheal's bay",
+   "body": "On the night of 8 an Giblean three flagless hulls stand into Cathair gheal's bay; the largest raider ship runs her keel onto a shifted bar and is boarded and burned by seven town boats before dawn, the two lesser hulls standing off rather than come to her aid.",
+   "kind": "war",
+   "place": "burg:476",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#iv-of-the-bay-cleared",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVI-3535",
+   "title": "Two dead and four hurt in the bay's clearing",
+   "body": "The fight for Cathair gheal's bay costs the town two men dead and four hurt, one of whom keeps no further use of a hand; Nell Barrow herself takes a burn from a fallen lantern that scars her the rest of her life, and by first light tells the town the bay is clear.",
+   "kind": "war",
+   "place": "burg:476",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#iv-of-the-bay-cleared",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVI-3536",
+   "title": "Cathair gheal fined for bearing arms unlicensed",
+   "body": "The council's ruling on the night's fight names no boat sent and no licence granted, only that Cathair gheal bore arms without leave first asked, and fines the town forty pounds in the realm-coin, to be paid at the maor's own office before the year's dues fall due.",
+   "kind": "law",
+   "place": "burg:476",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#v-of-the-fine-paid",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVI-3537",
+   "title": "Walter Hale carries the Moot's purse north to Cathair gheal",
+   "body": "Hearing the town lacks two-thirds of its fine, Walter Hale carries the difference north from the Moot's own purse, the same purse the Cuan bheag lifeboat has already thinned, and reaches Cathair gheal near the end of an t-Iuchar.",
+   "kind": "law",
+   "place": "burg:476",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#v-of-the-fine-paid",
+   "era_between": [
+    20,
+    20
+   ]
+  },
+  {
+   "id": "EVI-3538",
+   "title": "The fine paid at the maor's door",
+   "body": "Nell Barrow's sum and Hale's together clear the fine in full at the maor's own door, counted coin by coin before his clerk, who enters the sum received and asks nothing of the six years, the two letters, or the boat the town was never sent.",
+   "kind": "law",
+   "place": "burg:476",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0085",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/18_of_the_raiders_bay.md#v-of-the-fine-paid",
+   "era_between": [
+    20,
+    20
+   ]
+  }
+ ]
+}

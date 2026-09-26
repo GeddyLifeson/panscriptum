@@ -1,265 +1,265 @@
 [
-    {
-        "title": "The old men disagree at the setting of the stones",
-        "era_year": 107,
-        "summary": "As Dòmhnall Clachach walks the eastern boundary with his stone-setters, the old men of neighbouring households cannot agree, standing on the very ground, where a line has always run, for the becks have shifted and their memories have not moved with them.",
-        "category": "law",
-        "people": [
-            "Dòmhnall Clachach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0085",
-                "type": "sequel"
-            }
-        ]
-    },
-    {
-        "title": "A grazing quarrel judged by the stones",
-        "era_year": 115,
-        "summary": "Two households dispute a marker on the eastern slope, each swearing it stands to the wrong side of the old line. Dòmhnall Clachach settles it from his own memory of the setting, and both sides go home certain, for the first time, that a stone remembers better than a grandfather.",
-        "category": "law",
-        "people": [
-            "Dòmhnall Clachach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0085",
-                "type": "legacy"
-            }
-        ]
-    },
-    {
-        "title": "Dòmhnall doubts his own stones",
-        "era_year": 116,
-        "summary": "Walking home from the judgement at the marker, Dòmhnall Clachach understands that he has settled the quarrel only because his own long memory outlasts any old man's, and that the stones, once he is gone from the hill, will have no one left to ask which story is true.",
-        "category": "law",
-        "people": [
-            "Dòmhnall Clachach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0085",
-                "type": "legacy"
-            }
-        ]
-    },
-    {
-        "title": "Griogar's household turns back the king's riders",
-        "era_year": 142,
-        "summary": "In a valley to the north-west a hard old man called Griogar meets two of the king's riders with spears and no parley, the first household in years to refuse the king's word outright rather than simply keep clear of it.",
-        "category": "war",
-        "people": [
-            "Ailean Mòr"
-        ],
-        "places": [],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": []
-    },
-    {
-        "title": "Storm damage within the bank of Dùn ìseal",
-        "era_year": 147,
-        "summary": "The first named storm strips the thatch from six houses of Dùn ìseal and levels a seventh to its footings. Dòmhnall Clachach spends the night holding roofs down with rope and his own weight, and the hill loses its summer hay and two sheds of the flint-pit, but no one within the bank.",
-        "category": "land",
-        "people": [
-            "Dòmhnall Clachach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [],
-        "master_links": [
-            {
-                "to": "I-0086",
-                "type": "parallel"
-            }
-        ]
-    },
-    {
-        "title": "Word of the broken causeway reaches Dùn ìseal",
-        "era_year": 148,
-        "summary": "Traders driven from their usual road by flooded fords bring Dòmhnall Clachach word that the shell causeway of Seann Warr stands broken in three places, and that the Seann-Dhaoine have watched it stay broken through a winter without coming out to mend it.",
-        "category": "land",
-        "people": [
-            "Dòmhnall Clachach"
-        ],
-        "places": [
-            "burg:64"
-        ],
-        "threads": [
-            "the-old-ones"
-        ],
-        "master_links": [
-            {
-                "to": "I-0087",
-                "type": "sequel"
-            }
-        ]
-    },
-    {
-        "title": "Cailean refuses the boundary of his western fence",
-        "era_year": 160,
-        "summary": "Cailean, elder of an old household on the western slope, refuses the line his own father stood by twelve years before, the first quarrel in Dòmhnall Clachach's time that is fought not over ground but over a settling that no longer needs an old man's word to stand.",
-        "category": "law",
-        "people": [
-            "Dòmhnall Clachach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0085",
-                "type": "legacy"
-            }
-        ]
-    },
-    {
-        "title": "Dòmhnall sits an evening with Cailean",
-        "era_year": 161,
-        "summary": "After judging against him, Dòmhnall Clachach rides out to Cailean's byre and sits a whole evening over the household's own brewing, asking not about the stone but the ground itself, and gives the old man back in listening something the stones had quietly taken from him.",
-        "category": "law",
-        "people": [
-            "Dòmhnall Clachach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [],
-        "master_links": []
-    },
-    {
-        "title": "Fearchar Bacach lamed in Griogar's valley",
-        "era_year": 189,
-        "summary": "Riding with a dozen men against the household that turned back his riders, Ailean Mòr's son Fearchar takes a spear through the thigh that will not heal straight, though the wound should by any ordinary reckoning have killed him.",
-        "category": "war",
-        "people": [
-            "Fearchar Bacach",
-            "Ailean Mòr"
-        ],
-        "places": [],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0088",
-                "type": "cause"
-            }
-        ]
-    },
-    {
-        "title": "Somhairle asks to live among Clann na Ceiste",
-        "era_year": 200,
-        "summary": "Somhairle, a son of Ailean Mòr some hundred and sixty years old and looking fifteen, asks his father for no land and no herds, only leave to live among the households of the high valleys and be counted a single mouth at a single hearth.",
-        "category": "law",
-        "people": [
-            "Somhairle mac Ailein",
-            "Ailean Mòr"
-        ],
-        "places": [],
-        "threads": [],
-        "master_links": []
-    },
-    {
-        "title": "Somhairle tells Dòmhnall why he wants no share",
-        "era_year": 201,
-        "summary": "Visiting his brother in the high valleys, Dòmhnall Clachach is told that Somhairle wants to be believed when he names whose son follows whose, once the kin have grown too many for any one hearth to hold the account, and that a man who holds land judges his own kin differently.",
-        "category": "law",
-        "people": [
-            "Somhairle mac Ailein",
-            "Dòmhnall Clachach"
-        ],
-        "places": [],
-        "threads": [],
-        "master_links": []
-    },
-    {
-        "title": "The chair of woven birch is built for Fearchar",
-        "era_year": 210,
-        "summary": "The household carpenters of Dùn ìseal build Fearchar Bacach a chair of woven birch with long carrying-poles, unasked, so that he need no longer hide the leg that never set straight, and he takes to being carried with something like relief.",
-        "category": "trade",
-        "people": [
-            "Fearchar Bacach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0088",
-                "type": "legacy"
-            }
-        ]
-    },
-    {
-        "title": "Dòmhnall asks his father for the north",
-        "era_year": 227,
-        "summary": "At a gathering below Dùn ìseal, Dòmhnall Clachach asks Ailean Mòr for ground still unsettled rather than the hill he has held a hundred and twenty years. His father grants him the north and no guidance in how to keep it.",
-        "category": "rulers",
-        "people": [
-            "Dòmhnall Clachach",
-            "Ailean Mòr"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0088",
-                "type": "sequel"
-            }
-        ]
-    },
-    {
-        "title": "Fearchar Bacach holds Dùn ìseal as Dòmhnall rides north",
-        "era_year": 227,
-        "summary": "Dòmhnall Clachach leaves Dùn ìseal with a company of twelve, and the hill takes his brother Fearchar, already sitting its judgements from the chair of birch, for its holder without a word of dispute.",
-        "category": "rulers",
-        "people": [
-            "Dòmhnall Clachach",
-            "Fearchar Bacach"
-        ],
-        "places": [
-            "burg:315"
-        ],
-        "threads": [
-            "the-stone-kings"
-        ],
-        "master_links": [
-            {
-                "to": "I-0088",
-                "type": "sequel"
-            }
-        ]
-    }
+ {
+  "title": "The old men disagree at the setting of the stones",
+  "era_year": 107,
+  "summary": "As Dòmhnall Clachach walks the eastern boundary with his stone-setters, the old men of neighbouring households cannot agree, standing on the very ground, where a line has always run, for the becks have shifted and their memories have not moved with them.",
+  "category": "law",
+  "people": [
+   "Dòmhnall Clachach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0085",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A grazing quarrel judged by the stones",
+  "era_year": 115,
+  "summary": "Two households dispute a marker on the eastern slope, each swearing it stands to the wrong side of the old line. Dòmhnall Clachach settles it from his own memory of the setting, and both sides go home certain, for the first time, that a stone remembers better than a grandfather.",
+  "category": "law",
+  "people": [
+   "Dòmhnall Clachach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0085",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Dòmhnall doubts his own stones",
+  "era_year": 116,
+  "summary": "Walking home from the judgement at the marker, Dòmhnall Clachach understands that he has settled the quarrel only because his own long memory outlasts any old man's, and that the stones, once he is gone from the hill, will have no one left to ask which story is true.",
+  "category": "law",
+  "people": [
+   "Dòmhnall Clachach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0085",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Griogar's household turns back the king's riders",
+  "era_year": 142,
+  "summary": "In a valley to the north-west a hard old man called Griogar meets two of the king's riders with spears and no parley, the first household in years to refuse the king's word outright rather than simply keep clear of it.",
+  "category": "war",
+  "people": [
+   "Ailean Mòr"
+  ],
+  "places": [],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Storm damage within the bank of Dùn ìseal",
+  "era_year": 147,
+  "summary": "The first named storm strips the thatch from six houses of Dùn ìseal and levels a seventh to its footings. Dòmhnall Clachach spends the night holding roofs down with rope and his own weight, and the hill loses its summer hay and two sheds of the flint-pit, but no one within the bank.",
+  "category": "land",
+  "people": [
+   "Dòmhnall Clachach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "I-0086",
+    "type": "parallel"
+   }
+  ]
+ },
+ {
+  "title": "Word of the broken causeway reaches Dùn ìseal",
+  "era_year": 148,
+  "summary": "Traders driven from their usual road by flooded fords bring Dòmhnall Clachach word that the shell causeway of Seann Warr stands broken in three places, and that the Seann-Dhaoine have watched it stay broken through a winter without coming out to mend it.",
+  "category": "land",
+  "people": [
+   "Dòmhnall Clachach"
+  ],
+  "places": [
+   "burg:64"
+  ],
+  "threads": [
+   "the-old-ones"
+  ],
+  "master_links": [
+   {
+    "to": "I-0087",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Labhrainn refuses the boundary of his western fence",
+  "era_year": 160,
+  "summary": "Labhrainn, elder of an old household on the western slope, refuses the line his own father stood by at its setting, the first quarrel in Dòmhnall Clachach's time that is fought not over ground but over a settling that no longer needs an old man's word to stand.",
+  "category": "law",
+  "people": [
+   "Dòmhnall Clachach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0085",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Dòmhnall sits an evening with Labhrainn",
+  "era_year": 161,
+  "summary": "After judging against him, Dòmhnall Clachach rides out to Labhrainn's byre and sits a whole evening over the household's own brewing, asking not about the stone but the ground itself, and gives the old man back in listening something the stones had quietly taken from him.",
+  "category": "law",
+  "people": [
+   "Dòmhnall Clachach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Fearchar Bacach lamed in Griogar's valley",
+  "era_year": 189,
+  "summary": "Riding with a dozen men against the household that turned back his riders, Ailean Mòr's son Fearchar takes a spear through the thigh that will not heal straight, though the wound should by any ordinary reckoning have killed him.",
+  "category": "war",
+  "people": [
+   "Fearchar Bacach",
+   "Ailean Mòr"
+  ],
+  "places": [],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0088",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Somhairle asks to live among Clann na Ceiste",
+  "era_year": 200,
+  "summary": "Somhairle, a son of Ailean Mòr some hundred and sixty years old and looking fifteen, asks his father for no land and no herds, only leave to live among the households of the high valleys and be counted a single mouth at a single hearth.",
+  "category": "law",
+  "people": [
+   "Somhairle mac Ailein",
+   "Ailean Mòr"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "Somhairle tells Dòmhnall why he wants no share",
+  "era_year": 201,
+  "summary": "Visiting his brother in the high valleys, Dòmhnall Clachach is told that Somhairle wants to be believed when he names whose son follows whose, once the kin have grown too many for any one hearth to hold the account, and that a man who holds land judges his own kin differently.",
+  "category": "law",
+  "people": [
+   "Somhairle mac Ailein",
+   "Dòmhnall Clachach"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The chair of woven birch is built for Fearchar",
+  "era_year": 210,
+  "summary": "The household carpenters of Dùn ìseal build Fearchar Bacach a chair of woven birch with long carrying-poles, unasked, so that he need no longer hide the leg that never set straight, and he takes to being carried with something like relief.",
+  "category": "trade",
+  "people": [
+   "Fearchar Bacach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0088",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Dòmhnall asks his father for the north",
+  "era_year": 227,
+  "summary": "At a gathering below Dùn ìseal, Dòmhnall Clachach asks Ailean Mòr for ground still unsettled rather than the hill he has held a hundred and fifty years. His father grants him the north and no guidance in how to keep it.",
+  "category": "rulers",
+  "people": [
+   "Dòmhnall Clachach",
+   "Ailean Mòr"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0088",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Fearchar Bacach holds Dùn ìseal as Dòmhnall rides north",
+  "era_year": 227,
+  "summary": "Dòmhnall Clachach leaves Dùn ìseal with a company of twelve, and the hill takes his brother Fearchar, already sitting its judgements from the chair of birch, for its holder without a word of dispute.",
+  "category": "rulers",
+  "people": [
+   "Dòmhnall Clachach",
+   "Fearchar Bacach"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   {
+    "to": "I-0088",
+    "type": "sequel"
+   }
+  ]
+ }
 ]

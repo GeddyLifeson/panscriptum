@@ -24,7 +24,7 @@ She was crowned in the moon of Damhrach, LE 258, fifteen years old, in the same 
 
 She did not weep, and she did not smile. She took the cup, drank from it, and handed it on, and the heads of the seven houses came forward one by one and put their hands between hers and swore to hold the vein and its right as it had always been held. Their faces she watched as they did it, the way she had learned to watch faces in the two years of the regency, and marked which of them meant it and which of them were only saying words that custom required, though she said nothing of what she marked, then or for years after.
 
-That night, alone in the chamber that had been her father's, she found the old market steward's tally of the two baskets, still among his papers where no one had thought to clear it. She kept it. It was a small thing to keep, a scrap that answered nothing by itself, but she was a girl who kept small things until they came useful, and this one came useful sooner than she expected.
+That night, alone in the chamber that had been her father's, she found the old market steward's tally of the two baskets, still among his leaves where no one had thought to clear it. She kept it. It was a small thing to keep, a scrap that answered nothing by itself, but she was a girl who kept small things until they came useful, and this one came useful sooner than she expected.
 
 ## III. Of Am Fuath Mòr and the Hooked Wall
 

@@ -282,23 +282,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "An Eala Dhubh loaded over three days",
-    "era_year": 27,
-    "summary": "The first tank-hull under the charter of export is loaded at Ros dhomhain over three days, a Treasury clerk marking the first barrel and the last and every fifth between.",
-    "category": "trade",
-    "people": [],
-    "places": [
-      "burg:27"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0154b"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "An Eala Dhubh stands out of Ros dhomhain",
     "era_year": 27,
     "summary": "An Eala Dhubh stands out of Ros dhomhain on the morning tide with the Treasury's seal on her hatches, and the harbour's children run the length of the mole beside her.",
@@ -313,6 +296,38 @@
     "master_links": [
       "VI-0154b"
     ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A lamp for the Taigh-seinnse Mòr's gate",
+    "era_year": 27,
+    "summary": "The landlord of An Taigh-seinnse Mòr above Cuan chrom hangs a dubhan lamp over his gate on the old coal road for the lorries that come by night, the last of the great inns but one to do so.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:418"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0025"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The ferry of Àth gharbh fitted with an engine",
+    "era_year": 27,
+    "summary": "The ferry at Àth gharbh is fitted with a dubhan engine and a chain across the ford; the old ferryman keeps his pole in the boat and says he will want it.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:50"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [],
     "chronicle_extra": true
   }
 ]

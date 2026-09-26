@@ -293,64 +293,19 @@
     "chronicle_extra": true
   },
   {
-    "title": "The chair does not vote",
+    "title": "Travellers' talk at An Taigh-seinnse Mòr",
     "era_year": 20,
-    "summary": "Asked on the Moot's stair why she never raised her hand for the nine, Martha Greaves answers that the chair votes only to break a tie; Christina Munro lets it go and says no more of it.",
-    "category": "law",
-    "people": [
-      "Martha Greaves",
-      "Christina Munro"
-    ],
+    "summary": "In the hall of An Taigh-seinnse Mòr above Cuan chrom the carters of the north road talk through the autumn of regiments to be raised; the landlord takes down the notice of the guild meetings and puts up none in its place.",
+    "category": "war",
+    "people": [],
     "places": [
-      "burg:95"
+      "burg:418"
     ],
     "threads": [
-      "the-tuathaich"
+      "the-long-war"
     ],
     "master_links": [
-      "VI-0072"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The granaries fuller than the five years' average",
-    "era_year": 20,
-    "summary": "The Moot's autumn entry records the stores at Caol mhòr and Doire ghlas fuller than the five years' average by half again, and gives no reason.",
-    "category": "trade",
-    "people": [
-      "Martha Greaves",
-      "Thomas Rook",
-      "Peter Hale"
-    ],
-    "places": [
-      "burg:95",
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0073"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Tormod Pinn's inkstand handed on",
-    "era_year": 20,
-    "summary": "At the handing-over of the royal chronicle Beathag nic Fhionnlaigh gives Sìleas nic Rath the inkstand that had been Tormod Pinn's, the day's page left short, and the key of the press where sealed things go.",
-    "category": "law",
-    "people": [
-      "Beathag nic Fhionnlaigh",
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0074"
+      "VI-0075"
     ],
     "chronicle_extra": true
   }

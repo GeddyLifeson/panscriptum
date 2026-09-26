@@ -379,26 +379,6 @@
     "told_in": "book/14_of_the_charter_rule.md#vi-of-the-walk-out"
   },
   {
-    "title": "The Board keeps the Mac Ùisdein tips",
-    "era_year": 13,
-    "summary": "With the house of Mac Ùisdein's last share in the spoil and quarry of the Sloc Mòr sold to it, the Mine Board holds the whole of the great pit in its own hand for the first time.",
-    "category": "coal",
-    "people": [
-      "Coinneach mac Ùisdein"
-    ],
-    "places": [
-      "burg:135",
-      "burg:23"
-    ],
-    "threads": [
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0042"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Bus and tacsaidh at the bridge",
     "era_year": 13,
     "summary": "At the foot of the bridge in Cathair dhearg the dubhan buses load for Inis mhòr and Cathair mhòr and the hired cars wait for fares; the town calls them by the humans' names, bus and tacsaidh, and nobody coins others.",
@@ -414,23 +394,6 @@
     ],
     "master_links": [
       "VI-0041a"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Three Tuathaich raiders sent home",
-    "era_year": 14,
-    "summary": "At the court of the sea at Ros dhomhain three of the eleven raiders taken are Tuathaich, among them a boy of sixteen who weeps through his questioning. The court sends the three north and the Dia-thìrich to the quarries.",
-    "category": "law",
-    "people": [],
-    "places": [
-      "burg:27"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0044"
     ],
     "chronicle_extra": true
   },
@@ -490,6 +453,40 @@
     ],
     "master_links": [
       "VI-0042"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A bus to the springs of Muileann ruadh",
+    "era_year": 13,
+    "summary": "A bus of Cathair dhearg begins to run twice weekly to the hot springs below Muileann ruadh, and the custodians of the bath-house find their benches full of townsfolk who are not sick.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:229"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0041a"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Cnoc bhàn's boats keep the pirate watch",
+    "era_year": 14,
+    "summary": "In the year the raiders are taken off Ros dhomhain, the boats of Cnoc bhàn keep watch in turns on the pirate waters and twice put out to warn the fishing fleet in from the north-east.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:73"
+    ],
+    "threads": [
+      "the-tuathaich"
+    ],
+    "master_links": [
+      "VI-0044"
     ],
     "chronicle_extra": true
   }

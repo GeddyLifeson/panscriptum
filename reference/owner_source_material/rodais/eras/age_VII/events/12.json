@@ -409,25 +409,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "The families of Muileann dhearg winter in the Board's sheds",
-    "era_year": 10,
-    "summary": "The hewers' families walked down to Seann Toll lie the first winter in the Board's sheds by the landing and go into the new row as each house is roofed.",
-    "category": "humans",
-    "people": [
-      "Tormod mac Dhonnchaidh"
-    ],
-    "places": [
-      "burg:313"
-    ],
-    "threads": [
-      "the-seven-coals"
-    ],
-    "master_links": [
-      "VI-0033"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "The Frisealach brothers pass the yard's test",
     "era_year": 11,
     "summary": "The Frisealach brothers, the first coal drivers at Muileann chrom to put their names down for the dubhan engine, take a train to the capital and back under Eachann mac Ruairidh's eye and are passed.",
@@ -443,6 +424,56 @@
     ],
     "master_links": [
       "VI-0030"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Achadh mhòr's harvest carted by lorry",
+    "era_year": 10,
+    "summary": "The first harvest of the great granary fields of Achadh mhòr to go down to the capital's mills without an ox in the traces goes by lorry in eleven days; the old drovers watch it pass from the field-gates.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:395"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0024"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The mill-citadel's wheel kept turning",
+    "era_year": 10,
+    "summary": "At Muileann leathan the Tuathaich keep their mill-citadel's water-wheel turning for the grinding though a dubhan engine is offered them by a factor of the south; the miller says the river asks nothing of the north's fuel and nothing of the south's money.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:234"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-dubhan-trade"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The beacon keeper of Àth dhearg writes for glass",
+    "era_year": 11,
+    "summary": "The keeper of Taigh-solais Àth dhearg writes twice to the Lighthouse Board for spare chimney-glass for the dubhan lamp, the stair too narrow to carry up more than one at a time, and is sent a crate of twelve.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:258"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0017"
     ],
     "chronicle_extra": true
   }

@@ -252,5 +252,48 @@
     "type": "cause"
    }
   ]
+ },
+ {
+  "era_year": 1,
+  "title": "The ninth year of Queen Beathag",
+  "summary": "The red hall's rolls enter the first year of the age as the ninth year of Queen Beathag nic Dhòmhnaill, crowned at fifteen and now three-and-twenty: a good year for barley and a middling one for fish, with no child yet born to her.",
+  "category": "rulers",
+  "people": [
+   "Beathag nic Dhòmhnaill"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0002",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1,
+  "title": "Mòrag nic Dhòmhnaill at nineteen",
+  "summary": "The queen's sister Mòrag nic Dhòmhnaill, nineteen years old and two years married to a man of the western shore she chose herself, comes up to the capital for the winter and sits at the lower board when the crews are heard.",
+  "category": "humans",
+  "people": [
+   "Mòrag nic Dhòmhnaill",
+   "Aonghas mac Fhionnlaigh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-sundering"
+  ],
+  "master_links": [
+   {
+    "to": "III-0002",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
  }
 ]

@@ -214,68 +214,8 @@
     ]
   },
   {
-    "title": "Thread in Daniel Frayne's grave",
-    "era_year": 8,
-    "summary": "At the burial of Daniel Frayne at Muileann leathan each of his eleven binders drops a length of waxed binding-thread into the grave before the earth goes in.",
-    "category": "humans",
-    "people": [
-      "Daniel Frayne"
-    ],
-    "places": [
-      "burg:234"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0020"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The stubs of Walter Hale's harbour ledger",
-    "era_year": 8,
-    "summary": "Taking the first minute-book of Tional nan Tuathach out of its boards, the binders find it was a harbour ledger of the humans' office, its old pages cut out close; Martha Greaves bids them keep the stubs in.",
-    "category": "law",
-    "people": [
-      "Martha Greaves",
-      "Ellen Marsh"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0021"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The key of the Moot's press on the speaker's ring",
-    "era_year": 8,
-    "summary": "Martha Greaves lays the sixty-three rebound minute-books in the press at Caol mhòr herself, locks it, and puts the key on the ring at her belt with the keys of the mills.",
-    "category": "law",
-    "people": [
-      "Martha Greaves",
-      "Peter Hale",
-      "Thomas Rook"
-    ],
-    "places": [
-      "burg:95"
-    ],
-    "threads": [
-      "the-tuathaich"
-    ],
-    "master_links": [
-      "VI-0021"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Lamp-glass dearer at Cathair dhearg",
-    "era_year": 7,
+    "era_year": 8,
     "summary": "The glass-houses of Cathair dhearg raise the price of a chimney-glass by a third in the year the dubhan lamps come into the lanes, and cannot blow them fast enough.",
     "category": "trade",
     "people": [],
@@ -286,6 +226,23 @@
       "the-dubhan-trade"
     ],
     "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "A lorry reaches the harbour at Doire shean",
+    "era_year": 9,
+    "summary": "The first dubhan lorry to come down to the harbour at Doire shean is met by half the town; its driver sells rides round the market square for a copper each until the maor tells him the square is not a fair.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:324"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0026a"
+    ],
     "chronicle_extra": true
   }
 ]

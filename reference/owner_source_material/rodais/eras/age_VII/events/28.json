@@ -256,28 +256,6 @@
     ]
   },
   {
-    "title": "Three hundred and forty on the Moot's register",
-    "era_year": 21,
-    "summary": "By the end of an Cèitean Thomas Rook's register of families taken in at Caol mhòr and Doire ghlas runs to some three hundred and forty names.",
-    "category": "humans",
-    "people": [
-      "Thomas Rook",
-      "Martha Greaves"
-    ],
-    "places": [
-      "burg:95",
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0095"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Nell Forbes's dresser",
     "era_year": 21,
     "summary": "A woman of Àth leathan sheltering at Doire ghlas tells Ellen Marsh that she thinks more often of the kitchen dresser she left with the plates on it than of the house itself.",
@@ -318,27 +296,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "Sixty souls in Agnes Pike's school",
-    "era_year": 21,
-    "summary": "By the harvest near sixty of the western families sleep in the four rooms and long hall of Agnes Pike's school at Doire ghlas, its benches pushed together for beds.",
-    "category": "humans",
-    "people": [
-      "Ellen Marsh",
-      "Thomas Rook"
-    ],
-    "places": [
-      "burg:209"
-    ],
-    "threads": [
-      "the-tuathaich",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0097"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Seed-corn sent west from Caol mhòr",
     "era_year": 21,
     "summary": "The Moot sends seed-corn from the stores at Caol mhòr to the farms of the western hills that fed the column's families, entered in the roll as a loan with no term.",
@@ -355,6 +312,43 @@
     ],
     "master_links": [
       "VI-0095"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Meal from Cnoc ghorm for Doire ghlas",
+    "era_year": 21,
+    "summary": "The Tuathaich of Cnoc ghorm send three carts of meal down to Doire ghlas for the western families in Agnes Pike's school, the carters asking no receipt.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:142",
+      "burg:209"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0097"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Doire shean's market-clerk counts the tithe",
+    "era_year": 21,
+    "summary": "At Doire shean the market-clerk, who keeps the new count and the old side by side, keeps a third column now for the tithe paid at the harbour pump.",
+    "category": "law",
+    "people": [],
+    "places": [
+      "burg:324"
+    ],
+    "threads": [
+      "the-dubhan-trade",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0086"
     ],
     "chronicle_extra": true
   }

@@ -1,0 +1,1144 @@
+{
+ "writer": 4,
+ "span": [
+  "III-0090",
+  "III-0108"
+ ],
+ "events": [
+  {
+   "id": "EIV-4001",
+   "title": "Death of King Aonghas mac Uisdein",
+   "body": "King Aonghas mac Uisdein dies at Cathair dhearg in his seventy-eighth year, after six-and-fifty years crowned, having set the wood-watchers' rite of Macha as the crown's own custom. The custody-book gives him one line: the name, the year, and no more.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0089",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#vi-of-three-kings-in-a-single-generation",
+   "era_between": [
+    450,
+    450
+   ]
+  },
+  {
+   "id": "EIV-4002",
+   "title": "Aonghas Òg crowned at fifty",
+   "body": "Aonghas Òg mac Aonghais is crowned at Cathair dhearg the same season his father dies, fifty years old and no young man, for all his name.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0089",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-og-mac-aonghais"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#vi-of-three-kings-in-a-single-generation",
+   "era_between": [
+    450,
+    450
+   ]
+  },
+  {
+   "id": "EIV-4003",
+   "title": "Eilidh Dhubh begins to teach at Doire chiar",
+   "body": "Eilidh nic Iain, taught in secret by her grandmother, begins to say aloud at Doire chiar the old teaching that the vein answers labour and not birth. She sets it down in a hand her mother taught her, and pupils begin to copy it for households too far off to hear her speak.",
+   "place": "burg:333",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0094",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eilidh-nic-iain"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#i-of-the-woman-who-taught-at-doire-chiar",
+   "era_between": [
+    460,
+    460
+   ]
+  },
+  {
+   "id": "EIV-4004",
+   "title": "Birth of Tormod Bàn",
+   "body": "A son, Tormod, fair-haired from the cradle and so called Tormod Bàn, is born at Cathair dhearg to Iain mac Aonghais, five-and-twenty years old, in the tenth year of his grandfather Aonghas Òg's reign.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0097",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-iain",
+    "iain-mac-aonghais"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#vii-of-the-second-son",
+   "era_between": [
+    460,
+    460
+   ]
+  },
+  {
+   "after": "III-0091"
+  },
+  {
+   "id": "EIV-4005",
+   "title": "Macha's priests granted the sacred forest at Cnoc bheag",
+   "body": "The custody of the sacred forest at Cnoc bheag, held in common since the Holy Age, passes by royal grant to the priests of Macha alone. The other claimants withdraw from the wood the same season without contest; why they go so quietly is not told.",
+   "place": "burg:20",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0091",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_burned_tracts.md#iv-of-the-wood-and-the-road",
+   "era_between": [
+    471,
+    471
+   ]
+  },
+  {
+   "id": "EIV-4006",
+   "title": "The vein-house orders every copy of the tracts given up",
+   "body": "Word of Eilidh Dhubh's tracts reaches the custodians' galleries at Muileann dhearg, and the vein-house orders every copy brought in and given up, promising no penalty to any household that surrenders one freely before the season's end.",
+   "place": "burg:491",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0095",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_burned_tracts.md#iii-of-the-order-from-muileann-dhearg",
+   "era_between": [
+    471,
+    471
+   ]
+  },
+  {
+   "id": "EIV-4007",
+   "title": "Some hundred tracts burned in the vein-house yard",
+   "body": "Carriers gather some hundred hides and boards of Eilidh Dhubh's tracts from households across the north-east and burn them in the vein-house yard at Muileann dhearg before the gathered custodians. Eilidh walks from Doire chiar to see it done, and says nothing.",
+   "place": "burg:491",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0095",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eilidh-nic-iain"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#iii-of-the-order-from-muileann-dhearg",
+   "era_between": [
+    471,
+    471
+   ]
+  },
+  {
+   "id": "EIV-4008",
+   "title": "A harvest gathering at Muileann chiar hears the tracts read",
+   "body": "Coinneach Odhar, taught his letters by Eilidh Dhubh to carry her teaching where she will not travel, reads the tracts aloud for the first time at a harvest gathering near Muileann chiar. Not every household takes to it easily, and a farmer's wife elsewhere warns that the teaching could get colliers killed.",
+   "place": "burg:355",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0094",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eilidh-nic-iain",
+    "coinneach-odhar"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#ii-of-the-reading-at-harvest",
+   "era_between": [
+    475,
+    475
+   ]
+  },
+  {
+   "after": "III-0092"
+  },
+  {
+   "id": "EIV-4009",
+   "title": "The druid schools take up the walk of Flidais's wood",
+   "body": "The druid schools, holding no ground of their own since the Holy Age, take up the yearly keeping of the holy wood at Muileann chiar, walking its bounds in a procession that grows within a decade into the one rite the schools still keep open to any who will walk with them.",
+   "place": "burg:355",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0092",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_burned_tracts.md#iv-of-the-wood-and-the-road",
+   "era_between": [
+    479,
+    479
+   ]
+  },
+  {
+   "after": "III-0096"
+  },
+  {
+   "id": "EIV-4010",
+   "title": "King Aonghas Òg buried by the rite of Macha",
+   "body": "King Aonghas Òg dies in the winter of his eighty-fourth year and is carried to his grave at Cathair dhearg by the wood-watchers' rite of Macha, the first king of the line so buried. His household stands at the yoke-poles of the two horses he rode out to see brought up together every spring of his reign.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0096",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-og-mac-aonghais"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#vi-of-three-kings-in-a-single-generation",
+   "era_between": [
+    484,
+    484
+   ]
+  },
+  {
+   "id": "EIV-4011",
+   "title": "The drovers of Àth chiar raise the first cairns",
+   "body": "The drovers who drive cattle each year from Àth chiar over the eastern hills to the mining towns begin marking their road with a cairn at every day's stage, the first roads on the island so marked, so that a beast lost in mist or a driver new to the trade may find the way again unasked.",
+   "place": "burg:256",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0093",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_burned_tracts.md#iv-of-the-wood-and-the-road",
+   "era_between": [
+    484,
+    484
+   ]
+  },
+  {
+   "id": "EIV-4012",
+   "title": "Iain mac Aonghais crowned at nine-and-forty",
+   "body": "Iain mac Aonghais is crowned at Cathair dhearg after his father Aonghas Òg is carried to his grave by Macha's rite, nine-and-forty years old, with three sons living.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0096",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-aonghais"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#vi-of-three-kings-in-a-single-generation",
+   "era_between": [
+    484,
+    484
+   ]
+  },
+  {
+   "id": "EIV-4013",
+   "title": "A hidden copy of the tracts kept at Doire chiar",
+   "body": "A single hide of the tracts, in Eilidh Dhubh's mother's own hand, is kept whole in a hollow beam of Eilidh's house, given to no household but her own kin's. Eilidh shows it to no one outside her family, judging it kept for her mother's sake more than the country's.",
+   "place": "burg:333",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0095",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eilidh-nic-iain"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#v-of-the-copy-kept-at-doire-chiar",
+   "era_between": [
+    485,
+    485
+   ]
+  },
+  {
+   "id": "EIV-4014",
+   "title": "Birth of Dùghall, Iain mac Aonghais's son by his second wife",
+   "body": "King Iain mac Aonghais, his first wife some years dead, takes a second wife who bears him a third son, Dùghall, the first of his three sons born at the red hall itself under a crown his father already wears.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0097",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-aonghais",
+    "dughall-garbh"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#vii-of-the-second-son",
+   "era_between": [
+    490,
+    490
+   ]
+  },
+  {
+   "after": "III-0097"
+  },
+  {
+   "id": "EIV-4015",
+   "title": "Death of King Iain mac Aonghais",
+   "body": "King Iain mac Aonghais dies at Cathair dhearg at one-and-sixty, twelve years crowned, the third king the red hall has buried in a single generation. His second son Aonghas, nineteen, stands a pace back from the hall's centre at his brother Tormod's crowning.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0097",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-aonghais",
+    "aonghas-mac-iain",
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#vii-of-the-second-son",
+   "era_between": [
+    496,
+    496
+   ]
+  },
+  {
+   "id": "EIV-4016",
+   "title": "Death of Eilidh Dhubh",
+   "body": "Eilidh nic Iain, Eilidh Dhubh, dies at Doire chiar in her seventy-fifth year, still teaching within the hour of her death. Her pupils raise no stone over her, and Coinneach Odhar reads the tracts aloud at her graveside from the copy he has carried thirty years.",
+   "place": "burg:333",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0095",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "eilidh-nic-iain",
+    "coinneach-odhar"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#v-of-the-copy-kept-at-doire-chiar",
+   "era_between": [
+    505,
+    505
+   ]
+  },
+  {
+   "after": "III-0098"
+  },
+  {
+   "id": "EIV-4017",
+   "title": "Iain mac Mhurchaidh raises a second byre at An Taigh-seinnse Mòr",
+   "body": "Iain mac Mhurchaidh, keeper of the road-house at the halfway stage of the central mining road, raises a second byre against the growing traffic of the ox-teams and begins a careful book of every team that lodges there through the mountain snows.",
+   "place": "marker:10",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0098",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-mhurchaidh"
+   ],
+   "told_in": "book/20_of_the_burned_tracts.md#viii-of-the-byre-at-the-halfway-stage",
+   "era_between": [
+    509,
+    509
+   ]
+  },
+  {
+   "after": "III-0099"
+  },
+  {
+   "id": "EIV-4018",
+   "title": "The second bell of Muileann naomh holds",
+   "body": "After the first bell cast for the hawk-house at Muileann naomh cracks in its first frost, the founders cast a second, thicker at the waist, and it holds, ringing thereafter at every measured burning kept at the house and at every turn of the coast's own reckoning of the year besides.",
+   "place": "burg:326",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0099",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#i-of-the-bell-at-muileann-naomh",
+   "era_between": [
+    515,
+    515
+   ]
+  },
+  {
+   "after": "III-0100"
+  },
+  {
+   "id": "EIV-4019",
+   "title": "Tormod Bàn hears the tidings of An Gàire Dubh standing",
+   "body": "Word of the sea driven over the waterfront of Cuan dhearg reaches the red hall nine days late by a rider who has ridden two horses to death. King Tormod Bàn, nine-and-fifty, hears it standing, as his scribes note he does only when a report troubles him past sitting.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0100",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#ii-of-an-gaire-dubh",
+   "era_between": [
+    519,
+    519
+   ]
+  },
+  {
+   "id": "EIV-4020",
+   "title": "The king sends grain south unasked",
+   "body": "Before the roads close for the winter King Tormod Bàn sends grain south to Cuan dhearg, though its reeve has sent no asking, only the bare report of the water; the season's salt fish had spoiled on the racks below the town.",
+   "place": "burg:190",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0100",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#ii-of-an-gaire-dubh",
+   "era_between": [
+    519,
+    519
+   ]
+  },
+  {
+   "id": "EIV-4021",
+   "title": "Cuan dhearg rebuilds a street back from the shore",
+   "body": "After An Gàire Dubh drowns its waterfront, Cuan dhearg of the red cliffs rebuilds a full street back from the old shoreline, on ground no telling the town keeps says the sea has ever reached, and the new street holds.",
+   "place": "burg:190",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0100",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#ii-of-an-gaire-dubh",
+   "era_between": [
+    520,
+    520
+   ]
+  },
+  {
+   "id": "EIV-4022",
+   "title": "King Tormod visits Cuan dhearg's new street",
+   "body": "King Tormod Bàn rides to Cuan dhearg to see its rebuilt street, the one journey of his reign made, his own scribes note, for a storm's sake alone rather than for a war, a crowning or a rite the crown was bound to keep.",
+   "place": "burg:190",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0100",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#ii-of-an-gaire-dubh",
+   "era_between": [
+    521,
+    521
+   ]
+  },
+  {
+   "id": "EIV-4023",
+   "title": "A reciter of Clann na Ceiste says the Mason's line at a naming",
+   "body": "At a naming among the wells of Tobar dhìreach, for a steward's son of the king's own household, the reciter Muireach mac Ailein says the line of the Mason over the child rather than the long line of Somhairle that royal namings there have called on for generations.",
+   "place": "burg:276",
+   "kind": "rite",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "muireach-mac-ailein"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#iii-of-the-naming-at-tobar-dhireach",
+   "era_between": [
+    525,
+    525
+   ]
+  },
+  {
+   "after": "III-0101"
+  },
+  {
+   "id": "EIV-4024",
+   "title": "Birth of Catrìona nic Aonghais at Inis thais",
+   "body": "A daughter, Catrìona, is born at Inis thais to Aonghas mac Iain, the king's brother, and his wife Mairead nic Ailein, the first child of that marriage to live past her own naming. King Tormod Bàn rides down himself to see her named.",
+   "place": "burg:166",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "catriona-nic-aonghais",
+    "aonghas-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#iv-of-the-child-at-inis-thais",
+   "era_between": [
+    526,
+    526
+   ]
+  },
+  {
+   "id": "EIV-4025",
+   "title": "Muileann naomh draws pilgrims from further south",
+   "body": "Word of the hawk-house at Muileann naomh, where the old teaching is still given whole and unsoftened, carries south along the coast, and pilgrims begin to come to it from towns further south than any hawk-house had drawn from before.",
+   "place": "burg:326",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0101",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#i-of-the-bell-at-muileann-naomh",
+   "era_between": [
+    527,
+    527
+   ]
+  },
+  {
+   "id": "EIV-4026",
+   "title": "Death of Aonghas mac Iain",
+   "body": "Aonghas mac Iain, the king's brother, dies at Inis thais in his fifty-fourth year of a wasting sickness, King Tormod Bàn having ridden down to sit with him three days before the end. He is buried in the ground of that coast, at his own household's asking.",
+   "place": "burg:166",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-mac-iain",
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#v-of-aonghas-mac-iain-s-death",
+   "era_between": [
+    530,
+    530
+   ]
+  },
+  {
+   "id": "EIV-4027",
+   "title": "Mairead nic Ailein keeps her daughter from the red hall",
+   "body": "Offered a place under the king's own roof for her widowed household, Mairead nic Ailein keeps her daughter Catrìona at Inis thais rather than raise her at Cathair dhearg, judging a fatherless girl better raised among neighbours than as a king's ward with an unnamed claim.",
+   "place": "burg:166",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#v-of-aonghas-mac-iain-s-death",
+   "era_between": [
+    531,
+    531
+   ]
+  },
+  {
+   "after": "III-0102"
+  },
+  {
+   "id": "EIV-4028",
+   "title": "Iain Odhar cleared of blame for the ferry",
+   "body": "The ferryman Iain Odhar comes before the king's reeves to answer for the ferry's overturning, and is cleared: he judged the spate as he had judged the river a hundred times before, and no such flood had come down that crossing unwarned in his eleven years on the rope.",
+   "place": "river:28",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0102",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-odhar"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#vi-of-the-ferry-on-the-abhainn-fhionn",
+   "era_between": [
+    534,
+    534
+   ]
+  },
+  {
+   "id": "EIV-4029",
+   "title": "A new ferry ordered a mile upstream",
+   "body": "King Tormod Bàn has the old ferry rope cut and burned and orders a second crossing built a mile upstream, where the ford-keepers judge the river safer in spate, and never crosses the Abhainn fhionn again without a rider sent ahead to test the current.",
+   "place": "river:28",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0102",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#vi-of-the-ferry-on-the-abhainn-fhionn",
+   "era_between": [
+    534,
+    534
+   ]
+  },
+  {
+   "id": "EIV-4030",
+   "title": "Iain Odhar made keeper of the new crossing",
+   "body": "The king grants Iain Odhar a small holding above the new crossing, not as payment for the two lives the old ferry took, but as a keeper's fee, and the ferryman watches the new rope closely for the thirty years he has left to keep it.",
+   "place": "river:28",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0102",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-odhar",
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#vi-of-the-ferry-on-the-abhainn-fhionn",
+   "era_between": [
+    535,
+    535
+   ]
+  },
+  {
+   "id": "EIV-4031",
+   "title": "The three nearest the crown reckoned",
+   "body": "In the fourth year after the ferry, the custodians of the vein-house cease to reckon quietly who stands nearest the crown: Dùghall Garbh the king's half-brother, Catrìona nic Aonghais his niece, and Raghnall Ruadh of Clann Raghnaill.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "dughall-garbh",
+    "catriona-nic-aonghais",
+    "raghnall-ruadh"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#vii-of-the-thirteen-years",
+   "era_between": [
+    538,
+    538
+   ]
+  },
+  {
+   "id": "EIV-4032",
+   "title": "Raghnall Ruadh made master of the vein-house",
+   "body": "The custodians of the vein-house at Muileann dhearg choose Raghnall Ruadh, head of Clann Raghnaill, as master over two men of longer service, judging that a vein-house that may soon answer to no clear crown had better answer to the steadiest hand at hand.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "raghnall-ruadh"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#vii-of-the-thirteen-years",
+   "era_between": [
+    540,
+    540
+   ]
+  },
+  {
+   "id": "EIV-4033",
+   "title": "A councillor asks King Tormod to name an heir",
+   "body": "An old councillor of the red hall asks King Tormod Bàn, seven years after the ferry, whether he means to name one of the three standing nearest the crown before age chooses in his place. The king answers that he will hold the crown himself while breath allows it.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0103",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#vii-of-the-thirteen-years",
+   "era_between": [
+    541,
+    541
+   ]
+  },
+  {
+   "after": "III-0103"
+  },
+  {
+   "id": "EIV-4034",
+   "title": "Tormod Bàn's last order",
+   "body": "Dying at Cathair dhearg at seven-and-eighty, one-and-fifty years crowned, King Tormod Bàn gives his last clear order to the scribe beside him: that the boundary dispute at Àth chiar, unsettled after three seasons, go to the custodians to finish.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0103",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-mac-iain"
+   ],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#viii-of-the-king-s-death-and-the-houses-divided",
+   "era_between": [
+    547,
+    547
+   ]
+  },
+  {
+   "id": "EIV-4035",
+   "title": "The houses hold the hall in common",
+   "body": "Unable to agree on any one of the three claims laid before them, the seven houses hold the red hall in common, a council of custodians sitting in the crown's stead and keeping the kingdom's small business moving while the larger question of the crown stands unanswered.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0103",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0104",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_ferry_on_the_abhainn_fhionn.md#viii-of-the-king-s-death-and-the-houses-divided",
+   "era_between": [
+    548,
+    548
+   ]
+  },
+  {
+   "after": "III-0104"
+  },
+  {
+   "id": "EIV-4036",
+   "title": "Mairead nic Ruairidh bars the gate to all three",
+   "body": "The heralds of Catrìona nic Aonghais, Dùghall Garbh and Raghnall Ruadh come one after another to the western gate of Seann Warr, and its reeve Mairead nic Ruairidh gives each the same answer: the town will open to trade and shut to hosts until the houses agree which claim to answer.",
+   "place": "burg:64",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0105",
+     "type": "cause"
+    },
+    {
+     "to": "III-0104",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "mairead-nic-ruairidh"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#i-of-the-gates-shut-against-all-three",
+   "era_between": [
+    552,
+    552
+   ]
+  },
+  {
+   "after": "III-0105"
+  },
+  {
+   "id": "EIV-4037",
+   "title": "Seann Warr's first siege",
+   "body": "Dùghall Garbh sits before Seann Warr a fortnight, cutting the eastern road, but its salt-pans and brine springs feed the town through the siege. Mairead nic Ruairidh sells his own host bread at the market rate until his carters cost him more than the town is worth, and he withdraws.",
+   "place": "burg:64",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0105",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "mairead-nic-ruairidh",
+    "dughall-garbh"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#ii-of-the-first-siege",
+   "era_between": [
+    553,
+    553
+   ]
+  },
+  {
+   "after": "III-0106"
+  },
+  {
+   "id": "EIV-4038",
+   "title": "Dùghall crosses the shallows by night",
+   "body": "Guided by drovers who have used a hidden ford above Àth shean for forty years to move cattle untolled, Dùghall Garbh crosses his host in the dark and comes down on Raghnall Ruadh's camp from the landward side before dawn.",
+   "place": "burg:32",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0106",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "dughall-garbh"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#iii-of-the-ford-at-ath-shean",
+   "era_between": [
+    554,
+    554
+   ]
+  },
+  {
+   "id": "EIV-4039",
+   "title": "Catrìona's answer to the ford",
+   "body": "Hearing word of Raghnall's breaking at the ford, Catrìona nic Aonghais sends Dùghall Garbh an answer naming no alliance: Cathair dhomhain holds for him, not for her, and she will not thank him for taking it from under her siege lines.",
+   "place": "burg:26",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0106",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0108",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais",
+    "dughall-garbh"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#iii-of-the-ford-at-ath-shean",
+   "era_between": [
+    554,
+    554
+   ]
+  },
+  {
+   "id": "EIV-4040",
+   "title": "Coinneach mac Ailein's household flees Doire mhin",
+   "body": "Woken by fire in the night, Coinneach mac Ailein carries his daughter Seònaid and the year's seed-corn out of the burning village of Doire mhin, while his wife brings the two younger children and the loosed cow finds its own way into the dark.",
+   "place": "burg:316",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0107",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "coinneach-mac-ailein",
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#iv-of-doire-mhin-and-of-the-child-seonaid",
+   "era_between": [
+    554,
+    554
+   ]
+  },
+  {
+   "after": "III-0107"
+  },
+  {
+   "id": "EIV-4041",
+   "title": "The Doire mhin folk at Cathair mhòr",
+   "body": "Forty-one burnt-out households of Doire mhin, walking six days south with what little they carried, are taken in at the temple of Macha in Cathair mhòr and fed through the winter on the temple's grain, without regard to whose claim they had favoured.",
+   "place": "burg:23",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0107",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "coinneach-mac-ailein",
+    "seonaid-nic-coinnich"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#iv-of-doire-mhin-and-of-the-child-seonaid",
+   "era_between": [
+    555,
+    555
+   ]
+  },
+  {
+   "id": "EIV-4042",
+   "title": "Seann Warr's second siege",
+   "body": "Dùghall Garbh, better provisioned than before, sits a full month before Seann Warr. The town holds again, though the winter comes on hard behind the siege, until word reaches Dùghall that Catrìona has closed both gates of Cathair dhomhain, and he marches east.",
+   "place": "burg:64",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0105",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "mairead-nic-ruairidh",
+    "dughall-garbh"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#v-of-the-second-siege",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIV-4043",
+   "title": "The water gate of Cathair dhomhain is closed",
+   "body": "On the counsel of a harbour-master of her following, Catrìona nic Aonghais sends borrowed fishing coasters onto the loch by night to shut Cathair dhomhain's water gate as her lines already hold the land gate, and the siege begins to starve the city in earnest.",
+   "place": "burg:26",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0108",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#vi-of-cathair-dhomhain-and-the-wells",
+   "era_between": [
+    556,
+    556
+   ]
+  },
+  {
+   "id": "EIV-4044",
+   "title": "The wells of Cathair dhomhain foul",
+   "body": "With no ground left beyond the walls to spare for burying, the dead of the siege lines are laid near the well-heads of Cathair dhomhain, and a sickness of the gut runs through the crowded streets and then through the garrison itself.",
+   "place": "burg:26",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0108",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "niall-mor-mac-leoid"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#vi-of-cathair-dhomhain-and-the-wells",
+   "era_between": [
+    557,
+    557
+   ]
+  },
+  {
+   "id": "EIV-4045",
+   "title": "The garrison of Cathair dhomhain freed on oath",
+   "body": "Catrìona nic Aonghais takes the surrender of Niall Mòr mac Leòid on the fortieth day of the siege and lets his garrison march out between her silent lines, wounded and dead named and carried, on his sworn word not to take the field against her again.",
+   "place": "burg:26",
+   "kind": "war",
+   "category": "war",
+   "links": [
+    {
+     "to": "III-0108",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "catriona-nic-aonghais",
+    "niall-mor-mac-leoid"
+   ],
+   "told_in": "book/22_of_the_ford_and_the_fouled_wells.md#vii-of-the-oath-and-the-garrison-walking-out",
+   "era_between": [
+    557,
+    557
+   ]
+  }
+ ]
+}

@@ -1,43 +1,196 @@
 [
-  {"title": "The shore-woman's catch carried in whole", "era_year": 2331,
-   "summary": "A woman of the shore households at Dùn ìseal, whose net takes more mackerel than her family can eat or smoke before it turns, carries three baskets of it to the bank herself rather than let it spoil unshared. Tormod Liath comes down from the hall to help her set them down. After it the sharing before the storms needs no one to ask.",
-   "category": "land", "people": ["Tormod Liath"], "places": ["burg:315"], "threads": ["the-stone-kings"],
-   "master_links": ["I-0147"]},
-  {"title": "A holder shamed into doubling his own surplus", "era_year": 2340,
-   "summary": "A holder of one of the near valleys mocks a household that brings little to the sharing. His neighbours say nothing against him, but the next year he brings in double his own surplus unasked. No reciter keeps his name.",
-   "category": "law", "people": [], "places": ["burg:315"], "threads": [], "master_links": ["I-0146"]},
-  {"title": "Beasag born at Àth shean", "era_year": 2360,
-   "summary": "A daughter is born to a careful household at Àth shean, the ford below Dùn ìseal, some years after her father digs a grain pit under the byre floor against nothing he can name. Her mother dies bearing the last of her brothers three winters before the lean year that will end the household's place at the ford.",
-   "category": "land", "people": ["Beasag"], "places": ["burg:32"], "threads": [], "master_links": []},
-  {"title": "A lean storm season at Dùn ìseal", "era_year": 2377,
-   "summary": "Failed grazing and short-headed barley along the near valleys, with three weeks lost to a wind that will not turn, make the leanest storm season since the sharing began. The division at the bank is thinner than any household remembers, and old people come to be counted though they have nothing to bring.",
-   "category": "land", "people": [], "places": ["burg:315"], "threads": [], "master_links": ["I-0147"]},
-  {"title": "Beasag watches the division made by the count of mouths", "era_year": 2377,
-   "summary": "Beasag, seventeen, is sent to Dùn ìseal with her household's share in the lean year and sees the sharing divided by the count of mouths: a widow with four children carries home more than she brought, and a boy holds his first full sack too long to trust it. She says nothing of her father's pit.",
-   "category": "land", "people": ["Beasag"], "places": ["burg:315"], "threads": [], "master_links": ["I-0147"]},
-  {"title": "Beasag tells of her father's pit at the ford", "era_year": 2378,
-   "summary": "In the first mild days after the storms break, a woman mending net on the bank at Àth shean asks Beasag idly whether her father's byre came through the lean year as thin as the rest. Beasag answers true: there is a pit under the floor, and he never brought it all in.",
-   "category": "law", "people": ["Beasag"], "places": ["burg:32"], "threads": [], "master_links": ["I-0148"]},
-  {"title": "Tormod Liath sends to open the floor at Àth shean", "era_year": 2378,
-   "summary": "Word of the hidden pit reaches Tormod Liath at Dùn ìseal by way of Àth shean's own holder. He asks only whether the girl told it of her own will, unbeaten and unbribed, and on being told she had, sends his men to open the floor.",
-   "category": "law", "people": ["Tormod Liath", "Beasag"], "places": ["burg:315", "burg:32"], "threads": ["the-stone-kings"],
-   "master_links": ["I-0148"]},
-  {"title": "The household of Àth shean put out with what it can carry", "era_year": 2378,
-   "summary": "Grain enough for two households through the lean winter is found beneath the byre floor. Beasag's father is given until dark to take what his household can carry on its backs and to be off the ford's ground by morning: the first punishment under the sharing custom that is remembered.",
-   "category": "law", "people": ["Beasag"], "places": ["burg:32"], "threads": [], "master_links": ["I-0148"]},
-  {"title": "Beasag's household settles east of the vein", "era_year": 2379,
-   "summary": "After eleven days on the road, Beasag's father builds a house on a nameless slope east of the vein, where the king's blood holds no hall and claims no grazing, among households that went out a generation before for their own reasons. He digs no pit under this floor.",
-   "category": "land", "people": ["Beasag"], "places": [], "threads": [], "master_links": ["I-0148"]},
-  {"title": "Tormod Liath dies at Dùn ìseal", "era_year": 2390,
-   "summary": "Tormod Liath dies in his own hall, without wound or fever, in the hundred and ninety-fifth year of his holding, having outlived three heirs of his own body and buried each at the bank he built. Dùn ìseal mourns him the length of a season; scarcely a household on the hill remembers a holder before him.",
-   "category": "rulers", "people": ["Tormod Liath"], "places": ["burg:315"], "threads": ["the-stone-kings"],
-   "master_links": []},
-  {"title": "Eilidh Ghlas takes up the hill", "era_year": 2390,
-   "summary": "The holding of Dùn ìseal passes to Eilidh Ghlas, of the king's own blood, who has lived out those same generations in the valleys under the hill without thought of holding anything but her own hearth. She takes up the sharing custom with the hill itself, and weighs it at the bank herself in her first years.",
-   "category": "rulers", "people": ["Eilidh Ghlas"], "places": ["burg:315"], "threads": ["the-stone-kings"],
-   "master_links": ["I-0149"]},
-  {"title": "Eilidh Ghlas asks after the pit at Àth shean", "era_year": 2390,
-   "summary": "Before the bank is even swept for the season's grain, Eilidh Ghlas sends to Àth shean to ask after the pit still known by the name of the man who dug it. She is told it stands empty, and says only that this is well.",
-   "category": "law", "people": ["Eilidh Ghlas"], "places": ["burg:32"], "threads": ["the-stone-kings"],
-   "master_links": ["I-0148"]}
+ {
+  "title": "The shore-woman's catch carried in whole",
+  "era_year": 2331,
+  "summary": "A woman of the shore households at Dùn ìseal, whose net takes more mackerel than her family can eat or smoke before it turns, carries three baskets of it to the bank herself rather than let it spoil unshared. Tormod Liath comes down from the hall to help her set them down. After it the sharing before the storms needs no one to ask.",
+  "category": "land",
+  "people": [
+   "Tormod Liath"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   "I-0147"
+  ]
+ },
+ {
+  "title": "A holder shamed into doubling his own surplus",
+  "era_year": 2340,
+  "summary": "A holder of one of the near valleys mocks a household that brings little to the sharing. His neighbours say nothing against him, but the next year he brings in double his own surplus unasked. No reciter keeps his name.",
+  "category": "law",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0146"
+  ]
+ },
+ {
+  "title": "Beasag born at Àth shean",
+  "era_year": 2360,
+  "summary": "A daughter is born to a careful household at Àth shean, the ford below Dùn ìseal, some years after her father digs a grain pit under the byre floor against nothing he can name. Her mother dies bearing the last of her brothers three winters before the lean year that will end the household's place at the ford.",
+  "category": "land",
+  "people": [
+   "Beasag"
+  ],
+  "places": [
+   "burg:32"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "A lean storm season at Dùn ìseal",
+  "era_year": 2377,
+  "summary": "Failed grazing and short-headed barley along the near valleys, with three weeks lost to a wind that will not turn, make the leanest storm season since the sharing began. The division at the bank is thinner than any household remembers, and old people come to be counted though they have nothing to bring.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0147"
+  ]
+ },
+ {
+  "title": "Beasag watches the division made by the count of mouths",
+  "era_year": 2377,
+  "summary": "Beasag, seventeen, is sent to Dùn ìseal with her household's share in the lean year and sees the sharing divided by the count of mouths: a widow with four children carries home more than she brought, and a boy holds his first full sack too long to trust it. She says nothing of her father's pit.",
+  "category": "land",
+  "people": [
+   "Beasag"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0147"
+  ]
+ },
+ {
+  "title": "Beasag tells of her father's pit at the ford",
+  "era_year": 2378,
+  "summary": "In the first mild days after the storms break, a woman mending net on the bank at Àth shean asks Beasag idly whether her father's byre came through the lean year as thin as the rest. Beasag answers true: there is a pit under the floor, and he never brought it all in.",
+  "category": "law",
+  "people": [
+   "Beasag"
+  ],
+  "places": [
+   "burg:32"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0148"
+  ]
+ },
+ {
+  "title": "Tormod Liath sends to open the floor at Àth shean",
+  "era_year": 2378,
+  "summary": "Word of the hidden pit reaches Tormod Liath at Dùn ìseal by way of Àth shean's own holder. He asks only whether the girl told it of her own will, unbeaten and unbribed, and on being told she had, sends his men to open the floor.",
+  "category": "law",
+  "people": [
+   "Tormod Liath",
+   "Beasag"
+  ],
+  "places": [
+   "burg:315",
+   "burg:32"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   "I-0148"
+  ]
+ },
+ {
+  "title": "The household of Àth shean put out with what it can carry",
+  "era_year": 2378,
+  "summary": "Grain enough for two households through the lean winter is found beneath the byre floor. Beasag's father is given until dark to take what his household can carry on its backs and to be off the ford's ground by morning: the first punishment under the sharing custom that is remembered.",
+  "category": "law",
+  "people": [
+   "Beasag"
+  ],
+  "places": [
+   "burg:32"
+  ],
+  "threads": [],
+  "master_links": [
+   "I-0148"
+  ]
+ },
+ {
+  "title": "Beasag's household settles east of the vein",
+  "era_year": 2379,
+  "summary": "After eleven days on the road, Beasag's father builds a house on a nameless slope east of the vein, where the king's blood holds no hall and claims no grazing, among households that went out a generation before for their own reasons. He digs no pit under this floor.",
+  "category": "land",
+  "people": [
+   "Beasag"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   "I-0148"
+  ]
+ },
+ {
+  "title": "Tormod Liath dies at Dùn ìseal",
+  "era_year": 2390,
+  "summary": "Tormod Liath dies in his own hall, without wound or fever, in the three hundred and eightieth year of his holding, having outlived three heirs of his own body and buried each at the bank he built. Dùn ìseal mourns him the length of a season; scarcely a household on the hill remembers a holder before him.",
+  "category": "rulers",
+  "people": [
+   "Tormod Liath"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": []
+ },
+ {
+  "title": "Eilidh Ghlas takes up the hill",
+  "era_year": 2390,
+  "summary": "The holding of Dùn ìseal passes to Eilidh Ghlas, of the king's own blood, who has lived out those same generations in the valleys under the hill without thought of holding anything but her own hearth. She takes up the sharing custom with the hill itself, and weighs it at the bank herself in her first years.",
+  "category": "rulers",
+  "people": [
+   "Eilidh Ghlas"
+  ],
+  "places": [
+   "burg:315"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   "I-0149"
+  ]
+ },
+ {
+  "title": "Eilidh Ghlas asks after the pit at Àth shean",
+  "era_year": 2390,
+  "summary": "Before the bank is even swept for the season's grain, Eilidh Ghlas sends to Àth shean to ask after the pit still known by the name of the man who dug it. She is told it stands empty, and says only that this is well.",
+  "category": "law",
+  "people": [
+   "Eilidh Ghlas"
+  ],
+  "places": [
+   "burg:32"
+  ],
+  "threads": [
+   "the-stone-kings"
+  ],
+  "master_links": [
+   "I-0148"
+  ]
+ }
 ]

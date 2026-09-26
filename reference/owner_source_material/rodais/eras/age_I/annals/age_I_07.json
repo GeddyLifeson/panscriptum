@@ -6,6 +6,9 @@
  ],
  "events": [
   {
+   "after": "I-0035"
+  },
+  {
    "id": "EI-4001",
    "title": "The first steps of the platform laid",
    "body": "A household of the eastern hills begins laying flat stone in steps up the slope below the height, bedding each slab before the next is set above it, the first work of the platform that will in time carry the altar block on its topmost step.",
@@ -18,7 +21,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
    "era_between": [
@@ -29,7 +34,7 @@
   {
    "id": "EI-4002",
    "title": "The great stone dragged up on rollers",
-   "body": "The block meant for the platform's top step is hauled up the finished lower steps on rollers of trimmed timber, the same labour that raised the outpost wall and the fortress rings, and set back from the step's outer edge to be dressed flat.",
+   "body": "The block meant for the platform's top step is hauled up the finished lower steps on rollers of trimmed timber, the same labour that raised Làrach an Dùin-fhaire wall and Làrach an Dùin rings, and set back from the step's outer edge to be dressed flat.",
    "place": "marker:33",
    "kind": "faith",
    "category": "faith",
@@ -39,7 +44,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
    "era_between": [
@@ -60,7 +67,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
    "era_between": [
@@ -81,7 +90,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
    "era_between": [
@@ -123,7 +134,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
    "era_between": [
@@ -160,7 +173,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#i-of-the-platform-in-the-eastern-hills",
    "era_between": [
@@ -181,7 +196,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
    "era_between": [
@@ -202,7 +219,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
    "era_between": [
@@ -226,7 +245,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
    "era_between": [
@@ -247,7 +268,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
    "era_between": [
@@ -284,7 +307,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
    "era_between": [
@@ -305,7 +330,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#ii-of-the-shaft-at-the-eastern-toll-dubh",
    "era_between": [
@@ -347,7 +374,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
    "era_between": [
@@ -368,7 +397,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
    "era_between": [
@@ -410,7 +441,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
    "era_between": [
@@ -434,7 +467,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
    "era_between": [
@@ -459,7 +494,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/19_of_the_altar_and_the_shafts.md#iii-of-the-shaft-at-the-western-toll-dubh",
    "era_between": [
@@ -470,7 +507,7 @@
   {
    "id": "EI-4023",
    "title": "Bran born to the north-west shore",
-   "body": "Bran is born to a fishing hearth of the north-west shore, kin who keep the Telling as every hill hearth does but hear its westward part first, the part that names Tìr nan Òg, Magh Meall and Taigh Dhuinn across the open sea.",
+   "body": "Bran is born to a fishing hearth of the north-west shore, kin who keep Aithris a' Chruthachaidh as every hill hearth does but hear its westward part first, the part that names Tìr nan Òg, Magh Meall and Taigh Dhuinn across the open sea.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -616,7 +653,7 @@
   {
    "id": "EI-4029",
    "title": "Bran tells his mother the boat's purpose",
-   "body": "Two winters into the building, Bran tells his mother plainly that he means to sail west and prove the Telling's word of a land beyond the sea's edge true or false. She does not forbid him, though she warns him no telling yet has anyone to bring it home.",
+   "body": "Two winters into the building, Bran tells his mother plainly that he means to sail west and prove Aithris a' Chruthachaidh's word of a land beyond the sea's edge true or false. She does not forbid him, though she warns him no telling yet has anyone to bring it home.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1051,7 +1088,7 @@
   {
    "id": "EI-4046",
    "title": "Brian takes up the grave-digger's work",
-   "body": "Brian, of the Mason's line, becomes known through the high valleys as the one who digs the graves of the dead, a trade his father had kept before him. He is a plain, steady man, slow of speech, and the valley comes to trust his hands with its dead.",
+   "body": "Brian, of Clann a' Chlachair, becomes known through the high valleys as the one who digs the graves of the dead, a trade his father had kept before him. He is a plain, steady man, slow of speech, and the valley comes to trust his hands with its dead.",
    "place": "burg:276",
    "kind": "land",
    "category": "land",
@@ -1225,8 +1262,8 @@
   },
   {
    "id": "EI-4052",
-   "title": "The black coal set in the mason's fire",
-   "body": "Brian carries the warm black coal to the hearth at Tobar dhìreach and sets it among the embers of the fire Clann a' Chlachair holds to have burned unbroken since the night of the lightning. It catches and burns on, and is not seen to go dark again.",
+   "title": "The black coal set in Teine a' Chlachair",
+   "body": "Brian carries the warm black coal to the hearth at Tobar dhìreach and sets it among the embers of the fire Clann a' Chlachair holds to have burned unbroken since Oidhche an Dealanaich. It catches and burns on, and is not seen to go dark again.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -1311,7 +1348,7 @@
   {
    "id": "EI-4055",
    "title": "Sireadh dies",
-   "body": "Sireadh dies an old woman, having lived to see the black coal warm in Brian's hand at the graveside by the slab.",
+   "body": "Sireadh dies an old woman, having lived to see the black coal warm in Brian's hand at the graveside by Leac na Fèithe.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -1361,7 +1398,7 @@
   {
    "id": "EI-4057",
    "title": "Brian dies at three-and-sixty",
-   "body": "Brian, grave-digger of the high valleys and finder of the black coal, dies at three-and-sixty, worn by his years of labour rather than by any illness the valley can name. He is buried beside the slab at Tobar dhìreach, near the ground he first opened for the five coals.",
+   "body": "Brian, grave-digger of the high valleys and finder of the black coal, dies at three-and-sixty, worn by his years of labour rather than by any illness the valley can name. He is buried beside Leac na Fèithe at Tobar dhìreach, near the ground he first opened for the five coals.",
    "place": "burg:276",
    "kind": "land",
    "category": "land",
@@ -1461,6 +1498,27 @@
    "era_between": [
     2930,
     2930
+   ]
+  },
+  {
+   "id": "EI-4061",
+   "title": "The stakes found in the tidal mud",
+   "body": "A boy minding his household's mooring finds a straight row of older stakes further out in the tidal mud below the north-western point, one still hung with a scrap of stitched hide. No household owns to having driven them, and who did, or from where, the mud never says.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0039",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/22_of_the_stakes_in_the_mud_and_the_watcher_in_the_sea.md#i-of-the-stakes-in-the-mud",
+   "era_between": [
+    2937,
+    2937
    ]
   }
  ]

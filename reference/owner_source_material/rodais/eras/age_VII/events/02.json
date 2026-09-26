@@ -290,5 +290,38 @@
       "VI-0003"
     ],
     "chronicle_extra": true
+  },
+  {
+    "title": "The bath-house boilers let go cold",
+    "era_year": 2,
+    "summary": "The Hewers' bath-house at the hot springs below Muileann ruadh lets its coal boilers go cold for the summer; the keeper finds the springs alone warm enough for the sick, and the saving pays for a new roof on the long room.",
+    "category": "coal",
+    "people": [],
+    "places": [
+      "burg:229"
+    ],
+    "threads": [
+      "the-seven-coals"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Black cake by the basket at Cnoc ghorm",
+    "era_year": 2,
+    "summary": "At the market of Cnoc ghorm, the inland seat of the Tuathaich, the black cake of the north is sold by the basket beside the peat, a basket for the price of a hen, and the Dia-thìrich factors who buy wool there take none of it home.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:142"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0001"
+    ],
+    "chronicle_extra": true
   }
 ]

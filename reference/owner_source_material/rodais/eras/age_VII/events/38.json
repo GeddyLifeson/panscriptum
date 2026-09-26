@@ -394,22 +394,51 @@
     "chronicle_extra": true
   },
   {
-    "title": "Six wagons and horses for the last stretch",
+    "title": "The last coal carter of the north road",
     "era_year": 26,
-    "summary": "The last coal carried on the coal line, six wagons of small dusty coal for the lamp-houses' old contract, goes the last stretch from the goods-yard at Cathair dhearg behind carters' horses.",
+    "summary": "The last carter to bring coal down the north road past An Taigh-seinnse Reòta above Muileann fhada carries a load of small coal for the landlord's own kitchen and none for sale.",
     "category": "coal",
-    "people": [
-      "Eachann mac Ruairidh"
-    ],
+    "people": [],
     "places": [
-      "burg:19"
+      "burg:74"
     ],
     "threads": [
-      "the-seven-coals",
-      "the-company"
+      "the-seven-coals"
     ],
     "master_links": [
-      "VI-0148"
+      "VI-0144"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Achadh mhòr's harvest in the present",
+    "era_year": 26,
+    "summary": "The harvest of Achadh mhòr goes down to the capital in the Board's lorries and the growers' own; the factors reckon it the heaviest in a generation and the dearest to carry.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:395"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The eighth regiment at Inis uaine keeps a school",
+    "era_year": 26,
+    "summary": "The eighth regiment at Inis uaine keeps a school in its barracks for the soldiers' children and the town's, taught by a corporal who had been a copyist.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:103"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0141"
     ],
     "chronicle_extra": true
   }

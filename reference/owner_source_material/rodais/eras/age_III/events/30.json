@@ -19,7 +19,7 @@
    "body": "Sent to measure a gallery cut and abandoned in Fionnlagh Dall's time, two young cutters lose a full day in the dark and come out half starved, saying only that they heard something moving beyond their lamp's reach.",
    "category": "coal", "kind": "loss", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": []},
 
-  {"title": "The clerk Mór nic Aonghais cuts the reckoning",
+  {"title": "The clerk Mòr nic Aonghais cuts the reckoning",
    "after": "II-0120",
    "body": "A clerk of the Hall who learned her letters from a wanderer of the stag's school sets the sum of the cords into a slab of grey stone, reckoning the mountain's coal against the grains in the granaries of Dùn dhearg, the largest measure a household could hold in its own hand and believe.",
    "category": "coal", "kind": "craft", "places": ["burg:315"], "threads": ["the-seven-coals"], "people": [], "master_links": ["II-0120", "II-0121"]},

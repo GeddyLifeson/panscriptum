@@ -1,0 +1,986 @@
+{
+ "writer": 5,
+ "span": [
+  "I-0208a",
+  "I-0219"
+ ],
+ "events": [
+  {
+   "id": "EII-5500",
+   "title": "The three grounds of the ford run together",
+   "body": "More households come in than the ford's three grounds, downstream, upstream and the rise beyond the river, were ever laid out to hold, until by the second morning no one can any longer say which bank belongs to whom, and a child sent for water is an hour finding her way back.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#i-of-the-road-down",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5501",
+   "title": "Amber, pots and flint change hands at the ford",
+   "body": "Potters of the north-west, a stranger from the far west with strings of drilled amber, and carriers of eastern flint trade the first day of the great gathering through, while households from opposite ends of the crowd sit down together to weigh what a marriage between their children might be worth.",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#i-of-the-road-down",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5502",
+   "title": "The reciters mark the three thousandth year since the grove",
+   "body": "An old reciter of the hill tells those at his fire that the year is the three thousandth since the grove was lit, and that word of the count has been carried out along every road that summer, drawing to the ford households who had never before troubled to send anyone to an ordinary gathering.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#i-of-the-road-down",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5503",
+   "title": "The crowd opens for the king unbidden",
+   "body": "On the second morning the king comes down the hill road dressed as any herdsman, and the whole crowd between the road and the river opens a way for him without a word called, old people stepping back from the path with their eyes down as from nothing else at the gathering.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#i-of-the-road-down",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5504",
+   "title": "The Red Hill's new holder is still called by his father's name",
+   "body": "Among the five who wade out to put their hands between the king's, the Red Hill's own holder is so newly come to his hall that half the crowd on the bank still names him for his father before catching themselves.",
+   "place": "burg:19",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#iii-of-the-hands-between-his-hands",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5505",
+   "title": "Somhairle stands nearest the king in the rings",
+   "body": "Somhairle takes his place at the king's left hand in the river as the rings of the king's blood go in, two thousand nine hundred and sixty-two years old that summer and looking, those at the ford say afterward, every year of it.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#iv-of-the-rings-in-the-river",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5506",
+   "title": "Murchadh is pointed out among the king's blood",
+   "body": "Murchadh, who holds the northern plain for his father and has by then eleven sons of his own scattered among the rings, is pointed out by name on the bank, a head taller than most beside him and looking, past his twelve hundredth year, no older than a young man.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#iv-of-the-rings-in-the-river",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5507",
+   "title": "Eithne stands young-faced in the outer ring",
+   "body": "Eithne, not yet three hundred years old and looking a girl of twenty, stands laughing among the outer rings of the king's blood, named to the girl of the Red Hill by a woman of the ford who knows the lines by heart.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "eithne-nic-ailein"
+   ],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#iv-of-the-rings-in-the-river",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5508",
+   "title": "The reciters reckon four hundred of the king's blood",
+   "body": "The naming of the king's children and their children runs from midday to sundown and is not finished when the light fails; word passes along the bank that the reciters have counted some four hundred of his blood standing in the river that day, more than at any gathering before it.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#iv-of-the-rings-in-the-river",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5509",
+   "title": "A boy of the west asks whether it is one family",
+   "body": "A boy of a western household, standing beside the Red Hill girl at the bank while the naming goes on, asks her whether all of that in the water is truly one family, and neither child can find a plainer answer to give the other.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#iv-of-the-rings-in-the-river",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5510",
+   "title": "The east's absence is remarked and let go",
+   "body": "Women of the Red Hill note at the fire that no household from east of the vein has come to the gathering a second year running, turn the matter over a little while without an answer, and let it go with the fine weather, unremembered again within the hour.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#v-of-those-who-did-not-come",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5511",
+   "title": "The Red Hill girl trails her hand in the warm ford",
+   "body": "When the gathering has gone back to its fires and the king stands alone a while in the emptied ford at dusk, the Red Hill girl, nearest the water of anyone left on the bank, finds it warm as bath-water round his legs and sees it smoke downstream of him in the last light.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0208a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "ailean-mor"
+   ],
+   "told_in": "book/32_the_great_gathering_at_the_ford.md#vi-of-the-warm-water",
+   "era_between": [
+    3000,
+    3000
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5512",
+   "title": "A basket-weavers' boy tries the slab and turns back to his creels",
+   "body": "A cousin of Diorbhail's goes up to the slab with her twice out of curiosity and finds he can make no sense of the names, choosing to learn the weaving of a creel that holds water instead. Neither thinks less of the other, and it stands as one more fact of the valleys: that the slab takes some and lets others alone.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5058",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "diorbhail-of-tobar-dhireach"
+   ],
+   "told_in": "book/33_somhairles_grave.md#ii-of-the-years-before-the-fire",
+   "era_between": [
+    3004,
+    3004
+   ]
+  },
+  {
+   "id": "EII-5513",
+   "title": "Diorbhail catches a gap between two tellings",
+   "body": "Testing her own memory against a household's telling of itself at the ordinary fires, Diorbhail finds a name kept differently from the way the Line keeps it and brings both versions to Somhairle rather than choose between them, and he settles which telling holds truer and tells her the reason for it.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5512",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "diorbhail-of-tobar-dhireach",
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/33_somhairles_grave.md#ii-of-the-years-before-the-fire",
+   "era_between": [
+    3006,
+    3006
+   ]
+  },
+  {
+   "id": "EII-5514",
+   "title": "Somhairle says at the fire he may not sit many more Samhains",
+   "body": "At a Samhain fire before the whole round of the watch-households, Somhairle says plainly that he does not know how many more such nights he will sit among them, and the gathering falls silent around him, having never before heard him say such a thing of himself.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5513",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/33_somhairles_grave.md#ii-of-the-years-before-the-fire",
+   "era_between": [
+    3008,
+    3008
+   ]
+  },
+  {
+   "id": "EII-5515",
+   "title": "Somhairle gives Diorbhail the Line of the Mason whole",
+   "body": "Over a single night at the watch-fire, with Beathan's son sitting the turn beside them, Somhairle says the whole Line of the Mason through twice without a name out of place, the same way it was given to him and to Beathan before her, and sets her own name at its foot when he is done.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0104a",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "diorbhail-of-tobar-dhireach",
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/33_somhairles_grave.md#iii-of-the-line-given-whole",
+   "era_between": [
+    3010,
+    3010
+   ]
+  },
+  {
+   "id": "EII-5516",
+   "title": "The valleys turn to Diorbhail's fire before Somhairle's",
+   "body": "After the giving, households of Na Glinn Àrda begin bringing their children's names to Diorbhail's fire rather than Somhairle's, the way a valley turns by degrees from an old well to a new one dug beside it, the old well no less good for the turning.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5515",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "diorbhail-of-tobar-dhireach"
+   ],
+   "told_in": "book/33_somhairles_grave.md#iii-of-the-line-given-whole",
+   "era_between": [
+    3011,
+    3011
+   ]
+  },
+  {
+   "id": "EII-5517",
+   "title": "Somhairle's face is likened to a withered apple",
+   "body": "An old woman of the watch-households, seeing Somhairle at a distance one Bealltainn, says he has come to look like a withered apple left too long on the sill. The saying travels the valleys and sticks to him, so that in time the households speak of him by it as easily as by his own name.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5516",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/33_somhairles_grave.md#iv-of-the-withering",
+   "era_between": [
+    3014,
+    3014
+   ]
+  },
+  {
+   "id": "EII-5518",
+   "title": "Somhairle asks Diorbhail what waits for a man with no hall",
+   "body": "At a fire with no one else near enough to hear, Somhairle tells Diorbhail the one thing his own father never told him: that he does not know what waits for one of the grove's blood who took no wife of the king's giving and no share of the kingdom, having no hall to be carried into when his years run out.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5517",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "diorbhail-of-tobar-dhireach",
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/33_somhairles_grave.md#iv-of-the-withering",
+   "era_between": [
+    3018,
+    3018
+   ]
+  },
+  {
+   "id": "EII-5519",
+   "title": "Beathan's son clears the path for Somhairle's stick",
+   "body": "In Somhairle's last seasons, Beathan's son walks up before each Samhain to clear fallen branches from the path so the old man's stick will not catch in the dark, and sits longer at the slab on the nights Somhairle climbs to it, though no household asks this of him.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5518",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_somhairles_grave.md#iv-of-the-withering",
+   "era_between": [
+    3022,
+    3022
+   ]
+  },
+  {
+   "after": "I-0104a"
+  },
+  {
+   "id": "EII-5520",
+   "title": "Beathan's son finds Somhairle dead against the slab",
+   "body": "In the season the valleys keep for turning peat, Beathan's son finds Somhairle sitting against the slab in the grey of a morning, his stick fallen just out of reach, with no mark on him anywhere; word goes down to Dùn ìseal before noon on the fastest pony the round can put under a boy.",
+   "place": "burg:276",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "somhairle-mac-ailein"
+   ],
+   "told_in": "book/33_somhairles_grave.md#v-of-the-grave",
+   "era_between": [
+    3025,
+    3025
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5521",
+   "title": "The king buries Somhairle and keeps a night's vigil",
+   "body": "The king comes up on foot the last two miles, buries his son with his own two hands beside the slab, and sits on the turf afterward with his arms round his knees until an old reciter comes to ask, well after dark, whether he will come in to the fire.",
+   "place": "burg:276",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0104a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "diorbhail-of-tobar-dhireach"
+   ],
+   "told_in": "book/33_somhairles_grave.md#v-of-the-grave",
+   "era_between": [
+    3025,
+    3025
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5522",
+   "title": "Beathan's son takes up the whole watch at the slab",
+   "body": "With no household troubling to make it formal, Beathan's son takes the watch at the slab as his own to keep entire, as his father had kept it before Somhairle first divided the watching from the reciting between two hands.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "EII-5521",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_somhairles_grave.md#vi-of-the-keeping",
+   "era_between": [
+    3026,
+    3026
+   ]
+  },
+  {
+   "after": "I-0209"
+  },
+  {
+   "id": "EII-5523",
+   "title": "Diorbhail keeps the Line by mouth and takes no share for it",
+   "body": "Diorbhail says the whole Line through twice each Samhain to any of the watch-households who will hear it, adding each year's names to its foot and setting none of it down on leaf or hide, and takes no share from any hall for the keeping, as Somhairle held she must.",
+   "place": "burg:276",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0104a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "diorbhail-of-tobar-dhireach"
+   ],
+   "told_in": "book/33_somhairles_grave.md#vi-of-the-keeping",
+   "era_between": [
+    3030,
+    3030
+   ]
+  },
+  {
+   "id": "EII-5524",
+   "title": "Ceann mhin's people will not climb to the ruin",
+   "body": "The households settled in sight of the fortress ruin on the headland build their houses with their doors to the sea and their backs to the broken walls, and will not carry off the good dressed stone lying loose there for the taking, an old woman of that shore saying a wall raised by other hands keeps its own quarrel.",
+   "place": "burg:363",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0209",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3040,
+    3040
+   ]
+  },
+  {
+   "id": "EII-5525",
+   "title": "The smiths of the southern Seann Skell beat out hooks faster than the sea wears them",
+   "body": "Within a few generations of its resettling, the old harbour of the south becomes the busiest quay on that whole coast, boats going out on every tide and coming home heavy, and its smiths kept at the forge from first light beating out fish-hooks the fishing cannot outlast.",
+   "place": "burg:431",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0210",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3055,
+    3055
+   ]
+  },
+  {
+   "id": "EII-5526",
+   "title": "Achadh shean sinks its well before it breaks a furrow",
+   "body": "The households returning to the fields cracked by the long drought sink a new well deep into the rock before they plant a single seed, and tell it after as a lesson to their children: dig first, plant after, a well proved in a dry summer being worth more than an early harvest.",
+   "place": "burg:411",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0211",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3068,
+    3068
+   ]
+  },
+  {
+   "after": "I-0210"
+  },
+  {
+   "id": "EII-5527",
+   "title": "A boy of Inis mhin is lost among the egg-ledges",
+   "body": "A boy climbing after eggs is caught by dusk on a shelf below the cliff's highest nests, unhurt but unable to climb either way, and is brought up by torchlight on a rope woven that same night; afterward no one of that settlement works the cliffs alone, two to a rope by custom rather than any law spoken.",
+   "place": "burg:221",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0212",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3081,
+    3081
+   ]
+  },
+  {
+   "id": "EII-5528",
+   "title": "Raonaid born to the king on the eastern shore",
+   "body": "A daughter is born to the king by a wife of the eastern shore and named Raonaid; quick of eye and slow to anger, she will be the half-sister Ìomhar Dearg loves best of all his father's many children, and the hearth he comes home to.",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0210",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "raonaid-nic-ailein",
+    "ailean-mor"
+   ],
+   "told_in": "book/35_of_the_green_axes_and_the_moor.md#v-of-niall-born-to-raonaid",
+   "era_between": [
+    3100,
+    3100
+   ]
+  },
+  {
+   "id": "EII-5529",
+   "title": "The first cairn rises above the fold at Muileann chaol",
+   "body": "When the head of one of the settling households dies, his kin carry stones up the slope above the cattle-fold and raise the first cairn there, one stone laid at a time by whoever had known him; within a lifetime the slope holds as many small heaps of stone as the fold below holds cattle in a good year.",
+   "place": "burg:246",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0214",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3103,
+    3103
+   ]
+  },
+  {
+   "after": "I-0211"
+  },
+  {
+   "id": "EII-5530",
+   "title": "Fearchar Bacach dies at Dùn ìseal",
+   "body": "Fearchar Bacach, who has held Dùn ìseal for the king since he was lamed in the passes long before, dies quietly in his own bed at three thousand one hundred and thirty years of age; his house keeps the hill after him without any household troubling to remark that it is being kept.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-5529",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "fearchar-bacach"
+   ],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3140,
+    3140
+   ]
+  },
+  {
+   "id": "EII-5531",
+   "title": "Raonaid nic Ailein weds on the eastern shore",
+   "body": "Raonaid nic Ailein, a daughter of the king born to a wife of the eastern shore, marries a herdsman of Fearchar's line from the river-lands below Dùn ìseal, known on that shore better by his flocks than by his name; her house there is afterward the hearth her half-brother Ìomhar Dearg comes back to between his wanderings.",
+   "place": "burg:315",
+   "kind": "family",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-5528",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "raonaid-nic-ailein",
+    "iomhar-dearg"
+   ],
+   "told_in": "book/35_of_the_green_axes_and_the_moor.md#v-of-niall-born-to-raonaid",
+   "era_between": [
+    3140,
+    3140
+   ]
+  },
+  {
+   "id": "EII-5532",
+   "title": "Baile Mòr ruadh settles ground its people call empty",
+   "body": "Households raise a broad red-earthed rise into Baile Mòr ruadh, a morning's walk from the old middens of Seann Dunn, calling the ground around them empty though the middens plainly say otherwise, and dig into nothing of what lies there.",
+   "place": "burg:387",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0215",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3161,
+    3161
+   ]
+  },
+  {
+   "after": "I-0212"
+  },
+  {
+   "id": "EII-5533",
+   "title": "A shepherd's flock will not cross the worn path at the temple ruin",
+   "body": "A shepherd wakes from a sun-warmed sleep to find his whole flock standing stock still along the path worn round the temple ruin, none grazing, none straying past its edge, and drives them home without letting a hoof cross it, telling after that his sheep had more sense of the place than he did.",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0216",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3179,
+    3179
+   ]
+  },
+  {
+   "id": "EII-5534",
+   "title": "Ìomhar is born to the king and called Dearg for his hair",
+   "body": "A son is born to the king in the south and named Ìomhar, called Dearg for hair redder than his father's or his brothers', who grows up about the southern shores and the eastern marches asking, before his first century is out, why a man may not simply be given ground and left to hold it.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-5533",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "iomhar-dearg"
+   ],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3204,
+    3204
+   ]
+  },
+  {
+   "after": "I-0214"
+  },
+  {
+   "id": "EII-5535",
+   "title": "Dòmhnall Clachach dies in the north country",
+   "body": "Dòmhnall Clachach, sent north from Dùn ìseal more than three thousand years before and known there only as the stone-cutter's son, dies among people who never troubled themselves with what he had once been, at three thousand three hundred and eight years of age; word of it reaches the hill a full season after the burying.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-5534",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "domhnall-clachach"
+   ],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#i-of-the-southern-shores",
+   "era_between": [
+    3310,
+    3310
+   ]
+  },
+  {
+   "after": "I-0217"
+  },
+  {
+   "id": "EII-5536",
+   "title": "Alasdair Làidir takes every fall of the contests at three-and-twenty",
+   "body": "At the yearly contests below the wind-stones of Ceann leathan, a young herdsman's son named Alasdair Làidir throws every man who stands against him from first light to last, the youngest ever known to do it, and is given by custom the first try at the lifting-stone that has never once been raised.",
+   "place": "burg:363",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0217",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "alasdair-laidir"
+   ],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#iii-of-the-stone-that-would-not-be-lifted",
+   "era_between": [
+    3403,
+    3403
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5537",
+   "title": "A grey stranger lifts the black boulder at Ceann leathan",
+   "body": "After Alasdair Làidir's strength fails against it, an unknown grey-haired traveller steps from the watching crowd, sets his hands to the lifting-stone and raises it to his knees, then sets it down again gently rather than dropping it, and walks off the headland refusing to give any name the reciters might carry.",
+   "place": "burg:363",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0217",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "alasdair-laidir"
+   ],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#iii-of-the-stone-that-would-not-be-lifted",
+   "era_between": [
+    3403,
+    3403
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-5538",
+   "title": "The tale of the lifted stone wears smooth at other fires",
+   "body": "Carried from hearth to hearth along the southern coast, the tale of the grey stranger gains, within a few winters, a taller stranger, a one-handed lift and, at one fire near the southern Seann Skell, hands said to glow like a smith's iron, an embellishment Alasdair Làidir spends the rest of his life correcting wherever he hears it repeated.",
+   "place": "burg:431",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0217",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "alasdair-laidir"
+   ],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#iv-of-the-years-that-followed",
+   "era_between": [
+    3410,
+    3410
+   ]
+  },
+  {
+   "after": "I-0218"
+  },
+  {
+   "id": "EII-5539",
+   "title": "An old woman at the ford sets a matching tale beside Alasdair's doubted one",
+   "body": "At the crowded ford gathering, an old man past his wrestling years tells, once more, of the stone lifted and gently set down at Ceann leathan; a grey-haired woman at the same fire answers his young doubters not by taking his side but by recalling a near-identical telling she heard thirty years before, from a different mouth entirely, at a fire near the southern Seann Skell.",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0218",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-ford-gathering"
+   ],
+   "people": [
+    "alasdair-laidir"
+   ],
+   "told_in": "book/34_the_stone_at_ceann_leathan.md#v-of-the-ford",
+   "era_between": [
+    3450,
+    3450
+   ],
+   "same_day": true
+  }
+ ]
+}

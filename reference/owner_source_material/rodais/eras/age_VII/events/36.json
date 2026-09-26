@@ -270,65 +270,6 @@
     ]
   },
   {
-    "title": "A door of oak two inches thick",
-    "era_year": 24,
-    "summary": "For the room at the end of the new wing's lower gallery at an Leabharlann a mason fits a door of oak two inches thick and a smith makes a lock to no other key in the kingdom.",
-    "category": "law",
-    "people": [
-      "Raghnall mac Mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0128"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "Sìleas's four boxes",
-    "era_year": 24,
-    "summary": "Sìleas nic Rath carries her full record of the war, four boxes close-written in her own hand, to the door of the sealed room herself and lets no clerk carry them.",
-    "category": "law",
-    "people": [
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0128"
-    ],
-    "chronicle_extra": true
-  },
-  {
-    "title": "The key on a cord under the keeper's shirt",
-    "era_year": 24,
-    "summary": "Raghnall mac Mhuirich wears the key of the sealed room on its own cord round his neck under his shirt.",
-    "category": "law",
-    "people": [
-      "Raghnall mac Mhuirich"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library"
-    ],
-    "master_links": [
-      "VI-0128"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Some forty places on the open list",
     "era_year": 24,
     "summary": "The open list of the war years at an Leabharlann runs to some forty places, each with its regiments and the counts allowed before the sealing, and a blank where the column's dead would stand.",
@@ -349,37 +290,54 @@
     "chronicle_extra": true
   },
   {
-    "title": "A stone a morning on the cairn",
+    "title": "The quays of Baile ghorm lengthened",
     "era_year": 24,
-    "summary": "A woman of Àth leathan who lost a brother on the bank there walks out to the cairn alone in the early mornings and sets one stone on it, never more.",
-    "category": "humans",
+    "summary": "For the third fleet's tank-hulls the quays of Baile ghorm are lengthened by forty paces into the anchorage, the stone carted from the old wolf-posts' quarry.",
+    "category": "war",
     "people": [],
     "places": [
-      "marker:18"
+      "burg:170"
     ],
     "threads": [
       "the-long-war",
-      "the-tuathaich"
+      "the-dubhan-trade"
     ],
     "master_links": [
-      "VI-0130"
+      "VI-0135"
     ],
     "chronicle_extra": true
   },
   {
-    "title": "The forge-mistress of Caol ìseal",
+    "title": "Doire shean pays the market-due",
     "era_year": 24,
-    "summary": "The woman who keeps the forge at Caol ìseal takes on four boys and a girl to answer the Crown's arms contract, and tells the Board's inspector she means to keep them all past the contract's term.",
-    "category": "trade",
+    "summary": "At Doire shean the fixed market-due is taken for the first time; Am Buabhall Fortanach, which sells no goods at market, is found to owe it on its buffalo.",
+    "category": "law",
     "people": [],
     "places": [
-      "burg:86"
+      "burg:324"
+    ],
+    "threads": [
+      "the-dubhan-trade"
+    ],
+    "master_links": [
+      "VI-0131a"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The Còmhrag of Ceann leathan after the war",
+    "era_year": 24,
+    "summary": "At the first Còmhrag at Ceann leathan after the last pits gave up, the fair-wardens count more fighters from the shires of the middle country than in any year before, and none from the western hills.",
+    "category": "humans",
+    "people": [],
+    "places": [
+      "burg:22"
     ],
     "threads": [
       "the-long-war"
     ],
     "master_links": [
-      "VI-0132a"
+      "VI-0117"
     ],
     "chronicle_extra": true
   }

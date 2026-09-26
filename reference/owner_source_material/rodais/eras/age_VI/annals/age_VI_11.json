@@ -1,0 +1,1098 @@
+{
+ "writer": 6,
+ "span": [
+  "V-0172",
+  "V-0198"
+ ],
+ "events": [
+  {
+   "id": "EVI-6000",
+   "title": "Inis chrom's lofts rebuilt on piles",
+   "body": "After the storm tide drowns its net-lofts and rope-walk, Inis chrom does not ask the Crown for its rebuilding. Its own carpenters raise both a second time on driven piles a fathom above the old floor, timber floated down the Abhainn ghorm from the woods above Àth gharbh, the work finished before the autumn herring.",
+   "kind": "building",
+   "place": "burg:92",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0172",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#i-of-the-piles-and-the-six-schools",
+   "era_between": [
+    50,
+    50
+   ]
+  },
+  {
+   "after": "V-0173"
+  },
+  {
+   "id": "EVI-6001",
+   "title": "Cnoc leathan's sixth parish school",
+   "body": "The last and smallest of Cnoc leathan's six new parish schools opens with eleven children on its benches and a teacher hired from Baile chiar. The council's clerk, sent to ask how the shire paid for six schools at once, is shown plain accounts and asks nothing further.",
+   "kind": "culture",
+   "place": "burg:167",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0173",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#i-of-the-piles-and-the-six-schools",
+   "era_between": [
+    50,
+    50
+   ]
+  },
+  {
+   "after": "V-0174"
+  },
+  {
+   "id": "EVI-6002",
+   "title": "Catrìona nic Neacail lent to the search",
+   "body": "The Mine Board names eleven surveyors to Alasdair mac Ùisdein's search for a second vein. Catrìona nic Neacail, thirty-two, a chain-hand risen through the vein-towns, is one of them, and tells a senior surveyor riding out with her that she would rather walk ground and find nothing than be told years on that nobody looked.",
+   "kind": "trade",
+   "place": "burg:23",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0174",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0176",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#ii-of-the-borrowing",
+   "era_between": [
+    50,
+    50
+   ]
+  },
+  {
+   "after": "V-0175"
+  },
+  {
+   "id": "EVI-6003",
+   "title": "Seonaid nic Ghill-Eathain's letter read a second time",
+   "body": "A Board clerk sorting the year's correspondence finds Seonaid nic Ghill-Eathain's letter on the search, filed unread when it was first sent, and carries it to Catrìona nic Neacail along with Mòrag nic Coinnich's. Catrìona keeps a copy of both beside her own last entry, though she judges the school's question and the Board's chain answer to different masters.",
+   "kind": "faith",
+   "place": "burg:23",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0175",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#iv-of-the-same-week",
+   "era_between": [
+    51,
+    51
+   ]
+  },
+  {
+   "after": "V-0176"
+  },
+  {
+   "id": "EVI-6004",
+   "title": "The first shaft above Dùn dhearg",
+   "body": "The search's first shaft goes down above Dùn dhearg in stone that gives every hopeful sign, the diggers wagering small coin among themselves on the day the vein will show. It is judged barren within the fortnight, the first entry in a tally that will run to forty-one.",
+   "kind": "discovery",
+   "place": "burg:422",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0176",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0177",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#iii-of-the-forty-one",
+   "era_between": [
+    51,
+    51
+   ]
+  },
+  {
+   "after": "V-0177"
+  },
+  {
+   "id": "EVI-6005",
+   "title": "The moor's own name, am Fearann Falamh",
+   "body": "An old digger of Dùn dhearg tells Catrìona nic Neacail the moor's shepherds have long called the search's ground am Fearann Falamh, the empty ground, meaning only that no shepherd ever found a spring there worth the digging. The name outlasts the search's own hope of it.",
+   "kind": "culture",
+   "place": "burg:422",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0177",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#iii-of-the-forty-one",
+   "era_between": [
+    51,
+    51
+   ]
+  },
+  {
+   "id": "EVI-6006",
+   "title": "The forty-first shaft struck dry",
+   "body": "The last shaft of the search, sunk on the moor south of Baile ruadh through the hardest weather any of the forty had asked, strikes water at a depth no vein has ever answered. Catrìona nic Neacail writes the word barren in her own field-book a forty-first time and sits a while on the spoil-heap before riding to report it.",
+   "kind": "discovery",
+   "place": "burg:241",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0177",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#iii-of-the-forty-one",
+   "era_between": [
+    51,
+    51
+   ]
+  },
+  {
+   "id": "EVI-6007",
+   "title": "Mòrag nic Coinnich finds the Holy Age roll",
+   "body": "Cataloguing the Library's lower room, Mòrag nic Coinnich finds a Holy Age survey naming the same hills above Dùn dhearg and moors south of Baile ruadh, searched once and found barren ages before, the surveyors' own names worn from the roll. She sends Catrìona nic Neacail word the same week the forty-first shaft is closed.",
+   "kind": "record",
+   "place": "burg:246",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0176",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0177",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#iv-of-the-same-week",
+   "era_between": [
+    51,
+    51
+   ]
+  },
+  {
+   "id": "EVI-6008",
+   "title": "The Library's copy of the old survey promised south",
+   "body": "Catrìona nic Neacail copies Mòrag nic Coinnich's letter into her own field-book beside her last entry and resolves to see the Holy Age roll sent south in copy, so that any surveyor sent to the same ground again will not have to wait on a keeper's own cataloguing to learn what the last search cost.",
+   "kind": "record",
+   "place": "burg:23",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0177",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#iv-of-the-same-week",
+   "era_between": [
+    51,
+    51
+   ]
+  },
+  {
+   "after": "V-0178"
+  },
+  {
+   "id": "EVI-6009",
+   "title": "Dùn dhearg's shepherds testify at the circuit court",
+   "body": "At the circuit court's hearing of Dùn dhearg's claim, two shepherds swear that grazing spoiled by the search's spoil-heaps is lost longer than any digger reckoned, one saying he lost more lambs to the search's own open ground in two years than to wolves in ten. The court finds for the town.",
+   "kind": "law",
+   "place": "burg:422",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0178",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#v-of-the-fence",
+   "era_between": [
+    52,
+    52
+   ]
+  },
+  {
+   "after": "V-0179"
+  },
+  {
+   "id": "EVI-6010",
+   "title": "The Mac Ùisdein stone house let to the Board",
+   "body": "Its coin thinned by the search and Dùn dhearg's damages, the house of Mac Ùisdein lets its stone house at Cathair mhòr, kept in the family since the first holder's day, to the Mine Board, which moves its offices into it the following spring.",
+   "kind": "trade",
+   "place": "burg:23",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0179",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#v-of-the-fence",
+   "era_between": [
+    52,
+    52
+   ]
+  },
+  {
+   "after": "V-0180"
+  },
+  {
+   "id": "EVI-6011",
+   "title": "The child of Baile ruadh lost to an open shaft",
+   "body": "A child of Baile ruadh, out after a stray lamb on ground she has walked without harm a hundred times, falls into one of the search's uncovered shafts and is not found until the day after. The parish's own book holds her name and the day, and nothing more.",
+   "kind": "death",
+   "place": "burg:241",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0180",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#v-of-the-fence",
+   "era_between": [
+    52,
+    52
+   ]
+  },
+  {
+   "id": "EVI-6012",
+   "title": "Baile ruadh votes to fence the forty-one shafts",
+   "body": "The shire of Baile ruadh votes to fence every one of the search's forty-one shafts at its own cost rather than wait on the Crown, and enters a claim against the house of Mac Ùisdein for the fencing's cost that is never paid. The fencing goes up through the summer, post and wire round every covered mouth.",
+   "kind": "law",
+   "place": "burg:241",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0180",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_forty-one_shafts.md#v-of-the-fence",
+   "era_between": [
+    52,
+    52
+   ]
+  },
+  {
+   "after": "V-0181"
+  },
+  {
+   "id": "EVI-6013",
+   "title": "Muileann dhomhain's mills turn to bark",
+   "body": "With the vein-towns' grain orders thinned by scarce coin, the mills of Muileann dhomhain begin grinding bark for the coast's tanners instead of grain. The miller-families keep the mark cut into their stone before any shire held a charter to license it, and change the trade under it without asking the Board's leave.",
+   "kind": "trade",
+   "place": "burg:202",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0181",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-depletion"
+   ],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#i-of-bark-and-rope-and-a-list-alone",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "id": "EVI-6014",
+   "title": "A Muileann dhomhain miller answers a Board clerk",
+   "body": "Asked by a passing clerk whether it troubles her to grind bark at a wheel her family has ground grain at for four generations, the eldest of the Muileann dhomhain millers answers that a wheel does not know what is under it, and the grain will come back once the vein-towns have coin to buy it with again.",
+   "kind": "trade",
+   "place": "burg:202",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0181",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#i-of-bark-and-rope-and-a-list-alone",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "after": "V-0182"
+  },
+  {
+   "id": "EVI-6015",
+   "title": "The rope-makers of Seann Tarr chartered",
+   "body": "The restored custom charters the rope-walks of Seann Tarr as a guild, the last trade the humans never touched to be given a charter of its own. Its hemp is carted down from the fields about Doire uaine and Achadh naomh by roads older than the survey lines that have tried more than once to straighten them.",
+   "kind": "trade",
+   "place": "burg:34",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0182",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#i-of-bark-and-rope-and-a-list-alone",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "after": "V-0183"
+  },
+  {
+   "id": "EVI-6016",
+   "title": "Seann Tarr's chest sends only its list",
+   "body": "Asked to send the new rope-makers' charter south to the Board's own files, the shire keeper of Seann Tarr answers that the charter will stay in the shire's own chest, and sends a rider south with a list of what the chest holds and no more. No second rider is sent to ask again.",
+   "kind": "law",
+   "place": "burg:34",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0183",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#i-of-bark-and-rope-and-a-list-alone",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "after": "V-0184"
+  },
+  {
+   "id": "EVI-6017",
+   "title": "The circus at Inis àrsaidh licensed as 'various'",
+   "body": "An Siorcas Siubhail Do-thuigsinn pitches again on the common near Inis àrsaidh. The magistrate who licenses its acts, unable to put a name to half of what he has watched, enters the whole of it in his book as various and the fee as paid, an entry the Library's copyists find hardest of the year to gloss.",
+   "kind": "culture",
+   "place": "burg:330",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0184",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#i-of-bark-and-rope-and-a-list-alone",
+   "era_between": [
+    53,
+    53
+   ]
+  },
+  {
+   "after": "V-0185"
+  },
+  {
+   "id": "EVI-6018",
+   "title": "Ceann mhin roofs its fish-market",
+   "body": "Ceann mhin opens a covered market over its old strand for fish carried up from Seann Bhral and the eastern grounds, the first roof the port has raised over the trade. The strand's old traders grumble at first, and grumble less once a wet winter lets them keep a fire by the scales.",
+   "kind": "trade",
+   "place": "burg:30",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0185",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#i-of-bark-and-rope-and-a-list-alone"
+  },
+  {
+   "after": "V-0186"
+  },
+  {
+   "id": "EVI-6019",
+   "title": "Edged iron banned from the Còmhrag",
+   "body": "After a fighter is killed at Ceann leathan with a hewer's pick carried in under a borrowed coat, the fair-wardens ban edged iron from the ring. Staves and fists are still allowed, and the dying goes on, slower, which a warden of long standing calls the whole of what the ban was ever meant to promise.",
+   "kind": "law",
+   "place": "burg:22",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0186",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#i-of-bark-and-rope-and-a-list-alone"
+  },
+  {
+   "after": "V-0187"
+  },
+  {
+   "id": "EVI-6020",
+   "title": "Artair mac Mhurchaidh drowns off Taigh-solais Tobar dhearg",
+   "body": "When a Doire shean fishing boat strikes the reef below the light in a hard south-west wind, keeper Artair mac Mhurchaidh, fifty-three, goes out alone with a rope and brings two of the four crew ashore, then goes back for the other two and does not return the third time, after above thirty years keeping that light.",
+   "kind": "death",
+   "place": "burg:398",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0187",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#ii-of-taigh-solais-tobar-dhearg",
+   "era_between": [
+    54,
+    54
+   ]
+  },
+  {
+   "id": "EVI-6021",
+   "title": "Ciorstaidh nic Artair brings in the last of the crew",
+   "body": "Waking to find her father's boat gone, Ciorstaidh nic Artair, three-and-twenty, takes the second boat out along his own rope's line and finds the wreck, her father's rope still fast to it. She rows the last two of the Doire shean crew ashore herself, a boat built for a lighter woman than she then is.",
+   "kind": "war",
+   "place": "burg:398",
+   "category": "war",
+   "links": [
+    {
+     "to": "V-0187",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/33_of_the_reef_bell.md#ii-of-taigh-solais-tobar-dhearg",
+   "era_between": [
+    54,
+    54
+   ]
+  },
+  {
+   "id": "EVI-6022",
+   "title": "Artair mac Mhurchaidh buried above the light",
+   "body": "Artair mac Mhurchaidh's body comes ashore three days after the wreck and is carried back to Tobar dhearg, to the ground above the light where every keeper before him lies. The parish register enters against his name the day, the manner, and the single word every drowning of that water is given: drowned.",
+   "kind": "death",
+   "place": "burg:398",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0187",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/33_of_the_reef_bell.md#ii-of-taigh-solais-tobar-dhearg",
+   "era_between": [
+    54,
+    54
+   ]
+  },
+  {
+   "id": "EVI-6023",
+   "title": "The Board confirms Ciorstaidh nic Artair's warrant",
+   "body": "Asked by the shire's own maor whether the daughter of a keeper who died bringing in four lives with two boats and one rope may keep the light he kept, the Board at Cathair dhearg writes back within the month that she may, and enters the warrant in her name without recorded debate.",
+   "kind": "law",
+   "place": "burg:19",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0187",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/33_of_the_reef_bell.md#ii-of-taigh-solais-tobar-dhearg",
+   "era_between": [
+    54,
+    54
+   ]
+  },
+  {
+   "after": "V-0188"
+  },
+  {
+   "id": "EVI-6024",
+   "title": "The reef post raised by subscription",
+   "body": "Ciorstaidh nic Artair has an iron post sunk into the reef at low water, painted the red of danger marked and known, and hung with a bell cast at Muileann chiar. Half the cost comes from the Board's purse and half from a purse the fishing families of Doire shean and Tobar dhearg make up between them.",
+   "kind": "building",
+   "place": "burg:398",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0188",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/33_of_the_reef_bell.md#iii-of-the-bell-in-fog",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EVI-6025",
+   "title": "The Board's engineer approves the reef bell",
+   "body": "The Board's engineer walks the reef at low water and pronounces the post sound and the casting good. Asked whether she means to add clockwork to strike the hour as well as the danger, Ciorstaidh nic Artair answers that a man wanting the hour has a tide table and two eyes, and needs neither bell nor clockwork for that.",
+   "kind": "craft",
+   "place": "burg:398",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0188",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/33_of_the_reef_bell.md#iii-of-the-bell-in-fog",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "after": "V-0189"
+  },
+  {
+   "id": "EVI-6026",
+   "title": "The reef bell first rings in fog",
+   "body": "In a fog thick enough to hide the light itself, the bell on its post rings of its own weight as the sea moves it, and every boat working that stretch of coast steers home by the sound alone. No boat goes aground on the reef below Taigh-solais Tobar dhearg that year, nor in any year Ciorstaidh nic Artair keeps the light after.",
+   "kind": "land",
+   "place": "burg:398",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0189",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ciorstaidh-nic-artair"
+   ],
+   "told_in": "book/33_of_the_reef_bell.md#iii-of-the-bell-in-fog",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EVI-6027",
+   "title": "Mary Coyle lays down the chair of the Moot",
+   "body": "After two-and-twenty years in the chair, Mary Coyle lays it down at Caol mhòr, speaking of the register of the western pits' dead and maimed her hand began and the coal line her petitions never once moved south of Àth leathan, and names before the Moot rises the man she asks it to choose after her.",
+   "kind": "rulers",
+   "place": "burg:95",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "V-0189",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [],
+   "told_in": "book/33_of_the_reef_bell.md#iv-of-the-chair-laid-down",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "id": "EVI-6028",
+   "title": "Daniel Frayne chosen speaker of the Moot",
+   "body": "Daniel Frayne of Muileann leathan, who bound books for the north's schools when the southern guilds would not take a Tuathaich name, is chosen speaker without a voice raised against him: the first to have been born after the Severance closed, and Mary Coyle's own right hand in the chair for above ten years before it.",
+   "kind": "rulers",
+   "place": "burg:95",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "V-0189",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/33_of_the_reef_bell.md#iv-of-the-chair-laid-down",
+   "era_between": [
+    55,
+    55
+   ]
+  },
+  {
+   "after": "V-0191"
+  },
+  {
+   "id": "EVI-6029",
+   "title": "The Doire ghlas weaver's daughter sews by lantern",
+   "body": "At the fair's close on its first northern day, a Doire ghlas weaver's daughter left minding her mother's stall sews a second white thread into an unsold bolt after the buyers have gone. Asked why she troubles with it unwatched, she says the mark goes in whether anyone buys it or not, since a thread sewn only for show is no mark at all.",
+   "kind": "trade",
+   "place": "burg:150",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0191",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/34_of_the_one_sheet.md#i-of-the-fair-s-northern-day"
+  },
+  {
+   "id": "EVI-6030",
+   "title": "Baile chiar's weavers name their own thread pale",
+   "body": "Rather than claim the white thread already spoken for, the weavers of Baile chiar work a grey scarcely darker than the wool into the selvedge of their own finer bolts. An old weaver tells Daniel Frayne, who asks why the south troubles to copy a northern habit, that she has woven forty years without her name on a bolt and does not mean to die without it.",
+   "kind": "trade",
+   "place": "burg:106",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0191",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-tuathaich"
+   ],
+   "people": [
+    "daniel-frayne"
+   ],
+   "told_in": "book/34_of_the_one_sheet.md#i-of-the-fair-s-northern-day"
+  },
+  {
+   "after": "V-0192"
+  },
+  {
+   "id": "EVI-6031",
+   "title": "Catrìona nic Neacail begins the one sheet",
+   "body": "Catrìona nic Neacail, a Board surveyor sixteen years standing, begins drawing every stretch of the true vein still unopened onto a single leaf, working outward through the Board's own scattered rolls a shire at a time and riding to settle every ground the rolls disagree on.",
+   "kind": "coal",
+   "place": "burg:23",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0192",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#ii-of-the-one-sheet",
+   "era_between": [
+    56,
+    56
+   ]
+  },
+  {
+   "after": "V-0193"
+  },
+  {
+   "id": "EVI-6032",
+   "title": "A concession-holder asks the sheet a plain question",
+   "body": "A concession-holder of four generations' standing stands before the finished sheet the better part of an hour, then asks Catrìona nic Neacail plainly whether the red marked over his own family's ground means ten years or thirty, having daughters to settle and no wish to be told later that the Board had always known and never troubled to colour it in.",
+   "kind": "coal",
+   "place": "burg:23",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0192",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0193",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#ii-of-the-one-sheet",
+   "era_between": [
+    56,
+    56
+   ]
+  },
+  {
+   "id": "EVI-6033",
+   "title": "Catrìona nic Neacail named surveyor-general",
+   "body": "The Board names Catrìona nic Neacail surveyor-general, an office left empty three years for want of anyone troubling to ask what it was for, until her one-sheet map of the vein's last unworked stretches made plain that somebody ought to answer for the whole of what it showed. She is the youngest to hold it in living memory.",
+   "kind": "coal",
+   "place": "burg:23",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0193",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#ii-of-the-one-sheet",
+   "era_between": [
+    56,
+    56
+   ]
+  },
+  {
+   "after": "V-0194"
+  },
+  {
+   "id": "EVI-6034",
+   "title": "Two surveys read side by side",
+   "body": "Catrìona nic Neacail sits late at the Board's own table beneath her own sheet, reading her map and Iain Mapa's thirty-year-old survey side by side by lamplight, the same failing ground marked out in the same terms three decades apart, and cannot say which survey troubles her more, the one that found the truth or the one believed too late to matter.",
+   "kind": "coal",
+   "place": "burg:23",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0194",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#iii-of-the-press-at-cathair-mhor",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "id": "EVI-6035",
+   "title": "Catrìona nic Neacail's visit to Muileann chiar",
+   "body": "Catrìona nic Neacail rides east to Muileann chiar and sits with Iain mac Ruairidh, three-and-sixty and failing, in what proves his last spring. He shows her his own copy of his old survey with the Board's receipt still pinned to it, and asks whether the school at Caol shean still keeps its old question about the vein.",
+   "kind": "coal",
+   "place": "burg:78",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0194",
+     "type": "sequel"
+    },
+    {
+     "to": "V-0195",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#iv-of-muileann-chiar",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "after": "V-0195"
+  },
+  {
+   "id": "EVI-6036",
+   "title": "Iain Mapa buried by the silver guild",
+   "body": "The silver guild of Muileann chiar, which had paid Iain mac Ruairidh's small pension ten years, buries him with an ounce of its own refined silver laid beside him, its master saying over him that he had gone into more of the mountain's dark than any three men living and had never once come up lying about what he found there.",
+   "kind": "death",
+   "place": "burg:78",
+   "category": "land",
+   "links": [
+    {
+     "to": "V-0195",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#v-of-the-bell-at-caol-shean",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "id": "EVI-6037",
+   "title": "Mòr nic Dhòmhnaill sends her husband's papers south",
+   "body": "Going through her husband's papers, Mòr nic Dhòmhnaill finds the folded survey with the Board's old receipt still pinned to it and sends the whole of it to the Library at Muileann chaol, writing only that he had asked more than once it not be lost a second time, and that she knew no safer place to send it.",
+   "kind": "record",
+   "place": "burg:78",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0195",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-library",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#v-of-the-bell-at-caol-shean",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "after": "V-0196"
+  },
+  {
+   "id": "EVI-6038",
+   "title": "Muileann dhearg's maor counts the empty houses",
+   "body": "Muileann dhearg's maor keeps a count of houses left empty as families leave for the ports and the southern yards, a tally kept at first from ordinary habit and then from something nearer alarm, running within three years to above sixty within the shire's own walls.",
+   "kind": "coal",
+   "place": "burg:491",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0196",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#v-of-the-bell-at-caol-shean",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "id": "EVI-6039",
+   "title": "The Fèidh hall's last teacher locks its door",
+   "body": "The last teacher of Muileann dhearg's Fèidh hall, given back to the druid school not ten years before, locks its door herself for want of a congregation left to keep it and carries the key to the maor's own house rather than leave it with no one.",
+   "kind": "faith",
+   "place": "burg:491",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0196",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#v-of-the-bell-at-caol-shean",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "after": "V-0197"
+  },
+  {
+   "id": "EVI-6040",
+   "title": "Ruairidh the cellar boy",
+   "body": "A clerk's boy of twelve who has fetched bundles in the Board's own cellar at Cathair mhòr for three years tells Catrìona nic Neacail she is the first to ask him to read a label aloud rather than simply hand a bundle across. He helps her keep the tally of the week's search among the old presses.",
+   "kind": "record",
+   "place": "burg:23",
+   "category": "law",
+   "links": [
+    {
+     "to": "V-0194",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#iii-of-the-press-at-cathair-mhor",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "id": "EVI-6041",
+   "title": "Catrìona nic Neacail resigns the surveyor-general's office",
+   "body": "Within the year of finding Iain Mapa's old survey, Catrìona nic Neacail resigns as surveyor-general, the Board's own minute recording it in four flat lines, and asks a place teaching at the druid school at Caol shean, judging the mountain's own answers now the only lesson in her trade worth the passing on.",
+   "kind": "coal",
+   "place": "burg:23",
+   "category": "coal",
+   "links": [
+    {
+     "to": "V-0193",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#v-of-the-bell-at-caol-shean",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "id": "EVI-6042",
+   "title": "Ceann leathan raises the Còmhrag's gate-price",
+   "body": "With the harbour dues at Ceann leathan fallen by half as coal-ships wait for cargoes that come in half loaded, the fair-wardens, whose town lives as much off the coal trade as off the yearly melee, raise the gate-price of the Còmhrag to make up what the quay no longer earns.",
+   "kind": "trade",
+   "place": "burg:22",
+   "category": "trade",
+   "links": [
+    {
+     "to": "V-0197",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#v-of-the-bell-at-caol-shean",
+   "era_between": [
+    57,
+    57
+   ]
+  },
+  {
+   "id": "EVI-6043",
+   "title": "The Muileann dhearg bell rings Catrìona's first lecture",
+   "body": "Catrìona nic Neacail gives her first lecture at Caol shean in the same wood where Seonaid nic Ghill-Eathain once first put the old question to her students, and the bell taken down from Muileann dhearg's shut hall, hung now in the school's own tower, is rung for the first time to call the school in.",
+   "kind": "faith",
+   "place": "burg:197",
+   "category": "faith",
+   "links": [
+    {
+     "to": "V-0196",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-library"
+   ],
+   "people": [],
+   "told_in": "book/34_of_the_one_sheet.md#v-of-the-bell-at-caol-shean",
+   "era_between": [
+    57,
+    57
+   ]
+  }
+ ]
+}

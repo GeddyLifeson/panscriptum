@@ -185,7 +185,7 @@ Murchadh looked at her. He had served her mother, and he had known both sisters 
 
 ## VIII. Of What Stood at the End of the Year
 
-So ended the first year of the age, though nobody on the island knew that an age had begun. The kings of Dia-thìr had always counted their years by their own reigns and by the harvests, and that year was written in the rolls of the red hall as the fourth year of Queen Beathag, a good year for barley and a middling one for fish, and in the custody-book at the vein-house as a year in which the handful was measured and burned at every lawful hearth and the galleries gave as they always gave.
+So ended the first year of the age, though nobody on the island knew that an age had begun. The kings of Dia-thìr had always counted their years by their own reigns and by the harvests, and that year was written in the rolls of the red hall as the ninth year of Queen Beathag, a good year for barley and a middling one for fish, and in the custody-book at the vein-house as a year in which the handful was measured and burned at every lawful hearth and the galleries gave as they always gave.
 
 Nothing had been built. No boat had been laid down, no oak felled, no roll opened, no word given. The queen had said nothing. The custodians had said nothing. The three crews had gone back to their fishing, and in the spring Oighrig nic Raghnaill's boat of Ros bheag took the best catch of herring on the west coast in ten years and she forgot, for a whole moon, to talk about anything else.
 

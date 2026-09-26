@@ -1,0 +1,852 @@
+{
+ "writer": 1,
+ "span": [
+  "III-0001",
+  "III-0006"
+ ],
+ "events": [
+  {
+   "after": "III-0003"
+  },
+  {
+   "id": "EIV-1001",
+   "title": "The tale on the quays of Cuan shean",
+   "body": "In the moon of Faolach the word of a far coast is on the quay at Cuan shean, told in the lee of the rope-sheds and at the crews' fire. No one says he saw the coast, and every telling leads back to another. By the moon's end it is told at Ros bheag, Inis àrsaidh and Ceann mhòr.",
+   "place": "burg:282",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "eachann-mac-lachlainn"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#ii-of-a-word-on-the-quays",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1002",
+   "title": "The pilot of Ros bheag",
+   "body": "A pilot of Ros bheag, blown off the land in the autumn gales, comes home after nine days with his water gone. The coast shows up in the talk as his, but he swears he saw nothing but grey water, too loudly.",
+   "place": "burg:63",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0001",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_three_crews.md#ii-of-a-word-on-the-quays",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1003",
+   "title": "The Cuan shean crew heard in the red hall",
+   "body": "Eachann mac Lachlainn, skipper of Cuan shean, tells the queen of a low dark coast west and north of west, with smoke on it and no hall. Asked if he was first to hear it, he says he was about the last.",
+   "place": "burg:19",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0002",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "eachann-mac-lachlainn",
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#iii-of-the-three-crews-in-the-red-hall",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1004",
+   "title": "The Ros bheag crew heard in the red hall",
+   "body": "Oighrig nic Raghnaill, skipper of Ros bheag, tells the queen that the coast lies north past the north cape, high and forested, with a white river, and that the pilot who saw it swore on the cup at Seann Skell.",
+   "place": "burg:19",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0002",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "oighrig-nic-raghnaill",
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#iii-of-the-three-crews-in-the-red-hall",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1005",
+   "title": "The Ceann mhòr crew heard in the red hall",
+   "body": "Tòmas mac Uilleim of Ceann mhòr tells the queen that the land lies east behind the mist, and can be smelt on some mornings; the old men of the north-west have always said so.",
+   "place": "burg:19",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0002",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-mist"
+   ],
+   "people": [
+    "tomas-mac-uilleim",
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#iii-of-the-three-crews-in-the-red-hall",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1006",
+   "title": "Murchadh's leaf of the three tellings",
+   "body": "The queen's scribe Murchadh mac Eòghainn writes the three tellings on one leaf and adds at its foot that they agree on the coast and on nothing else. The leaf is kept in the chest of the red hall.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "murchadh-mac-eoghainn",
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#iii-of-the-three-crews-in-the-red-hall",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1007",
+   "title": "How many days' water",
+   "body": "At the lower board of the red hall the queen's sister Mòrag nic Dhòmhnaill asks the Cuan shean skipper how many days' water a boat would need. He answers that no boat of the island could make the crossing, and that none has ever been built that could.",
+   "place": "burg:19",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "morag-nic-dhomhnaill",
+    "eachann-mac-lachlainn"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#iv-of-the-question-at-the-lower-board",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1008",
+   "title": "The question at the hearths",
+   "body": "Through the moon of Dubhlas the question 'Would we go?' is asked at hearths from Baile chrom to Seann Vell, most of all on the west coast. No lots are drawn and no lord or priest gives a word.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0003",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_three_crews.md#v-of-the-choosing-begun",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1009",
+   "title": "Two households of Inis àrsaidh",
+   "body": "In the drying-shed at Inis àrsaidh two households say before the whole town that they will go if a boat is ever made that can make the crossing. The town laughs, then stops laughing.",
+   "place": "burg:55",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/01_of_the_three_crews.md#v-of-the-choosing-begun",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1010",
+   "title": "A custodian asks for the three tellings",
+   "body": "Fearchar mac Ruairidh, a young custodian of the western diggings, comes down to Cathair dhearg on an errand of the vein-house and asks to hear the three tellings from the queen's scribe.",
+   "place": "burg:19",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0003",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "fearchar-mac-ruairidh",
+    "murchadh-mac-eoghainn"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#v-of-the-choosing-begun",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1011",
+   "title": "Mòrag at Cuan shean",
+   "body": "Mòrag nic Dhòmhnaill rides alone to Cuan shean and questions Eachann mac Lachlainn on seams, winds and wood. He tells her a hull that needs no sewing would want great oak and a keel, and that no one alive knows how to set one.",
+   "place": "burg:282",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "morag-nic-dhomhnaill",
+    "eachann-mac-lachlainn"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#vi-of-morag-and-the-skipper",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1012",
+   "title": "The queen keeps the journey from the roll",
+   "body": "Queen Beathag watches her sister walk the Cuan shean skipper to the gate of the red hall and look down the river road west. She bids Murchadh write nothing of it, since it is no matter for the roll yet.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0005",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "morag-nic-dhomhnaill",
+    "murchadh-mac-eoghainn"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#vii-of-the-queen-at-her-window",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1013",
+   "title": "The ninth year of Queen Beathag",
+   "body": "The red hall's rolls enter the first year of the age as the ninth year of Queen Beathag nic Dhòmhnaill, crowned at fifteen and now three-and-twenty: a good year for barley and a middling one for fish, with no child yet born to her.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#viii-of-what-stood-at-the-end-of-the-year",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "EIV-1014",
+   "title": "Mòrag nic Dhòmhnaill at nineteen",
+   "body": "The queen's sister Mòrag nic Dhòmhnaill, nineteen years old and two years married to a man of the western shore she chose herself, comes up to the capital for the winter and sits at the lower board when the crews are heard.",
+   "place": "burg:19",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0002",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "morag-nic-dhomhnaill",
+    "aonghas-mac-fhionnlaigh"
+   ],
+   "told_in": "book/01_of_the_three_crews.md#iv-of-the-question-at-the-lower-board",
+   "era_between": [
+    1,
+    1
+   ]
+  },
+  {
+   "after": "III-0005"
+  },
+  {
+   "id": "EIV-1015",
+   "title": "The first household asks to be written",
+   "body": "In the moon of Pailteach a fisher of Inis àrsaidh and his wife come into the harbour-house of Seann Skell and ask to be written down as meaning to go. The harbour scribe Calum mac Nèill planes a new board and heads it: Those who mean to go.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0004",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#ii-of-the-opening-of-the-roll",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1016",
+   "title": "The rule of the whole household",
+   "body": "Calum mac Nèill will write a household whole or not at all, since the vein-house measures the handful to the hearth and not to a single man or woman. The roll is kept by household from its first board.",
+   "place": "burg:489",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-seven-coals"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#iii-of-the-rule-of-the-whole-household",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1017",
+   "title": "The first striking-out",
+   "body": "Iain, a net-maker of Seann Skell, strikes his household from the roll before the moon is out, having woken at night unable to breathe for thought of the open sea. He enters again in spring and strikes out again by midsummer.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#v-of-the-first-striking-out",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1018",
+   "title": "A struck name is cut through",
+   "body": "Asked to scrape a struck name from the board, the harbour scribe refuses and cuts it through with one stroke, so that the roll shows both the meaning to go and the change of mind. The custom holds for every board of the roll.",
+   "place": "burg:489",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#v-of-the-first-striking-out",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1019",
+   "title": "The widow of the strand",
+   "body": "A boat-wright's widow of the Seann Skell strand is entered alone and struck three times over the first year, her name standing on the board three times like a ladder. She does not come back.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0004",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#vi-of-the-widow-of-the-strand",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1020",
+   "title": "The late lamp in the harbour-house",
+   "body": "For those who cannot say it by day, Calum mac Nèill keeps a lamp burning in the harbour-house late into the night and pays for the oil himself. The harbour-house becomes a place between a court and a shrine.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#vii-of-the-harbour-house-at-night",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1021",
+   "title": "The vein-house sends to read the roll",
+   "body": "A custodian's servant comes by night to read the roll of the willing and ask how many households on it hold the right to the coal. From then on the harbour scribe marks each hearth that takes the handful with a notch like a flame.",
+   "place": "burg:489",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0006",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-seven-coals"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#viii-of-the-waiting-for-a-word",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1022",
+   "title": "Dòmhnall mac Chaluim asks that the boards be closed",
+   "body": "The harbour scribe's son and clerk asks his father to close the roll and send the people to the queen. Calum will not close what the queen has not closed.",
+   "place": "burg:489",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0005",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "domhnall-mac-chaluim",
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#ix-of-domhnall-mac-chaluim-and-the-closing-of-the-boards",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1023",
+   "title": "Alasdair mac Iain reads the roll",
+   "body": "A boat-wright of the strand, Alasdair mac Iain, reads every board of the roll and says there is not a boat on the island that could carry the half of them, and that somebody had better build one.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0008",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain",
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#x-of-the-question-his-wife-asked",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1024",
+   "title": "Seonag asks the harbour scribe whether he would go",
+   "body": "Lying in the box-bed with the wind over the roof, Calum mac Nèill's wife Seonag, who keeps geese and sells their eggs on the quay, asks him whether he would go. He answers that the boards need a keeper.",
+   "place": "burg:489",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/02_of_the_boards_in_the_harbour_house.md#x-of-the-question-his-wife-asked",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1025",
+   "title": "The sisters in the bower",
+   "body": "Mòrag nic Dhòmhnaill rides to Cathair dhearg and asks her sister to command or forbid the crossing. The queen answers that the crown has never sent anyone anywhere, nor kept back anyone free, and will not begin with her sister.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0005",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "morag-nic-dhomhnaill",
+    "beathag-nic-dhomhnaill"
+   ],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#i-of-the-bower-in-the-red-hall",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1026",
+   "title": "The queen's word sent to the harbours",
+   "body": "The queen's word, written by Murchadh mac Eòghainn and sealed, goes by rider to Seann Skell and every harbour of the west and to the vein-house: the crown will send no one and keep no one back, and will judge any quarrel of the venture by the old law.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0005",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "beathag-nic-dhomhnaill",
+    "murchadh-mac-eoghainn"
+   ],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#ii-of-the-word-that-went-down-the-road",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1027",
+   "title": "The word read at the harbour-house door",
+   "body": "Calum mac Nèill reads the queen's word twice from the harbour-house door to the town standing in the rain. Few cheer; most had wanted the crown to choose for them.",
+   "place": "burg:489",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#iii-of-the-reading-at-the-door",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1028",
+   "title": "The queen's word made a song",
+   "body": "On the quay at Seann Skell the fishers say the queen's word over until it becomes a line of song: I will send no one over, and I will keep no one back. The harbour songs keep it so.",
+   "place": "burg:489",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0005",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#iii-of-the-reading-at-the-door",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1029",
+   "title": "Aonghas mac Fhionnlaigh says yes",
+   "body": "At Inis àrsaidh Mòrag's husband, Aonghas mac Fhionnlaigh, a farmer of the land up the river, agrees that their household will go before she has finished asking.",
+   "place": "burg:55",
+   "kind": "humans",
+   "category": "humans",
+   "links": [
+    {
+     "to": "III-0005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "aonghas-mac-fhionnlaigh",
+    "morag-nic-dhomhnaill"
+   ],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#iv-of-aonghas-at-inis-arsaidh",
+   "era_between": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "EIV-1030",
+   "title": "The custodians dispute the right of those who go",
+   "body": "Through the winter the custodians at the vein-house argue whether the right to the coal goes with a hearth that crosses the sea or is struck on the day it sails. Fearchar mac Ruairidh holds that the right lives in the hands.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0016",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-seven-coals"
+   ],
+   "people": [
+    "fearchar-mac-ruairidh",
+    "eoghann-mac-mhuirich"
+   ],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#vii-of-the-question-of-the-coal",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIV-1031",
+   "title": "The roll copied for the vein-house",
+   "body": "The harbour scribe's son copies the roll of the willing onto skin, with a flame-mark beside each household that holds the right to the coal, and sends it up the coal-road to the vein-house.",
+   "place": "burg:489",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0006",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "domhnall-mac-chaluim"
+   ],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#viii-of-the-count-made-twice",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIV-1032",
+   "title": "Fearchar mac Ruairidh's household on the roll",
+   "body": "Fearchar mac Ruairidh tells the custodians, after the second count, that he entered his own household on the roll at Seann Skell in the moon of Samhnas and ticked his own name twice.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0006",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0015",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "fearchar-mac-ruairidh",
+    "eoghann-mac-mhuirich"
+   ],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#ix-of-fearchar-s-own-name",
+   "era_between": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "EIV-1033",
+   "title": "Nine days at the long table",
+   "body": "In the moon of Lùghnas the custodians of the vein-house sit at the long table with the copied roll on one side and the custody-book on the other, and count hearth by hearth, name against name, for nine days.",
+   "place": "burg:491",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering",
+    "the-small-burning-law"
+   ],
+   "people": [],
+   "told_in": "book/03_of_the_queens_word_and_the_queens_sister.md#viii-of-the-count-made-twice",
+   "era_between": [
+    3,
+    3
+   ]
+  }
+ ]
+}

@@ -88,7 +88,7 @@
   {
     "title": "An Sireadh's log kept and filed",
     "era_year": 3,
-    "summary": "Ailean keeps An Sireadh's log the length of her voyage, heading, wind and soundings set down plainly through nine weeks of grey water and mist, and the finished log is filed with the council on her return.",
+    "summary": "Ailean keeps An Sireadh's log the length of her voyage, heading, wind and soundings set down plainly through a month of grey water and mist, and the finished log is filed with the council on her return.",
     "category": "voyage",
     "people": [
       "Ailean mac Iain",
@@ -110,7 +110,7 @@
   {
     "title": "Aonghas mac Mhurchaidh turns the ship for home",
     "era_year": 3,
-    "summary": "Twenty-nine days out with the stores a third gone, Aonghas mac Mhurchaidh orders An Sireadh about, telling Ailean the sea has not been found empty so much as it has refused, this once, to show itself.",
+    "summary": "Sixteen days out with the stores a third gone, Aonghas mac Mhurchaidh orders An Sireadh about, telling Ailean the sea has not been found empty so much as it has refused, this once, to show itself.",
     "category": "voyage",
     "people": [
       "Aonghas mac Mhurchaidh",
@@ -147,9 +147,9 @@
     ]
   },
   {
-    "title": "Ailean learns of the crowning from a tavern ledger",
+    "title": "Ailean learns of the crowning at Seann Skell",
     "era_year": 3,
-    "summary": "Home nine weeks after sailing, Ailean learns of Niall's crowning from an innkeeper at Seann Skell in the west, who shows him a debt struck through against the words mar a thàinig Niall, entered as a saying already passing into common use.",
+    "summary": "Home after a month at sea, Ailean learns of Niall's crowning from an innkeeper near the harbour at Seann Skell in the west, and writes the day into his private book with nothing beside it, having seen nothing of it with his own eyes.",
     "category": "culture",
     "people": [
       "Ailean mac Iain"

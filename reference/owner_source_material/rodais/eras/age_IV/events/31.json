@@ -268,5 +268,26 @@
     "type": "detail"
    }
   ]
+ },
+ {
+  "era_year": 1019,
+  "title": "Mòrag Ruadh crowned at nineteen",
+  "summary": "Mòrag Ruadh is crowned at Cathair dhearg at nineteen, the youngest ruler the red hall has seen since Eilidh Bhàn, and keeps her own small tally beside the steward's from the first day.",
+  "category": "rulers",
+  "people": [
+   "Mòrag Ruadh",
+   "Pàdraig mac Ìomhair"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0153",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
  }
 ]

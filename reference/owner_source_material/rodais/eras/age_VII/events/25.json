@@ -364,24 +364,5 @@
       "VI-0084"
     ],
     "chronicle_extra": true
-  },
-  {
-    "title": "Tom Varley turned back at the dyke",
-    "era_year": 21,
-    "summary": "Walking down to look at the field of Àth leathan, Tom Varley is turned back by a young sentry of the seventh regiment at a stone dyke a quarter-mile short of it.",
-    "category": "war",
-    "people": [
-      "Tom Varley"
-    ],
-    "places": [
-      "marker:18"
-    ],
-    "threads": [
-      "the-long-war"
-    ],
-    "master_links": [
-      "VI-0085"
-    ],
-    "chronicle_extra": true
   }
 ]

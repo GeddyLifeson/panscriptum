@@ -134,7 +134,7 @@
  {
   "title": "Seònaid nic Coinnich comes to the red hall",
   "era_year": 566,
-  "summary": "Seònaid nic Coinnich, whose father Coinneach mac Ailein died of the cold at Doire mhin in the last winter of the refusal, walks up from Cathair mhòr to the red hall and is taken into the queen's household as a clerk, the first of several children of the cold shires the household shelters in those years.",
+  "summary": "Seònaid nic Coinnich, whose father Coinneach mac Ailein came through the winter of the refusal with a cough he never lost, walks up from Cathair mhòr to the red hall and is taken into the queen's household as a clerk, the first of several children of the cold shires the household shelters in those years.",
   "category": "court",
   "people": [
    "Catrìona nic Aonghais, Catrìona Bhuadhach",
@@ -156,7 +156,7 @@
  {
   "title": "Seònaid copies the tallies of the refusal",
   "era_year": 567,
-  "summary": "In her first winter at the red hall, Seònaid nic Coinnich asks to see the custody-book's oldest entries and copies out, unbidden, the tallies of the hearths refused in the year her father died, a labour the queen never questions when she comes upon it by lamplight.",
+  "summary": "In her first winter at the red hall, Seònaid nic Coinnich asks to see the custody-book's oldest entries and copies out, unbidden, the tallies of the hearths refused in the winter of the cold hearths, a labour the queen never questions when she comes upon it by lamplight.",
   "category": "record",
   "people": [
    "Seònaid nic Coinnich"
@@ -176,7 +176,7 @@
  },
  {
   "title": "Death of Iain mac Eachainn",
-  "era_year": 575,
+  "era_year": 594,
   "summary": "Iain mac Eachainn, the queen's husband, dies of a wasting in the chest no physician of the household can name. He had kept, through his years in the red hall, to the smaller business of the household and left the crown's affairs to Catrìona.",
   "category": "rulers",
   "people": [
@@ -273,7 +273,7 @@
  {
   "title": "Death of Catrìona Bhuadhach",
   "era_year": 604,
-  "summary": "Catrìona Bhuadhach dies at Cathair dhearg at eighty-four, the last ruler to have fought in the War of the Three Claimants. Her son Lachlann mac Iain, not yet forty, succeeds her.",
+  "summary": "Catrìona Bhuadhach dies at Cathair dhearg at seventy-eight, the last ruler to have fought in the War of the Three Claimants. Her son Lachlann mac Iain, not yet forty, succeeds her.",
   "category": "rulers",
   "people": [
    "Catrìona nic Aonghais, Catrìona Bhuadhach"
@@ -311,5 +311,49 @@
     "type": "sequel"
    }
   ]
+ },
+ {
+  "era_year": 565,
+  "title": "Birth of Lachlann mac Iain",
+  "summary": "A son, Lachlann, is born at Cathair dhearg to Queen Catrìona Bhuadhach, nine-and-thirty years old and three years crowned, and her husband Iain mac Eachainn.",
+  "category": "rulers",
+  "people": [
+   "Lachlann mac Iain",
+   "Catrìona Bhuadhach",
+   "Iain mac Eachainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0121",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 600,
+  "title": "Birth of Anna",
+  "summary": "A daughter, Anna, is born at Cathair dhearg to Lachlann mac Iain, the queen's son, then five-and-thirty; the old queen, seventy-four, lives to see her granddaughter walk.",
+  "category": "rulers",
+  "people": [
+   "Anna",
+   "Lachlann mac Iain",
+   "Catrìona Bhuadhach"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0121",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
  }
 ]

@@ -6,7 +6,28 @@
  ],
  "events": [
   {
+   "after": "I-0011"
+  },
+  {
    "id": "EI-2001",
+   "title": "The daughter cuts the three strokes true",
+   "body": "On a calm morning the net-maker's daughter cuts three strokes into a finished weight and finds nothing in it her trained eye can fault; her mother takes it up, turns it in the same light, and sets down the next stone before her without a word.",
+   "place": "burg:36",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/06_of_the_shell_mound_and_the_three_strokes.md#iv-of-the-three-strokes",
+   "era_between": [
+    820,
+    820
+   ]
+  },
+  {
+   "id": "EI-2002",
    "title": "Diarmad is born at Tobar dhìreach",
    "body": "Diarmad is born the third child and second son of Fionnghuala, into a household that keeps the mason's own unbroken fire and a leather bag of seven coloured pieces the children play with at the hearth.",
    "place": null,
@@ -27,9 +48,9 @@
    ]
   },
   {
-   "id": "EI-2002",
-   "title": "The aunt keeps the fire-pot",
-   "body": "The fire-pot at Tobar dhìreach is kept in Diarmad's childhood by his mother's aunt, called by the household only the aunt, who works wool by the hearth while the children play with the coloured pieces.",
+   "id": "EI-2003",
+   "title": "The aunt keeps Poit an Teine",
+   "body": "Poit an Teine at Tobar dhìreach is kept in Diarmad's childhood by his mother's aunt, called by the household only the aunt, who works wool by the hearth while the children play with the coloured pieces.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -45,9 +66,9 @@
    ]
   },
   {
-   "id": "EI-2003",
+   "id": "EI-2004",
    "title": "Diarmad first asks why the pieces are coloured",
-   "body": "Playing with the leather bag of coloured pieces at the hearth, Diarmad, seven years old, asks the aunt who keeps the fire-pot why the mason's pieces hold colour and the coal of the hillside does not, and is told only that a boy who wants a better answer may go and ask the sky.",
+   "body": "Playing with the leather bag of coloured pieces at the hearth, Diarmad, seven years old, asks the aunt who keeps Poit an Teine why the mason's pieces hold colour and the coal of the hillside does not, and is told only that a boy who wants a better answer may go and ask the sky.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -57,7 +78,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-2001",
+     "to": "EI-2002",
      "type": "person"
     }
    ],
@@ -75,7 +96,7 @@
    ]
   },
   {
-   "id": "EI-2004",
+   "id": "EI-2005",
    "title": "The aunt tells Diarmad to go and ask the sky",
    "body": "Wearied by a seven-year-old's questions, the aunt tells Diarmad that the stones are coloured because the sky made them so on the night of the fire, and that a boy who wants a better answer can go and ask the sky.",
    "place": "burg:276",
@@ -83,7 +104,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-2003",
+     "to": "EI-2004",
      "type": "person"
     }
    ],
@@ -101,7 +122,7 @@
    ]
   },
   {
-   "id": "EI-2005",
+   "id": "EI-2006",
    "title": "Diarmad asks the elders and the fire-bearers",
    "body": "Diarmad puts his question to the oldest of the line and to the fire-bearers who carry coal to the hearths of the hills, and gathers only shrugs and a fire-bearer's tale that the colour is no more real than a rainbow's, which the pieces' own unfading colour does not bear out.",
    "place": null,
@@ -109,7 +130,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-2004",
+     "to": "EI-2005",
      "type": "person"
     }
    ],
@@ -126,7 +147,7 @@
    ]
   },
   {
-   "id": "EI-2006",
+   "id": "EI-2007",
    "title": "Diarmad carries the rainbow piece",
    "body": "From about his tenth year Diarmad keeps the piece that holds every colour and none carried loose at his belt, and takes to turning it in every light the day offers, once holding it bare in a shower of rain to see whether the wet would draw its colour out; it does not.",
    "place": null,
@@ -134,7 +155,7 @@
    "category": "coal",
    "links": [
     {
-     "to": "EI-2005",
+     "to": "EI-2006",
      "type": "person"
     }
    ],
@@ -151,7 +172,7 @@
    ]
   },
   {
-   "id": "EI-2007",
+   "id": "EI-2008",
    "title": "Diarmad asks it of travellers",
    "body": "He begins putting his question to travellers passing through Tobar dhìreach with no stake in the household's pride, reasoning that a stranger has no cause to fob him off, and gets from most of them a shrug dressed in more words.",
    "place": null,
@@ -159,7 +180,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-2006",
+     "to": "EI-2007",
      "type": "person"
     }
    ],
@@ -176,7 +197,7 @@
    ]
   },
   {
-   "id": "EI-2008",
+   "id": "EI-2009",
    "title": "The rainbow piece held out in the rain",
    "body": "Diarmad is seen more than once sitting under the eaves in a shower with the rainbow piece held bare to the wet, watching to see whether the rain draws the colour out of it; it lies on top.",
    "place": "burg:276",
@@ -184,7 +205,7 @@
    "category": "coal",
    "links": [
     {
-     "to": "EI-2007",
+     "to": "EI-2008",
      "type": "person"
     }
    ],
@@ -201,7 +222,7 @@
    ]
   },
   {
-   "id": "EI-2009",
+   "id": "EI-2010",
    "title": "The valley names it Diarmad's question",
    "body": "The asking becomes a settled joke of the high valleys, carried from hearth to hearth by the fire-bearers, half in earnest and half for a laugh, until every household near Tobar dhìreach knows Diarmad's question and no household yet has an answer for it.",
    "place": null,
@@ -209,7 +230,7 @@
    "category": "land",
    "links": [
     {
-     "to": "EI-2008",
+     "to": "EI-2009",
      "type": "person"
     }
    ],
@@ -226,15 +247,15 @@
    ]
   },
   {
-   "id": "EI-2010",
-   "title": "Fionnghuala takes the fire-pot",
+   "id": "EI-2011",
+   "title": "Fionnghuala takes Poit an Teine",
    "body": "On the death of the aunt who had kept it, Fionnghuala becomes keeper of the pot that holds the mason's own ember, the office passing to her at two-and-forty as it had passed through the women of the line before her.",
    "place": null,
    "kind": "coal",
    "category": "coal",
    "links": [
     {
-     "to": "EI-2001",
+     "to": "EI-2002",
      "type": "person"
     }
    ],
@@ -251,7 +272,7 @@
    ]
   },
   {
-   "id": "EI-2011",
+   "id": "EI-2012",
    "title": "Fionnghuala silences the joke at her own hearth",
    "body": "When a cousin by marriage mocks Diarmad's question in front of a full house, Fionnghuala answers that twenty years of one question asked is not the same as a mind that cannot let a matter drop, and the joke is not made again in her hearing.",
    "place": null,
@@ -259,7 +280,7 @@
    "category": "land",
    "links": [
     {
-     "to": "EI-2010",
+     "to": "EI-2011",
      "type": "person"
     }
    ],
@@ -277,34 +298,9 @@
    ]
   },
   {
-   "id": "EI-2012",
+   "id": "EI-2013",
    "title": "A fire-bearer brings a false answer",
    "body": "A fire-bearer tells Diarmad that colour in a stone is no more real than colour in a rainbow and thins when looked at close; he has looked close a hundred times and the colour has never thinned.",
-   "place": "burg:276",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "EI-2011",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "the-seven-coals"
-   ],
-   "people": [
-    "diarmad"
-   ],
-   "told_in": "book/07_of_the_boy_who_asked.md#iii-of-the-years-of-asking",
-   "era_between": [
-    882,
-    882
-   ]
-  },
-  {
-   "id": "EI-2013",
-   "title": "Diarmad narrows his question",
-   "body": "Past twenty, Diarmad begins to ask a narrower question than the one he started with: not why the pieces hold colour, but whether there is anyone or anything on the island that might know.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -322,22 +318,18 @@
    ],
    "told_in": "book/07_of_the_boy_who_asked.md#iii-of-the-years-of-asking",
    "era_between": [
-    884,
-    884
+    882,
+    882
    ]
   },
   {
    "id": "EI-2014",
-   "title": "A fire-bearer brings word of a grove where the wind speaks",
-   "body": "Returning from the longest circuit the household's fire-bearers still walk, a woman of Tobar dhìreach reports, more in passing than in earnest, an old herder's warning of an oak grove on the far northern moor where the wind does not blow as it blows anywhere else.",
-   "place": null,
+   "title": "Diarmad narrows his question",
+   "body": "Past twenty, Diarmad begins to ask a narrower question than the one he started with: not why the pieces hold colour, but whether there is anyone or anything on the island that might know.",
+   "place": "burg:276",
    "kind": "faith",
    "category": "faith",
    "links": [
-    {
-     "to": "I-0011a",
-     "type": "cause"
-    },
     {
      "to": "EI-2013",
      "type": "person"
@@ -349,20 +341,24 @@
    "people": [
     "diarmad"
    ],
-   "told_in": "book/07_of_the_boy_who_asked.md#iv-of-the-herder-of-the-north-moor",
+   "told_in": "book/07_of_the_boy_who_asked.md#iii-of-the-years-of-asking",
    "era_between": [
-    886,
-    886
+    884,
+    884
    ]
   },
   {
    "id": "EI-2015",
-   "title": "Diarmad presses the fire-bearer for the herder's words",
-   "body": "Diarmad asks the fire-bearer more than once to repeat exactly what the northern herder had said of the grove, until, tired of the asking, she tells him to go and hear it from the herder's own mouth.",
+   "title": "A fire-bearer brings word of a grove where the wind speaks",
+   "body": "Returning from the longest circuit the household's fire-bearers still walk, a woman of Tobar dhìreach reports, more in passing than in earnest, an old herder's warning of an oak grove on the far northern moor where the wind does not blow as it blows anywhere else.",
    "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
+    {
+     "to": "I-0011a",
+     "type": "cause"
+    },
     {
      "to": "EI-2014",
      "type": "person"
@@ -382,8 +378,8 @@
   },
   {
    "id": "EI-2016",
-   "title": "Diarmad gathers every scrap told of the grove",
-   "body": "Over two years he seeks out travellers from the north and west and sets together their thin, half-agreeing tellings of a grove no bird will nest in and no fire is lit within sight of, the first tale in twenty years of asking that does not simply shrug his question off.",
+   "title": "Diarmad presses the fire-bearer for the herder's words",
+   "body": "Diarmad asks the fire-bearer more than once to repeat exactly what the northern herder had said of the grove, until, tired of the asking, she tells him to go and hear it from the herder's own mouth.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -401,12 +397,37 @@
    ],
    "told_in": "book/07_of_the_boy_who_asked.md#iv-of-the-herder-of-the-north-moor",
    "era_between": [
+    886,
+    886
+   ]
+  },
+  {
+   "id": "EI-2017",
+   "title": "Diarmad gathers every scrap told of the grove",
+   "body": "Over two years he seeks out travellers from the north and west and sets together their thin, half-agreeing tellings of a grove no bird will nest in and no fire is lit within sight of, the first tale in twenty years of asking that does not simply shrug his question off.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-2016",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "diarmad"
+   ],
+   "told_in": "book/07_of_the_boy_who_asked.md#iv-of-the-herder-of-the-north-moor",
+   "era_between": [
     888,
     888
    ]
   },
   {
-   "id": "EI-2017",
+   "id": "EI-2018",
    "title": "Fionnghuala gives Diarmad the rainbow piece for the road",
    "body": "Told her son means to walk north to put his question to the grove itself, Fionnghuala gives him the piece that holds every colour to carry loose in his hand rather than shut in its bag, so that he may have the thing itself before him when he asks.",
    "place": null,
@@ -418,7 +439,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-2011",
+     "to": "EI-2012",
      "type": "person"
     }
    ],
@@ -437,7 +458,7 @@
    ]
   },
   {
-   "id": "EI-2018",
+   "id": "EI-2019",
    "title": "Diarmad walks north from Tobar dhìreach",
    "body": "At seven-and-twenty, Diarmad sets out alone from Tobar dhìreach with a coal banked in a clay pot, a little food and the rainbow piece against his palm, walking three days north and a little west into country his own household has never settled.",
    "place": null,
@@ -449,7 +470,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-2017",
+     "to": "EI-2018",
      "type": "person"
     }
    ],
@@ -467,42 +488,13 @@
    ]
   },
   {
-   "id": "EI-2019",
+   "id": "EI-2020",
    "title": "A gale overtakes Diarmad on the open moor",
    "body": "On the second day of his walk a hard west wind rises over the high moor and does not slacken, and Diarmad pushes on through it regardless, his food too scant to spare for waiting out weather.",
    "place": null,
    "kind": "land",
    "category": "land",
    "links": [
-    {
-     "to": "EI-2018",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "the-seven-coals"
-   ],
-   "people": [
-    "diarmad"
-   ],
-   "told_in": "book/07_of_the_boy_who_asked.md#v-of-the-walk",
-   "era_between": [
-    889,
-    889
-   ]
-  },
-  {
-   "id": "EI-2020",
-   "title": "Diarmad reaches the grove's edge in the gale",
-   "body": "On the third afternoon Diarmad comes under the first oaks of the grove he has walked three days to find, and shelters at a fallen trunk with a small fire, listening to a gale in the branches that sounds, to his tired ear, less like wind than like many voices speaking at once.",
-   "place": null,
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "I-0011a",
-     "type": "cause"
-    },
     {
      "to": "EI-2019",
      "type": "person"
@@ -522,6 +514,35 @@
   },
   {
    "id": "EI-2021",
+   "title": "Diarmad reaches the grove's edge in the gale",
+   "body": "On the third afternoon Diarmad comes under the first oaks of the grove he has walked three days to find, and shelters at a fallen trunk with a small fire, listening to a gale in the branches that sounds, to his tired ear, less like wind than like many voices speaking at once.",
+   "place": null,
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0011a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-2020",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "diarmad"
+   ],
+   "told_in": "book/07_of_the_boy_who_asked.md#v-of-the-walk",
+   "era_between": [
+    889,
+    889
+   ]
+  },
+  {
+   "id": "EI-2022",
    "title": "Diarmad reaches Doire ghlas after three days on the road",
    "body": "After three days walking north-west from Tobar dhìreach, footsore and short of food, Diarmad comes down into the oak grove at Doire ghlas in the last light with a gale already roaring in the crowns of the trees.",
    "place": "burg:209",
@@ -533,7 +554,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-2020",
+     "to": "EI-2021",
      "type": "person"
     }
    ],
@@ -551,7 +572,7 @@
    ]
   },
   {
-   "id": "EI-2022",
+   "id": "EI-2023",
    "title": "Diarmad builds his fire in the lee of a fallen oak",
    "body": "In the shelter of a fallen trunk's torn roots, the one spot in the gale-driven grove where a small fire might live, Diarmad builds a fire of oak twigs from an ember he has carried the whole way from Tobar dhìreach in a moss-packed pot.",
    "place": "burg:209",
@@ -563,7 +584,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-2021",
+     "to": "EI-2022",
      "type": "person"
     }
    ],
@@ -583,39 +604,9 @@
    "after": "I-0011a"
   },
   {
-   "id": "EI-2023",
+   "id": "EI-2024",
    "title": "A grey figure stands still in the gale",
    "body": "Across Diarmad's fire a figure of grey smoke, the height of a tall man, stands unmoving in a wind that flattens the flame and tears every leaf and branch in the grove; Diarmad does not run, and asks it what it is.",
-   "place": "burg:209",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "I-0011a",
-     "type": "sequel"
-    },
-    {
-     "to": "EI-2022",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "line-of-the-mason",
-    "the-seven-coals"
-   ],
-   "people": [
-    "diarmad"
-   ],
-   "told_in": "book/08_of_the_keeper_in_the_grove.md#i-of-the-fire-under-the-oaks",
-   "era_between": [
-    890,
-    890
-   ]
-  },
-  {
-   "id": "EI-2024",
-   "title": "The Keeper names itself to Diarmad",
-   "body": "The figure names itself Coimhdeach na Fine, the keeper of the kin, made from the smoke of the first coal the Young God woke, watching the island's people for the one who made them; it tells Diarmad it has watched his line since the mason and bids him ask his question.",
    "place": "burg:209",
    "kind": "faith",
    "category": "faith",
@@ -644,8 +635,8 @@
   },
   {
    "id": "EI-2025",
-   "title": "Diarmad hears the Telling of the Making",
-   "body": "The Keeper tells Diarmad the whole Telling of the Making, from Caoran's choosing of coal to the shaping of the world and the island's own birth of fire, and of the seven spirits hidden colour by colour in the vein under the mountains.",
+   "title": "Coimhdeach na Fine names itself to Diarmad",
+   "body": "The figure names itself Coimhdeach na Fine, the keeper of the kin, made from the smoke of the first coal an Dia Òg woke, watching the island's people for the one who made them; it tells Diarmad it has watched his line since the mason and bids him ask his question.",
    "place": "burg:209",
    "kind": "faith",
    "category": "faith",
@@ -666,7 +657,7 @@
    "people": [
     "diarmad"
    ],
-   "told_in": "book/08_of_the_keeper_in_the_grove.md#ii-of-the-telling",
+   "told_in": "book/08_of_the_keeper_in_the_grove.md#i-of-the-fire-under-the-oaks",
    "era_between": [
     890,
     890
@@ -674,8 +665,8 @@
   },
   {
    "id": "EI-2026",
-   "title": "Diarmad asks whether the Young God was angry",
-   "body": "Shamed by the telling of how the godfolk once found the coloured stones and let them fall back into the heather unknown, Diarmad asks the Keeper whether the Young God was angry at the forgetting; the Keeper answers that he only laughed, for a gift not opened is still given.",
+   "title": "Diarmad hears Aithris a' Chruthachaidh",
+   "body": "Coimhdeach na Fine tells Diarmad the whole Aithris a' Chruthachaidh, from Caoran's choosing of coal to the shaping of the world and the island's own birth of fire, and of the seven spirits hidden colour by colour in the vein under the mountains.",
    "place": "burg:209",
    "kind": "faith",
    "category": "faith",
@@ -696,7 +687,7 @@
    "people": [
     "diarmad"
    ],
-   "told_in": "book/08_of_the_keeper_in_the_grove.md#ii-of-the-telling",
+   "told_in": "book/08_of_the_keeper_in_the_grove.md#i-of-the-fire-under-the-oaks",
    "era_between": [
     890,
     890
@@ -704,8 +695,8 @@
   },
   {
    "id": "EI-2027",
-   "title": "The Keeper gives Diarmad the riddle",
-   "body": "Asked why the mason's fire burned the colour out of every coal alike, the Keeper answers that they are burned all in one fire and none in its own, and gives Diarmad the riddle of the sky, the earth and the sea, first in the old words and then in his own tongue.",
+   "title": "Diarmad asks whether an Dia Òg was angry",
+   "body": "Shamed by the telling of how an Dia-shluagh once found the coloured stones and let them fall back into the heather unknown, Diarmad asks Coimhdeach na Fine whether an Dia Òg was angry at the forgetting; Coimhdeach na Fine answers that he only laughed, for a gift not opened is still given.",
    "place": "burg:209",
    "kind": "faith",
    "category": "faith",
@@ -726,7 +717,7 @@
    "people": [
     "diarmad"
    ],
-   "told_in": "book/08_of_the_keeper_in_the_grove.md#i-of-the-fire-under-the-oaks",
+   "told_in": "book/08_of_the_keeper_in_the_grove.md#ii-of-the-telling",
    "era_between": [
     890,
     890
@@ -734,8 +725,8 @@
   },
   {
    "id": "EI-2028",
-   "title": "The Keeper leaves Diarmad by his dying fire",
-   "body": "When Diarmad calls the riddle no answer, the Keeper tells him it is the one it was given to give, and the wind that had gone round it all night long passes through the place where it stood and finds nothing there.",
+   "title": "Coimhdeach na Fine gives Diarmad Tòimhseachan a' Choimhdich",
+   "body": "Asked why Teine a' Chlachair burned the colour out of every coal alike, Coimhdeach na Fine answers that they are burned all in one fire and none in its own, and gives Diarmad Tòimhseachan a' Choimhdich of the sky, the earth and the sea, first in the old words and then in his own tongue.",
    "place": "burg:209",
    "kind": "faith",
    "category": "faith",
@@ -756,7 +747,7 @@
    "people": [
     "diarmad"
    ],
-   "told_in": "book/08_of_the_keeper_in_the_grove.md#iv-of-the-two-days-alone",
+   "told_in": "book/08_of_the_keeper_in_the_grove.md#i-of-the-fire-under-the-oaks",
    "era_between": [
     890,
     890
@@ -764,11 +755,11 @@
   },
   {
    "id": "EI-2029",
-   "title": "Diarmad tries the riddle alone against sky, earth and fire",
-   "body": "Unwilling to leave the grove, Diarmad spends two days trying the rainbow coal by himself: held up to a gap of open sky, buried in the wet earth by the fallen trunk, and set back into his own small fire alone, with no sea near enough to try and none of the other six coals in hand.",
+   "title": "Coimhdeach na Fine leaves Diarmad by his dying fire",
+   "body": "When Diarmad calls Tòimhseachan a' Choimhdich no answer, Coimhdeach na Fine tells him it is the one it was given to give, and the wind that had gone round it all night long passes through the place where it stood and finds nothing there.",
    "place": "burg:209",
-   "kind": "coal",
-   "category": "coal",
+   "kind": "faith",
+   "category": "faith",
    "links": [
     {
      "to": "I-0011a",
@@ -794,8 +785,8 @@
   },
   {
    "id": "EI-2030",
-   "title": "Diarmad speaks the riddle over the bare coal",
-   "body": "On the second morning Diarmad kneels and speaks the riddle's words aloud over the coal laid bare on the fallen trunk's bark; nothing in it changes, and he gives up trying it alone after that.",
+   "title": "Diarmad tries Tòimhseachan a' Choimhdich alone against sky, earth and fire",
+   "body": "Unwilling to leave the grove, Diarmad spends two days trying gual bogha-froise by himself: held up to a gap of open sky, buried in the wet earth by the fallen trunk, and set back into his own small fire alone, with no sea near enough to try and none of the other six coals in hand.",
    "place": "burg:209",
    "kind": "coal",
    "category": "coal",
@@ -824,11 +815,11 @@
   },
   {
    "id": "EI-2031",
-   "title": "Diarmad turns south for Tobar dhìreach",
-   "body": "After two days failing to open the riddle alone, Diarmad banks his fire under turf, wraps the rainbow coal back against his chest, and sets out on the three-day road home, saying the words over to himself so as not to lose them.",
+   "title": "Diarmad speaks Tòimhseachan a' Choimhdich over the bare coal",
+   "body": "On the second morning Diarmad kneels and speaks Tòimhseachan a' Choimhdich's words aloud over the coal laid bare on the fallen trunk's bark; nothing in it changes, and he gives up trying it alone after that.",
    "place": "burg:209",
-   "kind": "faith",
-   "category": "faith",
+   "kind": "coal",
+   "category": "coal",
    "links": [
     {
      "to": "I-0011a",
@@ -854,9 +845,9 @@
   },
   {
    "id": "EI-2032",
-   "title": "Diarmad returns to Tobar dhìreach",
-   "body": "Diarmad comes down into the high valleys on the evening of the third day with the Telling of the Making whole in him and the Keeper's riddle unopened, not yet sure which of the two the hearths of his own kin will find harder to believe.",
-   "place": null,
+   "title": "Diarmad turns south for Tobar dhìreach",
+   "body": "After two days failing to open Tòimhseachan a' Choimhdich alone, Diarmad banks his fire under turf, wraps gual bogha-froise back against his chest, and sets out on the three-day road home, saying the words over to himself so as not to lose them.",
+   "place": "burg:209",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -884,15 +875,15 @@
   },
   {
    "id": "EI-2033",
-   "title": "The dead leaves go round the Keeper",
-   "body": "In the gale at Doire ghlas the dead leaves streaming past Diarmad's fire go round the place where the smoke-figure stands, as water goes round a rock, and meet again beyond it.",
-   "place": "burg:209",
+   "title": "Diarmad returns to Tobar dhìreach",
+   "body": "Diarmad comes down into the high valleys on the evening of the third day with Aithris a' Chruthachaidh whole in him and Tòimhseachan a' Choimhdich unopened, not yet sure which of the two the hearths of his own kin will find harder to believe.",
+   "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
     {
      "to": "I-0011a",
-     "type": "parallel"
+     "type": "sequel"
     },
     {
      "to": "EI-2032",
@@ -900,12 +891,13 @@
     }
    ],
    "threads": [
+    "line-of-the-mason",
     "the-seven-coals"
    ],
    "people": [
     "diarmad"
    ],
-   "told_in": "book/08_of_the_keeper_in_the_grove.md#i-of-the-fire-under-the-oaks",
+   "told_in": "book/08_of_the_keeper_in_the_grove.md#iv-of-the-two-days-alone",
    "era_between": [
     890,
     890
@@ -913,8 +905,8 @@
   },
   {
    "id": "EI-2034",
-   "title": "Diarmad sees the forgotten coal",
-   "body": "In the Telling Diarmad sees a child of the godfolk carry coloured stones home in her cloak and a whole valley throw them away as the mountain's droppings, and is ashamed for them.",
+   "title": "The dead leaves go round Coimhdeach na Fine",
+   "body": "In the gale at Doire ghlas the dead leaves streaming past Diarmad's fire go round the place where the smoke-figure stands, as water goes round a rock, and meet again beyond it.",
    "place": "burg:209",
    "kind": "faith",
    "category": "faith",
@@ -934,7 +926,7 @@
    "people": [
     "diarmad"
    ],
-   "told_in": "book/08_of_the_keeper_in_the_grove.md#ii-of-the-telling",
+   "told_in": "book/08_of_the_keeper_in_the_grove.md#i-of-the-fire-under-the-oaks",
    "era_between": [
     890,
     890
@@ -942,14 +934,43 @@
   },
   {
    "id": "EI-2035",
+   "title": "Diarmad sees the forgotten coal",
+   "body": "In Aithris a' Chruthachaidh Diarmad sees a child of an Dia-shluagh carry coloured stones home in her cloak and a whole valley throw them away as the mountain's droppings, and is ashamed for them.",
+   "place": "burg:209",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0011a",
+     "type": "parallel"
+    },
+    {
+     "to": "EI-2034",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "diarmad"
+   ],
+   "told_in": "book/08_of_the_keeper_in_the_grove.md#ii-of-the-telling",
+   "era_between": [
+    890,
+    890
+   ]
+  },
+  {
+   "id": "EI-2036",
    "title": "A wren comes to the coal",
-   "body": "On his second morning alone in the grove a wren hops along the fallen trunk to within a hand of the rainbow coal, looks at it and at Diarmad, and goes about its business; Diarmad does not try the riddle again that day.",
+   "body": "On his second morning alone in the grove a wren hops along the fallen trunk to within a hand of gual bogha-froise, looks at it and at Diarmad, and goes about its business; Diarmad does not try Tòimhseachan a' Choimhdich again that day.",
    "place": "burg:209",
    "kind": "land",
    "category": "land",
    "links": [
     {
-     "to": "EI-2034",
+     "to": "EI-2035",
      "type": "person"
     }
    ],
@@ -964,15 +985,15 @@
    ]
   },
   {
-   "id": "EI-2036",
-   "title": "Diarmad says the riddle over on the road",
-   "body": "All the first day of the walk home Diarmad says the riddle aloud, the strange words and the plain, over and over, the way a man says a name so as not to lose it before he reaches the house.",
+   "id": "EI-2037",
+   "title": "Diarmad says Tòimhseachan a' Choimhdich over on the road",
+   "body": "All the first day of the walk home Diarmad says Tòimhseachan a' Choimhdich aloud, the strange words and the plain, over and over, the way a man says a name so as not to lose it before he reaches the house.",
    "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2035",
+     "to": "EI-2036",
      "type": "person"
     }
    ],
@@ -989,9 +1010,9 @@
    ]
   },
   {
-   "id": "EI-2037",
-   "title": "Diarmad tells the Telling at his own hearth",
-   "body": "Home from Doire ghlas, Diarmad stands at the hearth of Tobar dhìreach and tells the household the bones of what the Keeper gave him: the making of the island from drops of fire, the gift buried and thrown away, and the riddle of the sky, the earth and the sea.",
+   "id": "EI-2038",
+   "title": "Diarmad tells Aithris a' Chruthachaidh at his own hearth",
+   "body": "Home from Doire ghlas, Diarmad stands at the hearth of Tobar dhìreach and tells the household the bones of what Coimhdeach na Fine gave him: the making of the island from drops of fire, the gift buried and thrown away, and Tòimhseachan a' Choimhdich of the sky, the earth and the sea.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1001,7 +1022,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-2036",
+     "to": "EI-2037",
      "type": "person"
     }
    ],
@@ -1020,15 +1041,15 @@
    ]
   },
   {
-   "id": "EI-2038",
+   "id": "EI-2039",
    "title": "The hearth's laughter",
-   "body": "A kinsman of Tadhg's line by marriage laughs the Telling off as three days' talk with an empty grove, and the household laughs with him, gently, glad to have its world handed back the shape it always was.",
+   "body": "A kinsman of Tadhg's line by marriage laughs Aithris a' Chruthachaidh off as three days' talk with an empty grove, and the household laughs with him, gently, glad to have its world handed back the shape it always was.",
    "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2037",
+     "to": "EI-2038",
      "type": "person"
     }
    ],
@@ -1045,15 +1066,15 @@
    ]
   },
   {
-   "id": "EI-2039",
+   "id": "EI-2040",
    "title": "Niamh will not believe it",
-   "body": "Told the Telling in full, alone, Diarmad's wife Niamh hears him out and says plainly that hunger and cold on an empty moor can put much into a man's head that has no business there, and that she does not believe a word of it.",
+   "body": "Told Aithris a' Chruthachaidh in full, alone, Diarmad's wife Niamh hears him out and says plainly that hunger and cold on an empty moor can put much into a man's head that has no business there, and that she does not believe a word of it.",
    "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2038",
+     "to": "EI-2039",
      "type": "person"
     }
    ],
@@ -1071,34 +1092,9 @@
    ]
   },
   {
-   "id": "EI-2040",
-   "title": "Diarmad begins gathering the fathers' names",
-   "body": "Diarmad takes up a second labour beside the Telling, walking hearth to hearth among the wider kin of the high valleys and the northern moor to ask each house how far back it can say its fathers' names, keeping no name a house cannot answer for.",
-   "place": null,
-   "kind": "law",
-   "category": "law",
-   "links": [
-    {
-     "to": "EI-2039",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "line-of-the-mason"
-   ],
-   "people": [
-    "diarmad"
-   ],
-   "told_in": "book/09_of_the_counting_of_the_fathers.md#ii-of-the-fathers-names",
-   "era_between": [
-    892,
-    892
-   ]
-  },
-  {
    "id": "EI-2041",
-   "title": "Old women give up the fathers' names",
-   "body": "Old women who never troubled themselves over Diarmad's question turn out to have kept four and five fathers' names back, and are glad to give them to someone willing to carry the weight of remembering them.",
+   "title": "Diarmad begins gathering the fathers' names",
+   "body": "Diarmad takes up a second labour beside Aithris a' Chruthachaidh, walking hearth to hearth among the wider kin of the high valleys and the northern moor to ask each house how far back it can say its fathers' names, keeping no name a house cannot answer for.",
    "place": null,
    "kind": "law",
    "category": "law",
@@ -1116,20 +1112,45 @@
    ],
    "told_in": "book/09_of_the_counting_of_the_fathers.md#ii-of-the-fathers-names",
    "era_between": [
-    893,
-    893
+    892,
+    892
    ]
   },
   {
    "id": "EI-2042",
-   "title": "The first recital of the Line",
-   "body": "On the night of the lightning Diarmad stands at his own hearth and says the fathers' names from Neachdan to himself without a stumble, and Niamh, unbelieving still, stands after him and says the Telling in full because a house should hear whole what its head carries.",
+   "title": "Old women give up the fathers' names",
+   "body": "Old women who never troubled themselves over Diarmad's question turn out to have kept four and five fathers' names back, and are glad to give them to someone willing to carry the weight of remembering them.",
    "place": null,
    "kind": "law",
    "category": "law",
    "links": [
     {
      "to": "EI-2041",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "diarmad"
+   ],
+   "told_in": "book/09_of_the_counting_of_the_fathers.md#ii-of-the-fathers-names",
+   "era_between": [
+    893,
+    893
+   ]
+  },
+  {
+   "id": "EI-2043",
+   "title": "The first recital of the Line",
+   "body": "On Oidhche an Dealanaich Diarmad stands at his own hearth and says the fathers' names from Neachdan to himself without a stumble, and Niamh, unbelieving still, stands after him and says Aithris a' Chruthachaidh in full because a house should hear whole what its head carries.",
+   "place": null,
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "EI-2042",
      "type": "person"
     }
    ],
@@ -1147,15 +1168,15 @@
    ]
   },
   {
-   "id": "EI-2043",
-   "title": "Niamh says the Telling after the Line",
-   "body": "At the first standing of the Line Niamh stands after her husband and says the Telling of the Making, though she does not yet believe it, holding that a house ought to hear the whole of what its head carries.",
+   "id": "EI-2044",
+   "title": "Niamh says Aithris a' Chruthachaidh after the Line",
+   "body": "At the first standing of the Line Niamh stands after her husband and says Aithris a' Chruthachaidh, though she does not yet believe it, holding that a house ought to hear the whole of what its head carries.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2042",
+     "to": "EI-2043",
      "type": "person"
     }
    ],
@@ -1173,15 +1194,15 @@
    ]
   },
   {
-   "id": "EI-2044",
-   "title": "Diarmad takes up the fire-pot",
-   "body": "On his mother's death Diarmad takes the keeping of the fire-pot alongside the keeping of the names and the riddle, three weights on one back.",
+   "id": "EI-2045",
+   "title": "Diarmad takes up Poit an Teine",
+   "body": "On his mother's death Diarmad takes the keeping of Poit an Teine alongside the keeping of the names and Tòimhseachan a' Choimhdich, three weights on one back.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2043",
+     "to": "EI-2044",
      "type": "person"
     }
    ],
@@ -1198,15 +1219,15 @@
    ]
   },
   {
-   "id": "EI-2045",
+   "id": "EI-2046",
    "title": "Niamh comes to believe",
-   "body": "In the tenth year after Diarmad's return, Niamh tells their daughter that she has come to believe the Telling without ever deciding to, the way a path comes to lie worn into a hillside with no single footstep marked as the one that made it.",
+   "body": "In the tenth year after Diarmad's return, Niamh tells their daughter that she has come to believe Aithris a' Chruthachaidh without ever deciding to, the way a path comes to lie worn into a hillside with no single footstep marked as the one that made it.",
    "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2043",
+     "to": "EI-2044",
      "type": "person"
     }
    ],
@@ -1223,15 +1244,15 @@
    ]
   },
   {
-   "id": "EI-2046",
-   "title": "Fionnghuala dies keeping the fire-pot",
-   "body": "Diarmad's mother Fionnghuala dies in her own bed with the fire-pot within reach of her hand, as she had asked, and Diarmad takes up the keeping of the pot himself alongside the names and the riddle.",
+   "id": "EI-2047",
+   "title": "Fionnghuala dies keeping Poit an Teine",
+   "body": "Diarmad's mother Fionnghuala dies in her own bed with Poit an Teine within reach of her hand, as she had asked, and Diarmad takes up the keeping of the pot himself alongside the names and Tòimhseachan a' Choimhdich.",
    "place": null,
    "kind": "coal",
    "category": "coal",
    "links": [
     {
-     "to": "EI-2044",
+     "to": "EI-2045",
      "type": "person"
     }
    ],
@@ -1249,34 +1270,9 @@
    ]
   },
   {
-   "id": "EI-2047",
+   "id": "EI-2048",
    "title": "The dark coals tried in driving rain",
    "body": "At a standing of the Line the kin lay four dark coals bare on the hillside through a night of hard rain, on the thought that rain is the sky's own water as much as the sea's, and find them in the morning only wet, cold and themselves.",
-   "place": null,
-   "kind": "coal",
-   "category": "coal",
-   "links": [
-    {
-     "to": "EI-2046",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "the-seven-coals"
-   ],
-   "people": [
-    "diarmad"
-   ],
-   "told_in": "book/09_of_the_counting_of_the_fathers.md#iii-of-the-trials-that-failed",
-   "era_between": [
-    903,
-    903
-   ]
-  },
-  {
-   "id": "EI-2048",
-   "title": "The coals held up into the gale",
-   "body": "The kin carry the leather bag onto the ridge above Tobar dhìreach on a night of hard wind and hold the coals up bare-handed into it, on the thought that the sky's spirit might answer to its own true weather; the wind passes them by unchanged.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -1294,14 +1290,14 @@
    ],
    "told_in": "book/09_of_the_counting_of_the_fathers.md#iii-of-the-trials-that-failed",
    "era_between": [
-    904,
-    904
+    903,
+    903
    ]
   },
   {
    "id": "EI-2049",
-   "title": "All seven burned together in one fire",
-   "body": "Reasoning that the riddle's merging might mean the coals themselves rather than their elements, the kin burn all seven together in the hearth-fire and watch them go down black and ordinary together, no brighter for the company.",
+   "title": "The coals held up into the gale",
+   "body": "The kin carry the leather bag onto the ridge above Tobar dhìreach on a night of hard wind and hold the coals up bare-handed into it, on the thought that the sky's spirit might answer to its own true weather; the wind passes them by unchanged.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -1319,14 +1315,14 @@
    ],
    "told_in": "book/09_of_the_counting_of_the_fathers.md#iii-of-the-trials-that-failed",
    "era_between": [
-    905,
-    905
+    904,
+    904
    ]
   },
   {
    "id": "EI-2050",
-   "title": "Sea-water carried inland for the trial",
-   "body": "A skin of true sea-water is carried the long way from the south shore to Tobar dhìreach and poured over the dark coals in a stone basin, the nearest the inland line can come to the sea itself; it wets them and leaves them cold, as the rain had.",
+   "title": "All seven burned together in one fire",
+   "body": "Reasoning that Tòimhseachan a' Choimhdich's merging might mean the coals themselves rather than their elements, the kin burn all seven together in the hearth-fire and watch them go down black and ordinary together, no brighter for the company.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -1350,8 +1346,33 @@
   },
   {
    "id": "EI-2051",
-   "title": "The Telling carried to the northern moor",
-   "body": "A fire-bearer who has heard the Telling three times at Tobar dhìreach carries it unasked to a hearth on the northern moor, and tells it there in his own words, some pieces lost and others changed in the carrying.",
+   "title": "Sea-water carried inland for the trial",
+   "body": "A skin of true sea-water is carried the long way from the south shore to Tobar dhìreach and poured over the dark coals in a stone basin, the nearest the inland line can come to the sea itself; it wets them and leaves them cold, as the rain had.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "EI-2050",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "diarmad"
+   ],
+   "told_in": "book/09_of_the_counting_of_the_fathers.md#iii-of-the-trials-that-failed",
+   "era_between": [
+    905,
+    905
+   ]
+  },
+  {
+   "id": "EI-2052",
+   "title": "Aithris a' Chruthachaidh carried to the northern moor",
+   "body": "A fire-bearer who has heard Aithris a' Chruthachaidh three times at Tobar dhìreach carries it unasked to a hearth on the northern moor, and tells it there in his own words, some pieces lost and others changed in the carrying.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1367,9 +1388,9 @@
    ]
   },
   {
-   "id": "EI-2052",
-   "title": "The Telling reaches the eastern hearths",
-   "body": "By the thirtieth year after Diarmad's walk to the grove, traders carry some shape of the Telling to nearly every hearth of the eastern farms, garbled in a dozen small ways but keeping, in each, the one true thing: that the coal holds a gift no one has yet opened.",
+   "id": "EI-2053",
+   "title": "Aithris a' Chruthachaidh reaches the eastern hearths",
+   "body": "By the thirtieth year after Diarmad's walk to the grove, traders carry some shape of Aithris a' Chruthachaidh to nearly every hearth of the eastern farms, garbled in a dozen small ways but keeping, in each, the one true thing: that the coal holds a gift no one has yet opened.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1385,7 +1406,7 @@
    ]
   },
   {
-   "id": "EI-2053",
+   "id": "EI-2054",
    "title": "A garbled riddle comes back from the east",
    "body": "A trader newly down from the east gives Diarmad a telling of his own riddle in which the sea and the sky have changed places and the earth has dropped out; Diarmad sits a long while after, struck by how far a true thing can travel.",
    "place": null,
@@ -1393,7 +1414,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-2050",
+     "to": "EI-2051",
      "type": "person"
     }
    ],
@@ -1410,15 +1431,15 @@
    ]
   },
   {
-   "id": "EI-2054",
+   "id": "EI-2055",
    "title": "Diarmad dies sure the answer is near",
-   "body": "Diarmad dies at his hearth with the fire-pot near him and the six dark coals and the rainbow at his side, telling Niamh he is sure the answer is nearer than it has ever been, though he cannot say what has brought the nearness home to him.",
+   "body": "Diarmad dies at his hearth with Poit an Teine near him and the six dark coals and the rainbow at his side, telling Niamh he is sure the answer is nearer than it has ever been, though he cannot say what has brought the nearness home to him.",
    "place": null,
    "kind": "coal",
    "category": "coal",
    "links": [
     {
-     "to": "EI-2053",
+     "to": "EI-2054",
      "type": "person"
     }
    ],
@@ -1437,9 +1458,9 @@
    ]
   },
   {
-   "id": "EI-2055",
-   "title": "Deirbhile fixes the Telling word for word",
-   "body": "Diarmad's daughter Deirbhile, keeping the Telling more exactly than her father ever told it, teaches it word for word to her own children and to any of the wider kin who will learn it as strictly as she asks.",
+   "id": "EI-2056",
+   "title": "Deirbhile fixes Aithris a' Chruthachaidh word for word",
+   "body": "Diarmad's daughter Deirbhile, keeping Aithris a' Chruthachaidh more exactly than her father ever told it, teaches it word for word to her own children and to any of the wider kin who will learn it as strictly as she asks.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -1457,15 +1478,15 @@
    ]
   },
   {
-   "id": "EI-2056",
-   "title": "Deirbhile teaches the Telling a section at a time",
-   "body": "Deirbhile sits each of her children down in turn and makes them say the Telling back to her a section at a time until they have it as clean as she does, and teaches it so to any of the kin who will sit still for the whole.",
+   "id": "EI-2057",
+   "title": "Deirbhile teaches Aithris a' Chruthachaidh a section at a time",
+   "body": "Deirbhile sits each of her children down in turn and makes them say Aithris a' Chruthachaidh back to her a section at a time until they have it as clean as she does, and teaches it so to any of the kin who will sit still for the whole.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2055",
+     "to": "EI-2056",
      "type": "person"
     }
    ],
@@ -1482,15 +1503,15 @@
    ]
   },
   {
-   "id": "EI-2057",
-   "title": "The Telling said at an eastern hearth",
-   "body": "Three mouths removed from Deirbhile, a woman of an eastern household with no claim on the Line beyond distant kinship says the Telling standing on the darkest night, and tells a child who asks what the riddle means that it is a question for the Mason's own line to answer.",
+   "id": "EI-2058",
+   "title": "Aithris a' Chruthachaidh said at an eastern hearth",
+   "body": "Three mouths removed from Deirbhile, a woman of an eastern household with no claim on the Line beyond distant kinship says Aithris a' Chruthachaidh standing on the darkest night, and tells a child who asks what Tòimhseachan a' Choimhdich means that it is a question for An Clachair's own line to answer.",
    "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-2056",
+     "to": "EI-2057",
      "type": "person"
     }
    ],

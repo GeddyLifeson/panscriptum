@@ -1,122 +1,295 @@
 [
-    {
-        "title": "The keeping of An Taigh-seinnse Mòr passes to Mairead nic Mhurchaidh",
-        "era_year": 1264,
-        "summary": "Iain mac Mhurchaidh, who built the road-house its second byre and kept the first book of the ox-teams that lodged there, gives over the keeping to his daughter Mairead. She continues the ledger in a hand the ox-drivers of the mining road cannot tell from her father's.",
-        "category": "trade",
-        "people": ["Mairead nic Mhurchaidh", "Iain mac Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": [],
-        "master_links": []
-    },
-    {
-        "title": "A refused gift at the feast of Bealltach",
-        "era_year": 1269,
-        "summary": "A messenger of Alasdair Bàn's, riding to the red hall with the household's ordinary feast-gift, is turned back at the gate on a pretext of business too full to receive him, the first courtesy either brother's household has refused the other in four years of careful giving.",
-        "category": "rulers",
-        "people": ["Iain Ciar", "Alasdair Bàn"],
-        "places": ["burg:19"],
-        "threads": ["the-seven-houses"],
-        "master_links": [{"to": "III-0176", "type": "sequel"}, {"to": "III-0177", "type": "cause"}]
-    },
-    {
-        "title": "The roads set under one following's watch or the other",
-        "era_year": 1270,
-        "summary": "With both households calling up every man their houses owe them, the two brothers set every road between the two halves of the island under one following's watch or the other, so that carters who have crossed freely their whole lives must now say plainly which brother's peace they travel under.",
-        "category": "war",
-        "people": ["Iain Ciar", "Alasdair Bàn"],
-        "places": [],
-        "threads": [],
-        "master_links": [{"to": "III-0177", "type": "sequel"}]
-    },
-    {
-        "title": "Word of Muileann ghlas reaches the road-house",
-        "era_year": 1274,
-        "summary": "An ox-driver who turns back from the mountain road rather than push his team through unsettled country brings word of Iain Ciar's victory to An Taigh-seinnse Mòr within the week. Asked where the two brothers now stand to one another, he can only shrug: no one yet knows.",
-        "category": "war",
-        "people": ["Mairead nic Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": [],
-        "master_links": [{"to": "III-0179", "type": "sequel"}]
-    },
-    {
-        "title": "The keeper warned a day before",
-        "era_year": 1276,
-        "summary": "A messenger carries word to An Taigh-seinnse Mòr that the two brothers and their followings are riding for the road-house to make their peace there. Mairead nic Mhurchaidh is given a single day's warning and spends the better part of it scrubbing the common-room floor.",
-        "category": "rulers",
-        "people": ["Mairead nic Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": ["the-seven-houses"],
-        "master_links": [{"to": "III-0180", "type": "cause"}]
-    },
-    {
-        "title": "The benches measured to a finger's breadth",
-        "era_year": 1276,
-        "summary": "Before the brothers arrive, Mairead nic Mhurchaidh measures the two benches of the common-room board against one another with her own hands until neither runs longer than its match, and sets the same loaf and the same jug of ale at either end, giving neither man the smallest excuse to find a slight in the setting of the table.",
-        "category": "rulers",
-        "people": ["Mairead nic Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": [],
-        "master_links": [{"to": "III-0180", "type": "cause"}]
-    },
-    {
-        "title": "A reeve of Cathair mhòr presses the keeper for more",
-        "era_year": 1282,
-        "summary": "Years after the peace, an old reeve of Cathair mhòr asks Mairead nic Mhurchaidh whether the two brothers raised their voices in the long silence at her board. She answers only that she heard nothing through the door she had not already heard from her own oxen, and will say no more of it.",
-        "category": "record",
-        "people": ["Mairead nic Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": [],
-        "master_links": [{"to": "III-0180", "type": "legacy"}]
-    },
-    {
-        "title": "Iain Ciar keeps his brother's lordship vacant",
-        "era_year": 1291,
-        "summary": "On Alasdair Bàn's death the lordship of Seann Chwen returns to the crown as the brothers' peace had settled it should. Iain Ciar keeps the lordship vacant for the rest of his own reign rather than grant it to another man, a stubbornness the red hall's clerks never once ask him to explain.",
-        "category": "rulers",
-        "people": ["Iain Ciar", "Alasdair Bàn"],
-        "places": ["burg:36"],
-        "threads": ["the-seven-houses"],
-        "master_links": [{"to": "III-0181", "type": "sequel"}]
-    },
-    {
-        "title": "A mason's slab kept on the road-house mantel",
-        "era_year": 1296,
-        "summary": "With the first carts of white marble passing south from the quarries above Baile Mòr dhomhain, Mairead nic Mhurchaidh keeps an unworked slab of the stone, no bigger than a hand, on the mantel above her own hearth, a small vanity she never fully explains to those who ask her why a road-house keeper should want a piece of stone bound for someone else's temple.",
-        "category": "trade",
-        "people": ["Mairead nic Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": [],
-        "master_links": [{"to": "III-0181a", "type": "sequel"}]
-    },
-    {
-        "title": "Pàdraig mac Ruairidh lodges three nights at the road-house",
-        "era_year": 1298,
-        "summary": "Gathering material for his account of the Brothers' War, the king's clerk Pàdraig mac Ruairidh stays three nights at An Taigh-seinnse Mòr at his own expense, working each evening by the fire the two brothers once sat beside, and asks the keeper and every passing ox-driver for the tale of the peace. He leaves her a small coin for the fire and the bed before he rides on.",
-        "category": "law",
-        "people": ["Pàdraig mac Ruairidh", "Mairead nic Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": [],
-        "master_links": [{"to": "III-0183", "type": "cause"}]
-    },
-    {
-        "title": "Death of Mairead nic Mhurchaidh",
-        "era_year": 1300,
-        "summary": "Mairead nic Mhurchaidh dies at An Taigh-seinnse Mòr in her own bed, in the sixty-ninth year of her life, on a night an ox-team lodges in the byre below her window. The keeping of the house passes to a sister's daughter raised under the same roof.",
-        "category": "trade",
-        "people": ["Mairead nic Mhurchaidh"],
-        "places": ["marker:10"],
-        "threads": [],
-        "master_links": []
-    },
-    {
-        "title": "The keepers' first yearly meeting",
-        "era_year": 1320,
-        "summary": "The seven keepers of the newly chartered road-houses meet for the first time at An Sligeanach Fad' às to settle their accounts, as the charter now commands once every year. Asked whether the tale of the brothers' peace is as her aunt always told it, the new keeper of An Taigh-seinnse Mòr gives the same answer, word for word.",
-        "category": "trade",
-        "people": ["Mairead nic Mhurchaidh"],
-        "places": ["marker:11"],
-        "threads": ["the-seven-houses"],
-        "master_links": [{"to": "III-0184", "type": "sequel"}]
-    }
+ {
+  "title": "The keeping of An Taigh-seinnse Mòr passes to Mairead nic Mhurchaidh",
+  "era_year": 1264,
+  "summary": "The last keeper of a long line descended from Iain mac Mhurchaidh, who built the road-house its second byre and began the book of the ox-teams that lodged there, gives over the keeping to his daughter Mairead. She continues the ledger in a hand the ox-drivers of the mining road cannot tell from her father's.",
+  "category": "trade",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "A refused gift at the feast of Bealltach",
+  "era_year": 1269,
+  "summary": "A messenger of Alasdair Bàn's, riding to the red hall with the household's ordinary feast-gift, is turned back at the gate on a pretext of business too full to receive him, the first courtesy either brother's household has refused the other in four years of careful giving.",
+  "category": "rulers",
+  "people": [
+   "Iain Ciar",
+   "Alasdair Bàn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0176",
+    "type": "sequel"
+   },
+   {
+    "to": "III-0177",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The roads set under one following's watch or the other",
+  "era_year": 1270,
+  "summary": "With both households calling up every man their houses owe them, the two brothers set every road between the two halves of the island under one following's watch or the other, so that carters who have crossed freely their whole lives must now say plainly which brother's peace they travel under.",
+  "category": "war",
+  "people": [
+   "Iain Ciar",
+   "Alasdair Bàn"
+  ],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0177",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Word of Muileann ghlas reaches the road-house",
+  "era_year": 1274,
+  "summary": "An ox-driver who turns back from the mountain road rather than push his team through unsettled country brings word of Iain Ciar's victory to An Taigh-seinnse Mòr within the week. Asked where the two brothers now stand to one another, he can only shrug: no one yet knows.",
+  "category": "war",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0179",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The keeper warned a day before",
+  "era_year": 1276,
+  "summary": "A messenger carries word to An Taigh-seinnse Mòr that the two brothers and their followings are riding for the road-house to make their peace there. Mairead nic Mhurchaidh is given a single day's warning and spends the better part of it scrubbing the common-room floor.",
+  "category": "rulers",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0180",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "The benches measured to a finger's breadth",
+  "era_year": 1276,
+  "summary": "Before the brothers arrive, Mairead nic Mhurchaidh measures the two benches of the common-room board against one another with her own hands until neither runs longer than its match, and sets the same loaf and the same jug of ale at either end, giving neither man the smallest excuse to find a slight in the setting of the table.",
+  "category": "rulers",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0180",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A reeve of Cathair mhòr presses the keeper for more",
+  "era_year": 1282,
+  "summary": "Years after the peace, an old reeve of Cathair mhòr asks Mairead nic Mhurchaidh whether the two brothers raised their voices in the long silence at her board. She answers only that she heard nothing through the door she had not already heard from her own oxen, and will say no more of it.",
+  "category": "record",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0180",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "Iain Ciar keeps his brother's lordship vacant",
+  "era_year": 1291,
+  "summary": "On Alasdair Bàn's death the lordship of Seann Chwen returns to the crown as the brothers' peace had settled it should. Iain Ciar keeps the lordship vacant for the rest of his own reign rather than grant it to another man, a stubbornness the red hall's clerks never once ask him to explain.",
+  "category": "rulers",
+  "people": [
+   "Iain Ciar",
+   "Alasdair Bàn"
+  ],
+  "places": [
+   "burg:36"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0181",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "A mason's slab kept on the road-house mantel",
+  "era_year": 1296,
+  "summary": "With the first carts of white marble passing south from the quarries above Baile Mòr dhomhain, Mairead nic Mhurchaidh keeps an unworked slab of the stone, no bigger than a hand, on the mantel above her own hearth, a small vanity she never fully explains to those who ask her why a road-house keeper should want a piece of stone bound for someone else's temple.",
+  "category": "trade",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0181a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Pàdraig mac Ruairidh lodges three nights at the road-house",
+  "era_year": 1298,
+  "summary": "Gathering material for his account of the Brothers' War, the king's clerk Pàdraig mac Ruairidh stays three nights at An Taigh-seinnse Mòr at his own expense, working each evening by the fire the two brothers once sat beside, and asks the keeper and every passing ox-driver for the tale of the peace. He leaves her a measure of meal for the fire and the bed before he rides on.",
+  "category": "law",
+  "people": [
+   "Pàdraig mac Ruairidh",
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0183",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "Death of Mairead nic Mhurchaidh",
+  "era_year": 1299,
+  "summary": "Mairead nic Mhurchaidh dies at An Taigh-seinnse Mòr in her own bed, at sixty-nine years old, on a night an ox-team lodges in the byre below her window. The keeping of the house passes to a sister's daughter raised under the same roof.",
+  "category": "trade",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:10"
+  ],
+  "threads": [],
+  "master_links": []
+ },
+ {
+  "title": "The keepers' first yearly meeting",
+  "era_year": 1320,
+  "summary": "The seven keepers of the newly chartered road-houses meet for the first time at An Sligeanach Fad' às to settle their accounts, as the charter now commands once every year. Asked whether the tale of the brothers' peace is as her aunt always told it, the new keeper of An Taigh-seinnse Mòr gives the same answer, word for word.",
+  "category": "trade",
+  "people": [
+   "Mairead nic Mhurchaidh"
+  ],
+  "places": [
+   "marker:11"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0184",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 1272,
+  "title": "Cathair mhòr feeds Ceann mhin",
+  "summary": "After Alasdair Bàn's ships burn the rope stores and the granary of Ceann mhin in one night, the town sends to Cathair mhòr, which has taken no side, and Cathair mhòr sends grain enough that no household at Ceann mhin goes hungry that winter.",
+  "category": "trade",
+  "people": [
+   "Alasdair Bàn"
+  ],
+  "places": [
+   "burg:23"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0178",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1276,
+  "title": "Iain Ciar crowned at six-and-thirty",
+  "summary": "With the brothers' peace made at An Taigh-seinnse Mòr, Iain Ciar is crowned at Cathair dhearg, six-and-thirty years old, ten years after his father's burial roll was drawn with a blank where the heir's name should stand.",
+  "category": "rulers",
+  "people": [
+   "Iain Ciar"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0180",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1283,
+  "title": "Alasdair Bàn rides up with a dead captain's news",
+  "summary": "Alasdair Bàn goes up to the red hall himself to carry word of an old captain's death to the king with his own mouth, as the captain asked dying; Iain Ciar receives him without ceremony and sends him home with no larger following than he came with.",
+  "category": "rulers",
+  "people": [
+   "Alasdair Bàn",
+   "Iain Ciar"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0181",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
+ }
 ]

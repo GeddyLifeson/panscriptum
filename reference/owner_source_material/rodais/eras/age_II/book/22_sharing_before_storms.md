@@ -1,8 +1,8 @@
 # Of the Sharing before the Storms
 
-*Part Four: The Lot and the Saying*
-
 *GE 2,328 – 2,390*
+
+*Part Four: The Lot and the Saying*
 
 > *An làmh a roinneas, cha teirig i; an làmh a dh'fhalaicheas, falbhaidh i.*
 > The hand that shares does not fail; the hand that hides must go.

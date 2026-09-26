@@ -272,19 +272,17 @@
     "chronicle_extra": true
   },
   {
-    "title": "The Àrd-choimheadaiche blesses the empty lantern",
+    "title": "Brìde's house at Caol ruadh keeps its own coal",
     "era_year": 6,
-    "summary": "When the coal flame of Tobar dhearg has burned out on Brìde's altar, Alasdair mac Ìomhair closes the lantern's door, says the words for a lamp let go out, and blesses the lantern, since the order may not bless the new light.",
+    "summary": "The house of Brìde at Caol ruadh, which keeps the orthodox rite of the flame, buys two years' altar coal ahead from the last carters of the southern road and stores it in the undercroft, lest the coal fail before the rite does.",
     "category": "faith",
-    "people": [
-      "Alasdair mac Ìomhair",
-      "Ciorstaidh nic Artair"
-    ],
+    "people": [],
     "places": [
-      "burg:431"
+      "burg:15"
     ],
     "threads": [
-      "the-orders-of-the-old-faith"
+      "the-orders-of-the-old-faith",
+      "the-seven-coals"
     ],
     "master_links": [
       "VI-0015"

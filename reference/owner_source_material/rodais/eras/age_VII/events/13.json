@@ -359,26 +359,6 @@
     "told_in": "book/13_of_a_name_that_went_before_the_fuel.md#vi-of-the-damp-at-seann-toll"
   },
   {
-    "title": "Dubhan spelled four ways in the council's letters",
-    "era_year": 11,
-    "summary": "Sìleas nic Rath's slip-box at an Leabharlann gathers the word for the fuel as the letters spell it: dubhan, dùbhan, dùban, and once in the Rail Board's minute An Dubhan, with a capital letter.",
-    "category": "law",
-    "people": [
-      "Sìleas nic Rath"
-    ],
-    "places": [
-      "marker:34"
-    ],
-    "threads": [
-      "the-library",
-      "the-dubhan-trade"
-    ],
-    "master_links": [
-      "VI-0035"
-    ],
-    "chronicle_extra": true
-  },
-  {
     "title": "Forty-one hands marked",
     "era_year": 12,
     "summary": "By the time her slip-box is full Sìleas nic Rath has marked in forty-one of the sixty hands that write regularly to an Leabharlann the month each first wrote of the fuel without the man's name.",
@@ -435,6 +415,24 @@
     ],
     "master_links": [
       "VI-0040"
+    ],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The sick of the springs under the Rite",
+    "era_year": 12,
+    "summary": "When the Hewers' bath-house at the hot springs of Muileann ruadh passes to the Rite, its custodians keep the old keeper on and take in the same sick, hewers' widows first, as the guild's rule had.",
+    "category": "faith",
+    "people": [],
+    "places": [
+      "burg:229"
+    ],
+    "threads": [
+      "the-orders-of-the-old-faith",
+      "the-seven-coals"
+    ],
+    "master_links": [
+      "VI-0039"
     ],
     "chronicle_extra": true
   }

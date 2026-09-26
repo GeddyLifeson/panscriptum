@@ -1,122 +1,257 @@
 [
-  {
-    "title": "Pàdraig mac Ruairidh's death",
-    "era_year": 1330,
-    "summary": "The clerk who wrote the account of the Brothers' War in King Iain Ciar's praise dies four years after his king, and no scribe comes after him to keep the tale of the grain law's slow lapsing as he had kept the tale of the war itself.",
-    "category": "law",
-    "people": ["Iain Ciar"],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": [{"to": "III-0185", "type": "sequel"}]
-  },
-  {
-    "title": "The reeve's price complaint at An Taigh-seinnse Òir",
-    "era_year": 1339,
-    "summary": "A custodians' reeve who has eaten the house's secret syrupped beef twice a winter for a decade writes into the charter-roll that the price has risen three years running with nothing else about the dish improved, and asks for a second helping in the same breath.",
-    "category": "trade",
-    "people": [],
-    "places": ["marker:9"],
-    "threads": [],
-    "master_links": [{"to": "III-0186", "type": "sequel"}]
-  },
-  {
-    "title": "The keeper's itemised bill",
-    "era_year": 1349,
-    "summary": "When the snow that trapped a party of reeves at An Taigh-seinnse Reòta finally lifts, the house's keeper sends after them, by the first cart through, a bill for every jar of pickled spinach and every cup of fire milk they took, itemised, and it is paid in full.",
-    "category": "trade",
-    "people": [],
-    "places": ["marker:8"],
-    "threads": [],
-    "master_links": [{"to": "III-0187", "type": "sequel"}]
-  },
-  {
-    "title": "Seumas mac Iain gives up the deep keel",
-    "era_year": 1362,
-    "summary": "After a year of Manannan's priests preaching against his sunken hull, the boat-builder of Seann Skell builds no more deep keels, and keeps his harbour shed mending ordinary boats for ordinary fares until his death.",
-    "category": "craft",
-    "people": ["Seumas mac Iain"],
-    "places": ["burg:489"],
-    "threads": [],
-    "master_links": [{"to": "III-0188", "type": "sequel"}]
-  },
-  {
-    "title": "The shrine carried whole to Caol bheag",
-    "era_year": 1369,
-    "summary": "The fishers who leave Caol ìseal's silted harbour carry their nets, their smoking-racks and the small shrine from the harbour's edge, and set the shrine up again at Caol bheag stone by stone in the same order, so that it stands as it always stood.",
-    "category": "faith",
-    "people": [],
-    "places": ["burg:475"],
-    "threads": [],
-    "master_links": [{"to": "III-0189", "type": "sequel"}]
-  },
-  {
-    "title": "Iseabail nic Lachlainn sent out on the king's road",
-    "era_year": 1389,
-    "summary": "The steward of the royal household at Cathair dhearg, wanting a linen-maid's quick-eared daughter out from under his feet, sends her out with a mule and a letter of lodging to gather what the shires' kitchens and rope-walks still sing at their work.",
-    "category": "law",
-    "people": ["Iseabail nic Lachlainn"],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": [{"to": "III-0190", "type": "cause"}]
-  },
-  {
-    "title": "A rope-maker's guess at the old words",
-    "era_year": 1389,
-    "summary": "A young man of Tormod Ròpaire's crew, not yet trusted with the lead, tells the gatherer Iseabail that the keel-song's strange words are likely only older speech worn smooth by centuries of mouths that never meant to wear it; Tormod answers that it changes nothing about how the strand is walked.",
-    "category": "culture",
-    "people": ["Tormod Ròpaire", "Iseabail nic Lachlainn"],
-    "places": ["burg:282"],
-    "threads": [],
-    "master_links": [{"to": "III-0190", "type": "sequel"}]
-  },
-  {
-    "title": "The keel-song read at the king's court",
-    "era_year": 1391,
-    "summary": "Iseabail nic Lachlainn reads her whole gathering before the king's hall at Cathair dhearg, and the keel-song's strange lines silence a room grown used to songs it half knows already; an old harper and a vein-house clerk each say the words fit no tongue or hand they know, and neither can say more than that.",
-    "category": "culture",
-    "people": ["Iseabail nic Lachlainn"],
-    "places": ["burg:19"],
-    "threads": [],
-    "master_links": [{"to": "III-0190", "type": "sequel"}]
-  },
-  {
-    "title": "Death of Tormod Ròpaire",
-    "era_year": 1400,
-    "summary": "The rope-maker who led the walk that sang the keel-song dies at Cuan shean, seventy years old, having in his last years let a younger man keep the count while he sang on behind him; his crew keeps the song after him exactly as he gave it, no better understood than before.",
-    "category": "culture",
-    "people": ["Tormod Ròpaire"],
-    "places": ["burg:282"],
-    "threads": [],
-    "master_links": [{"to": "III-0190", "type": "person"}]
-  },
-  {
-    "title": "Seann Tarr becomes a village again",
-    "era_year": 1405,
-    "summary": "With its harbour broken past mending and its boats gone to Cuan ruadh, Seann Tarr keeps its houses and its shrine but is entered in the charter-roll, in the roll's own dry word for such places, as a village once more rather than a harbour town.",
-    "category": "land",
-    "people": [],
-    "places": ["burg:249"],
-    "threads": [],
-    "master_links": [{"to": "III-0192", "type": "legacy"}]
-  },
-  {
-    "title": "The older southern harbours follow the new lane",
-    "era_year": 1391,
-    "summary": "A season or two after Caol fhiadhaich's boats are first believed, the older harbours of the south coast, which had never in memory put a boat past their own headlands, begin one after another to follow Slighe-mhara Caol fhiadhaich down to the landing at Cidhe Beag.",
-    "category": "trade",
-    "people": [],
-    "places": ["burg:44"],
-    "threads": [],
-    "master_links": [{"to": "III-0189a", "type": "sequel"}]
-  },
-  {
-    "title": "Iseabail's tablets entered in the vein-house",
-    "era_year": 1420,
-    "summary": "On Iseabail nic Lachlainn's death the household she served the rest of her life sends her whole collection to the vein-house, where the clerks write into the inventory that it holds one item they can describe only by its sound and its keeping, not its meaning.",
-    "category": "culture",
-    "people": ["Iseabail nic Lachlainn"],
-    "places": ["burg:491"],
-    "threads": [],
-    "master_links": [{"to": "III-0190", "type": "legacy"}]
-  }
+ {
+  "title": "Pàdraig mac Ruairidh's death",
+  "era_year": 1320,
+  "summary": "The clerk who wrote the account of the Brothers' War in King Iain Ciar's praise dies some years before his king, and no scribe comes after him to keep the tale of the grain law's slow lapsing as he had kept the tale of the war itself.",
+  "category": "law",
+  "people": [
+   "Iain Ciar"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0185",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The reeve's price complaint at An Taigh-seinnse Òir",
+  "era_year": 1339,
+  "summary": "A custodians' reeve who has eaten the house's secret syrupped beef twice a winter for a decade writes into the charter-roll that the price has risen three years running with nothing else about the dish improved, and asks for a second helping in the same breath.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "marker:9"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0186",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The keeper's itemised bill",
+  "era_year": 1349,
+  "summary": "When the snow that trapped a party of reeves at An Taigh-seinnse Reòta finally lifts, the house's keeper sends after them, by the first cart through, a bill for every jar of pickled spinach and every cup of fire milk they took, itemised, and it is paid in full.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "marker:8"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0187",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Seumas mac Iain gives up the deep keel",
+  "era_year": 1362,
+  "summary": "After a year of Manannan's priests preaching against his sunken hull, the boat-builder of Seann Skell builds no more deep keels, and keeps his harbour shed mending ordinary boats for ordinary fares until his death.",
+  "category": "craft",
+  "people": [
+   "Seumas mac Iain"
+  ],
+  "places": [
+   "burg:489"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0188",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The shrine carried whole to Caol bheag",
+  "era_year": 1369,
+  "summary": "The fishers who leave Caol ìseal's silted harbour carry their nets, their smoking-racks and the small shrine from the harbour's edge, and set the shrine up again at Caol bheag stone by stone in the same order, so that it stands as it always stood.",
+  "category": "faith",
+  "people": [],
+  "places": [
+   "burg:475"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0189",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Iseabail nic Lachlainn sent out on the king's road",
+  "era_year": 1389,
+  "summary": "The steward of the royal household at Cathair dhearg, wanting a linen-maid's quick-eared daughter out from under his feet, sends her out with a mule and a letter of lodging to gather what the shires' kitchens and rope-walks still sing at their work.",
+  "category": "law",
+  "people": [
+   "Iseabail nic Lachlainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0190",
+    "type": "cause"
+   }
+  ]
+ },
+ {
+  "title": "A rope-maker's guess at the old words",
+  "era_year": 1389,
+  "summary": "A young man of Tormod Ròpaire's crew, not yet trusted with the lead, tells the gatherer Iseabail that the keel-song's strange words are likely only older speech worn smooth by centuries of mouths that never meant to wear it; Tormod answers that it changes nothing about how the strand is walked.",
+  "category": "culture",
+  "people": [
+   "Tormod Ròpaire",
+   "Iseabail nic Lachlainn"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0190",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "The keel-song read at the king's court",
+  "era_year": 1391,
+  "summary": "Iseabail nic Lachlainn reads her whole gathering before the king's hall at Cathair dhearg, and the keel-song's strange lines silence a room grown used to songs it half knows already; an old harper and a vein-house clerk each say the words fit no tongue or hand they know, and neither can say more than that.",
+  "category": "culture",
+  "people": [
+   "Iseabail nic Lachlainn"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0190",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Death of Tormod Ròpaire",
+  "era_year": 1400,
+  "summary": "The rope-maker who led the walk that sang the keel-song dies at Cuan shean, seventy years old, having in his last years let a younger man keep the count while he sang on behind him; his crew keeps the song after him exactly as he gave it, no better understood than before.",
+  "category": "culture",
+  "people": [
+   "Tormod Ròpaire"
+  ],
+  "places": [
+   "burg:282"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0190",
+    "type": "person"
+   }
+  ]
+ },
+ {
+  "title": "Seann Tarr becomes a village again",
+  "era_year": 1405,
+  "summary": "With its harbour broken past mending and its boats gone to Cuan ruadh, Seann Tarr keeps its houses and its shrine but is entered in the charter-roll, in the roll's own dry word for such places, as a village once more rather than a harbour town.",
+  "category": "land",
+  "people": [],
+  "places": [
+   "burg:249"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0192",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "title": "The older southern harbours follow the new lane",
+  "era_year": 1391,
+  "summary": "A season or two after Caol fhiadhaich's boats are first believed, the older harbours of the south coast, which had never in memory put a boat past their own headlands, begin one after another to follow Slighe-mhara Caol fhiadhaich down to the landing at Cidhe Beag.",
+  "category": "trade",
+  "people": [],
+  "places": [
+   "burg:44"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0189a",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "title": "Iseabail's tablets entered in the vein-house",
+  "era_year": 1420,
+  "summary": "On Iseabail nic Lachlainn's death the household she served the rest of her life sends her whole collection to the vein-house, where the clerks write into the inventory that it holds one item they can describe only by its sound and its keeping, not its meaning.",
+  "category": "culture",
+  "people": [
+   "Iseabail nic Lachlainn"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0190",
+    "type": "legacy"
+   }
+  ]
+ },
+ {
+  "era_year": 1380,
+  "title": "Caol ìseal turns to the plough",
+  "summary": "The houses of Caol ìseal nearest the silted water turn to farming the ground behind them after the fishers go east, and within two generations the town that smelled of fish and tar smells, most days, of turned earth.",
+  "category": "land",
+  "people": [],
+  "places": [],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0189",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 1400,
+  "title": "Birth of Catrìona Bheag",
+  "summary": "A daughter, Catrìona, is born into Clann Raghnaill, the crown's own house; she is small from the cradle, and the house calls her Catrìona Bheag.",
+  "category": "rulers",
+  "people": [
+   "Catrìona Bheag"
+  ],
+  "places": [],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0195",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
+ }
 ]

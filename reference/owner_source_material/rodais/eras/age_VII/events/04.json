@@ -279,23 +279,6 @@
     "chronicle_extra": true
   },
   {
-    "title": "Peigi nic Ascaill's baffle fitted to every furnace",
-    "era_year": 4,
-    "summary": "After a retort bursts at the southern works, a drawing of a baffle for the retort furnaces is sent round unsigned by the engineer of the lights. The company fits it to every furnace in the row, and no retort splits after.",
-    "category": "trade",
-    "people": [
-      "Peigi nic Ascaill"
-    ],
-    "places": [
-      "burg:431"
-    ],
-    "threads": [
-      "the-dubhan-trade"
-    ],
-    "master_links": [],
-    "chronicle_extra": true
-  },
-  {
     "title": "Joe Ashby chalks the lights' mark",
     "era_year": 4,
     "summary": "At the southern works Joe Ashby rolls out twenty barrels held for the engineer of the lights and chalks on each head a square with a flame inside it, the first mark Comhairle nan Taighean-solais ever had.",
@@ -315,16 +298,47 @@
     "chronicle_extra": true
   },
   {
-    "title": "The fishwives' petition against the reek",
+    "title": "The salt-boilers of Caol ìseal try the cake",
     "era_year": 4,
-    "summary": "The town of the southern Seann Skell petitions its maor against the reek of the new works. The maor answers that the company pays its harbour-due, and there the petition ends.",
-    "category": "law",
+    "summary": "The salt-boilers of Caol ìseal try a cart of the northern black cake under one pan of the low strait; it boils the brine as well as coal and fouls the pan less, and two masters of the pans send north for more.",
+    "category": "trade",
     "people": [],
     "places": [
-      "burg:431"
+      "burg:86"
     ],
     "threads": [
       "the-dubhan-trade"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "Watch kept from the Cnoc bhàn harbour",
+    "era_year": 4,
+    "summary": "The Tuathaich of Cnoc bhàn keep the pirate watch from their harbour wall through the dark months with fires of the black cake, which burn longer on the wall than driftwood and need less carrying.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:73"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-dubhan-trade"
+    ],
+    "master_links": [],
+    "chronicle_extra": true
+  },
+  {
+    "title": "The ferry of Àth gharbh loses its coal cargo",
+    "era_year": 4,
+    "summary": "The ferry at the walled ford of Àth gharbh, which had carried coal across for the eastern farms every week since its making, carries none after the spring; its ferryman takes grain and passengers and raises his fare.",
+    "category": "trade",
+    "people": [],
+    "places": [
+      "burg:50"
+    ],
+    "threads": [
+      "the-seven-coals"
     ],
     "master_links": [],
     "chronicle_extra": true

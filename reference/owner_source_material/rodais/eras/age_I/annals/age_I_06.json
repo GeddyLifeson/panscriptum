@@ -6,9 +6,30 @@
  ],
  "events": [
   {
+   "after": "I-0027"
+  },
+  {
    "id": "EI-3501",
+   "title": "A boy stands before the twin ramps of Brenn",
+   "body": "Sent one autumn morning to carry word along the bank that the tide has turned, a boy of the north-eastern Brenn household stands a long while looking at the two, then three, pale ramps running into the current before running his errand, and says nothing after of what he stood looking at.",
+   "place": "burg:440",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [
+    "the-old-ones"
+   ],
+   "people": [],
+   "told_in": "book/15_of_the_lean_years_of_the_line.md#iv-of-the-second-landing",
+   "era_between": [
+    2097,
+    2097
+   ]
+  },
+  {
+   "id": "EI-3502",
    "title": "Mathan born",
-   "body": "A second son is born to the household of the Mason's line at Tobar dhìreach, three years before his brother Fearghas, a long-legged child who from the first is surer on wet rock than any of the kin his own age.",
+   "body": "A second son is born to the household of Clann a' Chlachair at Tobar dhìreach, three years before his brother Fearghas, a long-legged child who from the first is surer on wet rock than any of the kin his own age.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -26,9 +47,9 @@
    ]
   },
   {
-   "id": "EI-3502",
+   "id": "EI-3503",
    "title": "Fearghas born",
-   "body": "Fearghas is born at Tobar dhìreach into the Mason's line, growing up on Gormal's unsettled riddle of the three hills as every child of the line grows up on it, turning the six dark coals over in his own hands before he is old enough to feel either the wonder or the doubt older mouths bring to the same handling.",
+   "body": "Fearghas is born at Tobar dhìreach into Clann a' Chlachair, growing up on Gormal's unsettled riddle of the three hills as every child of the line grows up on it, turning the six dark coals over in his own hands before he is old enough to feel either the wonder or the doubt older mouths bring to the same handling.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -47,7 +68,7 @@
    ]
   },
   {
-   "id": "EI-3503",
+   "id": "EI-3504",
    "title": "Mathan names the fault in Gormal's three hills",
    "body": "Mathan says aloud, to his brother, what each of them has been turning over apart: that Gormal named her three hills from where she stood and never climbed higher than her own doorstep to judge between them, and that the line has legs enough to settle the question by walking rather than by arguing at the hearth.",
    "place": null,
@@ -55,38 +76,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-3501",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "line-of-the-mason",
-    "the-seven-coals"
-   ],
-   "people": [
-    "mathan",
-    "fearghas"
-   ],
-   "told_in": "book/16_of_fearghas_on_the_height.md#i-of-the-two-brothers-and-the-three-hills",
-   "era_between": [
-    2167,
-    2167
-   ]
-  },
-  {
-   "id": "EI-3504",
-   "title": "The brothers stand on the first of Gormal's three hills",
-   "body": "Fearghas and Mathan climb the hill south of the black well, the nearest of the three heights Gormal once named, and standing on its crown cannot agree between them whether the shoulder of moor she had favoured stands higher still, learning only that no one of the three can be judged fairly against the others without climbing each in turn.",
-   "place": null,
-   "kind": "coal",
-   "category": "coal",
-   "links": [
-    {
-     "to": "I-0027a",
-     "type": "cause"
-    },
-    {
-     "to": "EI-3503",
+     "to": "EI-3502",
      "type": "person"
     }
    ],
@@ -106,6 +96,37 @@
   },
   {
    "id": "EI-3505",
+   "title": "The brothers stand on the first of Gormal's three hills",
+   "body": "Fearghas and Mathan climb the hill south of the black well, the nearest of the three heights Gormal once named, and standing on its crown cannot agree between them whether the shoulder of moor she had favoured stands higher still, learning only that no one of the three can be judged fairly against the others without climbing each in turn.",
+   "place": null,
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0027a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-3504",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "mathan",
+    "fearghas"
+   ],
+   "told_in": "book/16_of_fearghas_on_the_height.md#i-of-the-two-brothers-and-the-three-hills",
+   "era_between": [
+    2167,
+    2167
+   ]
+  },
+  {
+   "id": "EI-3506",
    "title": "A herder of the southern moor points beyond the known ground",
    "body": "An old herder driving his flock along a saddle of moor tells the two brothers of a further shoulder his own father swore stood higher than anything nearer the valleys, though the father himself never went to prove it, and sends them on with nothing but the names of a burn and a stand of thorn to steer by.",
    "place": null,
@@ -117,7 +138,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-3504",
+     "to": "EI-3505",
      "type": "person"
     }
    ],
@@ -135,7 +156,7 @@
    ]
   },
   {
-   "id": "EI-3506",
+   "id": "EI-3507",
    "title": "Two summers of walking ridges",
    "body": "Fearghas and Mathan walk south in the fair months and come back before the hard ones, each season a little further, climbing hills that looked from a distance like the last word and proved to have a taller neighbour behind them.",
    "place": null,
@@ -143,7 +164,7 @@
    "category": "land",
    "links": [
     {
-     "to": "EI-3505",
+     "to": "EI-3506",
      "type": "person"
     }
    ],
@@ -161,7 +182,7 @@
    ]
   },
   {
-   "id": "EI-3507",
+   "id": "EI-3508",
    "title": "A climb lost to rain",
    "body": "Fearghas and Mathan climb the shoulder the herder's father had sworn by and stand on it in a driving rain that shows them nothing of the ground beyond, coming down soaked and short-tempered with each other over whether the wetting had been worth it.",
    "place": null,
@@ -169,7 +190,7 @@
    "category": "coal",
    "links": [
     {
-     "to": "EI-3506",
+     "to": "EI-3507",
      "type": "person"
     }
    ],
@@ -187,40 +208,9 @@
    ]
   },
   {
-   "id": "EI-3508",
+   "id": "EI-3509",
    "title": "The true height is sighted",
    "body": "In clearer weather three summers into their walking, Fearghas and Mathan come out from behind a shoulder of bare rock and see, standing above every other height in every direction, a grey summit with cloud dragging along its crown, and know without needing to say it that the walking is nearly done.",
-   "place": "marker:48",
-   "kind": "coal",
-   "category": "coal",
-   "links": [
-    {
-     "to": "I-0027a",
-     "type": "cause"
-    },
-    {
-     "to": "EI-3507",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "line-of-the-mason",
-    "the-seven-coals"
-   ],
-   "people": [
-    "mathan",
-    "fearghas"
-   ],
-   "told_in": "book/16_of_fearghas_on_the_height.md#i-of-the-two-brothers-and-the-three-hills",
-   "era_between": [
-    2170,
-    2170
-   ]
-  },
-  {
-   "id": "EI-3509",
-   "title": "The brothers set out for the height",
-   "body": "Carrying the six dark coals wrapped against the wet in the leather bag, Fearghas and Mathan climb through the last night of summer toward the summit that stands clear over the whole island, sleeping little for the wind and going up with the first grey of morning.",
    "place": "marker:48",
    "kind": "coal",
    "category": "coal",
@@ -242,6 +232,37 @@
     "mathan",
     "fearghas"
    ],
+   "told_in": "book/16_of_fearghas_on_the_height.md#i-of-the-two-brothers-and-the-three-hills",
+   "era_between": [
+    2170,
+    2170
+   ]
+  },
+  {
+   "id": "EI-3510",
+   "title": "The brothers set out for the height",
+   "body": "Carrying the six dark coals wrapped against the wet in the leather bag, Fearghas and Mathan climb through the last night of summer toward the summit that stands clear over the whole island, sleeping little for the wind and going up with the first grey of morning.",
+   "place": "marker:48",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0027a",
+     "type": "cause"
+    },
+    {
+     "to": "EI-3509",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason",
+    "the-seven-coals"
+   ],
+   "people": [
+    "mathan",
+    "fearghas"
+   ],
    "told_in": "book/16_of_fearghas_on_the_height.md#ii-of-the-climb",
    "era_between": [
     2170,
@@ -252,9 +273,9 @@
    "after": "I-0027a"
   },
   {
-   "id": "EI-3510",
+   "id": "EI-3511",
    "title": "Mathan sets the first stone of the cairn",
-   "body": "Before the brothers leave the summit where the snowflake coal has just taken fire in the falling air, Mathan sets one loose stone from the crown atop another, a small cairn no higher than a hand, and says nothing over it that needs saying.",
+   "body": "Before the brothers leave the summit where gual sneachda has just taken fire in the falling air, Mathan sets one loose stone from the crown atop another, a small cairn no higher than a hand, and says nothing over it that needs saying.",
    "place": "marker:48",
    "kind": "coal",
    "category": "coal",
@@ -264,7 +285,7 @@
      "type": "location"
     },
     {
-     "to": "EI-3509",
+     "to": "EI-3510",
      "type": "person"
     }
    ],
@@ -282,7 +303,7 @@
    ]
   },
   {
-   "id": "EI-3511",
+   "id": "EI-3512",
    "title": "The telling reaches every hearth within a day's walk",
    "body": "By the morning after Fearghas and Mathan tell it standing at Tobar dhìreach, with the four cold coals laid out on a cloth for any hand to turn over, word of the lighting on the height has gone out to every household within a day's walk, carried by whoever heard it first and could not keep from carrying it further.",
    "place": null,
@@ -294,7 +315,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-3510",
+     "to": "EI-3511",
      "type": "person"
     }
    ],
@@ -312,38 +333,9 @@
    ]
   },
   {
-   "id": "EI-3512",
+   "id": "EI-3513",
    "title": "The sixth coal let fall for the telling",
    "body": "After the snowflake takes fire, Fearghas lets the sixth coal fall from the summit for the sake of the telling, and it strikes the stones as cold as the four before it.",
-   "place": "marker:48",
-   "kind": "coal",
-   "category": "coal",
-   "links": [
-    {
-     "to": "I-0027a",
-     "type": "sequel"
-    },
-    {
-     "to": "EI-3511",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "the-seven-coals"
-   ],
-   "people": [
-    "fearghas"
-   ],
-   "told_in": "book/16_of_fearghas_on_the_height.md#ii-of-the-climb",
-   "era_between": [
-    2170,
-    2170
-   ]
-  },
-  {
-   "id": "EI-3513",
-   "title": "The snowflake left burning on the slope",
-   "body": "Fearghas and Mathan climb down to the white-burning coal and leave it where it lies, judging that it has found its own place as surely as the gold found the sea.",
    "place": "marker:48",
    "kind": "coal",
    "category": "coal",
@@ -361,6 +353,35 @@
     "the-seven-coals"
    ],
    "people": [
+    "fearghas"
+   ],
+   "told_in": "book/16_of_fearghas_on_the_height.md#ii-of-the-climb",
+   "era_between": [
+    2170,
+    2170
+   ]
+  },
+  {
+   "id": "EI-3514",
+   "title": "The snowflake left burning on the slope",
+   "body": "Fearghas and Mathan climb down to the white-burning coal and leave it where it lies, judging that it has found its own place as surely as the gold found the sea.",
+   "place": "marker:48",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0027a",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-3513",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
     "fearghas",
     "mathan"
    ],
@@ -371,9 +392,9 @@
    ]
   },
   {
-   "id": "EI-3514",
+   "id": "EI-3515",
    "title": "The first stone left by a stranger's hand",
-   "body": "A herder of the high valleys, passing within sight of the grey summit for the first time since the telling went out, climbs to Mathan's small cairn and lays a stone of his own beside it, the first stone set there by a hand not of the Mason's line, beginning a custom that outlives everyone then living.",
+   "body": "A herder of the high valleys, passing within sight of the grey summit for the first time since the telling went out, climbs to Mathan's small cairn and lays a stone of his own beside it, the first stone set there by a hand not of Clann a' Chlachair, beginning a custom that outlives everyone then living.",
    "place": "marker:48",
    "kind": "faith",
    "category": "faith",
@@ -385,14 +406,14 @@
    ],
    "threads": [],
    "people": [],
-   "told_in": "book/16_of_fearghas_on_the_height.md#i-of-the-two-brothers-and-the-three-hills",
+   "told_in": "book/16_of_fearghas_on_the_height.md#ii-of-the-climb",
    "era_between": [
     2171,
     2171
    ]
   },
   {
-   "id": "EI-3515",
+   "id": "EI-3516",
    "title": "Herders' stones heap on the summit",
    "body": "Within a lifetime the little cairn Mathan began on the summit of Binnean a' Chlachair is a heap of stones a man can see from some way off, each laid by a passing herder and none of them saying why.",
    "place": "marker:48",
@@ -413,7 +434,7 @@
    ]
   },
   {
-   "id": "EI-3516",
+   "id": "EI-3517",
    "title": "Fearghas climbs the height with his son",
    "body": "Fearghas, his hair gone grey, climbs the height a second time with his own son grown old enough for the way, and shows him the white fire still burning steady among the cold stones below the summit exactly as he had first seen it catch, unchanged in every particular.",
    "place": "marker:48",
@@ -425,7 +446,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-3513",
+     "to": "EI-3514",
      "type": "person"
     }
    ],
@@ -443,7 +464,7 @@
    ]
   },
   {
-   "id": "EI-3517",
+   "id": "EI-3518",
    "title": "Mathan dies",
    "body": "Mathan dies of a fever that comes on him in a wet spring and will not break, five and fifty years old, and is buried at Tobar dhìreach with the first cairn stone he ever set on the height closed in one hand at his own asking, having given the height, as he put it himself, three summers of his legs and his best notion.",
    "place": null,
@@ -451,32 +472,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-3513",
-     "type": "person"
-    }
-   ],
-   "threads": [
-    "line-of-the-mason"
-   ],
-   "people": [
-    "mathan"
-   ],
-   "told_in": "book/16_of_fearghas_on_the_height.md#iv-of-the-years-after",
-   "era_between": [
-    2190,
-    2190
-   ]
-  },
-  {
-   "id": "EI-3518",
-   "title": "Mathan buried with the first cairn stone",
-   "body": "Mathan is buried at Tobar dhìreach with the first stone he set on the summit closed in one hand, at his own asking.",
-   "place": "burg:276",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "EI-3517",
+     "to": "EI-3514",
      "type": "person"
     }
    ],
@@ -494,6 +490,31 @@
   },
   {
    "id": "EI-3519",
+   "title": "Mathan buried with the first cairn stone",
+   "body": "Mathan is buried at Tobar dhìreach with the first stone he set on the summit closed in one hand, at his own asking.",
+   "place": "burg:276",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EI-3518",
+     "type": "person"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [
+    "mathan"
+   ],
+   "told_in": "book/16_of_fearghas_on_the_height.md#iv-of-the-years-after",
+   "era_between": [
+    2190,
+    2190
+   ]
+  },
+  {
+   "id": "EI-3520",
    "title": "Fearghas's last climb",
    "body": "An old man now, three days each way instead of two, Fearghas climbs to the height a last time alone and finds the white coal burning exactly as he left it every time before, and leaves a stone of his own on the crown before coming down for good.",
    "place": "marker:48",
@@ -505,7 +526,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-3516",
+     "to": "EI-3517",
      "type": "person"
     }
    ],
@@ -523,15 +544,15 @@
    ]
   },
   {
-   "id": "EI-3520",
+   "id": "EI-3521",
    "title": "Fearghas dies",
-   "body": "Fearghas dies at Tobar dhìreach in his sixty-second year, sure to the last of his own two feet on the height he had proved, and is buried within sight of the slab that covers the mason's vein as every keeper and finder of the line is buried before him.",
+   "body": "Fearghas dies at Tobar dhìreach in his sixty-second year, sure to the last of his own two feet on the height he had proved, and is buried within sight of Leac na Fèithe that covers the mason's vein as every keeper and finder of the line is buried before him.",
    "place": null,
    "kind": "faith",
    "category": "faith",
    "links": [
     {
-     "to": "EI-3519",
+     "to": "EI-3520",
      "type": "person"
     }
    ],
@@ -548,7 +569,7 @@
    ]
   },
   {
-   "id": "EI-3521",
+   "id": "EI-3522",
    "title": "Fearghas's name is added to the recital",
    "body": "At the recital said over Fearghas's grave, the reciter gives his name for the first time after his father's in the fixed words of the fathers of the line, telling how he climbed to the top of the island and let the six coals fall, and how the snowflake took fire in the empty air and gave the summit its name.",
    "place": "marker:48",
@@ -560,7 +581,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-3520",
+     "to": "EI-3521",
      "type": "person"
     }
    ],
@@ -578,7 +599,7 @@
    ]
   },
   {
-   "id": "EI-3522",
+   "id": "EI-3523",
    "title": "The long house at Tarr set against the cliff",
    "body": "A household of the north-eastern Tarr builds a single long house into a cleft of the cliff, the living rock its own back wall, needing to raise stone only where the cliff itself did not already stand higher than any wall the household could have built.",
    "place": "burg:34",
@@ -590,7 +611,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#i-of-the-long-house-at-tarr",
    "era_between": [
@@ -602,7 +625,7 @@
    "after": "I-0028"
   },
   {
-   "id": "EI-3523",
+   "id": "EI-3524",
    "title": "The hearth blackens the rock behind it",
    "body": "Years of the same fire kept against the same face of the cliff blacken the stone above the hearth to the height of a tall man standing, a stain the household never scrubs and never troubles to explain, holding a blackened rock over a hearth no stranger a thing than a blackened pot.",
    "place": "burg:34",
@@ -614,7 +637,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#i-of-the-long-house-at-tarr",
    "era_between": [
@@ -623,7 +648,7 @@
    ]
   },
   {
-   "id": "EI-3524",
+   "id": "EI-3525",
    "title": "The hard winter at Tarr",
    "body": "A wind out of the north holds the better part of two months without turning, and the household at Tarr lives on dried stores and shellfish taken between gales, burning at the last the timbers of a spare boat-frame kept against just such a want rather than let the hearth go cold.",
    "place": "burg:34",
@@ -635,7 +660,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#i-of-the-long-house-at-tarr",
    "era_between": [
@@ -644,7 +671,7 @@
    ]
   },
   {
-   "id": "EI-3525",
+   "id": "EI-3526",
    "title": "The calm morning after the hard winter",
    "body": "The wind drops in a single night and swings out of the north at last; the household goes down to the shingle before light to stand out of the wind, and finds a run of small fish thick enough in the shallows to be taken by hand.",
    "place": "burg:34",
@@ -656,7 +683,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#i-of-the-long-house-at-tarr",
    "era_between": [
@@ -665,7 +694,7 @@
    ]
   },
   {
-   "id": "EI-3526",
+   "id": "EI-3527",
    "title": "The four houses raised at the Vell on the Abhainn bheag",
    "body": "A short way above the river's mouth in the north-east, four houses and a boat-shed are raised on ground cut level into the steep bank; no dwelling of the shore-folk on the island is known to stand further to the north-east than this small place.",
    "place": "burg:97",
@@ -677,7 +706,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#ii-of-the-vell-on-the-abhainn-bheag",
    "era_between": [
@@ -686,7 +717,7 @@
    ]
   },
   {
-   "id": "EI-3527",
+   "id": "EI-3528",
    "title": "A girl measures her growing by the soot",
    "body": "A child of the cliff-house at Tarr stands with her back to the soot-stain on the rock above the hearth each midwinter to see how far up it her crown reaches, until the year she stands as tall as the stain.",
    "place": "burg:34",
@@ -707,7 +738,7 @@
    ]
   },
   {
-   "id": "EI-3528",
+   "id": "EI-3529",
    "title": "A flat-bottomed hull built for the river",
    "body": "The Vell's boat-shed is built to keep a hull dry between one season's use and the next; the household raises a boat flat enough in the bottom to be poled past the first rapids in a dry season, and takes it further upriver than any of the four households has gone on foot.",
    "place": "burg:97",
@@ -719,7 +750,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#ii-of-the-vell-on-the-abhainn-bheag",
    "era_between": [
@@ -728,7 +761,7 @@
    ]
   },
   {
-   "id": "EI-3529",
+   "id": "EI-3530",
    "title": "A second small fire lit at the door in the dark months",
    "body": "The household of the Tarr cliff-house keeps a second small fire lit just inside the door on the darkest days, more for its light than its warmth, the cliff keeping the sun from the doorway through the shortest months.",
    "place": "burg:34",
@@ -744,7 +777,7 @@
    ]
   },
   {
-   "id": "EI-3530",
+   "id": "EI-3531",
    "title": "A spring flood reaches the boat-shed",
    "body": "Snow melting fast off the central massif sends the Abhainn bheag over its bank far enough to reach the boat-shed's lower course; the household clears the silted floor by the basket-load and raises the shed a course higher on its uphill side.",
    "place": "burg:97",
@@ -756,7 +789,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#ii-of-the-vell-on-the-abhainn-bheag",
    "era_between": [
@@ -765,7 +800,7 @@
    ]
   },
   {
-   "id": "EI-3531",
+   "id": "EI-3532",
    "title": "A girl of the river Vell stops at the river's mouth",
    "body": "A woman grown up at the Vell on the Abhainn bheag stands at the river's mouth one evening looking at the open sea and goes no further, holding that a river's own child has no business beyond its mouth.",
    "place": "burg:97",
@@ -786,7 +821,7 @@
    ]
   },
   {
-   "id": "EI-3532",
+   "id": "EI-3533",
    "title": "Dried fish carried south to kin without a river",
    "body": "The Vell on the Abhainn bheag spares a share of its eel and salmon catch, smoked over slow fires, to kin two days' walk to the south who keep no river of their own; a household comes up once in a lean year with little to trade and goes home with more than it brought.",
    "place": "burg:97",
@@ -798,7 +833,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#ii-of-the-vell-on-the-abhainn-bheag",
    "era_between": [
@@ -810,7 +847,7 @@
    "after": "I-0029"
   },
   {
-   "id": "EI-3533",
+   "id": "EI-3534",
    "title": "The eel-trap pattern taught to two children",
    "body": "An old woman of the Vell's youngest household teaches the willow-trap pattern she learned as a girl to a boy and a girl of the place, holding that a pattern known in only one pair of hands is one bad season from being lost to the whole Vell.",
    "place": "burg:97",
@@ -822,7 +859,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#ii-of-the-vell-on-the-abhainn-bheag",
    "era_between": [
@@ -831,7 +870,7 @@
    ]
   },
   {
-   "id": "EI-3534",
+   "id": "EI-3535",
    "title": "The second Skell begins its own curved mole",
    "body": "A household of a northern Skell some way along the coast from the first breakwater takes up the same work for its own water, laying stone out from a low headland in the same curve, carried down from a scree behind the shore rather than quarried fresh.",
    "place": "burg:132",
@@ -843,7 +882,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iii-of-the-second-mole-at-skell",
    "era_between": [
@@ -852,7 +893,7 @@
    ]
   },
   {
-   "id": "EI-3535",
+   "id": "EI-3536",
    "title": "A swell breaks over the unfinished mole and moves nothing",
    "body": "A hard swell out of the north-west runs white over the second Skell's unfinished curve for two days; when it drops every stone is found still set where it was laid, moved a hand's width here and there but nowhere thrown clear.",
    "place": "burg:132",
@@ -864,7 +905,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iii-of-the-second-mole-at-skell",
    "era_between": [
@@ -873,7 +916,7 @@
    ]
   },
   {
-   "id": "EI-3536",
+   "id": "EI-3537",
    "title": "Each stone of the curved mole laid dry first",
    "body": "The household building the second mole at the northern Skell lays each new stone dry against the course already set, working it back and forth until it sits without rocking, and only then sets it.",
    "place": "burg:132",
@@ -897,7 +940,7 @@
    "after": "I-0030"
   },
   {
-   "id": "EI-3537",
+   "id": "EI-3538",
    "title": "The curved mole at the second Skell finished",
    "body": "The second Skell's breakwater is carried out as far as the household judges worth the sheltering; a boat brought in behind the finished curve on a hard-weather day rides easier at its mooring than any boat of that shore had ridden before.",
    "place": "burg:132",
@@ -909,7 +952,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iii-of-the-second-mole-at-skell",
    "era_between": [
@@ -918,7 +963,7 @@
    ]
   },
   {
-   "id": "EI-3538",
+   "id": "EI-3539",
    "title": "A traveller from the second Skell sees the first mole",
    "body": "A man of the second Skell, grown from the boy who watched his own household's curve laid, comes within sight of the first mole on a journey south and finds the stone laid the same way, curve for curve, though no household of either shore had ever seen the other's work before it was finished.",
    "place": "burg:132",
@@ -930,7 +975,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iii-of-the-second-mole-at-skell",
    "era_between": [
@@ -939,7 +986,7 @@
    ]
   },
   {
-   "id": "EI-3539",
+   "id": "EI-3540",
    "title": "The first clay-lined pit dug in the western dune",
    "body": "A woman of the western Vell digs and clay-lines the first of a line of storage pits cut into the dune's slope, closed with a heavy slab; households after her keep her spacing between pits without troubling to test her reasoning for themselves.",
    "place": "burg:127",
@@ -951,7 +998,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iv-of-the-pits-in-the-western-dune",
    "era_between": [
@@ -960,7 +1009,7 @@
    ]
   },
   {
-   "id": "EI-3540",
+   "id": "EI-3541",
    "title": "A younger household cuts clay out of turn",
    "body": "A household new to the western dune cuts a clay bank two others had agreed to leave fallow a season; once the disagreement reaches her, the woman who keeps the unwritten turn among the banks settles it, and the younger household gives over a full pit's worth of its own dried catch.",
    "place": "burg:127",
@@ -972,7 +1021,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iv-of-the-pits-in-the-western-dune",
    "era_between": [
@@ -981,7 +1032,7 @@
    ]
   },
   {
-   "id": "EI-3541",
+   "id": "EI-3542",
    "title": "The pits of the western dune spaced a body's length apart",
    "body": "The woman who dug the first store-pit in the western dune at Vell sets her later pits a full body's length apart, holding that a pit dug too near another draws damp, and the households after her keep the spacing.",
    "place": "burg:127",
@@ -1005,7 +1056,7 @@
    "after": "I-0031"
   },
   {
-   "id": "EI-3542",
+   "id": "EI-3543",
    "title": "Fish bones found in a sealed pit",
    "body": "A pit left sealed longer than a season gives back fish bones picked clean and gone soft with damp that found its way past the clay; the households learn to trust a pit's seal less far into a second year and to empty a store before the season turns.",
    "place": "burg:127",
@@ -1017,7 +1068,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iv-of-the-pits-in-the-western-dune",
    "era_between": [
@@ -1026,7 +1079,7 @@
    ]
   },
   {
-   "id": "EI-3543",
+   "id": "EI-3544",
    "title": "Doors of the western shore turn from the sea",
    "body": "Without any of its own tellings naming a reason, household after household of the western shore sets its door and its hearth a little more toward the dune at its back than toward the water in front, a threshold that had always opened straight onto the beach coming to open sideways from it instead.",
    "place": "burg:127",
@@ -1039,6 +1092,7 @@
     }
    ],
    "threads": [
+    "the-old-ones",
     "the-mist"
    ],
    "people": [],
@@ -1049,7 +1103,7 @@
    ]
   },
   {
-   "id": "EI-3544",
+   "id": "EI-3545",
    "title": "The last pit of the season sealed for winter",
    "body": "The western dune's last pit of the year is dug, lined and lidded before the first hard frost, the sand banked back over its edges as every pit before it had been closed, the shore settling into a waiting none of its tellings say the whole of.",
    "place": "burg:127",
@@ -1061,7 +1115,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/17_of_the_cliff_house_and_the_curved_mole.md#iv-of-the-pits-in-the-western-dune",
    "era_between": [
@@ -1070,7 +1126,7 @@
    ]
   },
   {
-   "id": "EI-3545",
+   "id": "EI-3546",
    "title": "The spur first climbed and looked from",
    "body": "Two sons of a shore household climb the spur above the southern lowland to look, and come back saying a man standing on its crown can see the whole lowland below him and any thing that moves across it long before it reaches the coast.",
    "place": "marker:31",
@@ -1082,7 +1138,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#i-of-the-wall-on-the-spur",
    "era_between": [
@@ -1094,7 +1152,7 @@
    "after": "I-0032"
   },
   {
-   "id": "EI-3546",
+   "id": "EI-3547",
    "title": "The three rings begun on the height",
    "body": "On a height near the south-eastern coast a crew begins the outer of three ringed walls under a woman said to read the ground before a stone is laid, a work on a scale no household of that coast has raised to before.",
    "place": "marker:32",
@@ -1106,7 +1164,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#ii-of-the-cistern-and-the-three-rings",
    "era_between": [
@@ -1115,9 +1175,9 @@
    ]
   },
   {
-   "id": "EI-3547",
-   "title": "The outpost's wall dressed on its outer face only",
-   "body": "The mason who sets the outpost's first course dresses its stone smooth only where an enemy's eye might run along it, leaving the inner face raw, so that the wall stands smooth without and rough within through every season it is kept.",
+   "id": "EI-3548",
+   "title": "Làrach an Dùin-fhaire's wall dressed on its outer face only",
+   "body": "The mason who sets Làrach an Dùin-fhaire's first course dresses its stone smooth only where an enemy's eye might run along it, leaving the inner face raw, so that the wall stands smooth without and rough within through every season it is kept.",
    "place": "marker:31",
    "kind": "trade",
    "category": "trade",
@@ -1127,7 +1187,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#i-of-the-wall-on-the-spur",
    "era_between": [
@@ -1136,9 +1198,9 @@
    ]
   },
   {
-   "id": "EI-3548",
-   "title": "The inner face of the outpost left rough",
-   "body": "The woman who sets the first course of the outpost wall dresses the stones on the outer face only, saying a wall need be smooth where an enemy's eye runs looking for a hold, and rough where a friend's hand rests going up the inner steps.",
+   "id": "EI-3549",
+   "title": "The inner face of Làrach an Dùin-fhaire left rough",
+   "body": "The woman who sets the first course of Làrach an Dùin-fhaire wall dresses the stones on the outer face only, saying a wall need be smooth where an enemy's eye runs looking for a hold, and rough where a friend's hand rests going up the inner steps.",
    "place": "marker:31",
    "kind": "craft",
    "category": "trade",
@@ -1157,9 +1219,9 @@
    ]
   },
   {
-   "id": "EI-3549",
-   "title": "The outpost's gate hung",
-   "body": "A heavy oaken gate is hung on a socketed post at the outpost, its single doorway facing inland away from the sea, and swings shut of its own weight for the first time to the doubt of an old fisherman who mistrusts a door built facing from the water.",
+   "id": "EI-3550",
+   "title": "Làrach an Dùin-fhaire's gate hung",
+   "body": "A heavy oaken gate is hung on a socketed post at Làrach an Dùin-fhaire, its single doorway facing inland away from the sea, and swings shut of its own weight for the first time to the doubt of an old fisherman who mistrusts a door built facing from the water.",
    "place": "marker:31",
    "kind": "trade",
    "category": "trade",
@@ -1169,7 +1231,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#i-of-the-wall-on-the-spur",
    "era_between": [
@@ -1178,7 +1242,7 @@
    ]
   },
   {
-   "id": "EI-3550",
+   "id": "EI-3551",
    "title": "Cattle first driven up the spur",
    "body": "Beasts used to level shore grazing are coaxed up the spur's steep ground for the first time, balking at the new gate, and settle within the wall to its thin grass within a few days of the climb.",
    "place": "marker:31",
@@ -1190,7 +1254,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#i-of-the-wall-on-the-spur",
    "era_between": [
@@ -1199,7 +1265,7 @@
    ]
   },
   {
-   "id": "EI-3551",
+   "id": "EI-3552",
    "title": "The gate argued before the lintel",
    "body": "An old fisherman argues that a gate facing away from the water is a gate built by people who have forgotten what the water was to them; the mason answers that whatever a gate here must watch for will not come rowing.",
    "place": "marker:31",
@@ -1220,9 +1286,9 @@
    ]
   },
   {
-   "id": "EI-3552",
+   "id": "EI-3553",
    "title": "A watcher learns to prefer the quiet",
-   "body": "A woman who keeps the outpost's first winter watch longer than anyone of her household says afterward that the quiet of the spur had a weight unlike any quiet of the shore, and that she grew almost to prefer it.",
+   "body": "A woman who keeps Làrach an Dùin-fhaire's first winter watch longer than anyone of her household says afterward that the quiet of the spur had a weight unlike any quiet of the shore, and that she grew almost to prefer it.",
    "place": "marker:31",
    "kind": "land",
    "category": "land",
@@ -1236,9 +1302,9 @@
    ]
   },
   {
-   "id": "EI-3553",
+   "id": "EI-3554",
    "title": "The false watch on the lowland",
-   "body": "A boy of the outpost raises the whole watch at dusk over shapes crossing the lowland from the west, taken for deer moving too evenly together; nothing is found by first light, and the outpost's watch is never again left to one pair of eyes.",
+   "body": "A boy of Làrach an Dùin-fhaire raises the whole watch at dusk over shapes crossing the lowland from the west, taken for deer moving too evenly together; nothing is found by first light, and Làrach an Dùin-fhaire's watch is never again left to one pair of eyes.",
    "place": "marker:31",
    "kind": "land",
    "category": "land",
@@ -1248,7 +1314,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#i-of-the-wall-on-the-spur",
    "era_between": [
@@ -1257,7 +1325,7 @@
    ]
   },
   {
-   "id": "EI-3554",
+   "id": "EI-3555",
    "title": "The cistern cut into the bedrock",
    "body": "At the height's crown a basin is hollowed from the bedrock by heated stone cracked loose and cooled with water, a labour of two seasons that blisters more hands than the rest of the rings together.",
    "place": "marker:32",
@@ -1269,7 +1337,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#ii-of-the-cistern-and-the-three-rings",
    "era_between": [
@@ -1278,7 +1348,7 @@
    ]
   },
   {
-   "id": "EI-3555",
+   "id": "EI-3556",
    "title": "The one who reads the ground stands over the cistern",
    "body": "The woman who reads the ground for the three rings says the cistern must go deep enough to hold water through a summer no rain falls in, though no one living has seen such a summer.",
    "place": "marker:32",
@@ -1302,7 +1372,7 @@
    "after": "I-0033"
   },
   {
-   "id": "EI-3556",
+   "id": "EI-3557",
    "title": "The cistern first full",
    "body": "The cistern fills for the first time from a spring the digging uncovers, and a child let down on a rope draws up the first measure, which the woman who read the ground tastes and says tastes of stone.",
    "place": "marker:32",
@@ -1314,7 +1384,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#ii-of-the-cistern-and-the-three-rings",
    "era_between": [
@@ -1323,7 +1395,7 @@
    ]
   },
   {
-   "id": "EI-3557",
+   "id": "EI-3558",
    "title": "Cattle first driven inside the three rings",
    "body": "Beasts are driven up the steeper climb into the three rings for the first time, more lost to loose scree on the way than the spur's own herders ever lost, and a woman who loses two of her own says the rings charge dear for what they let in.",
    "place": "marker:32",
@@ -1335,7 +1407,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#ii-of-the-cistern-and-the-three-rings",
    "era_between": [
@@ -1344,7 +1418,7 @@
    ]
   },
   {
-   "id": "EI-3558",
+   "id": "EI-3559",
    "title": "The wind within the rings",
    "body": "A household that moves up from the shore to one of the first houses within the innermost ring finds the wind there, filtered through three walls, gentler than any wind it knew at the water's edge.",
    "place": "marker:32",
@@ -1360,7 +1434,7 @@
    ]
   },
   {
-   "id": "EI-3559",
+   "id": "EI-3560",
    "title": "The trodden way between the heights first paved",
    "body": "A household along the worst stretch of the path between the spur and the height lays flat stones to keep its own feet dry, with no thought yet of any greater road, and others add paving of their own beside it.",
    "place": "burg:46",
@@ -1372,7 +1446,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#iii-of-the-kerbed-way",
    "era_between": [
@@ -1381,7 +1457,7 @@
    ]
   },
   {
-   "id": "EI-3560",
+   "id": "EI-3561",
    "title": "The death of the woman who read the ground",
    "body": "The woman who has read the ground for the three rings since the first course dies within the innermost ring at a great age and is buried there at her own asking, under a stretch of wall she named the soundest of her life.",
    "place": "marker:32",
@@ -1393,7 +1469,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#ii-of-the-cistern-and-the-three-rings",
    "era_between": [
@@ -1405,7 +1483,7 @@
    "after": "I-0034"
   },
   {
-   "id": "EI-3561",
+   "id": "EI-3562",
    "title": "The kerbing of the way spreads",
    "body": "Upright stones set along the paving's edges hold it firm through a wet winter better than the unkerbed stretches beside it, and the practice spreads along the whole track within a few more seasons.",
    "place": "burg:46",
@@ -1417,7 +1495,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#iii-of-the-kerbed-way",
    "era_between": [
@@ -1426,9 +1506,9 @@
    ]
   },
   {
-   "id": "EI-3562",
+   "id": "EI-3563",
    "title": "The kerbed way paved household by household",
-   "body": "The track between the outpost and the rings is paved stretch by stretch by the households nearest each stretch, pale stone and dark, broad slabs and small fitted stones, no one hand holding the whole plan of it.",
+   "body": "The track between Làrach an Dùin-fhaire and the rings is paved stretch by stretch by the households nearest each stretch, pale stone and dark, broad slabs and small fitted stones, no one hand holding the whole plan of it.",
    "place": "burg:46",
    "kind": "craft",
    "category": "trade",
@@ -1447,7 +1527,7 @@
    ]
   },
   {
-   "id": "EI-3563",
+   "id": "EI-3564",
    "title": "The first cart driven the whole way",
    "body": "A cart of dressed stone drawn by two yoked oxen crosses the whole kerbed way for the first time without a wheel sinking to the axle, a day's haul where the same load once took the better part of three over open moor.",
    "place": "burg:46",
@@ -1459,7 +1539,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#iii-of-the-kerbed-way",
    "era_between": [
@@ -1468,7 +1550,7 @@
    ]
   },
   {
-   "id": "EI-3564",
+   "id": "EI-3565",
    "title": "The last slab of the kerbed way laid",
    "body": "The final slab of the track is set tilted rather than level on the last steep rise, and the small crew that lays it turns, its work done, to look inland toward the high pale country rather than back toward the sea.",
    "place": "burg:46",
@@ -1480,7 +1562,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/18_of_the_outpost_and_the_three_rings.md#iii-of-the-kerbed-way",
    "era_between": [

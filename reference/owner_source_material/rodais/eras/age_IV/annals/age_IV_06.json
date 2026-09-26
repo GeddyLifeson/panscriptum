@@ -1,0 +1,1527 @@
+{
+ "writer": 3,
+ "span": [
+  "III-0065",
+  "III-0090"
+ ],
+ "events": [
+  {
+   "id": "EIV-3501",
+   "title": "The death of King Fearchar Donn",
+   "body": "Fearchar Donn dies at Cathair dhearg in his sixty-eighth year, the last of his own riding to the vein-house's winter burning long past. His daughter Sìleas, thirteen years old, is judged too young to be crowned, and the heads of the seven custodian houses take the hall in her name by turns.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0069",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearchar-donn",
+    "sileas-nic-fhearchair"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#i-of-the-girl-who-counted-the-baskets",
+   "era_between": [
+    256,
+    256
+   ]
+  },
+  {
+   "id": "EIV-3502",
+   "title": "Sìleas nic Fhearchair crowned",
+   "body": "Sìleas, fifteen years old, is crowned at Cathair dhearg with the same cup and the same oath as her father before her. The heads of the seven houses swear over her hands to hold the vein and its right as it has always been held.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0069",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "sileas-nic-fhearchair"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#ii-of-the-crowning-at-fifteen",
+   "era_between": [
+    258,
+    258
+   ]
+  },
+  {
+   "after": "III-0066"
+  },
+  {
+   "id": "EIV-3503",
+   "title": "Raghnall mac Nèill in the water at Seann Toll",
+   "body": "In the storm the north coast calls Am Fuath Mòr, Raghnall mac Nèill, reeve of Seann Toll, thirty-four years old and four years in office, stands knee-deep on the strand hauling on a rope with three other men to bring in a boat with two children lashed inside it.",
+   "place": "burg:37",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0066",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-neill"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#iii-of-am-fuath-mor-and-the-hooked-wall",
+   "era_between": [
+    259,
+    259
+   ]
+  },
+  {
+   "id": "EIV-3504",
+   "title": "The dead of Am Fuath Mòr buried on the headland",
+   "body": "Seann Toll buries the eighteen who drowned trying to save the boats in a single row on the headland above the broken wall, a row so long that the reeve keeping the count loses his place twice and begins again.",
+   "place": "burg:37",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0066",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-neill"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#iii-of-am-fuath-mor-and-the-hooked-wall",
+   "era_between": [
+    259,
+    259
+   ]
+  },
+  {
+   "id": "EIV-3505",
+   "title": "The queen weds Dùghall mac Ìomhair",
+   "body": "Sìleas takes a consort of her own choosing, Dùghall mac Ìomhair of the eastern hill-house Clann Ìomhair, whom she has known since the years of her regency. The seven houses' heads attend the wedding at Cathair dhearg.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0068",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "sileas-nic-fhearchair",
+    "dughall-mac-iomhair"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#iv-of-the-walls-of-dun-dhearg-and-a-supper-kept-cold",
+   "era_between": [
+    260,
+    260
+   ]
+  },
+  {
+   "after": "III-0069"
+  },
+  {
+   "id": "EIV-3506",
+   "title": "A cold supper at the red hall",
+   "body": "Sìleas summons the head of Clann Ìomhair to a supper at Cathair dhearg after his house walls Dùn dhearg without the crown's leave. Neither speaks plainly of the walls; both understand what is meant by everything left unsaid, and the walls stand unopposed.",
+   "place": "burg:422",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0068",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses"
+   ],
+   "people": [
+    "sileas-nic-fhearchair",
+    "dughall-mac-iomhair"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#iv-of-the-walls-of-dun-dhearg-and-a-supper-kept-cold",
+   "era_between": [
+    261,
+    261
+   ]
+  },
+  {
+   "id": "EIV-3507",
+   "title": "The quarrel over a basket at the capital's market",
+   "body": "Watching a farmer and a grain-seller come near to blows below the red hall over the true size of a basket, Sìleas is put in mind of a like quarrel she watched as a child, and resolves that one measure alone shall serve the whole island.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0069",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-fhearchair"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#v-of-the-quarrel-over-a-basket",
+   "era_between": [
+    261,
+    261
+   ]
+  },
+  {
+   "id": "EIV-3508",
+   "title": "The firlots carried to the shire seats",
+   "body": "Oak firlots bound with three iron hoops, each cut to the capital's standard and marked with the queen's own mark, go out by cart from Cathair dhearg to every shire seat on the island, so that a basket weighed true at the capital weighs true anywhere a Dia-thìrich stands to sell or buy.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0069",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-fhearchair"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#v-of-the-quarrel-over-a-basket",
+   "era_between": [
+    262,
+    262
+   ]
+  },
+  {
+   "id": "EIV-3509",
+   "title": "The first quarrel settled by the firlot",
+   "body": "At Àth shean a carter and a miller who have fallen out over a load of oats are measured true against the town's firlot before a crowd their shouting drew, and the matter is settled before either of them thinks to shout further.",
+   "place": "burg:67",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0069",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#v-of-the-quarrel-over-a-basket",
+   "era_between": [
+    270,
+    270
+   ]
+  },
+  {
+   "id": "EIV-3510",
+   "title": "Birth of Uisdean mac Dhùghaill",
+   "body": "Sìleas and Dùghall's son Uisdean is born at Cathair dhearg, a quiet and watchful child who is one day to follow his mother in the hall.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0077",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-fhearchair",
+    "dughall-mac-iomhair",
+    "uisdean-mac-dhughaill"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#vi-of-the-tally-houses-and-the-long-city-s-market",
+   "era_between": [
+    270,
+    270
+   ]
+  },
+  {
+   "after": "III-0070"
+  },
+  {
+   "id": "EIV-3511",
+   "title": "A trader questions the tally-stick at Cathair dhearg",
+   "body": "At the granary tally-house a trader of the long city asks the clerk what stops a false notch being cut after a bargain is struck, and is shown how the grain of a split stick runs true only when its two halves are laid together again.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0070",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#vi-of-the-tally-houses-and-the-long-city-s-market",
+   "era_between": [
+    284,
+    284
+   ]
+  },
+  {
+   "after": "III-0070a"
+  },
+  {
+   "id": "EIV-3512",
+   "title": "The first full-moon market at Cathair fhada",
+   "body": "Under the new charter the long city holds its first market timed to the full moon, and traders come from three days' walk in every direction to carry honey, hemp, wax and pottery north as one company.",
+   "place": "burg:297",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0070a",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#vi-of-the-tally-houses-and-the-long-city-s-market",
+   "era_between": [
+    287,
+    287
+   ]
+  },
+  {
+   "after": "III-0071"
+  },
+  {
+   "id": "EIV-3513",
+   "title": "The bridge of Cathair dhearg widened",
+   "body": "The old stone bridge over Abhainn dhomhain at Cathair dhearg is widened for two loaded carts to pass abreast, and the queen's name is cut into the downstream parapet without her asking for it.",
+   "place": "marker:3",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-fhearchair",
+    "uisdean-mac-dhughaill"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#vii-of-the-bridge",
+   "era_between": [
+    289,
+    289
+   ]
+  },
+  {
+   "id": "EIV-3514",
+   "title": "Sìleas rides to the widened bridge with her son",
+   "body": "On a grey morning in Bearnach Queen Sìleas rides down to see the widened bridge at Cathair dhearg finished, forty-six years old, with her son Uisdean, nineteen, riding at her side.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0071",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-fhearchair",
+    "uisdean-mac-dhughaill"
+   ],
+   "told_in": "book/16_of_the_firlot_of_cathair_dhearg.md#vii-of-the-bridge",
+   "era_between": [
+    289,
+    289
+   ]
+  },
+  {
+   "id": "EIV-3515",
+   "title": "Coinneach mac Mhàrtainn on the carters' roads",
+   "body": "Coinneach mac Mhàrtainn, a druid of the schools of Flidais who has walked the roads of the middle shires for the better part of forty years, carries the stag's teaching from house to house with a stick, a satchel of writing-boards and no fixed hearth.",
+   "place": null,
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0073",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#i-of-the-carters-roads",
+   "era_between": [
+    300,
+    300
+   ]
+  },
+  {
+   "after": "III-0073"
+  },
+  {
+   "id": "EIV-3516",
+   "title": "Coinneach among the panther-herders",
+   "body": "Travelling south to Imrich nam Pantar in the crossing days, Coinneach mac Mhàrtainn finds a whole valley emptied of flocks and every gate on the panthers' path standing open. An old herdswoman tells him the herders have kept the crossing days longer than any living memory can number, and ask no more of it than that.",
+   "place": "marker:40",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0072",
+     "type": "location"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "coinneach-mac-mhartainn"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#i-of-the-carters-roads",
+   "era_between": [
+    304,
+    304
+   ]
+  },
+  {
+   "id": "EIV-3517",
+   "title": "Coinneach hears the carters' grumbling at the Yellow Lion",
+   "body": "At the road-house of An Leòmhann Buidhe, Coinneach overhears a coal-carter complain that the northern galleries want two men to a face where one once sufficed, and begins, without deciding to, keeping a private count of how often the like is said to him on the road.",
+   "place": "marker:7",
+   "kind": "craft",
+   "category": "coal",
+   "links": [
+    {
+     "to": "III-0073",
+     "type": "location"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "coinneach-mac-mhartainn"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#i-of-the-carters-roads",
+   "era_between": [
+    304,
+    304
+   ]
+  },
+  {
+   "id": "EIV-3518",
+   "title": "Coinneach speaks with the teachers at Muileann chiar",
+   "body": "In the sacred wood of Flidais at Muileann chiar, Coinneach tells the schools' elder teachers what he has gathered on the roads. Beathag nic Ruairidh names it a half question asked a thousand times, and tells him the schools want a fixed ground where it may be argued whole.",
+   "place": "marker:23",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0074",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn",
+    "beathag-nic-ruairidh"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#ii-of-the-grove-at-muileann-chiar",
+   "era_between": [
+    305,
+    305
+   ]
+  },
+  {
+   "id": "EIV-3519",
+   "title": "Coinneach walks the bounds of the schools' wood",
+   "body": "Coinneach walks the boundary stones of the sacred wood at Muileann chiar alone, as the schools' teachers do once in a lifetime, and comes out of it resolved to build a fixed house for the question he has carried, rather than carry it hearth to hearth any longer.",
+   "place": "marker:23",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0074",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#ii-of-the-grove-at-muileann-chiar",
+   "era_between": [
+    310,
+    310
+   ]
+  },
+  {
+   "after": "III-0074"
+  },
+  {
+   "id": "EIV-3520",
+   "title": "The house of disputation raised at Dùn thais",
+   "body": "Coinneach mac Mhàrtainn raises a hall of stone and turf at Dùn thais, Taigh na Deasbaid, and has the schools' old question, Carson an làmh seo?, cut into its lintel before the roof is finished. A rule is set: a question, once put, is argued a full year before any answer is given from the master's chair.",
+   "place": "burg:77",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0074",
+     "type": "location"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#iii-of-the-house-raised-at-dun-thais",
+   "era_between": [
+    314,
+    314
+   ]
+  },
+  {
+   "id": "EIV-3521",
+   "title": "Pupils come from Caol bheag",
+   "body": "Word of the house at Dùn thais reaches the coast, and pupils begin walking three days from Caol bheag to sit its benches, sent by parents who have heard, by trader and carter, that a hard question is argued there properly. Among them is a fisherman's son, Aonghas mac Nèill, who stays to keep the house's register.",
+   "place": "burg:475",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0074",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn",
+    "aonghas-mac-neill"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#iii-of-the-house-raised-at-dun-thais",
+   "era_between": [
+    318,
+    318
+   ]
+  },
+  {
+   "id": "EIV-3522",
+   "title": "Beathag nic Ruairidh visits the finished house",
+   "body": "Beathag nic Ruairidh comes down from the grove of Muileann chiar to see the house Coinneach has built, walks its length in silence, and tells him afterward that the ground he has raised is fixed and patient enough, and asks only how long he means to let it argue safe things before he sets it the one question it was truly raised for.",
+   "place": "burg:77",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0074",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn",
+    "beathag-nic-ruairidh"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#iii-of-the-house-raised-at-dun-thais",
+   "era_between": [
+    320,
+    320
+   ]
+  },
+  {
+   "id": "EIV-3523",
+   "title": "Birth of Uisdean mac Uisdein",
+   "body": "A son, named Uisdean for his father, is born at Cathair dhearg to Uisdean mac Dhùghaill, then two-and-fifty years old and still waiting on his mother's long reign.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0077",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "uisdean-mac-uisdein",
+    "uisdean-mac-dhughaill"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#v-of-the-queen-s-death-and-the-road-home",
+   "era_between": [
+    322,
+    322
+   ]
+  },
+  {
+   "after": "III-0077"
+  },
+  {
+   "id": "EIV-3524",
+   "title": "Coinneach asks the forbidden question",
+   "body": "Before a full hall at Dùn thais, Coinneach mac Mhàrtainn asks at last whether the hands that went with the fleet were those the vein answered best, and whether it answers fewer now. No one on the benches answers him, and he sets the question, unanswered, into the house's register.",
+   "place": "burg:77",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0075",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#iv-of-the-open-disputation",
+   "era_between": [
+    324,
+    324
+   ]
+  },
+  {
+   "id": "EIV-3525",
+   "title": "The houses' ban carried to their tables",
+   "body": "Word of Coinneach's question travels shire to shire until it has reached every one of the seven custodian houses, and each in its own hall forbids the question at its own table: the first time the seven have forbidden a question rather than a deed.",
+   "place": null,
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0075",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-houses",
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#iv-of-the-open-disputation",
+   "era_between": [
+    324,
+    324
+   ]
+  },
+  {
+   "id": "EIV-3526",
+   "title": "The reeve divides the grazing at Baile Mòr mhòr anew",
+   "body": "After a run of poor upland seasons, Baile Mòr mhòr has taken in so many families from the failing farms that the town has all but doubled, and its reeve marks out shares of the common grazing for households that never held a share of it before.",
+   "place": "burg:365",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0076",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#v-of-the-queen-s-death-and-the-road-home",
+   "era_between": [
+    324,
+    324
+   ]
+  },
+  {
+   "id": "EIV-3527",
+   "title": "Death of Queen Sìleas nic Fhearchair",
+   "body": "Queen Sìleas nic Fhearchair dies at Cathair dhearg, one-and-eighty years old, in the red hall where she had reigned longer than any ruler before her, a reign of six-and-sixty years begun when she was crowned at fifteen, too young by the houses' own custom to take the crown at once.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0077",
+     "type": "location"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-nic-fhearchair"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#v-of-the-queen-s-death-and-the-road-home",
+   "era_between": [
+    324,
+    324
+   ]
+  },
+  {
+   "id": "EIV-3528",
+   "title": "Uisdean mac Dhùghaill crowned",
+   "body": "Uisdean mac Dhùghaill, Sìleas's son, no young man himself by then, is crowned at Cathair dhearg in his mother's place before the season turns. The crown's scribes set his crowning and her death on the same board, one line after the other, as though the two were a single piece of news.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0077",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "uisdean-mac-dhughaill",
+    "sileas-nic-fhearchair"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#v-of-the-queen-s-death-and-the-road-home",
+   "era_between": [
+    324,
+    324
+   ]
+  },
+  {
+   "id": "EIV-3529",
+   "title": "Coinneach walks home from the ban",
+   "body": "Learning how the seven houses have answered his question with a wider silence than his own, Coinneach mac Mhàrtainn walks the carters' road out from Dùn thais alone into the dark, and tells no pupil, then or after, what he has thought on the road.",
+   "place": "burg:77",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0075",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "coinneach-mac-mhartainn"
+   ],
+   "told_in": "book/17_of_carson_an_lamh_seo.md#iv-of-the-open-disputation",
+   "era_between": [
+    324,
+    324
+   ]
+  },
+  {
+   "id": "EIV-3530",
+   "title": "Iain mac Ùisdein set to his father's toll",
+   "body": "A boy of Drochaid Ros fhionn is set to sit the bridge with the tally-stick and learn his letters between carts, the office his father and grandfather held before him over the stone crossing above Ros fhionn.",
+   "place": "marker:4",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [
+    "iain-mac-uisdein"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#ii-of-the-bridge-keeper-s-boyhood-and-the-springs-on-the-flats",
+   "era_between": [
+    335,
+    335
+   ]
+  },
+  {
+   "id": "EIV-3531",
+   "title": "A reeve turns back from the pastures of Doire uaine before dark",
+   "body": "A reeve sent from the shire seat to argue the shepherds of Doire uaine out of their custom of lighting no fires on the high pastures comes down again before dark the same day, and never returns to press the argument.",
+   "place": "marker:22",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0083",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#vi-of-the-hollow-man-a-king-s-end-and-the-fish-of-ath-fhiadhaich",
+   "era_between": [
+    335,
+    335
+   ]
+  },
+  {
+   "after": "III-0078"
+  },
+  {
+   "id": "EIV-3532",
+   "title": "Ruairidh mac Artair's deep hull built at Inis àrsaidh",
+   "body": "A merchant of Inis àrsaidh pays wrights to lay a deep-keeled hull for the long coast run, in the manner remembered of the fleet's own building. No wright of the day still holds the old scarfing of the keel timbers that let those hulls flex to a sea.",
+   "place": "burg:55",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0078",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ruairidh-mac-artair"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#i-of-the-hull-that-would-not-ride-true",
+   "era_between": [
+    344,
+    344
+   ]
+  },
+  {
+   "id": "EIV-3533",
+   "title": "The hull that would not ride true",
+   "body": "Ruairidh's hull lists at launch past any righting and is broken up for timber within the fortnight; none of the old builders' lore of the keel's joinery survives among the wrights who raised her. No one is hurt in the breaking-up.",
+   "place": "burg:55",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0078",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ruairidh-mac-artair"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#i-of-the-hull-that-would-not-ride-true",
+   "era_between": [
+    344,
+    344
+   ]
+  },
+  {
+   "id": "EIV-3534",
+   "title": "Coll of Inis àrsaidh on the lost scarfing",
+   "body": "Coll, the oldest wright at Inis àrsaidh, looks over Ruairidh mac Artair's listing hull and says that no wright now living holds the old joinery of the keel that let the fleet's hulls flex to a sea; nobody has asked for it in three hundred years.",
+   "place": null,
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0078",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "coll-wright",
+    "ruairidh-mac-artair"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#i-of-the-hull-that-would-not-ride-true",
+   "era_between": [
+    344,
+    344
+   ]
+  },
+  {
+   "id": "EIV-3535",
+   "title": "Brine springs found on the flats above Ros fhionn",
+   "body": "A farmer digging a drainage ditch above Ros fhionn strikes warm water that tastes of salt. Within a season the district's own folk have laid out shallow pans on the flats to catch the brine.",
+   "place": "burg:76",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0079",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#ii-of-the-bridge-keeper-s-boyhood-and-the-springs-on-the-flats",
+   "era_between": [
+    350,
+    350
+   ]
+  },
+  {
+   "id": "EIV-3536",
+   "title": "Death of Uisdean mac Dhùghaill",
+   "body": "Uisdean mac Dhùghaill dies at Cathair dhearg in his two-and-eightieth year, and his son Uisdean mac Uisdein, already thirty, is crowned without dispute. The tidings reach the northern flats by a rider bound for the shire seat.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [],
+   "threads": [],
+   "people": [
+    "uisdean-mac-dhughaill",
+    "uisdean-mac-uisdein"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#iii-of-a-king-s-death-far-to-the-south-and-a-cloth-worn-nearer-home",
+   "era_between": [
+    352,
+    352
+   ]
+  },
+  {
+   "after": "III-0080"
+  },
+  {
+   "id": "EIV-3537",
+   "title": "Baile gharbh's rain-cloth worn for mourning in the north-east",
+   "body": "The heavy undyed cloth of Baile gharbh, already the common rain-cloak of the north-east, becomes the district's own cloth of mourning, worn plain and undyed through a household's season of loss as the whole island once wore the white sorrow.",
+   "place": "burg:131",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0080",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#iii-of-a-king-s-death-far-to-the-south-and-a-cloth-worn-nearer-home",
+   "era_between": [
+    361,
+    361
+   ]
+  },
+  {
+   "after": "III-0081"
+  },
+  {
+   "id": "EIV-3538",
+   "title": "The bridge-keeper granted a handful from every load",
+   "body": "The shire seat grants the keeper of Drochaid Ros fhionn a handful of salt from every load crossing the bridge, in place of any other toll. Iain mac Ùisdein keeps the due honestly and becomes known along the road for it.",
+   "place": "marker:4",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0081",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-uisdein"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#iv-of-the-handful-from-each-load",
+   "era_between": [
+    369,
+    369
+   ]
+  },
+  {
+   "id": "EIV-3539",
+   "title": "Birth of Aonghas mac Uisdein",
+   "body": "A son, Aonghas, is born at Cathair dhearg to Uisdean mac Uisdein in the twentieth year of his reign, when the king is fifty years old.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0084",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-mac-uisdein",
+    "uisdean-mac-uisdein"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#iii-of-a-king-s-death-far-to-the-south-and-a-cloth-worn-nearer-home",
+   "era_between": [
+    372,
+    372
+   ]
+  },
+  {
+   "id": "EIV-3540",
+   "title": "The bridge-keeper's salt-box",
+   "body": "Iain mac Ùisdein builds an iron-bound oak box beside his stool to hold his due of salt. It fills faster than any box on that road was thought able to fill, and carters along the way say it holds more against a hard winter than some whole villages.",
+   "place": "marker:4",
+   "kind": "trade",
+   "category": "trade",
+   "links": [],
+   "threads": [],
+   "people": [
+    "iain-mac-uisdein"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#iv-of-the-handful-from-each-load",
+   "era_between": [
+    375,
+    375
+   ]
+  },
+  {
+   "after": "III-0082"
+  },
+  {
+   "id": "EIV-3541",
+   "title": "The wells crack at Cill ghlas",
+   "body": "An earth tremor cracks three wells and brings down a byre at Cill ghlas. The custodians of the vein-house send men into the galleries below and find the deep workings untouched, though the diggers speak among themselves of feeling the shaking reach them under the hill.",
+   "place": "burg:123",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0082",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#v-of-the-wells-that-cracked-at-cill-ghlas",
+   "era_between": [
+    379,
+    379
+   ]
+  },
+  {
+   "id": "EIV-3542",
+   "title": "The vein-house offers stone for Cill ghlas's byre",
+   "body": "The custodians of the vein-house offer stone from their own surplus to rebuild the byre brought down at Cill ghlas, a kindness the village does not forget.",
+   "place": "burg:123",
+   "kind": "craft",
+   "category": "coal",
+   "links": [],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#v-of-the-wells-that-cracked-at-cill-ghlas",
+   "era_between": [
+    380,
+    380
+   ]
+  },
+  {
+   "id": "EIV-3543",
+   "title": "Mòr nic Nèill made tutor to the king's son",
+   "body": "Mòr nic Nèill is set over the young Aonghas mac Uisdein to teach him his letters as a child, the first time any heir to the red hall has been given a tutor for the purpose rather than left to pick up his letters between other business.",
+   "place": "burg:19",
+   "kind": "record",
+   "category": "law",
+   "links": [],
+   "threads": [],
+   "people": [
+    "mor-nic-neill",
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#vi-of-the-hollow-man-a-king-s-end-and-the-fish-of-ath-fhiadhaich",
+   "era_between": [
+    380,
+    380
+   ]
+  },
+  {
+   "after": "III-0085"
+  },
+  {
+   "id": "EIV-3544",
+   "title": "Death of Uisdean mac Uisdein and the crowning of Aonghas",
+   "body": "Uisdean mac Uisdein dies at two-and-seventy after two-and-forty years in the hall. His son Aonghas, two-and-twenty and taught his letters as a child, is crowned at Cathair dhearg with less dispute than any crowning in living memory.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0084",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "uisdean-mac-uisdein",
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#vi-of-the-hollow-man-a-king-s-end-and-the-fish-of-ath-fhiadhaich",
+   "era_between": [
+    394,
+    394
+   ]
+  },
+  {
+   "id": "EIV-3545",
+   "title": "Àth fhiadhaich turns to Ros fhionn salt",
+   "body": "The fishing town of Àth fhiadhaich, having lost catch to poor curing, begins sending carts north for Ros fhionn salt. From this year the mining shires to the south eat their salt fish cured with salt carried over Drochaid Ros fhionn.",
+   "place": "burg:12",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0085",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/18_of_salt_and_the_listing_hull.md#vi-of-the-hollow-man-a-king-s-end-and-the-fish-of-ath-fhiadhaich",
+   "era_between": [
+    394,
+    394
+   ]
+  },
+  {
+   "id": "EIV-3546",
+   "title": "Birth of Aonghas Òg",
+   "body": "A son, named Aonghas for his father, is born at Cathair dhearg to King Aonghas mac Uisdein, eight-and-twenty years old and six years crowned.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0096",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-og-mac-aonghais",
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vi-of-the-two-horses",
+   "era_between": [
+    400,
+    400
+   ]
+  },
+  {
+   "id": "EIV-3547",
+   "title": "An old watching family questions Dòmhnall mac Ailein's right to name the stone",
+   "body": "One of the families who have kept watch on the wolf-stone at Inis thais for generations sends its eldest to ask a net-maker preaching on the strand what right he has to put a new name on their old duty. He answers that he claims no watch of his own and has only said aloud what the family's own hands have been doing unnamed for years.",
+   "place": "burg:166",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0086",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "domhnall-mac-ailein-stone"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#i-of-the-net-maker-of-inis-thais",
+   "era_between": [
+    403,
+    403
+   ]
+  },
+  {
+   "id": "EIV-3548",
+   "title": "Dòmhnall mac Ailein's first preaching on the strand",
+   "body": "A net-maker of Inis thais, thirty-five years old, begins telling the men who mend nets beside him that the town's old wolf-stone is Lia Fàil, and that its watching families are the Fianna, sworn to keep the whole island as a wolf keeps its range. His hearers grow through the year into the first gathering of the order of the Stone at Inis thais.",
+   "place": "burg:166",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0086",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "domhnall-mac-ailein-stone"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#i-of-the-net-maker-of-inis-thais",
+   "era_between": [
+    405,
+    405
+   ]
+  },
+  {
+   "after": "III-0086"
+  },
+  {
+   "id": "EIV-3549",
+   "title": "A shipmaster of Inis thais sails north for slate",
+   "body": "Beathag nic Raoghnaill, a shipmaster who has carried wool and hides along the southern coast for twenty years, offers to fetch roofing slate for the wolf-stone's new hall herself rather than trust the errand to another. She returns a season later with a hull low under northern slate.",
+   "place": "burg:166",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0087",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "beathag-nic-raoghnaill"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#ii-of-the-wolf-house-roofed-with-slate",
+   "era_between": [
+    415,
+    415
+   ]
+  },
+  {
+   "id": "EIV-3550",
+   "title": "Slate brought by sea for the temple at Inis thais",
+   "body": "The northern slate Beathag nic Raoghnaill brought south is laid over the wolf-stone's new hall, the first roof on that coast built to outlast its own builder. The town remarks as much on the roof's cost as on its wonder.",
+   "place": "burg:166",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0087",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "domhnall-mac-ailein-stone",
+    "beathag-nic-raoghnaill"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#ii-of-the-wolf-house-roofed-with-slate",
+   "era_between": [
+    418,
+    418
+   ]
+  },
+  {
+   "after": "III-0087"
+  },
+  {
+   "id": "EIV-3551",
+   "title": "The tide-horn of the wolf-stone shrine",
+   "body": "The Fianna of the Stone at Inis thais take up a horn blown at every turn of the tide, its blowing passed by lot among the watching households. Within a few years the town sets its morning's business by the horn without a thought for what it was first blown to mark.",
+   "place": "burg:166",
+   "kind": "rite",
+   "category": "faith",
+   "links": [],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#ii-of-the-wolf-house-roofed-with-slate",
+   "era_between": [
+    420,
+    420
+   ]
+  },
+  {
+   "id": "EIV-3552",
+   "title": "The naming of the Stone carried inland by a hide-trader",
+   "body": "A fisherman of Inis thais who has heard Dòmhnall mac Ailein twice repeats the naming of the Stone to three inland villages while selling hides that winter, none of which he visits again. The teaching spreads in threads too small to trace to their source.",
+   "place": "burg:166",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0086",
+     "type": "legacy"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#ii-of-the-wolf-house-roofed-with-slate",
+   "era_between": [
+    421,
+    421
+   ]
+  },
+  {
+   "id": "EIV-3553",
+   "title": "The Hawk and the Fianna claim the same feast day at Caol leathan",
+   "body": "The priests of the Hawk and the Fianna of the Stone both come to the harbour shrine at Caol leathan for the same morning's hours, the Hawk's reckoning and the Stone's vigil falling that year on the same day. Neither will give way.",
+   "place": "burg:1",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0088",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#iii-of-the-harbour-shrine-at-caol-leathan",
+   "era_between": [
+    427,
+    427
+   ]
+  },
+  {
+   "after": "III-0088"
+  },
+  {
+   "id": "EIV-3554",
+   "title": "Murchadh mac Ailpein divides the shrine's days",
+   "body": "The king's reeve at Caol leathan, Murchadh mac Ailpein, halves the harbour shrine's hours between the Hawk and the Fianna, as the sacred woods of an older age were once divided, and nails the division on a strip of hide to the shrine door.",
+   "place": "burg:1",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0088",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "murchadh-mac-ailpein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#iii-of-the-harbour-shrine-at-caol-leathan",
+   "era_between": [
+    429,
+    429
+   ]
+  },
+  {
+   "after": "III-0088a"
+  },
+  {
+   "id": "EIV-3555",
+   "title": "Birth of Iain mac Aonghais",
+   "body": "A son, Iain, is born at Cathair dhearg to Aonghas Òg, the king's heir, then five-and-thirty years old; the old king, sixty-three, sees his grandson named at the yoke-poles of Macha's rite.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0097",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "iain-mac-aonghais",
+    "aonghas-og-mac-aonghais",
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vi-of-the-two-horses",
+   "era_between": [
+    435,
+    435
+   ]
+  },
+  {
+   "id": "EIV-3556",
+   "title": "Ailig an Òir forfeits a season's amber",
+   "body": "An amber-worker of Seann Skell on the Hawk bay is caught selling rough amber outside the new walls against his own guild's oath, and is made by that guild to forfeit the whole season's gathering to the market fund rather than face the crown's reeve.",
+   "place": "burg:132",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0088a",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailig-an-oir"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#iv-of-seann-skell-walled-and-the-market-at-the-new-gate",
+   "era_between": [
+    436,
+    436
+   ]
+  },
+  {
+   "id": "EIV-3557",
+   "title": "Death of Dòmhnall mac Ailein",
+   "body": "Dòmhnall mac Ailein dies at Inis thais in his seventieth year, having taught on the strand five-and-thirty years without ever taking up an office in the order his hearers named after his teaching. The Fianna of the Stone carry him to the shrine and set him before it, not within it.",
+   "place": "burg:166",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0086",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "domhnall-mac-ailein-stone",
+    "beathag-nic-raoghnaill"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#v-of-domhnall-s-death",
+   "era_between": [
+    440,
+    440
+   ]
+  },
+  {
+   "after": "III-0089"
+  },
+  {
+   "id": "EIV-3558",
+   "title": "King Aonghas recalls his father's teaching on the two horses",
+   "body": "Before he takes up the wood-watchers' rite himself, King Aonghas mac Uisdein recalls being told as a boy that one horse pulling alone draws a chariot only in a circle, and that it takes two, pulling together and never quite agreeing, to pull it straight.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0089",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vi-of-the-two-horses",
+   "era_between": [
+    441,
+    441
+   ]
+  },
+  {
+   "id": "EIV-3559",
+   "title": "A councillor warns Aonghas against the wood-watchers' rite",
+   "body": "An old councillor of the red hall warns King Aonghas that a crown seen at a moor-custom may be asked by the seven houses why it will not be seen at theirs. Aonghas answers that any house is free to come and stand at a yoke-pole itself.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0089",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vi-of-the-two-horses",
+   "era_between": [
+    441,
+    441
+   ]
+  },
+  {
+   "id": "EIV-3560",
+   "title": "Half the red hall's household takes up the rite of Macha",
+   "body": "Within a year of King Aonghas standing at the yoke-pole of the wood-watchers' rite, half his own household has taken it up beside him, and Òrd Mhacha becomes from that year the order of Cathair dhearg without a quarrel fought over it.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0089",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vi-of-the-two-horses",
+   "era_between": [
+    442,
+    442
+   ]
+  },
+  {
+   "id": "EIV-3561",
+   "title": "A quarryman's household first roofs in slate at Tobar dhearg",
+   "body": "A family burned out in the fire at Tobar dhearg, a quarryman among them, is the first in the village to roof again in slate rather than thatch, judging that a man who cuts the stone has less excuse than his neighbours to sleep under straw.",
+   "place": "burg:398",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0090",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vii-of-the-fire-at-tobar-dhearg",
+   "era_between": [
+    446,
+    446
+   ]
+  },
+  {
+   "id": "EIV-3562",
+   "title": "The crown sends grain south after the fire at Tobar dhearg",
+   "body": "King Aonghas sends what the crown's granaries can spare south to Tobar dhearg before the winter closes the roads, the village having lost most of its stores along with its roofs.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0090",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vii-of-the-fire-at-tobar-dhearg",
+   "era_between": [
+    446,
+    446
+   ]
+  },
+  {
+   "id": "EIV-3563",
+   "title": "King Aonghas returns to the yoke a second year",
+   "body": "King Aonghas rides out to the wood-watchers' rite a second spring running, judging that a thing done once by a king and not again is no rite at all, and stands again with a hand on each yoke-pole among the grey horse and the black.",
+   "place": "burg:19",
+   "kind": "rite",
+   "category": "faith",
+   "links": [
+    {
+     "to": "III-0089",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [
+    "aonghas-mac-uisdein"
+   ],
+   "told_in": "book/19_of_the_stone_that_cries_out_and_the_two_horses.md#vii-of-the-fire-at-tobar-dhearg",
+   "era_between": [
+    446,
+    446
+   ]
+  }
+ ]
+}

@@ -1,0 +1,743 @@
+{
+ "writer": 1,
+ "span": [
+  "III-0006",
+  "III-0015"
+ ],
+ "events": [
+  {
+   "id": "EIV-1501",
+   "title": "Alasdair's small hulls",
+   "body": "On the strand below Seann Skell the boat-wright Alasdair mac Iain builds hulls no longer than his arm on spines of oak and floats them in the river pool and the river mouth, to learn what a keel does. He finds that a keel makes a hull stiff and lets it be built bigger.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0007",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#ii-of-the-keel-in-the-tellings",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "EIV-1502",
+   "title": "Mòrag undertakes to pay for the oaks",
+   "body": "At Inis àrsaidh Mòrag nic Dhòmhnaill and Aonghas mac Fhionnlaigh hear Alasdair out and send him to look at the grove of Doire fhionn. Mòrag undertakes to pay for the felling and hauling out of her own silver.",
+   "place": "burg:55",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0009",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "morag-nic-dhomhnaill",
+    "aonghas-mac-fhionnlaigh",
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#iii-of-the-lady-at-inis-arsaidh",
+   "era_between": [
+    4,
+    4
+   ]
+  },
+  {
+   "after": "III-0010"
+  },
+  {
+   "id": "EIV-1503",
+   "title": "The naming of the trees",
+   "body": "Eilidh nic Ruairidh, keeper of the grove of Doire fhionn, makes Alasdair choose each oak he will take and hear its name. He chooses fifty-four and leaves one young tree, the Child, standing alone.",
+   "place": "burg:261",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0009",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "eilidh-nic-ruairidh-grove",
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#vi-of-the-naming-of-the-trees",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1504",
+   "title": "The felling of the Queen",
+   "body": "Eighty men of the households of the roll fell the grove of Doire fhionn through the summer, each tree onto a bed of brush. The greatest, called the Queen, takes two days to bring down.",
+   "place": "burg:261",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0009",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "aonghas-mac-fhionnlaigh",
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#vii-of-the-felling",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1505",
+   "title": "The ox-sleds on the north road",
+   "body": "The keel-timbers are dragged forty-two miles south to the sea on sleds of oak shod with ash, six yoke to a sled. The road is widened at every bend and a causeway built over the stream below Doire fhionn.",
+   "place": "burg:261",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "aonghas-mac-fhionnlaigh"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#viii-of-the-ox-sleds-on-the-north-road",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1506",
+   "title": "Doire fhiadhaich founded",
+   "body": "Woodcutters of the roll build huts at the edge of a wild oak wood on the shore of Loch chrom to fell crooked oak for the fleet's frames and knees. They stay after the felling, and the village takes the wood's name.",
+   "place": "burg:35",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#viii-of-the-ox-sleds-on-the-north-road",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1507",
+   "title": "The bed of the first keel",
+   "body": "Alasdair levels a line of oak blocks on the strand above the high-water mark and digs a saw-pit beside it. The Queen oak is rolled onto the blocks and hewn to a keel with a ridge along its underside.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0008",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#ix-of-the-first-keel",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1508",
+   "title": "Coinneach mac Fhearghais sworn",
+   "body": "At the feast of Lugh the wrights of the strand bind themselves into one fellowship. A custodian of the vein-house swears their apprentices over a coal, and the first sworn is Coinneach mac Fhearghais, a coaster-wright's son of fourteen.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0010",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "coinneach-mac-fhearghais",
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#x-of-the-fellowship-of-the-strand",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1509",
+   "title": "The first frames stand on the strand",
+   "body": "By the moon of Pailteach the first frames rise from the keel in pairs, pegged with heart-oak. The harbour scribe writes that the hull looks like the ribs of a great beast picked clean on the shore.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain",
+    "calum-mac-neill"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#xi-of-the-frames-standing-on-the-strand",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1510",
+   "title": "The Child walled",
+   "body": "The village of Doire fhionn builds a low wall of stones round the one young oak left on the grove hill, and its old keeper sits beside it every evening until dark.",
+   "place": "burg:261",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0009",
+     "type": "sequel"
+    },
+    {
+     "to": "III-0048",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "eilidh-nic-ruairidh-grove"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#xi-of-the-frames-standing-on-the-strand",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "id": "EIV-1511",
+   "title": "Alasdair walks north with a knotted line",
+   "body": "In the moon of Gearras, after Là Fhèill Brìde, Alasdair mac Iain sets out alone on the north road with a pack, a staff and a line knotted every arm's length for measuring, making fifteen miles the first day and sleeping in a byre.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0009",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/04_of_the_oaks_of_doire_fhionn.md#iv-of-the-road-north",
+   "era_between": [
+    5,
+    5
+   ]
+  },
+  {
+   "after": "III-0011"
+  },
+  {
+   "id": "EIV-1512",
+   "title": "An Fhaoileag launched",
+   "body": "The first deep-keeled hull, planked and rigged, is floated off the blocks below Seann Skell with a coal from the vein-house set at her step. The town calls her An Fhaoileag, the gull, for the way she rides the water.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0011",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain",
+    "calum-mac-neill"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#i-of-the-launching-of-an-fhaoileag",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EIV-1513",
+   "title": "The nine named at Inis àrsaidh",
+   "body": "The roll-keeper of Inis àrsaidh cuts eleven names into the village's board on the night of the drowning, the village sitting up with her as the custom asks. Alasdair's sister's son Tormod Beag is among the eight bodies brought back; three more are never found.",
+   "place": "burg:55",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0011",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "tormod-beag",
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#iii-of-the-names-cut-at-inis-arsaidh",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EIV-1514",
+   "title": "The keening at Inis àrsaidh",
+   "body": "The eight recovered dead are keened on the shingle under sailcloth and a lamp at each head; for the three never found a single lamp is lit and burns down unwatched. Alasdair stays three days doing whatever the village asks of him.",
+   "place": "burg:55",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#iii-of-the-names-cut-at-inis-arsaidh",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EIV-1515",
+   "title": "Households struck and households entered",
+   "body": "Eleven households strike themselves from the Seann Skell roll after word of the drowning, and eleven others enter in the same weeks, among them kin of a survivor and a widow of Ros bheag who gives her daughters' names. Calum mac Nèill records both counts without comment.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "calum-mac-neill"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#vi-of-those-who-struck-themselves-out-and-those-who-entered",
+   "era_between": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "EIV-1516",
+   "title": "The second keel laid to the changed pattern",
+   "body": "Alasdair Saor lays a second keel on the strand below Seann Skell, built to the fuller, hollow-bowed run he redrew by a driftwood fire after the drowning. Mòrag nic Dhòmhnaill sends silver again to see her built.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain",
+    "coinneach-mac-fhearghais",
+    "morag-nic-dhomhnaill",
+    "aonghas-mac-fhionnlaigh"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#v-of-the-second-keel",
+   "era_between": [
+    7,
+    7
+   ]
+  },
+  {
+   "after": "III-0012"
+  },
+  {
+   "id": "EIV-1517",
+   "title": "The rope-walks learn the names of a keel",
+   "body": "After shroud-lines sent west from Cuan shean fail within a season, the wrights walk the rope-walks and name the parts of a hull to the spinners and walkers. Iain Ròpaire, master of the walks, takes to walking one himself to learn the words in his own hands.",
+   "place": "burg:282",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "iain-ropaire",
+    "coinneach-mac-fhearghais"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#vii-of-the-rope-walks-of-cuan-shean",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "id": "EIV-1518",
+   "title": "Birth of Raghnall mac Uilleim",
+   "body": "A son, Raghnall, is born at Cathair dhearg to Queen Beathag nic Dhòmhnaill and her consort Uilleam mac Iain, in the queen's sixteenth year crowned and her own thirtieth year of life.",
+   "place": "burg:19",
+   "kind": "court",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "III-0035",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "raghnall-mac-uilleim",
+    "beathag-nic-dhomhnaill",
+    "uilleam-mac-iain"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#v-of-the-second-keel",
+   "era_between": [
+    8,
+    8
+   ]
+  },
+  {
+   "after": "III-0013"
+  },
+  {
+   "id": "EIV-1519",
+   "title": "The sail-cloth tallies at Baile àrsaidh",
+   "body": "The shire seat's tally-keeper cuts notches for close-woven lengths from households across Siorrachd Baile àrsaidh, far more than expected, some sent by weavers with no kin on the roll and no thought of sailing. The sticks fill a chest that wants a second lid.",
+   "place": "burg:420",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#viii-of-the-sail-cloth-of-baile-arsaidh",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EIV-1520",
+   "title": "An Dara Fhaoileag planked",
+   "body": "The second hull stands planked from keel to sheer and steps her mast on the strand below Seann Skell. The wrights name her An Dara Fhaoileag, the second gull, and the doubt among the older wrights over her fuller, hollow-bowed lines goes quiet.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "alasdair-mac-iain",
+    "coinneach-mac-fhearghais"
+   ],
+   "told_in": "book/05_of_the_hull_that_lay_down.md#ix-of-the-hull-that-stood-beside-her-sister",
+   "era_between": [
+    9,
+    9
+   ]
+  },
+  {
+   "id": "EIV-1521",
+   "title": "Six pilots sent east to Cuan ruadh",
+   "body": "Fearchar mac Ruairidh finds that no pilot of the west coast has ever held a course by night, and six are chosen to walk the hundred miles to the old steersmen of Cuan ruadh: two of Ceann mhòr, two of Ros bheag, one of Cuan shean, and Catrìona nic Iain, who asks to be sent before she is asked.",
+   "place": "burg:63",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0014",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "fearchar-mac-ruairidh",
+    "catriona-nic-iain"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#i-of-the-six-who-went-east",
+   "era_between": [
+    11,
+    11
+   ]
+  },
+  {
+   "id": "EIV-1522",
+   "title": "The six pilots reach Cuan ruadh",
+   "body": "After seven days on foot over the mountain country the six pilots come down to Cuan ruadh on the eastern coast and are given lodging without question. They are sent, the next morning, to the steersman Seumas Reultach.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "catriona-nic-iain"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#i-of-the-six-who-went-east",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "id": "EIV-1523",
+   "title": "Seumas Reultach begins the teaching",
+   "body": "On the headland above Cuan ruadh the old steersman Seumas Reultach begins teaching the six pilots the wheel of the sky and the steering star, Reul na Stiùire, by which it is held. Most of what he gives them is spoken, night after night, and set down nowhere.",
+   "place": "burg:119",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seumas-reultach",
+    "catriona-nic-iain"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#ii-of-the-steersman-of-cuan-ruadh",
+   "era_between": [
+    12,
+    12
+   ]
+  },
+  {
+   "after": "III-0014"
+  },
+  {
+   "id": "EIV-1524",
+   "title": "Part of the star-lore set on hide",
+   "body": "At the vein-house's asking, Seumas Reultach has his granddaughter cut onto a scraped hide the wheel of the sky, the steering star and the four turning marks of the year. He keeps back the swell-reading and the wind-smell, saying some things a hide can hold and some things only a life can.",
+   "place": "burg:119",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "III-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seumas-reultach",
+    "catriona-nic-iain"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#ii-of-the-steersman-of-cuan-ruadh",
+   "era_between": [
+    13,
+    13
+   ]
+  },
+  {
+   "id": "EIV-1525",
+   "title": "Death of Seumas Reultach",
+   "body": "In the moon of Faolach the old steersman of Cuan ruadh dies on the cliff path above the town where he taught the six pilots the stars, and is buried there among his own people. His granddaughter gives the hide of star-marks into Catrìona nic Iain's keeping to carry west.",
+   "place": "burg:119",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "seumas-reultach",
+    "catriona-nic-iain"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#ii-of-the-steersman-of-cuan-ruadh",
+   "era_between": [
+    14,
+    14
+   ]
+  },
+  {
+   "id": "EIV-1526",
+   "title": "The pilots return west",
+   "body": "The six pilots cross the mountain country again to the west coast, carrying the hide of star-marks and what they have learned of the wheel of the sky, the steering star and the smell of the dark before a change of wind.",
+   "place": "burg:119",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "III-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "catriona-nic-iain"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#ii-of-the-steersman-of-cuan-ruadh",
+   "era_between": [
+    14,
+    14
+   ]
+  },
+  {
+   "id": "EIV-1527",
+   "title": "The first night-steering trial off Ros àrsaidh",
+   "body": "Off Ros àrsaidh two boats go out after dark, one steered close along the shore by lantern, the other by Catrìona nic Iain alone by Reul na Stiùire with every lantern doused. She brings her boat home first, exactly where and when she had said she would.",
+   "place": "burg:122",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "catriona-nic-iain"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#iii-of-the-first-trial-and-the-star-named-on-the-quay",
+   "era_between": [
+    14,
+    14
+   ]
+  },
+  {
+   "id": "EIV-1528",
+   "title": "Catrìona nic Iain made pilot of An Ròn Glas",
+   "body": "Catrìona nic Iain reaches Seann Skell after the households of the roll have chosen Mòrag nic Dhòmhnaill and Fearchar mac Ruairidh to lead them. On the west quay Mòrag asks her to be pilot of her hull, An Ròn Glas, and Catrìona names her the steering star.",
+   "place": "burg:489",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "III-0015",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "the-sundering"
+   ],
+   "people": [
+    "catriona-nic-iain",
+    "morag-nic-dhomhnaill",
+    "fearchar-mac-ruairidh"
+   ],
+   "told_in": "book/06_of_the_star_steersmen_of_cuan_ruadh.md#iii-of-the-first-trial-and-the-star-named-on-the-quay",
+   "era_between": [
+    18,
+    18
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1606 @@
+{
+ "writer": 7,
+ "span": [
+  "II-0125",
+  "II-0160"
+ ],
+ "events": [
+  {
+   "id": "EIII-7001",
+   "title": "Cnoc bhàn takes up the seven-year binding",
+   "body": "Hearing of the binding at Dùn ìseal, the stag's teachers of Cnoc bhàn take up the seven years for their own cutters, binding each apprentice to a master of the school as the Hall bound its own.",
+   "place": "burg:343",
+   "kind": "craft",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0125",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6062",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#ix-of-cnoc-bhan-and-the-first-entry",
+   "era_between": [
+    1641,
+    1641
+   ]
+  },
+  {
+   "id": "EIII-7002",
+   "title": "Cnoc bhàn adds the written account of every stroke",
+   "body": "The teachers of Cnoc bhàn set a rule the Hall never made: that every bound apprentice keep, once the stag-letters are learned, a written account of every stroke cut in a season, so a master may read back exactly where the hand went wrong.",
+   "place": "burg:343",
+   "kind": "craft",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0125",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7001",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/30_of_the_knotted_cords_in_the_galleries.md#ix-of-cnoc-bhan-and-the-first-entry",
+   "era_between": [
+    1641,
+    1641
+   ]
+  },
+  {
+   "id": "EIII-7003",
+   "title": "Aonghas Ruadh is paid in the first silver rings",
+   "body": "Among the guards of the southern ford paid that winter in Fearchar Òg's new stamped rings is Aonghas Ruadh of Cnoc mhòr, who carries his home turning it over in his hand, unsure at first that so small a weight can be a whole season's wage. His wife Sìne trades it for cloth within the week and proves him wrong.",
+   "place": "burg:22",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0127",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-6063",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [
+    "aonghas-ruadh",
+    "sine"
+   ],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#ii-of-the-first-rings-and-aonghas-ruadh",
+   "era_between": [
+    1642,
+    1642
+   ]
+  },
+  {
+   "after": "II-0126"
+  },
+  {
+   "id": "EIII-7004",
+   "title": "Dòmhnall Beag sent to keep the toll at Àth ghlas",
+   "body": "Fearchar Òg's clerks send a hall-trained man, Dòmhnall Beag, to weigh the new silver toll at the ford of Àth ghlas, where the Griogaraich have kept the crossing's toll by their own standing for longer than anyone can say. It is the first toll-house on any road kept by a man not chosen at the place.",
+   "place": "burg:393",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7003",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#iii-of-the-toll-house-at-ath-ghlas",
+   "era_between": [
+    1647,
+    1647
+   ]
+  },
+  {
+   "id": "EIII-7005",
+   "title": "The Griogaraich come round to Dòmhnall Beag's scale",
+   "body": "A year into his keeping of the toll-house, Dòmhnall Beag is still unhelped by the ford's own family, until the winter's firewood and the spring floods force first one and then most of the Griogaraich to take his silver for their labour, never all admitting it to one another.",
+   "place": "burg:393",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0128",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7004",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#iii-of-the-toll-house-at-ath-ghlas",
+   "era_between": [
+    1648,
+    1648
+   ]
+  },
+  {
+   "after": "II-0127"
+  },
+  {
+   "id": "EIII-7006",
+   "title": "Mòrag Dhubh cuts her own staff",
+   "body": "Having outgrown every staff her father owns, Mòrag Dhubh cuts one of her own from a young ash at the wood's edge, straight-grained and a hand's breadth taller than she is, and carries it everywhere a girl of the southern road may carry a staff without remark.",
+   "place": "burg:31",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0129",
+     "type": "cause"
+    },
+    {
+     "to": "EIII-7005",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#iv-of-morag-dhubh",
+   "era_between": [
+    1655,
+    1655
+   ]
+  },
+  {
+   "id": "EIII-7007",
+   "title": "Mòrag Dhubh's first bout at Ceann leathan",
+   "body": "Against her father's own doubts, Mòrag Dhubh enters the guards' yearly meeting at Ceann leathan, the first woman to do so, and loses in the second round to a guard twice her age and size, who tells her afterward she had the surest staff of anyone he fought that day.",
+   "place": "burg:22",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0129",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7006",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#v-of-the-meeting-at-ceann-leathan",
+   "era_between": [
+    1660,
+    1660
+   ]
+  },
+  {
+   "after": "II-0131"
+  },
+  {
+   "id": "EIII-7008",
+   "title": "Mòrag Dhubh wins the meeting at Ceann leathan",
+   "body": "In her fifth year entering, Mòrag Dhubh of Cnoc mhòr beats Ruairidh Fada of Muileann chrom, twice the meeting's winner before her, in the last bout by torchlight, and is given the finest ring struck that season. She is the first winner of the meeting whose name the reciters keep.",
+   "place": "burg:22",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0129",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7007",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#vi-of-the-last-bout",
+   "era_between": [
+    1665,
+    1665
+   ]
+  },
+  {
+   "id": "EIII-7009",
+   "title": "Ceann leathan's own mark is asked of the hall's smiths",
+   "body": "With the guards' meeting grown into a day the whole market profits by, Ceann leathan's traders ask Fearchar Òg's smiths for a ring carrying the ford's own mark beside the hall's hearth-sign, so that the finest ring struck each season may be known at a glance as the meeting's own.",
+   "place": "burg:22",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0129",
+     "type": "legacy"
+    },
+    {
+     "to": "EIII-7008",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#vi-of-the-last-bout",
+   "era_between": [
+    1666,
+    1666
+   ]
+  },
+  {
+   "id": "EIII-7010",
+   "title": "Muileann òg's households ask a charter for the harvest meeting",
+   "body": "Seeing what silver a season's traders leave behind them, the households resettled at Muileann òg's ford ask Fearchar Òg's clerks for a charter of the trading already grown up there at Lùnastal, and are granted it, the hall having learned a fed market pays more toll than a starved one.",
+   "place": "burg:151",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0130",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7009",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#vii-of-muileann-og-and-the-lunastal-fair",
+   "era_between": [
+    1668,
+    1668
+   ]
+  },
+  {
+   "id": "EIII-7011",
+   "title": "The landing built at Cidhe Beag",
+   "body": "The hall's clerks raise timbered piers at the old scramble of stones called Cidhe Beag on the Abhainn uaine, judging a river running near empty beside a road worn to ruts a waste the granaries can no longer afford, and put out word for boats to be built to work it.",
+   "place": "marker:39",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0131",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7010",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#viii-of-cidhe-beag-and-the-river-men",
+   "era_between": [
+    1670,
+    1670
+   ]
+  },
+  {
+   "id": "EIII-7012",
+   "title": "Ciorstaidh leads the carriers' protest to Dùn dhearg",
+   "body": "Ciorstaidh, who has carried grain on the eastern road sixty years, walks with two other elders the whole distance to Dùn dhearg to tell Fearchar Òg that a river-boat will starve half their households of the wages that have fed them since before the hall was built. He does not turn the landing back.",
+   "place": "burg:422",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0131",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7011",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [
+    "ciorstaidh"
+   ],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#viii-of-cidhe-beag-and-the-river-men",
+   "era_between": [
+    1670,
+    1670
+   ]
+  },
+  {
+   "id": "EIII-7013",
+   "title": "Mòrag Dhubh trades wool at the Lùnastal fair",
+   "body": "Some years after her win, Mòrag Dhubh walks a season's wool to Muileann òg's fair to trade for cloth her own household cannot weave as fine, and is asked there by an eastern trader whether the tale of the ring she wears is true.",
+   "place": "burg:151",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0130",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7012",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#vii-of-muileann-og-and-the-lunastal-fair",
+   "era_between": [
+    1672,
+    1672
+   ]
+  },
+  {
+   "id": "EIII-7014",
+   "title": "The boatmen of Muileann chrom swear the paddle-oath",
+   "body": "The young crews of Muileann chrom who take up the new river trade settle among themselves, without any hall's asking, that no man may call himself one of their fellowship until he has sworn on his own paddle to answer another boatman's need on the water before his own household's.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0133",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7013",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#ix-of-muileann-chrom-and-the-paddle-oath",
+   "era_between": [
+    1673,
+    1673
+   ]
+  },
+  {
+   "id": "EIII-7015",
+   "title": "Dòmhnall of Cnoc mhòr swears his paddle",
+   "body": "Mòrag Dhubh's younger brother Dòmhnall, who never took to the staff as she did, swears his paddle-oath among the second crews of Muileann chrom the same year her own daughter is born, so that one household comes to hold a ring won on land and an oath sworn on water.",
+   "place": "burg:354",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0133",
+     "type": "person"
+    },
+    {
+     "to": "EIII-7014",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#ix-of-muileann-chrom-and-the-paddle-oath",
+   "era_between": [
+    1675,
+    1675
+   ]
+  },
+  {
+   "id": "EIII-7016",
+   "title": "Fearchar Òg dies at Dùn dhearg",
+   "body": "Fearchar Òg dies at ninety-four in the hall his clerks first struck the silver rings in, found gone in his own chair by his steward's grandson. He is buried among the house of Ìomhar after a reign of eighty-seven years, the longest the roll can name, remembered chiefly for its length.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0126",
+     "type": "legacy"
+    },
+    {
+     "to": "EIII-7015",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#x-of-the-king-who-died-old",
+   "era_between": [
+    1680,
+    1680
+   ]
+  },
+  {
+   "id": "EIII-7017",
+   "title": "Word of the king's death reaches Cnoc mhòr",
+   "body": "Carried down the southern road by guards paid most of their working lives in Fearchar Òg's silver, word of his death reaches Cnoc mhòr and an aging Mòrag Dhubh, who turns her own worn ring in her fingers at the hearth and says the king made one thing that did not need his hand to keep travelling.",
+   "place": "burg:31",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0126",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7016",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/31_of_fearchar_og_and_the_silver_rings.md#x-of-the-king-who-died-old",
+   "era_between": [
+    1680,
+    1680
+   ]
+  },
+  {
+   "after": "II-0134"
+  },
+  {
+   "id": "EIII-7018",
+   "title": "Beathag Mhòr crowned at Dùn dhearg",
+   "body": "Beathag Mhòr, great-granddaughter of Fearchar Òg, is crowned at twenty in the granary hall at Dùn dhearg. An elder of her own line stands unasked and names her too young to hold ground her house has kept unbroken since the ford. Beathag Mhòr answers with silence and a long look, and the crown is set.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0134",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#i-of-the-twenty-year-old-queen",
+   "era_between": [
+    1685,
+    1685
+   ]
+  },
+  {
+   "id": "EIII-7019",
+   "title": "Beathag Mhòr rides the northern road",
+   "body": "Returning from the fleece-market at Baile Mòr fhionn, the young queen rides home by the northern road to see a waypoint-keeper's hearth she has never troubled with her custom. She finds the house at An Taigh-seinnse Mòr thin-fed and sends it grain from Dùn dhearg unmarked, telling its keeper nothing of the gift's source.",
+   "place": "burg:204",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0134a",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7018",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#ii-of-the-fleece-at-baile-mor-fhionn",
+   "era_between": [
+    1688,
+    1688
+   ]
+  },
+  {
+   "id": "EIII-7020",
+   "title": "Sìleas nan Clach paid before the hall's finishing",
+   "body": "The mason Sìleas nan Clach of Cathair dhomhain raises the red hall at the bridge-foot through two wet winters and a dry summer. Beathag Mhòr pays her in full before the last course is laid, against the custom of paying only on a building's finishing, and Sìleas cuts the hearth-sign into the lintel last of all.",
+   "place": "burg:19",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0135",
+     "type": "sequel"
+    },
+    {
+     "to": "II-0137",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7019",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#iii-of-the-bridge-foot",
+   "era_between": [
+    1691,
+    1691
+   ]
+  },
+  {
+   "id": "EIII-7021",
+   "title": "Iseabail nic Fhearchair answers for Cathair dhomhain",
+   "body": "The harbour-master Iseabail nic Fhearchair comes to the new hall herself rather than send a steward, and tells the queen to her face that Cathair dhomhain has weighed its own fish and buried its own drowned since before the Red Share held a single stone. Beathag Mhòr hears her through and grants the harbour its own charter of tolls.",
+   "place": "burg:26",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7020",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#iv-of-the-harbour-s-grudge",
+   "era_between": [
+    1692,
+    1692
+   ]
+  },
+  {
+   "id": "EIII-7022",
+   "title": "The grain-ship saved off Cathair dhomhain",
+   "body": "A grain-ship out of the western islands loses its mast off Cathair dhomhain's harbour mouth in a winter storm, and the harbour's own boats reach it first and tow it in ahead of the new town's crews. The rescue is told afterward on both quays, and both towns refit boats against the day the sea might drift the other way.",
+   "place": "burg:26",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "II-0138",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7021",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#iv-of-the-harbour-s-grudge",
+   "era_between": [
+    1695,
+    1695
+   ]
+  },
+  {
+   "after": "II-0139"
+  },
+  {
+   "id": "EIII-7023",
+   "title": "Dùghall mac Raghnaill takes the flame",
+   "body": "The nine hearths choose Dùghall mac Raghnaill of Sliochd Raghnaill to hold the flame, a man of twenty-nine who left his own house's hall as a boy to learn the vein's reckoning. His first sitting at the cup finds the council floor so crowded with disputed claims to the handful that he cannot cross it unhindered.",
+   "place": "burg:315",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0139",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#v-of-the-quarrels-over-the-handful",
+   "era_between": [
+    1699,
+    1699
+   ]
+  },
+  {
+   "id": "EIII-7024",
+   "title": "Beitris nic Ailein shames the Keeper into asking",
+   "body": "An old widow of the eastern road, Beitris nic Ailein, asks Dùghall mac Raghnaill at the crowded council how he means to judge claims to the handful for the rest of his life without ever knowing which he has judged rightly. He has no answer, and rides to Cathair dhearg within the month to ask the queen for a count.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0139",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7023",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame",
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#v-of-the-quarrels-over-the-handful",
+   "era_between": [
+    1699,
+    1699
+   ]
+  },
+  {
+   "id": "EIII-7025",
+   "title": "The queen and the Keeper agree the count",
+   "body": "Beathag Mhòr agrees to Dùghall mac Raghnaill's asking before he has finished it, and the two settle on the waypoint houses as the counting's ground, since every household on the island lies within a day of one. The queen pledges to feed the counters at her own cost out of each house's own stores.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0140",
+     "type": "sequel"
+    },
+    {
+     "to": "II-0141",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7024",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#vi-of-the-count-agreed",
+   "era_between": [
+    1700,
+    1700
+   ]
+  },
+  {
+   "id": "EIII-7026",
+   "title": "Ruairidh born to the queen",
+   "body": "Beathag Mhòr's son Ruairidh is born at the new hall, grey-headed almost from his cradle. Her household takes the colour for an ill sign; the queen, who has buried enough of her own line's short-lived cousins to know better, takes it for nothing more than a child's colouring.",
+   "place": "burg:19",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0140",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7025",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#viii-of-the-long-road-home",
+   "era_between": [
+    1700,
+    1700
+   ]
+  },
+  {
+   "id": "EIII-7027",
+   "title": "Sorcha nic Ruairidh proves a grandmother's claim",
+   "body": "At the waypoint house An Taigh-seinnse Mòr, the counter Sorcha nic Ruairidh sits six months over one old woman's claim to the handful, hearing it back four generations by name and by story until it stands proved beyond the council's doubt. She writes the four names down in a hand the old woman cannot read.",
+   "place": "marker:10",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0141",
+     "type": "sequel"
+    },
+    {
+     "to": "II-0142",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals",
+    "the-road-peace"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#vi-of-the-count-agreed",
+   "era_between": [
+    1705,
+    1705
+   ]
+  },
+  {
+   "id": "EIII-7028",
+   "title": "Ruairidh Cam of Seann Tarr refused",
+   "body": "The counters find no coal-right in living memory at the fisher-household of Ruairidh Cam of Seann Tarr, and refuse his claim. Asked whether his house means to appeal, he answers that they burned peat before the Small-Burning Law was thought of and will burn it after, and that peat, besides, is the warmer fire.",
+   "place": "burg:34",
+   "kind": "coal",
+   "category": "coal",
+   "links": [
+    {
+     "to": "II-0144",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7027",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#vii-of-the-refused-roll",
+   "era_between": [
+    1708,
+    1708
+   ]
+  },
+  {
+   "id": "EIII-7029",
+   "title": "Sliochd Raghnaill's plea for Seann Tarr",
+   "body": "Dùghall mac Raghnaill's own house takes up the refused fisher-families' cause at the council, arguing that a right so long unclaimed ought to be granted rather than denied. The council rules against it: the Small-Burning Law protects a right already held, not one never claimed. The Keeper speaks neither for the argument nor against it.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0144",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#vii-of-the-refused-roll",
+   "era_between": [
+    1709,
+    1709
+   ]
+  },
+  {
+   "id": "EIII-7030",
+   "title": "Ruairidh Cam's grandson keeps the light",
+   "body": "The rebuilt sea-light on the eastern cape is kept by Ruairidh Cam's own grandson, a duty owed to no coal-right but to his family's long knowledge of the cape's rocks in the dark. Asked whether he still holds to his grandfather's saying about peat, he answers that he does, and the saying travels further than the census roll ever did.",
+   "place": "marker:13",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "II-0145",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#vii-of-the-refused-roll",
+   "era_between": [
+    1712,
+    1712
+   ]
+  },
+  {
+   "id": "EIII-7031",
+   "title": "The refused roll kept in its own chest",
+   "body": "The roll of the households refused the handful is consulted so often by families proving an old claim through a cousin's cousin that the clerks at Cathair dhearg give it a chest of its own. It is worn soft at the corners within a generation of its writing, more read than the larger roll beside it.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#viii-of-the-long-road-home",
+   "era_between": [
+    1720,
+    1720
+   ]
+  },
+  {
+   "after": "II-0148"
+  },
+  {
+   "id": "EIII-7032",
+   "title": "The refused roll read at Dùn dhearg",
+   "body": "After Beathag Mhòr is carried the length of the island to lie among the house of Ìomhar, the roll of the refused is brought up from Cathair dhearg in its worn chest and read aloud once before the household of Dùn dhearg, so that the hill that gave up its hall might hear what the giving had bought.",
+   "place": "burg:422",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0148",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7031",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/32_of_the_red_hall_and_the_census_of_hands.md#viii-of-the-long-road-home",
+   "era_between": [
+    1735,
+    1735
+   ]
+  },
+  {
+   "after": "II-0149"
+  },
+  {
+   "id": "EIII-7033",
+   "title": "Ruairidh Liath crowned at Cathair dhearg",
+   "body": "Ruairidh Liath, grey since his cradle, takes the red hall in his thirty-sixth year, five days after his mother Beathag Mhòr is carried to Dùn dhearg. The crowning is held quietly, in the household's year of mourning, and he keeps her clerks, stewards and reeve in their places.",
+   "place": "burg:19",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0149",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#i-of-the-grey-righ",
+   "era_between": [
+    1736,
+    1736
+   ]
+  },
+  {
+   "id": "EIII-7034",
+   "title": "The eastern guard doubled",
+   "body": "Ruairidh Liath doubles the guard on the eastern road against toll-cheats grown bold in the census years, when every clerk on the island was walking house to house rather than watching the roads. The guard's pay, more than anything else in his reign, brings him at last to ask something of the silver.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EIII-7033",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#i-of-the-grey-righ",
+   "era_between": [
+    1740,
+    1740
+   ]
+  },
+  {
+   "after": "II-0150"
+  },
+  {
+   "id": "EIII-7035",
+   "title": "Màiri nic Fhearchair refuses the steward",
+   "body": "A steward rides three days from Dùn dhearg to demand one ring in five of Sliochd Fhearchair's silver. Màiri nic Fhearchair, who speaks for the house, answers with Muireach Liath's own ruling that silver is not the mountain's, and sends him home with no other word.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0150",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#iii-of-the-ring-in-five",
+   "era_between": [
+    1745,
+    1745
+   ]
+  },
+  {
+   "id": "EIII-7036",
+   "title": "The guards leave Àth ghlas",
+   "body": "Two of the four road-guards at the toll-house of Àth ghlas leave their posts unpaid, the wages standing on a silver toll no one has yet agreed to gather. The keeper Oighrig nic Ailein stands the house through the winter with the two who remain, turning back no traveller and collecting no toll.",
+   "place": "burg:393",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0151",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [
+    "oighrig-nic-ailein"
+   ],
+   "told_in": "book/33_of_the_silver_feud.md#v-of-the-toll-house-at-ath-ghlas",
+   "era_between": [
+    1745,
+    1745
+   ]
+  },
+  {
+   "after": "II-0151"
+  },
+  {
+   "id": "EIII-7037",
+   "title": "Grain sent unnamed to Àth ghlas",
+   "body": "Ruairidh Liath sends grain to the toll-house at Àth ghlas without naming himself the sender, as his mother once sent grain to a hungry waypoint house. Oighrig nic Ailein guesses whose it is and never tells a traveller the story of it.",
+   "place": "burg:393",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0151",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7036",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-road-peace"
+   ],
+   "people": [
+    "oighrig-nic-ailein"
+   ],
+   "told_in": "book/33_of_the_silver_feud.md#v-of-the-toll-house-at-ath-ghlas",
+   "era_between": [
+    1746,
+    1746
+   ]
+  },
+  {
+   "id": "EIII-7038",
+   "title": "Two apprentices go hungry at Muileann chiar",
+   "body": "In the third winter of the shutting, two of Màiri nic Fhearchair's youngest apprentices go thinner than any she has trained in forty years at the fire. She feeds them from her own table and judges that a right is not worth keeping at the cost of the hands that would keep it after her.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0151",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#vi-of-the-third-winter",
+   "era_between": [
+    1748,
+    1748
+   ]
+  },
+  {
+   "after": "II-0152"
+  },
+  {
+   "id": "EIII-7039",
+   "title": "Màiri nic Fhearchair's journey to Dùn ìseal",
+   "body": "Màiri nic Fhearchair rides to Dùn ìseal in four days' unbroken rain with her grandnephew Tormod and a strongbox of rings struck in Fearchar Òg's reign, to ask the Keeper's judgment on a right her house has never before brought before the Hall.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0152",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7038",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#vii-of-the-journey-to-dun-iseal",
+   "era_between": [
+    1749,
+    1749
+   ]
+  },
+  {
+   "id": "EIII-7040",
+   "title": "The rain-shut hearing at Dùn ìseal",
+   "body": "Dùghall mac Raghnaill hears Ruairidh Liath and Màiri nic Fhearchair argue the silver a full day in a hall the rain has shut. He has Màiri say Muireach Liath's sentence twice, then rules each of them right and each mistaken, setting the toll at one ring in ten on the roads, not the ore.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0152",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7039",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#viii-of-the-rain-shut-hearing",
+   "era_between": [
+    1749,
+    1749
+   ]
+  },
+  {
+   "after": "II-0153"
+  },
+  {
+   "id": "EIII-7041",
+   "title": "Sliochd Fhearchair paid for its own weights",
+   "body": "The crown's clerks pay Màiri nic Fhearchair for every bronze copy cast from Sliochd Fhearchair's own weights, the first silver the house has ever taken from Cathair dhearg rather than given it. She calls it no poor victory to settle for.",
+   "place": "burg:19",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0153",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7040",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#ix-of-the-weight-made-law",
+   "era_between": [
+    1750,
+    1750
+   ]
+  },
+  {
+   "id": "EIII-7042",
+   "title": "Beitris nic Aonghais casts the first weight",
+   "body": "At Muileann dhearg, Beitris nic Aonghais casts the first bronze copy of the Muileann chiar weight, cracked along its rim from cooling too fast. She keeps the poor casting the rest of her life, showing it to every apprentice before letting them near the good bronze.",
+   "place": "burg:391",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0154",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#x-of-the-bronze-casters",
+   "era_between": [
+    1751,
+    1751
+   ]
+  },
+  {
+   "id": "EIII-7043",
+   "title": "The hearth-sign struck on every weight",
+   "body": "Beitris nic Aonghais asks leave to cut Sliochd Fhearchair's hearth-sign into the underside of every weight-copy, that a keeper might know the true measure at a glance. Màiri nic Fhearchair grants it gladly, and the two houses trade weights, bells and lamp-bowls for years after.",
+   "place": "burg:391",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0154",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7042",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#x-of-the-bronze-casters",
+   "era_between": [
+    1752,
+    1752
+   ]
+  },
+  {
+   "id": "EIII-7044",
+   "title": "Màiri nic Fhearchair dies",
+   "body": "Màiri nic Fhearchair dies in her eightieth year, eleven years after the settlement at Dùn ìseal. At her own long-standing word she is buried with the strongbox that carried her rings to the hearing, rather than the ring she wore at her throat.",
+   "place": "burg:419",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EIII-7043",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod"
+   ],
+   "told_in": "book/33_of_the_silver_feud.md#xi-of-mairi-s-last-years",
+   "era_between": [
+    1760,
+    1760
+   ]
+  },
+  {
+   "id": "EIII-7045",
+   "title": "Dùghall mac Raghnaill dies",
+   "body": "Dùghall mac Raghnaill dies in his ninetieth year, having held the flame longer than any Keeper before him. The reciters of Dùn ìseal remember him less for the census than for the rain-shut hearing where he told two sides they were each right and each wrong.",
+   "place": "burg:315",
+   "kind": "coal",
+   "category": "coal",
+   "links": [],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#xi-of-mairi-s-last-years",
+   "era_between": [
+    1760,
+    1760
+   ]
+  },
+  {
+   "id": "EIII-7046",
+   "title": "Ruairidh Liath dies",
+   "body": "Ruairidh Liath dies in the red hall at Cathair dhearg in his eightieth year, in the chamber where his mother died before him. His household remembers him as a rìgh who waited where waiting served and moved where nothing else would.",
+   "place": "burg:19",
+   "kind": "rulers",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "II-0155",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#xii-of-seonag-chrom-and-the-list-kept-yearly",
+   "era_between": [
+    1780,
+    1780
+   ]
+  },
+  {
+   "after": "II-0155"
+  },
+  {
+   "id": "EIII-7047",
+   "title": "Seonag Chrom crowned and the clerks given a room",
+   "body": "Seonag Chrom, granddaughter of Ruairidh Liath, takes the hall at Cathair dhearg in her twenty-first year. Having read the worn, damp-eaten roll of her grandfather's silver settlement, she gives the Hall's clerks their own room and a wage in silver, and the king-list begins to be kept year by year.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0155",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/33_of_the_silver_feud.md#xii-of-seonag-chrom-and-the-list-kept-yearly",
+   "era_between": [
+    1781,
+    1781
+   ]
+  },
+  {
+   "id": "EIII-7048",
+   "title": "A teacher of the stag's people comes to Inis bheag",
+   "body": "A teacher of the stag's people, once a cutter's son, settles at Inis bheag on the northern coast and begins teaching the fisher-marks to children who will never cut coal. The Hall's roll notes the teaching and calls it, in passing, no great matter, since fish have no need of reading.",
+   "place": "burg:62",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0156",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#i-of-fish-that-do-not-need-reading",
+   "era_between": [
+    1786,
+    1786
+   ]
+  },
+  {
+   "after": "II-0156"
+  },
+  {
+   "id": "EIII-7049",
+   "title": "The teacher of Inis bheag is buried in his own marks",
+   "body": "The teacher who first brought letters to Inis bheag dies an old man, having taught three generations of the same dozen families. A pupil cuts his grave-marker in the fisher-marks rather than in the Hall's own hand, the first stone on the island so cut.",
+   "place": "burg:62",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0156",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#i-of-fish-that-do-not-need-reading",
+   "era_between": [
+    1871,
+    1871
+   ]
+  },
+  {
+   "id": "EIII-7050",
+   "title": "A stable-boy's tally teaches a clerk's daughter her letters",
+   "body": "At Cathair dhearg a boy of Inis bheag, sent inland to serve in the red hall's stables, scratches a fisher's tally on a granary door. A clerk's daughter, Peigi nic Tormoid, asks what the marks mean and will not be told they are nothing, and so learns the fisher-marks before she learns the Hall's own hand.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0157",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#i-of-fish-that-do-not-need-reading",
+   "era_between": [
+    1908,
+    1908
+   ]
+  },
+  {
+   "after": "II-0157"
+  },
+  {
+   "id": "EIII-7051",
+   "title": "Peigi nic Tormoid takes the clerk's stool",
+   "body": "Peigi nic Tormoid is given the clerk's stool at Cathair dhearg in her twenty-sixth year, after the death of an elder cousin from fever and for want of anyone else willing to take the work. She keeps the roll of the red hall for four-and-forty years after.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0157",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7050",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#ii-of-peigi-s-hand",
+   "era_between": [
+    1926,
+    1926
+   ]
+  },
+  {
+   "id": "EIII-7052",
+   "title": "Peigi's ruling on the boundary of two descriptions",
+   "body": "A lord of the plain presses Peigi nic Tormoid to set a boundary dispute down in his own favour. She refuses to keep opinions in the roll and writes instead both sides' own words and the last day they had agreed on anything, a plain record a Keeper's clerk consults to settle a far larger dispute two centuries later.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0157",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7051",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#ii-of-peigi-s-hand",
+   "era_between": [
+    1948,
+    1948
+   ]
+  },
+  {
+   "id": "EIII-7053",
+   "title": "Death of Peigi nic Tormoid",
+   "body": "Peigi nic Tormoid dies in her own bed at seventy, having kept the roll of the red hall through a reign and the half of another. The clerks who follow her learn to date a leaf by whether her hand lies on it, a truer clock, some say, than the reign it was written under.",
+   "place": "burg:19",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "II-0157",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7052",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#ii-of-peigi-s-hand",
+   "era_between": [
+    1970,
+    1970
+   ]
+  },
+  {
+   "id": "EIII-7054",
+   "title": "The fowler households of Seann Skell feed the hawk first",
+   "body": "At Seann Skell on the northern coast the fowler families begin feeding their hawks before the household eats, on the reasoning that a hunger fed first turns less readily on the house that keeps it waiting. The custom spreads from household to household along the one street.",
+   "place": "burg:132",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0158",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#iii-of-the-grey-hawk-of-the-northern-skell",
+   "era_between": [
+    1975,
+    1975
+   ]
+  },
+  {
+   "after": "II-0158"
+  },
+  {
+   "id": "EIII-7055",
+   "title": "Raghnaid nic Chaluim burns her handful with the hawk unhooded",
+   "body": "Raghnaid nic Chaluim of Seann Skell burns her household's dawn handful with her hawk Mòd unhooded on her wrist, its eye on the flame the whole time it burns. Her own household says of her afterward that she carried the custom the whole distance it would go.",
+   "place": "burg:132",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0158",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7054",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#iii-of-the-grey-hawk-of-the-northern-skell",
+   "era_between": [
+    2000,
+    2000
+   ]
+  },
+  {
+   "id": "EIII-7056",
+   "title": "A clerk questions Raghnaid on the hawk's watching",
+   "body": "A clerk sent from Cathair dhearg to set the dawn-hawk custom in the Hall's roll asks Raghnaid nic Chaluim why the bird must watch the burning. She answers that the flame is a hunger too and should be fed in the sight of the thing that hungers, and the clerk writes her words down unaltered.",
+   "place": "burg:132",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0158",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7055",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#iii-of-the-grey-hawk-of-the-northern-skell",
+   "era_between": [
+    2019,
+    2019
+   ]
+  },
+  {
+   "id": "EIII-7057",
+   "title": "The dawn-hawk kept at Cnoc bheag",
+   "body": "Households at Cnoc bheag, none of them fowlers by trade, buy hawks at cost from Skell traders and take up the dawn burning with the bird on the wrist. Their neighbours, keeping no hawk, remark that the birds are fed better than the households' own children.",
+   "place": "burg:20",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0159",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7056",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#iv-of-no-concern-of-ours",
+   "era_between": [
+    2035,
+    2035
+   ]
+  },
+  {
+   "id": "EIII-7058",
+   "title": "The Keeper sends a clerk to see the dawn kept",
+   "body": "Pressed by an uneasy household of the lowland plain, the Keeper of that season sends a clerk north to Cnoc bheag to see the dawn-hawk rite kept before ruling on it. The clerk reports the hawk-households burn no more of their measure than any other hearth, only in a bird's sight rather than none.",
+   "place": "burg:20",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0159",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7057",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#iv-of-no-concern-of-ours",
+   "era_between": [
+    2041,
+    2041
+   ]
+  },
+  {
+   "id": "EIII-7059",
+   "title": "The Hall answers that the rite is no concern of its own",
+   "body": "The Keeper writes to the lowland household, and to every household after it that raises the question, that the dawn-hawk rite keeps the measure exactly and is no concern of the Hall's. It is the last time in the age the Hall answers any rite so simply.",
+   "place": "burg:25",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
+    {
+     "to": "II-0159",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7058",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-orders-of-the-old-faith",
+    "the-keepers-of-the-flame"
+   ],
+   "people": [],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#iv-of-no-concern-of-ours",
+   "era_between": [
+    2042,
+    2042
+   ]
+  },
+  {
+   "after": "II-0159"
+  },
+  {
+   "id": "EIII-7060",
+   "title": "Aonghas Ruadh brings the sting-oath north to Ros bheag",
+   "body": "Aonghas Ruadh, a merchant of Ros bheag trading salt fish for the dry country's dyed wool, returns from Baile àrsaidh with a boxed scorpion and swears his next bargain on its sting before the harbour court has seen the custom done. The court takes to the swearing within the year.",
+   "place": "burg:63",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0160",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-ruadh"
+   ],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#v-of-the-sting-and-the-western-harbours",
+   "era_between": [
+    2098,
+    2098
+   ]
+  },
+  {
+   "id": "EIII-7061",
+   "title": "A trader of the plain is refused for want of the sting-oath",
+   "body": "A trader of the plain who will not swear his debt on Ros bheag's sting, calling a boxed scorpion no fit thing to bind a man, is sold no fish by the harbour court, which holds that a man unwilling to swear as every other trader swears is telling the court something his own name does not.",
+   "place": "burg:63",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "II-0160",
+     "type": "sequel"
+    },
+    {
+     "to": "EIII-7060",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-ruadh"
+   ],
+   "told_in": "book/34_of_peigis_hand_and_the_dawn-hawk.md#v-of-the-sting-and-the-western-harbours",
+   "era_between": [
+    2099,
+    2099
+   ]
+  }
+ ]
+}

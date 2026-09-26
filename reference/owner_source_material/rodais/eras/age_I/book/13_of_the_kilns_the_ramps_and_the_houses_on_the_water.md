@@ -3,10 +3,10 @@
 *VE 1,443 – 1,669*
 
 > *Dhìrich Fearghas gu mullach an eilein, agus ghabh an gual sneachda teine san adhar.*
-> Fearghas climbed to the top of the island, and the snowflake coal took fire in the air.
-> — from the Line of the Mason
+> Fearghas climbed to the top of the island, and gual sneachda took fire in the air.
+> — from Sloinneadh a' Chlachair
 
-*The Third Part: Of the White Coal on the Height, and the Walls of the Old Ones*
+*The Third Part: Of the White Coal on the Height, and the Walls of Seann-Dhaoine*
 
 ## I. Of the Kilns at Morn
 
@@ -38,7 +38,7 @@ The hull went down slower than any load the ramp had carried before it, checked 
 
 No season that the household could later fix a year to brought it back to that shore, so far as this telling has followed the household afterward; and of where it went, or what it was built to reach, or whether it reached it, nothing is told. The household went on building at the ramp after it, wider each time and longer, and launched hulls from it in the years that followed the way any trade repeats what it has learned once it has learned it; but the first hull, and the water it went out into, and the coast it may or may not have raised on some horizon no one of Brenn ever stood close enough to see confirmed, belong, in every telling that has come down of it, to the sea alone.
 
-Of the first ramp's own building, before ever a plank was laid to make a hull for it to carry, more is told than of the hull that came after, for the ramp stood a long while as a thing seen and stepped over by the whole household before it became a thing that launched anything at all. Twice, in the years the telling follows its laying, a slab set well enough by daylight was found in the morning to have settled crooked in the night, the packed stone beneath it having given under its own weight where the ground below ran soft, and both times the slab was levered up again with poles of green oak braced against driven stakes, the low place packed afresh with smaller stone rammed hard by hand and by heel, and the slab let down a second time onto ground that had, by then, been tried and found wanting once already. The household that did this work is not told to have cursed the crooked stone or hurried its second setting; the telling that has come down of it says only that it was done again, the same careful way, as many times as the ground asked for it.
+Of the first ramp's own building, before ever a plank was laid to make a hull for it to carry, more is told than of the hull that came after, for the ramp stood a long while as a thing seen and stepped over by the whole household before it became a thing that launched anything at all. Twice, in the years the telling follows its laying, a slab set well enough by daylight was found in the morning to have settled crooked in the night, the packed stone beneath it having given under its own weight where the ground below ran soft, and both times Leac na Fèithe was levered up again with poles of green oak braced against driven stakes, the low place packed afresh with smaller stone rammed hard by hand and by heel, and Leac na Fèithe let down a second time onto ground that had, by then, been tried and found wanting once already. The household that did this work is not told to have cursed the crooked stone or hurried its second setting; the telling that has come down of it says only that it was done again, the same careful way, as many times as the ground asked for it.
 
 A dog of that household is remembered, though not by name any more than the boy who watched the last rollers or the hands that first went aboard, for lying across the finished ramp on warm days in the last summer before the first hull was framed above it, so that more than one of the household is said to have stepped over or around it on the way down to the water rather than move it, the ramp by then being as ordinary a part of that shore's ground as the shingle either side of it. Whether the dog lay there on the morning the hull was finally walked down to the water, and was moved for that one day only, or was kept well clear of the work for longer than a single morning, the telling has not troubled to say; it is remembered only for the many ordinary days before, lying full length on stone that had cost the household more labour than anything else that shore had ever raised, exactly as it might have lain on any bare patch of turf.
 

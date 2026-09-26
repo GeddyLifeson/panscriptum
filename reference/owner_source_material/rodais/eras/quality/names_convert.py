@@ -150,6 +150,10 @@ class Converter:
     def sense(self, core, dt, text, s, e):
         """Choose among senses by the words around the name; None when unclear."""
         sent = text[max(0, s - 160):e + 160]
+        if re.match(r'Appendix [A-Z]\b', core) or core.lower() in ('annals', 'appendices'):
+            return None             # the volume's own appendices and chronicle, not the master's
+        if 'high custodian' in core and self.k in ('VI', 'VII'):
+            return 'Àrd-choimheadaiche'   # the Council of Custodians is gone by then; the Rite's office remains
         if core == 'Stone':
             if re.search(r'priest|order|was for|send|sent|men to|shut|town|city|temple|the Stone in the|Stone (?:and|or) ', sent):
                 return 'Òrd na Cloiche'
@@ -192,7 +196,8 @@ class Converter:
                 new = re.sub(r"^(?:An t-|An |A' |Na h-|Na )", '', dt)
                 s2 = s
             elif core in OFFICE and not art:
-                new, s2 = OFFICE[core] + pos, s
+                off = 'Àrd-choimheadaiche' if 'high custodian' in core and self.k in ('VI', 'VII') else OFFICE[core]
+                new, s2 = off + pos, s
                 if prevw in ('a', 'A') and new[0] in 'AEIOUÀÈÌÒÙ':
                     s2 = prev.start(1)
                     new = prevw + 'n ' + new

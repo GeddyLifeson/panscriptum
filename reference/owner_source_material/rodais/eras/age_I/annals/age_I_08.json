@@ -6,28 +6,10 @@
  ],
  "events": [
   {
-   "id": "EI-4501",
-   "title": "The stakes found in the tidal mud",
-   "body": "A boy minding his household's mooring finds a straight row of older stakes further out in the tidal mud below the north-western point, one still hung with a scrap of stitched hide. No household owns to having driven them, and who did, or from where, the mud never says.",
-   "place": null,
-   "kind": "land",
-   "category": "land",
-   "links": [
-    {
-     "to": "I-0039",
-     "type": "cause"
-    }
-   ],
-   "threads": [],
-   "people": [],
-   "told_in": "book/22_of_the_stakes_in_the_mud_and_the_watcher_in_the_sea.md#i-of-the-stakes-in-the-mud",
-   "era_between": [
-    2937,
-    2937
-   ]
+   "after": "I-0039"
   },
   {
-   "id": "EI-4502",
+   "id": "EI-4501",
    "title": "The stakes shown to children with a shrug",
    "body": "The line of old stakes in the mud below the north-western point comes to be called only the stakes, shown to children once by an older cousin with a shrug rather than a story.",
    "place": null,
@@ -48,7 +30,7 @@
    ]
   },
   {
-   "id": "EI-4503",
+   "id": "EI-4502",
    "title": "A back rises off the north-western point",
    "body": "Four men working a mackerel net before dawn see a vast dark back rise smoothly from flat water off the north-west, longer than any whale known to that coast, and sink again without spray or sound. None can afterward agree how long it showed itself, only that it was greater than anything with business in water so shallow.",
    "place": null,
@@ -74,9 +56,9 @@
    "after": "I-0040"
   },
   {
-   "id": "EI-4504",
+   "id": "EI-4503",
    "title": "The sighting told at the hearths",
-   "body": "Within a day the four men's telling has gone the length of the coast, and within its second telling the creature has a name that will not leave it again: the Sea-Watcher. Not every hearth believes them, but the water off the point is from that year the Watcher's water in every mouth, believed or doubted alike.",
+   "body": "Within a day the four men's telling has gone the length of the coast, and within its second telling the creature has a name that will not leave it again: Uilebheist na Mara. Not every hearth believes them, but the water off the point is from that year Uilebheist na Mara's water in every mouth, believed or doubted alike.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -97,9 +79,9 @@
    ]
   },
   {
-   "id": "EI-4505",
+   "id": "EI-4504",
    "title": "The youngest of the four keeps the telling unaltered",
-   "body": "The youngest of the four men who saw the Watcher rise carries the telling word for word into his old age, adding nothing and taking nothing away, and the coast counts this for more than any argument of the doubters.",
+   "body": "The youngest of the four men who saw Uilebheist na Mara rise carries the telling word for word into his old age, adding nothing and taking nothing away, and the coast counts this for more than any argument of the doubters.",
    "place": null,
    "kind": "land",
    "category": "land",
@@ -118,7 +100,7 @@
    ]
   },
   {
-   "id": "EI-4506",
+   "id": "EI-4505",
    "title": "Criomthann born to the shore",
    "body": "Criomthann is born into a household of net-menders and boatmen kin, at some remove, to the household that once sent Bran west over the open sea. He grows up knowing the shape of that older grief by its silences rather than by being told it plainly, and it leaves him wary of open water all his life.",
    "place": null,
@@ -141,7 +123,7 @@
    ]
   },
   {
-   "id": "EI-4507",
+   "id": "EI-4506",
    "title": "Criomthann pulls a boy from a rip",
    "body": "Criomthann, still a young man, pulls a boy from a rip current with his own hand while three grown men stand arguing on the shingle about the best way to go after him.",
    "place": null,
@@ -149,7 +131,7 @@
    "category": "land",
    "links": [
     {
-     "to": "EI-4506",
+     "to": "EI-4505",
      "type": "person"
     }
    ],
@@ -164,9 +146,9 @@
    ]
   },
   {
-   "id": "EI-4508",
+   "id": "EI-4507",
    "title": "Two drown in water that shows no storm",
-   "body": "A boat close in below the point goes over in a swell no watcher on shore can account for, and two men drown within sight of their own hearth smoke. The loss is not laid to the Watcher, the water being the wrong water, but it teaches Criomthann, newly a father, that the sea gives little warning of the moment it means to take something.",
+   "body": "A boat close in below the point goes over in a swell no watcher on shore can account for, and two men drown within sight of their own hearth smoke. The loss is not laid to Uilebheist na Mara, the water being the wrong water, but it teaches Criomthann, newly a father, that the sea gives little warning of the moment it means to take something.",
    "place": null,
    "kind": "land",
    "category": "land",
@@ -176,7 +158,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-4507",
+     "to": "EI-4506",
      "type": "person"
     }
    ],
@@ -191,7 +173,7 @@
    ]
   },
   {
-   "id": "EI-4509",
+   "id": "EI-4508",
    "title": "Criomthann first climbs the headland with fire",
    "body": "Sixteen years after the drowning below the point, Criomthann begins carrying driftwood and gorse to the last headland of that coast of an evening, less as a plan reasoned out than as a thing he finds his hands already doing, and lights a fire that will not go dark again in his lifetime.",
    "place": null,
@@ -203,7 +185,7 @@
      "type": "cause"
     },
     {
-     "to": "EI-4508",
+     "to": "EI-4507",
      "type": "person"
     }
    ],
@@ -223,9 +205,9 @@
    "after": "I-0041"
   },
   {
-   "id": "EI-4510",
+   "id": "EI-4509",
    "title": "The warning settles into few words",
-   "body": "Over repeated evenings calling down from the headland to boats working too far into the Watcher's water, Criomthann's warning wears smooth into a saying his own children can say back to him in their sleep: Turn back. This water is not for you.",
+   "body": "Over repeated evenings calling down from the headland to boats working too far into Uilebheist na Mara's water, Criomthann's warning wears smooth into a saying his own children can say back to him in their sleep: Turn back. This water is not for you.",
    "place": null,
    "kind": "faith",
    "category": "faith",
@@ -235,7 +217,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4509",
+     "to": "EI-4508",
      "type": "person"
     }
    ],
@@ -252,7 +234,7 @@
    ]
   },
   {
-   "id": "EI-4511",
+   "id": "EI-4510",
    "title": "A peat bank kept for the headland fire",
    "body": "Criomthann's household keeps aside a bank of peat cut for the headland fire alone, touched for nothing else, so that the fire is never let go dark even in the leanest winter.",
    "place": null,
@@ -264,7 +246,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4510",
+     "to": "EI-4509",
      "type": "person"
     }
    ],
@@ -279,7 +261,7 @@
    ]
   },
   {
-   "id": "EI-4512",
+   "id": "EI-4511",
    "title": "Criomthann's wife dies of a fever",
    "body": "A fever that takes half the young children of the north-western shore in one bad season takes Criomthann's wife with them, and he keeps the headland fire nine years a widower.",
    "place": null,
@@ -287,7 +269,7 @@
    "category": "faith",
    "links": [
     {
-     "to": "EI-4511",
+     "to": "EI-4510",
      "type": "person"
     }
    ],
@@ -302,9 +284,36 @@
    ]
   },
   {
-   "id": "EI-4513",
+   "id": "EI-4512",
    "title": "Criomthann's strength fails the climb",
    "body": "Nine years widowed, at three-and-sixty Criomthann can no longer carry wood up the last steep pitch of the headland, and his eldest son takes up the feeding of the fire, so that the flame he lit for no reason he could fully name burns on past the reach of his own life.",
+   "place": null,
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0041",
+     "type": "sequel"
+    },
+    {
+     "to": "EI-4511",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "criomthann"
+   ],
+   "told_in": "book/22_of_the_stakes_in_the_mud_and_the_watcher_in_the_sea.md#iii-of-the-beacon",
+   "era_between": [
+    3078,
+    3078
+   ]
+  },
+  {
+   "id": "EI-4513",
+   "title": "Criomthann dies",
+   "body": "Criomthann dies at four-and-sixty in his own bed, three generations of his kin about him, having outlived every one of the four who first saw Uilebheist na Mara rise. At his own asking he is buried on the lower slope of the headland, within sound of the fire he kept.",
    "place": null,
    "kind": "land",
    "category": "land",
@@ -324,39 +333,12 @@
    ],
    "told_in": "book/22_of_the_stakes_in_the_mud_and_the_watcher_in_the_sea.md#iii-of-the-beacon",
    "era_between": [
-    3078,
-    3078
-   ]
-  },
-  {
-   "id": "EI-4514",
-   "title": "Criomthann dies",
-   "body": "Criomthann dies at four-and-sixty in his own bed, three generations of his kin about him, having outlived every one of the four who first saw the Watcher rise. At his own asking he is buried on the lower slope of the headland, within sound of the fire he kept.",
-   "place": null,
-   "kind": "land",
-   "category": "land",
-   "links": [
-    {
-     "to": "I-0041",
-     "type": "sequel"
-    },
-    {
-     "to": "EI-4513",
-     "type": "person"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "criomthann"
-   ],
-   "told_in": "book/22_of_the_stakes_in_the_mud_and_the_watcher_in_the_sea.md#iii-of-the-beacon",
-   "era_between": [
     3079,
     3079
    ]
   },
   {
-   "id": "EI-4515",
+   "id": "EI-4514",
    "title": "A calm summer fills the nets at Ros ruadh",
    "body": "A run of flat, windless weather settles over the water off Ros ruadh, the kind of calm fishermen pray for and seldom get, and the settlement's boats work it harder than any season in memory.",
    "place": "burg:238",
@@ -377,7 +359,7 @@
    ]
   },
   {
-   "id": "EI-4516",
+   "id": "EI-4515",
    "title": "The first boat fails to come home",
    "body": "A boat with three men aboard, working water well inside what the settlement calls safe, does not return with the tide. No wreckage of it is ever found on any shingle the length of that coast.",
    "place": "burg:238",
@@ -398,7 +380,7 @@
    ]
   },
   {
-   "id": "EI-4517",
+   "id": "EI-4516",
    "title": "The second boat fails eleven days after the first",
    "body": "A second boat of Ros ruadh, with two men aboard, fails to come home eleven days after the first, from a different stretch of the same calm water, and again no wreckage is found.",
    "place": "burg:238",
@@ -419,7 +401,7 @@
    ]
   },
   {
-   "id": "EI-4518",
+   "id": "EI-4517",
    "title": "Seven boats lost from Ros ruadh in one season",
    "body": "Boat after boat fails to return through a summer of unbroken calm, until seven are lost from Ros ruadh with no storm to blame and no wreck or body ever recovered. Scarcely a hearth in the settlement is left untouched.",
    "place": "burg:238",
@@ -443,9 +425,9 @@
    "after": "I-0042"
   },
   {
-   "id": "EI-4519",
-   "title": "The widows name the Watcher",
-   "body": "The widows of Ros ruadh are the first to say plainly, at every hearth that will hear it, that the Sea-Watcher has taken their seven boats. It is the first loss on that coast laid at the Watcher's door by name rather than only feared in its shadow, and the naming holds ever after.",
+   "id": "EI-4518",
+   "title": "The widows name Uilebheist na Mara",
+   "body": "The widows of Ros ruadh are the first to say plainly, at every hearth that will hear it, that Uilebheist na Mara has taken their seven boats. It is the first loss on that coast laid at Uilebheist na Mara's door by name rather than only feared in its shadow, and the naming holds ever after.",
    "place": "burg:238",
    "kind": "faith",
    "category": "faith",
@@ -466,7 +448,7 @@
    ]
   },
   {
-   "id": "EI-4520",
+   "id": "EI-4519",
    "title": "Kin from three households feed the beacon together",
    "body": "In the year after the widows' naming, the headland fire burns harder than in any year since Criomthann first lit it, fed now by hands from three households besides his own grandson's, as though a fire fed by more hands might answer for what seamanship could not.",
    "place": null,
@@ -489,7 +471,7 @@
    ]
   },
   {
-   "id": "EI-4521",
+   "id": "EI-4520",
    "title": "The ash on the headland stands a man's height deep",
    "body": "Fed and banked and fed again by hands born after the worst of the lost season, the beacon's ash has by now been heaped on the same ground for so many lifetimes that it stands a man's own height deep, deep enough that a boy sent to feed it can stand in the hollow of it and be seen from below only from the shoulders up.",
    "place": null,
@@ -510,7 +492,7 @@
    ]
   },
   {
-   "id": "EI-4522",
+   "id": "EI-4521",
    "title": "Seven empty places on the shingle",
    "body": "The shingle at Ros ruadh has by now shifted through enough winters' tides that it no longer holds even the memory of where the seven lost boats once lay drawn up among the rest, and only the headland fire and the widows' naming remain to say the seven ever went out from that shore at all.",
    "place": "burg:238",
@@ -534,10 +516,10 @@
    "after": "I-0043"
   },
   {
-   "id": "EI-4523",
+   "id": "EI-4522",
    "title": "The open-water hunt gives way to the strait",
    "body": "Crew by crew, the boats of the north-west leave the open coast off the last headland for the sheltered water in its lee, keeping the whole of their ground in sight at once. The seal grounds at Ros ruadh and the outer skerries thin as the strait grounds fill.",
-   "place": "burg:95",
+   "place": "burg:1010",
    "kind": "land",
    "category": "land",
    "links": [
@@ -555,7 +537,7 @@
    ]
   },
   {
-   "id": "EI-4524",
+   "id": "EI-4523",
    "title": "An old steersman says the island's hand has drawn back",
    "body": "An old steersman of the strait says, at a gathering for net-mending, that the sea has not grown smaller, only that the island's hand has drawn back from the part of it a man can no longer trust.",
    "place": "burg:1010",
@@ -576,10 +558,10 @@
    ]
   },
   {
-   "id": "EI-4525",
+   "id": "EI-4524",
    "title": "The middens of Bothan a' Chaolais outgrow the old grounds",
    "body": "Shell and bone rise faster at Bothan a' Chaolais than they have ever risen, until the bothy folk say a winter's leavings there would wall a house. An old steersman of the strait says plainly what the coast has already done without saying it.",
-   "place": "burg:95",
+   "place": "burg:1010",
    "kind": "land",
    "category": "land",
    "links": [
@@ -597,10 +579,10 @@
    ]
   },
   {
-   "id": "EI-4526",
+   "id": "EI-4525",
    "title": "Eimhir born to a herding household of Doire uaine",
    "body": "Eimhir is born into a herding family of the high pastures south of Tobar dhìreach, in country the hill folk still call the green grove for the oaks it once bore. She grows to the flock and the ground before she grows to much else.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "land",
    "category": "land",
    "links": [],
@@ -618,12 +600,39 @@
    "after": "I-0044"
   },
   {
-   "id": "EI-4527",
+   "id": "EI-4526",
    "title": "A ewe strays into a defile of the hills",
    "body": "A ewe strays in the night up a narrow defile of the Doire uaine hills where the flock is not taken, and Eimhir follows it before first light into a fold of the hill she does not remember walking.",
    "place": "burg:1007",
    "kind": "land",
    "category": "land",
+   "links": [
+    {
+     "to": "I-0044",
+     "type": "cause"
+    },
+    {
+     "to": "EI-4525",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "eimhir"
+   ],
+   "told_in": "book/23_of_the_lee_of_the_headlands_and_the_writing_in_the_hills.md#iii-of-the-cutting-on-the-stone",
+   "era_between": [
+    3200,
+    3200
+   ]
+  },
+  {
+   "id": "EI-4527",
+   "title": "Eimhir finds the cut stone",
+   "body": "Following a strayed ewe up an unfamiliar defile before dawn, Eimhir comes on a rock face cut with lines of writing no hand of that country claims, running the height of the stone and further, in a hand unlike any boundary-mark or tally she knows.",
+   "place": "burg:1007",
+   "kind": "faith",
+   "category": "faith",
    "links": [
     {
      "to": "I-0044",
@@ -640,42 +649,15 @@
    ],
    "told_in": "book/23_of_the_lee_of_the_headlands_and_the_writing_in_the_hills.md#iii-of-the-cutting-on-the-stone",
    "era_between": [
-    3200,
-    3200
-   ]
-  },
-  {
-   "id": "EI-4528",
-   "title": "Eimhir finds the cut stone",
-   "body": "Following a strayed ewe up an unfamiliar defile before dawn, Eimhir comes on a rock face cut with lines of writing no hand of that country claims, running the height of the stone and further, in a hand unlike any boundary-mark or tally she knows.",
-   "place": "burg:148",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "I-0044",
-     "type": "cause"
-    },
-    {
-     "to": "EI-4527",
-     "type": "person"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "eimhir"
-   ],
-   "told_in": "book/23_of_the_lee_of_the_headlands_and_the_writing_in_the_hills.md#iii-of-the-cutting-on-the-stone",
-   "era_between": [
     3210,
     3210
    ]
   },
   {
-   "id": "EI-4529",
+   "id": "EI-4528",
    "title": "Elders of the hills judge the writing older than living memory",
    "body": "A small company of the hill country's elders climbs to see the cut stone for itself. One tests it with a flat palm and says nothing; another, walking its length twice, says she knows no hand that claims the writing, and holds that the country will come to know it in its own time.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -684,7 +666,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4528",
+     "to": "EI-4527",
      "type": "person"
     }
    ],
@@ -699,10 +681,10 @@
    ]
   },
   {
-   "id": "EI-4530",
+   "id": "EI-4529",
    "title": "The hills come to a common telling of the writing",
    "body": "Within two winters, gathered out of dreams two or three swear separately to the same shape and out of half-kept scraps no one can trace to a source, every hearth of that country can tell what the cutting is held to say: a thing that does not breathe, and falls on any fire it sees lit.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -720,7 +702,7 @@
    ]
   },
   {
-   "id": "EI-4531",
+   "id": "EI-4530",
    "title": "Dreams of the same shape at several hearths",
    "body": "Two or three people of the Doire uaine hills swear, without having spoken to one another, that they have dreamed in nearly the same shape of something walking the ridges without breath.",
    "place": "burg:1007",
@@ -741,10 +723,10 @@
    ]
   },
   {
-   "id": "EI-4532",
+   "id": "EI-4531",
    "title": "The second cutting is argued over at the hearths",
    "body": "That parts of the writing were struck across afterward, by what seems the very tool that first cut them, divides the hill country's telling: some hold the writer came back to unwrite a part too dangerous to keep whole; others hold the thing named in the writing did the defacing itself.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -753,7 +735,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4529",
+     "to": "EI-4528",
      "type": "person"
     }
    ],
@@ -768,10 +750,10 @@
    ]
   },
   {
-   "id": "EI-4533",
+   "id": "EI-4532",
    "title": "Children go less often alone to the far pastures",
    "body": "Without any rule said aloud, fewer households of the Doire uaine hills send a child alone to the farthest grazing after the finding of the writing, and fewer let a night fire burn low and unwatched when the wind comes strange off the high ground.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "land",
    "category": "land",
    "links": [],
@@ -784,10 +766,10 @@
    ]
   },
   {
-   "id": "EI-4534",
+   "id": "EI-4533",
    "title": "Two herders see the walker on the ridge and live",
    "body": "Caught by dusk driving beasts home, two herders of the hills see an upright figure walk the crest against the last light, breathing no cloud into the cold air. Neither has a fire lit or a light shown on the path, and both come home to tell it.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -805,7 +787,7 @@
    ]
   },
   {
-   "id": "EI-4535",
+   "id": "EI-4534",
    "title": "The defile given a wide berth",
    "body": "By common unspoken consent the defile where the cut stone stands is given a wide berth, and a strayed sheep is fetched from it only by daylight and never by a child alone.",
    "place": "burg:1007",
@@ -826,7 +808,7 @@
    ]
   },
   {
-   "id": "EI-4536",
+   "id": "EI-4535",
    "title": "Eimhir teaches her children the fire and the ridge",
    "body": "Eimhir teaches her children that the writing is there, that no one reads it, and that a fire built where the ridge can see it is a fire built carelessly, whatever else a person believes.",
    "place": "burg:1007",
@@ -838,7 +820,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4532",
+     "to": "EI-4531",
      "type": "person"
     }
    ],
@@ -856,10 +838,10 @@
    "after": "I-0045"
   },
   {
-   "id": "EI-4537",
+   "id": "EI-4536",
    "title": "The first hearth is dug and roofed at Doire uaine",
    "body": "A household newly come to the eastern side of the hills digs its cooking fire into a pit and roofs it with a slab, showing no flame above ground. Mocked at first, the family's fire burns unremarked through a hard winter, and two more households follow within the year.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -877,10 +859,10 @@
    ]
   },
   {
-   "id": "EI-4538",
+   "id": "EI-4537",
    "title": "Eimhir keeps her hearth open against the new custom",
    "body": "With half the hearths of the hill country dug in or talking of it, Eimhir, old now, tells her daughter she will not hide the fire her family has always kept open to the sky, having touched the writing on the stone herself before any household thought to cover its light.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -889,7 +871,7 @@
      "type": "parallel"
     },
     {
-     "to": "EI-4536",
+     "to": "EI-4535",
      "type": "person"
     }
    ],
@@ -904,15 +886,15 @@
    ]
   },
   {
-   "id": "EI-4539",
+   "id": "EI-4538",
    "title": "Eimhir dies",
    "body": "Eimhir dies of no illness the hill country can name, worn out by a long life, and is buried above her family's grazing with a stone set on end and no other marker. Her daughter banks her hearth for the last time and does not build it open again.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "land",
    "category": "land",
    "links": [
     {
-     "to": "EI-4538",
+     "to": "EI-4537",
      "type": "person"
     }
    ],
@@ -927,10 +909,10 @@
    ]
   },
   {
-   "id": "EI-4540",
+   "id": "EI-4539",
    "title": "The covered hearth spreads short of a rule",
    "body": "Within forty years an open fire on the bare floor grows rare enough in the Doire uaine hills that a child raised to one is asked after it at every gathering, though households on the country's quieter edges still keep the old way, and no rule yet binds the rest.",
-   "place": "burg:148",
+   "place": "burg:1007",
    "kind": "faith",
    "category": "faith",
    "links": [
@@ -948,7 +930,7 @@
    ]
   },
   {
-   "id": "EI-4541",
+   "id": "EI-4540",
    "title": "Laoghaire begins the first pit-hearth",
    "body": "On a shoulder of ground below his own house, Laoghaire digs a hearth a man's height into the earth, with a blind angled shaft down to it and a slab dragged over the top, and sleeps beside it the first night to learn whether it holds its heat and shows no light above.",
    "place": "burg:1007",
@@ -960,7 +942,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [
     "laoghaire"
    ],
@@ -974,7 +958,7 @@
    "after": "I-0046"
   },
   {
-   "id": "EI-4542",
+   "id": "EI-4541",
    "title": "The blind bend in the shaft",
    "body": "Laoghaire cuts the way down to his pit-hearth as a slanting shaft bent near its foot, so that no glow from below can climb it straight, and leads the smoke out through a crack in the turf ten paces off.",
    "place": "burg:1007",
@@ -985,6 +969,29 @@
      "to": "I-0046",
      "type": "sequel"
     },
+    {
+     "to": "EI-4540",
+     "type": "person"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "laoghaire"
+   ],
+   "told_in": "book/24_of_the_covered_hearths_and_the_nine.md#i-of-laoghaire-and-the-hearth-under-the-slab",
+   "era_between": [
+    3304,
+    3304
+   ]
+  },
+  {
+   "id": "EI-4542",
+   "title": "Laoghaire sleeps the first night in the pit",
+   "body": "Laoghaire sleeps the first night the pit-hearth is whole beside its fire under Leac na Fèithe, listening for anything on the turf above, and comes up at first light with soot on his hands and nothing heard.",
+   "place": "burg:1007",
+   "kind": "faith",
+   "category": "faith",
+   "links": [
     {
      "to": "EI-4541",
      "type": "person"
@@ -1002,31 +1009,8 @@
   },
   {
    "id": "EI-4543",
-   "title": "Laoghaire sleeps the first night in the pit",
-   "body": "Laoghaire sleeps the first night the pit-hearth is whole beside its fire under the slab, listening for anything on the turf above, and comes up at first light with soot on his hands and nothing heard.",
-   "place": "burg:1007",
-   "kind": "faith",
-   "category": "faith",
-   "links": [
-    {
-     "to": "EI-4542",
-     "type": "person"
-    }
-   ],
-   "threads": [],
-   "people": [
-    "laoghaire"
-   ],
-   "told_in": "book/24_of_the_covered_hearths_and_the_nine.md#i-of-laoghaire-and-the-hearth-under-the-slab",
-   "era_between": [
-    3304,
-    3304
-   ]
-  },
-  {
-   "id": "EI-4544",
    "title": "Two more households dig the like",
-   "body": "Within the season two households of Laoghaire's own kin dig covered hearths beside their own doors on the pattern he showed them, the first word of the pit under the slab carried hearth to hearth the way any useful thing travelled in those hills.",
+   "body": "Within the season two households of Laoghaire's own kin dig covered hearths beside their own doors on the pattern he showed them, the first word of the pit under Leac na Fèithe carried hearth to hearth the way any useful thing travelled in those hills.",
    "place": "burg:1007",
    "kind": "culture",
    "category": "faith",
@@ -1036,7 +1020,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4543",
+     "to": "EI-4542",
      "type": "person"
     }
    ],
@@ -1051,7 +1035,7 @@
    ]
   },
   {
-   "id": "EI-4545",
+   "id": "EI-4544",
    "title": "The line at Tobar dhìreach is asked to cover its fire",
    "body": "Kin by marriage from the Doire uaine households ask outright at Tobar dhìreach why the household of the mason's own fire alone keeps an open hearth. The keeper of the pot answers that a fire never once let go dark cannot now be hidden without being treated as any lesser fire, and the line's hearth stays open.",
    "place": null,
@@ -1072,9 +1056,9 @@
    ]
   },
   {
-   "id": "EI-4546",
+   "id": "EI-4545",
    "title": "The line keeps its hearth open",
-   "body": "The man who keeps the pot at Tobar dhìreach answers every neighbour who asks why the line will not cover its fire that the mason's fire is owed better than to be hidden as a hillside peat-fire hides from its fears.",
+   "body": "The man who keeps the pot at Tobar dhìreach answers every neighbour who asks why the line will not cover its fire that Teine a' Chlachair is owed better than to be hidden as a hillside peat-fire hides from its fears.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -1090,7 +1074,7 @@
    ]
   },
   {
-   "id": "EI-4547",
+   "id": "EI-4546",
    "title": "The custom spreads through the hills",
    "body": "Within a handful of years it is the open hearth that wants explaining and the covered one that needs none; households across the Doire uaine hills dig their own, some by Laoghaire's own hand, until no open hearth shows in that country any longer.",
    "place": "burg:1007",
@@ -1102,7 +1086,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4544",
+     "to": "EI-4543",
      "type": "person"
     }
    ],
@@ -1117,9 +1101,9 @@
    ]
   },
   {
-   "id": "EI-4548",
+   "id": "EI-4547",
    "title": "A branch at Tobar dhìreach digs a hearth apart",
-   "body": "One branch of the Mason's kin digs itself a covered hearth away from the line's own house, keeping the open fire only for the recital nights. The compromise satisfies no one fully and is quietly let drop again within two generations.",
+   "body": "One branch of Clann a' Chlachair digs itself a covered hearth away from the line's own house, keeping the open fire only for the recital nights. The compromise satisfies no one fully and is quietly let drop again within two generations.",
    "place": null,
    "kind": "culture",
    "category": "faith",
@@ -1138,7 +1122,7 @@
    ]
   },
   {
-   "id": "EI-4549",
+   "id": "EI-4548",
    "title": "Laoghaire digs for a widowed sister",
    "body": "Laoghaire digs three more pit-hearths in his life, one for a widowed sister and two for households that beg it of him, for he alone seems to hold in his head how far the blind bend must run.",
    "place": "burg:1007",
@@ -1146,7 +1130,7 @@
    "category": "trade",
    "links": [
     {
-     "to": "EI-4547",
+     "to": "EI-4546",
      "type": "person"
     }
    ],
@@ -1161,7 +1145,7 @@
    ]
   },
   {
-   "id": "EI-4550",
+   "id": "EI-4549",
    "title": "Laoghaire dies",
    "body": "Laoghaire dies at six-and-sixty in his own house, having outlived two of his own children and dug covered hearths for kin across the hills. He is buried on the shoulder of ground above the pit he dug first, which his sons keep in use for three generations after him.",
    "place": "burg:1007",
@@ -1173,7 +1157,7 @@
      "type": "sequel"
     },
     {
-     "to": "EI-4549",
+     "to": "EI-4548",
      "type": "person"
     }
    ],
@@ -1191,7 +1175,7 @@
    "after": "I-0047"
   },
   {
-   "id": "EI-4551",
+   "id": "EI-4550",
    "title": "The hill camp found silent",
    "body": "A shepherd going up to a wintering camp in the south of the massif, seeing no smoke rise from it, finds a hut's door standing open and nine people within lying dead beside a cold hearth, unmarked by wound or struggle. None who come after will go in to bury them.",
    "place": "burg:355",
@@ -1212,7 +1196,7 @@
    ]
   },
   {
-   "id": "EI-4552",
+   "id": "EI-4551",
    "title": "The camp is left for good",
    "body": "The hut with the nine dead in it is left standing, its door swinging, until the wattle rots and the roof falls over them. Other households drive their beasts wide of that shoulder of hill from that season on, and none resettles the camp.",
    "place": "burg:355",
@@ -1233,7 +1217,7 @@
    ]
   },
   {
-   "id": "EI-4553",
+   "id": "EI-4552",
    "title": "A family new to the hills builds an open hearth",
    "body": "Kin from the eastern farms, new to grazing left unclaimed since the camp was given up, build their first house on the old pattern with the hearth open to the roof-hole, hearing the custom of the covered hearth only as a traveller's tale and keeping their fire open through their first autumn despite their neighbours' warning.",
    "place": null,
@@ -1254,7 +1238,7 @@
    ]
   },
   {
-   "id": "EI-4554",
+   "id": "EI-4553",
    "title": "The empty house with the fire still burning",
    "body": "A boy sent at dawn to borrow fire finds the new household's door standing open, the beds thrown back, and every soul of the house gone without blood, struggle or track in the fresh snow. The banked hearth burns on into the empty room exactly as it was left the night before.",
    "place": null,
@@ -1275,7 +1259,7 @@
    ]
   },
   {
-   "id": "EI-4555",
+   "id": "EI-4554",
    "title": "An old woman warns the newcomers twice",
    "body": "An old woman of the next valley walks up twice in a summer to tell a family new to the hills that a people does not dig into its own ground for a hundred years over nothing; they thank her and keep their fire open.",
    "place": null,
@@ -1291,7 +1275,7 @@
    ]
   },
   {
-   "id": "EI-4556",
+   "id": "EI-4555",
    "title": "Two herders see the walker on the ridge",
    "body": "A man and his sister-in-law, out after strayed ewes above the old camp in failing light, see a shape walk the skyline like a man and give off no breath into the cold air. They neither call out nor light a fire near them that evening, and come home unharmed.",
    "place": "burg:355",
@@ -1312,9 +1296,9 @@
    ]
   },
   {
-   "id": "EI-4557",
+   "id": "EI-4556",
    "title": "The covered hearth becomes the hills' law",
-   "body": "By the year the two herders come down off the ridge, the pit under the slab is no longer a new thing spreading household by household but simply how a hearth is built in that country; a child born there that year will grow old without ever seeing an open fire under any roof but the one at Tobar dhìreach.",
+   "body": "By the year the two herders come down off the ridge, the pit under Leac na Fèithe is no longer a new thing spreading household by household but simply how a hearth is built in that country; a child born there that year will grow old without ever seeing an open fire under any roof but the one at Tobar dhìreach.",
    "place": "burg:1007",
    "kind": "culture",
    "category": "faith",

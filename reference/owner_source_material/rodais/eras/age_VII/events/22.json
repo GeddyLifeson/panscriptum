@@ -381,5 +381,22 @@
       "VI-0077"
     ],
     "chronicle_extra": true
+  },
+  {
+    "title": "An Taigh-òsta Grianach full at the year's end",
+    "era_year": 20,
+    "summary": "An Taigh-òsta Grianach at Cnoc dhìreach is full to the stables at the year's end with men walking to the drill hall at Cathair dhearg to hear their old companies' names.",
+    "category": "war",
+    "people": [],
+    "places": [
+      "burg:322"
+    ],
+    "threads": [
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0076"
+    ],
+    "chronicle_extra": true
   }
 ]

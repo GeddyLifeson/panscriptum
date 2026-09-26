@@ -320,19 +320,19 @@
     "chronicle_extra": true
   },
   {
-    "title": "A prisoner let go under the walls",
+    "title": "The fifth regiment musters on the harbour wall",
     "era_year": 21,
-    "summary": "A man of Muileann àrsaidh taken at the wall is let go the next morning under some understanding between the sides, and brings in word of the capital's streets gone dark.",
+    "summary": "The fifth regiment musters on the harbour wall at Seann Warr, there being no ground inside the walls wide enough for its companies to stand in line.",
     "category": "war",
     "people": [],
     "places": [
-      "burg:244"
+      "burg:64"
     ],
     "threads": [
       "the-long-war"
     ],
     "master_links": [
-      "VI-0094"
+      "VI-0093"
     ],
     "chronicle_extra": true
   }

@@ -24,7 +24,7 @@
  {
   "title": "The nine named at Inis àrsaidh",
   "era_year": 6,
-  "summary": "The roll-keeper of Inis àrsaidh cuts nine names into the village's board on the night of the drowning, the village sitting up with her as the custom asks. Alasdair's sister's son Tormod Beag is among the six bodies brought back; two more are never found.",
+  "summary": "The roll-keeper of Inis àrsaidh cuts eleven names into the village's board on the night of the drowning, the village sitting up with her as the custom asks. Alasdair's sister's son Tormod Beag is among the eight bodies brought back; three more are never found.",
   "category": "land",
   "people": [
    "Tormod Beag",
@@ -46,7 +46,7 @@
  {
   "title": "The keening at Inis àrsaidh",
   "era_year": 6,
-  "summary": "The six recovered dead are keened on the shingle under sailcloth and a lamp at each head; for the three never found a single lamp is lit and burns down unwatched. Alasdair stays three days doing whatever the village asks of him.",
+  "summary": "The eight recovered dead are keened on the shingle under sailcloth and a lamp at each head; for the three never found a single lamp is lit and burns down unwatched. Alasdair stays three days doing whatever the village asks of him.",
   "category": "land",
   "people": [
    "Alasdair mac Iain, Alasdair Saor"
@@ -171,5 +171,27 @@
     "type": "sequel"
    }
   ]
+ },
+ {
+  "era_year": 8,
+  "title": "Birth of Raghnall mac Uilleim",
+  "summary": "A son, Raghnall, is born at Cathair dhearg to Queen Beathag nic Dhòmhnaill and her consort Uilleam mac Iain, in the queen's sixteenth year crowned and her own thirtieth year of life.",
+  "category": "rulers",
+  "people": [
+   "Raghnall mac Uilleim",
+   "Beathag nic Dhòmhnaill",
+   "Uilleam mac Iain"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0035",
+    "type": "person"
+   }
+  ],
+  "chronicle": true
  }
 ]

@@ -5,49 +5,103 @@
   "summary": "On the queen's death the seven houses' messengers pass over the empty capital and ride straight to Taigh na Fèithe above the mountain, choosing to settle the succession among the galleries and lot-stones rather than under the house of Catrìona's own roof. No leaf gives the reason; a young scribe of the vein-house later says it felt from the first hour less like a choosing than a homecoming.",
   "category": "record",
   "people": [],
-  "places": ["burg:491", "burg:19"],
-  "threads": ["the-seven-houses"],
-  "master_links": [{"to": "III-0136", "type": "sequel"}]
+  "places": [
+   "burg:491",
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0136",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Nine days at the long table",
   "era_year": 842,
-  "summary": "The heads of the seven houses sit nine days at the table under the vein-house's north window, quarrelsome for six and quiet for three, while the capital's clerks hold grain prices and boundary pleas unanswered for want of anyone with standing to settle them. On the seventh day the name of Dòmhnall Ruadh of Muileann chrom is spoken and not spoken down again.",
+  "summary": "The heads of the seven houses sit first nine days at the table under the vein-house's north window, and ride up again at every season's turning for five years, while the capital's clerks hold grain prices and boundary pleas unanswered for want of anyone with standing to settle them. At the last sitting the name of Dòmhnall Ruadh of Muileann chrom is spoken and not spoken down again.",
   "category": "record",
-  "people": ["Dòmhnall Ruadh"],
-  "places": ["burg:491"],
-  "threads": ["the-seven-houses"],
-  "master_links": [{"to": "III-0137", "type": "cause"}]
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0137",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "Dòmhnall Ruadh told whose yard he stands in",
   "era_year": 846,
   "summary": "An old custodian takes the newly named Dòmhnall Ruadh aside in the vein-house yard and tells him it is the same ground on which Raghnall Ruadh, of his own house, once refused every claimant offered him and shut the door on a season of refused hearths. Dòmhnall Ruadh says only that he hopes to prove a different answer to the same question.",
   "category": "record",
-  "people": ["Dòmhnall Ruadh"],
-  "places": ["burg:491"],
-  "threads": ["the-seven-coals", "the-seven-houses"],
-  "master_links": [{"to": "III-0137", "type": "sequel"}]
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0137",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Dòmhnall Ruadh's household summoned from Muileann chrom",
   "era_year": 846,
   "summary": "Riders carry word to Muileann chrom for Dòmhnall Ruadh's wife and two grown sons to come up to Cathair dhearg; he spends his first night as king naming aloud which of his neighbours he trusts to keep his own galleries honestly measured in his absence, troubled more by that than by the crown awaiting him.",
   "category": "record",
-  "people": ["Dòmhnall Ruadh"],
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
   "places": [],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "III-0137", "type": "sequel"}]
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0137",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The reeve's entry read out to the king",
   "era_year": 859,
   "summary": "Dòmhnall Ruadh's reeve reads him the fair copy of the entry joining the crown to the mastery of the vein-house before it is set to the king's own mark; Dòmhnall Ruadh says it reads less like a new law than a plain account of what has already been true since the morning in the yard, and the reeve agrees.",
   "category": "law",
-  "people": ["Dòmhnall Ruadh"],
-  "places": ["burg:491"],
-  "threads": ["the-seven-houses", "the-small-burning-law"],
-  "master_links": [{"to": "III-0138", "type": "sequel"}]
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-houses",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0138",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The custody-book and the crown's rolls copied onto one shelf",
@@ -55,26 +109,48 @@
   "summary": "The vein-house's clerks spend the better part of two years copying the custody-book and the crown's rolls, kept apart under separate roofs for near three hundred years, onto the same shelves in the same hands, until no leaf of either record can be told from the other at a glance.",
   "category": "record",
   "people": [],
-  "places": ["burg:491"],
-  "threads": ["the-seven-houses"],
-  "master_links": [{"to": "III-0138", "type": "sequel"}]
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0138",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The metalworker who cuts the seal",
   "era_year": 864,
   "summary": "A metalworker of Muileann dhearg who has never before been asked to cut more than a gallery-marker spends near a season on the new seal's die, complaining that the gold will not sit against the blue as he wishes. Dòmhnall Ruadh, seeing it finished, says he can find nothing in it that is properly his to add.",
   "category": "building",
-  "people": ["Dòmhnall Ruadh"],
-  "places": ["burg:491"],
-  "threads": ["the-seven-houses"],
-  "master_links": [{"to": "III-0138a", "type": "cause"}]
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0138a",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "The boundary stone of the shifted stream",
   "era_year": 855,
-  "summary": "Dòmhnall Ruadh rides the forty-two miles to Muileann chrom himself to settle a boundary dispute between two households of his own old neighbours, and fixes the stone's place by asking each household's oldest member, separately, where they remember playing as children, rather than by any measuring the vein-house owns.",
+  "summary": "Dòmhnall Ruadh rides down from the capital to Muileann chrom himself to settle a boundary dispute between two households of his own old neighbours, and fixes the stone's place by asking each household's oldest member, separately, where they remember playing as children, rather than by any measuring the vein-house owns.",
   "category": "record",
-  "people": ["Dòmhnall Ruadh"],
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
   "places": [],
   "threads": [],
   "master_links": []
@@ -84,20 +160,40 @@
   "era_year": 871,
   "summary": "Dòmhnall Ruadh is carried, by his own long-standing wish, not to the house of Catrìona's tombs at Cathair dhearg but up to the vein-house, where the custodians dig his grave themselves in a worked-out gallery and lay him with a single unlit lamp at his head, a rite kept for no other ruler before or since.",
   "category": "death",
-  "people": ["Dòmhnall Ruadh"],
-  "places": ["burg:491"],
-  "threads": ["the-seven-houses"],
-  "master_links": [{"to": "III-0139", "type": "sequel"}]
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0139",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Raghnall Òg asks to shorten his own coronation",
   "era_year": 871,
   "summary": "At the rehearsal of his coronation Raghnall Òg twice asks the clerks whether the ceremony might be shortened by an hour so that he can see a shire plea before dark, more at ease already with a boundary dispute than with a court's ceremony.",
   "category": "record",
-  "people": ["Raghnall Òg"],
-  "places": ["burg:19"],
+  "people": [
+   "Raghnall Òg"
+  ],
+  "places": [
+   "burg:19"
+  ],
   "threads": [],
-  "master_links": [{"to": "III-0139", "type": "sequel"}]
+  "master_links": [
+   {
+    "to": "III-0139",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The first barges tie up at Seann Chwen's new mole",
@@ -105,9 +201,18 @@
   "summary": "The first coal-barges of the mountain roads tie up at Seann Chwen's finished stone mole where before they only beached on shingle at low water; a rider carrying the news south remarks that he rode the whole way under one seal without troubling to wonder which office he rode for.",
   "category": "trade",
   "people": [],
-  "places": ["burg:36"],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "III-0141", "type": "sequel"}]
+  "places": [
+   "burg:36"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0141",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "The young priest's question at Cnoc bheag",
@@ -115,29 +220,63 @@
   "summary": "At the council of the Hawk a young priest rises to ask the elders whether Mòd himself would rather starve a grown flock than see his old handful grown to meet it. The council turns on the question, and the Fed Hawk is named from that day.",
   "category": "faith",
   "people": [],
-  "places": ["burg:20"],
-  "threads": ["the-orders-of-the-old-faith"],
-  "master_links": [{"to": "III-0140", "type": "cause"}]
+  "places": [
+   "burg:20"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0140",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "Beathag nic Sheumais builds the Fed Hawk's house",
   "era_year": 910,
   "summary": "Beathag nic Sheumais, nineteen at the schism, builds the Fed Hawk's following at Seann Skell on the north coast from four families to a proper school over two decades, within sound of a sea that has never given the island a word of what lies beyond it.",
   "category": "faith",
-  "people": ["Beathag nic Sheumais"],
-  "places": ["burg:132"],
-  "threads": ["the-orders-of-the-old-faith"],
-  "master_links": [{"to": "III-0142", "type": "sequel"}]
+  "people": [
+   "Beathag nic Sheumais"
+  ],
+  "places": [
+   "burg:132"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith"
+  ],
+  "master_links": [
+   {
+    "to": "III-0142",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "Beathag nic Sheumais rides south to petition in person",
   "era_year": 919,
   "summary": "Rather than trust the asking to a letter, Beathag nic Sheumais rides to Cathair dhearg herself in her fiftieth year and lays the north coast's cold winters before the seven heads without once raising her voice; the council refuses her at length, and she carries the refusal home in her own satchel.",
   "category": "faith",
-  "people": ["Beathag nic Sheumais", "Raghnall Òg"],
-  "places": ["burg:19", "burg:132"],
-  "threads": ["the-orders-of-the-old-faith", "the-small-burning-law"],
-  "master_links": [{"to": "III-0143", "type": "cause"}]
+  "people": [
+   "Beathag nic Sheumais",
+   "Raghnall Òg"
+  ],
+  "places": [
+   "burg:19",
+   "burg:132"
+  ],
+  "threads": [
+   "the-orders-of-the-old-faith",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0143",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "The fourteen named at the gallery's mouth",
@@ -145,9 +284,18 @@
   "summary": "The vein-house sets a stone with the fourteen names of Cill ghlas cut in the order they went down, the youngest a boy of thirteen, the oldest a woman forty years at the same gallery. Households of the mountain take up the custom of leaving their own small stones at its foot on the day of the fall.",
   "category": "disaster",
   "people": [],
-  "places": ["burg:123"],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "III-0144", "type": "sequel"}]
+  "places": [
+   "burg:123"
+  ],
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0144",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "A head of the seven names the fourteen before the council",
@@ -155,9 +303,20 @@
   "summary": "Laying the matter of the coal-roads before the king's council, one of the seven heads says plainly that fourteen names on a stone at a gallery's mouth are proof enough the mountain's coal is given up at a real cost, and that no house's quarrel has business stopping it on the road. None of the seven speaks against him.",
   "category": "law",
   "people": [],
-  "places": ["burg:19"],
-  "threads": ["the-seven-coals", "the-seven-houses", "the-small-burning-law"],
-  "master_links": [{"to": "III-0145", "type": "cause"}]
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-seven-houses",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0145",
+    "type": "cause"
+   }
+  ]
  },
  {
   "title": "The posts driven along the coal-roads",
@@ -165,9 +324,21 @@
   "summary": "Coal-carters hired for the season and paid from the roads' own tolls drive posts the length of all four coal-roads through a single autumn, a trellis and a hollow stone cut at every shire joint, without ceremony or a word said over the last post.",
   "category": "building",
   "people": [],
-  "places": ["burg:491", "burg:19", "burg:36"],
-  "threads": ["the-seven-coals", "the-small-burning-law"],
-  "master_links": [{"to": "III-0145", "type": "sequel"}]
+  "places": [
+   "burg:491",
+   "burg:19",
+   "burg:36"
+  ],
+  "threads": [
+   "the-seven-coals",
+   "the-small-burning-law"
+  ],
+  "master_links": [
+   {
+    "to": "III-0145",
+    "type": "sequel"
+   }
+  ]
  },
  {
   "title": "A carter's answer, remembered afterward",
@@ -176,7 +347,98 @@
   "category": "record",
   "people": [],
   "places": [],
-  "threads": ["the-seven-coals"],
-  "master_links": [{"to": "III-0145", "type": "sequel"}]
+  "threads": [
+   "the-seven-coals"
+  ],
+  "master_links": [
+   {
+    "to": "III-0145",
+    "type": "sequel"
+   }
+  ]
+ },
+ {
+  "era_year": 846,
+  "title": "Dòmhnall Ruadh crowned at six-and-fifty",
+  "summary": "Dòmhnall Ruadh is crowned at Cathair dhearg nine days after the houses name him, six-and-fifty years old, in a hall his house had never in nearly three hundred years entered as anything but petitioner.",
+  "category": "rulers",
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0137",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 850,
+  "title": "The king's horse known on the mountain road",
+  "summary": "Riding the thirty-nine miles between Cathair dhearg and the vein-house so often in the first years of his reign, Dòmhnall Ruadh is known by his horse before his face, and the road's keepers complain that they never shod one animal so often in one man's service.",
+  "category": "rulers",
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:491"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0138",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 871,
+  "title": "Raghnall Òg crowned at six-and-forty",
+  "summary": "Raghnall Òg is crowned at Cathair dhearg after his father's burial under the mountain, six-and-forty years old, keeper already of the crown's shire pleas.",
+  "category": "rulers",
+  "people": [
+   "Raghnall Òg"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [],
+  "master_links": [
+   {
+    "to": "III-0139",
+    "type": "sequel"
+   }
+  ],
+  "chronicle": true
+ },
+ {
+  "era_year": 855,
+  "title": "The king keeps his seat at the red hall",
+  "summary": "Pressed by more than one of the seven heads to move the crown's seat to the mountain, since a king who is master of the vein-house belongs among the galleries, Dòmhnall Ruadh keeps it at Cathair dhearg for the whole of his five-and-twenty years.",
+  "category": "rulers",
+  "people": [
+   "Dòmhnall Ruadh"
+  ],
+  "places": [
+   "burg:19"
+  ],
+  "threads": [
+   "the-seven-houses"
+  ],
+  "master_links": [
+   {
+    "to": "III-0138",
+    "type": "cause"
+   }
+  ],
+  "chronicle": true
  }
 ]

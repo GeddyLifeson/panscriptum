@@ -1,0 +1,1646 @@
+{
+ "writer": 3,
+ "span": [
+  "I-0128",
+  "I-0146"
+ ],
+ "events": [
+  {
+   "id": "EII-3500",
+   "title": "Murchadh goes out with the flint-carriers",
+   "body": "Sixteen years after his mother's death, Murchadh can no longer sit in his father's hall and goes north with a train of flint-carriers bound for Cnoc àrsaidh, taking up a yoke among them without a word of who he was; it is three seasons before any man there learns whose son he has been carrying flint beside.",
+   "place": "burg:2005",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0129",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#i-of-the-road-he-chose",
+   "era_between": [
+    1760,
+    1760
+   ]
+  },
+  {
+   "id": "EII-3501",
+   "title": "The lake still climbing on the Ros dhomhain rock",
+   "body": "Passing through Ros dhomhain on his way north, Murchadh stands before the tide-rock his mother once showed him and finds the keeper's line of cuts crept a hand's width further up the stone since his childhood, so slowly that no single year's mark can be told from the year before or after.",
+   "place": "burg:27",
+   "kind": "record",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0128",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#i-of-the-road-he-chose",
+   "era_between": [
+    1760,
+    1760
+   ]
+  },
+  {
+   "after": "I-0129"
+  },
+  {
+   "id": "EII-3502",
+   "title": "Murchadh meets Ailig Spor on the flint road",
+   "body": "On the road between Cnoc àrsaidh and the ford gathering, Murchadh comes to know Ailig Spor, a young carrier from the northern flats who tells him plainly that a yoke does not care whose back it is on; the two keep the friendship the whole of the years the road gives them.",
+   "place": "burg:2005",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3501",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "murchadh-mor",
+    "ailig-spor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#ii-of-the-flint-road-and-ailig-spor",
+   "era_between": [
+    1790,
+    1790
+   ]
+  },
+  {
+   "id": "EII-3503",
+   "title": "Ailig marries by the northern crossing",
+   "body": "Ailig Spor marries a woman of a household by the river-crossing on the flint road and raises two sons and a daughter on flint-carrying wages, all three walking the near stretches of the road themselves before they are grown; Murchadh stands godfather to the eldest.",
+   "kind": "marriage",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3502",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailig-spor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#iii-of-the-years-between",
+   "era_between": [
+    1800,
+    1800
+   ]
+  },
+  {
+   "after": "I-0130"
+  },
+  {
+   "id": "EII-3504",
+   "title": "The flint road worn a yard deep",
+   "body": "The track between Cnoc àrsaidh and the northern river-crossing, worn by generations of carriers before Murchadh and Ailig were born, sinks a full yard below the level of the ground on either side, so that a man walking it casts no shadow beyond its banks and a stranger cresting the rise above it mistakes it for a dry ditch dug on purpose.",
+   "place": "burg:2005",
+   "kind": "trade",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0130",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mor",
+    "ailig-spor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#ii-of-the-flint-road-and-ailig-spor",
+   "era_between": [
+    1817,
+    1817
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3505",
+   "title": "A storm survived in the sunken road's own bank",
+   "body": "Caught two days from shelter by a late storm, Ailig thinks to have the yoke-gang dig into the sunken road's bank and roof it with the carriers' own yokes rather than risk the open ground; the gang comes through with nothing worse than cold fingers, where an older carrier swears they would otherwise have lost two or three men.",
+   "place": "burg:2005",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3504",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mor",
+    "ailig-spor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#ii-of-the-flint-road-and-ailig-spor",
+   "era_between": [
+    1818,
+    1818
+   ]
+  },
+  {
+   "id": "EII-3506",
+   "title": "The households along the road remark Murchadh's unaging face",
+   "body": "It does not escape the households of the flint road, decade upon decade, that Murchadh carries a yoke with no more sign of years on him than a carrier three seasons in shows; some later carriers will not share a fire with him for reasons they give badly, but Ailig never once asks him the plain question every other man on the circuit wants to ask.",
+   "place": "burg:2005",
+   "kind": "wonder",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3505",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#iii-of-the-years-between",
+   "era_between": [
+    1820,
+    1820
+   ]
+  },
+  {
+   "id": "EII-3507",
+   "title": "Ailig gives up the road for the pit-mouth",
+   "body": "In his sixty-fourth year Ailig Spor hands his yoke to his youngest son and takes the lighter work of tallying at the Cnoc àrsaidh pit-mouth; Murchadh, who could by then claim a dozen reasons to walk the far circuits instead, finds himself always coming back through Cnoc àrsaidh at the turn of a season to sit an evening with him.",
+   "place": "burg:2005",
+   "kind": "daily-life",
+   "category": "trade",
+   "links": [
+    {
+     "to": "EII-3506",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ailig-spor",
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#iv-of-ailig-spor-s-death",
+   "era_between": [
+    1834,
+    1834
+   ]
+  },
+  {
+   "id": "EII-3508",
+   "title": "Ailig Spor dies",
+   "body": "Ailig Spor dies in his sleep in his sixty-eighth year, four years a keeper and not a carrier, found by his own daughter with no mark of pain on him; Murchadh, two days south with a fresh gang who scarcely know his name, walks the two days back in one and stands at the graveside with a stillness the household has not seen on him before.",
+   "place": "burg:2005",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3507",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-long-years"
+   ],
+   "people": [
+    "ailig-spor",
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#iv-of-ailig-spor-s-death",
+   "era_between": [
+    1838,
+    1838
+   ]
+  },
+  {
+   "id": "EII-3509",
+   "title": "Murchadh sets the pit-mouth's free flake as a standing custom",
+   "body": "Murchadh stays at Cnoc àrsaidh the better part of a month after Ailig's burying and tells the new keeper that the pit's first flake of any new working shall go on being given free to whoever asks, as it always had, and that he will see to it himself that the custom does not lapse.",
+   "place": "burg:2005",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3508",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#iv-of-ailig-spor-s-death",
+   "era_between": [
+    1838,
+    1838
+   ]
+  },
+  {
+   "after": "I-0131"
+  },
+  {
+   "id": "EII-3510",
+   "title": "The hawk carved into the lintel at Àth mhòr",
+   "body": "Walking the far eastern circuit alone, Murchadh watches a young man of Àth mhòr cut a hawk into his father's door-lintel by firelight over three evenings, wings closed and the head turned back over the shoulder; the carver says only that the shape came to him whole one night and would not leave him alone until he had cut it, and no carrier ever hears of an earlier bird cut in wood or stone anywhere on Dia-thìr.",
+   "place": "burg:436",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0131",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#v-of-the-bird-carved-at-ath-mhor-and-the-wolves-of-tobar-fhiadhaich",
+   "era_between": [
+    1853,
+    1853
+   ],
+   "same_day": true
+  },
+  {
+   "after": "I-0132"
+  },
+  {
+   "id": "EII-3511",
+   "title": "Murchadh sees the wolves buried at Tobar fhiadhaich",
+   "body": "In his hundred and eighty-fifth year Murchadh comes upon a household at Tobar fhiadhaich burying a wolf on its side with its legs drawn up as in sleep; asked why, an old woman of the household says the wolf keeps its own dead on the high ground and has earned better than the ditch, a care they have never spoken of outside the household before.",
+   "place": "burg:435",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0132",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#v-of-the-bird-carved-at-ath-mhor-and-the-wolves-of-tobar-fhiadhaich",
+   "era_between": [
+    1890,
+    1890
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3512",
+   "title": "Murchadh asks his father for the north",
+   "body": "Murchadh comes south to Dùn ìseal and asks his father for the whole northern country the flint road runs through, which he has walked, he says, more times than any man living and knows better than any man living knows it.",
+   "place": "burg:315",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3511",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#vi-of-the-asking-and-the-refusal",
+   "era_between": [
+    1891,
+    1891
+   ]
+  },
+  {
+   "id": "EII-3513",
+   "title": "The king refuses Murchadh the north",
+   "body": "The king answers that the north is Dòmhnall's to hold, given him sixteen hundred years before and well kept since, and that a share once given is not taken back for a better claim that comes after it; Murchadh rides north again within the week without asking a second time.",
+   "place": "burg:315",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3512",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#vi-of-the-asking-and-the-refusal",
+   "era_between": [
+    1891,
+    1891
+   ]
+  },
+  {
+   "id": "EII-3514",
+   "title": "The first grievance of Ailean's line",
+   "body": "Murchadh rides out of Dùn ìseal with a face his father's household has not seen on him before, nearer pride than the young man's face he wore going north the first time, and close under the pride, by the telling of those who marked it, the first grievance the hill ever had cause to lay at a son of Ailean's own naming.",
+   "place": "burg:315",
+   "kind": "wonder",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3513",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-division",
+    "the-long-years"
+   ],
+   "people": [
+    "murchadh-mor"
+   ],
+   "told_in": "book/18_of_the_flint_road.md#vi-of-the-asking-and-the-refusal",
+   "era_between": [
+    1892,
+    1892
+   ]
+  },
+  {
+   "id": "EII-3515",
+   "title": "The high pastures fail at Dùn ìseal",
+   "body": "A spring of near-ceaseless rain rots the high grazing at the root, and households begin killing beasts they would ordinarily have wintered, for want of anything left to feed them.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EII-3028",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#i-of-the-store-within-the-bank",
+   "era_between": [
+    1925,
+    1925
+   ]
+  },
+  {
+   "id": "EII-3516",
+   "title": "Sìleas opens the store within the bank by the mouth, not the herd",
+   "body": "Sìleas Bhàn orders the grain-pits cut into Dùn ìseal's own earthwork opened to every household by the count of mouths at its hearth rather than by the size of its herd, the first time the store is shared by that measure; a wealthier herdsman rides up to protest it to her face, and she does not change the measure.",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3515",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#i-of-the-store-within-the-bank",
+   "era_between": [
+    1926,
+    1926
+   ]
+  },
+  {
+   "after": "I-0133"
+  },
+  {
+   "id": "EII-3517",
+   "title": "Households begin refilling the store unasked",
+   "body": "With the grazing still short, households of Dùn ìseal's own ground begin returning grain to the bank's pits beyond what was drawn from them, a custom Sìleas Bhàn lets stand without ordering it, judging it will hold firmer for growing its own root.",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0133",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#i-of-the-store-within-the-bank",
+   "era_between": [
+    1928,
+    1928
+   ]
+  },
+  {
+   "id": "EII-3518",
+   "title": "The grazing recovers",
+   "body": "The high pastures dry and thicken again within three years of their failing, as such lean spells generally did on that ground, though the store within the bank is not filled to its old level again for a decade.",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EII-3517",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_hungry_years.md#i-of-the-store-within-the-bank",
+   "era_between": [
+    1929,
+    1929
+   ]
+  },
+  {
+   "id": "EII-3519",
+   "title": "The hunger at Baile chrom is first heard of at the hill",
+   "body": "Word reaches Dùn ìseal, slow and uncertain, of two failed fishing seasons on the north-western shore at Baile chrom, of stores already gone to bark and boiled seaweed, and of graves being laid two deep for want of time to dig them singly.",
+   "place": "burg:305",
+   "kind": "disaster",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0134",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_hungry_years.md#ii-of-baile-chrom",
+   "era_between": [
+    1965,
+    1965
+   ]
+  },
+  {
+   "after": "I-0134"
+  },
+  {
+   "id": "EII-3520",
+   "title": "The king rides north-west with grain",
+   "body": "Ailean Mòr rides to the north-western coast himself with the first grain that can be spared, by a road that has never before carried him, and is gone the better part of a season; he returns saying nothing of what he found, save that every hill of the kingdom is to look to its own store before the next storm season.",
+   "place": "burg:305",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0134",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_hungry_years.md#ii-of-baile-chrom",
+   "era_between": [
+    1967,
+    1967
+   ]
+  },
+  {
+   "id": "EII-3521",
+   "title": "Sìleas sends grain along the whole north-western coast",
+   "body": "Sìleas Bhàn holds Dùn ìseal in the king's absence and sends three cartloads of grain and a small herd of goats after him, with instruction that they go to whichever hearths along that coast are worst served and not to Baile chrom alone, having heard the hunger reaches wider than one shore.",
+   "place": "burg:305",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0134",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#ii-of-baile-chrom",
+   "era_between": [
+    1967,
+    1967
+   ]
+  },
+  {
+   "id": "EII-3522",
+   "title": "No household near Dùn ìseal again lets its store run low",
+   "body": "Once the doubled grave-rows of Baile chrom are known at the hill, no household within a day's ride of Dùn ìseal again lets its own grain fall below a season's worth, whatever the grazing does, for fear of what might one day be asked of it.",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0134",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_hungry_years.md#ii-of-baile-chrom",
+   "era_between": [
+    1968,
+    1968
+   ]
+  },
+  {
+   "id": "EII-3523",
+   "title": "The wells of Achadh shean run low",
+   "body": "The wells of Achadh shean in the east fall a hand lower than any digger there remembers, a thing thought at first too small to trouble the hill with.",
+   "place": "burg:411",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "EII-3522",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_hungry_years.md#iii-of-achadh-shean",
+   "era_between": [
+    2003,
+    2003
+   ]
+  },
+  {
+   "id": "EII-3524",
+   "title": "A shepherd's boy walks to Dùn ìseal to report the cracking banks",
+   "body": "A boy of Achadh shean walks three days to Dùn ìseal on his own feet rather than trust the telling to a rider, to say that the field banks his grandfather raised have cracked from dryness for the first time in three generations; Sìleas Bhàn sends a rider east to look before sending any grain.",
+   "place": "burg:411",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0135",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#iii-of-achadh-shean",
+   "era_between": [
+    2004,
+    2004
+   ]
+  },
+  {
+   "id": "EII-3525",
+   "title": "The springs of Achadh shean stop",
+   "body": "The rider sent east returns saying the springs of Achadh shean have not merely run low but stopped outright, their whole visible flow gone at a season when they have never before failed within living telling.",
+   "place": "burg:411",
+   "kind": "disaster",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0135",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_hungry_years.md#iii-of-achadh-shean",
+   "era_between": [
+    2005,
+    2005
+   ]
+  },
+  {
+   "after": "I-0135"
+  },
+  {
+   "id": "EII-3526",
+   "title": "The field banks of Achadh shean are forsaken",
+   "body": "With the springs three years dry, the households of Achadh shean walk off their old field banks, leaving the dead barley standing in the row, and cut new fields on another line lower on the slope, where a lesser spring still runs thin but steady.",
+   "place": "burg:411",
+   "kind": "disaster",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0135",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/19_of_the_hungry_years.md#iii-of-achadh-shean",
+   "era_between": [
+    2006,
+    2006
+   ],
+   "same_day": true
+  },
+  {
+   "id": "EII-3527",
+   "title": "Sìleas refuses to have the dead field pulled down",
+   "body": "Riding out to see the forsaken banks of Achadh shean, Sìleas Bhàn refuses her own rider's suggestion that they be levelled, saying a bank tells a household what the ground once gave and what it stopped giving, and is worth more standing than pulled down.",
+   "place": "burg:411",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "I-0135",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#iii-of-achadh-shean",
+   "era_between": [
+    2007,
+    2007
+   ]
+  },
+  {
+   "id": "EII-3528",
+   "title": "Sìleas asks the king what her deed will be",
+   "body": "At the ford gathering Sìleas Bhàn asks Ailean Mòr what the list will say she did, having herself set no boundary stone, fought no war and raided no shore; he tells her that four hundred years of not failing, where failing was always the easier road, is itself the deed the list will keep.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "EII-3527",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "sileas-bhan"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#iv-of-the-deed-and-the-list",
+   "era_between": [
+    2008,
+    2008
+   ]
+  },
+  {
+   "id": "EII-3529",
+   "title": "Sìleas Bhàn gives Dùn ìseal to Tormod Liath",
+   "body": "In her five hundred and tenth year Sìleas Bhàn gives the hill to Tormod Liath, a son of Iain Dubh of thirteen hundred and seventy years, ordering the store within the bank counted before witnesses so the new holder takes it up knowing to the basket what it holds.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0133",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "sileas-bhan",
+    "tormod-liath"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#v-of-the-giving-of-the-hill",
+   "era_between": [
+    2010,
+    2010
+   ]
+  },
+  {
+   "id": "EII-3530",
+   "title": "Tormod Liath keeps the grain-measure unchanged",
+   "body": "In his first words as holder, Tormod Liath tells the households he will change nothing about the store within the bank, having watched it feed two hungers in his own lifetime and seeing no reason to improve on a measure that has already held.",
+   "kind": "custom",
+   "category": "faith",
+   "links": [
+    {
+     "to": "EII-3529",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/19_of_the_hungry_years.md#v-of-the-giving-of-the-hill",
+   "era_between": [
+    2010,
+    2010
+   ]
+  },
+  {
+   "id": "EII-3531",
+   "title": "Tormod mends the bank and the boundary marks",
+   "body": "In his first seasons holding Dùn ìseal, Tormod Liath sets right what the hungry years let go: the silted ditch, the leaning palisade, and the boundary marks between the hill's fields and the households', blurred by two lean summers of each man taking what he could.",
+   "place": "burg:315",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#i-of-the-hill-given-over",
+   "era_between": [
+    2021,
+    2021
+   ]
+  },
+  {
+   "id": "EII-3532",
+   "title": "Tormod buries his eldest son",
+   "body": "Tormod Liath's eldest son dies of years, the first of the three heirs Tormod outlives; the old holder stands at the burying still dark-haired, and is named by his own son's grandchildren as their grandfather's father.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#iv-of-the-heirs-he-buried",
+   "era_between": [
+    2040,
+    2040
+   ]
+  },
+  {
+   "after": "I-0136"
+  },
+  {
+   "id": "EII-3533",
+   "title": "The eight winds are named",
+   "body": "The eight winds of the year, known before only by their feel, are given names all at once by no one the coasts can afterward name. Every coast that tells it uses the same eight names in the same order from that year on.",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0136",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#ii-of-the-winds-given-names",
+   "era_between": [
+    2047,
+    2047
+   ]
+  },
+  {
+   "id": "EII-3534",
+   "title": "Fearchar Gobha brings the wind-names to Tormod",
+   "body": "A salt-carrier of the hill, Fearchar Gobha, hears the eight wind-names at the coast fair and brings them up to Tormod Liath, who says only that a landholder has no business owning what belongs to the sea.",
+   "place": "burg:315",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0136",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "fearchar-gobha",
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#ii-of-the-winds-given-names",
+   "era_between": [
+    2048,
+    2048
+   ]
+  },
+  {
+   "id": "EII-3535",
+   "title": "Eilidh born in the valleys under the hill",
+   "body": "A daughter of the king's blood is born in the valleys under Dùn ìseal and named Eilidh; grey-eyed from her first year, she grows up at her own hearth with no thought of holding anything more.",
+   "place": "burg:315",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0136",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "eilidh-ghlas"
+   ],
+   "told_in": "book/22_sharing_before_storms.md#vi-of-the-hill-in-its-old-age",
+   "era_between": [
+    2050,
+    2050
+   ]
+  },
+  {
+   "id": "EII-3536",
+   "title": "Three brothers raise the wind-stones at Ceann leathan",
+   "body": "Aonghas, Dùghlas and Ailig mac Torcaill, brothers of the point, quarry eight stones from an outcrop above the landing and raise them in a ring, one for each named wind, so a sailor may lay a hand on the stone of the wind he wants before he puts out.",
+   "place": "burg:22",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0137",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "aonghas-husband-of-anna",
+    "dughlas-mac-torcaill",
+    "ailig-mac-torcaill"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#iii-of-the-stones-at-ceann-leathan",
+   "era_between": [
+    2076,
+    2076
+   ]
+  },
+  {
+   "after": "I-0137"
+  },
+  {
+   "id": "EII-3537",
+   "title": "The crooked stone reset",
+   "body": "One bad winter after the wind-stones are first raised at Ceann leathan, the stone of the hardest offshore wind is found settled crooked and is dug out and reset on a footing of smaller stones, standing straighter and newer than its seven fellows ever after.",
+   "place": "burg:22",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0137",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#iii-of-the-stones-at-ceann-leathan",
+   "era_between": [
+    2084,
+    2084
+   ]
+  },
+  {
+   "id": "EII-3538",
+   "title": "Tormod buries his second son on the western slope",
+   "body": "Tormod Liath's second son, who held the hill's western grazing and never cared for the hall, is buried at his own asking on the slope where he herded, and Tormod says a man ought to be let choose his own ground if nothing else is left him to choose.",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#iv-of-the-heirs-he-buried",
+   "era_between": [
+    2100,
+    2100
+   ]
+  },
+  {
+   "after": "I-0138"
+  },
+  {
+   "id": "EII-3539",
+   "title": "The wind-names cut into the rock of Eilean fhada",
+   "body": "The people of Eilean fhada, off the northern cape, keep no ring of stones but cut the eight wind-names as notches into the rock of the island's highest ground, one facing each way, so a man lost in thick weather may find his bearing by touch.",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0138",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#iii-of-the-stones-at-ceann-leathan",
+   "era_between": [
+    2124,
+    2124
+   ]
+  },
+  {
+   "id": "EII-3540",
+   "title": "Raghnall Ceannfhionn dies",
+   "body": "Raghnall Ceannfhionn, who waded into the ford to strike the bargain of salt for wool, dies in his fourteen hundred and first year; the ford keeps its autumn meeting that year as every year, and the two hills send more wool and more salt than the bargain asks.",
+   "place": "burg:315",
+   "kind": "death",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0113",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years",
+    "the-ford-gathering"
+   ],
+   "people": [
+    "raghnall-ceannfhionn"
+   ],
+   "told_in": "book/14_of_salt_for_wool.md#iv-of-murchadh-gearr-on-the-salt-road",
+   "era_between": [
+    2160,
+    2160
+   ]
+  },
+  {
+   "after": "I-0139"
+  },
+  {
+   "id": "EII-3541",
+   "title": "Tormod paces out the second bank",
+   "body": "Tormod Liath walks the line of Dùn ìseal's second bank himself through two winters before calling the households in to dig, taking in the low ground by the spring without losing the height needed for a watch-fire.",
+   "place": "burg:315",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#v-of-the-second-bank",
+   "era_between": [
+    2163,
+    2163
+   ]
+  },
+  {
+   "id": "EII-3542",
+   "title": "The households dig the second bank",
+   "body": "The households of Dùn ìseal dig through a spring and a summer to raise the second bank, doubling the ground held within the hill's earth from some forty houses to very near a hundred.",
+   "place": "burg:315",
+   "kind": "craft",
+   "category": "trade",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#v-of-the-second-bank",
+   "era_between": [
+    2164,
+    2164
+   ]
+  },
+  {
+   "id": "EII-3543",
+   "title": "Tormod buries his third son and tells him it does not hurt",
+   "body": "The youngest and last of Tormod Liath's three sons dies asking his father, near the end, whether it hurts to be left each time; Tormod tells him no, the one lie the tellings of that hill ever charge against him.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#iv-of-the-heirs-he-buried",
+   "era_between": [
+    2180,
+    2180
+   ]
+  },
+  {
+   "id": "EII-3544",
+   "title": "Tormod goes fully grey",
+   "body": "By his hundred and seventy-fifth year of holding, Tormod Liath is grey through, brows and beard with the rest, and the young of the hill, who never knew him dark, take him for the oldest thing on Dùn ìseal, older even than the second bank he raised.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#vi-of-the-grey",
+   "era_between": [
+    2185,
+    2185
+   ]
+  },
+  {
+   "id": "EII-3545",
+   "title": "The king raises Tormod from the mud at the gate",
+   "body": "The king comes to Dùn ìseal's gate with a handful of his household and no word sent ahead; grey, stooped Tormod Liath kneels to him as every holder before him has knelt, and is raised again by a hand that has not aged since Tormod's father knelt the same way.",
+   "place": "burg:315",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "line-of-the-mason"
+   ],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#vii-of-the-king-at-the-gate",
+   "era_between": [
+    2193,
+    2193
+   ]
+  },
+  {
+   "id": "EII-3546",
+   "title": "A child asks why the old man kneels",
+   "body": "A granddaughter of Tormod's second son, watching from the bank, asks her mother why the young stranger lets the old holder kneel to him as at a common gate; her mother tells her that evening, by the fire, what the hill has long known and rarely says aloud.",
+   "place": "burg:315",
+   "kind": "culture",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0139",
+     "type": "parallel"
+    }
+   ],
+   "threads": [
+    "line-of-the-mason"
+   ],
+   "people": [],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#vii-of-the-king-at-the-gate",
+   "era_between": [
+    2193,
+    2193
+   ]
+  },
+  {
+   "after": "I-0140"
+  },
+  {
+   "id": "EII-3547",
+   "title": "Children begin to call themselves Dia-thìrich",
+   "body": "The children of Dùn ìseal begin, unbidden by any elder, to call themselves Dia-thìrich and their island Dia-thìr, in place of hill-folk or the grove-born name Clann nan Dè; within a generation the old words fall out of use among the young.",
+   "place": "burg:315",
+   "kind": "people",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0140",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#viii-of-the-name-they-gave-themselves",
+   "era_between": [
+    2201,
+    2201
+   ]
+  },
+  {
+   "id": "EII-3548",
+   "title": "Tormod is told the island's new name by a boy of seven",
+   "body": "A boy of the new ground within the second bank tells Tormod Liath, asked what clan he is, that he is Dia-thìreach and that everyone is; Tormod answers only that it is a good enough name for a good enough island.",
+   "place": "burg:315",
+   "kind": "people",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0140",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "tormod-liath"
+   ],
+   "told_in": "book/20_of_the_eight_winds_and_tormod_the_grey.md#viii-of-the-name-they-gave-themselves",
+   "era_between": [
+    2201,
+    2201
+   ]
+  },
+  {
+   "id": "EII-3549",
+   "title": "Ealag and Torcall Tochlair are promised by their households",
+   "body": "Two households of the hill above Dùn ìseal, who share a slope and a spring, treat a match between Ealag and Torcall Tochlair as already settled. Torcall's mother carries the salt across to ask for it in the old way.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0141",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealag-of-the-hill",
+    "torcall-tochlair"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#i-of-ealag-and-torcall-tochlair",
+   "era_between": [
+    2221,
+    2221
+   ]
+  },
+  {
+   "id": "EII-3550",
+   "title": "The salt is refused",
+   "body": "Torcall's mother brings the salt back unaccepted. The elders of Ealag's household give her no reason, only that the match cannot be, and she comes home with her face set as it had never been set before.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0141",
+     "type": "cause"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-tochlair"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#i-of-ealag-and-torcall-tochlair",
+   "era_between": [
+    2222,
+    2222
+   ]
+  },
+  {
+   "after": "I-0141"
+  },
+  {
+   "id": "EII-3551",
+   "title": "Torcall is turned away at every door",
+   "body": "Torcall Tochlair goes himself to Ealag's father and her uncles and is told, in the same three words each time, that the marriage cannot be. None of them will say why, and he cannot tell whether none of them know it or all of them have sworn silence.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0141",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-tochlair"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#i-of-ealag-and-torcall-tochlair",
+   "era_between": [
+    2223,
+    2223
+   ]
+  },
+  {
+   "id": "EII-3552",
+   "title": "Ealag's mother weeps and will not say",
+   "body": "Ealag asks her own mother for the reason and is told only to stop asking, and her mother weeps, which Ealag has never seen her do, not even at a burying.",
+   "place": "burg:315",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0141",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealag-of-the-hill"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#i-of-ealag-and-torcall-tochlair",
+   "era_between": [
+    2223,
+    2223
+   ]
+  },
+  {
+   "id": "EII-3553",
+   "title": "Ealag given to a household of the ford",
+   "body": "Ealag is married to Donnchadh, a fisher of the ford town, who asks for her honestly and does not learn of the earlier match for three years.",
+   "place": "marker:38",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0141",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealag-of-the-hill"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#ii-of-the-marriage-at-the-ford",
+   "era_between": [
+    2224,
+    2224
+   ]
+  },
+  {
+   "id": "EII-3554",
+   "title": "Torcall hears of the black hill in the east",
+   "body": "Torcall Tochlair, restless at the coal-banks under the mountain, hears from traders of ground in the east with a look of coal about it, and begins asking the older diggers whether the vein is the island's only one.",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0143",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "torcall-tochlair"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#iii-of-the-trench-at-the-black-hill",
+   "era_between": [
+    2238,
+    2238
+   ]
+  },
+  {
+   "after": "I-0142"
+  },
+  {
+   "id": "EII-3555",
+   "title": "The lines first recited at the ford",
+   "body": "Before any match is spoken at the fair, a household stands and gives its line aloud, seven names back on either side, so a forbidden blood may be named before the salt is carried. Ealag hears it and thinks of the four shut mouths that refused her.",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0142",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealag-of-the-hill"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#ii-of-the-marriage-at-the-ford",
+   "era_between": [
+    2247,
+    2247
+   ]
+  },
+  {
+   "id": "EII-3556",
+   "title": "Ealag tells Donnchadh of Torcall",
+   "body": "That evening Ealag tells her husband of the match that was refused her. He says only that it explains a look she sometimes wears at fair-time, and asks nothing further.",
+   "place": "marker:38",
+   "kind": "law",
+   "category": "law",
+   "links": [
+    {
+     "to": "I-0142",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealag-of-the-hill"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#ii-of-the-marriage-at-the-ford",
+   "era_between": [
+    2247,
+    2247
+   ]
+  },
+  {
+   "id": "EII-3557",
+   "title": "Calum born to Eilidh",
+   "body": "A son is born to Eilidh in the valleys under the hill and named Calum, dark from his birth; he will be the elder of her two sons and the one who stands where an heir stands.",
+   "place": "burg:315",
+   "kind": "birth",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0142",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-stone-kings",
+    "the-long-years"
+   ],
+   "people": [
+    "calum-ciar",
+    "eilidh-ghlas"
+   ],
+   "told_in": "book/23_eilidh_grey_boy_who_went.md#i-of-eilidh-s-two-sons",
+   "era_between": [
+    2250,
+    2250
+   ]
+  },
+  {
+   "id": "EII-3558",
+   "title": "Lachann agrees to go east with his brother",
+   "body": "Torcall's younger brother Lachann, easier in temper but loyal to him, agrees to go east to the black hill with two other restless diggers, meaning to see Torcall satisfied and brought home again.",
+   "place": "burg:2003",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0143",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "torcall-tochlair",
+    "lachann-brother-of-torcall"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#iii-of-the-trench-at-the-black-hill",
+   "era_between": [
+    2262,
+    2262
+   ]
+  },
+  {
+   "after": "I-0143"
+  },
+  {
+   "id": "EII-3559",
+   "title": "Lachann buried at the trench's mouth",
+   "body": "Torcall will not have his brother carried elsewhere and buries him where he fell, at the mouth of the trench on the black hill. The other man killed with him is carried home by his own people.",
+   "place": "burg:2003",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "torcall-tochlair",
+    "lachann-brother-of-torcall"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#iii-of-the-trench-at-the-black-hill",
+   "era_between": [
+    2267,
+    2267
+   ]
+  },
+  {
+   "id": "EII-3560",
+   "title": "Torcall builds a shelter at the trench",
+   "body": "When the other diggers pack their tools and go back to the coal-banks under the mountain, Torcall Tochlair stays, and builds himself a turf shelter at the trench's edge for the winter.",
+   "place": "burg:2003",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "torcall-tochlair"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#iii-of-the-trench-at-the-black-hill",
+   "era_between": [
+    2268,
+    2268
+   ]
+  },
+  {
+   "id": "EII-3561",
+   "title": "Word of Torcall reaches Ealag",
+   "body": "A trader who stopped at the black hill brings word to the ford of a man sitting alone beside an open trench with his brother in the ground nearby, still saying he means to find the coal.",
+   "place": "marker:38",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "ealag-of-the-hill",
+    "torcall-tochlair"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#iii-of-the-trench-at-the-black-hill",
+   "era_between": [
+    2270,
+    2270
+   ]
+  },
+  {
+   "after": "I-0144"
+  },
+  {
+   "id": "EII-3562",
+   "title": "The saying of the vein's choosing begins to travel",
+   "body": "After the second opening strikes only unbroken common stone, it is said across the island that the vein under the mountain is alone of its kind and chose its one place the way the seven coals are said to have chosen theirs.",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0144",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#iv-of-the-stone-that-would-not-break",
+   "era_between": [
+    2290,
+    2290
+   ]
+  },
+  {
+   "id": "EII-3563",
+   "title": "Ealag dies at the ford",
+   "body": "Ealag dies in her own bed at the ford with her children about her, having lived her whole life after the refusal without the reason for it.",
+   "place": "marker:38",
+   "kind": "reign",
+   "category": "rulers",
+   "links": [
+    {
+     "to": "I-0141",
+     "type": "sequel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "ealag-of-the-hill"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#v-of-the-vein-that-chooses",
+   "era_between": [
+    2300,
+    2300
+   ]
+  },
+  {
+   "id": "EII-3564",
+   "title": "The will for a third opening goes out of the island",
+   "body": "No elder forbids a third trench outright, but the wish for one fades everywhere at once, the way the wish for a refused match fades in two households without a word spoken between them.",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0145",
+     "type": "cause"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#iv-of-the-stone-that-would-not-break",
+   "era_between": [
+    2305,
+    2305
+   ]
+  },
+  {
+   "id": "EII-3565",
+   "title": "A household gathers at the black hill's foot",
+   "body": "Folk who come to the black hill for one reason or another begin to stay, since the ground is as good as any and the man who keeps the open trench asks nothing of them.",
+   "place": "burg:2003",
+   "kind": "land",
+   "category": "land",
+   "links": [
+    {
+     "to": "I-0145",
+     "type": "parallel"
+    }
+   ],
+   "threads": [],
+   "people": [
+    "torcall-tochlair"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#v-of-the-vein-that-chooses",
+   "era_between": [
+    2310,
+    2310
+   ]
+  },
+  {
+   "after": "I-0145"
+  },
+  {
+   "id": "EII-3566",
+   "title": "Torcall Tochlair dies at the trench",
+   "body": "Torcall Tochlair dies at the black hill and is buried beside his brother at the trench's mouth. The household he gathered keeps the ground and does not fill the trench in.",
+   "place": "burg:2003",
+   "kind": "faith",
+   "category": "coal",
+   "links": [
+    {
+     "to": "I-0143",
+     "type": "sequel"
+    }
+   ],
+   "threads": [
+    "the-seven-coals"
+   ],
+   "people": [
+    "torcall-tochlair",
+    "lachann-brother-of-torcall"
+   ],
+   "told_in": "book/21_of_the_forbidden_marriage_and_the_trench.md#v-of-the-vein-that-chooses",
+   "era_between": [
+    2318,
+    2318
+   ]
+  }
+ ]
+}

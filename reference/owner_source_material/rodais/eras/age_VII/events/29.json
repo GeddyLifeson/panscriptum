@@ -321,5 +321,23 @@
       "VI-0098a"
     ],
     "chronicle_extra": true
+  },
+  {
+    "title": "Cnoc bhàn's harbour shut to strangers",
+    "era_year": 21,
+    "summary": "The Tuathaich of Cnoc bhàn shut their harbour to boats they do not know through the autumn, fearing raiders with the fleets drawn to the north-west, and turn away a Dia-thìreach trader with a load of salt.",
+    "category": "land",
+    "people": [],
+    "places": [
+      "burg:73"
+    ],
+    "threads": [
+      "the-tuathaich",
+      "the-long-war"
+    ],
+    "master_links": [
+      "VI-0100"
+    ],
+    "chronicle_extra": true
   }
 ]

@@ -6,6 +6,9 @@
  ],
  "events": [
   {
+   "after": "I-0057"
+  },
+  {
    "id": "EI-5501",
    "title": "A leg set under the warm water",
    "body": "At Fuarain Theth Muileann ruadh the keeper of the basins sets a leg broken through the skin under the warm water of the third basin, binds it tight with wet bark and cord, and turns the man twice a day for a season; he walks out on a stick before the winter turns.",
@@ -174,7 +177,7 @@
   {
    "id": "EI-5509",
    "title": "The last stone set by lamplight",
-   "body": "One man, left alone at the outpost's gate at dusk after the others have gone to other work within the walls, fits the last stones into the gap by a lamp burning down, and presses the last one home with the flat of his hand. Where he went after is not told.",
+   "body": "One man, left alone at Làrach an Dùin-fhaire's gate at dusk after the others have gone to other work within the walls, fits the last stones into the gap by a lamp burning down, and presses the last one home with the flat of his hand. Where he went after is not told.",
    "place": null,
    "kind": "culture",
    "category": "faith",
@@ -316,7 +319,7 @@
   },
   {
    "id": "EI-5516",
-   "title": "Fewer fires burn along the fortress wall",
+   "title": "Fewer fires burn along Làrach an Dùin wall",
    "body": "Through a hard winter the coast-people left within the three rings let the farthest fires along the middle wall go dark first, feeding what fuel is left toward those nearest the gate, so that the chain of lights along the rampart burns shorter and thicker each week that passes.",
    "place": "marker:32",
    "kind": "land",
@@ -327,7 +330,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#i-of-the-last-fire-in-the-rings",
    "era_between": [
@@ -338,7 +343,7 @@
   {
    "id": "EI-5517",
    "title": "The last fire in the rings is let go down",
-   "body": "The last of the coast-people still keeping the fortress finds every other fire along the wall dark one morning, tends her own alone three days more, then spreads its embers thin across the stone and walks out through the gate and down toward the valleys, carrying nothing from the place she had not carried into it.",
+   "body": "The last of the coast-people still keeping Làrach an Dùin finds every other fire along the wall dark one morning, tends her own alone three days more, then spreads its embers thin across the stone and walks out through the gate and down toward the valleys, carrying nothing from the place she had not carried into it.",
    "place": "marker:32",
    "kind": "faith",
    "category": "faith",
@@ -348,7 +353,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#i-of-the-last-fire-in-the-rings",
    "era_between": [
@@ -383,7 +390,7 @@
   {
    "id": "EI-5519",
    "title": "A grandfather of the western landing will not speak of the height",
-   "body": "An old man long settled among shore kin who never went up answers his grandson's question about the fortress only with the cold and the wind that found a man through doubled wool, and will say nothing of why he left it or whether he meant, at the time, to come back.",
+   "body": "An old man long settled among shore kin who never went up answers his grandson's question about Làrach an Dùin only with the cold and the wind that found a man through doubled wool, and will say nothing of why he left it or whether he meant, at the time, to come back.",
    "place": "burg:489",
    "kind": "culture",
    "category": "faith",
@@ -393,7 +400,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#ii-of-the-ones-who-went-down",
    "era_between": [
@@ -414,7 +423,9 @@
      "type": "legacy"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#iii-of-a-household-come-down-to-the-kilns",
    "era_between": [
@@ -435,7 +446,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#ii-of-the-ones-who-went-down",
    "era_between": [
@@ -504,7 +517,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#iv-of-the-prising-of-the-altar",
    "era_between": [
@@ -525,7 +540,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#iv-of-the-prising-of-the-altar",
    "era_between": [
@@ -549,7 +566,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#iv-of-the-prising-of-the-altar",
    "era_between": [
@@ -570,7 +589,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#v-of-the-cairn-on-the-steps",
    "era_between": [
@@ -591,7 +612,9 @@
      "type": "legacy"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/29_of_the_empty_rings_and_the_stripped_altar.md#v-of-the-cairn-on-the-steps",
    "era_between": [
@@ -623,7 +646,7 @@
   {
    "id": "EI-5531",
    "title": "Eòghann born to the keeper's hearth",
-   "body": "Eòghann is born the second child of the household that keeps the bag and the fire-pot at Tobar dhìreach, not first looked to for the keeping while his elder sister lives.",
+   "body": "Eòghann is born the second child of the household that keeps the bag and Poit an Teine at Tobar dhìreach, not first looked to for the keeping while his elder sister lives.",
    "place": "burg:276",
    "kind": "people",
    "category": "law",
@@ -695,7 +718,7 @@
   {
    "id": "EI-5534",
    "title": "Eòghann's sister dies and his father is buried",
-   "body": "Eòghann's elder sister dies of a fever in her nineteenth year, and his father is buried beside the slab the same season, so that the keeping comes to Eòghann at twenty.",
+   "body": "Eòghann's elder sister dies of a fever in her nineteenth year, and his father is buried beside Leac na Fèithe the same season, so that the keeping comes to Eòghann at twenty.",
    "place": "burg:276",
    "kind": "faith",
    "category": "faith",
@@ -743,8 +766,8 @@
   },
   {
    "id": "EI-5536",
-   "title": "The silver coal carried to the home river and two more",
-   "body": "In his first years of keeping Eòghann carries the silver-sheen coal to the Abhainn ghorm below Tobar dhìreach, to two rivers besides, and to a mountain tarn, in case the water nearest the hearth had never been fairly asked; none answers him.",
+   "title": "Gual airgid carried to the home river and two more",
+   "body": "In his first years of keeping Eòghann carries gual airgid to the Abhainn ghorm below Tobar dhìreach, to two rivers besides, and to a mountain tarn, in case the water nearest the hearth had never been fairly asked; none answers him.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -769,7 +792,7 @@
   {
    "id": "EI-5537",
    "title": "A mountain tarn tried for the silver",
-   "body": "Among the waters Eòghann tries the silver coal against is a mountain tarn that is no river at all but holds, by the telling, water enough to be worth the asking; it does not answer.",
+   "body": "Among the waters Eòghann tries gual airgid against is a mountain tarn that is no river at all but holds, by the telling, water enough to be worth the asking; it does not answer.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -824,7 +847,7 @@
   {
    "id": "EI-5539",
    "title": "The three coals thrown into the sea again for nothing",
-   "body": "Eòghann throws the silver, the untried, and the rainbow coal into the grey swell off the northern shore in the falling light, and wades in after them to find them as dark and salt-wet as they went in.",
+   "body": "Eòghann throws the silver, the untried, and gual bogha-froise into the grey swell off the northern shore in the falling light, and wades in after them to find them as dark and salt-wet as they went in.",
    "place": null,
    "kind": "coal",
    "category": "coal",
@@ -914,8 +937,8 @@
   },
   {
    "id": "EI-5542",
-   "title": "The silver coal catches under the current",
-   "body": "Eòghann throws the three dark coals into the river at the crossing without weighing the throw, and the silver-sheen coal catches beneath the surface, a pale fire standing in the current that the water cannot quench.",
+   "title": "Gual airgid catches under the current",
+   "body": "Eòghann throws the three dark coals into the river at the crossing without weighing the throw, and gual airgid catches beneath the surface, a pale fire standing in the current that the water cannot quench.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -945,7 +968,7 @@
   {
    "id": "EI-5543",
    "title": "The two dark coals found on a gravel bar",
-   "body": "The fire coal and the rainbow, rolled on past Eòghann by the current in the dark, are found at first light lodged cold against a bar of gravel a stone's throw below the crossing, and carried home in the bag as dark as they went into the water.",
+   "body": "Gual teine and the rainbow, rolled on past Eòghann by the current in the dark, are found at first light lodged cold against a bar of gravel a stone's throw below the crossing, and carried home in the bag as dark as they went into the water.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -974,7 +997,7 @@
   {
    "id": "EI-5544",
    "title": "The fifth coal named at the recital",
-   "body": "At the next telling of the Line, Eòghann speaks the new line into the recital: the sea, the height, the earth and a man's own blood have answered, and now the river has taken the fifth, given rather than thrown to it, and the valley names it gual airgid, the silver coal.",
+   "body": "At the next telling of the Line, Eòghann speaks the new line into the recital: the sea, the height, the earth and a man's own blood have answered, and now the river has taken the fifth, given rather than thrown to it, and the valley names it gual airgid.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -1004,7 +1027,7 @@
   {
    "id": "EI-5545",
    "title": "The silver burns on under the crossing",
-   "body": "The silver coal goes on burning under the current at the shallow crossing below Tobar dhìreach, a low pale light any traveller may kneel at the bank and see on a dark evening.",
+   "body": "Gual airgid goes on burning under the current at the shallow crossing below Tobar dhìreach, a low pale light any traveller may kneel at the bank and see on a dark evening.",
    "place": "river:8",
    "kind": "coal",
    "category": "coal",
@@ -1074,8 +1097,8 @@
   },
   {
    "id": "EI-5548",
-   "title": "Eòghann tries the fire coal against flint",
-   "body": "In his later keeping Eòghann strikes the fire coal against flint more than once, hoping the snap of a hand the tellers spoke of might be struck rather than fallen into, and gets from it no more than the ordinary spark any stone gives a blade.",
+   "title": "Eòghann tries gual teine against flint",
+   "body": "In his later keeping Eòghann strikes gual teine against flint more than once, hoping the snap of a hand the tellers spoke of might be struck rather than fallen into, and gets from it no more than the ordinary spark any stone gives a blade.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -1101,7 +1124,7 @@
   {
    "id": "EI-5549",
    "title": "Eòghann dies at his own hearth",
-   "body": "Eòghann dies in his six-and-sixtieth year at Tobar dhìreach, the fire-pot burning near him, his last words not of the coals but of the crossing, asking whether the water still ran clear and the light still stood under it.",
+   "body": "Eòghann dies in his six-and-sixtieth year at Tobar dhìreach, Poit an Teine burning near him, his last words not of the coals but of the crossing, asking whether the water still ran clear and the light still stood under it.",
    "place": "burg:276",
    "kind": "death",
    "category": "faith",
@@ -1131,7 +1154,7 @@
   {
    "id": "EI-5550",
    "title": "The bag passes on with two coals still dark",
-   "body": "The leather bag, with the fire coal and the rainbow coal still unanswered, passes from Eòghann's grave to a younger kinsman of the line, as it passed from Cormac's before him.",
+   "body": "The leather bag, with gual teine and gual bogha-froise still unanswered, passes from Eòghann's grave to a younger kinsman of the line, as it passed from Cormac's before him.",
    "place": "burg:276",
    "kind": "coal",
    "category": "coal",
@@ -1167,7 +1190,9 @@
      "type": "cause"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#i-of-the-empty-sockets",
    "era_between": [
@@ -1191,7 +1216,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#i-of-the-empty-sockets",
    "era_between": [
@@ -1212,7 +1239,9 @@
      "type": "legacy"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#i-of-the-empty-sockets",
    "era_between": [
@@ -1233,7 +1262,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#ii-of-the-middens-at-cwen-and-the-landing-stones",
    "era_between": [
@@ -1244,7 +1275,7 @@
   {
    "id": "EI-5555",
    "title": "A rower teaches the gulls' warning",
-   "body": "Rowers of the ancient sea-way keep a plain word for anyone new to the stretch north of the cape: watch the gulls before you watch the sky, for the birds leave that water before a man in it feels what is coming.",
+   "body": "Rowers of Slighe-mhara àrsaidh keep a plain word for anyone new to the stretch north of the cape: watch the gulls before you watch the sky, for the birds leave that water before a man in it feels what is coming.",
    "place": "burg:18",
    "kind": "land",
    "category": "land",
@@ -1299,7 +1330,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#ii-of-the-middens-at-cwen-and-the-landing-stones",
    "era_between": [
@@ -1320,7 +1353,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#ii-of-the-middens-at-cwen-and-the-landing-stones",
    "era_between": [
@@ -1334,7 +1369,7 @@
   {
    "id": "EI-5559",
    "title": "The sea-way's landing-stones grooved by keels",
-   "body": "Season on season of hauled keels wear clear grooves into the flat landing-stones of the ancient sea-way along the south-east coast, so that a rower of that lane comes to know each stone by its wear as surely as by its place along the shore.",
+   "body": "Season on season of hauled keels wear clear grooves into the flat landing-stones of Slighe-mhara àrsaidh along the south-east coast, so that a rower of that lane comes to know each stone by its wear as surely as by its place along the shore.",
    "place": "burg:18",
    "kind": "trade",
    "category": "trade",
@@ -1344,7 +1379,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#ii-of-the-middens-at-cwen-and-the-landing-stones",
    "era_between": [
@@ -1355,7 +1392,7 @@
   {
    "id": "EI-5560",
    "title": "A father teaches his son the sea-way stone by stone",
-   "body": "A rower of the ancient sea-way carries his son in the bow through a whole season's rowing, naming each landing-stone as it comes until the boy's own eye can find the next one before his father's voice does, the same teaching the lane is given, before and after, to every rower's son.",
+   "body": "A rower of Slighe-mhara àrsaidh carries his son in the bow through a whole season's rowing, naming each landing-stone as it comes until the boy's own eye can find the next one before his father's voice does, the same teaching the lane is given, before and after, to every rower's son.",
    "place": "burg:18",
    "kind": "trade",
    "category": "trade",
@@ -1365,7 +1402,9 @@
      "type": "sequel"
     }
    ],
-   "threads": [],
+   "threads": [
+    "the-old-ones"
+   ],
    "people": [],
    "told_in": "book/31_of_the_shore_the_sea_way_and_the_godkin.md#ii-of-the-middens-at-cwen-and-the-landing-stones",
    "era_between": [
@@ -1423,7 +1462,7 @@
   {
    "id": "EI-5563",
    "title": "An elder doubts the new name will last",
-   "body": "At the night of the lightning an old woman of the ford hears the households called Clann nan Dè for the first time and will not say the word herself, having watched other names tried at other gatherings in her own long life and none of them outlast the fire that first warmed them into being said.",
+   "body": "At Oidhche an Dealanaich an old woman of the ford hears the households called Clann nan Dè for the first time and will not say the word herself, having watched other names tried at other gatherings in her own long life and none of them outlast the fire that first warmed them into being said.",
    "place": "burg:277",
    "kind": "faith",
    "category": "faith",
@@ -1450,7 +1489,7 @@
   {
    "id": "EI-5564",
    "title": "An old man of the west gives the name Clann nan Dè",
-   "body": "At the gathering on the night of the lightning an old man of the western household answers a stranger's question with a word for the whole of the gathered valleys: Clann nan Dè, the godkin.",
+   "body": "At the gathering on Oidhche an Dealanaich an old man of the western household answers a stranger's question with a word for the whole of the gathered valleys: Clann nan Dè.",
    "place": "burg:277",
    "kind": "faith",
    "category": "faith",
