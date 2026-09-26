@@ -63,10 +63,21 @@ of Northern Ireland), the population scale (38 people to the unit, every town's 
 million, a third in towns; the regiments cut with them; ../eras/POP_LOG.md) and the map's frame in the Atlantic west of the Hebrides; its "skip" list sets aside the
 earlier layers' scale and frame, and its temperatures stay those computed for the climate layer's frame.
 
+After the place comes the history (reconcile/history.json, made by history_layer.py through the era engine from
+reconcile/history_spec.json): the Moot as a second state with its eleven shires (records 14, 15, 25, 30), the wars in
+the state's campaigns and in the war chronicle, the battles, peace sites and the places of the Making as markers
+(record 35), the journeys and pilgrim roads as routes (records 36, 37 and their saved paths), Manannan's mist and the
+plague and famine districts as zones (record 38), the notes of the states, shires, zones and the Leaden Hawk's journey
+(record 52), and the seven coals as goods of the vein (records 40, 41). Two more edit forms:
+    {"record": 25, "path": "[812]", "old": 1, "value": 2}                the cell state array, as the other cell arrays
+    {"record": 37, "action": "add_route", "route": {...}, "links": [[a, b], ...], "d": "M..."}
+        a new route (appended once, by id), the cells' route links of its stretch (record 36) and its saved
+        <path id="routeN"> at the end of its group in the SVG (the path Azgaar's Routes.getPath draws)
+
 Beside the edits it derives what follows from them: a route regrouped to "roads" has its saved
 <path id="routeN"> moved from <g id="trails"> into <g id="roads"> (record 5), in route order as Azgaar draws
 them; and the rural totals of the cultures (record 13) and of the states (record 14) follow the cell culture,
-state and population arrays.
+state and population arrays (a cell given to another state takes its people with it).
 
 Byte-safe like burg_features.py: records are split on CRLF, every record it rewrites must round-trip before it
 is touched, only the records named in RECORDS_TOUCHED may change, and running it twice changes nothing.
@@ -88,14 +99,14 @@ L_SETTINGS, L_BIOMES, L_SVG, L_TEMP, L_FEATURES, L_CULTURES, L_STATES, L_BURGS =
 L_BIOME, L_CELL_BURG, L_CELL_CULTURE, L_POP, L_CELL_STATE, L_CELL_RELIGION, L_CELL_PROVINCE = 16, 17, 19, 21, 25, 26, 27
 L_RELIGIONS, L_PROVINCES, L_NAMEBASES, L_RIVERS, L_MARKERS, L_ROUTES, L_ZONES = 29, 30, 31, 32, 35, 37, 38
 L_CELL_GOOD, L_GOODS, L_RELIEF = 40, 41, 49
-L_GRID, L_HEIGHT, L_CELL_ROUTES, L_ICE = 6, 7, 36, 39
-CELL_ARRAYS = {11, 16, 19, 21, 26, 40}
-JSON_RECORDS = {1, 3, 13, 14, 15, 29, 30, 35, 36, 37, 39, 41, 49}
+L_GRID, L_HEIGHT, L_CELL_ROUTES, L_ICE, L_JOURNEYS = 6, 7, 36, 39, 52
+CELL_ARRAYS = {11, 16, 19, 21, 25, 26, 40}
+JSON_RECORDS = {1, 3, 13, 14, 15, 29, 30, 35, 36, 37, 38, 39, 41, 49, 52}
 RECORDS_TOUCHED = CELL_ARRAYS | JSON_RECORDS | {L_SVG, L_NAMEBASES}
 
 # the order the layers are applied in: the state and its shires first, the land (whole cell arrays) last
 ORDER = ['state', 'heraldry', 'religions', 'economy', 'military', 'markers_routes', 'land', 'integration', 'faiths',
-         'climate', 'dubhan', 'loose_ends', 'tales', 'calendar', 'creation', 'prose', 'place']
+         'climate', 'dubhan', 'loose_ends', 'tales', 'calendar', 'creation', 'prose', 'place', 'history']
 
 
 def dump(data):
@@ -104,15 +115,17 @@ def dump(data):
     return re.sub('[\ud800-\udfff]', lambda m: '\\u%04x' % ord(m.group()), text)
 
 
-def load_edits():
-    """[(layer, edit)] in ORDER, less the edits a later layer ("skip": integration.json, faiths.json) sets aside."""
+def load_edits(exclude=()):
+    """[(layer, edit)] in ORDER, less the edits a later layer ("skip": integration.json, faiths.json) sets aside,
+    and less the layers named in exclude (history_layer.py makes the map as it stood before the history layer)."""
     props = {}
-    for layer in ORDER:
+    order = [layer for layer in ORDER if layer not in exclude]
+    for layer in order:
         path = os.path.join(RECON, layer + '.json')
         props[layer] = json.load(open(path, encoding='utf-8'))
-    skip = {(s['layer'], s['record'], s['path']) for layer in ORDER for s in props[layer].get('skip', [])}
+    skip = {(s['layer'], s['record'], s['path']) for layer in order for s in props[layer].get('skip', [])}
     out = []
-    for layer in ORDER:
+    for layer in order:
         for e in props[layer]['map_edits']:
             if (layer, e.get('record'), e.get('path')) in skip:
                 continue
@@ -342,6 +355,43 @@ def draw_route_splits(svg, paths):
     return svg
 
 
+def add_route(routes, links, e, where):
+    """Record 37 and the cells' route links (record 36): a new route, appended once by id, and the links of its
+    stretch. Returns (route id, group, d) for its saved path."""
+    r = e['route']
+    had = [x for x in routes if x['i'] == r['i']]
+    if had:
+        assert same(had[0], r), '%s: route %d is already another route' % (where, r['i'])
+    else:
+        assert r['i'] > max(x['i'] for x in routes), '%s: route %d is not the next id' % (where, r['i'])
+        routes.append(json.loads(json.dumps(r)))
+    for a, b in e['links']:
+        for x, y in ((a, b), (b, a)):
+            cell = links.setdefault(str(x), {})
+            assert cell.get(str(y)) in (None, r['i']), '%s: cells %d-%d already link route %s' % (where, x, y, cell.get(str(y)))
+            cell[str(y)] = r['i']
+    return r['i'], r['group'], e['d']
+
+
+def draw_new_routes(svg, paths):
+    """The saved path of each new route, at the end of its group (a road is put in route order by regroup_routes)."""
+    for i, group, d in paths:
+        el = '<path id="route%d" d="%s"/>' % (i, d)
+        m = re.search(r'<path id="route%d" d="[^"]*"/>' % i, svg)
+        if m:
+            assert m.group(0) == el, 'route %d: another saved path' % i
+            continue
+        g = re.search(r'<g id="%s" data-group="%s"[^>]*?(/?)>' % (group, group), svg)
+        assert g, 'no %s group in the SVG' % group
+        if g.group(1):
+            svg = svg[:g.start()] + g.group(0)[:-2] + '>' + el + '</g>' + svg[g.end():]
+            continue
+        end = svg.index('</g>', g.end())
+        assert '<g' not in svg[g.end():end], 'the %s group holds groups of its own' % group
+        svg = svg[:end] + el + svg[end:]
+    return svg
+
+
 def reconcile_records(lines, edits=None):
     """Apply every edit to a list of 53 raw records, in place. Returns the numbers of the records it changed."""
     assert len(lines) == RECORDS
@@ -355,7 +405,8 @@ def reconcile_records(lines, edits=None):
     for n, a in arrays.items():
         assert ','.join(a) == lines[n]
     old_pop, old_culture = list(arrays[L_POP]), list(arrays[L_CELL_CULTURE])
-    relief, svg_groups, route_paths = [], [], []
+    old_state = list(arrays[L_CELL_STATE])
+    relief, svg_groups, route_paths, new_routes = [], [], [], []
     faiths = [k for k, (_, e) in enumerate(edits) if e.get('action') == 'replace_religions']
     assert len(faiths) <= 1
     faiths_at = faiths[0] if faiths else None
@@ -390,6 +441,9 @@ def reconcile_records(lines, edits=None):
         elif e.get('action') == 'split_route':
             assert n == L_ROUTES, where
             route_paths.extend(split_route(parsed[L_ROUTES], parsed[L_CELL_ROUTES], e, where))
+        elif e.get('action') == 'add_route':
+            assert n == L_ROUTES, where
+            new_routes.append(add_route(parsed[L_ROUTES], parsed[L_CELL_ROUTES], e, where))
         elif n == L_RELIEF:
             relief.append(e)
         elif n == L_NAMEBASES:
@@ -425,17 +479,22 @@ def reconcile_records(lines, edits=None):
     for c in parsed[L_CULTURES]:
         if abs(c['rural']) < 1e-3:                    # a culture left with no cells (the cell array rounds to 4 places)
             c['rural'] = 0
-    # and so do the states' (the cell state array itself is not edited)
-    for p0, p1, st in zip(old_pop, arrays[L_POP], cells(lines[L_CELL_STATE])):
+    # and so do the states': a cell's change of people counts to the state it was in, and a cell given to another
+    # state (the history layer's Moot) takes its people with it
+    for p0, p1, st, st1 in zip(old_pop, arrays[L_POP], old_state, arrays[L_CELL_STATE]):
         if p0 != p1:
             parsed[L_STATES][int(st)]['rural'] -= num(p0)
             parsed[L_STATES][int(st)]['rural'] += num(p1)
+        if st != st1:
+            parsed[L_STATES][int(st)]['rural'] -= num(p1)
+            parsed[L_STATES][int(st1)]['rural'] += num(p1)
     for st in parsed[L_STATES]:
         if abs(st.get('rural', 0)) < 1e-3:
             st['rural'] = 0
     for gid in svg_groups:
         lines[L_SVG] = empty_svg_group(lines[L_SVG], gid)
     lines[L_SVG] = draw_route_splits(lines[L_SVG], route_paths)
+    lines[L_SVG] = draw_new_routes(lines[L_SVG], new_routes)
     lines[L_SVG] = regroup_routes(lines[L_SVG], parsed[L_ROUTES])
     for n in JSON_RECORDS:
         lines[n] = dump(parsed[n])

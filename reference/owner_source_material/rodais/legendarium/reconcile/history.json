@@ -1,0 +1,8361 @@
+{
+ "layer": "history",
+ "summary": "The history carried on the master map (history_layer.py; the spec is history_spec.json, applied in Azgaar through the era engine and baked here as edits). The Moot, Tional nan Tuathach, a second state of eleven shires with Caol mhòr its seat and the kingdom its suzerain; An Cogadh Fada and its three battles as the kingdom's campaigns (DE 21-22); every war of Appendix C in the war chronicle; 31 markers (the named battles, sieges and raids of Appendix C's table, two peace sites, the regiments' stone, the mason's fire, the Keeper's grove, six of the seven lightings, Taigh Dhuinn, Cidhe an Diosail, An Sloc Mòr) and new notes on the two battlefields and the summit; 6 routes (An t-Aiseag, Am Falbh, Loidhne Fenn, the Leaden Hawk's road, the two pilgrim roads); 9 zones (Ceò Mhanannain and the plagues and famines) and notes on the five districts; the seven coals as goods of the vein at An Sloc Mòr; notes on the two states, the 123 shires and the Leaden Hawk's journey.",
+ "engine": {
+  "ids": {
+   "burg": {},
+   "state": {
+    "kingdom": 1,
+    "moot": 2
+   },
+   "province": {},
+   "culture": {},
+   "religion": {},
+   "marker": {
+    "salt": 49,
+    "fala": 50,
+    "chiadfhuil": 51,
+    "achadhmor": 52,
+    "fhiadhaich": 53,
+    "caolleathan": 54,
+    "athshean": 55,
+    "cathairdhomhain": 56,
+    "muileannchrom": 57,
+    "eileandubh": 58,
+    "cnocnaomh": 59,
+    "muileannghlas": 60,
+    "bailethais": 61,
+    "athchiar": 62,
+    "seanntoll": 63,
+    "cnocghorm": 64,
+    "muileannarsaidh": 65,
+    "talla": 66,
+    "fosadh": 67,
+    "clach": 68,
+    "teine": 69,
+    "coimhdeach": 70,
+    "oir": 71,
+    "dubh": 72,
+    "donnruadh": 73,
+    "airgid": 74,
+    "teinegual": 75,
+    "bogha": 76,
+    "donn": 77,
+    "diosal": 78,
+    "sloc": 79
+   },
+   "zone": {
+    "ceo": 5,
+    "casadcaol": 6,
+    "inischrom": 7,
+    "casadmd": 8,
+    "coigreach": 9,
+    "breac": 10,
+    "glas": 11,
+    "gortadoire": 12,
+    "gortaachadh": 13
+   },
+   "route": {
+    "aiseag": 450,
+    "falbh": 451,
+    "fenn": 452,
+    "seabhag": 453,
+    "oilithrich": 454,
+    "inisuaine": 455
+   },
+   "label": {}
+  },
+  "warnings": [],
+  "counts": {
+   "states": 2,
+   "provinces": 123,
+   "burgs": 505,
+   "cultures": 2,
+   "religions": 3,
+   "routes": 456,
+   "markers": 80,
+   "zones": 14,
+   "addedLabels": 0,
+   "regiments": 13,
+   "markets": 16,
+   "deals": 8058,
+   "journeys": 1
+  }
+ },
+ "names_not_in_NAMES_json": [
+  "Breac Ros dhomhain",
+  "Casad Caol fhiadhaich",
+  "Casad Muileann dhomhain",
+  "Fiabhras Inis chrom",
+  "Fiabhras glas",
+  "Fiabhras nan Coigreach",
+  "Gorta Achadh mhòr",
+  "Gorta Doire ghlas",
+  "Loidhne Fenn",
+  "Rathad nan Oilithreach",
+  "Slighe an t-Seabhaig Luaidhe",
+  "Slighe nan Oilithreach"
+ ],
+ "map_edits": [
+  {
+   "record": 14,
+   "path": "[0].diplomacy",
+   "value": [
+    [
+     "Creach an t-Salainn · GE 672 – GE 727",
+     "9 am Faoilleach, GE 672: Mòrag Chruaidh, fifth of the Stone Kings, raids the salt-pans on the southern shore at Baile ghorm and carries off the salt. Seven fall on the hill side. It is the first war in either king-list.",
+     "8 an t-Ògmhios, GE 727: Iain Dubh, sixth of the Stone Kings, goes down to raid the salt-pans again and is slain on the shingle at Baile ghorm."
+    ],
+    [
+     "Blàr Àth na Fala · FE 1",
+     "11 an Gearran, GE 4,520: Dùn dhearg and the households east of the vein swear to owe nothing to Dùn ìseal nor to its king.",
+     "2 an t-Sultain, FE 1: Ailean Mòr holds the ford below Dùn dhearg alone three days and three nights against their host, until the dead dam the river, and falls on the third night. His kin do not come. The ford is called Àth na Fala after."
+    ],
+    [
+     "Aimhreit nan Oighrean · FE 3 – FE 556",
+     "17 an Giblean, FE 3: first blood among the heirs at Dùn thais, on the line between the great share of the north and the Red Share; Aonghas Bàn mac Mhurchaidh is killed.",
+     "The strife runs some five hundred and fifty years in raids, burnings and killings between kin. Its last and worst is Cogadh an Dà Mhionn, the War of the Two Oaths.",
+     "24 an Lùnastal, FE 556: Loscadh Achadh mhòr. Fearghas Dà-Mhionn, sworn to both sides, sees his granary fields burned to the stubble and dies in his hall; the middle of the island goes hungry that winter.",
+     "1 an t-Samhain, FE 556: the lords of the shares swear Sìth an Stairsnich on the threshold of Talla na Lasrach, with the Keeper as witness."
+    ],
+    [
+     "Cogadh nan Rathad · FE 999 – FE 1,006",
+     "13 an Giblean, FE 999: Iain Garbh of Dùn dhearg burns the toll-house at Muileann òg: the first war fought over a road.",
+     "21 an Dàmhair, FE 1,001: Blàr Àth fhiadhaich. The men of Caol leathan hold the ford a day; forty dead.",
+     "16 am Faoilleach, FE 1,002: Lachlann Ciar's men burn Baile ghlas as they fall back. 18 an Dùbhlachd, FE 1,003: Baile chiar shuts its gate on both hosts and feeds the burned-out folk.",
+     "2 an t-Samhain, FE 1,005: Sèist Caol leathan. The harbour is never closed; the siege ends without an assault.",
+     "4 an Dàmhair, FE 1,006: the peace under the roof of Am Buabhall Fortanach. Caol leathan keeps half its tolls."
+    ],
+    [
+     "Falachd an Airgid · FE 1,745 – FE 1,746",
+     "19 an Lùnastal, FE 1,745: Ruairidh Liath demands one ring in five of the silver of Muileann chiar, and the silversmiths close the workings sooner than pay.",
+     "17 an t-Sultain, FE 1,746: for three seasons no silver leaves Muileann chiar. A closing of the roads and no war; no one is killed in it."
+    ],
+    [
+     "Cogadh nan Trì Tagraichean · LE 552 – LE 562",
+     "21 an Giblean, LE 552: Catrìona nic Aonghais, Dùghall Garbh and Raghnall Ruadh claim the crown, and the seven houses divide among them. Seann Warr declares for none (20 an Cèitean, LE 553).",
+     "22 an Gearran, LE 554: Blàr Àth shean. Dùghall breaks Raghnall's host; some three hundred dead, most drowned.",
+     "26 an Dùbhlachd, LE 557: Sèist Cathair dhomhain. Catrìona takes the town after forty days.",
+     "24 am Faoilleach, LE 558: Raghnall, holding the vein-house, refuses the handful to the hearths of the shires against him.",
+     "14 am Faoilleach, LE 560: Blàr Muileann chrom. Raghnall falls on the field.",
+     "13 am Màrt, LE 562: Catrìona Bhuadhach crowned at Cathair dhearg, after some ten years of war."
+    ],
+    [
+     "Creach Eilean dhubh · LE 801",
+     "24 am Faoilleach, LE 784: sea-thieves out of the small islands off the north-west coast rob the coasting traders.",
+     "27 an t-Samhain, LE 801: Queen Eilidh Bhàn's force burns their boats on the strand of Eilean dhubh; Uilleam Ruadh is hanged at Cathair dhearg."
+    ],
+    [
+     "Cogadh nam Bràithrean · LE 1,270 – LE 1,276",
+     "8 an t-Ògmhios, LE 1,270: Blàr Cnoc naomh. Alasdair Bàn's men seize the town and Iain Ciar takes it back; the war is named from it.",
+     "17 an Lùnastal, LE 1,272: Alasdair's ships burn the waterfront of Ceann mhin.",
+     "19 an t-Iuchar, LE 1,274: Blàr Muileann ghlas. Alasdair Bàn is taken alive.",
+     "12 an t-Sultain, LE 1,276: the brothers' peace at An Taigh-seinnse Mòr. Iain Ciar is crowned."
+    ],
+    [
+     "Cogadh nam Beann · AE 149 – AE 151",
+     "20 an Gearran, AE 149: the Dia-thìrich of the mining country rise together against the Administration and the Company.",
+     "28 an Gearran, AE 149: the store at Muileann chrom taken at first light. 1 an t-Ògmhios, AE 149: Sèist Baile thais; the constables yield on the twelfth day.",
+     "5 an Dùbhlachd, AE 149: Blàr Àth chiar. Ashdown's relief column turned back; forty and nineteen dead.",
+     "17 am Faoilleach, AE 150: the surrender at Dùn ìseal clears the east of human arms.",
+     "15 an Gearran, AE 150: Loscadh Seann Toll. A Company steamship shells the coal stage; twenty-three townsfolk die.",
+     "10 an Cèitean, AE 150: the fishermen of Seann Chwen burn a Company coaster at anchor.",
+     "25 an Lùnastal, AE 150: Blàr Cnoc ghorm. The Administration's last sally toward the mining country is driven back.",
+     "2 an t-Samhain, AE 150: Fosadh Àth àrsaidh, the truce. 1 am Faoilleach, AE 151: the war ends and the crossing is shut: the Severance."
+    ],
+    [
+     "An Cogadh Fada · DE 21 – DE 22",
+     "16 an Dàmhair, DE 18: the Board's enforcers posted at Seann Skell in the west to shut the pits of the holdouts.",
+     "28 an Dàmhair, DE 20: the regiments called up. 25 an Dùbhlachd, DE 20: the Moot's last petition, received and filed.",
+     "11 an Giblean, DE 21: Blàr Àth leathan, the first great battle. The open record counts only the kingdom's dead.",
+     "21 an Cèitean, DE 21: Sèist Muileann àrsaidh. 2 an Lùnastal, DE 21: Cnoc thais taken. 17 an Dùbhlachd, DE 21: Àth naomh and Tobar dhearg open their roads without a siege.",
+     "29 an Dàmhair, DE 22: the column goes south-east from the western hills toward the capital.",
+     "10 an Dùbhlachd, DE 22: Blàr Muileann ghlas, the second great battle and the last.",
+     "10 an Dùbhlachd, DE 22: the war ends. Nine regiments and four fleets were raised in it; all stand to this day."
+    ],
+    [
+     "Tional nan Tuathach · SE 2 – DE 27",
+     "22 am Màrt, SE 1: the Tuathaich settled by law in the north and held there. 31 an t-Iuchar, SE 1: the boundary stones set on the north roads.",
+     "25 an Lùnastal, SE 2: the Moot first meets at Caol mhòr, with no standing in Dia-thìrich law.",
+     "25 an Dùbhlachd, DE 20: its last petition, carried to the council on Christmas Day, is received and filed.",
+     "10 an t-Ògmhios, DE 25: the motion for amends let die. 18 an Giblean, DE 26: seann-chunntas, the old reckoning.",
+     "9 an Dàmhair, DE 26: passes on the northern road, for a time only, says the council's minute.",
+     "29 an Cèitean, DE 27: the Moot of the present year meets under Peter Hale."
+    ]
+   ],
+   "old": []
+  },
+  {
+   "record": 14,
+   "path": "[1].area",
+   "value": 238128,
+   "old": 267917
+  },
+  {
+   "record": 14,
+   "path": "[1].burgs",
+   "value": 442,
+   "old": 505
+  },
+  {
+   "record": 14,
+   "path": "[1].campaigns",
+   "value": [
+    {
+     "name": "An Cogadh Fada",
+     "start": 21,
+     "end": 22,
+     "attacker": 1,
+     "defender": 0
+    },
+    {
+     "name": "Blàr Àth leathan",
+     "start": 21,
+     "end": 21,
+     "attacker": 1,
+     "defender": 0
+    },
+    {
+     "name": "Sèist Muileann àrsaidh",
+     "start": 21,
+     "end": 21,
+     "attacker": 1,
+     "defender": 0
+    },
+    {
+     "name": "Blàr Muileann ghlas",
+     "start": 22,
+     "end": 22,
+     "attacker": 1,
+     "defender": 0
+    }
+   ],
+   "old": [
+    {
+     "name": "An Cogadh Fada",
+     "start": 21,
+     "end": 22,
+     "attacker": 1,
+     "defender": 0
+    }
+   ]
+  },
+  {
+   "record": 14,
+   "path": "[1].cells",
+   "value": 2516,
+   "old": 2859
+  },
+  {
+   "record": 14,
+   "path": "[1].diplomacy",
+   "value": [
+    "x",
+    "x",
+    "Suzerain"
+   ],
+   "old": [
+    "x",
+    "x"
+   ]
+  },
+  {
+   "record": 14,
+   "path": "[1].neighbors",
+   "value": [
+    0,
+    2
+   ],
+   "old": [
+    0
+   ]
+  },
+  {
+   "record": 14,
+   "path": "[1].note",
+   "value": "Rìoghachd Dia-thìr, declared at Cathair dhearg on 27 an t-Iuchar, SE 2 and ruled from there since: the crown, the royal council of twelve and the Treasury. Niall, first of the restored line, was crowned on 19 an t-Ògmhios, SE 3; Cathal was crowned at Lùnastal, 1 an Lùnastal, DE 3, and reigns in the present year. It holds a hundred and twenty-three shires and every coast but the windy coast of the far north-west, which no shire holds; it keeps no envoys and makes no treaties. Its one war, An Cogadh Fada, was fought on its own ground against its own people (DE 21 to DE 22). The nine regiments and four fleets raised for it stand on their stations, paid from the wartime tithe laid on 21 an Giblean, DE 21 and never lifted (27 an Giblean, DE 24)."
+  },
+  {
+   "record": 14,
+   "path": "[1].pole",
+   "value": [
+    970,
+    303
+   ],
+   "old": [
+    603,
+    318
+   ]
+  },
+  {
+   "record": 14,
+   "path": "[1].provinces",
+   "value": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    24,
+    25,
+    26,
+    27,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    87,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    106,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    123
+   ],
+   "old": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123
+   ]
+  },
+  {
+   "record": 14,
+   "path": "[1].urban",
+   "value": 14721.082999999991,
+   "old": 16139.184
+  },
+  {
+   "record": 14,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 2,
+    "name": "Tional nan Tuathach",
+    "form": "Republic",
+    "formName": "Moot",
+    "fullName": "Tional nan Tuathach",
+    "color": "#dababf",
+    "salesTax": 0,
+    "pollTax": 0,
+    "treasury": 0,
+    "capital": 95,
+    "center": 865,
+    "culture": 1,
+    "type": "River",
+    "expansionism": 1,
+    "coa": {
+     "t1": "purpure",
+     "charges": [
+      {
+       "charge": "snake",
+       "t": "argent",
+       "p": "e",
+       "t2": "argent",
+       "size": 1.5
+      }
+     ],
+     "shield": "heater"
+    },
+    "alert": 1,
+    "campaigns": [],
+    "provinces": [
+     7,
+     14,
+     23,
+     28,
+     36,
+     75,
+     86,
+     88,
+     105,
+     107,
+     122
+    ],
+    "urban": 1418.104,
+    "rural": 0,
+    "burgs": 63,
+    "area": 29789,
+    "cells": 343,
+    "neighbors": [
+     1
+    ],
+    "pole": [
+     534,
+     208
+    ],
+    "diplomacy": [
+     "x",
+     "Vassal",
+     "x"
+    ],
+    "military": [],
+    "note": "Tional nan Tuathach, the Moot. Tuathaich householders of the northern towns first met at Caol mhòr on 25 an Lùnastal, SE 2 and chose Walter Hale, once a harbour clerk, for their speaker; the minute-books run unbroken from that day. It has no standing in Dia-thìrich law and has never asked for any: its eleven shires are shires of the kingdom, with Dia-thìrich maoir, drawn here apart because the Moot speaks for them. It stood apart from An Cogadh Fada and fed the hungry. Martha Greaves carried its last petition to the council on Christmas Day, 25 an Dùbhlachd, DE 20; after the war the motion for amends was let die (10 an t-Ògmhios, DE 25), and the Moot's minute on it reads 'Allowed to die.' (18 an t-Ògmhios, DE 25). Tuathaich speakers call the tabled request to the Library and the dead motion together seann-chunntas, an old reckoning that none in power will settle and none has cancelled (18 an Giblean, DE 26). Since 9 an Dàmhair, DE 26, the Tuathaich going south must show a pass at the boundary stones on the northern road. In the present year it meets under Peter Hale, great-grandson of its first speaker (29 an Cèitean, DE 27)."
+   }
+  },
+  {
+   "record": 15,
+   "path": "[4].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[5].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[16].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[28].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[38].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[39].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[54].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[60].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[73].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[85].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[95].capital",
+   "value": 1,
+   "old": 0
+  },
+  {
+   "record": 15,
+   "path": "[95].group",
+   "value": "capital",
+   "old": "town"
+  },
+  {
+   "record": 15,
+   "path": "[95].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[98].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[112].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[114].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[116].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[140].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[142].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[143].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[154].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[160].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[174].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[176].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[209].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[216].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[217].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[222].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[234].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[235].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[236].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[238].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[242].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[244].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[260].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[263].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[269].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[303].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[304].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[305].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[306].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[307].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[327].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[329].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[330].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[335].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[337].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[367].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[369].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[370].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[372].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[399].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[408].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[409].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[441].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[442].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[445].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[447].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[452].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[468].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[470].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[472].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[473].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[476].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 15,
+   "path": "[478].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 25,
+   "path": "[122]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[186]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[187]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[189]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[190]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[191]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[259]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[260]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[261]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[262]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[263]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[264]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[265]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[266]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[267]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[269]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[270]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[365]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[366]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[367]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[368]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[369]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[370]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[371]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[466]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[467]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[468]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[469]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[470]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[471]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[472]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[479]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[480]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[481]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[482]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[483]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[484]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[485]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[486]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[487]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[581]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[592]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[593]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[597]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[598]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[599]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[601]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[602]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[603]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[604]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[605]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[607]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[608]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[609]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[610]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[715]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[716]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[720]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[721]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[722]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[726]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[727]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[729]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[730]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[731]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[732]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[733]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[734]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[735]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[736]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[737]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[738]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[855]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[856]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[857]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[858]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[859]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[860]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[861]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[862]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[863]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[864]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[865]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[866]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[867]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[868]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[869]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[870]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[871]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[872]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[873]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[980]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[981]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[983]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[984]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[997]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[998]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[999]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1000]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1001]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1002]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1003]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1004]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1005]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1006]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1007]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1008]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1009]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1010]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1011]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1012]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1013]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1114]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1115]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1116]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1117]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1118]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1120]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1121]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1123]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1124]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1125]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1126]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1127]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1128]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1129]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1130]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1131]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1132]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1133]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1134]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1135]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1136]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1137]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1138]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1139]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1140]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1141]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1242]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1243]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1244]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1245]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1246]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1247]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1248]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1249]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1250]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1251]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1252]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1253]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1254]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1255]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1256]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1257]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1258]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1259]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1260]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1261]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1262]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1263]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1264]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1265]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1266]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1346]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1355]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1356]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1357]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1358]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1359]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1360]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1361]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1362]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1363]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1364]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1365]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1366]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1367]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1368]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1369]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1370]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1371]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1372]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1373]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1374]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1375]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1376]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1377]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1378]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1379]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1455]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1456]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1457]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1458]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1459]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1460]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1461]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1462]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1463]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1464]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1465]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1471]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1472]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1473]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1474]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1475]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1476]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1477]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1478]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1479]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1480]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1481]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1482]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1483]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1484]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1485]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1486]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1487]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1488]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1489]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1490]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1491]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1492]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1493]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1558]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1559]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1560]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1561]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1562]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1563]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1564]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1565]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1567]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1568]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1569]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1570]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1571]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1572]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1573]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1574]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1575]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1576]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1577]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1578]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1579]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1580]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1581]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1582]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1583]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1584]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1585]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1586]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1587]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1588]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1589]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1590]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1662]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1663]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1664]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1665]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1666]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1667]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1668]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1669]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1670]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1671]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1672]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1673]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1674]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1675]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1676]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1677]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1678]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1679]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1680]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1681]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1682]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1683]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1684]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1685]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1686]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1687]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1688]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1689]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1690]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1761]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1762]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1763]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1764]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1765]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1766]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1767]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1768]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1769]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1770]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1771]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1772]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1773]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1774]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1775]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1776]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1777]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1778]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1779]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1780]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1781]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1782]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1783]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1856]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1857]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1858]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1859]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1860]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1861]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1862]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1863]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1864]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1865]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1866]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1867]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1868]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1869]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1870]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1871]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1872]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1873]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1874]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1875]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1876]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1877]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1878]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1953]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1954]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1955]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1956]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1957]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1958]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1960]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1961]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1962]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[1970]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[2043]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[2044]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 25,
+   "path": "[2045]",
+   "old": 1,
+   "value": 2
+  },
+  {
+   "record": 30,
+   "path": "[1].note",
+   "value": "Seat Cathair dhearg, founded in the Age of Ailean. 1 town; people of its towns: Dia-thìrich. The royal shire, the smallest of the great seats; the capital and nothing else."
+  },
+  {
+   "record": 30,
+   "path": "[2].note",
+   "value": "Seat Caol leathan, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. Baile Mòr fhionn, the lords' city of the western plain, is larger than the seat; the shire kept the strait town, where the tolls were taken."
+  },
+  {
+   "record": 30,
+   "path": "[3].note",
+   "value": "Seat Seann Skell, founded in the Ancient Age (Old Ones). 7 towns; people of its towns: Dia-thìrich 6, Tuathaich 1. The western Seann Skell, the great river port; its one Tuathaich town is Àth leathan, the pit town where the Long War began."
+  },
+  {
+   "record": 30,
+   "path": "[4].note",
+   "value": "Seat Seann Skell, founded in the Age of Ailean (Old Ones). 3 towns; people of its towns: Dia-thìrich. The southern Seann Skell, the fleet harbour and the Rite's house."
+  },
+  {
+   "record": 30,
+   "path": "[5].note",
+   "value": "Seat Ros dhomhain, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. The Residency stood above the seat in the Age of Strangers."
+  },
+  {
+   "record": 30,
+   "path": "[6].note",
+   "value": "Seat Cnoc bheag, founded in the Age of Ailean. 9 towns; people of its towns: Dia-thìrich. The carved stone and the sixth regiment."
+  },
+  {
+   "record": 30,
+   "path": "[7].note",
+   "value": "Seat Caol mhòr, founded in the Age of Ailean. 14 towns; people of its towns: Tuathaich. Tuathaich; the Moot meets at the seat (25 an Lùnastal, SE 2); the boundary stones stand on its southern roads (31 an t-Iuchar, SE 1)."
+  },
+  {
+   "record": 30,
+   "path": "[7].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[8].note",
+   "value": "Seat Caol bheag, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. Caol bheag of the Abhainn ghorm."
+  },
+  {
+   "record": 30,
+   "path": "[9].note",
+   "value": "Seat Inis bhàn, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. White-island river port and Hawk shrines."
+  },
+  {
+   "record": 30,
+   "path": "[10].note",
+   "value": "Seat Doire shean, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. The oyster trade made the seat rich enough to be a shire seat in the Age of Sundering (5 an Lùnastal, LE 634)."
+  },
+  {
+   "record": 30,
+   "path": "[11].note",
+   "value": "Seat Àth shean, founded in the Holy Age. 5 towns; people of its towns: Dia-thìrich. Àth shean of the south."
+  },
+  {
+   "record": 30,
+   "path": "[12].note",
+   "value": "Seat Achadh mhòr, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. The great granary fields."
+  },
+  {
+   "record": 30,
+   "path": "[13].note",
+   "value": "Seat Seann Bhral, founded in the Ancient Age (Old Ones). 2 towns; people of its towns: Dia-thìrich. The south-east's great walled harbour."
+  },
+  {
+   "record": 30,
+   "path": "[14].note",
+   "value": "Seat Ceann mhòr, founded in the Holy Age. 6 towns; people of its towns: Tuathaich. Tuathaich; the maor keeps the old human magistrate's house (4 am Faoilleach, SE 4)."
+  },
+  {
+   "record": 30,
+   "path": "[14].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[15].note",
+   "value": "Seat Inis thais, founded in the Age of Ailean. 4 towns; people of its towns: Dia-thìrich. The shires of the Stone in the south-west count their own people (28 an Lùnastal, SE 65)."
+  },
+  {
+   "record": 30,
+   "path": "[16].note",
+   "value": "Seat Dùn thais, founded in the Age of Ailean. 5 towns; people of its towns: Dia-thìrich. Dùn thais of the east; the rolls mark it east against the western Dùn thais in the shire of Ros bheag (2 an Gearran, SE 38)."
+  },
+  {
+   "record": 30,
+   "path": "[17].note",
+   "value": "Seat Inis chrom, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. Bent isle harbour and the Fianna's sailors."
+  },
+  {
+   "record": 30,
+   "path": "[18].note",
+   "value": "Seat Doire mhin, founded in the Holy Age. 6 towns; people of its towns: Dia-thìrich. The great grove-village of the north road."
+  },
+  {
+   "record": 30,
+   "path": "[19].note",
+   "value": "Seat Doire fhiadhaich, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Timber for Cathair fhada."
+  },
+  {
+   "record": 30,
+   "path": "[20].note",
+   "value": "Seat Baile gharbh, founded in the Age of Ailean. 5 towns; people of its towns: Dia-thìrich. Rough-town wool market."
+  },
+  {
+   "record": 30,
+   "path": "[21].note",
+   "value": "Seat Ceann mhin, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Ceann mhin of the south."
+  },
+  {
+   "record": 30,
+   "path": "[22].note",
+   "value": "Seat Baile ghlas, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. Rope-walks and sail-lofts."
+  },
+  {
+   "record": 30,
+   "path": "[23].note",
+   "value": "Seat Doire ghlas, founded in the Age of Ailean. 3 towns; people of its towns: Tuathaich. Tuathaich; the heart of the Church in the north; counted from the road (15 an Lùnastal, SE 7)."
+  },
+  {
+   "record": 30,
+   "path": "[23].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[24].note",
+   "value": "Seat Cathair mhòr, founded in the Age of Ailean. 1 town; people of its towns: Dia-thìrich. The great city beside the old outpost."
+  },
+  {
+   "record": 30,
+   "path": "[25].note",
+   "value": "Seat Baile ghorm, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. Baile ghorm of the south-west."
+  },
+  {
+   "record": 30,
+   "path": "[26].note",
+   "value": "Seat Achadh naomh, founded in the Age of Ailean. 4 towns; people of its towns: Dia-thìrich. Achadh naomh of the north-central country."
+  },
+  {
+   "record": 30,
+   "path": "[27].note",
+   "value": "Seat Baile Mòr mhòr, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. Its first maor held court under the market roof (8 am Màrt, SE 4)."
+  },
+  {
+   "record": 30,
+   "path": "[28].note",
+   "value": "Seat Baile chrom, founded in the Age of Ailean. 1 town; people of its towns: Tuathaich. Tuathaich; one town only, beside the north-western lighthouse."
+  },
+  {
+   "record": 30,
+   "path": "[28].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[29].note",
+   "value": "Seat Muileann mhin, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. The capital's flour mills."
+  },
+  {
+   "record": 30,
+   "path": "[30].note",
+   "value": "Seat Caol gharbh, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. Boatyards on the rough strait."
+  },
+  {
+   "record": 30,
+   "path": "[31].note",
+   "value": "Seat Seann Chwen, founded in the Ancient Age (Old Ones). 9 towns; people of its towns: Dia-thìrich. The Còmhrag is fought at Ceann leathan in this shire."
+  },
+  {
+   "record": 30,
+   "path": "[32].note",
+   "value": "Seat Cathair dhomhain, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. Deep-water harbour beside the capital."
+  },
+  {
+   "record": 30,
+   "path": "[33].note",
+   "value": "Seat Àth shean, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. Àth shean of the centre."
+  },
+  {
+   "record": 30,
+   "path": "[34].note",
+   "value": "Seat Muileann bhàn, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. White mills and citadel of the coal road."
+  },
+  {
+   "record": 30,
+   "path": "[35].note",
+   "value": "Seat Dùn ìseal, founded in the Age of Ailean. 8 towns; people of its towns: Dia-thìrich. The great temple of the Old Spirits, on the hill of Brìde's flame."
+  },
+  {
+   "record": 30,
+   "path": "[36].note",
+   "value": "Seat Cnoc ghorm, founded in the Age of Ailean. 6 towns; people of its towns: Dia-thìrich 1, Tuathaich 5. Tuathaich but for one Dia-thìrich town, Baile dhubh; the middle of the Tuathaich country lies in this shire."
+  },
+  {
+   "record": 30,
+   "path": "[36].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[37].note",
+   "value": "Seat Cnoc leathan, founded in the Holy Age. 5 towns; people of its towns: Dia-thìrich. The first shire to open a school in every parish, from the shire's dues (21 an Giblean, SE 50)."
+  },
+  {
+   "record": 30,
+   "path": "[38].note",
+   "value": "Seat Cuan shean, founded in the Age of Ailean. 5 towns; people of its towns: Dia-thìrich. The fourth fleet's harbour."
+  },
+  {
+   "record": 30,
+   "path": "[39].note",
+   "value": "Seat Àth chiar, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. The rebels' keep and southern cattle-market."
+  },
+  {
+   "record": 30,
+   "path": "[40].note",
+   "value": "Seat Doire fhada, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Ship-timber and the fenced oak."
+  },
+  {
+   "record": 30,
+   "path": "[41].note",
+   "value": "Seat Achadh naomh, founded in the Holy Age. 4 towns; people of its towns: Dia-thìrich. Achadh naomh of the north-east."
+  },
+  {
+   "record": 30,
+   "path": "[42].note",
+   "value": "Seat Muileann dhearg, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Muileann dhearg by Cathair mhòr."
+  },
+  {
+   "record": 30,
+   "path": "[43].note",
+   "value": "Seat Baile ghorm, founded in the Holy Age. 4 towns; people of its towns: Dia-thìrich. Baile ghorm of the south-east, the market of its shire."
+  },
+  {
+   "record": 30,
+   "path": "[44].note",
+   "value": "Seat Dùn chrom, founded in the Age of Ailean. 7 towns; people of its towns: Dia-thìrich. The citadel above Muileann ghlas."
+  },
+  {
+   "record": 30,
+   "path": "[45].note",
+   "value": "Seat Ros gheal, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. The Hawk houses' birth-rolls (10 an Dùbhlachd, SE 65)."
+  },
+  {
+   "record": 30,
+   "path": "[46].note",
+   "value": "Seat Cill dhìreach, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Chapel-town of the Ceann leathan melee."
+  },
+  {
+   "record": 30,
+   "path": "[47].note",
+   "value": "Seat Doire chiar, founded in the Age of Ailean. 4 towns; people of its towns: Dia-thìrich. Disputations under the oaks."
+  },
+  {
+   "record": 30,
+   "path": "[48].note",
+   "value": "Seat Caol shean, founded in the Age of Ailean. 9 towns; people of its towns: Dia-thìrich. The great eastern river port, pilgrims' landing."
+  },
+  {
+   "record": 30,
+   "path": "[49].note",
+   "value": "Seat Cathair fhada, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. Merchants of the Fèill Muileann òg."
+  },
+  {
+   "record": 30,
+   "path": "[50].note",
+   "value": "Seat Baile mhin, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Sheltered river quays of the north-east."
+  },
+  {
+   "record": 30,
+   "path": "[51].note",
+   "value": "Seat Seann Skell, founded in the Ancient Age (Old Ones). 4 towns; people of its towns: Dia-thìrich. Seann Skell of the Hawk bay."
+  },
+  {
+   "record": 30,
+   "path": "[52].note",
+   "value": "Seat Baile chiar, founded in the Holy Age. 5 towns; people of its towns: Dia-thìrich. Market of the capital's southern country."
+  },
+  {
+   "record": 30,
+   "path": "[53].note",
+   "value": "Seat Cnoc mhòr, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. Cattle market below Cathair mhòr."
+  },
+  {
+   "record": 30,
+   "path": "[54].note",
+   "value": "Seat Tobar fhiadhaich, founded in the Age of Ailean. 7 towns; people of its towns: Dia-thìrich. Wild spring and moorland grazing."
+  },
+  {
+   "record": 30,
+   "path": "[55].note",
+   "value": "Seat Ros gharbh, founded in the Age of Sundering. 3 towns; people of its towns: Dia-thìrich. The gulf's fishing fleet."
+  },
+  {
+   "record": 30,
+   "path": "[56].note",
+   "value": "Seat Tobar ghorm, founded in the Holy Age. 5 towns; people of its towns: Dia-thìrich. One town, Baile gheal, lies apart from the rest of the shire, cut off by the shire of Muileann bheag."
+  },
+  {
+   "record": 30,
+   "path": "[57].note",
+   "value": "Seat Àth fhiadhaich, founded in the Age of Ailean. 1 town; people of its towns: Dia-thìrich. Wild ford of the eastern road, in the south-eastern hills."
+  },
+  {
+   "record": 30,
+   "path": "[58].note",
+   "value": "Seat Baile chaol, founded in the Holy Age. 6 towns; people of its towns: Dia-thìrich. Terraced houses and the valley toll."
+  },
+  {
+   "record": 30,
+   "path": "[59].note",
+   "value": "Seat Muileann dhomhain, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. Muileann dhomhain of the south-east."
+  },
+  {
+   "record": 30,
+   "path": "[60].note",
+   "value": "Seat Seann Tarr, founded in the Ancient Age (Old Ones). 7 towns; people of its towns: Dia-thìrich. The humans' district seat was Baile Mòr ruadh; the kingdom set the seat back at the old harbour. The shire's chest was burned rather than sent (7 am Màrt, SE 66)."
+  },
+  {
+   "record": 30,
+   "path": "[61].note",
+   "value": "Seat Achadh shean, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. The twelve wells of the drove road (6 an t-Samhain, SE 43)."
+  },
+  {
+   "record": 30,
+   "path": "[62].note",
+   "value": "Seat Muileann shean, founded in the Holy Age. 5 towns; people of its towns: Dia-thìrich. The oldest mill-wheel in the north."
+  },
+  {
+   "record": 30,
+   "path": "[63].note",
+   "value": "Seat Tobar dhearg, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. The southern lighthouse and red well."
+  },
+  {
+   "record": 30,
+   "path": "[64].note",
+   "value": "Seat Baile àrsaidh, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. The sail-cloth levy was reckoned at the seat (9 an t-Samhain, LE 9); Seann Bhral of the west coast, in this shire, is a little larger than the seat."
+  },
+  {
+   "record": 30,
+   "path": "[65].note",
+   "value": "Seat Cuan ghlas, founded in the Holy Age. 7 towns; people of its towns: Dia-thìrich. The grey river port and its citadel."
+  },
+  {
+   "record": 30,
+   "path": "[66].note",
+   "value": "Seat Doire fhionn, founded in the Holy Age. 7 towns; people of its towns: Dia-thìrich. Doire fhionn of the east."
+  },
+  {
+   "record": 30,
+   "path": "[67].note",
+   "value": "Seat Doire chaol, founded in the Age of Strangers. 2 towns; people of its towns: Dia-thìrich. Cut from the shire of Baile chiar in SE 38, the only shire made after the drawing."
+  },
+  {
+   "record": 30,
+   "path": "[68].note",
+   "value": "Seat Seann Toll, founded in the Ancient Age (Old Ones). 4 towns; people of its towns: Dia-thìrich. Sea-caves and the north-coast herring."
+  },
+  {
+   "record": 30,
+   "path": "[69].note",
+   "value": "Seat Baile ruadh, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Red-earth fields of the east."
+  },
+  {
+   "record": 30,
+   "path": "[70].note",
+   "value": "Seat Àth bheag, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. East-coast ford under pirate watch."
+  },
+  {
+   "record": 30,
+   "path": "[71].note",
+   "value": "Seat Ceann àrsaidh, founded in the Age of Ailean. 6 towns; people of its towns: Dia-thìrich. Ancient headland on the capital's river road to the east."
+  },
+  {
+   "record": 30,
+   "path": "[72].note",
+   "value": "Seat Caol fhiadhaich, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. Strait-pilots and the harbour wolf-stone."
+  },
+  {
+   "record": 30,
+   "path": "[73].note",
+   "value": "Seat Baile fhiadhaich, founded in the Age of Ailean. 3 towns; people of its towns: Dia-thìrich. West-coast market harbour."
+  },
+  {
+   "record": 30,
+   "path": "[74].note",
+   "value": "Seat Seann Vell, founded in the Ancient Age (Old Ones). 3 towns; people of its towns: Dia-thìrich. Seann Vell of the capital's east."
+  },
+  {
+   "record": 30,
+   "path": "[75].note",
+   "value": "Seat Cnoc thais, founded in the Age of Ailean. 4 towns; people of its towns: Tuathaich. Tuathaich; taken in the Long War (2 an Lùnastal, DE 21)."
+  },
+  {
+   "record": 30,
+   "path": "[75].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[76].note",
+   "value": "Seat Muileann chrom, founded in the Holy Age. 11 towns; people of its towns: Dia-thìrich. The overseers' town; the stoppage began here (27 am Màrt, AE 143)."
+  },
+  {
+   "record": 30,
+   "path": "[77].note",
+   "value": "Seat Ros bheag, founded in the Age of Ailean. 4 towns; people of its towns: Dia-thìrich. Citadel harbour of the western coast."
+  },
+  {
+   "record": 30,
+   "path": "[78].note",
+   "value": "Seat Cnoc àrsaidh, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. Shrines of the Stone and the panther watch."
+  },
+  {
+   "record": 30,
+   "path": "[79].note",
+   "value": "Seat Inis bheag, founded in the Holy Age. 6 towns; people of its towns: Dia-thìrich. Boatyards of the small isle."
+  },
+  {
+   "record": 30,
+   "path": "[80].note",
+   "value": "Seat Àth fhionn, founded in the Holy Age. 1 town; people of its towns: Dia-thìrich. Holds a corner of Eilean dhearg, whose larger part lies in the south-eastern Seann Vell."
+  },
+  {
+   "record": 30,
+   "path": "[81].note",
+   "value": "Seat Achadh àrsaidh, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. The river quays that feed the capital."
+  },
+  {
+   "record": 30,
+   "path": "[82].note",
+   "value": "Seat Cuan ruadh, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. The island's easternmost harbour."
+  },
+  {
+   "record": 30,
+   "path": "[83].note",
+   "value": "Seat Seann Bhrenn, founded in the Ancient Age (Old Ones). 2 towns; people of its towns: Dia-thìrich. The northern Seann-Dhaoine harbour."
+  },
+  {
+   "record": 30,
+   "path": "[84].note",
+   "value": "Seat Cnoc shean, founded in the Holy Age. 4 towns; people of its towns: Dia-thìrich. Old hill market of the granary fields."
+  },
+  {
+   "record": 30,
+   "path": "[85].note",
+   "value": "Seat Dùn dhearg, founded in the Age of Ailean. 6 towns; people of its towns: Dia-thìrich. The red fort city of the east."
+  },
+  {
+   "record": 30,
+   "path": "[86].note",
+   "value": "Seat Àth àrsaidh, founded in the Age of Ailean. 8 towns; people of its towns: Tuathaich. Tuathaich; the truce of the Severance was made at the seat (2 an t-Samhain, AE 150)."
+  },
+  {
+   "record": 30,
+   "path": "[86].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[87].note",
+   "value": "Seat Cnoc dhìreach, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Walled seat of the mining district."
+  },
+  {
+   "record": 30,
+   "path": "[88].note",
+   "value": "Seat Muileann leathan, founded in the Age of Ailean. 6 towns; people of its towns: Tuathaich. Tuathaich; the high pastures (3 an Dùbhlachd, FE 2,717)."
+  },
+  {
+   "record": 30,
+   "path": "[88].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[89].note",
+   "value": "Seat Achadh chaol, founded in the Age of Ailean. 6 towns; people of its towns: Dia-thìrich. Narrow barley fields."
+  },
+  {
+   "record": 30,
+   "path": "[90].note",
+   "value": "Seat Muileann dhomhain, founded in the Holy Age. 4 towns; people of its towns: Dia-thìrich. Muileann dhomhain of the east."
+  },
+  {
+   "record": 30,
+   "path": "[91].note",
+   "value": "Seat Inis mhin, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich 1, Tuathaich 1. Dia-thìrich and Tuathaich, one town each."
+  },
+  {
+   "record": 30,
+   "path": "[92].note",
+   "value": "Seat Caol ìseal, founded in the Holy Age. 4 towns; people of its towns: Dia-thìrich. Salt pans of the low strait."
+  },
+  {
+   "record": 30,
+   "path": "[93].note",
+   "value": "Seat Cnoc naomh, founded in the Age of Ailean. 4 towns; people of its towns: Dia-thìrich. The priests who buried Muileann ghlas's dead."
+  },
+  {
+   "record": 30,
+   "path": "[94].note",
+   "value": "Seat Àth ghlas, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Grey ford below the ruined outpost."
+  },
+  {
+   "record": 30,
+   "path": "[95].note",
+   "value": "Seat Seann Warr, founded in the Ancient Age (Old Ones). 1 town; people of its towns: Dia-thìrich. The fifth regiment's walled harbour."
+  },
+  {
+   "record": 30,
+   "path": "[96].note",
+   "value": "Seat Muileann dhearg, founded in the Age of Sundering. 4 towns; people of its towns: Dia-thìrich. Baile thais, in this shire, holds a shire court of its own (6 an Lùnastal, SE 12)."
+  },
+  {
+   "record": 30,
+   "path": "[97].note",
+   "value": "Seat Àth dhomhain, founded in the Age of Sundering. 3 towns; people of its towns: Dia-thìrich. The citadel seat since the troubles before the Severance."
+  },
+  {
+   "record": 30,
+   "path": "[98].note",
+   "value": "Seat Inis mhòr, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. North-eastern river fleet and debating halls."
+  },
+  {
+   "record": 30,
+   "path": "[99].note",
+   "value": "Seat Ceann mhin, founded in the Holy Age. 5 towns; people of its towns: Dia-thìrich. Ceann mhin of the north-east."
+  },
+  {
+   "record": 30,
+   "path": "[100].note",
+   "value": "Seat Seann Dunn, founded in the Ancient Age (Old Ones). 4 towns; people of its towns: Dia-thìrich. The Seann-Dhaoine harbour-mole."
+  },
+  {
+   "record": 30,
+   "path": "[101].note",
+   "value": "Seat Ceann leathan, founded in the Holy Age. 2 towns; people of its towns: Dia-thìrich. Broad headland harbour of the east."
+  },
+  {
+   "record": 30,
+   "path": "[102].note",
+   "value": "Seat Cnoc gheal, founded in the Holy Age. 6 towns; people of its towns: Dia-thìrich. The white hill market of the north-east."
+  },
+  {
+   "record": 30,
+   "path": "[103].note",
+   "value": "Seat Muileann bheag, founded in the Holy Age. 9 towns; people of its towns: Dia-thìrich. Flour for the north-east harbours."
+  },
+  {
+   "record": 30,
+   "path": "[104].note",
+   "value": "Seat Ceann bheag, founded in the Holy Age. 4 towns; people of its towns: Dia-thìrich. Citadel harbour of the north-east."
+  },
+  {
+   "record": 30,
+   "path": "[105].note",
+   "value": "Seat Muileann àrsaidh, founded in the Age of Ailean. 11 towns; people of its towns: Dia-thìrich 1, Tuathaich 10. Tuathaich but for one Dia-thìrich town; the northern concession (3 an t-Samhain, AE 20); the seat is the elder of the two Muileann àrsaidh."
+  },
+  {
+   "record": 30,
+   "path": "[105].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[106].note",
+   "value": "Seat Cill thais, founded in the Holy Age. 3 towns; people of its towns: Dia-thìrich. Wardens of Coille Naomh Cnoc bheag."
+  },
+  {
+   "record": 30,
+   "path": "[107].note",
+   "value": "Seat Baile ìseal, founded in the Age of Sundering. 4 towns; people of its towns: Tuathaich. Tuathaich."
+  },
+  {
+   "record": 30,
+   "path": "[107].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[108].note",
+   "value": "Seat Baile gheal, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. White cloth of the western plain."
+  },
+  {
+   "record": 30,
+   "path": "[109].note",
+   "value": "Seat Ceann mhin, founded in the Age of Ailean. 5 towns; people of its towns: Dia-thìrich. Ceann mhin of the south-east, rival of Ceann chaol."
+  },
+  {
+   "record": 30,
+   "path": "[110].note",
+   "value": "Seat Cnoc dhubh, founded in the Holy Age. 17 towns; people of its towns: Dia-thìrich. The seat is the charcoal-burners' Cnoc dhubh; Doire fhiadhaich, the citadel village, is larger; a second Cnoc dhubh, the walled market, lies in the shire."
+  },
+  {
+   "record": 30,
+   "path": "[111].note",
+   "value": "Seat Baile Mòr dhomhain, founded in the Holy Age. 13 towns; people of its towns: Dia-thìrich. Cuan bheag, the river mooring, is a little larger than the seat."
+  },
+  {
+   "record": 30,
+   "path": "[112].note",
+   "value": "Seat Muileann chiar, founded in the Age of Sundering. 5 towns; people of its towns: Dia-thìrich. Coal mills of the eastern district."
+  },
+  {
+   "record": 30,
+   "path": "[113].note",
+   "value": "Seat Doire fhionn, founded in the Holy Age. 5 towns; people of its towns: Dia-thìrich. Doire fhionn of the north; the coppice law began here (14 an t-Iuchar, LE 109)."
+  },
+  {
+   "record": 30,
+   "path": "[114].note",
+   "value": "Seat Cnoc bhàn, founded in the Holy Age. 9 towns; people of its towns: Dia-thìrich. The seat was a district seat of the Administration."
+  },
+  {
+   "record": 30,
+   "path": "[115].note",
+   "value": "Seat Àth mhòr, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. Walled great ford of the north."
+  },
+  {
+   "record": 30,
+   "path": "[116].note",
+   "value": "Seat Muileann naomh, founded in the Age of Ailean. 2 towns; people of its towns: Dia-thìrich. Muileann naomh of the south."
+  },
+  {
+   "record": 30,
+   "path": "[117].note",
+   "value": "Seat Muileann naomh, founded in the Holy Age. 7 towns; people of its towns: Dia-thìrich 6, Tuathaich 1. Muileann naomh of the west; one Tuathaich town."
+  },
+  {
+   "record": 30,
+   "path": "[118].note",
+   "value": "Seat Caol bheag, founded in the Holy Age. 1 town; people of its towns: Dia-thìrich. The second Caol bheag, on Eilean fhada, with Eilean bheag."
+  },
+  {
+   "record": 30,
+   "path": "[119].note",
+   "value": "Seat Caol mhin, founded in the Holy Age. 1 town; people of its towns: Dia-thìrich. On Eilean chrom, with Eilean dhubh."
+  },
+  {
+   "record": 30,
+   "path": "[120].note",
+   "value": "Seat Seann Vell, founded in the Ancient Age (Old Ones). 3 towns; people of its towns: Dia-thìrich. The shire of the outer coasts: its seat on Eilean ruadh off the west coast, Eilean bhàn with Cuan dhearg and Cnoc chaol in the south, Eilean ghorm, and the southern edge of the windy coast in the far north-west."
+  },
+  {
+   "record": 30,
+   "path": "[121].note",
+   "value": "Seat Seann Vell, founded in the Ancient Age (Old Ones). 1 town; people of its towns: Dia-thìrich. Seann Vell of the south-east: Eilean dhearg, Eilean gheal and Eilean mhin."
+  },
+  {
+   "record": 30,
+   "path": "[122].note",
+   "value": "An island shire with no town, named for its island. Its people: Tuathaich."
+  },
+  {
+   "record": 30,
+   "path": "[122].state",
+   "value": 2,
+   "old": 1
+  },
+  {
+   "record": 30,
+   "path": "[123].note",
+   "value": "An island shire with no town, named for its island. Its people: Dia-thìrich."
+  },
+  {
+   "record": 35,
+   "path": "[17].note",
+   "value": "Blàr Muileann ghlas, the second and last great battle of An Cogadh Fada, was fought here on 10 an Dùbhlachd, DE 22: the first and third regiments, brought down the fair road, against the column of holdouts camped on the fields by Muileann ghlas, a day's walk from Cathair dhearg. The open record gives no count of the column's dead; the regiments' own dead are named on the stone at Cathair mhòr (10 an Dùbhlachd, DE 22). The field was sown again on 28 an Dùbhlachd, DE 23, and for years its farmer found weapons in the furrows. It is the second battle fought below Muileann ghlas; the first was in Cogadh nam Bràithrean (19 an t-Iuchar, LE 1,274).",
+   "old": "The field of the last great battle of An Cogadh Fada, the Long War, fought on 10 an Dùbhlachd, DE 22. The first and third regiments stood here, and the holdouts were broken."
+  },
+  {
+   "record": 35,
+   "path": "[18].note",
+   "value": "Blàr Àth leathan, the first great battle of An Cogadh Fada, was fought here on 11 an Giblean, DE 21: the regiments against the holdouts of the five western towns. The open record counts the kingdom's dead and not the holdouts'; the Tuathaich tellings put theirs in the hundreds (11 an Giblean, DE 21). The field has been left unploughed (13 an Giblean, DE 21), and on 6 an Giblean, DE 24, Tuathaich families built Càrn nan Tuathach on it without leave; every time the seventh regiment's patrols pass, it has grown by a stone or two.",
+   "old": "The field of the first great battle of An Cogadh Fada, the Long War, fought on 11 an Giblean, DE 21. It has been left unploughed, and the Tuathaich have raised a cairn on it."
+  },
+  {
+   "record": 35,
+   "path": "[48].note",
+   "value": "Binnean a' Chlachair, the Mason's Point: the highest ground of Dia-thìr, a little under three thousand six hundred feet, on the bare moor above Muileann gheal in the Doire uaine hills. The second lighting, 2 an t-Sultain, VE 2,170: Fearghas of the Mason's line carried the six unlit coals up here and let them fall, and the coal flecked with white stars took fire in the air as it fell and burned white; the snowflake coal holds the air. The summit has borne the kindred's name since. Herders of Muileann gheal leave a stone on the top when they pass, and none will light a fire there.",
+   "old": "Binnean a' Chlachair, the Mason's Point: the highest ground of Dia-thìr, a little under three thousand six hundred feet, on the bare moor above Muileann gheal in the Doire uaine hills. The Line of the Mason tells that Fearghas of that line carried the six unlit coals up here and let them fall, and that the coal flecked with white stars took fire in the air as it fell. The summit has borne the kindred's name since. Herders of Muileann gheal leave a stone on the top when they pass, and none will light a fire there."
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 571.23,
+    "y": 543.43,
+    "cell": 4166,
+    "i": 49,
+    "name": "Creach an t-Salainn",
+    "note": "9 am Faoilleach, GE 672: Mòrag Chruaidh, fifth of the Stone Kings, raids the salt-pans on the southern shore at Baile ghorm, which do not yet own the king, and carries off the salt. Seven fall on the hill side, and the number is kept; it is the first war in either king-list. On 8 an t-Ògmhios, GE 727, Iain Dubh, sixth of the Stone Kings, came down to raid them again and was slain on this shingle."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 1035.52,
+    "y": 387.01,
+    "cell": 3107,
+    "i": 50,
+    "name": "Blàr Àth na Fala",
+    "note": "2 an t-Sultain, FE 1: the host of Dùn dhearg and the eastern households come against Ailean Mòr at the ford below Dùn dhearg. He holds it alone three days and three nights, until the dead of the host dam the river, and falls on the third night; no one man overcame him. His kin did not come. The ford has been called Àth na Fala since."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 1045.94,
+    "y": 260.14,
+    "cell": 2017,
+    "i": 51,
+    "name": "A' Chiad Fhuil",
+    "note": "17 an Giblean, FE 3: at Dùn thais, on the line between the great share of the north and the Red Share, the men of Aonghas Bàn mac Mhurchaidh and of Ruairidh Glas come to blows over which share the fort lies in, and Aonghas Bàn is killed. With it begins Aimhreit nan Oighrean, the strife of the heirs, which ran some five hundred and fifty years."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 981.8,
+    "y": 430.79,
+    "cell": 3451,
+    "i": 52,
+    "name": "Loscadh Achadh mhòr",
+    "note": "24 an Lùnastal, FE 556: Cogadh an Dà Mhionn ends where it began. Fearghas Dà-Mhionn, lord of the granary fields, sworn both to the line of Ìomhar and to the lords of Cathair mhòr, is called to arms by each against the other; both come to take his fields, the fields are burned to the stubble, and he dies in his hall. The middle of the island went hungry that winter."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 642.55,
+    "y": 423.84,
+    "cell": 3325,
+    "i": 53,
+    "name": "Blàr Àth fhiadhaich",
+    "note": "21 an Dàmhair, FE 1,001, in Cogadh nan Rathad: the men of Caol leathan meet the levies of Iain Garbh at the ford and hold it for a day before they give way. Forty lie dead of both sides. The carriers call it Àth an Dà Fhichead, the ford of the forty."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 510.79,
+    "y": 443.37,
+    "cell": 3485,
+    "i": 54,
+    "name": "Sèist Caol leathan",
+    "note": "2 an t-Samhain, FE 1,005: Iain Garbh shuts Caol leathan in from the land for a season, but its boats bring in fish from the sea and the harbour he cannot close. His levies go home for the harvest, and the siege ends without an assault. The war ended under the roof of Am Buabhall Fortanach (4 an Dàmhair, FE 1,006)."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 721.04,
+    "y": 386.07,
+    "cell": 3077,
+    "i": 55,
+    "name": "Blàr Àth shean",
+    "note": "22 an Gearran, LE 554, in Cogadh nan Trì Tagraichean: the host of Dùghall Garbh meets that of Raghnall Ruadh at the ford and breaks it. The custody-book counts some three hundred dead, most of them drowned in the ford."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 611.3,
+    "y": 360.45,
+    "cell": 2795,
+    "i": 56,
+    "name": "Sèist Cathair dhomhain",
+    "note": "26 an Dùbhlachd, LE 557: Catrìona nic Aonghais besieges Cathair dhomhain, which had declared for Dùghall, and takes it after forty days, when its wells are fouled by the dead of the siege lines. She lets the garrison go free on their oath."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 835.61,
+    "y": 370.48,
+    "cell": 2907,
+    "i": 57,
+    "name": "Blàr Muileann chrom",
+    "note": "14 am Faoilleach, LE 560: the hosts of Catrìona and Dùghall, joined for the purpose, meet Raghnall Ruadh below Muileann chrom. Raghnall falls on the field, and the next day his own custodians open the vein-house. It decided Cogadh nan Trì Tagraichean."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 613.78,
+    "y": 77.24,
+    "cell": 67,
+    "i": 58,
+    "name": "Creach Eilean dhubh",
+    "note": "27 an t-Samhain, LE 801: a force sent by Queen Eilidh Bhàn lands on Eilean dhubh and burns the sea-thieves' boats on the strand. Their leader, Uilleam Ruadh, is taken to Cathair dhearg and hanged."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 775.93,
+    "y": 420.1,
+    "cell": 3338,
+    "i": 59,
+    "name": "Blàr Cnoc naomh",
+    "note": "8 an t-Ògmhios, LE 1,270: Alasdair Bàn's men seize Cnoc naomh and Iain Ciar takes it back. The houses divide four to three, and Cogadh nam Bràithrean, the Brothers' War, takes its name from this battle."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 717.72,
+    "y": 431.31,
+    "cell": 3420,
+    "i": 60,
+    "name": "Blàr Muileann ghlas",
+    "note": "19 an t-Iuchar, LE 1,274: Iain Ciar defeats Alasdair Bàn below Muileann ghlas. Alasdair is taken alive, and his captains are let go home. The brothers made peace at An Taigh-seinnse Mòr (12 an t-Sultain, LE 1,276). The second battle below Muileann ghlas, in An Cogadh Fada, is marked at Àraich Muileann ghlas."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 853.46,
+    "y": 339.62,
+    "cell": 2639,
+    "i": 61,
+    "name": "Sèist Baile thais",
+    "note": "1 an t-Ògmhios, AE 149, in Cogadh nam Beann: the constables hold their walled pithead against the town for eleven days and yield on the twelfth when their water fails. Eilidh nic Raghnaill sends them under guard to the coast unharmed."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 730.69,
+    "y": 401.57,
+    "cell": 3169,
+    "i": 62,
+    "name": "Blàr Àth chiar",
+    "note": "5 an Dùbhlachd, AE 149: a column of constables and Company guards under Major Peter Ashdown marches up the coal road to relieve the hills and is met at the ford, where the rebels hold the far bank. Ashdown loses forty men and his baggage and turns back. The rebels lose nineteen, and the council's roll names them all."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 852.82,
+    "y": 356.9,
+    "cell": 2818,
+    "i": 63,
+    "name": "Loscadh Seann Toll",
+    "note": "15 an Gearran, AE 150: a Company steamship comes up the Abhainn uaine, shells the coal stage to deny it to the rebels and sets the fishing town behind it burning. Twenty-three townsfolk die: the first time the humans turned the island's own coal, burning in their boilers, against a town of the Dia-thìrich."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 796.1,
+    "y": 424.91,
+    "cell": 3340,
+    "i": 64,
+    "name": "Blàr Cnoc ghorm",
+    "note": "25 an Lùnastal, AE 150: Company guards and constables sallying from the capital's harbour to win back the eastern road are driven back at Cnoc ghorm, in the hills beyond the capital. It was the Administration's last attempt in the war to reach the mining district."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚔️",
+    "type": "battlefields",
+    "dy": 52,
+    "x": 392.33,
+    "y": 235.88,
+    "cell": 1670,
+    "i": 65,
+    "name": "Sèist Muileann àrsaidh",
+    "note": "21 an Cèitean, DE 21, in An Cogadh Fada: the regiments lay siege to Muileann àrsaidh. The town holds for weeks on stored coal and potatoes, and its pit-heads are taken one by one. Sìleas nic Rath's open record gives the day it fell and nothing else."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🔥",
+    "type": "custom",
+    "x": 1006.29,
+    "y": 392.82,
+    "cell": 3104,
+    "i": 66,
+    "name": "Talla na Lasrach",
+    "note": "The hall over the undying flame of Brìde at Dùn ìseal, raised on 19 an Dùbhlachd, FE 15 and rebuilt many times on the same footings. Here the heirs of Ailean Mòr bound the vein in common, Ceangal na Ciad Lasrach (23 an t-Sultain, FE 1), and here the lords of the shares swore Sìth an Stairsnich, the Peace of the Threshold, on its threshold beside the stone cup, with the Keeper as witness (1 an t-Samhain, FE 556). So ended Aimhreit nan Oighrean."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🕊️",
+    "type": "custom",
+    "x": 618.23,
+    "y": 158.28,
+    "cell": 871,
+    "i": 67,
+    "name": "Fosadh Àth àrsaidh",
+    "note": "2 an t-Samhain, AE 150: envoys of the council and of the Administration meet at Àth àrsaidh, on the edge of the northern concession, and agree a truce: the humans left on Dia-thìr shall withdraw into the north-west under the council's safe-conduct, and the council shall leave the towns of the concession standing. Cogadh nam Beann ended in the Severance (1 am Faoilleach, AE 151)."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🪦",
+    "type": "custom",
+    "x": 863.78,
+    "y": 431.46,
+    "cell": 3437,
+    "i": 68,
+    "name": "Clach nan Rèisimeidean",
+    "note": "15 an Dùbhlachd, DE 23: a stone at Cathair mhòr bearing the names of the regiments' dead from Àth leathan and Muileann ghlas. It stands beside the market cross of the house of Mac Ùisdein."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🔥",
+    "type": "custom",
+    "x": 957.1,
+    "y": 275.86,
+    "cell": 2096,
+    "i": 69,
+    "name": "Teine a' Chlachair",
+    "note": "The mason's fire, 20 am Faoilleach, VE 1, the first day of Linn na Fèithe: Neachdan, splitting rock for a well, breaks into a vein of coal that shows every colour at the break; that night lightning strikes the broken vein and it takes fire, and he carries a burning coal home to lay the first hearth of the Dia-thìrich. Tobar dhìreach, Tobar dhubh and Tobar òg each tell that the well was theirs; Tobar dhìreach can show a capped shaft with a scorched lip, and no chronicler has judged between them (17 an Giblean, VE 76). When the fire in the vein burned out, the mason's people laid a flat stone over it and cut their well again a stone's throw off (19 am Màrt, VE 151). The keepers' house at the slab became a place of pilgrimage (29 am Màrt, GE 4,350)."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🌳",
+    "type": "sacred-forests",
+    "x": 622.8,
+    "y": 136.2,
+    "cell": 482,
+    "i": 70,
+    "name": "Coimhdeach na Fine",
+    "note": "The oak grove of Doire ghlas. Here on 17 an Gearran, VE 890 a figure of grey smoke came to Diarmad of the Mason's line, who had asked why the coal of the vein has colours, and named itself Coimhdeach na Fine, the Keeper of the Kin. It told him of the making of the world by Caoran, the Young God, and of the gift hidden in the coal, and gave the riddle: the sky, the earth and the sea each carry their own spirit; merge the spirits, and they become almighty. From Diarmad's line the Telling of the Making went to every hearth."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "✨",
+    "type": "custom",
+    "x": 940.15,
+    "y": 161.49,
+    "cell": 907,
+    "i": 71,
+    "name": "gual òir",
+    "note": "The first lighting, 14 an t-Sultain, VE 1,370: Aodh of the Mason's line carries the seven coals of the vein down to the northern shore, below where Ceann thais now stands, and throws them into the sea one by one. The coal with the sheen of gold takes fire on the water and burns gold until the waves put it under. The gold coal holds the sea."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚫",
+    "type": "custom",
+    "x": 950.66,
+    "y": 271.38,
+    "cell": 2095,
+    "i": 72,
+    "name": "gual dubh",
+    "note": "The third lighting, 17 an t-Sultain, VE 2,885: Brian of the Mason's line buries the five unlit coals deep in the ground beside the slab at Tobar dhìreach. When he digs them up the next day the black coal, as black as a wet crow, is warm in his hand and smoulders as the air comes to it. The black coal holds the earth."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🩸",
+    "type": "custom",
+    "x": 627.25,
+    "y": 131.66,
+    "cell": 481,
+    "i": 73,
+    "name": "gual donn-ruadh",
+    "note": "The fourth lighting, 20 an t-Samhain, VE 3,670: Cormac of the Mason's line carries the four unlit coals to the grove where the Keeper first spoke and sets about breaking them. His hammer misses and opens the back of his hand, and where the blood falls on the red-brown coal it takes fire. The kindred call it the coal of life."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "💧",
+    "type": "custom",
+    "x": 961.42,
+    "y": 254.87,
+    "cell": 1915,
+    "i": 74,
+    "name": "gual airgid",
+    "note": "The fifth lighting, 21 an Dùbhlachd, VE 4,225: Eòghann of the Mason's line drinks from the Abhainn ghorm below Tobar dhìreach, says the water tastes different from the sea's, and throws the three unlit coals into the stream. The coal with the sheen of silver takes fire in the current and burns silver under the water. The silver coal holds the river water."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🔥",
+    "type": "custom",
+    "x": 966.25,
+    "y": 274.41,
+    "cell": 2097,
+    "i": 75,
+    "name": "gual teine",
+    "note": "The sixth lighting, 16 an t-Ògmhios, VE 4,905: Seathan of Clann na Ceiste, who has handled the coal of fire all his days to no end, snaps his fingers when a thought strikes him, and the coal-dust on his hand takes fire. So the fire coal is lit by the fire that is in the hand itself."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🌈",
+    "type": "custom",
+    "x": 618.4,
+    "y": 140.8,
+    "cell": 607,
+    "i": 76,
+    "name": "gual bogha-froise",
+    "note": "The seventh lighting, 21 an t-Iuchar, VE 5,324: Ailean of Clann na Ceiste, having lit each of the six coals again by its own way, carries them burning to the grove with the last coal, and the Keeper lights the rainbow coal; for the first time all seven burn together. Ailean keeps watch seven nights, a night for each coal, and on the eighth Caoran comes into the grove with the Tuath Dè and names him Rìgh Chlann nan Dè (28 an t-Iuchar, GE 1)."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "🪨",
+    "type": "custom",
+    "x": 512.12,
+    "y": 555.77,
+    "cell": 4241,
+    "i": 77,
+    "name": "Taigh Dhuinn",
+    "note": "Taigh Dhuinn, the house of Donn, lord of the dead: a rock in the sea to the south-west, where the dead gather on their way over the sea. So the Telling of the Making and the hearths have it."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⚓",
+    "type": "custom",
+    "x": 462.47,
+    "y": 317.76,
+    "cell": 2410,
+    "i": 78,
+    "name": "Cidhe an Diosail",
+    "note": "The departure berth of the west quay at Seann Skell, lengthened on 16 an t-Iuchar, LE 30. On the night before the sailing every house on the waterfront set a lamp on its sill (18 an Giblean, LE 40); on 19 an Giblean, LE 40 the fleet of the Sundering went once sunwise round the river pool for luck and down the Abhainn naomh to the sea (19 an Giblean, LE 40). The harbour rolls entered the berth as Cidhe an Diosail, the quay of the sunwise turn, on 15 an Lùnastal, LE 67."
+   }
+  },
+  {
+   "record": 35,
+   "path": "",
+   "op": "append",
+   "value": {
+    "icon": "⛏️",
+    "type": "custom",
+    "x": 828.52,
+    "y": 326.28,
+    "cell": 2542,
+    "i": 79,
+    "name": "An Sloc Mòr",
+    "note": "The great shaft at Achadh dhomhain on the vein, granted to Uisdean mac Ùisdein on 23 an Cèitean, SE 11. The Mine Board shut its upper galleries on 17 an Cèitean, DE 26. One face is kept open in the Rite's keeping, where the last twelve hewers of the vein (15 an t-Ògmhios, DE 26) cut the altar-coal: four baskets on 6 an Dàmhair, DE 27, shared among the houses of the Rite by lot. The coloured coal is sold in no market."
+   }
+  },
+  {
+   "record": 37,
+   "action": "add_route",
+   "route": {
+    "i": 450,
+    "group": "searoutes",
+    "feature": 1,
+    "points": [
+     [
+      178.71,
+      44.43,
+      0
+     ],
+     [
+      177.41,
+      61.67,
+      5
+     ],
+     [
+      183.5,
+      61.6,
+      6
+     ],
+     [
+      189.65,
+      61.57,
+      7
+     ],
+     [
+      194.9,
+      63.26,
+      24
+     ],
+     [
+      199.8,
+      66.8,
+      25
+     ],
+     [
+      204.79,
+      70.3,
+      26
+     ],
+     [
+      211.31,
+      74.33,
+      57
+     ],
+     [
+      219.5,
+      75.2,
+      58
+     ],
+     [
+      227.74,
+      76.05,
+      59
+     ],
+     [
+      231.4,
+      80.2,
+      60
+     ],
+     [
+      235,
+      84.28,
+      107
+     ],
+     [
+      240.6,
+      84,
+      110
+     ],
+     [
+      246.26,
+      83.76,
+      111
+     ],
+     [
+      252.5,
+      84.2,
+      113
+     ],
+     [
+      258.76,
+      84.7,
+      114
+     ],
+     [
+      263.12,
+      87.77,
+      115
+     ],
+     [
+      263,
+      94.2,
+      116
+     ],
+     [
+      262.81,
+      100.63,
+      182
+     ],
+     [
+      260.97,
+      110.15,
+      248
+     ],
+     [
+      266.2,
+      113.5,
+      249
+     ],
+     [
+      271.4,
+      116.79,
+      343
+     ],
+     [
+      276.9,
+      118.8,
+      344
+     ],
+     [
+      282.42,
+      120.73,
+      345
+     ],
+     [
+      287.4,
+      124.8,
+      346
+     ],
+     [
+      292.38,
+      128.78,
+      453
+     ],
+     [
+      299.43,
+      136.17,
+      576
+     ],
+     [
+      298.3,
+      143.4,
+      577
+     ],
+     [
+      297.08,
+      150.64,
+      705
+     ],
+     [
+      290.03,
+      156.25,
+      831
+     ],
+     [
+      295.9,
+      156.3,
+      832
+     ],
+     [
+      297.08,
+      150.64,
+      705
+     ],
+     [
+      298.3,
+      143.4,
+      577
+     ],
+     [
+      299.43,
+      136.17,
+      576
+     ],
+     [
+      292.38,
+      128.78,
+      453
+     ],
+     [
+      287.4,
+      124.8,
+      346
+     ],
+     [
+      282.42,
+      120.73,
+      345
+     ],
+     [
+      276.9,
+      118.8,
+      344
+     ],
+     [
+      271.4,
+      116.79,
+      343
+     ],
+     [
+      266.2,
+      113.5,
+      249
+     ],
+     [
+      260.97,
+      110.15,
+      248
+     ],
+     [
+      262.81,
+      100.63,
+      182
+     ],
+     [
+      263,
+      94.2,
+      116
+     ],
+     [
+      263.12,
+      87.77,
+      115
+     ],
+     [
+      258.76,
+      84.7,
+      114
+     ],
+     [
+      252.5,
+      84.2,
+      113
+     ],
+     [
+      246.26,
+      83.76,
+      111
+     ],
+     [
+      240.6,
+      84,
+      110
+     ],
+     [
+      235,
+      84.28,
+      107
+     ],
+     [
+      231.4,
+      80.2,
+      60
+     ],
+     [
+      227.74,
+      76.05,
+      59
+     ],
+     [
+      219.5,
+      75.2,
+      58
+     ],
+     [
+      211.31,
+      74.33,
+      57
+     ],
+     [
+      204.79,
+      70.3,
+      26
+     ],
+     [
+      199.8,
+      66.8,
+      25
+     ],
+     [
+      194.9,
+      63.26,
+      24
+     ],
+     [
+      189.65,
+      61.57,
+      7
+     ],
+     [
+      183.5,
+      61.6,
+      6
+     ],
+     [
+      177.41,
+      61.67,
+      5
+     ],
+     [
+      172.98,
+      65.55,
+      20
+     ],
+     [
+      173.9,
+      74.16,
+      52
+     ],
+     [
+      177.32,
+      81.36,
+      53
+     ],
+     [
+      171.52,
+      87.7,
+      94
+     ],
+     [
+      164.6,
+      92.8,
+      95
+     ],
+     [
+      158.9,
+      104.9,
+      161
+     ],
+     [
+      154.66,
+      109.43,
+      232
+     ],
+     [
+      145.2,
+      113.5,
+      233
+     ],
+     [
+      135.67,
+      117.64,
+      325
+     ],
+     [
+      132.99,
+      125.95,
+      425
+     ],
+     [
+      132.3,
+      132.7,
+      426
+     ],
+     [
+      131.67,
+      139.41,
+      548
+     ],
+     [
+      133.4,
+      145.5,
+      550
+     ],
+     [
+      126.51,
+      148.14,
+      674
+     ],
+     [
+      121.3,
+      153.8,
+      675
+     ],
+     [
+      116,
+      159.53,
+      803
+     ],
+     [
+      111.9,
+      166.4,
+      804
+     ],
+     [
+      115.9,
+      178.7,
+      944
+     ],
+     [
+      126.69,
+      183.3,
+      1077
+     ],
+     [
+      135.6,
+      183.3,
+      1078
+     ],
+     [
+      144.44,
+      183.37,
+      1079
+     ],
+     [
+      150.18,
+      180.64,
+      1080
+     ],
+     [
+      153.36,
+      175.31,
+      949
+     ],
+     [
+      160.4,
+      175,
+      950
+     ],
+     [
+      167.48,
+      174.64,
+      952
+     ],
+     [
+      175.6,
+      171.5,
+      953
+     ],
+     [
+      183.7,
+      168.43,
+      954
+     ],
+     [
+      185.8,
+      174.6,
+      956
+     ],
+     [
+      187.9,
+      180.68,
+      1083
+     ],
+     [
+      184.3,
+      188.6,
+      1208
+     ],
+     [
+      190.5,
+      196.2,
+      1209
+     ],
+     [
+      196.7,
+      203.8,
+      1331
+     ],
+     [
+      201.4,
+      206.46,
+      1332
+     ],
+     [
+      210.4,
+      213,
+      1444
+     ],
+     [
+      215.47,
+      210.16,
+      1445
+     ],
+     [
+      223.52,
+      205.85,
+      1334
+     ],
+     [
+      229,
+      199.6,
+      1217
+     ],
+     [
+      234.49,
+      193.3,
+      1216
+     ],
+     [
+      239.9,
+      190.4,
+      1218
+     ],
+     [
+      245.26,
+      187.51,
+      1219
+     ],
+     [
+      250.96,
+      184.38,
+      1092
+     ],
+     [
+      258.3,
+      181.3,
+      1093
+     ],
+     [
+      265.4,
+      184.2,
+      1095
+     ],
+     [
+      270.6,
+      189.2,
+      1221
+     ],
+     [
+      269.6,
+      196,
+      1222
+     ],
+     [
+      273.95,
+      201.86,
+      1338
+     ],
+     [
+      278.23,
+      209.7,
+      1449
+     ],
+     [
+      285.71,
+      214.31,
+      1450
+     ],
+     [
+      292,
+      213.2,
+      1451
+     ],
+     [
+      298.27,
+      212.02,
+      1452
+     ],
+     [
+      304.25,
+      213.88,
+      1453
+     ],
+     [
+      310.7,
+      216.4,
+      1454
+     ],
+     [
+      317.15,
+      219.01,
+      1556
+     ],
+     [
+      315.8,
+      228.3,
+      1557
+     ],
+     [
+      327.66,
+      234.33,
+      1659
+     ],
+     [
+      334.29,
+      237.14,
+      1660
+     ],
+     [
+      335.9,
+      242.5,
+      1661
+     ],
+     [
+      337.48,
+      247.85,
+      1760
+     ],
+     [
+      340.16,
+      252.36,
+      1853
+     ],
+     [
+      343.25,
+      253.62,
+      1854
+     ],
+     [
+      346.6,
+      257.7,
+      1855
+     ],
+     [
+      349.86,
+      261.79,
+      1948
+     ],
+     [
+      349.9,
+      268.2,
+      1949
+     ],
+     [
+      349.96,
+      274.52,
+      2036
+     ],
+     [
+      350.66,
+      281.84,
+      2125
+     ],
+     [
+      349.7,
+      286.9,
+      2126
+     ],
+     [
+      354.9,
+      292.4,
+      2215
+     ],
+     [
+      358.4,
+      297.5,
+      2218
+     ],
+     [
+      355.69,
+      302.32,
+      2308
+     ],
+     [
+      351.54,
+      310.69,
+      2307
+     ],
+     [
+      363.7,
+      318.6,
+      2398
+     ],
+     [
+      370.61,
+      322.5,
+      2491
+     ],
+     [
+      370,
+      329.2,
+      2492
+     ],
+     [
+      369.48,
+      335.99,
+      2586
+     ],
+     [
+      374.1,
+      347.1,
+      2679
+     ],
+     [
+      378.93,
+      350.16,
+      2680
+     ],
+     [
+      385.7,
+      350.5,
+      2681
+     ],
+     [
+      392.51,
+      350.8,
+      2682
+     ],
+     [
+      395.5,
+      353.5,
+      2684
+     ],
+     [
+      402.4,
+      359.8,
+      2773
+     ],
+     [
+      401.57,
+      364.44,
+      2859
+     ],
+     [
+      401.2,
+      370.7,
+      2860
+     ],
+     [
+      400.91,
+      376.97,
+      2955
+     ],
+     [
+      406.66,
+      381.45,
+      2956
+     ],
+     [
+      410.31,
+      387.46,
+      3045
+     ],
+     [
+      412.4,
+      393,
+      3046
+     ],
+     [
+      418.36,
+      399.21,
+      3136
+     ],
+     [
+      424.5,
+      404.2,
+      3137
+     ]
+    ],
+    "name": "An t-Aiseag",
+    "note": "The Crossing, north-about: the one passage through Ceò Mhanannain. In the winter of 13 am Faoilleach, AE 1 the mist lifted from the northern water, and three ships came down out of the thin grey from the north to the water off the north-west cape, where the fishers of Achadh àrsaidh met them at Coinneachadh nan Long, and followed the fishers down the coast to anchor off Cuan shean (5 an Gearran, AE 1). Every port of the Crossing is on the west coast. Since the Severance (1 am Faoilleach, AE 151) the passage is shut; the ship sent north-about on 11 an t-Ògmhios, SE 3 found nothing. The first tank-hull under Dubhan's charter went out past the north-western capes on this road (7 an t-Sultain, DE 27)."
+   },
+   "links": [
+    [
+     0,
+     5
+    ],
+    [
+     705,
+     831
+    ],
+    [
+     705,
+     832
+    ],
+    [
+     831,
+     832
+    ]
+   ],
+   "d": "M178.7,44.4C178.7,44.4,175.4,59.6,177.4,61.7C178.6,62.9,181.5,61.6,183.5,61.6C185.5,61.6,187.7,61.3,189.7,61.6C191.5,61.9,193.2,62.4,194.9,63.3C196.6,64.1,198.2,65.6,199.8,66.8C201.5,68,203,69.1,204.8,70.3C206.8,71.6,208.9,73.5,211.3,74.3C213.8,75.2,216.8,74.9,219.5,75.2C222.2,75.5,225.7,75,227.7,76.1C229.4,76.9,230.2,78.8,231.4,80.2C232.6,81.6,233.5,83.6,235,84.3C236.5,84.9,238.7,84.1,240.6,84C242.5,83.9,244.3,83.7,246.3,83.8C248.3,83.8,250.4,84,252.5,84.2C254.6,84.4,256.9,84,258.8,84.7C260.4,85.3,262.4,86.3,263.1,87.8C263.9,89.4,263.1,92.1,263,94.2C262.9,96.3,263.1,98.3,262.8,100.6C262.5,103.5,260,108,261,110.2C261.7,111.9,264.5,112.4,266.2,113.5C267.9,114.6,269.6,115.9,271.4,116.8C273.2,117.7,275.1,118.1,276.9,118.8C278.7,119.5,280.7,119.8,282.4,120.7C284.2,121.7,285.7,123.5,287.4,124.8C289.1,126.1,290.6,127.2,292.4,128.8C294.6,130.8,298.6,133.5,299.4,136.2C300.1,138.4,298.7,141,298.3,143.4C297.9,145.8,298.3,148.6,297.1,150.6C295.7,152.9,289.7,155.4,290,156.3C290.3,156.9,294.7,157.2,295.9,156.3C297.1,155.4,296.7,152.6,297.1,150.6C297.5,148.4,297.9,145.8,298.3,143.4C298.7,141,300.1,138.4,299.4,136.2C298.6,133.5,294.6,130.8,292.4,128.8C290.6,127.2,289.1,126.1,287.4,124.8C285.7,123.5,284.2,121.7,282.4,120.7C280.7,119.8,278.7,119.5,276.9,118.8C275.1,118.1,273.2,117.7,271.4,116.8C269.6,115.9,267.9,114.6,266.2,113.5C264.5,112.4,261.7,111.9,261,110.2C260,108,262.5,103.5,262.8,100.6C263.1,98.3,262.9,96.3,263,94.2C263.1,92.1,263.9,89.4,263.1,87.8C262.4,86.3,260.4,85.3,258.8,84.7C256.9,84,254.6,84.4,252.5,84.2C250.4,84,248.3,83.8,246.3,83.8C244.3,83.7,242.5,83.9,240.6,84C238.7,84.1,236.5,84.9,235,84.3C233.5,83.6,232.6,81.6,231.4,80.2C230.2,78.8,229.4,76.9,227.7,76.1C225.7,75,222.2,75.5,219.5,75.2C216.8,74.9,213.8,75.2,211.3,74.3C208.9,73.5,206.8,71.6,204.8,70.3C203,69.1,201.5,68,199.8,66.8C198.2,65.6,196.6,64.1,194.9,63.3C193.2,62.4,191.5,61.9,189.7,61.6C187.7,61.3,185.5,61.6,183.5,61.6C181.5,61.6,179.2,61,177.4,61.7C175.7,62.3,173.7,63.8,173,65.6C172.1,67.7,173.1,71.5,173.9,74.2C174.6,76.7,177.7,79.1,177.3,81.4C177,83.7,173.6,85.8,171.5,87.7C169.4,89.6,166.6,90.4,164.6,92.8C162.2,95.8,160.9,101.9,158.9,104.9C157.5,106.9,156.5,108.1,154.7,109.4C152.3,111.1,148.4,112.1,145.2,113.5C142,114.9,137.7,115.4,135.7,117.6C133.8,119.7,133.5,123.3,133,126C132.5,128.3,132.5,130.5,132.3,132.7C132.1,134.9,131.5,137.2,131.7,139.4C131.9,141.5,134.1,144.1,133.4,145.5C132.6,147.1,128.5,146.8,126.5,148.1C124.5,149.5,123,151.9,121.3,153.8C119.5,155.7,117.6,157.4,116,159.5C114.4,161.6,112.2,163.7,111.9,166.4C111.5,169.8,113.3,175.9,115.9,178.7C118.4,181.4,123.2,182.6,126.7,183.3C129.7,183.9,132.6,183.3,135.6,183.3C138.6,183.3,141.9,183.9,144.4,183.4C146.6,182.9,148.7,182,150.2,180.6C151.7,179.3,151.7,176.3,153.4,175.3C155.1,174.3,158.1,175.1,160.4,175C162.8,174.9,165.1,175.2,167.5,174.6C170.1,174.1,172.9,172.5,175.6,171.5C178.3,170.5,182,167.6,183.7,168.4C185.2,169.1,185.1,172.6,185.8,174.6C186.5,176.6,188,178.5,187.9,180.7C187.8,183.2,184,186.1,184.3,188.6C184.6,191.3,188.4,193.7,190.5,196.2C192.6,198.7,194.6,202,196.7,203.8C198.3,205.1,199.6,205.3,201.4,206.5C204,208.1,207.8,212.8,210.4,213C212.3,213.1,213.6,211.2,215.5,210.2C217.8,208.9,221.2,207.7,223.5,205.9C225.7,204.1,227.2,201.7,229,199.6C230.8,197.5,232.5,194.9,234.5,193.3C236.2,191.9,238.1,191.4,239.9,190.4C241.7,189.4,243.4,188.5,245.3,187.5C247.1,186.5,248.9,185.4,251,184.4C253.2,183.3,255.9,181.3,258.3,181.3C260.7,181.3,263.3,182.9,265.4,184.2C267.4,185.5,269.9,187.2,270.6,189.2C271.3,191.2,269.1,193.9,269.6,196C270.1,198.1,272.6,199.7,274,201.9C275.5,204.2,276.3,207.6,278.2,209.7C280.2,211.8,283.2,213.8,285.7,214.3C287.8,214.7,289.9,213.6,292,213.2C294.1,212.8,296.2,211.9,298.3,212C300.3,212.1,302.2,213.2,304.3,213.9C306.4,214.6,308.6,215.5,310.7,216.4C312.9,217.3,316.2,217.3,317.2,219C318.3,221,314.5,225.8,315.8,228.3C317.3,231.2,324.3,232.7,327.7,234.3C330.2,235.5,332.9,235.6,334.3,237.1C335.5,238.5,335.4,240.7,335.9,242.5C336.4,244.3,336.8,246.2,337.5,247.9C338.2,249.5,339,251.4,340.2,252.4C341,253.1,342.3,252.9,343.3,253.6C344.5,254.5,345.5,256.3,346.6,257.7C347.7,259.1,349.3,260.2,349.9,261.8C350.5,263.6,349.9,266.1,349.9,268.2C349.9,270.3,349.8,272.3,350,274.5C350.1,276.9,350.8,279.6,350.7,281.8C350.6,283.7,349.2,285.3,349.7,286.9C350.3,288.8,353.4,290.5,354.9,292.4C356.3,294.1,358.3,295.8,358.4,297.5C358.5,299.1,356.7,300.5,355.7,302.3C354.4,304.7,350.9,308.2,351.5,310.7C352.4,313.8,360.2,316.5,363.7,318.6C366.3,320.2,369.6,320.6,370.6,322.5C371.5,324.2,370.2,327,370,329.2C369.8,331.5,369.1,333.5,369.5,336C370,339.3,372.1,344.7,374.1,347.1C375.5,348.7,377.1,349.6,378.9,350.2C380.9,350.8,383.4,350.4,385.7,350.5C388,350.6,390.8,350.1,392.5,350.8C393.8,351.3,394.3,352.4,395.5,353.5C397.3,355.2,401.7,357.7,402.4,359.8C402.9,361.3,401.8,362.8,401.6,364.4C401.3,366.4,401.3,368.6,401.2,370.7C401.1,372.8,400.1,375.2,400.9,377C401.8,378.9,405.1,379.7,406.7,381.5C408.2,383.2,409.3,385.5,410.3,387.5C411.2,389.3,411.3,391.2,412.4,393C413.8,395.2,416.3,397.3,418.4,399.2C420.3,401,424.5,404.2,424.5,404.2"
+  },
+  {
+   "record": 37,
+   "action": "add_route",
+   "route": {
+    "i": 451,
+    "group": "searoutes",
+    "feature": 1,
+    "points": [
+     [
+      395.29,
+      348.29,
+      2683
+     ],
+     [
+      392.51,
+      350.8,
+      2682
+     ],
+     [
+      385.7,
+      350.5,
+      2681
+     ],
+     [
+      378.93,
+      350.16,
+      2680
+     ],
+     [
+      374.1,
+      347.1,
+      2679
+     ],
+     [
+      369.48,
+      335.99,
+      2586
+     ],
+     [
+      370,
+      329.2,
+      2492
+     ],
+     [
+      370.61,
+      322.5,
+      2491
+     ],
+     [
+      363.7,
+      318.6,
+      2398
+     ],
+     [
+      351.54,
+      310.69,
+      2307
+     ],
+     [
+      355.69,
+      302.32,
+      2308
+     ],
+     [
+      358.4,
+      297.5,
+      2218
+     ],
+     [
+      354.9,
+      292.4,
+      2215
+     ],
+     [
+      349.7,
+      286.9,
+      2126
+     ],
+     [
+      350.66,
+      281.84,
+      2125
+     ],
+     [
+      349.96,
+      274.52,
+      2036
+     ],
+     [
+      349.9,
+      268.2,
+      1949
+     ],
+     [
+      349.86,
+      261.79,
+      1948
+     ],
+     [
+      346.6,
+      257.7,
+      1855
+     ],
+     [
+      343.25,
+      253.62,
+      1854
+     ],
+     [
+      340.16,
+      252.36,
+      1853
+     ],
+     [
+      337.48,
+      247.85,
+      1760
+     ],
+     [
+      335.9,
+      242.5,
+      1661
+     ],
+     [
+      334.29,
+      237.14,
+      1660
+     ],
+     [
+      327.66,
+      234.33,
+      1659
+     ],
+     [
+      315.8,
+      228.3,
+      1557
+     ],
+     [
+      317.15,
+      219.01,
+      1556
+     ],
+     [
+      310.7,
+      216.4,
+      1454
+     ],
+     [
+      304.25,
+      213.88,
+      1453
+     ],
+     [
+      298.27,
+      212.02,
+      1452
+     ],
+     [
+      292,
+      213.2,
+      1451
+     ],
+     [
+      285.71,
+      214.31,
+      1450
+     ],
+     [
+      278.23,
+      209.7,
+      1449
+     ],
+     [
+      273.95,
+      201.86,
+      1338
+     ],
+     [
+      269.6,
+      196,
+      1222
+     ],
+     [
+      270.6,
+      189.2,
+      1221
+     ],
+     [
+      265.4,
+      184.2,
+      1095
+     ],
+     [
+      258.3,
+      181.3,
+      1093
+     ],
+     [
+      250.96,
+      184.38,
+      1092
+     ],
+     [
+      245.26,
+      187.51,
+      1219
+     ],
+     [
+      239.9,
+      190.4,
+      1218
+     ],
+     [
+      234.49,
+      193.3,
+      1216
+     ],
+     [
+      229,
+      199.6,
+      1217
+     ],
+     [
+      223.52,
+      205.85,
+      1334
+     ],
+     [
+      215.47,
+      210.16,
+      1445
+     ],
+     [
+      210.4,
+      213,
+      1444
+     ],
+     [
+      201.4,
+      206.46,
+      1332
+     ],
+     [
+      196.7,
+      203.8,
+      1331
+     ],
+     [
+      190.5,
+      196.2,
+      1209
+     ],
+     [
+      184.3,
+      188.6,
+      1208
+     ],
+     [
+      187.9,
+      180.68,
+      1083
+     ],
+     [
+      185.8,
+      174.6,
+      956
+     ],
+     [
+      183.7,
+      168.43,
+      954
+     ],
+     [
+      175.6,
+      171.5,
+      953
+     ],
+     [
+      167.48,
+      174.64,
+      952
+     ],
+     [
+      160.4,
+      175,
+      950
+     ],
+     [
+      153.36,
+      175.31,
+      949
+     ],
+     [
+      150.18,
+      180.64,
+      1080
+     ],
+     [
+      144.44,
+      183.37,
+      1079
+     ],
+     [
+      135.6,
+      183.3,
+      1078
+     ],
+     [
+      126.69,
+      183.3,
+      1077
+     ],
+     [
+      115.9,
+      178.7,
+      944
+     ],
+     [
+      111.9,
+      166.4,
+      804
+     ],
+     [
+      116,
+      159.53,
+      803
+     ],
+     [
+      121.3,
+      153.8,
+      675
+     ],
+     [
+      126.51,
+      148.14,
+      674
+     ],
+     [
+      133.4,
+      145.5,
+      550
+     ],
+     [
+      131.67,
+      139.41,
+      548
+     ],
+     [
+      132.3,
+      132.7,
+      426
+     ],
+     [
+      132.99,
+      125.95,
+      425
+     ],
+     [
+      135.67,
+      117.64,
+      325
+     ],
+     [
+      145.2,
+      113.5,
+      233
+     ],
+     [
+      154.66,
+      109.43,
+      232
+     ],
+     [
+      158.9,
+      104.9,
+      161
+     ],
+     [
+      164.6,
+      92.8,
+      95
+     ],
+     [
+      171.52,
+      87.7,
+      94
+     ],
+     [
+      177.32,
+      81.36,
+      53
+     ],
+     [
+      173.9,
+      74.16,
+      52
+     ],
+     [
+      172.98,
+      65.55,
+      20
+     ],
+     [
+      178.71,
+      44.43,
+      0
+     ]
+    ],
+    "name": "Am Falbh",
+    "note": "The Setting-Out, 19 an Giblean, LE 40: the willing of Rolla nan Deònach sail from Cidhe an Diosail at Seann Skell, down the Abhainn naomh to the open sea and out past the north cape. The chronicles of the island fall silent on them as the ships clear the harbour; the Dia-thìrich tell that the fleet sailed into Manannan's mist, toward the Otherworld."
+   },
+   "links": [
+    [
+     0,
+     20
+    ]
+   ],
+   "d": "M395.3,348.3C395.3,348.3,393.8,350.4,392.5,350.8C390.8,351.4,388,350.6,385.7,350.5C383.4,350.4,380.9,350.8,378.9,350.2C377.1,349.6,375.5,348.7,374.1,347.1C372.1,344.7,370,339.3,369.5,336C369.1,333.5,369.8,331.5,370,329.2C370.2,327,371.5,324.2,370.6,322.5C369.6,320.6,366.3,320.2,363.7,318.6C360.2,316.5,352.4,313.8,351.5,310.7C350.9,308.2,354.4,304.7,355.7,302.3C356.7,300.5,358.5,299.1,358.4,297.5C358.3,295.8,356.3,294.1,354.9,292.4C353.4,290.5,350.3,288.8,349.7,286.9C349.2,285.3,350.6,283.7,350.7,281.8C350.8,279.6,350.1,276.9,350,274.5C349.8,272.3,349.9,270.3,349.9,268.2C349.9,266.1,350.5,263.6,349.9,261.8C349.3,260.2,347.7,259.1,346.6,257.7C345.5,256.3,344.5,254.5,343.3,253.6C342.3,252.9,341,253.1,340.2,252.4C339,251.4,338.2,249.5,337.5,247.9C336.8,246.2,336.4,244.3,335.9,242.5C335.4,240.7,335.5,238.5,334.3,237.1C332.9,235.6,330.2,235.5,327.7,234.3C324.3,232.7,317.3,231.2,315.8,228.3C314.5,225.8,318.3,221,317.2,219C316.2,217.3,312.9,217.3,310.7,216.4C308.6,215.5,306.4,214.6,304.3,213.9C302.2,213.2,300.3,212.1,298.3,212C296.2,211.9,294.1,212.8,292,213.2C289.9,213.6,287.8,214.7,285.7,214.3C283.2,213.8,280.2,211.8,278.2,209.7C276.3,207.6,275.5,204.2,274,201.9C272.6,199.7,270.1,198.1,269.6,196C269.1,193.9,271.3,191.2,270.6,189.2C269.9,187.2,267.4,185.5,265.4,184.2C263.3,182.9,260.7,181.3,258.3,181.3C255.9,181.3,253.2,183.3,251,184.4C248.9,185.4,247.1,186.5,245.3,187.5C243.4,188.5,241.7,189.4,239.9,190.4C238.1,191.4,236.2,191.9,234.5,193.3C232.5,194.9,230.8,197.5,229,199.6C227.2,201.7,225.7,204.1,223.5,205.9C221.2,207.7,217.8,208.9,215.5,210.2C213.6,211.2,212.3,213.1,210.4,213C207.8,212.8,204,208.1,201.4,206.5C199.6,205.3,198.3,205.1,196.7,203.8C194.6,202,192.6,198.7,190.5,196.2C188.4,193.7,184.6,191.3,184.3,188.6C184,186.1,187.8,183.2,187.9,180.7C188,178.5,186.5,176.6,185.8,174.6C185.1,172.6,185.2,169.1,183.7,168.4C182,167.6,178.3,170.5,175.6,171.5C172.9,172.5,170.1,174.1,167.5,174.6C165.1,175.2,162.8,174.9,160.4,175C158.1,175.1,155.1,174.3,153.4,175.3C151.7,176.3,151.7,179.3,150.2,180.6C148.7,182,146.6,182.9,144.4,183.4C141.9,183.9,138.6,183.3,135.6,183.3C132.6,183.3,129.7,183.9,126.7,183.3C123.2,182.6,118.4,181.4,115.9,178.7C113.3,175.9,111.5,169.8,111.9,166.4C112.2,163.7,114.4,161.6,116,159.5C117.6,157.4,119.5,155.7,121.3,153.8C123,151.9,124.5,149.5,126.5,148.1C128.5,146.8,132.6,147.1,133.4,145.5C134.1,144.1,131.9,141.5,131.7,139.4C131.5,137.2,132.1,134.9,132.3,132.7C132.5,130.5,132.5,128.3,133,126C133.5,123.3,133.8,119.7,135.7,117.6C137.7,115.4,142,114.9,145.2,113.5C148.4,112.1,152.3,111.1,154.7,109.4C156.5,108.1,157.5,106.9,158.9,104.9C160.9,101.9,162.2,95.8,164.6,92.8C166.6,90.4,169.4,89.6,171.5,87.7C173.6,85.8,177,83.7,177.3,81.4C177.7,79.1,174.6,76.7,173.9,74.2C173.1,71.5,172.7,69,173,65.6C173.4,60,178.7,44.4,178.7,44.4"
+  },
+  {
+   "record": 37,
+   "action": "add_route",
+   "route": {
+    "i": 452,
+    "group": "trails",
+    "feature": 2,
+    "points": [
+     [
+      115.9,
+      178.7,
+      944
+     ],
+     [
+      122.2,
+      171.06,
+      945
+     ],
+     [
+      130.08,
+      167.27,
+      946
+     ],
+     [
+      135.3,
+      168.7,
+      947
+     ],
+     [
+      140.54,
+      170.15,
+      948
+     ],
+     [
+      150.18,
+      180.64,
+      1080
+     ],
+     [
+      154.33,
+      176.57,
+      949
+     ],
+     [
+      160.4,
+      175,
+      950
+     ],
+     [
+      167.48,
+      174.64,
+      952
+     ],
+     [
+      175.35,
+      177.41,
+      953
+     ],
+     [
+      182.07,
+      181.4,
+      1082
+     ],
+     [
+      187.9,
+      180.68,
+      1083
+     ],
+     [
+      197.2,
+      183.5,
+      1086
+     ],
+     [
+      202.32,
+      183.01,
+      1085
+     ],
+     [
+      209.46,
+      179.33,
+      1087
+     ],
+     [
+      218.41,
+      183.27,
+      1088
+     ],
+     [
+      223.44,
+      186.01,
+      1214
+     ],
+     [
+      228.78,
+      187.83,
+      1090
+     ],
+     [
+      234.39,
+      190.51,
+      1216
+     ],
+     [
+      239.9,
+      190.4,
+      1218
+     ],
+     [
+      245.26,
+      187.51,
+      1219
+     ],
+     [
+      253.1,
+      186.6,
+      1092
+     ],
+     [
+      265.22,
+      190.12,
+      1220
+     ],
+     [
+      269.86,
+      194.31,
+      1222
+     ],
+     [
+      275,
+      195.1,
+      1224
+     ],
+     [
+      278.17,
+      194.24,
+      1226
+     ],
+     [
+      281.83,
+      194.59,
+      1225
+     ],
+     [
+      286.44,
+      196.85,
+      1339
+     ],
+     [
+      292.7,
+      196,
+      1230
+     ],
+     [
+      298.08,
+      197.58,
+      1229
+     ],
+     [
+      304.4,
+      196.3,
+      1228
+     ],
+     [
+      309.04,
+      199.05,
+      1343
+     ],
+     [
+      317.52,
+      200.12,
+      1345
+     ],
+     [
+      330.9,
+      199.3,
+      1236
+     ],
+     [
+      338.33,
+      203.08,
+      1348
+     ],
+     [
+      345.87,
+      205.79,
+      1349
+     ],
+     [
+      353.7,
+      205,
+      1350
+     ],
+     [
+      358.01,
+      206.04,
+      1352
+     ],
+     [
+      361.49,
+      205.06,
+      1351
+     ],
+     [
+      364.9,
+      205.78,
+      1353
+     ],
+     [
+      375.07,
+      210.12,
+      1469
+     ],
+     [
+      382.37,
+      209.69,
+      1470
+     ],
+     [
+      388.99,
+      209.99,
+      1356
+     ],
+     [
+      394.43,
+      210.79,
+      1471
+     ],
+     [
+      401.11,
+      208.62,
+      1473
+     ],
+     [
+      408.79,
+      210.28,
+      1474
+     ],
+     [
+      417.3,
+      213.94,
+      1475
+     ],
+     [
+      426.39,
+      210.89,
+      1476
+     ],
+     [
+      436.65,
+      214.89,
+      1477
+     ],
+     [
+      451.1,
+      216.15,
+      1478
+     ],
+     [
+      458.47,
+      218.92,
+      1479
+     ],
+     [
+      465.87,
+      225.06,
+      1576
+     ],
+     [
+      476.35,
+      227.37,
+      1577
+     ],
+     [
+      484.33,
+      225.54,
+      1578
+     ],
+     [
+      492.6,
+      224.09,
+      1579
+     ],
+     [
+      502.03,
+      224.69,
+      1580
+     ],
+     [
+      514.24,
+      231.07,
+      1682
+     ],
+     [
+      522.43,
+      230.38,
+      1683
+     ],
+     [
+      529.5,
+      229.99,
+      1583
+     ],
+     [
+      534.86,
+      231.36,
+      1684
+     ],
+     [
+      540.43,
+      229.99,
+      1685
+     ],
+     [
+      546.72,
+      229.72,
+      1584
+     ],
+     [
+      558.94,
+      233.31,
+      1686
+     ],
+     [
+      566.49,
+      230.45,
+      1687
+     ],
+     [
+      575.16,
+      230.53,
+      1688
+     ],
+     [
+      582.83,
+      236.3,
+      1689
+     ],
+     [
+      590.95,
+      241.9,
+      1784
+     ],
+     [
+      599.6,
+      243.09,
+      1785
+     ],
+     [
+      607.28,
+      241.45,
+      1786
+     ],
+     [
+      614.7,
+      240.85,
+      1692
+     ],
+     [
+      622.4,
+      243.75,
+      1787
+     ],
+     [
+      631.89,
+      242.87,
+      1788
+     ],
+     [
+      634.99,
+      244.72,
+      1789
+     ],
+     [
+      650.13,
+      246.68,
+      1790
+     ],
+     [
+      659.31,
+      254.79,
+      1886
+     ],
+     [
+      666.08,
+      241.88,
+      1792
+     ],
+     [
+      668.5,
+      254.64,
+      1887
+     ],
+     [
+      675.03,
+      253.02,
+      1793
+     ],
+     [
+      680.36,
+      256.71,
+      1888
+     ],
+     [
+      687.4,
+      255.48,
+      1889
+     ],
+     [
+      693.59,
+      247.42,
+      1794
+     ],
+     [
+      704.81,
+      252.28,
+      1890
+     ],
+     [
+      711.11,
+      252.43,
+      1891
+     ],
+     [
+      721.29,
+      255.35,
+      1892
+     ],
+     [
+      731.33,
+      258.56,
+      1987
+     ],
+     [
+      741.3,
+      256.34,
+      1894
+     ],
+     [
+      749,
+      258.65,
+      1895
+     ],
+     [
+      756.08,
+      262.6,
+      1989
+     ],
+     [
+      765.33,
+      263.13,
+      1990
+     ],
+     [
+      775.64,
+      261.33,
+      1991
+     ],
+     [
+      782.88,
+      264.66,
+      1992
+     ],
+     [
+      790.06,
+      266.98,
+      1993
+     ],
+     [
+      796.84,
+      267.04,
+      2080
+     ],
+     [
+      805.26,
+      267.45,
+      1994
+     ],
+     [
+      811.92,
+      269.41,
+      2082
+     ],
+     [
+      817.84,
+      268.34,
+      1995
+     ],
+     [
+      826.36,
+      271.18,
+      2083
+     ],
+     [
+      838.66,
+      277.8,
+      2084
+     ],
+     [
+      848.47,
+      272.95,
+      2085
+     ],
+     [
+      856.55,
+      272.74,
+      2086
+     ],
+     [
+      863.95,
+      277.86,
+      2178
+     ],
+     [
+      869.43,
+      278.83,
+      2087
+     ],
+     [
+      880.23,
+      281.16,
+      2179
+     ],
+     [
+      891.69,
+      283.62,
+      2180
+     ],
+     [
+      909.39,
+      281.27,
+      2182
+     ],
+     [
+      914.08,
+      282.63,
+      2091
+     ],
+     [
+      920.5,
+      284.04,
+      2183
+     ],
+     [
+      927.25,
+      281.3,
+      2184
+     ],
+     [
+      936.18,
+      285.54,
+      2185
+     ],
+     [
+      942.06,
+      288.85,
+      2276
+     ],
+     [
+      948.68,
+      288.12,
+      2186
+     ],
+     [
+      954.74,
+      288.67,
+      2278
+     ],
+     [
+      961.87,
+      290.1,
+      2187
+     ],
+     [
+      971.21,
+      293.98,
+      2279
+     ],
+     [
+      981.25,
+      292.86,
+      2280
+     ],
+     [
+      993.78,
+      293.95,
+      2281
+     ],
+     [
+      1000.01,
+      291.48,
+      2282
+     ],
+     [
+      1004.77,
+      290.95,
+      2191
+     ],
+     [
+      1010.87,
+      292.8,
+      2283
+     ],
+     [
+      1018.45,
+      297.69,
+      2284
+     ],
+     [
+      1024.13,
+      299,
+      2374
+     ],
+     [
+      1031.2,
+      295.41,
+      2285
+     ],
+     [
+      1031.04,
+      305.26,
+      2375
+     ],
+     [
+      1047.14,
+      298.52,
+      2286
+     ],
+     [
+      1055.47,
+      302.58,
+      2377
+     ],
+     [
+      1062.8,
+      302.63,
+      2378
+     ],
+     [
+      1070.34,
+      301.74,
+      2379
+     ],
+     [
+      1084.58,
+      304.53,
+      2380
+     ],
+     [
+      1092.61,
+      306.38,
+      2381
+     ],
+     [
+      1098.02,
+      308.73,
+      2471
+     ],
+     [
+      1102.5,
+      306.82,
+      2382
+     ],
+     [
+      1112.41,
+      309.05,
+      2383
+     ],
+     [
+      1116.79,
+      314.44,
+      2473
+     ],
+     [
+      1129.41,
+      312.99,
+      2474
+     ],
+     [
+      1136.01,
+      315.04,
+      2475
+     ],
+     [
+      1145.04,
+      313.09,
+      2476
+     ],
+     [
+      1159.84,
+      316.15,
+      2477
+     ],
+     [
+      1166.51,
+      314.22,
+      2478
+     ],
+     [
+      1175.98,
+      313.83,
+      2479
+     ],
+     [
+      1181.2,
+      318.4,
+      2481
+     ],
+     [
+      1186.5,
+      323.06,
+      2577
+     ],
+     [
+      1194.62,
+      323.04,
+      2579
+     ],
+     [
+      1200.79,
+      322.92,
+      2484
+     ],
+     [
+      1206.25,
+      325.61,
+      2581
+     ]
+    ],
+    "name": "Loidhne Fenn",
+    "note": "Fenn's line, 26 an Giblean, AE 7: on the survey of the beacon headlands the human navigator James Fenn runs a line of sights across the whole island, from the open sea off the north-west, where ships coming down from the north first raise the land, to the water off the eastern cape. He made it a hundred and fifty-five miles, some thirty of them sea at the western end: the first measure of Dia-thìr from side to side, to which every chart the Company drew was scaled. The ruler on the map is his line; this is its course over the land."
+   },
+   "links": [
+    [
+     944,
+     945
+    ],
+    [
+     945,
+     946
+    ],
+    [
+     946,
+     947
+    ],
+    [
+     947,
+     948
+    ],
+    [
+     948,
+     1080
+    ],
+    [
+     953,
+     1082
+    ],
+    [
+     1082,
+     1083
+    ],
+    [
+     1083,
+     1086
+    ],
+    [
+     1085,
+     1086
+    ],
+    [
+     1085,
+     1087
+    ],
+    [
+     1087,
+     1088
+    ],
+    [
+     1088,
+     1214
+    ],
+    [
+     1090,
+     1214
+    ],
+    [
+     1090,
+     1216
+    ],
+    [
+     1092,
+     1220
+    ],
+    [
+     1220,
+     1222
+    ],
+    [
+     1222,
+     1224
+    ],
+    [
+     1224,
+     1226
+    ],
+    [
+     1225,
+     1226
+    ],
+    [
+     1225,
+     1339
+    ],
+    [
+     1228,
+     1229
+    ],
+    [
+     1228,
+     1343
+    ],
+    [
+     1229,
+     1230
+    ],
+    [
+     1230,
+     1339
+    ],
+    [
+     1236,
+     1345
+    ],
+    [
+     1236,
+     1348
+    ],
+    [
+     1343,
+     1345
+    ],
+    [
+     1348,
+     1349
+    ],
+    [
+     1349,
+     1350
+    ],
+    [
+     1350,
+     1352
+    ],
+    [
+     1351,
+     1352
+    ],
+    [
+     1351,
+     1353
+    ],
+    [
+     1353,
+     1469
+    ],
+    [
+     1356,
+     1470
+    ],
+    [
+     1469,
+     1470
+    ],
+    [
+     1471,
+     1473
+    ],
+    [
+     1473,
+     1474
+    ],
+    [
+     1476,
+     1477
+    ],
+    [
+     1477,
+     1478
+    ],
+    [
+     1478,
+     1479
+    ],
+    [
+     1479,
+     1576
+    ],
+    [
+     1578,
+     1579
+    ],
+    [
+     1579,
+     1580
+    ],
+    [
+     1580,
+     1682
+    ],
+    [
+     1583,
+     1683
+    ],
+    [
+     1583,
+     1684
+    ],
+    [
+     1584,
+     1685
+    ],
+    [
+     1584,
+     1686
+    ],
+    [
+     1682,
+     1683
+    ],
+    [
+     1684,
+     1685
+    ],
+    [
+     1686,
+     1687
+    ],
+    [
+     1689,
+     1784
+    ],
+    [
+     1692,
+     1787
+    ],
+    [
+     1784,
+     1785
+    ],
+    [
+     1785,
+     1786
+    ],
+    [
+     1787,
+     1788
+    ],
+    [
+     1788,
+     1789
+    ],
+    [
+     1789,
+     1790
+    ],
+    [
+     1790,
+     1886
+    ],
+    [
+     1792,
+     1886
+    ],
+    [
+     1792,
+     1887
+    ],
+    [
+     1793,
+     1888
+    ],
+    [
+     1888,
+     1889
+    ],
+    [
+     1891,
+     1892
+    ],
+    [
+     1892,
+     1987
+    ],
+    [
+     1894,
+     1895
+    ],
+    [
+     1894,
+     1987
+    ],
+    [
+     1895,
+     1989
+    ],
+    [
+     1989,
+     1990
+    ],
+    [
+     1990,
+     1991
+    ],
+    [
+     1991,
+     1992
+    ],
+    [
+     1993,
+     2080
+    ],
+    [
+     1994,
+     2080
+    ],
+    [
+     1994,
+     2082
+    ],
+    [
+     1995,
+     2082
+    ],
+    [
+     1995,
+     2083
+    ],
+    [
+     2083,
+     2084
+    ],
+    [
+     2091,
+     2183
+    ],
+    [
+     2179,
+     2180
+    ],
+    [
+     2180,
+     2182
+    ],
+    [
+     2184,
+     2185
+    ],
+    [
+     2185,
+     2276
+    ],
+    [
+     2186,
+     2276
+    ],
+    [
+     2186,
+     2278
+    ],
+    [
+     2187,
+     2278
+    ],
+    [
+     2187,
+     2279
+    ],
+    [
+     2279,
+     2280
+    ],
+    [
+     2280,
+     2281
+    ],
+    [
+     2281,
+     2282
+    ],
+    [
+     2283,
+     2284
+    ],
+    [
+     2284,
+     2374
+    ],
+    [
+     2285,
+     2374
+    ],
+    [
+     2285,
+     2375
+    ],
+    [
+     2286,
+     2375
+    ],
+    [
+     2378,
+     2379
+    ],
+    [
+     2379,
+     2380
+    ],
+    [
+     2380,
+     2381
+    ],
+    [
+     2381,
+     2471
+    ],
+    [
+     2382,
+     2383
+    ],
+    [
+     2382,
+     2471
+    ],
+    [
+     2383,
+     2473
+    ],
+    [
+     2473,
+     2474
+    ],
+    [
+     2474,
+     2475
+    ],
+    [
+     2475,
+     2476
+    ],
+    [
+     2476,
+     2477
+    ],
+    [
+     2478,
+     2479
+    ],
+    [
+     2479,
+     2481
+    ],
+    [
+     2484,
+     2579
+    ],
+    [
+     2484,
+     2581
+    ],
+    [
+     2577,
+     2579
+    ]
+   ],
+   "d": "M115.9,178.7C115.9,178.7,119.8,173,122.2,171.1C124.6,169.2,127.9,167.6,130.1,167.3C132.2,166.9,133.6,168.2,135.3,168.7C137,169.2,138.2,168.4,140.5,170.2C143.1,172.1,147.9,179.7,150.2,180.6C152.3,181.5,152.6,177.5,154.3,176.6C156,175.6,158.2,175.3,160.4,175C162.6,174.7,165,174.3,167.5,174.6C170,175,172.9,176.3,175.4,177.4C177.8,178.5,180,180.9,182.1,181.4C184.1,181.9,185.5,180.4,187.9,180.7C190.5,181,194.8,183.1,197.2,183.5C199.5,183.8,200.3,183.7,202.3,183C204.4,182.3,206.8,179.3,209.5,179.3C212.2,179.3,216.1,182.1,218.4,183.3C220.6,184.3,221.7,185.3,223.4,186C225.2,186.8,227,187.1,228.8,187.8C230.6,188.6,232.5,190.1,234.4,190.5C236.2,190.9,238.1,190.9,239.9,190.4C241.7,189.9,243.1,188.1,245.3,187.5C247.5,186.9,249.9,186.2,253.1,186.6C256.5,187,262.4,188.8,265.2,190.1C267.8,191.4,268.2,193.5,269.9,194.3C271.5,195.1,273.6,195.1,275,195.1C276.3,195.1,277,194.3,278.2,194.2C279.3,194.2,280.5,194.2,281.8,194.6C283.2,195,284.7,196.6,286.4,196.9C288.3,197.1,290.8,195.9,292.7,196C294.6,196.1,296.1,197.5,298.1,197.6C300,197.6,302.6,196,304.4,196.3C306.2,196.6,306.9,198.4,309,199.1C311.2,199.7,314,200.1,317.5,200.1C321.2,200.2,327.4,198.8,330.9,199.3C334.2,199.8,335.8,202,338.3,203.1C340.8,204.2,343.3,205.5,345.9,205.8C348.4,206.1,351.7,204.9,353.7,205C355.6,205.1,356.7,206,358,206C359.3,206,360.3,205.1,361.5,205.1C362.6,205,362.9,205,364.9,205.8C367.2,206.6,372.1,209.5,375.1,210.1C377.9,210.7,380,209.7,382.4,209.7C384.7,209.7,387,209.8,389,210C391,210.2,392.4,211,394.4,210.8C396.5,210.6,398.7,208.7,401.1,208.6C403.5,208.5,406.1,209.4,408.8,210.3C411.5,211.2,414.4,213.8,417.3,213.9C420.2,214,423.2,210.7,426.4,210.9C429.6,211,432.6,214,436.7,214.9C440.8,215.8,447.4,215.4,451.1,216.2C454.6,216.8,456,217.5,458.5,218.9C461,220.4,462.9,223.7,465.9,225.1C468.9,226.5,473.2,227.3,476.4,227.4C479.4,227.4,481.6,226.1,484.3,225.5C487,225,489.7,224.2,492.6,224.1C495.6,223.9,498.5,223.6,502,224.7C505.7,225.8,510.8,230.2,514.2,231.1C517.5,231.9,519.9,230.6,522.4,230.4C525,230.2,527.4,229.8,529.5,230C531.5,230.2,533,231.4,534.9,231.4C536.7,231.4,538.5,230.3,540.4,230C542.4,229.7,543.8,229.2,546.7,229.7C549.8,230.2,555.6,233.2,558.9,233.3C562.1,233.4,563.8,230.9,566.5,230.5C569.2,230,572.4,229.6,575.2,230.5C577.9,231.5,580.2,234.4,582.8,236.3C585.5,238.2,588.1,240.8,591,241.9C593.7,243,596.9,243.2,599.6,243.1C602.3,243,604.8,241.8,607.3,241.5C609.8,241.1,612.2,240.5,614.7,240.9C617.2,241.2,619.6,243.4,622.4,243.8C625.3,244.1,629.8,242.7,631.9,242.9C633.8,243.1,632.4,244.1,635,244.7C638,245.4,646.1,245,650.1,246.7C654.1,248.4,656.7,255.5,659.3,254.8C662,254,664.5,241.9,666.1,241.9C667.6,241.9,666.9,252.9,668.5,254.6C670,256.3,673.1,252.7,675,253C677,253.4,678.3,256.3,680.4,256.7C682.4,257.1,685.2,257,687.4,255.5C689.7,253.9,690.7,248,693.6,247.4C696.5,246.8,701.8,251.5,704.8,252.3C707.6,253,708.5,252,711.1,252.4C713.9,252.9,717.9,254.3,721.3,255.4C724.7,256.4,728,258.4,731.3,258.6C734.7,258.7,738.3,256.3,741.3,256.3C744.2,256.4,746.5,257.6,749,258.7C751.5,259.7,753.4,261.9,756.1,262.6C758.8,263.4,762.1,263.3,765.3,263.1C768.6,262.9,772.7,261,775.6,261.3C778.5,261.6,780.5,263.7,782.9,264.7C785.3,265.6,787.7,266.6,790.1,267C792.4,267.4,794.3,267,796.8,267C799.4,267.1,802.7,267,805.3,267.5C807.7,267.8,809.8,269.3,811.9,269.4C814,269.6,815.5,268.1,817.8,268.3C820.3,268.6,823,269.7,826.4,271.2C829.9,272.8,834.9,277.5,838.7,277.8C842.3,278,845.5,273.8,848.5,273C851.4,272.1,854,271.9,856.6,272.7C859.1,273.6,861.8,276.9,864,277.9C866,278.8,866.9,278.3,869.4,278.8C872.2,279.4,876.5,280.4,880.2,281.2C884,282,887,283.6,891.7,283.6C896.6,283.7,905.7,281.4,909.4,281.3C912.6,281.2,912.3,282.2,914.1,282.6C916,283.1,918.3,284.3,920.5,284C922.7,283.8,924.7,281.1,927.3,281.3C929.9,281.5,933.7,284.3,936.2,285.5C938.6,286.8,940,288.4,942.1,288.9C944.1,289.3,946.6,288.1,948.7,288.1C950.8,288.1,952.6,288.3,954.7,288.7C957,289,959.2,289.2,961.9,290.1C964.6,291,968,293.5,971.2,294C974.4,294.4,977.5,292.9,981.3,292.9C985,292.8,990.6,294.2,993.8,294C996.8,293.7,998.2,292,1000,291.5C1001.8,291,1003,290.7,1004.8,291C1006.6,291.2,1008.6,291.7,1010.9,292.8C1013.2,293.9,1016.2,296.7,1018.5,297.7C1020.6,298.7,1022,299.4,1024.1,299C1026.3,298.6,1030,294.4,1031.2,295.4C1032.4,296.4,1028.6,304.6,1031,305.3C1033.6,306,1043,298.9,1047.1,298.5C1051,298.2,1052.8,301.9,1055.5,302.6C1058,303.2,1060.3,302.8,1062.8,302.6C1065.3,302.5,1066.9,301.5,1070.3,301.7C1074,302,1080.8,303.7,1084.6,304.5C1088.1,305.3,1090.3,305.7,1092.6,306.4C1094.8,307.1,1096.4,308.7,1098,308.7C1099.7,308.8,1100.2,306.8,1102.5,306.8C1104.9,306.8,1110,307.7,1112.4,309.1C1114.7,310.3,1114.1,313.7,1116.8,314.4C1119.6,315.2,1126.2,312.9,1129.4,313C1132.5,313.1,1133.5,315,1136,315C1138.6,315.1,1141.2,312.9,1145,313.1C1149.1,313.2,1156.2,316,1159.8,316.2C1163.2,316.3,1163.9,314.6,1166.5,314.2C1169.2,313.8,1173.5,313.1,1176,313.8C1178.4,314.5,1179.4,316.9,1181.2,318.4C1183,319.9,1184.3,322.3,1186.5,323.1C1188.7,323.9,1192.2,323.1,1194.6,323C1197,323,1198.9,322.5,1200.8,322.9C1202.7,323.3,1206.3,325.6,1206.3,325.6"
+  },
+  {
+   "record": 37,
+   "action": "add_route",
+   "route": {
+    "i": 453,
+    "group": "trails",
+    "feature": 2,
+    "points": [
+     [
+      858.01,
+      371.08,
+      2909
+     ],
+     [
+      852.82,
+      356.9,
+      2818
+     ],
+     [
+      855.76,
+      348.19,
+      2734
+     ],
+     [
+      853.46,
+      339.62,
+      2639
+     ],
+     [
+      842.67,
+      322.82,
+      2544
+     ],
+     [
+      836.09,
+      326.08,
+      2543
+     ],
+     [
+      828.52,
+      326.28,
+      2542
+     ],
+     [
+      818.27,
+      313.83,
+      2444
+     ],
+     [
+      827.61,
+      307.3,
+      2355
+     ],
+     [
+      817.41,
+      302.98,
+      2354
+     ],
+     [
+      814.74,
+      296.39,
+      2264
+     ],
+     [
+      812.6,
+      288.7,
+      2173
+     ],
+     [
+      799.86,
+      289.96,
+      2172
+     ],
+     [
+      795.67,
+      290.58,
+      2262
+     ],
+     [
+      790.63,
+      289.29,
+      2171
+     ],
+     [
+      782.49,
+      286.34,
+      2170
+     ],
+     [
+      777.45,
+      280.93,
+      2169
+     ],
+     [
+      764.09,
+      280.62,
+      2168
+     ],
+     [
+      754.24,
+      275.43,
+      2076
+     ],
+     [
+      741.63,
+      273.02,
+      2075
+     ],
+     [
+      731.04,
+      267.17,
+      1987
+     ],
+     [
+      719.74,
+      267.66,
+      1986
+     ],
+     [
+      710.66,
+      262.9,
+      1985
+     ],
+     [
+      707.13,
+      255.37,
+      1891
+     ],
+     [
+      704.81,
+      252.28,
+      1890
+     ],
+     [
+      693.59,
+      247.42,
+      1794
+     ],
+     [
+      689.25,
+      233.58,
+      1699
+     ],
+     [
+      679.52,
+      229.07,
+      1698
+     ],
+     [
+      673.41,
+      221.11,
+      1596
+     ],
+     [
+      677.42,
+      213.53,
+      1500
+     ],
+     [
+      676.12,
+      206.85,
+      1385
+     ],
+     [
+      671.93,
+      196.38,
+      1270
+     ],
+     [
+      671.23,
+      178.36,
+      1145
+     ],
+     [
+      667.88,
+      176.25,
+      1017
+     ],
+     [
+      666.02,
+      172.5,
+      1016
+     ],
+     [
+      668,
+      165.9,
+      877
+     ],
+     [
+      673.74,
+      157.97,
+      876
+     ],
+     [
+      668.12,
+      149.56,
+      741
+     ],
+     [
+      668.3,
+      143.4,
+      613
+     ],
+     [
+      671.85,
+      137.34,
+      612
+     ],
+     [
+      659.47,
+      145.42,
+      611
+     ],
+     [
+      651.88,
+      157.03,
+      874
+     ],
+     [
+      640.49,
+      162.61,
+      873
+     ],
+     [
+      633.05,
+      170.23,
+      1013
+     ],
+     [
+      631.21,
+      178.82,
+      1141
+     ],
+     [
+      623.33,
+      191.11,
+      1266
+     ],
+     [
+      624.12,
+      204.76,
+      1380
+     ],
+     [
+      618.69,
+      217.18,
+      1494
+     ],
+     [
+      618.13,
+      226.67,
+      1591
+     ],
+     [
+      616.2,
+      233.58,
+      1692
+     ],
+     [
+      606.04,
+      247.67,
+      1786
+     ],
+     [
+      596.43,
+      255.95,
+      1880
+     ],
+     [
+      593.41,
+      261.53,
+      1974
+     ],
+     [
+      589.3,
+      269.11,
+      1973
+     ],
+     [
+      588.54,
+      278.22,
+      2060
+     ],
+     [
+      588.12,
+      281.24,
+      2151
+     ],
+     [
+      573.73,
+      292.93,
+      2241
+     ],
+     [
+      567.03,
+      300.23,
+      2240
+     ],
+     [
+      563.41,
+      302.38,
+      2330
+     ],
+     [
+      555.8,
+      307.92,
+      2329
+     ],
+     [
+      552.36,
+      317.86,
+      2511
+     ],
+     [
+      548.24,
+      322.9,
+      2510
+     ],
+     [
+      538.36,
+      333.43,
+      2603
+     ],
+     [
+      527.53,
+      340.69,
+      2602
+     ],
+     [
+      516.95,
+      350.26,
+      2696
+     ],
+     [
+      510.97,
+      358.34,
+      2784
+     ],
+     [
+      508.32,
+      371.38,
+      2870
+     ],
+     [
+      510.35,
+      381.36,
+      2967
+     ],
+     [
+      513.91,
+      389.33,
+      3057
+     ],
+     [
+      513.94,
+      402.38,
+      3148
+     ],
+     [
+      511.3,
+      409.59,
+      3231
+     ],
+     [
+      511.2,
+      420.58,
+      3313
+     ],
+     [
+      507.47,
+      428.54,
+      3397
+     ],
+     [
+      509.41,
+      439.79,
+      3400
+     ]
+    ],
+    "name": "Slighe an t-Seabhaig Luaidhe",
+    "note": "The Leaden Hawk's road, 19 an Giblean, AE 150 to 25 an Giblean, AE 150: Buidheann an t-Seabhaig Luaidhe, seven hawk-faithful crewmen with the council's letters to the Hawk coast, go on foot from An Cupa Dàna at Cuan dhearg past the burned stage at Seann Toll, through Baile thais and over the hills by Achadh dhomhain and Cuan bheag to Inis mhin, then by carriage across country, off every road, to the grasslands above Tobar dhomhain and down to Inis thais, six days after they left. The map's journey of the company follows the same road."
+   },
+   "links": [
+    [
+     611,
+     874
+    ],
+    [
+     873,
+     874
+    ],
+    [
+     873,
+     1013
+    ],
+    [
+     1013,
+     1141
+    ],
+    [
+     1141,
+     1266
+    ],
+    [
+     1266,
+     1380
+    ],
+    [
+     1380,
+     1494
+    ],
+    [
+     1494,
+     1591
+    ],
+    [
+     1591,
+     1692
+    ],
+    [
+     1692,
+     1786
+    ],
+    [
+     1786,
+     1880
+    ],
+    [
+     1880,
+     1974
+    ],
+    [
+     1973,
+     1974
+    ],
+    [
+     1973,
+     2060
+    ],
+    [
+     2060,
+     2151
+    ],
+    [
+     2151,
+     2241
+    ],
+    [
+     2172,
+     2173
+    ],
+    [
+     2172,
+     2262
+    ],
+    [
+     2173,
+     2264
+    ],
+    [
+     2240,
+     2241
+    ],
+    [
+     2240,
+     2330
+    ],
+    [
+     2329,
+     2330
+    ],
+    [
+     2329,
+     2511
+    ],
+    [
+     2354,
+     2355
+    ],
+    [
+     2355,
+     2444
+    ],
+    [
+     2444,
+     2542
+    ],
+    [
+     2510,
+     2511
+    ],
+    [
+     2510,
+     2603
+    ],
+    [
+     2602,
+     2603
+    ],
+    [
+     2602,
+     2696
+    ],
+    [
+     2696,
+     2784
+    ],
+    [
+     2784,
+     2870
+    ],
+    [
+     2870,
+     2967
+    ],
+    [
+     2967,
+     3057
+    ],
+    [
+     3057,
+     3148
+    ],
+    [
+     3148,
+     3231
+    ],
+    [
+     3231,
+     3313
+    ],
+    [
+     3313,
+     3397
+    ],
+    [
+     3397,
+     3400
+    ]
+   ],
+   "d": "M858,371.1C858,371.1,853.1,360.8,852.8,356.9C852.5,353.2,855.7,351.1,855.8,348.2C855.9,345.3,855.5,343.6,853.5,339.6C851.3,335.3,845.7,324.9,842.7,322.8C840,321,838.4,325.5,836.1,326.1C833.7,326.7,831.4,328.1,828.5,326.3C825.5,324.3,818.3,317,818.3,313.8C818.2,310.8,827.8,309.1,827.6,307.3C827.5,305.5,819.5,304.9,817.4,303C815.4,301.2,815.5,298.8,814.7,296.4C813.9,294,814.9,289.8,812.6,288.7C810.1,287.5,802.7,289.6,799.9,290C797.3,290.2,797.2,290.7,795.7,290.6C794.1,290.5,792.7,290,790.6,289.3C788.4,288.6,784.7,287.8,782.5,286.3C780.3,285,780.4,281.9,777.5,280.9C774.4,279.9,768,281.6,764.1,280.6C760.3,279.7,758,276.7,754.2,275.4C750.5,274.1,745.5,274.4,741.6,273C737.8,271.6,734.7,268.1,731,267.2C727.4,266.3,723.2,268.4,719.7,267.7C716.4,266.9,712.8,265,710.7,262.9C708.6,260.9,708.1,257.2,707.1,255.4C706.2,253.7,706.8,253.5,704.8,252.3C702.6,250.9,696.2,250.5,693.6,247.4C691,244.3,691.7,236.6,689.3,233.6C686.9,230.6,682.2,231.2,679.5,229.1C676.9,227,673.7,223.7,673.4,221.1C673.1,218.5,677,215.9,677.4,213.5C677.8,211.2,677,209.6,676.1,206.9C675.2,203.9,672.8,201,671.9,196.4C671.1,191.6,672,181.6,671.2,178.4C670.5,175.6,668.7,177.2,667.9,176.3C667,175.3,666,174.2,666,172.5C666,170.8,666.8,168.3,668,165.9C669.3,163.4,673.7,160.7,673.7,158C673.8,155.2,669,152,668.1,149.6C667.3,147.2,667.7,145.4,668.3,143.4C668.9,141.4,673.1,137.2,671.9,137.3C670.5,137.5,662.8,142.1,659.5,145.4C656.2,148.7,655.1,154.2,651.9,157C648.7,159.9,643.6,160.4,640.5,162.6C637.4,164.8,634.6,167.5,633.1,170.2C631.5,172.9,632.7,175.5,631.2,178.8C629.6,182.4,624.5,186.8,623.3,191.1C622.2,195.4,624.9,200.4,624.1,204.8C623.3,209.1,619.7,213.5,618.7,217.2C617.7,220.8,618.6,223.9,618.1,226.7C617.7,229.4,618,230.3,616.2,233.6C614.2,237.1,609.4,243.9,606,247.7C602.8,251.3,598.5,253.6,596.4,256C594.5,258.2,594.6,259.4,593.4,261.5C592.2,263.7,590.1,266.3,589.3,269.1C588.5,271.9,588.7,276.2,588.5,278.2C588.4,280,590,279.2,588.1,281.2C585.8,283.7,577.3,289.7,573.7,292.9C570.4,296,568.8,298.7,567,300.2C565.4,301.7,565.2,301.2,563.4,302.4C561.5,303.7,557.6,305.4,555.8,307.9C553.9,310.5,553.7,315.3,552.4,317.9C551.1,320.3,550.4,320.5,548.2,322.9C545.9,325.5,541.8,330.5,538.4,333.4C534.9,336.4,531.1,337.9,527.5,340.7C523.9,343.5,519.7,347.3,517,350.3C514.3,353.1,512.4,354.9,511,358.3C509.5,361.9,508.4,367.5,508.3,371.4C508.2,375.2,509.4,378.4,510.4,381.4C511.3,384.3,513.3,385.9,513.9,389.3C514.5,392.9,514.4,399,513.9,402.4C513.5,405.6,511.8,406.6,511.3,409.6C510.8,412.7,511.9,417.4,511.2,420.6C510.6,423.7,507.8,425.4,507.5,428.5C507.1,431.8,509.4,439.8,509.4,439.8"
+  },
+  {
+   "record": 37,
+   "action": "add_route",
+   "route": {
+    "i": 454,
+    "group": "trails",
+    "feature": 2,
+    "points": [
+     [
+      1008.24,
+      318.46,
+      2463
+     ],
+     [
+      1004.4,
+      328.7,
+      2559
+     ]
+    ],
+    "name": "Slighe nan Oilithreach",
+    "note": "The pilgrims' path from the river landing at Caol shean up the valley to Allt an Àigh, worn by 14 an Giblean, FE 57. It is walked by night, so that pilgrims reach the water in the right quarter of the moon; fishermen who walk it are said to lose fewer boats. Pilgrims of four rites paved it anew in one season (15 an Dùbhlachd, FE 2,860)."
+   },
+   "links": [
+    [
+     2463,
+     2559
+    ]
+   ],
+   "d": "M1008.2,318.5L1004.4,328.7"
+  },
+  {
+   "record": 37,
+   "action": "add_route",
+   "route": {
+    "i": 455,
+    "group": "trails",
+    "feature": 2,
+    "points": [
+     [
+      1061.05,
+      344.07,
+      2754
+     ],
+     [
+      1057.32,
+      346.27,
+      2753
+     ],
+     [
+      1046.42,
+      350.09,
+      2752
+     ],
+     [
+      1037.56,
+      347.26,
+      2751
+     ],
+     [
+      1032.99,
+      340.93,
+      2656
+     ],
+     [
+      1025.01,
+      333.81,
+      2655
+     ],
+     [
+      1007.83,
+      336.58,
+      2654
+     ],
+     [
+      1004.4,
+      328.7,
+      2559
+     ]
+    ],
+    "name": "Rathad nan Oilithreach",
+    "note": "The pilgrims' road from Inis uaine to Allt an Àigh. On 1 an Cèitean, AE 108 pilgrims who keep Na Seann Spioradan came to the spring from all the east, and they gathered at Inis uaine, where the townsfolk fed them freely as the Old Spirits require and gave away more water than they kept (30 an Cèitean, AE 108)."
+   },
+   "links": [
+    [
+     2559,
+     2654
+    ]
+   ],
+   "d": "M1061.1,344.1C1061.1,344.1,1059.5,345.3,1057.3,346.3C1054.9,347.3,1049.7,349.9,1046.4,350.1C1043.2,350.2,1039.8,348.8,1037.6,347.3C1035.4,345.7,1035,343.1,1033,340.9C1030.9,338.7,1029,334.6,1025,333.8C1020.8,333,1011.2,337.6,1007.8,336.6C1004.7,335.6,1004.4,328.7,1004.4,328.7"
+  },
+  {
+   "record": 38,
+   "path": "[0].note",
+   "value": "From 9 an t-Ògmhios, AE 73 the Green Death went through the mining camps: a greenish pallor, then a cough that brings up dark dust, then weakness. It was first marked at Achadh dhomhain, where the camp buried forty in the first month in the field still called An Acair Uaine (5 an Dùbhlachd, AE 73), and it spread along the coal roads to twenty-six settlements (13 am Faoilleach, AE 74). The coal dust was blamed; no inquiry was ever finished, and no reckoning of all the dead survives."
+  },
+  {
+   "record": 38,
+   "path": "[1].note",
+   "value": "The Great Hunger, from 3 am Màrt, AE 94: the harvest failed in thirty-four settlements along the north-west shore and the hills behind it (22 an Cèitean, AE 94), the worse because the Levy had taken so many to the pits that too few were left to till the land. It was worst at Baile chrom, whose people could see the new beacon from their empty fields (1 an Giblean, AE 94). The Levy was set aside too late for the harvest and never repealed (20 an Gearran, AE 97)."
+  },
+  {
+   "record": 38,
+   "path": "[2].note",
+   "value": "The Long Drought lay on the island's dry season three years from 25 an Lùnastal, AE 106. The custodians counted ten districts of the east as drought country, worst at Achadh shean, Àth uaine, Achadh àrsaidh and Muileann chiar (27 an t-Iuchar, AE 107); fewer than half of Achadh shean's cattle reached water (28 an t-Ògmhios, AE 107), and the fever of foul water that followed killed seventeen at Baile Mòr ruadh (25 an Giblean, AE 109)."
+  },
+  {
+   "record": 38,
+   "path": "[3].note",
+   "value": "The Rending, 9 an t-Ògmhios, AE 137: in the hills east of the capital, about Cill ghlas, the earth tore open along a fault beneath a common working, and dozens were killed. The Company shut and fenced the whole district (13 an t-Samhain, AE 137) for a generation. On 1 an t-Iuchar, SE 39 a gallery under Muileann dhearg gave way along a line the surveyors had called sound, and thirty-one hewers died: the same fault."
+  },
+  {
+   "record": 38,
+   "path": "[4].note",
+   "value": "The Great Wave, 3 an t-Ògmhios, SE 4: it fell without warning on the southern coast and laid waste Cnoc chaol, Cuan dhearg and Achadh mhin in one night, and ran on up the gulf to break the quays of Ros gharbh. The relief parties counted a little over forty dead (24 an t-Samhain, SE 4). It was the first calamity the new kingdom met by its own means."
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 5,
+    "name": "Ceò Mhanannain",
+    "type": "Custom",
+    "cells": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63,
+     64,
+     65,
+     66,
+     68,
+     69,
+     70,
+     71,
+     72,
+     73,
+     74,
+     75,
+     76,
+     77,
+     78,
+     79,
+     80,
+     86,
+     87,
+     88,
+     89,
+     90,
+     91,
+     92,
+     93,
+     94,
+     95,
+     102,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115,
+     116,
+     117,
+     118,
+     119,
+     120,
+     121,
+     123,
+     124,
+     125,
+     126,
+     127,
+     128,
+     129,
+     130,
+     131,
+     132,
+     133,
+     134,
+     135,
+     136,
+     137,
+     138,
+     149,
+     150,
+     151,
+     152,
+     153,
+     154,
+     155,
+     156,
+     157,
+     158,
+     159,
+     160,
+     161,
+     162,
+     171,
+     172,
+     173,
+     174,
+     175,
+     176,
+     177,
+     178,
+     179,
+     182,
+     183,
+     184,
+     185,
+     188,
+     192,
+     193,
+     194,
+     195,
+     196,
+     197,
+     198,
+     199,
+     200,
+     201,
+     202,
+     203,
+     204,
+     205,
+     206,
+     218,
+     219,
+     220,
+     221,
+     222,
+     223,
+     224,
+     225,
+     226,
+     227,
+     228,
+     229,
+     230,
+     231,
+     241,
+     243,
+     255,
+     256,
+     268,
+     274,
+     281,
+     283,
+     307,
+     318,
+     1329,
+     1440,
+     1550,
+     1648,
+     1749,
+     1843,
+     1844,
+     1939,
+     1940,
+     1942,
+     2032,
+     2123,
+     2124,
+     2213,
+     2302,
+     2303,
+     2304,
+     2305,
+     2306,
+     2391,
+     2392,
+     2393,
+     2394,
+     2395,
+     2485,
+     2486,
+     2487,
+     2488,
+     2579,
+     2580,
+     2582,
+     2583,
+     2584,
+     2673,
+     2674,
+     2675,
+     2676,
+     2768,
+     2769,
+     2855,
+     2856,
+     2857,
+     2951,
+     2952,
+     2953,
+     3041,
+     3042,
+     3043,
+     3132,
+     3133,
+     3134,
+     3214,
+     3215,
+     3216,
+     3217,
+     3218,
+     3296,
+     3297,
+     3380
+    ],
+    "color": "url(#hatch4)",
+    "note": "Manannan's mist on the northern and eastern seas. On the first morning the lord of the sea walked round the island's coasts and drew up his mist about it, so that no ship from beyond should find it. The fleet of the Sundering sailed into it (19 an Giblean, LE 40); it thinned in the last years of that age (27 an Dàmhair, LE 1,813) and lifted from the northern water in the winter of the Crossing (13 am Faoilleach, AE 1), when the one passage ran north-about and down to the north-west coast. Since the Severance it lies shut again (11 an t-Ògmhios, SE 3). The priests of Manannan at Seann Skell pray at every tide, A Mhanannain, cùm a' mhuir dùinte; they said it on the day the first tank-hull under Dubhan's charter went out past the north-western capes (7 an t-Sultain, DE 27)."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 6,
+    "name": "Casad Caol fhiadhaich",
+    "type": "Disease",
+    "cells": [
+     3887,
+     3811,
+     3968,
+     3967,
+     3886,
+     3809,
+     3808,
+     3810,
+     3888,
+     3729,
+     3969,
+     4037,
+     4036,
+     3889,
+     3965,
+     3885,
+     3884,
+     3804,
+     3807,
+     3806,
+     3727,
+     3728
+    ],
+    "color": "url(#hatch12)",
+    "note": "2 an Gearran, LE 156: a coughing sickness runs through Caol fhiadhaich on the south-west coast and kills some ten before it burns out. The shared meal was kept throughout, and the reeve held that it saved the rest."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 7,
+    "name": "Fiabhras Inis chrom",
+    "type": "Disease",
+    "cells": [
+     3729,
+     3812,
+     3810,
+     3811,
+     3808,
+     3728,
+     3730,
+     3813,
+     3890,
+     3889,
+     3888,
+     3731,
+     3732,
+     3968,
+     3887,
+     3809,
+     3806,
+     3727,
+     3654,
+     3656,
+     3655
+    ],
+    "color": "url(#hatch12)",
+    "note": "3 an t-Sultain, LE 624: a spotted fever kills some forty at Inis chrom. The Fianna of the Stone nursed the sick, and many of them died of it; thereafter the town is the Stone's."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 8,
+    "name": "Casad Muileann dhomhain",
+    "type": "Disease",
+    "cells": [
+     3868,
+     3946,
+     3867,
+     3785,
+     3951,
+     3949,
+     3947,
+     3866,
+     3865,
+     3948,
+     3945,
+     3784,
+     3707,
+     3786,
+     3869,
+     4023,
+     3950,
+     4018,
+     4016,
+     3942,
+     3863,
+     3864,
+     3944,
+     4015,
+     3783,
+     3705,
+     3706,
+     3630,
+     3632,
+     3708,
+     3787,
+     3870,
+     3952,
+     4024,
+     4088,
+     4022,
+     4021,
+     4019,
+     4020,
+     4017
+    ],
+    "color": "url(#hatch12)",
+    "note": "29 an Lùnastal, LE 1,079: the swallowing cough, a sickness that closes the throat, breaks out at Muileann dhomhain and moves along the coast road. The town loses near a third of its people."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 9,
+    "name": "Fiabhras nan Coigreach",
+    "type": "Disease",
+    "cells": [
+     3048,
+     3049,
+     3138,
+     3137,
+     3047,
+     3050,
+     2958,
+     2959,
+     3139,
+     3141,
+     3220,
+     3222,
+     3219,
+     3136,
+     3046,
+     2961,
+     3051,
+     2960,
+     3045,
+     2956,
+     2957,
+     2863,
+     3142,
+     3140,
+     3224,
+     3223,
+     3221,
+     3302,
+     3301,
+     3300,
+     3299,
+     3298,
+     3044,
+     3135
+    ],
+    "color": "url(#hatch12)",
+    "note": "5 an t-Samhain, AE 9: the strangers' fever comes ashore at Cuan shean with a crowded ship and runs down the west coast. Ninety-one Dia-thìrich die, and eleven humans; the custodians shut the town to ships for a season."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 10,
+    "name": "Breac Ros dhomhain",
+    "type": "Disease",
+    "cells": [
+     2975,
+     2879,
+     2880,
+     2882,
+     2976,
+     3064,
+     2974,
+     2878,
+     2792,
+     2705,
+     2707,
+     2881,
+     2883,
+     2977,
+     3066,
+     3065,
+     3155,
+     3063,
+     2973,
+     2877,
+     2790,
+     2791,
+     2611,
+     2615,
+     2706,
+     2613,
+     2793,
+     2794,
+     2884,
+     2978,
+     2886,
+     3067,
+     3158,
+     3157,
+     3156,
+     3238,
+     3154,
+     3153,
+     3062,
+     2972,
+     2876
+    ],
+    "color": "url(#hatch12)",
+    "note": "11 an Dàmhair, AE 39: a spotted pox comes ashore at Ros dhomhain on a Company ship and climbs the coal road into the camps. The Mission counts four hundred and six dead; the custodians count more, and write the difference in the margin of the Mission's list."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 11,
+    "name": "Fiabhras glas",
+    "type": "Disease",
+    "cells": [
+     981,
+     1560,
+     1859,
+     983,
+     1112,
+     1111,
+     980,
+     982,
+     842,
+     1561,
+     1660,
+     1659,
+     1559,
+     1458,
+     1461,
+     1465,
+     1860,
+     1953,
+     1952,
+     1858,
+     1764,
+     847,
+     984,
+     1113,
+     843,
+     845,
+     846,
+     1240,
+     1241,
+     1354,
+     1239,
+     1110,
+     979,
+     841,
+     709,
+     1562,
+     1662,
+     1464,
+     1563,
+     1661,
+     1759,
+     1658,
+     1557,
+     1558,
+     1457,
+     1459,
+     1460,
+     1462,
+     1861,
+     1954,
+     1765,
+     1766,
+     2041,
+     2040,
+     2039,
+     1951,
+     1950,
+     1857,
+     1856,
+     1763,
+     1669
+    ],
+    "color": "url(#hatch12)",
+    "note": "The grey fever, a fever of the chest, came in on the ships on 2 an Gearran, AE 138 and ran over the whole island, killing the young and strong more readily than the old. It returned and settled in the north-west, about Baile chrom and the towns of the concession (20 an t-Iuchar, AE 140), where it killed humans as readily as Dia-thìrich, and the Mission's hospital at Cathair gheal laid Dia-thìrich and human sick in the same wards for the first time."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 12,
+    "name": "Gorta Doire ghlas",
+    "type": "Disaster",
+    "cells": [
+     122,
+     186,
+     187,
+     189,
+     190,
+     191,
+     259,
+     260,
+     261,
+     262,
+     263,
+     264,
+     265,
+     266,
+     267,
+     269,
+     270,
+     365,
+     366,
+     367,
+     368,
+     369,
+     370,
+     371,
+     466,
+     467,
+     468,
+     469,
+     470,
+     471,
+     472,
+     479,
+     480,
+     481,
+     482,
+     483,
+     484,
+     485,
+     486,
+     487,
+     581,
+     592,
+     593,
+     597,
+     598,
+     599,
+     601,
+     602,
+     603,
+     604,
+     605,
+     607,
+     608,
+     609,
+     610,
+     715,
+     716,
+     720,
+     721,
+     722,
+     726,
+     727,
+     729,
+     730,
+     731,
+     732,
+     733,
+     734,
+     735,
+     736,
+     737,
+     738,
+     855,
+     856,
+     857,
+     858,
+     859,
+     860,
+     861,
+     862,
+     863,
+     864,
+     865,
+     866,
+     867,
+     868,
+     869,
+     870,
+     871,
+     872,
+     873,
+     980,
+     981,
+     983,
+     984,
+     997,
+     998,
+     999,
+     1000,
+     1001,
+     1002,
+     1003,
+     1004,
+     1005,
+     1006,
+     1007,
+     1008,
+     1009,
+     1010,
+     1011,
+     1012,
+     1013,
+     1114,
+     1115,
+     1116,
+     1117,
+     1118,
+     1120,
+     1121,
+     1123,
+     1124,
+     1125,
+     1126,
+     1127,
+     1128,
+     1129,
+     1130,
+     1131,
+     1132,
+     1133,
+     1134,
+     1135,
+     1136,
+     1137,
+     1138,
+     1139,
+     1140,
+     1141,
+     1242,
+     1243,
+     1244,
+     1245,
+     1246,
+     1247,
+     1248,
+     1249,
+     1250,
+     1251,
+     1252,
+     1253,
+     1254,
+     1255,
+     1256,
+     1257,
+     1258,
+     1259,
+     1260,
+     1261,
+     1262,
+     1263,
+     1264,
+     1265,
+     1266,
+     1346,
+     1355,
+     1356,
+     1357,
+     1358,
+     1359,
+     1360,
+     1361,
+     1362,
+     1363,
+     1364,
+     1365,
+     1366,
+     1367,
+     1368,
+     1369,
+     1370,
+     1371,
+     1372,
+     1373,
+     1374,
+     1375,
+     1376,
+     1377,
+     1378,
+     1379,
+     1455,
+     1456,
+     1457,
+     1458,
+     1459,
+     1460,
+     1461,
+     1462,
+     1463,
+     1464,
+     1465,
+     1471,
+     1472,
+     1473,
+     1474,
+     1475,
+     1476,
+     1477,
+     1478,
+     1479,
+     1480,
+     1481,
+     1482,
+     1483,
+     1484,
+     1485,
+     1486,
+     1487,
+     1488,
+     1489,
+     1490,
+     1491,
+     1492,
+     1493,
+     1558,
+     1559,
+     1560,
+     1561,
+     1562,
+     1563,
+     1564,
+     1565,
+     1567,
+     1568,
+     1569,
+     1570,
+     1571,
+     1572,
+     1573,
+     1574,
+     1575,
+     1576,
+     1577,
+     1578,
+     1579,
+     1580,
+     1581,
+     1582,
+     1583,
+     1584,
+     1585,
+     1586,
+     1587,
+     1588,
+     1589,
+     1590,
+     1662,
+     1663,
+     1664,
+     1665,
+     1666,
+     1667,
+     1668,
+     1669,
+     1670,
+     1671,
+     1672,
+     1673,
+     1674,
+     1675,
+     1676,
+     1677,
+     1678,
+     1679,
+     1680,
+     1681,
+     1682,
+     1683,
+     1684,
+     1685,
+     1686,
+     1687,
+     1688,
+     1689,
+     1690,
+     1761,
+     1762,
+     1763,
+     1764,
+     1765,
+     1766,
+     1767,
+     1768,
+     1769,
+     1770,
+     1771,
+     1772,
+     1773,
+     1774,
+     1775,
+     1776,
+     1777,
+     1778,
+     1779,
+     1780,
+     1781,
+     1782,
+     1783,
+     1856,
+     1857,
+     1858,
+     1859,
+     1860,
+     1861,
+     1862,
+     1863,
+     1864,
+     1865,
+     1866,
+     1867,
+     1868,
+     1869,
+     1870,
+     1871,
+     1872,
+     1873,
+     1874,
+     1875,
+     1876,
+     1877,
+     1878,
+     1953,
+     1954,
+     1955,
+     1956,
+     1957,
+     1958,
+     1960,
+     1961,
+     1962,
+     1970,
+     2043,
+     2044,
+     2045
+    ],
+    "color": "url(#hatch5)",
+    "note": "9 an Dùbhlachd, SE 1: in the Tuathaich north's first year alone the stores that came over the water from an Tìr Thall come no more, and the northern settlements go short of grain. Tuathaich memory puts the dead at Doire ghlas above two hundred; the Dia-thìrich made no count."
+   }
+  },
+  {
+   "record": 38,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 13,
+    "name": "Gorta Achadh mhòr",
+    "type": "Disaster",
+    "cells": [
+     3450,
+     3451,
+     3543
+    ],
+    "color": "url(#hatch5)",
+    "note": "The winter after the burning of Achadh mhòr (24 an Lùnastal, FE 556), at the end of Cogadh an Dà Mhionn, when the granary fields were burned to the stubble: the middle of the island went hungry, and the Hall counted its dead with the dead of the war."
+   }
+  },
+  {
+   "record": 52,
+   "path": "[0].note",
+   "value": "The Leaden Hawk, 19 an Giblean, AE 150 to 25 an Giblean, AE 150: seven hawk-faithful crewmen of the river towns carry the council's letters in the first spring of Cogadh nam Beann from An Cupa Dàna at Cuan dhearg to Inis thais, on foot to Inis mhin and then by carriage off every road; the journey is Azgaar's own reckoning of their eight days."
+  },
+  {
+   "record": 41,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 72,
+    "name": "gual òir",
+    "tags": [
+     "ritual"
+    ],
+    "icon": "good-coal",
+    "color": "#d4af37",
+    "value": 0,
+    "chance": 0,
+    "unit": "basket",
+    "note": "One of na Seachd Guail, the Seven Coals of the vein: it holds the sea, and was first lit by its own spirit on 14 an t-Sultain, VE 1,370. The coloured coal lies in the one vein under the mountains, and only the eyes of the godkin see its colours. It is cut only at the last face of An Sloc Mòr, in the Rite's keeping, as altar-coal, and is sold in no market."
+   }
+  },
+  {
+   "record": 40,
+   "path": "[2543]",
+   "old": 0,
+   "value": 72
+  },
+  {
+   "record": 41,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 73,
+    "name": "gual sneachda",
+    "tags": [
+     "ritual"
+    ],
+    "icon": "good-coal",
+    "color": "#e8edf2",
+    "value": 0,
+    "chance": 0,
+    "unit": "basket",
+    "note": "One of na Seachd Guail, the Seven Coals of the vein: it holds the air, and was first lit by its own spirit on 2 an t-Sultain, VE 2,170. The coloured coal lies in the one vein under the mountains, and only the eyes of the godkin see its colours. It is cut only at the last face of An Sloc Mòr, in the Rite's keeping, as altar-coal, and is sold in no market."
+   }
+  },
+  {
+   "record": 40,
+   "path": "[2446]",
+   "old": 0,
+   "value": 73
+  },
+  {
+   "record": 41,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 74,
+    "name": "gual dubh",
+    "tags": [
+     "ritual"
+    ],
+    "icon": "good-coal",
+    "color": "#1b1b1b",
+    "value": 0,
+    "chance": 0,
+    "unit": "basket",
+    "note": "One of na Seachd Guail, the Seven Coals of the vein: it holds the earth, and was first lit by its own spirit on 17 an t-Sultain, VE 2,885. The coloured coal lies in the one vein under the mountains, and only the eyes of the godkin see its colours. It is cut only at the last face of An Sloc Mòr, in the Rite's keeping, as altar-coal, and is sold in no market."
+   }
+  },
+  {
+   "record": 40,
+   "path": "[2447]",
+   "old": 0,
+   "value": 74
+  },
+  {
+   "record": 41,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 75,
+    "name": "gual donn-ruadh",
+    "tags": [
+     "ritual"
+    ],
+    "icon": "good-coal",
+    "color": "#6f2f1f",
+    "value": 0,
+    "chance": 0,
+    "unit": "basket",
+    "note": "One of na Seachd Guail, the Seven Coals of the vein: it holds life, and was first lit by its own spirit on 20 an t-Samhain, VE 3,670. The coloured coal lies in the one vein under the mountains, and only the eyes of the godkin see its colours. It is cut only at the last face of An Sloc Mòr, in the Rite's keeping, as altar-coal, and is sold in no market."
+   }
+  },
+  {
+   "record": 40,
+   "path": "[2732]",
+   "old": 0,
+   "value": 75
+  },
+  {
+   "record": 41,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 76,
+    "name": "gual airgid",
+    "tags": [
+     "ritual"
+    ],
+    "icon": "good-coal",
+    "color": "#c0c0c0",
+    "value": 0,
+    "chance": 0,
+    "unit": "basket",
+    "note": "One of na Seachd Guail, the Seven Coals of the vein: it holds the river water, and was first lit by its own spirit on 21 an Dùbhlachd, VE 4,225. The coloured coal lies in the one vein under the mountains, and only the eyes of the godkin see its colours. It is cut only at the last face of An Sloc Mòr, in the Rite's keeping, as altar-coal, and is sold in no market."
+   }
+  },
+  {
+   "record": 40,
+   "path": "[2355]",
+   "old": 0,
+   "value": 76
+  },
+  {
+   "record": 41,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 77,
+    "name": "gual teine",
+    "tags": [
+     "ritual"
+    ],
+    "icon": "good-coal",
+    "color": "#e25822",
+    "value": 0,
+    "chance": 0,
+    "unit": "basket",
+    "note": "One of na Seachd Guail, the Seven Coals of the vein: it holds fire, and was first lit by its own spirit on 16 an t-Ògmhios, VE 4,905. The coloured coal lies in the one vein under the mountains, and only the eyes of the godkin see its colours. It is cut only at the last face of An Sloc Mòr, in the Rite's keeping, as altar-coal, and is sold in no market."
+   }
+  },
+  {
+   "record": 40,
+   "path": "[2540]",
+   "old": 0,
+   "value": 77
+  },
+  {
+   "record": 41,
+   "path": "",
+   "op": "append",
+   "value": {
+    "i": 78,
+    "name": "gual bogha-froise",
+    "tags": [
+     "ritual"
+    ],
+    "icon": "good-coal",
+    "color": "#9b5de5",
+    "value": 0,
+    "chance": 0,
+    "unit": "basket",
+    "note": "One of na Seachd Guail, the Seven Coals of the vein: it holds the spirit, and was first lit by its own spirit on 21 an t-Iuchar, VE 5,324. The coloured coal lies in the one vein under the mountains, and only the eyes of the godkin see its colours. It is cut only at the last face of An Sloc Mòr, in the Rite's keeping, as altar-coal, and is sold in no market."
+   }
+  },
+  {
+   "record": 40,
+   "path": "[2731]",
+   "old": 0,
+   "value": 78
+  }
+ ]
+}

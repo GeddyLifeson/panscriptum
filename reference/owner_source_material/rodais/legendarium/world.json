@@ -2299,11 +2299,11 @@
 "faith": "An Eaglais",
 "population": 8282,
 "port": true,
-"capital": false,
+"capital": true,
 "citadel": false,
 "walls": false,
 "temple": false,
-"group": "town"
+"group": "capital"
 },
 {
 "id": 96,
@@ -9970,7 +9970,7 @@
 "name": "Àraich Muileann ghlas",
 "x": 713,
 "y": 422.23,
-"note": "The field of the last great battle of An Cogadh Fada, the Long War, fought on 10 an Dùbhlachd, DE 22. The first and third regiments stood here, and the holdouts were broken.",
+"note": "Blàr Muileann ghlas, the second and last great battle of An Cogadh Fada, was fought here on 10 an Dùbhlachd, DE 22: the first and third regiments, brought down the fair road, against the column of holdouts camped on the fields by Muileann ghlas, a day's walk from Cathair dhearg. The open record gives no count of the column's dead; the regiments' own dead are named on the stone at Cathair mhòr (10 an Dùbhlachd, DE 22). The field was sown again on 28 an Dùbhlachd, DE 23, and for years its farmer found weapons in the furrows. It is the second battle fought below Muileann ghlas; the first was in Cogadh nam Bràithrean (19 an t-Iuchar, LE 1,274).",
 "nearest_burg": 360
 },
 {
@@ -9979,7 +9979,7 @@
 "name": "Àraich Àth leathan",
 "x": 431.89,
 "y": 282.15,
-"note": "The field of the first great battle of An Cogadh Fada, the Long War, fought on 11 an Giblean, DE 21. It has been left unploughed, and the Tuathaich have raised a cairn on it.",
+"note": "Blàr Àth leathan, the first great battle of An Cogadh Fada, was fought here on 11 an Giblean, DE 21: the regiments against the holdouts of the five western towns. The open record counts the kingdom's dead and not the holdouts'; the Tuathaich tellings put theirs in the hundreds (11 an Giblean, DE 21). The field has been left unploughed (13 an Giblean, DE 21), and on 6 an Giblean, DE 24, Tuathaich families built Càrn nan Tuathach on it without leave; every time the seventh regiment's patrols pass, it has grown by a stone or two.",
 "nearest_burg": 346
 },
 {
@@ -10249,8 +10249,287 @@
 "name": "Binnean a' Chlachair",
 "x": 965.96,
 "y": 345.3,
-"note": "Binnean a' Chlachair, the Mason's Point: the highest ground of Dia-thìr, a little under three thousand six hundred feet, on the bare moor above Muileann gheal in the Doire uaine hills. The Line of the Mason tells that Fearghas of that line carried the six unlit coals up here and let them fall, and that the coal flecked with white stars took fire in the air as it fell. The summit has borne the kindred's name since. Herders of Muileann gheal leave a stone on the top when they pass, and none will light a fire there.",
+"note": "Binnean a' Chlachair, the Mason's Point: the highest ground of Dia-thìr, a little under three thousand six hundred feet, on the bare moor above Muileann gheal in the Doire uaine hills. The second lighting, 2 an t-Sultain, VE 2,170: Fearghas of the Mason's line carried the six unlit coals up here and let them fall, and the coal flecked with white stars took fire in the air as it fell and burned white; the snowflake coal holds the air. The summit has borne the kindred's name since. Herders of Muileann gheal leave a stone on the top when they pass, and none will light a fire there.",
 "nearest_burg": 493
+},
+{
+"id": 49,
+"type": "battlefields",
+"name": "Creach an t-Salainn",
+"x": 571.23,
+"y": 543.43,
+"note": "9 am Faoilleach, GE 672: Mòrag Chruaidh, fifth of the Stone Kings, raids the salt-pans on the southern shore at Baile ghorm, which do not yet own the king, and carries off the salt. Seven fall on the hill side, and the number is kept; it is the first war in either king-list. On 8 an t-Ògmhios, GE 727, Iain Dubh, sixth of the Stone Kings, came down to raid them again and was slain on this shingle.",
+"nearest_burg": 170
+},
+{
+"id": 50,
+"type": "battlefields",
+"name": "Blàr Àth na Fala",
+"x": 1035.52,
+"y": 387.01,
+"note": "2 an t-Sultain, FE 1: the host of Dùn dhearg and the eastern households come against Ailean Mòr at the ford below Dùn dhearg. He holds it alone three days and three nights, until the dead of the host dam the river, and falls on the third night; no one man overcame him. His kin did not come. The ford has been called Àth na Fala since.",
+"nearest_burg": 422
+},
+{
+"id": 51,
+"type": "battlefields",
+"name": "A' Chiad Fhuil",
+"x": 1045.94,
+"y": 260.14,
+"note": "17 an Giblean, FE 3: at Dùn thais, on the line between the great share of the north and the Red Share, the men of Aonghas Bàn mac Mhurchaidh and of Ruairidh Glas come to blows over which share the fort lies in, and Aonghas Bàn is killed. With it begins Aimhreit nan Oighrean, the strife of the heirs, which ran some five hundred and fifty years.",
+"nearest_burg": 77
+},
+{
+"id": 52,
+"type": "battlefields",
+"name": "Loscadh Achadh mhòr",
+"x": 981.8,
+"y": 430.79,
+"note": "24 an Lùnastal, FE 556: Cogadh an Dà Mhionn ends where it began. Fearghas Dà-Mhionn, lord of the granary fields, sworn both to the line of Ìomhar and to the lords of Cathair mhòr, is called to arms by each against the other; both come to take his fields, the fields are burned to the stubble, and he dies in his hall. The middle of the island went hungry that winter.",
+"nearest_burg": 395
+},
+{
+"id": 53,
+"type": "battlefields",
+"name": "Blàr Àth fhiadhaich",
+"x": 642.55,
+"y": 423.84,
+"note": "21 an Dàmhair, FE 1,001, in Cogadh nan Rathad: the men of Caol leathan meet the levies of Iain Garbh at the ford and hold it for a day before they give way. Forty lie dead of both sides. The carriers call it Àth an Dà Fhichead, the ford of the forty.",
+"nearest_burg": 500
+},
+{
+"id": 54,
+"type": "battlefields",
+"name": "Sèist Caol leathan",
+"x": 510.79,
+"y": 443.37,
+"note": "2 an t-Samhain, FE 1,005: Iain Garbh shuts Caol leathan in from the land for a season, but its boats bring in fish from the sea and the harbour he cannot close. His levies go home for the harvest, and the siege ends without an assault. The war ended under the roof of Am Buabhall Fortanach (4 an Dàmhair, FE 1,006).",
+"nearest_burg": 1
+},
+{
+"id": 55,
+"type": "battlefields",
+"name": "Blàr Àth shean",
+"x": 721.04,
+"y": 386.07,
+"note": "22 an Gearran, LE 554, in Cogadh nan Trì Tagraichean: the host of Dùghall Garbh meets that of Raghnall Ruadh at the ford and breaks it. The custody-book counts some three hundred dead, most of them drowned in the ford.",
+"nearest_burg": 32
+},
+{
+"id": 56,
+"type": "battlefields",
+"name": "Sèist Cathair dhomhain",
+"x": 611.3,
+"y": 360.45,
+"note": "26 an Dùbhlachd, LE 557: Catrìona nic Aonghais besieges Cathair dhomhain, which had declared for Dùghall, and takes it after forty days, when its wells are fouled by the dead of the siege lines. She lets the garrison go free on their oath.",
+"nearest_burg": 26
+},
+{
+"id": 57,
+"type": "battlefields",
+"name": "Blàr Muileann chrom",
+"x": 835.61,
+"y": 370.48,
+"note": "14 am Faoilleach, LE 560: the hosts of Catrìona and Dùghall, joined for the purpose, meet Raghnall Ruadh below Muileann chrom. Raghnall falls on the field, and the next day his own custodians open the vein-house. It decided Cogadh nan Trì Tagraichean.",
+"nearest_burg": 354
+},
+{
+"id": 58,
+"type": "battlefields",
+"name": "Creach Eilean dhubh",
+"x": 613.78,
+"y": 77.24,
+"note": "27 an t-Samhain, LE 801: a force sent by Queen Eilidh Bhàn lands on Eilean dhubh and burns the sea-thieves' boats on the strand. Their leader, Uilleam Ruadh, is taken to Cathair dhearg and hanged.",
+"nearest_burg": 327
+},
+{
+"id": 59,
+"type": "battlefields",
+"name": "Blàr Cnoc naomh",
+"x": 775.93,
+"y": 420.1,
+"note": "8 an t-Ògmhios, LE 1,270: Alasdair Bàn's men seize Cnoc naomh and Iain Ciar takes it back. The houses divide four to three, and Cogadh nam Bràithrean, the Brothers' War, takes its name from this battle.",
+"nearest_burg": 318
+},
+{
+"id": 60,
+"type": "battlefields",
+"name": "Blàr Muileann ghlas",
+"x": 717.72,
+"y": 431.31,
+"note": "19 an t-Iuchar, LE 1,274: Iain Ciar defeats Alasdair Bàn below Muileann ghlas. Alasdair is taken alive, and his captains are let go home. The brothers made peace at An Taigh-seinnse Mòr (12 an t-Sultain, LE 1,276). The second battle below Muileann ghlas, in An Cogadh Fada, is marked at Àraich Muileann ghlas.",
+"nearest_burg": 360
+},
+{
+"id": 61,
+"type": "battlefields",
+"name": "Sèist Baile thais",
+"x": 853.46,
+"y": 339.62,
+"note": "1 an t-Ògmhios, AE 149, in Cogadh nam Beann: the constables hold their walled pithead against the town for eleven days and yield on the twelfth when their water fails. Eilidh nic Raghnaill sends them under guard to the coast unharmed.",
+"nearest_burg": 44
+},
+{
+"id": 62,
+"type": "battlefields",
+"name": "Blàr Àth chiar",
+"x": 730.69,
+"y": 401.57,
+"note": "5 an Dùbhlachd, AE 149: a column of constables and Company guards under Major Peter Ashdown marches up the coal road to relieve the hills and is met at the ford, where the rebels hold the far bank. Ashdown loses forty men and his baggage and turns back. The rebels lose nineteen, and the council's roll names them all.",
+"nearest_burg": 163
+},
+{
+"id": 63,
+"type": "battlefields",
+"name": "Loscadh Seann Toll",
+"x": 852.82,
+"y": 356.9,
+"note": "15 an Gearran, AE 150: a Company steamship comes up the Abhainn uaine, shells the coal stage to deny it to the rebels and sets the fishing town behind it burning. Twenty-three townsfolk die: the first time the humans turned the island's own coal, burning in their boilers, against a town of the Dia-thìrich.",
+"nearest_burg": 313
+},
+{
+"id": 64,
+"type": "battlefields",
+"name": "Blàr Cnoc ghorm",
+"x": 796.1,
+"y": 424.91,
+"note": "25 an Lùnastal, AE 150: Company guards and constables sallying from the capital's harbour to win back the eastern road are driven back at Cnoc ghorm, in the hills beyond the capital. It was the Administration's last attempt in the war to reach the mining district.",
+"nearest_burg": 30
+},
+{
+"id": 65,
+"type": "battlefields",
+"name": "Sèist Muileann àrsaidh",
+"x": 392.33,
+"y": 235.88,
+"note": "21 an Cèitean, DE 21, in An Cogadh Fada: the regiments lay siege to Muileann àrsaidh. The town holds for weeks on stored coal and potatoes, and its pit-heads are taken one by one. Sìleas nic Rath's open record gives the day it fell and nothing else.",
+"nearest_burg": 244
+},
+{
+"id": 66,
+"type": "custom",
+"name": "Talla na Lasrach",
+"x": 1006.29,
+"y": 392.82,
+"note": "The hall over the undying flame of Brìde at Dùn ìseal, raised on 19 an Dùbhlachd, FE 15 and rebuilt many times on the same footings. Here the heirs of Ailean Mòr bound the vein in common, Ceangal na Ciad Lasrach (23 an t-Sultain, FE 1), and here the lords of the shares swore Sìth an Stairsnich, the Peace of the Threshold, on its threshold beside the stone cup, with the Keeper as witness (1 an t-Samhain, FE 556). So ended Aimhreit nan Oighrean.",
+"nearest_burg": 315
+},
+{
+"id": 67,
+"type": "custom",
+"name": "Fosadh Àth àrsaidh",
+"x": 618.23,
+"y": 158.28,
+"note": "2 an t-Samhain, AE 150: envoys of the council and of the Administration meet at Àth àrsaidh, on the edge of the northern concession, and agree a truce: the humans left on Dia-thìr shall withdraw into the north-west under the council's safe-conduct, and the council shall leave the towns of the concession standing. Cogadh nam Beann ended in the Severance (1 am Faoilleach, AE 151).",
+"nearest_burg": 304
+},
+{
+"id": 68,
+"type": "custom",
+"name": "Clach nan Rèisimeidean",
+"x": 863.78,
+"y": 431.46,
+"note": "15 an Dùbhlachd, DE 23: a stone at Cathair mhòr bearing the names of the regiments' dead from Àth leathan and Muileann ghlas. It stands beside the market cross of the house of Mac Ùisdein.",
+"nearest_burg": 23
+},
+{
+"id": 69,
+"type": "custom",
+"name": "Teine a' Chlachair",
+"x": 957.1,
+"y": 275.86,
+"note": "The mason's fire, 20 am Faoilleach, VE 1, the first day of Linn na Fèithe: Neachdan, splitting rock for a well, breaks into a vein of coal that shows every colour at the break; that night lightning strikes the broken vein and it takes fire, and he carries a burning coal home to lay the first hearth of the Dia-thìrich. Tobar dhìreach, Tobar dhubh and Tobar òg each tell that the well was theirs; Tobar dhìreach can show a capped shaft with a scorched lip, and no chronicler has judged between them (17 an Giblean, VE 76). When the fire in the vein burned out, the mason's people laid a flat stone over it and cut their well again a stone's throw off (19 am Màrt, VE 151). The keepers' house at the slab became a place of pilgrimage (29 am Màrt, GE 4,350).",
+"nearest_burg": 276
+},
+{
+"id": 70,
+"type": "sacred-forests",
+"name": "Coimhdeach na Fine",
+"x": 622.8,
+"y": 136.2,
+"note": "The oak grove of Doire ghlas. Here on 17 an Gearran, VE 890 a figure of grey smoke came to Diarmad of the Mason's line, who had asked why the coal of the vein has colours, and named itself Coimhdeach na Fine, the Keeper of the Kin. It told him of the making of the world by Caoran, the Young God, and of the gift hidden in the coal, and gave the riddle: the sky, the earth and the sea each carry their own spirit; merge the spirits, and they become almighty. From Diarmad's line the Telling of the Making went to every hearth.",
+"nearest_burg": 209
+},
+{
+"id": 71,
+"type": "custom",
+"name": "gual òir",
+"x": 940.15,
+"y": 161.49,
+"note": "The first lighting, 14 an t-Sultain, VE 1,370: Aodh of the Mason's line carries the seven coals of the vein down to the northern shore, below where Ceann thais now stands, and throws them into the sea one by one. The coal with the sheen of gold takes fire on the water and burns gold until the waves put it under. The gold coal holds the sea.",
+"nearest_burg": 84
+},
+{
+"id": 72,
+"type": "custom",
+"name": "gual dubh",
+"x": 950.66,
+"y": 271.38,
+"note": "The third lighting, 17 an t-Sultain, VE 2,885: Brian of the Mason's line buries the five unlit coals deep in the ground beside the slab at Tobar dhìreach. When he digs them up the next day the black coal, as black as a wet crow, is warm in his hand and smoulders as the air comes to it. The black coal holds the earth.",
+"nearest_burg": 276
+},
+{
+"id": 73,
+"type": "custom",
+"name": "gual donn-ruadh",
+"x": 627.25,
+"y": 131.66,
+"note": "The fourth lighting, 20 an t-Samhain, VE 3,670: Cormac of the Mason's line carries the four unlit coals to the grove where the Keeper first spoke and sets about breaking them. His hammer misses and opens the back of his hand, and where the blood falls on the red-brown coal it takes fire. The kindred call it the coal of life.",
+"nearest_burg": 140
+},
+{
+"id": 74,
+"type": "custom",
+"name": "gual airgid",
+"x": 961.42,
+"y": 254.87,
+"note": "The fifth lighting, 21 an Dùbhlachd, VE 4,225: Eòghann of the Mason's line drinks from the Abhainn ghorm below Tobar dhìreach, says the water tastes different from the sea's, and throws the three unlit coals into the stream. The coal with the sheen of silver takes fire in the current and burns silver under the water. The silver coal holds the river water.",
+"nearest_burg": 378
+},
+{
+"id": 75,
+"type": "custom",
+"name": "gual teine",
+"x": 966.25,
+"y": 274.41,
+"note": "The sixth lighting, 16 an t-Ògmhios, VE 4,905: Seathan of Clann na Ceiste, who has handled the coal of fire all his days to no end, snaps his fingers when a thought strikes him, and the coal-dust on his hand takes fire. So the fire coal is lit by the fire that is in the hand itself.",
+"nearest_burg": 276
+},
+{
+"id": 76,
+"type": "custom",
+"name": "gual bogha-froise",
+"x": 618.4,
+"y": 140.8,
+"note": "The seventh lighting, 21 an t-Iuchar, VE 5,324: Ailean of Clann na Ceiste, having lit each of the six coals again by its own way, carries them burning to the grove with the last coal, and the Keeper lights the rainbow coal; for the first time all seven burn together. Ailean keeps watch seven nights, a night for each coal, and on the eighth Caoran comes into the grove with the Tuath Dè and names him Rìgh Chlann nan Dè (28 an t-Iuchar, GE 1).",
+"nearest_burg": 367
+},
+{
+"id": 77,
+"type": "custom",
+"name": "Taigh Dhuinn",
+"x": 512.12,
+"y": 555.77,
+"note": "Taigh Dhuinn, the house of Donn, lord of the dead: a rock in the sea to the south-west, where the dead gather on their way over the sea. So the Telling of the Making and the hearths have it.",
+"nearest_burg": 300
+},
+{
+"id": 78,
+"type": "custom",
+"name": "Cidhe an Diosail",
+"x": 462.47,
+"y": 317.76,
+"note": "The departure berth of the west quay at Seann Skell, lengthened on 16 an t-Iuchar, LE 30. On the night before the sailing every house on the waterfront set a lamp on its sill (18 an Giblean, LE 40); on 19 an Giblean, LE 40 the fleet of the Sundering went once sunwise round the river pool for luck and down the Abhainn naomh to the sea (19 an Giblean, LE 40). The harbour rolls entered the berth as Cidhe an Diosail, the quay of the sunwise turn, on 15 an Lùnastal, LE 67.",
+"nearest_burg": 489
+},
+{
+"id": 79,
+"type": "custom",
+"name": "An Sloc Mòr",
+"x": 828.52,
+"y": 326.28,
+"note": "The great shaft at Achadh dhomhain on the vein, granted to Uisdean mac Ùisdein on 23 an Cèitean, SE 11. The Mine Board shut its upper galleries on 17 an Cèitean, DE 26. One face is kept open in the Rite's keeping, where the last twelve hewers of the vein (15 an t-Ògmhios, DE 26) cut the altar-coal: four baskets on 6 an Dàmhair, DE 27, shared among the houses of the Rite by lot. The coloured coal is sold in no market.",
+"nearest_burg": 135
 }
 ],
 "zones": [
@@ -10318,6 +10597,180 @@
 190,
 90,
 150
+]
+},
+{
+"id": 5,
+"name": "Ceò Mhanannain",
+"type": "Custom",
+"cells": 240,
+"burgs": []
+},
+{
+"id": 6,
+"name": "Casad Caol fhiadhaich",
+"type": "Disease",
+"cells": 22,
+"burgs": [
+191,
+324,
+92,
+50
+]
+},
+{
+"id": 7,
+"name": "Fiabhras Inis chrom",
+"type": "Disease",
+"cells": 21,
+"burgs": [
+92,
+427,
+430,
+191,
+66,
+293
+]
+},
+{
+"id": 8,
+"name": "Casad Muileann dhomhain",
+"type": "Disease",
+"cells": 40,
+"burgs": [
+466,
+397,
+206,
+110,
+294,
+108
+]
+},
+{
+"id": 9,
+"name": "Fiabhras nan Coigreach",
+"type": "Disease",
+"cells": 34,
+"burgs": [
+282,
+494,
+47,
+420,
+286
+]
+},
+{
+"id": 10,
+"name": "Breac Ros dhomhain",
+"type": "Disease",
+"cells": 41,
+"burgs": [
+27,
+29,
+149,
+35,
+45,
+19,
+64
+]
+},
+{
+"id": 11,
+"name": "Fiabhras glas",
+"type": "Disease",
+"cells": 61,
+"burgs": [
+305,
+476,
+54,
+16,
+73,
+242,
+452,
+408,
+482,
+222
+]
+},
+{
+"id": 12,
+"name": "Gorta Doire ghlas",
+"type": "Disaster",
+"cells": 343,
+"burgs": [
+327,
+468,
+234,
+112,
+209,
+140,
+399,
+60,
+39,
+235,
+154,
+367,
+329,
+5,
+236,
+85,
+38,
+260,
+330,
+95,
+303,
+304,
+305,
+174,
+470,
+263,
+238,
+369,
+142,
+114,
+160,
+441,
+442,
+143,
+28,
+472,
+445,
+216,
+370,
+217,
+473,
+176,
+242,
+116,
+372,
+306,
+73,
+476,
+16,
+335,
+269,
+307,
+447,
+244,
+478,
+337,
+98,
+408,
+409,
+222,
+54,
+452,
+4
+]
+},
+{
+"id": 13,
+"name": "Gorta Achadh mhòr",
+"type": "Disaster",
+"cells": 3,
+"burgs": [
+203,
+395
 ]
 }
 ],

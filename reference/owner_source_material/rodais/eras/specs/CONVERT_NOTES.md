@@ -607,7 +607,7 @@ Age VII is the master (`Diathir_Atlas/Diathir.map`, DE 27) with the draft's addi
 
 | | master | Age VII | why |
 |---|---|---|---|
-| states | 1 | 2 | the draft gives the Moot (`Tional nan Tuathach`, 11 northern shires, 343 cells) as a vassal of the kingdom; the master has one state |
+| states | 2 | 2 | the draft gives the Moot (`Tional nan Tuathach`, 11 northern shires, 343 cells) as a vassal of the kingdom; the master now has it too (legendarium/reconcile/history.json), and the spec draws both anew |
 | burgs | 505 | 506 | new burg VII-N01, place id 7001 (the Àth leathan post, cell 2136) |
 | provinces | 123 | 123 | same shires, names and arms; the 11 northern shires now belong to the Moot |
 | cultures / faiths | 2 / 3 | 2 / 3 | same cells; the culture names are the draft's (`Na Dia-thìrich`, `Na Tuathaich`). Shire 120, which the draft gives to no faith (`Gun chreideamh`), loses the master's faiths (35 cells) |

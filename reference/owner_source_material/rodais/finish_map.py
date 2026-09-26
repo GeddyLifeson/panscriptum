@@ -427,8 +427,13 @@ for n in range(len(lines)):
 # every layer (faiths, goods and markets, shires, regiments, land, markers and routes, arms) as reconciled with
 # the annals in legendarium/reconcile/*.json; after the burg moves above, so a moved town's faith is set on its
 # new cell. See legendarium/map_reconcile.py
-from map_reconcile import reconcile_records  # noqa: E402
-reconcile_records(lines)
+# (history_layer.py makes the map as it stood before its own layer: RODAIS_RECONCILE_EXCLUDE=history, with the
+# output sent elsewhere by RODAIS_FINISH_OUT; neither is set in a normal run)
+from map_reconcile import reconcile_records, load_edits  # noqa: E402
+EXCLUDE = [x for x in os.environ.get('RODAIS_RECONCILE_EXCLUDE', '').split(',') if x]
+if os.environ.get('RODAIS_FINISH_OUT'):
+    DST = os.environ['RODAIS_FINISH_OUT']
+reconcile_records(lines, load_edits(exclude=EXCLUDE))
 out = '\r\n'.join(lines)
 open(DST, 'w', encoding='utf-8', newline='').write(out)
 
@@ -447,6 +452,8 @@ for sec in (L_FEATURES, L_BURGS, L_PROVINCES, L_RIVERS, L_MARKERS, L_ROUTES, L_Z
             names.add(o['name'])
 agreement = sorted({w for nm in names for w in re.split(r"[\s—()']+", nm) if w and check_agreement(w)})
 
+if os.environ.get('RODAIS_FINISH_OUT'):
+    sys.exit(0)                                                 # a working map for history_layer.py: no log
 sections = {}
 for sec, old, new in changes:
     sections.setdefault(sec, []).append((old, new))
