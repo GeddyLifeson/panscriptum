@@ -1,0 +1,1 @@
+Verified by run #65 against the process table: overwatch is running as pid 45404, started 2026-09-26 04:29, about three minutes after this rc=17 exit was logged (04:26). The keeper restarted it on the new fingerprint as designed. Nothing to fix.

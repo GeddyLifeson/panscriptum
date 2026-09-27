@@ -1,0 +1,14 @@
+RE-ROUTED RUN -> OWNER by maintenance run #65 (2026-09-26). THE CAUSE IS FOUND AND PROVEN. The fix is a tool install and a GitHub login, which only a person can do.
+
+CAUSE: the Claude desktop app is an MSIX-packaged app, and Windows VIRTUALISES AppData for every process it launches. gh.exe (C:\Users\imarl\AppData\Local\gh-cli\bin\gh.exe) and gh's login file (C:\Users\imarl\AppData\Roaming\GitHub CLI\hosts.yml) were installed by a Claude session, so they really live in C:\Users\imarl\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\{Local,Roaming}\..., and only processes inside the Claude app see them at the ordinary path. The keeper (autostart.py --watch, started from the Startup folder) and every daemon it spawns run OUTSIDE the app, so for them neither file exists. Your global C:\Users\imarl\.gitconfig names that gh.exe as github.com's credential helper, and it also blanks the system's Git Credential Manager, so the daemon has no working helper at all. That is why every session pushes cleanly and the daemon never does, and why run #59 could not reproduce it from a session.
+
+PROOF: a probe launched through WMI (Win32_Process.Create, which starts outside the app) reported isfile=False for both files at their ordinary paths and isfile=True for the package-store copy. The same probe run from this session reported True for all three. Run #61's AppContainer lead is ruled out: every PUSH HELD since carries appcontainer=False restricted=False. publish._credential_probe now prints a 'package store:' line naming this case, so a recurrence says so itself.
+
+IMPACT TODAY: the export was 73 commits ahead of origin at 22:05. The daily maintenance run pushes from inside the app, so origin catches up once a day and not every ten minutes.
+
+THE FIX (one of these, from an ordinary PowerShell window that is NOT inside Claude):
+  (a) winget install GitHub.cli, then gh auth login, then gh auth setup-git. This installs gh for real and rewrites the credential helper in .gitconfig to the new path.
+  (b) Or remove the gh helper line from C:\Users\imarl\.gitconfig, so Git Credential Manager (already configured in Program Files\Git\etc\gitconfig) takes over, and sign in once when it asks.
+Close this order after the first daemon cycle that logs no PUSH HELD.
+
+ALSO WORTH KNOWING: anything a Claude session installed under AppData (the LocalCache also holds Programs, Python Entry Points, uv, pip, ms-playwright, claude-cli-nodejs and more) is invisible to the keeper's daemons in the same way.

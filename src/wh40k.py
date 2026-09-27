@@ -312,8 +312,10 @@ def main():
                 # the 'unattributed' default exists at all: a 2-tuple axis should say so out loud
                 # instead of inheriting a neighbour's tag, which keeps a gap in the reading
                 # visible rather than hidden behind a mark that reads as if the work had been
-                # done -- and every axis entry in this ROSTER is a 2-tuple, so all
-                # 55 are 'unattributed' today and --full showed none of it. The mark survived
+                # done -- and when this landed every axis entry in the ROSTER was a 2-tuple, so
+                # all 55 were 'unattributed' and --full showed none of it. (Order 82fc93f056d4
+                # has since tagged all 55 `wiki` or `canon`; see compute()'s docstring. Stale
+                # present tense corrected by sweep65 batch03.) The mark survived
                 # only into data/WH40K_ASSAYS.json, which is not what a person reads. Mirrored
                 # from the twin at zfighters.py, including `.get` rather than `[...]` and the
                 # continuation padding of len(prov) + 2 so wrapped text stays aligned.

@@ -469,6 +469,15 @@ _THIRD_PARTY_CLASSES_VM = {
         "silent:standards.py:ollama-runner",
         "silent:standards.py:ollama-runner-standard",
         "silent:standards.py:ollama-ps",
+        # `standards.check()` asks `tuning.regime()` which regime the reader is in, and when the
+        # cloud pool is not answering well enough regime() asks whether Ollama answers /api/tags
+        # within 6s. Under the GPU load prose and the pipeline put on the one card it sometimes
+        # does not, and that is machine state exactly like `ollama-ps` above. Measured by run #65
+        # (2026-09-26): it held verify_math red on clean code for about 14 hours of the 09-26
+        # mutation pass, which disabled the whole battery as a gate for prose_gate and escalation.
+        # ONLY this class is granted from tuning.py; `tuning.py:ollama-host` reads config.yaml,
+        # a fact about this repository, and must keep reddening.
+        "silent:tuning.py:ollama_up",
         "silent:standards.py:token-flow",
         "silent:standards.py:token-flow-standard",
         # -- the network: DNS and a TCP connect to a content wiki -----------------------------
@@ -610,7 +619,7 @@ check("[control] the NAMED ledger wrapper drops only its named class and forward
 # Read from source, not from a memory of what was written: the sites are `silence.note("...")`
 # literals and this reads them.
 _LIVE_SITES_VM = set()
-for _lm_vm in ("standards.py", "dashboard.py", "overnight.py"):
+for _lm_vm in ("standards.py", "dashboard.py", "overnight.py", "tuning.py"):
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), _lm_vm),
               encoding="utf-8") as _lf_vm:
         for _ln_vm in _lf_vm:
@@ -619,11 +628,12 @@ for _lm_vm in ("standards.py", "dashboard.py", "overnight.py"):
             _mm_vm = _re_vm.search(r'silence\.note\("([^"]+)"\)', _ln_vm)
             if _mm_vm:
                 _LIVE_SITES_VM.add("silent:" + _mm_vm.group(1))
-check("every live-state class granted an abstention is a real note site in one of the three "
+check("every live-state class granted an abstention is a real note site in one of the four "
       "modules the grant is written for",
       sorted(_c_vm for _c_vm in _THIRD_PARTY_CLASSES_VM[_LIVE_STATE_VM]
              if _c_vm not in _LIVE_SITES_VM), [],
-      note="found %d note sites across standards.py, dashboard.py and overnight.py; %d are "
+      note="found %d note sites across standards.py, dashboard.py, overnight.py and tuning.py "
+           "(tuning only because standards.check() reaches it through tuning.regime()); %d are "
            "granted. A name here is either a site that has been renamed or deleted -- a grant "
            "guarding nothing -- or a class from some OTHER module, which would be this "
            "exemption quietly widening past the dependency it names"
@@ -11127,7 +11137,10 @@ def _b5_wiki_source_nonfandom_shortcircuit():
     d = _mkdtemp_vm()          # tracked, so the scratch dir is swept at exit
     hosts_path = _os_b5.path.join(d, "WIKI_HOSTS.json")
     source_name = "Zzz Test Source Not In Overrides"
-    assert source_name not in WS.WIKI_OVERRIDES
+    # An explicit raise, not a bare `assert`, which `python -O` strips (sweep65 batch02).
+    if source_name in WS.WIKI_OVERRIDES:
+        raise AssertionError("the probe's source name %r must not be in WIKI_OVERRIDES"
+                             % source_name)
     with open(hosts_path, "w", encoding="utf-8") as f:
         _json_b5.dump({source_name: "en.wikipedia.org"}, f)
 

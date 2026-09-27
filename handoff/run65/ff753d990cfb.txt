@@ -1,0 +1,1 @@
+Acknowledged by run #65. escalation.py --status reads clear, and the publish daemon is running (pid 28524, started 2026-09-26 08:44) and committing every cycle (the export's latest commit is bc724110 at 21:57). The notice has been read. Separately, its PUSHES are still refused; that is order 573ab7b04b6f, whose cause this run found.

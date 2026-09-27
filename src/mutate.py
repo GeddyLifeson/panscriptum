@@ -731,11 +731,26 @@ def _row_ids(out):
     `  FAILED <label>: got ..., want ... <note>` (`_print_result_vm()`'s print line) and drill with
     `  BREACHED  <net name>` (`drill.main()`'s per-net `print("  %s  %s" % (mark, r["net"]))`
     line). An unrecognised gate, or a clean run, yields [].
+
+    A DRILL BREACH CARRIES ITS REASON (run #65). verify_math's FAILED line already holds got/want,
+    but drill prints only the net's NAME on the BREACHED line and the reason on the next line,
+    indented. So a drift like "no probe anywhere in this drill writes into the live failure
+    ledger" reached the log with no clue which probe or which class; it happened on 2026-09-24
+    and again for about 14 hours of the 2026-09-26 pass, and could not be diagnosed either time.
+    The detail line, when there is one, is appended to its row. Display only: rows are printed,
+    never compared, and the verdict still comes from the signature.
     """
     rows = []
-    for line in out.splitlines():
+    lines = out.splitlines()
+    for i, line in enumerate(lines):
         t = line.strip()
         if t.startswith("FAILED ") or t.startswith("BREACHED "):
+            if t.startswith("BREACHED ") and i + 1 < len(lines):
+                nxt = lines[i + 1]
+                d = nxt.strip()
+                if (d and nxt[:1].isspace() and not d.startswith("expected:")
+                        and not d.startswith(("HELD ", "BREACHED ", "FAILED "))):
+                    t = "%s -- %s" % (t, d)
             rows.append(t)
     return rows
 
@@ -2890,6 +2905,8 @@ def _session(a, targets):
         # scored INDETERMINATE when the clock had already killed it.
         base_times = {}
         base = baseline(root, gates=gates + confirm, rows_out=base_rows, times_out=base_times)
+        # A COPY, because `base` itself is updated in place by every mid-run refresh.
+        base_launch_sig = dict(base)
         print("baseline signatures:")
         for gname, sig in base.items():
             t = base_times.get(gname) or {}
@@ -3051,8 +3068,19 @@ def _session(a, targets):
                 for _rid in _rows:
                     print("        red at launch: %s" % _rid)
                 if not _rows:
-                    print("        (no FAILED/BREACHED row was printed by this gate at the "
-                          "launch baseline; read its signature above)")
+                    # THE BASELINE IS SHARED ACROSS TARGETS (run #65). `_refresh_baseline`
+                    # updates `base` in place, so a gate that drifted red during an EARLIER
+                    # target starts THIS target red, while `base_rows` is the session's launch
+                    # photograph, where it was green. The 2026-09-26 pass printed "WAS RED AT
+                    # THE BASELINE" beside a launch signature reading 0 BREACHED and 0 FAILED,
+                    # which read as a contradiction. Say which case it is.
+                    if _g in base and _g in base_launch_sig and base_launch_sig[_g] != base[_g]:
+                        print("        (green at the session's launch; it went red during an "
+                              "EARLIER target's baseline drift, and that red baseline was "
+                              "carried into this target -- read the drift lines above it)")
+                    else:
+                        print("        (no FAILED/BREACHED row was printed by this gate at the "
+                              "launch baseline; read its signature above)")
             # THE DRIFT, SAID OUT LOUD AND BESIDE THE SCORE, because a score is what gets
             # quoted and this is the fact that decides whether it means anything.
             # TWO EVENT SHAPES GO INTO `baseline_drifts`, AND THIS LOOP KNEW ONLY ONE (order

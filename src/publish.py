@@ -803,7 +803,53 @@ def _credential_probe(err):
         facts.append("python CANNOT exec it directly: %s: %s" % (type(x).__name__, x))
     facts.append("which git=%s sh=%s bash=%s" % (_sh.which("git"), _sh.which("sh"), _sh.which("bash")))
     facts.append(_token_facts())
+    if not os.path.isfile(exe):
+        facts.append(_package_store_facts(exe))
     return " [credential probe, display only (maintenance run #59): " + "; ".join(facts) + "]"
+
+
+def _package_store_facts(path):
+    """-> one display-only line: does `path` exist only inside an MSIX app's private AppData?
+
+    THE CAUSE OF ORDER 573ab7b04b6f, MEASURED BY RUN #65 (2026-09-26). A packaged desktop app (the
+    Claude desktop app is one) VIRTUALISES AppData for everything it launches: a file its child
+    processes write under %LOCALAPPDATA% or %APPDATA% really lands in
+    %LOCALAPPDATA%\\Packages\\<package>\\LocalCache\\{Local,Roaming}\\..., and only processes inside
+    that app see it at the ordinary path. gh.exe and its hosts.yml were installed by a session
+    running inside the Claude app, so every session sees them and pushes, while the keeper (started
+    from the Startup folder, outside the app) and every daemon it spawns see nothing there. Run
+    #61's AppContainer lead was ruled out by `_token_facts` (False/False on every failure). A
+    process launched through WMI, outside the app, reported isfile=False for both files at the
+    ordinary path and True for the package-store copy. This line names that case directly.
+    """
+    try:
+        full = os.path.normcase(os.path.abspath(path))
+        roaming = os.environ.get("APPDATA", "")
+        # LOCALAPPDATA, or failing that Roaming's sibling, since Packages\ lives under Local
+        # either way (sweep65 batch10: an unset LOCALAPPDATA misreported a Roaming path).
+        local = os.environ.get("LOCALAPPDATA", "") or (
+            os.path.join(os.path.dirname(os.path.abspath(roaming)), "Local") if roaming else "")
+        roots = [(os.path.normcase(os.path.abspath(local)), "Local")] if local else []
+        if roaming:
+            roots.append((os.path.normcase(os.path.abspath(roaming)), "Roaming"))
+        rel, kind = None, None
+        for root, k in roots:
+            if full.startswith(root + os.sep):
+                rel, kind = full[len(root) + 1:], k
+                break
+        if rel is None:
+            return "package store: path is not under AppData, so virtualisation cannot explain it"
+        pkgs = os.path.join(local, "Packages")
+        hits = [name for name in (os.listdir(pkgs) if os.path.isdir(pkgs) else [])
+                if os.path.isfile(os.path.join(pkgs, name, "LocalCache", kind, rel))]
+        if hits:
+            return ("package store: the file exists ONLY inside the private AppData of %s -- it was "
+                    "installed by a process running inside that app, and this process runs outside "
+                    "it (order 573ab7b04b6f)" % ", ".join(hits))
+        return "package store: no packaged app holds a copy either; the file is genuinely missing"
+    except Exception as x:
+        silence.note("publish.py:package-store-facts")
+        return "package store: could not be checked (%s: %s)" % (type(x).__name__, x)
 
 
 def _token_facts():

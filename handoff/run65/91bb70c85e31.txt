@@ -1,0 +1,1 @@
+Verified by run #65: publish exited rc=17 after run #65 changed publish.py (the new display-only _package_store_facts probe for order 573ab7b04b6f) and the keeper restarted it at 22:31 as pid 25568 on fingerprint 7375ddee8cdb1abf. codewatch reports it polled two minutes ago. Designed behaviour; the restart is what puts the new probe in effect.

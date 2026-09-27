@@ -1077,13 +1077,25 @@ def write_record_catalogue(path, rec):
             disk_by_key = {}
             for de in dgroup:
                 disk_by_key.setdefault(_entry_pair_key(de), []).append(de)
-            unpaired = []
+            # WHICH SURPLUS ROWS SURVIVE IS CHOSEN, NOT LEFT TO DICT ORDER (sweep65 batch03).
+            # A disk row whose triple the fresh cast does not carry at all is an entity nothing
+            # fresh stands in for; a row colliding with a fresh twin is at worst a duplicate of
+            # it. Both went into one list and the slice below kept whichever came first, so a
+            # unique entity could be dropped in favour of an extra copy of content the fresh
+            # cast already holds. `lone` rows now go to the front. The COUNT is unchanged on
+            # purpose: carrying every lone row unconditionally would grow a record each time a
+            # wiki rewords its descriptions, which is the unbounded growth the idempotency
+            # argument above rules out.
+            lone, clashing = [], []
             for key, dsub in disk_by_key.items():
                 fsub = fresh_by_key.get(key) or []
                 if len(dsub) == 1 and len(fsub) == 1:
                     paired[id(dsub[0])] = fsub[0]
+                elif not fsub:
+                    lone.extend(dsub)
                 else:
-                    unpaired.extend(dsub)
+                    clashing.extend(dsub)
+            unpaired = lone + clashing
             if unpaired:
                 ambiguous.append(nm)
                 # Never shrink the cast. `surplus` is provably <= len(unpaired), because the

@@ -7169,7 +7169,46 @@ def _the_catalogue_merge_does_not_key_entries_on_name_alone():
         if len(got) != 2:
             return False
         # and the judgments still landed on the RIGHT rows, not merely without raising
-        return [e.get("category") for e in got] == ["M1", "M2"]
+        if [e.get("category") for e in got] != ["M1", "M2"]:
+            return False
+        # (5) A LONE ROW OUTRANKS A DUPLICATE (sweep65 batch03). Two disk rows collide with one
+        # fresh row; a third disk row's description is nowhere in the fresh cast. The surplus
+        # budget is two, and it must be spent on the lone entity first, not on a second copy
+        # of content the fresh row already carries. Re-merged, it must stay, at the same count.
+        p5 = os.path.join(d, "lone.json")
+        with open(p5, "w", encoding="utf-8") as f:
+            json.dump({"source": "drill", "entries": [
+                {"name": "Widget", "type": "T", "description": "same", "category": "M3"},
+                {"name": "Widget", "type": "T", "description": "same", "category": "M2"},
+                {"name": "Widget", "type": "T", "description": "unique", "category": "M5"}]},
+                f)
+        for _ in range(2):
+            rec5 = {"source": "drill",
+                    "entries": [{"name": "Widget", "type": "T", "description": "same"}]}
+            if PL.write_record_catalogue(p5, rec5) is not True:
+                return False
+            with open(p5, encoding="utf-8") as f:
+                got5 = json.load(f).get("entries") or []
+            if len(got5) != 3 or "unique" not in [e.get("description") for e in got5]:
+                return False
+        # (6) AND THE BOUND THAT RULES OUT CARRYING EVERY LONE ROW. A wiki rewords both
+        # descriptions of a duplicated name: nothing pairs, every disk row is lone, and the
+        # merged cast must stay at two rather than growing by two per re-catalogue.
+        p6 = os.path.join(d, "reworded.json")
+        with open(p6, "w", encoding="utf-8") as f:
+            json.dump({"source": "drill", "entries": [
+                {"name": "Twin", "type": "T", "description": "old one"},
+                {"name": "Twin", "type": "T", "description": "old two"}]}, f)
+        for n in (1, 2):
+            rec6 = {"source": "drill", "entries": [
+                {"name": "Twin", "type": "T", "description": "new one %d" % n},
+                {"name": "Twin", "type": "T", "description": "new two %d" % n}]}
+            if PL.write_record_catalogue(p6, rec6) is not True:
+                return False
+            with open(p6, encoding="utf-8") as f:
+                if len(json.load(f).get("entries") or []) != 2:
+                    return False
+        return True
     finally:
         PL.log, PL.silence = keep
         shutil.rmtree(d, ignore_errors=True)
@@ -21040,6 +21079,36 @@ def drill_mutation():
         "shift a hand-built sandbox to learn that all five red rows were the sandbox's own "
         "omissions -- five detectors switched off in every mutation run ever made, and nothing "
         "anywhere said which five")
+
+    def a_drill_breach_in_a_mutation_log_carries_its_reason():
+        """Run #65. drill prints a breach as two lines: `BREACHED  <net name>` and then, indented,
+        the reason (for the ledger witness, WHICH probe sites and classes leaked). `_row_ids`
+        kept only the first, so the drift on "no probe anywhere in this drill writes into the
+        live failure ledger" reached two mutation logs (2026-09-24, 2026-09-26) as a bare name
+        and could not be diagnosed either time. Driven on drill's real output shape, both ways:
+        the reason is attached, and the `expected:` line and the next net's row are not.
+        """
+        import mutate as M
+        out = ("THE LEDGER WITNESS\n"
+               "------------------\n"
+               "  BREACHED  no probe anywhere in this drill writes into the live failure ledger\n"
+               "            AssertionError: 1 probe site(s) in this battery reached "
+               "health.record: drill.py:123 -> silent:tuning.py:ollama_up\n"
+               "            expected: a rehearsal is never recorded\n"
+               "  BREACHED  a net that recorded no reason\n"
+               "            expected: something\n"
+               "  HELD      a clean net\n"
+               "DRILL: 3 nets attacked, 1 held, 2 BREACHED\n")
+        rows = M._row_ids(out)
+        return (len(rows) == 2
+                and rows[0].endswith("drill.py:123 -> silent:tuning.py:ollama_up")
+                and "expected:" not in rows[0]
+                and rows[1] == "BREACHED  a net that recorded no reason")
+    net(a, "a drill breach recorded by a mutation pass carries the reason, not only the net's name",
+        a_drill_breach_in_a_mutation_log_carries_its_reason,
+        "run #65: the ledger-witness drift that switched the drill off as a gate for ~14 hours of "
+        "the 2026-09-26 pass reached the log as two bare net names, and nobody could say which "
+        "probe or which class had leaked")
 
     def publish_asks_before_pushing(src=None):
         """The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the

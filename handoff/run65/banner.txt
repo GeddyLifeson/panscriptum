@@ -1,0 +1,11 @@
+WIKI MAINTENANCE BOXES WERE MINED AS DESCRIPTIONS, AND PROSE IS WRITING THEM AS FACT. Found by run #65 while reading the newest chapter, as standing practice asks.
+
+MEASURED 2026-09-26 over data/records/*.json: 202 Digimon entries have a description that starts with the wiki's maintenance box, "What's needed: ...". Example (Hosoda): "What's needed: split off content Koala-kai, etc. into pages for each group; move Nirinso Defense Force and Minoru and Karina to Nirinso Shelter This is a list of characters from the Digimon anime series Digimon Beatbreak ." The banner runs straight into the real text with no delimiter. It reached the shelf: output/raw/II_K_2_Persons_1411_1420.md (written 22:39) says of Hosoda, "The entry notes that content related to Koala-kai and other groups should be split into dedicated pages". prose_gate passed it, because the P8 meta ban does not cover this phrasing.
+
+WIDER (for scale, not all of it wrong): 966 descriptions across 6 sources say "the page/article is a stub / needs ...". Many are the cataloguer's own honest note that a page was thin, which is a different thing from a scraped banner. Read before acting on that number.
+
+THE DECISION, one or more of:
+  (a) Drop the maintenance box at mining time for the Digimon wiki (it is a template on the page), then re-catalogue Digimon through write_record_catalogue. That is a code change plus a record rewrite, and the crawl is exempt from rc=17, so it would pick the change up on its next lap.
+  (b) Widen prose_gate's P8 meta ban to refuse "What's needed:" and "should be split into" text. That widens an owner-held refusal (compare order d2f103634cf1 on the ban's scope).
+  (c) Withdraw the Digimon chapters already written from these descriptions, and regenerate after (a).
+Nothing was changed by this run.
