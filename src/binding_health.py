@@ -190,7 +190,7 @@ def _land(path, obj):
     encoding was one non-ASCII sitename away from a record `_load` (which reads utf-8) could not
     read back -- a silent quarantine loss in the module whose subject is silent losses.
     """
-    return silence.write_json(path, obj, indent=1, sort_keys=True, ensure_ascii=False)
+    return silence.write_json(path, obj, indent=1, sort_keys=True, ensure_ascii=False) is True
 
 
 def _land_cas(path, obj, expected_digest):
