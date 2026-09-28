@@ -6,13 +6,18 @@ rediscovering.*
 
 ---
 
-## 1. READ THE MUTATION PASS
+## 1. THE MUTATION PASS DID NOT RUN ON 09-27
 
-`state/mutate_20260927.log`, pid 54660, launched about 22:38 on fingerprint `710eee2f401a609f`,
-after a battery of verify_math **1318/0** and drill **645/645/0**. It runs about 18 hours. **Put the
-survivor count in the handoff**, and read every `BASELINE DRIFTED` block before trusting a kill.
+mutate refused twice (`state/mutate_20260927_refused.log`, `..._20260927b_refused.log`):
+verify_math cannot finish in 1200s in the sandbox while prose holds the one GPU slot, because §20k
+makes unpinned 300s token-flow probes. Order `36eca6457ed9` has the measurement; the ruling is
+`79d51aef8b71` (OWNER). **Launch it again anyway**
+(`python src/mutate.py --target all --file-orders --detach --log state/mutate_<date>.log`, after
+the battery and never beside another verify_math). If prose is idle it will run; if it refuses
+again, record that and do not widen the timeout. If the owner has ruled for a hermetic battery,
+pin `standards._TOKENFLOW` in 20k, batch1 and b3 the way 19ai does, first.
 
-* This is the first pass since M129. The drill should no longer drift on the secondopinion probe
+* If a pass does run, it will be the first since M129. The drill should no longer drift on the secondopinion probe
   or on a net that declines to measure. **If the drill drifts anyway, the reason line names the
   probe and class. That would be a new class, so read it rather than assuming M129 regressed.**
 * If detect-secrets is ever reported `UNPARSEABLE OUTPUT: '...'`, the quoted text is what it
@@ -30,7 +35,7 @@ survivor count in the handoff**, and read every `BASELINE DRIFTED` block before 
 ## 3. THE QUEUE
 
 * BOTS `058fa19d4e65`: close once `data/CHAIN.json` carries `unmatched` (pipeline phase 4).
-* OWNER: 54 orders. New tonight: `253d116215ab` (sweep66's 11 questions; item 1, the
+* OWNER: 55 orders. New tonight: `36eca6457ed9` (mutation pass blocked by the GPU) and `253d116215ab` (sweep66's 11 questions; item 1, the
   closed-gate net, matters most). `670c907af5e3` (BLOCKING "prose stopped") is stale by
   measurement (34 chapters in 4 hours on 09-27), but it is the owner's to close.
 * `573ab7b04b6f` (publish daemon, gh.exe in the Claude app's virtualised AppData): close it after

@@ -50,8 +50,16 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
   NOT a whole pass. The drill drifted red on clean code partway through assay, so 32 assay kills are
   in doubt and prose_gate and escalation were judged with the drill off. That drift is now found
   and fixed (M129, below).
-* **A NEW MUTATION PASS IS RUNNING:** pid 54660, `state/mutate_20260927.log`, launched about
-  22:38 on fingerprint `710eee2f401a609f` after the battery went green. Read it next shift.
+* **TONIGHT'S MUTATION PASS DID NOT RUN, AND CANNOT WHILE PROSE IS RUNNING (new order
+  `36eca6457ed9`, the ruling is `79d51aef8b71`).** It was launched twice, at 22:38 and 22:59, and
+  mutate refused both times because verify_math could not finish on clean code in 1200s inside
+  the sandbox. On the live tree the same verify_math finished in about 4 minutes. A timestamped
+  hand run in a fresh sandbox stopped at verify_math.py:6836, right before the first §20k
+  `dashboard.state()` call, and netstat showed it waiting on Ollama behind prose's generate.py.
+  With four unpinned 300s token-flow probes in §20k, one busy GPU slot is enough to exceed the
+  limit. I did not widen the timeout, which that order's own remedy rules out. The question is
+  yours: a hermetic battery, or no mutation pass while prose runs. Logs:
+  `state/mutate_20260927_refused.log` and `state/mutate_20260927b_refused.log`.
 
 **The shift, in order:**
 
@@ -63,7 +71,7 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
    (marvel, forgottenrealms, onepiece, naruto, dragonball, mtg) answered ok, and their six BOTS
    orders closed themselves on the next sweep. My own edits later bounced dashboard and publish;
    both were verified and closed. **Queue at close: 0 LOCAL, 0 RUN, 1 BOTS (`058fa19d4e65`, closes
-   when pipeline phase 4 rewrites CHAIN.json), 54 OWNER.**
+   when pipeline phase 4 rewrites CHAIN.json), 55 OWNER** (including `36eca6457ed9`, filed after the first push).
 3. **M129, THE DRILL DRIFT.** M126's reason capture paid off: the 09-26 log named the leak as the
    probe "the outside opinion always returns a status for every tool" reaching the ledger through
    `silent:secondopinion.py:_detect_secrets` (JSONDecodeError). The probe runs the real three
