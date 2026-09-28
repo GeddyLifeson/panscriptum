@@ -1,0 +1,17 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction, OPTION (a): the Cascade engine surfaces finish_reason on every reply and accepts a per-call max_tokens; cascade_bridge caps output for a bucket with a known output ceiling and refuses length-stopped replies. Group CASCADE.
+
+CASCADE ENGINE (C:/Users/imarl/cascade/cascade/engine.py; the owner's own project, edited additively; backup at engine.py.bak.pre-finish-reason):
+- stream_chat(..., max_tokens=None) and _payload(..., max_tokens=None). None keeps the old behaviour exactly (OpenAI-shaped providers get no max_tokens, Anthropic keeps 8192).
+- The done event now carries finish_reason (OpenAI choices[].finish_reason, Anthropic message_delta stop_reason), length_stopped and max_tokens. Failover events for an HTTP refusal also carry status and detail (the provider body up to 300 chars), because the 160-char reason cut Groq's Limit/Requested pair off.
+- New helper is_length_stop(). Note: a second agent refactored engine.py further at about 16:00 (complete(), Completion, token estimates); the max_tokens / finish_reason / length_stopped / detail interface is still present in its version.
+
+CASCADE_BRIDGE (src/cascade_bridge.py):
+- size_refusal_limit(err) names Groq's OTPM refusal (same proof as before: the phrase AND Requested > Limit) and returns the stated limit. learn_output_ceiling() keeps the lowest stated limit per bucket; output_cap_for() gives 90% of it.
+- _ask_call sends max_tokens only when the pinned bucket has a learned ceiling AND the engine's stream_chat signature names max_tokens (an older engine is never sent the keyword). A size refusal seen in any failover event's detail teaches that bucket its ceiling even when a later candidate answers.
+- A failed call whose disposition is a size refusal is now its own class: no four-hour bench, no unrecognised-ledger row; the floor bench only when the engine cannot cap.
+- Every reply is checked with length_stopped(done, capped) BEFORE parsing: a finish_reason of length/max_tokens is refused; a CAPPED call with no finish reason is refused (fail closed); an uncapped call with no finish reason keeps the old behaviour.
+
+PROOF:
+- drill net "a size refusal teaches the bucket a ceiling, and a length-stopped reply is refused" (area drill_binding_identity), driven through the real _ask_call: HELD; RED under each of three reverts (handoff/owner0928/revert_cascade_lengthstop.json, revert_cascade_sizeclass.json, revert_cascade_cap.json).
+- Live, against Groq: engine with max_tokens=8 returned finish_reason='length', length_stopped=True; uncapped returned 'stop'. Through the bridge with a learned ceiling of 1000, the call went out with max_tokens=900 and parsed; with a ceiling of 40 (max_tokens=36) the reply was refused as length-stopped.
+- pyflakes clean on engine.py, cascade_bridge.py, drill.py.

@@ -1,0 +1,10 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. No option was recommended by the filing run; option (a) WIRE IT THROUGH was taken, because it is the one that closes the fault while keeping data: the model is already paid to produce the field, and (b) would discard what it produces.
+
+What changed (src/pipeline.py):
+- "physiology" added to MERGED_ENTRY_FIELDS, so both record writers carry it (write_record folds it onto disk; write_record_catalogue preserves the disk value across a re-catalogue because no cast-builder writes the key).
+- phase_entrypass's result walk now stores res["physiology"] (stripped, _stored_cut to 500 with the house cut marker) ONLY when the entry's category, as just judged, is Peoples & Species (CATEGORIES[7]) and the answer is non-empty -- exactly the scope ENTRY_SYSTEM asks for. An answer for any other room is not stored; an empty answer writes nothing, so it can never erase an earlier stated physiology.
+- The schema and `required` list are unchanged (still asked on every call; now read).
+
+Proof: drill net "entrypass keeps the physiology the schema makes it pay for" (drill_inspector) runs the real phase_entrypass over a fake two-entry record with the model stubbed: the people's physiology is written, the person's is not, and MERGED_ENTRY_FIELDS carries the field. --prove -> HELD; --revert handoff/owner0928/corpus_revert_physiology.json -> RED. pyflakes clean.
+
+In effect from the pipeline daemon's next start (codewatch rc=17). Entries already judged are not re-asked for it; it accrues as entrypass reopens batches.

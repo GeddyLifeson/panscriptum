@@ -1,0 +1,23 @@
+{
+ "entity": "Port of Call",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Port of Call"
+ ],
+ "chars_read": 885,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [
+  {
+   "text": "Scrapping the card gives you a draw a card and you may destroy a target base.",
+   "page": "Port of Call"
+  },
+  {
+   "text": "Draw a card and destroying a target base can enhance your attack and its prolonging your turn.",
+   "page": "Port of Call"
+  }
+ ],
+ "text": {
+  "Port of Call": "How to Play ==\nAt any time during your turn, gain 3 trade. As an Outpost the Port of Call protects your bases and your HQ with a quite powerful 6 points. Scrapping the card gives you a draw a card and you may destroy a target base.\n Strategy ==\nThe Port of Call stongest asset is the double benefit you get from scrapping the card. Draw a card and destroying a target base can enhance your attack and its prolonging your turn. That can be a game changer if played at a opportune moment. Adding 3 trade to your buy options is also powerful. With a cost of 6 a good card to buy at any time in the game."
+ }
+}

@@ -1,0 +1,14 @@
+{
+ "entity": "Trading Post",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Trading Post"
+ ],
+ "chars_read": 882,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [],
+ "text": {
+  "Trading Post": "How to Play ==\nAt any time during your turn, gain either 1 Trade or 1 Authority (but not both). Also, at any time during your turn you may scrap Trading Post to gain 3 Combat.\n Strategy ==\nWith only a 1 Trade or 1 Authority bonus to offer and 4 defense, Trading Post is one of the weakest base choices. However as an Outpost it can be useful to protect other non-Outpost bases from attack, especially in the early game when it is difficult to remove two bases in one turn."
+ }
+}

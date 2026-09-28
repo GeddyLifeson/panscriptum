@@ -1,0 +1,5 @@
+[
+  {"module": "sevenfold.py",
+   "old": "    return _ESC.assert_clear(\"%s %s\" % (os.path.basename(__file__), what))\n",
+   "new": "    return True\n"}
+]

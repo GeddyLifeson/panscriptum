@@ -1,0 +1,44 @@
+ok    want HELD  HELD  drill_owner0928_qa / a non-being carrying only the Instrument glyph is refused; the sentence passes
+ok    want RED   RED  drill_owner0928_qa / a non-being carrying only the Instrument glyph is refused; the sentence passes
+ok    want HELD  HELD  drill_owner0928_qa / the fixed-tail fill supplies a non-being's Not-applicable sentence, for all seven non-being classes
+ok    want RED   RED  drill_owner0928_qa / the fixed-tail fill supplies a non-being's Not-applicable sentence, for all seven non-being classes
+ok    want HELD  HELD  drill_owner0928_qa / an entry with no name is NOT counted as covered
+ok    want RED   RED  drill_owner0928_qa / an entry with no name is NOT counted as covered
+ok    want HELD  HELD  drill_owner0928_qa / a DISCOURSE pattern anchored as bare ^ stops tells.py importing
+ok    want RED   RED  drill_owner0928_qa / a DISCOURSE pattern anchored as bare ^ stops tells.py importing
+ok    want HELD  HELD  drill_owner0928_qa / the local model's patch audit trail records why/find/replace whole
+ok    want RED   RED  drill_owner0928_qa / the local model's patch audit trail records why/find/replace whole
+ok    want HELD  HELD  drill_owner0928_qa / a hard-linked file on the writable surface is refused; a single-name file is not
+ok    want RED   RED  drill_owner0928_qa / a hard-linked file on the writable surface is refused; a single-name file is not
+ok    want HELD  HELD  drill_owner0928_qa / a catalog row with an ABSOLUTE raw_path does not reconcile
+ok    want RED   RED  drill_owner0928_qa / a catalog row with an ABSOLUTE raw_path does not reconcile
+ok    want HELD  HELD  drill_owner0928_qa / the stopname and short-key rules are asked of the key WITHOUT its continuity
+ok    want RED   RED  drill_owner0928_qa / the stopname and short-key rules are asked of the key WITHOUT its continuity
+ok    want HELD  HELD  drill_owner0928_qa / ENTRY_SCHEMA bounds `category` to 1..len(CATEGORIES)
+ok    want RED   RED  drill_owner0928_qa / ENTRY_SCHEMA bounds `category` to 1..len(CATEGORIES)
+ok    want HELD  HELD  drill_owner0928_qa / a text-identical ruling at a moved line is named in the re-filed order, not applied
+ok    want RED   RED  drill_owner0928_qa / a text-identical ruling at a moved line is named in the re-filed order, not applied
+ok    want HELD  HELD  drill_owner0928_qa / a breached net that holds once and then fails again is NOT dropped from the halt
+ok    want RED   RED  drill_owner0928_qa / a breached net that holds once and then fails again is NOT dropped from the halt
+ok    want HELD  HELD  drill_owner0928_qa / resync_roll's closing 'roll now' figure is read back from disk
+ok    want RED   RED  drill_owner0928_qa / resync_roll's closing 'roll now' figure is read back from disk
+ok    want HELD  HELD  drill_owner0928_qa / every verdict hosts.KEEP accepts is a literal hostcheck.score really assigns
+ok    want RED   RED  drill_owner0928_qa / every verdict hosts.KEEP accepts is a literal hostcheck.score really assigns
+ok    want HELD  HELD  drill_owner0928_qa / a DECLARED_UNREACHABLE name that matches no def is reported as stale
+ok    want RED   RED  drill_owner0928_qa / a DECLARED_UNREACHABLE name that matches no def is reported as stale
+ok    want HELD  HELD  drill_owner0928_qa / a host recorded with zero designators does not fall through to another spelling
+ok    want RED   RED  drill_owner0928_qa / a host recorded with zero designators does not fall through to another spelling
+ok    want HELD  HELD  drill_owner0928_qa / a retry run that rescued nothing exits non-zero
+ok    want RED   RED  drill_owner0928_qa / a retry run that rescued nothing exits non-zero
+ok    want HELD  HELD  drill_owner0928_qa / threads.build groups T2 cohorts over source codes, not the Annex/Law-widened set
+ok    want RED   RED  drill_owner0928_qa / threads.build groups T2 cohorts over source codes, not the Annex/Law-widened set
+ok    want HELD  HELD  drill_owner0928_qa / canon_backup.prune refuses keep < 1 instead of silently pruning nothing
+ok    want RED   RED  drill_owner0928_qa / canon_backup.prune refuses keep < 1 instead of silently pruning nothing
+ok    want HELD  HELD  drill_owner0928_qa / adjudication_beta refuses zero laws touched instead of charging one
+ok    want RED   RED  drill_owner0928_qa / adjudication_beta refuses zero laws touched instead of charging one
+ok    want HELD  HELD  drill_assay / a disambiguated name does NOT borrow its base name's citation
+ok    want RED   RED  drill_assay / a disambiguated name does NOT borrow its base name's citation
+ok    want HELD  HELD  drill_done_keys / the catalogue merge does not key entries on name alone
+ok    want RED   RED  drill_done_keys / the catalogue merge does not key entries on name alone
+
+42 of 42 as expected

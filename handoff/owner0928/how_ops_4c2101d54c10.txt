@@ -1,0 +1,19 @@
+FIXED 2026-09-28 under the owner's "fix everything" instruction (group OPS). Option taken: (b), the one the order itself calls "the only layer that survives everything above it dying" -- a Windows Scheduled Task that re-runs the watchdog on an interval, not only at logon.
+
+WHAT WAS REGISTERED (user-level, no admin, no credentials):
+  Task name   : Panscriptum\WatchdogKeeper
+  Runs        : C:\Users\imarl\miniconda3\pythonw.exe -u "C:\Users\imarl\panscriptum-library-kit\src\autostart.py" --ensure
+  Triggers    : every 10 minutes indefinitely (TimeTrigger + Repetition PT10M), and at logon (+2 min)
+  Settings    : Hidden; InteractiveToken / LeastPrivilege; MultipleInstances IgnoreNew; runs on battery and does not stop on battery (the two schtasks defaults that would silently disable a keeper on a laptop are switched off via XML); ExecutionTimeLimit 5 min (the one-shot takes about a second).
+  Definition  : state/watchdog_keeper_task.xml (written by `autostart.py --install-task`).
+  Verified    : `schtasks /Run` at 15:49:05 -> Last Result 0; a watchdog was already up, so --ensure correctly did nothing. `autostart.py --status` now prints a "Watchdog keeper" line reading the task back by CONTENT (interpreter, script, --ensure, interval), not existence.
+
+CODE (src/autostart.py):
+  * `--ensure`: one-shot. `watchdog_up()` asks the process table (codewatch.twins, this tree only, --watch in argv) -> True/False/None. `_ensure_decision()` (pure) starts a watchdog ONLY on a definite False; None ("could not tell") starts nothing and waits 10 min, because a second watchdog is the respawn incident in this module's docstring. The watchdog is spawned on pythonw.exe with CREATE_NO_WINDOW | DETACHED_PROCESS (+ CREATE_BREAKAWAY_FROM_JOB where the job allows it) -- no console window, ever.
+  * `--install-task` / `--uninstall-task`; `--install` now installs the task too.
+  * The watchdog's own old-code log line and codewatch.EXEMPT's autostart entry now say the watchdog has a keeper. Moving the watchdog itself onto exit_if_stale (order bee9d16f4174's exit half) is now affordable but was NOT done -- a separate ruling.
+  * It never touches the halt or the pause: the watchdog it starts asks both, as before.
+
+PROVEN: drill.py area `drill_ops_liveness`, net "a dead watchdog is restarted by its scheduled keeper". `--prove` with handoff/owner0928/revert_ops_watchdog.json (--ensure answers "running" for a dead watchdog) -> RED; without -> HELD. pyflakes clean.
+
+NOT DONE (brief limit 8): the running watchdog (pid 29656, started 15:03) was not killed to demonstrate a live restart; the start path is proven on the pure decision plus the task run above.

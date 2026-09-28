@@ -1,0 +1,3 @@
+[
+ {"module": "pipeline.py", "old": "                if phys and batch[i].get(\"category\") == CATEGORIES[7]:", "new": "                if False:"}
+]

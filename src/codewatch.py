@@ -154,7 +154,11 @@ EXEMPT = {
         "rc=17 here would convert 'running old code' into 'not running', leaving the supervisor "
         "unwatched until the next logon. So `autostart.watch` calls `stale()` and SAYS SO in its "
         "log, rate-limited, instead of `exit_if_stale()`. The visibility half is closed; the "
-        "exit half is refused on purpose. (order bee9d16f4174)"),
+        "exit half is refused on purpose. (order bee9d16f4174) SINCE 2026-09-28 THE WATCHDOG "
+        "ITSELF HAS A KEEPER: the Windows scheduled task `Panscriptum\\WatchdogKeeper` runs "
+        "`autostart.py --ensure` every 10 minutes and starts a watchdog when none is up (order "
+        "4c2101d54c10), so a DEAD watchdog is no longer permanent. Moving the watchdog onto "
+        "exit_if_stale is now affordable but is a separate ruling, not taken here."),
     "hostcheck.py": (
         "NOT A DAEMON. One-shot: it has no loop in `main` and exits when its pass is done, so "
         "every invocation is a fresh process reading current source. There is no staleness "
@@ -610,7 +614,11 @@ def _ledger_lock(attempts=50, wait=0.05):
         try:
             os.close(os.open(LEDGER_LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
             break
-        except FileExistsError:
+        # PermissionError TOO (2026-09-28): on Windows, creating a file whose previous holder
+        # is mid-`os.remove` raises PermissionError ("delete pending"), not FileExistsError. It
+        # escaped this loop and failed verify_math's concurrency row intermittently. It means
+        # the same thing -- somebody holds or is releasing the lock -- so it waits the same way.
+        except (FileExistsError, PermissionError):
             try:
                 if time.time() - os.path.getmtime(LEDGER_LOCK) > LOCK_STALE_SECONDS:
                     os.remove(LEDGER_LOCK)
@@ -1026,7 +1034,13 @@ def exit_if_stale(who="?", rc=RC_STALE):
     this hour it keeps running -- old code and all -- and escalates instead. A daemon that
     bounces forever performs no work while looking busy, and this project has already paid for
     one respawn loop (see `autostart._twin_watchdog`).
+
+    AND IT IS WHERE A PAUSE TAKES EFFECT (order 8454be695dc7). This call is already each
+    daemon's safe point -- its loop makes it between units of work, never mid-write -- so a
+    standing job that finds `state/PAUSED.json` in force leaves HERE, with rc=0, instead of
+    being killed wherever it happened to be. See `exit_if_paused`.
     """
+    exit_if_paused(who)
     _stamp_poll(who)
     is_stale, why = stale(who)
     if not is_stale:
@@ -1065,13 +1079,66 @@ def exit_if_stale(who="?", rc=RC_STALE):
           "with the current code. This is NOT a crash." % (who, why, rc), flush=True)
     try:
         import escalation
+        # RECORDED, NOT FILED (order f7d7769075c0, decided under the owner's 2026-09-28 "fix
+        # everything" instruction: the "over-budget-only" option). A restart that got here was
+        # GRANTED a slot inside BUDGET_PER_HOUR -- it is the safety working as designed, and one
+        # maintenance shift used to leave three owner-visible orders open for it at once. It
+        # still lands whole in the janitor's rung (state/escalation.log and this job's own area
+        # log) and in state/CODEWATCH.json; it no longer asks anybody to act. What DOES still
+        # file an order is the case that is news: the budget spent, or the ledger write denied
+        # (the MANAGER escalation above), and a job that fails to come back, which is the
+        # keeper's and the watchdog's to see.
         escalation.escalate(escalation.JANITOR, "CODEWATCH_RESTART",
                             "%s exited to pick up changed source (%s)" % (who, why),
                             evidence={"job": who, "restarts_this_hour": used + 1},
-                            source=who, who="codewatch")
+                            source=who, who="codewatch", order=False)
     except Exception:
         silence.note("codewatch.py:escalate")
     raise SystemExit(rc)
+
+
+# The rc a paused daemon leaves with. Zero, because leaving on a pause is a clean finish and not a
+# fault; `overnight.name_rc` already reads 0 as "clean".
+RC_PAUSED = 0
+
+
+def _pause_roster():
+    """Which `who` names a pause may exit: the keeper's STANDING set plus the supervisor.
+
+    DERIVED FROM `overnight.STANDING`, not typed, for the reason `coverage()` gives. Anything
+    else that happens to call `exit_if_stale` (a drill net, a one-shot tool) is NOT exited by a
+    pause -- a battery that dies because the owner paused the library mid-run would be a pause
+    that corrupts the thing it was meant to protect.
+    """
+    try:
+        import overnight as _ON
+        return {n for n, _a, _l in _ON.STANDING} | {"overnight"}
+    except Exception:
+        silence.note("codewatch.py:pause-roster")
+        return {"dashboard", "publish", "foreman", "overwatch", "pipeline", "read", "overnight"}
+
+
+def exit_if_paused(who="?"):
+    """Leave cleanly if the library is PAUSED and `who` is a standing daemon. -> False otherwise.
+
+    Order 8454be695dc7. Never raises except the deliberate SystemExit. An unreadable pause marker
+    answers PAUSED (escalation.paused fails closed), which here means a daemon leaves rather than
+    working through a marker it could not read -- the cost is a restart after the pause lifts.
+    """
+    if who not in _pause_roster():
+        return False
+    try:
+        import escalation
+        is_paused, why = escalation.paused()
+    except Exception:
+        silence.note("codewatch.py:pause-unreadable")
+        return False
+    if not is_paused:
+        return False
+    print("[codewatch] %s: THE LIBRARY IS PAUSED (%s) — leaving at this safe point with rc=%d. "
+          "Nothing restarts it until the pause is lifted. This is NOT a crash."
+          % (who, why, RC_PAUSED), flush=True)
+    raise SystemExit(RC_PAUSED)
 
 
 def main():

@@ -1053,6 +1053,23 @@ _HOST_OVERRIDES = [
 ]
 
 
+def ruled_bindings():
+    """-> {source: host-or-None} a person has ruled (data/HOST_RULINGS.json `bindings`).
+
+    Read through `binding_health.rulings`, the one reader of that file. An unreadable file is
+    "no rulings" -- resolution falls back to measuring -- and is noted rather than raised, since
+    this sits on the roll's startup path.
+    """
+    try:
+        import binding_health as BH
+        rows = (BH.rulings().get("bindings") or {})
+    except Exception:
+        silence.note("feats.py:ruled-bindings")
+        return {}
+    return {s: (r.get("host") or None) for s, r in rows.items()
+            if isinstance(r, dict) and "host" in r}
+
+
 def _override(source):
     for pat, host in _HOST_OVERRIDES:
         if re.search(pat, source, re.I):
@@ -1102,8 +1119,20 @@ def resolve_hosts(records, verify=True):
     # a failed probe used to leave no trace at all.
     unprobed = {}
 
+    ruled = ruled_bindings()
+
     for _, r in records:
         src = r["source"]
+        # A PERSON'S RULING OUTRANKS EVERYTHING BELOW IT (owner 2026-09-28, orders f07b7d538ed1,
+        # f84cb75edcfe; data/HOST_RULINGS.json `bindings`). Without this an UNBINDING could not
+        # stand: a null is re-probed by design (see "A NULL IS A CACHED FAILURE" below), the
+        # slug guess for 'Star Realms' is starrealms.fandom.com -- which answers, as 'The Brain
+        # World Wikia' -- and the drink wiki would come straight back for 'Prime World Equipment'
+        # off its one catalogued entry carrying a prime.fandom.com URL. A ruled null is written
+        # as a null and NOT re-probed; `roll()` prints the source among the hostless.
+        if src in ruled:
+            known[src] = ruled[src]
+            continue
         # An OVERRIDE outranks a cached guess, always. The overrides were written after the first
         # host resolution had already run and cached its guesses, and this loop skipped anything
         # already present -- so the wrong guesses were frozen in permanently.
@@ -2358,14 +2387,72 @@ def remine(path):
 
 # --------------------------------------------------------------------------- the roll
 
-def roll(records, hosts, workers=8, limit=None, only=None):
+def _roll_jobs(records, hosts, only=None, shelved=None, extras=None, admit=None):
+    """PURE given its arguments. Every (host, source, entity) job a roll should mine. -> (jobs, tally)
+
+    `hosts` is the primary map; `shelved` the hosts a person shelved; `extras` {source: [host]}
+    from `hosts.hosts_for(source, include_primary=False)`; `admit(source, host) -> (bool, why)`
+    the identity gate for an extra host.
+
+    HOSTS.PY IS WIRED HERE, BEHIND THE THROTTLE AND BEHIND AN IDENTITY GATE (order 3fb312a72435;
+    owner ruling 2026-09-08 #9 "wire what closes a measured gap", applied 2026-09-28). An extra
+    host's jobs go through the same `work()` as the primary's, so the per-domain pacer, the
+    adaptive backoff and the quarantine hand-off all apply to them. What does NOT carry over is
+    the trust a primary binding earned: SOURCE_HOSTS.json was filled by roster LIFT, and lift
+    admitted lost.fandom.com -- LOSTPEDIA, the TV show -- for 'Lost Mines of Phandelver' at
+    0.974. Mined blindly, that is the prime.fandom.com contamination again at forty-five hosts'
+    scale. So an extra host is mined only when `admit` says its own sitename CONFIRMS it (the
+    same `binding_verdict`, containment rule and owner confirmations included). Everything else
+    is WITHHELD, counted and named in the roll summary -- including every general-purpose host
+    such as en.wikipedia.org, whose sitename can confirm no single fiction. Fail closed: no
+    `admit`, no extra host.
+
+    A SHELVED primary is not mined; its entities are counted in `shelved_entities` and printed
+    by source, visible as unmined and never dropped from the records (Hard Rule 0).
+    """
+    shelved = shelved or {}
+    extras = extras or {}
+    t = {"hostless_sources": set(), "hostless_entities": 0, "shelved": {},
+         "shelved_entities": 0, "extra_admitted": [], "extra_withheld": []}
+    jobs = []
+    for _, r in records:
+        src = r["source"]
+        h = hosts.get(src)
+        if not h:
+            t["hostless_sources"].add(src)
+            t["hostless_entities"] += len(r["entries"])
+            continue
+        if only and only not in src:
+            continue
+        targets = []
+        if h in shelved:
+            t["shelved"].setdefault(h, []).append(src)
+            t["shelved_entities"] += len(r["entries"])
+        else:
+            targets.append(h)
+        for x in extras.get(src) or []:
+            if not x or x == h or x in targets:
+                continue
+            if x in shelved:
+                t["extra_withheld"].append((src, x, "host SHELVED by owner ruling"))
+                continue
+            ok, why = admit(src, x) if admit else (False, "no identity gate was supplied")
+            (t["extra_admitted"] if ok else t["extra_withheld"]).append((src, x, why))
+            if ok:
+                targets.append(x)
+        for e in r["entries"]:
+            for tgt in targets:
+                jobs.append((tgt, src, e["name"]))
+    return jobs, t
+
+
+def roll(records, hosts, workers=8, limit=None, only=None, extra_hosts=True):
     """Mine every entity of every resolved source, in parallel.
 
     Parallelism is per ENTITY but politeness is per HOST (see _throttle), so eight workers spread
     across eight wikis run at full speed while eight workers on one wiki queue behind each other.
     Everything is cached to disk on write, so a killed run resumes for free.
     """
-    jobs = []
     # HOSTLESS SOURCES, COUNTED (order b9584c782d95). Every OTHER way an entity fails to be mined
     # in this file is measured and printed in the summary below -- _RATE_LIMITED, _CAP_BOUND,
     # _STALE_GATE, _UNCACHED, the length-filter drops, the refused-page tally -- and a source with
@@ -2376,17 +2463,54 @@ def roll(records, hosts, workers=8, limit=None, only=None):
     # with nothing anywhere to show it happened. Kept SEPARATE from the `only` filter just below:
     # that is an operator-requested narrowing, not a silent exclusion, and folding the two into
     # one count would hide the involuntary one behind the deliberate one.
-    hostless_sources, hostless_entities = set(), 0
-    for _, r in records:
-        h = hosts.get(r["source"])
-        if not h:
-            hostless_sources.add(r["source"])
-            hostless_entities += len(r["entries"])
-            continue
-        if only and only not in r["source"]:
-            continue
-        for e in r["entries"]:
-            jobs.append((h, r["source"], e["name"]))
+    #
+    # SHELVED HOSTS AND EXTRA HOSTS (owner 2026-09-28, "fix everything"; orders 9029a484a13c,
+    # 3fb312a72435). Both decided in `_roll_jobs`, which is pure so the drill can attack it: a
+    # host a person SHELVED is not mined and its entities are COUNTED and printed as unmined, and
+    # every EXTRA host `hosts.hosts_for` knows for a source is mined beside the primary -- but
+    # only once that host's own sitename CONFIRMS it is this source's wiki (see `_roll_jobs`).
+    try:
+        import binding_health as BH
+        _rdoc = BH.rulings()
+        shelved, confirmed = BH.shelved_hosts(_rdoc), BH.confirmed_pairs(doc=_rdoc)
+    except Exception:
+        silence.note("feats.py:roll-rulings")
+        BH, shelved, confirmed = None, {}, []
+    extras, extras_unreadable = {}, False
+    if extra_hosts:
+        try:
+            import hosts as HS
+            for _, r in records:
+                if only and only not in r["source"]:
+                    continue
+                ex = HS.hosts_for(r["source"], include_primary=False)
+                if ex:
+                    extras[r["source"]] = ex
+        except Exception:
+            # FAIL CLOSED: an unreadable SOURCE_HOSTS.json mines no extra host this roll, and
+            # says so below rather than reading as "no source has a second host".
+            silence.note("feats.py:roll-extra-hosts")
+            extras, extras_unreadable = {}, True
+    identity = {}
+
+    def admit(src, host):
+        """Is this extra host THIS source's wiki? -> (bool, why). One siteinfo per host."""
+        if BH is None:
+            return False, "the binding rulings could not be read, so no identity gate ran"
+        if host not in identity:
+            try:
+                identity[host] = BH._probe_identity(host)
+            except Exception:
+                silence.note("feats.py:roll-extra-identity")
+                identity[host] = (None, "the identity probe raised")
+        sitename, det = identity[host]
+        v = BH.binding_verdict(sitename, [src], confirmed=confirmed)
+        return v["verdict"] == "CONFIRMED", "%s (%s)" % (v["verdict"], det)
+
+    jobs, tally = _roll_jobs(records, hosts, only=only, shelved=shelved, extras=extras,
+                             admit=admit)
+    hostless_sources = tally["hostless_sources"]
+    hostless_entities = tally["hostless_entities"]
     # Jobs built source-by-source put all eight workers on the SAME wiki at once, where the
     # per-host throttle serialises them and the roll runs at one entity a second regardless of
     # worker count. Interleaving by host means the workers are on eight different wikis at any
@@ -2595,6 +2719,26 @@ def roll(records, hosts, workers=8, limit=None, only=None):
         ranked = sorted(_RATE_LIMITED.items(), key=lambda kv: -kv[1])   # ranked, never truncated
         print(f"  429s absorbed: {tot:,} across {len(_RATE_LIMITED)} host(s), busiest first: "
               + ", ".join(f"{h} x{n:,}" for h, n in ranked))
+    # SHELVED AND EXTRA HOSTS, NAMED IN FULL (Hard Rule 0: these are lists a person acts on).
+    if tally["shelved"]:
+        print(f"  SHELVED hosts, NOT mined by owner ruling: {tally['shelved_entities']:,} "
+              f"entities stay catalogued and UNMINED -- "
+              + "; ".join("%s (%s)" % (h, ", ".join(sorted(s)))
+                          for h, s in sorted(tally["shelved"].items())))
+    else:
+        print("  shelved hosts: none bound to a source in this roll")
+    if extras_unreadable:
+        print("  EXTRA HOSTS NOT CONSULTED: data/SOURCE_HOSTS.json could not be read, so this "
+              "roll mined primaries only. That is 'we could not tell', not 'no second host'.")
+    elif extra_hosts:
+        print(f"  extra hosts (hosts.py) MINED, identity confirmed: "
+              f"{len(tally['extra_admitted'])} -- "
+              + (", ".join("%s -> %s" % (s, h) for s, h, _ in tally["extra_admitted"])
+                 or "none"))
+        print(f"  extra hosts WITHHELD, identity not confirmed: "
+              f"{len(tally['extra_withheld'])} -- "
+              + ("; ".join("%s -> %s [%s]" % (s, h, w) for s, h, w in tally["extra_withheld"])
+                 or "none"))
     if hostless_sources:
         print(f"  sources with NO RESOLVED HOST: {len(hostless_sources):,} source(s), "
               f"{hostless_entities:,} entities excluded from this roll entirely -- "

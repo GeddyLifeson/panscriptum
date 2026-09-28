@@ -1,0 +1,1 @@
+[{"module": "backfill.py", "old": "return 1 if (denied or errors) else 0", "new": "return 1 if denied else 0"}]

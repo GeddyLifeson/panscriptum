@@ -482,10 +482,11 @@ def seal():
         # against its immediate PREDECESSOR, the same one-step blindness.
         #
         # The floor closes that by keeping a SEPARATE copy that only moves forward: it is
-        # replaced with the live text only when the live text has at least as much substantive
-        # content (by the same `_substantive_lines` count `_lost_fraction` measures loss with) as
-        # the floor already holds. A push that loses content, however small, leaves the floor
-        # exactly where it was. `check_since_floor()` below then measures every push against that
+        # advanced to the UNION of itself and the live text (order a5faab7f3ede -- it used to be
+        # replaced whenever the live text's substantive line COUNT had not fallen, which let a
+        # push that lost lines while adding more carry the loss into the floor; see
+        # `_floor_union`). A push that loses content, however small, keeps the lost lines in
+        # the floor. `check_since_floor()` below then measures every push against that
         # never-lowered peak, with the same MAX_LOST_FRACTION -- reusing the number rather than
         # inventing a second, unruled threshold, since 0.05 is already the figure this project's
         # own doctrine measured and settled on for how much of a ledger a single edit may
@@ -509,15 +510,29 @@ def seal():
         # fix existed, because no fuller-history copy of these ledgers is retained anywhere in
         # this module; it closes the hole going forward, measured from today's peak.
         try:
+            # THE FLOOR ADVANCES TO THE UNION, NOT TO WHICHEVER TEXT HAS MORE LINES (order
+            # a5faab7f3ede, decided under the owner's 2026-09-28 "fix everything" instruction,
+            # the order's own proposed middle rule). The advance used to fire whenever the live
+            # text's substantive line COUNT did not fall, so a push that deleted 4% of a ledger
+            # while adding 5% new lines grew the count and moved the floor onto a text that had
+            # already lost content -- the compounding hole the floor exists to close, reopened
+            # through its own ratchet. `_floor_union` keeps every line the floor ever held (with
+            # its multiplicity) beside everything the live text adds, so the floor can only
+            # grow, and a lost line stays in it and keeps counting against every later push.
+            # A line deliberately removed from a ledger therefore NEVER leaves the floor by any
+            # code path: that is the ruling the order asked for. Honest edits accumulate as
+            # loss against a floor that also grows with every append, so the 5% budget is
+            # spent slowly; if it is ever exhausted, rebuilding the floor file is a person's
+            # deliberate act, not something a run may do.
             floor_text = _read_floor_snapshot(n)
-            if floor_text is None or (sum(_substantive_lines(text).values())
-                                       >= sum(_substantive_lines(floor_text).values())):
+            new_floor = _floor_union(floor_text, text)
+            if new_floor != floor_text:
                 ftmp = os.path.join(SNAPSHOT_DIR,
                                     "%s.floor.%d.%d.tmp" % (flat, os.getpid(),
                                                              threading.get_ident()))
                 os.makedirs(SNAPSHOT_DIR, exist_ok=True)
                 with open(ftmp, "w", encoding="utf-8") as f:
-                    f.write(text)
+                    f.write(new_floor)
                 os.replace(ftmp, _floor_snapshot_path(n))
         except Exception:
             silence.note("ledger_guard.py:floor-snapshot")
@@ -577,6 +592,37 @@ def _read_floor_snapshot(name):
             return f.read()
     except FileNotFoundError:
         return None
+
+
+_FLOOR_RETAINED_RULE = "=" * 72
+
+
+def _floor_union(floor_text, live_text):
+    """PURE. -> the next floor text: the live text plus every floor line the live text lost.
+
+    Order a5faab7f3ede. Measured by `_substantive_lines`, the result holds, for every line,
+    max(floor count, live count) -- the multiset UNION -- so `_lost_fraction(result, x)` is never
+    smaller than `_lost_fraction(floor, x)` for any later text `x`: the floor never forgets a
+    loss. With no floor yet the live text is the first floor, exactly as before.
+
+    The retained lines go after a rule-only separator, which `_substantive_lines` ignores, so the
+    floor file still reads as the ledger followed by what the ledger has lost since its peak --
+    the thing a person comparing the two needs to see first. When the live text lost nothing the
+    result is the live text itself, byte for byte.
+    """
+    if floor_text is None:
+        return live_text
+    lost = _substantive_lines(floor_text) - _substantive_lines(live_text)
+    if not lost:
+        return live_text
+    kept = []
+    for ln in (floor_text or "").splitlines():
+        s = ln.strip()
+        if lost.get(s, 0) > 0:
+            kept.append(s)
+            lost[s] -= 1
+    return (live_text.rstrip("\n") + "\n\n" + _FLOOR_RETAINED_RULE + "\n"
+            + "\n".join(kept) + "\n")
 
 
 def _lost_fraction(old, new):

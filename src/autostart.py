@@ -369,10 +369,18 @@ def _twin_watchdog():
     return False
 
 
-def _start_decision(alive, starts, now, halted):
+def _start_decision(alive, starts, now, halted, paused=False):
     """What one watchdog tick should do. -> (action, starts_still_inside_the_window).
 
-    `action` is one of "unknown", "running", "halted", "budget", "start". A PURE FUNCTION, pulled
+    `action` is one of "unknown", "running", "halted", "paused", "budget", "start".
+
+    "paused" (order 8454be695dc7): `state/PAUSED.json` is in force, so the supervisor is down ON
+    PURPOSE and nothing is started or budgeted. Asked AFTER the halt, so a halted library always
+    reads as halted; a pause can only ever hold back a start, never make one. `paused` is True,
+    False or None; None (could not read) is treated as paused -- `escalation.paused()` already
+    fails closed, and this keeps the same answer if the question itself could not be put.
+
+    A PURE FUNCTION, pulled
     out of `watch()` so the drill can put questions to it: `watch()` is an infinite loop, and a rule
     inside a loop nobody can drive is a rule nobody can watch refuse (order 06041602990d).
 
@@ -395,6 +403,8 @@ def _start_decision(alive, starts, now, halted):
         return "running", starts
     if halted is True:
         return "halted", starts
+    if paused is not False:
+        return "paused", starts
     if len(starts) >= MAX_STARTS_PER_HOUR:
         return "budget", starts
     return "start", starts
@@ -462,6 +472,7 @@ def watch(read_hours=10):
     said_budget_at = 0.0        # persistent condition would otherwise write twenty identical
     said_stale_at = 0.0         # lines an hour
     said_halted_at = 0.0        # rate-limited like the three above (order 06041602990d)
+    said_paused_at = 0.0        # and the pause the same way (order 8454be695dc7)
     while True:
         try:
             alive = supervisor_alive()
@@ -470,17 +481,19 @@ def watch(read_hours=10):
                 is_stale, why = codewatch.stale("autostart")
                 if is_stale:
                     said_stale_at = now
-                    _log("THIS WATCHDOG IS RUNNING OLD CODE (%s). It does NOT exit on that, "
-                         "because nothing restarts the Startup .vbs and exiting would leave the "
-                         "supervisor unwatched until the next logon -- worse than lag. Every "
-                         "change to autostart.py since this process started takes effect at the "
-                         "NEXT LOGON and not before. To apply one now: kill this process and run "
-                         "%s src/autostart.py --watch" % (why, PY))
+                    _log("THIS WATCHDOG IS RUNNING OLD CODE (%s). It does NOT exit on that: "
+                         "exiting would leave the supervisor unwatched until the scheduled keeper "
+                         "(%s, every %d min) starts a new watchdog, and moving it onto rc=17 is "
+                         "a separate ruling. Every change to autostart.py since this process "
+                         "started waits for this process to end. To apply one now: kill this "
+                         "process; the scheduled keeper restarts it on current code, or run "
+                         "%s src/autostart.py --watch" % (why, TASK_NAME, TASK_EVERY_MINUTES, PY))
             # THE HALT IS READ BEFORE ANY START IS CONSIDERED (order 06041602990d). Only when the
             # supervisor is down, because that is the only tick on which a start is possible. An
             # unreadable halt is None, which `_start_decision` deliberately does NOT treat as a
             # reason to hold back: the supervisor asks the halt first and refuses on its own.
             halted = None
+            paused, paused_why = False, ""
             if alive is False:
                 try:
                     import escalation as _ESC_WATCH
@@ -488,7 +501,15 @@ def watch(read_hours=10):
                 except Exception:
                     silence.note("autostart.py:watch-halt-unreadable")
                     halted = None
-            action, starts = _start_decision(alive, starts, now, halted)
+                # THE PAUSE, asked after the halt and only when a start is possible (order
+                # 8454be695dc7). Unanswerable -> None -> treated as paused by _start_decision.
+                try:
+                    import escalation as _ESC_PAUSE
+                    paused, paused_why = _ESC_PAUSE.paused()
+                except Exception:
+                    silence.note("autostart.py:watch-pause-unreadable")
+                    paused, paused_why = None, "the pause marker could not be read"
+            action, starts = _start_decision(alive, starts, now, halted, paused)
             if action == "unknown":
                 # DO NOT ACT ON A BLIND SPOT. See supervisor_alive().
                 if now - said_unknown_at >= START_WINDOW_SECONDS:
@@ -501,6 +522,12 @@ def watch(read_hours=10):
                     _log("the library is HALTED, so the supervisor is down ON PURPOSE: NOT "
                          "starting one and NOT spending the start budget. This is not a fault. "
                          "It starts on the first check after a person lifts the halt.")
+            elif action == "paused":
+                if now - said_paused_at >= START_WINDOW_SECONDS:
+                    said_paused_at = now
+                    _log("the library is PAUSED (%s), so the supervisor is down ON PURPOSE: NOT "
+                         "starting one and NOT spending the start budget. It starts on the first "
+                         "check after the pause ends." % paused_why)
             elif action == "budget":
                 if now - said_budget_at >= START_WINDOW_SECONDS:
                     said_budget_at = now
@@ -525,14 +552,233 @@ def watch(read_hours=10):
         time.sleep(CHECK_SECONDS)
 
 
+# ---------------------------------------------------------------------------------------------
+# THE WATCHDOG'S OWN KEEPER (order 4c2101d54c10, BLOCKING; decided under the owner's 2026-09-28
+# "fix everything" instruction, option (b): a Windows Scheduled Task re-running the watchdog on an
+# interval, "the only layer that survives everything above it dying").
+#
+# THE INCIDENT. On 2026-09-10 this watchdog died between 21:41 and 22:41 with nothing to say so.
+# At 22:28 a maintenance run's edits moved the src/ fingerprint, every standing job AND the
+# supervisor took their designed rc=17 exit -- and with the watchdog already dead nothing brought
+# any of them back. The whole library was off the air until a person noticed. The rc=17 cascade
+# worked as designed; what was missing was anything watching the watchdog. Everything else in the
+# restart chain hangs from this one process and it was the only one with no recovery path.
+#
+# THE REMEDY. A per-user scheduled task, `Panscriptum\WatchdogKeeper`, runs
+# `pythonw.exe -u src/autostart.py --ensure` every TASK_EVERY_MINUTES and at logon. `--ensure` is a
+# ONE-SHOT: it asks the process table whether a `--watch` from this tree is up and starts one,
+# detached and windowless, only on a definite NO. It never starts a supervisor itself and never
+# touches the halt or the pause -- the watchdog it starts asks both, exactly as it always has. The
+# Task Scheduler service is outside everything this kit runs, so it is the one layer that survives
+# every kit process dying at once.
+#
+# NO CONSOLE WINDOW, EVER (owner directive): the task runs pythonw.exe, `schtasks` is called with
+# CREATE_NO_WINDOW, and the watchdog is spawned with CREATE_NO_WINDOW | DETACHED_PROCESS.
+TASK_NAME = "Panscriptum" + chr(92) + "WatchdogKeeper"
+TASK_EVERY_MINUTES = 10
+TASK_XML = os.path.join(LOGDIR, "watchdog_keeper_task.xml")
+
+
+def watchdog_up():
+    """Is an `autostart.py --watch` FROM THIS TREE running? -> True, False, or None (could not tell).
+
+    The same instrument `_twin_watchdog` uses (`codewatch.twins` resolves this tree's copy and
+    excludes this process), without its fail-open: here "could not tell" must NOT start anything,
+    because the next task run is ten minutes away and a second watchdog is the respawn incident.
+    """
+    try:
+        import psutil
+        import codewatch
+        pids = codewatch.twins("autostart")
+    except Exception:
+        silence.note("autostart.py:ensure-probe")
+        return None
+    for pid in pids:
+        try:
+            if "--watch" in psutil.Process(pid).cmdline():
+                return True
+        except Exception:
+            silence.note("autostart.py:ensure-cmdline")
+            continue
+    return False
+
+
+def _ensure_decision(up):
+    """PURE. What one `--ensure` run should do about the watchdog. -> "unknown"|"running"|"start".
+
+    Only a definite False starts one. Pulled out so the drill can put the question without a
+    process table (net: `a dead watchdog is restarted by its scheduled keeper`).
+    """
+    if up is None:
+        return "unknown"
+    if up:
+        return "running"
+    return "start"
+
+
+def start_watchdog():
+    """Launch `autostart.py --watch` detached, windowless, on the pythonw interpreter. -> Popen."""
+    flags = 0
+    if os.name == "nt":
+        flags = _NO_WIN | subprocess.DETACHED_PROCESS
+    argv = [_launcher_py(), "-u", os.path.join(SRC, "autostart.py"), "--watch"]
+    try:
+        # BREAKAWAY FIRST: Task Scheduler may run this one-shot inside a job object, and a child
+        # left inside it can be ended with the task instance. Refused breakaway is an ordinary
+        # answer (the job forbids it), so fall back to a plain detached start.
+        return subprocess.Popen(argv, cwd=HERE, stdin=subprocess.DEVNULL,
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                creationflags=flags | getattr(subprocess,
+                                                              "CREATE_BREAKAWAY_FROM_JOB", 0))
+    except OSError:
+        _ = "silence-exempt: a refused job-object breakaway is an ordinary answer; the plain detached start is the documented fallback"
+        return subprocess.Popen(argv, cwd=HERE, stdin=subprocess.DEVNULL,
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                creationflags=flags)
+
+
+def ensure():
+    """One scheduled-task tick: start a watchdog if, and only if, none is running. -> action."""
+    action = _ensure_decision(watchdog_up())
+    if action == "start":
+        p = start_watchdog()
+        _log("WATCHDOG WAS NOT RUNNING -- the scheduled keeper (%s) started one, pid %s. "
+             "Nothing else in the kit could have: this is the process the whole restart chain "
+             "hangs from. (order 4c2101d54c10)" % (TASK_NAME, getattr(p, "pid", "?")))
+    elif action == "unknown":
+        _log("scheduled keeper: could not read the process table, so NOT starting a watchdog "
+             "(a blind spot is not a death); the next run asks again in %d min"
+             % TASK_EVERY_MINUTES)
+    return action
+
+
+def _task_xml():
+    """The scheduled task definition. Repeats every TASK_EVERY_MINUTES forever, plus at logon.
+
+    Written as XML rather than `schtasks /SC MINUTE` flags because the flag form cannot turn off
+    the two defaults that would silently disable it on a laptop -- "start only on AC power" and
+    "stop if the computer switches to battery" -- and a keeper that stops keeping on battery is
+    the invisible failure this exists to end.
+    """
+    user = "%s%s%s" % (os.environ.get("USERDOMAIN", ""), chr(92) if os.environ.get("USERDOMAIN")
+                       else "", os.environ.get("USERNAME", ""))
+
+    def esc(s):
+        return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                .replace('"', "&quot;"))
+    args = '-u "%s" --ensure' % os.path.join(SRC, "autostart.py")
+    start = time.strftime("%Y-%m-%dT%H:%M:00")
+    return (
+        '<?xml version="1.0" encoding="UTF-16"?>\n'
+        '<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">\n'
+        '  <RegistrationInfo><Description>Panscriptum: restart the autostart.py watchdog if it '
+        'has died (order 4c2101d54c10). One-shot, windowless.</Description></RegistrationInfo>\n'
+        '  <Triggers>\n'
+        '    <TimeTrigger><StartBoundary>%s</StartBoundary><Enabled>true</Enabled>'
+        '<Repetition><Interval>PT%dM</Interval><StopAtDurationEnd>false</StopAtDurationEnd>'
+        '</Repetition></TimeTrigger>\n'
+        '    <LogonTrigger><Enabled>true</Enabled><UserId>%s</UserId><Delay>PT2M</Delay>'
+        '</LogonTrigger>\n'
+        '  </Triggers>\n'
+        '  <Principals><Principal id="Author"><UserId>%s</UserId>'
+        '<LogonType>InteractiveToken</LogonType><RunLevel>LeastPrivilege</RunLevel>'
+        '</Principal></Principals>\n'
+        '  <Settings>\n'
+        '    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>\n'
+        '    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>\n'
+        '    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>\n'
+        '    <StartWhenAvailable>true</StartWhenAvailable>\n'
+        '    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>\n'
+        '    <IdleSettings><StopOnIdleEnd>false</StopOnIdleEnd>'
+        '<RestartOnIdle>false</RestartOnIdle></IdleSettings>\n'
+        '    <Enabled>true</Enabled><Hidden>true</Hidden>\n'
+        '    <ExecutionTimeLimit>PT5M</ExecutionTimeLimit>\n'
+        '  </Settings>\n'
+        '  <Actions Context="Author"><Exec><Command>%s</Command><Arguments>%s</Arguments>'
+        '<WorkingDirectory>%s</WorkingDirectory></Exec></Actions>\n'
+        '</Task>\n'
+        % (start, TASK_EVERY_MINUTES, esc(user), esc(user), esc(_launcher_py()), esc(args),
+           esc(HERE)))
+
+
+def _schtasks(*args):
+    """Run schtasks.exe windowless. -> (rc, stdout+stderr text)."""
+    try:
+        p = subprocess.run(["schtasks.exe", *args], capture_output=True, text=True,
+                           errors="replace", timeout=60, creationflags=_NO_WIN)
+        return p.returncode, (p.stdout or "") + (p.stderr or "")
+    except Exception as e:
+        silence.note("autostart.py:schtasks")
+        return -1, "%s: %s" % (type(e).__name__, e)
+
+
+def install_task():
+    """Register (or replace) the watchdog's scheduled keeper. -> verdict string."""
+    try:
+        os.makedirs(LOGDIR, exist_ok=True)
+        with open(TASK_XML, "w", encoding="utf-16") as f:
+            f.write(_task_xml())
+    except Exception as e:
+        silence.note("autostart.py:task-xml")
+        return "TASK NOT REGISTERED (could not write %s: %s)" % (TASK_XML, e)
+    rc, out = _schtasks("/Create", "/TN", TASK_NAME, "/XML", TASK_XML, "/F")
+    if rc != 0:
+        return "TASK NOT REGISTERED (schtasks rc=%d: %s)" % (rc, out.strip())
+    state = task_state()
+    return "task registered" if state == "current" else (
+        "TASK REGISTERED BUT READS BACK %s -- do not trust it" % state.upper())
+
+
+def uninstall_task():
+    rc, out = _schtasks("/Delete", "/TN", TASK_NAME, "/F")
+    return "task removed" if rc == 0 else "task not removed (%s)" % out.strip()
+
+
+def task_state():
+    """What Task Scheduler actually holds -> 'current' | 'stale' | 'absent' | 'unreadable'.
+
+    CONTENT, NOT EXISTENCE, for the reason `installed_state` gives about the .vbs: a task that
+    exists but runs another interpreter, another tree, or a console `python.exe` is not the keeper.
+    """
+    rc, out = _schtasks("/Query", "/TN", TASK_NAME, "/XML")
+    if rc != 0:
+        low = out.lower()
+        return "absent" if ("cannot find" in low or "does not exist" in low) else "unreadable"
+    want_cmd = "<Command>%s</Command>" % _launcher_py()
+    want_arg = "--ensure"
+    want_every = "<Interval>PT%dM</Interval>" % TASK_EVERY_MINUTES
+    ok = (want_cmd.lower() in out.lower() and want_arg in out and want_every in out
+          and os.path.join(SRC, "autostart.py").lower() in out.lower()
+          and "pythonw" in _launcher_py().lower())
+    return "current" if ok else "stale"
+
+
 def main():
     ap = argparse.ArgumentParser(description="survive a reboot, and the supervisor's own death")
     ap.add_argument("--install", action="store_true", help="add the Startup launcher")
     ap.add_argument("--uninstall", action="store_true", help="remove it")
     ap.add_argument("--watch", action="store_true", help="run the watchdog loop")
     ap.add_argument("--status", action="store_true", help="what is installed and running")
+    ap.add_argument("--ensure", action="store_true",
+                    help="one-shot: start a watchdog if none is running (the scheduled task "
+                         "runs this every %d min)" % TASK_EVERY_MINUTES)
+    ap.add_argument("--install-task", action="store_true",
+                    help="register the watchdog's scheduled keeper (%s)" % TASK_NAME)
+    ap.add_argument("--uninstall-task", action="store_true", help="remove it")
     ap.add_argument("--read-hours", type=float, default=10)
     a = ap.parse_args()
+
+    if a.ensure:
+        ensure()
+        return 0
+    if a.install_task:
+        why = install_task()
+        print(why)
+        return 0 if why == "task registered" else 1
+    if a.uninstall_task:
+        why = uninstall_task()
+        print(why)
+        return 0 if why == "task removed" else 1
 
     if a.uninstall:
         # THE VERDICT REACHES THE EXIT CODE HERE TOO, matching `--install` below. A denied
@@ -549,6 +795,12 @@ def main():
         # clean install -- this is the one file whose failure is invisible until the next
         # logon. Matches the gated-write pattern grounding.py and allsweep.py already use.
         if why != "installed":
+            return 1
+        # AND THE WATCHDOG'S OWN KEEPER (order 4c2101d54c10): a launcher that only runs at logon
+        # leaves a dead watchdog dead until the next one.
+        _task_why = install_task()
+        print(_task_why)
+        if _task_why != "task registered":
             return 1
         # `is False`, not `not`. With a tri-state sensor a bare truth test starts a supervisor on
         # "could not tell" -- and doing that during an install, when a supervisor is very likely
@@ -573,6 +825,15 @@ def main():
         "unreadable": "PRESENT BUT UNREADABLE — rerun --install",
         "absent": "NOT installed",
     }[_vbs_state])
+    print("Watchdog keeper  : " + {
+        "current": "scheduled task %s (current, every %d min)" % (TASK_NAME, TASK_EVERY_MINUTES),
+        "stale": "scheduled task PRESENT BUT STALE — rerun --install-task",
+        "unreadable": "COULD NOT READ Task Scheduler",
+        "absent": "NOT installed — a dead watchdog stays dead; run --install-task",
+    }[task_state()])
+    _wd = watchdog_up()
+    print("watchdog         : " + ("running" if _wd else "UNKNOWN (could not read the process "
+                                   "table)" if _wd is None else "NOT running"))
     _alive = supervisor_alive()
     print("supervisor       : " + ("running" if _alive else
                                    "UNKNOWN (could not read the process table)"

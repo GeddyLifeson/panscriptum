@@ -396,8 +396,12 @@ def _transit_widening(distance, years_since):
     flipping Lumen's flag in memory with identical inputs: the interval was byte-identical and
     only the name list changed.
 
-    The widening is now accumulated PER dispersive Custos, through the mechanism belonging to her
-    own degree of freedom. Exactly one dof has such a mechanism -- `currency`, via
+    The widening is applied ONCE PER MECHANISM, through the mechanism belonging to the flagged
+    Custodes' degree of freedom -- not once per Custos (order 34ec8a90c42f item 4, decided under
+    the owner's 2026-09-28 "fix everything" ruling, Reading B). The transit widening measures ONE
+    physical fact, how stale the news is; a second Custos dispersive in `currency` is a second
+    witness of that same dispersion, and summing her widening onto Lumen's would inflate the
+    interval by a copy of itself. Exactly one dof has such a mechanism -- `currency`, via
     `propagation.observed_mark` -- and a Custos flagged dispersive in any other direction is
     returned in the fourth slot rather than absorbed, because "she declares a dispersion nobody
     can compute" and "she contributes nothing" must not share an answer. Same rule as the
@@ -406,15 +410,19 @@ def _transit_widening(distance, years_since):
     -> (half-width to add, was the currency measurement taken, why, [flagged but unmechanised])
     """
     stale, measured, source, without = 0.0, False, None, []
+    currency = []
     for name in sorted(n for n, c in CUSTODES.items() if c.get("dispersive")):
         if CUSTODES[name]["dof"] != "currency":
             without.append(name)
             continue
+        currency.append(name)
+    if currency:
         if distance is not None and years_since is not None:
-            stale += staleness_widening(distance, years_since)
+            stale = staleness_widening(distance, years_since)
             measured = True
-            source = ("measured: propagation.observed_mark(distance=%r, years_since=%r)"
-                      % (distance, years_since))
+            source = ("measured: propagation.observed_mark(distance=%r, years_since=%r), applied "
+                      "once for the currency mechanism (dispersive in currency: %s)"
+                      % (distance, years_since, ", ".join(currency)))
         else:
             source = _ABSTAIN_NOTE["currency"]
             _abstained("currency")
@@ -521,7 +529,15 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
 
     total_var = total_sd ** 2
     prior_var = prior_sd ** 2
-    prior_share = (prior_var / total_var) if total_var > 0 else 1.0
+    # ZERO TOTAL VARIANCE IS "NOTHING TO APPORTION", AND THE RESULT NOW SAYS SO (order
+    # 5bb12b398783 item 3, decided under the owner's 2026-09-28 "fix everything" ruling). When
+    # every reading coincides there is no divergence to split between prior and evidence, so
+    # the share is undefined. 1.0 is kept as the published CONVENTION -- it is the value the
+    # clip below would give any ratio, it keeps `prior + attestation == 1` (verify_math), and it
+    # errs toward "fieldwork could not fix this", the fail-closed side -- but the result carries
+    # `divergence_share_defaulted: True` so the number cannot be read as a measurement.
+    share_defaulted = not total_var > 0
+    prior_share = (prior_var / total_var) if not share_defaulted else 1.0
     prior_share = max(0.0, min(1.0, prior_share))
 
     # The interval must COVER every signed reading -- a college that publishes a band excluding one
@@ -554,6 +570,7 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
         "dispersive_without_mechanism": dispersive_unmechanised,
         "prior_divergence_share": round(prior_share, 3),
         "attestation_floor_share": round(1.0 - prior_share, 3),
+        "divergence_share_defaulted": share_defaulted,
         "reading_spread": {r["custos"]: round(r["reading"], 3) for r in readings},
         # m30: this is a GUARANTEE being published, not a check being run. `half` is defined
         # above as max(1.96*sd, max|v - consensus|) and only ever widened after, so this is true

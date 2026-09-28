@@ -1,0 +1,1 @@
+[{"module": "escalation.py", "old": "    if lvl != JANITOR:\n        return True\n    return bool(order)", "new": "    return bool(order)"}]

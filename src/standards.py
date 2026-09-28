@@ -300,8 +300,15 @@ def ollama_token_flow(ttl=300.0, timeout=300):
         return None, None
     try:
         t0 = time.time()
-        with _ur.urlopen(req, timeout=timeout) as r:
-            _raw = json.loads(r.read())
+        # THROUGH THE LANE, AS BACKGROUND WORK (order 30122bf3a5a7). This is a real generation on
+        # the one card, so it takes its turn like every other model call and yields to prose.
+        # The clock restarts inside the lane: time spent queueing is the lane doing its job, and
+        # counting it against the daemon would report a busy card as a wedged one.
+        import gpu_lane as _gl
+        with _gl.lane("standards:token-flow-probe"):
+            t0 = time.time()
+            with _ur.urlopen(req, timeout=timeout) as r:
+                _raw = json.loads(r.read())
         # PROOF OF FLOW IS TOKENS PRODUCED, NOT PROSE RETURNED. The predicate here was
         # `bool(response.strip())`, which is wrong for the model this library actually runs.
         # qwen3 is a reasoning model: its first tokens land in `thinking`, and `response` stays
@@ -449,6 +456,68 @@ def job_stamp(prev_entry, size, now):
     more often than MAX_JOB_SILENCE_MIN, the threshold became unreachable for every job."""
     held = bool(prev_entry) and prev_entry.get("size") == size
     return held, (prev_entry.get("at", now) if held else now)
+
+
+def output_age_min(paths, now, root=None):
+    """Minutes since the newest write under a job's declared outputs. -> float, or None.
+
+    The SECOND WITNESS for the advancing standard (order d9328fe1ee38). Each path is relative to
+    `root` (the kit, by default). A file answers with its own mtime; a directory with its own
+    mtime and each IMMEDIATE child's -- a file created or replaced in a directory bumps that
+    directory's mtime, so data/feats (~277k files, ~143 host directories) is witnessed with ~143
+    stats and no walk, which is the cost the order's implementation note asked for.
+
+    None when NOTHING declared could be read. That is not "old": it is "could not be measured",
+    and the caller routes it to the unmeasurable list, never to the stalled one.
+    """
+    root = HERE if root is None else root
+    newest = None
+    for rel in paths or ():
+        p = os.path.join(root, rel)
+        try:
+            m = os.path.getmtime(p)
+        except OSError:
+            _ = "silence-exempt: an unreadable declared path is not a witness; all-unreadable returns None, routed to unmeasurable, never stalled"
+            continue
+        newest = m if newest is None else max(newest, m)
+        if os.path.isdir(p):
+            try:
+                with os.scandir(p) as it:
+                    for e in it:
+                        try:
+                            newest = max(newest, e.stat().st_mtime)
+                        except OSError:
+                            _ = "silence-exempt: a child vanishing mid-scan is not a witness; the directory's own mtime still counts"
+                            continue
+            except OSError:
+                _ = "silence-exempt: an unlistable directory still answered with its own mtime above"
+                continue
+    if newest is None:
+        return None
+    return max(0.0, (now - newest) / 60.0)
+
+
+def job_stall_verdict(quiet_min, out_age_min, declared, limit=None):
+    """PURE. -> "advancing" | "stalled" | "unmeasurable" for one job whose process is UP.
+
+    Order d9328fe1ee38 (owner's 2026-09-28 "fix everything" ruling: remedies (a) and (b)).
+      * log grew inside the limit                        -> advancing (unchanged behaviour)
+      * log quiet, output written inside the limit       -> advancing: a slow job, not a wedge
+      * log quiet, output ALSO quiet past the limit      -> stalled
+      * log quiet, no output declared / none readable    -> unmeasurable: one witness cannot
+        convict. Unmeasurable turns the standard red but is phrased so the kill remedy cannot
+        parse a name out of it.
+    Adding a witness only ever narrows a positive: nothing the log alone called advancing is
+    called anything else here.
+    """
+    limit = MAX_JOB_SILENCE_MIN if limit is None else limit
+    if quiet_min < limit:
+        return "advancing"
+    if not declared or out_age_min is None:
+        return "unmeasurable"
+    if out_age_min < limit:
+        return "advancing"
+    return "stalled"
 
 def read_progress_verdict(done, total, prev, now, quiet_min_limit=None):
     """PURE. Is the corpus read ADVANCING? -> (holds, observed, stamp_to_persist).
@@ -829,14 +898,20 @@ def check(state=None):
         "high", "pool"))
 
     metered = [q for q in quotas if not q.get("unlimited")]
-    live = [q for q in quotas if q.get("unlimited") or q.get("worst", 0) > 0.05]
+    # `worst` may be None: dashboard.quotas() reports a bucket with no readable window as None
+    # (order e7ea68901bfe), a third answer distinct from full and dry. It counts as NEITHER here:
+    # no data is not headroom, and it is not exhaustion either. A bare `> 0.05` on it raised
+    # TypeError and took standards.check() -- and every verify_math row after 20k -- down with it
+    # (owner session 2026-09-28).
+    live = [q for q in quotas if q.get("unlimited")
+            or (q.get("worst") is not None and q["worst"] > 0.05)]
     out.append(_s(
         "buckets with headroom", len(live) >= MIN_LIVE_BUCKETS, len(live), MIN_LIVE_BUCKETS,
         "The pool has collapsed to a handful of providers. Check the quota panel for keys that "
         "started returning 401 or 402, and for providers disabled in Cascade's config.",
         "high", "pool"))
 
-    dry = [q for q in metered if q.get("worst", 1) <= 0.001]
+    dry = [q for q in metered if q.get("worst") is not None and q["worst"] <= 0.001]
     frac_dry = len(dry) / max(len(metered), 1)
     out.append(_s(
         "buckets not exhausted", frac_dry <= MAX_DRY_FRACTION, f"{frac_dry:.0%} dry",
@@ -1759,8 +1834,23 @@ def check(state=None):
             if not held:
                 continue
             quiet_min = (now - cur[job]["at"]) / 60.0
+            # THE LOG ALONE NO LONGER CONVICTS (order d9328fe1ee38). A quiet log is checked
+            # against the job's declared output (lognames.PRODUCT) before it is called stalled.
             if quiet_min >= MAX_JOB_SILENCE_MIN:
-                stalled.append("%s (%d min, %d bytes)" % (job, round(quiet_min), size))
+                declared = getattr(LN, "PRODUCT", {}).get(fn)
+                out_age = output_age_min(declared, now) if declared else None
+                verdict = job_stall_verdict(quiet_min, out_age, bool(declared))
+                if verdict == "stalled":
+                    stalled.append("%s (%d min, %d bytes; output quiet %d min)"
+                                   % (job, round(quiet_min), size, round(out_age)))
+                elif verdict == "unmeasurable":
+                    # NOT the "NAME (<n> min" shape kill_stalled_job parses: a job convicted by
+                    # one witness is not a job anything may kill.
+                    unmeasurable.append(
+                        "%s (UNMEASURABLE: its log has been quiet for %d min and %s)"
+                        % (job, round(quiet_min),
+                           "no output is declared for it in lognames.PRODUCT" if not declared
+                           else "none of its declared outputs could be read"))
 
         # THROUGH `silence.write_json`, not a hand-rolled fixed `JOB_WATCH + ".tmp"`: the fixed
         # name collided across `dashboard.py`'s polling and `publish.py --loop`'s own writes of

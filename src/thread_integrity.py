@@ -206,7 +206,7 @@ def load_thread_graph(path=None):
     return recorded, unresolvable, meta
 
 
-def _floor_verdict(measured, path=None):
+def _floor_verdict(measured, path=None, write=True):
     """The ASYMMETRIC-SUSPECT regression floor. -> (state, measured, bar).
 
     RULING C AND PHASE 4.2, RECONCILED. §7C says one-way threads are lawful by default and
@@ -229,6 +229,13 @@ def _floor_verdict(measured, path=None):
                    ratchet that never landed on disk
       REGRESSED    measured >  bar (fails)
       UNREADABLE   the floor file exists and cannot be read (fails closed: cannot judge)
+      held-halted  measured < bar, but `write=False` because the library is HALTED: the higher
+                   bar stands, exactly as held-unrecorded, and nothing is written
+      UNRECORDED-HALTED  no floor on record and `write=False` (HALTED): fails closed, for the
+                   same reason UNRECORDABLE does -- there is nothing to judge against
+
+    `write=False` is how `main()` keeps the JUDGEMENT open under a halt while the WRITE refuses
+    (order 21c075e5e2d6, owner ruling 2026-09-28): the verdict is read-only, the ratchet is not.
 
     `silence.write_json` RETURNS FALSE ON A DENIED WRITE AND NEVER RAISES -- the ordinary case
     on this machine. Both arms below used to write-then-return unconditionally, which asserted
@@ -240,6 +247,8 @@ def _floor_verdict(measured, path=None):
             cur = json.load(f)
         bar = int(cur["asymmetric_suspect_max"])
     except FileNotFoundError:
+        if not write:
+            return "UNRECORDED-HALTED", measured, None
         landed = silence.write_json(
             p, {"asymmetric_suspect_max": int(measured),
                 "set_at": __import__("time").time(),
@@ -254,6 +263,8 @@ def _floor_verdict(measured, path=None):
     if measured > bar:
         return "REGRESSED", measured, bar
     if measured < bar:
+        if not write:
+            return "held-halted", measured, bar
         landed = silence.write_json(
             p, {"asymmetric_suspect_max": int(measured),
                 "set_at": __import__("time").time(),
@@ -450,6 +461,73 @@ def _namecol(rows, i=0):
     (order 8b08d0ecec8d)
     """
     return max((len(r[i]) for r in rows), default=0) + 2
+
+
+def _escalate_dangling(rows, escalate=None):
+    """Refuse every source on either end of a DANGLING pair at SUPERVISOR. -> {source: [rows]}.
+
+    ORDER a724ec57e0d5, decided under the owner's 2026-09-28 "fix everything" ruling, Reading A.
+    STEP4_PLAN.md §8 names DANGLING > 0 as a SUPERVISOR-level refusal for that source, in the
+    same sentence as THREAD_UNRESOLVABLE -- and `main()` escalated the second and only PRINTED
+    the first, so a run in which every implied thread was DANGLING refused nothing. This wires
+    the verdict into the chain the plan names. It does NOT open Step 4: nothing here writes a
+    thread, reads `step4_enabled`, or changes which pairs are classed DANGLING; it only makes a
+    verdict this module already computes reach `escalation`.
+
+    PER SOURCE, BOTH ENDS. A DANGLING row is a source PAIR (a, b) whose every shared entity has
+    gone, so both sources carry a thread that points at nothing and each is its own area of the
+    park (Hard Rule -1). One call per source, naming every pair it is on -- uncapped (Hard Rule 0).
+
+    `escalate` is injectable so the drill can watch the calls without writing live state; None
+    means `escalation.escalate`.
+    """
+    by_src = collections.defaultdict(list)
+    for row in rows:
+        a, b = row[0], row[1]
+        by_src[a].append(row)
+        if b != a:
+            by_src[b].append(row)
+    if not by_src:
+        return {}
+    if escalate is None:
+        import escalation as _ESC
+        escalate, level = _ESC.escalate, _ESC.SUPERVISOR
+    else:
+        level = "SUPERVISOR"
+    for src in sorted(by_src):
+        items = by_src[src]
+        escalate(level, "THREAD_DANGLING",
+                 "%d source pair(s) with %s whose every shared entity has gone -- the threads "
+                 "point at nothing (STEP4_PLAN.md §8): %s"
+                 % (len(items), src,
+                    "; ".join("%s <-> %s (%d/%d gone)" % (r[0], r[1], r[2], r[3])
+                              for r in items)),
+                 source=src, who="thread_integrity.py")
+    return dict(by_src)
+
+
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this module WRITES its floor. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. Here the refusal is narrower than the module: `main()` still
+    MEASURES under a halt (it is an `allsweep` verifier) and only the floor write is refused.
+
+    Pinned by drill.py's "every hand-run corpus writer asks the halt before it writes" net and by
+    verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
 
 
 def main():
@@ -654,6 +732,11 @@ def main():
               f"entity has gone -- their threads point at nothing. "
               f"A thread that resolves to nothing is not a weak thread, it is a broken "
               f"one (STEP4_PLAN.md §1).")
+        # AND REFUSED, per source, at SUPERVISOR (order a724ec57e0d5; see _escalate_dangling).
+        try:
+            _escalate_dangling(detail["DANGLING"])
+        except Exception:
+            silence.note("thread_integrity.py:dangling-escalation")
     failed = bool(dangling)
 
     # PHASE 4.2 RELEASE GATE (§8): a thread that resolves to NO ADDRESS. Every offender is
@@ -685,7 +768,20 @@ def main():
     # THE ASYMMETRIC-SUSPECT REGRESSION FLOOR (§7F). Only meaningful once a graph exists;
     # before that the class is structurally zero and a floor of zero would be a lie.
     if recorded is not None:
-        state, measured, bar = _floor_verdict(counts.get("ASYMMETRIC-SUSPECT", 0))
+        # THE HALT (owner ruling 2026-09-28, order 21c075e5e2d6): the floor is JUDGED under a
+        # halt -- this module is a verifier `allsweep` runs, and a measurement stays open -- but
+        # the baseline/ratchet WRITE refuses. `_assert_not_halted` raises SystemHalted, which is
+        # the interlock answering, not a fault; any other exception still propagates.
+        try:
+            _floor_writable = bool(_assert_not_halted(
+                "(writes state/THREAD_INTEGRITY_FLOOR.json)"))
+        except Exception as _halted:
+            if type(_halted).__name__ != "SystemHalted":
+                raise
+            _ = "silence-exempt: a halt refusing the floor write is the interlock working"
+            _floor_writable = False
+        state, measured, bar = _floor_verdict(counts.get("ASYMMETRIC-SUSPECT", 0),
+                                              write=_floor_writable)
         print()
         if state == "baseline":
             print(f"ASYMMETRIC-SUSPECT floor: {measured:,} recorded as the Phase 4.2 baseline "
@@ -699,6 +795,14 @@ def main():
             print(f"ASYMMETRIC-SUSPECT floor: held at {bar:,} (measured {measured:,}; the "
                   f"ratchet write was DENIED, so the lower bar was not recorded -- the higher "
                   f"bar stands rather than claiming a ratchet that did not land)")
+        elif state == "held-halted":
+            print(f"ASYMMETRIC-SUSPECT floor: held at {bar:,} (measured {measured:,}; the library "
+                  f"is HALTED, so the ratchet was not written -- the higher bar stands)")
+        elif state == "UNRECORDED-HALTED":
+            failed = True
+            print(f"THREAD INTEGRITY FAILED: measured {measured:,} with no floor on record, and "
+                  f"the library is HALTED, so no baseline was written. The regression gate "
+                  f"cannot be judged this run. Fail closed.")
         elif state == "UNRECORDABLE":
             failed = True
             print(f"THREAD INTEGRITY FAILED: measured {measured:,}, but the Phase 4.2 baseline "

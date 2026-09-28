@@ -1,0 +1,12 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. No item carried a recommended reading; each takes the one that closes the fault, fails closed and keeps data.
+
+ITEM 1 (axis_correlation.write floor) -- Reading A, the draft the order held ready, rosetta's shape. SHRINK_FLOOR = 0.75 on BOTH n_entities and measured_pairs. `write(doc=None, force=False)` raises the new `ShrinkRefused` before touching anything when either count falls below 0.75 of the standing file's, or the standing file is unreadable / not a dict / lacks an integer count; an absent standing file is a first build and proceeds. `main()` gained `--force` and prints the refusal with both numbers (rc=1) or, under --force, the reason it overrode. Today's measure() passes (45 entities, 55 pairs against 45/55).
+Proof: net "a smaller correlation matrix does not silently replace a larger one" HELD; RED with handoff/owner0928/QB_revert_axis_floor.json.
+
+ITEM 4 (custodes transit widening) -- Reading B, once per mechanism. `_transit_widening` now collects the Custodes dispersive in `currency` and applies `staleness_widening(distance, years_since)` ONCE, naming them all in currency_source; the abstention is likewise recorded once. With Lumen alone (the live state) every number is unchanged.
+Proof: net "a second dispersive currency Custos does not double the transit widening" HELD; RED with handoff/owner0928/QB_revert_custodes_once.json.
+
+ITEM 8 (suppressions ttl) -- Reading A. MAX_TTL_DAYS = 365 (twice the default); `add()` refuses (ValueError, before anything is written) a ttl that is not a number, is a bool, is non-finite, is <= 0, or exceeds 365.
+Proof: net "a suppression cannot be made permanent, by accident or on purpose" HELD; RED with handoff/owner0928/QB_revert_suppression_ttl.json. suppressions.FILE points into scratch throughout.
+
+All nets are in area drill_owner0928_qb. pyflakes clean on all three files.

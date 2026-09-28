@@ -1,0 +1,7 @@
+[
+ {
+  "module": "binding_health.py",
+  "old": "    if score >= BINDING_CONFIRMED_AT and contained and tight < BINDING_CONFIRMED_AT:",
+  "new": "    if False:"
+ }
+]

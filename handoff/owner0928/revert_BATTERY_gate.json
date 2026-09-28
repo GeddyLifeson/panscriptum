@@ -1,0 +1,7 @@
+[
+ {
+  "module": "drill.py",
+  "old": "    held = not new and not grown and not changed and not after_close",
+  "new": "    held = n_cat == 0 and not files"
+ }
+]

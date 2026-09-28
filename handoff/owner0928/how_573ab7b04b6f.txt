@@ -1,0 +1,12 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction, OPTION (b) of the order: remove the gh.exe credential-helper lines from C:/Users/imarl/.gitconfig so Git Credential Manager (configured in C:/Program Files/Git/etc/gitconfig, holding a working stored credential) takes over. The coordinator made that .gitconfig edit (file mtime 2026-09-28 15:41:46); it now holds only [filter "lfs"] and [user]. Group CASCADE verified it.
+
+WHY NOT A DAEMON CYCLE: the order asked to close after a daemon cycle logs no PUSH HELD, but the publish daemon skips every cycle while this session holds the maintenance guard ("skipping this cycle: a maintenance run ... holds the guard", state/publish.log line 46905), so no daemon push can happen during the session. The coordinator directed the verification below instead. The last PUSH HELD blocks in state/publish.log (lines 46827, 46864, 46901) belong to the cycles after the 15:07:12 daemon start, all before the .gitconfig change.
+
+EVIDENCE, from a process started OUTSIDE the Claude app's MSIX view (Invoke-CimMethod Win32_Process Create, hidden window; the same launch route order 573ab7b04b6f used to prove the cause), with GCM_INTERACTIVE=never, GIT_TERMINAL_PROMPT=0, GITHUB_TOKEN and GH_TOKEN blanked (output kept at handoff/owner0928/gcm_probe_cascade.txt):
+  credential.helper resolves to: file:C:/Program Files/Git/etc/gitconfig  manager   (no gh.exe anywhere)
+  git -C C:/Users/imarl/panscriptum-export push --dry-run origin HEAD:refs/heads/gcm-auth-probe
+    To https://github.com/GeddyLifeson/panscriptum.git
+     * [new branch]        HEAD -> gcm-auth-probe
+So the daemon's process context authenticates to origin non-interactively. It was a dry run; nothing was pushed.
+
+FOLLOW-UP FOR THE COORDINATOR: after the session releases the guard, the first publish cycle should end in `pushed`. If it logs PUSH HELD, reopen this order with that line.

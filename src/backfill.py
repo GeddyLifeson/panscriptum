@@ -356,6 +356,33 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
             "not_fetched": not_fetched, "dropped_as_stub": dropped_as_stub}
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--audit", action="store_true")
@@ -368,6 +395,10 @@ def main():
     ap.add_argument("--threshold", type=float, default=0.10,
                     help="Persons share below which a source counts as missing its cast")
     a = ap.parse_args()
+    if not a.audit and not a.dry and (a.all or a.source):
+        # THE HALT (owner ruling 2026-09-28, order 21c075e5e2d6): this invocation writes, so it asks first.
+        # --audit and --dry are measurements and keep working under a halt.
+        _assert_not_halted("--all/--source (writes data/records)")
 
     recs = P.records()
     hosts = json.load(open(F.HOSTS, encoding="utf-8"))
@@ -433,6 +464,10 @@ def main():
                 print("  %3d/%d  %-46sERROR %s: %s" % (i, len(thin), x["source"],
                                                        type(e).__name__, e), flush=True)
                 continue
+            if res.get("error"):
+                # A RETURNED error is the same outcome as a raised one (order 0384c99d5454):
+                # `--source` already counts both, so `--all` does too.
+                errors += 1
             tot += res.get("added", 0)
             if res.get("write_denied"):
                 denied += 1
@@ -459,8 +494,15 @@ def main():
         # could not tell a run that added nothing from a run whose every result was thrown
         # away by a lock. A denied write is an INFRASTRUCTURE fault, not a per-source fiction
         # fault, so it does not fall under the one-area-of-the-park rule that justifies
-        # swallowing the exceptions above -- those stay contained and merely counted.
-        return 1 if denied else 0
+        # swallowing the exceptions above.
+        #
+        # AND NONZERO WHEN A SOURCE RAISED OR RETURNED AN ERROR (order 0384c99d5454, decided
+        # under the owner's 2026-09-28 "fix everything" ruling, option (B)). The exceptions
+        # above stay CONTAINED -- one failing source still never stops the others -- but they
+        # are no longer invisible to a caller that reads only the exit code: a clean `--all`
+        # and one where sources failed used to both exit 0, while `--source` exited 1 on the
+        # same condition. The per-source rows and the summary line are unchanged.
+        return 1 if (denied or errors) else 0
 
     if not a.source:
         ap.print_help()

@@ -623,6 +623,101 @@ def page_texts(subdomain, titles, max_chars=900, workers=None, progress=None):
     return out
 
 
+# ------------------------------------------------------------ wiki maintenance furniture
+#
+# ORDER cb31bf2707ad (owner ruling 2026-09-28, "fix everything"): WIKI MAINTENANCE BOXES WERE
+# MINED AS DESCRIPTIONS. A Fandom "needs improvement" box is a <table class="messagebox"> whose
+# body is an ordinary <p> -- "<b>What's needed:</b> split off content Koala-kai, etc. into pages
+# for each group" -- so `_paragraphs` below, which keeps every <p> of 45+ characters, kept it and
+# ran it straight into the real lead. 202 Digimon entries carried one, and prose wrote Hosoda up
+# as "the entry notes that content ... should be split into dedicated pages". The same shape,
+# measured 2026-09-28 over every mode='web' record, reaches far past Digimon: Final Fantasy's
+# "This request can be discussed on the associated discussion page" (1,596), SpongeBob's
+# "This biography seems to be empty or very short" (359), Gundam's "This article needs to be
+# cleaned up" (304), Zelda's "Please improve it as you see fit" (244), Regular Show's "You can
+# help clean up this page" (213), Transformers, Halo, Left 4 Dead, Terminator.
+#
+# TWO INDEPENDENT LAYERS, so they do not share a failure mode:
+#   1. STRUCTURAL -- a <p> that sits INSIDE a maintenance/notice/hatnote container is not
+#      article prose, whatever it says. The container is found by its class and closed by
+#      balanced tag counting (a non-greedy regex closes nested <div>s at the wrong tag, which is
+#      the failure the comment in `_paragraphs` records).
+#   2. TEXTUAL -- the fixed wording of the templates themselves, for a wiki whose box uses a
+#      class this list does not know. Applied per paragraph at mining time and, identically, to
+#      stored descriptions by the record repair, so what the miner would now produce and what
+#      the repair writes are the same function.
+_FURNITURE_OPEN = re.compile(
+    r"<(table|div|aside)\b[^>]*\bclass\s*=\s*[\"'][^\"']*\b(?:messagebox|ambox|mbox|"
+    r"notice|dablink|hatnote|cleanup|stub|maintenance|metadata|mw-message-box)\b[^\"']*[\"']"
+    r"[^>]*>", re.I)
+
+
+def _furniture_spans(html):
+    """-> [(start, end)] character spans of maintenance/notice/hatnote containers in `html`.
+
+    An UNCLOSED container runs to the end of the document: failing closed here costs this
+    section's text (page_text then tries the next section), while failing open would publish a
+    maintenance note as a fact about the entity."""
+    spans = []
+    for m in _FURNITURE_OPEN.finditer(html or ""):
+        if any(a <= m.start() < b for a, b in spans):
+            continue
+        tok = re.compile(r"<(/?)" + m.group(1) + r"\b[^>]*>", re.I)
+        depth, end = 1, len(html)
+        for t in tok.finditer(html, m.end()):
+            depth += -1 if t.group(1) else 1
+            if depth == 0:
+                end = t.end()
+                break
+        spans.append((m.start(), end))
+    return spans
+
+
+# Each is ONE template sentence, anchored at the start of what remains. Free-text boxes
+# ("What's needed: <anything>") cannot be cut out of flattened text because nothing marks where
+# the editor's note ends, so they are matched as a whole PARAGRAPH (`_BANNER_PARAGRAPH`) and the
+# stored copies are repaired by re-fetching the page, never by guessing a boundary.
+_BANNER_SENTENCES = [re.compile(p, re.I) for p in (
+    r"This (?:article|page|section|list|biography|character|entry)\b[^.]{0,60}?"
+    r"\b(?:is a stub|needs\b|seems to be empty|is missing information|requires cleanup)"
+    r"[^.]*\.",
+    r"You can help\b[^.]{0,160}?\bby (?:expanding|uploading|correcting|adding|improving)"
+    r"[^.]*\.",
+    r"(?:This request|It) can be discussed on the associated discussion page\s*\.",
+    r"Remove this notice upon completion\s*\.",
+    r"Please (?:remove this (?:template|notice)|improve it as you see fit)[^.]*\.",
+    r"Editing help is available\s*\.",
+    r"If you have one, please replace this\s*\.",
+    r"Please see the related discussion on this article's talk page[^.]*\.",
+    r"This article has been flagged since [A-Z][a-z]+\.? (?:\d{1,2}, )?\d{4}\s*\.",
+    r"Please help\b[^.]{0,80}?\bby expanding it\s*\.",
+)]
+_BANNER_PARAGRAPH = re.compile(r"^\s*What\W?s needed\s*:", re.I)
+
+
+def strip_banner_prefix(text):
+    """-> `text` with every LEADING maintenance-template sentence removed (order cb31bf2707ad).
+
+    Only a leading run is removed: a template sentence is furniture at the head of a lead, and
+    the same words later in real prose are left for a reader to judge rather than cut out of
+    the middle of the evidence. Returns "" when the text is nothing but furniture."""
+    out = (text or "").strip()
+    while out:
+        for pat in _BANNER_SENTENCES:
+            m = pat.match(out)
+            if m:
+                out = out[m.end():].lstrip()
+                break
+        else:
+            break
+    return out
+
+
+def is_banner_paragraph(text):
+    """True for a paragraph that is a free-text maintenance box ("What's needed: ...")."""
+    return bool(_BANNER_PARAGRAPH.match(text or ""))
+
+
 def _paragraphs(html, max_chars):
     # Drop the furniture before flattening: infoboxes are <table>/<aside>, quote boxes and
     # navboxes are <div>s with tell-tale classes. Without this the "description" comes back as
@@ -635,7 +730,11 @@ def _paragraphs(html, max_chars):
     #     tables removed the article
     # Infobox fields and captions are not inside <p>, so paragraph extraction already excludes
     # them without deleting anything.
-    paras = re.findall(r"<p\b[^>]*>(.*?)</p>", html, flags=re.S | re.I)
+    # Maintenance boxes ARE <p> inside their container, so the paragraph rule alone keeps them;
+    # see `_furniture_spans` (order cb31bf2707ad).
+    furniture = _furniture_spans(html)
+    paras = [m.group(1) for m in re.finditer(r"<p\b[^>]*>(.*?)</p>", html, flags=re.S | re.I)
+             if not any(a <= m.start() < b for a, b in furniture)]
 
     out = []
     for c in paras:
@@ -643,6 +742,9 @@ def _paragraphs(html, max_chars):
         t = re.sub(r"&#?\w+;", " ", t)
         t = re.sub(r"\[\d+\]", " ", t)
         t = re.sub(r"\s+", " ", t).strip()
+        if is_banner_paragraph(t):
+            continue
+        t = strip_banner_prefix(t)
         if len(t) < 45 or "." not in t:
             continue
         # Character pages routinely open with a pull-quote rather than a definition. A quote is

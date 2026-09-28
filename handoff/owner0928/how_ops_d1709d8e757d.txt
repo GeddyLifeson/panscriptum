@@ -1,0 +1,12 @@
+FIXED 2026-09-28 under the owner's "fix everything" instruction (group OPS). Option taken: the house-consistent home the run #58 re-route named -- a supervisor-lap hook, NOT a STANDING job and NOT a foreman remedy -- with the threshold from order 2cb442afd901 (ruled the same session) and a timed manual rebuild first.
+
+TIMED REBUILD (question 2): `python src/weave_index.py --write` at 15:44:47 on 2026-09-28: rc=0, 11 SECONDS, 282,822 entries / 266,437 keys / 8,322 cross-source candidates, data/ENTITY_INDEX.json 178.2 MB + data/WEAVE_CANDIDATES.json written. The index had been 425.4h old (16 of 216 records newer). The "~7 minutes" estimate in the trail was far too high.
+
+CODE (src/overnight.py):
+  * weave_index_cycle(): runs every lap after identity_refresh_cycle(); asks weave_index.staleness(); rebuilds via a windowless subprocess (`weave_index.py --write`, CREATE_NO_WINDOW, 1h timeout) when stale; logs "weave index: rebuilt in Ns (reason)" or a loud failure line; never raises.
+  * weave_index_decision(stale, age_h) (pure): rebuild only on a definite stale; an unreadable verdict does not rebuild; RATE-LIMITED by the index file's own mtime (WEAVE_INDEX_MIN_HOURS = 6), like canon_backup_cycle, so rc=17 bounces cannot re-run it.
+  * weave_index.py: the "stale" order now has a new identity (ENTITY_INDEX_STALE_DESPITE_SCHEDULED_REBUILD, where names the schedule) so a later staleness cannot reopen this order with the false sentence "nothing schedules a rebuild".
+
+IN EFFECT: the running supervisor (pid 24416) holds pre-change code; codewatch's rc=17 restart picks this up at the top of its next lap once src/ settles (0 of 4 restarts used this hour).
+
+PROVEN: drill.py area `drill_ops_liveness`, net "a stale entity index is rebuilt on the supervisor lap" (decision table + overnight.main reaching weave_index_cycle). RED with revert_ops_index_fraction.json, HELD without. pyflakes clean.

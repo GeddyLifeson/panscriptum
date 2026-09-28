@@ -151,10 +151,13 @@ TOPICS = ["Persons", "Places", "Factions", "Weapons", "Relics",
 # OWNER RULING 2026-09-08, ruling 10 ("Stored files a fixed writer would now compute
 # differently"), option (a), relocated here so the decision is findable at the code it governs
 # (order b186bc4dad8f): the three axes STAND as three, and the ruling additionally commissions a
-# REGRESSION NET so the topic rewrite cannot recur. That net belongs in drill.py and is NOT yet
-# written; until it is, this comment and the classifier schema below -- which asks the model for
-# `category` AND `topic` separately, for the same entry, in the same call, and would be pointless
-# if they were one label -- are the only things standing between the corpus and a second rewrite.
+# REGRESSION NET so the topic rewrite cannot recur. IT IS WRITTEN (2026-09-28, under the owner's
+# "fix everything" ruling): drill.py's "topic, category and subroom stay three axes" attacks both
+# halves -- the classifier schema must keep asking the three questions separately, and no line
+# anywhere in src/ may assign an entry's `topic` from an expression that reads its `category`.
+# Alongside it, the classifier schema below -- which asks the model for `category` AND `topic`
+# separately, for the same entry, in the same call, and would be pointless if they were one
+# label -- is the standing evidence against a second rewrite.
 # The test any future run should apply before "simplifying" these fields is exactly that schema:
 # two questions were asked because there are two questions.
 #
@@ -813,8 +816,44 @@ def _remember_top_keys(path, rec):
     """Advance this path's watermark to what the caller now holds."""
     try:
         _TOP_SNAPSHOT[os.path.abspath(path)] = _top_fingerprint(rec)
+        _DESC_SNAPSHOT[os.path.abspath(path)] = _desc_fingerprint(rec)
     except Exception:
         silence.note("pipeline.py:top-snapshot")
+
+
+# THE SAME WATERMARK, ONE LEVEL DOWN, FOR THE ONE PER-ENTRY FIELD ANOTHER WRITER CURATES.
+# (order cb31bf2707ad, owner ruling 2026-09-28)
+#
+# `description` is in MERGED_ENTRY_FIELDS so cleanup.py's markup stripping survives the writer
+# that carries it. But `write_record`'s fold is `if fld in se: de[fld] = se[fld]` for EVERY entry
+# of the record, and `phase_entrypass` holds the load-time `rec` across ~1,500 batch writes -- so
+# a description repaired on disk mid-phase (the wiki maintenance banners stripped from 3,800
+# descriptions on 2026-09-28) was put straight back by the very next batch of that source, from
+# a copy that never authored it. That is `_TOP_SNAPSHOT`'s hazard exactly, and the answer is the
+# same: fingerprint each entry's description AS THE CALLER LOADED IT, keyed by (name, k-th of
+# that name) -- the pairing `write_record` itself uses -- and when the caller's value still
+# matches that watermark while disk has moved on, DISK WINS. A caller that genuinely edits a
+# description (cleanup.py) changes it away from the watermark and still lands. A caller that
+# never loaded through `records()` has no watermark and behaves exactly as before.
+_DESC_SNAPSHOT = {}
+
+
+def _desc_fingerprint(rec):
+    """-> {(name, k): fingerprint of that entry's description}. Every entry; none skipped."""
+    seen = collections.Counter()
+    out = {}
+    for e in (rec.get("entries") or []) if isinstance(rec, dict) else ():
+        if not isinstance(e, dict):
+            continue
+        nm = e.get("name")
+        k = seen[nm]
+        seen[nm] += 1
+        try:
+            out[(nm, k)] = _fp_one(e.get("description"))
+        except TypeError:
+            # an unhashable name cannot key a watermark; that entry simply has none
+            silence.note("pipeline.py:desc-snapshot-unhashable")
+    return out
 
 
 # THE PER-ENTRY MERGE ALLOWLIST, WRITTEN ONCE FOR BOTH WRITERS.
@@ -846,7 +885,12 @@ MERGED_ENTRY_FIELDS = ("category", "scale_note", "scale_note_rejected", "subroom
                        "excluded", "topic_rejected", "thin_description", "description",
                        # sweep63 batch03: category's refused answer, the companion of the
                        # other two rejections, carried and cleared the same way
-                       "category_rejected")
+                       "category_rejected",
+                       # order 0aceab8473e1, owner ruling 2026-09-28 option (a): ENTRY_SCHEMA
+                       # has required this of every entrypass call since order 6c7495ee66be and
+                       # the writer dropped it on the floor. Wired through, so a Peoples &
+                       # Species entry keeps the physiology its own description states.
+                       "physiology")
 
 # A CLEAR IS AN EDIT TOO, FOR THE TWO FIELDS THAT ENCODE ONE. `write_record`'s fold is
 # PRESENCE-gated (`if fld in se`), so it can SET a field and can never CLEAR one -- and that is
@@ -1049,8 +1093,12 @@ def write_record_catalogue(path, rec):
         # forward until the merged group is at least as large as the disk group was, which
         # restores the docstring's promise and is IDEMPOTENT -- the merged size is max(m, k), and
         # re-merging max(m, k) against k is max(m, k) again, so a re-catalogue cannot grow a
-        # record without bound.
-        disk_entries = [e for e in (disk.get("entries") or []) if isinstance(e, dict)]
+        # record without bound. EXCEPT LONE ROWS, since 2026-09-28 (order beb7db270826, option
+        # (c)): a disk row whose (name, type, description) the fresh cast does not carry is kept
+        # whatever the bound says and stamped `stale_since`, so a rewording grows a record by
+        # its old rows once, visibly, instead of possibly losing an entity. Re-merging the same
+        # fresh cast is still idempotent.
+        disk_entries =[e for e in (disk.get("entries") or []) if isinstance(e, dict)]
         fresh_groups = {}
         for e in rec.get("entries") or []:
             if isinstance(e, dict):
@@ -1082,10 +1130,9 @@ def write_record_catalogue(path, rec):
             # fresh stands in for; a row colliding with a fresh twin is at worst a duplicate of
             # it. Both went into one list and the slice below kept whichever came first, so a
             # unique entity could be dropped in favour of an extra copy of content the fresh
-            # cast already holds. `lone` rows now go to the front. The COUNT is unchanged on
-            # purpose: carrying every lone row unconditionally would grow a record each time a
-            # wiki rewords its descriptions, which is the unbounded growth the idempotency
-            # argument above rules out.
+            # cast already holds. `lone` rows now go to the front. (Run #65 kept the COUNT
+            # bounded here; the owner's 2026-09-28 ruling on order beb7db270826 replaced that
+            # bound for lone rows with keep-and-mark -- see below.)
             lone, clashing = [], []
             for key, dsub in disk_by_key.items():
                 fsub = fresh_by_key.get(key) or []
@@ -1098,9 +1145,29 @@ def write_record_catalogue(path, rec):
             unpaired = lone + clashing
             if unpaired:
                 ambiguous.append(nm)
-                # Never shrink the cast. `surplus` is provably <= len(unpaired), because the
-                # paired count for this group cannot exceed len(fgroup).
-                carry.update(id(de) for de in unpaired[:max(len(dgroup) - len(fgroup), 0)])
+                # EVERY LONE ROW IS KEPT, AND MARKED (order beb7db270826 item 1, option (c),
+                # owner ruling 2026-09-28 "fix everything"). The bound above spent a budget of
+                # max(m, k) - k rows, lone rows first, so a re-catalogue that BOTH reworded a
+                # duplicated name's descriptions AND lost one of its entities could still drop
+                # that entity: every disk row was lone, the budget was smaller than the group,
+                # and one unique entity fell off the end. Option (c) keeps every lone row -- a
+                # merge never loses an entity it cannot account for -- and stamps it
+                # `stale_since` (UTC, set once, never moved) so a curator can see which rows
+                # the fresh cast no longer describes and prune them by hand. The growth the
+                # bound existed to prevent is accepted and made visible instead: a rewording
+                # adds the old rows ONCE, marked; re-merging the same fresh cast is still
+                # idempotent, because a marked row is carried as it stands and gains nothing.
+                # Rows that CLASH with a fresh row are at worst duplicates of it, so they keep
+                # the old budget, net of the lone rows already carried.
+                _stamp = datetime.datetime.now(datetime.timezone.utc).strftime(
+                    "%Y-%m-%dT%H:%M:%SZ")
+                for de in lone:
+                    if not de.get("stale_since"):
+                        de["stale_since"] = _stamp
+                carry.update(id(de) for de in lone)
+                # Never shrink the cast. The clashing budget is what is left of the old one.
+                carry.update(id(de) for de in
+                             clashing[:max(len(dgroup) - len(fgroup) - len(lone), 0)])
         curated = collections.Counter()
         for de in disk_entries:
             se = paired.get(id(de))
@@ -1434,6 +1501,10 @@ def write_record(path, rec):
                 mem_groups.setdefault(e.get("name"), []).append(e)
         seen = collections.Counter()
         unpaired_disk = []
+        # See _DESC_SNAPSHOT (order cb31bf2707ad): a description this caller never changed
+        # since it loaded the record is not an authored one, and must not revert disk.
+        desc_mark = _DESC_SNAPSHOT.get(os.path.abspath(path))
+        desc_kept = 0
         for de in disk.get("entries") or []:
             if not isinstance(de, dict):
                 continue
@@ -1449,6 +1520,11 @@ def write_record(path, rec):
             se = group[k]
             for fld in MERGED_ENTRY_FIELDS:
                 if fld in se:
+                    if (fld == "description" and desc_mark is not None
+                            and de.get(fld) != se[fld]
+                            and desc_mark.get((nm, k)) == _fp_one(se[fld])):
+                        desc_kept += 1
+                        continue
                     de[fld] = se[fld]
             # The two companion clears; see ENTRY_REJECTION_COMPANIONS for why these and only
             # these. Guarded on the qualified field being present so a caller that never
@@ -1472,6 +1548,11 @@ def write_record(path, rec):
                 f"{', '.join(sorted(unpaired_disk)) or 'none'} | memory-side names: "
                 f"{', '.join(unpaired_mem) or 'none'}. See order b67dc1990af6.")
             silence.note("pipeline.py:write_record-duplicate-name-unpaired")
+        if desc_kept:
+            log(f"    write_record: {os.path.basename(path)} keeping {desc_kept} disk "
+                f"description(s) another writer changed since this caller loaded the record; "
+                f"the caller had not touched them, so its copy is the stale side "
+                f"(order cb31bf2707ad)")
         # NO DRIFT IS NOT NO CHANGE. Folding onto `disk` keeps every disk-authored top-level key
         # -- a `synthesis`, `purged_roster` or `ceiling_entity` another writer refreshed since
         # this record was loaded -- instead of writing the pipeline's hours-old copy whole.
@@ -1819,7 +1900,10 @@ def _unassayable_verdict_is_stale(rec):
     standing re-spend.
     """
     syn = rec.get("synthesis") or {}
-    if not syn.get("unassayable"):
+    # `unbanded` is the second negative verdict (order 55d0be76b99b, owner ruling 2026-09-28,
+    # option (b)): a ceiling was nominated but no band could be evidenced. It is re-asked on the
+    # same terms as `unassayable` -- once if unrecorded, then only when the cast has grown.
+    if not (syn.get("unassayable") or syn.get("unbanded")):
         return True
     was = syn.get("unassayable_cast_size")
     if not isinstance(was, int):
@@ -1838,9 +1922,19 @@ def phase_synthesis(c, st):
     # Overwatch, Yakuza, Fire Emblem and Gundam -- sources whose ceilings came back empty because
     # phase 1 examined them BEFORE their casts existed, and honestly found no entity to nominate
     # among places and items. They have casts now, so the nomination is worth making again.
+    #
+    # AND A CEILING WITH NO BAND IS NOT A FINISHED SYNTHESIS (order 55d0be76b99b, owner ruling
+    # 2026-09-28, option (b): keep the pair, make the third state reachable). `todo` was keyed on
+    # the ceiling alone, so a record holding a nominated ceiling whose band the evidence gate
+    # below had demoted to "unassayed" was never re-asked -- measured 2026-09-09: 133 of 210
+    # synthesis blocks, the MAJORITY of the corpus, sat in that state with nothing re-visiting
+    # it. No nomination is discarded: the record is simply re-asked, and the negative verdict
+    # (`unbanded`, with the cast it was reached against) is written so it is re-asked again only
+    # when the cast grows -- the same bounded re-ask `unassayable` already has.
     todo = [(p, r) for p, r in records()
-            if not (r.get("synthesis") or {}).get("ceiling_entity")]
-    log(f"phase 1 synthesis: {len(todo)} sources need a ceiling")
+            if not (r.get("synthesis") or {}).get("ceiling_entity")
+            or ceiling_band((r.get("synthesis") or {}).get("provisional_magnitude")) is None]
+    log(f"phase 1 synthesis: {len(todo)} sources need a ceiling or a band")
     done_keys = st["done"].setdefault("synthesis", [])
 
     readmitted = 0
@@ -1929,7 +2023,20 @@ def phase_synthesis(c, st):
         # Written here rather than inferred later, because it is the input to the re-ask above.
         if not _ceiling:
             rec["synthesis"]["unassayable"] = True
+        elif band == "unassayed":
+            # A NOMINATION KEPT, A BAND WITHHELD (order 55d0be76b99b, owner ruling 2026-09-28,
+            # option (b)). Recorded with its cast exactly like the unassayable verdict, so
+            # `_unassayable_verdict_is_stale` re-asks it only when there is more to read.
+            rec["synthesis"]["unbanded"] = True
+        if band == "unassayed":
             rec["synthesis"]["unassayable_cast_size"] = len(rec.get("entries") or [])
+            # FORENSIC ONLY, BY RULING (order ff77e242b830 item 8, decided under the owner's
+            # 2026-09-28 "fix everything" ruling, Reading B). Nothing in src/ reads this digest,
+            # and that is deliberate: `_unassayable_verdict_is_stale` re-admits on the cast having
+            # GROWN, per owner ruling 2026-09-08 5(a), so a rename-only edit does not re-spend the
+            # constrained pool on a source whose honest "no feat" verdict still stands. The digest
+            # is kept so a person diffing records by hand can see that the names changed at an
+            # unchanged size. Wiring it into re-admission is a change to that ruling, not a fix.
             rec["synthesis"]["unassayable_digest"] = _entry_digest(rec)
         if not write_record(path, rec):
             # The synthesis exists only in memory; recording it done would lose it silently.
@@ -2051,7 +2158,14 @@ ENTRY_SCHEMA = {
                 "type": "object",
                 "properties": {
                     "index": {"type": "integer"},
-                    "category": {"type": "integer"},
+                    # BOUNDED IN THE SCHEMA TOO (order d2f103634cf1 item 5, owner ruling
+                    # 2026-09-28 "fix everything"). The range check in phase_entrypass still
+                    # stands and still keeps an out-of-range answer in `category_rejected`; this
+                    # asks for the range up front, so Ollama's constrained decoding cannot emit
+                    # 0 or 14 at all and the cloud path, which carries the schema as a request,
+                    # is told the bounds in words it can read.
+                    "category": {"type": "integer", "minimum": 1,
+                                 "maximum": len(CATEGORIES)},
                     "scale_note": {"type": "string"},
                     "magnitude": {"type": "string"},
                     "topic": {"type": "string", "enum": [
@@ -2451,6 +2565,15 @@ def phase_entrypass(c, st):
                     batch[i]["subroom"] = SUBROOM_UNCLASSIFIED if sub else SUBROOM_NONE
                     if sub:
                         batch[i]["subroom_rejected"] = _stored_cut(sub, 120)
+                # PHYSIOLOGY, WIRED THROUGH (order 0aceab8473e1, owner ruling 2026-09-28,
+                # option (a)). Asked of every call, kept only where ENTRY_SYSTEM says it
+                # applies: a Peoples & Species entry, with something actually stated. An answer
+                # for any other room is the model addressing a question it was told to leave
+                # blank, and is not stored. Presence-gated like every other field: an empty
+                # answer writes nothing, so it can never erase an earlier stated physiology.
+                phys = (res.get("physiology") or "").strip()
+                if phys and batch[i].get("category") == CATEGORIES[7]:
+                    batch[i]["physiology"] = _stored_cut(phys, 500)
                 batch[i]["catalogued"] = True
 
             landed = write_record(path, rec)
@@ -3667,7 +3790,17 @@ _META_TERMS = re.compile(
     # THE WIKI IT WAS MINED FROM (owner ruling 2026-09-25): "as catalogued by the DigimonWiki",
     # "is a stub", "this article" -- the source page showing through. `article` only with
     # this/the, so an article of clothing is still in-world.
-    r"|\w*wiki\w*|stubs?|(?:this|the) article)\b", re.I)
+    r"|\w*wiki\w*|stubs?|(?:this|the) article"
+    # THE WIKI'S MAINTENANCE BOX, WRITTEN UP AS FACT (order cb31bf2707ad, owner ruling
+    # 2026-09-28, option (b) taken beside (a) and (c)). The box's own label and the editor's
+    # request paraphrased as a claim about the entity: II_K_2_Persons_1411_1420.md said of
+    # Hosoda that "the entry notes that content related to Koala-kai ... should be split into
+    # dedicated pages". None of these phrases has an in-world reading: the Custodes record
+    # beings, not a page's editorial backlog. `split` alone stays legal (an army splits).
+    r"|what\W?s needed|(?:this|the) (?:entry|page|record) notes"
+    r"|split (?:off )?into (?:dedicated|separate|individual|its own) pages?"
+    r"|(?:dedicated|separate|individual) pages? for each|discussion page|talk page"
+    r"|by expanding it|remove this (?:template|notice))\b", re.I)
 
 
 def meta_violations(prose):

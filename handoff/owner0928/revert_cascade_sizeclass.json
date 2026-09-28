@@ -1,0 +1,1 @@
+[{"module": "cascade_bridge.py", "old": "            if pinned and (_size_limit or pinned.bucket in box[\"size_refused\"]):", "new": "            if False:"}]

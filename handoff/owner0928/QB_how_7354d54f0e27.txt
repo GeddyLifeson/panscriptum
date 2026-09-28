@@ -1,0 +1,6 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction: delete both, as the order asks.
+
+1. src/feats_index.py source_binding(): the unreachable `if str(h).startswith("pages:"): return "pages"` test inside the host-map loop is deleted, with a comment naming this order. `host_to_sources` strips every pages: sentinel before either caller sees the map; the raw-file re-read further down, which is where a pages: binding is actually answered, is untouched. The `doc:` test stays (host_to_sources does not strip doc: hosts).
+2. src/address_space.py citation_card(): deleted (zero callers in src/). A comment in its place names this order, the Hard Rule 4 risk a revival carried, and how to build the card shape `seed_from_card` reads (shelfmark via `shelfmark(addr, uncharted=charted_gaps(tiers))`). `seed_from_card` and `map_seed` are kept; the order did not ask for them. Note: handoff/run35/checks_L4.py, a past shift's one-off scratch check, asserts citation_card is still present; it is not part of the battery.
+
+No behaviour changes: neither deleted piece could run. pyflakes clean on both files. No net added (nothing guards; this removed code nothing could reach).

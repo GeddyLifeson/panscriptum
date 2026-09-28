@@ -1,0 +1,17 @@
+FIXED 2026-09-28 under the owner's "fix everything" instruction (group OPS). Option taken: the order's own proposal -- a first-class pause marker, state/PAUSED.json, with a reason and an optional until-time.
+
+HOW TO USE IT:
+  python src/escalation.py --pause "watching a film" --hours 3 --by owner
+  python src/escalation.py --unpause --by owner        (marker is MOVED to state/pauses/, never deleted)
+  python src/escalation.py --status                     (prints PAUSED and why, beside the halt state)
+
+WHAT RESPECTS IT:
+  * escalation.py: pause()/unpause()/paused()/pause_verdict(). FAILS CLOSED: a PAUSED.json that does not parse, or parses as the wrong shape, reads as paused. An expired `until` ends it by itself. Pause and unpause are recorded at the JANITOR rung with no work order (a pause is an instruction, not a fault).
+  * autostart.py --watch: `_start_decision` gains a "paused" action -- asked AFTER the halt, so a halted library always reads halted -- which starts no supervisor and spends no start budget; logged once an hour.
+  * overnight.py: refuses to start while paused (rc 0, logged); leaves at the top of its next lap; the keeper restarts nothing while paused; start() and run() refuse with status "paused" (added to BUSY_STATUSES so a paused lap is not counted as idle).
+  * codewatch.exit_if_stale -> exit_if_paused: every standing daemon (STANDING roster + overnight, derived not typed) leaves with rc=0 at the call its loop ALREADY makes between units of work -- a safe point, not a kill mid-write. Bystander callers (drill nets, one-shot tools) are never exited by a pause.
+  * The halt is untouched: nothing reads or writes HALT.json in this change, and every site asks the halt first. A pause can only stop more; it cannot start anything.
+
+NOT COVERED, and said so: the scheduled daily maintenance task and allsweep's live GPU checks do not yet consult paused() (allsweep is outside this group's files and the maintenance task is a prompt, not code here). The helper is one call: `escalation.paused()`.
+
+PROVEN: drill.py area `drill_ops_liveness`, net "a pause holds everything down and never outranks a halt" (drives _start_decision incl. halt-over-pause, pause_verdict incl. expiry and garbled until, a corrupt marker failing closed, overnight.start() refusing before any spawn, exit_if_paused exiting a standing daemon and sparing a bystander). `--prove` with handoff/owner0928/revert_ops_pause.json (the pause arm removed from _start_decision) -> RED; without -> HELD. pyflakes clean.

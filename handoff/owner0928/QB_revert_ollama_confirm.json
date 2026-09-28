@@ -1,0 +1,1 @@
+[{"module": "foreman.py", "old": "gen_ok, gen_why = _ollama_generates() if up else (False, None)", "new": "gen_ok, gen_why = (True, \"reverted\") if up else (False, None)"}]

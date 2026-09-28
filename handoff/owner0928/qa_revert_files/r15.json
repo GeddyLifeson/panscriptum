@@ -1,0 +1,1 @@
+[{"module": "retry_synthesis.py", "old": "    return 0 if (landed and not still_failing) else 1", "new": "    return 0 if landed else 1"}]

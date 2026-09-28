@@ -1,0 +1,7 @@
+[
+ {
+  "module": "manifest_builder.py",
+  "old": "    entries = [e for e in (record.get(\"entries\") or [])\n               if not (isinstance(e, dict) and e.get(\"excluded\"))]",
+  "new": "    entries = record.get(\"entries\", [])"
+ }
+]

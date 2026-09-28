@@ -163,6 +163,83 @@ def _load(path, default):
     return obj if state == "ok" else default
 
 
+# THE OWNER'S STANDING HOST RULINGS (owner 2026-09-28, "fix everything"; orders 30854f11f322,
+# 5f25aa63a41c, efd2b537f26d, 9029a484a13c, 8b3f2911fa0c, f07b7d538ed1, f84cb75edcfe). One file,
+# `data/HOST_RULINGS.json`, because four modules have to agree on these answers and a ruling
+# restated four times is a ruling that drifts four ways. Three kinds of row:
+#
+#   shelved_hosts       a host the library has deliberately stopped talking to (dandwiki: its
+#                       API is closed to anonymous clients by site policy). Not probed by the
+#                       preflight, not canaried, not mined; reported as SHELVED everywhere so its
+#                       catalogued entries stay visible as unmined rather than vanishing.
+#   bindings            a source -> host override a person made (null = unbound). feats'
+#                       host resolution applies it before any guess.
+#   confirmed_bindings  a (host, sitename, source) triple a person has confirmed, for the
+#                       bindings that rest on bare name containment, which `binding_verdict` no
+#                       longer confirms on its own. `entries: "feature-level"` additionally
+#                       accepts that the source's entry names are not article titles there.
+#
+# NOT the hand-kept roster this module's identity comment warns against: every confirmation is
+# keyed on the sitename the wiki MEASURED ITSELF as, plus the exact source name, so a rebind or a
+# renamed wiki simply stops matching and the measured verdict returns. Fail closed throughout:
+# an absent or unreadable file is "no rulings", which excuses nothing and confirms nothing.
+RULINGS = os.path.join(HERE, "data", "HOST_RULINGS.json")
+
+
+def rulings(path=None):
+    """-> the ruling document as a dict; {} when absent or unreadable (both fail closed)."""
+    obj, state = _read_json(path or RULINGS)
+    if state == "ok" and isinstance(obj, dict):
+        return obj
+    if state == "ok":
+        silence.note("binding_health.py:rulings-not-an-object")
+    return {}
+
+
+def shelved_hosts(doc=None):
+    """-> {host: ruling row} for every host a person has shelved."""
+    doc = rulings() if doc is None else doc
+    got = doc.get("shelved_hosts") if isinstance(doc, dict) else None
+    return {h: r for h, r in (got or {}).items() if h and isinstance(r, dict)}
+
+
+def confirmed_pairs(host=None, doc=None):
+    """-> [(sitename, source, row)] a person has confirmed, for one host or for all."""
+    doc = rulings() if doc is None else doc
+    out = []
+    for r in ((doc.get("confirmed_bindings") if isinstance(doc, dict) else None) or []):
+        if not isinstance(r, dict) or not r.get("sitename") or not r.get("source"):
+            continue
+        if host is None or r.get("host") == host:
+            out.append((r["sitename"], r["source"], r))
+    return out
+
+
+def standing_ruling(host, binding, doc=None):
+    """PURE given `doc`. The ruling that settles this host's binding finding, or None.
+
+    -> {"kind": "shelved" | "feature-level", "row": ...} | None
+
+    SHELVED answers for the host whatever the canary said. FEATURE-LEVEL answers only when the
+    stored identity verdict is still exactly the one a person accepted -- same host, same
+    measured sitename, same matched source -- so a wiki that renames itself or a source that is
+    rebound falls straight back to the measured finding. A ruling that outlived the facts it
+    was made about would be the quietest way to lose a real misbinding.
+    """
+    doc = rulings() if doc is None else doc
+    shelf = shelved_hosts(doc).get(host)
+    if shelf:
+        return {"kind": "shelved", "row": shelf}
+    b = binding or {}
+    if b.get("verdict") != "CONFIRMED":
+        return None
+    for sitename, source, row in confirmed_pairs(host, doc):
+        if (row.get("entries") == "feature-level" and sitename == b.get("sitename")
+                and source == b.get("matched")):
+            return {"kind": "feature-level", "row": row}
+    return None
+
+
 def _land(path, obj):
     """Write the JSON. -> True if it LANDED on disk, False if the rename was refused.
 
@@ -913,8 +990,20 @@ def _normalise_name(s):
     return " ".join(t for t in cleaned.split() if t not in _IDENTITY_STOPWORDS)
 
 
-def binding_verdict(sitename, source_names):
+def binding_verdict(sitename, source_names, confirmed=()):
     """PURE. Does the wiki's own name correspond to the source bound to it?
+
+    CONTAINMENT ALONE NO LONGER CONFIRMS (owner 2026-09-28, "fix everything", order
+    30854f11f322 -- the remedy that order's filing run named: score the whole-string ratio
+    BESIDE `token_set_ratio`). A match of 100 that rests on one name's words sitting inside the
+    other's, with a whole-string `tight` ratio below BINDING_CONFIRMED_AT, is UNCLASSIFIED --
+    "a person should look" -- unless the exact (sitename, matched source) pair is in
+    `confirmed`, the pairs a person has confirmed (`confirmed_pairs()`, data/HOST_RULINGS.json).
+    The paragraph below explained why no METRIC can separate `Eberron Wiki` from `Prime Wiki`;
+    that stays true, and it is exactly why the separation is now a recorded human judgment keyed
+    on the measured sitename rather than a threshold an agent chose. The three calibrated
+    genuine bindings are confirmed there; a new short generic sitename is not, and so no longer
+    confirms a binding on its own.
 
     -> {"verdict": CONFIRMED | MISBOUND | UNCLASSIFIED | UNKNOWN, "score":.., "sitename":..}
 
@@ -931,7 +1020,8 @@ def binding_verdict(sitename, source_names):
     inside `ANEURISM IV` -- and so does the false positive the order names, `Prime` inside
     `Prime World Equipment`.
 
-    AND THAT IS WHY THE THRESHOLD IS NOT TIGHTENED HERE. The obvious remedy -- combine
+    HISTORY, SUPERSEDED BY THE 2026-09-28 RULING AT THE TOP OF THIS DOCSTRING, kept because it
+    is the measurement that ruling rests on: THE THRESHOLD WAS NOT TIGHTENED HERE. The obvious remedy -- combine
     `token_set_ratio` with a length- or coverage-aware ratio -- was measured against the
     calibration set and it CANNOT separate the two, because they are the same shape. Take the
     pair that has to be separated: `eberron` vs `eberron rising from last war` must CONFIRM,
@@ -976,7 +1066,21 @@ def binding_verdict(sitename, source_names):
     contained = bool(site_words) and bool(best_words) and (
         site_words <= best_words or best_words <= site_words)
     tight = fuzz.ratio(site, matched)
-    if score >= BINDING_CONFIRMED_AT:
+    ruled = None
+    for pair in (confirmed or ()):
+        if pair[0] == sitename and pair[1] == best:
+            ruled = pair[2] if len(pair) > 2 else {}
+            break
+    if score >= BINDING_CONFIRMED_AT and contained and tight < BINDING_CONFIRMED_AT:
+        if ruled is not None:
+            v, why = "CONFIRMED", ("the wiki's name is contained in the source's, and a person "
+                                   "has confirmed this exact pair (data/HOST_RULINGS.json)")
+        else:
+            v, why = "UNCLASSIFIED", (
+                "containment only -- one name's words sit inside the other's (tight %.1f), "
+                "which token_set_ratio scores 100 however much else the longer name carries; "
+                "a person should look (order 30854f11f322)" % tight)
+    elif score >= BINDING_CONFIRMED_AT:
         v, why = "CONFIRMED", "the wiki names itself after the source bound to it"
     elif score < BINDING_MISBOUND_BELOW:
         v, why = "MISBOUND", "the wiki serves something else entirely"
@@ -989,6 +1093,10 @@ def binding_verdict(sitename, source_names):
             # whatever else the longer name carries; `tight` is the same pair judged as whole
             # strings, and the distance between them is how one-sided the match is.
             "containment": contained, "tight": tight,
+            # True only where a CONFIRMED rests on a person's recorded confirmation of this
+            # exact pair rather than on the names alone (order 30854f11f322).
+            "confirmed_by_ruling": v == "CONFIRMED" and ruled is not None and contained
+                                   and tight < BINDING_CONFIRMED_AT,
             # Every source that scored the same as `matched`. Empty on the ordinary one-source
             # host; on a shared wiki it is the whole set the score could equally have named, so
             # a reader can see that `matched` was chosen from among these rather than measured
@@ -1107,7 +1215,7 @@ def canary(host, present_title, sources=None, available=None):
     # present-probe just proved.
     if healthy is None and sources:
         sitename, det_i = _probe_identity(host)
-        rec["binding"] = binding_verdict(sitename, sources)
+        rec["binding"] = binding_verdict(sitename, sources, confirmed=confirmed_pairs(host))
         rec["binding"]["probe"] = det_i
     return rec
 
@@ -1313,7 +1421,19 @@ def run(limit=None, only=None):
     if limit is not None:
         hosts = hosts[:limit]
     out, failed = [], 0
+    shelved = shelved_hosts()
     for h in hosts:
+        if h in shelved:
+            # SHELVED BY A PERSON, SO NOT CANARIED (owner 2026-09-28, option (c) of orders
+            # 9029a484a13c / 8b3f2911fa0c). Probing a host whose API refuses anonymous clients by
+            # policy re-measures a condition that cannot change and re-files the same suspect
+            # order every sweep. The row is still WRITTEN, so the host stays in the estate report
+            # by name with the ruling beside it -- shelved is visible, never absent.
+            out.append({"host": h, "healthy": None, "at": time.time(), "shelved": shelved[h],
+                        "sources": sorted(bound_to.get(h) or []),
+                        "reason": "SHELVED by owner ruling -- not probed; its catalogued "
+                                  "entries stay on disk, visible as unmined"})
+            continue
         _avail = {}
         title = known_present_titles(h, hosts_map, available=_avail)
         if not title:
@@ -1531,6 +1651,33 @@ def run(limit=None, only=None):
     return out, failed
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--run", action="store_true", help="canary every bound host")
@@ -1583,6 +1730,8 @@ def main():
                      time.strftime("%Y-%m-%d %H:%M", time.localtime(r.get("retry_after", 0)))))
         return 0
     if a.run:
+        # THE HALT (owner ruling 2026-09-28, order 21c075e5e2d6): this invocation writes, so it asks first.
+        _assert_not_halted("--run (writes BINDING_HEALTH.json and HOST_QUARANTINE.json)")
         out, failed = run(limit=a.limit, only=a.host)
         for r in out:
             state = {True: "ok  ", False: "FAIL", None: "skip"}[r.get("healthy")]

@@ -471,7 +471,8 @@ def instrument_shortfall(text):
     Charged per entry that declares a Class, so a feats chapter (no Entry Template, no Class
     lines) is required = 0 and cannot red. An entry declaring a being class must show the section
     marker AND either an axis score, the template's 'uninstrumented -- no faculties on file', or
-    the Not-applicable sentence; a non-being entry needs the marker or the sentence.
+    the Not-applicable sentence; a non-being entry needs the Not-applicable sentence itself, and
+    the marker alone no longer counts (order d03706b5eaf0, 2026-09-28).
     """
     missing = []
     present = required = 0
@@ -485,9 +486,17 @@ def instrument_shortfall(text):
         excused = bool(_INSTRUMENT_NOT_APPLICABLE.search(b)
                        or _INSTRUMENT_UNINSTRUMENTED.search(b))
         being = any(c in cls for c in INSTRUMENT_CLASSES)
-        if marked and (scored or excused or not being):
+        # A NON-BEING MUST SAY "Not applicable" IN WORDS; A BARE MARKER IS NOT THE SECTION
+        # (order d03706b5eaf0 item 1, option (a), owner ruling 2026-09-28 "fix everything").
+        # This accepted `marked and not being`, so a Place / Faction / Thing carrying only the
+        # glyph passed -- and the glyph survives where the section does not. Measured on the 404
+        # chapters in output/raw before the change: 32 non-being entries in 30 chapters passed
+        # that way, and every one was `▣ Threads: pending ...` (the marker glued to the Threads
+        # line) or a lone `▣` with nothing after it -- the header-survives-content-vanishes shape
+        # this layer exists for. A refusal only: nothing that failed before passes now.
+        if being and marked and (scored or excused):
             present += 1
-        elif not being and excused:
+        elif not being and _INSTRUMENT_NOT_APPLICABLE.search(b):
             present += 1
         else:
             missing.append(
@@ -539,7 +548,17 @@ def unearned_instrument(text, cited_names):
         name = re.sub(r"^[\s*_#>-]+|[\s*_#>-]+$", "", head)
         if not _AXIS_RE.search(b):
             continue
-        base = re.sub(r"\s*\(.*", "", name).strip()
-        if name not in cited_names and base not in cited_names:
+        # THE EXACT CATALOGUED NAME, AND NOTHING LOOSER (order 39a0542b03f3, owner ruling
+        # 2026-09-28 "fix everything"). This used to strip a trailing parenthetical and accept a
+        # match on the bare base name as well. The parenthetical is where this library keeps
+        # CONTINUITY: `Wally West (New Earth)` and `Wally West (Prime Earth)` are two beings, and
+        # with the fallback a score printed for an UNCITED variant passed as earned whenever a
+        # bare `Wally West` in the same block was cited. `cited_names` is built by
+        # `cited_names_for` from the CATALOGUED names, so an entry written under its catalogued
+        # name still matches exactly; only a qualifier the model added itself now fails, and it
+        # fails toward refusal. Measured before the change on all 404 chapters in output/raw:
+        # 2 entry blocks carried axis scores, none had a parenthetical, and 0 chapters were
+        # credited by the fallback alone (handoff/owner0928/qa_measure_unearned.py).
+        if name not in cited_names:
             out.append(name or "(unnamed entry)")
     return out

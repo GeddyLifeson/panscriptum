@@ -260,7 +260,16 @@ def provisional_spine(roll_entry):
 def build_jobs_for_source(cfg, roll_entry, record, spine):
     jobs = []
     source_name = roll_entry["name"]
-    entries = record.get("entries", [])
+    # A STRUCK ENTRY DOES NOT REACH PROSE (owner 2026-09-28, "fix everything", order
+    # c9666b0bd8d9). `excluded` is the entry-level strike every writer already carries
+    # (pipeline.MERGED_ENTRY_FIELDS): cleanup sets it on wiki navigation and rules constructs
+    # that are not entities, and the misbound-host quarantine sets it on an entry catalogued
+    # FROM the wrong wiki (Logan Paul, off the Prime Hydration drink wiki, inside 'Prime World
+    # Equipment'). phase_entrypass already refused to send a struck entry to the model; this job
+    # builder queued it for a chapter anyway, so the strike stopped at the catalogue and the
+    # contamination went on to the page. The entry stays in the record -- struck, not deleted.
+    entries = [e for e in (record.get("entries") or [])
+               if not (isinstance(e, dict) and e.get("excluded"))]
     if not entries:
         return jobs
 

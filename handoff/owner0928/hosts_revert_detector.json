@@ -1,0 +1,7 @@
+[
+ {
+  "module": "workorders.py",
+  "old": "_BHR.standing_ruling(host, h.get(\"binding\") or {}, doc=_rdoc)",
+  "new": "None"
+ }
+]

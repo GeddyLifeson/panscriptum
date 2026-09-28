@@ -172,6 +172,22 @@ def _anchor(pat):
     return _SENTENCE_START + pat[4:] if pat.startswith(r"^\s*") else pat
 
 
+# THE SPLICE'S ONE ASSUMPTION IS CHECKED, NOT ASSUMED (order beb7db270826 item 2, owner ruling
+# 2026-09-28 "fix everything"). `_anchor` recognises exactly the literal four-character prefix
+# `^\s*`. A pattern anchored any other way -- `^That said`, `^ *That said`, `\A\s*That said` --
+# is passed through untouched, so it stays anchored to line starts only and goes blind
+# mid-paragraph, which is the very failure the sentence-boundary anchor was added to end. Nothing
+# errors and the tell simply stops being seen. So a line-anchored pattern that does not use the
+# prefix `_anchor` understands stops the import, the same way the control-character guard below
+# does. Asked of DISCOURSE only: those are the sentence-opening markers the splice exists for,
+# while a STRUCTURAL pattern may mean "line start" and nothing else.
+for _n, _p in DISCOURSE.items():
+    if (_p.startswith("^") or _p.startswith(r"\A")) and not _p.startswith(r"^\s*"):
+        raise SystemExit("tells.py: pattern %r is line-anchored as %r, which _anchor() cannot "
+                         "rewrite to a sentence boundary; start it with ^\\s* instead"
+                         % (_n, _p[:8]))
+
+
 _COMPILED = {k: re.compile(_anchor(v), re.I | re.M) for k, v in ALL_PATTERNS.items()}
 _LEX = {w: re.compile(r"\b" + re.escape(w) + r"\b", re.I) for w in LEXICAL + LEXICAL_FICTION}
 

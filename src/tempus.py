@@ -116,6 +116,9 @@ def apparent_lag_years(shelf_a, shelf_b):
 
 # ========================================================= 2. INSTITUTIONAL SIMULTANEITY
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as charter apparatus: the Chain-of-Record simultaneity test X.7 states, awaiting the Step 4 entanglement pass that would consume it.
 def contemporaneous(mark_a, mark_b, tolerance=0):
     """Are two events omniversally contemporary? Institutional test, not physical.
 
@@ -125,6 +128,9 @@ def contemporaneous(mark_a, mark_b, tolerance=0):
     return abs(mark_a - mark_b) <= tolerance
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as charter apparatus: the ascension-mark NOW test the charter's [^9] phrasing needs, awaiting Step 4.
 def is_present_at(event_mark, observer_rung):
     """Is this event part of the observer's NOW?
 
@@ -245,6 +251,9 @@ def band_resolution(band):
     return round(math.log2(hi / lo), 2)
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as charter apparatus: X.9's prescience horizon, reference for the human Assay worksheet until a pass calls it.
 def prescience_horizon_bits(band, lead_time_years):
     """What foresight COSTS, in the currency the Assay already uses.
 
@@ -285,6 +294,9 @@ def prescience_horizon_bits(band, lead_time_years):
     }
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as charter apparatus: X.9 section 4's Transgression price for effect-before-cause, reference until a pass calls it.
 def retrocausality_beta(effect_precedes_cause_by_years):
     """Exception bits for attested backwards causation, per X.2 §4.
 

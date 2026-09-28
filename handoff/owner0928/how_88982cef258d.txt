@@ -1,0 +1,12 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction: the order says to check whether the condition still holds and close it if the pool now answers. It does, so it is closed. Group CASCADE.
+
+RE-MEASURED 2026-09-28 about 15:55: the cascade selftest live call answered (GPT-OSS 120B, Groq). A pinned one-call probe of each enabled cloud bucket with a key found 3 of 11 answering: groq gpt-oss-120b, groq gpt-oss-20b and groq qwen3.8-27b. The local qwen3:8b is resident (ollama /api/tags lists qwen3:8b and qwen3:30b-a3b). So the pool is no longer exhausted.
+
+STILL SPENT OR DEAD, FOR THE OWNER'S INFORMATION (account states, none is a code fault, none was touched):
+- gemini 3.6 / 3.5 / 3.1-lite: 429 "You exceeded your current quota" (daily; resets on its own).
+- openrouter: "free-models-per-day" 429 (daily; resets at midnight UTC).
+- cohere: Trial key "1000 API calls / month" used up (monthly; benched as permanent by cascade_bridge).
+- zai: "Insufficient balance or no resource package" (needs money; the standing answer is no).
+- sambanova: HTTP 401 "Incorrect API key provided" -- the key is dead; only the owner can rotate it in Cascade's key box.
+- groq qwen3.8-27b hit its 200,000 tokens-per-day limit later in this session (daily).
+Ten further providers (ai21, anthropic, bigmodel, dashscope, kluster, moonshot, nebius, novita, ovh, together) have no key at all; adding one is an owner action.

@@ -1,0 +1,1 @@
+[{"module": "allsweep.py", "old": "n = max(n, int(parts[1].replace(\",\", \"\")))", "new": "n = n"}]

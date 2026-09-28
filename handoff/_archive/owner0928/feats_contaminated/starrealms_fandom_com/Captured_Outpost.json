@@ -1,0 +1,19 @@
+{
+ "entity": "Captured Outpost",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Captured Outpost"
+ ],
+ "chars_read": 873,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [
+  {
+   "text": "Captured Outpost is a flimsly outpost with a defense of only 3, so aside from the first turns it is unlikely to survive for long.",
+   "page": "Captured Outpost"
+  }
+ ],
+ "text": {
+  "Captured Outpost": "How to play ==\nAt any time during your turn, you may draw a card and then discard a card. Captured Outpost is an Outpost with a defense of 3. \n Strategy ==\nCaptured Outpost is a flimsly outpost with a defense of only 3, so aside from the first turns it is unlikely to survive for long. Draw-discard is good in early game and midgame, but unfortunately this base does not do anything else, and cannot scrap itself either. It can still be of use in early game to go through your deck more quickly and/or make it more difficult to take out your other bases, and later in the game it will not clutter up your deck as much due to the draw-discard."
+ }
+}

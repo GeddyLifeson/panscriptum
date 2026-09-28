@@ -1,0 +1,8 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. Neither item carried a recommended reading.
+
+ITEM 2 (restart_ollama) -- Reading B, the one that closes the fault: `did=True` only after one generation completes. New `foreman._ollama_generates()` sends the same probe the token-flow standard uses (num_ctx FROM config.yaml, num_predict 8, eval_count or response decides), live, never the metrics ledger. `restart_ollama` calls it after /api/tags answers, on both the restart and the start-tray paths. Completed -> True with "daemon answering and a generation completed in Ns". Not completed -> False with "restarted ... the daemon answers, but the cure is NOT YET CONFIRMED: <why> -- the next round re-measures". The 30-minute stamp is written either way, so the rate limit is unchanged. The model reload cost now sits inside the remedy, as the ruling accepts.
+Proof: drill net "restart_ollama books a cure only after a generation completes" (area drill_owner0928_qb) drives the existing _absent_tray_is_started_not_waited_for probe with a third, unconfirmed case. HELD live; RED with handoff/owner0928/QB_revert_ollama_confirm.json. The existing net "an absent Ollama tray is started, not killed-and-waited-for" now stubs the generation probe too and was re-proved HELD.
+
+ITEM 8 (unassayable_digest) -- Reading B, forensic only, because owner ruling 2026-09-08 5(a) deliberately made "the cast has GROWN" the re-admission test and wiring the digest in would change that ruling, not fix a defect. src/pipeline.py now carries the comment at the write that says so; the field is still written.
+
+pyflakes clean on foreman.py and pipeline.py. foreman.py is a STANDING daemon: codewatch will restart it on the new code (rc=17).

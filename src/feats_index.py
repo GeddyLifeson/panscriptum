@@ -304,8 +304,10 @@ def source_binding(source_name, hosts=None):
     hosts = hosts if hosts is not None else host_to_sources()
     for h, srcs in (hosts or {}).items():
         if source_name in srcs:
-            if str(h).startswith("pages:"):
-                return "pages"
+            # NO `pages:` TEST HERE (order 7354d54f0e27, deleted under the owner's 2026-09-28
+            # "fix everything" ruling). `host_to_sources` strips every `pages:` sentinel before
+            # any caller sees the map, so that branch could not be reached from either call
+            # site; the raw-file re-read below is where a `pages:` binding is actually answered.
             if str(h).startswith("doc:"):
                 return "doc"
             return "bound"

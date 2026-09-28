@@ -307,6 +307,33 @@ def do_merge():
     return 1 if (denied or unmerged) else 0
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--merge", action="store_true",
@@ -317,6 +344,11 @@ def main():
                     help="pilot: do the N smallest pending sources first, to prove the "
                          "transport before committing to the largest")
     args = ap.parse_args()
+    # THE HALT (owner ruling 2026-09-28, order 1e6f99e54b25): this invocation writes, so it asks first.
+    # Both modes write: --merge folds into data/records, the run lands
+    # data/SYNTHESIS_RETRY.json. Neither has a read-only form.
+    _assert_not_halted("--merge (writes data/records)" if args.merge
+                       else "(writes data/SYNTHESIS_RETRY.json)")
     if args.merge:
         return do_merge()
 
@@ -341,12 +373,19 @@ def main():
 
     # True until a save is refused; a run that saves nothing has nothing outstanding.
     landed = True
+    # EVERY SOURCE THIS RUN COULD NOT RESCUE, IN FULL (order 6b59a5d4302a item 7, owner ruling
+    # 2026-09-28 "fix everything"). The exit code used to follow the LAST SAVE alone, so a run in
+    # which every source printed STILL FAILING and nothing was saved exited 0 -- "a run that saves
+    # nothing has nothing outstanding" -- and a scheduler read the retry as done. A source this
+    # run was asked to rescue and did not is outstanding, whatever the save said.
+    still_failing = []
     for path, rec in todo:
         src = rec["source"]
         print(f"  {src:<44}", end="", flush=True)
         got = synthesise(c, rec)
         if got is None:
             print("STILL FAILING")
+            still_failing.append(src)
             continue
         side[src] = got
         # Take the MERGED mapping back, so this run's own tally counts what is actually on
@@ -371,8 +410,13 @@ def main():
         print(f"\n{len(side)} results in memory, but the LAST save to "
               f"data/SYNTHESIS_RETRY.json was REFUSED -- the file is behind by at least the "
               f"final source. Rerun; anything missing is retried.", file=sys.stderr)
+    if still_failing:
+        print(f"\n{len(still_failing)} of {len(todo)} source(s) were NOT rescued this run and are "
+              f"still without a synthesis:", file=sys.stderr)
+        for s_ in still_failing:
+            print(f"  {s_}", file=sys.stderr)
     print("merge with:  python src/retry_synthesis.py --merge   (pipeline must be stopped)")
-    return 0 if landed else 1
+    return 0 if (landed and not still_failing) else 1
 
 
 if __name__ == "__main__":

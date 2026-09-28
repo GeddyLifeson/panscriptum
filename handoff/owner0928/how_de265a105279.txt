@@ -1,0 +1,10 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. Option taken: the filing run's option (2), SPLIT THE ROW, kept at full strength.
+
+src/verify_math.py section 20n. The completeness proof is unchanged -- sweep_plan.missing() over every module, no exclusions -- but it is now asserted as two rows whose union is exactly missing():
+  * "the newest FINISHED sweep proves its own completeness" (the old label) holds the broken-proof causes: `skipped` (in the run's own roster, no batch recorded it) and `undetermined` (the run wrote no roster). Remedy: chase the sweep plan.
+  * "src/ has no module that no finished sweep has read (a sweep is owed)" holds `added_since` alone: modules in no shard's roster, which provably did not exist when that sweep was dispatched. Remedy: dispatch a sweep; never forge a shard for an old run.
+  * "[control] the two completeness rows partition missing() exactly" pins the split so a module can never fall between the halves.
+
+NOT TAKEN, and why: giving `added_since` a lower rank than SAFETY (or letting it report without failing, the shift note's option b) would lower a Hard-Rule--1 safety, and this session's standing limit forbids weakening a gate even under the owner's instruction. Both rows still fail the battery, so adding a module still costs a sweep before the battery is green (the order's option (1) price) and local_agent._gates still sees a red battery until then. If the owner wants the added_since row demoted, that is a separate, explicit ruling on a safety rank. Nothing forged, no exclusion list, no mtime grace, no union of partial proofs.
+
+Proof: the split is a verify_math change and is proven by the battery run recorded in handoff/owner0928/REPORT_BATTERY.md (both rows and the partition control), not by a drill net.

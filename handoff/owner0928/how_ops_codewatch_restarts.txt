@@ -1,0 +1,10 @@
+VERIFIED AND CLOSED 2026-09-28 (group OPS, owner's "fix everything" session). A designed rc=17 restart inside budget; the job came back. From 2026-09-28 such restarts no longer file an order at all (order f7d7769075c0, over-budget-only).
+
+Verified with `python src/codewatch.py` and the process table at 15:57:
+  dashboard  (018727423a09) pid 16828 started 15:07:12, after the order's last restart 05:36:03; polling (last poll 5s, pid alive); 0 of 4 restarts this hour.
+  overnight  (764e283cdf00) pid 24416 started 15:03:53 (by the watchdog), after 08:15:42; last poll 53 min ago = the top of its current lap, which is where it polls by design.
+  publish    (91bb70c85e31) pid 30656 started 15:07:12, after 05:37:23; polling (last poll ~5 min, pid alive).
+  foreman    (e45618de083f) pid 22648 started 15:07:12, after 05:33:01; polling (last poll ~5 min, pid alive).
+  overwatch  (ee382241ff8c) pid 30924 started 15:07:13, after 08:00:29; alive and inside its first pass (overwatch.log "OVERWATCH 15:07:14"); it has not yet reached its exit_if_stale call, so its poll stamp still names the previous pid -- NOT KNOWN, not stale.
+
+"On the current fingerprint": every job restarted onto the fingerprint the order named (6b29091c3eea4559) and came back; the fingerprint has since moved (now 4ca41e2e256de71c) because this session is editing src/, and each daemon will take its designed rc=17 onto that code once src/ settles -- which, from today, records at the janitor rung without reopening an order.

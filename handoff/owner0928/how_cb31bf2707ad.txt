@@ -1,0 +1,31 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. No single option was recommended ("one or more of"); all three were taken, because together they close the fault while keeping data and history.
+
+SCALE, measured 2026-09-28: the fault was not 202 Digimon rows. 3,804 descriptions across 13 mode='web' records opened with wiki maintenance-template text. The biggest groups: Final Fantasy "This request can be discussed..." 1,596; Digimon 488; Zelda 366; SpongeBob 359; Transformers 308; Gundam 304; Regular Show 213; Halo 129; plus Left 4 Dead, Terminator, Fate, major-fantasy-pantheons and Roger Rabbit.
+
+(a) MINER, src/wiki_source.py. There are two independent layers.
+- Structural: _furniture_spans finds messagebox/ambox/mbox/notice/dablink/hatnote/cleanup/stub/maintenance/metadata containers, closing each by balanced tag counting and failing closed if one is unclosed. _paragraphs drops any <p> inside one.
+- Textual: strip_banner_prefix cuts leading fixed-wording template sentences, and is_banner_paragraph drops a free-text "What's needed:" paragraph.
+
+REPAIR, handoff/owner0928/repair_banners.py --go. It writes only through pipeline.write_record and is idempotent.
+- Every old description was archived first, to handoff/_archive/owner0928_banner_descriptions.json.
+- Fixed-wording prefixes were cut offline. 1,163 free-text or banner-only descriptions were re-fetched with the fixed miner. A re-fetch with no prose leaves description "" with thin_description True, and the entry is kept.
+- Result: 3,804 repaired, and a re-run finds 0.
+
+WRITER FIX, src/pipeline.py: _DESC_SNAPSHOT, a per-entry description watermark on the _TOP_SNAPSHOT pattern. write_record used to fold a stale holder's load-time description back over a repaired one on every entrypass batch. Now disk wins unless the caller actually changed the description.
+
+(b) P8, pipeline._META_TERMS, tightened. It now refuses "what's needed", "the entry/page/record notes", "split into dedicated/separate pages", "... pages for each", "discussion page", "talk page", "by expanding it" and "remove this template/notice". The bare word "split" stays legal.
+
+WRITER LAYER, src/generate.py. generate.py writes from the manifest, which is older than the repair. A pending job with any furniture entry is now held back and listed. If the detector cannot be imported, generate.py refuses everything.
+
+(c) WITHDRAWN: 58 Digimon chapters that contained a banner-described entity, via withdraw_chapters.py --addr ... --label 2026-09-28-wiki-banners --go. They were moved, not deleted, to output/withdrawn_2026-09-28-wiki-banners/, and the catalog went from 404 to 346 entries. The list is in handoff/owner0928/corpus_banner_chapters.json. No other source had a chapter built from a banner entity.
+
+PROOF (drill_inspector). Each net printed HELD without a revert and RED with its revert file, all in handoff/owner0928/:
+- "the meta-language ban refuses a wiki maintenance box written as fact": RED with corpus_revert_meta.json
+- "the miner drops wiki maintenance boxes before they become descriptions": RED with corpus_revert_miner_structural.json and, separately, with corpus_revert_miner_textual.json
+- "generate holds back a job whose entry is wiki furniture": RED with corpus_revert_generate_furniture.json
+- "a stale holder's description cannot revert a repaired one": RED with corpus_revert_desc_watermark.json
+pyflakes is clean.
+
+OUTSTANDING for the coordinator:
+- After the pipeline daemon restarts on the new code, re-run repair_banners.py --go. It is idempotent, and it catches anything the old-code daemon folded back before the restart.
+- Rebuild the manifest so the withdrawn and held-back Digimon jobs regenerate from the repaired text.

@@ -151,6 +151,9 @@ def currency_status(currency):
     return True, CURRENCIES[currency][1]
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as reference data awaiting a consumer: the Standards conversion the ledger module is defined around.
 def to_standards(amount, currency):
     """Convert a local sum into Standards. None where the currency is not convertible -- for
     UNLISTED vs. deliberately non-convertible, see `currency_status`."""
@@ -160,6 +163,9 @@ def to_standards(amount, currency):
     return amount / rate
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as reference data awaiting a consumer: the inverse of to_standards.
 def from_standards(standards, currency):
     """The inverse of `to_standards`. None where the currency is not convertible -- for
     UNLISTED vs. deliberately non-convertible, see `currency_status`."""
@@ -169,6 +175,9 @@ def from_standards(standards, currency):
     return standards * rate
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as reference data awaiting a consumer: currency-to-currency through the Standard.
 def cross_rate(a, b):
     """How many units of b buy one unit of a."""
     ra = CURRENCIES.get(a, (None,))[0]
@@ -183,6 +192,9 @@ def work_value(joules):
     return joules / JOULES_PER_STANDARD
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as reference data awaiting a consumer: the Magnitude-band to Standards bridge.
 def assay_to_standards(magnitude_band, ruin_score=5.0):
     """What a band of destructive capability is 'worth' in Standards.
 

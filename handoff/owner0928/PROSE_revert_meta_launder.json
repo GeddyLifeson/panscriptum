@@ -1,0 +1,3 @@
+[{"module": "generate.py",
+  "old": "            if not new or _PL.meta_violations(new):\n                continue\n",
+  "new": "            if not new or _PL.meta_violations(new):\n                new = \"\"\n"}]

@@ -1,0 +1,8 @@
+[
+  {"module": "rosetta.py",
+   "old": "        _assert_not_halted(\"--refine (rewrites the rosetta scales)\")\n",
+   "new": "        pass\n"},
+  {"module": "roll.py",
+   "old": "        _assert_not_halted(\"exclude(%r) (rewrites data/SWEEP_ROLL.json)\" % (name,))\n",
+   "new": "        pass\n"}
+]

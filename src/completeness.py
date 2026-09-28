@@ -55,6 +55,11 @@ SHRINK_FLOOR = 0.5
 HOSTS = os.path.join(HERE, "data", "WIKI_HOSTS.json")
 RECORDS = os.path.join(HERE, "data", "records")
 
+# A shared NON-fandom host (en.wikipedia.org, www.dandwiki.com) carries no per-source
+# denominator anyone may claim. Owner ruling 2026-09-28 ("fix everything"), order
+# f5b8e4afb558 remedy (b), third option; see the shared-host branch in `audit`.
+SHARED_NON_FANDOM_HAS_NO_PRIMARY = True
+
 PERSONS = "Persons (named individual characters, real or fictional)"
 
 
@@ -697,17 +702,27 @@ def audit(only=None, workers=6):
         # this branch permanently, and the message sent the reader looking for a contest that
         # was never held.
         #
-        # REPORTING ONLY. No aggregate changes and no row changes side: what SHOULD decide the
-        # primary for a shared non-fandom host is the ruling half of that order, and it is
-        # deliberately not answered here.
-        elif shared[host] > 1 and (primary.get(host) or (None, None))[0] != src:
+        # AND NOW IT IS A RULING, NOT AN ACCIDENT (owner 2026-09-28, "fix everything", order
+        # f5b8e4afb558 remedy (b)). Of the three answers that order offered -- the source's own
+        # recorded category, an explicit primary column on the roll, or "a shared non-fandom
+        # host has no denominator anyone may claim" -- the third is taken: it is the only one
+        # that needs no data nobody has recorded, it keeps every row on the side it already
+        # sat (fail closed: an unmeasurable denominator stays unreliable), and it changes no
+        # aggregate. What changes is that the code now ASKS the question and answers it on
+        # purpose: `SHARED_NON_FANDOM_HAS_NO_PRIMARY` below is tested directly, so a shared
+        # non-fandom host is never compared against `primary` at all, and the sentence says
+        # it is a decision. Reversing it is one constant plus a real discriminator.
+        elif shared[host] > 1 and ((SHARED_NON_FANDOM_HAS_NO_PRIMARY
+                                    and subdomain(host) is None)
+                                   or (primary.get(host) or (None, None))[0] != src):
             _others = str(shared[host] - 1) + " other source(s)"
             if subdomain(host) is None:
-                why = ("shares " + host + " with " + _others + ", and no primary can be "
-                       "identified for a non-fandom host at all -- the only discriminator this "
-                       "module implements is a source name matching the wiki's SUBDOMAIN, and "
-                       "this host has none. Not 'this source lost'; 'the question was never "
-                       "asked'. See order f5b8e4afb558")
+                why = ("shares " + host + " with " + _others + ", and a shared non-fandom host "
+                       "carries NO per-source denominator by owner ruling (2026-09-28, order "
+                       "f5b8e4afb558): its categories describe the whole site, not this "
+                       "source, and the only discriminator this module has -- a source name "
+                       "matching the wiki's SUBDOMAIN -- cannot apply to a host with none. "
+                       "Not 'this source lost'; no contest is held")
             else:
                 why = ("shares " + host + " with " + _others + " and is not the primary; "
                        "denominator belongs to "

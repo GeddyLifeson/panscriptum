@@ -1,0 +1,7 @@
+[
+ {
+  "module": "feats.py",
+  "old": "        if h in shelved:\n            t[\"shelved\"]",
+  "new": "        if False:\n            t[\"shelved\"]"
+ }
+]

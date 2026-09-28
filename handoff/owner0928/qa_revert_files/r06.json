@@ -1,0 +1,1 @@
+[{"module": "drill.py", "old": "        if os.path.isabs(p) or os.path.splitdrive(p)[0]:\n            return False\n        full = os.path.join(root, p)", "new": "        full = p if os.path.isabs(p) else os.path.join(root, p)"}]

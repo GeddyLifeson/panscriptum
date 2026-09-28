@@ -1,0 +1,3 @@
+OPTION TAKEN: accept feature-level mining, exactly as 5f25aa63a41c: confirmed_bindings row for warthunder.fandom.com / 'War Thunder Wiki' / the exact source name, entries='feature-level'. Detector settles it via standing_ruling(). Same two nets, same proof.
+
+Decided under the owner's 2026-09-28 'fix everything' instruction (handoff/owner0928/BRIEF.md), HOSTS group. Full detail: handoff/owner0928/REPORT_HOSTS.md. Rulings recorded in data/HOST_RULINGS.json (new; read by binding_health.rulings()).

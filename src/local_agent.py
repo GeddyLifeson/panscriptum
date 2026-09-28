@@ -890,8 +890,14 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
     # ACCEPTED patches; this closes the identical gap for REFUSED ones. Found sweep34 batch 15.)
     entry = None
     if log is not None:
-        entry = {"path": path, "why": (why or "")[:200], "find": (find or "")[:200],
-                 "replace": (replace or "")[:200], "at": time.strftime("%H:%M:%S")}
+        # WHOLE, NOT `[:200]` (order 28f335ecefd3 item 4 / 6b59a5d4302a item 8, owner ruling
+        # 2026-09-28 "fix everything"; Hard Rule 0). The audit trail kept 200 characters of each
+        # field with no "+N chars" marker, so a patch whose find/replace ran past that was
+        # recorded as a different, shorter patch than the one proposed -- in the one record of
+        # what a model tried to write into src/. `str()` rather than a slice keeps the None-safe
+        # shape of the old `(x or "")`.
+        entry = {"path": path, "why": str(why or ""), "find": str(find or ""),
+                 "replace": str(replace or ""), "at": time.strftime("%H:%M:%S")}
         log.append(entry)
 
     def _settle(result):
@@ -1018,6 +1024,27 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
                              "or by a model: records go through pipeline.write_record, the "
                              "charter is the owner's, and shared state is landed via "
                              "silence.replace_retry." % (rel, _pfx)})
+    # AND A FILE WITH MORE THAN ONE NAME IS REFUSED OUTRIGHT (order d2f103634cf1 item 2, owner
+    # ruling 2026-09-28 "fix everything"). `_identity_denied` above covers denylisted MODULES and
+    # PATHS only; `_protected_identities` deliberately skips the DENYLIST_PREFIXES regions
+    # (state/, data/records/, reference/keystone_volumes/) because building an identity set for
+    # them would be an unbounded walk. So a hard link from the writable surface INTO one of those
+    # regions passed every gate. Rather than walk the regions, ask the file how many names it
+    # has, AFTER the allowlist and the region prefixes above so only a writable-surface file is
+    # ever asked: nothing on the writable surface needs a second one (measured by sweep64: 0 of 972
+    # files under src/, prompts/ and handoff/ have st_nlink > 1), so a count above one is refused
+    # whatever it points at. An stat that fails is refused too -- unknown is not permission.
+    try:
+        _nlink = os.stat(full).st_nlink
+    except OSError:
+        _ = "silence-exempt: fail closed: an un-stat-able file is refused by the check just below, with its own error"
+        _nlink = None
+    if _nlink is None or _nlink > 1:
+        return _settle({"applied": False,
+                "error": "%s %s -- a file with a second name may be the same file as something "
+                         "in a protected region, and the local model may not write through it"
+                         % (rel, "could not be stat'd" if _nlink is None
+                            else "has %d hard links" % _nlink)})
     original = open(full, encoding="utf-8").read()
     # AN EMPTY FIND IS NOT A LOCATION (order f29382aa7911). `str.count("")` returns `len(s) + 1`,
     # which is 1 for the empty string alone -- so against a ZERO-BYTE target the uniqueness test

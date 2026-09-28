@@ -1,0 +1,1 @@
+[{"module": "generate.py", "old": "not _PG._INSTRUMENT_NOT_APPLICABLE.search(body) if not _being", "new": "not _PG._INSTRUMENT_MARK.search(body) if not _being"}]

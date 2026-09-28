@@ -1,0 +1,19 @@
+{
+ "entity": "Plasma Vent",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Plasma Vent"
+ ],
+ "chars_read": 1030,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [
+  {
+   "text": "It can also be scrapped to destroy a target base: this is sometimes done in the same turn as in which it was acquired in order to finish the game instantly.",
+   "page": "Plasma Vent"
+  }
+ ],
+ "text": {
+  "Plasma Vent": "How to Play ==\nAt any time during your turn, gain 4 Combat. When you acquire this card, if you've played a Blob card this turn, you may put this card directly into your hand. \n Strategy==\nThe main asset of this card is that you can put it directly into your hand. In particular, you can acquire this card for free with Parasite and then put it immediately into your hand. This is something to look out for if your opponent has a Parasite. It can also be scrapped to destroy a target base: this is sometimes done in the same turn as in which it was acquired in order to finish the game instantly. \n\nOtherwise it is a decent base of cost 6, but nothing spectacular."
+ }
+}

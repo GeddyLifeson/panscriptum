@@ -1,0 +1,14 @@
+{
+ "entity": "Reclamation Station",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Reclamation Station"
+ ],
+ "chars_read": 1195,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [],
+ "text": {
+  "Reclamation Station": "How to play ==\nAt any time during your turn, you may scrap a card in your discard pile. You can also scrap it to gain 3 Combat for each of your cards that you scrapped this turn, including Reclamation Station. \n\nNote: cards that scrapped themselves do count towards the total number of cards scrapped this turn. However, cards scrapped after Reclamation Station is scrapped do not count. \n Strategy ==\nReclamation Station is a strong outpost with a good defense of 6. Scrapping is obviously good, but it is a shame that you can only scrap from your discard pile, which means that sometimes you don't get to scrap. The self-scrapping ability is heavily underused in practical play: when timed correctly it can really boast a lot of Combat. This does not necessarily need to be for a final blow, it can also be done if scrapping is not necessary anymore."
+ }
+}

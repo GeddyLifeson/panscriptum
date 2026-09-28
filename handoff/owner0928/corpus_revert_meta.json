@@ -1,0 +1,5 @@
+[
+ {"module": "pipeline.py", "old": "    r\"|what\\W?s needed|(?:this|the) (?:entry|page|record) notes\"", "new": "    r\"\""},
+ {"module": "pipeline.py", "old": "    r\"|split (?:off )?into (?:dedicated|separate|individual|its own) pages?\"", "new": "    r\"\""},
+ {"module": "pipeline.py", "old": "    r\"|(?:dedicated|separate|individual) pages? for each|discussion page|talk page\"", "new": "    r\"\""}
+]

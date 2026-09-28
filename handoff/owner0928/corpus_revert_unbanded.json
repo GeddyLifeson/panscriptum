@@ -1,0 +1,3 @@
+[
+ {"module": "pipeline.py", "old": "\n            or ceiling_band((r.get(\"synthesis\") or {}).get(\"provisional_magnitude\")) is None]", "new": "]"}
+]

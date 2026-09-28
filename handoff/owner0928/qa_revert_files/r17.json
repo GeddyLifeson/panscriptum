@@ -1,0 +1,1 @@
+[{"module": "canon_backup.py", "old": "    if not isinstance(keep, int) or isinstance(keep, bool) or keep < 1:\n        raise ValueError(", "new": "    if False:\n        raise ValueError("}]

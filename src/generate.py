@@ -518,8 +518,14 @@ def _covered(name, text):
     reintroduce a path that hands this function a raw response."""
     t = text.lower()
     n = (name or "").lower().strip()
+    # AN ENTRY WITH NO NAME IS NOT COVERED (order 28f335ecefd3 item 2, owner ruling 2026-09-28
+    # "fix everything"). This returned True, so an unnamed entry always counted as written
+    # whatever the model returned -- the check answering "yes" to the one input it cannot
+    # check. It now refuses: the entry is listed as lacking, retried once, and the chapter is
+    # refused if it still cannot be found. Measured before the change: 0 of 285,328 entries and
+    # feat entities in output/index/manifest*.json carry an empty name, so nothing live changes.
     if not n:
-        return True
+        return False
     if n in t:
         return True
     words = [w for w in re.split(r"[^a-z0-9]+", n) if w]
@@ -594,7 +600,12 @@ class ChapterRefused(RuntimeError):
 THREADS_LINE = "Threads: pending the entanglement pass"
 _THREADS_FIELD = re.compile(r"(?im)^[\s*_#>-]*Threads[\s*_]*:")
 _MAG_FIELD = re.compile(r"(?im)^[\s*_#>-]*Magnitude[\s*_]*:[\s*_]*(M\d+|Omega)\b")
-_NOT_A_BEING = {"world": "places", "polity": "polities", "event": "events"}
+# EVERY NON-BEING CLASS THE TEMPLATE NAMES, NOT THREE OF THEM (order d2f103634cf1 item 7).
+# `prompts/system_style.txt`'s Class line is World / Polity / Person / God / Beast / Relic /
+# Vessel / Praxis / Event / Substance; the three beings are prose_gate.INSTRUMENT_CLASSES and the
+# other seven are listed here, so none of them depends on the "things" fallback below.
+_NOT_A_BEING = {"world": "places", "polity": "polities", "event": "events", "relic": "things",
+                "vessel": "things", "praxis": "practices", "substance": "things"}
 
 
 def complete_fixed_tail(text):
@@ -630,8 +641,16 @@ def complete_fixed_tail(text):
         body = p.rstrip("\n")
         tail = []
         cls = _PG._entry_class(body)
-        if cls is not None and not _PG._INSTRUMENT_MARK.search(body):
-            being = any(c in cls for c in _PG.INSTRUMENT_CLASSES)
+        # A NON-BEING IS ASKED FOR THE SENTENCE, NOT THE MARKER (order d03706b5eaf0, 2026-09-28).
+        # `instrument_shortfall` now requires a non-being's "Not applicable" in words, because a
+        # bare `▣` -- usually glued to the Threads line -- was passing as the section. This fill
+        # follows the gate: a non-being without the sentence gets the template's fixed sentence,
+        # which carries no judgment (the entry's own Class decides it). A being is unchanged.
+        _being = cls is not None and any(c in cls for c in _PG.INSTRUMENT_CLASSES)
+        if cls is not None and (
+                not _PG._INSTRUMENT_NOT_APPLICABLE.search(body) if not _being
+                else not _PG._INSTRUMENT_MARK.search(body)):
+            being = _being
             if not being:
                 what = next((v for k, v in _NOT_A_BEING.items() if k in cls), "things")
                 tail.append("▣ The Instrument. Not applicable -- the Instrument measures "
@@ -687,6 +706,108 @@ def block_problems(text, n_entries):
     return out
 
 
+# THE META-LANGUAGE REWRITE (order b0aa0ba787e0, owner 2026-09-28 "fix everything"). Measured
+# on 'Arcanum Worlds (Odyssey of the Dragonlords)', II.L.7.4: every one of 29 blocks the P8 ban
+# refused carried words its OWN RECORDS carry -- 124 of 1,053 entries say "campaign", "NPC",
+# "player characters", "sourcebook" -- and the model copied them. The block-level corrective
+# retry above cannot rescue that: it regenerates the WHOLE block and keeps it only when the
+# number of fault kinds drops, and a meta-only block has one fault kind before and after, so
+# the log read "corrective retry for 1 fault(s) -> 1 left" for hours while nothing landed.
+#
+# So this asks the SAME model, under the same config, to rewrite ONLY the offending sentences,
+# naming the banned words, and splices each clean rewrite back in place of its sentence. It
+# never loosens the ban and never decides anything: it uses `meta_violations`, the ban's own
+# matcher, to find and to judge, and main() still runs the UNCHANGED `assert_in_universe` on
+# whatever comes out, inside the same fail-closed try. A sentence the model could not clean is
+# LEFT AS IT WAS -- never deleted, never trimmed -- so the gate refuses it exactly as before.
+# Deleting it would launder the block clean by throwing away the evidence it carried, which
+# drill.py's "a block still carrying meta terms after the rewrite is refused" net attacks.
+META_REWRITE_ATTEMPTS = 2
+_SENTENCE_BREAK = re.compile(r"(?<=[.!?])\s+")
+_NUMBERED = re.compile(r"^\s*(\d+)[.)]\s+(.*\S)\s*$")
+
+
+def _meta_sentences(text):
+    """-> [(line_index, sentence)] for every sentence of `text` carrying a P8 meta term.
+
+    A line with a meta term that no single sentence carries (a term straddling a break) is
+    returned whole, so nothing the ban would see is skipped here."""
+    import pipeline as _PL
+    out = []
+    for i, line in enumerate((text or "").split("\n")):
+        if not _PL.meta_violations(line):
+            continue
+        hits = [s for s in _SENTENCE_BREAK.split(line) if _PL.meta_violations(s)]
+        out.extend((i, s) for s in (hits or [line]))
+    return out
+
+
+def meta_rewrite(cfg, system_prompt, text, job_type="chapter", keep=None, where=""):
+    """-> text with its meta-language sentences rewritten in-universe where the model managed it.
+
+    At most META_REWRITE_ATTEMPTS model calls, each over only the sentences still offending.
+    A rewrite is accepted per sentence only if it is one line and carries no banned term; the
+    candidate is kept only if fewer sentences offend AND `keep(candidate)` holds (the caller's
+    own coverage/template checks). Anything else leaves the text as it was. A model failure
+    returns the text unchanged -- the gate after this is what refuses, never this."""
+    import pipeline as _PL
+    if not _PL.meta_violations(text):
+        return text
+    before = len(_meta_sentences(text))
+    still = []
+    for attempt in range(META_REWRITE_ATTEMPTS):
+        found = _meta_sentences(text)
+        if not found:
+            break
+        terms = sorted({t for _ln, s in found for t in _PL.meta_violations(s)})
+        prompt = (
+            "The numbered sentences below come from an in-universe reference volume, written by "
+            "chroniclers who live inside the world they describe. Each one breaks that voice "
+            "because it uses words that belong to a tabletop game rather than to the world. "
+            "FORBIDDEN WORDS, which must not appear in your answer in any sense or spelling: "
+            + ", ".join(terms) + ".\n\n"
+            "Rewrite EACH sentence so it states the same facts as a chronicler inside the world "
+            "would state them. Keep every name, number and fact; add nothing that is not "
+            "already in the sentence. Where a phrase only describes the game (\"during the "
+            "campaign\", \"an NPC\", \"the player characters can\"), say what happens in the "
+            "world in the world's own terms (\"the heroes\", \"a person\", \"in that age\") or "
+            "drop the game framing. If a sentence begins with a label such as \"Class:\" or "
+            "\"Magnitude:\", keep that label exactly. Answer with exactly %d lines, the n-th "
+            "beginning \"n. \", and nothing else.\n\n" % len(found)
+            + "\n".join("%d. %s" % (n, s.strip()) for n, (_ln, s) in enumerate(found, 1)))
+        if still:
+            prompt += ("\n\nA previous rewrite of these sentences still used: "
+                       + ", ".join(still) + ". Those words are forbidden in every sense.")
+        try:
+            reply = call_ollama(cfg, system_prompt, prompt, job_type)
+        except Exception:
+            # Not a pass: the text goes back unchanged and the P8 gate refuses it as before.
+            silence.note("generate.py:meta-rewrite-failed")
+            return text
+        got = {}
+        for line in (reply or "").split("\n"):
+            m = _NUMBERED.match(line)
+            if m:
+                got.setdefault(int(m.group(1)), m.group(2))
+        lines = text.split("\n")
+        for n, (ln, s) in enumerate(found, 1):
+            new = got.get(n, "").strip()
+            # An unfixed sentence is LEFT, never emptied: see the block comment above.
+            if not new or _PL.meta_violations(new):
+                continue
+            lines[ln] = lines[ln].replace(s.strip(), new, 1)
+        cand = "\n".join(lines)
+        left = _meta_sentences(cand)
+        if len(left) < len(found) and (keep is None or keep(cand)):
+            text = cand
+        still = sorted({t for _ln, s in (left if text == cand else found)
+                        for t in _PL.meta_violations(s)})
+    after = len(_meta_sentences(text))
+    print("  %s: meta-language rewrite, %d offending sentence(s) -> %d left"
+          % (where or job_type, before, after), flush=True)
+    return text
+
+
 def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
     """One manifest job -> the full text, written in verified blocks.
 
@@ -702,7 +823,8 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         text = call_ollama(cfg, system_prompt, build_prompt(job, chapter_tpl, front_tpl))
         if not text.strip():
             raise RuntimeError("empty response from Ollama")
-        return text
+        # The P8 ban still judges this in main(); see `meta_rewrite`.
+        return meta_rewrite(cfg, system_prompt, text, "frontmatter", where=job["address"])
 
     if job["type"] == "feats":
         # A feats block is ALREADY sized by `manifest_builder.pack_feats` against a character
@@ -736,6 +858,13 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         if lacking:
             raise RuntimeError("feats block omitted: "
                                + ", ".join(e.get("entity", "?") for e in lacking))
+        # META REWRITE BEFORE THE DEED TRACE, so the trace below judges the text that is kept.
+        # A rewrite may not lose an entity or a traced deed; the P8 ban still judges it in main().
+        _tr0 = _deed_shortfall(ents, text)[0]
+        text = meta_rewrite(
+            cfg, sysp, text, "feats", where=job["address"],
+            keep=lambda c: (not [e for e in ents if not _covered(e.get("entity", ""), c)]
+                            and _deed_shortfall(ents, c)[0] >= _tr0))
         # EVERY ENTITY APPEARING IS NOT EVERY DEED APPEARING. The name check above is what a
         # truncated block would still pass: the entities are listed early in the prompt and
         # their headings survive, while the tail of the deed list does not. Measured shortfall
@@ -830,6 +959,19 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
             print("  block %d/%d: corrective retry for %d fault(s) -> %d left"
                   % (gi + 1, len(groups), len(_faults), len(block_problems(text, len(g)))),
                   flush=True)
+        # THE META REWRITE (order b0aa0ba787e0): the retry above re-writes the whole block and
+        # cannot shed a meta word the RECORDS carry; this re-asks for only the offending
+        # sentences. It may not lose an entry the block had, nor add a template fault, and every
+        # gate below -- and the P8 ban in main() -- still judges whatever is kept.
+        _had = [e for e in g if _covered(e.get("name", ""), text)]
+        _tpl0 = len([p for p in block_problems(text, len(g))
+                     if not p.startswith("these words break")])
+        text = meta_rewrite(
+            cfg, system_prompt, text, "chapter",
+            where="block %d/%d" % (gi + 1, len(groups)),
+            keep=lambda c: (all(_covered(e.get("name", ""), c) for e in _had)
+                            and len([p for p in block_problems(c, len(g))
+                                     if not p.startswith("these words break")]) <= _tpl0))
         if _supplied["threads"] or _supplied["instrument"]:
             print("  block %d/%d: supplied the fixed tail (Threads on %d, Instrument on %d)"
                   % (gi + 1, len(groups), _supplied["threads"], _supplied["instrument"]),
@@ -884,12 +1026,42 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
     return "\n\n".join(parts)
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest", required=True)
     ap.add_argument("--limit", type=int, default=None, help="only run the first N pending jobs")
     ap.add_argument("--dry-run", action="store_true", help="build prompts but don't call Ollama")
     args = ap.parse_args()
+    if not args.dry_run:
+        # THE HALT (owner ruling 2026-09-28, order 1e6f99e54b25): this invocation writes, so it asks first.
+        _assert_not_halted("--manifest %s (writes chapters, catalog.json, failures.json)" % args.manifest)
 
     cfg = load_config()
 
@@ -995,6 +1167,26 @@ def main():
               % type(e).__name__)
         return 1
     _ev_cache, refused_src = {}, {}
+    # WIKI FURNITURE IS NOT EVIDENCE (order cb31bf2707ad, owner ruling 2026-09-28). 202 Digimon
+    # descriptions opened with the wiki's "What's needed:" maintenance box and a chapter wrote
+    # Hosoda up as "the entry notes that content ... should be split into dedicated pages". The
+    # miner now drops those boxes and the records were repaired, but a manifest built before
+    # either still carries the old text, and this process writes from the MANIFEST, not the
+    # records. So a pending job any of whose entries still opens with maintenance furniture is
+    # held back here, before the model is asked, and named below. FAIL CLOSED ON THE IMPORT: if
+    # the detector cannot load, nothing is written, because "could not check" is not "clean".
+    try:
+        import wiki_source as _WS
+
+        def _furniture(d):
+            d = d if isinstance(d, str) else ""
+            return _WS.is_banner_paragraph(d) or _WS.strip_banner_prefix(d) != d.strip()
+    except Exception as e:
+        print("REFUSING EVERYTHING: the wiki-furniture detector (wiki_source) could not be "
+              "loaded (%s: %s), so no job can be shown to be free of maintenance banners."
+              % (type(e).__name__, e))
+        return 1
+    refused_furniture = {}
 
     pending = []
     stale_count = 0
@@ -1010,6 +1202,11 @@ def main():
         cached = catalog.get(job["address"], {})
         if cached.get("recipe_hash") == rh:
             continue  # already generated from this exact source data, model, seed, and prompt
+        _furn = [str((e or {}).get("name")) for e in (job.get("entries") or [])
+                 if isinstance(e, dict) and _furniture(e.get("description"))]
+        if _furn:
+            refused_furniture[job["address"]] = _furn
+            continue
         if cached and cached.get("recipe_hash") != rh:
             stale_count += 1  # was generated before, but data/model/prompt changed since
         pending.append((job, rh))
@@ -1027,6 +1224,15 @@ def main():
         for s, w in sorted(refused_src.items(), key=lambda kv: str(kv[0])):
             print("   %s" % w)
         print("   These are NOT failures. They are sources the reader has not finished.\n")
+
+    if refused_furniture:
+        # Every one, uncut (Hard Rule 0): this is the list an operator rebuilds the manifest for.
+        print("\nWIKI FURNITURE — %d job(s) held back: an entry's description still opens with "
+              "a wiki maintenance banner (order cb31bf2707ad). Rebuild the manifest from the "
+              "repaired records to release them:" % len(refused_furniture))
+        for addr, names in sorted(refused_furniture.items()):
+            print("   %s: %s" % (addr, ", ".join(names)))
+        print()
 
     if stale_count:
         print(f"({stale_count} of those are stale -- previously generated, but the source data, "

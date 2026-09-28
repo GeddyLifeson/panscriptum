@@ -1,0 +1,19 @@
+{
+ "entity": "Spike Cluster",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Spike Cluster"
+ ],
+ "chars_read": 1172,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [
+  {
+   "text": "Despite this, it can still be useful if your strategy involves lots of bases: since this base is not that powerful and not an outpost, it is the most likely to survive another turn.",
+   "page": "Spike Cluster"
+  }
+ ],
+ "text": {
+  "Spike Cluster": "How to play ==\nAt any time during your turn, gain 2 Combat. If you have another Blob card in play, gain 1 Trade. \n Strategy ==\nWith only 2 Combat and (with Blob ally) 1 Trade, and a defense of only 3, the Spike Cluster is probably the weakest base in the game. Not surprising, as it is also the cheapest base. In most cases, this flimsy base is not a good purchase for 2 Trade, since its stats are too low and it cannot scrap itself once it has lost its purpose. \n\nDespite this, it can still be useful if your strategy involves lots of bases: since this base is not that powerful and not an outpost, it is the most likely to survive another turn. And what it does provide is an ally for your other Blob cards, and Blob cards (especially Blob bases) frequently have strong ally abilities. Its strongest asset is likely not the stats of the card itself, but rather the fact that it is a Blob base, and that it can make your other Blob bases significantly deadlier."
+ }
+}

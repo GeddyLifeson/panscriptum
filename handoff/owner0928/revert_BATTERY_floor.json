@@ -1,0 +1,7 @@
+[
+ {
+  "module": "ledger_guard.py",
+  "old": "            new_floor = _floor_union(floor_text, text)\n            if new_floor != floor_text:",
+  "new": "            new_floor = text\n            if floor_text is None or (sum(_substantive_lines(text).values())\n                                       >= sum(_substantive_lines(floor_text).values())):"
+ }
+]

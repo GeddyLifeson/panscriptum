@@ -1,0 +1,3 @@
+[
+ {"module": "pipeline.py", "old": "                            and desc_mark.get((nm, k)) == _fp_one(se[fld])):", "new": "                            and False):"}
+]

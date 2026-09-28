@@ -1,0 +1,31 @@
+{
+ "entity": "The Pact",
+ "host": "starrealms.fandom.com",
+ "pages_read": [],
+ "chars_read": 0,
+ "pages_fetched": [],
+ "chars_fetched": 0,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [],
+ "text": {},
+ "pages_refused": {},
+ "mined_under": {
+  "stripper": true,
+  "attribution": "title-lookup",
+  "marker_layer": 2,
+  "pages_read_gated": true,
+  "transport": {
+   "batches": 1,
+   "failed": 0,
+   "failed_dirty": 0,
+   "why": "ok"
+  },
+  "resolved_title": null
+ },
+ "provenance": {
+  "pages": {},
+  "roll": "da39a3ee5e6b4b0d",
+  "n": 0
+ }
+}

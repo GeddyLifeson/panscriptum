@@ -1,0 +1,1 @@
+[{"module": "thread_integrity.py", "old": "            _escalate_dangling(detail[\"DANGLING\"])", "new": "            pass"}]

@@ -1,0 +1,1 @@
+[{"module": "liveness.py", "old": "            dead = sorted(n for n in (fns or {}) if n not in ranges)", "new": "            dead = []"}]

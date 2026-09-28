@@ -1,0 +1,3 @@
+The dandwiki preflight row is gone by ruling (see 8b3f2911fa0c / 9029a484a13c): check_api_paths() run live today returned no rows, dandwiki printed as SHELVED info. Same net and proof as 8b3f2911fa0c.
+
+Decided under the owner's 2026-09-28 'fix everything' instruction (handoff/owner0928/BRIEF.md), HOSTS group. Full detail: handoff/owner0928/REPORT_HOSTS.md. Rulings recorded in data/HOST_RULINGS.json (new; read by binding_health.rulings()).

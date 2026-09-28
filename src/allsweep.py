@@ -181,6 +181,31 @@ def verifier_console_lines(r):
     return out
 
 
+def dangling_count(lines):
+    """The DANGLING count a verifier printed, or 0. -> int.
+
+    ORDER a724ec57e0d5, the allsweep half, decided under the owner's 2026-09-28 "fix everything"
+    ruling. `thread_integrity.py` is an RC_FINDINGS row, so a run where threads point at nothing
+    was `failed = False` and its tail -- the uncapped DANGLING listing main() prints -- was
+    suppressed: the sweep said one line, "findings  thread integrity  rc=1". The count row
+    `thread_integrity.main()` prints ("  DANGLING   <n>  (<pct>)") is read here so a nonzero
+    count makes the row tail-worthy the same way failed/crashed/timeout do. The row's grade is
+    NOT changed: RC_FINDINGS stays the contract, and the refusal itself is `escalate()`'s job.
+    An unparseable count is 0 only because no such row was printed; a verifier that printed one
+    it could not parse would be a format change, and the rc=1 still stands beside it.
+    """
+    n = 0
+    for ln in lines or ():
+        parts = str(ln).split()
+        if len(parts) >= 2 and parts[0] == "DANGLING":
+            try:
+                n = max(n, int(parts[1].replace(",", "")))
+            except ValueError:
+                _ = "silence-exempt: an unparseable DANGLING count adds nothing; the verifier's rc=1 still stands beside it"
+                continue
+    return n
+
+
 class Verifier:
     """One row of the VERIFY tier: what to run, and what a nonzero exit MEANS.
 
@@ -410,11 +435,15 @@ def run_verifier(item):
         # anything and ten passing verifiers' full logs would bloat the file every tier reads --
         # but `lines_total` is recorded either way, so even the window is a DISCLOSED cut and a
         # reader can always tell 14 lines of 14 from 14 lines of 900.
+        # A NONZERO DANGLING COUNT IS EVIDENCE TOO (order a724ec57e0d5): kept whole and printed,
+        # without changing the row's grade. See `dangling_count`.
+        dangling = dangling_count(lines)
         return {"check": label, "rc": r.returncode, "crashed": crashed,
                 "rc_means": rc_means, "refused": refused, "failed": failed,
+                "dangling": dangling,
                 "seconds": round(time.time() - t, 1),
                 "lines_total": len(lines),
-                "tail": lines if (failed or crashed) else lines[-14:]}
+                "tail": lines if (failed or crashed or dangling) else lines[-14:]}
     except subprocess.TimeoutExpired:
         silence.note("allsweep.py:run_verifier-timeout")
         return {"check": label, "rc": None, "crashed": False, "timeout": True,
@@ -850,7 +879,7 @@ def main():
             print(f"   {mark:<9}{r['check']:<26}{r['seconds']:>7.1f}s"
                   f"   rc={r['rc']} ({r.get('rc_means', RC_BROKEN)})")
         for r in verifiers:
-            if r.get("failed") or r["crashed"] or r.get("timeout"):
+            if r.get("failed") or r["crashed"] or r.get("timeout") or r.get("dangling"):
                 print(f"\n   --- {r['check']} ---")
                 for ln in verifier_console_lines(r):
                     print(ln)

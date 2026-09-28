@@ -1,68 +1,55 @@
-# NEXT STEPS — written by run #66 (2026-09-27 daily, evening)
+# NEXT STEPS — written by the owner-directed session of 2026-09-28 (afternoon)
 
 *Overwritten every run. The queue in `state/workorders.json` is the authority; this file is the
-reading order, and the short list of things a fresh run would otherwise spend its first hour
-rediscovering.*
+reading order.*
 
 ---
 
-## 1. THE MUTATION PASS DID NOT RUN ON 09-27
+## 0. WHAT CHANGED TODAY, IN ONE PARAGRAPH
 
-mutate refused twice (`state/mutate_20260927_refused.log`, `..._20260927b_refused.log`):
-verify_math cannot finish in 1200s in the sandbox while prose holds the one GPU slot, because §20k
-makes unpinned 300s token-flow probes. Order `36eca6457ed9` has the measurement; the ruling is
-`79d51aef8b71` (OWNER). **Launch it again anyway**
-(`python src/mutate.py --target all --file-orders --detach --log state/mutate_<date>.log`, after
-the battery and never beside another verify_math). If prose is idle it will run; if it refuses
-again, record that and do not widen the timeout. If the owner has ruled for a hermetic battery,
-pin `standards._TOKENFLOW` in 20k, batch1 and b3 the way 19ai does, first.
+The owner ruled "fix everything" on 2026-09-28 at about 15:40. The queue went from 64 open orders
+(55 OWNER) to 2, both BOTS long jobs. Read the 2026-09-28 entry at the top of HANDOFF.md before
+anything else: it lists the git-credential change, the new scheduled task, the withdrawn chapters
+and the new pause state.
 
-* If a pass does run, it will be the first since M129. The drill should no longer drift on the secondopinion probe
-  or on a net that declines to measure. **If the drill drifts anyway, the reason line names the
-  probe and class. That would be a new class, so read it rather than assuming M129 regressed.**
-* If detect-secrets is ever reported `UNPARSEABLE OUTPUT: '...'`, the quoted text is what it
-  printed. That is the evidence M129 could not get, so copy it into the handoff.
-* Known equivalents on record (`mutate.py --list-ruled`): assay 826 and 909; escalation 495, 567,
-  695, 1006, 1183 and 1274.
+## 1. CONFIRM THE THINGS ONLY A LATER CYCLE CAN SHOW
 
-## 2. DAEMONS LEFT ON OLDER CODE
+* **The publish daemon pushed.** `state/publish.log` should show `pushed` on a daemon cycle after
+  this session released the guard. If it shows PUSH HELD, reopen `573ab7b04b6f` with the exact
+  error. The fix was removing gh.exe from `~/.gitconfig` so Git Credential Manager serves the
+  stored GitHub login.
+* **Prose is writing again.** overnight restarts generate.py on its next cycle (after its drill),
+  on the rebuilt manifest. Look for new catalogued chapters and for "meta rewrite" lines in
+  `state/prose_auto.log`. If Arcanum (II.L.7.4) blocks are still refused for meta-language after
+  the rewrite, read `output/index/failures.json` for which terms survive.
+* **verify_math still reads 0 FAILED.** Five comment-only citation fixes landed after the last
+  full run (one inside a verify_math fixture string).
+* **The watchdog keeper task ran.** `schtasks /query /tn "Panscriptum\WatchdogKeeper"` should show
+  a recent last-run time and result 0.
 
-`foreman` was mid-patch at 22:37 (local model, binding_health, 1 of 7); `pipeline` started 09-25;
-`overnight` was awaiting the crawl lap; `overwatch` had not polled for about 35 hours. Run
-`python src/codewatch.py` first. If foreman has still not polled since run #66, look at
-`state/foreman.log` before bouncing it: a kill mid-patch skips local_agent's revert.
+## 2. READ THE MUTATION PASS
+
+`state/mutate_20260928.log`, launched about 16:45 on fingerprint `8556f50776d07846`. Baseline:
+verify_math 1343/0 in 119s and drill 710/710/0 in 143s. It is the first pass since the battery
+went hermetic, so it should not be refused while prose runs. Put the survivor count in the
+handoff, and read every BASELINE DRIFTED block before trusting a kill.
 
 ## 3. THE QUEUE
 
+* BOTS `f27c121c6cb7`: the Warhammer Fantasy re-catalogue was running at 16:57
+  (`state/recatalogue_whfantasy_20260928.log`). Verify it with
+  `handoff/owner0928/recatalogue_targets.py` (read-only) and close the order.
 * BOTS `058fa19d4e65`: close once `data/CHAIN.json` carries `unmatched` (pipeline phase 4).
-* OWNER: 55 orders. New tonight: `36eca6457ed9` (mutation pass blocked by the GPU) and `253d116215ab` (sweep66's 11 questions; item 1, the
-  closed-gate net, matters most). `670c907af5e3` (BLOCKING "prose stopped") is stale by
-  measurement (34 chapters in 4 hours on 09-27), but it is the owner's to close.
-* `573ab7b04b6f` (publish daemon, gh.exe in the Claude app's virtualised AppData): close it after
-  the first daemon cycle with no PUSH HELD.
-* The canary (`binding_health --run`) is the daily run's job. Last run: 2026-09-27 ~22:05, 134
-  hosts, 0 failed.
 
 ## 4. THINGS A FRESH RUN WOULD OTHERWISE REDISCOVER
 
-* **Never run two verify_math processes at once**, and that includes allsweep (it runs one) and a
-  mutation baseline. Run #66 ran verify_math, drill and allsweep strictly one after another, then
-  launched mutate.
-* **A drill net that cannot measure uses `_DECLARED_ESCAPES`, never `silence.note`** (M129), and
-  carries a `_ = "silence-exempt: ..."` marker so the silence audit stays at 316. The net "a net
-  that cannot measure DECLARES it" will go red on the old shape.
-* **A source-shape net that plants its own control must not contain the control's pattern
-  contiguously in drill.py's source**, or it scans itself. Split the word.
-* **Never pass prose through a shell heredoc.** Write it with the Write tool and insert it with a
-  small script. HANDOFF.md is LF and BUGS.md is CRLF, so match each.
-* In a Bash call, assign variables on their own lines before any backgrounded `&` group.
-* The crawl's log goes quiet for tens of minutes by design; check its network I/O first.
-
-## 5. THE BATTERY AT CLOSE OF RUN #66
-
-* `drill.py` **645 attacked, 645 held, 0 BREACHED**
-* `verify_math` **1318 passed, 0 FAILED** · pyflakes clean
-* `liveness` 46 · `silence` 316 · `secondopinion` all three RAN, 0 secrets ·
-  `axis_correlation` 45 entities
-* `health --preflight` 1 problem (dandwiki) · `allsweep` 1 bad (dandwiki preflight)
-* `corpus_db --rebuild` (start of shift) 216 sources, 282,822 entries
+* **There is now a pause:** `escalation.py --pause REASON [--hours N]` / `--unpause`. The watchdog
+  that was live during the session (pid 29656) runs pre-pause code until its next restart. The
+  maintenance task and allsweep's GPU checks do not consult `escalation.paused()` yet.
+* **Records whose topic was reworded now stay on disk stamped `stale_since`**, and nothing yet
+  filters them out of chapter jobs, so an entity can be written twice until a curator prunes it.
+* The crawl (`feats.py --roll`) is EXEMPT from codewatch restarts. If `data/feats/starrealms_fandom_com`
+  or `data/feats/prime_fandom_com` reappear before its next lap, archive them next to
+  `handoff/_archive/owner0928/feats_contaminated/`.
+* Never run two verify_math processes at once, and that includes a mutation baseline and allsweep.
+* Never pass prose or backslashes through a shell heredoc; use the Write/Edit tools.

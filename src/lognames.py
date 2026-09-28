@@ -50,3 +50,25 @@ OWNER = {
     SWEEP:       "sweep.py",
     CALIBRATE:   "magnitude.py --calibrate",
 }
+
+# WHAT EACH MANAGED JOB PRODUCES -- the second witness for "every running job is advancing"
+# (order d9328fe1ee38, decided under the owner's 2026-09-28 "fix everything" instruction: remedy
+# (a) with (b) for anything undeclared, and the declaration lives here beside the log, as the order
+# asked). The stall standard used to watch the LOG alone, and on 2026-09-08 it called
+# `feats.py --roll` stalled after 82 minutes of quiet log while the crawl had written a catalogue
+# entry one minute earlier -- in front of a remedy licensed to kill it. A throttled crawl logs
+# almost nothing between entries; its product is files.
+#
+# Paths are relative to the kit root. A FILE is witnessed by its own mtime; a DIRECTORY by its own
+# mtime and each immediate child's (a new or replaced file bumps its directory's mtime, so the
+# ~143 host directories under data/feats witness ~277k files without walking them). A job is
+# stalled only when its log AND every declared output have held past MAX_JOB_SILENCE_MIN. A job
+# missing from this table cannot be called stalled on its log alone: it reads UNMEASURABLE.
+PRODUCT = {
+    READ:        ("data/readfeats",),
+    ROLL:        ("data/feats",),
+    PIPELINE:    ("state/PIPELINE_STATE.json", "data/records"),
+    RECATALOGUE: ("data/records",),
+    SWEEP:       ("data/CHARACTER_SWEEP.json",),
+    CALIBRATE:   ("data/CHARTER_REGRESSION.json",),
+}

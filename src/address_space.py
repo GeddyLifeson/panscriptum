@@ -327,39 +327,11 @@ def shelfmark(addr, uncharted=()):
             f"Mv.{v('multiverse')} › U-{f['universe']} › G.{f['galaxy']:x} › P.{f['planet']}")
 
 
-def citation_card(name, addr, band="unassayed", decimal=None, interval=None,
-                  epoch=None, attestation="Transcribed", worksheet=None, endonym=None,
-                  threads=(), uncharted=()):
-    """The formal citation block of Part Seven, as a dict.
-
-    `uncharted` IS PASSED THROUGH TO `shelfmark` (order 7354d54f0e27). Without it a tier the weave
-    never charted printed as a charted integer (H0 where Part Two prints ?), which is Hard Rule 4's
-    prohibition. This function has no caller today; the parameter makes a revival safe rather
-    than wrong. Pass `charted_gaps(tiers)`, as `assign_and_mark()` does.
-
-    Split deliberately into two halves, because the seed depends on which is which:
-
-      IDENTITY     name, endonym, shelfmark. WHAT THE THING IS AND WHERE. Stable for the life of
-                   the entry -- a world does not stop being that world.
-      MEASUREMENT  assay, epoch, attestation, worksheet. WHAT THE LIBRARY CURRENTLY HOLDS about
-                   it. Revisable by design; that is the whole point of an honest interval.
-    """
-    return {
-        "identity": {
-            "name": name,
-            "endonym": endonym,
-            "shelfmark": shelfmark(addr, uncharted=uncharted),
-        },
-        "measurement": {
-            "assay": ("𝔄: DECLINED" if band == "declined" else
-                      f"𝔄 {band}" + (f".{round(decimal*100):02d}" if decimal is not None else "")
-                      + (f" ± {interval:.2f}" if interval is not None else "")),
-            "epoch": epoch or "unstamped",
-            "attestation": attestation,
-            "worksheet": worksheet or "none — band-only per H5",
-        },
-        "threads": list(threads),
-    }
+# `citation_card()` WAS DELETED HERE (order 7354d54f0e27, under the owner's 2026-09-28 "fix
+# everything" ruling). It had no caller, and a revival risked printing an invented charted tier
+# where Part Two prints `?` (Hard Rule 4). The card shape `seed_from_card` reads is
+# {"identity": {"name", "endonym", "shelfmark"}}; build the shelfmark with
+# `shelfmark(addr, uncharted=charted_gaps(tiers))`, as `assign_and_mark()` does.
 
 
 def seed_from_card(card):

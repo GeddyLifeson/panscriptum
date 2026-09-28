@@ -129,6 +129,15 @@ MAX_YIELD_SECONDS = 240
 
 _POLL = 0.4
 
+# How long a slot pool that answers ONLY PermissionError is treated as contended before `lane()`
+# concludes the lane's storage is refusing it (an ACL change, Norton) and proceeds unmetered. A
+# Windows delete-pending window lasts milliseconds, so this is generous for the blip and far
+# short of the 900-second stall order d316c46b67bd removed. (order 30122bf3a5a7)
+PERMISSION_DENIED_CEILING = 30.0
+
+# Per-thread note from the last `_take_slot`: was its BUSY answer made only of PermissionErrors?
+_LAST_TAKE = threading.local()
+
 # Serialises this process's own read-modify-write of its foreground refcount. Cross-PROCESS
 # safety comes from the claim file being named for the PID; this is the in-process half that
 # was missing. See `foreground()`.
@@ -405,6 +414,8 @@ def _take_slot(label):
     the return value -- including the `if slot:` guards in `lane()`'s own `finally` -- keeps
     working unchanged; only the code that must distinguish them looks at which one it got.
     """
+    held, denied = 0, 0
+    _LAST_TAKE.denied_only = False
     for i in range(MAX_SLOTS):
         path = os.path.join(LANE, f"slot.{i}.json")
         rec = _read(path)
@@ -443,6 +454,21 @@ def _take_slot(label):
         try:
             fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
         except FileExistsError:
+            _ = "silence-exempt: contention: the slot is held, counted, and the next slot is tried"
+            held += 1
+            continue
+        except PermissionError:
+            # CONTENDED, NOT UNARBITRABLE (order 30122bf3a5a7, 2026-09-28). On Windows, creating a
+            # file whose previous holder is mid-`os.remove` raises PermissionError ("delete
+            # pending"), not FileExistsError. It used to fall into the generic handler below and
+            # return None -- "cannot arbitrate, caller proceeds unmetered" -- so a caller that
+            # arrived in the millisecond a slot was being released walked PAST the lane, under
+            # exactly the contention the lane exists for. Same fix as `codewatch._ledger_lock`.
+            # It is counted separately so `lane()` can still tell a delete-pending blip (gone in
+            # milliseconds) from a real ACL denial on `state/gpu_lane` (permanent), and give up
+            # on the second after PERMISSION_DENIED_CEILING rather than stall for the full lease.
+            _ = "silence-exempt: contention (delete pending), counted in `denied` and judged by lane()"
+            denied += 1
             continue
         except Exception:
             return None                  # cannot arbitrate -- caller proceeds unmetered
@@ -457,6 +483,8 @@ def _take_slot(label):
             return None
         return path
     # Every slot exists and is live: BUSY. This is the one answer that deserves the wait.
+    # `denied_only` marks a BUSY made entirely of PermissionErrors, which `lane()` bounds.
+    _LAST_TAKE.denied_only = bool(denied and not held)
     return False
 
 
@@ -602,10 +630,22 @@ def lane(label="background", priority=False):
         # waiting for a genuinely busy card is the correct behaviour, and a dead holder's slot
         # is reclaimed by _take_slot itself, so this cannot wait on nothing forever.
         deadline = _now() + SLOT_LEASE_SECONDS
+        denied_since = None
         while _now() < deadline:
             slot = _take_slot(label)
             if slot:
                 break
+            if slot is False and getattr(_LAST_TAKE, "denied_only", False):
+                # Every slot refused with PermissionError. Usually a delete-pending blip, which
+                # the next poll clears; if it persists past the ceiling it is the lane's own
+                # storage refusing, which is UNARBITRABLE -- go, and say so. (order 30122bf3a5a7)
+                denied_since = denied_since if denied_since is not None else _now()
+                if _now() - denied_since > PERMISSION_DENIED_CEILING:
+                    silence.note("gpu_lane.py:slot-permission-denied")
+                    slot = None
+                    break
+            else:
+                denied_since = None
             if slot is None:
                 # CANNOT ARBITRATE -> GO NOW. `_take_slot` says None only when the lane's own
                 # storage refused it (os.open raised, or the slot file could not be written),

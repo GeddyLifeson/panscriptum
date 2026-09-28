@@ -1,0 +1,1 @@
+[{"module": "rigor.py", "old": "            or n_laws_touched < 1:", "new": "            or n_laws_touched < 0:"}]

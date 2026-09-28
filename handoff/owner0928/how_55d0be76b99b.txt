@@ -1,0 +1,10 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. Option (b) taken, the filing run's own reading: KEEP THE PAIR and make the third state reachable.
+
+What changed (src/pipeline.py):
+- phase_synthesis `todo` now selects a record whose ceiling is empty OR whose provisional_magnitude carries no band (ceiling_band(...) is None). The 133 ceiling-with-no-band records are re-asked; no nomination is discarded.
+- A new negative verdict, synthesis.unbanded = True, is written when a ceiling is nominated but the band stays "unassayed", with unassayable_cast_size / unassayable_digest recorded for both unassayed shapes.
+- _unassayable_verdict_is_stale treats `unbanded` exactly like `unassayable`: a record with no recorded verdict is re-asked once, then only when its cast has grown. So this is a bounded re-nomination pass (the 133, once), not a standing re-spend. Legacy decimal bands still count as banded (ceiling_band's forgiving read), so nothing banded is re-asked.
+
+Proof: drill net "a ceiling with no band is re-asked, and then only when its cast grows" (area drill_inspector) drives the real phase_synthesis over four fake records with the model stubbed: the unbanded one and the grown-cast one are asked, the banded one and the settled same-cast one are not. drill.py --prove -> HELD; with --revert handoff/owner0928/corpus_revert_unbanded.json (todo keyed on the ceiling alone again) -> RED. pyflakes clean.
+
+In effect: the running pipeline daemon holds the old code until codewatch's rc=17 restart; the re-ask happens the next time phase 1 runs.

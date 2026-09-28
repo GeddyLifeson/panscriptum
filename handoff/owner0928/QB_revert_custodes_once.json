@@ -1,0 +1,1 @@
+[{"module": "custodes.py", "old": "            stale = staleness_widening(distance, years_since)", "new": "            stale = staleness_widening(distance, years_since) * len(currency)"}]

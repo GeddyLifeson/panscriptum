@@ -1,0 +1,1 @@
+[{"module": "generate.py", "old": "    if not n:\n        return False", "new": "    if not n:\n        return True"}]

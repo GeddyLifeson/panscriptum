@@ -1,0 +1,7 @@
+[
+ {
+  "module": "binding_health.py",
+  "old": "if (row.get(\"entries\") == \"feature-level\" and sitename == b.get(\"sitename\")",
+  "new": "if (row.get(\"entries\") == \"feature-level\""
+ }
+]

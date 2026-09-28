@@ -241,6 +241,205 @@ def _spy_record_vm(*_a_vm, **_k_vm):
 _H_vm.record = _spy_record_vm
 
 
+# --------------------------------------------------------------------------------------------
+# THIS BATTERY NEVER TALKS TO THE LOCAL MODEL (orders 79d51aef8b71 and 36eca6457ed9, decided
+# under the owner's 2026-09-28 "fix everything" instruction: HERMETIC BATTERY).
+#
+# Every unpinned `standards.check()` and `dashboard.state()` in §20k, batch1 and §b3 could send a
+# LIVE `/api/generate` to Ollama with a 300s timeout whenever the metrics ledger was quiet, and
+# every check asked `/api/ps` with an 8s one. Ollama here serves one request at a time, so while
+# prose was running each probe queued behind a chapter: measured 2026-09-27, a battery inside a
+# fresh mutate.sandbox() sat ESTABLISHED on 127.0.0.1:11434 behind generate.py and mutate
+# refused both launches of the mutation pass ("verify_math TIMEOUT ... DID NOT COMPLETE in
+# 1200s"). And mutate judges every mutant by DIFFERENCE from a baseline, so a gate whose rows
+# move with GPU load cannot judge a mutant at all.
+#
+# THE RULING: the battery is hermetic, and local-model health is measured OUTSIDE it, by the
+# live `standards`/`dashboard` readers that already do that on every poll. Three parts:
+#
+#   1. THE TRANSPORT IS STOOD IN FOR, battery-wide, from this line on. `socket.socket.connect`
+#      (and `connect_ex`) refuse any connection to the local model's port -- 11434 and whatever
+#      config.yaml's `ollama_host` names -- and RECORD who tried. That is the witness: whatever
+#      library, whatever spelling, a connection to that port is attempted through a socket.
+#   2. `urllib.request.urlopen` answers the two cheap liveness questions the standards ask,
+#      `/api/tags` and `/api/ps`, with a canned "daemon up, nothing resident" WITHOUT opening a
+#      connection, so no row's answer depends on what the card is doing. Any other endpoint on
+#      that port -- `/api/generate` first of all -- is recorded and refused.
+#   3. The live-state grant pins `standards._TOKENFLOW` for the duration of every call it wraps,
+#      exactly as §19ai always has, so the token-flow probe is answered by the pin and never
+#      reaches the transport at all (see `_third_party_vm`).
+#
+# The last rows of this file assert that NOTHING reached the port, and a control drives the
+# tripwire to prove it refuses and records. A refused attempt is a finding: the row names the
+# line that tried, so the next unpinned caller is found the day it is written.
+import socket as _sock_vm          # noqa: E402
+import urllib.error as _uerr_vm    # noqa: E402
+import urllib.parse as _uparse_vm  # noqa: E402
+import urllib.request as _ureq_vm  # noqa: E402
+import time as _time_h_vm          # noqa: E402
+import errno as _errno_vm          # noqa: E402
+
+
+def _gpu_ports_read_vm():
+    """-> the set of ports this battery must never connect to. 11434 always, plus config's."""
+    _ports_vm = {11434}
+    try:
+        with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                               "config.yaml"), encoding="utf-8") as _fc_vm:
+            for _ln_vm in _fc_vm:
+                if _ln_vm.strip().startswith("ollama_host:"):
+                    _u_vm = _ln_vm.split(":", 1)[1].strip().strip("\"'")
+                    _p_vm = _uparse_vm.urlsplit(_u_vm).port
+                    if _p_vm:
+                        _ports_vm.add(int(_p_vm))
+    except Exception:
+        _ = "silence-exempt: an unreadable config still leaves 11434 guarded; widening, not opening"
+    return _ports_vm
+
+
+_GPU_PORTS_VM = _gpu_ports_read_vm()
+_GPU_TRIPS_VM = []        # every attempt this battery made to reach the local model's port
+
+
+def _gpu_caller_vm():
+    """-> 'file:line' of the innermost frame outside the socket/http/urllib machinery."""
+    _skip_vm = {"socket.py", "client.py", "request.py", "connection.py", "connectionpool.py"}
+    _fr_vm = [_f for _f in _tb_vm.extract_stack()
+              if os.path.basename(_f.filename) not in _skip_vm
+              and not _f.name.startswith(("_tripwire_", "_ollama_standin_", "_gpu_caller_"))]
+    _bat_vm = [_f for _f in _fr_vm if os.path.basename(_f.filename).startswith("verify_math")]
+    return "%s (battery line %s)" % (
+        "%s:%d" % (os.path.basename(_fr_vm[-1].filename), _fr_vm[-1].lineno) if _fr_vm
+        else "<unknown>",
+        _bat_vm[-1].lineno if _bat_vm else "?")
+
+
+def _gpu_port_of_vm(_addr_vm):
+    try:
+        return int(_addr_vm[1]) if isinstance(_addr_vm, tuple) and len(_addr_vm) >= 2 else None
+    except (TypeError, ValueError):
+        _ = "silence-exempt: an address with no integer port is not the local model's port"
+        return None
+
+
+_REAL_CONNECT_VM = _sock_vm.socket.connect
+_REAL_CONNECT_EX_VM = _sock_vm.socket.connect_ex
+_REAL_URLOPEN_VM = _ureq_vm.urlopen
+
+
+def _tripwire_connect_vm(self, address):
+    """Refuse and record a connection to the local model's port; pass everything else."""
+    if _gpu_port_of_vm(address) in _GPU_PORTS_VM:
+        _GPU_TRIPS_VM.append("socket connect to %r from %s" % (address, _gpu_caller_vm()))
+        raise ConnectionRefusedError(
+            "verify_math is hermetic: no connection to the local model's port (order 79d51aef8b71)")
+    return _REAL_CONNECT_VM(self, address)
+
+
+def _tripwire_connect_ex_vm(self, address):
+    if _gpu_port_of_vm(address) in _GPU_PORTS_VM:
+        _GPU_TRIPS_VM.append("socket connect_ex to %r from %s" % (address, _gpu_caller_vm()))
+        return _errno_vm.ECONNREFUSED
+    return _REAL_CONNECT_EX_VM(self, address)
+
+
+class _CannedOllamaVM:
+    """A stand-in HTTP response: status 200 and a fixed JSON body. No socket behind it."""
+
+    def __init__(self, _body_vm):
+        self._b_vm = _body_vm
+        self.status = 200
+
+    def read(self, *_a_vm):
+        return self._b_vm
+
+    def getcode(self):
+        return self.status
+
+    def close(self):
+        return None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_a_vm):
+        return False
+
+
+# "Daemon up, nothing resident." `/api/tags` 200 so `tuning.regime()` reads no outage it did
+# not see; `/api/ps` an EMPTY list, which `standards.check()` reports as UNMEASURED -- the honest
+# reading of a question this battery deliberately did not put. Neither opens a connection.
+_CANNED_OLLAMA_VM = {"/api/tags": b'{"models": []}', "/api/ps": b'{"models": []}'}
+
+
+def _ollama_standin_vm(url, *_a_vm, **_k_vm):
+    """urlopen for this battery: the local model's port is answered or refused, never dialled."""
+    _u_vm = url if isinstance(url, str) else (getattr(url, "full_url", None) or "")
+    try:
+        _sp_vm = _uparse_vm.urlsplit(_u_vm)
+        _port_vm = _sp_vm.port
+    except ValueError:
+        _ = "silence-exempt: an unparseable url names no port, so it is not the local model's"
+        _sp_vm, _port_vm = None, None
+    if _port_vm in _GPU_PORTS_VM:
+        _path_vm = (_sp_vm.path or "").rstrip("/")
+        if _path_vm in _CANNED_OLLAMA_VM:
+            return _CannedOllamaVM(_CANNED_OLLAMA_VM[_path_vm])
+        _GPU_TRIPS_VM.append("urlopen %s from %s" % (_u_vm, _gpu_caller_vm()))
+        raise _uerr_vm.URLError(ConnectionRefusedError(
+            "verify_math is hermetic: %s was refused, not sent (order 79d51aef8b71)" % _u_vm))
+    return _REAL_URLOPEN_VM(url, *_a_vm, **_k_vm)
+
+
+_sock_vm.socket.connect = _tripwire_connect_vm
+_sock_vm.socket.connect_ex = _tripwire_connect_ex_vm
+_ureq_vm.urlopen = _ollama_standin_vm
+
+# THE BATTERY'S LANE IS ITS OWN (order 30122bf3a5a7). The token-flow and generation probes now
+# take a `gpu_lane` turn like every other model call, and a row that drives one with a stand-in
+# transport would otherwise queue on the LIVE lane -- yielding up to 240s to a running prose
+# call and waiting for a slot held by a real job -- so a row's timing would move with GPU load,
+# the exact non-hermetic shape the ruling above removed. Pointed at a temp directory once, here;
+# sections that repoint it for their own attacks save and restore whatever this set.
+import atexit as _atexit_lane_vm  # noqa: E402
+import shutil as _sh_lane_vm       # noqa: E402
+import tempfile as _tf_lane_vm     # noqa: E402
+import gpu_lane as _GL_hermetic_vm  # noqa: E402
+_lane_root_vm = _tf_lane_vm.mkdtemp(prefix="vm_hermetic_lane_")
+_atexit_lane_vm.register(_sh_lane_vm.rmtree, _lane_root_vm, ignore_errors=True)
+_GL_hermetic_vm.LANE = os.path.join(_lane_root_vm, "gpu_lane")
+
+_TOKENFLOW_PIN_VM = ("pinned by verify_math's hermetic battery (order 79d51aef8b71); the live "
+                     "local model is measured by standards/dashboard on their own polls, never "
+                     "from this battery")
+
+
+def _pin_token_flow_vm():
+    """Pin `standards._TOKENFLOW` so `ollama_token_flow()` answers from the cache. -> the held
+    value, for `_unpin_token_flow_vm`, or None when `standards` is not loaded yet.
+
+    NEVER IMPORTS (§20z's import-ordering row reads every function a late statement calls, and
+    this one is reached from `_third_party_vm`). If `standards` is not loaded there is nothing to
+    pin, and a probe that then escaped would meet the transport stand-in above and be RECORDED.
+    `at` is set far in the future so that no `ttl` a caller passes -- 0 included, the spelling
+    §19ab uses -- can reach past the pin while it stands.
+    """
+    _st_vm = sys.modules.get("standards")
+    if _st_vm is None or not isinstance(getattr(_st_vm, "_TOKENFLOW", None), dict):
+        return None
+    _held_vm = dict(_st_vm._TOKENFLOW)
+    _st_vm._TOKENFLOW.update({"at": _time_h_vm.time() + 1e9, "ok": True, "s": _TOKENFLOW_PIN_VM})
+    return (_st_vm, _held_vm)
+
+
+def _unpin_token_flow_vm(_pin_vm):
+    if _pin_vm is None:
+        return
+    _st_vm, _held_vm = _pin_vm
+    _st_vm._TOKENFLOW.clear()
+    _st_vm._TOKENFLOW.update(_held_vm)
+
+
 # AND THE SPY IS NOT THE ONLY WITNESS (order 8aaddf34adf3). An in-process spy on one function
 # object measures a PROXY -- "did anybody call this attribute" -- not the property that matters,
 # which is "did `state/failures.json` grow". Anything reaching the file another way (a child
@@ -553,9 +752,15 @@ def _third_party_vm(_dep_vm):
     _saved_tp_vm = _H_vm.record
     _seen_tp_vm = []
     _H_vm.record = lambda *_a, **_k: _seen_tp_vm.append(_a[0] if _a else "<no key>")
+    # THE LIVE-STATE GRANT IS HERMETIC ABOUT THE GPU (orders 79d51aef8b71, 36eca6457ed9). Every
+    # `standards.check()` / `dashboard.state()` this battery makes -- §19ai, §20k, batch1, §b3 --
+    # runs under this grant, so the token-flow cache is pinned here, once, the way §19ai always
+    # pinned it for itself: the probe answers from the pin and never sends a generation.
+    _gpu_pin_tp_vm = _pin_token_flow_vm() if _dep_vm == _LIVE_STATE_VM else None
     try:
         yield _seen_tp_vm
     finally:
+        _unpin_token_flow_vm(_gpu_pin_tp_vm)
         _H_vm.record = _saved_tp_vm
         for _key_tp_vm in _seen_tp_vm:
             _THIRD_PARTY_VM.append((_dep_vm, _key_tp_vm))
@@ -1598,6 +1803,7 @@ try:
     with open(_floor42, encoding="utf-8") as _f42:
         _fl42 = json.load(_f42).get("asymmetric_suspect_max")
 except Exception:
+    _ = "silence-exempt: an unreadable floor is None, and the row below reddens on it"
     _fl42 = None
 check("the ASYMMETRIC-SUSPECT floor is on record and is a count",
       isinstance(_fl42, int) and _fl42 >= 0, True,
@@ -2856,9 +3062,11 @@ try:
           note="same bucket + same leading text collapses to one row, so a repeating fault "
                "does not flood the file")
     check("the ledger keeps the error TEXT, not just a count",
-          _rows19h[0]["error"], "HTTP 418 I am a teapot",
+          _at_vm(_rows19h, (0, "error"), "record_unrecognised wrote no row"),
+          "HTTP 418 I am a teapot",
           note="whitespace normalised; a count alone cannot be classified")
-    check("repeats are counted", _rows19h[0]["count"], 2)
+    check("repeats are counted",
+          _at_vm(_rows19h, (0, "count"), "record_unrecognised wrote no row"), 2)
     check("an aged-out row leaves the page by itself",
           _CB.unrecognised_open(max_age_h=0), [],
           note="a resolved fault should stop being reported without anyone editing a file")
@@ -3046,7 +3254,8 @@ json.dump({"started": 1.0, "heartbeat": 2.0, "done": False, "agent": "crashed"},
 _ok19k, _ = _RG.claim("runD", _gp)
 check("a stale record can be taken over", _ok19k, True)
 check("and the takeover names the run it superseded",
-      _RG.read(_gp)["superseded"]["agent"], "crashed",
+      _at_vm(_RG.read(_gp), ("superseded", "agent"), "claim recorded no `superseded`"),
+      "crashed",
       note="a crashed run's work is unfinished by definition; the next run should be able to "
            "see that it inherited rather than started clean")
 
@@ -4156,14 +4365,26 @@ try:
     # worse exposed: CLAIM_LEASE_SECONDS is 300 against the slot's 900, inside calls allowed
     # 1800s by `request_timeout`. 14 recorded calls had already run past 300s, the longest 917s.
     _clp19ad = _GLx._claim_path()
+    # READ WITHOUT RAISING (sweep66 question 6, order 253d116215ab): a `lane()` that stopped
+    # writing the claim file must redden these rows, not end the battery at this line.
+    def _claim19ad():
+        try:
+            with open(_clp19ad, encoding="utf-8") as _fc19ad:
+                _c19ad = json.load(_fc19ad)
+            return _c19ad if isinstance(_c19ad, dict) else {}
+        except (OSError, ValueError):
+            _ = "silence-exempt: an absent claim file reddens the rows below; that is the verdict"
+            return {}
     with _GLx.lane("verify:fg-beat", priority=True):
-        _fg1 = json.load(open(_clp19ad, encoding="utf-8"))
+        _fg1 = _claim19ad()
         time.sleep(0.35)
-        _fg2 = json.load(open(_clp19ad, encoding="utf-8"))
+        _fg2 = _claim19ad()
     check("a foreground claim's lease is refreshed while the call runs",
-          _fg2["heartbeat"] > _fg1["heartbeat"], True,
-          note=f"heartbeat {_fg1['heartbeat']} -> {_fg2['heartbeat']}; unrefreshed, a prose "
-               "call over 300s was judged abandoned and swept while still running")
+          (isinstance(_fg1.get("heartbeat"), (int, float))
+           and isinstance(_fg2.get("heartbeat"), (int, float))
+           and _fg2["heartbeat"] > _fg1["heartbeat"]), True,
+          note=f"heartbeat {_fg1.get('heartbeat')} -> {_fg2.get('heartbeat')}; unrefreshed, a "
+               "prose call over 300s was judged abandoned and swept while still running")
     check("refreshing the claim preserves its re-entrancy depth", _fg2.get("depth"), 1,
           note="_touch rewrites the record it read, so the refcount foreground() relies on "
                "must survive a beat -- losing it would break nested foreground calls")
@@ -5203,6 +5424,7 @@ def _follows_continuation(src):
     try:
         tree = _ast19.parse(src)
     except SyntaxError:
+        _ = "silence-exempt: source that does not parse cannot follow anything; False reddens"
         return False
     for node in _ast19.walk(tree):
         if not isinstance(node, (_ast19.While, _ast19.For)):
@@ -5391,7 +5613,7 @@ check("replayed foreman lines carry the foreman's own timestamp, not the supervi
 # ASKED OF THE PARSE TREE, NOT OF THE TEXT (2026-08-29 maintenance). This was
 # `"did[:5]" in _on20code`, where `_on20code` strips `#` comments and nothing else. On
 # 2026-08-29 `ledger_report`'s docstring grew the sentence "This is the THIRD instance of the
-# same cut removed from this one file, after `did[:5]` in foreman_report" -- overnight.py:741,
+# same cut removed from this one file, after `did[:5]` in foreman_report" -- in overnight.ledger_report's docstring,
 # prose, inside a triple-quoted string the comment strip does not reach -- and this row went red
 # against code that is clean. The truncation is gone: there is no `did` slice anywhere in
 # overnight.py as code. Reported as the LIST of offending slices so a red row names the line,
@@ -6857,6 +7079,23 @@ _synth20k["jobs"] = [_j20k for _j20k in (_live20k.get("jobs") or [])
 with _third_party_vm(_LIVE_STATE_VM):
     _st20k = _stmod20k.check(_synth20k)
 _names20k = {r["standard"] for r in _st20k}
+# A QUOTA ROW WITH NO READABLE WINDOW ("worst": None, dashboard order e7ea68901bfe) MUST NOT RAISE
+# (owner session 2026-09-28). It did: `q.get("worst", 0) > 0.05` compared None with a float, and
+# standards.check() -- and every verify_math row after this section -- died on the live state.
+# Pinned here with a synthetic row so the fix is tested whatever the live pool looks like today.
+_nonequota20k = dict(_synth20k)
+_nonequota20k["quotas"] = list(_live20k.get("quotas") or []) + [
+    {"bucket": "vm:no-window", "model": "vm", "unlimited": False, "windows": [], "worst": None}]
+try:
+    with _third_party_vm(_LIVE_STATE_VM):
+        _stmod20k.check(_nonequota20k)
+    _nonequota_raised20k = None
+except Exception as _e20k:
+    _nonequota_raised20k = type(_e20k).__name__
+check("standards.check() survives a quota bucket whose headroom is unknown (worst=None)",
+      _nonequota_raised20k, None,
+      note="None is dashboard's third answer, neither full nor dry; comparing it with a float "
+           "raised TypeError and took the battery down")
 check("the fabrication guard emits a row at all",
       "sentences that survive the verbatim check" in _names20k, True,
       note="run #28: absent for its entire life because it read a job key nothing sets")
@@ -7045,6 +7284,7 @@ for _shard20n in _glob20n.glob(os.path.join(_SP20n.SHARDS, "*.json")):
         # An unreadable shard is sweep_plan's own reporting job (it notes it); here it can only
         # make a run look less finished than it is, which errs toward asking an OLDER run, never
         # toward asking none.
+        _ = "silence-exempt: sweep_plan notes an unreadable shard itself; skipping errs older"
         continue
     _lbl20n, _stamp20n = _rec20n.get("run"), _rec20n.get("at")
     if _lbl20n is None or not isinstance(_stamp20n, (int, float)):
@@ -7079,17 +7319,44 @@ _detail20n = _SP20n.missing_detail(_run20n) if _run20n else {}
 _why20n = "; ".join("%s: %s" % (_k20n, ", ".join(_detail20n[_k20n]))
                     for _k20n in ("skipped", "added_since", "undetermined")
                     if _detail20n.get(_k20n)) or "nothing missing"
+_missing20n = _SP20n.missing(_run20n) if _run20n else ["<no finished sweep on record>"]
+_added20n = list(_detail20n.get("added_since") or [])
+# THE ROW IS SPLIT IN TWO, AND NEITHER HALF IS WEAKER THAN THE WHOLE (order de265a105279, decided
+# 2026-09-28 under the owner's "fix everything" instruction: the filing run's option (2), "SPLIT
+# THE ROW"). The completeness proof is unchanged -- `missing()`, every module, no exclusions --
+# and it is now asserted as two rows whose union is exactly `missing()`:
+#   * the first keeps the old label and holds what makes a PROOF broken: a module the run's own
+#     roster listed and no batch recorded (`skipped`), or a gap the record cannot explain
+#     (`undetermined`, a run that wrote no roster). Chase the sweep plan.
+#   * the second, under its own name, holds `added_since`: a module that provably did not exist
+#     when that sweep was dispatched. Nothing is broken; a sweep is OWED. Dispatch one.
+# BOTH STILL FAIL THE BATTERY. Giving `added_since` a lower rank than SAFETY would lower a
+# Hard-Rule--1 safety, and the owner's brief for this session forbids weakening one; the price of
+# adding a module is still a sweep, as the order's option (1) described. What changes is that
+# the row a reader sees NAMES which of the two things happened, so nobody goes hunting for a bug
+# in `batches()` that is not there. A third row pins the partition, so a module can never fall
+# between the two halves and leave both green.
 check("the newest FINISHED sweep proves its own completeness",
-      _SP20n.missing(_run20n) if _run20n else ["<no finished sweep on record>"], [],
-      note="every module in src/, each recorded by the batch that read it. THREE causes, and the "
-           "split for this run is -- %s. `skipped` means that sweep's own roster listed the "
-           "module and no batch recorded reading it, which is a broken proof; `added_since` "
-           "means it was in NO shard's roster, so it provably did not exist when the batches "
-           "were dispatched and is owed to the NEXT sweep; `undetermined` means the run wrote no "
-           "roster and its gaps cannot be explained from the record. Held to %r, whose last "
-           "shard landed %.1fh ago"
+      [_m20n for _m20n in _missing20n if _m20n not in _added20n], [],
+      note="every module in src/, each recorded by the batch that read it. The split for this "
+           "run is -- %s. `skipped` means that sweep's own roster listed the module and no "
+           "batch recorded reading it, which is a broken proof; `undetermined` means the run "
+           "wrote no roster and its gaps cannot be explained from the record. (`added_since` "
+           "has its own row below.) Held to %r, whose last shard landed %.1fh ago"
            % (_why20n, _run20n,
               (_now20n_t - _ended20n[0][0]) / 3600.0 if _ended20n else -1.0))
+check("src/ has no module that no finished sweep has read (a sweep is owed)",
+      _added20n, [],
+      note="order de265a105279: these modules were in NO shard's roster for %r, so they did not "
+           "exist when its batches were dispatched. Nothing skipped them and the proof is not "
+           "broken -- a comprehensive sweep is owed, and this stays red until one runs. Never "
+           "write a shard claiming an old run read them: that run is over and did not"
+           % (_run20n,))
+check("[control] the two completeness rows partition missing() exactly",
+      sorted(_missing20n),
+      sorted([_m20n for _m20n in _missing20n if _m20n not in _added20n] + _added20n),
+      note="a module in `added_since` that is not in `missing()` -- or a missing module dropped "
+           "by the split -- would let one half go green over a gap the other half never saw")
 
 # THE FILTER NOW MATCHES THE CLAIM (order 8389720500a9, run #37). This collected `r["holds"]`
 # for every UNMEASURED row and demanded []. An HONESTLY UNMEASURED-AND-RED row yields [False]
@@ -7479,9 +7746,19 @@ def _src20p(name):
 # of them with `pass` left every row below GREEN -- measured by the sweep56 and sweep57 batch-02 AST
 # scans. `local_agent.py` is the sharpest of the three, being the lane on which a model writes to
 # src/; it carried a bare import rather than the guard shape and was converted in the same change.
-_INTERLOCKED = ("dashboard.py", "feats.py", "foreman.py", "hostcheck.py", "ingest_doc.py",
-                "local_agent.py", "overnight.py", "overwatch.py", "pipeline.py", "publish.py",
-                "read.py", "threads.py", "withdraw_chapters.py")
+# TWENTY HAND-RUN WRITERS JOINED 2026-09-28 (orders 1e6f99e54b25, 21c075e5e2d6, 3099138a82bd;
+# owner ruling "fix everything", group HALT): every tool a person runs that writes the corpus or
+# the library's output refuses under a halt, through one fail-closed `_assert_not_halted` each,
+# called on the writing path only so read-only and dry-run modes stay open. The behavioural and
+# write-path halves are drill.py's `drill_hand_run_halt` area; this roster is the half that stops
+# the guard being removed or swallowed quietly.
+_INTERLOCKED = ("axis_correlation.py", "backfill.py", "binding_health.py", "burgs.py", "chain.py",
+                "dashboard.py", "feats.py", "foreman.py", "generate.py", "handbuilt.py",
+                "health.py", "hostcheck.py", "ingest_doc.py", "local_agent.py", "navtree.py",
+                "overnight.py", "overwatch.py", "pipeline.py", "policy.py", "publish.py",
+                "read.py", "repass_bands.py", "resync_roll.py", "retry_synthesis.py", "roll.py",
+                "rosetta.py", "sevenfold.py", "thread_integrity.py", "threads.py", "weave.py",
+                "weave_index.py", "wh40k.py", "withdraw_chapters.py")
 
 # AND THE ROSTER CAN NO LONGER FALL BEHIND THE TREE. A hand-kept tuple is a count in doctrine, and
 # CLAUDE.md records what that costs: "A count in doctrine goes stale weekly and then gets reasoned
@@ -11621,7 +11898,7 @@ _RUN35_PINNED36 = {
     # RE-PINNED by maintenance run #58 (order c9146abf92df): the order b3da16ddfe64 block was
     # restated from a literal source-substring check of roll.py into a behavioural check of the
     # same property (the roll writer lands non-ASCII unescaped). File read before re-pinning.
-    "checks_L4.py": "baf73377f21ec255c3e9109b7fe9cef2370ce8c0a865b39b24c967a0b60f5607",
+    "checks_L4.py": "0aa59fcb2ab139cb9db5226e6af3b4b95a4659349a500f126c230e60fe508351",
     "checks_L5.py": "b31302edc8ab59c84571abe951aef11fc23d3a152c9f1ac2d3d87a363ec6c84d",
     "checks_L6.py": "2514580906359f759e0e76790740000a01c65f9dbf49055a22cbcb03deed1494",
 }
@@ -12457,7 +12734,7 @@ _FIX20ad = {
     "a port and a pid": ("# http://localhost:11434/api/ps killed stalled read_auto:42972\n", 0),
     "a timestamp": ("# the log line [22:39:04] was misdated by 38 minutes\n", 0),
     "a slice in CODE, which is not prose at all": ("_x = _y[:220]\n", 0),
-    "a citation of another file": ("# standards.py:751 is the cut this row drives\n", 0),
+    "a citation of another file": ("# standards.py:1 is the cut this row drives\n", 0),
     # order 3c72359c53aa: the two spellings the scan was blind to, and the fixture strings it
     # must keep ignoring now that it reads string constants at all
     "one in a check() note": ('check("x", 1, 1, note="the same reason §16 froze it at :1605")\n',
@@ -13372,6 +13649,56 @@ check("[control] the ordering scan catches every spelling of an import after the
              for _k20zf, _v20zf in _FIX20zo.items()),
       note="the third fixture is §20ae's real shape: the import is inside a helper, and only the "
            "CALL is at module level")
+
+
+# ---- and this battery never reached the local model (orders 79d51aef8b71, 36eca6457ed9) ------
+#
+# THE PROOF THE OWNER ASKED FOR, 2026-09-28: "prove with a check that verify_math opens no
+# connection to port 11434". The transport stand-in installed near the top of this file records
+# every attempt, from any library and any spelling, and refuses it; this row asserts the record
+# is empty after every row above has run. The controls first, because an empty list is also what
+# a tripwire that recognises nothing returns: each drives one door and then takes its own entry
+# back out, so the assertion below is about the battery and not about the controls.
+_trips_before_ctl_vm = list(_GPU_TRIPS_VM)
+_port_ctl_vm = min(_GPU_PORTS_VM)
+_sk_ctl_vm = _sock_vm.socket(_sock_vm.AF_INET, _sock_vm.SOCK_STREAM)
+try:
+    try:
+        _sk_ctl_vm.connect(("127.0.0.1", _port_ctl_vm))
+        _sk_refused_vm = False
+    except ConnectionRefusedError:
+        _ = "silence-exempt: the refusal IS the assertion of this control"
+        _sk_refused_vm = True
+finally:
+    _sk_ctl_vm.close()
+try:
+    _ureq_vm.urlopen("http://localhost:%d/api/generate" % _port_ctl_vm, timeout=1)
+    _gen_refused_vm = False
+except _uerr_vm.URLError:
+    _ = "silence-exempt: the refusal IS the assertion of this control"
+    _gen_refused_vm = True
+with _ureq_vm.urlopen("http://localhost:%d/api/ps" % _port_ctl_vm, timeout=1) as _ps_ctl_vm:
+    _ps_answer_vm = json.loads(_ps_ctl_vm.read())
+_trips_by_ctl_vm = _GPU_TRIPS_VM[len(_trips_before_ctl_vm):]
+del _GPU_TRIPS_VM[len(_trips_before_ctl_vm):]      # the controls are not the battery's traffic
+check("[control] the local-model tripwire refuses a socket connect and a generation, and "
+      "records both, while /api/ps is answered without dialling",
+      (_sk_refused_vm, _gen_refused_vm, len(_trips_by_ctl_vm), _ps_answer_vm,
+       _sock_vm.socket.connect is _tripwire_connect_vm, _ureq_vm.urlopen is _ollama_standin_vm),
+      (True, True, 2, {"models": []}, True, True),
+      note="the last two elements prove the stand-ins are STILL installed at the end of the run: "
+           "a section that restored the real transport in a finally would have left every row "
+           "after it free to dial the GPU, and the row below would then be green by blindness. "
+           "Recorded by the controls: %s" % _trips_by_ctl_vm)
+check("verify_math opened no connection to the local model's port",
+      _GPU_TRIPS_VM, [],
+      note="HERMETIC BATTERY, owner ruling 2026-09-28 (orders 79d51aef8b71, 36eca6457ed9). Each "
+           "entry names the caller and the battery line that tried to reach Ollama on port(s) "
+           "%s. It was REFUSED, not sent -- but its row above ran against a refusal rather than "
+           "the stand-in, so pin that call site: wrap it in `_third_party_vm(_LIVE_STATE_VM)` "
+           "(which pins standards._TOKENFLOW) or give it a canned answer. Never widen a "
+           "timeout: local-model health is measured by standards/dashboard, not here"
+           % sorted(_GPU_PORTS_VM))
 
 
 # ---- and no two rows in this battery answer to the same name --------------------------------

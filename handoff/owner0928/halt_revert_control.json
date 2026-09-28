@@ -1,0 +1,5 @@
+[
+  {"module": "drill.py",
+   "old": "                and not any(isinstance(x, ast.Return) for x in ast.walk(stmt)))\n",
+   "new": "                )\n"}
+]

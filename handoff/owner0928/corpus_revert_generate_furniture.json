@@ -1,0 +1,3 @@
+[
+ {"module": "generate.py", "old": "                 if isinstance(e, dict) and _furniture(e.get(\"description\"))]", "new": "                 if isinstance(e, dict) and False]"}
+]

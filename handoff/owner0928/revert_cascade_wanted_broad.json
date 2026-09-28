@@ -1,0 +1,1 @@
+[{"module": "catalogue_models.py", "old": "        if m.get(\"enabled\") is False:", "new": "        if not m.get(\"enabled\"):"}]

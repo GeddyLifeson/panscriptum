@@ -202,6 +202,9 @@ SIZE_CLASS_MAX_GALAXIES = {
 
 # ================================================================================ the census
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as charter apparatus: Sagan's continuous Kardashev value for the census, awaiting a caller.
 def kardashev_K(watts):
     """Sagan's continuous Kardashev value. Earth today is ~0.73."""
     if watts <= 0:
@@ -209,6 +212,9 @@ def kardashev_K(watts):
     return round((math.log10(watts) - 6.0) / 10.0, 3)
 
 
+# RETAINED WITH NO PRODUCTION CALLER, BY OWNER RULING (order 7099a092abd3, decided 2026-09-28 under the
+# owner's "fix everything" instruction, following ruling 1 of 2026-09-08: mark and keep, delete
+# nothing). Its only callers are the test harnesses, which do not count as readers. Kept as charter apparatus: the civilization-energy to Magnitude-band bridge the founding demand asked for, awaiting a caller.
 def kardashev_to_magnitude(watts, band_edges=None, ladder=None):
     """Which Magnitude band does a civilization's ANNUAL energy budget reach?
 

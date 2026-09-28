@@ -2648,6 +2648,29 @@ def file_orders(result, found_by="mutate", suppressed_out=None):
                      "withdraw it with `python src/mutate.py --unrule %s:%d` and re-rule the "
                      "site if the reading still holds."
                      % (oid, "; ".join(stale), result["target"], s["line"]))
+        # A RULING THAT MOVED IS NAMED, AND STILL NOT APPLIED (order d2f103634cf1 item 6, owner
+        # ruling 2026-09-28 "fix everything"). Rulings are keyed by (target, line), so an edit
+        # above a ruled site re-files the same mutant as new work under a new id -- assay.py:908
+        # became 909 and came back as order eed2a0ccab42. Re-keying so the ruling FOLLOWS the
+        # text would suppress more, which is the direction a suppression mechanism must not
+        # drift, so the key is unchanged and the mutant is still filed. What changes is that the
+        # order now says a text-identical ruling exists elsewhere in the file, so the person
+        # re-reads one line and re-rules it rather than re-deriving the whole argument.
+        moved = [e for e in registry.values()
+                 if e.get("target") == result["target"] and e.get("line") != s["line"]
+                 and e.get("mutation") == s["mutation"] and e.get("was") == s["was"]
+                 and e.get("became") == s["became"]]
+        if moved:
+            what += (" NOTE: a RULED-EQUIVALENT registration for this exact mutation (same "
+                     "mutation, same `was` and `became` text) stands at %s -- the ruled line has "
+                     "most likely moved here. It was NOT applied, because a ruling is bound to its "
+                     "line. If the reading still holds, re-rule this site with `python "
+                     "src/mutate.py --rule-equivalent %s:%d` and withdraw the old one with "
+                     "`--unrule`; the earlier ruling's text, in full: %s"
+                     % (", ".join("%s:%s (order %s)" % (e.get("target"), e.get("line"),
+                                                        e.get("id")) for e in moved),
+                        result["target"], s["line"],
+                        " | ".join(str(e.get("ruling") or "") for e in moved)))
         red = s.get("red_gates_disabled") or []
         if red:
             what += (" NOTE: %d gate(s) were ALREADY RED at this run's baseline (%s) and could "

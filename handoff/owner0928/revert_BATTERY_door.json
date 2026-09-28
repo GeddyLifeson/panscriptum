@@ -1,0 +1,7 @@
+[
+ {
+  "module": "workorders.py",
+  "old": "            targets = local_door_targets(where, _LA)",
+  "new": "            targets = sorted(set(m[0] for m in WHERE_TARGET.findall(str(where or '').replace(chr(92), '/'))))"
+ }
+]

@@ -234,7 +234,7 @@ def classify_source(rec, cap=None):
     if ranked[0][1] == 0:
         return {"genre": "unclassified", "score": 0, "confidence": 0.0,
                 "register": DEFAULT["register"], "priors": DEFAULT["priors"],
-                "runners_up": ranked[1:], "genres_scored": len(ranked),
+                "runners_up": ranked[1:], "genre_field_size": len(ranked),
                 "genres_with_signal": 0}
     top, score = ranked[0]
     # NO `or 1` (same order). The line above has already returned when the top score is zero,
@@ -254,14 +254,15 @@ def classify_source(rec, cap=None):
         "runners_up": ranked[1:],
         # Stated so a reader can tell at a glance that the margin was taken over the full field.
         #
-        # IT IS INVARIANT, AND THAT IS AN OPEN QUESTION FOR THE OWNER (order f646c1c5f1d0). Since
-        # the uncapping (order bc0b85ea353b) this is always len(GENRES) == 11 for every record,
-        # so it carries no per-record information and cannot distinguish one record from another
-        # -- the order proposes either dropping it or repurposing it. Neither is taken here,
-        # because it is a stored output field and removing or renaming one is a schema decision
-        # the owner should make, not a mechanical cleanup. What it still does honestly is act as
-        # a tripwire: if anything ever re-caps the field, this number stops reading 11.
-        "genres_scored": len(ranked),
+        # IT IS INVARIANT BY DESIGN, AND NOW SAYS SO (order f646c1c5f1d0, RESOLVED under the
+        # owner's 2026-09-28 "fix everything" ruling, option (b): rename and document). Since the
+        # uncapping (order bc0b85ea353b) this is always len(GENRES) == 11 for every record, so
+        # it is NOT a per-record measurement: it is the size of the genre vocabulary the margin
+        # was taken over. It was called `genres_scored`, which read as a per-source count; it is
+        # now `genre_field_size`, which is what it counts. What it still does honestly is act as
+        # a tripwire: if anything ever re-caps the field, this number stops equalling
+        # len(GENRES). The per-record fact is `genres_with_signal`, below.
+        "genre_field_size": len(ranked),
         # The per-record fact the order asked for, ADDED beside it rather than replacing it, so
         # the two readings cannot be confused: how many genres actually scored above zero.
         "genres_with_signal": sum(1 for _, s in ranked if s > 0),

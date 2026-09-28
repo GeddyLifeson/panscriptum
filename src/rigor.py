@@ -667,7 +667,19 @@ def adjudication_beta(n_laws_touched, n_regimes, n_parameters=0, param_precision
     exception cannot cost less than, so a declared price can be audited against it.
     """
     M = catalogue_size or len(LAW_CATALOGUE)
-    k = max(1, min(n_laws_touched, M))
+    # ZERO LAWS TOUCHED IS REFUSED, NOT CHARGED AS ONE (order 28f335ecefd3 item 6, owner ruling
+    # 2026-09-28 "fix everything"). This was `k = max(1, min(n_laws_touched, M))`, so an
+    # adjudication excepting no law at all was silently priced as if it excepted one. An
+    # adjudication that bends no law is not an exception and has no description length to floor;
+    # neither "charge one" nor "charge zero" is a true answer to it, so the caller is told. Every
+    # caller in the tree passes >= 1 (rigor.main's _AUDIT_ROWS and verify_math's rows), so no
+    # live figure changes. The upper clamp to M is unchanged.
+    if not isinstance(n_laws_touched, int) or isinstance(n_laws_touched, bool) \
+            or n_laws_touched < 1:
+        raise ValueError("adjudication_beta: n_laws_touched must be a whole number >= 1, got %r "
+                         "-- an adjudication that excepts no law is not an exception"
+                         % (n_laws_touched,))
+    k = min(n_laws_touched, M)
     n_regimes = max(1, n_regimes)
 
     # `if k < M else 0.0` deleted (order d021f0c7f821): _log2_choose already returns 0.0 for

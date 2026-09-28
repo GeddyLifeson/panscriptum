@@ -1,0 +1,1 @@
+[{"module": "identity.py", "old": "        if isinstance(v, dict):\n            return v", "new": "        if v:\n            return v"}]

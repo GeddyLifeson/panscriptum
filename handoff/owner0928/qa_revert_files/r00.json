@@ -1,0 +1,1 @@
+[{"module": "prose_gate.py", "old": "        if being and marked and (scored or excused):", "new": "        if marked and (scored or excused or not being):"}]

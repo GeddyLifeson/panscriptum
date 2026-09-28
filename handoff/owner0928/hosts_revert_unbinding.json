@@ -1,0 +1,7 @@
+[
+ {
+  "module": "feats.py",
+  "old": "        if src in ruled:\n            known[src] = ruled[src]\n            continue\n",
+  "new": ""
+ }
+]

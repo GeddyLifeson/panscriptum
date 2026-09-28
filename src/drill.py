@@ -1543,7 +1543,11 @@ def _carries_result_of(tree, node, want, reachable=True):
                    for x in ast.walk(sub))
 
     out = set()
-    for _ in range(8):        # a fixpoint; real chains here are one or two links long
+    # A TRUE FIXPOINT, like its siblings `_filtered_names`, `_rooted_names` and
+    # `_no_programmatic_clear` (sweep66 question 2, order 253d116215ab, 2026-09-28). This stopped
+    # after 8 passes, so a longer out-of-order binding chain yielded a smaller set. `out` only
+    # ever grows and is bounded by the names in `node`, so the loop always ends.
+    while True:
         grew = False
         for n in nodes:
             if isinstance(n, (ast.Assign, ast.AnnAssign)):
@@ -2137,7 +2141,7 @@ def drill_train():
     # different ways and the entire battery stayed green for every one of them. Measured, not
     # inferred: `grep -rn instrument_shortfall --include=*.py .` returns three hits and all
     # three are inside `prose_gate.py` itself; `assert_instrument_present` returns its own def,
-    # a comment, and `generate.py:552`. Neither this module nor `verify_math` had ever called
+    # a comment, and one call in `generate.py`. Neither this module nor `verify_math` had ever called
     # either function with any input.
     #
     # THIS IS THE GATE FOR THE LARGEST SINGLE LOSS IN THE 2026-08-25 INCIDENT -- 1,155 of 1,268
@@ -2349,10 +2353,25 @@ def drill_assay():
     net(a, "axis scores on a cited entity are allowed",
         lambda: PG.unearned_instrument(axis, {"Athuri"}) == [],
         "an earned number must survive")
-    net(a, "a disambiguated name still matches its citation",
+    # ORDER 39a0542b03f3 (owner ruling 2026-09-28 "fix everything"): THE BASE-NAME FALLBACK IS
+    # GONE, SO THIS NET NOW PINS ITS ABSENCE. It used to assert that `Wally West (New Earth)`
+    # was credited by a citation for bare `Wally West` -- which is the conflation events.py's
+    # header names as the one that must never happen: two continuities, one citation. The cited
+    # set is built from CATALOGUED names, so the exact name is what earns a number.
+    net(a, "a disambiguated name does NOT borrow its base name's citation",
         lambda: PG.unearned_instrument(
-            "◈ **Wally West (New Earth)**\nStrength: 20\n", {"Wally West"}) == [],
-        "the base name is accepted so a parenthetical does not read as fabrication")
+            "◈ **Wally West (New Earth)**\nStrength: 20\n", {"Wally West"})
+        == ["Wally West (New Earth)"],
+        "a score printed for an UNCITED continuity passed as earned whenever a same-base "
+        "variant was cited -- Hard Rule 3, by way of the parenthetical")
+    net(a, "the exact catalogued disambiguated name is still credited",
+        lambda: (PG.unearned_instrument(
+            "◈ **Wally West (New Earth)**\nStrength: 20\n", {"Wally West (New Earth)"}) == []
+                 and PG.unearned_instrument(
+            "◈ **Wally West (Prime Earth)**\nStrength: 20\n", {"Wally West (New Earth)"})
+                 == ["Wally West (Prime Earth)"]),
+        "tightening must not refuse the earned number, and a sibling continuity must not ride "
+        "on it either")
     net(a, "BOLD markdown does not hide an axis score",
         lambda: PG.unearned_instrument(
             "◈ Athuri\nMagnitude: unassayed\n**Wisdom:** 28 (Transcendent, Grade III)\n",
@@ -3290,7 +3309,12 @@ def drill_park():
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
                 return BF.main()
 
+        # HALT-INDEPENDENT (group HALT, 2026-09-28): `backfill.main --source` now asks the halt
+        # before it writes, so this net points the halt file at an empty scratch path -- a
+        # standing live halt must not turn a containment net into a halt probe.
+        keep_halt = ESC.HALT_FILE
         try:
+            ESC.HALT_FILE = os.path.join(bd, "no-halt-here.json")
             hosts = os.path.join(bd, "WIKI_HOSTS.json")
             with open(hosts, "w", encoding="utf-8") as f:
                 json.dump({}, f)
@@ -3302,6 +3326,7 @@ def drill_park():
             # AND THE NONZERO IS ABOUT THE FAILURE: two clean sources still exit 0.
             return _run("Bar", "Baz") == 0 and called == ["Bar", "Baz"]
         finally:
+            ESC.HALT_FILE = keep_halt
             _PL.records, BF.F.HOSTS, BF.backfill_source, sys.argv[:] = keep
             shutil.rmtree(bd, ignore_errors=True)
     net(a, "one named backfill source raising neither stops the others nor exits 0",
@@ -3440,8 +3465,13 @@ def _a_deliberate_restart_is_not_an_idle_cycle(src=None):
     return True
 
 
-def _absent_tray_is_started_not_waited_for():
+def _absent_tray_is_started_not_waited_for(unconfirmed=False):
     """restart_ollama must START an absent Ollama tray, and must still kill-and-wait a wedge.
+
+    AND IT BOOKS A CURE ONLY ON A COMPLETED GENERATION (order ff77e242b830 item 2, owner
+    ruling 2026-09-28). `foreman._ollama_generates` is a stand-in here -- nothing is
+    generated -- answering yes for the two cases above; with `unconfirmed=True` a third case
+    makes it answer no, and the remedy must then return False with "NOT YET CONFIRMED".
 
     ORDER b750409c76be. The remedy's only move was Stop-Process then wait "because the tray
     respawns the daemon". On 2026-09-13 there was no tray, so it killed nothing, waited for a
@@ -3493,8 +3523,11 @@ def _absent_tray_is_started_not_waited_for():
         os.makedirs(os.path.dirname(tray))
         open(tray, "w").close()
         saved = (F.subprocess, F.time, F.shutil, F.RESTART_STAMP, _ur.urlopen,
-                 {k: os.environ.get(k) for k in ("LOCALAPPDATA", "ProgramFiles", "ProgramW6432")})
+                 {k: os.environ.get(k) for k in ("LOCALAPPDATA", "ProgramFiles", "ProgramW6432")},
+                 F._ollama_generates)
+        gen = {"ok": True}
         try:
+            F._ollama_generates = lambda timeout=240: (gen["ok"], "a stubbed generation")
             F.time = types.SimpleNamespace(time=time.time, sleep=lambda s: None)
             F.shutil = types.SimpleNamespace(which=lambda n: None)
             _ur.urlopen = lambda *a_, **k_: True
@@ -3516,9 +3549,16 @@ def _absent_tray_is_started_not_waited_for():
                 if json.load(fh).get("action") != "start-tray":
                     return False
             calls, ok, msg = _case(["ollama app.exe", "ollama.exe"], "wedged.json")
-            return calls == ["kill"] and ok and "NOT RUNNING" not in msg
+            if not (calls == ["kill"] and ok and "NOT RUNNING" not in msg):
+                return False
+            if not unconfirmed:
+                return True
+            gen["ok"] = False
+            calls, ok, msg = _case(["ollama app.exe", "ollama.exe"], "unconfirmed.json")
+            return calls == ["kill"] and not ok and "NOT YET CONFIRMED" in msg
         finally:
-            F.subprocess, F.time, F.shutil, F.RESTART_STAMP, _ur.urlopen, env = saved
+            (F.subprocess, F.time, F.shutil, F.RESTART_STAMP, _ur.urlopen, env,
+             F._ollama_generates) = saved
             for k, v in env.items():
                 if v is None:
                     os.environ.pop(k, None)
@@ -5549,7 +5589,9 @@ def _the_scanner_reads_files_over_two_megabytes():
     2.68 MB terminal page and a 2.47 MB data script. That is 11.5 MB reaching the PUBLIC repo
     examined by nothing, reported as clean. (Hand-scanned afterwards, and clean -- this time.)
 
-    WHY 57 NETS MISSED IT. `_scanner_finds_a_planted_secret` above plants its secret in a
+    WHY THE NETS OF THAT DAY MISSED IT (57 of them when this was written -- a historical
+    count kept as history, not the live one; sweep66 question 5, order 253d116215ab).
+    `_scanner_finds_a_planted_secret` above plants its secret in a
     TWO-LINE temp file, so the branch that skipped big files was never on the path it walked.
     The net was not weak; it was aimed at a file the bug could not affect. So the fixture is the
     fix here: three files that actually cross the threshold, in the three shapes the streaming
@@ -6538,6 +6580,46 @@ def drill_ledgers():
         "sweep58-batch15: an unreadable ingest_state.json read exactly like no prior run, silently "
         "re-mining a book from chunk 0 and then overwriting the cursor")
 
+    def the_ledger_floor_keeps_a_line_a_growing_push_lost():
+        """ORDER a5faab7f3ede, decided 2026-09-28 under the owner's "fix everything" instruction:
+        the order's own middle rule, the UNION.
+
+        `seal()` used to advance the loss floor whenever the live ledger's substantive line
+        COUNT had not fallen, so a push that deleted four lines of history while adding six new
+        ones grew the count and moved the floor onto a text that had already lost them -- and
+        every later `check_since_floor` then measured against a peak that contained the loss.
+        Driven through the real `seal()` in a scratch directory: a 100-line peak is sealed, then
+        a push that loses 4 lines and adds 6 is sealed, and the floor must still hold all four
+        lost lines AND the six new ones.
+        """
+        import ledger_guard as LG
+        d = tempfile.mkdtemp(prefix="drill_floor_")
+        saved = (LG.SNAPSHOT_DIR, LG.CHAIN, LG._read)
+        now = {}
+        try:
+            LG.SNAPSHOT_DIR = os.path.join(d, "ledger_snapshot")
+            LG.CHAIN = os.path.join(d, "ledger_chain.jsonl")
+            LG._read = lambda name: now.get("text")
+            peak = ["entry %03d: one line of relay history" % i for i in range(100)]
+            now["text"] = "\n".join(peak) + "\n"
+            if LG.seal() is None:
+                return False
+            lost = [peak[i] for i in (10, 20, 30, 40)]
+            new = ["a newer entry %d" % i for i in range(6)]
+            now["text"] = "\n".join([ln for ln in peak if ln not in lost] + new) + "\n"
+            if LG.seal() is None:
+                return False
+            kept = LG._substantive_lines(LG._read_floor_snapshot(LG.APPEND_ONLY[0]) or "")
+            return (all(kept.get(x, 0) == 1 for x in lost)
+                    and all(kept.get(x, 0) == 1 for x in new))
+        finally:
+            LG.SNAPSHOT_DIR, LG.CHAIN, LG._read = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "the ledger loss floor keeps a line that a count-growing push deleted",
+        the_ledger_floor_keeps_a_line_a_growing_push_lost,
+        "order a5faab7f3ede: the floor ratcheted on line COUNT, so delete-4-add-6 moved the peak "
+        "onto the loss and every later push was measured against it")
+
 
 # ============================================================== THE CORPUS (two-writer contract)
 
@@ -7196,27 +7278,458 @@ def _the_catalogue_merge_does_not_key_entries_on_name_alone():
                 got5 = json.load(f).get("entries") or []
             if len(got5) != 3 or "unique" not in [e.get("description") for e in got5]:
                 return False
-        # (6) AND THE BOUND THAT RULES OUT CARRYING EVERY LONE ROW. A wiki rewords both
-        # descriptions of a duplicated name: nothing pairs, every disk row is lone, and the
-        # merged cast must stay at two rather than growing by two per re-catalogue.
+        # (6) KEEP-AND-MARK, NOT A BOUND (order beb7db270826 item 1, option (c), owner ruling
+        # 2026-09-28). A wiki rewords both descriptions of a duplicated name: nothing pairs and
+        # every disk row is lone. Every old row is KEPT and stamped `stale_since`; the fresh rows
+        # carry no stamp; and re-merging the SAME fresh cast is idempotent -- the old rows are
+        # added once, visibly, not once per re-catalogue.
         p6 = os.path.join(d, "reworded.json")
         with open(p6, "w", encoding="utf-8") as f:
             json.dump({"source": "drill", "entries": [
                 {"name": "Twin", "type": "T", "description": "old one"},
                 {"name": "Twin", "type": "T", "description": "old two"}]}, f)
-        for n in (1, 2):
+        for _ in range(2):
             rec6 = {"source": "drill", "entries": [
-                {"name": "Twin", "type": "T", "description": "new one %d" % n},
-                {"name": "Twin", "type": "T", "description": "new two %d" % n}]}
+                {"name": "Twin", "type": "T", "description": "new one"},
+                {"name": "Twin", "type": "T", "description": "new two"}]}
             if PL.write_record_catalogue(p6, rec6) is not True:
                 return False
             with open(p6, encoding="utf-8") as f:
-                if len(json.load(f).get("entries") or []) != 2:
-                    return False
-        return True
+                got6 = {e.get("description"): e for e in json.load(f).get("entries") or []}
+            if sorted(got6) != ["new one", "new two", "old one", "old two"]:
+                return False
+            if any(got6[k].get("stale_since") for k in ("new one", "new two")):
+                return False
+            if not all(got6[k].get("stale_since") for k in ("old one", "old two")):
+                return False
+        # (7) AND THE CASE THE BOUND LOST: a rewording that ALSO drops an entity. Three disk
+        # rows, two reworded fresh rows. Under max(m, k) only one old row survived, so two
+        # entities could vanish; every one must be on disk, marked.
+        p7 = os.path.join(d, "reworded_and_lost.json")
+        with open(p7, "w", encoding="utf-8") as f:
+            json.dump({"source": "drill", "entries": [
+                {"name": "Trio", "type": "T", "description": "first"},
+                {"name": "Trio", "type": "T", "description": "second"},
+                {"name": "Trio", "type": "T", "description": "third, only here"}]}, f)
+        rec7 = {"source": "drill", "entries": [
+            {"name": "Trio", "type": "T", "description": "first, reworded"},
+            {"name": "Trio", "type": "T", "description": "second, reworded"}]}
+        if PL.write_record_catalogue(p7, rec7) is not True:
+            return False
+        with open(p7, encoding="utf-8") as f:
+            got7 = [e.get("description") for e in json.load(f).get("entries") or []]
+        return all(x in got7 for x in ("first", "second", "third, only here",
+                                       "first, reworded", "second, reworded"))
     finally:
         PL.log, PL.silence = keep
         shutil.rmtree(d, ignore_errors=True)
+
+
+def drill_owner0928_qa():
+    """THE 2026-09-28 QUESTION BUNDLES -- the owner ruled "fix everything", and each answer is a
+    guard that has to be seen refusing.
+
+    Orders beb7db270826, d2f103634cf1, 6b59a5d4302a, 28f335ecefd3 and d03706b5eaf0 were bundles
+    of small questions, each "none of them a defect today". Every one that became code became a
+    refusal or a report, and a refusal nobody has watched refuse is a belief (Hard Rule -1,
+    PROVEN). Nothing here touches the live tree: every fixture is a temp directory or a stub,
+    and every stub is put back in a `finally`. Order 39a0542b03f3's exact-name change is pinned
+    in `drill_assay`, beside the nets it inverted, and the catalogue merge's keep-and-mark ruling
+    in `_catalogue_merge_keeps_duplicate_names`, beside the bound it replaced.
+    """
+    a = "THE 2026-09-28 QUESTION BUNDLES — does each ruled answer still refuse?"
+
+    # --- d03706b5eaf0 item 1: a non-being must SAY "Not applicable"; the bare glyph is not it.
+    _head = "◈ **Rome**\nShelfmark: 1\nClass: World\nMagnitude: M2\n"
+    _body = ("The custodian records the city as it stands in the record, attested twice and "
+             "left unmeasured.\n")
+
+    def bare_marker_on_a_non_being_is_refused():
+        glued = _head + _body + "▣ Threads: pending the entanglement pass\n"
+        lone = _head + _body + "▣\nThreads: pending the entanglement pass\n"
+        said = (_head + _body + "▣ The Instrument. Not applicable -- the Instrument measures "
+                "beings, not places.\nThreads: pending the entanglement pass\n")
+        return (PG.instrument_shortfall(glued)[:2] == (0, 1)
+                and PG.instrument_shortfall(lone)[:2] == (0, 1)
+                and PG.instrument_shortfall(said)[:2] == (1, 1))
+    net(a, "a non-being carrying only the Instrument glyph is refused; the sentence passes",
+        bare_marker_on_a_non_being_is_refused,
+        "32 entries in 30 live chapters passed on `▣ Threads: ...` -- the glyph survived and the "
+        "section did not, the header-survives-content-vanishes shape layer 4c exists for")
+
+    def the_fill_writes_the_sentence_the_gate_now_asks_for():
+        import generate as GN
+        glued = _head + _body + "▣ Threads: pending the entanglement pass\n"
+        out, sup = GN.complete_fixed_tail(glued)
+        classes_ok = all(c in GN._NOT_A_BEING
+                         for c in ("world", "polity", "event", "relic", "vessel", "praxis",
+                                   "substance"))
+        return (sup["instrument"] == 1 and PG.instrument_shortfall(out)[:2] == (1, 1)
+                and "Not applicable" in out and classes_ok)
+    net(a, "the fixed-tail fill supplies a non-being's Not-applicable sentence, for all seven "
+           "non-being classes",
+        the_fill_writes_the_sentence_the_gate_now_asks_for,
+        "a gate tightened without the fill it pairs with refuses chapters whose missing words "
+        "carry no judgment -- the 469-refusal stall order 670c907af5e3 was ruled to end")
+
+    # --- 28f335ecefd3 item 2: an unnamed entry is not covered.
+    def an_unnamed_entry_is_not_covered():
+        import generate as GN
+        return (GN._covered("", "any text at all") is False
+                and GN._covered(None, "any text at all") is False
+                and GN._covered("Athuri", "... Athuri stood ...") is True)
+    net(a, "an entry with no name is NOT counted as covered",
+        an_unnamed_entry_is_not_covered,
+        "True for every unnamed entry is the check answering yes to the one input it cannot check")
+
+    # --- beb7db270826 item 2: a line-anchored DISCOURSE pattern `_anchor` cannot rewrite stops
+    # the import instead of going blind mid-paragraph.
+    def a_misanchored_tell_stops_the_import():
+        path = os.path.join(_srcdir(), "tells.py")
+        with open(path, encoding="utf-8") as fh:
+            src = fh.read()
+        if src.count("DISCOURSE = {") != 1:
+            return False
+        bad = src.replace("DISCOURSE = {",
+                          "DISCOURSE = {\n    \"drill probe\": r\"^Drill probe\\b\",", 1)
+        try:
+            exec(compile(src, path, "exec"), {"__name__": "tells_drill_probe", "__file__": path})
+        except SystemExit:
+            _ = "silence-exempt: probe: SystemExit is the answer being measured (the unmodified file must import)"
+            return False                     # the file as it stands must import
+        try:
+            exec(compile(bad, path, "exec"), {"__name__": "tells_drill_probe", "__file__": path})
+        except SystemExit:
+            _ = "silence-exempt: probe: SystemExit is the refusal this net expects"
+            return True
+        return False
+    net(a, "a DISCOURSE pattern anchored as bare ^ stops tells.py importing",
+        a_misanchored_tell_stops_the_import,
+        "`_anchor` only rewrites the literal ^\\s* prefix; any other anchor stays line-only and "
+        "the tell goes silently blind mid-paragraph")
+
+    # --- 28f335ecefd3 item 4 / 6b59a5d4302a item 8: the patch audit trail keeps every character.
+    def the_patch_audit_trail_is_uncut():
+        import local_agent as LA
+        log = []
+        why, find, rep = "w" * 900, "f" * 700, "r" * 650
+        LA.t_propose_patch("handoff/__drill_no_such_file__.txt", find, rep, why=why,
+                           apply=False, log=log)
+        return (len(log) == 1 and log[0]["why"] == why and log[0]["find"] == find
+                and log[0]["replace"] == rep)
+    net(a, "the local model's patch audit trail records why/find/replace whole",
+        the_patch_audit_trail_is_uncut,
+        "a 200-character cut with no marker records a different, shorter patch than the one "
+        "the model proposed -- Hard Rule 0, in the one record of what it tried to write")
+
+    # --- d2f103634cf1 item 2: a file with a second name is refused on the writable surface.
+    def a_hard_linked_file_is_refused():
+        import local_agent as LA
+        d = tempfile.mkdtemp(prefix="drill_nlink_")
+        saved = LA.HERE
+        try:
+            os.makedirs(os.path.join(d, "handoff"))
+            one = os.path.join(d, "handoff", "one.txt")
+            two = os.path.join(d, "handoff", "two.txt")
+            solo = os.path.join(d, "handoff", "solo.txt")
+            for p_ in (one, solo):
+                with open(p_, "w", encoding="utf-8") as fh:
+                    fh.write("alpha\n")
+            try:
+                os.link(one, two)
+            except (OSError, AttributeError, NotImplementedError):
+                raise RuntimeError("could not stage a hard link on this filesystem, so nothing "
+                                   "was measured")
+            LA.HERE = d
+            linked = LA.t_propose_patch("handoff/two.txt", "alpha", "beta", apply=False)
+            single = LA.t_propose_patch("handoff/solo.txt", "alpha", "beta", apply=False)
+            return ("hard link" in str(linked.get("error", ""))
+                    and single.get("staged") is True and "error" not in single)
+        finally:
+            LA.HERE = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a hard-linked file on the writable surface is refused; a single-name file is not",
+        a_hard_linked_file_is_refused,
+        "the protected REGIONS keep only their prefix rule, so a second name into state/ or "
+        "data/records/ from handoff/ passed every gate")
+
+    # --- d2f103634cf1 item 3: an absolute raw_path in the catalog is not a book on this shelf.
+    def an_absolute_catalog_path_is_refused():
+        d = tempfile.mkdtemp(prefix="drill_catabs_")
+        try:
+            raw = os.path.join(d, "output", "raw")
+            os.makedirs(raw)
+            os.makedirs(os.path.join(d, "output", "index"))
+            book = os.path.join(raw, "II_Z_1_Persons_1_10.md")
+            with open(book, "w", encoding="utf-8") as fh:
+                fh.write("x\n")
+
+            def write_cat(p_):
+                with open(os.path.join(d, "output", "index", "catalog.json"), "w",
+                          encoding="utf-8") as fh:
+                    json.dump({"II.Z.1/Persons#1-10": {"raw_path": p_}}, fh)
+            write_cat(os.path.join("output", "raw", "II_Z_1_Persons_1_10.md"))
+            relative_ok = _catalog_matches_disk(d) is True
+            write_cat(os.path.abspath(book))
+            return relative_ok and _catalog_matches_disk(d) is False
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a catalog row with an ABSOLUTE raw_path does not reconcile",
+        an_absolute_catalog_path_is_refused,
+        "an absolute path resolves against the live filesystem whatever root the check was "
+        "given; the only writer writes relative paths, so an absolute one is a report that "
+        "drifted from the shelf it describes")
+
+    # --- d2f103634cf1 item 4: the matching rules see through a continuity suffix.
+    def matching_rules_ask_the_base_name():
+        import ast
+        import weave_index as W
+        if not (W.match_key_base("god@earth616") == "god" and W.match_key_base("x@a") == "x"
+                and W.match_key_base("thor") == "thor"):
+            return False
+        tree = _ast_of(os.path.join(_srcdir(), "weave_index.py"))
+        fn = _defn(tree, "main")
+        if fn is None:
+            return False
+        seen = {"stop": False, "short": False}
+        for n in ast.walk(fn):
+            if not isinstance(n, ast.Compare) or len(n.comparators) != 1:
+                continue
+            right = n.comparators[0]
+            if isinstance(right, ast.Name) and right.id == "_STOPNAMES":
+                left = n.left
+                if not (isinstance(left, ast.Call) and getattr(left.func, "id", "")
+                        == "match_key_base"):
+                    return False
+                seen["stop"] = True
+            if isinstance(right, ast.Name) and right.id == "MIN_MATCH_KEY":
+                left = n.left
+                arg = left.args[0] if isinstance(left, ast.Call) and left.args else None
+                if not (isinstance(arg, ast.Call) and getattr(arg.func, "id", "")
+                        == "match_key_base"):
+                    return False
+                seen["short"] = True
+        return seen["stop"] and seen["short"]
+    net(a, "the stopname and short-key rules are asked of the key WITHOUT its continuity",
+        matching_rules_ask_the_base_name,
+        "`god@earth616` is not in _STOPNAMES and `x@a` is not short, so a generic name carried a "
+        "continuity suffix straight into the cross-source candidates")
+
+    # --- d2f103634cf1 item 5: the entry schema asks for the category range up front.
+    def the_category_is_bounded_in_the_schema():
+        import pipeline as PL
+        cat = PL.ENTRY_SCHEMA["properties"]["results"]["items"]["properties"]["category"]
+        return (cat.get("type") == "integer" and cat.get("minimum") == 1
+                and cat.get("maximum") == len(PL.CATEGORIES))
+    net(a, "ENTRY_SCHEMA bounds `category` to 1..len(CATEGORIES)",
+        the_category_is_bounded_in_the_schema,
+        "an unconstrained integer lets constrained decoding emit 0 or 14, which the phase then "
+        "has to catch after the call it already paid for")
+
+    # --- d2f103634cf1 item 6: a ruling for the same mutation at a moved line is NAMED, and
+    # still not applied.
+    def a_moved_ruling_is_named_not_applied():
+        import types
+        import mutate as MU
+        filed = []
+        stub = types.SimpleNamespace(
+            order_id=lambda code, where: "id:" + where,
+            file_order=lambda **kw: filed.append(kw) or "filed")
+        had = sys.modules.get("workorders")
+        keep_reg = MU.ruled_equivalent
+        try:
+            sys.modules["workorders"] = stub
+            MU.ruled_equivalent = lambda *a_, **k_: {"id:src/assay.py:908": {
+                "id": "id:src/assay.py:908", "target": "assay.py", "line": 908,
+                "mutation": "< -> <=", "was": "if a < b:", "became": "if a <= b:",
+                "ruling": "the boundary is unreachable because b is always odd"}}
+            ids = MU.file_orders({"target": "assay.py", "survivors": [
+                {"line": 909, "mutation": "< -> <=", "was": "if a < b:",
+                 "became": "if a <= b:"}]})
+        finally:
+            MU.ruled_equivalent = keep_reg
+            if had is None:
+                sys.modules.pop("workorders", None)
+            else:
+                sys.modules["workorders"] = had
+        return (ids == ["filed"] and len(filed) == 1
+                and "assay.py:908" in filed[0]["what"]
+                and "b is always odd" in filed[0]["what"])
+    net(a, "a text-identical ruling at a moved line is named in the re-filed order, not applied",
+        a_moved_ruling_is_named_not_applied,
+        "assay.py:908 became 909 and came back as a fresh order with nothing pointing at the "
+        "ruling a person had already written for it")
+
+    # --- 6b59a5d4302a item 1: a breach is dropped only after THREE holding re-reads.
+    def a_flaky_net_is_not_dropped_on_one_good_read():
+        saved_wait = globals()["_wait_for_a_settled_tree"]
+        key_f = ("__drill flaky__", "__drill flaky net__")
+        key_s = ("__drill flaky__", "__drill steady net__")
+        seq = iter([True, False, True, True, True, True])
+        try:
+            globals()["_wait_for_a_settled_tree"] = lambda *a_, **k_: (999.0, True)
+            _ATTACKS[key_f] = lambda: next(seq)
+            _ATTACKS[key_s] = lambda: True
+            rf = {"area": key_f[0], "net": key_f[1]}
+            rs = {"area": key_s[0], "net": key_s[1]}
+            reproduced, recovered, _note = _reread_the_breaches([rf, rs])
+            return rf in reproduced and rs in recovered
+        finally:
+            globals()["_wait_for_a_settled_tree"] = saved_wait
+            _ATTACKS.pop(key_f, None)
+            _ATTACKS.pop(key_s, None)
+    net(a, "a breached net that holds once and then fails again is NOT dropped from the halt",
+        a_flaky_net_is_not_dropped_on_one_good_read,
+        "one good re-read cannot tell a mid-edit photograph from a flaky net; three in a row on "
+        "a settled tree is the evidence the halt is dropped on")
+
+    # --- 6b59a5d4302a item 3: "roll now" is what the file says after the compare-and-swap.
+    def roll_now_is_read_back_from_disk():
+        import roll as _roll
+        import resync_roll as RR
+        d = tempfile.mkdtemp(prefix="drill_rollnow_")
+        saved = (RR.ROLL, RR.RECORDS, _roll.mutate, sys.argv, RR.silence)
+        try:
+            rec_dir = os.path.join(d, "records")
+            os.makedirs(rec_dir)
+            with open(os.path.join(rec_dir, "a.json"), "w", encoding="utf-8") as fh:
+                json.dump({"source": "Alpha", "entries": [{"name": "x"}]}, fh)
+            roll_p = os.path.join(d, "SWEEP_ROLL.json")
+            with open(roll_p, "w", encoding="utf-8") as fh:
+                json.dump([{"name": "Alpha", "entry_count": 0, "status": "uncatalogued"}], fh)
+
+            def other_writer_too(apply, attempts=8, path=None):
+                rows = apply([{"name": "Alpha", "entry_count": 0, "status": "uncatalogued"}])
+                rows.append({"name": "Beta", "entry_count": 5, "status": "catalogued"})
+                with open(path, "w", encoding="utf-8") as fh:
+                    json.dump(rows, fh)
+                return True, None
+            RR.ROLL, RR.RECORDS = roll_p, rec_dir
+            RR.silence = _quiet(RR.silence)
+            _roll.mutate = other_writer_too
+            sys.argv = ["resync_roll.py"]
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = RR.main()
+            return rc == 0 and "roll now: 2/2 sources catalogued, 6 entries" in buf.getvalue()
+        finally:
+            RR.ROLL, RR.RECORDS, _roll.mutate, sys.argv, RR.silence = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "resync_roll's closing 'roll now' figure is read back from disk",
+        roll_now_is_read_back_from_disk,
+        "the in-memory roll misses every row another writer landed inside this run's window, "
+        "and the closing line is the one a person takes as the roll's state")
+
+    # --- 6b59a5d4302a item 4: hosts.KEEP names verdicts hostcheck.score can actually give.
+    def keep_names_real_verdicts():
+        import ast
+        import hosts as HO
+        tree = _ast_of(os.path.join(_srcdir(), "hostcheck.py"))
+        fn = _defn(tree, "score")
+        if fn is None:
+            return False
+        given = set()
+        for n in ast.walk(fn):
+            if not isinstance(n, ast.Assign) or not isinstance(n.value, ast.Constant):
+                continue
+            for t in n.targets:
+                if (isinstance(t, ast.Subscript) and isinstance(t.slice, ast.Constant)
+                        and t.slice.value == "verdict" and isinstance(n.value.value, str)):
+                    given.add(n.value.value)
+        return bool(HO.KEEP) and set(HO.KEEP) <= given
+    net(a, "every verdict hosts.KEEP accepts is a literal hostcheck.score really assigns",
+        keep_names_real_verdicts,
+        "rename 'partial' in hostcheck and hosts.discover silently keeps nothing from it -- two "
+        "modules agreeing on a word with nothing tying them together")
+
+    # --- 6b59a5d4302a item 5: a stale DECLARED_UNREACHABLE ruling is named.
+    def a_stale_ruling_is_named():
+        import liveness as LV
+        got = LV.stale_declarations(
+            {"escalation.py": {"_land_clear": "real", "__drill_no_such_def__": "stale"},
+             "__drill_not_a_gate__.py": {"anything": "stale"}})
+        return got == {"escalation.py": ["__drill_no_such_def__"],
+                       "__drill_not_a_gate__.py": ["anything"]}
+    net(a, "a DECLARED_UNREACHABLE name that matches no def is reported as stale",
+        a_stale_ruling_is_named,
+        "a misspelt or renamed ruling excused nothing and said nothing, so a ruling a person "
+        "believed in force had quietly stopped existing")
+
+    # --- 6b59a5d4302a item 6: a present-but-empty inventory entry is an answer.
+    def an_empty_inventory_entry_is_an_answer():
+        import identity as ID
+        keys = ID._inv_keys("drill host")
+        if len(set(keys)) < 2:
+            return False
+        inv = {keys[0]: {}, keys[1]: {"(Other Host)": 9}}
+        return ID._inv_counts("drill host", inv) == {}
+    net(a, "a host recorded with zero designators does not fall through to another spelling",
+        an_empty_inventory_entry_is_an_answer,
+        "`if inv.get(k)` read an empty dict as absent and returned whatever a different host "
+        "had filed under the next fallback key")
+
+    # --- 6b59a5d4302a item 7: retry_synthesis fails when a source was not rescued.
+    def an_unrescued_source_fails_the_run():
+        import retry_synthesis as RS
+        saved = (RS.PL.cfg, RS.failed_sources, RS.stranded_sources, RS.load_side,
+                 RS.PL.records, RS.synthesise, sys.argv)
+        try:
+            RS.PL.cfg = lambda *a_, **k_: {}
+            RS.failed_sources = lambda *a_, **k_: ["Drill Source"]
+            RS.stranded_sources = lambda *a_, **k_: []
+            RS.load_side = lambda *a_, **k_: {}
+            RS.PL.records = lambda *a_, **k_: [("p", {"source": "Drill Source",
+                                                      "entries": []})]
+            RS.synthesise = lambda *a_, **k_: None
+            sys.argv = ["retry_synthesis.py"]
+            with contextlib.redirect_stdout(io.StringIO()), \
+                    contextlib.redirect_stderr(io.StringIO()):
+                rc = RS.main()
+            return rc == 1
+        finally:
+            (RS.PL.cfg, RS.failed_sources, RS.stranded_sources, RS.load_side,
+             RS.PL.records, RS.synthesise, sys.argv) = saved
+    net(a, "a retry run that rescued nothing exits non-zero",
+        an_unrescued_source_fails_the_run,
+        "the exit code followed the last SAVE, so a run where every source stayed failing and "
+        "nothing was saved exited 0 and read as done")
+
+    # --- 28f335ecefd3 item 3: T2 cohorts are built from SOURCE addresses only.
+    def cohorts_come_from_source_codes():
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "threads.py"))
+        fn = _defn(tree, "build")
+        if fn is None:
+            return False
+        for n in ast.walk(fn):
+            if (isinstance(n, ast.For) and isinstance(n.iter, ast.Name)
+                    and any(isinstance(m, ast.Attribute) and m.attr == "add"
+                            and isinstance(m.value, ast.Subscript)
+                            and getattr(m.value.value, "id", "") == "siblings"
+                            for m in ast.walk(n))):
+                return n.iter.id == "source_codes"
+        return False
+    net(a, "threads.build groups T2 cohorts over source codes, not the Annex/Law-widened set",
+        cohorts_come_from_source_codes,
+        "the widening was documented as reaching edge resolution only, while it also entered "
+        "every VIII.n and X.n code as a candidate sibling volume")
+
+    # --- 28f335ecefd3 item 5: canon_backup refuses to keep fewer than one snapshot.
+    def keep_zero_is_refused():
+        import canon_backup as CB
+        return all(_refuses(lambda k=k: CB.prune(k), ValueError) for k in (0, -1, -7))
+    net(a, "canon_backup.prune refuses keep < 1 instead of silently pruning nothing",
+        keep_zero_is_refused,
+        "`snaps[:-0]` is empty, so `--keep 0` pruned nothing and said nothing")
+
+    # --- 28f335ecefd3 item 6: an adjudication that excepts no law is refused, not priced as one.
+    def zero_laws_is_refused():
+        import rigor as RG
+        return (_refuses(lambda: RG.adjudication_beta(0, 4), ValueError)
+                and RG.adjudication_beta(1, 4)["laws_excepted"] == 1)
+    net(a, "adjudication_beta refuses zero laws touched instead of charging one",
+        zero_laws_is_refused,
+        "`max(1, ...)` priced an exception that bends nothing as if it bent one law")
 
 
 def drill_done_keys():
@@ -9587,6 +10100,53 @@ def _meta_ban_has_no_fall_through(src=None):
     return True
 
 
+def _meta_rewrite_never_launders():
+    """A block still carrying meta terms after the rewrite is REFUSED, and nothing was cut. -> bool.
+
+    Order b0aa0ba787e0 (owner 2026-09-28, "fix everything"): `generate.meta_rewrite` re-asks the
+    model to rewrite only the sentences the Charter P8 ban flags, before the unchanged guarded
+    `assert_in_universe` in main(). The easy wrong version of that helper launders: a sentence the
+    model could not clean is DROPPED, the block reads clean, the gate passes, and the evidence
+    the sentence carried is gone without anyone deciding it should be. Attacked with a stubbed
+    model (the real `call_ollama` is restored in `finally`; nothing reaches the GPU):
+
+      * a model that answers with the banned words still in -> text returned UNCHANGED, and the
+        P8 gate still refuses it;
+      * a model that answers with nothing at all -> text UNCHANGED;
+      * a clean rewrite the caller's `keep` check vetoes -> text UNCHANGED;
+      * control: a clean rewrite is taken, the gate passes, and every sentence that did not
+        offend is still there word for word -- so the net cannot hold by refusing everything.
+    """
+    import generate as GN
+    import pipeline as PL
+    text = ("◈ Heleka\nClass: Person\nShe led the raid on the temple. She was a dungeon boss "
+            "early in the campaign. She fled.\n◈ Bullbug\nClass: Person\nA minotaur held as a "
+            "slave; an optional NPC follower. He is jovial.")
+    real = GN.call_ollama
+    try:
+        GN.call_ollama = lambda *a, **k: ("1. She was a boss early in the campaign.\n"
+                                          "2. An optional NPC follower.")
+        out = GN.meta_rewrite({}, "", text, where="drill")
+        if out != text or not _refuses(lambda: PL.assert_in_universe(out, "drill"), ValueError):
+            return False
+        GN.call_ollama = lambda *a, **k: ""
+        if GN.meta_rewrite({}, "", text, where="drill") != text:
+            return False
+        GN.call_ollama = lambda *a, **k: (
+            "1. She was a foe of the heroes in the first days of their journey.\n"
+            "2. A minotaur held as a slave; an optional follower.")
+        if GN.meta_rewrite({}, "", text, where="drill", keep=lambda c: False) != text:
+            return False
+        out = GN.meta_rewrite({}, "", text, where="drill")
+        if PL.meta_violations(out):
+            return False
+        PL.assert_in_universe(out, "drill")
+        return all(s in out for s in ("She led the raid on the temple.", "She fled.",
+                                      "He is jovial.", "◈ Heleka", "◈ Bullbug"))
+    finally:
+        GN.call_ollama = real
+
+
 def _throttle_is_not_an_absence(tmp=None):
     """A silently-throttled probe must not read as "this page does not exist" (order 86b8dd723f90).
 
@@ -9884,6 +10444,181 @@ def _a_throttle_that_states_no_wait_still_benches():
             "pooled": []}
     if got != want:
         raise AssertionError("benches by wording: got %r, expected %r" % (got, want))
+    return True
+
+
+def _a_size_refusal_caps_and_a_length_stop_is_refused():
+    """Groq's OTPM refusal is a recognised size refusal, and a truncated reply is never accepted.
+
+    ORDER cb4fbedeb0db (owner ruling 2026-09-28, option (a)) and the foreman item "every pool
+    failure is recognised". Driven through the REAL `_ask_call` against a stand-in engine whose
+    `stream_chat` names `max_tokens` in its signature, as Cascade's engine now does:
+
+      * the OTPM wording is refused as a SIZE REFUSAL: not written to the unrecognised ledger,
+        not benched (the engine can cap), and the bucket learns its ceiling (1000);
+      * the next call to that bucket goes out with max_tokens = 90% of the ceiling;
+      * a capped reply the provider stopped on `length` is REFUSED even though it parses;
+      * a capped reply with NO finish reason is refused (fail closed);
+      * a capped reply that stopped on `stop` is accepted;
+      * an uncapped reply with no finish reason is accepted (the old behaviour, unchanged), and
+        an uncapped reply stopped on `length` is refused;
+      * a size refusal seen only in a FAILOVER event's `detail` still teaches the ceiling while
+        another candidate answers.
+    Nothing is sent to any provider; every stand-in is restored in `finally`.
+    """
+    import cascade_bridge as CB
+    otpm = ('{"error":{"message":"Request too large for model `qwen/qwen3.6-27b` in organization '
+            '`org_x` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, '
+            'Requested 2048. The request\'s expected output tokens exceed the enforced limit; '
+            'reduce max_tokens (or the request) and try again.","type":"tokens",'
+            '"code":"rate_limit_exceeded"}}')
+    if not (CB.size_refusal_limit(otpm) == 1000 and not CB.named_transient(otpm)
+            and not CB.permanent_refusal(otpm) and not CB.pool_exhausted(otpm)):
+        raise AssertionError("[fixture] the OTPM wording no longer classifies as a size refusal")
+    script = {"events": []}
+    sent, seen, buried = [], [], []
+
+    class _Model:
+        id, label, bucket = "drill:otpm", "Drill OTPM", "drill-otpm-bucket"
+
+    class _Router:
+        models = [_Model]
+
+        def claim(self, pool, n):
+            return [_Model]
+
+        def reserve(self, model):
+            return None
+
+        def release(self, model):
+            return None
+
+    class _Engine:
+        def stream_chat(self, messages, pool="coding", pinned=None, temperature=0.3,
+                        max_attempts=None, max_tokens=None):
+            sent.append(max_tokens)
+            for ev in script["events"]:
+                yield ev
+
+    def answer(finish, text='{"drill": 1}', has_key=True):
+        done = {"type": "done", "model_id": _Model.id, "label": _Model.label}
+        if has_key:
+            done["finish_reason"] = finish
+        return [{"type": "model", "label": _Model.label, "model_id": _Model.id},
+                {"type": "delta", "text": text}, done]
+
+    engine = _Engine()
+    keep = (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+            CB._bucket_of, CB.record_unrecognised, CB._bury, dict(CB._OUTPUT_CEILING))
+
+    def ask():
+        return _deliberately_failing(lambda: CB._ask_call("drill system", "drill prompt"))
+
+    got = {}
+    try:
+        CB.thread_engine = lambda: engine
+        CB._ROUTER = _Router()
+        CB._alive = lambda bucket: True
+        CB._tried_add = lambda bucket: None
+        CB._pace = lambda bucket: None
+        CB._clear = lambda bucket: None
+        CB._bucket_of = lambda name: _Model.bucket
+        CB.record_unrecognised = lambda bucket, err: seen.append(bucket)
+        CB._bury = lambda bucket, seconds=None: buried.append((bucket, seconds))
+        CB._OUTPUT_CEILING.clear()
+
+        script["events"] = [{"type": "error", "error": otpm}]
+        got["refusal"] = (ask(), list(seen), list(buried),
+                          CB._OUTPUT_CEILING.get(_Model.bucket), sent[-1])
+        script["events"] = answer("length")
+        got["capped length"] = (ask(), sent[-1])
+        script["events"] = answer(None, has_key=False)
+        got["capped no reason"] = ask()
+        script["events"] = answer("stop")
+        got["capped stop"] = ask()
+        CB._OUTPUT_CEILING.clear()
+        script["events"] = answer(None, has_key=False)
+        got["uncapped no reason"] = (ask(), sent[-1])
+        script["events"] = answer("length")
+        got["uncapped length"] = ask()
+        script["events"] = ([{"type": "failover", "from": _Model.label, "reason": "HTTP 413",
+                              "status": 413, "detail": otpm}] + answer("stop"))
+        got["failover detail"] = (isinstance(ask(), dict),
+                                  CB._OUTPUT_CEILING.get(_Model.bucket))
+        got["ledger"] = list(seen)
+    finally:
+        (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+         CB._bucket_of, CB.record_unrecognised, CB._bury, _ceil) = keep
+        CB._OUTPUT_CEILING.clear()
+        CB._OUTPUT_CEILING.update(_ceil)
+    want = {"refusal": (None, [], [], 1000, None),
+            "capped length": (None, 900),
+            "capped no reason": None,
+            "capped stop": got.get("capped stop") if isinstance(got.get("capped stop"), dict)
+            else "a dict",
+            "uncapped no reason": (got.get("uncapped no reason", (None,))[0]
+                                   if isinstance(got.get("uncapped no reason", (None,))[0], dict)
+                                   else "a dict", None),
+            "uncapped length": None,
+            "failover detail": (True, 1000),
+            "ledger": []}
+    if got != want:
+        raise AssertionError("size refusal / length stop: got %r, expected %r" % (got, want))
+    return True
+
+
+def _a_disabled_model_is_not_a_stale_ask():
+    """`catalogue_models.wanted` skips only entries explicitly `"enabled": false` (9fb8a6b10c1f).
+
+    A retired entry is not asked for, so it cannot be a stale id; a missing `enabled` is Cascade's
+    default of True and must still be checked, and so must an explicit True.
+    """
+    import catalogue_models as CM
+    cfg = {"models": [{"provider": "p", "model": "on-default"},
+                      {"provider": "p", "model": "on-explicit", "enabled": True},
+                      {"provider": "p", "model": "retired", "enabled": False},
+                      {"provider": "q", "model": "only-retired", "enabled": False}]}
+    got = CM.wanted(cfg)
+    want = {"p": ["on-default", "on-explicit"]}
+    if got != want:
+        raise AssertionError("wanted(): got %r, expected %r" % (got, want))
+    return True
+
+
+def _the_model_catalogue_finds_keys_where_cascade_keeps_them():
+    """`catalogue_models._merge_keys` reads secrets.json beside config.json (9fb8a6b10c1f).
+
+    Cascade migrated its keys out of config.json on 2026-09-28 and the catalogue, reading
+    config.json raw, reported 25 of 26 providers UNCONFIGURED. Driven in a temp dir: a key only in
+    secrets.json is found; a CASCADE_KEY_* variable wins over it; a key config.json still carries
+    is not overwritten by secrets.json; a provider in neither stays keyless (still UNCONFIGURED).
+    """
+    import json as _json
+    import shutil
+    import tempfile
+    import catalogue_models as CM
+    d = tempfile.mkdtemp(prefix="drill_catkeys_")
+    env_name = "CASCADE_KEY_DRILLENV"
+    old_env = os.environ.pop(env_name, None)
+    try:
+        cfgp = os.path.join(d, "config.json")
+        with open(cfgp, "w", encoding="utf-8") as f:
+            _json.dump({"providers": {}}, f)
+        with open(os.path.join(d, "secrets.json"), "w", encoding="utf-8") as f:
+            _json.dump({"drillsec": "k-sec", "drillenv": "k-sec2", "drillcfg": "k-sec3",
+                        "_comment": "ignored"}, f)
+        os.environ[env_name] = "k-env"
+        provs = {"drillsec": {}, "drillenv": {}, "drillcfg": {"api_key": "k-cfg"}, "drillnone": {}}
+        CM._merge_keys(provs, cfgp)
+        got = {k: CM._key_of(v) for k, v in provs.items()}
+    finally:
+        os.environ.pop(env_name, None)
+        if old_env is not None:
+            os.environ[env_name] = old_env
+        shutil.rmtree(d, ignore_errors=True)
+    want = {"drillsec": "k-sec", "drillenv": "k-env", "drillcfg": "k-cfg", "drillnone": None}
+    if got != want:
+        raise AssertionError("_merge_keys: got %r, expected %r" % (got, want))
     return True
 
 
@@ -10384,7 +11119,12 @@ def drill_binding_identity():
         import roll as R
         tmpdir = tempfile.mkdtemp(prefix="drill_roll_")
         saved = R.ROLL
+        # HALT-INDEPENDENT (group HALT, 2026-09-28): `roll.exclude` now asks the halt before it
+        # lands, so a standing live halt must not decide this net; the halt file is pointed at
+        # an empty scratch path for the duration.
+        saved_halt = ESC.HALT_FILE
         try:
+            ESC.HALT_FILE = os.path.join(tmpdir, "no-halt-here.json")
             R.ROLL = os.path.join(tmpdir, "SWEEP_ROLL.json")
             canon = [{"name": "Real Source", "status": "catalogued", "entry_count": 900}]
             with open(R.ROLL, "w", encoding="utf-8") as f:
@@ -10399,6 +11139,7 @@ def drill_binding_identity():
             with open(R.ROLL, encoding="utf-8") as f:
                 persisted = json.load(f)[0]["status"] == R.OUT_OF_SCOPE
         finally:
+            ESC.HALT_FILE = saved_halt
             R.ROLL = saved
             shutil.rmtree(tmpdir, ignore_errors=True)
         return untouched and persisted
@@ -10574,8 +11315,13 @@ def drill_binding_identity():
         "and a gate that cannot finish on clean code cannot judge a mutant -- the whole "
         "mutation mandate sat behind this")
 
+    # ALL THREE ARE CONTAINMENT MATCHES, so since the 2026-09-28 ruling (order 30854f11f322)
+    # they confirm only with a person's recorded confirmation of the exact pair -- which is what
+    # data/HOST_RULINGS.json carries for them, and what is passed here.
+    _ruled_three = [(s, n[0], {}) for s, n in confirmed]
     net(a, "a wiki that names itself after its bound source is CONFIRMED, not suspected",
-        lambda: all(BH.binding_verdict(s, n)["verdict"] == "CONFIRMED" for s, n in confirmed),
+        lambda: all(BH.binding_verdict(s, n, confirmed=_ruled_three)["verdict"] == "CONFIRMED"
+                    for s, n in confirmed),
         "these three re-filed at a bot every sweep for a fault no bot can repair")
     net(a, "a wiki serving something else entirely is MISBOUND",
         lambda: all(BH.binding_verdict(s, n)["verdict"] == "MISBOUND" for s, n in misbound),
@@ -10622,6 +11368,10 @@ def drill_binding_identity():
         "`except ImportError: note()` above the fail-closed arm caught an unimportable "
         "`pipeline` FIRST and fell through, so the gate was off and the chapter was published "
         "-- for every chapter of the run, while the run reported success")
+    net(a, "a block still carrying meta terms after the meta rewrite is refused, nothing cut",
+        _meta_rewrite_never_launders,
+        "order b0aa0ba787e0: the sentence-level rewrite before the P8 gate must leave an "
+        "unfixed sentence as it was; dropping it would pass the gate by discarding evidence")
     net(a, "a throttled probe is a problem, and a genuine 404 is still an honest absence",
         _throttle_is_not_an_absence,
         "without the outcome channel a throttled fetch and a page that does not exist both "
@@ -10637,6 +11387,19 @@ def drill_binding_identity():
         "order 58cbf2367aeb item 2: only a stated retry-after benched, so a bare 'rate limit "
         "exceeded' left the bucket claimable on the next pace tick -- less caution than a bucket "
         "that merely went silent gets")
+    net(a, "a size refusal teaches the bucket a ceiling, and a length-stopped reply is refused",
+        _a_size_refusal_caps_and_a_length_stop_is_refused,
+        "order cb4fbedeb0db: Groq's OTPM refusal sat in the unrecognised ledger 617 times and "
+        "nothing could cap output, so a capped reply would have arrived as truncated JSON with "
+        "nothing to say so -- Hard Rule 0's silent truncation")
+    net(a, "a model the config has disabled is not counted as a stale id, an enabled one is",
+        _a_disabled_model_is_not_a_stale_ask,
+        "order 9fb8a6b10c1f: retired entries held the HIGH provider-model standard red forever, "
+        "and a fix that also skipped entries with no `enabled` key would hide live stale ids")
+    net(a, "the model catalogue finds provider keys where Cascade now keeps them",
+        _the_model_catalogue_finds_keys_where_cascade_keeps_them,
+        "order 9fb8a6b10c1f: Cascade moved its keys to secrets.json and the catalogue, reading "
+        "config.json raw, called 25 of 26 working providers UNCONFIGURED")
     net(a, "a scope probe lands its own hosts, never the whole table it read",
         _scope_lands_key_wise,
         "SCOPE.json was read, then up to 155 wikis were crawled, then this run's copy of the "
@@ -10772,6 +11535,218 @@ def drill_binding_identity():
         _supersession_is_called,
         "splitting one code into two only ever ADDS unless the old order is resolved: the host "
         "is still unhealthy, so the vague order would sit open beside the precise one for ever")
+    _drill_owner_host_rulings(a)
+
+
+def _drill_owner_host_rulings(a):
+    """The owner's 2026-09-28 host rulings, each attacked (HOSTS group, handoff/owner0928).
+
+    Nine nets, one per guard added under that ruling: containment no longer confirms a binding
+    by itself (30854f11f322); a standing ruling settles a binding order only while the measured
+    identity still matches (5f25aa63a41c, efd2b537f26d) and the detector actually asks it; a
+    shelved host is not a preflight row (32eaec248adf, 8b3f2911fa0c); a shelved host is not mined
+    and its entities are counted as unmined (9029a484a13c); an extra host from hosts.py is
+    mined only when its own sitename confirms it (3fb312a72435); a ruled unbinding survives host
+    resolution (f07b7d538ed1, f84cb75edcfe); a struck entry is not queued for prose
+    (c9666b0bd8d9); and hostcheck persists every hit title (a8e02f3bbf76). All offline.
+    """
+    import binding_health as BH
+
+    def containment_alone_does_not_confirm():
+        # The order's own example: a short generic sitename inside a longer source name.
+        if BH.binding_verdict("Prime Wiki", ["Prime World: Equipment"])["verdict"] != \
+                "UNCLASSIFIED":
+            return False
+        # A genuine containment binding with NO confirmation is not confirmed either ...
+        eb = ("Eberron Wiki", ["Eberron: Rising from the Last War"])
+        if BH.binding_verdict(*eb)["verdict"] != "UNCLASSIFIED":
+            return False
+        # ... a confirmation of a DIFFERENT sitename does not carry over ...
+        if BH.binding_verdict(*eb, confirmed=[("Eberron Wikia", eb[1][0], {})])["verdict"] \
+                != "UNCLASSIFIED":
+            return False
+        # ... the exact confirmed pair does, and says it rests on the ruling ...
+        v = BH.binding_verdict(*eb, confirmed=[(eb[0], eb[1][0], {})])
+        if v["verdict"] != "CONFIRMED" or v.get("confirmed_by_ruling") is not True:
+            return False
+        # ... and a whole-name match still confirms on the names alone (no over-correction).
+        w = BH.binding_verdict("Mass Effect Wiki", ["Mass Effect"])
+        return w["verdict"] == "CONFIRMED" and w.get("confirmed_by_ruling") is False
+    net(a, "containment alone does not CONFIRM a binding",
+        containment_alone_does_not_confirm,
+        "token_set_ratio scores 'prime' inside 'prime world equipment' at 100, so a short "
+        "generic sitename confirmed a misbinding and filed it as unfixable (order 30854f11f322)")
+
+    _doc = {"shelved_hosts": {"shelved.invalid": {"why": "policy"}},
+            "confirmed_bindings": [{"host": "w.invalid", "sitename": "W Wiki",
+                                    "source": "W: the Long Name", "entries": "feature-level"}]}
+
+    def a_ruling_settles_only_the_identity_it_was_made_about():
+        good = {"verdict": "CONFIRMED", "sitename": "W Wiki", "matched": "W: the Long Name"}
+        if (BH.standing_ruling("w.invalid", good, doc=_doc) or {}).get("kind") != \
+                "feature-level":
+            return False
+        if (BH.standing_ruling("shelved.invalid", {}, doc=_doc) or {}).get("kind") != "shelved":
+            return False
+        renamed = dict(good, sitename="W Wiki (new owner)")
+        misbound = dict(good, verdict="MISBOUND")
+        rebound = dict(good, matched="Some Other Source")
+        return (BH.standing_ruling("w.invalid", renamed, doc=_doc) is None
+                and BH.standing_ruling("w.invalid", misbound, doc=_doc) is None
+                and BH.standing_ruling("w.invalid", rebound, doc=_doc) is None
+                and BH.standing_ruling("other.invalid", good, doc=_doc) is None
+                and BH.standing_ruling("w.invalid", good, doc={}) is None)
+    net(a, "a standing ruling settles a binding only while the measured identity still matches",
+        a_ruling_settles_only_the_identity_it_was_made_about,
+        "a ruling that outlived a renamed wiki or a rebound source would silence a real "
+        "misbinding for ever")
+
+    net(a, "the binding detector consults the owner's standing rulings",
+        lambda: _reaches_call(_ast_of(os.path.join(_srcdir(), "workorders.py")),
+                              "binding_health.standing_ruling", ("sweep_detectors",)),
+        "a ruling nobody reads re-files the settled order every sweep -- the furniture the "
+        "ruling was made to remove")
+
+    def a_shelved_host_is_not_a_preflight_row():
+        import feats as F
+        import health as _H
+        real_api, real_sh, real_q = F.api, BH.shelved_hosts, BH.quarantined
+
+        def api(host, params, retries=2, outcome=None):
+            if outcome is not None:
+                outcome.clear()
+                outcome["ok"], outcome["why"] = False, "http-403"
+            return None
+        try:
+            F.api, BH.quarantined = api, (lambda *a_, **k_: {})
+            BH.shelved_hosts = lambda doc=None: {}
+            control = _H.check_api_paths()
+            BH.shelved_hosts = lambda doc=None: {"www.dandwiki.com": {"option": "drill"}}
+            ruled = _H.check_api_paths()
+        finally:
+            F.api, BH.shelved_hosts, BH.quarantined = real_api, real_sh, real_q
+        # The control proves the probe can SEE the host (otherwise "absent" proves nothing),
+        # the ruled run must drop exactly that row and keep every other family's.
+        saw = any("www.dandwiki.com" in r[1] for r in control)
+        return (saw and not any("www.dandwiki.com" in r[1] for r in ruled)
+                and len(ruled) == len(control) - 1 and bool(ruled))
+    net(a, "a shelved host is reported, not probed, by the preflight",
+        a_shelved_host_is_not_a_preflight_row,
+        "dandwiki's API is closed by site policy; a quarantine TTL let the row flicker red "
+        "every day, which is how a preflight stops being read (orders 32eaec248adf, "
+        "8b3f2911fa0c)")
+
+    import feats as F
+    recs = [("r1", {"source": "Shelved Source", "entries": [{"name": "A"}, {"name": "B"}]}),
+            ("r2", {"source": "Lost Mines of Phandelver", "entries": [{"name": "Sildar"}]}),
+            ("r3", {"source": "Mass Effect", "entries": [{"name": "Shepard"}]})]
+    hosts_ = {"Shelved Source": "shelved.invalid", "Lost Mines of Phandelver": "fr.invalid",
+              "Mass Effect": "me.invalid"}
+    sitenames = {"lost.invalid": "Lostpedia", "mass.invalid": "Mass Effect Wiki",
+                 "wiki.invalid": "Wikipedia"}
+    extras = {"Lost Mines of Phandelver": ["lost.invalid", "shelved.invalid"],
+              "Mass Effect": ["mass.invalid", "wiki.invalid"]}
+
+    def admit(src, h):
+        v = BH.binding_verdict(sitenames.get(h), [src])
+        return v["verdict"] == "CONFIRMED", v["verdict"]
+
+    def an_extra_host_is_mined_only_when_its_sitename_confirms_it():
+        jobs, t = F._roll_jobs(recs, hosts_, shelved={"shelved.invalid": {}}, extras=extras,
+                               admit=admit)
+        on = {(h, s) for h, s, _ in jobs}
+        if ("mass.invalid", "Mass Effect") not in on:
+            return False                       # wired: a confirmed extra IS mined
+        if any(h in ("lost.invalid", "wiki.invalid", "shelved.invalid") for h, _ in on):
+            return False                       # Lostpedia, Wikipedia, a shelved host: withheld
+        withheld = {h for _, h, _ in t["extra_withheld"]}
+        if withheld != {"lost.invalid", "wiki.invalid", "shelved.invalid"}:
+            return False                       # and every one of them is NAMED, not dropped
+        none_gate, _t = F._roll_jobs(recs, hosts_, extras=extras, admit=None)
+        return not any(h in ("lost.invalid", "mass.invalid") for h, _, _ in none_gate)
+    net(a, "an extra host is mined only when its own sitename confirms it",
+        an_extra_host_is_mined_only_when_its_sitename_confirms_it,
+        "SOURCE_HOSTS.json admitted lost.fandom.com -- Lostpedia -- for 'Lost Mines of "
+        "Phandelver' on roster lift; wiring hosts.py in blind would mine the TV show into a D&D "
+        "adventure (order 3fb312a72435)")
+
+    def a_shelved_primary_is_counted_unmined_not_mined():
+        jobs, t = F._roll_jobs(recs, hosts_, shelved={"shelved.invalid": {}})
+        return (not any(s == "Shelved Source" for _, s, _ in jobs)
+                and t["shelved_entities"] == 2
+                and t["shelved"] == {"shelved.invalid": ["Shelved Source"]}
+                and any(s == "Mass Effect" for _, s, _ in jobs))
+    net(a, "a shelved host is not mined, and its entities are counted as unmined",
+        a_shelved_primary_is_counted_unmined_not_mined,
+        "a host refusing anonymous API access by policy was mined every roll into 805 empty "
+        "caches, while dropping its entities silently would be a smaller universe (9029a484a13c)")
+
+    def a_ruled_unbinding_survives_host_resolution():
+        d = tempfile.mkdtemp(prefix="drill_hosts_")
+        saved = (F.HOSTS, F.ruled_bindings, F.alive_verdict, F._HOSTS_DENIED)
+        try:
+            F.HOSTS = os.path.join(d, "WIKI_HOSTS.json")
+            with open(F.HOSTS, "w", encoding="utf-8") as fh:
+                json.dump({"Star Realms": "starrealms.fandom.com"}, fh)
+            F.ruled_bindings = lambda: {"Star Realms": None}
+            F.alive_verdict = lambda h: (True, "siteinfo answered")
+            rs = [("x", {"source": "Star Realms", "entries": [
+                {"name": "Blob", "wiki_page": "https://starrealms.fandom.com/wiki/Blob"}]})]
+            got = F.resolve_hosts(rs, verify=True)
+            with open(F.HOSTS, encoding="utf-8") as fh:
+                landed = json.load(fh)
+            return ("Star Realms" in got and got["Star Realms"] is None
+                    and landed.get("Star Realms") is None)
+        finally:
+            F.HOSTS, F.ruled_bindings, F.alive_verdict, F._HOSTS_DENIED = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a ruled unbinding survives host resolution",
+        a_ruled_unbinding_survives_host_resolution,
+        "a null is re-probed by design and the slug guess answers -- as 'The Brain World "
+        "Wikia' -- so without the ruling first the wrong wiki is rebound on the next --hosts "
+        "(orders f07b7d538ed1, f84cb75edcfe)")
+
+    def a_struck_entry_is_not_queued_for_prose():
+        import manifest_builder as MB
+        rec = {"mode": "web", "entries": [
+            {"name": "Kept Hero", "category": "Persons (named individual characters, real or "
+                                              "fictional)", "description": "a hero"},
+            {"name": "Struck Founder", "category": "Persons (named individual characters, "
+                                                   "real or fictional)",
+             "description": "a drink founder", "excluded": "contamination"}]}
+        jobs = MB.build_jobs_for_source({"max_entries_per_call": 30},
+                                        {"name": "Drill Source"}, rec, "Z.9")
+        text = json.dumps(jobs)
+        return bool(jobs) and "Kept Hero" in text and "Struck Founder" not in text
+    net(a, "a struck entry is not queued for a chapter",
+        a_struck_entry_is_not_queued_for_prose,
+        "the strike stopped at the catalogue: 'Logan Paul', catalogued off the Prime Hydration "
+        "drink wiki, would have reached a volume about a fantasy equipment list (c9666b0bd8d9)")
+
+    def hostcheck_persists_every_hit_title():
+        import hostcheck as HC
+        import endpoint as EP
+        names = ["Title %02d" % i for i in range(12)]
+        saved = (EP.detect, EP.fetch_raw_verdict, HC._api, HC._get)
+        try:
+            EP.detect = lambda h, *a_, **k_: {"mode": EP.MODE_RAW}
+            EP.fetch_raw_verdict = lambda h, ns, **_kw: ({n: "text" for n in ns},
+                                                  {"probed": len(ns), "refused": 0,
+                                                   "errored": 0, "not_found": 0})
+            raw = HC.probe("raw.invalid", names) or {}
+            EP.detect = lambda h, *a_, **k_: {"mode": "api"}
+            HC._api = lambda h: "https://api.invalid/api.php"
+            HC._get = lambda url, *a_, **k_: {"query": {"pages": {
+                str(i + 1): {"pageid": i + 1, "title": n} for i, n in enumerate(names)}}}
+            api_ = HC.probe("api.invalid", names) or {}
+        finally:
+            EP.detect, EP.fetch_raw_verdict, HC._api, HC._get = saved
+        return (len(raw.get("examples") or []) == 12 and raw.get("hits") == 12
+                and len(api_.get("examples") or []) == 12 and api_.get("hits") == 12)
+    net(a, "hostcheck persists every hit title, not the first five",
+        hostcheck_persists_every_hit_title,
+        "`examples` is the only title list that reaches HOST_FITNESS.json and it was the "
+        "alphabetical head -- a ranking then a truncation (Hard Rule 0, order a8e02f3bbf76)")
 
 
 def drill_policy():
@@ -12535,17 +13510,98 @@ def _guards_are_wired_where_claimed(src=None):
                for f, (token, entries) in want.items())
 
 
+_GATE_CLOSED_SHELF = os.path.join(HERE, "state", "drill_gate_closed_shelf.json")
+
+
+def _shelf_now(root):
+    """-> (catalog entry count, {chapter file name: mtime}) for the tree at `root`. Raises on an
+    unreadable catalog, which the caller's net grades as a breach: a shelf nobody could read has
+    not been shown to be still."""
+    cat = os.path.join(root, "output", "index", "catalog.json")
+    raw = os.path.join(root, "output", "raw")
+    n_cat = 0
+    if os.path.exists(cat):
+        with open(cat, encoding="utf-8") as fh:
+            n_cat = len(json.load(fh))
+    files = {}
+    if os.path.isdir(raw):
+        for f in os.listdir(raw):
+            full = os.path.join(raw, f)
+            if os.path.isfile(full):
+                files[f] = os.path.getmtime(full)
+    return n_cat, files
+
+
+def _gate_closed_shelf_holds(root, gate_open, record_path, now=None):
+    """-> (held, why). WHAT A CLOSED PROSE GATE PROMISES ONCE THE LIBRARY HAS PROSE.
+
+    SWEEP66 QUESTION 1 (order 253d116215ab), decided 2026-09-28 under the owner's "fix
+    everything" instruction, option (a): a closed gate means NO NEW CHAPTERS ARE ARRIVING, not
+    "no chapters exist". The old net demanded an empty catalog and an empty `output/raw` whenever
+    the gate was closed. That was right before the first chapter and has been vacuous since the
+    2026-09-16 lift -- and it would have turned against the library the moment anybody closed
+    the gate again: every chapter already written would BREACH it, and a breached net halts the
+    whole library at OWNER. Re-closing a gate must be the safe act it is meant to be.
+
+    So the shelf is measured against the moment the gate was seen closed:
+      * on the FIRST sighting of a closed gate the shelf is recorded in `record_path` (catalog
+        count, every chapter's name) -- and any chapter NEWER than config.yaml's last edit is
+        refused there and then, because the gate's closing edit is config.yaml's newest, so such
+        a chapter arrived after the gate shut and must not be baselined in;
+      * on every later sighting, a chapter not in the record, a recorded chapter rewritten
+        since, or a catalog that grew, is a writer the gate did not stop;
+      * a record that cannot be read is a breach (fail closed), never a fresh baseline;
+      * when the gate is seen OPEN, a closed-gate record is retired (overwritten, not deleted),
+        so the next closing is measured from its own moment.
+    """
+    import silence as _si
+    now = time.time() if now is None else now
+    try:
+        with open(record_path, encoding="utf-8") as fh:
+            rec = json.load(fh)
+    except FileNotFoundError:
+        _ = "silence-exempt: no shelf record yet is the normal first state"
+        rec = None
+    except Exception as e:
+        _ = "silence-exempt: an unreadable record is reported as this net's breach, by name"
+        return False, "the closed-gate shelf record %s cannot be read (%s)" % (
+            record_path, type(e).__name__)
+    if gate_open:
+        if isinstance(rec, dict) and "closed_seen_at" in rec:
+            _si.write_json(record_path, {"open_seen_at": now, "retired": rec})
+        return True, "gate open: nothing to reconcile"
+    n_cat, files = _shelf_now(root)
+    if not (isinstance(rec, dict) and "closed_seen_at" in rec):
+        cfg = os.path.join(root, "config.yaml")
+        closed_edit = os.path.getmtime(cfg) if os.path.exists(cfg) else now
+        after_close = sorted(f for f, m in files.items() if m > closed_edit)
+        rec = {"closed_seen_at": now, "closed_edit_at": closed_edit, "n_cat": n_cat,
+               "raw": sorted(set(files) - set(after_close))}
+        _si.write_json(record_path, rec)
+    else:
+        after_close = []
+    new = sorted(set(files) - set(rec.get("raw") or []))
+    changed = sorted(f for f in (rec.get("raw") or [])
+                     if f in files and files[f] > float(rec.get("closed_seen_at", now)))
+    grown = n_cat > int(rec.get("n_cat", 0))
+    held = not new and not grown and not changed and not after_close
+    why = ("the shelf is as it stood when the gate was seen closed" if held else
+           "chapters arrived after the gate closed: new %s, rewritten %s, catalog %d -> %d"
+           % (sorted(set(new) | set(after_close)), changed, int(rec.get("n_cat", 0)), n_cat))
+    return held, why
+
+
 def _catalog_matches_disk(root=None):
     """Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
 
     The docstring said "and vice versa" and the code walked one way only, catalog -> disk,
     which is the smaller half. A chapter the catalog has LOST is invisible to that walk, and
-    an uncatalogued chapter in `output/raw` is the more alarming of the two conditions: the
-    prose gate is closed by owner ruling, so a file arriving there is prose from a writer
-    nobody knows about — the incident this whole layer was built after, in its early form.
-    `gate_claim_matches_reality` two nets up counts the same directory but only demands it
-    be EMPTY while the gate is shut; this one holds once the gate is open again, which is
-    when it starts to matter. A net's printed name is what people trust; it may not promise
+    an uncatalogued chapter in `output/raw` is the more alarming of the two conditions: a
+    file there that no catalog entry names is prose from a writer nobody knows about — the
+    incident this whole layer was built after, in its early form. `gate_claim_matches_reality`
+    two nets up asks a different question of the same directory -- whether anything NEW
+    arrived after the prose gate was seen closed (sweep66 question 1, order 253d116215ab) --
+    and this one holds whichever way the gate stands. A net's printed name is what people trust; it may not promise
     more than the code does. (Run #34, MINOR.)
     """
     root = root or HERE
@@ -12559,7 +13615,14 @@ def _catalog_matches_disk(root=None):
         p = p.replace("\\", os.sep).replace("/", os.sep)
         if not p:
             continue
-        full = p if os.path.isabs(p) else os.path.join(root, p)
+        # AN ABSOLUTE PATH IS NOT A BOOK ON THIS SHELF (order d2f103634cf1 item 3, owner ruling
+        # 2026-09-28 "fix everything"). This resolved an absolute raw_path against the LIVE
+        # filesystem whatever `root` was, so a sandboxed check could be answered by a live file.
+        # The only writer (generate.py) writes paths relative to the kit, so an absolute one is
+        # a report that has drifted from the shelf it describes, and it fails the check.
+        if os.path.isabs(p) or os.path.splitdrive(p)[0]:
+            return False
+        full = os.path.join(root, p)
         if not os.path.exists(full):
             return False                   # a book the library thinks it has
         claimed.add(os.path.normcase(os.path.basename(full)))
@@ -12586,18 +13649,61 @@ def drill_inspector():
     a = "THE INSPECTOR — is everything actually as it is reported to be?"
 
     def gate_claim_matches_reality():
-        """The gate says closed. Is prose ACTUALLY not being produced?"""
-        if PG.gate_open()[0]:
-            return True                     # gate open: nothing to reconcile
-        cat = os.path.join(HERE, "output", "index", "catalog.json")
-        raw = os.path.join(HERE, "output", "raw")
-        n_cat = len(json.load(open(cat, encoding="utf-8"))) if os.path.exists(cat) else 0
-        n_raw = len([f for f in os.listdir(raw)
-                     if os.path.isfile(os.path.join(raw, f))]) if os.path.isdir(raw) else 0
-        return n_cat == 0 and n_raw == 0
-    net(a, "the gate says CLOSED and the library is genuinely empty of prose",
+        """A closed gate means no NEW prose is arriving. See `_gate_closed_shelf_holds` (sweep66
+        question 1, order 253d116215ab): re-closing the gate over a library that already has
+        chapters is not a breach; a chapter arriving after it closed is."""
+        held, why = _gate_closed_shelf_holds(HERE, PG.gate_open()[0], _GATE_CLOSED_SHELF)
+        if not held:
+            raise AssertionError(why)
+        return True
+    net(a, "a CLOSED prose gate means no NEW chapters are arriving",
         gate_claim_matches_reality,
         "a closed gate with chapters still arriving would mean a writer nobody knows about")
+
+    def re_closing_the_gate_over_written_prose_is_not_a_halt():
+        """The rule above, driven on a scratch shelf so it can be watched in both directions
+        while the real gate is open. Two chapters exist and the gate closes: HELD, twice. A third
+        chapter arrives: BREACHED. The gate opens (record retired), closes again over three
+        chapters: HELD. And a chapter written after config.yaml's closing edit but before the
+        first sighting is refused rather than baselined in."""
+        d = tempfile.mkdtemp(prefix="drill_gate_shelf_")
+        try:
+            raw = os.path.join(d, "output", "raw")
+            os.makedirs(raw)
+            os.makedirs(os.path.join(d, "output", "index"))
+            rec = os.path.join(d, "shelf.json")
+            cfg = os.path.join(d, "config.yaml")
+            with open(cfg, "w", encoding="utf-8") as fh:
+                fh.write("prose_enabled: false\n")
+            os.utime(cfg, (1000.0, 1000.0))
+
+            def chapter(name, when=500.0):
+                p = os.path.join(raw, name)
+                with open(p, "w", encoding="utf-8") as fh:
+                    fh.write("# a chapter\n")
+                os.utime(p, (when, when))
+            for n in ("a.md", "b.md"):
+                chapter(n)
+            with open(os.path.join(d, "output", "index", "catalog.json"), "w",
+                      encoding="utf-8") as fh:
+                json.dump({"a": {}, "b": {}}, fh)
+            steps = [_gate_closed_shelf_holds(d, False, rec, now=2000.0)[0],
+                     _gate_closed_shelf_holds(d, False, rec, now=2100.0)[0]]
+            chapter("c.md", when=2200.0)
+            steps.append(_gate_closed_shelf_holds(d, False, rec, now=2300.0)[0])
+            steps.append(_gate_closed_shelf_holds(d, True, rec, now=2400.0)[0])
+            os.utime(cfg, (2450.0, 2450.0))      # the re-closing edit to config.yaml
+            steps.append(_gate_closed_shelf_holds(d, False, rec, now=2500.0)[0])
+            with open(rec, "w", encoding="utf-8") as fh:
+                json.dump({"open_seen_at": 2600.0}, fh)
+            chapter("d.md", when=2700.0)          # after config.yaml's closing edit
+            steps.append(_gate_closed_shelf_holds(d, False, rec, now=2800.0)[0])
+            return steps == [True, True, False, True, True, False]
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "re-closing the prose gate over written chapters holds; a chapter arriving after breaches",
+        re_closing_the_gate_over_written_prose_is_not_a_halt,
+        "sweep66 question 1: 'no chapters at all' made re-closing the gate a library-wide halt")
 
     catalog_matches_disk = _catalog_matches_disk
     net(a, "the catalog and the shelf agree in BOTH directions", catalog_matches_disk,
@@ -12956,6 +14062,213 @@ def drill_inspector():
     net(a, "the meta-language ban refuses the wiki showing through the prose",
         the_meta_ban_sees_the_wiki_it_was_mined_from,
         "'the DigimonWiki describes it as a stub' is the source's own page leaking into the book")
+
+    # ---- owner ruling 2026-09-28 ("fix everything"), group CORPUS -------------------------
+    def the_meta_ban_refuses_a_maintenance_box_written_as_fact():
+        """Order cb31bf2707ad, option (b). II_K_2_Persons_1411_1420.md passed every gate while
+        saying of Hosoda that "the entry notes that content related to Koala-kai ... should be
+        split into dedicated pages" -- the wiki's "What's needed:" box paraphrased as a fact.
+        Both directions: those refuse, and an army that splits still passes."""
+        import pipeline as PL
+        leaks = ("The entry notes that content related to Koala-kai should be split into "
+                 "dedicated pages.",
+                 "What's needed: split off content into pages for each group.",
+                 "It can be discussed on the associated discussion page.")
+        if any(not PL.meta_violations(s) for s in leaks):
+            return False
+        return not PL.meta_violations(
+            "The legion split into two columns at the ford and the page of the Emperor rode "
+            "between them.")
+    net(a, "the meta-language ban refuses a wiki maintenance box written as fact",
+        the_meta_ban_refuses_a_maintenance_box_written_as_fact,
+        "'the entry notes that content should be split into dedicated pages' is an editor's "
+        "backlog published as a fact about a being")
+
+    def the_miner_drops_maintenance_boxes():
+        """Order cb31bf2707ad, option (a). Two INDEPENDENT layers, each attacked alone: a box
+        whose class marks it (worded so no text rule knows it) must not reach the description,
+        and a known template sentence in a plain <p> must be cut from the lead it heads."""
+        import wiki_source as WS
+        boxed = ('<div class="mw-parser-output"><center><table class="messagebox"><tbody><tr>'
+                 '<td><div><b>Editors wanted</b><hr/><p><b>Wanted:</b> rewrite the plot '
+                 'section completely and merge the two infobox variants.</p></div></td></tr>'
+                 '</tbody></table></center><p>Hosoda is a member of the Koala-kai, a street '
+                 'gang in the city of Tokyo.</p></div>')
+        got = WS._paragraphs(boxed, 900)
+        if "rewrite" in got or "Hosoda is a member" not in got:
+            return False
+        plain = ('<p>This article is a stub . You can help Halo Alpha by expanding it . '
+                 'Jameson Locke is a SPARTAN-IV in the United Nations Space Command.</p>')
+        got = WS._paragraphs(plain, 900)
+        return got.startswith("Jameson Locke") and "stub" not in got
+    net(a, "the miner drops wiki maintenance boxes before they become descriptions",
+        the_miner_drops_maintenance_boxes,
+        "202 Digimon descriptions opened with the wiki's 'What's needed:' box and prose "
+        "repeated it as fact")
+
+    def generate_holds_back_a_furniture_job():
+        """Order cb31bf2707ad, the writer's own layer. generate.py writes from the MANIFEST, and
+        a manifest built before the miner fix still carries the banners, so the writer must ask
+        about every pending job's entries itself, from `main`, before the model is asked."""
+        import wiki_source as WS
+        hosoda = ("What's needed: split off content Koala-kai, etc. into pages for each group "
+                  "This is a list of characters from the Digimon anime series.")
+        if not WS.is_banner_paragraph(hosoda):
+            return False
+        if WS.strip_banner_prefix("Jameson Locke is a SPARTAN-IV.") != \
+                "Jameson Locke is a SPARTAN-IV.":
+            return False
+        tree = _ast_of(os.path.join(_srcdir(), "generate.py"))
+        return (_reaches_call(tree, "_furniture", ("main",))
+                and _reaches_call(tree, "wiki_source.strip_banner_prefix", ("main",)))
+    net(a, "generate holds back a job whose entry is wiki furniture",
+        generate_holds_back_a_furniture_job,
+        "the running writer reads a manifest older than the repair")
+
+    def a_stale_holder_cannot_revert_a_repaired_description():
+        """Order cb31bf2707ad's repair, defended. phase_entrypass holds its load-time `rec` for
+        a whole phase and write_record folds `description` for every entry, so a description
+        repaired on disk mid-phase came straight back on the next batch. The watermark must
+        keep the repair AND still land a description the holder itself edited."""
+        import tempfile
+        import pipeline as PL
+        d = tempfile.mkdtemp(prefix="drill_desc_")
+        p = os.path.join(d, "x.json")
+        real_log = PL.log
+        PL.log = lambda *a, **k: None
+        try:
+            base = {"source": "X", "entries": [
+                {"name": "A", "description": "What's needed: split. A is a cat."},
+                {"name": "B", "description": "b"}]}
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(base, f)
+            with open(p, encoding="utf-8") as f:
+                mem = json.load(f)
+            PL._remember_top_keys(p, mem)
+            disk = json.loads(json.dumps(base))
+            disk["entries"][0]["description"] = "A is a cat."
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(disk, f)
+            mem["entries"][1]["description"] = "b, edited by the holder"
+            mem["entries"][0]["magnitude"] = "unassayed"
+            if not (PL.write_record(p, mem) and PL.write_record(p, mem)):
+                return False
+            with open(p, encoding="utf-8") as f:
+                got = json.load(f)["entries"]
+            return (got[0]["description"] == "A is a cat."
+                    and got[0].get("magnitude") == "unassayed"
+                    and got[1]["description"] == "b, edited by the holder")
+        finally:
+            PL.log = real_log
+            PL._TOP_SNAPSHOT.pop(os.path.abspath(p), None)
+            PL._DESC_SNAPSHOT.pop(os.path.abspath(p), None)
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a stale holder's description cannot revert a repaired one",
+        a_stale_holder_cannot_revert_a_repaired_description,
+        "the banner repair of 3,800 descriptions would be undone by the next entrypass batch")
+
+    def topic_category_subroom_stay_three_axes():
+        """Order b186bc4dad8f / owner ruling 2026-09-08 ruling 10(a): the commissioned
+        regression net. A run once rewrote 7,909 topics to match their categories. So: the
+        classifier must keep asking the three questions separately, and nothing in src/ may
+        assign an entry's `topic` from an expression that reads `category`."""
+        import ast
+        import pipeline as PL
+        props = PL.ENTRY_SCHEMA["properties"]["results"]["items"]
+        if not {"category", "topic", "subroom"} <= set(props.get("required") or ()):
+            return False
+        if set(PL.TOPICS) == {c.split(" ")[0] for c in PL.CATEGORIES}:
+            return False
+        for _label, fn in _src_py_files(_srcdir()):
+            tree = _ast_of(fn)
+            for node in ast.walk(tree):
+                if not isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):
+                    continue
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                for t in targets:
+                    if (isinstance(t, ast.Subscript) and isinstance(t.slice, ast.Constant)
+                            and t.slice.value == "topic" and node.value is not None
+                            and "category" in ast.dump(node.value)):
+                        return False
+        return True
+    net(a, "topic, category and subroom stay three axes",
+        topic_category_subroom_stay_three_axes,
+        "7,909 topics were once rewritten to match their categories, emptying Powers A-Z")
+
+    def an_unbanded_ceiling_is_re_asked_then_recorded():
+        """Order 55d0be76b99b, option (b): 133 of 210 sources held a ceiling with no band and
+        `todo` (keyed on the ceiling alone) never re-asked them. Such a record must be ASKED; a
+        banded one must not; and once an `unbanded` verdict is recorded against a cast, it is
+        re-asked only when that cast grows."""
+        import pipeline as PL
+        def rec(src, ceiling, band, n=3, **syn):
+            return ("/nonexistent/%s.json" % src,
+                    {"source": src, "entries": [{"name": "e%d" % i} for i in range(n)],
+                     "synthesis": dict({"ceiling_entity": ceiling,
+                                        "provisional_magnitude": band}, **syn)})
+        recs = [rec("Unbanded", "The Island", "unassayed"),
+                rec("Banded", "Kandrakar", "M4"),
+                rec("Settled", "Hex", "unassayed", unbanded=True, unassayable_cast_size=3),
+                rec("Grown", "Hex", "unassayed", n=5, unbanded=True,
+                    unassayable_cast_size=3)]
+        asked = []
+        saved = {k: getattr(PL, k) for k in ("records", "ask_pool_first", "save_state",
+                                             "update_handoff", "log", "synthesis_blocks")}
+        try:
+            PL.records = lambda: recs
+            PL.synthesis_blocks = lambda r: ([r["entries"]], {})
+            PL.ask_pool_first = lambda c, s, prompt, *a, **k: asked.append(
+                prompt.split("\n")[0]) or None
+            PL.save_state = lambda st: True
+            PL.update_handoff = lambda st: None
+            PL.log = lambda *a, **k: None
+            st = {"done": {"synthesis": ["Settled", "Grown", "Unbanded"]}, "failed": {},
+                  "units_done": 0}
+            PL.phase_synthesis({}, st)
+        finally:
+            for k, v in saved.items():
+                setattr(PL, k, v)
+        return asked == ["SOURCE: Unbanded", "SOURCE: Grown"]
+    net(a, "a ceiling with no band is re-asked, and then only when its cast grows",
+        an_unbanded_ceiling_is_re_asked_then_recorded,
+        "133 unbanded sources sat in a state nothing re-visited")
+
+    def entrypass_keeps_the_physiology_it_pays_for():
+        """Order 0aceab8473e1, option (a): ENTRY_SCHEMA requires `physiology` on every call and
+        the writer dropped it. A people's stated physiology must be stored and carried by the
+        record writer; one offered for a person must not be."""
+        import pipeline as PL
+        if "physiology" not in PL.MERGED_ENTRY_FIELDS:
+            return False
+        r = {"source": "S", "entries": [{"name": "the Krogan", "description": "a people"},
+                                        {"name": "Wrex", "description": "a warlord"}]}
+        written = []
+        saved = {k: getattr(PL, k) for k in ("records", "ask_pool_first", "save_state",
+                                             "update_handoff", "log", "write_record")}
+        ans = {"results": [
+            {"index": 0, "category": 8, "scale_note": "", "magnitude": "unassayed",
+             "topic": "Peoples", "subroom": "none", "physiology": "They live for centuries."},
+            {"index": 1, "category": 1, "scale_note": "", "magnitude": "unassayed",
+             "topic": "Persons", "subroom": "none", "physiology": "Redundant organs."}]}
+        try:
+            PL.records = lambda: [("/nonexistent/s.json", r)]
+            PL.ask_pool_first = lambda *a, **k: ans
+            PL.write_record = lambda p, rec: written.append(json.loads(json.dumps(rec))) or True
+            PL.save_state = lambda st: True
+            PL.update_handoff = lambda st: None
+            PL.log = lambda *a, **k: None
+            PL.phase_entrypass({}, {"done": {}, "failed": {}, "units_done": 0})
+        finally:
+            for k, v in saved.items():
+                setattr(PL, k, v)
+        if not written:
+            return False
+        e = written[-1]["entries"]
+        return (e[0].get("physiology") == "They live for centuries."
+                and "physiology" not in e[1])
+    net(a, "entrypass keeps the physiology the schema makes it pay for",
+        entrypass_keeps_the_physiology_it_pays_for,
+        "every entrypass call was charged for a field no record ever carried")
 
     def liveness_sees_its_own_founding_example():
         """THE DETECTOR MUST CATCH THE CASE IT WAS WRITTEN FOR. `liveness.py:12` names
@@ -14866,50 +16179,53 @@ def drill_escalation_behaviour():
         having to walk back."""
         import hostcheck as HC
         import weave_index as WI
-        d = tempfile.mkdtemp(prefix="drill_hostcheck_halt_")
-        saved_halt = ESC.HALT_FILE
-        saved = {k: getattr(HC, k) for k in ("ROSTERS", "entities_by_source",
-                                             "_land_hosts", "_land")}
-        real_records = WI.load_records
-        try:
-            ESC.HALT_FILE = os.path.join(d, "HALT.json")
-            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
-                json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
-                           "cleared": False}, f)
-            if not ESC.status()[0]:
-                return False              # the synthetic halt must actually stand
-            # Second line of defence: with the gate removed, none of these can move anything.
-            HC.ROSTERS = os.path.join(d, "no-such-roster-audit.json")
-            HC.entities_by_source = lambda: {}
-            HC._land_hosts = lambda *a, **kw: (False, "drill: writing is stubbed out")
-            HC._land = lambda *a, **kw: False
-            WI.load_records = lambda *a, **kw: []
+        # INSIDE THE SANDBOX NOW (sweep66 question 4, order 253d116215ab, 2026-09-28): the
+        # real call made with the halt removed ran where no audit hook watched what else it
+        # touched. `_esc_probe` supplies `d` and the witness now sees every write.
+        def probe(d, filed):
+            saved_halt = ESC.HALT_FILE
+            saved = {k: getattr(HC, k) for k in ("ROSTERS", "entities_by_source",
+                                                 "_land_hosts", "_land")}
+            real_records = WI.load_records
+            try:
+                ESC.HALT_FILE = os.path.join(d, "HALT.json")
+                with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                    json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                               "cleared": False}, f)
+                if not ESC.status()[0]:
+                    return False              # the synthetic halt must actually stand
+                # Second line of defence: with the gate removed, none of these can move anything.
+                HC.ROSTERS = os.path.join(d, "no-such-roster-audit.json")
+                HC.entities_by_source = lambda: {}
+                HC._land_hosts = lambda *a, **kw: (False, "drill: writing is stubbed out")
+                HC._land = lambda *a, **kw: False
+                WI.load_records = lambda *a, **kw: []
 
-            def refuses(fn):
-                try:
-                    fn()
-                except ESC.SystemHalted:
-                    return True
-                return False
+                def refuses(fn):
+                    try:
+                        fn()
+                    except ESC.SystemHalted:
+                        return True
+                    return False
 
-            if not refuses(lambda: HC.purge(dry=False, only=["__drill_source__"])):
-                return False
-            if not refuses(lambda: HC.adopt(dry=False, workers=1)):
-                return False
-            if not refuses(lambda: HC.sweep(repair=True, workers=1)):
-                return False
-            if refuses(lambda: HC.purge(dry=True, only=["__drill_source__"])):
-                return False              # a shortlist is a measurement
-            if refuses(lambda: HC.sweep(repair=False, workers=1)):
-                return False              # so is a read-only sweep
-            os.remove(ESC.HALT_FILE)
-            return not refuses(lambda: HC.sweep(repair=True, workers=1))
-        finally:
-            ESC.HALT_FILE = saved_halt
-            WI.load_records = real_records
-            for k, v in saved.items():
-                setattr(HC, k, v)
-            shutil.rmtree(d, ignore_errors=True)
+                if not refuses(lambda: HC.purge(dry=False, only=["__drill_source__"])):
+                    return False
+                if not refuses(lambda: HC.adopt(dry=False, workers=1)):
+                    return False
+                if not refuses(lambda: HC.sweep(repair=True, workers=1)):
+                    return False
+                if refuses(lambda: HC.purge(dry=True, only=["__drill_source__"])):
+                    return False              # a shortlist is a measurement
+                if refuses(lambda: HC.sweep(repair=False, workers=1)):
+                    return False              # so is a read-only sweep
+                os.remove(ESC.HALT_FILE)
+                return not refuses(lambda: HC.sweep(repair=True, workers=1))
+            finally:
+                ESC.HALT_FILE = saved_halt
+                WI.load_records = real_records
+                for k, v in saved.items():
+                    setattr(HC, k, v)
+        return _esc_probe(probe)
     net(a, "the tool that DELETES mined evidence asks about the halt first",
         the_tool_that_deletes_mined_evidence_asks_about_the_halt,
         "purge --go deletes the only copy of the evidence for the entries it removes, and every "
@@ -14937,51 +16253,54 @@ def drill_escalation_behaviour():
         recorder that refuses, restored in `finally`, and the net fails if it was ever reached."""
         import ingest_doc as ID
         import pipeline as _PL
-        d = tempfile.mkdtemp(prefix="drill_ingest_halt_")
-        saved_halt = ESC.HALT_FILE
-        saved_hosts = ID.HOSTS
-        saved_writer = _PL.write_record_catalogue
-        wrote = []
+        # INSIDE THE SANDBOX NOW (sweep66 question 4, order 253d116215ab, 2026-09-28): the
+        # real call made with the halt removed ran where no audit hook watched what else it
+        # touched. `_esc_probe` supplies `d` and the witness now sees every write.
+        def probe(d, filed):
+            saved_halt = ESC.HALT_FILE
+            saved_hosts = ID.HOSTS
+            saved_writer = _PL.write_record_catalogue
+            wrote = []
 
-        def no_record_write(path, rec):
-            wrote.append(path)
-            raise RuntimeError("drill: the record writer is stubbed in this net")
+            def no_record_write(path, rec):
+                wrote.append(path)
+                raise RuntimeError("drill: the record writer is stubbed in this net")
 
-        try:
-            _PL.write_record_catalogue = no_record_write
-            ESC.HALT_FILE = os.path.join(d, "HALT.json")
-            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
-                json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
-                           "cleared": False}, f)
-            if not ESC.status()[0]:
-                return False                  # the synthetic halt must actually stand
-            ID.HOSTS = os.path.join(d, "WIKI_HOSTS.json")
-            with open(ID.HOSTS, "w", encoding="utf-8") as f:
-                json.dump({}, f)
+            try:
+                _PL.write_record_catalogue = no_record_write
+                ESC.HALT_FILE = os.path.join(d, "HALT.json")
+                with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                    json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                               "cleared": False}, f)
+                if not ESC.status()[0]:
+                    return False                  # the synthetic halt must actually stand
+                ID.HOSTS = os.path.join(d, "WIKI_HOSTS.json")
+                with open(ID.HOSTS, "w", encoding="utf-8") as f:
+                    json.dump({}, f)
 
-            def refuses(fn):
-                try:
-                    fn()
-                except ESC.SystemHalted:
-                    return True
-                except Exception:
-                    return False          # any OTHER error means the halt was not what stopped it
-                return False
+                def refuses(fn):
+                    try:
+                        fn()
+                    except ESC.SystemHalted:
+                        return True
+                    except Exception:
+                        return False          # any OTHER error means the halt was not what stopped it
+                    return False
 
-            if not refuses(lambda: ID.register("__drill_source__")):
-                return False
-            if not refuses(lambda: ID.mine("__drill_source__")):
-                return False
-            # AND THE HALT IS WHAT DID IT. With the halt gone, `register` must get PAST the gate
-            # -- it will fail later for its own reasons against a temp tree, and that is the
-            # point: a net that only ever sees a refusal cannot tell the gate from the weather.
-            os.remove(ESC.HALT_FILE)
-            return not refuses(lambda: ID.register("__drill_source__")) and not wrote
-        finally:
-            ESC.HALT_FILE = saved_halt
-            ID.HOSTS = saved_hosts
-            _PL.write_record_catalogue = saved_writer
-            shutil.rmtree(d, ignore_errors=True)
+                if not refuses(lambda: ID.register("__drill_source__")):
+                    return False
+                if not refuses(lambda: ID.mine("__drill_source__")):
+                    return False
+                # AND THE HALT IS WHAT DID IT. With the halt gone, `register` must get PAST the gate
+                # -- it will fail later for its own reasons against a temp tree, and that is the
+                # point: a net that only ever sees a refusal cannot tell the gate from the weather.
+                os.remove(ESC.HALT_FILE)
+                return not refuses(lambda: ID.register("__drill_source__")) and not wrote
+            finally:
+                ESC.HALT_FILE = saved_halt
+                ID.HOSTS = saved_hosts
+                _PL.write_record_catalogue = saved_writer
+        return _esc_probe(probe)
     net(a, "the document ingester asks about the halt before it writes",
         the_document_ingester_asks_about_the_halt,
         "register() repoints WIKI_HOSTS.json and mine() writes data/records/*.json -- the two "
@@ -16112,6 +17431,93 @@ def drill_escalation_behaviour():
         a_cli_resume_signs_with_the_name_it_was_given,
         "order 3c85cdc4e5ee: `or` -> `and` records every signed resume as 'cli' and every "
         "unsigned one as None, and no net had ever asked who a resume was signed by")
+
+    def _sandbox_probe_shape_faults(text):
+        """-> ["line N: ..."] for every probe-shaped function not handed ONLY to `_esc_probe`.
+
+        A sandboxed probe has a signature no other function in this file needs: two positional
+        parameters, `(d, filed)` or `(d, f)` -- the sandbox directory and the recorder list that
+        only `_esc_probe` supplies. So the shape IS the roster, and no count or name list has to
+        be pinned in the source. A probe-shaped `def` must be referenced in its own scope, and
+        every reference must be the first argument of `_esc_probe(...)`; a probe-shaped lambda
+        must be that argument itself. A probe that lost its wrapper is then either called
+        directly (`probe(tmp, [])`) or never handed over at all, and both are named here.
+        """
+        import ast
+        tree = ast.parse(text)
+        parent = {}
+        for n in ast.walk(tree):
+            for c in ast.iter_child_nodes(n):
+                parent[c] = n
+
+        def owner(n):
+            p = parent.get(n)
+            while p is not None and not isinstance(
+                    p, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda, ast.Module)):
+                p = parent.get(p)
+            return p
+
+        def shaped(f):
+            return tuple(x.arg for x in f.args.args) in (("d", "filed"), ("d", "f"))
+
+        def handed(u):
+            p = parent.get(u)
+            return (isinstance(p, ast.Call) and isinstance(p.func, ast.Name)
+                    and p.func.id == "_esc_probe" and bool(p.args) and p.args[0] is u)
+
+        out = []
+        for fd in ast.walk(tree):
+            if isinstance(fd, ast.Lambda) and shaped(fd) and not handed(fd):
+                out.append("line %d: a probe-shaped lambda is not handed to _esc_probe"
+                           % fd.lineno)
+            if not (isinstance(fd, (ast.FunctionDef, ast.AsyncFunctionDef)) and shaped(fd)):
+                continue
+            sc = owner(fd)
+            uses = [u for u in ast.walk(sc) if isinstance(u, ast.Name) and u.id == fd.name
+                    and isinstance(u.ctx, ast.Load) and owner(u) is sc]
+            if not uses:
+                out.append("line %d: %s is never handed to _esc_probe" % (fd.lineno, fd.name))
+            elif not all(handed(u) for u in uses):
+                out.append("line %d: %s is called outside _esc_probe (line %s)"
+                           % (fd.lineno, fd.name,
+                              ", ".join(str(u.lineno) for u in uses if not handed(u))))
+        return out
+
+    def every_sandboxed_closure_still_runs_inside_the_sandbox():
+        """ORDER cd6ec0fe3e79, decided 2026-09-28 under the owner's "fix everything" instruction:
+        reading (B), a STRUCTURAL check, keyed on the probe SHAPE rather than on a pinned roster.
+
+        Run #59 found the sandbox-opening probes defined as CLOSURES inside area functions
+        (79 then) invisible to THE LIVE-STATE WITNESS if one lost its `_esc_probe` wrapper: the
+        per-net audit hook returns at once when no sandbox is open, and a closure has no
+        module-level name to list. Hoisting them all (reading A) would run every one twice per
+        drill and re-run a leaking probe before reporting it. The shape rule needs neither a
+        hoist nor a count that goes stale -- see `_sandbox_probe_shape_faults`. It proves the
+        call is present, not that it opened a sandbox when it ran; the witness still covers
+        the module-level probes it drives.
+
+        THE POSITIVE CONTROLS FIRST: a probe called directly and a probe never handed over must
+        both be named, and a correctly wrapped one must not, or an empty answer about this file
+        is evidence about the scanner rather than about the file.
+        """
+        bad = ("def area():\n    def probe(d, filed):\n        return True\n"
+               "    return probe('x', [])\n")
+        lost = "def area():\n    def probe(d, filed):\n        return True\n    return True\n"
+        good = ("def area():\n    def probe(d, filed):\n        return True\n"
+                "    return _esc_probe(probe) and _esc_probe(lambda d, f: True)\n")
+        if (len(_sandbox_probe_shape_faults(bad)) != 1
+                or len(_sandbox_probe_shape_faults(lost)) != 1
+                or _sandbox_probe_shape_faults(good)):
+            return False
+        with open(os.path.join(_srcdir(), "drill.py"), encoding="utf-8") as fh:
+            faults = _sandbox_probe_shape_faults(fh.read())
+        if faults:
+            raise AssertionError("; ".join(faults))
+        return True
+    net(a, "every probe shaped for the sandbox is handed to _esc_probe and to nothing else",
+        every_sandboxed_closure_still_runs_inside_the_sandbox,
+        "order cd6ec0fe3e79: a closure that lost its _esc_probe wrapper writes live state and "
+        "neither the per-net hook nor THE LIVE-STATE WITNESS can see it")
 
 
 def _lock_verdict():
@@ -19469,6 +20875,198 @@ def drill_recorders_and_lane():
         "never fire and MAX_SLOTS corrupt files stranded every model call in the library -- "
         "while the obvious fix hands one slot to two callers, silently")
 
+    def every_ollama_call_site_takes_a_lane_turn():
+        """No model call may reach Ollama without taking a turn in `gpu_lane`. -> bool.
+
+        THE BYPASS (order 30122bf3a5a7, measured 2026-09-28). `magnitude.py --calibrate` held
+        three connections to 127.0.0.1:11434; one was its own laned `pipeline.ask`, the other
+        two were curl children posting to `/v1/chat/completions` because `cascade_bridge`
+        pinned a cloud bucket and let the engine fail over onto the `ollama:local` entries.
+        Three `/api/generate` probes (standards, foreman, overnight keep-warm) were unlaned too.
+        Prose slowed from ~5 to ~14 min/job: the foreground priority is only a priority if
+        every other caller asks for its turn.
+
+        TWO HALVES, both on the source tree as it stands:
+          (1) every string literal in src/ naming an Ollama generation endpoint (docstrings
+              excepted) must sit in a function holding a `with ... lane(...)` whose block makes
+              the HTTP call -- `gpu_lane.py` itself, and the two battery files that plant such
+              strings to attack them, are the only exemptions;
+          (2) every `stream_chat(` call must be unable to route local: `exclude_local=True`
+              spelled, or its `**kw` passed through `cascade_bridge.local_excluded_kw` first --
+              and that helper, driven against a new and an old engine signature, must set
+              `exclude_local` on the one and stop the walk at the pinned bucket on the other.
+        PLANTED CONTROLS: an unlaned `urlopen` on `/api/generate`, a lane whose block makes no
+        call, and a bare `stream_chat(**kw)` must all be caught, and the laned twin must not --
+        so a scanner that found nothing would go red here rather than green.
+        """
+        import ast
+        import glob
+        endpoints = ("/api/generate", "/api/chat", "/api/embed", "/v1/chat/completions",
+                     "/v1/completions", "/v1/embeddings")
+        exempt = {"gpu_lane.py", "drill.py", "verify_math.py"}
+        http = {"urlopen", "post", "request", "Request"}
+
+        def _name(fn):
+            return fn.attr if isinstance(fn, ast.Attribute) else getattr(fn, "id", None)
+
+        def _calls(node, names):
+            return any(isinstance(c, ast.Call) and _name(c.func) in names
+                       for c in ast.walk(node))
+
+        def _laned_with(fn_node):
+            for w in ast.walk(fn_node):
+                if not isinstance(w, (ast.With, ast.AsyncWith)):
+                    continue
+                if not any(_calls(it.context_expr, {"lane"}) for it in w.items):
+                    continue
+                if any(_calls(it.context_expr, http) for it in w.items) or \
+                        any(_calls(b, http) for b in w.body):
+                    return True
+            return False
+
+        def findings(src, fname):
+            tree = ast.parse(src)
+            docs, outer = set(), {}
+            for n in ast.walk(tree):
+                body = getattr(n, "body", None)
+                if (isinstance(n, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef,
+                                   ast.ClassDef)) and body and isinstance(body[0], ast.Expr)
+                        and isinstance(body[0].value, ast.Constant)):
+                    docs.add(id(body[0].value))
+            for top in ast.walk(tree):
+                if isinstance(top, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    for n in ast.walk(top):
+                        outer.setdefault(id(n), top)   # ast.walk is outer-first
+            bad = []
+            for n in ast.walk(tree):
+                if (isinstance(n, ast.Constant) and isinstance(n.value, str)
+                        and id(n) not in docs and any(e in n.value for e in endpoints)):
+                    fn = outer.get(id(n))
+                    if fn is None or not _laned_with(fn):
+                        bad.append("%s:%d unlaned %r" % (fname, n.lineno, n.value[:40]))
+                if isinstance(n, ast.Call) and _name(n.func) == "stream_chat":
+                    kws = {k.arg: k.value for k in n.keywords}
+                    ok = isinstance(kws.get("exclude_local"), ast.Constant) and \
+                        kws["exclude_local"].value is True
+                    star = [k.value for k in n.keywords if k.arg is None]
+                    fn = outer.get(id(n))
+                    if not ok and star and fn is not None:
+                        names = {getattr(s, "id", None) for s in star}
+                        ok = any(isinstance(c, ast.Call) and _name(c.func) == "local_excluded_kw"
+                                 and any(getattr(a, "id", None) in names for a in c.args)
+                                 for c in ast.walk(fn))
+                    if not ok:
+                        bad.append("%s:%d stream_chat can route local" % (fname, n.lineno))
+            return bad
+
+        planted_bad = (
+            "def f(req):\n    import urllib.request as u\n"
+            "    return u.urlopen('http://h/api/generate')\n"
+            "def g(gpu_lane, u):\n    with gpu_lane.lane('x'):\n        pass\n"
+            "    return u.urlopen('http://h/api/chat')\n"
+            "def h(e, kw):\n    return e.stream_chat([], **kw)\n")
+        planted_good = (
+            "def f(gpu_lane, u):\n    with gpu_lane.lane('x'):\n"
+            "        return u.urlopen('http://h/api/generate')\n"
+            "def h(e, kw, CB):\n    CB.local_excluded_kw(e, kw)\n"
+            "    return e.stream_chat([], **kw)\n")
+        if len(findings(planted_bad, "<planted>")) != 3 or findings(planted_good, "<planted>"):
+            return False
+        live = []
+        for p in sorted(glob.glob(os.path.join(HERE, "src", "*.py"))):
+            if os.path.basename(p) in exempt:
+                continue
+            with open(p, encoding="utf-8") as fh:
+                live += findings(fh.read(), os.path.basename(p))
+        if live:
+            print("   unlaned Ollama call sites: " + "; ".join(live))
+            return False
+        import cascade_bridge as CB
+
+        class _New:
+            def stream_chat(self, messages, pinned=None, max_attempts=None,
+                            exclude_local=False):
+                return iter(())
+
+        class _Old:
+            def stream_chat(self, messages, pinned=None, max_attempts=None):
+                return iter(())
+        new_kw = CB.local_excluded_kw(_New(), {"pinned": "x"})
+        old_kw = CB.local_excluded_kw(_Old(), {"pinned": "x"})
+        return (new_kw.get("exclude_local") is True
+                and old_kw.get("max_attempts") == 1 and "exclude_local" not in old_kw)
+    net(a, "every Ollama call site in src/ takes a gpu_lane turn, and cascade cannot fail over "
+           "onto the local GPU",
+        every_ollama_call_site_takes_a_lane_turn,
+        "magnitude --calibrate reached the GPU through cascade's local failover and three probes "
+        "posted /api/generate unlaned, so prose's foreground priority was bypassed and prose "
+        "slowed from ~5 to ~14 min/job (order 30122bf3a5a7)")
+
+    def a_delete_pending_slot_is_contended_not_unarbitrable():
+        """A PermissionError on the slot create is CONTENTION, and must not skip the lane. -> bool.
+
+        On Windows, creating a lease file whose previous holder is mid-`os.remove` raises
+        PermissionError ("delete pending"), not FileExistsError. `_take_slot` sent it to the
+        generic handler, which answers None -- "cannot arbitrate, proceed unmetered" -- so a
+        caller arriving in the millisecond a slot was released walked past the lane under
+        exactly the contention the lane exists for (order 30122bf3a5a7; same fix as
+        `codewatch._ledger_lock`). Three things are asserted, against a temp LANE:
+          (1) every create refusing with PermissionError reads BUSY (False), never None;
+          (2) a transient refusal (two denials, then the create works) ends with the caller
+              HOLDING a slot, not running unmetered;
+          (3) a permanent refusal still proceeds after PERMISSION_DENIED_CEILING rather than
+              stalling for the whole lease -- the fail-open mandate order d316c46b67bd pinned.
+        """
+        import gpu_lane as GL
+        d = tempfile.mkdtemp(prefix="drill_lane_perm_")
+        real_os = GL.os
+        keep = (GL.LANE, GL.SLOT_LEASE_SECONDS, GL.PERMISSION_DENIED_CEILING,
+                GL.foreground_active)
+        state = {"deny": 0}
+
+        class _Shim:
+            def __getattr__(self, n):
+                return getattr(real_os, n)
+
+            @staticmethod
+            def open(path, flags, *a):
+                if state["deny"] != 0 and os.path.basename(path).startswith("slot."):
+                    state["deny"] -= 1
+                    raise PermissionError(13, "delete pending (drill)", path)
+                return real_os.open(path, flags, *a)
+        try:
+            GL.LANE = d
+            GL.os = _Shim()
+            GL.foreground_active = lambda ignore_pid=None: False
+            GL.SLOT_LEASE_SECONDS = 6.0
+            GL.PERMISSION_DENIED_CEILING = 0.8
+            state["deny"] = -1                                # every create refused
+            if GL._take_slot("drill-perm") is not False:
+                return False
+            state["deny"] = 2 * GL.MAX_SLOTS                   # two full rounds, then clear
+            with GL.lane("drill-perm"):
+                held = [n for n in os.listdir(d) if n.startswith("slot.")]
+            if not held:
+                return False
+            state["deny"] = -1
+            t0 = time.time()
+            def _one_call():
+                with GL.lane("drill-perm"):
+                    pass
+            _deliberately_failing(_one_call)
+            waited = time.time() - t0
+            return 0.5 <= waited < 4.0
+        finally:
+            GL.os = real_os
+            (GL.LANE, GL.SLOT_LEASE_SECONDS, GL.PERMISSION_DENIED_CEILING,
+             GL.foreground_active) = keep
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a delete-pending slot file is contended, not a licence to skip the lane",
+        a_delete_pending_slot_is_contended_not_unarbitrable,
+        "a PermissionError on the O_EXCL create read as 'cannot arbitrate -- proceed "
+        "unmetered', so callers bypassed the lane exactly when a slot was being released "
+        "(order 30122bf3a5a7)")
+
     def a_misaddressed_blob_is_refused():
         """The filename IS a checksum, and `load()` must read it. -> bool.
 
@@ -21446,6 +23044,83 @@ def drill_mutation():
         "-- was overwritten by a green verdict eight minutes later, so a standing halt could "
         "not be ruled on at all")
 
+    def verify_math_never_reaches_the_local_model():
+        """The battery is HERMETIC about the GPU, driven on verify_math's own code (orders
+        79d51aef8b71, 36eca6457ed9, owner ruling 2026-09-28).
+
+        While prose ran, a verify_math inside a fresh mutate.sandbox() queued behind a chapter on
+        127.0.0.1:11434 and mutate refused both launches of the 09-27 pass. The fix lives in
+        verify_math: a transport stand-in that refuses and RECORDS any connection to the local
+        model's port, canned answers for /api/tags and /api/ps, and a token-flow pin applied by
+        the live-state grant. This net takes that block out of verify_math's source -- so it
+        tests the code the battery runs, not a copy -- executes it here, and drives it with the
+        one condition that used to fire the probe: a tree with NO metrics ledger and a ttl of 0.
+
+        Four things must hold: the pinned probe answers from the pin; /api/ps is answered with
+        no connection; a direct socket connect to the port is refused AND recorded (so an empty
+        record is evidence, not blindness); and the live-state grant still calls the pin. The
+        real socket and urlopen are put back in `finally` whatever happens.
+        """
+        import ast
+        import socket as _so
+        import traceback as _tbk
+        import urllib.request as _ur
+        import standards as _ST
+        path = os.path.join(_srcdir(), "verify_math.py")
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        i = text.find("# THIS BATTERY NEVER TALKS TO THE LOCAL MODEL")
+        j = text.find("# AND THE SPY IS NOT THE ONLY WITNESS", i)
+        if i < 0 or j < 0:
+            return False
+        grant = [n for n in ast.parse(text).body
+                 if isinstance(n, ast.FunctionDef) and n.name == "_third_party_vm"]
+        called = {c.func.id for g in grant for c in ast.walk(g)
+                  if isinstance(c, ast.Call) and isinstance(c.func, ast.Name)}
+        if not {"_pin_token_flow_vm", "_unpin_token_flow_vm"} <= called:
+            return False
+        saved = (_so.socket.connect, _so.socket.connect_ex, _ur.urlopen, _ST.HERE,
+                 dict(_ST._TOKENFLOW))
+        d = tempfile.mkdtemp(prefix="drill_hermetic_")
+        try:
+            with open(os.path.join(d, "config.yaml"), "w", encoding="utf-8") as fh:
+                fh.write('model: "drill-probe-model"\n'
+                         'ollama_host: "http://localhost:11434"\nnum_ctx: 6144\n')
+            ns = {"os": os, "sys": sys, "json": json, "_tb_vm": _tbk, "__file__": path}
+            exec(compile(text[i:j], path, "exec"), ns)
+            _ST.HERE = d                  # no metrics ledger: an UNPINNED probe would be sent
+            _ST._TOKENFLOW.update({"at": 0.0, "ok": None, "s": None})
+            pin = ns["_pin_token_flow_vm"]()
+            try:
+                flow = _deliberately_failing(lambda: _ST.ollama_token_flow(ttl=0))
+            finally:
+                ns["_unpin_token_flow_vm"](pin)
+            with _ur.urlopen("http://localhost:11434/api/ps", timeout=1) as r:
+                ps = json.loads(r.read())
+            s = _so.socket(_so.AF_INET, _so.SOCK_STREAM)
+            try:
+                try:
+                    s.connect(("127.0.0.1", 11434))
+                    refused = False
+                except ConnectionRefusedError:
+                    _ = "silence-exempt: the refusal IS the assertion"
+                    refused = True
+            finally:
+                s.close()
+            trips = list(ns["_GPU_TRIPS_VM"])
+            return (flow[0] is True and "hermetic" in str(flow[1]) and ps == {"models": []}
+                    and refused and len(trips) == 1 and "socket connect" in trips[0])
+        finally:
+            _so.socket.connect, _so.socket.connect_ex, _ur.urlopen = saved[0], saved[1], saved[2]
+            _ST.HERE = saved[3]
+            _ST._TOKENFLOW.clear()
+            _ST._TOKENFLOW.update(saved[4])
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "verify_math's transport stand-in keeps the battery off the local model's port",
+        verify_math_never_reaches_the_local_model,
+        "owner ruling 2026-09-28 (orders 79d51aef8b71, 36eca6457ed9): an unpinned token-flow "
+        "probe queued the battery behind prose on the one-slot GPU, and mutate refused to run")
+
 
 def drill_scope():
     """An owner exclusion must actually exclude — the status that did nothing for five days.
@@ -22247,6 +23922,76 @@ def drill_outside():
     net(a, "the LOCAL misroute detector asks the same denial question as the filing door",
         the_local_detector_and_the_local_door_ask_one_question,
         "sweep66 batch 06: a second hand-kept denylist test is how the two came to disagree")
+
+    def a_local_order_about_a_protected_non_module_path_is_filed_at_run():
+        """Sweep66 question 8 (order 253d116215ab), decided 2026-09-28 under the owner's "fix
+        everything" instruction. `file_order`'s LOCAL door read `.py` targets only, so a LOCAL
+        order whose `where` was `config.yaml` -- the file holding the prose gate -- or a path
+        under `reference/keystone_volumes/` was filed at a rung forbidden to touch it and never
+        re-routed. The pure extraction is asked first (a bare word is still not a target), then
+        the REAL `file_order` is driven inside the sandbox, whose queue paths are scratch.
+        """
+        import workorders as _WO
+        import local_agent as _LA
+        cases = {"config.yaml": ["config.yaml"],
+                 "reference/keystone_volumes/00_MASTER_CHARTER.md":
+                     ["reference/keystone_volumes/00_MASTER_CHARTER.md"],
+                 "src/foo.py and config.yaml": ["config.yaml", "src/foo.py"],
+                 "the config file": []}
+        if any(_WO.local_door_targets(w, _LA) != want for w, want in cases.items()):
+            return False
+        real_file_order = _WO.file_order
+        got = _esc_probe(lambda d, filed: real_file_order(
+            "DRILL_LOCAL_DOOR_PROBE", "a drill probe of the LOCAL door", "LOCAL",
+            severity="MINOR", where="config.yaml", found_by="drill"))
+        return (got or {}).get("handler") == "RUN"
+    net(a, "a LOCAL order about config.yaml or the charter is re-addressed to RUN at the door",
+        a_local_order_about_a_protected_non_module_path_is_filed_at_run,
+        "sweep66 question 8: the door read only .py targets, so an order the local model is "
+        "forbidden to act on sat at LOCAL looking like cheap work, forever")
+
+    def a_delete_pending_lock_is_contention_not_failure():
+        """2026-09-28 (owner session). On Windows, O_CREAT|O_EXCL on a lock file whose last
+        holder is mid-remove raises PermissionError, not FileExistsError. codewatch's ledger
+        lock let it ESCAPE (verify_math's concurrency row went red intermittently) and
+        escalation's halt lock read it as "cannot lock" and raised the halt UNLOCKED. Driven with
+        `os.open` stood in to refuse the first create with PermissionError and then succeed:
+        both locks must end up TAKEN, in scratch paths, never the live ones."""
+        import codewatch as CW
+        import escalation as ES
+        d = tempfile.mkdtemp(prefix="drill_lockperm_")
+        real_open = os.open
+        saved = (CW.LEDGER_LOCK, ES.HALT_FILE, ES.HALT_LOCK_WAIT)
+        state = {"n": 0}
+
+        def flaky(path, flags, *a_, **k_):
+            if str(path).startswith(d) and flags & os.O_EXCL and state["n"] == 0:
+                state["n"] = 1
+                raise PermissionError(13, "delete pending (drill)")
+            return real_open(path, flags, *a_, **k_)
+        try:
+            CW.LEDGER_LOCK = os.path.join(d, "cw.lock")
+            ES.HALT_FILE = os.path.join(d, "HALT.json")
+            ES.HALT_LOCK_WAIT = 0.001
+            os.open = flaky
+            try:
+                with CW._ledger_lock():
+                    cw_held = os.path.exists(CW.LEDGER_LOCK)
+            except PermissionError:
+                _ = "silence-exempt: probe: the injected PermissionError is the case being measured; cw_held=False fails the net"
+                cw_held = False
+            state["n"] = 0
+            with ES._halt_lock() as es_held:
+                pass
+            return cw_held and es_held is True
+        finally:
+            os.open = real_open
+            CW.LEDGER_LOCK, ES.HALT_FILE, ES.HALT_LOCK_WAIT = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a lock file pending delete is waited for, not escaped or skipped",
+        a_delete_pending_lock_is_contention_not_failure,
+        "Windows reports delete-pending as PermissionError; reading it as failure raised a "
+        "halt unlocked and failed the restart-ledger race row")
 
     net(a, "a net that cannot measure DECLARES it, and does not write it to the ledger",
         a_declined_measurement_is_declared_not_recorded,
@@ -23068,6 +24813,9 @@ def drill_weave_plan():
 # still correct and still worth having; only its stated consequence is stale. Left as an open
 # order rather than closed, because the files really are still there and where they should live
 # is a curatorial call, but the urgency it claims is not real.
+# RESOLVED 2026-09-28 under the owner's "fix everything" ruling, option (c): the detector now
+# counts only files the gate would ADMIT, and the files stay where they are. Netted in
+# `drill_owner0928_qb`.
 #
 # ============================================================================================
 # THE ATTACK THAT WOULD DEFEAT WHAT EXISTS TODAY
@@ -23502,6 +25250,336 @@ def _every_sandboxed_probe_is_driven_by_the_witness():
     return True
 
 
+def drill_owner0928_qb():
+    """Nine owner questions, answered and netted (group QB, 2026-09-28).
+
+    Landed under the owner's "fix everything" instruction. One net per guard the rulings put in
+    code, each driving the real function against a fixture or a stand-in, never live state:
+
+      0384c99d5454  backfill --all exits nonzero when a source raises
+      a724ec57e0d5  thread_integrity DANGLING -> escalate() at SUPERVISOR per source, and
+                    allsweep prints the tail of a nonzero DANGLING count
+      325ccb493c45  an Annex join key that threads nothing refuses the whole-corpus build
+      34ec8a90c42f  axis_correlation shrink floor; one transit widening per mechanism; a
+                    suppression cannot be permanent
+      ff77e242b830  restart_ollama books a cure only on a completed generation
+      a66423722e45  the handoff-scratch detector counts only what the publish gate admits
+    """
+    import ast
+    a = "QB — the owner's answers to nine questions, 2026-09-28"
+
+    def backfill_all_exits_nonzero_when_a_source_raises():
+        """Order 0384c99d5454, option (B). `--all` contained each source's exception and then
+        exited 0, so a caller reading only the exit code could not tell a clean sweep from one
+        where sources failed -- while `--source` exited 1 on the same condition. BOTH
+        DIRECTIONS: a raising source still does not stop the others, and two clean sources still
+        exit 0. NO NETWORK, NO RECORD WRITE: `backfill_source` is stood in for, `pipeline.records`
+        returns a fixture and `feats.HOSTS` is a scratch file; all restored."""
+        import backfill as BF
+        import pipeline as _PL
+        bd = tempfile.mkdtemp(prefix="drill_backfill_all_")
+        keep = (_PL.records, BF.F.HOSTS, BF.backfill_source, list(sys.argv))
+        called = []
+
+        def _fake(source, records, hosts, cap=None, dry=False):
+            called.append(source)
+            if source == "Foo":
+                raise BF.RosterIncomplete("faketest: category walk stopped (stubbed)")
+            return {"source": source, "roster": 1, "absent": 0, "added": 0}
+
+        def _run(*names):
+            del called[:]
+            _PL.records = lambda: [("x/%s.json" % n, {"source": n, "entries": []}) for n in names]
+            sys.argv = ["backfill.py", "--all"]
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                return BF.main()
+
+        try:
+            hosts = os.path.join(bd, "WIKI_HOSTS.json")
+            with open(hosts, "w", encoding="utf-8") as f:
+                json.dump({n: n.lower() + ".fandom.com" for n in ("Foo", "Bar", "Baz")}, f)
+            BF.F.HOSTS = hosts
+            BF.backfill_source = _fake
+            if (_deliberately_failing(lambda: _run("Foo", "Bar")) != 1
+                    or sorted(called) != ["Bar", "Foo"]):
+                return False
+            return _run("Bar", "Baz") == 0 and sorted(called) == ["Bar", "Baz"]
+        finally:
+            _PL.records, BF.F.HOSTS, BF.backfill_source, sys.argv[:] = keep
+            shutil.rmtree(bd, ignore_errors=True)
+    net(a, "backfill --all exits nonzero when a source raises, and still runs the rest",
+        backfill_all_exits_nonzero_when_a_source_raises,
+        "order 0384c99d5454: --all counted raising sources and exited 0, so a clean sweep and a "
+        "failing one looked the same to every caller that reads the exit code")
+
+    def dangling_threads_refuse_each_source_at_supervisor():
+        """Order a724ec57e0d5, Reading A. STEP4_PLAN.md §8 names DANGLING > 0 a SUPERVISOR-level
+        refusal for that source, and `main()` escalated its sibling THREAD_UNRESOLVABLE while
+        only PRINTING DANGLING. Driven through `_escalate_dangling` with a recording stand-in for
+        `escalate` (nothing live is escalated): every source on EITHER end of a pair is refused
+        once, at SUPERVISOR, naming all its pairs; no pairs, no calls. And `main()` must still
+        call it -- read from the parse tree, so deleting the call reads as a breach."""
+        import thread_integrity as TI
+        calls = []
+        TI._escalate_dangling(
+            [("A", "B", 2, 2, ["x", "y"]), ("A", "C", 1, 1, ["z"])],
+            escalate=lambda level, code, what, **kw: calls.append(
+                (level, code, kw.get("source"), what)))
+        if sorted(c[2] for c in calls) != ["A", "B", "C"]:
+            return False
+        if any(c[0] != "SUPERVISOR" or c[1] != "THREAD_DANGLING" for c in calls):
+            return False
+        on_a = next(c[3] for c in calls if c[2] == "A")
+        if "A <-> B" not in on_a or "A <-> C" not in on_a:
+            return False
+        del calls[:]
+        if TI._escalate_dangling([], escalate=lambda *x, **k: calls.append(1)) != {} or calls:
+            return False
+        tree = _ast_of(os.path.join(_srcdir(), "thread_integrity.py"))
+        main = next((n for n in tree.body
+                     if isinstance(n, ast.FunctionDef) and n.name == "main"), None)
+        return main is not None and any(
+            isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+            and n.func.id == "_escalate_dangling" for n in ast.walk(main))
+    net(a, "a DANGLING thread refuses each source it touches, at SUPERVISOR",
+        dangling_threads_refuse_each_source_at_supervisor,
+        "order a724ec57e0d5: DANGLING was computed, printed and exit-coded, and refused nothing, "
+        "while §8 names it a SUPERVISOR refusal in the same sentence as THREAD_UNRESOLVABLE")
+
+    def a_nonzero_dangling_count_prints_its_tail():
+        """Order a724ec57e0d5, the allsweep half. thread_integrity is an RC_FINDINGS row, so its
+        tail -- the uncapped DANGLING listing -- was suppressed and the sweep said one line. The
+        child is a stand-in (`allsweep.subprocess` swapped on the module only, restored): a run
+        printing a DANGLING count must keep its WHOLE output and mark the row, without changing
+        its grade; a run with no DANGLING row keeps the 14-line window. And `main()` must print
+        a row that carries a count."""
+        import subprocess as _real_sp
+        import types
+        import allsweep as AS
+        body = (["THREAD INTEGRITY"] + ["  context line %d" % i for i in range(30)]
+                + ["  %-20s %6s  ( 0.1%%)" % ("DANGLING", "1,234"),
+                   "THREAD INTEGRITY FAILED: 1,234 source pair(s)"])
+        clean = ["THREAD INTEGRITY"] + ["  context line %d" % i for i in range(30)]
+        keep = AS.subprocess
+        out = {"text": ""}
+        AS.subprocess = types.SimpleNamespace(
+            run=lambda *x, **k: types.SimpleNamespace(returncode=1, stdout=out["text"], stderr=""),
+            TimeoutExpired=_real_sp.TimeoutExpired)
+        try:
+            v = AS.Verifier("thread integrity", ["thread_integrity.py"], AS.RC_FINDINGS)
+            out["text"] = "\n".join(body) + "\n"
+            r = AS.run_verifier(v)
+            if (r.get("dangling") != 1234 or r.get("failed") or len(r["tail"]) != len(body)):
+                return False
+            out["text"] = "\n".join(clean) + "\n"
+            r = AS.run_verifier(v)
+            if r.get("dangling") or len(r["tail"]) != 14:
+                return False
+        finally:
+            AS.subprocess = keep
+        with open(os.path.join(_srcdir(), "allsweep.py"), encoding="utf-8") as fh:
+            return 'or r.get("dangling"):' in fh.read()
+    net(a, "a nonzero DANGLING count prints its tail in the sweep, without changing the grade",
+        a_nonzero_dangling_count_prints_its_tail,
+        "order a724ec57e0d5: an RC_FINDINGS row suppressed the child's tail, so a run whose every "
+        "thread pointed at nothing printed one line and stayed green")
+
+    def a_join_key_that_threads_nothing_refuses_the_whole_corpus_build():
+        """Order 325ccb493c45, option (B). A join key naming no record means the curated join
+        and the corpus disagree. Over the WHOLE corpus (records=None, the CLI's build) that
+        refuses with `AnnexJoinUnmatched` naming the key; a SUBSET build (every fixture) still
+        reports it, because a subset cannot know the key is stale; a clean join still builds
+        under strict. PURE FIXTURE: `survey` is fed in-memory records, ANNEX_JOIN is scratch."""
+        import threads as TH
+        keep = (TH.ANNEX_JOIN, TH.annex_codes, TH.law_codes, TH.ADDR.spine_code_for, TH.survey)
+        tmp = tempfile.mkdtemp(prefix="drill_annex_strict_")
+        codes = {"Alpha": "II.A.1", "Beta": "II.A.2"}
+        recs = [{"source": s, "entries": [{"category": "Persons", "name": s.lower()}]}
+                for s in ("Alpha", "Beta")]
+        named = getattr(TH, "AnnexJoinUnmatched", None)
+        real_survey = TH.survey
+
+        def put(obj):
+            p = os.path.join(tmp, "ANNEX_JOIN_%d.json" % len(os.listdir(tmp)))
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(obj, f)
+            TH.ANNEX_JOIN = p
+
+        def refuses(fn):
+            try:
+                _deliberately_failing(fn)
+                return False
+            except Exception as e:
+                return (named is not None and isinstance(e, named)
+                        and isinstance(e, TH.ThreadRefused)
+                        and "Lost Mines of Phandelver" in str(e))
+
+        try:
+            TH.ADDR.spine_code_for = lambda source_name: codes.get(source_name, TH.UNADDRESSED)
+            TH.annex_codes = lambda: {"VIII.9", "VIII.17"}
+            TH.law_codes = lambda: {"X.1"}
+            put({"join": {"Alpha": [{"to": "VIII.9", "why": "w"}],
+                          "Lost Mines of Phandelver": [{"to": "VIII.17", "why": "x"}]}})
+            if not refuses(lambda: TH.build(recs, strict_join=True)):
+                return False
+            TH.survey = lambda records: real_survey(recs if records is None else records)
+            if not refuses(lambda: TH.build()):
+                return False                      # the whole-corpus default is not strict
+            g = TH.build(recs)
+            if [u["source"] for u in g["annex_join_unmatched"]] != ["Lost Mines of Phandelver"]:
+                return False                      # a subset build must still report it
+            put({"join": {"Alpha": [{"to": "VIII.9", "why": "w"}]}})
+            g = TH.build()
+            return ([e["to"] for e in g["sources"]["Alpha"]["T3"]] == ["VIII.9"]
+                    and not g["annex_join_unmatched"])
+        finally:
+            (TH.ANNEX_JOIN, TH.annex_codes, TH.law_codes, TH.ADDR.spine_code_for,
+             TH.survey) = keep
+            shutil.rmtree(tmp, ignore_errors=True)
+    net(a, "an Annex join key that threads nothing refuses the whole-corpus thread build",
+        a_join_key_that_threads_nothing_refuses_the_whole_corpus_build,
+        "order 325ccb493c45: a stale join key was reported and the build proceeded, publishing "
+        "an Annex join that silently omits a Canon's source")
+
+    def a_smaller_correlation_matrix_does_not_silently_replace_a_larger_one():
+        """Order 34ec8a90c42f item 1, Reading A. Every published +/- depends on this matrix. A
+        new one below SHRINK_FLOOR of the standing one is REFUSED and the standing file is left
+        byte-for-byte; `force` overrides; a torn standing file refuses (fail closed); an absent
+        one is a first build. `axis_correlation.OUT` points into scratch throughout."""
+        import axis_correlation as AC
+        d = tempfile.mkdtemp(prefix="drill_axis_floor_")
+        keep = AC.OUT
+        small = {"pairs": {"a|b": {"r": 0.4, "n": 30}}, "axes": ["a", "b"], "mean_r": 0.4,
+                 "n_entities": 30, "measured_pairs": 55}
+        try:
+            AC.OUT = os.path.join(d, "AXIS_CORRELATION.json")
+            with open(AC.OUT, "w", encoding="utf-8") as f:
+                json.dump({"pairs": {"a|b": {"r": 0.5, "n": 45}}, "n_entities": 45,
+                           "measured_pairs": 55}, f)
+            try:
+                AC.write(dict(small))
+                return False
+            except AC.ShrinkRefused:
+                _ = "silence-exempt: probe: ShrinkRefused is the refusal this net expects"
+                pass
+            with open(AC.OUT, encoding="utf-8") as f:
+                if json.load(f)["n_entities"] != 45:
+                    return False
+            if AC.write(dict(small), force=True) != AC.OUT:
+                return False
+            with open(AC.OUT, encoding="utf-8") as f:
+                if json.load(f)["n_entities"] != 30:
+                    return False
+            with open(AC.OUT, "w", encoding="utf-8") as f:
+                f.write("{ torn")
+            try:
+                _deliberately_failing(lambda: AC.write(dict(small)))
+                return False
+            except AC.ShrinkRefused:
+                _ = "silence-exempt: probe: ShrinkRefused is the refusal this net expects"
+                pass
+            os.remove(AC.OUT)
+            return AC.write(dict(small)) == AC.OUT and AC.write(dict(small)) == AC.OUT
+        finally:
+            AC.OUT = keep
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a smaller correlation matrix does not silently replace a larger one",
+        a_smaller_correlation_matrix_does_not_silently_replace_a_larger_one,
+        "order 34ec8a90c42f item 1: write() compared nothing against the standing matrix, so a "
+        "rebuild netting fewer entities overwrote it with no flag")
+
+    def a_second_currency_custos_does_not_double_the_transit_widening():
+        """Order 34ec8a90c42f item 4, Reading B. The transit widening measures one physical
+        fact; a second Custos dispersive in `currency` is a second witness of it, not a second
+        dispersion. A copy of the flagged Custos is added IN MEMORY and removed in `finally`."""
+        import custodes as CU
+        disp = [n for n, c in CU.CUSTODES.items()
+                if c.get("dispersive") and c.get("dof") == "currency"]
+        if not disp:
+            return False
+        one = CU._transit_widening(5.0, 3.0)[0]
+        CU.CUSTODES["__drill_second_witness"] = dict(CU.CUSTODES[disp[0]])
+        try:
+            two = CU._transit_widening(5.0, 3.0)[0]
+        finally:
+            CU.CUSTODES.pop("__drill_second_witness", None)
+        return one > 0 and two == one
+    net(a, "a second dispersive currency Custos does not double the transit widening",
+        a_second_currency_custos_does_not_double_the_transit_widening,
+        "order 34ec8a90c42f item 4: the widening was summed per Custos, so a second witness of "
+        "one staleness would have inflated every interval by a copy of itself")
+
+    def a_suppression_cannot_be_permanent():
+        """Order 34ec8a90c42f item 8, Reading A. A suppression must expire within a reviewable
+        window: infinite, NaN, zero, negative, boolean and over-MAX_TTL_DAYS lifetimes are
+        refused before anything is written, and a lifetime AT the bound still lands.
+        `suppressions.FILE` points into scratch throughout."""
+        import suppressions as SU
+        d = tempfile.mkdtemp(prefix="drill_suppression_ttl_")
+        keep = SU.FILE
+        try:
+            SU.FILE = os.path.join(d, "SUPPRESSIONS.json")
+            for bad in (float("inf"), float("nan"), -1, 0, SU.MAX_TTL_DAYS + 1, True):
+                try:
+                    SU.add("drill-detector", "nowhere/*.drill",
+                           "a drill fixture reason, never a real exemption", ttl_days=bad)
+                    return False
+                except ValueError:
+                    _ = "silence-exempt: probe: ValueError is the refusal this net expects for each bad TTL"
+                    pass
+            if os.path.exists(SU.FILE):
+                return False
+            SU.add("drill-detector", "nowhere/*.drill",
+                   "a drill fixture reason, never a real exemption", ttl_days=SU.MAX_TTL_DAYS)
+            with open(SU.FILE, encoding="utf-8") as f:
+                return "drill-detector" in f.read()
+        finally:
+            SU.FILE = keep
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a suppression cannot be made permanent, by accident or on purpose",
+        a_suppression_cannot_be_permanent,
+        "order 34ec8a90c42f item 8: add() took any ttl_days, so inf stored Infinity and a "
+        "negative value wrote a row already expired")
+
+    net(a, "restart_ollama books a cure only after a generation completes",
+        lambda: _absent_tray_is_started_not_waited_for(unconfirmed=True),
+        "order ff77e242b830 item 2: did=True was logged on /api/tags answering, the signal that "
+        "answered through both wedges")
+
+    def the_scratch_detector_counts_only_what_the_gate_admits():
+        """Order a66423722e45, option (c). The detector filed on every executable-suffix file
+        EXISTING under handoff/, re-filing a fixed order every sweep while the publish gate
+        refused all of them. It must now fire on the files the gate would ADMIT -- read from the
+        parse tree, since running the sweep writes the live queue -- and the gate must still
+        refuse every such file in the live tree, which is what makes counting only the admitted
+        ones safe."""
+        tree = _ast_of(os.path.join(_srcdir(), "workorders.py"))
+        shape = None
+        for n in ast.walk(tree):
+            if (isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == "_fire"
+                    and len(n.args) >= 2 and isinstance(n.args[1], ast.Constant)
+                    and n.args[1].value == "AGENT_SCRATCH_IN_PUBLISHED_TREE"):
+                t = n.args[0]
+                shape = (isinstance(t, ast.UnaryOp) and isinstance(t.op, ast.Not)
+                         and isinstance(t.operand, ast.Name) and t.operand.id == "_escapes_hs")
+        if not shape:
+            return False
+        import publish as _PB
+        here = os.path.dirname(_srcdir())
+        for root, dirs, files in os.walk(os.path.join(here, "handoff")):
+            dirs[:] = [x for x in dirs if x != "__pycache__"]
+            for fn in files:
+                if fn.endswith(tuple(_PB._CODE_EXT)):
+                    rel = os.path.relpath(os.path.join(root, fn), here).replace(os.sep, "/")
+                    if not _PB._is_agent_scratch(rel):
+                        return False
+        return True
+    net(a, "the handoff-scratch detector counts only files the publish gate would admit",
+        the_scratch_detector_counts_only_what_the_gate_admits,
+        "order a66423722e45: the detector counted files that exist, not files that publish, "
+        "and re-filed a closed order every sweep for scripts the gate already refused")
+
+
 def drill_ledger_witness():
     """The last area, and it is about this battery rather than about the library.
 
@@ -23686,6 +25764,10 @@ def _wait_for_a_settled_tree(budget=SETTLE_BUDGET_SECONDS, poll=SETTLE_POLL_SECO
         time.sleep(min(poll, max(0.0, deadline - time.time())))
 
 
+# How many consecutive holding re-reads drop a breach from the halt (order 6b59a5d4302a).
+REREAD_TIMES = 3
+
+
 def _reread_the_breaches(breached):
     """Ask each breached net again, on a tree that has stopped moving. -> (reproduced, note).
 
@@ -23731,12 +25813,26 @@ def _reread_the_breaches(breached):
             r["reread"] = "no attack was recorded for this row -- it cannot be re-asked"
             reproduced.append(r)
             continue
-        try:
-            held = bool(attack())
-            r["reread"] = "held on the re-read" if held else "breached again"
-        except Exception as e:
-            held = False
-            r["reread"] = "raised on the re-read: %s: %s" % (type(e).__name__, e)
+        # THREE READINGS, ALL OF WHICH MUST HOLD (order 6b59a5d4302a item 1, owner ruling
+        # 2026-09-28 "fix everything"). One good re-read cannot tell a photograph of a file
+        # mid-write from a FLAKY net -- one whose attack passes some of the time -- and a flaky
+        # net that happened to pass once had its halt dropped. A mid-edit artefact is gone on
+        # a settled tree and holds every time; a flaky net is unlikely to hold three times
+        # running. The first reading that fails reproduces the breach, and stops the loop.
+        held = True
+        for _i in range(REREAD_TIMES):
+            try:
+                if not attack():
+                    held = False
+                    r["reread"] = "breached again on re-read %d of %d" % (_i + 1, REREAD_TIMES)
+                    break
+            except Exception as e:
+                held = False
+                r["reread"] = "raised on re-read %d of %d: %s: %s" % (
+                    _i + 1, REREAD_TIMES, type(e).__name__, e)
+                break
+        if held:
+            r["reread"] = "held on all %d re-reads" % REREAD_TIMES
         (recovered if held else reproduced).append(r)
     if quiet is None:
         note = ("src/ could not be timed, so this re-read was taken on a tree of unknown "
@@ -23751,6 +25847,407 @@ def _reread_the_breaches(breached):
                 % (int(quiet), "%ds" % stable if stable else "window",
                    SETTLE_BUDGET_SECONDS))
     return reproduced, recovered, note
+
+
+def drill_ops_liveness():
+    """The restart chain's top, the pause, designed-restart noise, the stall witness, the index.
+
+    Landed 2026-09-28 under the owner's "fix everything" instruction (group OPS). One net per
+    order fixed, each driving the PURE rule the fix put in code, so the verdict does not depend on
+    what happens to be running (the `twin_detection_does_not_match_bystanders` ruling):
+
+      4c2101d54c10  nothing watched the watchdog     -> autostart._ensure_decision + the task XML
+      8454be695dc7  no first-class pause             -> _start_decision / pause_verdict / the
+                                                        supervisor's start() / exit_if_paused
+      f7d7769075c0  designed rc=17 filed an order    -> escalation.files_an_order + codewatch
+      d9328fe1ee38  the stall standard watched logs  -> standards.job_stall_verdict/output_age_min
+      2cb442afd901 + d1709d8e757d  index threshold + schedule -> weave_index.stale_verdict,
+                                                        overnight.weave_index_decision + the lap
+    """
+    import ast
+    a = "OPS — the watchdog's keeper, the pause, and what counts as work"
+
+    def a_dead_watchdog_is_restarted_by_its_scheduled_keeper():
+        import autostart as AU
+        if (AU._ensure_decision(False) != "start" or AU._ensure_decision(None) != "unknown"
+                or AU._ensure_decision(True) != "running"):
+            return False
+        xml = AU._task_xml()
+        # Windowless, one-shot, repeating, and not switched off by the two laptop defaults.
+        return ("--ensure" in xml and "<Interval>PT%dM</Interval>" % AU.TASK_EVERY_MINUTES in xml
+                and "<DisallowStartIfOnBatteries>false" in xml
+                and "<StopIfGoingOnBatteries>false" in xml
+                and (AU._launcher_py() == AU.PY
+                     or "pythonw" in AU._launcher_py().lower()))
+    net(a, "a dead watchdog is restarted by its scheduled keeper",
+        a_dead_watchdog_is_restarted_by_its_scheduled_keeper,
+        "order 4c2101d54c10: `--ensure` answering 'running' for a watchdog that is not up is the "
+        "2026-09-10 outage -- the one process the restart chain hangs from, with nothing to "
+        "restart it")
+
+    def a_pause_holds_everything_down_and_never_outranks_a_halt():
+        import autostart as AU
+        import codewatch as CW
+        import overnight as ON
+        now = time.time()
+        sd = AU._start_decision
+        if (sd(False, [], now, False, True)[0] != "paused"
+                or sd(False, [], now, False, None)[0] != "paused"
+                or sd(False, [], now, True, True)[0] != "halted"
+                or sd(False, [], now, False, False)[0] != "start"
+                or sd(True, [], now, False, True)[0] != "running"):
+            return False
+        pv = ESC.pause_verdict
+        if (pv(None)[0] is not False or pv({"unreadable": True})[0] is not True
+                or pv({"reason": "r", "until": now - 5}, now)[0] is not False
+                or pv({"reason": "r", "until": now + 3600}, now)[0] is not True
+                or pv({"reason": "r", "until": "tomorrow"}, now)[0] is not True):
+            return False
+        d = tempfile.mkdtemp(prefix="drill_pause_")
+        saved_file, saved_paused = ESC.PAUSE_FILE, ESC.paused
+        saved_on = (ON.library_paused, ON._manager_stopped, ON.running, ON._guarded_popen,
+                    ON.log)
+        spawned = []
+        try:
+            ESC.PAUSE_FILE = os.path.join(d, "PAUSED.json")
+            with open(ESC.PAUSE_FILE, "w", encoding="utf-8") as f:
+                f.write("{not json")
+            if ESC.paused()[0] is not True:               # a corrupt marker fails CLOSED
+                return False
+            ESC.PAUSE_FILE = saved_file
+            # The supervisor's start() must refuse before it ever reaches a spawn.
+            ON.library_paused = lambda: (True, "drill pause")
+            ON._manager_stopped = lambda *a_, **k: (False, "")
+            ON.running = lambda *a_, **k: False
+            ON._guarded_popen = lambda *a_, **k: spawned.append(a_) or None
+            ON.log = lambda *a_, **k: None
+            if ON.start("drill_job", [os.path.join(d, "no_such_job.py")], "x.log") is not None:
+                return False
+            if spawned:
+                return False
+            # A standing daemon leaves at its safe point; a bystander caller does not.
+            ESC.paused = lambda *a_, **k: (True, "drill pause")
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    CW.exit_if_paused("foreman")
+                return False
+            except SystemExit as e:
+                _ = "silence-exempt: probe: SystemExit is the paused exit this net expects; its code is checked"
+                if e.code != CW.RC_PAUSED:
+                    return False
+            return CW.exit_if_paused("drill_bystander") is False
+        finally:
+            ESC.PAUSE_FILE, ESC.paused = saved_file, saved_paused
+            (ON.library_paused, ON._manager_stopped, ON.running, ON._guarded_popen,
+             ON.log) = saved_on
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a pause holds everything down and never outranks a halt",
+        a_pause_holds_everything_down_and_never_outranks_a_halt,
+        "order 8454be695dc7: a watchdog that starts a supervisor through PAUSED.json, a "
+        "supervisor start() that spawns through it, or a corrupt marker that reads as 'not "
+        "paused' makes the pause a suggestion")
+
+    def an_order_cannot_be_suppressed_above_the_janitor_rung():
+        if ESC.files_an_order(ESC.JANITOR, False) is not False:
+            return False
+        if not all(ESC.files_an_order(lvl, False) for lvl in
+                   (ESC.OPERATOR, ESC.SUPERVISOR, ESC.SAFETY, ESC.MANAGER)):
+            return False
+
+        def probe(d, filed):
+            ESC.escalate(ESC.JANITOR, "DRILL_OPS_QUIET", "w", who="drill-probe", order=False)
+            quiet = len(filed)
+            ESC.escalate(ESC.SAFETY, "DRILL_OPS_LOUD", "w", who="drill-probe", order=False)
+            return quiet == 0 and len(filed) == 1
+        if not _esc_probe(probe):
+            return False
+        # And codewatch uses the quiet form for the IN-BUDGET restart only.
+        tree = _ast_of(os.path.join(_srcdir(None), "codewatch.py"))
+        fn = _defn(tree, "exit_if_stale")
+        quiet_restart, loud_budget = False, True
+        for n in ast.walk(fn) if fn is not None else ():
+            if not (isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                    and n.func.attr == "escalate"):
+                continue
+            codes = [c.value for c in ast.walk(n) if isinstance(c, ast.Constant)
+                     and isinstance(c.value, str) and c.value.startswith("CODEWATCH_")]
+            quiet = any(k.arg == "order" and isinstance(k.value, ast.Constant)
+                        and k.value.value is False for k in n.keywords)
+            if "CODEWATCH_RESTART" in codes and quiet:
+                quiet_restart = True
+            if any(c in ("CODEWATCH_BUDGET", "CODEWATCH_LEDGER_DENIED") for c in codes) and quiet:
+                loud_budget = False
+        return quiet_restart and loud_budget
+    net(a, "an order cannot be suppressed above the janitor rung",
+        an_order_cannot_be_suppressed_above_the_janitor_rung,
+        "order f7d7769075c0: `order=False` honoured above JANITOR lets any caller quiet a refusal, "
+        "stop or halt; and a designed in-budget rc=17 restart filing an owner order is furniture")
+
+    def a_quiet_log_over_moving_output_is_not_stalled():
+        import standards as S
+        import lognames as LN
+        if set(getattr(LN, "PRODUCT", {})) != set(LN.OWNER):
+            return False                                   # every managed job declares output
+        now = 1_000_000.0
+        d = tempfile.mkdtemp(prefix="drill_stall_")
+        try:
+            host = os.path.join(d, "out", "host_a")
+            os.makedirs(host)
+            fp = os.path.join(host, "entry.json")
+            with open(fp, "w", encoding="utf-8") as f:
+                f.write("{}")
+            for p in (fp, host, os.path.join(d, "out")):
+                os.utime(p, (now - 3600, now - 3600))
+            old = S.output_age_min(["out"], now, root=d)
+            os.utime(host, (now - 60, now - 60))           # an entry landed a minute ago
+            fresh = S.output_age_min(["out"], now, root=d)
+            missing = S.output_age_min(["nope"], now, root=d)
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        if not (old is not None and old >= 59 and fresh is not None and fresh <= 1.5
+                and missing is None):
+            return False
+        v = S.job_stall_verdict
+        return (v(82, fresh, True) == "advancing" and v(82, old, True) == "stalled"
+                and v(82, None, True) == "unmeasurable" and v(82, 1.0, False) == "unmeasurable"
+                and v(3, None, False) == "advancing")
+    net(a, "a quiet log over a moving output tree is not stalled",
+        a_quiet_log_over_moving_output_is_not_stalled,
+        "order d9328fe1ee38: a throttled crawl writing an entry a minute ago was called stalled "
+        "after 82 min of quiet log, in front of a remedy licensed to kill it")
+
+    def a_stale_entity_index_is_rebuilt_on_the_lap():
+        import weave_index as WI
+        import overnight as ON
+        sv = WI.stale_verdict
+        if not (sv(30.1, 37, 216) is True and sv(23.9, 1, 216) is False
+                and sv(WI.STALE_HOURS + 1, 0, 216) is True and sv(1.0, None, 216) is False
+                and sv(1.0, 16, 216) is False):
+            return False
+        wd = ON.weave_index_decision
+        if not (wd(True, ON.WEAVE_INDEX_MIN_HOURS + 1) == "rebuild"
+                and wd(True, None) == "rebuild"
+                and wd(True, ON.WEAVE_INDEX_MIN_HOURS / 2.0) == "rate-limited"
+                and wd(None, 500) == "fresh" and wd(False, 500) == "fresh"):
+            return False
+        tree = _ast_of(os.path.join(_srcdir(None), "overnight.py"))
+        return _reaches_call(tree, "weave_index_cycle")
+    net(a, "a stale entity index is rebuilt on the supervisor lap",
+        a_stale_entity_index_is_rebuilt_on_the_lap,
+        "orders 2cb442afd901 / d1709d8e757d: a corpus 17% rewritten inside 48h read as fresh, "
+        "and nothing scheduled a rebuild at all -- the index was 425h old on 2026-09-28")
+
+
+# THE HAND-RUN WRITERS AND THE HALT (orders 1e6f99e54b25, 21c075e5e2d6, 3099138a82bd; owner ruling
+# 2026-09-28 "fix everything", group HALT). Every tool a PERSON runs that writes the corpus or the
+# library's output now refuses while the library is halted -- the house default hostcheck,
+# withdraw_chapters and ingest_doc already followed. Each entry: (module, the function that is its
+# hand-run write entry point, the names of the calls in that function that WRITE). The net
+# requires, for every one of those write calls, a `_assert_not_halted(...)` call ahead of it on a
+# path that falls through to it. Read-only and dry-run modes are left ungated on purpose, which is
+# why the gate is conditional in most of these and why the check is "precedes every write" rather
+# than "first statement of the function".
+#
+# `roll.mutate` / `roll.update_rows` and `binding_health.quarantine` are SHARED PRIMITIVES the
+# interlocked daemons call (feats, catalogue_*), and they are gated at those callers' entry points,
+# not here; `roll.exclude` is the hand-run curatorial writer of the roll and IS on this list.
+_HALT_WRITERS = (
+    ("generate.py", "main", ("_land_failures", "_land_catalog", "save_raw")),
+    ("retry_synthesis.py", "main", ("do_merge", "save_side")),
+    ("repass_bands.py", "main", ("write_record",)),
+    ("resync_roll.py", "main", ("mutate",)),
+    ("binding_health.py", "main", ("run",)),
+    ("health.py", "main", ("reopen_stranded",)),
+    ("weave_index.py", "main", ("write_json",)),
+    ("policy.py", "main", ("report",)),
+    ("sevenfold.py", "main", ("write_json",)),
+    ("thread_integrity.py", "main", ("_floor_verdict",)),
+    ("burgs.py", "main", ("write_json",)),
+    ("wh40k.py", "main", ("write_json",)),
+    ("handbuilt.py", "main", ("write_json",)),
+    ("rosetta.py", "main", ("write_json",)),
+    ("navtree.py", "main", ("write_json",)),
+    ("chain.py", "main", ("singleton_claim", "_run")),
+    ("weave.py", "main", ("write_json",)),
+    ("axis_correlation.py", "main", ("write",)),
+    ("roll.py", "exclude", ("mutate",)),
+    ("backfill.py", "main", ("backfill_source",)),
+)
+
+
+def _ungated_writes(tree, fn_name, sinks, label="?"):
+    """-> [complaint] for every write call in `fn_name` with no halt check ahead of it.
+
+    A write call W is GATED when, at some level of the statement blocks enclosing it, a statement
+    that PRECEDES W's own branch in that block calls `_assert_not_halted` and contains no
+    `return` -- i.e. the check is on a path that falls through to W. The `return` clause is the
+    whole precision of this: `if a.mine: <gate> ... return 0` followed by `if a.refine: <write>`
+    has a check textually above the refine write that the refine path never executes, and a
+    line-number comparison would call that gated.
+
+    VACUITY IS A COMPLAINT, not a pass: a function that is missing, or that no longer makes any
+    of the named write calls, is reported, because a renamed sink would otherwise leave this net
+    checking nothing forever.
+    """
+    import ast
+    fns = [n for n in ast.walk(tree)
+           if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name == fn_name]
+    if len(fns) != 1:
+        return ["%s: %d function(s) named %s, expected exactly 1" % (label, len(fns), fn_name)]
+    fn = fns[0]
+    parent = {}
+    stack = [fn]
+    while stack:
+        node = stack.pop()
+        for field, value in ast.iter_fields(node):
+            if isinstance(value, list):
+                for i, child in enumerate(value):
+                    if isinstance(child, ast.AST):
+                        parent[child] = (node, field, i)
+                        if not isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                                  ast.Lambda, ast.ClassDef)):
+                            stack.append(child)
+            elif isinstance(value, ast.AST):
+                parent[value] = (node, field, None)
+                if not isinstance(value, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                          ast.Lambda, ast.ClassDef)):
+                    stack.append(value)
+
+    def _name(call):
+        f = call.func
+        return f.id if isinstance(f, ast.Name) else (f.attr if isinstance(f, ast.Attribute)
+                                                     else None)
+
+    def _is_gate(n):
+        return isinstance(n, ast.Call) and _name(n) == "_assert_not_halted"
+
+    def _falls_through_gated(stmt):
+        return (any(_is_gate(x) for x in ast.walk(stmt))
+                and not any(isinstance(x, ast.Return) for x in ast.walk(stmt)))
+
+    writes = [n for n in parent if isinstance(n, ast.Call) and _name(n) in sinks]
+    if not writes:
+        return ["%s: %s() makes none of the write calls %s -- the roster is stale"
+                % (label, fn_name, ", ".join(sinks))]
+    out = []
+    for w in sorted(writes, key=lambda n: n.lineno):
+        cur, gated = w, False
+        while cur is not fn and cur in parent and not gated:
+            p, field, idx = parent[cur]
+            if idx is not None:
+                gated = any(_falls_through_gated(s) for s in getattr(p, field)[:idx]
+                            if isinstance(s, ast.stmt))
+            cur = p
+        if not gated:
+            out.append("%s:%d %s() calls %s() with no halt check ahead of it"
+                       % (label, w.lineno, fn_name, _name(w)))
+    return out
+
+
+def _halt_helper_complaints(tree, label="?"):
+    """-> [complaint] unless the module's `_assert_not_halted` really asks `assert_clear`."""
+    import ast
+    helpers = [n for n in ast.walk(tree)
+               if isinstance(n, ast.FunctionDef) and n.name == "_assert_not_halted"]
+    if len(helpers) != 1:
+        return ["%s: %d `_assert_not_halted` definitions, expected 1" % (label, len(helpers))]
+    asks = any(isinstance(x, ast.Call) and isinstance(x.func, ast.Attribute)
+               and x.func.attr == "assert_clear" for x in ast.walk(helpers[0]))
+    return [] if asks else ["%s: `_assert_not_halted` never calls assert_clear" % label]
+
+
+def drill_hand_run_halt():
+    """Does every hand-run tool that writes the corpus or the library's output ask the halt first?
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd. The source half is `_ungated_writes` over
+    every `_HALT_WRITERS` member; the behavioural half plants a halt in a scratch HALT_FILE and
+    requires every member's own `_assert_not_halted` to raise SystemHalted -- and to return True
+    once the halt is gone, so a gate that refuses always cannot pass for one that works.
+    """
+    a = "THE HALT AND THE HAND-RUN WRITERS — can a person's repair write through a standing halt?"
+
+    def every_hand_run_writer_asks_the_halt_before_it_writes():
+        bad = []
+        for fn, entry, sinks in _HALT_WRITERS:
+            tree = _ast_of(os.path.join(_srcdir(), fn))
+            bad.extend(_halt_helper_complaints(tree, fn))
+            bad.extend(_ungated_writes(tree, entry, sinks, fn))
+        if bad:
+            print("   ungated hand-run writers:\n      " + "\n      ".join(bad))
+        return not bad
+    net(a, "every hand-run corpus writer asks the halt before it writes",
+        every_hand_run_writer_asks_the_halt_before_it_writes,
+        "orders 1e6f99e54b25/21c075e5e2d6/3099138a82bd: twenty tools that write records, the "
+        "roll, chapters or derived library state proceeded through a standing OWNER halt when "
+        "run by hand")
+
+    def the_matcher_catches_an_ungated_writer():
+        """[control] Planted defeats. If a node test is typo'd, the net above goes vacuous."""
+        import ast
+        ungated = ("def main():\n    a = parse()\n    silence.write_json(OUT, {})\n")
+        other_branch = ("def main():\n    a = parse()\n    if a.mine:\n"
+                        "        _assert_not_halted('m')\n        write_json(OUT, 1)\n"
+                        "        return 0\n    if a.refine:\n        write_json(OUT, 2)\n")
+        gated = ("def main():\n    a = parse()\n    if a.write:\n"
+                 "        _assert_not_halted('w')\n    x = 1\n    if a.write:\n"
+                 "        write_json(OUT, x)\n")
+        gone = "def main():\n    _assert_not_halted('w')\n    write_file(OUT)\n"
+        return (len(_ungated_writes(ast.parse(ungated), "main", ("write_json",))) == 1
+                and len(_ungated_writes(ast.parse(other_branch), "main", ("write_json",))) == 1
+                and _ungated_writes(ast.parse(gated), "main", ("write_json",)) == []
+                and len(_ungated_writes(ast.parse(gone), "main", ("write_json",))) == 1
+                and len(_halt_helper_complaints(ast.parse(
+                    "def _assert_not_halted(w):\n    return True\n"))) == 1)
+    net(a, "[control] the halt-gate matcher catches a planted ungated writer",
+        the_matcher_catches_an_ungated_writer,
+        "a matcher that finds nothing reads exactly like a tree with nothing to find")
+
+    def every_members_gate_refuses_a_real_halt():
+        import importlib
+        d = tempfile.mkdtemp(prefix="drill_handrun_halt_")
+        saved = ESC.HALT_FILE
+        try:
+            ESC.HALT_FILE = os.path.join(d, "HALT.json")
+            mods = [importlib.import_module(fn[:-3]) for fn, _e, _s in _HALT_WRITERS]
+            if not all(m._assert_not_halted("drill probe") is True for m in mods):
+                return False                 # a gate that refuses a clear library is broken too
+            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                           "cleared": False}, f)
+            if not ESC.status()[0]:
+                return False
+            passed = []
+            for m in mods:
+                try:
+                    m._assert_not_halted("drill probe")
+                    passed.append(m.__name__)
+                except ESC.SystemHalted:
+                    _ = "silence-exempt: probe: SystemHalted is the refusal this net expects from every gate"
+                    continue
+            if passed:
+                print("   walked through a standing halt: " + ", ".join(passed))
+                return False
+            # AND THE MEASUREMENT STAYS OPEN: thread_integrity judges its floor under a halt and
+            # writes nothing. A missing floor must not be created; a lower count must not ratchet.
+            import thread_integrity as TI
+            fp = os.path.join(d, "FLOOR.json")
+            if TI._floor_verdict(3, path=fp, write=False)[0] != "UNRECORDED-HALTED":
+                return False
+            if os.path.exists(fp):
+                return False
+            with open(fp, "w", encoding="utf-8") as f:
+                json.dump({"asymmetric_suspect_max": 9}, f)
+            if TI._floor_verdict(3, path=fp, write=False)[0] != "held-halted":
+                return False
+            with open(fp, encoding="utf-8") as f:
+                return json.load(f) == {"asymmetric_suspect_max": 9}
+        finally:
+            ESC.HALT_FILE = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "every hand-run writer's gate refuses a planted halt and passes a clear library",
+        every_members_gate_refuses_a_real_halt,
+        "the source net proves the call is there; this proves the call ANSWERS -- a helper "
+        "returning True unconditionally would satisfy the first and not this")
 
 
 def main(areas=None):
@@ -23859,6 +26356,14 @@ def main(areas=None):
                drill_agent_scratch_gate,
                drill_citations,
                drill_outside,
+               # The 2026-09-28 question bundles (owner ruling "fix everything"), QA group.
+               drill_owner0928_qa,
+               # 2026-09-28, owner-directed "fix everything" session, group OPS.
+               drill_ops_liveness,
+               # 2026-09-28, owner-directed "fix everything" session, group QB.
+               drill_owner0928_qb,
+               # 2026-09-28, owner-directed "fix everything" session, group HALT.
+               drill_hand_run_halt,
                # LAST, AND THE POSITION IS THE COVERAGE (order 895a99602bf0). The ledger
                # witness sees only what happened BEFORE it: an area appended after this one
                # is an area whose probes it cannot watch, which is the shape a net quietly

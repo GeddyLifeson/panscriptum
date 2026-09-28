@@ -707,12 +707,34 @@ def check_api_paths():
     except Exception:
         silence.note("health.py:api-paths-quarantine-unreadable")
         quarantined = set()
-    picked = {}
+    # A SHELVED HOST IS NOT A STAND-IN, AND A WHOLLY SHELVED FAMILY IS REPORTED AS SHELVED, NOT
+    # AS A FAILING ROW (owner 2026-09-28, "fix everything", option (c) of orders 9029a484a13c /
+    # 8b3f2911fa0c; closes 32eaec248adf and 2d6c9343cd32). www.dandwiki.com closes its API to
+    # anonymous clients by SITE POLICY -- 403 on /w/api.php, 200 on its pages -- and the quarantine
+    # exemption above could not cover it, because a quarantine is a throttle backoff with a TTL
+    # and a policy never expires, so the row flickered back to red every day. A shelving is a
+    # person's dated ruling in data/HOST_RULINGS.json, it does not lapse, and it is PRINTED every
+    # run so the host cannot vanish from view. Any OTHER host in the same family is still probed.
+    # Fail closed: unreadable rulings excuse nothing (`rulings()` answers {}).
+    try:
+        import binding_health as _BHS
+        shelved = _BHS.shelved_hosts()
+    except Exception:
+        silence.note("health.py:api-paths-rulings-unreadable")
+        shelved = {}
+    picked, shelved_seen = {}, []
     for fam, members in fams.items():
-        free = [h for h in members if h not in quarantined]
+        shelved_seen.extend(h for h in members if h in shelved)
+        free = [h for h in members if h not in quarantined and h not in shelved]
         if free:
             picked[fam] = free[0]          # probe a host we are actually still talking to
         # else: every member is quarantined -- binding_health holds that fault, not this check
+        # -- or shelved by a person, which is printed below and is not a fault either.
+    if shelved_seen:
+        print("  info  SHELVED by owner ruling, not probed (a known, ruled condition, not a "
+              "failing row): " + "; ".join(
+                  "%s -- %s" % (h, (shelved[h].get("option") or "see data/HOST_RULINGS.json"))
+                  for h in sorted(set(shelved_seen))))
     for fam, host in picked.items():
         # A FRESH dict PER HOST: `api()` clears whatever it is handed, but sharing one across
         # the loop would leave the previous family's verdict standing on any path that returned
@@ -734,7 +756,13 @@ def check_api_paths():
             # tenant." One arbitrary host per family remains the right STAND-IN for the
             # /api.php-vs-/w/api.php path fault this check exists to catch -- it is not a
             # reachability claim over the other members.
-            out.append((f"{fam}: probed host did not answer", f"{host} ({klass})"))
+            # AND THE HEADLINE IS TRUE OF AN HTTP ANSWER (order 8b3f2911fa0c's separable fact).
+            # "did not answer" was printed for a host that answered 403, which it had not done:
+            # it answered, and refused. An `http-NNN` class is an answer; only a transport
+            # failure is silence.
+            said = ("answered without a usable API" if klass.startswith("http-")
+                    or why.get("ok") else "did not answer")
+            out.append((f"{fam}: probed host {said}", f"{host} ({klass})"))
     return out
 
 
@@ -819,6 +847,16 @@ def check_caches():
         # Same discipline as above: if the roll cannot be read, nothing is excused.
         silence.note("health.py:excluded-hosts-unreadable")
         excluded_dirs = set()
+    # AND A HOST A PERSON HAS SHELVED (owner 2026-09-28, data/HOST_RULINGS.json). Same reasoning
+    # as the exclusion above -- a dated ruling that does not lapse -- and the same fail-closed
+    # direction: unreadable rulings excuse nothing.
+    try:
+        import binding_health as _BHS
+        import cachekey as _CK3
+        shelved_dirs = {_CK3.host_dir(h) for h in _BHS.shelved_hosts()}
+    except Exception:
+        silence.note("health.py:caches-rulings-unreadable")
+        shelved_dirs = set()
     excused = []
     small_and_empty = []
     for base in ("feats", "readfeats"):
@@ -892,6 +930,8 @@ def check_caches():
             if empty == n:
                 if host in excluded_dirs:
                     excused.append(f"{base}/{host} ({n}, source excluded from the roll)")
+                elif host in shelved_dirs:
+                    excused.append(f"{base}/{host} ({n}, host SHELVED by owner ruling)")
                 elif host in quarantined:
                     excused.append(f"{base}/{host} ({n})")
                 elif small:
@@ -1262,6 +1302,33 @@ def preflight(verbose=True, stamp=True):
     return problems
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--reopen", action="store_true",
@@ -1282,6 +1349,9 @@ def main():
         # ordinary healthy case of nothing being stranded -- so `0 if ... else 1` would have
         # failed every clean run. The two failure paths now return None and the empty success
         # case still returns []. Verified `main()` is the only caller before changing it.
+        if a.go:
+            # THE HALT (owner ruling 2026-09-28, order 21c075e5e2d6): this invocation writes, so it asks first.
+            _assert_not_halted("--reopen --go (rewrites state/PIPELINE_STATE.json)")
         return 1 if reopen_stranded(dry=not a.go) is None else 0
     if a.failures:
         s = summary()

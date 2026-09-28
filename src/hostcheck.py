@@ -415,7 +415,13 @@ def probe(host, names):
                     "error": "RAW probe: %d refused, %d errored, 0 found of %d probed"
                              % (tally["refused"], tally["errored"], tally["probed"])}
         return {"host": host, "probed": n, "hits": len(got),
-                "rate": round(len(got) / n, 3), "examples": sorted(got)[:5],
+                # EVERY HIT, NOT THE FIRST FIVE (order a8e02f3bbf76, owner 2026-09-28 "fix
+                # everything"; Hard Rule 0). `score()` pops `titles`, so `examples` is the only
+                # list that reaches data/HOST_FITNESS.json, and `sorted(got)[:5]` was the
+                # alphabetical head -- a ranking then a truncation, with nothing on the row
+                # saying it had cut. The key keeps its name for on-disk compatibility (the
+                # `available_sample` precedent); the value is now the whole sorted list.
+                "rate": round(len(got) / n, 3), "examples": sorted(got),
                 "titles": sorted(got)}
     if not _api(host):
         return {"host": host, "probed": len(names), "hits": 0, "rate": None,
@@ -438,7 +444,9 @@ def probe(host, names):
     query = d.get("query") or {}
     pages = query.get("pages") or {}
     live = [p for p in pages.values() if "missing" not in p and int(p.get("pageid", 0)) > 0]
-    found = [p.get("title") for p in live][:5]
+    # WHOLE AND SORTED, for the same order and reason as the RAW branch above (a8e02f3bbf76):
+    # this was the first five in API response order, and the rest reached no persisted file.
+    found = sorted(p.get("title") for p in live if p.get("title"))
     # HITS ARE COUNTED PER PROBED NAME, NOT PER RETURNED PAGE (sweep61 batch14). With
     # `redirects=1` MediaWiki answers ONE `pages` entry per resolved article, so names that
     # normalise or redirect to the same page collapsed into one hit. Measured on en.wikipedia
@@ -963,8 +971,19 @@ def score(host, names, source, by=None):
         # PLACED BELOW THE LIFT BRANCH ON PURPOSE. Aboutness is a VETO -- it only ever
         # downgrades -- so a host already rejected by lift stays rejected. This converts only
         # the verdicts that would have been `holds` or `partial`, which is the whole exposure.
-        r["verdict"] = ("UNREACHABLE — no article body could be read, so aboutness could not "
-                        "be measured")
+        # TWO CAUSES SHARE THE (None, 0) SENTINEL, AND THE VERDICT NOW SAYS WHICH (sweep66
+        # question 9, order 253d116215ab, owner's 2026-09-28 "fix everything" instruction).
+        # `relevance()` also answers (None, 0) when the source NAME has no distinctive token
+        # (`DC` is two letters), and no amount of retrying reads a body for that one -- the
+        # remedy is a longer name or an alias, not another day. The verdict and its bucket are
+        # unchanged (still UNREACHABLE, still fail-safe); only the stated cause is corrected.
+        if not _tokens(source):
+            r["verdict"] = ("UNREACHABLE — the source name %r has no distinctive word to look "
+                            "for in an article, so aboutness cannot be measured here (a name "
+                            "problem, not a fetch failure)" % source)
+        else:
+            r["verdict"] = ("UNREACHABLE — no article body could be read, so aboutness could "
+                            "not be measured")
     elif (r["about"] is not None and r["about"] < ABOUT
           and r["about_n"] is not None and r["about_n"] < ABOUT_MIN):
         # THE VETO IS DUE AND ITS INPUT IS TOO THIN TO CARRY IT (order 44ae72489678). This host

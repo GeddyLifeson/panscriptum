@@ -1,0 +1,19 @@
+{
+ "entity": "Mobile Market",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Mobile Market"
+ ],
+ "chars_read": 1587,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [
+  {
+   "text": "As a rule of thumb, it can be a good idea if you want to achieve something that you are very close to (for instance, you want to buy a card of cost 8 and only have 7 Trade, or you want to destroy a base but lack one or two Combat).",
+   "page": "Mobile Market"
+  }
+ ],
+ "text": {
+  "Mobile Market": "How to play ==\nAt any time during your turn, gain 2 Trade. You can scrap Mobile Market to gain 2 Authority and draw a card: at the end of your turn, you can move Mobile Market from the scrap heap to your discard pile. Mobile Market is an outpost with a defense of 4. \n Strategy ==\nThis is the only card in the game that can return to play after being scrapped. When to and not to use this scrap ability is often a difficult decision. As a rule of thumb, it can be a good idea if you want to achieve something that you are very close to (for instance, you want to buy a card of cost 8 and only have 7 Trade, or you want to destroy a base but lack one or two Combat). Make sure to check what cards are in your deck before scrapping it, so that you can estimate the chance of success! In any other case it is often best to leave it in play. \n\nWith the scrap ability this base becomes a free play (acting more like a ship), so it is never a bad idea to buy this card: you can just scrap it whenever you draw it. However, especially in early game or in a deck with more Trade Federation cards, it is useful to leave it in play and only scrap it if you really need the card draw. All in all it is a rather tricky card to play with, but definitely worth the 4 Trade."
+ }
+}

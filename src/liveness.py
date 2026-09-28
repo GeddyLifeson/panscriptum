@@ -853,6 +853,33 @@ def _function_line_ranges(path):
     return out
 
 
+def stale_declarations(declared=None, gate_modules=None):
+    """-> {module: [declared names that excuse NOTHING because no such def exists]}. Static.
+
+    ORDER 6b59a5d4302a ITEM 5 (owner ruling 2026-09-28 "fix everything"). A DECLARED_UNREACHABLE
+    entry is looked up by name in `_function_line_ranges`, and a name that matches no def -- a
+    typo, or a function renamed or deleted after it was ruled on -- was simply skipped: it
+    excused no line, which is the safe direction, but it also SAID nothing, so a ruling a person
+    believed was in force had quietly stopped existing. The same holds for a ruling filed under a
+    module that is not in GATE_MODULES, which `reachability` never measures. Both are named here
+    and printed by `--reachability`, beside the ambiguous rulings, so a dead declaration is seen.
+    Needs no coverage run, so it is cheap enough to ask anywhere.
+    """
+    declared = DECLARED_UNREACHABLE if declared is None else declared
+    gate_modules = GATE_MODULES if gate_modules is None else gate_modules
+    out = {}
+    for m, fns in (declared or {}).items():
+        path = os.path.join(SRC, m)
+        if m not in gate_modules or not os.path.isfile(path):
+            dead = sorted(fns or {})
+        else:
+            ranges = _function_line_ranges(path)
+            dead = sorted(n for n in (fns or {}) if n not in ranges)
+        if dead:
+            out[m] = dead
+    return out
+
+
 def reachability(modules=GATE_MODULES, runner="verify_math.py", timeout_s=1800):
     """Which executable lines of `modules` no check in `runner` ever ran. -> a report dict.
 
@@ -995,6 +1022,7 @@ def reachability(modules=GATE_MODULES, runner="verify_math.py", timeout_s=1800):
                 "unreached_undeclared": undeclared,
                 "declared_unreachable_functions": sorted(declared_fns),
                 "ambiguous_declarations": sorted(ambiguous),
+                "stale_declarations": sorted(n for n in declared_fns if n not in ranges),
             }
         return out
     finally:
@@ -1019,7 +1047,13 @@ def main():
         rep = reachability()
         if "error" in rep:
             print("   NOT MEASURED: %s" % rep["error"])
-        else:
+        # Rulings filed under a module this report never measures excuse nothing either, and
+        # the per-module loop below cannot see them; named here (order 6b59a5d4302a item 5).
+        for _m, _dead in sorted(stale_declarations().items()):
+            if _m not in GATE_MODULES:
+                print("   STALE RULING -- %s is not a GATE_MODULE, so its declarations excuse "
+                      "NOTHING: %s" % (_m, ", ".join(_dead)))
+        if "error" not in rep:
             for m, info in rep["modules"].items():
                 if "error" in info:
                     print("   %s: NOT MEASURED (%s)" % (m, info["error"]))
@@ -1034,6 +1068,10 @@ def main():
                     print("      AMBIGUOUS RULING -- these names match several defs, so they "
                           "excuse NOTHING; qualify them as Class.method: %s"
                           % ", ".join(info["ambiguous_declarations"]))
+                if info.get("stale_declarations"):
+                    print("      STALE RULING -- no def by these names exists in %s, so they "
+                          "excuse NOTHING (misspelt, renamed or deleted since ruled): %s"
+                          % (m, ", ".join(info["stale_declarations"])))
                 if info["unreached_undeclared"]:
                     print("      UNDECLARED -- no check reaches these lines and nobody has "
                           "ruled on why (the roster, in full, never a count alone):")

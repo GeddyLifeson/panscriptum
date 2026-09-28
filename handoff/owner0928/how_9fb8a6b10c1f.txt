@@ -1,0 +1,12 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. No option was offered; the option that closes the fault was taken: measure again, and fix what is a code or config fault. Group CASCADE.
+
+RE-MEASURED 2026-09-28 about 15:55: cascade_bridge HAS a reachable model. `python src/cascade_bridge.py` (selftest) returned "live call -> OK via GPT-OSS 120B (Groq)" with a correct feats JSON. A pinned one-call probe of every enabled, keyed cloud bucket found 3 of 11 answering (groq gpt-oss-120b, groq gpt-oss-20b, groq qwen3.8-27b); the other 8 are account/quota states, not code faults (Gemini x3 daily quota 429, OpenRouter free-models-per-day, Cohere trial 1000 calls/month, Z.AI insufficient balance, SambaNova HTTP 401 invalid key). Those are recorded on order 88982cef258d's resolution.
+
+The order's local-roster half was already fixed: Cascade's only enabled ollama entry (local-llama31) points at qwen3:8b, which ollama holds; the other local entries are disabled with reasons.
+
+FAULTS FOUND AND FIXED:
+1. Cascade roster: groq-llama31-8b pointed at groq/compound-mini, which Groq no longer serves (HTTP 404; Groq /models lists gpt-oss-120b, gpt-oss-20b, qwen3.8-27b as chat models, all already in the roster). It produced the "groq:groq/compound-mini ... All 1 candidates failed" row x17 in FOR_OWNER. Set "enabled": false with a disabled_reason in C:/Users/imarl/cascade/config.json (not deleted; backup config.json.bak.pre-compound-mini-1790640000).
+2. src/catalogue_models.py read Cascade's config.json raw for keys. Cascade's config.py now migrates keys into secrets.json (a concurrent change on 2026-09-28), so the catalogue reported 25 of 26 providers UNCONFIGURED. New _merge_keys() reads keys with Cascade's precedence (CASCADE_KEY_* env, then secrets.json, then config.json); read-only. After: 13 of 26 providers verified.
+3. catalogue_models.wanted() counted entries with "enabled": false as asks, so retired entries (seven disabled ollama rows plus compound-mini) sat in `stale` for ever. Only an explicit false is skipped now. Re-run: stale_ids 0 over 13 verified providers (data/PROVIDER_MODELS.json).
+
+PROOF: drill nets (area drill_binding_identity) "a model the config has disabled is not counted as a stale id, an enabled one is": HELD, RED under revert_cascade_wanted.json and revert_cascade_wanted_broad.json; "the model catalogue finds provider keys where Cascade now keeps them": HELD, RED under revert_cascade_catkeys.json. pyflakes clean.

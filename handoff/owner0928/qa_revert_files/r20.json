@@ -1,0 +1,1 @@
+[{"module": "pipeline.py", "old": "                carry.update(id(de) for de in lone)\n", "new": "                carry.update(id(de) for de in lone[:max(len(dgroup) - len(fgroup), 0)])\n"}]

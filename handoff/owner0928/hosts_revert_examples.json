@@ -1,0 +1,7 @@
+[
+ {
+  "module": "hostcheck.py",
+  "old": "\"examples\": sorted(got),",
+  "new": "\"examples\": sorted(got)[:5],"
+ }
+]

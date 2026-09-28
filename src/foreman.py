@@ -1398,6 +1398,56 @@ def _ollama_answers(first_wait=12, tries=6, gap=5):
     return False
 
 
+def _ollama_generates(timeout=240):
+    """Does ONE generation complete against the resident model? -> (ok, detail).
+
+    ORDER ff77e242b830 item 2, decided under the owner's 2026-09-28 "fix everything" ruling,
+    Reading B. `_ollama_answers` waits only for /api/tags -- the very signal that answered
+    during both wedges -- so `restart_ollama` logged `did=True` to foreman's `auto` record as a
+    successful repair on evidence its own docstring calls insufficient. This is the proof the
+    standards themselves use: a completed generation (`eval_count`, see
+    `standards.ollama_token_flow`). Live, never the metrics ledger: a restart's cure is only
+    shown by a generation AFTER it. Same request shape as the standard's probe -- `num_ctx`
+    FROM CONFIG, because a foreign window forces a runner rebuild that cannot finish, and
+    `num_predict` 8. The cost is the model reload (tens of seconds on the 10 GB card), paid
+    inside the remedy by the ruling. Any failure is (False, why) -- never a pass.
+    """
+    import urllib.request as _ur
+    try:
+        import yaml as _yaml
+        with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+            cfg = _yaml.safe_load(f) or {}
+        body = json.dumps({"model": cfg.get("model"), "prompt": "say ok", "stream": False,
+                           "keep_alive": -1,
+                           "options": {"num_ctx": int(cfg.get("num_ctx", 6144)),
+                                       "num_predict": 8}}).encode()
+        req = _ur.Request(str(cfg.get("ollama_host", "http://localhost:11434")).rstrip("/")
+                          + "/api/generate", data=body,
+                          headers={"Content-Type": "application/json"})
+    except Exception as e:
+        silence.note("foreman.py:generation-probe-unsent")
+        return False, "the generation probe could not be built (%s: %s)" % (type(e).__name__, e)
+    t0 = time.time()
+    try:
+        # THROUGH THE LANE, AS BACKGROUND WORK (order 30122bf3a5a7): a real generation on the one
+        # card takes its turn like every other model call. The clock restarts inside the lane so
+        # queueing behind prose is not reported as a generation that failed to complete.
+        import gpu_lane as _gl
+        with _gl.lane("foreman:generation-probe"):
+            t0 = time.time()
+            with _ur.urlopen(req, timeout=timeout) as r:
+                raw = json.loads(r.read())
+    except Exception as e:
+        silence.note("foreman.py:generation-probe")
+        return False, ("no generation completed within %.0fs (%s: %s)"
+                       % (time.time() - t0, type(e).__name__, " ".join(str(e).split())))
+    if not isinstance(raw, dict):
+        return False, "the generation answered with a %s, not a result" % type(raw).__name__
+    if raw.get("eval_count") or str(raw.get("response") or "").strip():
+        return True, "a generation completed in %.1fs" % (time.time() - t0)
+    return False, "the generation returned no tokens (eval_count %r)" % (raw.get("eval_count"),)
+
+
 def restart_ollama():
     """Restart the local model service when tokens stop flowing. AUTO by owner ruling
     (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon
@@ -1482,22 +1532,37 @@ def restart_ollama():
         # foremen to lose the same stamp.
         if not silence.write_json(RESTART_STAMP, st):
             silence.note("foreman.py:ollama-stamp-denied")
+        # `did=True` ONLY ON A COMPLETED GENERATION (order ff77e242b830 item 2, Reading B; see
+        # `_ollama_generates`). /api/tags answering is necessary, not sufficient: it answered
+        # through both wedges. A daemon that answers but has not yet produced tokens is reported
+        # as "restarted, NOT YET CONFIRMED" and the remedy returns False, so the auto record
+        # never books an unproven cure; the stamp above still rate-limits the next attempt.
+        gen_ok, gen_why = _ollama_generates() if up else (False, None)
         if action == "start-tray":
             # DIFFERENT WORDS FROM A WEDGE, so foreman.log can tell "the tray is gone" from "the
             # daemon is wedged" without anyone reading the process table after the fact.
-            if up:
+            if up and gen_ok:
                 return True, ("the Ollama tray was NOT RUNNING, so nothing could respawn the "
                               "daemon -- started it detached and windowless (pid %d, automated "
-                              "action #%d); daemon answering, model reloads on first call"
-                              % (pid, st["count"]))
+                              "action #%d); daemon answering and %s"
+                              % (pid, st["count"], gen_why))
+            if up:
+                return False, ("the Ollama tray was NOT RUNNING; started it (pid %d, automated "
+                               "action #%d) and the daemon answers, but the cure is NOT YET "
+                               "CONFIRMED: %s -- the next round re-measures"
+                               % (pid, st["count"], gen_why))
             return False, ("the Ollama tray was NOT RUNNING; started it (pid %d) but the daemon "
                            "did not answer within %.0fs -- owner needed"
                            % (pid, time.time() - _t0))
         blind = ("" if procs is not None else
                  " (the process table could not be read, so whether the tray was up was not checked)")
+        if up and gen_ok:
+            return True, ("ollama restarted (automated restart #%d); daemon answering and %s%s"
+                          % (st["count"], gen_why, blind))
         if up:
-            return True, ("ollama restarted (automated restart #%d); daemon answering, model "
-                          "reloads on first call%s" % (st["count"], blind))
+            return False, ("ollama restarted (automated restart #%d) and the daemon answers, but "
+                           "the cure is NOT YET CONFIRMED: %s -- the next round re-measures%s"
+                           % (st["count"], gen_why, blind))
         return False, ("ollama killed but the tray did not respawn it within %.0fs -- owner needed%s"
                        % (time.time() - _t0, blind))
     except Exception as e:

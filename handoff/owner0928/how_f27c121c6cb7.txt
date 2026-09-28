@@ -1,0 +1,12 @@
+RE-ROUTED OWNER -> BOTS under the owner's 2026-09-28 "fix everything" instruction. The curatorial decision is made; what is left is a network job, which this session was not permitted to start.
+
+Option taken: the filing run's recommended "targeted alternative ... probably the better first move" -- re-catalogue only the sources whose stored types are PROVABLY wrong, and leave the ambiguous majority until a full pass runs for another reason.
+
+Prepared: handoff/owner0928/recatalogue_targets.py (read-only) recomputes the provable set from disk: a (record, category) group of 5+ entries that is single-typed (the cats[0] signature) with a proper-noun type (colon, digit, or a roll source's name). Measured 2026-09-28 over 156 mode='web' records / 272,004 entries: the provable set is 690 entries in ONE source -- Warhammer Fantasy / Events, all typed 'Total War: Warhammer'. (The order's 2,517 figure counted proper-noun-looking types that are not whole-class single-typed, e.g. cataloguer-written 'Multiplayer Map (Battlefield 1)'; those are descriptive, not the artefact.) 18,446 further entries sit in single-typed groups with an ordinary kind word -- ambiguous offline, not targeted.
+
+THE COMMAND (network; run when the Fandom pool has room; it lands through write_record_catalogue, and the miner now also strips wiki maintenance banners, order cb31bf2707ad):
+  C:/Users/imarl/miniconda3/python.exe src/catalogue_web.py --recatalogue --only "Warhammer Fantasy"
+Full pass, only if the owner later wants the ambiguous majority too (multi-day):
+  C:/Users/imarl/miniconda3/python.exe src/catalogue_web.py --recatalogue
+
+Close this when data/records/warhammer-fantasy.json's Events carry per-category types (python handoff/owner0928/recatalogue_targets.py lists no targets).

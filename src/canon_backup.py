@@ -266,12 +266,20 @@ def prune(keep=KEEP):
     machine-readable record is `silence.note`, which is already where a denied write in this
     project goes to be counted.
     """
+    # `keep` BELOW ONE IS REFUSED, NOT QUIETLY IGNORED (order 28f335ecefd3 item 5 / 6b59a5d4302a
+    # item 8, owner ruling 2026-09-28 "fix everything"). `snaps[:-0]` is the empty list, so
+    # `--keep 0` and every negative value pruned nothing and said nothing -- a person who typed
+    # it meaning "keep none" was told the prune ran. Keeping no backup of the non-derivable
+    # corpus is not an operation this tool offers, so it is an error with a sentence.
+    if not isinstance(keep, int) or isinstance(keep, bool) or keep < 1:
+        raise ValueError("canon_backup.prune: keep must be a whole number of at least 1, got %r "
+                         "-- this tool always keeps the newest snapshot" % (keep,))
     if not os.path.isdir(ROOT):
         return []
     snaps = sorted(f for f in os.listdir(ROOT)
                    if f.startswith("canon-") and f.endswith(".zip"))
     removed, denied = [], []
-    for f in snaps[:-keep] if keep > 0 else []:
+    for f in snaps[:-keep]:
         gone = True
         for p in (os.path.join(ROOT, f),
                   os.path.join(ROOT, f[:-4] + ".manifest.json")):
@@ -516,6 +524,10 @@ def main():
     ap.add_argument("--restore", metavar="REL", help="extract one file, e.g. data/WIKI_HOSTS.json")
     ap.add_argument("--keep", type=int, default=KEEP)
     a = ap.parse_args()
+    # Refused BEFORE the snapshot is taken, so a bad --keep never leaves a half-finished run.
+    if a.keep < 1:
+        ap.error("--keep must be at least 1 (got %d); this tool always keeps the newest snapshot"
+                 % a.keep)
 
     if a.restore:
         print("restored ->", restore(a.restore))

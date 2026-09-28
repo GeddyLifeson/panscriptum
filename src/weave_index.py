@@ -196,6 +196,22 @@ def norm(name, known=None):
     return s + "@" + keep if keep else s
 
 
+def match_key_base(key):
+    """-> the part of a `norm()` key the MATCHING rules are asked about: the key without its
+    `@continuity` suffix.
+
+    ORDER d2f103634cf1 ITEM 4 (owner ruling 2026-09-28 "fix everything"). `norm()` appends a
+    declared continuity as `name@continuity`, and the stopname and short-key rules in `main()`
+    were asked of the WHOLE key -- so `god@earth616` is not in `_STOPNAMES` and `x@earth616` is
+    not shorter than MIN_MATCH_KEY, and a generic or two-letter name carried a continuity suffix
+    straight past both rules into the candidate list. The suffix says WHICH continuity; it does
+    not make "god" or "X" any better as evidence of an omniverse identity. Nothing is removed from
+    the stored index -- these remain matching rules only, exactly as orders 8f50f37255b5 and
+    e959f566275d placed them. Measured on data/ENTITY_INDEX.json before the change: 0
+    cross-source continuity keys were affected.
+    """
+    return str(key or "").split("@", 1)[0]
+
 _REC_CACHE = {"sig": None, "out": None}
 
 # How long a computed signature may be reused before the directory is re-read. See the note in
@@ -435,6 +451,37 @@ def build():
 
 STALE_HOURS = 48.0
 
+# THE MOVED-CORPUS THRESHOLD (order 2cb442afd901, decided under the owner's 2026-09-28 "fix
+# everything" instruction). The filing run asked for one number -- "stale when the index is older
+# than STALE_HOURS, OR when modified_since / total_records exceeds some fraction" -- and recommended
+# reading the recorded `behind`/`modified_since` figures first. Those readings, as they stand in the
+# order trail and in this shift's measurement:
+#
+#     index age    records newer / total     what it was
+#       23.9 h          1 / 216   (0.5%)     ordinary crawl churn
+#       30.1 h         37 / 216  (17.1%)     a recatalogue pass inside the window
+#      235.2 h        210 / 216  (97.2%)     the corpus rewritten wholesale
+#      425.4 h         16 / 216   (7.4%)     2026-09-28, before this shift's rebuild
+#
+# 10% sits above every "ordinary churn" reading (0.5%, and 7.4% after eighteen days) and below
+# every real rewrite (17.1%, 97.2%), so it fires on the case the mtime signal exists for without
+# sounding on the continuous crawl. The age limit is unchanged; this is an OR beside it.
+STALE_FRACTION = 0.10
+
+
+def stale_verdict(age_hours, modified_since, total_records):
+    """PURE. Is the index stale enough to rebuild? -> bool.
+
+    Old past STALE_HOURS, OR more than STALE_FRACTION of the record files are newer than it. A
+    missing count (the cheap path skipped it) cannot fire the fraction clause; the age clause
+    still stands on its own.
+    """
+    if age_hours is not None and age_hours > STALE_HOURS:
+        return True
+    if modified_since is None or not total_records:
+        return False
+    return (float(modified_since) / float(total_records)) > STALE_FRACTION
+
 
 def staleness():
     """How stale is data/ENTITY_INDEX.json against data/records/, right now? -> dict.
@@ -509,9 +556,16 @@ def staleness():
     # for. Nobody has set that fraction, and picking one here would be decreeing a policy inside
     # a detector. `behind` and `modified_since` are both reported so whoever rules on it can see
     # the distribution first.
+    #
+    # RULED 2026-09-28 (order 2cb442afd901): the middle version, with STALE_FRACTION above.
     behind = bool(newest is not None and newest > idx_mtime)
-    stale = bool(age_hours > STALE_HOURS)
-    if stale and behind:
+    total = len(files) if files else 0
+    stale = stale_verdict(age_hours, modified_since, total)
+    if stale and age_hours <= STALE_HOURS:
+        why = ("%d of %d record(s) are newer than the index (over %.0f%% of the corpus moved) "
+               "although it is only %.1fh old" % (modified_since or 0, total,
+                                                  STALE_FRACTION * 100, age_hours))
+    elif stale and behind:
         why = ("the index is %.1fh old (limit %.1fh) and %d of %d record(s) are newer than it"
                % (age_hours, STALE_HOURS, modified_since or 0, len(files) if files else 0))
     elif stale:
@@ -541,33 +595,61 @@ def escalate_if_stale():
     if not st["stale"]:
         return None
     import workorders as WO
+    # A NEW IDENTITY SINCE THE REBUILD WAS SCHEDULED (order d1709d8e757d, closed 2026-09-28).
+    # The old code and `where` both asserted "nothing schedules a rebuild", which stopped being
+    # true when `overnight.weave_index_cycle` landed. Re-filing under them would reopen a closed
+    # order with a false sentence in it. What a stale index MEANS now is that the scheduled
+    # rebuild has not cured it -- a different fault with a different first move -- so it gets
+    # its own (code, where), held constant from here on so it refreshes rather than duplicates.
     what = (
-        "data/ENTITY_INDEX.json is %s -- %.1f hours old%s. Continuity groups, resolved "
-        "entities and the resonance graph are computed from this index, so published "
-        "artefacts derived from it are a snapshot of a partial corpus. Nothing schedules a "
-        "rebuild (weave_index is absent from overnight.STANDING and from every foreman "
-        "remedy, verified by grep); running `python src/weave_index.py --write` rebuilds it. "
-        "The build is pure Python over data/records (no model, no GPU) -- REMEDY: either wire "
-        "this module into a standing job, or run the rebuild by hand and confirm cost against "
-        "the actual corpus size before scheduling it standing."
+        "data/ENTITY_INDEX.json is %s -- %.1f hours old%s, and the supervisor's scheduled "
+        "rebuild (`overnight.weave_index_cycle`, run every lap while `staleness()` says stale) "
+        "has not cured it. Continuity groups, resolved entities and the resonance graph are "
+        "computed from this index, so published artefacts derived from it are a snapshot of a "
+        "partial corpus. FIRST MOVE: read `weave index:` lines in state/overnight.log (is the "
+        "supervisor up and reaching the lap end? is the rebuild failing, or its write denied?). "
+        "`python src/weave_index.py --write` rebuilds it by hand (measured 11s on 2026-09-28)."
         % (("missing" if not st["exists"] else "stale"), st["age_hours"] or 0.0,
            ("" if st["modified_since"] is None else
             " (%d of %d record files modified since the last build)"
             % (st["modified_since"], st["total_records"])))
     )
     return WO.file_order(
-        code="ENTITY_INDEX_NEVER_REBUILT_STALENESS_ANNOUNCED_BUT_UNACTED",
+        code="ENTITY_INDEX_STALE_DESPITE_SCHEDULED_REBUILD",
         what=what, handler="RUN", severity="MAJOR",
-        # BYTE-FOR-BYTE THE SAME `where` THE ORIGINAL ORDER d1709d8e757d WAS FILED WITH.
-        # `order_id` hashes (code, where) together, and its own docstring is explicit that
-        # widening or reformatting `where` between filings "mints a SECOND, PERMANENTLY
-        # SEPARATE order" rather than refreshing the one already open -- exactly what this
-        # function exists to avoid doing every time it runs.
-        where=("data/ENTITY_INDEX.json; src/weave_index.py (the builder); src/overnight.py "
-               "STANDING and src/foreman.py remedies (neither schedules it)"),
+        # HELD CONSTANT: `order_id` hashes (code, where), so this string is the order's identity.
+        where=("data/ENTITY_INDEX.json; src/weave_index.py (the builder); "
+               "src/overnight.py weave_index_cycle (the schedule)"),
         evidence={"age_hours": st["age_hours"], "modified_since": st["modified_since"],
                   "total_records": st["total_records"]},
-        found_by="weave_index.staleness (order d1709d8e757d)")
+        found_by="weave_index.staleness")
+
+
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
 
 
 def main():
@@ -576,14 +658,22 @@ def main():
     ap.add_argument("--min-sources", type=int, default=2,
                     help="a candidate needs this many DISTINCT sources")
     args = ap.parse_args()
+    if args.write:
+        # THE HALT (owner ruling 2026-09-28, order 21c075e5e2d6): this invocation writes, so it asks first.
+        _assert_not_halted("--write (writes ENTITY_INDEX.json, WEAVE_CANDIDATES.json)")
 
     # THE ESCALATION HALF OF ORDER d1709d8e757d, checked before the (possibly expensive) build
     # below so a report-only invocation still files the finding. Refresh-not-duplicate, so
     # running this by hand or in a loop never grows the queue.
-    _order = escalate_if_stale()
-    if _order is not None:
-        print(f"ENTITY_INDEX.json is stale -- filed/refreshed work order "
-              f"{_order.get('id')} on the {_order.get('handler')} rung")
+    # NOT IN --write MODE: a rebuild IS the remedy, so filing "stale" on the way into one would
+    # raise an order about the condition this very run is about to cure (and the supervisor now
+    # runs exactly that every time the index is stale -- order d1709d8e757d). A --write whose
+    # files do not land escalates below instead, which is the case that is actually news.
+    if not args.write:
+        _order = escalate_if_stale()
+        if _order is not None:
+            print(f"ENTITY_INDEX.json is stale -- filed/refreshed work order "
+                  f"{_order.get('id')} on the {_order.get('handler')} rung")
 
     recs, index, total, excluded = build()
 
@@ -601,7 +691,7 @@ def main():
         # here, the entity keeps its place in ENTITY_INDEX.json (and therefore in
         # `weave.load_index`'s population and idf table) and only stays out of the candidate
         # list. Counted and printed below, like the short keys, rather than dropped in silence.
-        if key in _STOPNAMES:
+        if match_key_base(key) in _STOPNAMES:
             stop_keys += 1
             stop_hits += len(hits)
             continue
@@ -611,7 +701,7 @@ def main():
         # Applied here, the entry keeps its place in ENTITY_INDEX.json (and therefore in
         # `weave.load_index`'s population and idf table) and only stays out of the candidate
         # list. The count is printed below rather than left to be rediscovered by the next audit.
-        if len(key) < MIN_MATCH_KEY:
+        if len(match_key_base(key)) < MIN_MATCH_KEY:
             short_keys += 1
             short_hits += len(hits)
             continue
@@ -719,6 +809,11 @@ def main():
             print("Rerun `weave_index.py --write` once whatever is holding these open has "
                   "let go; the build itself is cheap and derived entirely from data/records.",
                   file=sys.stderr)
+            # THE REBUILD DID NOT CURE IT, so the staleness is news again (see the skip above).
+            try:
+                escalate_if_stale()
+            except Exception:
+                silence.note("weave_index.py:stale-escalate-failed")
             return 1
     return 0
 

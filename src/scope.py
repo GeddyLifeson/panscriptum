@@ -48,6 +48,21 @@ OUT = os.path.join(HERE, "data", "SCOPE.json")
 
 # Ordered low to high. The band is the CEILING a fiction of this scope can support, taken from
 # Part Three's own table of what each rung can threaten.
+#
+# M0, M5, M9 AND M10 HAVE NO MARKER, DELIBERATELY (order 5bb12b398783 item 2, recorded under the
+# owner's 2026-09-28 "fix everything" ruling). A scope-derived ceiling can therefore only land on
+# M1-M4 or M6-M8, and that is the intended reading, for four different reasons:
+#   * M0 (a village) is the floor, not a scope: a wiki that mentions no city, nation or world
+#     clears no marker and gets NO ceiling (None), which says "unknown" -- never "village". Absent
+#     mentions are not evidence of a small cosmos.
+#   * M5 (star clusters, associations, nebulae) has no reliable text signal: "cluster" and
+#     "nebula" are generic words and common proper names (ships, characters, attacks), so a
+#     marker would mis-ceiling far more fictions than it placed.
+#   * M9 (metaverses and xenoverses) is the charter's own vocabulary; source wikis do not use it,
+#     so a marker would match nothing and cost a PROBE_VERSION bump for no reading.
+#   * M10 is "exactly one class of entry" (Part Three) -- the Grand Custodes -- and is never a
+#     fiction's ceiling by its own text, whatever a wiki's "omniversal" means.
+# Adding a marker is a change to what a probe SEES and must bump PROBE_VERSION (below).
 TIERS = [
     ("nation", r"\bnations?\b|\bkingdoms?\b|\bempires?\b|\bcit(?:y|ies)\b", "M1"),
     ("continent", r"\bcontinents?\b", "M2"),

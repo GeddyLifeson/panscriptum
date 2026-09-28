@@ -1,0 +1,18 @@
+FIXED 2026-09-28 under the owner's "fix everything" instruction (group OPS). Options taken: remedy (a) -- a second witness, each managed job's declared output -- with (b) for anything undeclared, and the declaration lives in lognames beside the log, as question 1 asked. The threshold MAX_JOB_SILENCE_MIN=15 is deliberately unchanged, as the order argued.
+
+THE DECLARATION (src/lognames.py PRODUCT, from the order's own candidate list):
+  read_auto.log        read.py --run                  -> data/readfeats
+  roll_auto.log        feats.py --roll                -> data/feats
+  pipeline_auto.log    pipeline.py --run              -> state/PIPELINE_STATE.json, data/records
+  recatalogue.log      catalogue_web --recatalogue    -> data/records
+  sweep.log            sweep.py                       -> data/CHARACTER_SWEEP.json
+  calibrate.log        magnitude.py --calibrate       -> data/CHARTER_REGRESSION.json (the "unclear" one: it lands this file incrementally)
+
+THE MEASUREMENT (src/standards.py):
+  * output_age_min(paths, now): a file by its mtime; a directory by its own mtime and each IMMEDIATE child's. A file created/replaced in a directory bumps the directory mtime, so data/feats (~277k files) is witnessed with ~143 host-directory stats and no walk -- the cost the order's implementation note asked for. Measured live: under 1 ms per tree.
+  * job_stall_verdict(quiet_min, out_age_min, declared) (pure): log inside the limit -> advancing; log quiet but output written inside the limit -> advancing (slow, not wedged); both quiet -> stalled; log quiet with no declaration or nothing readable -> UNMEASURABLE (question 2: turns the standard red, phrased so foreman.kill_stalled_job's `NAME (<n> min` parse cannot pick a name out of it -- one witness never convicts).
+  * The stalled line now reads "job (N min, B bytes; output quiet M min)". Adding the witness only ever narrows a positive.
+
+PROVEN: drill.py area `drill_ops_liveness`, net "a quiet log over a moving output tree is not stalled" (synthetic tree in a temp dir with os.utime-aged mtimes, so it needs no live process; asserts every lognames.OWNER log has a PRODUCT entry). `--prove` with handoff/owner0928/revert_ops_stall_witness.json (output witness ignored) -> RED; without -> HELD. pyflakes clean.
+
+Order 3dc2832846bc (the job this was found on) is not closed by this change; its own group decides.

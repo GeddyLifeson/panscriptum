@@ -1,0 +1,403 @@
+def drill_owner0928_qa():
+    """THE 2026-09-28 QUESTION BUNDLES -- the owner ruled "fix everything", and each answer is a
+    guard that has to be seen refusing.
+
+    Orders beb7db270826, d2f103634cf1, 6b59a5d4302a, 28f335ecefd3 and d03706b5eaf0 were bundles
+    of small questions, each "none of them a defect today". Every one that became code became a
+    refusal or a report, and a refusal nobody has watched refuse is a belief (Hard Rule -1,
+    PROVEN). Nothing here touches the live tree: every fixture is a temp directory or a stub,
+    and every stub is put back in a `finally`. Order 39a0542b03f3's exact-name change is pinned
+    in `drill_assay`, beside the nets it inverted, and the catalogue merge's keep-and-mark ruling
+    in `_catalogue_merge_keeps_duplicate_names`, beside the bound it replaced.
+    """
+    a = "THE 2026-09-28 QUESTION BUNDLES — does each ruled answer still refuse?"
+
+    # --- d03706b5eaf0 item 1: a non-being must SAY "Not applicable"; the bare glyph is not it.
+    _head = "◈ **Rome**\nShelfmark: 1\nClass: World\nMagnitude: M2\n"
+    _body = ("The custodian records the city as it stands in the record, attested twice and "
+             "left unmeasured.\n")
+
+    def bare_marker_on_a_non_being_is_refused():
+        glued = _head + _body + "▣ Threads: pending the entanglement pass\n"
+        lone = _head + _body + "▣\nThreads: pending the entanglement pass\n"
+        said = (_head + _body + "▣ The Instrument. Not applicable -- the Instrument measures "
+                "beings, not places.\nThreads: pending the entanglement pass\n")
+        return (PG.instrument_shortfall(glued)[:2] == (0, 1)
+                and PG.instrument_shortfall(lone)[:2] == (0, 1)
+                and PG.instrument_shortfall(said)[:2] == (1, 1))
+    net(a, "a non-being carrying only the Instrument glyph is refused; the sentence passes",
+        bare_marker_on_a_non_being_is_refused,
+        "32 entries in 30 live chapters passed on `▣ Threads: ...` -- the glyph survived and the "
+        "section did not, the header-survives-content-vanishes shape layer 4c exists for")
+
+    def the_fill_writes_the_sentence_the_gate_now_asks_for():
+        import generate as GN
+        glued = _head + _body + "▣ Threads: pending the entanglement pass\n"
+        out, sup = GN.complete_fixed_tail(glued)
+        classes_ok = all(c in GN._NOT_A_BEING
+                         for c in ("world", "polity", "event", "relic", "vessel", "praxis",
+                                   "substance"))
+        return (sup["instrument"] == 1 and PG.instrument_shortfall(out)[:2] == (1, 1)
+                and "Not applicable" in out and classes_ok)
+    net(a, "the fixed-tail fill supplies a non-being's Not-applicable sentence, for all seven "
+           "non-being classes",
+        the_fill_writes_the_sentence_the_gate_now_asks_for,
+        "a gate tightened without the fill it pairs with refuses chapters whose missing words "
+        "carry no judgment -- the 469-refusal stall order 670c907af5e3 was ruled to end")
+
+    # --- 28f335ecefd3 item 2: an unnamed entry is not covered.
+    def an_unnamed_entry_is_not_covered():
+        import generate as GN
+        return (GN._covered("", "any text at all") is False
+                and GN._covered(None, "any text at all") is False
+                and GN._covered("Athuri", "... Athuri stood ...") is True)
+    net(a, "an entry with no name is NOT counted as covered",
+        an_unnamed_entry_is_not_covered,
+        "True for every unnamed entry is the check answering yes to the one input it cannot check")
+
+    # --- beb7db270826 item 2: a line-anchored DISCOURSE pattern `_anchor` cannot rewrite stops
+    # the import instead of going blind mid-paragraph.
+    def a_misanchored_tell_stops_the_import():
+        path = os.path.join(_srcdir(), "tells.py")
+        with open(path, encoding="utf-8") as fh:
+            src = fh.read()
+        if src.count("DISCOURSE = {") != 1:
+            return False
+        bad = src.replace("DISCOURSE = {",
+                          "DISCOURSE = {\n    \"drill probe\": r\"^Drill probe\\b\",", 1)
+        try:
+            exec(compile(src, path, "exec"), {"__name__": "tells_drill_probe", "__file__": path})
+        except SystemExit:
+            return False                     # the file as it stands must import
+        try:
+            exec(compile(bad, path, "exec"), {"__name__": "tells_drill_probe", "__file__": path})
+        except SystemExit:
+            return True
+        return False
+    net(a, "a DISCOURSE pattern anchored as bare ^ stops tells.py importing",
+        a_misanchored_tell_stops_the_import,
+        "`_anchor` only rewrites the literal ^\\s* prefix; any other anchor stays line-only and "
+        "the tell goes silently blind mid-paragraph")
+
+    # --- 28f335ecefd3 item 4 / 6b59a5d4302a item 8: the patch audit trail keeps every character.
+    def the_patch_audit_trail_is_uncut():
+        import local_agent as LA
+        log = []
+        why, find, rep = "w" * 900, "f" * 700, "r" * 650
+        LA.t_propose_patch("handoff/__drill_no_such_file__.txt", find, rep, why=why,
+                           apply=False, log=log)
+        return (len(log) == 1 and log[0]["why"] == why and log[0]["find"] == find
+                and log[0]["replace"] == rep)
+    net(a, "the local model's patch audit trail records why/find/replace whole",
+        the_patch_audit_trail_is_uncut,
+        "a 200-character cut with no marker records a different, shorter patch than the one "
+        "the model proposed -- Hard Rule 0, in the one record of what it tried to write")
+
+    # --- d2f103634cf1 item 2: a file with a second name is refused on the writable surface.
+    def a_hard_linked_file_is_refused():
+        import local_agent as LA
+        d = tempfile.mkdtemp(prefix="drill_nlink_")
+        saved = LA.HERE
+        try:
+            os.makedirs(os.path.join(d, "handoff"))
+            one = os.path.join(d, "handoff", "one.txt")
+            two = os.path.join(d, "handoff", "two.txt")
+            solo = os.path.join(d, "handoff", "solo.txt")
+            for p_ in (one, solo):
+                with open(p_, "w", encoding="utf-8") as fh:
+                    fh.write("alpha\n")
+            try:
+                os.link(one, two)
+            except (OSError, AttributeError, NotImplementedError):
+                raise RuntimeError("could not stage a hard link on this filesystem, so nothing "
+                                   "was measured")
+            LA.HERE = d
+            linked = LA.t_propose_patch("handoff/two.txt", "alpha", "beta", apply=False)
+            single = LA.t_propose_patch("handoff/solo.txt", "alpha", "beta", apply=False)
+            return ("hard link" in str(linked.get("error", ""))
+                    and single.get("staged") is True and "error" not in single)
+        finally:
+            LA.HERE = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a hard-linked file on the writable surface is refused; a single-name file is not",
+        a_hard_linked_file_is_refused,
+        "the protected REGIONS keep only their prefix rule, so a second name into state/ or "
+        "data/records/ from handoff/ passed every gate")
+
+    # --- d2f103634cf1 item 3: an absolute raw_path in the catalog is not a book on this shelf.
+    def an_absolute_catalog_path_is_refused():
+        d = tempfile.mkdtemp(prefix="drill_catabs_")
+        try:
+            raw = os.path.join(d, "output", "raw")
+            os.makedirs(raw)
+            os.makedirs(os.path.join(d, "output", "index"))
+            book = os.path.join(raw, "II_Z_1_Persons_1_10.md")
+            with open(book, "w", encoding="utf-8") as fh:
+                fh.write("x\n")
+
+            def write_cat(p_):
+                with open(os.path.join(d, "output", "index", "catalog.json"), "w",
+                          encoding="utf-8") as fh:
+                    json.dump({"II.Z.1/Persons#1-10": {"raw_path": p_}}, fh)
+            write_cat(os.path.join("output", "raw", "II_Z_1_Persons_1_10.md"))
+            relative_ok = _catalog_matches_disk(d) is True
+            write_cat(os.path.abspath(book))
+            return relative_ok and _catalog_matches_disk(d) is False
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a catalog row with an ABSOLUTE raw_path does not reconcile",
+        an_absolute_catalog_path_is_refused,
+        "an absolute path resolves against the live filesystem whatever root the check was "
+        "given; the only writer writes relative paths, so an absolute one is a report that "
+        "drifted from the shelf it describes")
+
+    # --- d2f103634cf1 item 4: the matching rules see through a continuity suffix.
+    def matching_rules_ask_the_base_name():
+        import ast
+        import weave_index as W
+        if not (W.match_key_base("god@earth616") == "god" and W.match_key_base("x@a") == "x"
+                and W.match_key_base("thor") == "thor"):
+            return False
+        tree = _ast_of(os.path.join(_srcdir(), "weave_index.py"))
+        fn = _defn(tree, "main")
+        if fn is None:
+            return False
+        seen = {"stop": False, "short": False}
+        for n in ast.walk(fn):
+            if not isinstance(n, ast.Compare) or len(n.comparators) != 1:
+                continue
+            right = n.comparators[0]
+            if isinstance(right, ast.Name) and right.id == "_STOPNAMES":
+                left = n.left
+                if not (isinstance(left, ast.Call) and getattr(left.func, "id", "")
+                        == "match_key_base"):
+                    return False
+                seen["stop"] = True
+            if isinstance(right, ast.Name) and right.id == "MIN_MATCH_KEY":
+                left = n.left
+                arg = left.args[0] if isinstance(left, ast.Call) and left.args else None
+                if not (isinstance(arg, ast.Call) and getattr(arg.func, "id", "")
+                        == "match_key_base"):
+                    return False
+                seen["short"] = True
+        return seen["stop"] and seen["short"]
+    net(a, "the stopname and short-key rules are asked of the key WITHOUT its continuity",
+        matching_rules_ask_the_base_name,
+        "`god@earth616` is not in _STOPNAMES and `x@a` is not short, so a generic name carried a "
+        "continuity suffix straight into the cross-source candidates")
+
+    # --- d2f103634cf1 item 5: the entry schema asks for the category range up front.
+    def the_category_is_bounded_in_the_schema():
+        import pipeline as PL
+        cat = PL.ENTRY_SCHEMA["properties"]["results"]["items"]["properties"]["category"]
+        return (cat.get("type") == "integer" and cat.get("minimum") == 1
+                and cat.get("maximum") == len(PL.CATEGORIES))
+    net(a, "ENTRY_SCHEMA bounds `category` to 1..len(CATEGORIES)",
+        the_category_is_bounded_in_the_schema,
+        "an unconstrained integer lets constrained decoding emit 0 or 14, which the phase then "
+        "has to catch after the call it already paid for")
+
+    # --- d2f103634cf1 item 6: a ruling for the same mutation at a moved line is NAMED, and
+    # still not applied.
+    def a_moved_ruling_is_named_not_applied():
+        import types
+        import mutate as MU
+        filed = []
+        stub = types.SimpleNamespace(
+            order_id=lambda code, where: "id:" + where,
+            file_order=lambda **kw: filed.append(kw) or "filed")
+        had = sys.modules.get("workorders")
+        keep_reg = MU.ruled_equivalent
+        try:
+            sys.modules["workorders"] = stub
+            MU.ruled_equivalent = lambda *a_, **k_: {"id:src/assay.py:908": {
+                "id": "id:src/assay.py:908", "target": "assay.py", "line": 908,
+                "mutation": "< -> <=", "was": "if a < b:", "became": "if a <= b:",
+                "ruling": "the boundary is unreachable because b is always odd"}}
+            ids = MU.file_orders({"target": "assay.py", "survivors": [
+                {"line": 909, "mutation": "< -> <=", "was": "if a < b:",
+                 "became": "if a <= b:"}]})
+        finally:
+            MU.ruled_equivalent = keep_reg
+            if had is None:
+                sys.modules.pop("workorders", None)
+            else:
+                sys.modules["workorders"] = had
+        return (ids == ["filed"] and len(filed) == 1
+                and "assay.py:908" in filed[0]["what"]
+                and "b is always odd" in filed[0]["what"])
+    net(a, "a text-identical ruling at a moved line is named in the re-filed order, not applied",
+        a_moved_ruling_is_named_not_applied,
+        "assay.py:908 became 909 and came back as a fresh order with nothing pointing at the "
+        "ruling a person had already written for it")
+
+    # --- 6b59a5d4302a item 1: a breach is dropped only after THREE holding re-reads.
+    def a_flaky_net_is_not_dropped_on_one_good_read():
+        saved_wait = globals()["_wait_for_a_settled_tree"]
+        key_f = ("__drill flaky__", "__drill flaky net__")
+        key_s = ("__drill flaky__", "__drill steady net__")
+        seq = iter([True, False, True, True, True, True])
+        try:
+            globals()["_wait_for_a_settled_tree"] = lambda *a_, **k_: (999.0, True)
+            _ATTACKS[key_f] = lambda: next(seq)
+            _ATTACKS[key_s] = lambda: True
+            rf = {"area": key_f[0], "net": key_f[1]}
+            rs = {"area": key_s[0], "net": key_s[1]}
+            reproduced, recovered, _note = _reread_the_breaches([rf, rs])
+            return rf in reproduced and rs in recovered
+        finally:
+            globals()["_wait_for_a_settled_tree"] = saved_wait
+            _ATTACKS.pop(key_f, None)
+            _ATTACKS.pop(key_s, None)
+    net(a, "a breached net that holds once and then fails again is NOT dropped from the halt",
+        a_flaky_net_is_not_dropped_on_one_good_read,
+        "one good re-read cannot tell a mid-edit photograph from a flaky net; three in a row on "
+        "a settled tree is the evidence the halt is dropped on")
+
+    # --- 6b59a5d4302a item 3: "roll now" is what the file says after the compare-and-swap.
+    def roll_now_is_read_back_from_disk():
+        import roll as _roll
+        import resync_roll as RR
+        d = tempfile.mkdtemp(prefix="drill_rollnow_")
+        saved = (RR.ROLL, RR.RECORDS, _roll.mutate, sys.argv, RR.silence)
+        try:
+            rec_dir = os.path.join(d, "records")
+            os.makedirs(rec_dir)
+            with open(os.path.join(rec_dir, "a.json"), "w", encoding="utf-8") as fh:
+                json.dump({"source": "Alpha", "entries": [{"name": "x"}]}, fh)
+            roll_p = os.path.join(d, "SWEEP_ROLL.json")
+            with open(roll_p, "w", encoding="utf-8") as fh:
+                json.dump([{"name": "Alpha", "entry_count": 0, "status": "uncatalogued"}], fh)
+
+            def other_writer_too(apply, attempts=8, path=None):
+                rows = apply([{"name": "Alpha", "entry_count": 0, "status": "uncatalogued"}])
+                rows.append({"name": "Beta", "entry_count": 5, "status": "catalogued"})
+                with open(path, "w", encoding="utf-8") as fh:
+                    json.dump(rows, fh)
+                return True, None
+            RR.ROLL, RR.RECORDS = roll_p, rec_dir
+            RR.silence = _quiet(RR.silence)
+            _roll.mutate = other_writer_too
+            sys.argv = ["resync_roll.py"]
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = RR.main()
+            return rc == 0 and "roll now: 2/2 sources catalogued, 6 entries" in buf.getvalue()
+        finally:
+            RR.ROLL, RR.RECORDS, _roll.mutate, sys.argv, RR.silence = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "resync_roll's closing 'roll now' figure is read back from disk",
+        roll_now_is_read_back_from_disk,
+        "the in-memory roll misses every row another writer landed inside this run's window, "
+        "and the closing line is the one a person takes as the roll's state")
+
+    # --- 6b59a5d4302a item 4: hosts.KEEP names verdicts hostcheck.score can actually give.
+    def keep_names_real_verdicts():
+        import ast
+        import hosts as HO
+        tree = _ast_of(os.path.join(_srcdir(), "hostcheck.py"))
+        fn = _defn(tree, "score")
+        if fn is None:
+            return False
+        given = set()
+        for n in ast.walk(fn):
+            if not isinstance(n, ast.Assign) or not isinstance(n.value, ast.Constant):
+                continue
+            for t in n.targets:
+                if (isinstance(t, ast.Subscript) and isinstance(t.slice, ast.Constant)
+                        and t.slice.value == "verdict" and isinstance(n.value.value, str)):
+                    given.add(n.value.value)
+        return bool(HO.KEEP) and set(HO.KEEP) <= given
+    net(a, "every verdict hosts.KEEP accepts is a literal hostcheck.score really assigns",
+        keep_names_real_verdicts,
+        "rename 'partial' in hostcheck and hosts.discover silently keeps nothing from it -- two "
+        "modules agreeing on a word with nothing tying them together")
+
+    # --- 6b59a5d4302a item 5: a stale DECLARED_UNREACHABLE ruling is named.
+    def a_stale_ruling_is_named():
+        import liveness as LV
+        got = LV.stale_declarations(
+            {"escalation.py": {"_land_clear": "real", "__drill_no_such_def__": "stale"},
+             "__drill_not_a_gate__.py": {"anything": "stale"}})
+        return got == {"escalation.py": ["__drill_no_such_def__"],
+                       "__drill_not_a_gate__.py": ["anything"]}
+    net(a, "a DECLARED_UNREACHABLE name that matches no def is reported as stale",
+        a_stale_ruling_is_named,
+        "a misspelt or renamed ruling excused nothing and said nothing, so a ruling a person "
+        "believed in force had quietly stopped existing")
+
+    # --- 6b59a5d4302a item 6: a present-but-empty inventory entry is an answer.
+    def an_empty_inventory_entry_is_an_answer():
+        import identity as ID
+        keys = ID._inv_keys("drill host")
+        if len(set(keys)) < 2:
+            return False
+        inv = {keys[0]: {}, keys[1]: {"(Other Host)": 9}}
+        return ID._inv_counts("drill host", inv) == {}
+    net(a, "a host recorded with zero designators does not fall through to another spelling",
+        an_empty_inventory_entry_is_an_answer,
+        "`if inv.get(k)` read an empty dict as absent and returned whatever a different host "
+        "had filed under the next fallback key")
+
+    # --- 6b59a5d4302a item 7: retry_synthesis fails when a source was not rescued.
+    def an_unrescued_source_fails_the_run():
+        import retry_synthesis as RS
+        saved = (RS.PL.cfg, RS.failed_sources, RS.stranded_sources, RS.load_side,
+                 RS.PL.records, RS.synthesise, sys.argv)
+        try:
+            RS.PL.cfg = lambda *a_, **k_: {}
+            RS.failed_sources = lambda *a_, **k_: ["Drill Source"]
+            RS.stranded_sources = lambda *a_, **k_: []
+            RS.load_side = lambda *a_, **k_: {}
+            RS.PL.records = lambda *a_, **k_: [("p", {"source": "Drill Source",
+                                                      "entries": []})]
+            RS.synthesise = lambda *a_, **k_: None
+            sys.argv = ["retry_synthesis.py"]
+            with contextlib.redirect_stdout(io.StringIO()), \
+                    contextlib.redirect_stderr(io.StringIO()):
+                rc = RS.main()
+            return rc == 1
+        finally:
+            (RS.PL.cfg, RS.failed_sources, RS.stranded_sources, RS.load_side,
+             RS.PL.records, RS.synthesise, sys.argv) = saved
+    net(a, "a retry run that rescued nothing exits non-zero",
+        an_unrescued_source_fails_the_run,
+        "the exit code followed the last SAVE, so a run where every source stayed failing and "
+        "nothing was saved exited 0 and read as done")
+
+    # --- 28f335ecefd3 item 3: T2 cohorts are built from SOURCE addresses only.
+    def cohorts_come_from_source_codes():
+        import ast
+        tree = _ast_of(os.path.join(_srcdir(), "threads.py"))
+        fn = _defn(tree, "build")
+        if fn is None:
+            return False
+        for n in ast.walk(fn):
+            if (isinstance(n, ast.For) and isinstance(n.iter, ast.Name)
+                    and any(isinstance(m, ast.Attribute) and m.attr == "add"
+                            and isinstance(m.value, ast.Subscript)
+                            and getattr(m.value.value, "id", "") == "siblings"
+                            for m in ast.walk(n))):
+                return n.iter.id == "source_codes"
+        return False
+    net(a, "threads.build groups T2 cohorts over source codes, not the Annex/Law-widened set",
+        cohorts_come_from_source_codes,
+        "the widening was documented as reaching edge resolution only, while it also entered "
+        "every VIII.n and X.n code as a candidate sibling volume")
+
+    # --- 28f335ecefd3 item 5: canon_backup refuses to keep fewer than one snapshot.
+    def keep_zero_is_refused():
+        import canon_backup as CB
+        return all(_refuses(lambda k=k: CB.prune(k), ValueError) for k in (0, -1, -7))
+    net(a, "canon_backup.prune refuses keep < 1 instead of silently pruning nothing",
+        keep_zero_is_refused,
+        "`snaps[:-0]` is empty, so `--keep 0` pruned nothing and said nothing")
+
+    # --- 28f335ecefd3 item 6: an adjudication that excepts no law is refused, not priced as one.
+    def zero_laws_is_refused():
+        import rigor as RG
+        return (_refuses(lambda: RG.adjudication_beta(0, 4), ValueError)
+                and RG.adjudication_beta(1, 4)["laws_excepted"] == 1)
+    net(a, "adjudication_beta refuses zero laws touched instead of charging one",
+        zero_laws_is_refused,
+        "`max(1, ...)` priced an exception that bends nothing as if it bent one law")

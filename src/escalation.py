@@ -220,13 +220,40 @@ def _append_log(rec):
     return ok
 
 
-def escalate(level, code, what, evidence=None, source=None, who=None):
+def files_an_order(level, order=True):
+    """Does an escalation at `level` become a work order? -> bool. PURE.
+
+    `order=False` IS HONOURED AT THE JANITOR RUNG AND NOWHERE ELSE (order f7d7769075c0, decided
+    under the owner's 2026-09-28 "fix everything" instruction). A designed rc=17 restart inside
+    its hourly budget is the safety WORKING, and filing an owner-visible order for each one made
+    the queue carry three at once for one maintenance shift -- the alarm-that-always-sounds this
+    module's docstring calls furniture. Such a restart is still RECORDED at the janitor's rung
+    (state/escalation.log and the job's own area log, whole), which is the rung whose job is
+    "record it"; what it no longer does is ask a person to act on something that needs no act.
+
+    Anything at OPERATOR or above ALWAYS files, whatever the caller passed: a caller must not be
+    able to quiet a refusal, a stop or a halt by passing a flag. That asymmetry is what the drill
+    net `an order cannot be suppressed above the janitor rung` attacks.
+    """
+    try:
+        lvl = int(level)
+    except (TypeError, ValueError):
+        _ = "silence-exempt: fail closed: an unreadable level files an order rather than being quieted"
+        return True
+    if lvl != JANITOR:
+        return True
+    return bool(order)
+
+
+def escalate(level, code, what, evidence=None, source=None, who=None, order=True):
     """Report something amiss at `level`, recording it at every rung beneath as well.
 
     Returns the record. Raising is the CALLER's decision for rungs 1-4 -- this function does not
     decide control flow for them, because a guard that both detects and unwinds is hard to test.
     Rung 5 is the exception: OWNER writes the halt file, because a halt nobody wrote down is a
     halt that ends when the process does.
+
+    `order=False` records without filing a work order -- JANITOR rung only; see `files_an_order`.
     """
     # ACCEPT THE NAME AS WELL AS THE NUMBER, and the reason is the worst kind of bug report.
     # `escalate("OWNER", ...)` raised `ValueError: invalid literal for int() with base 10:
@@ -329,17 +356,19 @@ def escalate(level, code, what, evidence=None, source=None, who=None):
     # The rung-to-handler map is intentionally NOT one-to-one. An OPERATOR-level refusal (one
     # block failed) is mechanical and belongs to the local model; an OWNER-level halt is a
     # library-wide invariant and belongs to a person. Severity and addressee are different axes.
-    try:
-        import workorders as WO
-        handler = {JANITOR: "LOCAL", OPERATOR: "LOCAL", SUPERVISOR: "BOTS",
-                   SAFETY: "RUN", MANAGER: "RUN", OWNER: "SESSION"}.get(level, "RUN")
-        severity = {JANITOR: "INFO", OPERATOR: "MINOR", SUPERVISOR: "MINOR",
-                    SAFETY: "MAJOR", MANAGER: "MAJOR", OWNER: "BLOCKING"}.get(level, "MAJOR")
-        WO.file_order(rec["code"], rec["what"], handler, severity,
-                      where=rec.get("source") or "", evidence=rec.get("evidence"),
-                      found_by=rec.get("who") or "escalation")
-    except Exception:
-        silence.note("escalation.py:workorder")
+    rec["order_filed"] = files_an_order(level, order)
+    if rec["order_filed"]:
+        try:
+            import workorders as WO
+            handler = {JANITOR: "LOCAL", OPERATOR: "LOCAL", SUPERVISOR: "BOTS",
+                       SAFETY: "RUN", MANAGER: "RUN", OWNER: "SESSION"}.get(level, "RUN")
+            severity = {JANITOR: "INFO", OPERATOR: "MINOR", SUPERVISOR: "MINOR",
+                        SAFETY: "MAJOR", MANAGER: "MAJOR", OWNER: "BLOCKING"}.get(level, "MAJOR")
+            WO.file_order(rec["code"], rec["what"], handler, severity,
+                          where=rec.get("source") or "", evidence=rec.get("evidence"),
+                          found_by=rec.get("who") or "escalation")
+        except Exception:
+            silence.note("escalation.py:workorder")
     if level >= OWNER:
         # THE VERDICT USED TO STOP ONE FRAME SHORT OF HERE. `_raise_halt` was fixed in run #34 to
         # return whether the halt file actually LANDED -- on Windows the rename is DENIED while
@@ -420,7 +449,12 @@ def _halt_lock():
             os.close(os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
             held = True
             break
-        except FileExistsError:
+        # PermissionError IS CONTENTION TOO (2026-09-28): on Windows, creating the lock while
+        # its previous holder is mid-`os.remove` raises PermissionError ("delete pending"), which
+        # used to fall to the `except OSError` below and raise the halt UNLOCKED. Same meaning
+        # as FileExistsError -- somebody holds or is releasing it -- so it waits the same way.
+        except (FileExistsError, PermissionError):
+            _ = "silence-exempt: contention: somebody holds or is releasing the lock, so wait; the not-taken case is noted below"
             # STALENESS STEAL. A lock whose file has not been touched inside the window is a
             # lock nobody is holding: the process that made it died between the create and the
             # remove. Steal it and try again rather than wait out a corpse.
@@ -639,6 +673,125 @@ def status():
     if rec is None:
         return False, None
     return (not rec.get("cleared", False)), rec
+
+
+# --------------------------------------------------------------------------- the pause
+#
+# A PAUSE IS NOT A HALT (order 8454be695dc7, decided under the owner's 2026-09-28 "fix
+# everything" instruction; the order's own proposal, state/PAUSED.json with a reason and an
+# until-time, is the option taken). A halt says "something is wrong, a person must rule"; a pause
+# says "the owner wants the machine". On 2026-09-16 the only way to say the second was to kill
+# every process, which left an uncatalogued chapter behind, let the battery pin 6 GB of GPU, and
+# was undone at the next logon by the Startup launcher.
+#
+# WHAT IT DOES. While the marker stands: `autostart --watch` does not start a supervisor (and
+# spends no start budget), the supervisor refuses to start and leaves at the top of its next lap,
+# the keeper restarts nothing, and every standing daemon leaves at its OWN SAFE POINT -- the
+# `codewatch.exit_if_stale` call its loop already makes between units of work -- rather than being
+# killed mid-write. The pause ends by itself at `until` (if one was given) or when a person runs
+# `escalation.py --unpause`.
+#
+# WHAT IT DOES NOT DO. It does not touch the halt, does not read or write HALT.json, and lifts
+# nothing: a halted library stays halted through a pause and after it, and every place that asks
+# both asks the HALT FIRST. A pause can only ever stop more; it cannot start anything.
+#
+# FAIL CLOSED, like the halt. A PAUSED.json that exists but cannot be read as a record is treated
+# as a pause -- a marker a corrupt file can lift is not a marker -- and the reading says why.
+
+PAUSE_FILE = os.path.join(HERE, "state", "PAUSED.json")
+PAUSE_ARCHIVE = os.path.join(HERE, "state", "pauses")
+PAUSE_REFUSAL = "THE LIBRARY IS PAUSED"
+
+
+def pause_verdict(rec, now=None):
+    """PURE. Is a pause record in force? -> (paused: bool, why: str).
+
+    `rec` is what `_read_pause_raw` returned: None (no file), a dict, or the unreadable stand-in.
+    An `until` that has passed ends the pause; an `until` that is not a number is ignored (the
+    pause stands until lifted by hand), which is the fail-closed reading of a garbled deadline.
+    """
+    now = time.time() if now is None else now
+    if rec is None:
+        return False, "no pause"
+    if not isinstance(rec, dict):
+        return True, "pause record is not a record; treated as paused"
+    if rec.get("unreadable"):
+        return True, str(rec.get("reason") or "pause file unreadable; treated as paused")
+    until = rec.get("until")
+    if isinstance(until, (int, float)) and not isinstance(until, bool) and until <= now:
+        return False, "pause expired at %s" % time.strftime("%Y-%m-%d %H:%M",
+                                                             time.localtime(until))
+    return True, "%s (by %s%s)" % (
+        rec.get("reason") or "no reason given", rec.get("by") or "?",
+        (", until %s" % time.strftime("%Y-%m-%d %H:%M", time.localtime(until)))
+        if isinstance(until, (int, float)) and not isinstance(until, bool) else ", no end time")
+
+
+def _read_pause_raw():
+    """-> None when there is no pause file, the record, or a fail-closed stand-in."""
+    try:
+        with open(PAUSE_FILE, encoding="utf-8") as f:
+            rec = json.load(f)
+    except FileNotFoundError:
+        _ = "silence-exempt: no pause file is the normal unpaused state"
+        return None
+    except Exception as e:
+        return {"unreadable": True,
+                "reason": "state/PAUSED.json exists but does not parse (%s); treated as paused"
+                          % type(e).__name__}
+    if not isinstance(rec, dict):
+        return {"unreadable": True,
+                "reason": "state/PAUSED.json parses as %s rather than a pause record; treated "
+                          "as paused" % type(rec).__name__}
+    return rec
+
+
+def paused(now=None):
+    """-> (paused: bool, why: str). Never raises; an unanswerable question answers PAUSED."""
+    try:
+        return pause_verdict(_read_pause_raw(), now)
+    except Exception:
+        silence.note("escalation.py:pause-read")
+        return True, "the pause marker could not be read; treated as paused"
+
+
+def pause(reason, hours=None, by="?"):
+    """Stand the library down on purpose. -> (landed: bool, record).
+
+    Recorded at the janitor's rung WITHOUT a work order: a pause is the owner's instruction, not a
+    fault anyone must fix.
+    """
+    if not str(reason or "").strip():
+        raise ValueError("a pause needs a reason -- the next reader of this marker was not here")
+    now = time.time()
+    rec = {"paused_at": now, "reason": str(reason), "by": str(by or "?"),
+           "until": (now + float(hours) * 3600.0) if hours else None}
+    os.makedirs(os.path.dirname(PAUSE_FILE), exist_ok=True)
+    landed = bool(silence.write_json(PAUSE_FILE, rec, indent=1, ensure_ascii=False))
+    try:
+        escalate(JANITOR, "PAUSED" if landed else "PAUSE_NOT_WRITTEN",
+                 "library paused by %s: %s" % (rec["by"], rec["reason"]),
+                 evidence={"until": rec["until"], "landed": landed}, who=rec["by"], order=False)
+    except Exception:
+        silence.note("escalation.py:pause-record")
+    return landed, rec
+
+
+def unpause(by="?"):
+    """Lift a pause. The marker is MOVED into state/pauses/, never deleted. -> str verdict."""
+    if not os.path.exists(PAUSE_FILE):
+        return "nothing was paused"
+    os.makedirs(PAUSE_ARCHIVE, exist_ok=True)
+    dest = os.path.join(PAUSE_ARCHIVE, "PAUSED.%s.json" % time.strftime("%Y%m%d-%H%M%S"))
+    if not silence.replace_retry(PAUSE_FILE, dest):
+        return ("UNPAUSE DENIED -- state/PAUSED.json could not be moved (something holds it); "
+                "the library is STILL PAUSED")
+    try:
+        escalate(JANITOR, "UNPAUSED", "library unpaused by %s (marker archived as %s)"
+                 % (by or "?", os.path.basename(dest)), who=str(by or "?"), order=False)
+    except Exception:
+        silence.note("escalation.py:unpause-record")
+    return "unpaused (marker archived as %s)" % os.path.relpath(dest, HERE)
 
 
 STOPPED = os.path.join(HERE, "state", "STOPPED.json")
@@ -1363,7 +1516,30 @@ def main():
     ap.add_argument("--raise-halt", dest="raise_halt", default="",
                     help="code:what — raise a halt by hand (testing, or a person stopping the "
                          "library deliberately)")
+    # THE PAUSE (order 8454be695dc7). Not a halt and not a stop; see the pause block above.
+    ap.add_argument("--pause", default="",
+                    help="REASON -- stand the library down on purpose (the owner wants the "
+                         "machine). Daemons leave at their next safe point; nothing starts.")
+    ap.add_argument("--hours", type=float, default=None,
+                    help="with --pause: end the pause by itself after this many hours")
+    ap.add_argument("--unpause", action="store_true", help="lift a pause")
     a = ap.parse_args()
+    if a.pause:
+        try:
+            landed, rec = pause(a.pause, hours=a.hours, by=(a.by or "cli"))
+        except ValueError as e:
+            print("refused: %s" % e)
+            return 2
+        if not landed:
+            print("THE PAUSE WAS NOT WRITTEN -- state/PAUSED.json could not be landed. Nothing "
+                  "is paused.")
+            return 1
+        print("paused: " + pause_verdict(rec)[1])
+        return 0
+    if a.unpause:
+        why = unpause(by=(a.by or "cli"))
+        print(why)
+        return 1 if why.startswith("UNPAUSE DENIED") else 0
     if a.resume:
         # CALLED THROUGH `resume_subsystem_verdict`, NOT THROUGH THE `resume_subsystem` WRAPPER,
         # and the reason is the person check itself. `_by_a_person_at_the_cli` asks whether the
@@ -1429,8 +1605,11 @@ def main():
         print("nothing was halted.")
         return 0
     halted, rec = status()
+    _p, _pwhy = paused()
+    if _p:
+        print("PAUSED — " + _pwhy)
     if not halted:
-        print("clear — the library is running.")
+        print("clear — the library is " + ("paused (not halted)." if _p else "running."))
         return 0
     print("HALTED")
     for k in ("code", "what", "by", "source", "raised_at"):

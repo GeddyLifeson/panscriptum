@@ -1,0 +1,1 @@
+[{"module": "prose_gate.py", "old": "        if name not in cited_names:\n            out.append(name or \"(unnamed entry)\")", "new": "        if name not in cited_names and re.sub(r\"\\s*\\(.*\", \"\", name).strip() not in cited_names:\n            out.append(name or \"(unnamed entry)\")"}]

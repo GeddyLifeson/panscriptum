@@ -27,6 +27,7 @@ THE RULE THAT MATTERS MOST: a suppression narrows a detector for a NAMED case. I
 detector off. If an exception is broad enough to hide a class of real findings, the detector is
 wrong and should be fixed instead.
 """
+import math
 import json
 import os
 import sys
@@ -40,6 +41,27 @@ FILE = os.path.join(HERE, "data", "SUPPRESSIONS.json")
 # A suppression may not outlive review. Long enough to be practical, short enough that the list
 # is re-read a few times a year rather than never.
 DEFAULT_TTL_DAYS = 180
+# AND AN UPPER BOUND, so "permanent" cannot be requested by accident (order 34ec8a90c42f item 8,
+# decided under the owner's 2026-09-28 "fix everything" ruling, Reading A). An exemption from a
+# detector must expire within a reviewable window; a year is twice the default. A longer need is
+# met by re-adding the row after review, which is the review this bound exists to force.
+# Non-finite and non-positive values are refused too: `inf` stored `Infinity` (not strict JSON)
+# and a negative value wrote a row already expired.
+MAX_TTL_DAYS = 365
+
+
+def _valid_ttl(ttl_days):
+    """-> ttl_days as a float, or raise ValueError. See MAX_TTL_DAYS."""
+    if isinstance(ttl_days, bool) or not isinstance(ttl_days, (int, float)):
+        raise ValueError("ttl_days must be a number of days, got %r" % (ttl_days,))
+    t = float(ttl_days)
+    if not math.isfinite(t):
+        raise ValueError("ttl_days must be finite, got %r -- a suppression may not be permanent"
+                         % (ttl_days,))
+    if not 0 < t <= MAX_TTL_DAYS:
+        raise ValueError("ttl_days must be above 0 and at most %d, got %r -- a suppression must "
+                         "expire within a reviewable window" % (MAX_TTL_DAYS, ttl_days))
+    return t
 
 
 def _preview(s, width):
@@ -171,6 +193,7 @@ def add(detector, path_glob, reason, added_by="owner", ttl_days=DEFAULT_TTL_DAYS
     if not reason or len(str(reason).strip()) < 12:
         raise ValueError("a suppression needs a reason in words -- what is this, and why is it "
                          "not what the detector thinks it is?")
+    ttl_days = _valid_ttl(ttl_days)
     # Landing on top of an unreadable file would rewrite it from an empty list and silently
     # drop every row the corrupt file still held on disk. Refuse, same doctrine as a denied
     # write below: REFUSED IS NOT ADDED. (Checked inside `_mutate`, on every re-read.)
@@ -316,7 +339,7 @@ def _repo_listing():
 
     IT WAS INSIDE THE LOOP. `problems()` built the listing once PER WILDCARD ROW, so the entire
     repository -- `data/records/`, `data/feats/`, `output/` and `.git` included -- was walked
-    again for every wildcard suppression on file, and `drill.py:2515` calls `problems()` every
+    again for every wildcard suppression on file, and a drill net calls `problems()` every
     cycle as a net. One listing answers every row.
 
     AND `glob` IS BLIND TO DOTTED NAMES at every path component, so a suppression whose pattern

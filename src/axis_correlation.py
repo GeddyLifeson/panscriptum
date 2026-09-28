@@ -61,6 +61,51 @@ import silence  # noqa: E402
 
 OUT = os.path.join(HERE, "data", "AXIS_CORRELATION.json")
 
+# THE SHRINK FLOOR (order 34ec8a90c42f item 1, decided under the owner's 2026-09-28 "fix
+# everything" ruling, Reading A -- the draft that order held ready, rosetta's shape and floor).
+# `write()` refuses to replace the standing matrix with one whose `n_entities` or
+# `measured_pairs` falls below this share of the standing file's. Every published +/- depends
+# on this matrix, and a silent shrink is the harm. Nothing is dropped and nothing is capped:
+# the whole new matrix is either written or refused with both numbers, and `--force` is the
+# deliberate override for a shrink that is honestly intended (an assay re-scored). An absent
+# standing file is a first build and proceeds; an unreadable one refuses (fail closed).
+SHRINK_FLOOR = 0.75
+
+
+class ShrinkRefused(RuntimeError):
+    """The new matrix is smaller than SHRINK_FLOOR of the standing one, or the standing one
+    could not be read to compare against. Nothing on disk was touched."""
+
+
+def _shrink_verdict(doc, path=None):
+    """-> None when `doc` may replace the standing matrix, else the reason it may not."""
+    path = path or OUT
+    try:
+        with open(path, encoding="utf-8") as f:
+            prior = json.load(f)
+    except FileNotFoundError:
+        _ = "silence-exempt: no standing matrix is the legitimate first state; there is nothing to shrink from"
+        return None
+    except Exception as e:
+        silence.note("axis_correlation.py:shrink-prior-unreadable")
+        return ("the standing %s could not be read (%s: %s), so the new matrix cannot be "
+                "compared against it" % (os.path.basename(path), type(e).__name__, e))
+    if not isinstance(prior, dict):
+        return ("the standing %s is a %s, not a matrix, so the new one cannot be compared "
+                "against it" % (os.path.basename(path), type(prior).__name__))
+    for key in ("n_entities", "measured_pairs"):
+        was, now = prior.get(key), doc.get(key)
+        if not isinstance(was, int) or isinstance(was, bool):
+            return ("the standing %s carries no integer %r (found %r), so the new matrix cannot "
+                    "be compared against it" % (os.path.basename(path), key, was))
+        if not isinstance(now, int) or isinstance(now, bool):
+            return "the new matrix carries no integer %r (found %r)" % (key, now)
+        if was and now < was * SHRINK_FLOOR:
+            return ("the new matrix has %s %s against the standing file's %s (%.0f%%, floor "
+                    "%.0f%%)" % (f"{now:,}", key, f"{was:,}", 100.0 * now / was,
+                                 100.0 * SHRINK_FLOOR))
+    return None
+
 # Where numeric per-axis scores actually live. Named explicitly rather than globbed loosely: a
 # file that merely CONTAINS the word "score" is not a file of assays, and quietly hoovering up
 # the wrong shape would produce a correlation matrix nobody could trace to a source.
@@ -242,8 +287,13 @@ def measure(rows=None):
             "sources_read": src_status["read"], "sources_missing": src_status["missing"]}
 
 
-def write(doc=None):
+def write(doc=None, force=False):
     """Rebuild `data/AXIS_CORRELATION.json`. -> the path when it LANDED, None when it did not.
+
+    RAISES `ShrinkRefused` before touching anything when the new matrix falls below
+    SHRINK_FLOOR of the standing one, or the standing one cannot be read -- unless `force`
+    (order 34ec8a90c42f item 1). A refusal is not a denial: a denial is retryable weather, a
+    refusal is a change in the data that re-running will not cure.
 
     GATED, order 2ffec635d51c. `silence.write_json` writes to a pid/thread-stamped temp file and
     then renames; it returns whether that rename LANDED and never raises when it is refused,
@@ -262,6 +312,9 @@ def write(doc=None):
     non-zero exit so a scheduled rebuild cannot report success.
     """
     doc = doc or measure()
+    why = _shrink_verdict(doc)
+    if why and not force:
+        raise ShrinkRefused(why)
     doc["note"] = ("MEASURED, not decreed. Rebuild with `python src/axis_correlation.py "
                    "--write` whenever the number of entities with numeric axis scores grows. "
                    "rho = 0 is the one value this data rules out.")
@@ -379,6 +432,33 @@ def widening(weights, sigma, axes, doc=None):
     return math.sqrt(total / indep) if indep else 1.0, indep, cov
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--write", action="store_true", help="rebuild data/AXIS_CORRELATION.json")
@@ -392,7 +472,13 @@ def main():
     ap.add_argument("--top", type=int, default=None,
                     help="cap the ranked pair list to N rows (announced, not silent); "
                          "omit to print all of them")
+    ap.add_argument("--force", action="store_true",
+                    help="with --write: replace the standing matrix even when the new one falls "
+                         "below SHRINK_FLOOR of it (order 34ec8a90c42f)")
     a = ap.parse_args()
+    if a.write:
+        # THE HALT (owner ruling 2026-09-28, order 3099138a82bd): this invocation writes, so it asks first.
+        _assert_not_halted("--write (writes data/AXIS_CORRELATION.json)")
     doc = measure()
     print("AXIS CORRELATION — measured over %d entities carrying >=2 numeric axis scores"
           % doc["n_entities"])
@@ -428,7 +514,16 @@ def main():
     if doc["mean_r"] and abs(doc["mean_r"]) > 0.1:     # negative dependence rules out rho=0 too
         print("   The Measures are NOT independent. rho = 0 is ruled out by this data.")
     if a.write:
-        landed = write(doc)
+        forced = _shrink_verdict(doc) if a.force else None
+        try:
+            landed = write(doc, force=a.force)
+        except ShrinkRefused as refusal:
+            print("\nREFUSING TO WRITE: %s. Nothing on disk was touched -- the standing matrix "
+                  "still stands. Pass --force if this smaller matrix is the intended one."
+                  % refusal, file=sys.stderr)
+            return 1
+        if forced:
+            print("\n--force: overwriting anyway. %s" % forced)
         if not landed:
             print("\nWRITE DENIED -> %s: the replace was refused, so the matrix on disk is still "
                   "the PREVIOUS run's and the measurement printed above did NOT land. Every "

@@ -1,0 +1,5 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction: option (B), exit nonzero.
+
+src/backfill.py main(), --all path: returns 1 when any source raised OR returned an `error`, as well as when a catalogue write was denied (`return 1 if (denied or errors) else 0`). A returned `error` now counts into `errors` the same way `--source` already counted it. Per-source containment is unchanged: one raising source still never stops the others, and the per-source rows and summary line print as before. `--all` and `--source` now agree.
+
+Proof: drill net "backfill --all exits nonzero when a source raises, and still runs the rest" (area drill_owner0928_qb). HELD on the live tree; RED with handoff/owner0928/QB_revert_backfill.json (the old `return 1 if denied else 0`). Stubbed backfill_source, fixture records and a scratch WIKI_HOSTS; no network, no record write. pyflakes clean.

@@ -621,6 +621,9 @@ _TRANSIENT_CODES = re.compile(r"\b(408|409|425|429|500|502|503|504)\b")
 # IS A THING TO INVESTIGATE" branch a few hundred lines down -- which is the honest answer: this
 # file has no bespoke handling for a size refusal yet, and recording it as unrecognised is what
 # that branch exists for, rather than silently absorbing it under either existing label.
+# (SUPERSEDED 2026-09-28, order cb4fbedeb0db: the size refusal now has its own class and the
+# bucket learns an output ceiling -- see `size_refusal_limit` below. This guard is unchanged and
+# still keeps the refusal out of `named_transient`.)
 #
 # THE GUARD REQUIRES THE NUMBERS, NOT JUST THE PHRASE. "request too large" alone is not enough --
 # a provider could in principle use those three words for a condition that DOES clear with time
@@ -652,6 +655,129 @@ def _size_refusal_permanent(err):
         # refusal" rather than guess, per this file's own standard that silence must not
         # authorise anything. named_transient() falls back to the ordinary word/code match.
         return False
+
+
+# THE SIZE REFUSAL NOW HAS ITS OWN CLASS, AND THE BUCKET LEARNS ITS CEILING (order cb4fbedeb0db,
+# decided under the owner's 2026-09-28 "fix everything" instruction, option (a); and the foreman's
+# FOR_OWNER item "every pool failure is recognised").
+#
+# The narrow guard above kept Groq's OTPM refusal out of `named_transient`, and so sent it to the
+# unrecognised ledger -- 617 occurrences of one row on `groq:qwen/qwen3.6-27b` by 2026-09-28, the
+# row that held the HIGH standard red. It is not unrecognised: it is a per-request SIZE refusal,
+# and it is NOT permanent either -- a smaller request passes. So:
+#
+#   * `size_refusal_limit(err)` names it (same proof as above: the phrase AND Limit < Requested)
+#     and returns the provider's stated per-request output limit.
+#   * `learn_output_ceiling(bucket, limit)` remembers that limit for the bucket (the lowest one
+#     ever stated wins; in-process, so a restarted daemon relearns it from one refusal).
+#   * `_ask_call` then sends `max_tokens` = OUTPUT_CAP_FRACTION of the ceiling on every call that
+#     pins that bucket -- only when the engine accepts a per-call `max_tokens` (Cascade's engine
+#     grew it 2026-09-28; an older engine is never sent the keyword).
+#   * EVERY reply's `finish_reason` is read off the engine's `done` event, and a length-stopped
+#     reply is REFUSED, never parsed. A capped call whose engine did not report a finish reason is
+#     refused too: a cap without proof the reply ended on its own is Hard Rule 0's silent
+#     truncation, which is what this order was filed to prevent.
+_OUTPUT_CEILING = {}
+OUTPUT_CAP_FRACTION = 0.9
+# Mirrors cascade/engine.py LENGTH_STOP_REASONS, kept here so an engine that reports a raw
+# `finish_reason` but no `length_stopped` flag is still read correctly.
+_LENGTH_STOP_REASONS = ("length", "max_tokens", "max_output_tokens", "model_length")
+
+
+def size_refusal_limit(err):
+    """The provider's stated per-request limit if `err` is a proven size refusal, else None."""
+    if not _size_refusal_permanent(err):
+        return None
+    m = _SIZE_REFUSAL.search(err or "")
+    try:
+        return int(m.group(1)) if m else None
+    except ValueError:
+        _ = "silence-exempt: an unparseable stated limit is not a proven limit; None is the documented answer"
+        return None
+
+
+def learn_output_ceiling(bucket, limit):
+    """Record a bucket's stated output ceiling. The lowest stated limit wins. Total."""
+    try:
+        limit = int(limit)
+        if not bucket or limit <= 0:
+            return
+        with _DEAD_LOCK:
+            old = _OUTPUT_CEILING.get(bucket)
+            _OUTPUT_CEILING[bucket] = limit if old is None else min(old, limit)
+    except Exception:
+        silence.note("cascade_bridge.py:learn-output-ceiling")
+
+
+def output_cap_for(bucket):
+    """The per-call max_tokens to send to this bucket, or None when it has no known ceiling."""
+    limit = _OUTPUT_CEILING.get(bucket)
+    if not limit:
+        return None
+    return max(1, int(limit * OUTPUT_CAP_FRACTION))
+
+
+def engine_takes_max_tokens(eng):
+    """True if this engine's stream_chat accepts a per-call `max_tokens`. Fails closed to False."""
+    try:
+        import inspect
+        return "max_tokens" in inspect.signature(eng.stream_chat).parameters
+    except Exception:
+        silence.note("cascade_bridge.py:engine-signature")
+        return False
+
+
+def engine_takes_exclude_local(eng):
+    """True if this engine's stream_chat accepts `exclude_local`. Fails closed to False, and a
+    False answer makes `_ask_call` stop the walk at the pinned cloud bucket instead (order
+    30122bf3a5a7) -- either way no failover reaches the local GPU."""
+    try:
+        import inspect
+        return "exclude_local" in inspect.signature(eng.stream_chat).parameters
+    except Exception:
+        silence.note("cascade_bridge.py:engine-signature")
+        return False
+
+
+def local_excluded_kw(eng, kw):
+    """Make this stream_chat keyword set unable to reach a local (Ollama) model. -> kw.
+
+    THE BYPASS THIS CLOSES (order 30122bf3a5a7, measured 2026-09-28). `_ask_call` pins a CLOUD
+    bucket and refuses local ones, and its commentary calls "never dispatch to the local GPU" an
+    absolute invariant -- but it then called `Engine.stream_chat(pinned=...)` without
+    `exclude_local`, and `Router.candidates` gives a pinned model "the rest of the pool as
+    backup", which includes the `ollama:local` entries. Since cascade's local roster was
+    re-pointed at the resident model (2026-08-26) those entries SERVE, so every cloud failover
+    landed on the GPU through curl to `localhost:11434/v1/chat/completions`, OUTSIDE
+    `gpu_lane`: `magnitude.py --calibrate` held two such connections beside its own laned one,
+    and prose slowed from ~5 to ~14 min/job. Excluding local here is stricter than laning it:
+    every caller of this bridge already has its own laned local fallback (`pipeline.ask`).
+
+    FAILS CLOSED: an engine too old to take `exclude_local` gets `max_attempts=1`, so the walk
+    stops at the pinned (cloud) model and cannot fail over anywhere, local included."""
+    if engine_takes_exclude_local(eng):
+        kw["exclude_local"] = True
+    else:
+        kw["max_attempts"] = 1
+    return kw
+
+
+def length_stopped(done, capped):
+    """Should a reply that ended with this `done` event be REFUSED as truncated?
+
+    True when the provider's stop reason says the output cap cut it off. Also True when the call
+    was CAPPED and the engine reported no finish reason at all: a capped reply with no proof it
+    ended on its own is not accepted (fail closed). An uncapped call with no finish reason is the
+    pre-2026-09-28 behaviour and is left as it was.
+    """
+    if not isinstance(done, dict):
+        return bool(capped)
+    if done.get("length_stopped"):
+        return True
+    reason = str(done.get("finish_reason") or "").strip().lower()
+    if reason in _LENGTH_STOP_REASONS:
+        return True
+    return bool(capped) and not reason
 
 # `All 7 candidates failed: <label>, <label>, ...` -- the engine having walked a whole candidate
 # list and found none of it available. Measured 2026-08-25: 15 of the 23 aggregate rows in the
@@ -1716,7 +1842,7 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         # This split stays as it is: keeping the reason clean at the source is still the better
         # discipline, and the guard below it is the belt to that pair of braces.
         box = {"answered": None, "answered_id": None, "failed": False,
-               "failovers": [], "reasons": []}
+               "failovers": [], "reasons": [], "done": None, "size_refused": set()}
 
         # THE NEW KEYWORD IS ONLY SENT WHEN IT IS ASKED FOR. `Engine.stream_chat` grew
         # `max_attempts` some time ago and every call here goes through one function, so passing it
@@ -1728,6 +1854,17 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                       "pinned": pinned.id if pinned else None}
         if max_attempts is not None:
             _stream_kw["max_attempts"] = max_attempts
+        # NO FAILOVER ONTO THE LOCAL GPU (order 30122bf3a5a7): see `local_excluded_kw`.
+        local_excluded_kw(e, _stream_kw)
+        # THE OUTPUT CAP, SAME RULE AS `max_attempts` ABOVE: sent only when this bucket has a
+        # learned ceiling AND the engine accepts the keyword (order cb4fbedeb0db). Absent, the
+        # call is byte-for-byte what it always was.
+        _cap = output_cap_for(pinned.bucket) if pinned else None
+        if _cap and engine_takes_max_tokens(e):
+            _stream_kw["max_tokens"] = _cap
+        _capped = "max_tokens" in _stream_kw
+        if served is not None and _capped:
+            served["max_tokens"] = _stream_kw["max_tokens"]
 
         def pump():
             try:
@@ -1753,6 +1890,19 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                         box["failovers"].append("%s: %s" % (ev.get("from") or "?", _r))
                         if _r:
                             box["reasons"].append(_r)
+                        # THE PROVIDER'S OWN BODY, when the engine carries it (`detail`, added
+                        # 2026-09-28). `reason` is cut at 160 characters, which drops Groq's
+                        # Limit/Requested pair; `detail` keeps it, so a size refusal on ANY
+                        # bucket in the walk teaches that bucket its ceiling, even when a later
+                        # candidate goes on to answer the call.
+                        _lim = size_refusal_limit(str(ev.get("detail") or ""))
+                        if _lim:
+                            _fb = _bucket_of(ev.get("from"))
+                            if _fb:
+                                learn_output_ceiling(_fb, _lim)
+                                box["size_refused"].add(_fb)
+                    elif t == "done":
+                        box["done"] = ev
                     elif t == "error":
                         box["failed"] = True
                         box["error"] = str(ev.get("error") or ev.get("text") or "")[:300]
@@ -1872,6 +2022,27 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
             # ninety times. `pool_exhausted`, `named_transient` and `empty_content` are all
             # module-level predicates for exactly this reason; this one was the odd one out.
             # Now both directions can be asserted offline against the measured strings.
+            # A SIZE REFUSAL IS RECOGNISED, AND IT IS NOT PERMANENT (order cb4fbedeb0db; foreman
+            # item "every pool failure is recognised"). Checked FIRST among the dispositions: its
+            # wording carries `rate_limit_exceeded`, and it must reach neither the four-hour
+            # bench nor the unrecognised ledger. The bucket learns its ceiling, so its next call
+            # goes out capped. Only when the engine CANNOT cap (an older engine) does it take the
+            # short floor bench, because then the identical request would be refused again.
+            _size_limit = None if exhausted else size_refusal_limit(err)
+            if pinned and (_size_limit or pinned.bucket in box["size_refused"]):
+                if _size_limit:
+                    learn_output_ceiling(pinned.bucket, _size_limit)
+                if not engine_takes_max_tokens(e):
+                    _bury(pinned.bucket, MIN_STATED_BENCH)
+                # No `silence.note`: like a throttle, this is a NAMED, routine disposition, and
+                # 617 of them in the swallowed-failure ledger would be the flood the unrecognised
+                # ledger was just rid of.
+                if served is not None:
+                    served["outcome"] = "size refusal"
+                    served["failovers"] = list(box["failovers"])
+                    served["error"] = raw[:300]
+                    served["output_ceiling"] = _OUTPUT_CEILING.get(pinned.bucket)
+                return None
             if pinned and not exhausted and permanent_refusal(err):
                 _bury(pinned.bucket, AUTH_BENCH)
             elif pinned and (exhausted or named_transient(err)):
@@ -1979,6 +2150,21 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
         if pinned:
             _ROUTER.release(pinned)
     _reply = "".join(out)
+    # A LENGTH-STOPPED REPLY IS REFUSED BEFORE IT IS PARSED (order cb4fbedeb0db). `_extract_json`
+    # returns the first complete object it finds, so a reply cut off mid-answer can still parse --
+    # as a smaller answer wearing the shape of the whole one, which is Hard Rule 0's truncation.
+    # This reads the engine's `finish_reason`; a capped call with no finish reason fails closed.
+    # A named condition, so it goes to `served` and a silence counter, not the unrecognised ledger.
+    if length_stopped(box.get("done"), _capped):
+        silence.note("cascade_bridge.py:length-stopped")
+        if served is not None:
+            _d = box.get("done") or {}
+            served["outcome"] = "length-stopped"
+            served["error"] = ("reply refused: finish_reason=%r, max_tokens=%r -- the reply was "
+                               "cut off (or a capped call gave no stop reason), so it is not "
+                               "accepted as complete" % (_d.get("finish_reason"),
+                                                         _stream_kw.get("max_tokens")))
+        return None
     got = _extract_json(_reply)
     if got is None:
         # A REPLY THAT WOULD NOT PARSE IS A FAILURE, AND UNTIL NOW IT WAS AN INVISIBLE ONE.

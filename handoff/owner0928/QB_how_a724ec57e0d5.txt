@@ -1,0 +1,10 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction: Reading A, wire DANGLING into escalate() at SUPERVISOR per source, as STEP4_PLAN.md section 8 names it; and the allsweep half. This does NOT open Step 4: nothing writes a thread, reads or sets step4_enabled, or changes what is classed DANGLING.
+
+src/thread_integrity.py: new `_escalate_dangling(rows, escalate=None)`. For every DANGLING source pair, each source on EITHER end is escalated once at SUPERVISOR, code THREAD_DANGLING, source=<that source>, naming every pair it is on (uncapped). `main()` calls it inside the existing `if dangling:` block, wrapped like the sibling THREAD_UNRESOLVABLE escalation (a failure to escalate is noted; the rc=1 stands either way). DANGLING is structurally 0 on the live corpus today, so this has no live consequence until a thread points at nothing.
+
+src/allsweep.py (the separable half): new `dangling_count(lines)` reads the "DANGLING <n>" count row thread_integrity prints; `run_verifier` stores it as the row's `dangling`, keeps the WHOLE output when it is nonzero, and `main()` prints the tail for such a row the same way it does for failed/crashed/timeout. The row's grade is unchanged (RC_FINDINGS stays the contract).
+
+Proof (area drill_owner0928_qb):
+- "a DANGLING thread refuses each source it touches, at SUPERVISOR": HELD live; RED with handoff/owner0928/QB_revert_dangling.json (main's call removed). Recording stand-in for escalate; nothing live escalated.
+- "a nonzero DANGLING count prints its tail in the sweep, without changing the grade": HELD live; RED with handoff/owner0928/QB_revert_allsweep_tail.json. Child process is a stand-in on the module only.
+pyflakes clean on both files.

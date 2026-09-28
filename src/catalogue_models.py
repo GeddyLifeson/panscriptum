@@ -158,10 +158,54 @@ def ask_provider(name, prov, timeout=30):
             "error": last or "no model list endpoint (no path answered)"}
 
 
+def _merge_keys(provs, config_path):
+    """Fill each provider's key the way Cascade's own `config.load()` does. Read-only.
+
+    CASCADE MOVED ITS KEYS OUT OF config.json (2026-09-28): `cascade/config.py` now migrates any
+    `api_key` it finds into `secrets.json` beside config.json and strips it from config.json, and
+    `CASCADE_KEY_<PROVIDER>` environment variables override both. This module read config.json
+    raw, so after the migration every provider came back UNCONFIGURED "no key" -- 1 verified
+    provider of 26 -- while the keys were working (order 9fb8a6b10c1f's re-measure). Same
+    precedence as Cascade: environment, then secrets.json, then whatever config.json still
+    carries. Nothing is written anywhere; an unreadable secrets.json is noted and leaves the
+    providers exactly as config.json had them, so the gap stays visible as UNCONFIGURED.
+    """
+    import re as _re
+    secrets = {}
+    path = os.path.join(os.path.dirname(os.path.abspath(config_path)), "secrets.json")
+    if os.path.exists(path):
+        try:
+            with open(path, encoding="utf-8-sig") as f:
+                raw = json.load(f)
+            if isinstance(raw, dict):
+                secrets = {k: v for k, v in raw.items()
+                           if isinstance(v, str) and v and not k.startswith("_")}
+        except Exception:
+            silence.note("catalogue_models.py:secrets-read")
+    for name, prov in provs.items():
+        if not isinstance(prov, dict):
+            continue
+        env = os.environ.get("CASCADE_KEY_" + _re.sub(r"[^A-Z0-9]", "_", name.upper()), "")
+        if env.strip():
+            prov["api_key"] = env.strip()
+        elif secrets.get(name) and not _key_of(prov):
+            prov["api_key"] = secrets[name]
+
+
 def wanted(cfg):
-    """{provider: [model ids the config asks for]}"""
+    """{provider: [model ids the config asks for]}
+
+    A model entry carrying `"enabled": false` is NOT asked for (order 9fb8a6b10c1f, 2026-09-28):
+    Cascade's router never routes it, and every such entry already records its own
+    `disabled_reason` in the config. Counting it as a STALE id held the HIGH "model IDs their
+    providers still serve" standard red on entries that had already been retired on purpose
+    (the seven disabled ollama rows and Groq's retired `groq/compound-mini`). Only an explicit
+    `false` excludes: a missing `enabled` is Cascade's default of True and is still checked.
+    """
     out = {}
     for m in cfg.get("models") or []:
+        if m.get("enabled") is False:
+            continue
         p = m.get("provider")
         if p:
             out.setdefault(p, []).append(m.get("model") or m.get("id"))
@@ -198,6 +242,7 @@ def sweep(config_path=None, workers=6):
     with open(config_path, encoding="utf-8") as f:
         cfg = json.load(f)
     provs = cfg.get("providers") or {}
+    _merge_keys(provs, config_path)
     want = wanted(cfg)
 
     with ThreadPoolExecutor(max_workers=workers) as ex:

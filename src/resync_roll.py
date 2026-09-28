@@ -34,6 +34,33 @@ def norm(s):
     return "".join(c for c in (s or "").lower() if c.isalnum())
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     # ARGPARSE, NOT A SUBSTRING TEST ON argv (order eb4a87793c19). This was
     # `dry = "--dry-run" in sys.argv`, with no parser anywhere in the module, so every near miss
@@ -51,6 +78,9 @@ def main():
     ap.add_argument("--dry-run", action="store_true",
                     help="report every repair without writing data/SWEEP_ROLL.json")
     dry = ap.parse_args().dry_run
+    if not dry:
+        # THE HALT (owner ruling 2026-09-28, order 1e6f99e54b25): this invocation writes, so it asks first.
+        _assert_not_halted("(rewrites data/SWEEP_ROLL.json)")
 
     with open(ROLL, encoding="utf-8") as f:
         roll = json.load(f)
@@ -316,9 +346,28 @@ def main():
         # other half. (order 8605c2ed6061)
         return 1
 
-    have = sum(1 for r in roll if r.get("entry_count", 0) > 0)
-    total = sum(r.get("entry_count", 0) for r in roll)
-    print(f"\nroll now: {have}/{len(roll)} sources catalogued, {total:,} entries" + caveat)
+    # "ROLL NOW" IS READ BACK FROM DISK, NOT SUMMED FROM MEMORY (order 6b59a5d4302a item 3, owner
+    # ruling 2026-09-28 "fix everything"). `roll.mutate` lands this run's repairs onto a FRESHLY
+    # READ roll, key-wise, so rows another writer changed inside this run's window are on disk
+    # and not in `roll`. The closing figure is the one a person trusts as "what the roll says
+    # now", so it is taken from the file after the compare-and-swap. A dry run wrote nothing and
+    # reports its in-memory projection, and says so; a read-back that fails falls back to the
+    # in-memory figures and says that too, rather than printing them as the disk state.
+    final, basis = roll, "in-memory projection (dry run; nothing was written)" if dry else ""
+    if not dry:
+        try:
+            with open(ROLL, encoding="utf-8") as f:
+                _disk = json.load(f)
+            if not isinstance(_disk, list):
+                raise ValueError("roll on disk is not a list")
+            final = _disk
+        except Exception:
+            silence.note("resync_roll.py:closing-readback")
+            basis = "in-memory figures -- the read-back of the roll on disk FAILED"
+    have = sum(1 for r in final if isinstance(r, dict) and r.get("entry_count", 0) > 0)
+    total = sum(r.get("entry_count", 0) for r in final if isinstance(r, dict))
+    print(f"\nroll now: {have}/{len(final)} sources catalogued, {total:,} entries"
+          + (f"   [{basis}]" if basis else "") + caveat)
     return 0
 
 

@@ -595,6 +595,85 @@ def identity_refresh_cycle():
         silence.note("overnight.py:identity-refresh")
 
 
+# THE ENTITY INDEX REBUILD, ON THE LAP (order d1709d8e757d; orders d1709d8e757d and 2cb442afd901
+# decided together under the owner's 2026-09-28 "fix everything" instruction). The trigger is
+# `weave_index.staleness()["stale"]`, which now means "older than STALE_HOURS (48h) OR more than
+# STALE_FRACTION (10%) of the record files moved since the build". Measured cost on 2026-09-28:
+# 11 seconds for 216 record files / 282,822 entries, writing 178 MB -- far below the "~7 minutes"
+# the order trail estimated, so the lap is an easy home for it.
+#
+# RATE-LIMITED BY THE INDEX FILE'S OWN MTIME, like `canon_backup_cycle` and
+# `identity_refresh_cycle` and for their reason: rc=17 restarts this process, and an in-memory
+# counter would reset with it. A build younger than this is never redone, whatever `stale` says --
+# so a corpus churning faster than the fraction can still cost at most one rebuild per window.
+WEAVE_INDEX_MIN_HOURS = 6
+
+
+def weave_index_decision(stale, index_age_hours):
+    """PURE. Should this lap rebuild the entity index? -> "rebuild" | "fresh" | "rate-limited".
+
+    `stale` is True, False or None (the staleness check itself failed). None is NOT a reason to
+    rebuild: the verdict is unknown, and a rebuild is a 178 MB write -- it waits for a lap that
+    can answer. A missing index (`index_age_hours` None with `stale` True) always rebuilds.
+    """
+    if stale is not True:
+        return "fresh"
+    if index_age_hours is not None and index_age_hours < WEAVE_INDEX_MIN_HOURS:
+        return "rate-limited"
+    return "rebuild"
+
+
+def weave_index_cycle():
+    """Rebuild data/ENTITY_INDEX.json when it is stale. Never raises, never silent."""
+    try:
+        import weave_index as _WI
+        st = _WI.staleness()
+    except Exception as e:
+        log(f"  weave index: STALENESS UNREADABLE ({type(e).__name__}: {e}) -- not rebuilding "
+            f"on an unknown verdict")
+        silence.note("overnight.py:weave-index-staleness")
+        return
+    try:
+        action = weave_index_decision(st.get("stale"), st.get("age_hours"))
+        if action == "fresh":
+            return
+        if action == "rate-limited":
+            log(f"  weave index: stale ({st.get('reason')}) but rebuilt "
+                f"{st.get('age_hours') or 0:.1f}h ago, under the {WEAVE_INDEX_MIN_HOURS}h "
+                f"floor -- waiting")
+            return
+        t0 = time.time()
+        r = subprocess.run([PY, os.path.join(SRC, "weave_index.py"), "--write"], cwd=HERE,
+                           capture_output=True, text=True, timeout=3600,
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8"), creationflags=_NO_WIN)
+        if r.returncode != 0:
+            silence.note("overnight.py:weave-index-failed")
+            log(f"  weave index: REBUILD DID NOT COMPLETE ({name_rc(r.returncode)}) -- the index "
+                f"is still the previous build ({st.get('reason')})")
+            err = (r.stderr or "").strip().splitlines()
+            if err:
+                log(f"    weave index last stderr line: {err[-1]}")
+            return
+        log(f"  weave index: rebuilt in {time.time() - t0:.0f}s ({st.get('reason')})")
+    except Exception as e:
+        log(f"  weave index: FAILED -- {type(e).__name__}: {e}")
+        silence.note("overnight.py:weave-index")
+
+
+def library_paused():
+    """-> (paused: bool, why). FAILS CLOSED: an unanswerable question answers PAUSED.
+
+    Order 8454be695dc7. The halt is always asked FIRST wherever both are asked; a pause never
+    stands in for a halt and never lifts one.
+    """
+    try:
+        import escalation as _esc
+        return _esc.paused()
+    except Exception:
+        silence.note("overnight.py:pause-unreadable")
+        return True, "the pause marker could not be read"
+
+
 def canon_backup_cycle():
     """Take a verified snapshot of the canonical corpus, at most twice a day. Never raises.
 
@@ -694,6 +773,11 @@ def run(name, args, logfile, timeout_h=6):
     if _held:
         log(f"  {name}: STOPPED at MANAGER rung — not started ({_why})")
         return "manager-stopped"
+    # A PAUSED LIBRARY STARTS NOTHING (order 8454be695dc7), asked after the manager rung.
+    _p, _pwhy = library_paused()
+    if _p:
+        log(f"  {name}: the library is PAUSED — not started ({_pwhy})")
+        return "paused"
     # Matched on BASENAME. The stage is invoked with an absolute path while an already-running
     # copy may have been started with a relative one, so a substring test on the full path never
     # matches and the guard passes when it should not. That is how a second roll got launched
@@ -774,6 +858,11 @@ def start(name, args, logfile):
     held, why = _manager_stopped(name, args)
     if held:
         log(f"  {name}: STOPPED at MANAGER rung — not started ({why})")
+        return None
+    # A PAUSED LIBRARY STARTS NOTHING (order 8454be695dc7). None, like the manager rung above.
+    _p, _pwhy = library_paused()
+    if _p:
+        log(f"  {name}: the library is PAUSED — not started ({_pwhy})")
         return None
     # A BLIND PROBE IS NOT AN ABSENCE (order 1d556b6ef535). Returns None, which every caller
     # already treats as "did not start" -- the same shape the manager-rung gate above uses.
@@ -992,7 +1081,8 @@ WAIT_SECONDS = 600
 # describes: a watcher reading jobs-exiting-on-purpose as jobs-crashing. It cannot excuse a real
 # restart loop: `codewatch.BUDGET_PER_HOUR` refuses the rc=17 exit itself once spent, after which
 # the job stays up (and returns something else) instead of bouncing.
-BUSY_STATUSES = ("already-running", "manager-stopped", "probe-blind", "rc=17")
+# AND "paused" (order 8454be695dc7): a stage refused because the owner paused the library.
+BUSY_STATUSES = ("already-running", "manager-stopped", "probe-blind", "rc=17", "paused")
 
 
 def busy_statuses(statuses):
@@ -1490,6 +1580,14 @@ def main():
         log("  " + str(_halt).splitlines()[0])
         log("  The library is halted. The supervisor will not start until a person rules on it.")
         raise SystemExit("REFUSING TO START: the library is halted. Hard Rule -1.") from _halt
+    # A PAUSE IS ASKED AFTER THE HALT, and refuses the start cleanly (rc=0): the owner wants the
+    # machine, nothing is wrong. `autostart --watch` does not start a supervisor while paused, so
+    # this line is for a hand-start. (order 8454be695dc7)
+    _paused, _pause_why = library_paused()
+    if _paused:
+        log("  the library is PAUSED (%s) -- the supervisor will not start until the pause ends."
+            % _pause_why)
+        return 0
     # THE SUPERVISOR IS A STANDING JOB TOO (order 2cb8756deb0a). Every daemon in `STANDING`
     # stamps its source at startup and exits rc=17 when `src/` moves under it, because a Python
     # process is a photograph of the code it started with. This process runs for DAYS across
@@ -1514,7 +1612,7 @@ def main():
         codewatch.stamp("overnight")
     except Exception:
         # BOUND TO A VALUE, NOT LEFT UNDEFINED (order 7d08eb10c1a7, same shape as
-        # autostart.py:424-428). The per-lap check below now guards on `codewatch is not None`
+        # autostart.py's codewatch import guard). The per-lap check below now guards on `codewatch is not None`
         # instead of catching NameError -- an `except NameError` also swallows a NameError
         # raised INSIDE codewatch.exit_if_stale, which is not hypothetical here since
         # foreman.py runs with --patch and can auto-edit modules in src/.
@@ -1601,6 +1699,11 @@ def main():
                             log(f"  keeper: {name} is STOPPED at MANAGER rung — "
                                 f"NOT restarting ({why})")
                             continue
+                        # DOWN BECAUSE THE OWNER PAUSED THE LIBRARY (order 8454be695dc7): the
+                        # daemon left at its safe point on purpose. Silent -- start() would log
+                        # the same refusal for every job every five minutes.
+                        if library_paused()[0]:
+                            continue
                         log(f"  keeper: {name} was down mid-cycle")
                         start(name, args, lf)
                 except Exception:
@@ -1661,8 +1764,14 @@ def main():
                 }).encode()
                 req = _ur.Request(host.rstrip("/") + "/api/generate", data=body,
                                   headers={"Content-Type": "application/json"})
-                with _ur.urlopen(req, timeout=120):
-                    pass
+                # THROUGH THE LANE (order 30122bf3a5a7). The busy-check above is a look, not a
+                # claim: a prose call can start between it and this line. Taking a background
+                # turn closes that race; if the import failed the ping goes unarbitrated, as the
+                # recorded note above already says.
+                with (_gl.lane("overnight:keep-warm") if _gl is not None
+                      else contextlib.nullcontext()):
+                    with _ur.urlopen(req, timeout=120):
+                        pass
             except Exception:
                 silence.note("overnight.py:keep_warm")
 
@@ -1713,6 +1822,14 @@ def main():
             log("  " + str(e).splitlines()[0])
             log("  The library is halted. Nothing further will start until a person rules on it.")
             break
+        # THE PAUSE, AFTER THE HALT (order 8454be695dc7). The top of a lap is this process's
+        # safe point (see the codewatch note above), so a paused supervisor leaves HERE; the
+        # standing daemons leave at their own safe points and the keeper restarts none of them.
+        _paused, _pause_why = library_paused()
+        if _paused:
+            log("  the library is PAUSED (%s) -- leaving at the top of the lap. The watchdog "
+                "starts a supervisor again once the pause ends." % _pause_why)
+            break
 
         # THE PARK INSPECTION. Every cycle, before any stage is started: are the things that are
         # supposed to stop us still able to? Cheap (no model calls, no network) and it is the
@@ -1735,9 +1852,13 @@ def main():
         # `generate.py` -- the prose stage below -- has NO halt interlock anywhere in it (grep
         # for escalation/assert_clear: no hits). It is the one job this cycle can start that
         # would not notice the library halting under it, so it is the one job that needs this
-        # verdict. `== 1` only: rc 0 is a clean inspection, and None or any other code means the
-        # drill DID NOT RUN, which is reported by `safety_drill` itself and is not evidence of a
-        # breach.
+        # verdict. rc 0 is a clean inspection; None or any other code means the drill DID NOT
+        # RUN, which is not evidence of a breach -- and NOT evidence of no breach either, so the
+        # prose gate below starts generate.py on `drill_rc == 0` ONLY (fail closed, Hard Rule
+        # -1). Settled in the file under the owner's 2026-09-28 "fix everything" ruling (order
+        # 5bb12b398783 item 1): this sentence used to say `== 1` only, the pre-run-#61 reading
+        # the gate no longer carries, and prose is the one lane where an unauthorised run has
+        # already cost this project 145 chapters.
         drill_rc = safety_drill()
 
         n, blocking = preflight()
@@ -1901,6 +2022,9 @@ def main():
         # than in a person's memory, placed after the reader so it mines the titles this lap
         # produced rather than the ones it started with. (order 126088ccf8fe)
         identity_refresh_cycle()
+        # And the entity index, on the same clock-not-memory footing (orders d1709d8e757d /
+        # 2cb442afd901). After the reader and the roll, so it indexes what this lap catalogued.
+        weave_index_cycle()
 
         foreman_report()
         watch_report()

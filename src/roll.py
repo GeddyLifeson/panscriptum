@@ -211,6 +211,33 @@ def update_rows(changes, attempts=8, path=None):
     return landed, why
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def exclude(name, note, rows=None):
     """Mark a source out of scope, or correct the note on one already excluded. -> True if the
     roll was written.
@@ -238,6 +265,13 @@ def exclude(name, note, rows=None):
     if not (note or "").strip():
         raise ValueError("an exclusion without a recorded reason is not an exclusion")
     caller_supplied = rows is not None
+    if not caller_supplied:
+        # THE HALT (owner ruling 2026-09-28, order 3099138a82bd): this invocation writes, so it asks first.
+        # `exclude()` is the hand-run curatorial writer of the canonical roll. With
+        # `rows` supplied nothing lands, so that form stays a pure in-memory edit.
+        # `mutate`/`update_rows` are shared primitives the interlocked daemons call and
+        # are gated at THEIR entry points, not here.
+        _assert_not_halted("exclude(%r) (rewrites data/SWEEP_ROLL.json)" % (name,))
     if caller_supplied:
         row = next((r for r in rows if isinstance(r, dict) and r.get("name") == name), None)
         if row is None:

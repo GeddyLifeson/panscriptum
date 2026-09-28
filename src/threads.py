@@ -192,6 +192,15 @@ class AnnexJoinUnreadable(ThreadRefused):
     """
 
 
+class AnnexJoinUnmatched(ThreadRefused):
+    """data/ANNEX_JOIN.json names a source the corpus cannot thread (order 325ccb493c45).
+
+    The curated join and the corpus disagree, and a graph built over that disagreement would
+    publish an Annex join that silently omits a Canon's source. Raised by `build()` over the
+    whole corpus; the message names EVERY such key with all its Canons (Hard Rule 0).
+    """
+
+
 def cohort_family(code):
     """The Collection.Set whose members cohort with each other. -> str or None.
 
@@ -538,8 +547,14 @@ def survey(records=None):
     return code_of, cats_of, n_of
 
 
-def build(records=None):
+def build(records=None, strict_join=None):
     """Derive the T1/T2 graph. PURE: reads the corpus, writes nothing. -> dict.
+
+    `strict_join`: refuse (`AnnexJoinUnmatched`) when an ANNEX_JOIN.json key threads nothing.
+    None means "strict exactly when `records` is None", i.e. when this is a build over the
+    WHOLE corpus -- the only build in which "no record carries this source" is a fact. A caller
+    handing in a subset (every drill fixture) cannot know that, so its unmatched keys are
+    reported, as before; it may pass True to demand the refusal anyway.
 
     Runnable without the Step 4 ratification ON PURPOSE. The gate holds the WRITE and the CLI,
     because what the owner ratifies is the pass landing its artifact -- but a module nobody can
@@ -548,10 +563,21 @@ def build(records=None):
     """
     code_of, cats_of, n_of = survey(records)
     known = {c for c in code_of.values() if c and c != UNADDRESSED}
+    # The SOURCE addresses alone, kept before the widening below: these are the only codes a
+    # volume can sit at, so they are the only codes a T2 cohort may be built from.
+    source_codes = set(known)
     # THE ANNEX JOINS THE ADDRESS SPACE (order d57a66d25b11). Widening `known` can only ever let
-    # MORE addresses resolve, so T1 and T2 are untouched by this: both point at source codes,
-    # which were already in the set. What it changes is that a T3 to `VIII.9` now has somewhere
-    # to land instead of being refused as dangling.
+    # MORE addresses resolve. T1 points at a source's own code, which was already in the set.
+    # What it changes is that a T3 to `VIII.9` now has somewhere to land instead of being
+    # refused as dangling.
+    #
+    # IT USED TO FEED THE COHORT GROUPING TOO, and this comment said it did not (order
+    # 28f335ecefd3 item 3, owner ruling 2026-09-28 "fix everything"). The `siblings` map below
+    # was built by iterating the WIDENED `known`, so every Annex (VIII.n) and Law (X.n) code was
+    # entered as a candidate sibling volume. No false T2 edge could result while no source is
+    # shelved under VIII or X, because an Annex or Law code holds no rooms -- but that is a
+    # property of today's shelving, not of the code. `siblings` is now built from
+    # `source_codes`, so the widening reaches edge resolution only, as it always claimed to.
     known |= annex_codes()
     known |= law_codes()
     joined = annex_join()
@@ -569,7 +595,7 @@ def build(records=None):
                 cats_at_code[code] |= set(path)
 
     siblings = collections.defaultdict(set)
-    for code in known:
+    for code in source_codes:
         p = cohort_family(code)
         if p:
             siblings[p].add(code)
@@ -633,7 +659,13 @@ def build(records=None):
     # wrong wiki (owner order f19f4a2b00f4) -- simply never came up, and a key for an unaddressed
     # source lost its Canons behind the `unaddressed` row without saying so. Every such key is
     # listed with ALL of its Canons (Hard Rule 0), under the same heading as `unaddressed`.
-    # REPORTED, NOT REFUSED: whether a stale join key should stop the pass is an owner question.
+    # AND REFUSED OVER THE WHOLE CORPUS (order 325ccb493c45, decided under the owner's 2026-09-28
+    # "fix everything" ruling, option (B)). A join key that resolves to nothing means the curated
+    # join and the corpus disagree, and a graph built over that would publish an Annex join that
+    # silently omits a Canon's source. The report below still lands on every subset build; see
+    # `strict_join` in the docstring. The one live key at the ruling ("Lost Mines of
+    # Phandelver" -> VIII.17) was moved, not deleted, to ANNEX_JOIN.json's `parked` object,
+    # which this module never reads as join.
     unmatched = []
     for key in sorted(joined):
         if key in out:
@@ -645,6 +677,15 @@ def build(records=None):
                     "be threaded" if key in code_of else
                     "no record in the corpus carries this source, so the join row resolves to "
                     "nothing")})
+    if unmatched and (records is None if strict_join is None else bool(strict_join)):
+        silence.note("threads.py:annex-join-unmatched")
+        raise AnnexJoinUnmatched(
+            "%d ANNEX_JOIN.json key(s) thread nothing, so the curated join and the corpus "
+            "disagree: %s. Re-point or park each key in data/ANNEX_JOIN.json before the next "
+            "build (order 325ccb493c45)."
+            % (len(unmatched), "; ".join(
+                "%s -> %s (%s)" % (u["source"], ", ".join(str(c) for c in u["canons"]), u["why"])
+                for u in unmatched)))
 
     # STAMPED BESIDE `classes`, because it is a fact about the RULE this graph was derived under
     # and not about its contents (order 04c6360636bf). None on every ordinary run; a sentence

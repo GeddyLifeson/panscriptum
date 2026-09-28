@@ -1,0 +1,3 @@
+[
+ {"module": "pipeline.py", "old": "                    batch[i][\"topic\"] = topic\n", "new": "                    batch[i][\"topic\"] = topic or batch[i].get(\"category\")\n"}
+]

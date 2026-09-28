@@ -27,6 +27,95 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-28 afternoon — OWNER-DIRECTED SESSION: "FIX EVERYTHING". THE OWNER RUNG WENT FROM 55 TO 0.
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **You ruled on every open order at once** ("fix everything", in chat, about 15:40). Every order
+  that offered options was decided on the option its filing run recommended. Each closed order's
+  resolution says which option was taken and cites this ruling. Three limits were kept: nobody
+  opened `prose_enabled` or `step4_enabled`, created an account, or entered a credential.
+  Everything a person might want back was moved to an archive rather than deleted.
+* **Queue: 64 open at 15:40, 2 open at close.** OWNER 55 -> 0, LOCAL 5 -> 0, RUN 0, BOTS 2: the
+  Warhammer Fantasy re-catalogue, which is running, and the CHAIN.json refit, which waits for
+  pipeline phase 4.
+* **Git credentials changed.** The two `credential "https://github.com"` / `"https://gist.github.com"`
+  sections that pointed at the gh.exe the daemons cannot see were removed from
+  `C:\Users\imarl\.gitconfig` (backup `.gitconfig.bak-20260928`). Git Credential Manager already
+  held a working GitHub login, so pushes use it now. An authenticated dry-run push succeeded from
+  this session and from a process started outside the Claude app. **Check that the publish
+  daemon's first cycle after this session logs `pushed`**; reopen `573ab7b04b6f` if it says PUSH
+  HELD.
+* **A scheduled task was registered:** `Panscriptum\WatchdogKeeper` (user level, hidden, every 10
+  minutes and at logon). It runs `autostart.py --ensure`, which starts the watchdog only when none
+  is running (order `4c2101d54c10`).
+* **Chapters withdrawn, all archived, none deleted:** 58 Digimon chapters that repeated wiki
+  maintenance banners as fact (`output/withdrawn_2026-09-28-wiki-banners`), and 27 chapters whose
+  non-being entries carried only the bare Instrument marker (`output/withdrawn_2026-09-28_instrument_bare_marker`).
+  The catalogue went from 404 to 319. generate.py regenerates both sets from the repaired records.
+* **Accounts only you can fix** (order `88982cef258d`, closed because the pool answers): the
+  SambaNova key is dead (401), Z.AI needs a balance, Cohere's monthly trial is spent, and ten
+  providers have no key.
+
+**WHY PROSE HAD STOPPED, AND WHAT CHANGED.** It had catalogued nothing since 07:40. The D&D book
+*Arcanum Worlds (Odyssey of the Dragonlords)* carries "campaign", "NPC" and "player" in 124 of its
+1,053 records, the model repeated them, and the P8 meta-language ban refused every block, with no
+retry that could fix it. `generate.py` now asks the model to rewrite only the flagged sentences,
+then runs the unchanged ban. Fifteen of the book's records were its GM-advice page catalogued as
+entities; they are marked excluded. Prose was also starved: cascade could fail over from a cloud
+model onto the local GPU **without taking a gpu_lane turn**, and three probes called Ollama
+directly. All of them queue now, below prose. The old prose, pipeline and calibrate processes were
+stopped at 16:26 so they would restart on the new code; the pipeline came back at 16:30. Prose
+restarts on overnight's next cycle, with the rebuilt manifest (30,535 jobs, from 30,416).
+
+**WHAT WAS FIXED, BY GROUP** (the detail is in each order's resolution and in
+`handoff/owner0928/how_*.txt`; reverts used for the proofs are `handoff/owner0928/*revert*.json`):
+
+* **Halt:** 20 hand-run writers now refuse to write under a halt. Read-only and dry-run modes
+  still work.
+* **Battery:** verify_math is hermetic. It opens no connection to Ollama; a stand-in serves
+  `/api/tags` and `/api/ps` and refuses `/api/generate`. In a sandbox it takes 119s while prose
+  runs; it used to time out at 1200s. The drill's closed-gate net now means "no new chapters
+  arriving", so re-closing the gate cannot halt the library. The 707 leaked SCOPE.json temp dirs
+  were moved to `%TEMP%\panscriptum_drill_scope_litter_archive_20260928`.
+* **Operations:** a pause state (`escalation.py --pause/--unpause`, never outranks a halt).
+  Designed in-budget restarts no longer file orders. The stall standard watches each job's
+  declared output tree, not only its log. The entity index rebuilds on the supervisor lap
+  (48h / 10% threshold).
+* **Hosts:** Star Realms and Prime World Equipment were unbound, with their contaminated feats
+  archived. dandwiki is shelved as unreachable, its 933 entries kept as unmined. A name
+  containment no longer confirms a binding without a person-confirmed ruling in
+  `data/HOST_RULINGS.json`. Extra hosts are mined only when their site name matches.
+* **Corpus:** 3,804 descriptions across 13 web sources began with wiki maintenance text. They
+  were repaired through `write_record`, and the miner now strips such banners at two independent
+  points. The purged entrypass keys were moved aside. `physiology` is stored.
+* **Question bundles and cascade:** every item was decided and implemented. Cascade's engine
+  reports `finish_reason` and takes `max_tokens`; the Groq OTPM refusal teaches the bucket a
+  ceiling, and length-stopped replies are refused.
+* **Found in verification and fixed:**
+  - `standards.check()` raised TypeError on a quota row with `worst: None`, which killed
+    verify_math at row 819. There is a new row for it, proven red on the old code.
+  - Windows "delete pending" `PermissionError` was mistaken for failure in three lock loops. In
+    codewatch it escaped; in escalation it raised the halt unlocked; in gpu_lane the caller
+    skipped the lane. There is a new net for it, red under either revert.
+  - Liveness caught a `t == t` NaN tautology in suppressions.
+  - Three battery failures came from agents' changes, and 5 citations had rotted.
+  - Silence went 336 -> 311, with each new handler marked or made to report.
+
+**Battery at close:** verify_math **1343 passed, 0 FAILED** · drill **710 attacked, 710 held, 0
+BREACHED** · allsweep **0 subsystems in a bad state** · `health --preflight` all checks pass ·
+liveness 44 (0 tautology) · silence 311 · pyflakes clean · secondopinion all three RAN, 0 secrets ·
+binding_health 132 hosts, 0 failed · corpus rebuilt earlier today.
+One caveat: five comment-only citation fixes (drill, overnight, suppressions and two in
+verify_math, one of them a fixture string) landed after that verify_math run and after the
+mutation pass had taken its snapshot. They change no executable logic, but tonight's run should
+confirm verify_math still reads 0 FAILED.
+
+**Mutation pass running:** `state/mutate_20260928.log`, launched about 16:45 on fingerprint
+`8556f50776d07846`. Its baseline was verify_math 1343/0 in 119s and drill 710/710/0 in 143s.
+
+---
+
 ## 2026-09-27 evening — DAILY MAINTENANCE RUN #66: THE DRILL HALF OF THE MUTATION DRIFT FOUND AND FIXED. SWEEP66 DONE, 7 FIXES, EVERY NEW NET WATCHED GOING RED.
 
 **FOR THE OWNER, AT THE TOP:**

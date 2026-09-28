@@ -1,0 +1,3 @@
+[
+ {"module": "wiki_source.py", "old": "             if not any(a <= m.start() < b for a, b in furniture)]", "new": "             if True]"}
+]

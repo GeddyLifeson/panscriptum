@@ -1,0 +1,9 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. No item carried a recommended reading; each takes the reading that closes it.
+
+1. overnight.py prose gate on drill_rc None -- fail closed. The gate itself was already `drill_rc == 0` (maintenance run #61), so an uninspected cycle does not start prose. What was left was the stale sentence above `drill_rc = safety_drill()` still saying "`== 1` only"; it now states the fail-closed reading and cites this order. No gate was weakened; prose_enabled untouched.
+2. scope.py TIERS gap -- deliberate, now explained in the file: M0 is the floor, not a scope (no marker -> no ceiling, which says "unknown", never "village"); M5's words (cluster, nebula) are generic and common proper names; M9 is the charter's own vocabulary that wikis do not use; M10 is "exactly one class of entry" and never a fiction's ceiling. Adding a marker must bump PROBE_VERSION. No behaviour change, so SCOPE.json needs no re-probe.
+3. custodes.py prior_share on zero variance -- the share is undefined when every reading coincides. 1.0 stays the published convention (the clip's value, keeps prior + attestation == 1, errs to "fieldwork could not fix this"), and the result now carries `divergence_share_defaulted: True/False` so the number cannot be read as a measurement.
+4. genre.py `_BAD_CHARS` self-check -- already present at the top of src/genre.py (landed after sweep54); nothing to do.
+5. navtree.py / rosetta.py assert_clear before writing data/ -- already done: both now call `_assert_not_halted` on --write (navtree) and --mine/--refine (rosetta) under the owner's 2026-09-28 ruling (order 21c075e5e2d6, cited in both files, landed by another group this session). Nothing further here.
+
+pyflakes clean on overnight.py, scope.py, custodes.py. Items 1-3 are documentation/flag changes, not guards, so no new net; item 3's `prior + attestation == 1` invariant is still checked by verify_math.

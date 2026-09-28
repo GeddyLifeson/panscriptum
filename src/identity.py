@@ -460,6 +460,25 @@ def _inv_keys(host):
     return [cachekey.host_dir(host), host, hand]
 
 
+
+def _inv_counts(host, inv):
+    """-> this host's designator counts from the inventory, {} if it has none. Never raises.
+
+    STOPS ON THE FIRST SPELLING THAT IS PRESENT, NOT THE FIRST THAT IS NON-EMPTY (order
+    6b59a5d4302a item 6, owner ruling 2026-09-28 "fix everything"). Both call sites used to test
+    `if inv.get(k)`, so a host `mine()` had recorded with an EMPTY dict -- zero designators, a real
+    answer -- fell through to the next fallback spelling, and if a different host happened to be
+    keyed under that spelling its designators were returned for this one. Present-and-empty now
+    answers "none", which is what it means. A present value that is not a mapping is skipped,
+    as before, because it is no answer at all.
+    """
+    for k in _inv_keys(host):
+        v = (inv or {}).get(k)
+        if isinstance(v, dict):
+            return v
+    return {}
+
+
 # How many continuity designators the console preview shows before the remainder line takes
 # over. Named rather than repeated as a literal beside its own `-6` (order 1cdc2f8cd2f3): the
 # remainder is derived from the slice, so this is a display width and not a cap on the data --
@@ -470,11 +489,7 @@ CONTINUITY_PREVIEW = 6
 def continuities(host, inv=None):
     """The designators on this host that behave like continuities."""
     inv = inv if inv is not None else load()
-    counts = {}
-    for k in _inv_keys(host):
-        if inv.get(k):
-            counts = inv[k]
-            break
+    counts = _inv_counts(host, inv)
     return {d: (v["bearers"] if isinstance(v, dict) else v)
             for d, v in counts.items() if _is_continuity(d, v)}
 
@@ -703,11 +718,7 @@ def main():
     if a.host:
         # Same key resolution the library uses -- see `_inv_keys`. Hand-rolling it here a
         # second time is how the two spellings drifted apart in the first place.
-        counts = {}
-        for _k in _inv_keys(a.host):
-            if inv.get(_k):
-                counts = inv[_k]
-                break
+        counts = _inv_counts(a.host, inv)
         cont = continuities(a.host, inv)
         print(f"{a.host}: {len(counts)} distinct parentheticals, "
               f"{len(cont)} behave like continuities\n")

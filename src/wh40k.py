@@ -274,6 +274,33 @@ def _provenance(axis_value):
     return "unattributed"
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, decided under the owner's 2026-09-28
+    "fix everything" ruling: every hand-run tool that writes the corpus or the library's output
+    REFUSES while the library is HALTED -- the house default `hostcheck`, `withdraw_chapters` and
+    `ingest_doc` already followed. A halt means a library-wide invariant is broken and nothing
+    may proceed on uncertain ground, and a hand-run is exactly the path the supervisor's own
+    gates never see.
+
+    DELIBERATELY NARROW: called on the WRITING path only, after the arguments are parsed and
+    before the first write. Read-only and dry-run invocations are measurements and keep working
+    under a halt. Pinned by drill.py's "every hand-run corpus writer asks the halt before it
+    writes" net and by verify_math's `_INTERLOCKED` roster.
+
+    FAIL CLOSED ON THE IMPORT, and never `except ImportError: pass` -- that spelling is Hard
+    Rule -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--full", action="store_true")
@@ -338,6 +365,10 @@ def main():
     # rename landed. The atomicity note above protects a reader from seeing a HALF-written file;
     # it says nothing about the run that wrote NOTHING and reported success. Fixed across all
     # three sibling assay modules together this time. Run #36 discarded-verdict sweep.
+    # THE HALT (owner ruling 2026-09-28, order 21c075e5e2d6): this invocation writes, so it asks first.
+    # Every run writes; the ranking above is still printed first, so a halted library
+    # can be READ here and refuses only the write.
+    _assert_not_halted("(writes data/WH40K_ASSAYS.json)")
     if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
         silence.note("wh40k.py:main-write-denied")
         print("")

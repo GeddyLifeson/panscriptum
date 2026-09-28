@@ -1,0 +1,1 @@
+[{"module": "tells.py", "old": "for _n, _p in DISCOURSE.items():\n    if (_p.startswith(\"^\")", "new": "for _n, _p in {}.items():\n    if (_p.startswith(\"^\")"}]

@@ -1,0 +1,9 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction: option (B), refuse.
+
+src/threads.py: new `AnnexJoinUnmatched(ThreadRefused)`. `build(records=None, strict_join=None)` raises it, naming EVERY unmatched key with all its Canons and the reason, when `annex_join_unmatched` is non-empty and the build is strict. Strict defaults to "records is None", i.e. the whole-corpus build that `main()` runs; a caller handing in a subset of records (every drill fixture) cannot know a key is stale, so a subset build still REPORTS as before, and may pass strict_join=True to demand the refusal. `main()` already prints a ThreadRefused as "REFUSING TO DERIVE".
+
+data/ANNEX_JOIN.json: the one live unmatched key, "Lost Mines of Phandelver" -> VIII.17, was MOVED (not deleted) into a new top-level `parked` object with its row, the date and the reason (records purged after mis-mining, owner order f19f4a2b00f4); `threads.annex_join()` reads only `join`. The header counts were updated to match (sources 81 -> 80, edges 98 -> 97). A byte copy of the file as it stood is at state/owner0928_QB_ANNEX_JOIN.backup.json. Move the key back into `join` once the source is re-catalogued.
+
+Verified: a whole-corpus `threads.build()` over 210 sources now returns annex_join_unmatched [] and verify() reports 0 problems. The live graph is unchanged (the key threaded nothing), so no rebuild of THREADS.json is needed.
+
+Proof: drill net "an Annex join key that threads nothing refuses the whole-corpus thread build" (area drill_owner0928_qb). HELD live; RED with handoff/owner0928/QB_revert_annex_strict.json. The existing drill_threads nets for the report path and for malformed rows, and "the pass's own CLI runs to completion", were re-proved HELD. pyflakes clean.

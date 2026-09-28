@@ -1,0 +1,10 @@
+FIXED 2026-09-28 under the owner's "fix everything" instruction (group OPS). Option taken: "over-budget-only" -- a designed rc=17 restart GRANTED inside codewatch.BUDGET_PER_HOUR is recorded at the JANITOR rung and no longer files a work order; the budget-spent and ledger-denied cases still escalate at MANAGER and still file.
+
+CODE:
+  * escalation.escalate(..., order=True): new keyword. `files_an_order(level, order)` (pure) honours order=False at JANITOR ONLY; at OPERATOR and above it always files, whatever the caller passed, so no caller can quiet a refusal, stop or halt with a flag. The record carries `order_filed`.
+  * codewatch.exit_if_stale: the in-budget CODEWATCH_RESTART escalation passes order=False. It still lands whole in state/escalation.log, the job's own area log (state/escalations/<job>.log) and state/CODEWATCH.json.
+  * A job that fails to come back is the keeper's/watchdog's to see (and the watchdog now has its own keeper, order 4c2101d54c10).
+
+PROVEN: drill.py area `drill_ops_liveness`, net "an order cannot be suppressed above the janitor rung" (pure rule at every rung; escalate() driven inside _esc_probe: a JANITOR order=False files nothing, a SAFETY order=False still files; and codewatch's CODEWATCH_RESTART call carries order=False while CODEWATCH_BUDGET/LEDGER_DENIED do not). `--prove` RED with handoff/owner0928/revert_ops_order_suppress.json (order=False honoured at every rung) and RED with revert_ops_restart_quiet.json (codewatch files the in-budget restart again); HELD without. pyflakes clean.
+
+The five open LOCAL CODEWATCH_RESTART orders (018727423a09, 764e283cdf00, 91bb70c85e31, e45618de083f, ee382241ff8c) are closed separately after verifying each job came back.

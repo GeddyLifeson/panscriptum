@@ -1,0 +1,1 @@
+[{"module": "threads.py", "old": "if unmatched and (records is None if strict_join is None else bool(strict_join)):", "new": "if False:"}]

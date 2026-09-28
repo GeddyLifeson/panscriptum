@@ -1,0 +1,9 @@
+CLOSED AS STALE 2026-09-28, with measurement, under the owner's "fix everything" instruction (group OPS). The blocking condition -- "prose has written no entry chapters since the 2026-09-24 lift, and generate is stopped" -- no longer holds. No code or gate was changed by this closure; prose_enabled was not touched.
+
+MEASURED 2026-09-28 ~15:55, over output/raw/*.md and output/index/catalog.json since this order was filed (2026-09-25 19:26):
+  * 397 chapters written and catalogued: 372 entry chapters, 22 feats, 3 frontmatter (catalog by day UTC: 09-26 166, 09-27 144, 09-28 87). 135 in the last 24h.
+  * The prose subsystem is NOT stopped (escalation.subsystem_stopped('prose') -> False), the library is not halted, and generate.py is running (pid 29412, started 15:07:14; 3 of 423 pending jobs done, ~12-18 min per job on qwen3:8b).
+  * The fixed tail is being supplied in code (option (a) of this order, landed by another run): the log shows "supplied the fixed tail (Threads on N, Instrument on N)" per block.
+  * Of 3,557 entries in those 372 entry chapters, Threads is present in all but 3, and all 3 are parse artefacts of my splitter (entry boundaries inside a list page and a bold-formatted Instrument), not missing sections. The gated section is complete.
+
+RESIDUALS, noted rather than filed: 205 entries (5.8%) lack a Contradictions line and 30 lack an Instrument line -- neither is gated, and the fixed tail supplies Threads/Instrument but evidently not Contradictions in every case. The Digimon ReArise wiki-list-page entries ("List of characters in Digimon ReArise") the order saw are still present in II_K_2_Places_1_10.md. If either matters, it is a new, narrower order than this one.

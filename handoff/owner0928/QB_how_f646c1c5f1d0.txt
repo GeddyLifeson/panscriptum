@@ -1,0 +1,7 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction: option (b), rename and document.
+
+src/genre.py classify_source(): the invariant field `genres_scored` (always len(GENRES) == 11 since the uncapping) is renamed `genre_field_size` on both return paths, and the comment that recorded this order as an open owner question now records the ruling: it is the size of the genre vocabulary the margin was taken over, not a per-source count, and it still acts as a tripwire if anything re-caps the field. `genres_with_signal` remains the per-record fact. The order-id reference in src/genre.py is kept and now says RESOLVED, so it stays coherent after this closes.
+
+data/GENRES.json: the key was renamed in place on all 210 rows (values unchanged, written atomically via silence.write_json), so the stored data and the code agree without a regeneration. Nothing in src/ read `genres_scored` (navtree.py and profile.py read GENRES.json but not this key).
+
+Not a guard, so no drill net. pyflakes clean. Verified: classify_source returns genre_field_size 11 on a populated and on an empty record.

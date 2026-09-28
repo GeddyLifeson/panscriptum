@@ -1,0 +1,7 @@
+[
+ {
+  "module": "health.py",
+  "old": "free = [h for h in members if h not in quarantined and h not in shelved]",
+  "new": "free = [h for h in members if h not in quarantined]"
+ }
+]

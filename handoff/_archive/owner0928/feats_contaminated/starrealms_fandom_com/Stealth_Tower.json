@@ -1,0 +1,19 @@
+{
+ "entity": "Stealth Tower",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Stealth Tower"
+ ],
+ "chars_read": 1081,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [
+  {
+   "text": "Even if you destroy that base during your turn, Stealth Tower continues to function as a copy of that base until the end of your turn.",
+   "page": "Stealth Tower"
+  }
+ ],
+ "text": {
+  "Stealth Tower": "How to Play ==\nWhen you play Stealth Tower put in play an Outpost with a defense of 5. And until your turn ends, Stealth Tower becomes a copy of any base in play. Stealth Tower had that's base's faction in addition to Machine Cult.\n\nNote: it is allowed to copy a base that an opponent has in play. Even if you destroy that base during your turn, Stealth Tower continues to function as a copy of that base until the end of your turn. \n Strategy ==\nBuying Stealth Tower might seem a bit of a gamble and maybe in early game its ability sometimes won't trigger. But the ability to mimic even the best bases in play and gaining the ability to trigger that base's faction can be quite huge. Also a defense of 5 is still pretty good."
+ }
+}

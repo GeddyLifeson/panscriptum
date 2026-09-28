@@ -1,0 +1,7 @@
+Decided under the owner's 2026-09-28 "fix everything" instruction. The order's recommendation (and owner ruling 2026-09-08, ruling 10, option (a)) is that topic, category and subroom STAND as three axes, plus a commissioned REGRESSION NET so the 7,909-topic rewrite cannot recur. The axes were already relocated/documented at pipeline.py's TOPICS/SUBROOMS; the net was "NOT yet written". It is now.
+
+What changed:
+- src/drill.py, area drill_inspector, net "topic, category and subroom stay three axes": (1) ENTRY_SCHEMA must keep requiring category, topic AND subroom separately; (2) TOPICS must not collapse to the category vocabulary; (3) no Assign/AugAssign anywhere in src/ (subdirectories included) may set an entry's ["topic"] from an expression that reads `category`.
+- src/pipeline.py's comment at SUBROOMS updated: the net exists and names what it attacks. No data or classification logic changed.
+
+Proof: --prove drill_inspector "topic, category and subroom stay three axes" -> HELD; with --revert handoff/owner0928/corpus_revert_three_axes.json (phase_entrypass writing `topic or batch[i].get("category")`) -> RED. pyflakes clean.

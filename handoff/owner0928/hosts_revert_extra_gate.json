@@ -1,0 +1,7 @@
+[
+ {
+  "module": "feats.py",
+  "old": "            if ok:\n                targets.append(x)",
+  "new": "            if True:\n                targets.append(x)"
+ }
+]

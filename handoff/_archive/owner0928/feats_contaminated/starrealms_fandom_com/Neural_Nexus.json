@@ -1,0 +1,14 @@
+{
+ "entity": "Neural Nexus",
+ "host": "starrealms.fandom.com",
+ "pages_read": [
+  "Neural Nexus"
+ ],
+ "chars_read": 1711,
+ "feats": [],
+ "quantities": [],
+ "gate_rejected": [],
+ "text": {
+  "Neural Nexus": "How to play ==\nAt any time during your turn, you may scrap a card from your hand or discard pile and gain Combat equal to its cost. If you have another Machine Cult card in play, you may draw a card. Neural Nexus is an outpost with a defense of 6. \n\nNote: the cost of a Scout or Viper is 0. \n Strategy ==\nIt is very nice that you can choose between scrapping from hand and discard pile, something not often seen in Frontiers. Gaining Combat equal to the cost of the card being scrapped is interesting, but in practice it almost never pays to scrap a more expensive card to get more Combat out of Neural Nexus. If you still have Scouts and Vipers it is almost always better to just scrap those. Of course the exception to this rule is nearing the end of the game, when you do not expect to use an expensive card anymore and might just as well get some Combat out of it using this card. \n\nThe ally ability to draw a card is also good. With a cost of 7 quite an expensive card, but nonetheless a good buy at any time during the game as it can both clean your deck and provide some combat in the final turns. \n\nIf playing with Command Decks, High Director Valken can make particular use of this base's ability. Valken's passive gambit allows her to effectively \"unscrap\" a card each turn, meaning she can convert a high-cost card into lots of damage without losing access to the card for later."
+ }
+}

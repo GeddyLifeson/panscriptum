@@ -550,8 +550,8 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
     if handler == "LOCAL":
         try:
             import local_agent as _LA
-            targets = sorted(set(m[0] for m in WHERE_TARGET.findall(
-                str(where or "").replace(chr(92), "/"))))           # order 5b00f9d39b94
+            # order 5b00f9d39b94; non-.py protected paths too (order 253d116215ab, item 8)
+            targets = local_door_targets(where, _LA)
             if targets and all(_LA._denied_target(t) for t in targets):
                 found_by = "%s | workorders.file_order: filed at RUN, not LOCAL -- `where` " \
                            "names %s, entirely on local_agent's write denylist, so LOCAL is " \
@@ -927,6 +927,34 @@ def open_orders(handler=None, severity=None):
 # range clustered as if they named one line, and an order about line 419 never clustered with the
 # range that contains it. Three groups now -- path, start, optional end.
 WHERE_TARGET = re.compile(r"\b((?:[A-Za-z0-9_.-]+/)*[A-Za-z_][A-Za-z0-9_]*\.py)(?::(\d+)(?:-(\d+))?)?")
+_WHERE_PATHLIKE = re.compile(r"[A-Za-z0-9_.][A-Za-z0-9_./-]*")
+
+
+def local_door_targets(where, la=None):
+    """-> sorted list of the DECLARED targets in `where` that the LOCAL rung's gate can judge.
+
+    Every `.py` path WHERE_TARGET finds, PLUS every non-module path `local_agent` protects that
+    `where` names literally: an entry of `DENYLIST_PATHS` (`config.yaml`) or a path under one of
+    `DENYLIST_PREFIXES` (`reference/keystone_volumes/...`, `state/...`). Sweep66 question 8,
+    order 253d116215ab, decided under the owner's 2026-09-28 "fix everything" instruction: the
+    door read `.py` targets only, so a LOCAL order about config.yaml -- the file that holds the
+    prose gate -- was filed at a rung that is structurally forbidden to touch it and never
+    re-routed. Still only DECLARED paths, never a guess from prose: a bare word such as "config"
+    is not a target, only the protected path spelled out. `la` is the local_agent module, passed
+    so a caller that already imported it asks the same object; None imports it here.
+    """
+    text = str(where or "").replace(chr(92), "/")
+    out = set(m[0] for m in WHERE_TARGET.findall(text))
+    if la is None:
+        import local_agent as la
+    paths = {str(p).lower() for p in getattr(la, "DENYLIST_PATHS", ())}
+    prefixes = tuple(str(p).lower() for p in getattr(la, "DENYLIST_PREFIXES", ()))
+    for tok in _WHERE_PATHLIKE.findall(text):
+        tok = tok.rstrip(".,;:")
+        low = tok.lower()
+        if low in paths or (prefixes and low.startswith(prefixes)):
+            out.add(tok)
+    return sorted(out)
 
 
 def _span(key):
@@ -1593,10 +1621,40 @@ def sweep_detectors():
         suspect = [h for h in (rec.get("hosts") or [])
                    if h.get("healthy") is None and "no catalogued title resolved"
                    in str(h.get("reason") or "")]
+        # A STANDING OWNER RULING SETTLES THE FINDING (owner 2026-09-28, "fix everything";
+        # orders 5f25aa63a41c, efd2b537f26d, 9029a484a13c). Two kinds, both from
+        # data/HOST_RULINGS.json via `binding_health.standing_ruling`: a SHELVED host (dandwiki,
+        # whose API refuses anonymous clients by policy) and a confirmed binding whose entries a
+        # person ACCEPTED as feature-level. Re-filing either every sweep is the furniture this
+        # section was split to stop. The ruling is re-checked against the STORED identity each
+        # sweep, so a wiki that renames itself or a rebound source falls back to the measured
+        # finding. Read FAIL-CLOSED: if the rulings cannot be read, nothing is settled and the
+        # orders file exactly as before.
+        try:
+            import binding_health as _BHR
+            _rdoc = _BHR.rulings()
+        except Exception:
+            silence.note("workorders.py:host-rulings")
+            _BHR, _rdoc = None, {}
+        _ruled_hosts = set()
+        for h in (rec.get("hosts") or []):
+            host = h.get("host") or ""
+            ruling = (_BHR.standing_ruling(host, h.get("binding") or {}, doc=_rdoc)
+                      if (_BHR and host) else None)
+            if not ruling:
+                continue
+            _ruled_hosts.add(host)
+            how = ("settled by a standing owner ruling (%s, data/HOST_RULINGS.json): %s"
+                   % (ruling["kind"], (ruling["row"].get("why") or "").strip()))
+            for code in ("BINDING_SUSPECT", "BINDING_RIGHT_ENTRY_NAMES_ARE_NOT_TITLES"):
+                if resolve_code(code, how, where=host, by="workorders.sweep"):
+                    closed.append(code + ":" + host)
         seen_hosts = set()
         for h in suspect:
             host = h.get("host") or "?"
             seen_hosts.add(host)
+            if host in _ruled_hosts:
+                continue
             # "MAY BE bound to the wrong wiki, OR its entry names may not be article titles"
             # used to be the whole order, filed at BOTS, for both cases at once. Three of the
             # five standing ones were the second case and are NOT REPAIRABLE BY ANYTHING --
@@ -1831,7 +1889,8 @@ def sweep_detectors():
     # construction, something somebody ran once. Nothing is deleted or unpublished here --
     # whether a given script is worth keeping is a curatorial call and this is a queue, not a
     # janitor -- but the shift can no longer close without the list being in front of it.
-    # Self-closing: the order resolves the moment `handoff/` holds no scratch script.
+    # Self-closing: the order resolves the moment `handoff/` holds no scratch script the publish
+    # gate would ADMIT (option (c), order a66423722e45 -- see the `_fire` call below).
     #
     # The list is capped in `what` and COMPLETE in `evidence`, the STRANDED_SYNTHESIS shape: a
     # summary line may be short if the full list is one field away, and this one names how many
@@ -1890,30 +1949,38 @@ def sweep_detectors():
                         ("%d of them are NOT refused by publish and WOULD be copied to the "
                          "PUBLIC repo on the next push: %s"
                          % (len(_escapes_hs), ", ".join(_escapes_hs))))
-        _shown = ", ".join(scratch[:12]) + (" (+%d more, all of them in `evidence`)"
-                                            % (len(scratch) - 12) if len(scratch) > 12 else "")
+        # OPTION (c), ORDER a66423722e45, decided under the owner's 2026-09-28 "fix everything"
+        # ruling: THE DETECTOR COUNTS ONLY FILES THE PUBLISH GATE WOULD ADMIT. It used to count
+        # every executable-suffix file EXISTING under handoff/, so a tree whose 28 scratch
+        # scripts were all refused by `_is_agent_scratch` re-filed this order on every sweep --
+        # the fixed-but-refiled churn order e114b2d0fe48 describes -- while the harm it was
+        # filed about (agent scripts reaching the PUBLIC repo) could not happen. The files are
+        # kept in place as history; refused ones are listed in `evidence` only, and the order
+        # fires (MAJOR) only for a file the gate would copy. If publish cannot be asked, every
+        # file counts as admitted (fail towards saying more, above).
+        _shown = ", ".join(_escapes_hs[:12]) + (" (+%d more, all of them in `evidence`)"
+                                                % (len(_escapes_hs) - 12)
+                                                if len(_escapes_hs) > 12 else "")
         _fire(
-            not scratch,
+            not _escapes_hs,
             "AGENT_SCRATCH_IN_PUBLISHED_TREE",
-            ("%d executable-suffix file(s) sit under handoff/, which is a publish.COPY_DIRS "
-             "root: %s. %s. These are agent working files, not part of the record: handoff/ "
-             "takes AUDITS (.md) and queue state (.json). This is the path fault behind the "
-             "2026-08-28 SECRET_IN_EXPORT halt, where a sweep agent asked to demonstrate that "
-             "the secret scanner catches credentials wrote the fixtures down in a script in "
-             "this directory. Nothing leaked; the gate refused the push, which is the gate "
-             "working -- and the gate should not have had to. REMEDY, either or both: move each "
-             "script out of the published tree to the session scratchpad, and make every sweep "
-             "brief name a scratch location outside the repo before it names handoff/. Before "
-             "moving anything, check what still depends on it: handoff/nets_20260906/longtail.py "
-             "is the staged net open order 2f07cbd3241d is owed."
-             % (len(scratch), _shown, _gate_hs)),
-            "RUN", "MAJOR" if _escapes_hs else "MINOR",
+            ("%d executable-suffix file(s) under handoff/, a publish.COPY_DIRS root, would be "
+             "ADMITTED by the publish gate and copied to the PUBLIC repo: %s. %s. These are "
+             "agent working files, not part of the record: handoff/ takes AUDITS (.md) and "
+             "queue state (.json). This is the path fault behind the 2026-08-28 "
+             "SECRET_IN_EXPORT halt. REMEDY: repair the gate (`publish._is_agent_scratch` / "
+             "CODE_FREE_DIRS / _CODE_EXT) so it refuses them, and move each script out of the "
+             "published tree to the session scratchpad."
+             % (len(_escapes_hs), _shown, _gate_hs)),
+            "RUN", "MAJOR",
             where="handoff/ as a COPY_DIRS root vs where agents write working files",
             evidence={"proof": "os.walk(handoff/) -> %d file(s) of an executable suffix, "
                                "__pycache__ excluded: %s" % (len(scratch), ", ".join(scratch)),
                       "copy_dirs": "publish.COPY_DIRS includes 'handoff'",
                       "suffixes_asked_for": list(_exts_hs),
                       "gate_verdict": _gate_hs,
+                      "refused_by_the_gate_kept_in_place": [p for p in scratch
+                                                            if p not in _escapes_hs],
                       "would_reach_the_public_repo": _escapes_hs},
             found_by="workorders.sweep handoff-scratch")
         _detector("handoff-scratch", True)
@@ -2043,8 +2110,7 @@ def sweep_detectors():
         for _oid, _rec in sorted(_load().items()):
             if (_rec or {}).get("handler") != "LOCAL":
                 continue
-            _mods = set(m[0] for m in WHERE_TARGET.findall(
-                str(_rec.get("where") or "").replace(chr(92), "/")))
+            _mods = set(local_door_targets(_rec.get("where"), _LA))   # the door's own extraction
             if not _mods:
                 # No module named in `where` at all -- this detector has nothing to say, and
                 # guessing from the prose would invent findings. `where` is the declared target.
