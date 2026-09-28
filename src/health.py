@@ -459,8 +459,18 @@ def _flush_samples(taken_s):
                     # before. That is the old behaviour and it is the safe one: overwriting an
                     # unreadable evidence file we could not first set aside would destroy the
                     # only copy of whatever tore it. (run33)
+                    # SAID, NOT SWALLOWED (sweep66 batch 14, run #66). This used to `raise` into
+                    # the blanket `except: pass` below, so a torn samples file that could not be
+                    # set aside was silent on every flush for ever. It now says so the way the
+                    # ledger's identical branch does, and returns with the samples still in
+                    # `_SAMPLES` for the next flush. stderr, not `silence.note`: the recorder
+                    # cannot record against itself.
                     if not silence.replace_retry(SAMPLES_PATH, SAMPLES_PATH + ".corrupt"):
-                        raise
+                        print(f"health: failure samples unreadable ({type(e).__name__}) AND "
+                              f"could not be set aside as {os.path.basename(SAMPLES_PATH)}"
+                              f".corrupt (rename refused) -- refusing to write over it; "
+                              f"samples kept in memory for the next flush", file=sys.stderr)
+                        return
                     old = {}
                     # The wreck has been renamed away; the digest above describes a file that is
                     # no longer here, so the swap must assert absence instead. Same reason as the

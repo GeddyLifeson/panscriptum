@@ -4697,7 +4697,7 @@ finally:
     _STx.MIN_CALLS_TO_JUDGE_RATE = _saved_thr19ai
 check("and the boundary MOVES WITH THE CONSTANT: the same window is refused once the "
       "threshold is raised over it", _moved19ai, True,
-      note="a literal spelled at standards.py:751 instead of the constant leaves the two "
+      note="a literal spelled in standards.check()'s MIN_CALLS_TO_JUDGE_RATE comparison instead of the constant leaves the two "
            "equality rows perfectly green and this row red -- which is the whole point")
 # AND THE OTHER END OF THE SAME WIRE. The row above holds `standards.check()`'s cut to the
 # constant; this holds standards.py's module-level `MIN_CALLS_TO_JUDGE_RATE =
@@ -5110,7 +5110,7 @@ def _for_owner_landing_b19():
                     from_temp = True
             elif nm == "write_json" and c.args and _is_fo(c.args[0]):
                 # write_json IS the temp-then-replace_retry helper; it lands from a temp by
-                # construction (silence.py:511, 518). Markdown rules it out here, but a future
+                # construction (silence.write_json). Markdown rules it out here, but a future
                 # JSON sibling of this file would be just as correct.
                 landed = from_temp = True
     return (landed, from_temp, bare)
@@ -9487,12 +9487,19 @@ for _p_b2 in ("catalogue_aurora.py", "scope.py", "sevenfold.py"):
 
 # Positive control: confirm the detector itself actually catches a discarded call, so a typo'd
 # attribute name or node type doesn't leave it silently matching nothing forever.
+# IT CALLS THE REAL SCAN (sweep66 batch 02, run #66). This control used to retype the scan's
+# predicate inline, so a typo in `_writejson_calls_discarded_b2` left the three rows above AND
+# this control green -- the mistake order 3c72359c53aa fixed at four other scans in this file.
+import tempfile as _tempfile_b2
 _synthetic_b2 = "import silence\nsilence.write_json(PATH, obj)\n"
-_synthetic_tree_b2 = _ast_b2.parse(_synthetic_b2)
-_synthetic_bad_b2 = [n.lineno for n in _ast_b2.walk(_synthetic_tree_b2)
-                     if isinstance(n, _ast_b2.Expr) and isinstance(n.value, _ast_b2.Call)
-                     and isinstance(n.value.func, _ast_b2.Attribute)
-                     and n.value.func.attr == "write_json"]
+_synthetic_dir_b2 = _tempfile_b2.mkdtemp(prefix="vm_discard_ctrl_")
+try:
+    _synthetic_path_b2 = os.path.join(_synthetic_dir_b2, "synthetic.py")
+    with open(_synthetic_path_b2, "w", encoding="utf-8") as _fh_b2:
+        _fh_b2.write(_synthetic_b2)
+    _synthetic_bad_b2 = _writejson_calls_discarded_b2(_synthetic_path_b2)
+finally:
+    _shutil_vm.rmtree(_synthetic_dir_b2, ignore_errors=True)
 check("1018d49b186e: discard-detector finds a real discarded write_json (positive control)",
       _synthetic_bad_b2, [2])
 
@@ -11411,7 +11418,7 @@ check("catalogue_web.catalogue_composite tracks failed categories instead of sil
 # -- a parser THIS FILE builds two lines earlier, with a default THIS FILE supplies. Nothing
 # named `withdraw_chapters` is imported anywhere in this battery, so what was actually asserted
 # is that today's date is not the string "2026-08-25": true when it was written, and the one
-# calendar day it could have failed on is in the past. Revert withdraw_chapters.py:176 to
+# calendar day it could have failed on is in the past. Revert withdraw_chapters.main()'s `--label` default to
 # `default="2026-08-25"` and the row stays green for ever. That is the class this file has
 # already repaired three times -- order 96c4be60fb92 (two `check(label, True, True)` rows),
 # order 8a6d86040d10, and order ff470a877ac5 ("this used to test A COPY OF THE ALGORITHM, not

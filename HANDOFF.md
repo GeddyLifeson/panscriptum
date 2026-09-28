@@ -27,6 +27,84 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-27 evening — DAILY MAINTENANCE RUN #66: THE DRILL HALF OF THE MUTATION DRIFT FOUND AND FIXED. SWEEP66 DONE, 7 FIXES, EVERY NEW NET WATCHED GOING RED.
+
+**FOR THE OWNER, AT THE TOP:**
+
+* **NO HALT WAS RAISED OR LIFTED.** `escalation.py --status` read "clear" at open and at close.
+* **THE PUBLISH DAEMON STILL CANNOT PUSH (order `573ab7b04b6f`).** No change since run #65: every
+  PUSH HELD line still ends at the missing `gh.exe`. The fix is yours, from an ordinary PowerShell
+  window outside Claude (see run #65's entry). This run's push is the only one that lands today.
+* **ORDER `670c907af5e3` (BLOCKING, "prose has written no entry chapters") LOOKS STALE, AND IT IS
+  YOURS TO CLOSE.** Measured this shift: 34 chapter files were written under `output/` in the four
+  hours before 22:10, and `prose_auto.log` shows generate supplying the fixed tail ("supplied the
+  fixed tail (Threads on 8, Instrument on 8)"), which is option (a) of that order. Left open.
+* **NEW OWNER ORDER `253d116215ab`: eleven small questions from sweep66.** The one that matters most is
+  item 1. The drill net "the gate says CLOSED and the library is genuinely empty of prose" has
+  passed vacuously since the 09-16 lift, and because chapters now exist, **closing the prose gate
+  again would make that net breach and halt the library.** It needs a ruling on what a closed gate
+  means after the lift.
+* **THE 09-26 MUTATION PASS (read in full):** assay 154 mutants, 152 killed, 2 survived (826, 909);
+  prose_gate 77 killed, 0 survived; escalation 148 mutants, 142 killed, 6 survived (495, 567,
+  695, 1006, 1183, 1274). **All 8 survivors were already ruled equivalent; 0 new survivors.** It is
+  NOT a whole pass. The drill drifted red on clean code partway through assay, so 32 assay kills are
+  in doubt and prose_gate and escalation were judged with the drill off. That drift is now found
+  and fixed (M129, below).
+* **A NEW MUTATION PASS IS RUNNING:** pid 54660, `state/mutate_20260927.log`, launched about
+  22:38 on fingerprint `710eee2f401a609f` after the battery went green. Read it next shift.
+
+**The shift, in order:**
+
+1. **Opened clean.** Halt clear. Guard: run #65 had closed (`done:true`); claimed as run #66, with a
+   heartbeat loop every 4 minutes. `corpus_db --rebuild`: 216 sources, 282,822 entries, 134.8s.
+2. **Queue.** LOCAL had 3 codewatch restart notices (publish, foreman, overnight), each verified
+   running on the new fingerprint and closed. The binding-health canary (`binding_health --run`,
+   the daily run's job) checked 134 hosts, 0 failed, 0 quarantined. All six throttled fandom hosts
+   (marvel, forgottenrealms, onepiece, naruto, dragonball, mtg) answered ok, and their six BOTS
+   orders closed themselves on the next sweep. My own edits later bounced dashboard and publish;
+   both were verified and closed. **Queue at close: 0 LOCAL, 0 RUN, 1 BOTS (`058fa19d4e65`, closes
+   when pipeline phase 4 rewrites CHAIN.json), 54 OWNER.**
+3. **M129, THE DRILL DRIFT.** M126's reason capture paid off: the 09-26 log named the leak as the
+   probe "the outside opinion always returns a status for every tool" reaching the ledger through
+   `silent:secondopinion.py:_detect_secrets` (JSONDecodeError). The probe runs the real three
+   tools, and one detect-secrets run printed non-JSON. Sweep66 batch 01 then found the same shape
+   written on purpose at 13 more sites, in nets that decline to measure and said so through
+   `silence.note`. Fixed by standing in `silence.note` in the probe and moving the 13 declines to
+   `_DECLARED_ESCAPES`. detect-secrets' "unparseable" status now carries the start of the output.
+   Why detect-secrets printed non-JSON once is still unreproduced by hand.
+4. **Sweep66: 16 batches, 119 modules, `sweep_plan.missing('run66') == []`.** Opus read drill.py
+   and verify_math.py; Sonnet read the other 14 batches; no subagents, read-only. Eleven batches
+   found nothing new. Verified and fixed this shift: M130 (health samples silent double failure),
+   m200 (meta-ban net accepted `if False:`), m201 (one guarded prose start vouched for all),
+   m202 (scope net leaked a temp dir per drill run, 707 on disk), m203 (verify_math control
+   retyped its scan, plus three rotted citations), m204 (LOCAL misroute detector asked a different
+   question from the filing door). The questions went into `253d116215ab`. Details are in BUGS.md
+   under "Resolved by run #66".
+5. **New nets, each proved with `drill.py --prove`: RED against the reverted code, HELD live.**
+   "a net that cannot measure DECLARES it...", "a torn evidence bag that cannot be set aside is
+   SAID...", "the LOCAL misroute detector asks the same denial question...", and the tightened
+   "the P8 meta-language ban has no handler that falls through" (RED on a generate.py with the
+   gate under `if False:`). The new control "the prose-gate net refuses a second, unguarded prose
+   start" HELD. One false start is recorded because it cost a proving round: my first version of
+   the decline net matched its own planted control line in drill.py's source and went red on the
+   live tree. The control's word is now split.
+
+**Battery at close:** verify_math **1318 passed, 0 FAILED** · drill **645 attacked, 645 held, 0
+BREACHED** · pyflakes clean · silence **316** silent (restored with `silence-exempt` markers after the
+decline change moved it to 323) · liveness 46 · secondopinion: ruff, vulture and detect-secrets all
+RAN, 0 secrets · axis_correlation 45 entities (unchanged, not rewritten) · `health --preflight` 1
+problem (dandwiki, owner order `8b3f2911fa0c`) · allsweep 1 bad (the same preflight; the cascade
+live call that was bad on run #65 is ok tonight).
+
+**Daemons still on older code, deliberately:** `foreman` was partway through a local-model patch
+(1 of 7, on binding_health) and was left to bounce at its next cycle, because a kill mid-patch skips
+local_agent's revert path. `pipeline` (started 09-25, mid-entrypass) and `overnight` (awaiting the
+crawl lap) were left as run #65 left them. `overwatch` has not polled in about 35 hours, which run
+#65 recorded as normal on the shared GPU. The modules they would pick up (health, workorders)
+changed only in how a failure is reported, not in what is written.
+
+---
+
 ## 2026-09-26 evening — DAILY MAINTENANCE RUN #65: THE PUBLISH DAEMON'S MISSING gh.exe IS THE CLAUDE APP'S VIRTUALISED AppData. THE MUTATION DRIFT FOUND AND GRANTED. SWEEP65 DONE, 3 FIXES.
 
 **FOR THE OWNER, AT THE TOP:**

@@ -392,7 +392,11 @@ def _detect_secrets(paths):
         doc = json.loads(r.stdout or "{}")
     except Exception:
         silence.note("secondopinion.py:_detect_secrets")
-        return "UNPARSEABLE OUTPUT", []
+        # WHAT IT PRINTED rides on the status (run #66). This fired inside two mutation passes'
+        # drill baselines (2026-09-24, 2026-09-26) on clean code, rc=0, and never reproduced by
+        # hand; the ledger kept only the JSONDecodeError's position, not the text that failed.
+        return ("UNPARSEABLE OUTPUT: %r"
+                % _message((r.stdout or "").strip(), width=200)), []
     out = []
     for path, hits in (doc.get("results") or {}).items():
         for h in hits:

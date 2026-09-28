@@ -4714,11 +4714,13 @@ def drill_local_agent():
             except OSError:
                 # No `cmd` at all -- not Windows. FileNotFoundError is an OSError.
                 unstage()
-                _si.note("drill.py:junction-probe-unstageable")
+                _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+                _DECLARED_ESCAPES.append("drill.py:junction-probe-unstageable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
                 return True
             if not os.path.isdir(link):
                 unstage()
-                _si.note("drill.py:junction-probe-unstageable")
+                _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+                _DECLARED_ESCAPES.append("drill.py:junction-probe-unstageable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
                 return True                   # could not stage the attack; not evidence either way
             try:
                 through_link = LA._safe("src/%s/failures.json" % _JUNCTION_PROBE_NAME)
@@ -4791,7 +4793,8 @@ def drill_local_agent():
                 fh.write("CANARY\n")
         except OSError:
             unstage()
-            _si.note("drill.py:surface-probe-unstageable")
+            _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+            _DECLARED_ESCAPES.append("drill.py:surface-probe-unstageable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
             return True
         # SAME FOOTPRINT, SAME PRESERVATION as the sibling junction net above -- this one stages
         # `src/__drill_surface_probe__`, and a create-plus-delete inside `src/` moves the
@@ -4803,11 +4806,13 @@ def drill_local_agent():
                         creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
             except OSError:
                 unstage()
-                _si.note("drill.py:surface-probe-unstageable")
+                _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+                _DECLARED_ESCAPES.append("drill.py:surface-probe-unstageable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
                 return True
             if not os.path.isdir(link):
                 unstage()
-                _si.note("drill.py:surface-probe-unstageable")
+                _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+                _DECLARED_ESCAPES.append("drill.py:surface-probe-unstageable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
                 return True           # could not stage the attack; not evidence either way
             try:
                 got = LA.t_propose_patch(
@@ -9548,9 +9553,13 @@ def _meta_ban_has_no_fall_through(src=None):
     for node in ast.walk(tree):
         if not isinstance(node, ast.Try):
             continue
-        calls = [n for n in ast.walk(ast.Module(body=node.body, type_ignores=[]))
-                 if isinstance(n, ast.Call)
-                 and getattr(n.func, "attr", None) == "assert_in_universe"]
+        # A DIRECT STATEMENT OF THE `try` BODY, not any call found by walking it (sweep66
+        # batch 01, D2, run #66). `ast.walk` counted a gate sitting under `if False:` -- or any
+        # condition, loop or nested def -- as a gate that runs, and the sweep reproduced a
+        # generate.py with the call disabled that way passing this net.
+        calls = [st for st in node.body
+                 if isinstance(st, ast.Expr) and isinstance(st.value, ast.Call)
+                 and getattr(st.value.func, "attr", None) == "assert_in_universe"]
         if calls:
             guarded.append(node)
     # THE GATE MUST STILL BE THERE. An empty list is the "absence read as clean" shape: delete
@@ -9901,7 +9910,7 @@ def _scope_lands_key_wise(tmp=None):
     import json as _json
     import tempfile
     import scope as SC
-    d = tempfile.mkdtemp()
+    d = tempfile.mkdtemp(prefix="drill_scope_")
     p = os.path.join(d, "SCOPE.json")
 
     def put(doc):
@@ -9912,46 +9921,51 @@ def _scope_lands_key_wise(tmp=None):
         with open(p, encoding="utf-8") as f:
             return _json.load(f)
 
-    # THE LOST UPDATE. We hold `mine` across a long probe; a rival lands `gamma` meanwhile.
-    put({"alpha": {"ceiling": "M4"}})
-    mine = {"beta": {"ceiling": "M6"}}
-    put({"alpha": {"ceiling": "M4"}, "gamma": {"ceiling": "M2"}})
-    landed, _why = SC.mutate(lambda c: c.update(mine), path=p)
-    after = get()
-    if not landed or "gamma" not in after or "beta" not in after or "alpha" not in after:
-        return False
-
-    # AN UNREADABLE TABLE IS NOT WRITTEN OVER -- a failed read is not evidence of contents.
-    #
-    # WRAPPED IN `_deliberately_failing`, AND THIS NET IS WHY THAT WRAPPER EXISTS. Both refusals
-    # below are SUPPOSED to fail, and `scope.mutate` reports each through `silence.note` --
-    # `scope.py:mutate-unreadable` and `scope.py:mutate-nondict` -- which reaches `health.record`
-    # and lands in `state/failures.json`, the operational ledger a person reads to find out what
-    # is wrong with the library, and which is deliberately never cleared. Unwrapped, this net
-    # HALTED THE LIBRARY on the run that introduced it (2026-09-09): two nets breached, correctly,
-    # naming these exact two sites. A rehearsal must not manufacture the signal it exists to prove
-    # the library can raise. Scoped to the two calls that are meant to refuse and nothing else.
-    with open(p, "w", encoding="utf-8") as f:
-        f.write("{ not json")
-    landed, _why = _deliberately_failing(
-        lambda: SC.mutate(lambda c: c.update({"delta": {}}), path=p))
-    if landed:
-        return False
-    with open(p, encoding="utf-8") as f:
-        if f.read() != "{ not json":
+    # REMOVED AFTERWARDS (sweep66 batch 01, D4, run #66): this net made a bare `tmp*` directory
+    # every drill run and never removed it -- 707 of them were in %TEMP% when it was measured.
+    try:
+        # THE LOST UPDATE. We hold `mine` across a long probe; a rival lands `gamma` meanwhile.
+        put({"alpha": {"ceiling": "M4"}})
+        mine = {"beta": {"ceiling": "M6"}}
+        put({"alpha": {"ceiling": "M4"}, "gamma": {"ceiling": "M2"}})
+        landed, _why = SC.mutate(lambda c: c.update(mine), path=p)
+        after = get()
+        if not landed or "gamma" not in after or "beta" not in after or "alpha" not in after:
             return False
 
-    # A LIST WHERE AN OBJECT BELONGS IS ALSO REFUSED.
-    put(["not", "an", "object"])
-    landed, _why = _deliberately_failing(
-        lambda: SC.mutate(lambda c: c.update({"delta": {}}), path=p))
-    if landed:
-        return False
+        # AN UNREADABLE TABLE IS NOT WRITTEN OVER -- a failed read is not evidence of contents.
+        #
+        # WRAPPED IN `_deliberately_failing`, AND THIS NET IS WHY THAT WRAPPER EXISTS. Both refusals
+        # below are SUPPOSED to fail, and `scope.mutate` reports each through `silence.note` --
+        # `scope.py:mutate-unreadable` and `scope.py:mutate-nondict` -- which reaches `health.record`
+        # and lands in `state/failures.json`, the operational ledger a person reads to find out what
+        # is wrong with the library, and which is deliberately never cleared. Unwrapped, this net
+        # HALTED THE LIBRARY on the run that introduced it (2026-09-09): two nets breached, correctly,
+        # naming these exact two sites. A rehearsal must not manufacture the signal it exists to prove
+        # the library can raise. Scoped to the two calls that are meant to refuse and nothing else.
+        with open(p, "w", encoding="utf-8") as f:
+            f.write("{ not json")
+        landed, _why = _deliberately_failing(
+            lambda: SC.mutate(lambda c: c.update({"delta": {}}), path=p))
+        if landed:
+            return False
+        with open(p, encoding="utf-8") as f:
+            if f.read() != "{ not json":
+                return False
 
-    # ABSENT IS NORMAL: the first build has no cache and must be allowed to create one.
-    os.remove(p)
-    landed, _why = SC.mutate(lambda c: c.update({"first": {"ceiling": "M1"}}), path=p)
-    return bool(landed) and "first" in get()
+        # A LIST WHERE AN OBJECT BELONGS IS ALSO REFUSED.
+        put(["not", "an", "object"])
+        landed, _why = _deliberately_failing(
+            lambda: SC.mutate(lambda c: c.update({"delta": {}}), path=p))
+        if landed:
+            return False
+
+        # ABSENT IS NORMAL: the first build has no cache and must be allowed to create one.
+        os.remove(p)
+        landed, _why = SC.mutate(lambda c: c.update({"first": {"ceiling": "M1"}}), path=p)
+        return bool(landed) and "first" in get()
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
 
 
 def _corpus_read_progress_is_a_rate(tmp=None):
@@ -12703,22 +12717,28 @@ def drill_inspector():
             with open(os.path.join(HERE, "src", "overnight.py"), encoding="utf-8") as fh:
                 src_text = fh.read()
         tree = ast.parse(src_text)
-        found = False
+
+        def _is_prose_start(c):
+            return (isinstance(c, ast.Call) and isinstance(c.func, ast.Name)
+                    and c.func.id == "start" and c.args
+                    and isinstance(c.args[0], ast.Constant) and c.args[0].value == "prose")
+        # EVERY prose start in the file, not only the ones found under an `if` (sweep66
+        # batch 01, D3, run #66). The walk used to look only inside `if` bodies, so a second,
+        # unguarded `start("prose", ...)` in a loop passed as long as one guarded one existed.
+        every = [c for c in ast.walk(tree) if _is_prose_start(c)]
+        guarded = set()
         for node in ast.walk(tree):
             if not isinstance(node, ast.If):
                 continue
             test = ast.unparse(node.test)
-            starts_prose = any(
-                isinstance(s, ast.Expr) and isinstance(s.value, ast.Call)
-                and isinstance(s.value.func, ast.Name) and s.value.func.id == "start"
-                and s.value.args and isinstance(s.value.args[0], ast.Constant)
-                and s.value.args[0].value == "prose" for s in node.body)
-            if not starts_prose:
-                continue
-            found = True
             if "drill_rc == 0" not in test or "drill_rc != 1" in test:
-                return False
-        return found                        # no prose start at all is not a pass
+                continue
+            for s in node.body:
+                if isinstance(s, ast.Expr) and _is_prose_start(s.value):
+                    guarded.add(id(s.value))
+        if not every:
+            return False                    # no prose start at all is not a pass
+        return all(id(c) in guarded for c in every)
     net(a, "overnight starts prose only on a drill that returned exactly 0",
         overnight_prose_needs_a_clean_drill,
         "a drill that did not complete is not evidence of no breach; generate.py would not "
@@ -12731,6 +12751,19 @@ def drill_inspector():
     net(a, "[control] the prose-gate net refuses the old `!= 1` condition",
         _old_prose_gate_is_refused,
         "a net that passes the fail-open condition it was written against proves nothing")
+
+    def _second_unguarded_prose_start_is_refused():
+        fixture = ("if os.path.exists(manifest) and _prose_enabled() and drill_rc == 0:\n"
+                   "    start('prose', [g], 'prose_auto.log')\n"
+                   "for _again in range(2):\n"
+                   "    start('prose', [g], 'prose_auto.log')\n")
+        guarded_only = ("if os.path.exists(manifest) and _prose_enabled() and drill_rc == 0:\n"
+                        "    start('prose', [g], 'prose_auto.log')\n")
+        return (overnight_prose_needs_a_clean_drill(fixture) is False
+                and overnight_prose_needs_a_clean_drill(guarded_only) is True)
+    net(a, "[control] the prose-gate net refuses a second, unguarded prose start",
+        _second_unguarded_prose_start_is_refused,
+        "sweep66 D3: one guarded start used to vouch for every other start in the file")
 
     def throttle_iterates_a_snapshot(src_text=None):
         """feats._throttle walks a tuple() snapshot of _BACKOFF, never the live dict.
@@ -13165,7 +13198,6 @@ def _twins_ignores_a_foreign_tree():
     import shutil
     import subprocess
     import time as _t
-    import silence as _si
     import codewatch as CW
     needle = "verify_math"
     try:
@@ -13174,7 +13206,8 @@ def _twins_ignores_a_foreign_tree():
     except Exception:
         _observer = None
     if not _observer:
-        _si.note("drill.py:twins-probe-unstageable:no-psutil")
+        _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+        _DECLARED_ESCAPES.append("drill.py:twins-probe-unstageable:no-psutil DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
         return True
     d = tempfile.mkdtemp(prefix="drilltwin_")
     child = None
@@ -13190,7 +13223,8 @@ def _twins_ignores_a_foreign_tree():
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         except OSError:
-            _si.note("drill.py:twins-probe-unstageable:no-child")
+            _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+            _DECLARED_ESCAPES.append("drill.py:twins-probe-unstageable:no-child DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
             return True                   # no child, no attack, nothing to grade
         # Wait for the child to be visible AS A TWIN OF ITS OWN TREE. Polling on the positive
         # case rather than on a fixed sleep means the negative case below cannot pass merely
@@ -13208,7 +13242,8 @@ def _twins_ignores_a_foreign_tree():
         CW.SRC = real_src
         if not seen:
             if child.poll() is not None:
-                _si.note("drill.py:twins-probe-unstageable:child-gone")
+                _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+                _DECLARED_ESCAPES.append("drill.py:twins-probe-unstageable:child-gone DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
                 return True
             return False                  # ALIVE and unseen: that IS evidence about `twins()`
         return child.pid not in CW.twins(needle)
@@ -13358,18 +13393,20 @@ def drill_no_top_ups():
            value somebody wrote, and this project has already been bitten by `bool("false")`.
         """
         import json as _j
-        import silence as _si
         try:
             with open(CASCADE_CONFIG, encoding="utf-8") as fh:
                 cfg = _j.load(fh)
         except FileNotFoundError:
-            _si.note("drill.py:paid-lane-config-absent")
+            _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+            _DECLARED_ESCAPES.append("drill.py:paid-lane-config-absent DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
             return True          # not this machine; the ruling is still recorded in the config
         except Exception:
-            _si.note("drill.py:paid-lane-config-unreadable")
+            _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+            _DECLARED_ESCAPES.append("drill.py:paid-lane-config-unreadable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
             return True          # unreadable or corrupt: a measurement that did not happen
         if not isinstance(cfg, dict):
-            _si.note("drill.py:paid-lane-config-unreadable")
+            _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+            _DECLARED_ESCAPES.append("drill.py:paid-lane-config-unreadable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
             return True
         val = cfg.get("allow_paid")
         return val is False or val is None
@@ -19518,6 +19555,37 @@ def drill_recorders_and_lane():
         "a lost update in the evidence bag looks exactly like evidence that was never "
         "collected, and it is the recorder that hides every other component's failure")
 
+    def a_torn_samples_file_that_cannot_be_set_aside_is_said():
+        """Sweep66 batch 14 (run #66). A torn samples file whose rename-aside is REFUSED used to
+        `raise` into `_flush_samples`' blanket `except: pass`, so the evidence bag stopped
+        recording with nothing said anywhere, on every flush, for ever. The ledger's identical
+        branch prints and returns. Driven in a temp file with `replace_retry` refusing: the
+        wreck must be left byte-for-byte, and stderr must say so.
+        """
+        import contextlib as _cl
+        import io as _io
+        import health as H
+        d = tempfile.mkdtemp(prefix="drill_samples_")
+        saved = (H.SAMPLES_PATH, H.silence.replace_retry)
+        try:
+            p = os.path.join(d, "failure_samples.json")
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write("{ torn")
+            H.SAMPLES_PATH = p
+            H.silence.replace_retry = lambda *a_, **k_: False
+            err = _io.StringIO()
+            with _cl.redirect_stderr(err):
+                H._flush_samples({"drill:probe": ["x"]})
+            with open(p, encoding="utf-8") as fh:
+                intact = fh.read() == "{ torn"
+            return intact and "could not be set aside" in err.getvalue()
+        finally:
+            H.SAMPLES_PATH, H.silence.replace_retry = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a torn evidence bag that cannot be set aside is SAID, not swallowed",
+        a_torn_samples_file_that_cannot_be_set_aside_is_said,
+        "the recorder is the one component whose silent failure hides every other one")
+
     def a_probe_leaves_the_failure_LEDGER_alone():
         """The other ledger a probe can write to, and nothing was watching it.
 
@@ -20708,7 +20776,8 @@ def drill_mutation():
             except (OSError, AttributeError, NotImplementedError):
                 # A filesystem without hardlinks is not a failing guard, and must not be
                 # reported as one -- but it is not a pass either, so say which it was.
-                S.note("drill.py:hardlink-unsupported")
+                _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+                _DECLARED_ESCAPES.append("drill.py:hardlink-unsupported DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
                 return True
             if json.load(open(snap, encoding="utf-8"))["generation"] != "before":
                 return False
@@ -22078,8 +22147,8 @@ def drill_outside():
         try:
             p = corpus_db.datasette_metadata(os.path.join(d, "datasette.json"))
             if p is None:
-                import silence
-                silence.note("drill.py:datasette-config-unwritable")
+                _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
+                _DECLARED_ESCAPES.append("drill.py:datasette-config-unwritable DECLINED -- could not stage or read the probe on this machine; not a measurement (run #66, sweep66 D1)")
                 return True                  # could not measure; not a drift, and not a breach
             with open(p, encoding="utf-8") as fh:
                 doc = json.load(fh)
@@ -22105,14 +22174,84 @@ def drill_outside():
         "no findings and no checker look identical unless the code refuses to conflate them")
 
     def outside_opinion_survives_a_broken_tool():
-        """A second opinion is optional. It must degrade, not take the library down with it."""
+        """A second opinion is optional. It must degrade, not take the library down with it.
+
+        `silence.note` IS STOOD IN for the call (run #66). This probe spawns the three real tools,
+        and a degraded one records itself -- correctly, in production -- through silence.note
+        into the live failure ledger. When detect-secrets printed unparseable output under load,
+        that record tripped the ledger witness ("no probe anywhere in this drill writes into the
+        live failure ledger") in the 2026-09-24 and 2026-09-26 mutation passes, and switched the
+        drill off as a gate for most of both. Degrading is exactly what this net asks the module
+        to do, so the degrade's note is captured here instead of leaking.
+        """
         import secondopinion as SO
-        got = SO.run([os.path.join(HERE, "src", "silence.py")])
+        saved = SO.silence.note
+        SO.silence.note = lambda *a_, **k_: None
+        try:
+            got = SO.run([os.path.join(HERE, "src", "silence.py")])
+        finally:
+            SO.silence.note = saved
         return isinstance(got, dict) and set(got) == {"ruff", "vulture", "detect-secrets"} \
             and all("status" in v for v in got.values())
     net(a, "the outside opinion always returns a status for every tool",
         outside_opinion_survives_a_broken_tool,
         "fail-open here, and say so -- an optional check must not be able to halt the park")
+
+    def _decline_notes(text):
+        """-> [(lineno, line)] where a net in `text` reports a DECLINED measurement through
+        `.note("drill.py:...")` instead of `_DECLARED_ESCAPES`. Words, not a list of sites, so a
+        new decline written the old way is caught without anybody remembering to add it."""
+        pat = re.compile(r'\.note\(\s*"drill\.py:[^"]*'
+                         r'(unstageable|absent|unreadable|unsupported|unwritable)')
+        return [(i, ln.strip()) for i, ln in enumerate(text.splitlines(), 1) if pat.search(ln)]
+
+    def a_declined_measurement_is_declared_not_recorded():
+        """Sweep66 batch 01, D1 (run #66). A net that cannot stage its probe here returns True
+        and says so -- but saying so through `silence.note` goes through the spied
+        `health.record`, so the ledger witness counts it as a leak, breaches, and a breached net
+        halts the library at OWNER over a missing config file. Reproduced by the sweep with
+        `PANSCRIPTUM_CASCADE_CONFIG` pointed at nothing: the paid-access net HELD and left
+        `silent:drill.py:paid-lane-config-absent` for the witness. Thirteen sites had the shape;
+        the canon-backup net at `verify-missing-member probe DECLINED` already had the right one.
+
+        THE POSITIVE CONTROL FIRST: a planted old-shape line must be caught, or an empty answer
+        about the live file is evidence about the pattern, not the file.
+        """
+        # The decline word is SPLIT in this source line, or the scan of this file finds the
+        # control itself (it did, the first time this net was proved on the live tree).
+        planted = '            _si.note("drill.py:example-probe-unstage' + 'able")\n'
+        if not _decline_notes(planted):
+            return False
+        with open(os.path.join(_srcdir(), "drill.py"), encoding="utf-8") as fh:
+            return _decline_notes(fh.read()) == []
+    def _misrouted_local_asks_the_door_predicate(text):
+        """-> True when workorders' misrouted-local detector asks `_denied_target`, the predicate
+        `file_order`'s door asks, and keeps no bare `in _LA.DENYLIST` copy of its own."""
+        i = text.find('_fire(\n            not _stuck,')
+        j = text.rfind("_stuck = []", 0, i)
+        if i < 0 or j < 0:
+            return False
+        block = text[j:i]
+        return "_LA._denied_target(" in block and "in _LA.DENYLIST" not in block
+
+    def the_local_detector_and_the_local_door_ask_one_question():
+        """Sweep66 batch 06 (run #66): the detector compared bare module names against
+        `local_agent.DENYLIST` while the filing door asked `_denied_target`, which also knows
+        the protected REGIONS -- two answers to one question. The old shape is the control."""
+        old = ("_stuck = []\n            _denied = sorted(m for m in _mods if m in _LA.DENYLIST)\n"
+               "        _fire(\n            not _stuck,")
+        if _misrouted_local_asks_the_door_predicate(old):
+            return False
+        with open(os.path.join(_srcdir(), "workorders.py"), encoding="utf-8") as fh:
+            return _misrouted_local_asks_the_door_predicate(fh.read())
+    net(a, "the LOCAL misroute detector asks the same denial question as the filing door",
+        the_local_detector_and_the_local_door_ask_one_question,
+        "sweep66 batch 06: a second hand-kept denylist test is how the two came to disagree")
+
+    net(a, "a net that cannot measure DECLARES it, and does not write it to the ledger",
+        a_declined_measurement_is_declared_not_recorded,
+        "sweep66 D1: a decline recorded through silence.note is a ledger leak, and the ledger "
+        "witness halts the library over it")
 
     def a_tool_that_ran_and_exited_nonzero_is_not_reported_missing():
         """`_exe()` must say a candidate RAN and exited nonzero, not default to "no such file".

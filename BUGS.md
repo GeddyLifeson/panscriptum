@@ -1542,6 +1542,82 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #66 (2026-09-27 daily maintenance; sweep66)
+
+*Found by the run and by sweep66 (16 batches, all 119 modules, `sweep_plan.missing('run66') ==
+[]`) and fixed in the same shift, so none of these sat in `## Open`. Each one was re-read against
+source before it was fixed. Every change a net can hold got an attack, and each attack was watched
+going red with `drill.py --prove ... --revert` and HELD on the live tree. Export commit: the run
+#66 push (see HANDOFF.md's run #66 entry).*
+
+- **[M129 — RESOLVED 2026-09-27, run #66] THE DRILL HALF OF THE MUTATION-PASS DRIFT IS FOUND: A
+  DRILL NET THAT CANNOT MEASURE RECORDED THAT IT COULD NOT, IN THE LEDGER THE DRILL POLICES.**
+  Run #65 could not reproduce this. The 09-26 pass's log (with M126's reason capture) named it:
+  `drill.py:22071 [the outside opinion always returns a status for every tool] ->
+  silent:secondopinion.py:_detect_secrets`, class JSONDecodeError. That probe runs the three
+  real outside tools, and on the one occasion detect-secrets printed output that was not JSON,
+  `secondopinion._detect_secrets` noted it correctly, through the spied `health.record`. The
+  ledger witness then breached, the drill went red at the baseline, and 32 assay kills plus both
+  later targets were judged without it. Sweep66 batch 01 (D1) found the same class written
+  deliberately at 13 more sites: nets that return True when they cannot stage their probe (paid
+  lane config absent, no psutil, no hardlinks, junction not creatable, datasette config
+  unwritable) and said so through `silence.note`. With `PANSCRIPTUM_CASCADE_CONFIG` pointed at
+  nothing, the paid-access net HELD and left `silent:drill.py:paid-lane-config-absent` for the
+  witness. On any machine where one of those declines fires, the drill halts the library at
+  OWNER.
+  - **FIX:** the probe stands in `silence.note` for its one call. The 13 declines go to
+    `_DECLARED_ESCAPES` (printed every run, never asserted on), the pattern the canon-backup net
+    already used, each with a `silence-exempt` marker so the silence audit still reads 316.
+    `secondopinion._detect_secrets` now puts the start of the unparseable output into its status,
+    so the next occurrence can be diagnosed. The raw cause (why detect-secrets printed non-JSON
+    once) is still unreproduced by hand.
+  - **PROVEN:** a scratch run with detect-secrets faked to print non-JSON showed the old probe
+    adding 1 ledger record and the new one 0. New net "a net that cannot measure DECLARES it, and
+    does not write it to the ledger" (scans drill.py for the old shape, with a planted positive
+    control): RED with one site reverted, HELD live.
+
+- **[M130 — RESOLVED 2026-09-27, run #66] A TORN EVIDENCE BAG THAT COULD NOT BE SET ASIDE WAS
+  SILENT FOR EVER.** Sweep66 batch 14. In `health._flush_samples`, when
+  `state/failure_samples.json` would not parse and the rename to `.corrupt` was refused, the code
+  re-raised into the function's blanket `except Exception: pass`. Every later flush did the same,
+  with nothing on stderr and nothing in any ledger. The ledger's identical branch in
+  `_flush_ledger` prints and returns.
+  - **FIX:** the samples branch now prints the same kind of stderr line and returns, with the
+    samples kept in `_SAMPLES` for the next flush.
+  - **PROVEN:** new net "a torn evidence bag that cannot be set aside is SAID, not swallowed"
+    (temp file, `replace_retry` refusing): RED on the old `raise`, HELD live.
+
+- **[m200 — RESOLVED 2026-09-27, run #66] THE P8 META-BAN NET ACCEPTED A GATE THAT NEVER RUNS.**
+  Sweep66 batch 01 D2. `_meta_ban_has_no_fall_through` found `assert_in_universe` by walking the
+  whole `try` body, so a call under `if False:` counted as a gate. Now only a direct statement of
+  the `try` body counts. RED on a generate.py with the call under `if False:`, HELD live.
+
+- **[m201 — RESOLVED 2026-09-27, run #66] ONE GUARDED PROSE START VOUCHED FOR EVERY OTHER.** Sweep66
+  batch 01 D3. `overnight_prose_needs_a_clean_drill` looked only inside `if` bodies, so a second,
+  unguarded `start("prose", ...)` in a loop passed. Now every prose start in overnight.py must be
+  a direct statement under an `if` whose test has `drill_rc == 0`. New control net "the
+  prose-gate net refuses a second, unguarded prose start"; the live net and both controls HELD.
+
+- **[m202 — RESOLVED 2026-09-27, run #66] A SCOPE NET LEAKED A TEMP DIRECTORY ON EVERY DRILL RUN.**
+  Sweep66 batch 01 D4. `_scope_lands_key_wise` called a bare `tempfile.mkdtemp()` and never
+  removed it; 707 `tmp*` directories holding SCOPE.json were in %TEMP%. It now uses a prefixed
+  directory removed in `finally`. The 707 existing directories were left in place (removing
+  them is housekeeping for the owner; item 11 of order `253d116215ab`).
+
+- **[m203 — RESOLVED 2026-09-27, run #66] A verify_math POSITIVE CONTROL RETYPED THE SCAN IT
+  CONTROLS, AND THREE CROSS-FILE LINE CITATIONS HAD ROTTED.** Sweep66 batch 02. The control for
+  order 1018d49b186e now calls `_writejson_calls_discarded_b2` on a temp file instead of copying
+  its predicate, the mistake order 3c72359c53aa fixed at four other scans. `standards.py:751`,
+  `silence.py:511, 518` and `withdraw_chapters.py:176` are now symbol names.
+
+- **[m204 — RESOLVED 2026-09-27, run #66] THE LOCAL MISROUTE DETECTOR AND THE LOCAL FILING DOOR
+  ASKED DIFFERENT QUESTIONS.** Sweep66 batch 06. `file_order` asks `local_agent._denied_target`
+  (which knows the protected regions), while the sweep detector compared bare module names
+  against `DENYLIST`. The detector now uses the door's extraction and predicate. New net "the
+  LOCAL misroute detector asks the same denial question as the filing door": RED on the old
+  comparison, HELD live. Whether non-`.py` protected paths should count as targets at all is
+  item 8 of owner order `253d116215ab`.
+
 ### Resolved by run #65 (2026-09-26 daily maintenance, evening; sweep65)
 
 *Found by the run itself and by sweep65 (16 batches, all 119 modules, `sweep_plan.missing('run65')

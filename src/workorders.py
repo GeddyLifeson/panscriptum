@@ -2035,18 +2035,22 @@ def sweep_detectors():
     # know whether it has this fault.
     try:
         import local_agent as _LA
-        _rx_mod = __import__("re").compile(r"\b([A-Za-z_][A-Za-z0-9_]*)\.py\b")
+        # THE SAME EXTRACTION AND THE SAME PREDICATE AS `file_order`'s door (sweep66 batch 06,
+        # run #66). This kept its own bare-name regex and asked `m in _LA.DENYLIST`, which knows
+        # nothing of DENYLIST_PREFIXES -- so the door and the detector could disagree about one
+        # order, the door re-addressing it and the detector calling it clean, or the reverse.
         _stuck = []
         for _oid, _rec in sorted(_load().items()):
             if (_rec or {}).get("handler") != "LOCAL":
                 continue
-            _mods = set(_rx_mod.findall(str(_rec.get("where") or "")))
+            _mods = set(m[0] for m in WHERE_TARGET.findall(
+                str(_rec.get("where") or "").replace(chr(92), "/")))
             if not _mods:
                 # No module named in `where` at all -- this detector has nothing to say, and
                 # guessing from the prose would invent findings. `where` is the declared target.
                 continue
-            _denied = sorted(m for m in _mods if m in _LA.DENYLIST)
-            if _denied and not [m for m in _mods if m not in _LA.DENYLIST]:
+            _denied = sorted(m for m in _mods if _LA._denied_target(m))
+            if _denied and len(_denied) == len(_mods):
                 _stuck.append("%s [%s] -> %s" % (_oid, _rec.get("severity"), ", ".join(_denied)))
         _fire(
             not _stuck,
