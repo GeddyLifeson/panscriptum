@@ -1,5 +1,5 @@
 {
- "at": "2026-09-29 01:58:10",
+ "at": "2026-09-29 02:08:32",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -128,9 +128,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 152,
+     "left": 172,
      "cap": 200,
-     "frac": 0.76
+     "frac": 0.86
     },
     {
      "name": "rpm",
@@ -139,7 +139,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.76
+   "worst": 0.86
   },
   {
    "bucket": "dashscope:free",
@@ -248,9 +248,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 14,
+     "left": 11,
      "cap": 20,
-     "frac": 0.7
+     "frac": 0.55
     },
     {
      "name": "rpm",
@@ -259,7 +259,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.7
+   "worst": 0.55
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash-lite",
@@ -268,9 +268,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 2,
+     "left": 0,
      "cap": 500,
-     "frac": 0.004
+     "frac": 0.0
     },
     {
      "name": "rpm",
@@ -279,7 +279,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.004
+   "worst": 0.0
   },
   {
    "bucket": "gemini:models/gemini-3.6-flash",
@@ -348,9 +348,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 14244,
+     "left": 14238,
      "cap": 14400,
-     "frac": 0.9892
+     "frac": 0.9888
     },
     {
      "name": "rpm",
@@ -365,7 +365,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.9892
+   "worst": 0.9888
   },
   {
    "bucket": "gemini:models/gemma-4-31b-it",
@@ -400,9 +400,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 99,
+     "left": 98,
      "cap": 150,
-     "frac": 0.66
+     "frac": 0.6533
     },
     {
      "name": "rpm",
@@ -411,7 +411,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.66
+   "worst": 0.6533
   },
   {
    "bucket": "groq:groq/compound-mini",
@@ -452,9 +452,9 @@
    "windows": [
     {
      "name": "tpd",
-     "left": 72390,
+     "left": 71293,
      "cap": 200000,
-     "frac": 0.3619
+     "frac": 0.3565
     },
     {
      "name": "rpd",
@@ -475,7 +475,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.3619
+   "worst": 0.3565
   },
   {
    "bucket": "groq:openai/gpt-oss-20b",
@@ -484,9 +484,9 @@
    "windows": [
     {
      "name": "tpd",
-     "left": 145155,
+     "left": 143529,
      "cap": 200000,
-     "frac": 0.7258
+     "frac": 0.7176
     },
     {
      "name": "rpd",
@@ -507,7 +507,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.7258
+   "worst": 0.7176
   },
   {
    "bucket": "groq:qwen/qwen3.8-27b",
@@ -516,15 +516,15 @@
    "windows": [
     {
      "name": "tpd",
-     "left": 112960,
+     "left": 112978,
      "cap": 200000,
-     "frac": 0.5648
+     "frac": 0.5649
     },
     {
      "name": "rpd",
-     "left": 862,
+     "left": 864,
      "cap": 1000,
-     "frac": 0.862
+     "frac": 0.864
     },
     {
      "name": "rpm",
@@ -539,7 +539,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.5648
+   "worst": 0.5649
   },
   {
    "bucket": "huggingface:free",
@@ -933,68 +933,43 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 43,
-  "per_hour": 172,
+  "calls": 26,
+  "per_hour": 104,
   "buckets": [
    {
     "bucket": "gemini:models/gemma-4-26b-a4b-it",
-    "calls": 19,
-    "ok": 16
+    "calls": 10,
+    "ok": 10
    },
    {
-    "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 6,
-    "ok": 3
-   },
-   {
-    "bucket": "groq:qwen/qwen3.8-27b",
+    "bucket": "gemini:models/gemini-3.5-flash",
     "calls": 5,
     "ok": 3
    },
    {
-    "bucket": "github:free",
-    "calls": 3,
-    "ok": 0
+    "bucket": "groq:openai/gpt-oss-120b",
+    "calls": 5,
+    "ok": 1
    },
    {
-    "bucket": "groq:openai/gpt-oss-20b",
+    "bucket": "gemini:models/gemini-3.5-flash-lite",
     "calls": 2,
     "ok": 2
    },
    {
-    "bucket": "openrouter:free",
+    "bucket": "gemini:models/gemini-3.8-flash",
     "calls": 2,
     "ok": 0
    },
    {
-    "bucket": "cohere:free",
+    "bucket": "github:free",
     "calls": 1,
     "ok": 0
    },
    {
-    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "bucket": "groq:openai/gpt-oss-20b",
     "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.5-flash-lite",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.6-flash",
-    "calls": 1,
-    "ok": 0
-   },
-   {
-    "bucket": "gemini:models/gemini-3.8-flash",
-    "calls": 1,
-    "ok": 0
+    "ok": 1
    }
   ]
  },
@@ -1033,7 +1008,7 @@
    "read": 218365,
    "settled": 245658,
    "feats": 165267,
-   "age_h": 1.2
+   "age_h": 1.4
   },
   "phases": [
    {
@@ -1385,32 +1360,32 @@
   {
    "tag": "cascade:coding",
    "n": 1240,
-   "p50": 3.6,
-   "p95": 75.0,
+   "p50": 3.7,
+   "p95": 75.3,
    "ok_pct": 66,
    "tps": null
   },
   {
    "tag": "assay-split",
-   "n": 50,
-   "p50": 912.9,
-   "p95": 1204.0,
+   "n": 52,
+   "p50": 952.0,
+   "p95": 1250.2,
    "ok_pct": null,
    "tps": 20.5
   },
   {
    "tag": "overwatch",
-   "n": 42,
-   "p50": 611.5,
+   "n": 41,
+   "p50": 540.6,
    "p95": 1227.3,
    "ok_pct": null,
    "tps": 20.2
   },
   {
    "tag": "ask",
-   "n": 41,
-   "p50": 577.2,
-   "p95": 1413.9,
+   "n": 40,
+   "p50": 627.5,
+   "p95": 1421.3,
    "ok_pct": null,
    "tps": 20.0
   },
@@ -1450,7 +1425,7 @@
    "breached": [],
    "liveness": 44,
    "liveness_ceiling": 52,
-   "age_min": 74.5
+   "age_min": 84.9
   },
   "escalation_recent": {
    "JANITOR": 36,
@@ -1505,7 +1480,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 172,
+   "observed": 104,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1523,7 +1498,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "7% dry",
+   "observed": "10% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1541,7 +1516,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": true,
-   "observed": "56% ok of 43",
+   "observed": "65% ok of 26",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1586,7 +1561,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": false,
-   "observed": "6.2%, stuck at 25689 chunks for 26 min",
+   "observed": "6.2%, stuck at 25689 chunks for 41 min",
    "floor": "moving, or under 15 min quiet",
    "order": "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at all -- check that read.py printed its transport banner and that the queue is not empty. If it is stuck at a non-zero count, the reader is up and wedged: look at the pool standards above and at the failure ledger before restarting it, because a restart re-queues the chunk it is stuck on.",
    "severity": "high"
@@ -1604,7 +1579,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "1.2h",
+   "observed": "1.4h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1730,7 +1705,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 4 of 7 benchmarks done, started 2.1h ago -- pending: Kenshiro, Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 5 of 8 benchmarks done, started 2.4h ago -- pending: Kenshiro, Goku, Jace Beleren",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1739,7 +1714,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "1/4 moved in 44m",
+   "observed": "1/4 moved in 45m",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1766,7 +1741,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "1.2h",
+   "observed": "1.4h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1793,7 +1768,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "pipeline_auto (16 min, 1707489 bytes; output quiet 16 min), roll_auto (131 min, 6430135 bytes; output quiet 106 min)",
+   "observed": "roll_auto (146 min, 6430135 bytes; output quiet 121 min)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1802,7 +1777,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1726. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 9.6h old); groq:groq/compound-mini: All 1 candidates failed: Llama 3.1 8B (Groq) -- NOTE: the pinned bucket `groq:groq/compound-mini` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `groq:groq/compound-mini` is at fault. (x18, 10.1h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1029. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 17.3h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1343. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 21.6h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1295. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 21.6h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1124. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 22.5h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1235. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 23.2h old)",
+   "observed": "groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1726. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 9.8h old); groq:groq/compound-mini: All 1 candidates failed: Llama 3.1 8B (Groq) -- NOTE: the pinned bucket `groq:groq/compound-mini` has no provider row at all, so the engine did not reach it; the label in this message is the candidate that actually failed and it belongs to another bucket. This row cannot be unwrapped by bucket, and it does NOT mean `groq:groq/compound-mini` is at fault. (x18, 10.4h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1029. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 17.5h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1343. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x2, 21.9h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1295. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 21.9h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1124. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 22.8h old); groq:qwen/qwen3.8-27b: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kydh4ww0exdvbj8wzkzdjfbj` service tier `on_demand` on output tokens per minute (OTPM): Limit 1000, Requested 1235. The request's expected output tokens exceed the enforced limit; reduce max_tokens (or the requ (x1, 23.4h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1847,7 +1822,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in ledgers",
+   "observed": "probe completed in 2.5s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. Read the detail before acting: a TIMEOUT (order 0b6fadca6d7d, this probe takes no lock) can be a genuinely wedged queue, cured by restarting ollama.exe (the tray app respawns it), OR ordinary contention from another caller's own probe firing at the same time -- check for an overlapping dashboard poll, publish --loop tick, or mutation-sandbox run BEFORE restarting anything, because restarting a daemon that was only busy loses no wedge and costs a warm runner. A daemon that is DOWN or answering an HTTP error needs starting or reading, not restarting. An UNMEASURED reading here means the probe was never sent at all -- read it, it names a fault in this repository rather than in the daemon.",
    "severity": "high"
@@ -1874,7 +1849,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.1h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1935,7 +1910,7 @@
   {
    "metric": "entities read",
    "now": 4288,
-   "delta": 4,
+   "delta": 2,
    "minutes": 30,
    "reset": false,
    "stalled": false
@@ -1943,19 +1918,19 @@
   {
    "metric": "chunks",
    "now": 25689,
-   "delta": 21,
+   "delta": 0,
    "minutes": 30,
    "reset": false,
-   "stalled": false
+   "stalled": true
   },
   {
    "metric": "standards met",
    "now": 36,
-   "delta": 2,
+   "delta": 1,
    "minutes": 30,
    "reset": false,
    "stalled": false
   }
  ],
- "generated": "2026-09-29T01:58:18"
+ "generated": "2026-09-29T02:12:43"
 }
