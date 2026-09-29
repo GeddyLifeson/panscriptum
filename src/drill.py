@@ -29147,6 +29147,24 @@ def _supplied_header_values_are_restored():
             and "Shelfmark: whatever" in third and "Attest, Witnessed" in third)
 
 
+def _the_covering_interval_steps_to_a_hundredth():
+    """interval_from_hands widens to the next hundredth that covers every Hand, not to the raw
+    worst deviation.
+
+    Mutation survivor 5fb7a949f957 (pass 2026-09-29, assay.py): `_next > interval` flipped to
+    `<=` made the covering loop jump straight to the unrounded worst deviation (3.073 instead of
+    3.08) and the whole battery passed. A published +/- is a two-decimal figure that covers every
+    signature; this pins both halves on a case where the loop has to step.
+    """
+    import assay as A
+    readings = {"AVAR": 2.0, "QUILL": 8.113, "MOTH": 5.0}
+    out = A.interval_from_hands(readings, "Instrumented")
+    iv = out["interval"]
+    covers = all(abs(v - out["centre"]) <= iv for v in readings.values())
+    hundredth = abs(iv * 100 - round(iv * 100)) < 1e-9
+    return covers and hundredth and iv == 3.08
+
+
 def drill_followup0928():
     """Three follow-ups to the 2026-09-28 session (owner: "do everything", group FOLLOWUP).
 
@@ -29550,6 +29568,9 @@ def drill_followup0928():
         _supplied_header_values_are_restored,
         "order f4f22fe325bb: a truncated shelfmark, 'Attest, Transcribed' and a Not-applicable "
         "Person passed the gate")
+    net(a, "the Hands' covering interval steps to a hundredth, not to the raw deviation",
+        _the_covering_interval_steps_to_a_hundredth,
+        "mutation survivor 5fb7a949f957: '>' -> '<=' in the covering loop passed the battery")
     net(a, "a record pass that could not read a file is neither cached nor written as the index",
         _a_short_record_pass_is_neither_cached_nor_written,
         "sweep67 F3: a torn record was skipped, the short list cached under a valid signature, "
