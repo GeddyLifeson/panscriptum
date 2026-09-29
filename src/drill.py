@@ -5040,10 +5040,14 @@ def drill_local_agent():
             fn = _defn(tree, name)
             if fn is None:
                 return False
+            # A STAGING CALL is `mklink` spelled out, or `mutate.make_junction`, which the probes
+            # have used since 2026-09-29 (cmd.exe began crashing on start machine-wide).
             staged = [n for n in _live_walk(fn)
                       if isinstance(n, ast.Call)
-                      and any(isinstance(x, ast.Constant) and isinstance(x.value, str)
-                              and "mklink" in x.value for x in ast.walk(n))]
+                      and (any(isinstance(x, ast.Constant) and isinstance(x.value, str)
+                               and "mklink" in x.value for x in ast.walk(n))
+                           or (isinstance(n.func, ast.Attribute)
+                               and n.func.attr == "make_junction"))]
             if not staged:
                 return False          # the probe no longer stages anything; net has lost its subject
             guarded = False
