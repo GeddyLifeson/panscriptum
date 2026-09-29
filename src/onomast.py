@@ -4,7 +4,7 @@ THE ONOMASTICON — distinct designations for the worlds that all call themselve
 
 THE PROBLEM, AND WHY IT IS NOT A LABELLING PROBLEM
 --------------------------------------------------
-Resolution finds twenty-six distinct worlds named Earth, fifteen named Moon, fourteen named Mars.
+Resolution finds 21 distinct worlds named Earth, 16 named Moon, 16 named Mars (measured 2026-09-29).
 Keeping them all as "Earth" produces a catalogue in which the commonest entry is a name shared by
 twenty-six unrelated planets, and every cross-reference to it is ambiguous.
 
@@ -25,7 +25,7 @@ So the reading is:
 
     THE NAME "EARTH" IS AN ENDONYM OF DESCENT, NOT A DESIGNATION OF IDENTITY.
 
-There is one Earth. There are twenty-six worlds whose peoples remember it, live somewhere else, and
+There is one Earth. There are 21 worlds whose peoples remember it, live somewhere else, and
 call that somewhere else by the remembered name. The Library therefore assigns each world its own
 catalogue designation and RECORDS the endonym, because what a people calls its own world is a
 fact about the people and belongs in the record.
@@ -55,7 +55,7 @@ This is the ordinary practice of every serious catalogue. A national library fil
 an authorised heading and the people who live there go on calling it what they call it; the
 exonym and the endonym are both correct and neither is the real one. The Doctrine of Carried
 Names above is the same distinction applied to a single word -- twenty-six peoples call their
-world Earth, and the Library files twenty-six designations -- so the layering was already here,
+world Earth, and the Library files 21 designations -- so the layering was already here,
 and this only names it.
 
 What the record must never do is present one layer as the other. An entry gives the designation
