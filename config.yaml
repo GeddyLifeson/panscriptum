@@ -92,7 +92,9 @@ num_ctx: 12288
 # property of the work (so "web" became "a web-based narrative by the band Rush"), and it
 # invited an epigraph from data that never contains quotable text. Bumping the version
 # invalidates anything generated under the old prompt.
-prompt_version: "v5"   # v5 2026-08-23: scale-ladder altitude + full-length chunked volumes
+prompt_version: "v6"   # v6 2026-09-29: marginalia add no facts, Class follows type, no
+                       # bracketed template lines, sentence-level Rule 1 test (order 7e50cfc9cd51).
+                       # v5 2026-08-23: scale-ladder altitude + full-length chunked volumes
 
 # ---------------------------------------------------------------- THE PROSE GATE (owner-held)
 # OWNER RULING 2026-08-25: prose generation is OFF until the owner turns it on.

@@ -65,6 +65,12 @@ LEXICAL_FICTION = [
     "primordial darkness", "unspeakable", "eldritch horror", "dark and terrible",
     "looms over", "looms large", "walls thick with", "iron hand", "iron grip",
     "scarred by", "haunted by", "born of", "forged in", "baptised in", "baptized in",
+    # 2026-09-29 prose continuity check (avoid-ai-writing detect pass over ten chapters,
+    # handoff/prose_check_0929/AI_PROSE_DETECT.md, order 2fe8078a0d0e): recurring, and invisible
+    # to every list above.
+    "a marvel of", "force of nature", "force to be reckoned with", "powerhouse",
+    "in a world of", "vast and intricate", "web of events", "unfolding saga",
+    "deeper meaning", "duality",
 ]
 
 # ------------------------------------------------------------------ structural
@@ -132,6 +138,18 @@ STRUCTURAL = {
     "double-edged sword": r"double[- ]edged sword\b",
     "interplay between": r"\binterplay between\b",
     "which is the point": r"which is (?:the|precisely the|exactly the) point\b",
+    # 2026-09-29 prose continuity check (order 2fe8078a0d0e): the moral-closer and
+    # record-narrating shapes the ten sampled chapters leaned on, none of them caught above.
+    "a reminder that": r"\b(?:is |are )?a reminder (?:that|of)\b",
+    "a mirror of": r"\b(?:is |are )?a mirror (?:of|to)\b",
+    "a study in": r"\ba study in\b",
+    "not a mere X": r"\bnot (?:a |an )?mere\b",
+    "may not be what it seems": r"\b(?:may not be|is not|isn['’]t) (?:what|as) (?:it|he|she|they) seems?\b",
+    "remains unexplored": r"\b(?:remains?|is yet|are yet) (?:unexplored|to be (?:uncovered|revealed|explored|told))\b",
+    "the text does not elaborate": r"\bthe (?:text|entry|record) does not (?:elaborate|clarify|say more)\b",
+    "raises questions": r"\braises? (?:questions|the question)\b",
+    "suggests a deeper": r"\bsuggests? a deeper\b",
+    "embodies": r"\bembod(?:y|ies|ied|ying)\b",
 }
 
 # ------------------------------------------------------------------ discourse

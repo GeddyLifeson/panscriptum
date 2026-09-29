@@ -562,3 +562,60 @@ def unearned_instrument(text, cited_names):
         if name not in cited_names:
             out.append(name or "(unnamed entry)")
     return out
+
+
+# ---------------------------------------------------------------- invented marginalia
+#
+# THE MARGINALIA ADD NO FACTS (prose continuity check 2026-09-29, order 7e50cfc9cd51). Ten
+# sampled chapters were read against the exact job each was written from: every one broke Hard
+# Rule 1, and the loudest form was the margin notes -- QUILL claimed a first-hand event in ~87 of
+# ~100 entries ("I was there when the Hypnos towers fell", "I fought one in the ruins", "I met him
+# once"), because the style contract itself described her as someone who "clearly *went there*".
+# The contract no longer says that; these two functions are the mechanical half. A Hand may
+# react to the Record; a first-person claim of having been, seen, met or fought is an invented
+# event, whichever Hand writes it.
+_HAND_LINE = re.compile(
+    r"(?im)^[\s*_>#-]*(?:\*\*|__)?"
+    r"((?:CUSTOS-PRIME\s+)?AVAR|(?:SISTER\s+)?QUILL|(?:LECTOR\s+)?MOTH|(?:THE\s+)?UNNAMED\s+HAND)"
+    r"(?:\*\*|__)?\s*:\s*(.+)$")
+# Experience verbs only. "I read", "I wonder", "I was surprised" are reactions to the Record and
+# stay legal; "was" is caught only as presence ("I was there", "I was present").
+_EYEWITNESS = re.compile(
+    r"(?i)\b(?:I|we)(?:['’]ve|['’]d| have| had)?\s+(?:once\s+|personally\s+|actually\s+|even\s+)?"
+    r"(?:saw|seen|fought|met|visited|went|travell?ed|walked|played|trained|encountered|"
+    r"helped|watched|stood|climbed|explored|lived|tasted|touched|held|wielded|rode|sailed|"
+    r"survived|faced|battled|been to|been there|been inside|was there|were there|was present|"
+    r"was inside|were inside)\b")
+# A bracketed choice list copied out of the template instead of chosen from, e.g. the old
+# Instrument line's "[places/things/events]".
+_TEMPLATE_LEAK = re.compile(r"\[(?:[A-Za-z]+/){1,}[A-Za-z]+\]")
+
+
+def marginal_inventions(text):
+    """-> [(hand, note)] for every margin note that claims a first-hand experience."""
+    return [(m.group(1).upper(), m.group(2).strip())
+            for m in _HAND_LINE.finditer(text or "") if _EYEWITNESS.search(m.group(2))]
+
+
+def template_leaks(text):
+    """-> [fragment] for every bracketed template choice list printed verbatim."""
+    return _TEMPLATE_LEAK.findall(text or "")
+
+
+def drop_invented_marginalia(text):
+    """-> (text, dropped) with every margin note that claims a first-hand experience removed.
+
+    Run AFTER the corrective retry has had its chance. Dropping the note is the Hard Rule 1
+    answer, not a laundering of evidence: no gate refuses on these notes, the note is invented
+    content rather than a record of a fault, and the entry keeps its Record and its other Hands.
+    Only the whole offending line goes; nothing else in the block moves.
+    """
+    lines = (text or "").split("\n")
+    kept, dropped = [], 0
+    for ln in lines:
+        m = _HAND_LINE.match(ln)
+        if m and _EYEWITNESS.search(m.group(2)):
+            dropped += 1
+            continue
+        kept.append(ln)
+    return "\n".join(kept), dropped

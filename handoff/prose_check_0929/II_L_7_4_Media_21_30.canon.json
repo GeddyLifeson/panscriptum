@@ -1,0 +1,207 @@
+{
+ "job_id": "II.L.7.4/Media#21-30",
+ "type": "chapter",
+ "source_name": "Arcanum Worlds (Odyssey of the Dragonlords)",
+ "spine_code": "II.L.7.4",
+ "chapter_label": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+ "address": "II.L.7.4/Media#21-30",
+ "page_range": "21-30",
+ "entries": [
+  {
+   "name": "The Tempest",
+   "type": "Media",
+   "description": "A work by Shakespeare used as inspiration for the troglodyte king's speech.",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0056",
+    "p. 0057",
+    "p. 0058",
+    "p. 0059"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Ritual Tome",
+   "type": "Media",
+   "description": "A book bound in human skin containing a description written by Lutheria on the ritual of transforming a human woman into a maenad.",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0072",
+    "p. 0073"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Skeletons",
+   "type": "Creature",
+   "description": "Enemies that wear breastplates, use shields, and are trained in hoplite soldier tactics.",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0084",
+    "p. 0085"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Minotaur Skeletons",
+   "type": "Creature",
+   "description": "Enemies that patrol in pairs and use bronze great axes.",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0084",
+    "p. 0085"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Skeletons of Ancient Hoplites",
+   "type": "Creature",
+   "description": "Skeletons equipped with breastplates, shields, short swords, and pikes; they fight in phalanx formation.",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0084",
+    "p. 0085"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Draconic",
+   "type": "Language",
+   "description": "The language used for the inscription on the sarcophagus.",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0084",
+    "p. 0085"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Mytros (Goddess)",
+   "type": "Goddess",
+   "description": "The matriarch of the Five Gods, Goddess of Dawn, and 'Silver Queen'; she is the mother of Queen Vallus.",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0092",
+    "p. 0093"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Paradoxia",
+   "type": "Book",
+   "description": "A book written by Machaon",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0100"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Mathematika",
+   "type": "Book",
+   "description": "A book written by Chalcodon",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0100"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Dialogues of Kerodotos",
+   "type": "Book",
+   "description": "A book written by Kerodotos",
+   "scale_note": "",
+   "category": "Media (in-fiction media: books, songs, broadcasts, works that exist within the story itself)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0100"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Media",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  }
+ ],
+ "source_context": {
+  "mode": "hybrid",
+  "ceiling_entity": "Thylea",
+  "provisional_magnitude": "unassayed",
+  "total_entries_in_source": 1038
+ },
+ "content_hash": "3e70543bca5814a3"
+}

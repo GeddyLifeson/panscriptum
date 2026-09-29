@@ -12,6 +12,15 @@ GROUND RULES, NON-NEGOTIABLE:
    relationships, or scale claims not present in the supplied JSON. You MAY write connective
    narrative prose (framing, transitions, comparisons between entries you were given), but you
    may not add new factual claims.
+
+   THE TEST FOR EVERY SENTENCE: can you point to the words in THIS entry's name, type,
+   description or scale_note that it rests on? If not, cut the sentence. This covers the
+   quiet inventions as much as the loud ones: a god given domains its description does not
+   name, a book given contents when you were told only its author, a character given a role,
+   a rank, a partner, an appearance, a rival or a history the description does not state, a
+   place given ruins, weather or inhabitants. "A book written by Kerodotos" earns one sentence
+   saying exactly that, and nothing about what the book argues. Do not import what you know
+   about this entity from outside the supplied data, even when you are sure it is true.
 2. If supplied data is sparse for an entry, WRITE A SHORT RECORD. A one-sentence source
    description earns one or two honest sentences of Record. Do not pad it with generic
    atmosphere ("looms over," "walls thick with history," "iron hand," etc.) invented to hit a
@@ -62,6 +71,13 @@ GROUND RULES, NON-NEGOTIABLE:
    would read equally true on a different entry is not doing its job; rewrite it to reference
    an actual named detail from this entry.
 
+   THE MARGINALIA ADD NO FACTS. A Hand comments on what the Record says -- doubts it, admires
+   it, corrects its filing, compares it with another entry in this chapter, warns about it. A
+   Hand never reports an event the Record does not contain. No Hand has seen, visited, met,
+   fought, trained with, used, played or travelled to the thing: never "I was there", "I saw
+   it", "I met him once", "I fought one", "I helped make it". Those are invented events in a
+   first-person voice, and Rule 1 forbids them exactly as it forbids them in the Record.
+
 6. VARY THE SENTENCE. A chapter carries twenty to thirty entries and they must not read as one
    sentence repeated with the nouns swapped. Two entries in a chapter may not share an opening
    construction, and no construction below may appear more than once in a chapter at all:
@@ -83,7 +99,7 @@ GROUND RULES, NON-NEGOTIABLE:
    every entry lands a final beat reads as mannerism.
 
    The Marginalia carry the same rule: Avar's notes must not all take the same corrective shape,
-   and Quill's must not all be built as "I was there and X."
+   Quill's must not all open with "I", and the Unnamed Hand must not keep opening with "Beware".
 
 7. NO MACHINE TELLS. The phrasings below mark text as machine-written. Do not use them,
    and do not use close variants of them. This is not a style preference; a corpus of
@@ -100,20 +116,24 @@ GROUND RULES, NON-NEGOTIABLE:
      unleash, unlock, unwavering, vibrant, watershed
 
    Never this fantasy-encyclopedia furniture:
-     ancient and terrible, annals of, baptised in, baptized in, born of, dark and terrible,
-     echoes of, eldritch horror, eons past, forged in, haunted by, hushed tones, iron grip,
-     iron hand, long forgotten, looms large, looms over, lost to history, primordial darkness,
-     scarred by, shrouded in, shrouded in mystery, since time began, tapestry of,
-     the very fabric, time immemorial, torn asunder, unspeakable, veil of, walls thick with,
-     whispered in hushed, whispers of
+     a marvel of, ancient and terrible, annals of, baptised in, baptized in, born of,
+     dark and terrible, deeper meaning, duality, echoes of, eldritch horror, eons past,
+     force of nature, force to be reckoned with, forged in, haunted by, hushed tones,
+     in a world of, iron grip, iron hand, long forgotten, looms large, looms over,
+     lost to history, powerhouse, primordial darkness, scarred by, shrouded in,
+     shrouded in mystery, since time began, tapestry of, the very fabric, time immemorial,
+     torn asunder, unfolding saga, unspeakable, vast and intricate, veil of, walls thick with,
+     web of events, whispered in hushed, whispers of
 
    Never these sentence shapes:
-     X is not Y; it is Z, X, Y and Z alike, a far cry from, against the backdrop,
-     at its core / heart, double-edged sword, from X to Y, here then is, in stark contrast,
-     interplay between, it's not X, it's Y, little is known save, more than just,
-     no small feat, not merely X but Y, not only ... but also, one thing is certain,
-     paints a picture, plays a X role, remains to this day, serves as a, sheds light,
-     speaks volumes, stands as a testament, stands the test of time, the record notes,
+     X is not Y; it is Z, X, Y and Z alike, a far cry from, a mirror of, a reminder that,
+     a study in, against the backdrop, at its core / heart, double-edged sword, embodies,
+     from X to Y, here then is, in stark contrast, interplay between, it's not X, it's Y,
+     little is known save, may not be what it seems, more than just, no small feat,
+     not a mere X, not merely X but Y, not only ... but also, one thing is certain,
+     paints a picture, plays a X role, raises questions, remains to this day,
+     remains unexplored, serves as a, sheds light, speaks volumes, stands as a testament,
+     stands the test of time, suggests a deeper, the record notes, the text does not elaborate,
      weaves together, what survives, whatever else may be said, whether you're,
      which is the point
 
@@ -132,7 +152,10 @@ THE ENTRY TEMPLATE -- every entry you write follows this exact shape, in this or
     Shelfmark: [use exactly what is supplied in the entry data's shelfmark field -- if it says
       "UNCHARTED", print it as given, do not invent rungs]
     Class: World / Polity / Person / God / Beast / Relic / Vessel / Praxis / Event / Substance
-      (pick the closest fit to the entry's type)
+      (follow the entry's supplied `type`, NOT the chapter it appears in: a Character is a
+      Person, or a God or Beast when its description says so; a Location is a World or Polity;
+      an Item or Weapon is a Relic or Vessel; an Ability or Technique is a Praxis; an Event is
+      an Event. A Character filed in a Places chapter is still a Person -- write it as one.)
     Magnitude: if a Magnitude/scale_note is supplied FOR THIS SPECIFIC ENTRY, state it plainly
       (band only, e.g. "M4" -- do not fabricate a decimal Assay score; that requires the Nine
       Measures worksheet process from Part Three, a separate later pass). If nothing is
@@ -154,8 +177,9 @@ THE ENTRY TEMPLATE -- every entry you write follows this exact shape, in this or
       nothing like that is supplied, write "None currently on file."
 
     Marginalia. One to three short notes in the recurring Hands: CUSTOS-PRIME AVAR (dry,
-      official, corrective), SISTER QUILL (enthusiastic, first-person, clearly *went there*,
-      sometimes disagrees with Avar), LECTOR MOTH (here reframed: fascinated by how beings'
+      official, corrective), SISTER QUILL (enthusiastic, the warm reader of the shelves --
+      delighted or troubled by what THIS Record says, sometimes disagrees with Avar, and never
+      claims to have been anywhere or seen anything herself; see Ground Rule 5), LECTOR MOTH (here reframed: fascinated by how beings'
       innate faculties compare across worlds -- see the Instrument below, this is his lane now,
       NOT game mechanics), THE UNNAMED HAND (writes only warnings, appears rarely, don't
       overuse). Print each note as just the Hand's name followed by a colon (e.g. "AVAR: ...")
@@ -229,9 +253,13 @@ THE ENTRY TEMPLATE -- every entry you write follows this exact shape, in this or
       from the Nine Measures Assay (Collection X); that requires the real worksheet process
       Collection X describes and is explicitly out of scope here (see CLAUDE.md Hard Rule 3).
 
-      This section applies to Persons, Gods, and Beasts; for Places, Vessels, Factions, and
-      Events, write "Not applicable -- the Instrument measures beings, not
-      [places/things/events]." Never mention "tiers of play," DCs, stat blocks, classes, or any
+      This section applies to Persons, Gods, and Beasts. For anything else write exactly one of
+      these lines, choosing by the entry's Class:
+        "Not applicable -- the Instrument measures beings, not places."   (World, Polity)
+        "Not applicable -- the Instrument measures beings, not things."   (Relic, Vessel,
+                                                                           Substance, Praxis)
+        "Not applicable -- the Instrument measures beings, not events."   (Event)
+      Never print a bracketed choice list. Never mention "tiers of play," DCs, stat blocks, classes, or any
       other real-world game term here. This is Custodial measurement.
 
     ⌁ Threads. Cross-references to other Panscriptum entries. The cross-verse entanglement

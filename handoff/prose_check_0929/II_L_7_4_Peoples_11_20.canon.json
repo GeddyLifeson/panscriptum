@@ -1,0 +1,162 @@
+{
+ "job_id": "II.L.7.4/Peoples#11-20",
+ "type": "chapter",
+ "source_name": "Arcanum Worlds (Odyssey of the Dragonlords)",
+ "spine_code": "II.L.7.4",
+ "chapter_label": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+ "address": "II.L.7.4/Peoples#11-20",
+ "page_range": "11-20",
+ "entries": [
+  {
+   "name": "Gygans",
+   "type": "Species / Historical Civilization",
+   "description": "Six-armed, one-eyed giants descended from an ancient cyclopean civilization that once spanned Thylea with grand city-states devoted to gaming competitions and to worshipping Sydon; their empire was exterminated by Pythor and the Dragonlords at the end of the First War, leaving only scattered, insular family groups.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Factions",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Keledone",
+   "type": "Species (Constructs)",
+   "description": "Golden, winged automata forged by the gods to resemble beautiful humanoids, tasked as eternally loyal guardians of temples and holy sites; their enchanting but deadly voices can lull victims to death or, conversely, offer comfort to the troubled.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Powers",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Maenad",
+   "type": "Species / Monster",
+   "description": "Once-human women transformed into frenzied fey servants of the gods and arch-fey of madness, lust, and pleasure through ritual, most often by cursed dryads like Demetria; they lure travelers into murderous bacchanals.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Blemys",
+   "type": "Monster / Species",
+   "description": "Headless cyclopes with a single great eye set in their chest, considered the most intelligent (if antisocial) type of cyclops despite widespread assumptions of brainlessness; their fractured, curse-born civilization is of uncertain origin.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Cerberus (Gloom Hounds)",
+   "type": "Monster Species",
+   "description": "Three-headed hounds bred and tortured by hags to guard treasures and doorways with fanatical, ageless devotion; a slain cerberus's death dogs fight to the death for the right to grow a new head and become the new pack alpha.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Bronze Automaton",
+   "type": "Construct Species",
+   "description": "War constructs forged with mechanical precision and divine magic, singularly focused on combat and requiring periodic maintenance from skilled enchanters to remain functional over the years.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Powers",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Zephyr Dragon",
+   "type": "Draconic Species",
+   "description": "A little-known, gentler lesser kin of the metallic dragons, with wings fused to their forelimbs and shimmering bronze, brass, or copper scales; some scholars claim they predate true metallic dragons, a claim metallics dismiss as insulting.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Powers",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Nymph Subraces (Aurae, Naiad, Nereid, Oceanid, Oread)",
+   "type": "Species Group",
+   "description": "The five subraces of nymph fey tied to different domains — Aurae (sea and night sky islands), Naiads (fresh water, oracles and muses), Nereids (ocean coral reefs), Oceanids (coastal tricksters), and Oreads (mountains, reclusive and mischievous) — each embodying and protecting a different facet of Thylea's natural beauty.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Troglodytes",
+   "type": "Species/Creature group",
+   "description": "Foul, filthy-looking humanoids with chameleon skin that allows them to merge into walls. They are organized by strength and inhabit the Mithral Mines.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0056",
+    "p. 0057",
+    "p. 0058",
+    "p. 0059"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Factions",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Minotaurs",
+   "type": "Race/Inhabitants",
+   "description": "Inhabitants of Thylea; bull-headed creatures.",
+   "scale_note": "",
+   "category": "Peoples & Species (races, species and peoples as kinds, distinct from the individuals of that kind)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0084",
+    "p. 0085"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Places",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  }
+ ],
+ "source_context": {
+  "mode": "hybrid",
+  "ceiling_entity": "Thylea",
+  "provisional_magnitude": "unassayed",
+  "total_entries_in_source": 1038
+ },
+ "content_hash": "29f5f60a83e4d97a"
+}

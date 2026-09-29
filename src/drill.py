@@ -4784,7 +4784,6 @@ def drill_local_agent():
         directory-level case to have. What is refused is grading an attack that was never
         delivered. The note is the record that it was not.
         """
-        import subprocess as _sp
         import local_agent as LA
         link = os.path.join(LA.HERE, "src", _JUNCTION_PROBE_NAME)
 
@@ -4819,9 +4818,11 @@ def drill_local_agent():
         # the measurement and for the compare-on-the-way-out that keeps it honest.
         with _src_mtime_preserved():
             try:
-                _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "state")],
-                        capture_output=True, text=True,
-                        creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+                # Through `mutate.make_junction` (the Win32 call, cmd only as a fallback): cmd.exe
+                # crashed on start machine-wide on 2026-09-29 and every mklink silently failed.
+                import mutate as _MJ
+                if not _MJ.make_junction(link, os.path.join(LA.HERE, "state")):
+                    raise OSError("junction not created")
             except OSError:
                 # No `cmd` at all -- not Windows. FileNotFoundError is an OSError.
                 unstage()
@@ -4874,7 +4875,6 @@ def drill_local_agent():
         its own scratch file — a net whose failure mode is corrupting real state is not a net
         anyone will keep enabled.
         """
-        import subprocess as _sp
         import local_agent as LA
         link = os.path.join(LA.HERE, "src", _SURFACE_PROBE_NAME)
         probe = os.path.join(LA.HERE, "data", _SURFACE_PROBE_NAME + ".txt")
@@ -4913,9 +4913,11 @@ def drill_local_agent():
         # directory's mtime, which is the settling clock (2026-09-09 sweep, batch 01).
         with _src_mtime_preserved():
             try:
-                _sp.run(["cmd", "/c", "mklink", "/J", link, os.path.join(LA.HERE, "data")],
-                        capture_output=True, text=True,
-                        creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+                # Through `mutate.make_junction` (the Win32 call, cmd only as a fallback): cmd.exe
+                # crashed on start machine-wide on 2026-09-29 and every mklink silently failed.
+                import mutate as _MJ
+                if not _MJ.make_junction(link, os.path.join(LA.HERE, "data")):
+                    raise OSError("junction not created")
             except OSError:
                 unstage()
                 _ = "silence-exempt: a declined measurement, declared in _DECLARED_ESCAPES (sweep66 D1)"
@@ -29002,6 +29004,116 @@ def _the_root_is_always_seven():
     return len(roots) == SF.SPAN
 
 
+def _invented_marginalia_are_caught_and_dropped():
+    """An eyewitness margin note is found and dropped; a reaction to the Record is kept.
+
+    Order 7e50cfc9cd51 (2026-09-29): ~87 of ~100 sampled QUILL notes claimed a first-hand event
+    ("I was there when the Hypnos towers fell"). `marginal_inventions` must see every such claim
+    whichever Hand writes it, `drop_invented_marginalia` must remove exactly those lines, and a
+    note that only reacts ("I wonder whether Avar filed this under the right shelf") must stay.
+    """
+    import prose_gate as PG
+    block = "\n".join([
+        "◈ Kleon",
+        "Class: Person",
+        "A teenager under Demetria's sway.",
+        "QUILL: I saw him once, watching the stars from the edge of the city.",
+        "**SISTER QUILL**: I've fought one of these in the ruins.",
+        "AVAR: I was there when the vote was counted.",
+        "QUILL: I wonder whether Avar filed him under the right shelf.",
+        "THE UNNAMED HAND: Do not trust the count.",
+        "MOTH: We visited the Sleeping Chamber twice.",
+    ])
+    found = PG.marginal_inventions(block)
+    kept, dropped = PG.drop_invented_marginalia(block)
+    return (len(found) == 4 and dropped == 4
+            and "I wonder whether Avar" in kept and "Do not trust the count" in kept
+            and "I saw him once" not in kept and "fought one" not in kept
+            and "was there" not in kept and "visited" not in kept
+            and "A teenager under Demetria's sway." in kept)
+
+
+def _a_copied_template_line_is_repaired_by_class():
+    """A bracketed template choice list is repaired from the entry's own Class, never dropped.
+
+    Order 7e50cfc9cd51: the old contract printed "not [places/things/events]" and the model
+    copied it -- once onto a PERSON. Dropping that line would leave a being with no Instrument
+    and the gate would refuse the block. A Person gets the honest uninstrumented line; a Place
+    gets "not places"; the gate's instrument check passes on both afterwards.
+    """
+    import generate as G
+    import prose_gate as PG
+    leak = "▣ The Instrument. Not applicable -- the Instrument measures beings, not [places/things/events]."
+    text = "\n".join([
+        "◈ Espimon", "Shelfmark: UNCHARTED", "Class: Person", "Magnitude: unassayed",
+        "Attestation: Transcribed", "A spy.", leak, "Threads: pending the entanglement pass", "",
+        "◈ File Island", "Shelfmark: UNCHARTED", "Class: World", "Magnitude: unassayed",
+        "Attestation: Transcribed", "An island.", leak, "Threads: pending the entanglement pass",
+        ""])
+    fixed, n = G.repair_template_leaks(text)
+    person, world = fixed.split("◈ File Island")
+    return (n == 2 and not PG.template_leaks(fixed)
+            and "uninstrumented -- no faculties on file." in person
+            and "measures beings, not places." in world
+            and not PG.instrument_shortfall(fixed)[2])
+
+
+def _entrypass_never_files_a_character_as_a_place():
+    """phase_entrypass refuses to move a Character-typed entry into Places & Locations.
+
+    Order be5d399f163c: 13,394 Character-typed entries (10.1%) had been judged into Places,
+    reached Places chapters, and the writer invented places for them. Driven against the real
+    phase with the model stubbed to answer 2 (Places) for a Character and a Location: the
+    Character keeps its category and records the refused answer; the Location still moves.
+    """
+    import pipeline as PL
+    r = {"source": "S", "entries": [
+        {"name": "Wrex", "type": "Character", "description": "a warlord",
+         "category": PL.CATEGORIES[0]},
+        {"name": "Tuchanka", "type": "Location", "description": "a homeworld",
+         "category": PL.CATEGORIES[2]}]}
+    written = []
+    saved = {k: getattr(PL, k) for k in ("records", "ask_pool_first", "save_state",
+                                         "update_handoff", "log", "write_record")}
+    ans = {"results": [
+        {"index": 0, "category": 2, "scale_note": "", "magnitude": "unassayed",
+         "topic": "Persons", "subroom": "none", "physiology": ""},
+        {"index": 1, "category": 2, "scale_note": "", "magnitude": "unassayed",
+         "topic": "Places", "subroom": "none", "physiology": ""}]}
+    try:
+        PL.records = lambda: [("/nonexistent/s.json", r)]
+        PL.ask_pool_first = lambda *a, **k: ans
+        PL.write_record = lambda p, rec, **kw_: written.append(json.loads(json.dumps(rec))) or True
+        PL.save_state = lambda st: True
+        PL.update_handoff = lambda st: None
+        PL.log = lambda *a, **k: None
+        _deliberately_failing(lambda: PL.phase_entrypass({}, {"done": {}, "failed": {},
+                                                             "units_done": 0}))
+    finally:
+        for k, v in saved.items():
+            setattr(PL, k, v)
+    if not written:
+        return False
+    e = written[-1]["entries"]
+    return (e[0].get("category") == PL.CATEGORIES[0]
+            and "contradicts type" in str(e[0].get("category_rejected"))
+            and e[1].get("category") == PL.CATEGORIES[1])
+
+
+def _the_style_contract_asks_for_no_eyewitness_and_no_brackets():
+    """prompts/system_style.txt no longer instructs the two faults it used to cause.
+
+    Order 7e50cfc9cd51: QUILL was described as "clearly *went there*", which produced the
+    eyewitness notes, and the Instrument line was printed as "[places/things/events]", which the
+    model copied verbatim. Both must stay out, and the Marginalia rule must still be present.
+    """
+    with open(os.path.join(HERE, "prompts", "system_style.txt"), encoding="utf-8") as fh:
+        s = fh.read()
+    return ("went there" not in s and "[places/things/events]" not in s
+            and "THE MARGINALIA ADD NO FACTS" in s
+            and "follow the entry's supplied `type`" in s)
+
+
 def drill_followup0928():
     """Three follow-ups to the 2026-09-28 session (owner: "do everything", group FOLLOWUP).
 
@@ -29389,6 +29501,18 @@ def drill_followup0928():
     net(a, "the sevenfold root is always seven, even when a root window has no weak seam",
         _the_root_is_always_seven,
         "run #67: a rebuilt index left one root window uncut and seven hyperverses became six")
+    net(a, "an eyewitness margin note is caught and dropped; a reaction to the Record is kept",
+        _invented_marginalia_are_caught_and_dropped,
+        "order 7e50cfc9cd51: ~87 of ~100 sampled QUILL notes invented a first-hand event")
+    net(a, "a copied template choice list is repaired from the entry's Class, never dropped",
+        _a_copied_template_line_is_repaired_by_class,
+        "order 7e50cfc9cd51: '[places/things/events]' was copied verbatim, once onto a Person")
+    net(a, "entrypass never files a Character as a place",
+        _entrypass_never_files_a_character_as_a_place,
+        "order be5d399f163c: 13,394 people were judged into Places and written up as places")
+    net(a, "the style contract asks for no eyewitness margins and no bracketed template lines",
+        _the_style_contract_asks_for_no_eyewitness_and_no_brackets,
+        "order 7e50cfc9cd51: the contract itself said QUILL 'clearly went there'")
     net(a, "a record pass that could not read a file is neither cached nor written as the index",
         _a_short_record_pass_is_neither_cached_nor_written,
         "sweep67 F3: a torn record was skipped, the short list cached under a valid signature, "

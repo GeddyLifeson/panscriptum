@@ -279,6 +279,24 @@ CATEGORIES = [
 ]
 
 
+# TYPE-VS-CATEGORY CONTRADICTIONS the entry judgment may not introduce (order be5d399f163c).
+# Keyed by the crawl's lower-cased `type`; the value is the category prefixes that type can never
+# be. Measured 2026-09-29: 13,394 of 133,118 Character-typed entries (10.1%) had been judged
+# into Places & Locations, and every sampled one was a person. Only the measured contradiction is
+# listed -- a Character legitimately becomes a Faction (a team), a Power or a People often
+# enough that no wider ban has been measured safe.
+_TYPE_FORBIDS = {
+    "character": ("Places & Locations",),
+    "person": ("Places & Locations",),
+}
+
+
+def category_contradicts_type(etype, category):
+    """-> True when `category` is one the entry's crawl `type` can never be (see _TYPE_FORBIDS)."""
+    banned = _TYPE_FORBIDS.get(str(etype or "").strip().lower(), ())
+    return any(str(category or "").startswith(b) for b in banned)
+
+
 # --------------------------------------------------------------------------- infrastructure
 
 def log(msg):
@@ -2588,7 +2606,17 @@ def phase_entrypass(c, st):
                 if batch[i].get("excluded"):
                     continue
                 ci = res.get("category")
-                if isinstance(ci, int) and not isinstance(ci, bool) and 1 <= ci <= len(CATEGORIES):
+                if (isinstance(ci, int) and not isinstance(ci, bool)
+                        and 1 <= ci <= len(CATEGORIES)
+                        and category_contradicts_type(batch[i].get("type"), CATEGORIES[ci - 1])):
+                    # A PERSON IS NOT A PLACE (order be5d399f163c, 2026-09-29). 13,394 entries
+                    # the crawl typed Character were judged into Places & Locations, reached
+                    # Places chapters, and the writer invented places for them. The crawl's
+                    # type is the stronger evidence for these two; the answer is kept beside the
+                    # unchanged category so the rate stays auditable, like any refused answer.
+                    batch[i]["category_rejected"] = _stored_cut(
+                        "%s (contradicts type %s)" % (ci, batch[i].get("type")), 120)
+                elif isinstance(ci, int) and not isinstance(ci, bool) and 1 <= ci <= len(CATEGORIES):
                     batch[i]["category"] = CATEGORIES[ci - 1]
                     batch[i].pop("category_rejected", None)
                 elif ci is not None and ci != "":

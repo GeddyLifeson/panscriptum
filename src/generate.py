@@ -608,6 +608,42 @@ _NOT_A_BEING = {"world": "places", "polity": "polities", "event": "events", "rel
                 "vessel": "things", "praxis": "practices", "substance": "things"}
 
 
+def repair_template_leaks(text):
+    """-> (text, repaired). A copied template choice list is replaced with the chosen words.
+
+    Order 7e50cfc9cd51 (2026-09-29): the old style contract printed the Instrument line as
+    "not [places/things/events]" and the model copied the brackets verbatim -- once onto a PERSON.
+    Dropping the line would leave a being with no Instrument section and the gate would refuse
+    the block, so each leaked line is REPAIRED from the entry's own Class instead: a non-being
+    gets the noun `_NOT_A_BEING` already gives the filler, a being gets the honest
+    "uninstrumented" line (no scores were written, so none are claimed). Nothing is judged here
+    that the entry's Class does not already decide.
+    """
+    import prose_gate as _PG
+    parts = re.split(r"(?m)^(?=◈\s)", text or "")
+    out, repaired = [], 0
+    for p in parts:
+        if not p.startswith("◈") or not _PG.template_leaks(p):
+            out.append(p)
+            continue
+        cls = _PG._entry_class(p) or ""
+        being = any(c in cls for c in _PG.INSTRUMENT_CLASSES)
+        what = next((v for k, v in _NOT_A_BEING.items() if k in cls), "things")
+        lines = []
+        for ln in p.split("\n"):
+            if _PG.template_leaks(ln):
+                repaired += 1
+                if _PG._INSTRUMENT_NOT_APPLICABLE.search(ln) or _PG._INSTRUMENT_MARK.search(ln):
+                    ln = ("▣ The Instrument. uninstrumented -- no faculties on file." if being
+                          else "▣ The Instrument. Not applicable -- the Instrument measures "
+                               "beings, not %s." % what)
+                else:
+                    ln = _PG._TEMPLATE_LEAK.sub(what, ln)
+            lines.append(ln)
+        out.append("\n".join(lines))
+    return "".join(out), repaired
+
+
 def complete_fixed_tail(text):
     """-> (text, supplied). Add to each ◈ entry ONLY the tail lines whose words are fixed.
 
@@ -703,6 +739,19 @@ def block_problems(text, n_entries):
     if bad:
         out.append("these words break the in-universe voice and must not appear anywhere in the "
                    "text, not even in another sense -- rephrase around them: " + ", ".join(bad))
+    # INVENTED MARGINALIA AND COPIED TEMPLATE TEXT (order 7e50cfc9cd51, 2026-09-29). Named so the
+    # retry can fix them; whatever survives the retry is dropped by `drop_invented_marginalia`
+    # and `drop_template_leaks` below, because neither is anything a gate needs as evidence.
+    inv = _PG.marginal_inventions(text)
+    if inv:
+        out.append("these margin notes claim the Hand was there, saw, met or fought the thing, "
+                   "which invents an event the Record does not contain -- rewrite each as a "
+                   "reaction to what the Record says: " + "; ".join(
+                       "%s: %s" % (h, n[:80]) for h, n in inv))
+    leaks = _PG.template_leaks(text)
+    if leaks:
+        out.append("these bracketed choice lists were copied from the template instead of "
+                   "choosing one word: " + ", ".join(sorted(set(leaks))))
     return out
 
 
@@ -972,6 +1021,16 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
             keep=lambda c: (all(_covered(e.get("name", ""), c) for e in _had)
                             and len([p for p in block_problems(c, len(g))
                                      if not p.startswith("these words break")]) <= _tpl0))
+        # WHAT THE RETRY COULD NOT FIX IN THE MARGINS IS DROPPED, NOT SHELVED (order
+        # 7e50cfc9cd51). An eyewitness margin note is an invented event; the entry keeps its
+        # Record and its other Hands. A copied template line is repaired from the entry's Class
+        # (see `repair_template_leaks`), never dropped, so no being loses its Instrument.
+        text, _inv_dropped = _PG.drop_invented_marginalia(text)
+        text, _leaks_dropped = repair_template_leaks(text)
+        if _inv_dropped or _leaks_dropped:
+            print("  block %d/%d: dropped %d invented margin note(s), repaired %d copied "
+                  "template line(s)"
+                  % (gi + 1, len(groups), _inv_dropped, _leaks_dropped), flush=True)
         if _supplied["threads"] or _supplied["instrument"]:
             print("  block %d/%d: supplied the fixed tail (Threads on %d, Instrument on %d)"
                   % (gi + 1, len(groups), _supplied["threads"], _supplied["instrument"]),

@@ -894,6 +894,29 @@ def verify_restore(path):
     return _read(path) == original
 
 
+def make_junction(link, target):
+    """Create a directory junction at `link` pointing to `target`. -> True if `link` is now a dir.
+
+    THROUGH THE WIN32 CALL, NOT THROUGH cmd.exe (2026-09-29). `mklink` is a cmd built-in, and on
+    2026-09-29 at 18:11 cmd.exe began crashing on start machine-wide (0xC0000005 in ntdll, even
+    with an empty environment), which took down every sandbox this module and the drill build.
+    `_winapi.CreateJunction` is the same NTFS operation without a shell. cmd is the fallback
+    only where `_winapi` is absent or refuses. Never raises: callers read the verdict.
+    """
+    if os.name != "nt":
+        return False
+    try:
+        import _winapi
+        _winapi.CreateJunction(target, link)
+    except (ImportError, AttributeError, OSError):
+        try:
+            subprocess.run(["cmd", "/c", "mklink", "/J", link, target], capture_output=True,
+                           text=True, creationflags=_NO_WIN, timeout=60)
+        except (OSError, subprocess.SubprocessError):
+            pass
+    return os.path.isdir(link)
+
+
 def _junction(link, target):
     """Windows directory junction, so the sandbox shares `data/` instead of copying a gigabyte.
 
@@ -902,11 +925,9 @@ def _junction(link, target):
     a half-tree whose gates would then fail for reasons that have nothing to do with a mutation.
     """
     if os.name == "nt":
-        r = subprocess.run(["cmd", "/c", "mklink", "/J", link, target],
-                           capture_output=True, text=True, creationflags=_NO_WIN, timeout=60)
-        if not os.path.isdir(link):
-            raise RuntimeError("could not junction %s -> %s: %s"
-                               % (link, target, (r.stderr or r.stdout or "?").strip()[:120]))
+        if not make_junction(link, target):
+            raise RuntimeError("could not junction %s -> %s (neither _winapi.CreateJunction "
+                               "nor cmd mklink produced it)" % (link, target))
         return
     os.symlink(target, link)
 

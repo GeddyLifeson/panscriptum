@@ -1,0 +1,208 @@
+{
+ "job_id": "II.L.7.4/Events#121-130",
+ "type": "chapter",
+ "source_name": "Arcanum Worlds (Odyssey of the Dragonlords)",
+ "spine_code": "II.L.7.4",
+ "chapter_label": "Events (major storyline events, wars, historical turning points within the fiction)",
+ "address": "II.L.7.4/Events#121-130",
+ "page_range": "121-130",
+ "entries": [
+  {
+   "name": "Arcana",
+   "type": "System",
+   "description": "A system that can be studied and granted proficiency in",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0100"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Powers",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Dexterity bonus",
+   "type": "power/system",
+   "description": "the competitor's choice. This bonus is multiplied by 3 and added to the base javelin range of 120 ft.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0115"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Powers",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Great Relay",
+   "type": "Event",
+   "description": "The culminating race of the Great Games with five legs, including the Harpy Cages. Participation awards 900 XP.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0116",
+    "p. 0117"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Award Ceremony",
+   "type": "Event",
+   "description": "The ceremony at the end of the Great Games where King Acastus arrives on a silver dragon, addresses the crowd, and distributes medals and the crown of laurels to victors.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0116",
+    "p. 0117"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Tavern Sponsorships",
+   "type": "Event",
+   "description": "After the Great Games, victorious heroes are approached by Ambrosia and Julius for sponsorship deals that bring business to their taverns.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0116",
+    "p. 0117"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Battle of Mytros",
+   "type": "event",
+   "description": "An event that occurs after the Oath of Peace ends, determining the outcome of the Titans' war on Thylea.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0126",
+    "p. 0127",
+    "p. 0128",
+    "p. 0129"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Hergeron",
+   "type": "deity",
+   "description": "Titan, Lord of Battle.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0137",
+    "p. 0138"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Corruption of Lutheria",
+   "type": "event",
+   "description": "event to be run during the adventure.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0137",
+    "p. 0138"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Eternal Apples",
+   "type": "item",
+   "description": "Fruit trees on the island that bear apples which remain eternally fresh until eaten, with the same effect as a potion of healing.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0139",
+    "p. 0140"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  },
+  {
+   "name": "Blessed Olive Oil",
+   "type": "item",
+   "description": "Olive oil blessed by the Mother Goddess, requiring three heroes to perform a full day of work on the island to create.",
+   "scale_note": "",
+   "category": "Events (major storyline events, wars, historical turning points within the fiction)",
+   "wiki_page": "",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "doc_pages": [
+    "p. 0139",
+    "p. 0140"
+   ],
+   "origin_work": "Arcanum Worlds (Odyssey of the Dragonlords)",
+   "topic": "Events",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Arcanum Worlds (Odyssey of the Dragonlords) [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  }
+ ],
+ "source_context": {
+  "mode": "hybrid",
+  "ceiling_entity": "Thylea",
+  "provisional_magnitude": "unassayed",
+  "total_entries_in_source": 1038
+ },
+ "content_hash": "0e0e0393cb514ac3"
+}
