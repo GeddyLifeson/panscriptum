@@ -21067,6 +21067,44 @@ def drill_recorders_and_lane():
         "unmetered', so callers bypassed the lane exactly when a slot was being released "
         "(order 30122bf3a5a7)")
 
+    def a_queued_foreground_claim_stays_alive_while_it_waits():
+        """Owner session 2026-09-28. Prose ran at ~14 min/job because its foreground claim was
+        only heartbeated once it HELD a slot: queued behind a background call longer than
+        CLAIM_LEASE_SECONDS, the claim expired, background swept it and stopped yielding, and
+        prose waited out SLOT_LEASE_SECONDS before going unmetered. Driven in a temp lane with a
+        live background holder on the only slot and short leases: after more than one claim
+        lease of waiting, the queued priority call's claim must still be live."""
+        import threading as _th
+        import gpu_lane as GL
+        d = tempfile.mkdtemp(prefix="drill_lane_fg_")
+        keep = (GL.LANE, GL.MAX_SLOTS, GL.SLOT_LEASE_SECONDS, GL.CLAIM_LEASE_SECONDS,
+                GL._BEAT_SECONDS)
+        try:
+            GL.LANE, GL.MAX_SLOTS = d, 1
+            GL.SLOT_LEASE_SECONDS, GL.CLAIM_LEASE_SECONDS, GL._BEAT_SECONDS = 8.0, 1.5, 0.3
+            slot = os.path.join(d, "slot.0.json")
+            with open(slot, "w", encoding="utf-8") as fh:
+                json.dump({"pid": os.getpid(), "label": "drill-bg", "heartbeat": time.time()}, fh)
+
+            def _prose():
+                with GL.lane("drill-fg", priority=True):
+                    pass
+            t = _th.Thread(target=_prose, daemon=True)
+            t.start()
+            time.sleep(3.0)                          # two claim leases of queueing
+            alive = GL.foreground_active()
+            os.remove(slot)                          # let the queued call through
+            t.join(timeout=10)
+            return alive and not t.is_alive()
+        finally:
+            (GL.LANE, GL.MAX_SLOTS, GL.SLOT_LEASE_SECONDS, GL.CLAIM_LEASE_SECONDS,
+             GL._BEAT_SECONDS) = keep
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a foreground call queued for the GPU keeps its claim alive while it waits",
+        a_queued_foreground_claim_stays_alive_while_it_waits,
+        "prose's claim expired while it queued, background stopped yielding, and every prose "
+        "call waited out the 900s slot lease")
+
     def a_misaddressed_blob_is_refused():
         """The filename IS a checksum, and `load()` must read it. -> bool.
 
@@ -26156,6 +26194,120 @@ def _halt_helper_complaints(tree, label="?"):
     return [] if asks else ["%s: `_assert_not_halted` never calls assert_clear" % label]
 
 
+def drill_followup0928():
+    """Three follow-ups to the 2026-09-28 session (owner: "do everything", group FOLLOWUP).
+
+    1a  `escalation.py --status` names an active pause (reason, by, until).
+    1b  allsweep's GPU rows are SKIPPED: paused while a pause stands -- never run, never `ok`.
+    2   a `stale_since` row (kept by the catalogue merge) is held out of chapter jobs.
+    3   a type normalisation reaches disk through write_record only as a compare-and-swap.
+    """
+    a = "FOLLOWUP — the pause everywhere, stale rows out of chapters, type normalisation"
+
+    def status_names_an_active_pause():
+        d = tempfile.mkdtemp(prefix="drill_fu_pause_")
+        saved = (ESC.PAUSE_FILE, ESC.status, sys.argv)
+        try:
+            ESC.PAUSE_FILE = os.path.join(d, "PAUSED.json")
+            with open(ESC.PAUSE_FILE, "w", encoding="utf-8") as f:
+                json.dump({"reason": "drill reason", "by": "drillperson",
+                           "until": time.time() + 3600}, f)
+            ESC.status = lambda *a_, **k: (False, None)
+            sys.argv = ["escalation.py", "--status"]
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                ESC.main()
+            out = buf.getvalue()
+            return "PAUSED" in out and "drill reason" in out and "drillperson" in out \
+                and "until" in out
+        finally:
+            ESC.PAUSE_FILE, ESC.status, sys.argv = saved
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "escalation --status names an active pause",
+        status_names_an_active_pause,
+        "FOLLOWUP 1a: a status that says 'running' while a pause stands sends the next run "
+        "straight onto the GPU")
+
+    def a_paused_sweep_skips_its_gpu_rows_and_never_passes_them():
+        import subprocess as _real_sp
+        import types
+        import allsweep as AS
+        calls = []
+        keep_sp, keep_p = AS.subprocess, AS._esc.paused
+        AS.subprocess = types.SimpleNamespace(
+            run=lambda *x, **k: calls.append(x) or types.SimpleNamespace(
+                returncode=0, stdout="ok\n", stderr=""),
+            TimeoutExpired=_real_sp.TimeoutExpired)
+        try:
+            v = AS.Verifier("cascade live call", ["cascade_bridge.py", "--selftest"],
+                            AS.RC_BROKEN)
+            if "cascade live call" not in AS.GPU_CHECKS:
+                return False
+            AS._esc.paused = lambda *a_, **k: (True, "drill pause")
+            r = AS.run_verifier(v)
+            if calls or r.get("rc") == 0 or r.get("failed") or not r.get("skipped"):
+                return False
+            AS._esc.paused = lambda *a_, **k: (False, "no pause")
+            r = AS.run_verifier(v)
+            return bool(calls) and r.get("rc") == 0 and not r.get("skipped")
+        finally:
+            AS.subprocess, AS._esc.paused = keep_sp, keep_p
+    net(a, "a paused sweep skips its GPU rows and never passes them",
+        a_paused_sweep_skips_its_gpu_rows_and_never_passes_them,
+        "FOLLOWUP 1b: allsweep's cascade live call can land on the local GPU, and it ran "
+        "through a pause and graded the result ok")
+
+    def a_stale_row_is_not_queued_for_a_chapter():
+        import manifest_builder as MB
+        cat = "Persons (named individual characters, real or fictional)"
+        rec = {"mode": "web", "entries": [
+            {"name": "Fresh Wording", "category": cat, "description": "a hero"},
+            {"name": "Old Wording", "category": cat, "description": "the same hero",
+             "stale_since": "2026-09-28T00:00:00Z"}]}
+        jobs = MB.build_jobs_for_source({"max_entries_per_call": 30},
+                                        {"name": "Drill Source"}, rec, "Z.9")
+        text = json.dumps(jobs)
+        return (bool(jobs) and "Fresh Wording" in text and "Old Wording" not in text
+                and MB.stale_held_out(rec) == 1)
+    net(a, "a stale_since row is not queued for a chapter",
+        a_stale_row_is_not_queued_for_a_chapter,
+        "FOLLOWUP 2: the catalogue merge keeps a reworded entity's old row, and queueing it "
+        "writes the entity twice")
+
+    def a_type_normalisation_lands_only_as_a_cas():
+        import pipeline as PL
+        d = tempfile.mkdtemp(prefix="drill_fu_type_")
+        p = os.path.join(d, "rec.json")
+
+        def disk(t):
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump({"source": "Drill", "entries": [
+                    {"name": "Alovarea", "type": t, "description": "a siren"}]}, f)
+
+        mem = {"source": "Drill", "entries": [
+            {"name": "Alovarea", "type": "Siren", "type_original": "NPC (Siren)",
+             "description": "a siren"}]}
+        try:
+            disk("NPC (Siren)")
+            if not PL.write_record(p, json.loads(json.dumps(mem))):
+                return False
+            with open(p, encoding="utf-8") as f:
+                e = json.load(f)["entries"][0]
+            if e.get("type") != "Siren" or e.get("type_original") != "NPC (Siren)":
+                return False
+            disk("Mermaid")                     # another writer moved it since we read
+            PL.write_record(p, json.loads(json.dumps(mem)))
+            with open(p, encoding="utf-8") as f:
+                e = json.load(f)["entries"][0]
+            return e.get("type") == "Mermaid" and "type_original" not in e
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "a type normalisation reaches disk through write_record only as a CAS",
+        a_type_normalisation_lands_only_as_a_cas,
+        "FOLLOWUP 3: `type` is not a merged field, so a normalisation written through "
+        "write_record vanished; carried unconditionally it would revert a newer wording")
+
+
 def drill_hand_run_halt():
     """Does every hand-run tool that writes the corpus or the library's output ask the halt first?
 
@@ -26364,6 +26516,8 @@ def main(areas=None):
                drill_owner0928_qb,
                # 2026-09-28, owner-directed "fix everything" session, group HALT.
                drill_hand_run_halt,
+               # 2026-09-28, owner-directed follow-ups, group FOLLOWUP.
+               drill_followup0928,
                # LAST, AND THE POSITION IS THE COVERAGE (order 895a99602bf0). The ledger
                # witness sees only what happened BEFORE it: an area appended after this one
                # is an area whose probes it cannot watch, which is the shape a net quietly

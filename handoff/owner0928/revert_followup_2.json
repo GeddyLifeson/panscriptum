@@ -1,0 +1,1 @@
+[{"module": "manifest_builder.py", "old": "(e.get(\"excluded\") or e.get(\"stale_since\"))", "new": "(e.get(\"excluded\"))"}]

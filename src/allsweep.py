@@ -306,6 +306,13 @@ VERIFIERS = [
     Verifier("cascade live call", ["cascade_bridge.py", "--selftest"], RC_BROKEN),
 ]
 
+# THE ROWS THAT MAKE LIVE MODEL CALLS, which a PAUSE stands down (owner 2026-09-28, "do
+# everything", FOLLOWUP 1b). cascade can fail over onto the local GPU, so while
+# `escalation.paused()` says yes this row is not run and is reported SKIPPED: paused -- never
+# `ok`, because a check that did not run has no evidence to pass on. The other rows are CPU only
+# (estate's `api/tags` ping lists models; it does not load one).
+GPU_CHECKS = frozenset({"cascade live call"})
+
 
 # --------------------------------------------------------------------------- tier 1: import
 
@@ -405,6 +412,15 @@ def run_verifier(item):
     rc_means = getattr(item, "rc_means", None)
     if rc_means is None:
         rc_means = item[2] if len(item) > 2 else RC_BROKEN
+    if label in GPU_CHECKS:
+        _p, _why = _esc.paused()
+        if _p:
+            # Not failed (a pause is the owner's instruction, not a fault) and not a pass:
+            # rc None, `skipped` set, and the mark in main() says SKIPPED before it says ok.
+            return {"check": label, "rc": None, "crashed": False, "rc_means": rc_means,
+                    "refused": False, "failed": False, "skipped": "paused: " + _why,
+                    "seconds": 0.0, "lines_total": 1,
+                    "tail": ["SKIPPED: paused -- " + _why]}
     t = time.time()
     try:
         r = subprocess.run([PY, os.path.join(SRC, argv[0]), *argv[1:]],
@@ -874,10 +890,12 @@ def main():
             mark = ("CRASHED" if r["crashed"] else
                     "TIMEOUT" if r.get("timeout") else
                     "refused" if r.get("refused") else
+                    "SKIPPED" if r.get("skipped") else
                     "ok" if r["rc"] == 0 else
                     "FAILED" if r.get("failed") else "findings")
             print(f"   {mark:<9}{r['check']:<26}{r['seconds']:>7.1f}s"
-                  f"   rc={r['rc']} ({r.get('rc_means', RC_BROKEN)})")
+                  f"   rc={r['rc']} ({r.get('rc_means', RC_BROKEN)})"
+                  + (f"   SKIPPED: {r['skipped']}" if r.get("skipped") else ""))
         for r in verifiers:
             if r.get("failed") or r["crashed"] or r.get("timeout") or r.get("dangling"):
                 print(f"\n   --- {r['check']} ---")

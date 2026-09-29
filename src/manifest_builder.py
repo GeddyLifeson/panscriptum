@@ -257,6 +257,12 @@ def provisional_spine(roll_entry):
     return f"UNSORTED.{cat}.PROVISIONAL"
 
 
+def stale_held_out(record):
+    """How many live (unstruck) entries build_jobs_for_source leaves out for `stale_since`."""
+    return sum(1 for e in (record.get("entries") or [])
+               if isinstance(e, dict) and e.get("stale_since") and not e.get("excluded"))
+
+
 def build_jobs_for_source(cfg, roll_entry, record, spine):
     jobs = []
     source_name = roll_entry["name"]
@@ -268,8 +274,14 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
     # Equipment'). phase_entrypass already refused to send a struck entry to the model; this job
     # builder queued it for a chapter anyway, so the strike stopped at the catalogue and the
     # contamination went on to the page. The entry stays in the record -- struck, not deleted.
+    #
+    # A STALE ROW IS HELD OUT THE SAME WAY (owner 2026-09-28, "do everything", FOLLOWUP 2).
+    # write_record_catalogue keeps a disk row the fresh cast no longer describes and stamps it
+    # `stale_since`; that row is usually the OLD WORDING of an entity the fresh cast carries
+    # under its new name, so queueing both writes the entity twice. It stays on disk, visible,
+    # and main() counts it in the build summary.
     entries = [e for e in (record.get("entries") or [])
-               if not (isinstance(e, dict) and e.get("excluded"))]
+               if not (isinstance(e, dict) and (e.get("excluded") or e.get("stale_since")))]
     if not entries:
         return jobs
 
@@ -565,6 +577,7 @@ def main():
     # here, against the RECORD, not folded into `skipped_empty`, which reads the roll and can
     # disagree with what the record actually holds.
     empty_records = []
+    stale_held = 0
     for r in build_pool:
         record = load_record(cfg, r["name"])
         if record is None:
@@ -572,6 +585,7 @@ def main():
             continue
         if not record.get("entries", []):
             empty_records.append(r["name"])
+        stale_held += stale_held_out(record)
         all_jobs.extend(build_jobs_for_source(cfg, r, record, volume_code[r["name"]]))
 
     out_key = "pilot_manifest" if args.pilot else "manifest"
@@ -601,6 +615,7 @@ def main():
         print(f"WARNING: {len(empty_records)} sources had a record file that was found but held "
               f"no entries (zero jobs produced, not the same finding as a missing record): "
               f"{empty_records}")
+    print(f"{stale_held} stale entries held out (stamped stale_since; kept on disk, not queued).")
     print(f"Skipped {len(skipped_empty)} sources with entry_count == 0 "
           f"(re-sweep pending on the cloud side).")
 

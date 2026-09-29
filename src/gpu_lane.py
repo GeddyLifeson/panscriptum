@@ -616,9 +616,23 @@ def lane(label="background", priority=False):
     beat = None
     stop = None
     try:
+        _keep = []
         if priority:
             fg = foreground(label)
             fg.__enter__()
+            # THE CLAIM IS KEPT FRESH WHILE IT WAITS, not only once it holds a slot (owner
+            # session 2026-09-28). The beat used to start after the slot loop, so a foreground
+            # call queued behind one background call longer than CLAIM_LEASE_SECONDS (300)
+            # saw its claim expire and swept by that caller's `foreground_active`; background
+            # then stopped yielding and prose waited out the full SLOT_LEASE_SECONDS (900)
+            # before going unmetered. Measured: prose at ~14 min/job, py-spy showing it parked
+            # in the slot loop below with no fg.* file in state/gpu_lane.
+            _keep.append(_claim_path())
+            with contextlib.suppress(Exception):
+                stop = threading.Event()
+                beat = threading.Thread(target=_heartbeat, args=(_keep, stop),
+                                        name="gpu-lane-beat", daemon=True)
+                beat.start()
         else:
             # YIELD TO LIVE FOREGROUND WORK, but never indefinitely.
             waited = 0.0
@@ -661,8 +675,9 @@ def lane(label="background", priority=False):
         # is still working. BOTH leases are kept: the slot, and -- for a foreground call -- the
         # claim that tells background work to stand aside. Keeping only the slot left the
         # foreground claim expiring at 300s inside calls permitted to run for 1800.
-        _keep = [p for p in (slot, _claim_path() if fg is not None else None) if p]
-        if _keep:
+        if slot:
+            _keep.append(slot)           # the running beat (if any) reads this same list
+        if _keep and beat is None:
             with contextlib.suppress(Exception):
                 stop = threading.Event()
                 beat = threading.Thread(target=_heartbeat, args=(_keep, stop),

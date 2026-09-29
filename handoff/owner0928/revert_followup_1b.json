@@ -1,0 +1,1 @@
+[{"module": "allsweep.py", "old": "    if label in GPU_CHECKS:\n        _p, _why = _esc.paused()", "new": "    if False:\n        _p, _why = _esc.paused()"}]

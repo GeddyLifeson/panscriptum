@@ -1532,6 +1532,14 @@ def write_record(path, rec):
             for fld, rej in ENTRY_REJECTION_COMPANIONS.items():
                 if fld in se and rej not in se:
                     de.pop(rej, None)
+            # A TYPE NORMALISATION MOVES ONLY AS A COMPARE-AND-SWAP (owner 2026-09-28, "do
+            # everything", FOLLOWUP 3). `type` is not in MERGED_ENTRY_FIELDS -- a loader's stale
+            # copy must never revert a catalogue's newer wording -- so a caller that rewrites a
+            # type says what it replaced in `type_original`, and the pair lands only while disk
+            # still holds exactly that original.
+            if ("type_original" in se and de.get("type") == se["type_original"]
+                    and se.get("type") != se["type_original"]):
+                de["type_original"], de["type"] = se["type_original"], se.get("type")
         # In-memory entries whose name IS on disk but which ran off the end of the disk group.
         # (A name the disk does not carry at all is a different matter and an old one: this
         # writer keeps the DISK cast by design, so an in-memory-only entry is not written and
