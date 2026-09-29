@@ -1,66 +1,94 @@
 # OVERWATCH
 
-round 581  ·  last run 2026-09-28 08:02
+round 586  ·  last run 2026-09-29 02:37
 
 ## Structure
 
 - modules that will not import: **0**
-- files that will not parse: **1** of 308,357 inspected (deep scan as of round 577)  — reference\owner_source_material\rodais\Diathir_Atlas\fmg\libs\jszip.min.js — 2 control character(s) where an escape should be
-- catalogued sources with no host: **7** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Super Energy Apocalypse 1 & 2, aurora_mods (Way of the Inkmaster), and 1 more
+- files that will not parse: **1** of 311,079 inspected (deep scan as of round 583)  — state\gpu_lane\slot.0.json — cannot stat: GONE (absent on a second look, one rename later)
+- catalogued sources with no host: **8** Curious DM Investigations (the Sharkin), Genuine Fantasy Press (Forgotten Secrets), JMBrew, Kobold Press (Midgard Heroes Handbook, Midgard Worldbook), Prime World Equipment, Super Energy Apocalypse 1 & 2, and 2 more
 - on the roll but never catalogued: **6** HAWX, Heaven's Lost Property, Lost Mines of Phandelver, Twilight Imperium, major live-action Disney films, the Witch Tradition
 
 ## What the model found in the code
 
-**24 open** (12 high). Newest first.
+**38 open** (30 high). Newest first.
 
-- **foreman.py** `restart_ollama` — [HIGH] Refuses to restart if the restart stamp could not be read, even though the comment says that an unreadable stamp is not an absent one and should allow the restart to proceed. The code returns False and a message, preventing the restart, while the comment indicates that the stamp should be treated as absent and the restart should proceed.
-  - says: Restart the local model service when tokens stop flowing. AUTO by owner ruling (2026-08-24, "FIX IT ALL"): the wedge cannot clear itself -- twice in one day the daemon answered /api/tags while zero generations completed, once with no runner process and once with a runner spinning at 98% completing nothing -- and both times the only cure was a restart a person had to perform. The restart is mechanical and reversible (the tray app respawns the daemon; the resident model reloads on first call), and it is rate-limited: at most one automated restart per 30 minutes, so a deeper fault escalates to the owner instead of being restart-looped into invisibility.
-- **feats.py** `roll` — [HIGH] the return value of `roll()` is discarded and 0 is returned unconditionally
-  - says: THE COUNTERS REACH THE EXIT CODE
-- **feats.py** `_QUANTITY_UNIT_FIRST` — [HIGH] Matches 'mach' followed by a number, but the regex is missing the unit part
-  - says: A separate pattern for Mach numbers with unit-first form
-- **feats.py** `why not in CLEAN_NEGATIVES` — [HIGH] The code is checking if 'why' is not in CLEAN_NEGATIVES, which is the opposite of what the comment suggests
-  - says: Check if 'why' is not in CLEAN_NEGATIVES
-- **drill.py** `row` — [HIGH] The function 'row' is defined but never called, making its purpose and behavior undefined in the context of the code.
-  - says: row(about, about_n, rate=0.60, base=0.30): ...
-- **drill.py** `publish_asks_before_pushing` — [HIGH] The function checks if `mutate` is imported in `push()` but does not verify that `mutate.active` is called, nor does it check if the refusal is raised with both 'REFUSING TO PUSH' and 'mutation' as described in the docstring.
-  - says: The step whose failure is IRREVERSIBLE and OUTWARD-FACING. Verified by reading the push path, the same way `guards_are_wired_where_claimed` checks the other interlocks -- a net that actually pushed to prove a refusal would be worse than the bug.
-- **drill.py** `ESC._halt_file_cleared` — [HIGH] always returns True regardless of the file's state
-  - says: the readback that makes a lift's verdict EVIDENCE
-- **drill.py** `a_waf_rejection_is_not_an_account_fault` — [HIGH] checks if Cloudflare rejections are considered account faults
-  - says: checks if Cloudflare rejections are not considered account faults
-- **drill.py** `cooldowns_stay_in_the_pool` — [HIGH] returns True if none of the listed errors are permanent refusals
-  - says: returns True if any of the listed errors are permanent refusals
-- **drill.py** `LG.check_structure` — [HIGH] fails to detect duplicates due to incorrect section span extraction
-  - says: identifies duplicated bug ids between sections
-- **drill.py** `LG.check_structure` — [HIGH] passes even when a bug id is duplicated between sections
-  - says: checks the structure of the BUGS.md file
-- **drill.py** `the_cap_resets_per_run` — [HIGH] the function is supposed to clear the WHOLE budget, both halves of it, but the code checks only one counter and does not reset it properly
-  - says: IT ONLY EVER CHECKED ONE COUNTER, AND ONLY AFTER SOMETHING ELSE HAD ALREADY RESET IT
-- **foreman.py** `kill_stalled_job` — [MEDIUM] returns False when no job name parsed or standards could not be read
-  - says: killed stalled jobs
-- **foreman.py** `kill_stalled_job` — [MEDIUM] The function attempts to kill stalled jobs but has complex logic that may not correctly identify or handle stalled jobs as described.
-  - says: A job that is UP and writing nothing is worse than a job that is down.
-- **feats.py** `out` — [MEDIUM] includes 'pages_read' which is sorted(text) but text contains stripped wiki text, not the original pages
-  - says: holds the record of mined pages
-- **feats.py** `api_parsed` — [MEDIUM] compares the mode to EP.MODE_API but uses the key 'mode' from the detected endpoint
-  - says: detects if the host uses API mode
-- **drill.py** `unreadable_lock_counts_as_HELD` — [MEDIUM] the code checks if the lock file exists, but does not verify if it is readable or valid JSON, leading to potential false positives
-  - says: an unreadable lock is treated as HELD, not as absent
-- **drill.py** `run_actually_holds_the_lock` — [MEDIUM] the lock is released after the mutation body completes, but the code does not properly simulate a crash during the mutation body
-  - says: run() actually HOLDS the lock, on the crash path too
-- **drill.py** `a_raised_halt_reads_back_as_halted` — [MEDIUM] After raising a halt, the test confirms `halted is True` and the returned record has `ruling` is None, meaning the halt is active, not pre‑lifted
-  - says: `'cleared': False` flipped to True in the payload means every halt is born already lifted
-- **drill.py** `only_the_owner_rung_writes_a_halt` — [MEDIUM] The test escalates a MANAGER level first (expects no halt file) then escalates OWNER level and expects the halt file to be created, indicating the correct `>= OWNER` logic is in place
-  - says: `if level >= OWNER` flipped to `<` halts the library on every JANITOR note and lets a real OWNER fault pass without stopping anything
-- **drill.py** `an_escalation_reaches_the_queue_addressed_and_graded` — [MEDIUM] The code checks that the queued work order contains `where` equal to the provided source "probe-source", confirming that the source is preserved, not emptied
-  - says: `rec.get('source') or ''` flipped to `and` files every order with an EMPTY subject
-- **drill.py** `evidence_travels_as_given_and_a_non_mapping_is_stringified` — [MEDIUM] The test verifies that when evidence is a dict or list it is returned unchanged, and when evidence is a non‑mapping (e.g., 7) it is stringified to "7", matching the intended behavior
-  - says: `evidence is None or isinstance(...)` flipped to `is not None` stringifies every real evidence mapping into `"{'a': 1}"`
-- **drill.py** `generate_lands_catalog_every_chapter` — [MEDIUM] generate.py's job loop lands the, catalog after every chapter, but only if the loop contains a call to _land_catalog() that is not nested under an if statement.
-  - says: generate.py's job loop lands the catalog after EVERY chapter, unconditionally.
-- **drill.py** `_catalog_matches_disk` — [MEDIUM] The code only checks that the catalog claims exist on disk (catalog -> disk), but not the reverse (disk -> catalog).
-  - says: Every chapter the catalog claims exists on disk, AND VICE VERSA — both directions.
+- **axis_correlation.py** `rho` — [HIGH] returns 0.0 unless `default` is provided, contradicting the docstring's claim that the default is the measured mean
+  - says: THE DEFAULT IS THE MEASURED MEAN, NOT ZERO
+- **axis_correlation.py** `observations` — [HIGH] Processes all `SOURCES` files, reading and parsing them even though the comment states that the code changes nothing today and the population remains 45 until fresh assays land.
+  - says: -> ([{axis: score}], {'read': [...], 'missing': [...]}) -- entities with >=2 numeric axis scores, plus which of `SOURCES` were actually read this call.
+- **assay.py** `_check_constants` — [HIGH] Checks constants (as implied by the function name), but the comment suggests it should validate instrument fitness
+  - says: The instrument checks itself at import and refuses to load if unfit
+- **assay.py** `interval_from_hands` — [HIGH] The function calculates a centre and half_spread but does not compute the interval by adding the attestation floor in quadrature. The critical interval derivation step is missing.
+  - says: Derive the published +/- from the Hands' divergence. ... The attestation floor is added in quadrature because evidence-quality noise and prior divergence are independent sources of variance
+- **assay.py** `SIGMA_MAX` — [HIGH] undefined variable
+  - says: used in the attestation_source string
+- **assay.py** `scores` — [HIGH] The code always includes the 'scores' key with an empty dict when no scores exist, contradicting the claim that its absence indicates not recorded.
+  - says: A ROW WITHOUT THIS KEY IS 'NOT RECORDED', NEVER ZERO.
+- **assay.py** `assay` — [HIGH] Returns a tuple of (float, dict)
+  - says: Returns a dict, never a bare float
+- **assay.py** `_fr_unknown` — [HIGH] The code raises an error when FACULTY_READS contains axes not in WEIGHTS, contradicting the comment's assertion that such a misspelt axis name would result in a silent drop.
+  - says: FACULTY_READS names Measures that are not in WEIGHTS: %s. `instrument()` reads them with `.get()`, so each one prints its faculty as unattested -- a claim that the subject was never observed exercising it, made because a constant is misspelt.
+- **assay.py** `_check_readings` — [HIGH] NaN values are refused due to non-finite check
+  - says: NaN values are not refused
+- **assay.py** `SIGMA_MAX` — [HIGH] assigned the value of SIGMA_UNIFORM_PRIOR (9.9/sqrt(12)) which represents a uniform prior dispersion for a single reading
+  - says: the ceiling on an ATTESTATION sigma, which measures something else entirely
+- **assay.py** `band_for_quantity` — [HIGH] Checks if the axis exists only in the first band (LADDER[0]) rather than any band, leading to incorrect None returns for valid axes in other bands
+  - says: Which rung's floor does this quantity clear? A helper for sanity checks, NOT the Anchor.
+- **anchors.py** `collapsed` — [HIGH] the message is only printed when there are collapsed bands (i.e., when `collapsed` is non-empty), not on every invocation
+  - says: THE MESSAGE NO LONGER NAMES A CULPRIT (order e954295c02e1). ... the sentence below runs on every invocation whether or not anything failed
+- **anchors.py** `verdict("the college measures a finite, non-zero interval at every anchor",` — [HIGH] the code checks for intervals that are invalid (not int/float, bool, or outside 0-infinity range)
+  - says: the college measures a finite, non-zero interval at every anchor
+- **anchors.py** `unanchored` — [HIGH] The code checks if names in 'order' are not in 'scored', but the comment explicitly states membership should be checked against 'vals'
+  - says: Membership should be checked against 'vals' instead of 'scored'
+- **anchors.py** `vals` — [HIGH] The code checks if 'dec' is a bool or not an int/float, adding to 'refused' when 'dec' is None, which contradicts the comment's requirement to default to 0.0
+  - says: The code should handle refusal by defaulting to 0.0 when 'decimal' is None, but it adds to 'refused' instead
+- **allsweep.py** `dangling_count` — [HIGH] undefined in this slice
+  - says: used to determine if there's dangling data
+- **allsweep.py** `err` — [HIGH] set to tail[-1], the last line of stderr
+  - says: keep the whole thing (not clipped)
+- **allsweep.py** `has_parser` — [HIGH] set to True, assuming the module has a parser
+  - says: handle unreadable files by letting the subprocess report it
+- **allsweep.py** `RC_BROKEN` — [HIGH] Undefined in this module or its imports
+  - says: Used in the VERIFIERS list as a default value for rc_means
+- **address_space.py** `blanked` — [HIGH] total number of gaps across all designations
+  - says: count of designations with at least one uncharted tier
+- **address_space.py** `HERE` — [HIGH] HERE is referenced but not defined in this slice, leading to a NameError
+  - says: HERE is used to construct file paths but not defined in this file or its imports
+- **address_space.py** `TOTAL_BITS` — [HIGH] TOTAL_BITS is referenced but not defined in this slice, leading to a NameError
+  - says: TOTAL_BITS is used in output formatting but not defined in this file or its imports
+- **address_space.py** `silence` — [HIGH] silence is referenced but not defined in this slice, leading to a NameError
+  - says: silence is used to note exceptions but not defined in this file or its imports
+- **address_space.py** `map_seed` — [HIGH] map_seed is referenced but not defined in this slice, leading to a NameError
+  - says: map_seed is used in output but not defined in this file or its imports
+- **address_space.py** `tier_census` — [HIGH] tier_census is referenced but not defined in this slice, leading to a NameError
+  - says: tier_census is used in output but not defined in this file or its imports
+- **address_space.py** `CAPACITY` — [HIGH] CAPACITY is referenced but not defined in this slice, leading to a NameError
+  - says: CAPACITY is used in output formatting but not defined in this file or its imports
+- **address_space.py** `_continuities` — [HIGH] _continuities is referenced but not defined in this slice, leading to a NameError
+  - says: _continuities is used in calculations but not defined in this file or its imports
+- **address_space.py** `WIDTHS` — [HIGH] WIDTHS is referenced but not defined in this slice, leading to a NameError
+  - says: WIDTHS is used to format output but not defined in this file or its imports
+- **address_space.py** `FIELDS` — [HIGH] FIELDS is referenced but not defined in this slice, leading to a NameError
+  - says: FIELDS is used in a loop to iterate over field names but not defined in this file or its imports
+- **address_space.py** `tier_census` — [HIGH] Returns hardcoded fallback values if `_tier_counts()` fails, contradicting its claim to represent live data.
+  - says: The live upper-tier charting, as a sentence, read from `_tier_counts()`.
+- **assay.py** `_check_hand_readings` — [MEDIUM] Converts hand_readings list to a dictionary with string keys before passing to _check_readings, which may not match expected input format
+  - says: Raises AssayIntegrityError for invalid hand_readings, checks for None values, and delegates to _check_readings
+- **allsweep.py** `est_faults` — [MEDIUM] est_faults is assigned but not added to the est dictionary
+  - says: estate_faults is landed as its own top-level key
+- **allsweep.py** `feats_on_disk` — [MEDIUM] counts only JSON files larger than 400 bytes
+  - says: readfeats records holding text
+- **allsweep.py** `tail` — [MEDIUM] full exception message is stored
+  - says: exception message is cut to first 120 characters
+- **allsweep.py** `Verifier("franchise rank agreement", ["rosetta.py", "--check"], RC_BROKEN)` — [MEDIUM] The Verifier is incorrectly marked as RC_BROKEN when it should be RC_FINDINGS.
+  - says: The code is marked as BROKEN, but the comment indicates it should be a finding.
+- **allsweep.py** `Verifier("the instrument", ["anchors.py"], RC_BROKEN)` — [MEDIUM] The Verifier is incorrectly marked as RC_BROKEN when it should be RC_FINDINGS.
+  - says: The code is marked as BROKEN, but the comment indicates it should be a finding.
+- **allsweep.py** `RC_FINDINGS` — [MEDIUM] never used in the code
+  - says: used in the sum to determine exit code semantics
+- **allsweep.py** `RC_BROKEN` — [MEDIUM] never used in the code
+  - says: used in the sum to determine exit code semantics
 
 ---
 
