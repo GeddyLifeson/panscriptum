@@ -29114,6 +29114,35 @@ def _the_style_contract_asks_for_no_eyewitness_and_no_brackets():
             and "follow the entry's supplied `type`" in s)
 
 
+def _supplied_header_values_are_restored():
+    """Shelfmark and Attestation are printed as supplied; a drifted line is restored.
+
+    Order f4f22fe325bb (2026-09-29): a truncated Shelfmark (`... › Dig,`), "Attest, Transcribed"
+    and a Person whose Instrument read "Not applicable" all passed the gate. Driven against the
+    real `restore_supplied_fields` with the job's own entry: all three come back to the supplied
+    value, a correct line is left byte-identical, and an entry the job does not name is untouched.
+    """
+    import generate as G
+    shelf = "Ω › ? › Digimon [UNCHARTED -- Ladder-of-Being pass not yet done]"
+    entries = [{"name": "Daipenmon (Fusion)", "shelfmark": shelf, "magnitude": "unassayed"},
+               {"name": "Kept Right", "shelfmark": shelf, "magnitude": "unassayed"}]
+    text = "\n".join([
+        "◈ **Daipenmon (Fusion)**", "Shelfmark: Ω › ? › Dig,", "Class: Person",
+        "Magnitude: unassayed", "Attest, Transcribed", "A soldier.",
+        "▣ The Instrument. Not applicable -- the Instrument measures beings, not persons.", "",
+        "◈ Kept Right", "Shelfmark: " + shelf, "Class: World", "Magnitude: unassayed",
+        "Attestation: Transcribed", "A place.",
+        "▣ The Instrument. Not applicable -- the Instrument measures beings, not places.", "",
+        "◈ Not In The Job", "Shelfmark: whatever", "Class: Person", "Attest, Witnessed", ""])
+    out, n = G.restore_supplied_fields(text, entries)
+    first, rest = out.split("◈ Kept Right")
+    second, third = rest.split("◈ Not In The Job")
+    return (n == 3 and ("Shelfmark: " + shelf) in first and "Attestation: Transcribed" in first
+            and "uninstrumented -- no faculties on file." in first
+            and second == text.split("◈ Kept Right")[1].split("◈ Not In The Job")[0]
+            and "Shelfmark: whatever" in third and "Attest, Witnessed" in third)
+
+
 def drill_followup0928():
     """Three follow-ups to the 2026-09-28 session (owner: "do everything", group FOLLOWUP).
 
@@ -29513,6 +29542,10 @@ def drill_followup0928():
     net(a, "the style contract asks for no eyewitness margins and no bracketed template lines",
         _the_style_contract_asks_for_no_eyewitness_and_no_brackets,
         "order 7e50cfc9cd51: the contract itself said QUILL 'clearly went there'")
+    net(a, "supplied Shelfmark and Attestation values are restored when the prose drifts",
+        _supplied_header_values_are_restored,
+        "order f4f22fe325bb: a truncated shelfmark, 'Attest, Transcribed' and a Not-applicable "
+        "Person passed the gate")
     net(a, "a record pass that could not read a file is neither cached nor written as the index",
         _a_short_record_pass_is_neither_cached_nor_written,
         "sweep67 F3: a torn record was skipped, the short list cached under a valid signature, "

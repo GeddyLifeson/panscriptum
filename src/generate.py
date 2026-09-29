@@ -644,6 +644,63 @@ def repair_template_leaks(text):
     return "".join(out), repaired
 
 
+_SHELF_LINE = re.compile(r"(?im)^([\s*_>-]*Shelfmark[\s*_]*:[\s*_]*)(.*?)(\s*)$")
+_ATTEST_LINE = re.compile(r"(?im)^([\s*_>-]*Attest\w*[\s*_]*[:,][\s*_]*)(.*?)(\s*)$")
+_ENTRY_HEAD = re.compile(r"^◈\s*[*_]*\s*(.*?)\s*[*_]*\s*$")
+
+
+def restore_supplied_fields(text, entries):
+    """-> (text, restored). Put back the header values the template says to print AS GIVEN.
+
+    Order f4f22fe325bb (2026-09-29 continuity check): chapters passed the gate with a truncated
+    Shelfmark (`... › Dig,`, its UNCHARTED tag gone), "Attest, Transcribed", and a Person whose
+    Instrument read "Not applicable -- ... not persons". Shelfmark and Attestation are not the
+    model's to compose -- the contract says print the supplied value, and "Transcribed" when none
+    is supplied -- so a line that differs is rewritten from the job's own entry, matched by exact
+    name. A being whose Instrument says "Not applicable" and whose Magnitude is unassayed gets
+    the template's honest uninstrumented line. An entry that cannot be matched is left alone.
+    """
+    import prose_gate as _PG
+    by_name = {}
+    for e in entries or []:
+        if isinstance(e, dict) and e.get("name"):
+            by_name.setdefault(str(e["name"]).strip(), e)
+    parts = re.split(r"(?m)^(?=◈\s)", text or "")
+    out, restored = [], 0
+    for p in parts:
+        if not p.startswith("◈"):
+            out.append(p)
+            continue
+        head = _ENTRY_HEAD.match(p.split("\n", 1)[0])
+        e = by_name.get(head.group(1).strip()) if head else None
+        if e is None:
+            out.append(p)
+            continue
+        lines = p.split("\n")
+        cls = _PG._entry_class(p) or ""
+        being = any(c in cls for c in _PG.INSTRUMENT_CLASSES)
+        unassayed = str(e.get("magnitude") or "unassayed").strip().lower() == "unassayed"
+        for n, ln in enumerate(lines):
+            m = _SHELF_LINE.match(ln)
+            if m and e.get("shelfmark") and m.group(2).strip() != str(e["shelfmark"]).strip():
+                lines[n] = "Shelfmark: %s" % str(e["shelfmark"]).strip()
+                restored += 1
+                continue
+            m = _ATTEST_LINE.match(ln)
+            want = str(e.get("attestation") or "Transcribed").strip()
+            if m and (m.group(2).strip().strip("*_ ") != want or not
+                      re.match(r"(?i)[\s*_>-]*Attestation[\s*_]*:", ln)):
+                lines[n] = "Attestation: %s" % want
+                restored += 1
+                continue
+            if (being and unassayed and _PG._INSTRUMENT_MARK.search(ln)
+                    and _PG._INSTRUMENT_NOT_APPLICABLE.search(ln)):
+                lines[n] = "▣ The Instrument. uninstrumented -- no faculties on file."
+                restored += 1
+        out.append("\n".join(lines))
+    return "".join(out), restored
+
+
 def complete_fixed_tail(text):
     """-> (text, supplied). Add to each ◈ entry ONLY the tail lines whose words are fixed.
 
@@ -1027,6 +1084,12 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
         # (see `repair_template_leaks`), never dropped, so no being loses its Instrument.
         text, _inv_dropped = _PG.drop_invented_marginalia(text)
         text, _leaks_dropped = repair_template_leaks(text)
+        # Shelfmark and Attestation are printed AS SUPPLIED; a drifted line is restored from
+        # the job's own entry (order f4f22fe325bb), and so is a being's Not-applicable.
+        text, _restored = restore_supplied_fields(text, g)
+        if _restored:
+            print("  block %d/%d: restored %d supplied header value(s)"
+                  % (gi + 1, len(groups), _restored), flush=True)
         if _inv_dropped or _leaks_dropped:
             print("  block %d/%d: dropped %d invented margin note(s), repaired %d copied "
                   "template line(s)"
