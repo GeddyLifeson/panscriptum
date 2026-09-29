@@ -51,8 +51,18 @@ def store(text: str, compressed_dir: str) -> dict:
     # the same temp file and let the loser replace the winner's target with a partial one.
     import threading
     tmp = "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
-    with open(tmp, "wb") as f:
-        f.write(blob)
+    # THE WRITE ITSELF CLEANS UP AFTER A FAILURE (sweep67 batch05, run #67, order 1d85d7c0c608):
+    # ENOSPC or an AV lock mid-write left a torn uniquely-named temp that accumulated. Unlink is
+    # guarded so it cannot replace the real error; the original OSError is re-raised.
+    try:
+        with open(tmp, "wb") as f:
+            f.write(blob)
+    except OSError:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            silence.note("compress_store.py:temp-unlink-denied")
+        raise
     landed = silence.replace_retry(tmp, path)
     if not landed:
         # SWEEP THE TEMP BEFORE RAISING. The message below names the leftover, which was honest

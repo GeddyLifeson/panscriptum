@@ -1,0 +1,7 @@
+[
+ {
+  "module": "mutate.py",
+  "old": "    live = os.path.join(SRC, target)\n\n    try:\n        # INSIDE THE TRY (sweep67 batch04, order 59b534837fb2, run #67). `sandbox()` has already\n        # been built above, so a FileNotFoundError reading the live target from outside the try\n        # leaked the sandbox until `reap_orphans`.\n        live_before = _digest(_read(live))\n        original = _read(path)\n",
+  "new": "    live = os.path.join(SRC, target)\n    live_before = _digest(_read(live))\n\n    try:\n        original = _read(path)\n"
+ }
+]

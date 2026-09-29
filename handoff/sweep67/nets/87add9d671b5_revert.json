@@ -1,0 +1,1 @@
+[{"module": "weave.py", "old": "        kept = [h for h in hits if not _mechanic(h)]\n        if not kept:\n            dropped += 1\n            continue\n        out[k] = kept\n", "new": "        if _mechanic(hits[0]):\n            dropped += 1\n            continue\n        out[k] = hits\n"}]

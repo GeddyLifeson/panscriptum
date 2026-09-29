@@ -1,0 +1,5 @@
+{
+ "name": "an instrument reading must bear on its axis before it overrides a model score",
+ "expected": "a height becomes a Reach reading and a mass in tons becomes Ruin, overwriting verified model scores",
+ "area": "drill_followup0928"
+}

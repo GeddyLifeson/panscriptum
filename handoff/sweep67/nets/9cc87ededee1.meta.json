@@ -1,0 +1,5 @@
+{
+ "name": "ingest_doc.extract refuses an image-only PDF, reports textless pages",
+ "expected": "an image-only PDF replaces the corpus with {} and reports ingest complete rc 0",
+ "area": "drill_followup0928"
+}

@@ -486,7 +486,7 @@ def main():
                 # a gap in the sample. A cache file that cannot be parsed is one whose evidence
                 # nothing downstream can read either.
                 silence.note("policy.py:evidence-unreadable")
-                # UNCUT (order 491269a0f908). The record loop's twin was uncut at policy.py:339
+                # UNCUT (order 491269a0f908). The record loop's twin (`main`'s `unreadable.append`) was uncut
                 # with the note "a parse error cut at 70 characters loses the offset and the
                 # context that say WHERE the record is torn, which is the entire actionable
                 # content of a JSONDecodeError" -- the same is true here.
@@ -560,7 +560,7 @@ def main():
               % (ev_read, ev_total, ev_passed, len(ev_interesting), len(ev_unreadable)))
         for subj, why in ev_unreadable:
             # PAD, DO NOT CUT (order 491269a0f908) -- the record loop's twin was already changed
-            # to this at policy.py:~477.
+            # to this in `main`'s record loop (order dce30dd870bc: cited by symbol, not line).
             print("  UNREAD %-40s %s" % (subj, why))
     if partial:
         skipped_rec = all_records[a.limit:]

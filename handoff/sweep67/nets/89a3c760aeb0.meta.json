@@ -1,0 +1,5 @@
+{
+ "name": "magnitude.run_batch banner counts settled records and flags a cut queue",
+ "expected": "'already assayed' counts DEFERRED records again",
+ "area": "drill_followup0928"
+}

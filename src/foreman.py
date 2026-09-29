@@ -64,6 +64,7 @@ import argparse
 import ast
 import json
 import os
+import re as _re_mod
 import shutil
 import subprocess
 import silence
@@ -600,6 +601,27 @@ def _python_processes():
     return rows
 
 
+_SCRIPT_RE = _re_mod.compile(r'([A-Za-z]:[\\/][^"]*?[\\/])?src[\\/](\w+)\.py"?(.*)$')
+
+
+def _foreign_prefix(prefix):
+    """Does this ABSOLUTE script-directory prefix point outside this kit's src/? -> bool.
+
+    ONE DEFINITION OF "ANOTHER TREE'S PROCESS" for every remedy that ends processes (sweep67
+    batch 09, F1, run #67; order 2a5344d24132): `kill_duplicate_jobs`, `restart_reader` and
+    `kill_stalled_job` used to differ, and the last two matched by command-line fragment alone,
+    so a sandbox copy of `read.py --run` in another tree was a SIGTERM target for the live keeper.
+    A relative or absent prefix cannot be judged and is treated as ours, as before."""
+    return bool(prefix) and os.path.normcase(os.path.normpath(prefix + "src")) != \
+        os.path.normcase(os.path.normpath(SRC))
+
+
+def _foreign_tree(line):
+    """Does this command line run a script from ANOTHER tree's src/? -> bool."""
+    m = _SCRIPT_RE.search(line)
+    return bool(m) and _foreign_prefix(m.group(1))
+
+
 def restart_reader():
     """The reader is not progressing. Restarting is safe: every entity is cached only when it was
     fully read, so nothing is lost and nothing is re-read that was finished.
@@ -648,7 +670,7 @@ def restart_reader():
     frag = _LN.OWNER[_LN.READ]
     killed = []
     for pid, line, _created in procs:
-        if frag in line:
+        if frag in line and not _foreign_tree(line):
             if pid != os.getpid():
                 try:
                     os.kill(pid, signal.SIGTERM)
@@ -778,7 +800,7 @@ def kill_stalled_job():
             silence.note("foreman.py:kill_stalled-list")
             continue
         for pid, line, _created in procs:
-            if frag in line and "python" in line:
+            if frag in line and "python" in line and not _foreign_tree(line):
                 if pid == os.getpid():
                     continue
                 # NEVER KILL WHAT YOU CANNOT RESTART (owner finding, 2026-08-25).
@@ -885,11 +907,21 @@ def kill_duplicate_jobs():
 
     seen, killed, unaged = {}, [], []
     for p, line, created in procs:
-        m = _re.search(r"src[\\/](\w+)\.py", line)
+        m = _SCRIPT_RE.search(line)
         started = created if (created and _re.fullmatch(r"\d{14}", str(created))) else None
         if not m:
             continue
-        job = m.group(1)
+        # A DUPLICATE IS THE SAME JOB, FROM THIS TREE, WITH THE SAME ARGUMENTS (sweep67 batch 09,
+        # F1, run #67). The key used to be the script name alone, so a hand-run `read.py --status`
+        # was a "duplicate" of the `read.py --run --loop` daemon and one of them was ended, and a
+        # mutation sandbox's `...\panscriptum_mutate_x\src\pipeline.py` could be kept as "the
+        # oldest" while the LIVE pipeline was shot. An absolute path outside this kit's src/ is
+        # another tree's process and is never ours to end; the argument tail is part of the key.
+        prefix = m.group(1)
+        if _foreign_prefix(prefix):
+            continue
+        job = m.group(2)
+        args_key = " ".join(m.group(3).split())
         # The supervision chain is NEVER a valid duplicate target. Two watchdogs spawned two
         # supervisors spawned two foremen, and each foreman -- keeping "the oldest" of every
         # job -- shot the other stack's members on its first round. The stacks killed each
@@ -906,9 +938,9 @@ def kill_duplicate_jobs():
         # order to decide which process to kill is the same species of error as `_checks_pass`
         # accepting "10 FAILED" (run #3): a destructive action taken on a value that was never
         # read. `None` is carried instead and the job is skipped below. 2026-08-24.
-        seen.setdefault(job, []).append((started, p))
+        seen.setdefault((job, args_key), []).append((started, p))
 
-    for job, procs in seen.items():
+    for (job, _args), procs in seen.items():
         if len(procs) < 2:
             continue
         if any(stamp is None for stamp, _ in procs):
@@ -1298,8 +1330,6 @@ refresh_coverage.always = True
 restart_reader.always = True
 
 
-# standard name -> remedies to try, in order. A standard with no entry falls to the OWNER lane,
-# which is the right default: acting on a breach nobody scripted a remedy for is guessing.
 RESTART_STAMP = os.path.join(HERE, "state", "OLLAMA_RESTARTS.json")
 
 # The tray app's image name. The tray is what respawns the daemon, so it is the process whose
@@ -1570,6 +1600,9 @@ def restart_ollama():
         return False, "restart failed: " + type(e).__name__ + " " + str(e)[:80]
 
 
+# standard name -> remedies to try, in order. A standard with no entry falls to the OWNER lane,
+# which is the right default: acting on a breach nobody scripted a remedy for is guessing.
+# (Moved here from above RESTART_STAMP, where it read as that constant's comment; order d6e486885673.)
 REMEDIES = {
     # A stall is now ACTED ON rather than reported. This is the entry whose absence let a
     # catalogue run sit on its first source for 28 minutes while the jobs standard read green.

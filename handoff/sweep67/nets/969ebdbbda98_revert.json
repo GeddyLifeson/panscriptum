@@ -1,0 +1,7 @@
+[
+ {
+  "module": "thread_integrity.py",
+  "old": "        if isinstance(t1, dict):\n            targets.append((\"T1\", t1.get(\"to\")))\n        elif t1 is not None:\n            malformed.append((\"T1\", t1))\n        t2 = row.get(\"T2\")\n        if t2 is None:\n            t2 = {}\n        if not isinstance(t2, dict):\n            raise ThreadGraphUnreadable(\"%s: source %r has a T2 that is not a mapping\" % (p, src))\n        for cat, lst in t2.items():\n            if not isinstance(lst, list):\n                raise ThreadGraphUnreadable(\"%s: source %r T2 %r is not a list\" % (p, src, cat))\n            for e in lst:\n                if isinstance(e, dict):\n                    targets.append((\"T2\", e.get(\"to\")))\n                else:\n                    malformed.append((\"T2\", e))\n        for cls, raw in malformed:\n            edges += 1\n            unresolvable.append((src, cls, raw))\n        for cls, to in targets:\n",
+  "new": "        if isinstance(t1, dict):\n            targets.append((\"T1\", t1.get(\"to\")))\n        for cat, lst in (row.get(\"T2\") or {}).items():\n            for e in (lst or []):\n                if isinstance(e, dict):\n                    targets.append((\"T2\", e.get(\"to\")))\n        for cls, to in targets:\n"
+ }
+]

@@ -4,8 +4,9 @@ FEATS_INDEX — the join that makes 47,017 mined feats reachable as a chapter.
 
 WHAT WAS MISSING
 ----------------
-`feats.py` mines attested deeds out of wiki prose and lands them under `data/readfeats/<host>/
-<Entity>.json`: each feat a QUOTED sentence, tagged with one of the eleven Assay axes and
+`read.py` mines attested deeds out of wiki prose (model-tagged) and lands them under
+`data/readfeats/<host>/<Entity>.json` (`read.CACHE`; `feats.py` is a different producer and writes
+`data/feats`, so a stranded record here is read.py's to explain -- sweep67 batch05, F1, run #67): each feat a QUOTED sentence, tagged with one of the eleven Assay axes and
 carrying the page it came from. That is the Charter's Part Three worksheet material, already
 gathered -- 47,017 of them across 1,412 records, averaging 33 per entity (re-measured
 2026-08-25; the store grows, so treat every count in this note as a reading, not a constant).

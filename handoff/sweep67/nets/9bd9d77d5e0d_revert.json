@@ -1,0 +1,7 @@
+[
+ {
+  "module": "completeness.py",
+  "old": "    except FileNotFoundError:\n        _ = \"silence-exempt: no prior file is a legitimate first state\"\n    except ValueError:\n        # Sweep67 batch15, run #67 (order 9bd9d77d5e0d): a TORN prior file holds nothing the floor\n        # could protect, so the write may proceed, but the floor is said not to have applied.\n        silence.note(\"completeness.py:land-prior-torn\")\n        sys.stderr.write(\"completeness: the prior COMPLETENESS.json is unparseable; the shrink \"\n                         \"floor was NOT applied to this write.\\n\")\n    except Exception:\n        # Sweep67 batch15, run #67 (order 9bd9d77d5e0d): only a MISSING file is a legitimate\n        # first state. A PermissionError or other read fault leaves prior=[] and used to disarm\n        # the SHRINK_FLOOR guard below, letting a tiny run land over the real file. Refuse.\n        silence.note(\"completeness.py:land-prior-unreadable\")\n        sys.stderr.write(\"completeness: could not read the prior COMPLETENESS.json, so the shrink \"\n                         \"floor cannot be checked; REFUSING to overwrite. Re-run when it is \"\n                         \"readable.\\n\")\n        return False\n",
+  "new": "    except Exception:\n        _ = \"silence-exempt: no prior file is a legitimate first state\"\n"
+ }
+]

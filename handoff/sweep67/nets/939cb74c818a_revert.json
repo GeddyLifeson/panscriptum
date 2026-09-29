@@ -1,0 +1,17 @@
+[
+ {
+  "module": "sweep_plan.py",
+  "old": "    # Sweep67 batch07, F4, run #67 (order 939cb74c818a): imported once here. The `import silence`\n    # statements inside the except branches made `silence` a function-local, so the later\n    # silence.note in the second pass raised UnboundLocalError when only pass 2 hit a bad shard.\n    import silence\n",
+  "new": ""
+ },
+ {
+  "module": "sweep_plan.py",
+  "old": "            try:\n                silence.note(\"sweep_plan.py:shard-unreadable\")",
+  "new": "            try:\n                import silence\n                silence.note(\"sweep_plan.py:shard-unreadable\")"
+ },
+ {
+  "module": "sweep_plan.py",
+  "old": "        try:\n            silence.note(\"sweep_plan.py:unknown-claims-glob-failed\")",
+  "new": "        try:\n            import silence\n            silence.note(\"sweep_plan.py:unknown-claims-glob-failed\")"
+ }
+]

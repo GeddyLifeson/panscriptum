@@ -1,0 +1,5 @@
+{
+ "name": "gpu_lane._expired treats a non-numeric heartbeat as expired",
+ "expected": "a corrupt slot heartbeat raises ValueError out of with lane(), breaking fail-open",
+ "area": "drill_followup0928"
+}

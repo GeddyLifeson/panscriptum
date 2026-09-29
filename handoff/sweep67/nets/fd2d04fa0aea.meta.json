@@ -1,0 +1,5 @@
+{
+ "name": "standards.main runs check() once per invocation",
+ "expected": "live probes run twice and rc can come from a different pass than the printed table",
+ "area": "drill_followup0928"
+}

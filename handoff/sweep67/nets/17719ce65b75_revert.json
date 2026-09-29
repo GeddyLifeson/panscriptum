@@ -1,0 +1,7 @@
+[
+ {
+  "module": "overwatch.py",
+  "old": "    key = f\"{module}|{f.get('symbol') or ''}|{str(f.get('actual') or '')[:80]}\".lower()",
+  "new": "    key = f\"{module}|{f.get('symbol','')}|{f.get('actual','')[:80]}\".lower()"
+ }
+]

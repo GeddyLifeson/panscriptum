@@ -562,6 +562,10 @@ def find_categories(subdomain, canonical_category, limit=None, discover=True,
     return found[:limit] if limit else found
 
 
+class PageFetchFailed(RuntimeError):
+    """Every section fetch of a page raised: nothing answered, so "no prose" is not known."""
+
+
 def page_text(subdomain, title, max_chars=900):
     """Lead-section prose for one page, via action=parse.
 
@@ -574,6 +578,7 @@ def page_text(subdomain, title, max_chars=900):
     # wikis -- "Renji Abarai" and "Asauchi" have nothing else in it. Section 1 (Appearance /
     # Overview / History) carries the actual description. Fetching the whole page instead would
     # work but costs ~420KB per article, which over tens of thousands of pages is absurd.
+    answered = False
     for section in (0, 1, 2):
         try:
             d = _api(subdomain, {"action": "parse", "page": title, "prop": "text",
@@ -587,13 +592,20 @@ def page_text(subdomain, title, max_chars=900):
             # what makes that answer mean something. (BUGS m4, fixed 2026-08-23.)
             silence.note("wiki_source-page_text-section")
             continue
+        answered = True
         text = _paragraphs(d.get("parse", {}).get("text", {}).get("*", ""), max_chars)
         if text:
             return text
+    if not answered:
+        # ALL THREE CALLS RAISED (order 882065c6b19d): network down or an IP ban. That is a fetch
+        # failure, not a page with no prose, and returning "" made the two identical -- the
+        # comment above says exhausting all three makes "" meaningful, which only holds if at
+        # least one call answered.
+        raise PageFetchFailed("%s/%s: all three section fetches failed" % (subdomain, title))
     return ""
 
 
-def page_texts(subdomain, titles, max_chars=900, workers=None, progress=None):
+def page_texts(subdomain, titles, max_chars=900, workers=None, progress=None, failed=None):
     """Fetch lead prose for many pages concurrently. Returns {title: text}.
 
     Page fetching dominates runtime and is pure network wait, so running it in a pool is the
@@ -607,14 +619,27 @@ def page_texts(subdomain, titles, max_chars=900, workers=None, progress=None):
     longer than MAX_JOB_SILENCE_MIN is killed by the foreman's stall remedy as wedged. The
     callback reports REAL completions, never a timer: a genuinely wedged fetch still goes
     silent and still gets killed, which is what the stall detector is for.
+
+    `failed`, if given, is a list that collects the titles whose every fetch raised (order
+    882065c6b19d), so a caller can count a fetch failure apart from a page with no prose. Such a
+    title is absent from the result either way, and is always noted in the failure ledger.
     """
     out = {}
     if not titles:
         return out
+
+    def _one(t):
+        try:
+            return page_text(subdomain, t, max_chars)
+        except PageFetchFailed:
+            silence.note("wiki_source-page_texts-unreachable")
+            if failed is not None:
+                failed.append(t)
+            return ""
+
     done, total = 0, len(titles)
     with ThreadPoolExecutor(max_workers=workers or WORKERS) as pool:
-        for title, text in zip(titles, pool.map(
-                lambda t: page_text(subdomain, t, max_chars), titles), strict=True):
+        for title, text in zip(titles, pool.map(_one, titles), strict=True):
             if text:
                 out[title] = text
             done += 1

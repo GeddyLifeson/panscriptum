@@ -1,0 +1,7 @@
+[
+ {
+  "module": "events.py",
+  "old": "BOLD = re.compile(r\"\\*\\*([^*]{2,})\\*\\*\")",
+  "new": "BOLD = re.compile(r\"\\*\\*([^*]{2,80})\\*\\*\")"
+ }
+]

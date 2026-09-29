@@ -1,0 +1,12 @@
+[
+ {
+  "module": "foreman.py",
+  "old": "        if frag in line and not _foreign_tree(line):\n",
+  "new": "        if frag in line:\n"
+ },
+ {
+  "module": "foreman.py",
+  "old": "            if frag in line and \"python\" in line and not _foreign_tree(line):\n",
+  "new": "            if frag in line and \"python\" in line:\n"
+ }
+]

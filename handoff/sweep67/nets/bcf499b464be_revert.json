@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "    return (isinstance(x, (int, float)) and not isinstance(x, bool)\n            and math.isfinite(x))",
+  "new": "    return isinstance(x, (int, float)) and not isinstance(x, bool)"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "manifest_builder.py",
+  "old": "        # AN UNMATCHED --only NAME IS REFUSED, NOT DROPPED (order d3dddc44ef08, run #67). With\n        # no match this wrote {\"jobs\": []} over the standing manifest and said \"Wrote 0 jobs\",\n        # rc 0. Every missing name is printed, uncapped, and nothing is written.\n        _missing = sorted(wanted - {r[\"name\"] for r in build_pool})\n        if _missing or not build_pool:\n            print(\"--only: %d name(s) match no buildable source (unknown, excluded, empty, or \"\n                  \"unassigned without --include-unassigned); nothing written:\" % len(_missing))\n            for _n in _missing:\n                print(\"   \" + _n)\n            return 1\n",
+  "new": ""
+ }
+]

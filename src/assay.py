@@ -331,7 +331,8 @@ def axis_score(x, band, axis):
                ", ".join(sorted(WEIGHTS)), ", ".join(sorted(BAND_EDGES[LADDER[0]]))))
 
     # Only now the quantity. None and <= 0 keep their meaning: not scorable FROM THIS QUANTITY.
-    if x is None or x <= 0:
+    # NaN is not "<= 0" and would score as the maximum (order 0be9eabfe057, sweep67 batch13, run #67).
+    if x is None or math.isnan(x) or x <= 0:
         return None
 
     lo = BAND_EDGES[band][axis]
@@ -1878,8 +1879,14 @@ def interval_from_hands(readings, attestation="Transcribed"):
     _covered_before = all(abs(v - centre) <= _quadrature for v in vals)
 
     # Constraint 1, enforced rather than hoped for.
+    # Order ad6d78d6d545 (sweep67 batch13, run #67): jump to the largest 0.01 step below the worst
+    # deviation first, and take the deviation itself when +0.01 is absorbed by float precision.
+    # The bare +0.01 walk was linear in the deviation and never ended for a reading like 1e17.
+    _max_dev = max(abs(v - centre) for v in vals)
+    interval = max(interval, round(math.floor(_max_dev * 100) / 100, 2))
     while any(abs(v - centre) > interval for v in vals):
-        interval = round(interval + 0.01, 2)
+        _next = round(interval + 0.01, 2)
+        interval = _next if _next > interval else _max_dev
 
     return {
         "centre": round(centre, 2),

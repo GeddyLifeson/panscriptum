@@ -1,0 +1,5 @@
+{
+ "name": "assay.interval_from_hands widening terminates on huge readings",
+ "expected": "the coverage loop hangs on a 1e17 reading",
+ "area": "drill_followup0928"
+}

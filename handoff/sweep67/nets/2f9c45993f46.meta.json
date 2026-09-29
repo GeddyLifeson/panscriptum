@@ -1,0 +1,5 @@
+{
+ "name": "scout: an all-transport-failure verify pass reports reached=False, not a clean negative",
+ "expected": "a network outage writes clean negatives and burns scout rotation slots",
+ "area": "drill_followup0928"
+}

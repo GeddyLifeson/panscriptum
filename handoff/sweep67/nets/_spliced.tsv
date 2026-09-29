@@ -1,0 +1,83 @@
+0173de67d95a	catalogue_web dedup registers a title only once its fetch returned text
+0620969b742d	mutate _lock_acquire never deletes a fresh lock it mistook for the stale one
+073752d048bc	RUN_STATUS ceiling row counts only nominated ceilings
+081f6c79b882	catalogue_codex skips an out-of-scope roll row even with entry_count 0
+0be9eabfe057	assay.axis_score scores NaN as unmeasurable
+0c789022ef15	catalogue_web _singular keeps silent-e plurals whole
+0ceb29ffae61	ledger_guard truncation refusal names the real sealed copy
+1011c56d52a8	allsweep.check_import survives a timeout or spawn failure
+1301ccb8fc44	resonance.hodge_decompose is scale invariant
+17719ce65b75	overwatch survives a model finding with null actual or non-string symbol
+1d85d7c0c608	compress_store sweeps its temp when the blob write fails
+1e2e6aad5fca	mutate rulings registry keeps both rulings under a concurrent write
+21c78921ec89	snapshot.before sanitises the label so the snapshot stays under ROOT
+21ce9170f4d4	an instrument reading must bear on its axis before it overrides a model score
+273bd193d454	sweep.sweep refuses an absent/empty WIKI_HOSTS.json
+28868e940226	worldseed refuses --write with --limit
+2a0dd1d54ff6	sweep_plan --batches N --check-briefs FILE runs the diff
+2a5344d24132	foreman restart_reader and kill_stalled_job spare another tree's process
+2a91c40e9442	mutate live-tree refusal is case- and junction-insensitive
+2b1e87355d3e	rigor.bradley_terry refuses self-contests and bad counts
+2beb0a7fa5b3	suppressions _load fails closed on wrong-shaped rows
+2c226602695b	rosetta.scales_for records search exception text whole
+2f9c45993f46	scout: an all-transport-failure verify pass reports reached=False, not a clean negative
+33ec3804e2df	hostcheck.sweep(only=...) does not overwrite HOST_FITNESS.json
+3953d4d6177b	corpus_db refuses an unknown --canned name with rc 2
+477be064b969	cascade_bridge: only an output-token size refusal teaches an output ceiling
+49e01317e5e0	profile encode notes fallbacks and decode refuses unknown codes
+4c7cf744461d	worldseed: short-word stems no longer attest on word prefixes (Warden, Ashford, Search)
+5032684974ff	backfill keys names by NFKD alphanumerics, never empty
+554adb29161e	tuning.cloud_success_rate opens the scratch db read-only
+56a4ed35c11e	catalogue_web skips an out-of-scope roll row, by default and under --recatalogue
+599bfad87a6b	overwatch stamps the pre-review digest into seen and new findings
+59b534837fb2	mutate _run_mutation removes its sandbox when the live target is unreadable
+5a0545df6d2a	scout: 429 and control-less 403 are not recorded as declines-readers in SCOUT_BLOCKED
+5a2b91bf1b5d	a quantity-only entity with no candidate feat is the no-gate finding, never a model call
+5c24b8e36cfe	threads annex_codes/law_codes return an empty set for wrong-shape JSON
+6093d3475efc	mutate _session files no work orders for a target whose verdicts were voided
+6c2ee32b1465	calibrate re-runs DEFERRED benchmarks and never stamps a pass holding one complete
+6c3f5f7df5f2	retry_synthesis --only naming nothing pending exits 1
+6d800a399592	hand-run cataloguers (codex, web, aurora) ask the halt before a write run, not on dry-run
+76598c5d0cdc	gpu_lane._expired treats a non-numeric heartbeat as expired
+87add9d671b5	weave.filtered_index judges every hit, not only hits[0]
+882065c6b19d	wiki_source: page_text raises when all three section fetches fail; page_texts reports them
+888b8b52467a	feats evidence_for and resolve_hosts write through silence.write_json
+89a3c760aeb0	magnitude.run_batch banner counts settled records and flags a cut queue
+9034467cae85	cascade_bridge: a corrupt or wrong-shape POOL_UNRECOGNISED.json is not overwritten by record_unrecognised
+913f31fb9c10	workorders LOCAL door notes a failure to decide
+926b5f0f997b	feats._unwrap_templates keeps the tail of an unclosed template
+92b6168fdd74	corpus_db rebuild keeps source.entries == COUNT(entry) for a duplicated source
+9310fefed227	gpu_lane._take_slot removes an expired slot only if unchanged
+939cb74c818a	sweep_plan.unknown_claims survives a shard that goes unreadable in pass 2
+969ebdbbda98	thread_integrity load_thread_graph reports malformed T1/T2 as unresolvable or unreadable
+98650e9d31d7	silence.swallow lets KeyboardInterrupt/SystemExit/GeneratorExit through
+98eae835e14e	phase_write names every thin source uncapped
+9addfa9acbc2	'phases implemented' is UNMEASURED, not MET, when phases are absent
+9bd9d77d5e0d	completeness.land refuses when the prior file is unreadable
+9cc87ededee1	ingest_doc.extract refuses an image-only PDF, reports textless pages
+9e59609b76b2	local_agent.t_find_symbol reports unparsed files and drops unique
+a5dfa403f8ac	tells STRUCTURAL testament/test-of-time patterns need a word boundary
+a713b2598ed5	rosetta.check separates an all-tied scale from a too-few-names scale
+a8fa52a33445	pipeline land_json leaves no tmp on a raising dump or a denied rename
+ac4d00993598	'shelfmarks are unique' counts printed-shelfmark clashes; empty is UNMEASURED
+ad6d78d6d545	assay.interval_from_hands widening terminates on huge readings
+ba367da8f3ba	events refuses an over-80-char bold span with a recorded reason
+bc0815a6bd21	binding_health --host filter reports unmatched names
+bca2ca48e316	read.queue prunes queue-memo keys from superseded row rules
+bcf499b464be	magnitude._is_score refuses NaN and Infinity
+c4d79f533471	navtree audits its SEVENFOLD world set against the live worldseed build
+c9c29a2305f1	a new world cannot coin an existing world's standing designation
+d00e843b1765	secondopinion.mine_says counts only silent handlers
+d39cbbe8759d	hostcheck.adopt separates unmeasured from genuinely-without-a-wiki
+d3dddc44ef08	manifest_builder --only refuses unmatched names and writes nothing
+d8ad47ebf10d	whoruns.script_of refuses attached -m<mod>/-c<code> spellings
+dccbc1cddd13	tells scan counts overlapping phrases once and sees inflected stems
+e6cd86d4172e	secondopinion outside-tool spawns decode utf-8 with errors=replace
+ec824ade998f	chain.extract records the --limit and harvested total for CHAIN.json
+ed5f75ec19fe	catalogue_aurora dry-run: unparseable Aurora XML is named and fails the exit code
+ee9365750ddf	coverage.measure refuses when a readable record was dropped by records()
+efbfead57cb5	host_ceiling does not cache an unread scope as 'no ceiling'
+f5176479c60a	entity_match gates on equal digit runs
+f6a751c55c84	phase_entrypass refuses malformed cloud result items
+f7082f032948	pick_model.save_config removes its temp file when the replace is denied
+fd2d04fa0aea	standards.main runs check() once per invocation

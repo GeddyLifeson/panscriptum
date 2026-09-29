@@ -1458,9 +1458,9 @@ def main():
         # raw write and this landing still exists; it is now one chapter wide, not four.
         _land_catalog(cfg["paths"]["catalog"], catalog_own)
 
-    # THE FINAL WRITES DECIDE THE EXIT CODE. The incremental saves above can be made good by the
-    # next one five chapters later; these two cannot, and they are the run's entire durable
-    # product. A pass that generated prose and could not record it must not exit 0 -- the
+    # THE FINAL WRITES DECIDE THE EXIT CODE. The incremental saves above land after every chapter
+    # (sweep67 batch14, run #67: there is no "next one later"); only these two writes decide the
+    # exit code, and they are the run's entire durable product. A pass that generated prose and could not record it must not exit 0 -- the
     # scheduler, the keeper and `overnight.py` all read that number and nothing else.
     catalog_landed = _land_catalog(cfg["paths"]["catalog"], catalog_own)
     # UNCONDITIONAL, matching `_land_catalog` above (order ec8b8b35e521): every incremental save

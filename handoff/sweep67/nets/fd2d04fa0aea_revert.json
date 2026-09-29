@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "    rows = check(D.state())\n    print(report(rows=rows))\n    return 1 if work_orders(rows=rows) else 0\n",
+  "new": "    state = D.state()\n    print(report(state))\n    return 1 if work_orders(state) else 0\n"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "    ph = [p for p in (lib.get(\"phases\") or []) if isinstance(p, dict)]\n    missing = [str(p.get(\"name\", \"?\")) for p in ph if not p.get(\"built\")]\n    return _s(\n        \"phases implemented\", bool(ph) and len(missing) <= MAX_PHASES_MISSING,\n        (f\"{len(ph) - len(missing)}/{len(ph)}\" if ph else\n         \"UNMEASURED -- the dashboard state carries no library.phases list (pipeline would not \"\n         \"import there?), so no phase was counted.\"),\n",
+  "new": "    ph = lib.get(\"phases\") or []\n    missing = [p[\"name\"] for p in ph if not p[\"built\"]]\n    return _s(\n        \"phases implemented\", len(missing) <= MAX_PHASES_MISSING,\n        f\"{len(ph) - len(missing)}/{len(ph)}\",\n"
+ }
+]

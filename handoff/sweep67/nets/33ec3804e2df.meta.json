@@ -1,0 +1,5 @@
+{
+ "name": "hostcheck.sweep(only=...) does not overwrite HOST_FITNESS.json",
+ "expected": "a --only spot check replaces the whole-corpus fitness report with a fragment",
+ "area": "drill_followup0928"
+}

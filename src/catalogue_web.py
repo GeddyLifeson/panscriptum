@@ -141,7 +141,9 @@ def _singular(s):
     rstrip and never worse.
 
       -es after a sibilant -> drop 'es'   Goddesses -> Goddess, Bosses -> Boss,
-                                          Classes -> Class, Boxes -> Box, Witches -> Witch
+                                          Classes -> Class, Boxes -> Box, Wishes -> Wish
+                                          (-zes/-ches are ambiguous with silent-e words such as
+                                          Prizes/Caches, so they take the plain -s rule)
       -ss/-us/-is          -> unchanged   Princess, Colossus, Analysis: already singular
       -ies/-oes            -> unchanged   Species, Deities, Movies, Heroes: 'Deities' -> 'Deity'
                                           and 'Movies' -> 'Movie' cannot be told apart without a
@@ -149,13 +151,56 @@ def _singular(s):
       -s                   -> drop 's'    Characters -> Character, Places -> Place,
                                           Vehicles -> Vehicle, Gods -> God
     """
-    if s.endswith(("sses", "xes", "zes", "ches", "shes")):
+    # "zes" and "ches" are NOT here (sweep67 batch03, run #67, order 0c789022ef15): their silent-e
+    # words (Prizes, Mazes, Caches, Niches) were mangled to Priz/Maz/Cach/Nich. They fall to the
+    # plain -s rule below, which is right for those and merely leaves Witches -> Witche.
+    if s.endswith(("sses", "xes", "shes")):
         return s[:-2]
     if s.endswith(("ss", "us", "is", "ies", "oes")):
         return s
     if s.endswith("s"):
         return s[:-1]
     return s
+
+
+def _dedup_fetch(titles, seen, deduped, fetch):
+    """Dedup `titles` against `seen`, fetch the survivors, -> (fetched_titles, texts).
+
+    A KEY IS CLAIMED ONLY BY A TITLE THAT PRODUCED TEXT (sweep67 batch03, F, run #67, order
+    0173de67d95a). `seen[key] = title` used to be set before `fetch` ran, so a first title whose
+    fetch came back empty still swallowed its same-key twins as "duplicates", and provenance
+    named an entry that does not exist. Twins of a textless title are now fetched in its place
+    (one per round), and only a twin whose key-holder really has text lands in `deduped`.
+    """
+    def _key(t):
+        return re.sub(r"[^a-z0-9]", "", t.lower())
+    twins, rnd = {}, []
+    for title in titles:
+        key = _key(title)
+        if not key:
+            continue
+        if key in seen:
+            twins.setdefault(key, []).append(title)
+            continue
+        seen[key] = title
+        rnd.append(title)
+    fetched, texts = [], {}
+    while rnd:
+        fetched += rnd
+        texts.update(fetch(rnd))
+        nxt = []
+        for t in rnd:
+            if texts.get(t):
+                continue
+            key = _key(t)
+            seen.pop(key, None)              # nothing was kept under this key
+            if twins.get(key):
+                seen[key] = twins[key].pop(0)
+                nxt.append(seen[key])
+        rnd = nxt
+    for key, rest in twins.items():
+        deduped.extend((t, seen[key]) for t in rest)
+    return fetched, texts
 
 
 def _note_bits(no_text, deduped):
@@ -303,17 +348,8 @@ def catalogue_composite(source_name, verbose=True):
                     silence.note("catalogue_web.py:composite-rank-by-size")
                     failed_cats.append(f"{sub}:{c} (size ranking)")
                     continue
-            wanted = []
-            for title in titles:
-                key = re.sub(r"[^a-z0-9]", "", title.lower())
-                if not key:
-                    continue
-                if key in seen:
-                    deduped.append((title, seen[key]))
-                    continue
-                seen[key] = title
-                wanted.append(title)
-            texts = ws.page_texts(sub, wanted)
+            wanted, texts = _dedup_fetch(titles, seen, deduped,
+                                         lambda w, sub=sub: ws.page_texts(sub, w))
             for title in wanted:
                 text = texts.get(title)
                 if not text:
@@ -538,20 +574,11 @@ def catalogue(source_name, verbose=True):
         _short = canon.split(" (")[0][:16]
         # De-duplicate BEFORE fetching, so the pool never spends a request on a page we would
         # discard anyway.
-        wanted = []
-        for title in titles:
-            key = re.sub(r"[^a-z0-9]", "", title.lower())
-            if not key:
-                continue
-            if key in seen:
-                deduped.append((title, seen[key]))
-                continue
-            seen[key] = title
-            wanted.append(title)
-
-        texts = ws.page_texts(sub, wanted,
-                              # Same default-arg freeze as the ranking callback above.
-                              progress=lambda d, t, _short=_short: _beat(_short + " fetching", d, t))
+        wanted, texts = _dedup_fetch(
+            titles, seen, deduped,
+            # Same default-arg freeze as the ranking callback above.
+            lambda w, _short=_short: ws.page_texts(
+                sub, w, progress=lambda d, t, _short=_short: _beat(_short + " fetching", d, t)))
         got = 0
         for title in wanted:
             text = texts.get(title)
@@ -624,6 +651,22 @@ def catalogue(source_name, verbose=True):
     }, _note_bits(no_text, deduped)
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Order 6d800a399592 (sweep67 batch06, F, run #67), owner ruling 2026-09-28: hand-run corpus
+    writers refuse while the library is HALTED -- the pattern of `retry_synthesis`. Called on the
+    WRITING path only (not --dry-run). FAIL CLOSED ON THE IMPORT (Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true", help="resolve wikis only")
@@ -636,6 +679,8 @@ def main():
                     help="only sources COMPLETENESS.json says are short by N or more, "
                          "largest gap first")
     args = ap.parse_args()
+    if not args.dry_run:
+        _assert_not_halted("(writes data/records and SWEEP_ROLL.json)")
 
     roll = load_roll()
     if args.recatalogue:
@@ -647,6 +692,12 @@ def main():
         todo = list(roll)
     else:
         todo = [r for r in roll if r.get("entry_count", 0) == 0]
+    # THE OWNER'S EXCLUSION STANDS (sweep67 batch06, F, run #67, order 56a4ed35c11e). Neither
+    # selection consulted the scope, and every write below sets status 'catalogued', which
+    # reverts an exclusion; four out-of-scope rows have entry_count 0 today. Applied after both
+    # selections so --recatalogue (every row) is covered too.
+    import roll as _roll_scope
+    todo = [r for r in todo if _roll_scope.in_scope(r["name"], roll)]
 
     if args.shortfall:
         # Target what the completeness audit says is actually missing, worst first, so an

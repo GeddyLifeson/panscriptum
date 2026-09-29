@@ -62,7 +62,11 @@ OUT = os.path.join(HERE, "data", "EVENTS.json")
 
 # The Chronicle's own code shape: E- then upper-case letters, digits and hyphens.
 CODE = re.compile(r"\bE-[A-Z0-9]+(?:-[A-Z0-9]+)*\b")
-BOLD = re.compile(r"\*\*([^*]{2,80})\*\*")
+# UNBOUNDED ABOVE (sweep67 batch08, run #67, order ba367da8f3ba): the old `{2,80}` never matched a
+# span over 80 characters, so it was neither taken nor listed in `candidates_refused` -- a silent
+# drop (one live span of 93 chars). Length is now judged by _looks_like_a_sentence, which refuses
+# an over-long span with a recorded reason.
+BOLD = re.compile(r"\*\*([^*]{2,})\*\*")
 
 # CANDIDATE SHAPE RULES, and every one of them is a REFUSAL rather than a repair. A span that
 # fails any of these is recorded as a candidate that was NOT taken, with the rule that stopped it,

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "hostcheck.py",
+  "old": "            elif not judged_any:\n                # Every candidate was unreachable",
+  "new": "            elif False:\n                # Every candidate was unreachable"
+ }
+]

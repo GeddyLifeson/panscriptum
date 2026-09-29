@@ -1,0 +1,7 @@
+[
+ {
+  "module": "ingest_doc.py",
+  "old": "    textless = len(doc) - len(out)\n    if textless:\n        print(\"ingest_doc: %d of %d page(s) of %s have no text layer (scanned or image-only) and \"\n              \"were NOT extracted\" % (textless, len(doc), source))\n    if not out:\n        silence.note(\"ingest_doc.py:no-text-extracted\")\n        raise OSError(\"%s yielded no text from any of its %d page(s) (image-only PDF; OCR it \"\n                      \"first) -- nothing was written, registered or mined.\" % (source, len(doc)))\n",
+  "new": ""
+ }
+]

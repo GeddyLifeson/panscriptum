@@ -1,0 +1,5 @@
+{
+ "name": "sweep_plan --batches N --check-briefs FILE runs the diff",
+ "expected": "the documented brief diff prints the plan and exits 0 without comparing",
+ "area": "drill_followup0928"
+}

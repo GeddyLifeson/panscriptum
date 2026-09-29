@@ -1,0 +1,7 @@
+[
+ {
+  "module": "sweep_plan.py",
+  "old": "    if a.batches and not a.check_briefs:\n",
+  "new": "    if a.batches:\n"
+ }
+]

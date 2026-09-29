@@ -719,7 +719,7 @@ def check_since_snapshot(name):
     return False, ("%s has LOST %.0f%% of its lines since the last seal -- that is a truncation, "
                    "not an edit. The sealed copy is %s; compare it before writing anything else, "
                    "because the live file is no longer the history."
-                   % (name, lost * 100, os.path.join(SNAPSHOT_DIR, name)))
+                   % (name, lost * 100, _snapshot_path(name)))  # sweep67 batch08: the flattened real path
 
 
 def check_since_floor(name):
@@ -802,8 +802,9 @@ def _read_chain_lines():
     what a tamperer and a torn write both produce, inside the one function whose subject is
     telling those apart.
 
-    NOT HYPOTHETICAL ON THIS MACHINE. `seal()` appends with a plain `open(..., "a")` +
-    `write()`, and this project measured the Windows behaviour of exactly that pattern on
+    NOT HYPOTHETICAL ON THIS MACHINE. `seal()` now appends through `silence.append_line`
+    (order f7b611d107cb; it once used a plain `open(..., "a")` + `write()`), and this project
+    measured the Windows behaviour of that plain pattern on
     2026-09-01: eight concurrent writers against an O_APPEND ledger lost 704 of 3,200 rows and
     tore 3 more, because the append is a seek-then-write rather than an atomic one there. A
     half-written final line is a thing that happens here.

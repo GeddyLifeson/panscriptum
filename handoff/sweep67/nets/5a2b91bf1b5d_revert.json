@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "    # QUANTITIES ALONE NO LONGER LET AN ENTITY THROUGH (order 5a2b91bf1b5d, sweep67). This read\n    # `... and not ev[\"quantities\"]`, but compose() never puts quantities in the prompt, so a\n    # quantity-only entity sent the model an EMPTY evidence list and it anchored from memory --\n    # contrary to SYSTEM -- and that anchor was published and was the band quantity_scores\n    # scored against. band_for_quantity is documented as NOT the anchor, so there is no honest\n    # band to give; this is the same finding as no evidence at all.\n    if not sum(len(v) for v in cand.values()):",
+  "new": "    if not sum(len(v) for v in cand.values()) and not ev[\"quantities\"]:"
+ }
+]

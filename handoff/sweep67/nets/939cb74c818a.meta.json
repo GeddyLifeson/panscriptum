@@ -1,0 +1,5 @@
+{
+ "name": "sweep_plan.unknown_claims survives a shard that goes unreadable in pass 2",
+ "expected": "UnboundLocalError from a function-local import silence",
+ "area": "drill_followup0928"
+}

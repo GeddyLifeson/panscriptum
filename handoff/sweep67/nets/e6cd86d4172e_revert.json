@@ -1,0 +1,7 @@
+[
+ {
+  "module": "secondopinion.py",
+  "old": "capture_output=True, creationflags=_NO_WIN, text=True,\n                       encoding=\"utf-8\", errors=\"replace\", timeout=600)",
+  "new": "capture_output=True, creationflags=_NO_WIN, text=True, timeout=600)"
+ }
+]

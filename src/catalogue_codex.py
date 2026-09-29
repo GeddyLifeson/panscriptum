@@ -205,10 +205,29 @@ def load_register_index():
     return idx
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Order 6d800a399592 (sweep67 batch06, F, run #67), under the owner's 2026-09-28 ruling that
+    every hand-run tool writing the corpus refuses while the library is HALTED -- the pattern of
+    `retry_synthesis._assert_not_halted`. Called on the WRITING path only (not --dry-run).
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` (Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+    if not args.dry_run:
+        _assert_not_halted("(writes data/records and SWEEP_ROLL.json)")
 
     sections = parse_codex()
     register = load_register_index()
@@ -253,8 +272,14 @@ def main():
     # still catalogued (filed under THINGS by the .get() default) -- nothing here is dropped, only
     # unreported.
     unmapped_types = {}
+    import roll as _roll_scope
     for r in roll:
         if r.get("entry_count", 0) > 0:
+            continue
+        # THE OWNER'S EXCLUSION STANDS (sweep67 batch06, F, run #67, order 081f6c79b882). This
+        # selection never consulted the scope, and the write below sets status 'catalogued' --
+        # which reverts an exclusion the moment an out-of-scope row's entry_count is 0.
+        if not _roll_scope.in_scope(r["name"], roll):
             continue
         n = norm(r["name"])
         title = None

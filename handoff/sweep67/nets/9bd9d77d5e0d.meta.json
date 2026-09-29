@@ -1,0 +1,5 @@
+{
+ "name": "completeness.land refuses when the prior file is unreadable",
+ "expected": "a read fault disarms SHRINK_FLOOR and a tiny run lands over the real measurement",
+ "area": "drill_followup0928"
+}

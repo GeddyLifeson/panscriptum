@@ -597,11 +597,11 @@ def _budget_left(who):
 def _ledger_lock(attempts=50, wait=0.05):
     """Serialise read-modify-write access to LEDGER across processes.
 
-    `_record_restart` reads the whole ledger, adds ONLY ITS OWN key, and writes the whole
+    `_take_locked` (the live writer; `_record_restart` is a test-entry wrapper over it) reads the whole ledger, adds ONLY ITS OWN key, and writes the whole
     ledger back -- and `silence.write_json` makes that final write atomic without making the
     READ-then-write atomic. foreman, overwatch and publish each call `exit_if_stale()`
     independently, and the normal case is one `src/` edit going stale for all three at once, so
-    two or three daemons land in `_record_restart` within the same second. Each reads the
+    two or three daemons land in `_take_locked` within the same second. Each reads the
     pre-edit doc, mutates only its own key, and whichever writes last silently erases the
     others' entire restart history -- undercounting BUDGET_PER_HOUR exactly when multiple
     daemons are restarting together, which is the scenario the budget exists to catch.
@@ -679,7 +679,7 @@ def _claim_restart_slot(who):
     """-> (granted, used_before). ONE locked check-and-take, not a check and a separate take.
 
     THE HOLE THIS CLOSES (run #36 sweep). `exit_if_stale` used to call `_budget_left(who)`
-    UNLOCKED, test `left <= 0`, and only then call `_record_restart(who)`, which took the
+    UNLOCKED, test `left <= 0`, and only then call the writer (then `_record_restart(who)`, now `_take_locked`), which took the
     lock for the WRITE alone. The lock therefore serialised the write and left the decision
     racing: two processes sharing a job key -- and `twins()` above records a real incident of
     exactly that, two `publish.py` processes seventeen seconds apart -- can each read the
@@ -697,7 +697,11 @@ def _claim_restart_slot(who):
 
 
 def _record_restart(who):
-    """Record a restart unconditionally, for a caller that has already decided to spend one."""
+    """Record a restart unconditionally, for a caller that has already decided to spend one.
+
+    Sweep67 batch09, run #67 (order 05576868dd8f): no production caller -- `exit_if_stale` goes
+    through `_claim_restart_slot` -> `_take_locked`. Kept as a verify_math test entry; do not delete.
+    """
     with _ledger_lock():
         _take_locked(who, enforce=False)
 

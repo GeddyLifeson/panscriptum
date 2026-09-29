@@ -1,0 +1,7 @@
+[
+ {
+  "module": "snapshot.py",
+  "old": "    _lab = re.sub(r\"[^A-Za-z0-9._-]\", \"_\", str(label or \"snap\")).replace(\"..\", \"__\")\n    sid = \"%s-%d-%d\" % (_lab, time.time_ns(), os.getpid())",
+  "new": "    sid = \"%s-%d-%d\" % (str(label or \"snap\").replace(os.sep, \"_\"),\n                        time.time_ns(), os.getpid())"
+ }
+]

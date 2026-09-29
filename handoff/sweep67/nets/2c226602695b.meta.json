@@ -1,0 +1,5 @@
+{
+ "name": "rosetta.scales_for records search exception text whole",
+ "expected": "exception text in the mined-wiki failure record is cut at 60 characters with no marker",
+ "area": "drill_followup0928"
+}

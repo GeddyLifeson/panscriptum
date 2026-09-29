@@ -187,8 +187,9 @@ CUSTODES = {
         # a refusal has no magnitude for evidence to shrink. Zero here is a statement, not a gap.
         # Nothing numeric moves: 0.0 * 0.10 and 0.0 * 0.0 were always the same reading.
         # NOTE the coupling itself survives: any future Custos with tilt 0.0 and a non-zero
-        # sensitivity would be inert in the same silent way. Nothing in the tree refuses that
-        # pairing; see the order for the check that would.
+        # sensitivity would be inert in the same silent way. `table_faults()` now refuses that
+        # pairing (main() returns 1 on a fault), but it is not yet part of the battery
+        # (sweep67 batch10, run #67, order 64582589f887).
         tilt=0.0, evidence_sensitivity=0.0,
         axis_emphasis={},
         refuses="to force a scalar through an incomparable pair",

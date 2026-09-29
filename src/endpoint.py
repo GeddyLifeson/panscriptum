@@ -38,6 +38,7 @@ maintain and this project has been bitten by every list it ever wrote. The answe
 `data/ENDPOINTS.json` so the probe cost is paid once per host per project, not per request.
 """
 import argparse
+import html
 import json
 import os
 import re
@@ -467,9 +468,12 @@ def html_text(body):
     body = re.sub(r"(?i)<br\s*/?>", chr(10), body)
     body = re.sub(r"(?i)</(p|div|li|h[1-6]|tr)>", chr(10), body)
     body = _TAG.sub(" ", body)
-    for a, b in (("&nbsp;", " "), ("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"),
-                 ("&quot;", '"'), ("&#39;", "'"), ("&mdash;", "--"), ("&ndash;", "-")):
-        body = body.replace(a, b)
+    # EVERY ENTITY, DECODED ONCE (sweep67 batch 06, F1, run #67). Eight hand-listed
+    # entities left `&#8217;`, `&eacute;` and `&hellip;` in the text, so "Sauron&#8217;s" never
+    # matched an entry named "Sauron's", and the `&amp;` replace ran before `&lt;`, so
+    # `&amp;lt;` was decoded twice. The two dash spellings this reader has always used are kept.
+    body = body.replace("&mdash;", "--").replace("&ndash;", "-")
+    body = html.unescape(body).replace(chr(160), " ")
     body = _WS.sub(" ", body)
     body = chr(10).join(ln.strip() for ln in body.splitlines())
     return _BLANK.sub(chr(10) + chr(10), body).strip()

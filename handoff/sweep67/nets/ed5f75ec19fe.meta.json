@@ -1,0 +1,5 @@
+{
+ "name": "catalogue_aurora dry-run: unparseable Aurora XML is named and fails the exit code",
+ "expected": "an unparseable homebrew XML file is dropped from the total with a clean exit 0 again",
+ "area": "drill_followup0928"
+}

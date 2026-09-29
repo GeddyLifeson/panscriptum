@@ -1,0 +1,12 @@
+[
+ {
+  "module": "overwatch.py",
+  "old": "            d = _digest(os.path.join(SRC, m + \".py\"))\n            try:\n                found, complete = review",
+  "new": "            try:\n                found, complete = review"
+ },
+ {
+  "module": "overwatch.py",
+  "old": "                continue\n            # ONLY A COMPLETE READ COUNTS AS SEEN.",
+  "new": "                continue\n            d = _digest(os.path.join(SRC, m + \".py\"))\n            # ONLY A COMPLETE READ COUNTS AS SEEN."
+ }
+]

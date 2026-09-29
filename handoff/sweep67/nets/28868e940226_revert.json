@@ -1,0 +1,7 @@
+[
+ {
+  "module": "worldseed.py",
+  "old": "    if args.write and args.limit is not None:\n        print(\"worldseed.py: refusing --write with --limit: that would overwrite \"\n              \"data/WORLDSEEDS.json with a PARTIAL roster (Hard Rule 0, no caps). \"\n              \"Drop --limit to write, or drop --write to preview.\")\n        return 2\n",
+  "new": "    if False:\n        return 2\n"
+ }
+]

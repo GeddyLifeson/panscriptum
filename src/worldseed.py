@@ -84,23 +84,33 @@ LANDFORM = [
     ("continents",  r"\b(continent|landmass|realm|kingdom|empire|nation)\w*\b"),
 ]
 CLIMATE = [
-    ("frozen",    r"\b(frozen|ice|icy|glacial|tundra|arctic|permafrost|snowbound)\w*\b"),
-    ("arid",      r"\b(desert|arid|wasteland|dune|parched|scorched|barren|dust)\w*\b"),
+    # SHORT WORDS (ice, dust, sea, ash, plain, war, dead, front, space, fleet, warp, keep, lord)
+    # ARE LISTED WITH THEIR SUFFIXES, NOT AS PREFIXES (sweep67 batch08, order 4c7cf744461d):
+    # `war\w*` tagged "Warden", `sea\w*` "Search", `ash\w*` "Ashford" as ATTESTED features. The
+    # long stems (volcan, prosper, thriv, foundr ...) stay prefixes on purpose.
+    ("frozen",    r"\b(?:(?:frozen|icy|glacial|tundra|arctic|permafrost|snowbound)\w*"
+                  r"|ice(?:s|d|bergs?|caps?|fields?|bound)?)\b"),
+    ("arid",      r"\b(?:(?:desert|arid|wasteland|dune|parched|scorched|barren)\w*"
+                  r"|dust(?:s|y|storms?|bowl)?)\b"),
     ("tropical",  r"\b(jungle|tropical|rainforest|humid|swamp|monsoon)\w*\b"),
-    ("oceanic",   r"\b(ocean|sea|maritime|coastal|tidal|water[- ]?world)\w*\b"),
-    ("volcanic",  r"\b(volcan|lava|magma|ash|cinder|molten)\w*\b"),
-    ("temperate", r"\b(forest|plain|meadow|grassland|temperate|river|valley)\w*\b"),
+    ("oceanic",   r"\b(?:(?:ocean|maritime|coastal|tidal|water[- ]?world)\w*"
+                  r"|sea(?:s|side|faring|ports?|ward|borne)?)\b"),
+    ("volcanic",  r"\b(?:(?:volcan|lava|magma|cinder|molten)\w*|ash(?:es|en|y|fall)?)\b"),
+    ("temperate", r"\b(?:(?:forest|meadow|grassland|temperate|river|valley)\w*|plains?)\b"),
 ]
 CONDITION = [
-    ("ruined",   r"\b(ruin|ruined|derelict|abandoned|dead|post[- ]?apocalyp|wreck|desolate)\w*\b"),
-    ("wartorn",  r"\b(war|battle|siege|invasion|conflict|occupied|embattled|front)\w*\b"),
+    ("ruined",   r"\b(?:(?:ruin|ruined|derelict|abandoned|post[- ]?apocalyp|wreck|desolate)\w*"
+                 r"|dead)\b"),
+    ("wartorn",  r"\b(?:(?:battle|siege|invasion|conflict|occupied|embattled)\w*"
+                 r"|war(?:s|ring|fare|time|like|torn|lords?|riors?)?|fronts?|frontlines?)\b"),
     ("thriving", r"\b(prosper|thriv|flourish|bustling|capital|jewel|golden)\w*\b"),
 ]
 TECH = [
-    ("spacefaring", r"\b(starship|space|orbital|colon(?:y|ised|ized)|interstellar|warp|fleet)\w*\b"),
+    ("spacefaring", r"\b(?:(?:starship|orbital|colon(?:y|ised|ized)|interstellar)\w*"
+                    r"|space(?:s|ships?|faring|craft|ports?|stations?)?|fleets?|warp(?:s|ed|drive)?)\b"),
     ("industrial",  r"\b(factor(?:y|ies)|industrial|steam|machine|foundr|railway|engine)\w*\b"),
     ("magical",     r"\b(magic|arcane|spell|wizard|sorcer|enchant|rune)\w*\b"),
-    ("medieval",    r"\b(castle|knight|kingdom|feudal|village|keep|lord)\w*\b"),
+    ("medieval",    r"\b(?:(?:castle|knight|kingdom|feudal|village)\w*|keeps?|lord(?:s|ships?)?)\b"),
 ]
 
 
@@ -369,8 +379,8 @@ def build_all(limit=None):
         # `ono = {}` deleted here (order 0bbf8ff1e3aa): its only consumer, the `for v in
         # (ono or {}).values()` loop above, is INSIDE the try this except has already left, so
         # the assignment did nothing but read as a safe default it was not. What this handler
-        # actually leaves behind is `reg_by_group`, already initialised at line 315 outside the
-        # try, and the `if not reg_by_group` branch below is what reports the failure.
+        # actually leaves behind is `reg_by_group`, already initialised (`reg_by_group, bad_rows = {}, 0`,
+        # order 103074a4bdb6: cited by symbol, not line) outside the try, and the `if not reg_by_group` branch below is what reports the failure.
         silence.note("worldseed.py:onomasticon-load")
     LAST_BUILD["onomasticon_bad_rows"] = bad_rows
     if not reg_by_group:
@@ -435,6 +445,16 @@ def main():
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
+
+    # SWEEP67 ORDER 28868e940226, run #67 (Hard Rule 0): `--limit N --write` landed only the first
+    # N worlds over data/WORLDSEEDS.json, and pipeline.py / address_space.py accept a valid
+    # partial file -- a truncated universe in the shape of the real one. --limit stays for a
+    # dry-run preview; a write of a partial roster is refused before anything is built.
+    if args.write and args.limit is not None:
+        print("worldseed.py: refusing --write with --limit: that would overwrite "
+              "data/WORLDSEEDS.json with a PARTIAL roster (Hard Rule 0, no caps). "
+              "Drop --limit to write, or drop --write to preview.")
+        return 2
 
     worlds = build_all(args.limit)
     print("=" * 100)

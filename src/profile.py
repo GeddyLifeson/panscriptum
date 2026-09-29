@@ -129,6 +129,13 @@ def _unb32(s):
 
 def encode(address, genre, register, features, band="unassayed", attested=0):
     a = _b32(address)
+    # THE FALLBACKS ARE RECORDED (order 49e01317e5e0, sweep67 batch09, run #67): an unknown genre
+    # becomes 'un' (which decodes as "unclassified", true) but an unknown register becomes 'c',
+    # a plausible classical answer to a question nobody answered, so both leave a note.
+    if genre not in GENRE_CODE:
+        silence.note("profile.py:genre-unknown")
+    if register not in REG_CODE:
+        silence.note("profile.py:register-unknown")
     g = GENRE_CODE.get(genre, "un") + REG_CODE.get(register, "c")
     # UNGUARDED ON PURPOSE, CHECKED (sweep59 batch07 question, re-verified this shift): this
     # `.index(...)` raises a bare ValueError if `features[axis]` is not one of the names in
@@ -185,6 +192,12 @@ def decode(profile):
     if not m:
         raise ValueError(f"not a world profile: {profile!r}")
     addr, gr, rg, feats, band, att = m.groups()
+    # A CODE THIS FORMAT NEVER ISSUED IS REFUSED, NOT ANSWERED WITH A PLAUSIBLE VALUE (order
+    # 49e01317e5e0, sweep67 batch09, run #67; owner ruling 2026-09-08). `decode("PS-1-zzc-0000-u0")`
+    # used to return genre "unclassified" and an unknown register letter "classical".
+    if gr not in GENRE_FROM or rg not in REG_FROM:
+        raise ValueError(f"not a world profile: {profile!r} -- genre code {gr!r} / register "
+                         f"letter {rg!r} is not one this format issues")
     address = _unb32(addr)
     # EVERY FEATURE DIGIT IS RANGE-CHECKED AGAINST ITS OWN AXIS TABLE, and refused HERE, by the
     # validator, naming the profile and the offending character.
@@ -224,8 +237,8 @@ def decode(profile):
         "shelfmark": AS.shelfmark(address),
         "fields": AS.unpack(address),
         "map_seed": AS.map_seed(address),
-        "genre": GENRE_FROM.get(gr, "unclassified"),
-        "register": REG_FROM.get(rg, "classical"),
+        "genre": GENRE_FROM[gr],
+        "register": REG_FROM[rg],
         "features": features,
         "band": "unassayed" if band == "u" else BANDS[B32.index(band)],
         "attested_axes": int(att),

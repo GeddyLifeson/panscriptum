@@ -1,0 +1,5 @@
+{
+ "name": "phase_write names every thin source uncapped",
+ "expected": "sources refused as under-read vanish without being named (Hard Rule 0)",
+ "area": "drill_followup0928"
+}

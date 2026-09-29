@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "sum(1 for h, n, _c in all_q if settled(done.get(h + \"|\" + n)))",
+  "new": "len(done)"
+ }
+]

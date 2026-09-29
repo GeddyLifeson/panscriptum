@@ -1,0 +1,1 @@
+[{"module": "rigor.py", "old": "        if a == b:\n            raise RigorIntegrityError(\"bradley_terry: %r is contested", "new": "        if False:\n            raise RigorIntegrityError(\"bradley_terry: %r is contested"}, {"module": "rigor.py", "old": "and c >= 0):", "new": "and True):"}]

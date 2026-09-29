@@ -1,0 +1,7 @@
+[
+ {
+  "module": "silence.py",
+  "old": "        if not issubclass(exc_type, Exception):\n            return False\n",
+  "new": ""
+ }
+]

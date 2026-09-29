@@ -1,0 +1,7 @@
+[
+ {
+  "module": "rosetta.py",
+  "old": "errors.append(\"search: %s: %s (%s)\" % (q, type(e).__name__, str(e)))",
+  "new": "errors.append(\"search: %s: %s (%s)\" % (q, type(e).__name__, str(e)[:60]))"
+ }
+]

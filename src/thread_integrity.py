@@ -185,13 +185,34 @@ def load_thread_graph(path=None):
     edges = 0
     for src, row in sources.items():
         targets = []
+        malformed = []
         t1 = row.get("T1")
+        # A MALFORMED THREAD IS A DANGLING ONE, NOT A SKIPPED ONE (sweep67 batch06, order
+        # 969ebdbbda98, run #67). A T1 or T2 entry that was not a dict added no edge and no
+        # unresolvable row, so DANGLING=0 passed over a corrupt graph; a T2 that was a list
+        # raised AttributeError instead of ThreadGraphUnreadable and skipped the OWNER
+        # escalation. Absent/None is still "no threads"; anything else of the wrong shape is
+        # recorded (entries) or refused (containers).
         if isinstance(t1, dict):
             targets.append(("T1", t1.get("to")))
-        for cat, lst in (row.get("T2") or {}).items():
-            for e in (lst or []):
+        elif t1 is not None:
+            malformed.append(("T1", t1))
+        t2 = row.get("T2")
+        if t2 is None:
+            t2 = {}
+        if not isinstance(t2, dict):
+            raise ThreadGraphUnreadable("%s: source %r has a T2 that is not a mapping" % (p, src))
+        for cat, lst in t2.items():
+            if not isinstance(lst, list):
+                raise ThreadGraphUnreadable("%s: source %r T2 %r is not a list" % (p, src, cat))
+            for e in lst:
                 if isinstance(e, dict):
                     targets.append(("T2", e.get("to")))
+                else:
+                    malformed.append(("T2", e))
+        for cls, raw in malformed:
+            edges += 1
+            unresolvable.append((src, cls, raw))
         for cls, to in targets:
             edges += 1
             if not isinstance(to, str) or to not in addresses:
@@ -668,7 +689,8 @@ def main():
         for a, b, n in rows:
             print(f"     {n:4d} shared  {a:{wa}s} <-> {b}")
     # THE FOURTH LISTING. ASYMMETRIC-LAWFUL was the one remaining class whose per-pair detail
-    # was computed at :188 and then discarded: main() itemised its three siblings and this one
+    # was computed in `classify()` (the `detail["ASYMMETRIC-LAWFUL"]` row) and then discarded
+    # (order 22293ecca974: cited by symbol, the old line number pointed into load_thread_graph): main() itemised its three siblings and this one
     # appeared only as a number in the counts block -- verbatim the defect the paragraph above
     # describes for DANGLING. It matters here in the other direction: the excuse string IS the
     # evidence for WAIVING a hole (the propagation arithmetic), and a waiver nobody can read is

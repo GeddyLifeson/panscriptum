@@ -507,8 +507,8 @@ def run():
         if detail:
             print(f"              {detail}")
 
-    # THE MESSAGE NO LONGER NAMES A CULPRIT (order e954295c02e1). The comment ninety lines above
-    # records the finding worth keeping from the 2026-08-25 ruling -- "A failing invariant says
+    # THE MESSAGE NO LONGER NAMES A CULPRIT (order e954295c02e1). The DECLARED LADDER comment at
+    # the `order` list records the finding worth keeping from the 2026-08-25 ruling -- "A failing invariant says
     # two things disagree; it does not say which is lying, and this file's own message ('a
     # reading about the ASSAY') quietly asserted that it did" -- and the message was never
     # changed. It said the assay had drifted; the ruling found the DECLARED LADDER wrong at two

@@ -1,0 +1,12 @@
+[
+ {
+  "module": "allsweep.py",
+  "old": "except subprocess.TimeoutExpired:\n        return {\"module\": name",
+  "new": "except KeyboardInterrupt:\n        return {\"module\": name"
+ },
+ {
+  "module": "allsweep.py",
+  "old": "except OSError as ex:\n        return {\"module\": name",
+  "new": "except KeyboardInterrupt:\n        return {\"module\": name"
+ }
+]

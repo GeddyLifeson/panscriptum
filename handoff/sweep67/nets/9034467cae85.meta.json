@@ -1,0 +1,5 @@
+{
+ "name": "cascade_bridge: a corrupt or wrong-shape POOL_UNRECOGNISED.json is not overwritten by record_unrecognised",
+ "expected": "one failure replaces the whole unrecognised ledger with a single row",
+ "area": "drill_followup0928"
+}

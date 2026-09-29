@@ -1,0 +1,7 @@
+[
+ {
+  "module": "backfill.py",
+  "old": "    have = {_name_key(e[\"name\"]) for e in r[\"entries\"]} - {\"\"}\n    names = roster(host)\n    missing = [t for t in names if not _name_key(t) or _name_key(t) not in have]",
+  "new": "    have = {re.sub(r\"[^a-z0-9]+\", \"\", e[\"name\"].lower()) for e in r[\"entries\"]}\n    names = roster(host)\n    missing = [t for t in names if re.sub(r\"[^a-z0-9]+\", \"\", t.lower()) not in have]"
+ }
+]

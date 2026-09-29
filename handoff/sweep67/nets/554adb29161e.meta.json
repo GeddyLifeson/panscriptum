@@ -1,0 +1,5 @@
+{
+ "name": "tuning.cloud_success_rate opens the scratch db read-only",
+ "expected": "the probe creates an empty state/cascade_scratch.db when absent, reddening the mutate baseline",
+ "area": "drill_followup0928"
+}

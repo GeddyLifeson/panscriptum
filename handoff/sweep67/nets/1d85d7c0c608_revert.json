@@ -1,0 +1,1 @@
+[{"module": "compress_store.py", "old": "    except OSError:\n        try:\n            os.unlink(tmp)\n        except OSError:\n            silence.note(\"compress_store.py:temp-unlink-denied\")\n        raise\n    landed", "new": "    except OSError:\n        raise\n    landed"}]

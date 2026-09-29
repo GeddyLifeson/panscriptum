@@ -8,7 +8,7 @@ supposed to do."*
 
 WHAT CHANGES. Until now every maintenance run RE-DERIVED the state of the library from scratch:
 read the page, read four ledgers, read the automation's outputs, re-measure, re-diagnose. That
-was necessary when nothing else could see a fault. It is not necessary now -- 127 drill nets, a
+was necessary when nothing else could see a fault. It is not necessary now -- every drill net, a
 battery, a liveness scan, a ledger chain, a secret scanner and a canary sweep all detect faults
 continuously and precisely. A run that re-derives what they already know spends its budget
 re-discovering rather than fixing, and this session watched exactly that happen: four runs in a
@@ -561,7 +561,9 @@ def file_order(code, what, handler, severity="MAJOR", where="", evidence=None, f
         except Exception:
             # Cannot tell whether the target is denied -- file as addressed. The post-hoc
             # detector still catches this on the next sweep if `local_agent` stays unreachable.
-            pass
+            # NOTED, like every other except here (order 913f31fb9c10, run #67), so how often
+            # the door could not decide is counted rather than invisible.
+            silence.note("workorders.py:file-order-door")
 
     oid = order_id(code, where)
     now = time.time()

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "whoruns.py",
+  "old": "        # ATTACHED SPELLINGS TOO (sweep67, order d8ad47ebf10d, run #67): `-mpyflakes` and\n        # `-c<code>` start with \"-\", were skipped as interpreter flags, and the next .py token\n        # was reported as RUNNING. No real interpreter flag begins with -m or -c except these.\n        if tok.startswith((\"-m\", \"-c\")):\n",
+  "new": "        if tok in (\"-m\", \"-c\"):\n"
+ }
+]

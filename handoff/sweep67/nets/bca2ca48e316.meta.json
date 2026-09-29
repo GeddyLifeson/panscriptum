@@ -1,0 +1,5 @@
+{
+ "name": "read.queue prunes queue-memo keys from superseded row rules",
+ "expected": "old path+name keys from before the row rule was appended are re-serialised whole every pass (about half the 152 MB index)",
+ "area": "drill_followup0928"
+}

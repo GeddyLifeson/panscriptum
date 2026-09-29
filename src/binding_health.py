@@ -1371,6 +1371,12 @@ def known_present_title(host, hosts_map=None, records_dir=None):
     return None
 
 
+def _filter_hosts(hosts, only):
+    """`--host` filter -> (kept hosts, sorted names in `only` that matched none of them)."""
+    wanted = set(only)
+    return [h for h in hosts if h in wanted], sorted(wanted - set(hosts))
+
+
 def run(limit=None, only=None):
     """Canary every bound host. Error-resilient: one bad host never aborts the sweep.
 
@@ -1412,7 +1418,18 @@ def run(limit=None, only=None):
     filtered = bool(only) or limit is not None
     bound_hosts = len(hosts)                    # before the filter, so a refusal can say "0 of N"
     if only:
-        hosts = [h for h in hosts if h in set(only)]
+        hosts, _unmatched = _filter_hosts(hosts, only)
+        # PARTIAL misses only: when NOTHING matched, BINDING_FILTER_MATCHED_NOTHING below already
+        # refuses the pass, and reporting it twice is one fault under two names.
+        if _unmatched and hosts:
+            # A MISTYPED --host IS NAMED, NOT DROPPED (sweep67 batch14, run #67, order
+            # bc0815a6bd21). It used to vanish when another --host matched (only the all-miss
+            # case was caught, by BINDING_FILTER_MATCHED_NOTHING), so the operator believed it
+            # had been re-probed and merged.
+            _report_not_written(
+                "BINDING_FILTER_HOST_UNMATCHED",
+                "--host name(s) matched no bound host and were NOT probed: %s"
+                % ", ".join(_unmatched))
     # `is not None`, NOT truthiness. `--limit` defaults to None and `argparse` gives it `type=int`,
     # so `--limit 0` arrives as the integer 0 -- which `if limit:` read as "no limit given" and
     # answered by canarying the WHOLE ~200-host estate. The operator asked for nothing and got
@@ -1453,7 +1470,7 @@ def run(limit=None, only=None):
             # that is what is added: the row now says the host is held and unprobeable, which is
             # the pair of facts a person needs to act on.
             # DISPLAY, NOT A WRITE DECISION -- `is_quarantined`'s own docstring names its two
-            # callers (below, at :1095 and :1100) as ones that ask it only to decide whether to
+            # callers (`feats.note_throttled` and the release check in `run()`) as ones that ask it only to decide whether to
             # WRITE, both of which fail closed on their own path when the answer is a guess.
             # This call site only feeds a REPORT FIELD, so `is_quarantined`'s silent False on an
             # unreadable HOST_QUARANTINE.json used to come back here as a confident
@@ -1479,15 +1496,24 @@ def run(limit=None, only=None):
         except Exception as e:
             # ERROR-RESILIENT BY CONSTRUCTION (maigret's self-check does the same): one host
             # raising must not cost the other 199 their check.
-            rec = {"host": h, "healthy": False, "at": time.time(),
-                   "reason": "canary raised %s" % type(e).__name__}
+            #
+            # AND A RAISE IS OUR FAULT, NOT THE HOST'S (sweep67 batch 14, F1, run #67). The
+            # probes catch their own network errors and return a verdict, so an exception that
+            # escapes `canary()` is a bug or a missing dependency on THIS side. It used to read
+            # as `healthy: False` and quarantine the host for days -- a drill stub's TypeError
+            # did exactly that on 2026-09-08. `None` is the three-valued verdict for "we could
+            # not tell", which leaves the host mined; the note keeps the raise findable.
+            silence.note("binding_health.py:canary-raised")
+            rec = {"host": h, "healthy": None, "at": time.time(),
+                   "reason": "canary raised %s: %s -- a fault in this code, not a verdict on "
+                             "the host" % (type(e).__name__, e)}
         out.append(rec)
         if rec.get("healthy") is False:
             failed += 1
             # THE WRITE'S VERDICT IS CAPTURED, NOT DISCARDED (order 61c763a60779; owner ruling
             # 2026-09-08, "Which faults sound, and on which rung" -- *capture the quarantine and
             # unfit write verdicts into the stored rows*). This was a bare statement, so the
-            # `landed` key `quarantine()` sets at :392 to say whether HOST_QUARANTINE.json
+            # `landed` key `quarantine()` sets (see `quarantine`) to say whether HOST_QUARANTINE.json
             # actually took the write went on the floor. Both sibling branches immediately below
             # already capture `release()`'s verdict into `rec['released']`, and
             # `_report_not_released`'s docstring is an argument about exactly why a discarded

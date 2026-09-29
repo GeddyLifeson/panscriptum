@@ -1,0 +1,7 @@
+[
+ {
+  "module": "hostcheck.py",
+  "old": "    if only:\n        print(f\"{OUT} NOT updated: --only is a spot check, and the report on disk covers the \"\n              f\"whole corpus\")\n    elif _land(OUT, results):",
+  "new": "    if _land(OUT, results):"
+ }
+]

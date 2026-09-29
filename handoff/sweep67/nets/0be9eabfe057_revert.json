@@ -1,0 +1,7 @@
+[
+ {
+  "module": "assay.py",
+  "old": "if x is None or math.isnan(x) or x <= 0:",
+  "new": "if x is None or x <= 0:"
+ }
+]

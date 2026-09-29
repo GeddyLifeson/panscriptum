@@ -1,0 +1,7 @@
+[
+ {
+  "module": "wiki_source.py",
+  "old": "    if not answered:",
+  "new": "    if False:"
+ }
+]

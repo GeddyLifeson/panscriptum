@@ -1,0 +1,7 @@
+[
+ {
+  "module": "pick_model.py",
+  "old": "    try:\n        with open(tmp, \"w\", encoding=\"utf-8\") as f:\n            f.write(new_raw)\n    except BaseException:\n        try:\n            os.remove(tmp)\n        except OSError:\n            pass\n        raise\n    if not silence.replace_retry(tmp, p):\n        try:\n            os.remove(tmp)\n        except OSError:\n            pass\n        silence.note",
+  "new": "    with open(tmp, \"w\", encoding=\"utf-8\") as f:\n        f.write(new_raw)\n    if not silence.replace_retry(tmp, p):\n        silence.note"
+ }
+]

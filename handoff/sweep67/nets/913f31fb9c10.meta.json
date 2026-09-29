@@ -1,0 +1,5 @@
+{
+ "name": "workorders LOCAL door notes a failure to decide",
+ "expected": "the door silently files at LOCAL with nothing counting how often it could not decide",
+ "area": "drill_followup0928"
+}

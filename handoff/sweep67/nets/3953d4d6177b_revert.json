@@ -1,0 +1,7 @@
+[
+ {
+  "module": "corpus_db.py",
+  "old": "    if a.canned and not a.sql and a.canned not in CANNED:\n",
+  "new": "    if False and a.canned and not a.sql and a.canned not in CANNED:\n"
+ }
+]

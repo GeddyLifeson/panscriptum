@@ -1,0 +1,5 @@
+{
+ "name": "'phases implemented' is UNMEASURED, not MET, when phases are absent",
+ "expected": "the standard reads green when the dashboard could not list phases",
+ "area": "drill_followup0928"
+}

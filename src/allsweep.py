@@ -94,8 +94,9 @@ _HALT_REFUSAL = _esc.HALT_REFUSAL
 OUT = os.path.join(HERE, "data", "ALLSWEEP.json")
 
 # Modules whose no-argument run does real, expensive or mutating work. They are still IMPORT
-# checked; they are simply never invoked -- but the safety here is structural (check_import only
-# ever passes `--help`, and run_verifier only ever invokes the explicit VERIFIERS list below), not
+# checked; they are simply never invoked -- but the safety here is structural (check_import passes
+# `--help` only to modules that build an ArgumentParser and otherwise imports without running
+# `__main__`, since sweep67; run_verifier only ever invokes the explicit VERIFIERS list below), not
 # this set. NOTHING READS NEVER_RUN; it is a roster for a human to check against, not a gate.
 # Naming them here beats guessing from a flag.
 NEVER_RUN = {
@@ -337,6 +338,13 @@ def modules():
     return sorted(out)
 
 
+# Loads one file as a module WITHOUT running its `__main__` block. argv: <path> <src dir>.
+_IMPORT_ONLY = ("import importlib.util, sys; p, d = sys.argv[1], sys.argv[2]; "
+                "sys.path.insert(0, d); "
+                "s = importlib.util.spec_from_file_location('_allsweep_import_probe', p); "
+                "m = importlib.util.module_from_spec(s); s.loader.exec_module(m)")
+
+
 def check_import(name):
     """Does it import, and does its CLI parse?
 
@@ -346,9 +354,33 @@ def check_import(name):
     something invoked it nobody would know.
     """
     t = time.time()
-    r = subprocess.run([PY, os.path.join(SRC, name + ".py"), "--help"],
-                       capture_output=True, text=True, timeout=120, env=ENV, cwd=HERE,
-                       encoding="utf-8", errors="replace", creationflags=_NO_WIN)
+    path = os.path.join(SRC, name + ".py")
+    # `--help` ONLY WHERE SOMETHING WILL READ IT (sweep67 batch 12, F1, run #67). A module with
+    # a `__main__` block and no argparse ignores the flag and does its real work: on 2026-09-28
+    # this "read-only" tier rewrote data/TIERS.json, SHELFMARKS.json and ONOMASTICON.json inside
+    # its own time window, thirteen modules in all. Those are now imported under a name that is
+    # not `__main__` -- every import, constant, regex compile and load-time guard still runs,
+    # and `main()` does not. A module that builds an ArgumentParser keeps the --help exercise.
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            has_parser = "ArgumentParser" in fh.read()
+    except OSError:
+        has_parser = True        # unreadable: let the subprocess report it, as before
+    argv = ([PY, path, "--help"] if has_parser
+            else [PY, "-c", _IMPORT_ONLY, path, SRC])
+    # ONE MODULE'S HANG OR SPAWN FAILURE IS THAT MODULE'S FINDING (order 1011c56d52a8, sweep67
+    # batch 12, run #67). Uncaught, a TimeoutExpired/OSError came out of `ex.map` in main() and
+    # killed the whole sweep before ALLSWEEP.json was written; `run_verifier` already catches it.
+    try:
+        r = subprocess.run(argv,
+                           capture_output=True, text=True, timeout=120, env=ENV, cwd=HERE,
+                           encoding="utf-8", errors="replace", creationflags=_NO_WIN)
+    except subprocess.TimeoutExpired:
+        return {"module": name, "ok": False, "detail": "timed out after 120s",
+                "seconds": round(time.time() - t, 1)}
+    except OSError as ex:
+        return {"module": name, "ok": False, "detail": "could not start: %s: %s"
+                % (type(ex).__name__, ex), "seconds": round(time.time() - t, 1)}
     ok = r.returncode == 0
     err = ""
     if not ok:
@@ -906,7 +938,15 @@ def main():
     if not a.quick:
         import estate as E
         print("\nESTATE — every file this project owns, opened")
-        art = E.artifacts(workers=a.workers)
+        # WRAPPED LIKE ITS SIBLING TIERS (order 1011c56d52a8, sweep67 batch 12, run #67): a raise
+        # here used to end main() before ALLSWEEP.json was written. A crashed tier is a finding.
+        try:
+            art = E.artifacts(workers=a.workers)
+        except Exception as ex:
+            print("   check itself failed: {}: {}".format(type(ex).__name__, str(ex)[:90]))
+            art = {"total": 0, "by_dir": {}, "bad": [{
+                "error": "artifacts check failed: {}: {}".format(type(ex).__name__, ex),
+                "path": "estate.artifacts"}]}
         est["artifacts"] = art
         print("  {:,} files inspected, {} unreadable or corrupt".format(
             art["total"], len(art["bad"])))

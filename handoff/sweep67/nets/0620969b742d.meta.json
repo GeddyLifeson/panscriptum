@@ -1,0 +1,5 @@
+{
+ "name": "mutate _lock_acquire never deletes a fresh lock it mistook for the stale one",
+ "expected": "two starters can both believe they hold the mutation lock",
+ "area": "drill_followup0928"
+}

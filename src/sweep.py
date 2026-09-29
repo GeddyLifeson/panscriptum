@@ -83,10 +83,11 @@ def cache_path(host, name):
 # nothing. Closes order 2b695c192470. Measured 2026-09-08 by grep over src/ (including
 # deprecated/): `sweep.load` has no caller anywhere; the only references are verify_math's own
 # probes at 3358/3368/3374, and the battery is NOT counted as a reader. `sweep()`'s live read is
-# `cachekey.load` at :160. Kept because it is the one place the FileNotFoundError-is-normal
+# `cachekey.load` call inside `sweep()`. Kept because it is the one place the FileNotFoundError-is-normal
 # reasoning below is written down, and because deleting it would take that reasoning with it.
 # The docstring's stale claim about "the only call site (`:129`)" -- which named neither
-# `def sweep():` at :129 nor `cachekey.load` at :160 -- is corrected in the body.
+# `def sweep():` nor its `cachekey.load` call -- is corrected in the body (order 6240f4d889a0:
+# cited by symbol, line numbers drift).
 def load(path):
     """Read one evidence cache file, or None if there isn't one yet.
 
@@ -159,9 +160,21 @@ def navtree_names():
 
 def sweep():
     recs = P.records()
-    hosts = json.load(open(F.HOSTS, encoding="utf-8")) if os.path.exists(F.HOSTS) else {}
+    # Sweep67 batch16, F1, run #67 (order 273bd193d454): an absent or empty WIKI_HOSTS.json used
+    # to read as {}, so every row got host None and a coherent all-negative CHARACTER_SWEEP.json
+    # landed that magnitude, standards, foreman and hostcheck read as fact. Refuse instead. A
+    # missing NAVTREE or ROSETTA is flagged on stderr, since the sweep is still useful without them.
+    if not os.path.exists(F.HOSTS):
+        raise SystemExit("sweep: " + F.HOSTS + " is absent; refusing to write an all-unreachable sweep")
+    hosts = json.load(open(F.HOSTS, encoding="utf-8"))
+    if not hosts:
+        raise SystemExit("sweep: " + F.HOSTS + " is empty; refusing to write an all-unreachable sweep")
     ros = rosetta_index()
     where, names = navtree_names()
+    for _nm, _have in (("ROSETTA.json", ros), ("NAVTREE.json", where)):
+        if not _have:
+            print("sweep: WARNING " + _nm + " is absent or empty; native ranks / shelfmarks are blank",
+                  file=sys.stderr)
 
     rows = []
     for _, r in recs:
@@ -183,7 +196,7 @@ def sweep():
                    "pages": 0, "chars": 0, "axes": 0, "quantities": 0,
                    "axis_list": [], "native": None}
             if host:
-                # M23: verified read. `cache_path` below still exists for callers that want the
+                # M23: verified read. `cache_path` (defined above, order 6240f4d889a0) still exists for callers that want the
                 # natural path, but a SWEEP that credits one entity with a neighbour's pages
                 # feeds CHARACTER_SWEEP.json, which magnitude, standards, foreman and hostcheck
                 # all read as fact.

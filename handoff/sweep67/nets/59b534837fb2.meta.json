@@ -1,0 +1,5 @@
+{
+ "name": "mutate _run_mutation removes its sandbox when the live target is unreadable",
+ "expected": "a FileNotFoundError on the live target leaks a sandbox until reap_orphans",
+ "area": "drill_followup0928"
+}

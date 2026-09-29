@@ -1,0 +1,5 @@
+{
+ "name": "overwatch stamps the pre-review digest into seen and new findings",
+ "expected": "an edit made mid-review is recorded as seen, so the module is never re-queued and stale findings never retire",
+ "area": "drill_followup0928"
+}

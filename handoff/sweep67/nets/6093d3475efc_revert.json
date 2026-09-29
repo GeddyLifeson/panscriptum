@@ -1,0 +1,7 @@
+[
+ {
+  "module": "mutate.py",
+  "old": "if a.file_orders and r[\"survivors\"] and confirm and stopped_at != i:",
+  "new": "if a.file_orders and r[\"survivors\"] and confirm:"
+ }
+]

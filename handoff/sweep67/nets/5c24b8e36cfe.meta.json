@@ -1,0 +1,5 @@
+{
+ "name": "threads annex_codes/law_codes return an empty set for wrong-shape JSON",
+ "expected": "a top-level list or string rows raise AttributeError out of build()/verify() instead of failing closed",
+ "area": "drill_followup0928"
+}

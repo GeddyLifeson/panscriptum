@@ -1,0 +1,7 @@
+[
+ {
+  "module": "ledger_guard.py",
+  "old": "% (name, lost * 100, _snapshot_path(name)))  # sweep67 batch08: the flattened real path",
+  "new": "% (name, lost * 100, os.path.join(SNAPSHOT_DIR, name)))"
+ }
+]

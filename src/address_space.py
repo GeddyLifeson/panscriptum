@@ -147,6 +147,8 @@ def _tier_counts():
         return out
     except Exception:
         silence.note("address_space.py:tier-counts")
+        global _TC_FROM_FALLBACK
+        _TC_FROM_FALLBACK = True
         # NOT A CENSUS -- a width floor, and the ONLY hardcoded tier figures left in this file
         # (order 60dc7c624c06). These are the discarded 1/6/8/168 prose numbers, kept here and
         # nowhere else so that an unreadable TIERS.json still yields importable widths rather
@@ -158,6 +160,7 @@ def _tier_counts():
         return dict(hyperverse=1, xenoverse=6, metaverse=8, multiverse=168)
 
 
+_TC_FROM_FALLBACK = False   # set when the widths below are the floor, not the census
 _TC = _tier_counts()
 
 # WIRED, NOT MERELY DECLARED (order 1eb00a84225e, owner ruling 2026-09-08). This name had a
@@ -613,6 +616,16 @@ def main():
         for d, a in addrs.items():
             print(f"     {d:<46}{marks[d]}")
         out = os.path.join(HERE, "data", "SHELFMARKS.json")
+        # NOT PUBLISHED FROM A PLACEHOLDER (sweep67 batch 07, F5, run #67). With TIERS.json
+        # unreadable, every world was addressed at tier zero AND against the fallback widths
+        # `_tier_counts` itself says must be discarded -- and the result overwrote the standing
+        # map, moving all 1,016 addresses and map seeds. The preview above still prints; the
+        # file both pipeline.py and standards.py read is left as it was.
+        if not tiers or _TC_FROM_FALLBACK:
+            print(f"\n   NOT WRITTEN -> {out}: TIERS.json could not be read "
+                  f"({'import-time widths are the fallback floor' if _TC_FROM_FALLBACK else 'no tier rows'}), "
+                  f"so these addresses are placeholders. The standing map is kept.")
+            return 1
         # ATOMIC: pipeline.py and standards.py both read SHELFMARKS.json.
         #
         # GATED, like scope.py's build() and zfighters.py's main(). `write_json` returns whether

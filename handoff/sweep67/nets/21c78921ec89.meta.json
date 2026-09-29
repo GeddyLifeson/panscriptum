@@ -1,0 +1,5 @@
+{
+ "name": "snapshot.before sanitises the label so the snapshot stays under ROOT",
+ "expected": "a label containing a slash or dot-dot lands a snapshot outside state/snapshots that listing() never sees",
+ "area": "drill_followup0928"
+}

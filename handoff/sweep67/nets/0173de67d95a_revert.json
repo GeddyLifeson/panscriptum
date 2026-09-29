@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_web.py",
+  "old": "            if texts.get(t):\n                continue\n",
+  "new": "            continue\n"
+ }
+]

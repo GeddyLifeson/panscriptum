@@ -1,0 +1,5 @@
+{
+ "name": "weave.filtered_index judges every hit, not only hits[0]",
+ "expected": "the first source decides for all: entities dropped wholesale, later rules text kept",
+ "area": "drill_followup0928"
+}

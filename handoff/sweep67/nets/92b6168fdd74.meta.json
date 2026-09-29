@@ -1,0 +1,5 @@
+{
+ "name": "corpus_db rebuild keeps source.entries == COUNT(entry) for a duplicated source",
+ "expected": "worst_cited divides by the wrong denominator for a source declared twice",
+ "area": "drill_followup0928"
+}

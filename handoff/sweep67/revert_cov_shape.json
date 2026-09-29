@@ -1,0 +1,1 @@
+[{"module": "drill.py", "old": "        if not isinstance(rows, list) or not any(isinstance(r, dict) for r in rows):\n            return False\n", "new": ""}]

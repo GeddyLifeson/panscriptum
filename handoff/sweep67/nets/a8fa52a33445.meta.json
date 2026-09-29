@@ -1,0 +1,5 @@
+{
+ "name": "pipeline land_json leaves no tmp on a raising dump or a denied rename",
+ "expected": "record/artifact writes orphan pid-named .tmp files beside their targets",
+ "area": "drill_followup0928"
+}

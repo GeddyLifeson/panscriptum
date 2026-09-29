@@ -304,6 +304,24 @@ def _tmp_for(path):
     return "%s.%d.%d.tmp" % (path, os.getpid(), threading.get_ident())
 
 
+def _dump_tmp(path, obj, **kw):
+    """json.dump `obj` to `_tmp_for(path)` and return the tmp name. A RAISING DUMP TAKES ITS TMP
+    WITH IT (order a8fa52a33445, run #67): the three dump sites had no cleanup, so an
+    unserialisable value or a full disk left a pid-named orphan beside the record -- 74MB of
+    marvel.json.*.tmp was found that way. Re-raises; the caller's handling is unchanged."""
+    tmp = _tmp_for(path)
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(obj, f, **kw)
+    except BaseException:
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("pipeline.py:dump-tmp-left")
+        raise
+    return tmp
+
+
 # WHAT THIS PROCESS LAST SAW ON DISK, PER STATE PATH. (order 26667ecd6543)
 #
 # `main()` loads the state ONCE and holds it for the whole run, and `save_state` used to dump that
@@ -772,7 +790,7 @@ def records():
 #
 # `_merge_top_keys` rules that any non-None key in the caller's `rec` was authored by this call
 # and belongs on disk. That rule is only sound if `rec` is built fresh per call, and for the
-# pipeline's own phases it is not: `phase_entrypass` calls `records()` ONCE (:1576) and reuses
+# pipeline's own phases it is not: `phase_entrypass` calls `records()` ONCE (at its top) and reuses
 # the same `rec` object for every batch it writes -- roughly 1,500 separate `write_record` calls
 # for marvel.json, over however long the phase takes. Every one of them re-stamped the LOAD-TIME
 # value of `synthesis`, `purged_roster` and every other non-`entries` key onto disk, so anything
@@ -839,7 +857,15 @@ _DESC_SNAPSHOT = {}
 
 
 def _desc_fingerprint(rec):
-    """-> {(name, k): fingerprint of that entry's description}. Every entry; none skipped."""
+    """-> {(name, k): {field: fingerprint}} for EVERY field in MERGED_ENTRY_FIELDS. Every entry.
+
+    WIDENED FROM `description` ALONE (sweep67 batch 03, F2, run #67). The watermark's argument
+    was never specific to descriptions: the fold is `de[fld] = se[fld]` for every merged field,
+    so a `magnitude`, `topic` or `excluded` another writer set on disk mid-phase was reverted by
+    the next batch from a copy that never authored it -- reproduced as a disk `magnitude: M3`
+    put back to `unassayed`. Now any field whose value the caller still holds exactly as loaded
+    yields to disk; a field the caller changed still lands. The name is kept for its callers.
+    """
     seen = collections.Counter()
     out = {}
     for e in (rec.get("entries") or []) if isinstance(rec, dict) else ():
@@ -849,7 +875,7 @@ def _desc_fingerprint(rec):
         k = seen[nm]
         seen[nm] += 1
         try:
-            out[(nm, k)] = _fp_one(e.get("description"))
+            out[(nm, k)] = {fld: _fp_one(e.get(fld)) for fld in MERGED_ENTRY_FIELDS}
         except TypeError:
             # an unhashable name cannot key a watermark; that entry simply has none
             silence.note("pipeline.py:desc-snapshot-unhashable")
@@ -931,7 +957,8 @@ ENTRY_REJECTION_COMPANIONS = {"scale_note": "scale_note_rejected",
 # `subroom` that is exactly right, because no cast-builder in the tree writes those keys, so
 # `sv` is always None there and the pipeline's judgment always propagates. For `category` and
 # `description` it is inert, because every cast-builder sets BOTH on every entry it emits and
-# never leaves either empty (`catalogue_web.py:244-246` and `:456-458`, and the same shape in
+# never leaves either empty (the entry dicts built in `catalogue_web.catalogue_composite` and
+# `catalogue_web.catalogue` -- cited by symbol, order 419c88eb746a; and the same shape in
 # `catalogue_aurora`, `catalogue_codex`, `ingest_doc` and `backfill`). So `sv` was always truthy
 # for those two, the `not sv` branch never fired, and the fresh cast's uncorrected guess beat
 # the disk's corrected value every single time this writer ran against an already-processed
@@ -1026,7 +1053,7 @@ def _is_cleaned_twin(dv, sv):
         return False
 
 
-def write_record_catalogue(path, rec):
+def write_record_catalogue(path, rec, _tries=0):
     """The CATALOGUE's side of the two-writer contract; write_record below is the pipeline's.
 
     Direction matters, and one merge cannot serve both writers: write_record keeps the DISK
@@ -1064,6 +1091,7 @@ def write_record_catalogue(path, rec):
     (Order 7292a1c3d84b / 3c7c8a6e9102, 2026-08-25. The 26 damaged records are NOT repaired
     here -- re-deriving a ceiling is the owner's call, and it is filed as one.)
     """
+    expected = silence.digest_of(path)          # BEFORE the read: see _landed_cas
     try:
         with open(path, encoding="utf-8") as f:
             disk = json.load(f)
@@ -1241,10 +1269,46 @@ def write_record_catalogue(path, rec):
             f"merge; REFUSING to write an unmerged cast over it -- this unit stays open")
         return False
     stamp_record(rec, "pipeline.write_record_catalogue")
-    tmp = _tmp_for(path)
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(rec, f, indent=2, ensure_ascii=False)
-    return _landed(tmp, path)
+    tmp = _dump_tmp(path, rec, indent=2, ensure_ascii=False)
+    landed = _landed_cas(tmp, path, expected)
+    if landed == "changed":
+        # Another writer landed between our read and our rename: merge onto ITS copy.
+        if _tries < _CAS_RETRIES:
+            return write_record_catalogue(path, rec, _tries + 1)
+        silence.note("pipeline.py:write_record_catalogue-cas-exhausted")
+        log(f"    write_record_catalogue: {os.path.basename(path)} kept changing under this "
+            f"writer ({_CAS_RETRIES + 1} tries); this unit stays open")
+        return False
+    return landed
+
+
+_CAS_RETRIES = 3
+
+
+def _landed_cas(tmp, path, expected):
+    """Land `tmp` over `path` only if `path` still holds what the writer read. -> True, False
+    or "changed".
+
+    THE MERGE WAS NEVER A COMPARE-AND-SWAP (sweep67 batch 03, F1, run #67). Both record writers
+    read the disk copy, merged, dumped and renamed; a write landing between that read and the
+    rename was overwritten whole and the call still returned True -- the two-writer loss the
+    merge exists to stop, moved into a narrower window. Reproduced under %TEMP%. `expected` is
+    the digest taken BEFORE the read (silence.replace_if_unchanged's contract). "changed" tells
+    the writer to re-read and merge again; False is a denial the caller already handles.
+    """
+    ok, _why = silence.replace_if_unchanged(tmp, path, expected)
+    if ok:
+        return True
+    try:
+        os.remove(tmp)
+    except OSError:
+        silence.note("pipeline.py:cas-tmp-left")
+    if silence.digest_of(path) != expected:
+        return "changed"
+    silence.note("pipeline.py:write-did-not-land")
+    log(f"    WRITE DID NOT LAND: {os.path.basename(path)} is still the pre-write copy; "
+        f"this unit stays open so the next run redoes it")
+    return False
 
 
 def _landed(tmp, path):
@@ -1259,6 +1323,12 @@ def _landed(tmp, path):
     """
     if silence.replace_retry(tmp, path):
         return True
+    # A DENIED RENAME LEFT ITS TMP BEHIND (order a8fa52a33445, run #67); _landed_cas and
+    # save_state already remove theirs. The unit stays open, so the next run writes a fresh one.
+    try:
+        os.remove(tmp)
+    except OSError:
+        silence.note("pipeline.py:landed-tmp-left")
     silence.note("pipeline.py:write-did-not-land")
     log(f"    WRITE DID NOT LAND: {os.path.basename(path)} is still the pre-write copy; "
         f"this unit stays open so the next run redoes it")
@@ -1340,9 +1410,7 @@ def land_json(path, obj, indent=1, default=None):
 
     Same discipline as the record writers; `_landed` already explains why the verdict is
     returned rather than swallowed. (BUGS m6, 2026-08-24.)"""
-    tmp = _tmp_for(path)
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=indent, ensure_ascii=False, default=default)
+    tmp = _dump_tmp(path, obj, indent=indent, ensure_ascii=False, default=default)
     return _landed(tmp, path)
 
 
@@ -1412,7 +1480,7 @@ def _merge_top_keys(disk, rec, label, snapshot=None):
     return kept
 
 
-def write_record(path, rec):
+def write_record(path, rec, _tries=0):
     """Write a record back WITHOUT clobbering a concurrent writer's work.
 
     The catalogue and the pipeline both write these files, and they write them WHOLE. The
@@ -1439,6 +1507,7 @@ def write_record(path, rec):
     and two independent drift signals cannot share a hash collision.
     """
     merged = rec
+    expected = silence.digest_of(path)          # BEFORE the read: see _landed_cas
     try:
         with open(path, encoding="utf-8") as f:
             disk = json.load(f)
@@ -1518,11 +1587,11 @@ def write_record(path, rec):
                 unpaired_disk.append(nm)
                 continue
             se = group[k]
+            mark = (desc_mark or {}).get((nm, k)) or {}
             for fld in MERGED_ENTRY_FIELDS:
                 if fld in se:
-                    if (fld == "description" and desc_mark is not None
-                            and de.get(fld) != se[fld]
-                            and desc_mark.get((nm, k)) == _fp_one(se[fld])):
+                    if (de.get(fld) != se[fld] and fld in mark
+                            and mark[fld] == _fp_one(se[fld])):
                         desc_kept += 1
                         continue
                     de[fld] = se[fld]
@@ -1558,7 +1627,7 @@ def write_record(path, rec):
             silence.note("pipeline.py:write_record-duplicate-name-unpaired")
         if desc_kept:
             log(f"    write_record: {os.path.basename(path)} keeping {desc_kept} disk "
-                f"description(s) another writer changed since this caller loaded the record; "
+                f"per-entry value(s) another writer changed since this caller loaded the record; "
                 f"the caller had not touched them, so its copy is the stale side "
                 f"(order cb31bf2707ad)")
         # NO DRIFT IS NOT NO CHANGE. Folding onto `disk` keeps every disk-authored top-level key
@@ -1594,10 +1663,16 @@ def write_record(path, rec):
             f"REFUSING to write the in-memory copy over it -- this unit stays open")
         return False
     stamp_record(merged, "pipeline.write_record")
-    tmp = _tmp_for(path)
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(merged, f, indent=2, ensure_ascii=False)
-    landed = _landed(tmp, path)
+    tmp = _dump_tmp(path, merged, indent=2, ensure_ascii=False)
+    landed = _landed_cas(tmp, path, expected)
+    if landed == "changed":
+        # Another writer landed between our read and our rename: merge onto ITS copy.
+        if _tries < _CAS_RETRIES:
+            return write_record(path, rec, _tries + 1)
+        silence.note("pipeline.py:write_record-cas-exhausted")
+        log(f"    write_record: {os.path.basename(path)} kept changing under this writer "
+            f"({_CAS_RETRIES + 1} tries); this unit stays open")
+        return False
     if landed:
         # The watermark advances to what THIS CALLER holds, not to what was written: the two
         # differ exactly on the keys the fold just decided in disk's favour, and recording the
@@ -2402,6 +2477,28 @@ def batch_settled(key, done_keys, batch):
     return key in done_keys and all(entry_settled(e) for e in batch)
 
 
+def _entry_index(res, n):
+    """The batch index a cloud result item addresses, or None. CLOUD ITEMS ARE UNCHECKED
+    (order f6a751c55c84, run #67): a non-dict item raised at .get, and JSON `true` passed
+    isinstance(int) as index 1. Both are refused here, where _judged_something and the loop
+    in phase_entrypass read the index."""
+    if not isinstance(res, dict):
+        return None
+    i = res.get("index")
+    if isinstance(i, bool) or not isinstance(i, int) or not (0 <= i < n):
+        return None
+    return i
+
+
+def _res_text(v):
+    """A result's text field, stripped. A non-string answer (a number, a list) is coerced so the
+    field's existing rejected-answer trail records it, instead of raising at .strip()
+    (order f6a751c55c84, run #67)."""
+    if v is None:
+        return ""
+    return (v if isinstance(v, str) else str(v)).strip()
+
+
 def phase_entrypass(c, st):
     """Per-entry category correction + grounded scale_note. Multi-day; fully resumable."""
     done_keys = st["done"].setdefault("entrypass", [])
@@ -2469,7 +2566,7 @@ def phase_entrypass(c, st):
             # nothing, however well-formed it looks -- so it is a pool miss, not an empty
             # verdict, and the local arm gets its turn. See _pool_answer_usable.
             def _judged_something(g, _n=len(batch)):
-                return any(isinstance(r.get("index"), int) and 0 <= r["index"] < _n
+                return any(_entry_index(r, _n) is not None
                            for r in (g.get("results") or []))
 
             # ONE RUNNER, ONE CONTEXT -- order 706215aabc5f, same as synthesis above.
@@ -2480,9 +2577,9 @@ def phase_entrypass(c, st):
                 save_state(st)
                 continue
 
-            for res in got.get("results", []):
-                i = res.get("index")
-                if not isinstance(i, int) or not (0 <= i < len(batch)):
+            for res in (got.get("results") or []):
+                i = _entry_index(res, len(batch))
+                if i is None:
                     continue
                 # A struck entry was never in the prompt, so any result claiming to be one is
                 # the model addressing an index it was not given. Honouring it would set
@@ -2491,7 +2588,7 @@ def phase_entrypass(c, st):
                 if batch[i].get("excluded"):
                     continue
                 ci = res.get("category")
-                if isinstance(ci, int) and 1 <= ci <= len(CATEGORIES):
+                if isinstance(ci, int) and not isinstance(ci, bool) and 1 <= ci <= len(CATEGORIES):
                     batch[i]["category"] = CATEGORIES[ci - 1]
                     batch[i].pop("category_rejected", None)
                 elif ci is not None and ci != "":
@@ -2510,7 +2607,7 @@ def phase_entrypass(c, st):
                 # became unauditable -- with the raw text gone there is no way to tell a gate
                 # that is correctly refusing biography from one that is too tight, which is
                 # exactly the question that matters before a Magnitude pass.
-                raw = (res.get("scale_note") or "").strip()
+                raw = _res_text(res.get("scale_note"))
                 sn = valid_scale_note(raw)
                 batch[i]["scale_note"] = _stored_cut(sn, 500)
                 if raw and not sn:
@@ -2554,7 +2651,7 @@ def phase_entrypass(c, st):
                 # and `weave` builds its per-shelf topic set from truthy values only, so the
                 # entry was silently excluded from both, permanently, with nothing anywhere
                 # saying so. A sentinel can be counted; an absent key cannot. (BUGS m14.)
-                topic = (res.get("topic") or "").strip()
+                topic = _res_text(res.get("topic"))
                 if topic in TOPICS:
                     batch[i]["topic"] = topic
                     batch[i].pop("topic_rejected", None)
@@ -2565,7 +2662,7 @@ def phase_entrypass(c, st):
                 # The same shape for `subroom`, and CHECKED AGAINST THE ROOM rather than only
                 # against the vocabulary: `Wars` is a shelf in Events and nowhere else, so a
                 # `Wars` written under Vessels & Things is a rejection, not an acceptance.
-                sub = (res.get("subroom") or "").strip()
+                sub = _res_text(res.get("subroom"))
                 if sub and subroom_ok(batch[i].get("category"), sub):
                     batch[i]["subroom"] = sub
                     batch[i].pop("subroom_rejected", None)
@@ -2579,7 +2676,8 @@ def phase_entrypass(c, st):
                 # for any other room is the model addressing a question it was told to leave
                 # blank, and is not stored. Presence-gated like every other field: an empty
                 # answer writes nothing, so it can never erase an earlier stated physiology.
-                phys = (res.get("physiology") or "").strip()
+                phys = res.get("physiology")
+                phys = phys.strip() if isinstance(phys, str) else ""
                 if phys and batch[i].get("category") == CATEGORIES[7]:
                     batch[i]["physiology"] = _stored_cut(phys, 500)
                 batch[i]["catalogued"] = True
@@ -2652,7 +2750,10 @@ def update_handoff(st):
         else:
             recs = records()
             total = sum(len(r["entries"]) for _, r in recs)
-            with_syn = sum(1 for _, r in recs if r.get("synthesis"))
+            # A SYNTHESIS BLOCK IS NOT A NOMINATION (order 073752d048bc, run #67): unassayable
+            # blocks carry an empty ceiling_entity, and counting them overstated the row below.
+            with_syn = sum(1 for _, r in recs
+                           if (r.get("synthesis") or {}).get("ceiling_entity"))
             catted = sum(1 for _, r in recs for e in r["entries"] if e.get("catalogued"))
             n_recs = len(recs)
             _HANDOFF_CACHE.update(at=_t.time(), counts=(total, with_syn, catted, n_recs))
@@ -2773,6 +2874,12 @@ powershell -Command "Get-CimInstance Win32_Process -Filter \"Name='python.exe' o
         with open(tmp, "w", encoding="utf-8") as f:
             f.write(md)
         if not silence.replace_retry(tmp, HANDOFF):
+            # The temp goes too, as `_landed` now does (order 5033d5c52be3): `replace_retry`
+            # records a denial and does not unlink, so each denied round left one behind.
+            try:
+                os.remove(tmp)
+            except OSError:
+                silence.note("pipeline.py:handoff-tmp-left")
             silence.note("pipeline.py:handoff-denied")
             log("  (handoff NOT updated: replace refused -- %s still shows the PREVIOUS run's "
                 "figures. Do not read it as current.)" % os.path.basename(HANDOFF))
@@ -3327,6 +3434,10 @@ def phase_write(c, st):
         (ready if settled >= WRITE_SETTLED_MIN else thin).append((settled, r.get("source")))
     log("phase 8 write: %d of %d sources are settled enough to write (>= %d%% read or cited)"
         % (len(ready), len(rows), int(WRITE_SETTLED_MIN * 100)))
+    # THE THIN ROSTER IS NAMED, UNCAPPED (order 98eae835e14e, run #67, Hard Rule 0): it was
+    # built and never read, while its siblings `refused` and `empty` are named in full below.
+    if thin:
+        log("  below the line (%d): %s" % (len(thin), ", ".join(sorted(str(s) for _, s in thin))))
     if not ready:
         log("  nothing is ready, and that is a correct outcome rather than a failure:")
         log("  the library does not write about entities nobody has read.")

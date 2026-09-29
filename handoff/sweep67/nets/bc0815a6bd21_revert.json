@@ -1,0 +1,7 @@
+[
+ {
+  "module": "binding_health.py",
+  "old": "return [h for h in hosts if h in wanted], sorted(wanted - set(hosts))",
+  "new": "return [h for h in hosts if h in wanted], []"
+ }
+]

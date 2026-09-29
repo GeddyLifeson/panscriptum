@@ -182,6 +182,13 @@ def similarity(a, b):
         return 0.0
     if na == nb:
         return 1.0
+    # AN ABSOLUTE GATE, LIKE THE QUALIFIER ONE (order f5176479c60a, sweep67 batch10, run #67):
+    # a different number is a different identity ("Issue 1" vs "Issue 11", "(2025)" vs "(2012)"
+    # mid-name), and fuzzy scoring had rated those 0.98 STRONG. The multiset of digit runs must
+    # be equal before any similarity is computed. Only digits are gated, not mid-name words:
+    # whether a differing mid-name parenthetical is an identity difference is left as a question.
+    if Counter(re.findall(r"\d+", a or "")) != Counter(re.findall(r"\d+", b or "")):
+        return 0.0
     return max(_dice(na, nb), difflib.SequenceMatcher(None, na, nb).ratio())
 
 

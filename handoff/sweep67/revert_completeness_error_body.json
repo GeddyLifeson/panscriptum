@@ -1,0 +1,1 @@
+[{"module": "completeness.py", "old": "    bad = _api_error(d)\n    if bad:\n        silence.note(\"completeness.py:category_size-error-body\")\n        return None, bad\n", "new": ""}]

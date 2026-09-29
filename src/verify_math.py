@@ -2361,8 +2361,10 @@ import pipeline as _PL
 # than by trusting the old list: §19ab's token-flow root and §20p's halt-probe root, each
 # rmtree'd from a `finally`; §19ft's `_scratch19ft` feats-gate cache root, rmtree'd from a
 # `finally`; batch2's `_codewatch_concurrency_b2` `scratch_dir`, rmtree'd from a `finally`; the
-# two `TemporaryDirectory()` blocks; and batch6's `_tmp_guard`, which is a single FILE removed in
-# a `finally`. That is SEVEN. The previous count said five and "everything else goes through
+# two `TemporaryDirectory()` blocks; batch6's `_tmp_guard`, which is a single FILE removed in
+# a `finally`; the hermetic GPU-lane root `_lane_root_vm`, rmtree'd by an `atexit` hook; and
+# batch2's `_synthetic_dir_b2`, rmtree'd after its control (both added to this list by sweep67,
+# order 79a03304bcac). That is NINE. An earlier count said five and "everything else goes through
 # `_mkdtemp_vm`", which was false twice over -- `_scratch19ft` and batch2's `scratch_dir` call
 # `mkdtemp` directly and were on no list (order c8491264e6dc, sweep57). Everything else that makes
 # a scratch directory goes through `_mkdtemp_vm` and is swept at exit.
@@ -5235,7 +5237,9 @@ check("restart_reader no longer matches read.py and --run as independent substri
       '"read.py" in line and "--run" in line' in _fm19code, False,
       note="the loose match that made any command line containing both a valid kill target")
 check("restart_reader matches the shared lognames fragment instead",
-      "frag = _LN.OWNER[_LN.READ]" in _fm19code and "if frag in line:" in _fm19code, True,
+      # `if frag in line` without the colon: sweep67 (order 2a5344d24132) added `and not
+      # _foreign_tree(line)` to the same test, which narrows the match and keeps the fragment.
+      "frag = _LN.OWNER[_LN.READ]" in _fm19code and "if frag in line" in _fm19code, True,
       note="one constant, shared by the launcher and the killer, so they cannot drift")
 check("triage_swallowed's outer handler no longer reports success",
       "the archive/clear FAILED" in _fm19src, True,
@@ -7752,7 +7756,9 @@ def _src20p(name):
 # called on the writing path only so read-only and dry-run modes stay open. The behavioural and
 # write-path halves are drill.py's `drill_hand_run_halt` area; this roster is the half that stops
 # the guard being removed or swallowed quietly.
-_INTERLOCKED = ("axis_correlation.py", "backfill.py", "binding_health.py", "burgs.py", "chain.py",
+_INTERLOCKED = ("axis_correlation.py", "backfill.py", "binding_health.py", "burgs.py",
+                # the three cataloguers, interlocked by sweep67 order 6d800a399592
+                "catalogue_aurora.py", "catalogue_codex.py", "catalogue_web.py", "chain.py",
                 "dashboard.py", "feats.py", "foreman.py", "generate.py", "handbuilt.py",
                 "health.py", "hostcheck.py", "ingest_doc.py", "local_agent.py", "navtree.py",
                 "overnight.py", "overwatch.py", "pipeline.py", "policy.py", "publish.py",
@@ -9989,8 +9995,13 @@ check("b68ca666da79: scope.py no longer truncates fetched titles to 8",
       _slices_of(_scope_src_b2, "titles"), [])
 check("b68ca666da79: scope.py fetches the FULL titles list",
       bool(_re_b2.search(r"F\.fetch\(host,\s*titles\)", _scope_src_b2)), True)
-check("b68ca666da79: scope.py records when the wiki still withheld results past the raised cap",
-      "scope.py:srlimit-bound" in _scope_src_b2, True)
+# FOLLOWED, NOT NOTED (sweep67 batch 05, F7, run #67). This row used to require the ledger note
+# `scope.py:srlimit-bound`, i.e. that the truncation be RECORDED; the search now walks
+# `continue`/`sroffset` to the end, so nothing is withheld to record. The drill net "scope's
+# search follows every page of results" drives it; this row pins the shape.
+check("b68ca666da79: scope.py follows the search's continue token instead of stopping",
+      "params = dict(params, **cont)" in _scope_src_b2 and '"sroffset" not in cont' in _scope_src_b2,
+      True)
 
 # ------------------------------------------------------------------------------------------
 # ---- run35 batch3 ----
@@ -11052,7 +11063,7 @@ import os as _os_b5
 import sys as _sys_b5
 import time as _time_b5
 
-# Spliced into src/verify_math.py, so  IS a file in src/. The authored version
+# Spliced into src/verify_math.py, so __file__ IS a file in src/. The authored version
 # of this block walked three directories up from handoff/run35/, which resolved to
 # C:/Users/imarl/src once merged -- corrected at merge time by the coordinator.
 _SRC_b5 = _os_b5.path.dirname(_os_b5.path.abspath(__file__))
@@ -12756,8 +12767,8 @@ check("[control] the self-citation scan flags exactly the citations it should",
              for _k20ad, _v20ad in _FIX20ad.items()),
       sorted("%s:%d" % (_k20ad, _v20ad[1]) for _k20ad, _v20ad in _FIX20ad.items()),
       note="a row asserting an empty list is indistinguishable from a scan that matches "
-           "nothing; these nine fixtures are the constructs actually present in this file, and "
-           "four of the five zeros are the false positives order 363c79272987 named in advance")
+           "nothing; these fixtures are the constructs actually present in this file, and the "
+           "ones expecting zero include the false positives order 363c79272987 named in advance")
 
 
 # ---- and no row promises a tolerance that check() will throw away ---------------------------

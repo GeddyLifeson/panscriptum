@@ -133,21 +133,26 @@ def scope_for(host, verbose=False):
         # results beyond that, which is worth knowing rather than pretending away, so it goes
         # into the ledger instead of the API's default of 10. Previously reported at
         # handoff/sweep24/AUDIT_batch06.md:320 and left unfixed since.
-        oc = {}
-        d = F.api(host, {"action": "query", "list": "search", "srlimit": "500", "srsearch": q},
-                  outcome=oc)
-        # THE HOST WAS NOT READ, SO THERE IS NO VERDICT TO CACHE. Without this, a throttled,
-        # unreachable or challenge-serving host produced an empty `titles` that is spelled
-        # exactly like the honest "nothing cleared MIN_MENTIONS", and `build()` stamped it
-        # permanently. See ProbeUnread.
-        if not oc.get("ok") and oc.get("why") not in _CLEAN_NEGATIVE:
-            raise ProbeUnread("%s: query %r not answered (%s)" % (host, q, oc.get("why")))
-        if (d or {}).get("continue"):
-            silence.note("scope.py:srlimit-bound")
-        for row in (d or {}).get("query", {}).get("search", []):
-            if row["title"] not in seen and row.get("size", 0) > 1200:
-                seen.add(row["title"])
-                titles.append(row["title"])
+        # AND THE `continue` KEY IS NOW FOLLOWED, not merely noted (sweep67 batch 05, F7, run
+        # #67): noting it recorded the truncation and kept it. `sroffset` is walked to the end.
+        params = {"action": "query", "list": "search", "srlimit": "500", "srsearch": q}
+        while True:
+            oc = {}
+            d = F.api(host, params, outcome=oc)
+            # THE HOST WAS NOT READ, SO THERE IS NO VERDICT TO CACHE. Without this, a throttled,
+            # unreachable or challenge-serving host produced an empty `titles` that is spelled
+            # exactly like the honest "nothing cleared MIN_MENTIONS", and `build()` stamped it
+            # permanently. See ProbeUnread.
+            if not oc.get("ok") and oc.get("why") not in _CLEAN_NEGATIVE:
+                raise ProbeUnread("%s: query %r not answered (%s)" % (host, q, oc.get("why")))
+            for row in (d or {}).get("query", {}).get("search", []):
+                if row["title"] not in seen and row.get("size", 0) > 1200:
+                    seen.add(row["title"])
+                    titles.append(row["title"])
+            cont = (d or {}).get("continue")
+            if not isinstance(cont, dict) or "sroffset" not in cont:
+                break
+            params = dict(params, **cont)
     if not titles:
         return None
     # No truncation here either -- `F.fetch` is written to take "up to any number of titles,

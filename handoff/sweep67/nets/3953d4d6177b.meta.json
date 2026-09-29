@@ -1,0 +1,5 @@
+{
+ "name": "corpus_db refuses an unknown --canned name with rc 2",
+ "expected": "a typo'd --canned returns rc 0 with no rows",
+ "area": "drill_followup0928"
+}

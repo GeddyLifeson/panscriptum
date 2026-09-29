@@ -1,0 +1,5 @@
+{
+ "name": "catalogue_web skips an out-of-scope roll row, by default and under --recatalogue",
+ "expected": "the wiki cataloguer attempts an owner-excluded source and reverts its exclusion",
+ "area": "drill_followup0928"
+}

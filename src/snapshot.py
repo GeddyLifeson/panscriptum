@@ -26,6 +26,7 @@ cleverness. A restore path with logic in it is a restore path that can be wrong.
 """
 import json
 import os
+import re
 import shutil
 import sys
 import time
@@ -33,6 +34,12 @@ import time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import silence  # noqa: E402
+
+# `re` arrived with the label sanitiser (sweep67, order 21c78921ec89), so the eaten-escape guard
+# every regex-importing module carries arrives with it (drill: order fadd4338a7b0).
+_BAD_CHARS = (chr(8), chr(11), chr(12), chr(7))
+if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _BAD_CHARS):
+    raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
 
 ROOT = os.path.join(HERE, "state", "snapshots")
 
@@ -121,8 +128,12 @@ def before(label, paths, note="", allow_missing=False):
     # two processes that hit the same nanosecond. And `exist_ok=False`, so if the id ever DOES
     # collide the answer is SnapshotFailed -- already this module's contract for "the copy did
     # not happen" -- rather than a silent merge.
-    sid = "%s-%d-%d" % (str(label or "snap").replace(os.sep, "_"),
-                        time.time_ns(), os.getpid())
+    # LABEL SANITISED (sweep67 batch12, order 21c78921ec89, run #67): `.replace(os.sep, "_")` is a
+    # backslash on Windows, so a label such as "../x" built a dest outside ROOT that `listing()`
+    # never sees. Anything outside letters, digits, dot, underscore, hyphen becomes "_", and a
+    # dot-dot run is neutralised.
+    _lab = re.sub(r"[^A-Za-z0-9._-]", "_", str(label or "snap")).replace("..", "__")
+    sid = "%s-%d-%d" % (_lab, time.time_ns(), os.getpid())
     dest = os.path.join(ROOT, sid)
     took, requested, skipped = [], [], []
     try:

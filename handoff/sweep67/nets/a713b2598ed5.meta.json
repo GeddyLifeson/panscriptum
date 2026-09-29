@@ -1,0 +1,5 @@
+{
+ "name": "rosetta.check separates an all-tied scale from a too-few-names scale",
+ "expected": "a zero-variance scale is reported as needing 4 overlapping names, a coverage gap it is not",
+ "area": "drill_followup0928"
+}

@@ -1,0 +1,5 @@
+{
+ "name": "ledger_guard truncation refusal names the real sealed copy",
+ "expected": "the refusal points at a path that does not exist (unflattened SNAPSHOT_DIR/name)",
+ "area": "drill_followup0928"
+}

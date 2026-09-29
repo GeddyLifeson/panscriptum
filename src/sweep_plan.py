@@ -761,13 +761,16 @@ def unknown_claims(run=None):
 
     `run=None` asks the question of every shard on disk. NO CAP: every claim is returned.
     """
+    # Sweep67 batch07, F4, run #67 (order 939cb74c818a): imported once here. The `import silence`
+    # statements inside the except branches made `silence` a function-local, so the later
+    # silence.note in the second pass raised UnboundLocalError when only pass 2 hit a bad shard.
+    import silence
     want = None if run is None else str(run)
     out = []
     try:
         paths = sorted(glob.glob(os.path.join(SHARDS, "*.json")))
     except Exception:
         try:
-            import silence
             silence.note("sweep_plan.py:unknown-claims-glob-failed")
         except Exception:
             pass
@@ -778,7 +781,6 @@ def unknown_claims(run=None):
                 rec = json.load(f)
         except Exception:
             try:
-                import silence
                 silence.note("sweep_plan.py:shard-unreadable")
             except Exception:
                 pass
@@ -1029,7 +1031,10 @@ def main():
                     help="land the plan at PATH atomically instead of printing it to stdout. "
                          "Use this rather than a shell redirect; see the note in main()")
     a = ap.parse_args()
-    if a.batches:
+    # Sweep67 batch07, F3, run #67 (order 2a0dd1d54ff6): `--batches N --check-briefs FILE` is the
+    # documented diff invocation, and the bare `if a.batches` used to win, printing the plan and
+    # exiting 0 without ever comparing. --check-briefs takes precedence; N is passed through.
+    if a.batches and not a.check_briefs:
         # STDOUT CARRIES THE JSON AND NOTHING ELSE (order 2d6c9343cd32). These two summary
         # lines were printed to stdout directly after `json.dumps(plan)`, so the documented
         # way of keeping a plan -- redirecting this command into a file -- produced ONE JSON

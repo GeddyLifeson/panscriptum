@@ -1,0 +1,5 @@
+{
+ "name": "wiki_source: page_text raises when all three section fetches fail; page_texts reports them",
+ "expected": "an outage or IP ban reads as pages with no prose and is never re-asked",
+ "area": "drill_followup0928"
+}

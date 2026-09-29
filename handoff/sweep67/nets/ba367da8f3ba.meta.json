@@ -1,0 +1,5 @@
+{
+ "name": "events refuses an over-80-char bold span with a recorded reason",
+ "expected": "a long bold span is neither taken nor listed in candidates_refused (silent drop)",
+ "area": "drill_followup0928"
+}

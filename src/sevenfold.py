@@ -128,7 +128,7 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
     order = affinity_order(members, weights) if weights else sorted(members)
     coords = {m: [] for m in order}
 
-    def seams(block):
+    def seams(block, root=False):
         """Where the affinity ordering is weakest -- the natural places to cut.
 
         The declaration bounds the branching at seven; it does not FIX it there. Forcing exactly
@@ -206,6 +206,20 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
         for boundary in _even_cuts(len(block), k):
             lo, hi = boundary - step / 2, boundary + step / 2
             window = [g for g in eligible if lo <= g[1] <= hi and g[1] not in cuts]
+            if not window and root:
+                # THE ROOT COUNT IS DECLARED, NOT READ FROM THE MATERIAL ("hyperverse exactly 7",
+                # the module docstring). The weaker-half rule below the root may leave a window
+                # uncut; at the root it cannot, or the declared seven silently becomes six. That
+                # happened on 2026-09-28 when a rebuilt ENTITY_INDEX moved one root window's seams
+                # all above the median (verify_math "exactly seven hyperverses": got 6). At the
+                # root only, the NEAREST WEAK seam outside the window is cut instead -- never a
+                # strong one: the first version cut the window's weakest seam, which was a kin
+                # join (resonance 6,489 against a 99.5th percentile of 365) and broke the
+                # "kin are shelved together" rows. Balance gives a little; kinship does not.
+                far = [g for g in eligible if g[1] not in cuts]
+                if far:
+                    cuts.append(min(far, key=lambda t: (abs(t[1] - boundary), t[0]))[1])
+                continue
             if not window:
                 continue          # a run the block does not want divided: fewer children, by rule
             # (seam strength, distance from the even boundary) -- the weakest seam in the window,
@@ -216,7 +230,7 @@ def shelve(members, weights, span=SPAN, depth=len(TIERS)):
     def split(block, level):
         if level >= depth or not block:
             return
-        cuts = seams(block)
+        cuts = seams(block, root=(level == 0))
         bounds = [0] + [c + 1 for c in cuts] + [len(block)]
         child = 0
         for lo, hi in itertools.pairwise(bounds):

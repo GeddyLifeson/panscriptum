@@ -285,16 +285,23 @@ def filtered_index(index):
     except Exception:
         silence.note("weave.py:statblock-import")
         raise
+    # PER HIT, NOT hits[0] FOR ALL (order 87add9d671b5, run #67): the alphabetically first
+    # source decided for every source under the key, dropping whole keys whose later hits were
+    # entities and keeping rules text sitting in a later hit. A key is dropped (and counted)
+    # only when none of its hits survive.
+    def _mechanic(h):
+        nm = (h.get("name") or "").strip()
+        desc = h.get("description") or ""
+        return bool(_MECHANIC.match(nm)
+                    or (_STATBLOCK is not None and _STATBLOCK.search(desc))
+                    or _RULES_VOICE.search(desc))
     out, dropped = {}, 0
     for k, hits in index.items():
-        nm = (hits[0].get("name") or "").strip()
-        desc = hits[0].get("description") or ""
-        if (_MECHANIC.match(nm)
-                or (_STATBLOCK is not None and _STATBLOCK.search(desc))
-                or _RULES_VOICE.search(desc)):
+        kept = [h for h in hits if not _mechanic(h)]
+        if not kept:
             dropped += 1
             continue
-        out[k] = hits
+        out[k] = kept
     return out, dropped
 
 

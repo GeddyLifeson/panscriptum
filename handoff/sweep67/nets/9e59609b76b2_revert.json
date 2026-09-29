@@ -1,0 +1,7 @@
+[
+ {
+  "module": "local_agent.py",
+  "old": "            \"unique\": len(hits) == 1 and not skipped,\n",
+  "new": "            \"unique\": len(hits) == 1,\n"
+ }
+]

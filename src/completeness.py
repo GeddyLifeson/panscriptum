@@ -196,6 +196,10 @@ def category_size_probe(sub, category):
     except Exception as e:
         silence.note("completeness.py:category_size")
         return None, type(e).__name__
+    bad = _api_error(d)
+    if bad:
+        silence.note("completeness.py:category_size-error-body")
+        return None, bad
     got = None
     for p in (d.get("query", {}).get("pages", {}) or {}).values():
         ci = p.get("categoryinfo")
@@ -204,6 +208,22 @@ def category_size_probe(sub, category):
             break
     _cs_put(k, got)
     return got, None
+
+
+def _api_error(j):
+    """-> a reason string when `j` is a MediaWiki reply that did not answer the query, else None.
+
+    A 200 whose body is `{"error": ...}` has no `query`, and the loops below read that as "this
+    category does not exist" and CACHED it for 12 hours (sweep67 batch 15, F3, run #67). A
+    non-answer is returned as undetermined and never cached."""
+    if not isinstance(j, dict):
+        return "api-reply-" + type(j).__name__
+    err = j.get("error")
+    if isinstance(err, dict):
+        return "api-error-" + str(err.get("code") or "unknown")
+    if "query" not in j:
+        return "api-reply-without-query"
+    return None
 
 
 def category_size(sub, category):
@@ -272,6 +292,10 @@ def category_size_probe_host(host, category):
     except Exception as e:
         silence.note("completeness.py:category_size_host")
         return None, type(e).__name__
+    bad = _api_error(j)
+    if bad:
+        silence.note("completeness.py:category_size_host-error-body")
+        return None, bad
     got = None
     for p in ((j.get("query", {}) or {}).get("pages", {}) or {}).values():
         ci = p.get("categoryinfo") if isinstance(p, dict) else None
@@ -359,7 +383,7 @@ def host_reachable(host, timeout=8):
         # A RAW-MODE WIKI IS NOT AN UNREACHABLE WIKI. Fixed run #28.
         #
         # This asked `api_url(host)` and treated None as "unreachable". But `api_url` returns
-        # None for MODE_RAW exactly as it does for MODE_DEAD -- `endpoint.py:275-278` -- and
+        # None for MODE_RAW exactly as it does for MODE_DEAD -- `endpoint.api_url` -- and
         # MODE_RAW means the opposite of dead: the wiki closed its API and serves
         # `index.php?action=raw` instead, which `endpoint` knows how to read and which the rest
         # of this project reads from happily. So every RAW host on the corpus has been scored
@@ -789,8 +813,23 @@ def land(rows, only=None):
     try:
         with open(OUT, encoding="utf-8") as f:
             prior = json.load(f)
-    except Exception:
+    except FileNotFoundError:
         _ = "silence-exempt: no prior file is a legitimate first state"
+    except ValueError:
+        # Sweep67 batch15, run #67 (order 9bd9d77d5e0d): a TORN prior file holds nothing the floor
+        # could protect, so the write may proceed, but the floor is said not to have applied.
+        silence.note("completeness.py:land-prior-torn")
+        sys.stderr.write("completeness: the prior COMPLETENESS.json is unparseable; the shrink "
+                         "floor was NOT applied to this write.\n")
+    except Exception:
+        # Sweep67 batch15, run #67 (order 9bd9d77d5e0d): only a MISSING file is a legitimate
+        # first state. A PermissionError or other read fault leaves prior=[] and used to disarm
+        # the SHRINK_FLOOR guard below, letting a tiny run land over the real file. Refuse.
+        silence.note("completeness.py:land-prior-unreadable")
+        sys.stderr.write("completeness: could not read the prior COMPLETENESS.json, so the shrink "
+                         "floor cannot be checked; REFUSING to overwrite. Re-run when it is "
+                         "readable.\n")
+        return False
 
     # EMPTY IS NOT THE ONLY WAY TO LOSE THE MEASUREMENT, and guarding only against it left the
     # door open next to the one that was locked. `[]` was refused while 164 rows -> 3 rows was

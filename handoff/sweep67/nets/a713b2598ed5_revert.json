@@ -1,0 +1,7 @@
+[
+ {
+  "module": "rosetta.py",
+  "old": "                           # WHY UNSCORED (sweep67 batch10, order a713b2598ed5, run #67):\n                           # `spearman` returns None both below four pairs and on zero variance,\n                           # and main() called both \"needs 4 overlapping names\".\n                           \"rho_reason\": (None if _rho is not None\n                                          else \"too few\" if len(pairs) < 4 else \"tied\"),\n",
+  "new": ""
+ }
+]

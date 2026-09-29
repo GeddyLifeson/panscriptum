@@ -125,6 +125,12 @@ class swallow:
     def __exit__(self, exc_type, exc, tb):
         if exc_type is None:
             return False
+        # ONLY AN Exception IS TOLERATED (sweep67 batch12, order 98650e9d31d7, run #67). With
+        # reraise False this returned True for ANY exc_type, so `with swallow(...)` would also
+        # have eaten KeyboardInterrupt, SystemExit and GeneratorExit -- an operator's Ctrl-C
+        # swallowed as "a failure to tolerate". Those propagate, unrecorded.
+        if not issubclass(exc_type, Exception):
+            return False
         self.failed = True
         self.error = exc
         try:
@@ -642,9 +648,15 @@ def append_line(path, text):
         strip, and fatal to the reasoning, which is what a comment is for. `O_BINARY` is now
         asked for explicitly; it does not exist on POSIX, hence the `getattr`.
 
-    Best-effort is UNCHANGED and is why the lock is bounded: under contention this returns False
-    and notes it rather than blocking a model call behind a ledger. A dropped metrics row is a
-    gap in a measurement; a stalled call is a gap in the library.
+    Best-effort is UNCHANGED, and the lock is only a GUARD (sweep67 batch12, order
+    f8dd772a0273, run #67: this paragraph used to say contention "returns False and notes it
+    rather than blocking", which is not what the code does). On Windows the lock wait is
+    `msvcrt.LK_LOCK`, which retries for about ten seconds before raising, so a call CAN stall
+    that long behind a contended ledger. When the lock cannot be taken -- contention past that
+    wait, or any other failure -- the row is written UNLOCKED anyway, this returns True, and the
+    reason is noted as `append_line-unlocked`. A dropped metrics row is a gap in a measurement;
+    a stalled call is a gap in the library, hence the write-anyway; a true non-blocking bound
+    would need `LK_NBLCK` and is not what is implemented.
     """
     # `lock_fd is None` after the block below IS the "we did not get the lock" flag; a separate
     # boolean would be a second spelling of one fact, and the two can disagree.
@@ -727,8 +739,10 @@ def _lock_exclusive(fd):
     """
     if os.name == "nt":
         import msvcrt
-        # LK_LOCK retries for about ten seconds and then raises. Once is the bound; a metrics
-        # row is not worth queueing a model call behind.
+        # LK_LOCK retries for about ten seconds and then raises, so the "bound" is that ten
+        # seconds, not a single try (sweep67 batch12, order f8dd772a0273, run #67: this comment
+        # said "Once is the bound", which was wrong). LK_NBLCK would fail at once, if a real
+        # bound is ever wanted.
         msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
     else:
         import fcntl

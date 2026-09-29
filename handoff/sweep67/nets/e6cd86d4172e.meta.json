@@ -1,0 +1,5 @@
+{
+ "name": "secondopinion outside-tool spawns decode utf-8 with errors=replace",
+ "expected": "a non-cp1252 byte in ruff/vulture/detect-secrets output raises UnicodeDecodeError and the tool is reported absent",
+ "area": "drill_followup0928"
+}

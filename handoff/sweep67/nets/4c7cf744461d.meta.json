@@ -1,0 +1,5 @@
+{
+ "name": "worldseed: short-word stems no longer attest on word prefixes (Warden, Ashford, Search)",
+ "expected": "prefix hits are tagged as attested world features instead of seeded",
+ "area": "drill_followup0928"
+}

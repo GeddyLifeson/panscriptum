@@ -40,8 +40,8 @@ measured gap; hold the rest, marked.* This module is HELD, not retired and not w
 `3fb9fc6b9999`.
 
 THE MEASUREMENT IT IS HELD AGAINST. This file is finished, self-consistent and arithmetically
-exercised (`verify_math.py:266-284` drives `to_standards`, `from_standards`, `cross_rate`,
-`work_value` and `assay_to_standards`), and it has **no caller in the generation pipeline at all**:
+exercised (the `verify_math.py` block that follows `import ledger as L` drives `to_standards`,
+`from_standards`, `cross_rate`, `work_value` and `assay_to_standards`), and it has **no caller in the generation pipeline at all**:
 the only import of it anywhere in the tree is that battery. `manifest_builder.py`, `generate.py`,
 `prose_gate.py` and every `catalogue_*.py` never import it, and `prompts/` carries no currency or
 glyph reference, so the Position Paragraph's *"what it would fetch at the Freeport"* clause has no

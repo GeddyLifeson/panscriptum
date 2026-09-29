@@ -1,0 +1,5 @@
+{
+ "name": "tells scan counts overlapping phrases once and sees inflected stems",
+ "expected": "'tapestry of' scores twice and 'unlocked/fostering' go unseen",
+ "area": "drill_followup0928"
+}

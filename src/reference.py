@@ -371,7 +371,7 @@ def main():
     # and this dropped it, so a denied replace still printed "-> OUT" under a file that had not
     # changed. Reported, and the exit status carries it, because the one thing that must not
     # happen is a benchmark refresh that reports success and did not occur.
-    # (`silence` is imported at module level and used at :245; the re-import that stood here was
+    # (`silence` is imported at module level and used in `shelfmark`; the re-import that stood here was
     # a no-op pyflakes does not flag, since a second import is legal -- order 595673139291.)
     landed = silence.write_json(OUT, out, indent=1, ensure_ascii=False)
     if landed:

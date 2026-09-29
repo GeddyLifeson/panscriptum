@@ -848,7 +848,8 @@ def api(host, params, retries=2, outcome=None):
     into "this source has no wiki", and `resolve_hosts` cached that judgement permanently.
 
     Pass a dict and this call stamps it with {"ok": bool, "why": str}. `why` is one of
-    "ok", "no-api", "http-404", "throttled", "http-<code>", "nonjson", "network", or "unknown"
+    "ok", "no-api", "http-404", "throttled", "http-<code>", "api-error-<code>" (a 200 carrying
+    a MediaWiki error body), "nonjson", "network", or "unknown"
     -- the last being the pre-stamped default, so a path that somehow returns without stamping
     reads as *undetermined* rather than as a clean negative. Additive keyword with the old
     behaviour as the default: every existing caller is unchanged and ignores it.
@@ -887,6 +888,28 @@ def api(host, params, retries=2, outcome=None):
             with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
                 _body = r.read().decode("utf-8", "replace")
                 parsed = json.loads(_body)
+                # A 200 CARRYING A MEDIAWIKI `{"error": ...}` BODY IS NOT A SUCCESS (sweep67
+                # batch 05, F1, run #67). It used to fall through to note_ok(): `ratelimited`
+                # RESET the backoff it was asking for, so a host throttling this way could never
+                # be quarantined, and every other API error read as an empty page. The two
+                # "slow down" codes take the 429 path; any other error is stamped and returns
+                # None. No caller reads the error body, so None changes no caller's contract.
+                _err = parsed.get("error") if isinstance(parsed, dict) else None
+                if isinstance(_err, dict):
+                    _code = str(_err.get("code") or "unknown")
+                    if _code in ("ratelimited", "maxlag"):
+                        silence.note("feats.py:api-ratelimited-body")
+                        with _COUNTS_LOCK:
+                            _RATE_LIMITED[host] = _RATE_LIMITED.get(host, 0) + 1
+                        note_throttled(host)
+                        if attempt == retries:
+                            _stamp(False, "throttled")
+                            return None
+                        time.sleep(min(5 * (attempt + 1) ** 2, 120))
+                        continue
+                    silence.note("feats.py:api-error-body")
+                    _stamp(False, "api-error-" + _code)
+                    return None
                 # A CLEAN RESPONSE EARNS SPEED BACK. Without this the backoff only ever
                 # grows, so one bad minute would slow a host for the rest of the run. Taken
                 # only AFTER the parse succeeds (run35 batch7): a 200 carrying a WAF/login-wall
@@ -916,7 +939,13 @@ def api(host, params, retries=2, outcome=None):
                 return None
             silence.note("feats.py:api-http-error")
             if e.code in (429, 503):
-                wait = int(e.headers.get("Retry-After") or 0) or (5 * (attempt + 1) ** 2)
+                # Retry-After may be an HTTP-date, not seconds (RFC 9110); int() on that raised
+                # out of api() entirely (sweep67 batch 05, F3). A date falls back to the ladder.
+                try:
+                    wait = int(e.headers.get("Retry-After") or 0)
+                except (TypeError, ValueError):
+                    wait = 0
+                wait = wait or (5 * (attempt + 1) ** 2)
                 with _COUNTS_LOCK:
                     _RATE_LIMITED[host] = _RATE_LIMITED.get(host, 0) + 1
                 # WIDEN THE PACE, not just this one sleep. The retry below waits and then
@@ -1224,9 +1253,8 @@ def resolve_hosts(records, verify=True):
     # write racing `read.py --run` could take down a multi-hour pass with a JSONDecodeError, and
     # a half-written host map reads as "no source has a wiki" to everything downstream.
     os.makedirs(os.path.dirname(HOSTS), exist_ok=True)
-    tmp = HOSTS + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(known, f, indent=1, ensure_ascii=False, sort_keys=True)
+    # PID/THREAD-QUALIFIED TEMP VIA silence.write_json, not a fixed `HOSTS + ".tmp"` (sweep67
+    # batch 05, run #67; order 888b8b52467a): two writers on one fixed temp interleave their dumps.
     # GATED. `replace_retry` answers False rather than raising when the rename is denied, and
     # this dropped that answer -- so `--hosts` printed "N/M sources resolved to a wiki host ->
     # data/WIKI_HOSTS.json" and exited 0 over a file that had not changed. The paragraph above
@@ -1243,7 +1271,7 @@ def resolve_hosts(records, verify=True):
     # Recorded rather than raised: the map returned here is correct in memory, so `--roll` may
     # go on using it for this run, and `main()` turns the flag into a nonzero exit.
     global _HOSTS_DENIED
-    _HOSTS_DENIED = not silence.replace_retry(tmp, HOSTS)
+    _HOSTS_DENIED = not silence.write_json(HOSTS, known, ensure_ascii=False, sort_keys=True)
     if _HOSTS_DENIED:
         silence.note("feats.py:hosts-write-denied")
         print("WRITE DENIED -> %s: the replace was refused (most likely a reader holding it "
@@ -1639,6 +1667,10 @@ def _brace_end(c, j, n, first):
     fail the fabrication check. Each opener now remembers its width and closes with the same
     width, so `}}}}}` after `{{ ... {{{` is `}}}` + `}}`, and `}}}}` after `{{ ... {{` is `}}` + `}}`.
     An opener with no matching close runs to the end of the text, as before.
+
+    RETURNS (j, closed) (sweep67 batch 05, run #67; order 926b5f0f997b). Callers trim the closer's
+    width off the slice, and with no closer there was nothing to trim: `{{Infobox|power=Goku
+    lifted 5 tons` lost its last two characters and came out `Goku lifted 5 to`.
     """
     stack = [first]
     while j < n and stack:
@@ -1656,7 +1688,7 @@ def _brace_end(c, j, n, first):
             j += 2
         else:
             j += 1
-    return j
+    return j, not stack
 
 
 def _unwrap_templates(c, depth=0):
@@ -1700,13 +1732,13 @@ def _unwrap_templates(c, depth=0):
             # counted as a FABRICATION -- the one thing this pipeline is most careful about.
             #
             # A parameter renders as its default: the text after the first pipe, or nothing.
-            j = _brace_end(c, i + 3, n, 3)
-            _, _, dflt = c[i + 3:j - 3].partition("|")
+            j, closed = _brace_end(c, i + 3, n, 3)
+            _, _, dflt = c[i + 3:j - 3 if closed else j].partition("|")
             out.append(" " + _unwrap_templates(dflt, depth + 1) + " ")
             i = j
         elif c.startswith("{{", i):
-            j = _brace_end(c, i + 2, n, 2)
-            inner = c[i + 2:j - 2]
+            j, closed = _brace_end(c, i + 2, n, 2)
+            inner = c[i + 2:j - 2 if closed else j]
             # Split on TOP-LEVEL pipes only, so a nested template's own pipes stay with it.
             parts, buf, lvl = [], [], 0
             for ch_i, ch in enumerate(inner):
@@ -2327,9 +2359,9 @@ def evidence_for(host, name, cache=True):
            # go on asserting it for ever. (in-toto's materials idea, stdlib-sized.)
            "provenance": cachekey.text_digest(text)}
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+    # PID/THREAD-QUALIFIED TEMP VIA silence.write_json, not a fixed `path + ".tmp"` (sweep67
+    # batch 05, run #67; order 888b8b52467a): roll mines each key from several workers and a
+    # `--probe` beside it, and two writers on one fixed temp interleave their dumps.
     # GATED INTO A COUNTER, not into a refusal. `replace_retry` answers False on a denied
     # rename and this dropped it, which is survivable in one specific way and misleading in
     # another. Survivable: `out` is returned from memory, so this call's answer is right, and a
@@ -2341,7 +2373,7 @@ def evidence_for(host, name, cache=True):
     # A denial ALSO leaves any older evidence file for this entity standing, and that copy is
     # what every later reader sees; the superseded-gate check on load re-mines it, so the stale
     # copy cannot become permanent, but it is served until then.
-    if not silence.replace_retry(tmp, path):
+    if not silence.write_json(path, out, ensure_ascii=False):
         with _COUNTS_LOCK:
             _UNCACHED[host] = _UNCACHED.get(host, 0) + 1
     return out

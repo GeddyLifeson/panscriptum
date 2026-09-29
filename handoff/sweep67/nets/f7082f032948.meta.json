@@ -1,0 +1,5 @@
+{
+ "name": "pick_model.save_config removes its temp file when the replace is denied",
+ "expected": "a denied config.yaml replace leaves a config.yaml.<pid>.<tid>.tmp in the repo root",
+ "area": "drill_followup0928"
+}

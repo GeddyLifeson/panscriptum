@@ -1,0 +1,5 @@
+{
+ "name": "a quantity-only entity with no candidate feat is the no-gate finding, never a model call",
+ "expected": "the model anchors a quantity-only entity over an empty evidence list, from memory, and that anchor is published",
+ "area": "drill_followup0928"
+}

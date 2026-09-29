@@ -120,7 +120,8 @@ evidence that would chart it is the evidence a hyperverse is defined by not havi
 GROUNDING-DERIVED H IS A DIFFERENT MEASUREMENT AND IS NOT DECLINED -- it is charted per xenoverse
 by `xenoverse_grounding()` and published on every shelf that sits in a xenoverse; see below.
 
-The 13 unaddressed shelves are the honest residue: they share nothing with anything, which is what
+The unaddressed shelves (counted live by `main()`, not written here; order c35acac4ede1) are the
+honest residue: they share nothing with anything, which is what
 a fragment of another hyperverse would look like from here, and also what a self-contained fiction
 looks like. Nothing in the data separates those two readings.
 """
@@ -483,10 +484,10 @@ def main():
         print(f"   {v:>8.0f}  {_cut(a, 26):<28}{_cut(b, 26):<28}{sh}")
     # BOTH NUMBERS IN THIS SENTENCE ARE NOW THIS RUN'S (order 57d0d1e4139e). `len(w)` was
     # measured live and 365 was a literal carried over from the docstring's original
-    # measurement at :55, sitting in the same sentence, so a reader took both for this corpus.
-    # That is load-bearing rather than idle prose: DELIBERATE_JOIN = 2000.0 at :122 -- the
-    # threshold the whole "a xenoverse is artificial" claim rests on -- is argued at :50-59 from
-    # that 365, so anyone checking whether the cliff still exists was checking it against a
+    # measurement in the module docstring, sitting in the same sentence, so a reader took both
+    # for this corpus. That is load-bearing rather than idle prose: `DELIBERATE_JOIN` -- the
+    # threshold the whole "a xenoverse is artificial" claim rests on -- is argued in the
+    # docstring's cliff paragraph from that 365 (order c35acac4ede1: cited by symbol, not line), so anyone checking whether the cliff still exists was checking it against a
     # number from another graph. Nearest-rank, which needs no numpy and is exact for a
     # percentile this far into the tail.
     vals = sorted(w.values())

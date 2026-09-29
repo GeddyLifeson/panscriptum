@@ -84,9 +84,10 @@ def kinetic(mass_kg, speed_ms):
     """Kinetic energy in joules, Newtonian below 0.1c and relativistic above it.
 
     The switch is not fussiness. At 0.5c the Newtonian formula understates the energy by about a
-    third, and this library routinely assays beings described as moving at appreciable fractions
-    of light speed — an understated feat lands in a lower Magnitude band, which is a wrong answer
-    arrived at by arithmetic rather than by judgement, and therefore the hardest kind to notice.
+    fifth (19 percent: 0.808 of the relativistic value; order 303757a4c704), and this library
+    routinely assays beings described as moving at appreciable fractions of light speed
+    — an understated feat lands in a lower Magnitude band, which is a wrong answer arrived at by
+    arithmetic rather than by judgement, and therefore the hardest kind to notice.
     """
     v = abs(float(speed_ms))
     m = float(mass_kg)

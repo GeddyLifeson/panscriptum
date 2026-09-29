@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scout.py",
+  "old": "    if all(c.get(\"transport\") for c in checked):",
+  "new": "    if False:"
+ }
+]

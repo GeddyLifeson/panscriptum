@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cascade_bridge.py",
+  "old": "                except FileNotFoundError:\n                    rows = {}\n                except Exception:\n                    silence.note(\"cascade_bridge.py:record-unrecognised-unreadable\")\n                    return\n                if not isinstance(rows, dict):\n                    silence.note(\"cascade_bridge.py:record-unrecognised-wrong-shape\")\n                    return\n",
+  "new": "                except Exception:\n                    rows = {}\n                if not isinstance(rows, dict):\n                    rows = {}\n"
+ }
+]

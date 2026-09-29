@@ -1,0 +1,5 @@
+{
+ "name": "hostcheck.adopt separates unmeasured from genuinely-without-a-wiki",
+ "expected": "an all-UNREACHABLE source prints 'none' and is counted as genuinely without a wiki",
+ "area": "drill_followup0928"
+}

@@ -1,0 +1,1 @@
+[{"module": "sevenfold.py", "old": "            if not window and root:\n", "new": "            if False and root:\n"}]

@@ -136,9 +136,23 @@ def save_config(cfg):
     # because this said silence.py:370-373, which had drifted into replace_retry's docstring;
     # order bf22c557852e) so two writers of config.yaml can't collide on the temp file itself.
     tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
-    with open(tmp, "w", encoding="utf-8") as f:
-        f.write(new_raw)
+    # THE TEMP IS REMOVED ON EVERY FAILED PATH (sweep67 batch10, order f7082f032948, run #67):
+    # a write that raised, or a denied replace, used to leave config.yaml.<pid>.<tid>.tmp in the
+    # repo root for good (`publish._write_text_atomic` removes its temp on denial).
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(new_raw)
+    except BaseException:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        raise
     if not silence.replace_retry(tmp, p):
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
         silence.note("pick_model.py:save_config-denied")
         print("pick_model: config.yaml is held open and could not be replaced; it still names "
               "the PREVIOUS model.", file=sys.stderr)

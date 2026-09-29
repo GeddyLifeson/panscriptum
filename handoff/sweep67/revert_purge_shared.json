@@ -1,0 +1,1 @@
+[{"module": "hostcheck.py", "old": "                if dry or not landed or shared:\n", "new": "                if dry or not landed:\n"}]

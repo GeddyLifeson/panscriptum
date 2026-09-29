@@ -1,0 +1,1 @@
+[{"module": "cascade_bridge.py", "old": "    if done.get(\"length_stopped\") or done.get(\"truncated\") is True:\n", "new": "    if done.get(\"length_stopped\"):\n"}]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_codex.py",
+  "old": "        if not _roll_scope.in_scope(r[\"name\"], roll):\n            continue\n",
+  "new": ""
+ }
+]

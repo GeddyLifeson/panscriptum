@@ -1,0 +1,5 @@
+{
+ "name": "backfill keys names by NFKD alphanumerics, never empty",
+ "expected": "non-Latin wiki pages count as held and are never fetched",
+ "area": "drill_followup0928"
+}

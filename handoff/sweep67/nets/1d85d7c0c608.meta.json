@@ -1,0 +1,5 @@
+{
+ "name": "compress_store sweeps its temp when the blob write fails",
+ "expected": "an ENOSPC/AV-locked write leaves a torn uniquely-named .tmp that accumulates",
+ "area": "drill_followup0928"
+}

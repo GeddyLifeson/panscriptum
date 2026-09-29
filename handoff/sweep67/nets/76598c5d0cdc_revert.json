@@ -1,0 +1,1 @@
+[{"module": "gpu_lane.py", "old": "    try:\n        beat = float(rec.get(\"heartbeat\") or 0)\n    except (TypeError, ValueError):\n        return True\n    if _now() - beat > lease:\n", "new": "    if _now() - float(rec.get(\"heartbeat\") or 0) > lease:\n"}]

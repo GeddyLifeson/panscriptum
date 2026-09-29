@@ -1,0 +1,5 @@
+{
+ "name": "whoruns.script_of refuses attached -m<mod>/-c<code> spellings",
+ "expected": "a linter run (-mpyflakes src/x.py) is reported as x.py running",
+ "area": "drill_followup0928"
+}

@@ -25,6 +25,7 @@ made every silent failure in this project look like an honest absence.
 """
 import argparse
 import collections
+import glob
 import json
 import os
 import sys
@@ -313,8 +314,38 @@ def measure():
             "every entry as hostless and print a coverage figure that is wrong rather than "
             "missing. Restore or rebuild the file (src/feats.py --hosts) and re-run." % F.HOSTS)
     _so_load()
+    # Sweep67 batch12, run #67 (order ee9365750ddf): P.records() skips any record unreadable at
+    # that instant (Windows denies open during a writer's replace), so COVERAGE.json used to land
+    # with a source missing and shrunk totals, no marker. A record that is absent from the result
+    # yet parses WITH entries (or does not parse) is a lost read, not an empty record: retry as
+    # the host map does, then refuse.
+    recs = []
+    for _attempt in range(4):
+        recs = P.records()
+        _got = set(_rp for _rp, _ in recs)
+        _lost = []
+        for _rp in sorted(glob.glob(os.path.join(P.RECORDS, "*.json"))):
+            if _rp in _got:
+                continue
+            try:
+                with open(_rp, encoding="utf-8") as _rf:
+                    if json.load(_rf).get("entries"):
+                        _lost.append(_rp)
+            except Exception:
+                _lost.append(_rp)
+        if not _lost:
+            break
+        silence.note("coverage.py:records-unreadable")
+        if _attempt < 3:
+            _time.sleep(0.3 * (_attempt + 1))
+    if _lost:
+        raise SystemExit(
+            "REFUSING TO MEASURE: %d record file(s) could not be read after 4 attempts (%s). "
+            "Measuring without them would write a COVERAGE.json with sources missing and "
+            "shrunk totals, unmarked. Re-run when the writer is done."
+            % (len(_lost), ", ".join(os.path.basename(_rp) for _rp in _lost)))
     rows = []
-    for _, r in P.records():
+    for _, r in recs:
         host = hosts.get(r["source"])
         c = collections.Counter()
         feats = 0

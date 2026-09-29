@@ -1,0 +1,5 @@
+{
+ "name": "sweep.sweep refuses an absent/empty WIKI_HOSTS.json",
+ "expected": "sweep() writes an all-unreachable CHARACTER_SWEEP that downstream reads as fact",
+ "area": "drill_followup0928"
+}

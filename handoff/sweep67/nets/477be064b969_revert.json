@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cascade_bridge.py",
+  "old": "    if not re.search(r\"\\boutput tokens\\b|\\botpm\\b\", err or \"\", re.IGNORECASE):\n        return None\n",
+  "new": ""
+ }
+]

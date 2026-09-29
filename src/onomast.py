@@ -608,13 +608,22 @@ def name_worlds(resolved):
     # ONOMASTICON.json, so a return of any kind here is a write, and a write over a prior
     # nobody could read is the wipe order 549069e9c298 is about. Missing file -> `{}` still.
     prior = load_onomasticon()
-    taken = set()
+    # EVERY OTHER CID'S STANDING NAME IS RESERVED, NOT ONLY THOSE OUTSIDE `naming` (order
+    # c9c29a2305f1, sweep67). Skipping every cid in `naming` let a NEW world that sorts earlier
+    # in its collision group coin an EXISTING world's standing designation on a hash collision,
+    # and the existing world then walked to its next salt -- its published name changed by
+    # addition. Now only the cid being named has its OWN prior name lifted (so an unchanged
+    # world still regenerates to it: the reproducibility the note above protects), and names
+    # coined this run stay in `taken`, so a duplicated prior still goes to the first cid only,
+    # exactly as before. This can only push a NEW or drifted cid off a standing name; a cid
+    # whose walk reproduced its prior name still does.
+    prior_names = {}
     for cid, rec in prior.items():
-        if cid in naming:
-            continue
-        nm = (rec or {}).get("catalogue_name") if isinstance(rec, dict) else None
+        nm = rec.get("catalogue_name") if isinstance(rec, dict) else None
         if nm:
-            taken.add(nm.lower())
+            prior_names[cid] = nm.lower()
+    reserved = set(prior_names.values())
+    taken = {n for cid, n in prior_names.items() if cid not in naming}
 
     out = {}
     for key, items in sorted(by_key.items()):
@@ -626,7 +635,8 @@ def name_worlds(resolved):
             # hash-of-group-id fallback, held by owner ruling 2026-09-08 (order ae25c89f0179).
             reg = register_for(v["continuity_group"])
             nm, coined_under = coin_well_formed_stamped(
-                f"{key}|{v['continuity_group']}", reg, taken)
+                f"{key}|{v['continuity_group']}", reg,
+                taken | (reserved - {prior_names.get(cid)}))
             taken.add(nm.lower())
             out[cid] = {
                 "catalogue_name": nm,

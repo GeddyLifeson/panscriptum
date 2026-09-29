@@ -1,0 +1,5 @@
+{
+ "name": "catalogue_web dedup registers a title only once its fetch returned text",
+ "expected": "a same-key twin of a textless title is dropped as a duplicate and the entity has no entry",
+ "area": "drill_followup0928"
+}

@@ -61,7 +61,10 @@ def script_of(tokens):
     i = 0
     while i < len(rest):
         tok = rest[i]
-        if tok in ("-m", "-c"):
+        # ATTACHED SPELLINGS TOO (sweep67, order d8ad47ebf10d, run #67): `-mpyflakes` and
+        # `-c<code>` start with "-", were skipped as interpreter flags, and the next .py token
+        # was reported as RUNNING. No real interpreter flag begins with -m or -c except these.
+        if tok.startswith(("-m", "-c")):
             return None
         if tok in _FLAGS_WITH_A_VALUE:
             i += 2                     # the flag AND the value it consumes

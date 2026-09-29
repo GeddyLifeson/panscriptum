@@ -307,7 +307,7 @@ def _not_a_leak(why):
 # `scale_theories` was NOT settled first -- that is a different module's fix, outside what this
 # order's own text authorized touching here -- and it turned out not to be the blocking
 # constraint: measured directly against the landed code, the receiver-aware pass adds exactly
-# ONE finding (`context_budget.py:276 report()`, genuinely uncalled by any spelling in `src/`;
+# ONE finding (`context_budget.report()`, genuinely uncalled by any spelling in `src/`;
 # the OTHER candidate the pre-landing measurement worried about, `resonance.py`'s
 # `hodge_decompose()`, correctly resolves as used and does NOT appear -- the false positive the
 # naive approach would have produced is the one thing this measurement had to rule out). 48 -> 49,
@@ -1145,6 +1145,12 @@ def _static_truth(test):
         if isinstance(test.op, ast.And) and False in kinds:
             return False
         if isinstance(test.op, ast.Or) and True in kinds:
+            return True
+        # AND THE MIRROR CASES (sweep67 batch 01, F3): `False or False` is False and
+        # `True and True` is True. Without them a gate under `if False or False:` read as live.
+        if isinstance(test.op, ast.Or) and all(k is False for k in kinds):
+            return False
+        if isinstance(test.op, ast.And) and all(k is True for k in kinds):
             return True
     return None
 
@@ -3209,6 +3215,9 @@ def drill_park():
         "escalating everything is the same failure as escalating nothing")
     net(a, "the halt file FAILS CLOSED when unreadable", _halt_fails_closed,
         "a halt a corrupted file can lift is not a halt")
+    net(a, "only a literal `cleared: true` lifts a halt; a truthy string does not",
+        _a_truthy_cleared_string_lifts_nothing,
+        "sweep67 F4: `\"cleared\": \"false\"` is a truthy string, and the halt read as lifted")
     net(a, "a halt cannot be lifted without a written ruling",
         lambda: _refuses(lambda: ESC.clear(""), ValueError),
         "the halt exists to buy a decision; lifting it with none buys nothing")
@@ -3282,6 +3291,10 @@ def drill_park():
         _the_process_listing_sees_its_own_process,
         "order 7bd2ee5f8b3b: three killing remedies listed processes with wmic, which this machine "
         "does not have, so every one of them answered 'could not enumerate' and could never act")
+    net(a, "the duplicate-job remedy ends only a true twin: same job, same tree, same arguments",
+        _dedupe_ends_only_a_true_twin,
+        "sweep67 F1: a hand-run `read.py --status` and a sandbox's `pipeline.py` both counted "
+        "as duplicates of the live daemons")
 
     def backfill_named_sources_are_each_their_own_area():
         """sweep58-batch08. `backfill.main --source A --source B` had no per-source try/except, so
@@ -3747,6 +3760,37 @@ def _an_unrestartable_stall_needs_evidence_and_is_retired():
     return _esc_probe(probe)
 
 
+def _dedupe_ends_only_a_true_twin():
+    """`kill_duplicate_jobs` ends a TRUE twin and nothing else.
+
+    Sweep67 batch 09, F1, run #67. The job key was the script name alone, so a hand-run
+    `read.py --status` counted as a second `read.py --run --loop` and one of them was shot, and a
+    mutation sandbox's older `pipeline.py` was kept as "the oldest" while the LIVE one was ended.
+    Driven against the real remedy with the listing scripted and `os.kill` captured -- nothing on
+    the machine is touched. Only pid 105, the same job from this tree with the same arguments and
+    the newer start, may be ended.
+    """
+    import foreman as F
+    live = lambda script: os.path.join(F.SRC, script)
+    sandbox = os.path.join(tempfile.gettempdir(), "panscriptum_mutate_drill", "src", "pipeline.py")
+    rows = [
+        (101, '"py" "%s" --run --loop 5' % live("read.py"), "20260928010000"),
+        (102, '"py" "%s" --status' % live("read.py"), "20260928020000"),
+        (103, '"py" "%s" --run' % sandbox, "20260928000000"),
+        (104, '"py" "%s" --run' % live("pipeline.py"), "20260928030000"),
+        (105, '"py" "%s" --run --loop 5' % live("read.py"), "20260928040000"),
+    ]
+    ended = []
+    saved = (F._python_processes, F.os.kill)
+    try:
+        F._python_processes = lambda: list(rows)
+        F.os.kill = lambda pid, sig: ended.append(pid)
+        did, _why = F.kill_duplicate_jobs()
+    finally:
+        F._python_processes, F.os.kill = saved
+    return did is True and ended == [105]
+
+
 def _the_process_listing_sees_its_own_process():
     """The foreman's REAL process listing returns a row for the very process that asks.
 
@@ -3898,6 +3942,33 @@ def _halt_fails_closed():
             os.rmdir(d)
         except OSError:
             pass
+
+
+def _a_truthy_cleared_string_lifts_nothing():
+    """A halt file saying `"cleared": "false"` (or 1, or "yes") is a STANDING halt.
+
+    Sweep67 batch 15, F4, run #67. `status()` tested `cleared` for truthiness, so any non-empty
+    string lifted the halt: a hand edit writing "false" was read as the opposite of what it says.
+    All three readers now require the literal True that `_land_clear` writes. RED against the
+    old `not rec.get("cleared", False)`.
+    """
+    real = ESC.HALT_FILE
+    d = tempfile.mkdtemp(prefix="drill_halt_cleared_")
+    path = os.path.join(d, "HALT.json")
+    try:
+        ESC.HALT_FILE = path
+        verdicts = []
+        for val in ("false", "no", 1, [0]):
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump({"code": "DRILL_FIXTURE", "cleared": val}, f)
+            verdicts.append(ESC.status()[0] is True and ESC._halt_file_cleared() is False)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"code": "DRILL_FIXTURE", "cleared": True}, f)
+        control = ESC.status()[0] is False and ESC._halt_file_cleared() is True
+        return all(verdicts) and control
+    finally:
+        ESC.HALT_FILE = real
+        shutil.rmtree(d, ignore_errors=True)
 
 
 # ---- THE MUTATION SURVIVORS OF 2026-08-31 -------------------------------------------------
@@ -4490,8 +4561,8 @@ def _cannot_edit_shared_run_state_in_the_sandbox():
         try:
             os.remove(probe)
         except OSError:
-            import silence as _si
-            _si.note("drill.py:state-probe-cleanup")
+            _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+            _DECLARED_ESCAPES.append("drill.py:state-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
 
 
 # A NAME PER PROCESS (order 7a487cfab844). Two drills on one tree -- the supervisor's and a
@@ -4601,8 +4672,8 @@ def _blast_cap_bites_in_the_sandbox():
         try:
             os.remove(probe)
         except OSError:
-            import silence as _si
-            _si.note("drill.py:blast-probe-cleanup")
+            _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+            _DECLARED_ESCAPES.append("drill.py:blast-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
         # The cap escalates when it bites, and an escalation files a work order -- so this
         # probe would leave one behind on every cycle. Same discipline as the DRILL_AREA
         # probe: a test that litters the real queue is a test with a side effect, and a
@@ -4714,7 +4785,6 @@ def drill_local_agent():
         delivered. The note is the record that it was not.
         """
         import subprocess as _sp
-        import silence as _si
         import local_agent as LA
         link = os.path.join(LA.HERE, "src", _JUNCTION_PROBE_NAME)
 
@@ -4738,7 +4808,8 @@ def drill_local_agent():
                 except OSError:
                     continue
             if os.path.lexists(link):
-                _si.note("drill.py:junction-probe-cleanup")
+                _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                _DECLARED_ESCAPES.append("drill.py:junction-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
 
         # THE PROBE'S OWN FOOTPRINT IS NOT AN EDIT (2026-09-09 sweep, batch 01). Staging and
         # unstaging this entry bumps the mtime of the `src/` DIRECTORY, which is exactly what
@@ -4804,7 +4875,6 @@ def drill_local_agent():
         anyone will keep enabled.
         """
         import subprocess as _sp
-        import silence as _si
         import local_agent as LA
         link = os.path.join(LA.HERE, "src", _SURFACE_PROBE_NAME)
         probe = os.path.join(LA.HERE, "data", _SURFACE_PROBE_NAME + ".txt")
@@ -4819,13 +4889,15 @@ def drill_local_agent():
                 except OSError:
                     continue
             if os.path.lexists(link):
-                _si.note("drill.py:surface-probe-cleanup")
+                _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                _DECLARED_ESCAPES.append("drill.py:surface-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
             try:
                 os.unlink(probe)
             except FileNotFoundError:
                 pass
             except OSError:
-                _si.note("drill.py:surface-probe-cleanup")
+                _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                _DECLARED_ESCAPES.append("drill.py:surface-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
 
         try:
             os.makedirs(os.path.dirname(probe), exist_ok=True)
@@ -4863,7 +4935,8 @@ def drill_local_agent():
                     with open(probe, encoding="utf-8") as fh:
                         after = fh.read()
                 except OSError:
-                    _si.note("drill.py:surface-probe-readback")
+                    _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                    _DECLARED_ESCAPES.append("drill.py:surface-probe-readback -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
                 # An ordinary in-surface path must still be reachable: a gate that refuses
                 # everything passes every refusal test ever written.
                 ordinary = LA._safe("src/lognames.py")
@@ -5135,8 +5208,8 @@ def drill_local_agent():
             try:
                 os.remove(probe)
             except OSError:
-                import silence as _si
-                _si.note("drill.py:unlisted-probe-cleanup")
+                _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                _DECLARED_ESCAPES.append("drill.py:unlisted-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
     net(a, "it cannot write a brand-new top-level file",
         cannot_write_an_unlisted_top_level_file,
         "the test that matters: a path invented AFTER the lists were written")
@@ -5185,8 +5258,8 @@ def drill_local_agent():
             try:
                 os.remove(full)
             except OSError:
-                import silence as _si
-                _si.note("drill.py:empty-find-probe-cleanup")
+                _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                _DECLARED_ESCAPES.append("drill.py:empty-find-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
     net(a, "an empty find string is refused, with its own reason",
         an_empty_find_is_not_a_location,
         "find_symbol, read_file and the uniqueness test are the three things standing between "
@@ -6929,7 +7002,7 @@ def _a_denied_batch_write_stays_on_the_failed_list():
         PL.ask_pool_first = lambda *a, **k: {"results": [
             {"index": 0, "category": 1, "topic": "Persons", "magnitude": "M1",
              "scale_note": "lifted a gate weighing some ten tonnes off its hinges"}]}
-        PL.write_record = lambda path, r: False
+        PL.write_record = lambda path, r, **kw_: False
         st = {"done": {}, "failed": {"entrypass": {key: "ollama failure"}}, "units_done": 0}
         PL.phase_entrypass({}, st)
         return (st["failed"]["entrypass"].get(key) == "write denied"
@@ -8153,6 +8226,22 @@ def drill_run57_repairs():
         "order bf1340bc3b3f: the alias key was not lower-cased while its lookups were, so such a "
         "source read as 'nothing catalogued'")
 
+    def completeness_an_error_body_is_not_a_missing_category():
+        import completeness as CO
+        saved = (CO._cs_load, CO._cs_put, CO.ws._api)
+        cached = []
+        try:
+            CO._cs_load = lambda: {}
+            CO._cs_put = lambda k, n: cached.append(k)
+            CO.ws._api = lambda sub, params: {"error": {"code": "ratelimited"}}
+            got, why = _deliberately_failing(lambda: CO.category_size_probe("drill", "Heroes"))
+            return got is None and why == "api-error-ratelimited" and not cached
+        finally:
+            CO._cs_load, CO._cs_put, CO.ws._api = saved
+    net(a, "completeness reads a MediaWiki error body as undetermined and caches nothing",
+        completeness_an_error_body_is_not_a_missing_category,
+        "sweep67 F3: an API error body was filed as 'no such category' and cached for 12 hours")
+
     def completeness_an_empty_category_is_not_a_missing_one():
         """A category that EXISTS with zero direct pages is not reported as a category that does not.
 
@@ -8914,8 +9003,8 @@ def drill_snapshot():
                 # 7a487cfab844).
                 _remove_scratch_in_live_state(os.path.join(SNAP.ROOT, _new), "empty-snapshot-cleanup")
     except OSError:
-        import silence as _si0
-        _si0.note("drill.py:empty-snapshot-cleanup")
+        _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+        _DECLARED_ESCAPES.append("drill.py:empty-snapshot-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
     net(a, "the withdrawal script takes one before moving anything",
         _withdrawal_takes_a_snapshot,
         "145 chapters were withdrawn with nothing but an instinct behind them")
@@ -10879,6 +10968,47 @@ def _coverage_reaches_unreachable(tmp=None):
     return rep is not None and _says(rep, "UNREACHABLE", reachable=True)
 
 
+def _a_canary_that_raises_quarantines_nothing(tmp=None):
+    """An exception escaping `canary()` is OUR fault and must not quarantine the host.
+
+    Sweep67 batch 14, F1, run #67. `run()` caught it as `healthy: False`, which is the verdict
+    that quarantines, so a missing dependency or a stub pinned to an old signature took a live
+    wiki out of the crawl for days (this file's own `_binding_health_filters` stub did exactly
+    that on 2026-09-08). The row must now read `healthy: None`, name the exception, and leave
+    the quarantine file alone. RED against the old `healthy: False` branch.
+    """
+    import binding_health as BH
+    tmpdir = tmp or tempfile.mkdtemp(prefix="drill_binding_raise_")
+    out_path = os.path.join(tmpdir, "BINDING_HEALTH.json")
+    _sb_dir, _sb_filed, sandbox_restore = _esc_sandbox()
+    saved = (BH.OUT, BH.canary, BH.known_present_titles, BH._load, BH.quarantine)
+    quarantined = []
+    try:
+        BH.OUT = out_path
+        BH.known_present_titles = lambda h, m=None, **kw: "Any Title"
+
+        def _raises(h, t, sources=None, **kw):
+            raise RuntimeError("drill: a fault on our side of the wire")
+        BH.canary = _raises
+        BH.quarantine = lambda h, reason, last_good=None: (quarantined.append(h),
+                                                            {"landed": True})[1]
+        BH._load = lambda path, default: ({"A": "a.example.invalid"}
+                                          if path.endswith("WIKI_HOSTS.json")
+                                          else saved[3](path, default))
+        _deliberately_failing(lambda: BH.run(only=["a.example.invalid"]))
+        with open(out_path, encoding="utf-8") as f:
+            rows = json.load(f).get("hosts") or []
+        row = next((r for r in rows if r.get("host") == "a.example.invalid"), {})
+        return (not quarantined and row.get("healthy") is None
+                and "RuntimeError" in str(row.get("reason")))
+    except Exception:
+        return False
+    finally:
+        BH.OUT, BH.canary, BH.known_present_titles, BH._load, BH.quarantine = saved
+        shutil.rmtree(tmpdir, ignore_errors=True)
+        sandbox_restore()
+
+
 def _binding_health_filters(tmp=None):
     """`--limit 0` must select NOTHING, and a filter that matched nothing must not re-stamp.
 
@@ -11526,6 +11656,10 @@ def drill_binding_identity():
         entry_collisions_recorded_are_readable,
         "_ENTRY_COLLISIONS was filled by feats_for_source and read nowhere in the tree, so every "
         "collision it recorded was recorded into nothing")
+    net(a, "a canary that RAISES is our fault and quarantines no host",
+        _a_canary_that_raises_quarantines_nothing,
+        "sweep67 F1: an exception on our side read as an unhealthy wiki and took it out of "
+        "the crawl for days")
     net(a, "an EMPTY filter canaries nothing and re-stamps nothing",
         _binding_health_filters,
         "`--limit 0` read as 'no limit' answers a request for nothing by canarying the whole "
@@ -12288,11 +12422,132 @@ def _backoff_stops_at_its_ceiling():
         F._STRIKE.pop(h, None)
 
 
+def _an_api_error_body_is_not_a_success():
+    """A 200 whose JSON body is a MediaWiki `{"error": ...}` is not a clean answer.
+
+    Sweep67 batch 05, F1, run #67. `feats.api()` stamped it "ok" and called `note_ok()`, so a
+    host answering `ratelimited` had its backoff RESET by the very reply asking us to slow
+    down, and could never accumulate the strikes that hand it to binding_health's quarantine.
+    Driven against the real `api()` with urlopen, the pacing and the endpoint lookup stubbed:
+    `ratelimited` must throttle (never note_ok) and return None stamped "throttled"; any other
+    error code returns None stamped "api-error-<code>"; a clean body still comes back parsed.
+    """
+    import io
+    import feats as F
+    import endpoint as EP
+    saved = (F.urllib.request.urlopen, F._throttle, F.note_ok, F.note_throttled,
+             F.time.sleep, EP.api_url)
+    calls = {"ok": 0, "throttled": 0}
+    body = {"v": ""}
+
+    class _Resp(io.BytesIO):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+    try:
+        F.urllib.request.urlopen = lambda req, timeout=None: _Resp(body["v"].encode("utf-8"))
+        F._throttle = lambda host: None
+        F.note_ok = lambda host: calls.__setitem__("ok", calls["ok"] + 1)
+        F.note_throttled = lambda host: calls.__setitem__("throttled", calls["throttled"] + 1)
+        F.time.sleep = lambda s: None
+        EP.api_url = lambda host: "https://drill.example.invalid/api.php"
+
+        body["v"] = json.dumps({"error": {"code": "ratelimited", "info": "slow down"}})
+        out1 = {}
+        r1 = _deliberately_failing(lambda: F.api("drill.example.invalid", {"action": "query"},
+                                                 retries=1, outcome=out1))
+        limb1 = (r1 is None and out1.get("why") == "throttled" and calls["ok"] == 0
+                 and calls["throttled"] == 2)
+
+        body["v"] = json.dumps({"error": {"code": "internal_api_error_DBQueryError"}})
+        out2 = {}
+        r2 = _deliberately_failing(lambda: F.api("drill.example.invalid", {"action": "query"},
+                                                 retries=1, outcome=out2))
+        limb2 = (r2 is None and out2.get("ok") is False
+                 and out2.get("why") == "api-error-internal_api_error_DBQueryError"
+                 and calls["ok"] == 0)
+
+        body["v"] = json.dumps({"query": {"pages": []}})
+        out3 = {}
+        r3 = F.api("drill.example.invalid", {"action": "query"}, retries=1, outcome=out3)
+        limb3 = r3 == {"query": {"pages": []}} and out3.get("why") == "ok" and calls["ok"] == 1
+        return limb1 and limb2 and limb3
+    except Exception:
+        return False
+    finally:
+        (F.urllib.request.urlopen, F._throttle, F.note_ok, F.note_throttled,
+         F.time.sleep, EP.api_url) = saved
+
+
+def _a_search_follows_every_page(which):
+    """rosetta.scales_for and scope.scope_for walk a search's `continue` token to the end.
+
+    Sweep67 batch 10 F3 and batch 05 F7, run #67, Hard Rule 0. rosetta asked for 50 results and
+    never followed `continue`; scope asked for 500 and only NOTED the token -- both kept the
+    relevance-ranked head of the result set and dropped the tail. Driven against the real
+    functions with `feats.api` scripted to answer in two pages and `feats.fetch` captured: the
+    title that only the SECOND page carries must reach the fetch.
+    """
+    import feats as F
+    import rosetta as RO
+    import scope as SC
+    head = "Power Scale" if which == "rosetta" else "Head Article"
+    tail = "Bounty List" if which == "rosetta" else "Tail Article"
+    fetched = []
+
+    def api(host, params, retries=2, outcome=None):
+        if outcome is not None:
+            outcome.update({"ok": True, "why": "ok"})
+        if params.get("sroffset"):
+            return {"query": {"search": [{"title": tail, "size": 5000}]}}
+        return {"query": {"search": [{"title": head, "size": 5000}]},
+                "continue": {"sroffset": 500, "continue": "-||"}}
+
+    def fetch(host, titles, *a_, **k_):
+        fetched.extend(titles)
+        return {}
+    saved = (F.api, F.fetch)
+    try:
+        F.api, F.fetch = api, fetch
+        if which == "rosetta":
+            RO.scales_for("drill.invalid")
+        else:
+            try:
+                _deliberately_failing(lambda: SC.scope_for("drill.invalid"))
+            except SC.ProbeUnread:
+                pass                  # an empty fetch is refused; the titles were already asked
+    finally:
+        F.api, F.fetch = saved
+    return tail in fetched and head in fetched
+
+
 def drill_fetch():
     """Between the wiki and the model: the two ways a network failure becomes a false absence."""
     a = "THE FETCH — can a blocked or throttled page read as an empty subject?"
     net(a, "a block page is refused before the model ever sees it", _page_is_real_gate,
         "verbatim provenance against a Cloudflare interstitial is still verbatim, and still wrong")
+    def _html_text_decodes_every_entity_once():
+        import endpoint as EP
+        got = EP.html_text("<p>Sauron&#8217;s caf&eacute;&hellip; &amp;lt;b&amp;gt;</p>")
+        want = "Sauron" + chr(8217) + "s caf" + chr(233) + chr(8230) + " &lt;b&gt;"
+        return got == want
+    net(a, "rosetta's scale search follows every page of results",
+        lambda: _a_search_follows_every_page("rosetta"),
+        "sweep67 F3: srlimit=50 and no `continue` kept the head of the ranking and dropped "
+        "the tail (Hard Rule 0)")
+    net(a, "scope's search follows every page of results",
+        lambda: _a_search_follows_every_page("scope"),
+        "sweep67 F7: the `continue` token was noted in the ledger and then ignored")
+    net(a, "an HTML page's entities are decoded, all of them, exactly once",
+        _html_text_decodes_every_entity_once,
+        "sweep67 F1: eight hand-listed entities left `&#8217;` in names, so they never matched "
+        "their entries, and `&amp;lt;` was decoded twice")
+    net(a, "a 200 carrying a MediaWiki error body is not a success, and never earns speed back",
+        _an_api_error_body_is_not_a_success,
+        "sweep67 F1: a `ratelimited` body reset the backoff it asked for, so the host could "
+        "never be quarantined, and every other API error read as an empty page")
     net(a, "throttling widens the pace, and a clean response earns it back", _backoff_adapts,
         "1,364 throttled fetches were once filed as honest absences across every pantheon")
 
@@ -12569,7 +12824,7 @@ def drill_fetch():
             WS.category_members = (lambda subdomain, category, limit=None:
                                    ["%s %s %02d" % (subdomain, category, i) for i in range(50)])
             WS.rank_by_size = _rank
-            WS.page_texts = (lambda subdomain, titles, max_chars=900, workers=None, progress=None:
+            WS.page_texts = (lambda subdomain, titles, max_chars=900, workers=None, progress=None, **kw_:
                              {t: "text of " + t for t in titles})
             rec, note = _deliberately_failing(
                 lambda: CW.catalogue_composite(name, verbose=False))
@@ -12616,7 +12871,7 @@ def drill_fetch():
                 CWB.catalogue = lambda name, verbose=True: ({"entries": [], "category": "Test"},
                                                            "ok")
                 WS.category_floor_report = lambda: list(fake_rows)
-                PL.write_record_catalogue = lambda path, record: True
+                PL.write_record_catalogue = lambda path, record, **kw_: True
                 sys.argv = ["catalogue_web.py"]
                 buf = io.StringIO()
                 with contextlib.redirect_stdout(buf):
@@ -12678,6 +12933,17 @@ def drill_cascade():
     """
     a = "THE CLOUD POOL — can a provider burn deadlines without anyone being able to name it?"
     import cascade_bridge as CB
+
+    # sweep67 batch 08, F3: the engine's `truncated` flag is a refusal by itself, capped or not,
+    # whatever the finish_reason says; an untruncated "stop" is still accepted.
+    net(a, "a reply the engine marked truncated is refused, whatever its finish_reason",
+        lambda: (CB.length_stopped({"finish_reason": "stop", "truncated": True,
+                                    "truncated_reason": "stream ended early"}, False) is True
+                 and CB.length_stopped({"finish_reason": "", "truncated": True}, False) is True
+                 and CB.length_stopped({"finish_reason": "stop", "truncated": False}, True)
+                 is False),
+        "sweep67 F3: a dropped stream parsed by _extract_json came back as a smaller complete "
+        "answer, because only finish_reason was read")
 
     def failure_names_its_bucket():
         CB._tried_reset()
@@ -13599,7 +13865,7 @@ def _catalog_matches_disk(root=None):
     an uncatalogued chapter in `output/raw` is the more alarming of the two conditions: a
     file there that no catalog entry names is prose from a writer nobody knows about — the
     incident this whole layer was built after, in its early form. `gate_claim_matches_reality`
-    two nets up asks a different question of the same directory -- whether anything NEW
+    (defined below, inside `drill_inspector`) asks a different question of the same directory -- whether anything NEW
     arrived after the prose gate was seen closed (sweep66 question 1, order 253d116215ab) --
     and this one holds whichever way the gate stands. A net's printed name is what people trust; it may not promise
     more than the code does. (Run #34, MINOR.)
@@ -13832,12 +14098,26 @@ def drill_inspector():
         # batch 01, D3, run #66). The walk used to look only inside `if` bodies, so a second,
         # unguarded `start("prose", ...)` in a loop passed as long as one guarded one existed.
         every = [c for c in ast.walk(tree) if _is_prose_start(c)]
+
+        # THE TEST MUST REQUIRE `drill_rc == 0`, not merely mention it (sweep67 batch 01, F2,
+        # run #67). A substring match on the unparsed test passed `drill_rc == 0 or True`,
+        # `not drill_rc == 0` and `drill_rc == 0 or drill_rc is None`. Now the test must be the
+        # bare comparison or an `and` chain with it as one conjunct.
+        def _is_clean_rc(c):
+            return (isinstance(c, ast.Compare) and isinstance(c.left, ast.Name)
+                    and c.left.id == "drill_rc" and len(c.ops) == 1
+                    and isinstance(c.ops[0], ast.Eq)
+                    and isinstance(c.comparators[0], ast.Constant)
+                    and c.comparators[0].value == 0 and c.comparators[0].value is not False)
+
+        def _requires_clean_drill(t):
+            conj = t.values if isinstance(t, ast.BoolOp) and isinstance(t.op, ast.And) else [t]
+            return any(_is_clean_rc(c) for c in conj)
         guarded = set()
         for node in ast.walk(tree):
             if not isinstance(node, ast.If):
                 continue
-            test = ast.unparse(node.test)
-            if "drill_rc == 0" not in test or "drill_rc != 1" in test:
+            if not _requires_clean_drill(node.test):
                 continue
             for s in node.body:
                 if isinstance(s, ast.Expr) and _is_prose_start(s.value):
@@ -13870,6 +14150,28 @@ def drill_inspector():
     net(a, "[control] the prose-gate net refuses a second, unguarded prose start",
         _second_unguarded_prose_start_is_refused,
         "sweep66 D3: one guarded start used to vouch for every other start in the file")
+
+    def _prose_gate_that_only_mentions_rc_is_refused():
+        body = "    start('prose', [g], 'prose_auto.log')\n"
+        bypasses = ("drill_rc == 0 or True", "not drill_rc == 0",
+                    "drill_rc == 0 or drill_rc is None", "(drill_rc == 0) == False")
+        refused = all(overnight_prose_needs_a_clean_drill("if %s:\n%s" % (t, body)) is False
+                      for t in bypasses)
+        return refused and overnight_prose_needs_a_clean_drill(
+            "if ok and drill_rc == 0:\n" + body) is True
+    net(a, "[control] the prose-gate net refuses a test that mentions `drill_rc == 0` "
+           "without requiring it",
+        _prose_gate_that_only_mentions_rc_is_refused,
+        "sweep67 F2: a substring match passed `drill_rc == 0 or True`")
+
+    def _static_truth_folds_constant_chains():
+        import ast
+        want = {"False or False": False, "True and True": True, "not (False or 0)": True,
+                "False or x": None, "True and x": None}
+        return all(_static_truth(ast.parse(s, mode="eval").body) is v for s, v in want.items())
+    net(a, "[control] the reachability helper folds an all-constant `or`/`and` both ways",
+        _static_truth_folds_constant_chains,
+        "sweep67 F3: a gate under `if False or False:` was read as live code")
 
     def throttle_iterates_a_snapshot(src_text=None):
         """feats._throttle walks a tuple() snapshot of _BACKOFF, never the live dict.
@@ -13978,6 +14280,12 @@ def drill_inspector():
         if not os.path.exists(p):
             return True
         rows = json.load(open(p, encoding="utf-8"))
+        # A FILE WITH NOTHING CHECKABLE IN IT IS NOT A PASS (sweep67 batch 01, F5, order
+        # e4942f481232). A COVERAGE.json that parsed to a dict, or to a list of non-dicts,
+        # iterated nothing and returned True -- the absent-file pass above is the only one
+        # documented. Present-but-unshaped is a failure to measure, and it now says so.
+        if not isinstance(rows, list) or not any(isinstance(r, dict) for r in rows):
+            return False
         for r in rows:
             if not isinstance(r, dict):
                 continue
@@ -13994,6 +14302,23 @@ def drill_inspector():
     net(a, "coverage's own states never exceed its entry count",
         coverage_totals_never_exceed_their_entry_count,
         "states that sum past the total mean an entry counted twice -- the M23 shape")
+
+    def _unshaped_coverage_is_not_a_pass():
+        d = tempfile.mkdtemp(prefix="drill_cov_shape_")
+        try:
+            verdicts = []
+            for body in ({"a": 1}, [1, "x"], [],
+                         [{"entries": 3, "cited": 1, "read": 1, "no_page": 1}]):
+                p = os.path.join(d, "COVERAGE.json")
+                with open(p, "w", encoding="utf-8") as f:
+                    json.dump(body, f)
+                verdicts.append(coverage_totals_never_exceed_their_entry_count(p))
+            return verdicts == [False, False, False, True]
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "[control] the coverage-overflow net refuses a file with nothing checkable in it",
+        _unshaped_coverage_is_not_a_pass,
+        "sweep67 F5: a COVERAGE.json that parsed to a dict iterated nothing and passed")
 
     def halt_claim_is_honest():
         """If we are halted, the file must say WHY. A halt with no reason cannot be ruled on."""
@@ -14253,7 +14578,7 @@ def drill_inspector():
         try:
             PL.records = lambda: [("/nonexistent/s.json", r)]
             PL.ask_pool_first = lambda *a, **k: ans
-            PL.write_record = lambda p, rec: written.append(json.loads(json.dumps(rec))) or True
+            PL.write_record = lambda p, rec, **kw_: written.append(json.loads(json.dumps(rec))) or True
             PL.save_state = lambda st: True
             PL.update_handoff = lambda st: None
             PL.log = lambda *a, **k: None
@@ -15055,8 +15380,8 @@ def _a_probe_leaves_no_order_behind_in_the_sandbox():
                 lambda: E.resume_subsystem(
                     name, "drill probe complete; releasing the synthetic stop"))
         except Exception:
-            import silence as _s
-            _s.note("drill.py:litter-probe-cleanup")
+            _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+            _DECLARED_ESCAPES.append("drill.py:litter-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
         _sweep_probe_litter(name, "litter-probe")
     rehearsed_after = _rows_in(WO.SELFTEST_LOG, name)
     return (bool(filed_during) and mine() == before
@@ -16262,7 +16587,7 @@ def drill_escalation_behaviour():
             saved_writer = _PL.write_record_catalogue
             wrote = []
 
-            def no_record_write(path, rec):
+            def no_record_write(path, rec, **kw_):
                 wrote.append(path)
                 raise RuntimeError("drill: the record writer is stubbed in this net")
 
@@ -21708,7 +22033,7 @@ def drill_recorders_and_lane():
             _CC.load_register_index = lambda: {}
             _CC.ROLL = rollp
             _CC.RECORDS = os.path.join(d, "records")
-            _P.write_record_catalogue = lambda _path, rec: (got.append(rec), True)[1]
+            _P.write_record_catalogue = lambda _path, rec, **kw_: (got.append(rec), True)[1]
             sys.argv = ["catalogue_codex.py"]
             out = io.StringIO()
             with contextlib.redirect_stdout(out):
@@ -23346,7 +23671,20 @@ def drill_scope():
         unreadable roll silently excluding all 215 sources would be a fault that looks exactly
         like a completed run."""
         import roll
-        return roll.in_scope("a source that is not in any roll", rows=[])
+        # A REALLY UNREADABLE ROLL, not an empty one (sweep67 batch 01, F4, order 3fa970025680).
+        # This passed `rows=[]`, which skips `roll.load()` entirely, so its unreadable -> []
+        # fail-open arm was never driven and a mutant excluding everything on a torn roll lived.
+        d = tempfile.mkdtemp(prefix="drill_roll_torn_")
+        keep = roll.ROLL
+        try:
+            roll.ROLL = os.path.join(d, "SWEEP_ROLL.json")
+            with open(roll.ROLL, "w", encoding="utf-8") as f:
+                f.write('[{"name": "torn')
+            return _deliberately_failing(
+                lambda: roll.in_scope("a source that is not in any roll")) is True
+        finally:
+            roll.ROLL = keep
+            shutil.rmtree(d, ignore_errors=True)
     net(a, "an unreadable roll does not silently exclude everything",
         unreadable_roll_does_not_exclude_the_library,
         "fail-closed here would turn one bad file into a mass deletion that reports success")
@@ -23473,7 +23811,7 @@ def drill_citations():
     net(a, "a citation past the end of the cited file is caught",
         lambda: "PAST_EOF" in _reasons_for({"t.py": _CITE_TARGET,
                                             "c.py": "# see t.py:5 for the reason\n"}),
-        "`mutate.py` cited verify_math.py:7990 in a file of 1,300 lines; three sweeps in a row "
+        "`mutate.py` cited verify_math.py line 7990 in a file of 1,300 lines; three sweeps in a row "
         "filed this class by hand because nothing mechanical ever looked")
 
     net(a, "a citation landing on a blank line is caught",
@@ -23915,7 +24253,7 @@ def drill_outside():
         `.note("drill.py:...")` instead of `_DECLARED_ESCAPES`. Words, not a list of sites, so a
         new decline written the old way is caught without anybody remembering to add it."""
         pat = re.compile(r'\.note\(\s*"drill\.py:[^"]*'
-                         r'(unstageable|absent|unreadable|unsupported|unwritable)')
+                         r'(unstageable|absent|unreadable|unsupported|unwritable|probe-cleanup|probe-readback|snapshot-cleanup)')
         return [(i, ln.strip()) for i, ln in enumerate(text.splitlines(), 1) if pat.search(ln)]
 
     def a_declined_measurement_is_declared_not_recorded():
@@ -24239,8 +24577,8 @@ def drill_identity_dashboard():
             except FileNotFoundError:
                 _ = "silence-exempt: the temp history file is already gone"
             except OSError:
-                import silence as _si
-                _si.note("drill.py:history-probe-cleanup")
+                _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                _DECLARED_ESCAPES.append("drill.py:history-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
     net(a, "a history row with a non-numeric 'at' heals the file rather than wedging it",
         history_heals_nonnumeric_at,
         "order c003673cff01 Case A: the write that would have healed HISTORY was never "
@@ -24276,8 +24614,8 @@ def drill_identity_dashboard():
             except FileNotFoundError:
                 _ = "silence-exempt: the temp history file is already gone"
             except OSError:
-                import silence as _si
-                _si.note("drill.py:history-probe-cleanup")
+                _ = "silence-exempt: a probe's own scratch cleanup, declared in _DECLARED_ESCAPES (sweep67, order 8d6f876efd0a)"
+                _DECLARED_ESCAPES.append("drill.py:history-probe-cleanup -- the probe's scratch could not be cleaned up or read back on this machine; not a measurement (run #67, order 8d6f876efd0a)")
     net(a, "a non-numeric stored metric does not raise out of movement()",
         movement_survives_nonnumeric_metric,
         "order c003673cff01 Case B: one string in one history sample used to black out every "
@@ -24313,6 +24651,31 @@ def drill_identity_dashboard():
         safety_distinguishes_unreadable_drill,
         "order e7ea68901bfe: a JSONDecodeError on a torn drill_last.json, a denial, a lock, an "
         "OSError on getmtime all rendered identically to a drill that has never run")
+
+    # ---- sweep67 batch 07, F1 ----------------------------------------------------------------
+    # `watch()["broken"]` was initialised to [] and filled nowhere, so the standard "every module
+    # imports" measured len([]) and could not fail. It is now read from ALLSWEEP's IMPORT tier.
+    def watch_reports_broken_imports():
+        import dashboard as DB
+        d = tempfile.mkdtemp()
+        orig = DB.DATA
+        try:
+            DB.DATA = d
+            path = os.path.join(d, "ALLSWEEP.json")
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump({"imports": [{"module": "fine", "ok": True},
+                                       {"module": "dead", "ok": False}]}, f)
+            one = _deliberately_failing(DB._watch).get("broken")
+            with open(path, "w", encoding="utf-8") as f:
+                f.write("{torn")
+            torn = _deliberately_failing(DB._watch).get("broken")
+            return one == ["dead"] and bool(torn)
+        finally:
+            DB.DATA = orig
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "the dashboard's broken-module list is filled from allsweep, and fails closed",
+        watch_reports_broken_imports,
+        "sweep67 F1: `broken` was never written, so 'every module imports' could not fail")
 
     # ---- order e7ea68901bfe, escalation -------------------------------------------------------
     # The escalation-ledger except-block's own comment ASSERTS THE VERDICT for every exception
@@ -24384,6 +24747,57 @@ def drill_identity_dashboard():
 # ============================================================================================
 
 
+def _a_purge_keeps_a_shared_host_cache():
+    """Purging one source never deletes a host cache other sources are still bound to.
+
+    Sweep67 batch 15, F2, run #67. The feats/readfeats caches are keyed by HOST, and
+    forgottenrealms.fandom.com alone carries thirty sources, so `purge --go` for one
+    wrong-fiction source deleted the pages every sibling had been mined from. Driven against
+    the real `purge()` in a scratch tree: source A shares its host with B, so A's entries are
+    cleared and the cache file must survive; source C is alone on its host, so its cache goes.
+    """
+    import cachekey
+    import feats as F
+    import hostcheck as HC
+    import weave_index as WI
+    d = tempfile.mkdtemp(prefix="drill_purge_shared_")
+    saved = (HC.HERE, HC.ROSTERS, HC.PURGED, F.HOSTS, WI.RECORDS, HC._assert_not_halted)
+    try:
+        hosts = {"A": "shared.example.invalid", "B": "shared.example.invalid",
+                 "C": "lonely.example.invalid"}
+        with open(os.path.join(d, "hosts.json"), "w", encoding="utf-8") as f:
+            json.dump(hosts, f)
+        with open(os.path.join(d, "rosters.json"), "w", encoding="utf-8") as f:
+            json.dump({"A": {"host": hosts["A"], "rate": 0.0},
+                       "C": {"host": hosts["C"], "rate": 0.0}}, f)
+        rec_dir = os.path.join(d, "records")
+        os.makedirs(rec_dir)
+        for src in ("A", "B", "C"):
+            with open(os.path.join(rec_dir, src + ".json"), "w", encoding="utf-8") as f:
+                json.dump({"source": src, "entries": [{"name": src + " one"}]}, f)
+        caches = {}
+        for h in ("shared.example.invalid", "lonely.example.invalid"):
+            cdir = os.path.join(d, "data", "feats", cachekey.host_dir(h))
+            os.makedirs(cdir)
+            caches[h] = os.path.join(cdir, "page.json")
+            with open(caches[h], "w", encoding="utf-8") as f:
+                f.write("{}")
+        HC.HERE, HC.ROSTERS = d, os.path.join(d, "rosters.json")
+        HC.PURGED = os.path.join(d, "ROSTER_PURGES.json")
+        F.HOSTS, WI.RECORDS = os.path.join(d, "hosts.json"), rec_dir
+        HC._assert_not_halted = lambda what: None
+        log = _deliberately_failing(lambda: HC.purge(dry=False, only=["A", "C"]))
+        with open(os.path.join(rec_dir, "A.json"), encoding="utf-8") as f:
+            a_after = json.load(f)
+        return (a_after.get("entries") == []
+                and os.path.exists(caches["shared.example.invalid"])
+                and not os.path.exists(caches["lonely.example.invalid"])
+                and log.get("A", {}).get("cache_kept_shared_with") == ["B"])
+    finally:
+        (HC.HERE, HC.ROSTERS, HC.PURGED, F.HOSTS, WI.RECORDS, HC._assert_not_halted) = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def drill_hostcheck():
     """The host verdict, and the baseline every lift in the module is computed against.
 
@@ -24435,6 +24849,27 @@ def drill_hostcheck():
             return probe_fn("drill.invalid", list(_REDIRECT_NAMES))
         finally:
             HC._api, HC._get, EP.detect = saved
+
+    def _error_body_probe_is_unmeasured():
+        import hostcheck as HC
+        import endpoint as EP
+        saved = (HC._api, HC._get, EP.detect)
+        HC._api = lambda host: "https://drill.invalid/w/api.php"
+        HC._get = lambda url, *a_, **k_: {"error": {"code": "ratelimited", "info": "slow"}}
+        EP.detect = lambda host, force=False: {"mode": EP.MODE_API, "path": "/w/api.php"}
+        try:
+            r = _deliberately_failing(lambda: HC.probe("drill.invalid", list(_REDIRECT_NAMES)))
+            return r.get("rate") is None and "ratelimited" in str(r.get("error"))
+        finally:
+            HC._api, HC._get, EP.detect = saved
+    net(a, "a purge never deletes a host cache other sources are still bound to",
+        _a_purge_keeps_a_shared_host_cache,
+        "sweep67 F2: the cache is per HOST, and purging one of thirty sources on a shared wiki "
+        "deleted the pages the other twenty-nine were mined from")
+    net(a, "a probe answered with a MediaWiki error body is UNMEASURED, not a rate of zero",
+        _error_body_probe_is_unmeasured,
+        "sweep67 F1: a `ratelimited` body scored 0 of N and graded the host WRONG FICTION, the "
+        "warhammer40k unassignment by a second door")
 
     net(a, "a probe counts every NAME that resolves, not every distinct page returned",
         lambda: _probe_with_reply().get("hits") == 4
@@ -25038,6 +25473,7 @@ def drill_agent_scratch_gate():
 _LIVE_STATE_PROBES = (
     _partial_canary_merges,
     _binding_health_filters,
+    _a_canary_that_raises_quarantines_nothing,
     _the_deprecated_cataloguer_still_refuses,
     _the_destructive_tool_asks_before_it_moves_anything,
     _a_poll_stamp_reads_back_in_three_states,
@@ -25807,7 +26243,8 @@ REREAD_TIMES = 3
 
 
 def _reread_the_breaches(breached):
-    """Ask each breached net again, on a tree that has stopped moving. -> (reproduced, note).
+    """Ask each breached net again, on a tree that has stopped moving.
+    -> (reproduced, recovered, note).
 
     WHY A SECOND READING IS STRONGER EVIDENCE, NOT WEAKER (order 71ae3fa7e55e; owner ruling
     2026-09-08, "Gates reading a tree under concurrent edit", option (a)). Run #45 lost a halt
@@ -26194,6 +26631,2377 @@ def _halt_helper_complaints(tree, label="?"):
     return [] if asks else ["%s: `_assert_not_halted` never calls assert_clear" % label]
 
 
+def _a_failed_snapshot_is_not_a_measured_zero():
+    """STATUS.md never prints a failed coverage snapshot as a row of zeros.
+
+    Sweep67 batch 11, F1, run #67. A crashed snapshot carries only an "error" key; `.get(k, 0)`
+    rendered it as "cited 0, change -1,000" in the page publish copies to the public repo, and a
+    failed FIRST cycle inflated every later change. Driven against the real `write_status` in a
+    scratch HERE: cycle 1 failed, cycle 2 measured 1,000, cycle 3 failed. "now" and "at start"
+    must both be cycle 2's 1,000, and each failed cycle must say so.
+    """
+    import overnight as ON
+    d = tempfile.mkdtemp(prefix="drill_status_")
+    keep = ON.HERE
+    try:
+        ON.HERE = d
+        hist = [{"cycle": 1, "at": "01:00", "error": "boom"},
+                {"cycle": 2, "at": "02:00", "cited": 1000, "read": 5, "feats": 7,
+                 "cited_pct": 10, "settled_pct": 20},
+                {"cycle": 3, "at": "03:00", "error": "boom again"}]
+        ON.write_status(3, hist)
+        with open(os.path.join(d, "STATUS.md"), encoding="utf-8") as f:
+            page = f.read()
+        return ("| entries cited | 1,000 | 1,000 | +0 |" in page
+                and "snapshot FAILED" in page
+                and page.count("snapshot failed") == 2)
+    finally:
+        ON.HERE = keep
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _a_record_write_loses_no_concurrent_edit():
+    """`write_record` neither overwrites a write that landed mid-merge nor reverts a field it
+    never changed.
+
+    Sweep67 batch 03, F1 and F2, run #67. F1: the writer read, merged, dumped and renamed with no
+    compare-and-swap, so a competitor landing in between was overwritten whole while the call
+    returned True. F2: the fold wrote EVERY merged per-entry field from the caller's load-time
+    copy, so a `topic` another writer set on disk was put back to the caller's stale value.
+    Driven against the real writer on a scratch record. The caller loads X and Y (both
+    topic "orig"), then changes only X. A competitor sets Y's topic to "competitor" AFTER the
+    caller's merge read and BEFORE its rename (hooked through `_tmp_for`). Both edits must
+    survive: X "caller", Y "competitor".
+    """
+    import pipeline as PL
+    d = tempfile.mkdtemp(prefix="drill_write_record_cas_")
+    path = os.path.join(d, "rec.json")
+    base = {"source": "Drill", "entries": [{"name": "X", "topic": "orig"},
+                                          {"name": "Y", "topic": "orig"}]}
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(base, f)
+    rec = json.loads(json.dumps(base))
+    PL._remember_top_keys(path, rec)            # the watermark records() takes at load
+    rec["entries"][0]["topic"] = "caller"
+    keep_tmp = PL._tmp_for
+    fired = []
+
+    def racing_tmp_for(p):
+        if not fired:
+            fired.append(1)
+            with open(path, encoding="utf-8") as f:
+                cur = json.load(f)
+            cur["entries"][1]["topic"] = "competitor"
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(cur, f)
+        return keep_tmp(p)
+    try:
+        PL._tmp_for = racing_tmp_for
+        ok = _deliberately_failing(lambda: PL.write_record(path, rec))
+        with open(path, encoding="utf-8") as f:
+            got = {e["name"]: e.get("topic") for e in json.load(f)["entries"]}
+        return ok is True and fired == [1] and got == {"X": "caller", "Y": "competitor"}
+    finally:
+        PL._tmp_for = keep_tmp
+        PL._DESC_SNAPSHOT.pop(os.path.abspath(path), None)
+        PL._TOP_SNAPSHOT.pop(os.path.abspath(path), None)
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _a_short_record_pass_is_neither_cached_nor_written():
+    """`weave_index.load_records` does not cache a pass that could not read a record.
+
+    Sweep67 batch 07, F3, run #67. A record torn mid-write was skipped and the SHORT list cached
+    under a valid directory signature, so `main --write` then landed an ENTITY_INDEX.json missing
+    that source over the full one. Driven against the real loader on a scratch records dir with
+    one good and one torn file: the torn one must be named in LAST_UNREADABLE and the cache must
+    not hold the short list; with the file repaired, the next pass reads both and caches.
+    """
+    import weave_index as WI
+    d = tempfile.mkdtemp(prefix="drill_weave_short_")
+    saved = (WI.RECORDS, dict(WI._REC_CACHE), dict(WI._SIG_MEMO))
+    try:
+        with open(os.path.join(d, "good.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Good", "entries": [{"name": "A"}]}, f)
+        with open(os.path.join(d, "torn.json"), "w", encoding="utf-8") as f:
+            f.write('{"source": "Torn", "entries": [')
+        WI.RECORDS = d
+        WI._REC_CACHE.clear()
+        WI._REC_CACHE.update({"sig": None, "out": []})
+        WI._SIG_MEMO.clear()
+        WI._SIG_MEMO.update({"at": 0, "val": None})
+        short = _deliberately_failing(WI.load_records)
+        limb1 = (len(short) == 1 and WI.LAST_UNREADABLE == ["torn.json"]
+                 and WI._REC_CACHE["sig"] is None)
+        with open(os.path.join(d, "torn.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Torn", "entries": [{"name": "B"}]}, f)
+        WI._SIG_MEMO.update({"at": 0, "val": None})
+        full = WI.load_records()
+        limb2 = len(full) == 2 and WI.LAST_UNREADABLE == [] and WI._REC_CACHE["sig"] is not None
+        return limb1 and limb2
+    finally:
+        WI.RECORDS = saved[0]
+        WI._REC_CACHE.clear()
+        WI._REC_CACHE.update(saved[1])
+        WI._SIG_MEMO.clear()
+        WI._SIG_MEMO.update(saved[2])
+        WI.LAST_UNREADABLE[:] = []
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_0173de67d95a():
+    # A same-key twin of a title whose fetch came back EMPTY must be fetched in its place, not
+    # dropped as a duplicate of an entry that does not exist.
+    import catalogue_web as W
+
+    def fetch(batch):
+        return {t: "text" for t in batch if t == "foo!"}
+
+    seen, deduped = {}, []
+    fetched, texts = _deliberately_failing(
+        lambda: W._dedup_fetch(["Foo", "foo!", "Bar"], seen, deduped, fetch))
+    if not (texts.get("foo!") == "text" and "foo!" in fetched and deduped == []):
+        return False
+    # And a genuine twin of a title that DID get text is still deduped, and named.
+    seen, deduped = {}, []
+    fetched, texts = _deliberately_failing(
+        lambda: W._dedup_fetch(["Foo", "foo!"], seen, deduped,
+                               lambda batch: {t: "text" for t in batch}))
+    return fetched == ["Foo"] and deduped == [("foo!", "Foo")]
+
+
+def _net_0620969b742d():
+    # Two starters that both read the SAME stale record: the second must not delete the FRESH
+    # lock the first has since created, and must not believe it holds the lock.
+    import mutate as M
+
+    tmp = tempfile.mkdtemp(prefix="net0620_")
+    saved = {k: getattr(M, k) for k in ("LOCK", "active")}
+    try:
+        M.LOCK = os.path.join(tmp, "MUTATION_ACTIVE.json")
+        fresh = {"pid": os.getpid(), "started": 1.0, "targets": ["a.py"], "token": "fresh-A"}
+        with open(M.LOCK, "w", encoding="utf-8") as f:
+            json.dump(fresh, f)
+        stale = {"pid": 2 ** 31 - 2, "started": 0.5, "targets": ["b.py"], "token": "stale",
+                 "stale": True}
+        # What starter B saw a moment ago, before A cleared it and wrote `fresh`.
+        M.active = lambda: (False, dict(stale))
+        refused = False
+        try:
+            M._lock_acquire(["b.py"], "token-B")
+        except RuntimeError:
+            refused = True
+        with open(M.LOCK, encoding="utf-8") as f:
+            on_disk = json.load(f)
+        if not (refused and on_disk == fresh):
+            return False
+        # And the case the clear exists for: the file STILL holds the stale record -> cleared,
+        # the new holder wins.
+        with open(M.LOCK, "w", encoding="utf-8") as f:
+            json.dump({k: v for k, v in stale.items() if k != "stale"}, f)
+        M._lock_acquire(["b.py"], "token-B")
+        with open(M.LOCK, encoding="utf-8") as f:
+            return json.load(f).get("token") == "token-B"
+    finally:
+        for k, v in saved.items():
+            setattr(M, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_081f6c79b882():
+    # catalogue_codex must skip a roll row the owner excluded, even with entry_count 0.
+    import contextlib
+    import io
+    import catalogue_codex as C
+    import roll as _roll
+
+    tmp = tempfile.mkdtemp(prefix="net_081f_")
+    saved = {k: getattr(C, k) for k in ("ROLL", "parse_codex", "load_register_index")}
+    saved_argv = sys.argv
+    try:
+        rollf = os.path.join(tmp, "roll.json")
+        with open(rollf, "w", encoding="utf-8") as f:
+            json.dump([{"name": "Alpha Src", "entry_count": 0, "status": "pending"},
+                       {"name": "Beta Src", "entry_count": 0, "status": _roll.OUT_OF_SCOPE,
+                        "note": "excluded"}], f)
+        C.ROLL = rollf
+        C.parse_codex = lambda: {
+            "Alpha Src": {"blurb": "b", "contents": [("Class", "AlphaOne")]},
+            "Beta Src": {"blurb": "b", "contents": [("Class", "BetaOne")]}}
+        C.load_register_index = lambda: {}
+        sys.argv = ["catalogue_codex.py", "--dry-run"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            _deliberately_failing(C.main)
+        out = buf.getvalue()
+        return "Alpha Src" in out and "Beta Src" not in out
+    finally:
+        sys.argv = saved_argv
+        for k, v in saved.items():
+            setattr(C, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_0be9eabfe057():
+    import assay as A
+    # NaN must be "could not measure" (None), never the top score.
+    if A.axis_score(float("nan"), "M3", "ruin") is not None:
+        return False
+    # A real quantity still scores.
+    v = A.axis_score(5.0, "M3", "ruin")
+    import math
+    return v is not None and not math.isnan(v)
+
+
+def _net_1011c56d52a8():
+    import subprocess
+    import allsweep as S
+    keep = S.subprocess.run
+    try:
+        def _timeout(*a, **k):
+            raise subprocess.TimeoutExpired(cmd="x", timeout=120)
+
+        def _oserr(*a, **k):
+            raise OSError("cannot spawn")
+        S.subprocess.run = _timeout
+        r1 = _deliberately_failing(lambda: S.check_import("assay"))
+        S.subprocess.run = _oserr
+        r2 = _deliberately_failing(lambda: S.check_import("assay"))
+        return (r1.get("ok") is False and "timed out" in r1.get("detail", "")
+                and r2.get("ok") is False and r2.get("module") == "assay")
+    except Exception:
+        return False        # a raise out of check_import is the defect
+    finally:
+        S.subprocess.run = keep
+
+
+def _net_1301ccb8fc44():
+    import resonance as R
+    names = "abcdefgh"
+    e = {(names[i], names[i + 1]): 1.0 for i in range(7)}
+    e[("a", "h")] = 7.0
+    big = R.hodge_decompose(e)
+    tiny = R.hodge_decompose({k: v * 1e-10 for k, v in e.items()})
+    # Same ladder, different units: the answer and the work done must not depend on scale.
+    return (big["converged"] is True and tiny["converged"] is True
+            and big["eta"] == tiny["eta"] and big["sweeps"] == tiny["sweeps"])
+
+
+def _net_1e2e6aad5fca():
+    # A ruling registered while another writer lands one between our read and our write must
+    # keep BOTH; unrule likewise; and no .tmp is left behind.
+    import mutate as M
+
+    tmp = tempfile.mkdtemp(prefix="net1e2e_")
+    path = os.path.join(tmp, "MUTANTS_RULED_EQUIVALENT.json")
+    saved = {k: getattr(M, k) for k in ("survivors_on_record", "ruled_equivalent")}
+    real = M.ruled_equivalent
+
+    def _rival(oid):
+        # Another process lands its own ruling after we have read the registry.
+        cur = dict(real(path))
+        cur[oid] = {"id": oid, "target": "x.py", "line": 1, "ruling": "rival ruling written"}
+        M._write_rulings(cur, path)
+
+    def _racing(oid):
+        fired = []
+
+        def _read(p=path):
+            got = real(p)
+            if not fired:
+                fired.append(1)
+                _rival(oid)
+            return got
+        return _read
+
+    try:
+        M.survivors_on_record = lambda target: [
+            {"line": 5, "mutation": "a -> b", "was": "a", "became": "b"}]
+        M.ruled_equivalent = _racing("rival000001")
+        # The staged race makes the CAS refuse once, which notes by design: kept out of the
+        # live ledger like every other deliberate refusal in this drill.
+        entry = _deliberately_failing(lambda: M.rule_equivalent(
+            "escalation.py", 5, "equivalent because nothing reads it", path=path))
+        keys = set(real(path))
+        if keys != {"rival000001", entry["id"]}:
+            return False
+        # unrule under the same race
+        M.ruled_equivalent = _racing("rival000002")
+        _deliberately_failing(lambda: M.unrule_equivalent("escalation.py", 5, path=path))
+        if set(real(path)) != {"rival000001", "rival000002"}:
+            return False
+        return not [f for f in os.listdir(tmp) if f.endswith(".tmp")]
+    finally:
+        for k, v in saved.items():
+            setattr(M, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_21ce9170f4d4():
+    # An instrument reading must bear on its axis before it may overwrite a model score: a
+    # height is not Reach and a mass in tons is not Ruin. A real yield still scores.
+    import magnitude as M
+
+    ev = {"quantities": [
+        {"value": "2", "unit": "meters", "sentence": "Goku stands 2 meters tall.", "page": "p"},
+        {"value": "90", "unit": "tons", "sentence": "Goku's armour weighs 90 tons.",
+         "page": "p"},
+        {"value": "5", "unit": "megatons",
+         "sentence": "Goku destroyed the moon with a blast of 5 megatons.", "page": "p"},
+    ]}
+    out, rejects = _deliberately_failing(lambda: M.quantity_scores(ev, "M3", "Goku"))
+    if "reach" in out:
+        return False
+    if "ruin" not in out or "moon" not in out["ruin"]["feat"]:
+        return False
+    return sum(1 for _ax, why in rejects if "does not bear on" in why) == 2
+
+
+def _net_273bd193d454():
+    """sweep.sweep() refuses (SystemExit) when WIKI_HOSTS.json is absent or empty."""
+    import sweep as _S
+    tmp = tempfile.mkdtemp()
+    real_hosts, real_records = _S.F.HOSTS, _S.P.records
+    try:
+        _S.P.records = lambda: []
+        results = []
+        # absent
+        _S.F.HOSTS = os.path.join(tmp, "absent.json")
+        # empty
+        empty = os.path.join(tmp, "empty.json")
+        with open(empty, "w", encoding="utf-8") as f:
+            json.dump({}, f)
+        for path in (os.path.join(tmp, "absent.json"), empty):
+            _S.F.HOSTS = path
+            try:
+                _deliberately_failing(_S.sweep)
+                results.append(False)
+            except SystemExit:
+                results.append(True)
+        # and a populated map still sweeps
+        good = os.path.join(tmp, "good.json")
+        with open(good, "w", encoding="utf-8") as f:
+            json.dump({"Src": "somewiki"}, f)
+        _S.F.HOSTS = good
+        try:
+            ok = _deliberately_failing(_S.sweep) == []
+        except SystemExit:
+            ok = False
+        return all(results) and ok
+    finally:
+        _S.F.HOSTS, _S.P.records = real_hosts, real_records
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_2a0dd1d54ff6():
+    """`sweep_plan.py --batches N --check-briefs FILE` runs the diff, not just the plan."""
+    import contextlib
+    import io
+    import sweep_plan as _SP
+    tmp = tempfile.mkdtemp()
+    real_check, real_argv = _SP.check_briefs, sys.argv
+    calls = []
+
+    def _fake(briefs, n, run=None):
+        calls.append(n)
+        return {"planned_batches": n, "dispatched_batches": n, "plan_source": "stub",
+                "tree_changed_since_freeze": False, "dropped": {}, "added": {},
+                "undispatched": [], "uncovered": [], "clean": True}
+    try:
+        bf = os.path.join(tmp, "briefs.json")
+        with open(bf, "w", encoding="utf-8") as f:
+            json.dump([], f)
+        _SP.check_briefs = _fake
+        sys.argv = ["sweep_plan.py", "--batches", "3", "--check-briefs", bf]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(io.StringIO()):
+            rc = _deliberately_failing(_SP.main)
+        return calls == [3] and rc == 0
+    finally:
+        _SP.check_briefs, sys.argv = real_check, real_argv
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_2a5344d24132():
+    """restart_reader and kill_stalled_job must never SIGTERM another tree's read.py --run."""
+    import foreman
+    import types
+    ours = "python " + os.path.join(foreman.SRC, "read.py") + " --run --loop"
+    theirs = "python C:\\Users\\x\\panscriptum_mutate_zz\\src\\read.py --run --loop"
+    rows = [(111111, theirs, "20260101000000"), (222222, ours, "20260101000001")]
+    sent = []
+    saved = (foreman._python_processes, os.kill, foreman._io_moving, foreman._restartable,
+             foreman._retire_stall_order, sys.modules.get("standards"), sys.modules.get("dashboard"))
+    fake_st = types.ModuleType("standards")
+    fake_st.check = lambda st: [{"standard": "every running job is advancing", "holds": False,
+                                 "observed": "read_auto (90 min quiet)"}]
+    fake_d = types.ModuleType("dashboard")
+    fake_d.state = lambda: {}
+    try:
+        foreman._python_processes = lambda: list(rows)
+        os.kill = lambda pid, sig: sent.append(pid)
+        foreman._io_moving = lambda pid, window=None: False
+        foreman._restartable = lambda frag: True
+        foreman._retire_stall_order = lambda why: False
+        sys.modules["standards"], sys.modules["dashboard"] = fake_st, fake_d
+        foreman.restart_reader()
+        first = list(sent)
+        del sent[:]
+        foreman.kill_stalled_job()
+        second = list(sent)
+    finally:
+        (foreman._python_processes, os.kill, foreman._io_moving, foreman._restartable,
+         foreman._retire_stall_order) = saved[:5]
+        for name, mod in (("standards", saved[5]), ("dashboard", saved[6])):
+            if mod is None:
+                sys.modules.pop(name, None)
+            else:
+                sys.modules[name] = mod
+    return first == [222222] and second == [222222]
+
+
+def _net_2b1e87355d3e():
+    import rigor as G
+    bad = ({("a", "a"): 3, ("a", "b"): 2, ("b", "a"): 1},
+           {("a", "b"): -1, ("b", "a"): 2},
+           {("a", "b"): float("nan"), ("b", "a"): 2})
+    for w in bad:
+        try:
+            _deliberately_failing(lambda w=w: G.bradley_terry(w))
+        except G.RigorIntegrityError:
+            continue
+        except Exception:
+            return False
+        return False        # accepted an invalid input
+    ok = G.bradley_terry({("a", "b"): 2, ("b", "a"): 1})
+    return abs(sum(ok["strengths"]) - 1.0) < 1e-9 if not isinstance(ok["strengths"], dict) \
+        else abs(sum(ok["strengths"].values()) - 1.0) < 1e-9
+
+
+def _net_2beb0a7fa5b3():
+    # Wrong-shaped ROWS must fail closed (no suppression, problems() says UNREADABLE) instead
+    # of raising out of active()/suppressed()/problems(); a well-formed file still loads.
+    import suppressions as S
+
+    tmp = tempfile.mkdtemp(prefix="net2beb_")
+    saved = S.FILE
+    S.FILE = os.path.join(tmp, "SUPPRESSIONS.json")
+    far = 4102444800.0
+    bad = [
+        [1],
+        ["notadict"],
+        [{"detector": "x", "path": 5, "expires_at": far}],
+        [{"detector": "x", "path": "a", "expires_at": "soon"}],
+        [{"detector": ["x"], "path": "a", "expires_at": far}],
+    ]
+
+    def _probe():
+        for rows in bad:
+            with open(S.FILE, "w", encoding="utf-8") as f:
+                json.dump(rows, f)
+            try:
+                if S.active() != [] or S.suppressed("x", "a") is not None:
+                    return False
+                if not any(p.startswith("UNREADABLE") for p in S.problems()):
+                    return False
+            except Exception:
+                return False
+        good = [{"detector": "x", "path": "a", "expires_at": far, "reason": "fine"}]
+        with open(S.FILE, "w", encoding="utf-8") as f:
+            json.dump(good, f)
+        return S.suppressed("x", "a") is not None
+
+    try:
+        return _deliberately_failing(_probe)
+    finally:
+        S.FILE = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_2f9c45993f46():
+    import urllib.error
+    import urllib.request
+    import scout as SC
+    keep = (SC._ask, SC.verify, urllib.request.urlopen)
+    try:
+        def _boom(*a, **k):
+            raise urllib.error.URLError("dns down")
+        urllib.request.urlopen = _boom
+        v = _deliberately_failing(lambda: SC.verify("http://example.invalid/a", ["Alpha Name"]))
+        if not (v.get("transport") is True and v.get("ok") is False):
+            return False
+        SC._ask = lambda prompt: ({"urls": ["http://example.invalid/a", "http://example.invalid/b"]}, None)
+        SC.verify = lambda u, names: {"url": u, "ok": False, "why": "transport failure",
+                                      "code": "URLError", "transport": True}
+        r = SC.scout("S", ["Alpha Name", "Beta Name"], register=False)
+        if r.get("reached") is not False:
+            return False
+        # A real negative (an HTTP 404 answer) must still count as reached.
+        SC.verify = lambda u, names: {"url": u, "ok": False, "why": "HTTP 404", "code": 404}
+        r2 = SC.scout("S", ["Alpha Name", "Beta Name"], register=False)
+        return r2.get("reached") is True
+    finally:
+        SC._ask, SC.verify, urllib.request.urlopen = keep
+
+
+def _net_477be064b969():
+    import cascade_bridge as CB
+    inp = ("Request too large for model `x` in organization `o` service tier `on_demand` on "
+           "tokens per minute (TPM): Limit 6000, Requested 9000. Please reduce your message size.")
+    out = ("Request too large for model `x` in organization `o` service tier `on_demand` on "
+           "output tokens per minute (OTPM): Limit 1000, Requested 2048. The request's expected "
+           "output tokens exceed the enforced limit; reduce max_tokens.")
+    return CB.size_refusal_limit(inp) is None and CB.size_refusal_limit(out) == 1000
+
+
+def _net_49e01317e5e0():
+    import profile as P
+    noted = []
+    keep = P.silence.note
+    try:
+        P.silence.note = lambda *a, **k: noted.append(a)
+        feats = {axis: tbl[0][0] for axis, tbl in P.AXES}
+        s = P.encode(5, "not_a_genre", "not_a_register", feats)
+        if len(noted) < 2:
+            return False        # the fallbacks answered without saying so
+        good = P.encode(5, "mythology", "classical", feats)
+        if P.decode(good)["genre"] != "mythology":
+            return False
+    finally:
+        P.silence.note = keep
+    try:
+        P.decode("PS-1-zzc-0000-u0")
+    except ValueError:
+        pass
+    else:
+        return False
+    try:
+        P.decode("PS-1-myz-0000-u0")
+    except ValueError:
+        return P.decode(s)["genre"] == "unclassified"
+    return False
+
+
+def _net_4c7cf744461d():
+    import worldseed as WS
+    t = "Warden of Ashford, Search Guild"
+    for table, axis in ((WS.CLIMATE, "climate"), (WS.CONDITION, "condition"),
+                        (WS.TECH, "tech"), (WS.LANDFORM, "landform")):
+        if WS._first(table, t, 0, axis)[1] != "seeded":
+            return False
+    # The intended words still attest.
+    return (WS._first(WS.CONDITION, "a war torn land", 0, "condition") == ("wartorn", "attested")
+            and WS._first(WS.CLIMATE, "the open sea", 0, "climate") == ("oceanic", "attested"))
+
+
+def _net_5032684974ff():
+    import backfill as B
+    keep = (B.roster, B.F.api)
+    try:
+        B.roster = lambda host, **kw_: ["日本語", "English", "Cafe"]
+        B.F.api = lambda host, params: None
+        recs = [("p.json", {"source": "S", "entries": [{"name": "ひらがな"}, {"name": "Café"}]})]
+        r = _deliberately_failing(lambda: B.backfill_source("S", recs, {"S": "h"}, dry=True))
+        # Non-Latin page not held by an unrelated non-Latin entry; accented name folds to ASCII.
+        return (r.get("absent") == 2 and "日本語" in r.get("queued_titles", [])
+                and "Cafe" not in r.get("queued_titles", []))
+    finally:
+        B.roster, B.F.api = keep
+
+
+def _net_56a4ed35c11e():
+    # catalogue_web must skip a roll row the owner excluded, by default and under --recatalogue.
+    import contextlib
+    import io
+    import catalogue_web as W
+    import roll as _roll
+
+    tmp = tempfile.mkdtemp(prefix="net_56a4_")
+    saved_roll = W.ROLL
+    saved_resolve = W.ws.resolve_wiki
+    saved_argv = sys.argv
+    try:
+        rollf = os.path.join(tmp, "roll.json")
+        with open(rollf, "w", encoding="utf-8") as f:
+            json.dump([{"name": "Alpha Src", "entry_count": 0, "status": "pending"},
+                       {"name": "Beta Src", "entry_count": 0, "status": _roll.OUT_OF_SCOPE,
+                        "note": "excluded"}], f)
+        W.ROLL = rollf
+        W.ws.resolve_wiki = lambda name: (None, None)
+        for extra in ([], ["--recatalogue"]):
+            sys.argv = ["catalogue_web.py", "--dry-run"] + extra
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                _deliberately_failing(W.main)
+            out = buf.getvalue()
+            if not ("Alpha Src" in out and "Beta Src" not in out):
+                return False
+        return True
+    finally:
+        sys.argv = saved_argv
+        W.ROLL = saved_roll
+        W.ws.resolve_wiki = saved_resolve
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_599bfad87a6b():
+    # A module edited DURING its review must not be stamped as seen-at-the-edited-digest: the
+    # `seen` digest and every new finding's digest are those of the file the model was shown.
+    import contextlib
+    import io
+    import overwatch as O
+    import allsweep as A
+
+    tmp = tempfile.mkdtemp(prefix="net599b_")
+    mpath = os.path.join(tmp, "netmod599b.py")
+    import hashlib
+    before, after = b"x = 1\n", b"x = 2  # edited mid-review\n"
+    with open(mpath, "wb") as f:
+        f.write(before)
+    led = {"findings": {}, "seen": {}, "rounds": 0}
+    saved = {k: getattr(O, k) for k in (
+        "SRC", "load", "save", "structure", "verify_open", "rotation", "review", "write_report")}
+    modules_saved = A.modules
+
+    def _review(m, local=True):
+        with open(mpath, "wb") as f:
+            f.write(after)
+        return [{"symbol": "s", "actual": "the model's claim"}], True
+
+    try:
+        O.SRC = tmp
+        O.load = lambda: led
+        O.save = lambda l: True
+        O.structure = lambda deep=False: {"files": 0, "corrupt_files": [], "broken_modules": []}
+        O.verify_open = lambda *a, **k: None
+        O.rotation = lambda l, mods: (["netmod599b"], [])
+        O.review = _review
+        O.write_report = lambda l, s: True
+        A.modules = lambda: ["netmod599b"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            O.round_once(limit=1, local=False)
+        want, now = hashlib.sha256(before).hexdigest()[:16], O._digest(mpath)
+        seen = led["seen"].get("netmod599b", {}).get("digest")
+        fdig = [f.get("digest") for f in led["findings"].values()]
+        return seen == want and seen != now and fdig == [want]
+    finally:
+        for k, v in saved.items():
+            setattr(O, k, v)
+        A.modules = modules_saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_59b534837fb2():
+    # A live target that cannot be read must not leak the sandbox `_run_mutation` built.
+    import mutate as M
+
+    tmp = tempfile.mkdtemp(prefix="net59b5_")
+    made = []
+    saved = {k: getattr(M, k) for k in ("sandbox", "_remove_sandbox", "SRC")}
+
+    def _sandbox():
+        d = tempfile.mkdtemp(prefix="net59b5_sb_", dir=tmp)
+        made.append(d)
+        return d
+
+    try:
+        M.sandbox = _sandbox
+        M._remove_sandbox = lambda root: shutil.rmtree(root, ignore_errors=True)
+        M.SRC = os.path.join(tmp, "src")          # empty: the live target does not exist
+        raised = False
+        try:
+            M._run_mutation("nonexistent_target.py", gates=(), confirm=(), base={})
+        except FileNotFoundError:
+            raised = True
+        except Exception:
+            raised = False
+        return raised and len(made) == 1 and not os.path.exists(made[0])
+    finally:
+        for k, v in saved.items():
+            setattr(M, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_5a0545df6d2a():
+    import scout as SC
+    tmp = tempfile.mkdtemp()
+    keep = (SC._ask, SC.verify, SC._control_404, SC.BLOCKED)
+    try:
+        SC.BLOCKED = os.path.join(tmp, "SCOUT_BLOCKED.json")
+        SC._ask = lambda prompt: ({"urls": ["http://waf.example/x"]}, None)
+
+        def _blocked_rows():
+            if not os.path.exists(SC.BLOCKED):
+                return {}
+            with open(SC.BLOCKED, encoding="utf-8") as f:
+                return json.load(f)
+
+        # 403 with no control proof (a WAF that 403s everything) is NOT a finding.
+        SC.verify = lambda u, names: {"url": u, "ok": False, "why": "x", "code": 403}
+        SC._control_404 = lambda u: False
+        SC.scout("S403", ["Alpha Name", "Beta Name"], register=False)
+        # 429 is a rate limit, never a finding, even if a control would 404.
+        SC.verify = lambda u, names: {"url": u, "ok": False, "why": "x", "code": 429}
+        SC._control_404 = lambda u: True
+        SC.scout("S429", ["Alpha Name", "Beta Name"], register=False)
+        rows = _blocked_rows()
+        if "S403" in rows or "S429" in rows:
+            return False
+        # A 403 whose control path 404s IS still recorded.
+        SC.verify = lambda u, names: {"url": u, "ok": False, "why": "x", "code": 403}
+        SC.scout("SREAL", ["Alpha Name", "Beta Name"], register=False)
+        return "SREAL" in _blocked_rows()
+    finally:
+        SC._ask, SC.verify, SC._control_404, SC.BLOCKED = keep
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_5a2b91bf1b5d():
+    # An entity with measured quantities but no candidate feat must NOT reach a model (which
+    # would anchor over an empty evidence list, from memory); it is the no-gate finding.
+    import magnitude as M
+
+    asked = []
+
+    def _ask(*a, **k):
+        asked.append(1)
+        return None
+
+    ev = {"quantities": [{"value": "5", "unit": "megatons", "page": "p",
+                          "sentence": "Goku destroyed the moon with a blast of 5 megatons."}],
+          "text": {}, "feats": [], "pages_read": []}
+    saved = {"F.evidence_for": M.F.evidence_for, "pool_ready": M.pool_ready,
+             "P.ask": M.P.ask, "_split_assay": M._split_assay,
+             "ID.epoch_directive": M.ID.epoch_directive}
+    try:
+        M.F.evidence_for = lambda host, entity: ev
+        M.pool_ready = lambda: False
+        M.P.ask = _ask
+        M._split_assay = _ask
+        M.ID.epoch_directive = lambda host: None
+        rec = _deliberately_failing(lambda: M.assay_entity({}, "Goku", "net.test"))
+    finally:
+        M.F.evidence_for = saved["F.evidence_for"]
+        M.pool_ready = saved["pool_ready"]
+        M.P.ask = saved["P.ask"]
+        M._split_assay = saved["_split_assay"]
+        M.ID.epoch_directive = saved["ID.epoch_directive"]
+    return (not asked and rec.get("result") is None
+            and "no axis cleared its gate" in (rec.get("reason") or ""))
+
+
+def _net_6093d3475efc():
+    # A target whose verdicts were declared VOID (live file changed under the run) must file no
+    # work orders; a clean target's survivors must still be filed.
+    import contextlib
+    import io
+    import types
+    import mutate as M
+
+    tmp = tempfile.mkdtemp(prefix="net6093_")
+    saved = {k: getattr(M, k) for k in (
+        "sandbox", "baseline", "unusable_gates", "tree_is_moving", "red_gates",
+        "survivors_on_record", "run", "file_orders", "_remove_sandbox")}
+    esc_saved = M.escalation.escalate
+    filed = []
+    surv = {"line": 1, "mutation": "x", "was": "a", "became": "b"}
+
+    def _result(target, void):
+        return {"target": target, "mutants": 1, "killed": 0, "survived": 1, "indeterminate": 0,
+                "indeterminates": [], "killed_by_hang": 0, "not_attempted": [],
+                "survivors": [dict(surv)], "capped": False, "mutants_attemptable": 1,
+                "baseline_drifts": None, "red_gates_disabled_at_launch": [],
+                "restored_exactly": True, "live_file_untouched": not void}
+
+    try:
+        M.sandbox = lambda: tmp
+        M.baseline = lambda root, gates=None, rows_out=None, times_out=None: {}
+        M.unusable_gates = lambda base: []
+        M.tree_is_moving = lambda now=None: (False, "")
+        M.red_gates = lambda base: []
+        M.survivors_on_record = lambda *a, **k: []
+        M._remove_sandbox = lambda root: None
+        M.run = lambda t, **k: _result(t, void=(t == "void.py"))
+        M.file_orders = lambda r, suppressed_out=None, **k: (filed.append(r["target"]) or [])
+        M.escalation.escalate = lambda *a, **k: None
+        args = types.SimpleNamespace(check_flaky=False, file_orders=True, keep_sandbox=False,
+                                     limit=None, no_confirm=False, rebaseline_every=0)
+        with contextlib.redirect_stdout(io.StringIO()):
+            M._session(args, ["void.py"])
+            void_filed = list(filed)
+            del filed[:]
+            M._session(args, ["clean.py"])
+            clean_filed = list(filed)
+        return void_filed == [] and clean_filed == ["clean.py"]
+    finally:
+        for k, v in saved.items():
+            setattr(M, k, v)
+        M.escalation.escalate = esc_saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_6c2ee32b1465():
+    # A resumed calibration pass must RE-RUN a benchmark whose prior row is DEFERRED, and must
+    # not stamp the pass complete while any row is still DEFERRED / SCOPE_UNMEASURED.
+    import time
+    import types
+    import magnitude as M
+
+    tmp = tempfile.mkdtemp(prefix="net6c2e_")
+    saved = {k: getattr(M, k) for k in ("HERE", "config", "SCOPE", "assay_entity")}
+    called = []
+    try:
+        os.makedirs(os.path.join(tmp, "data"))
+        rows = []
+        for i, (name, host, band, val, ci, _ep) in enumerate(M.BENCHMARKS):
+            r = {"entity": name, "host": host, "published": val, "ci": ci, "band": band,
+                 "at": time.time(), "status": "NO_SCORE", "consistent": None, "reason": "x"}
+            if i == 0:
+                r["status"] = "DEFERRED"
+            rows.append(r)
+        cr = os.path.join(tmp, "data", "CHARTER_REGRESSION.json")
+        with open(cr, "w", encoding="utf-8") as f:
+            json.dump({"started": time.time(), "model": "net-model", "results": rows,
+                       "complete": False}, f)
+        M.HERE = tmp
+        M.config = lambda: {"model": "net-model"}
+        M.SCOPE = types.SimpleNamespace(scope_for=lambda h: None,
+                                        ProbeUnread=saved["SCOPE"].ProbeUnread)
+
+        def _assay(c, name, host, **k):
+            called.append(name)
+            return {"entity": name, "host": host, "result": None, "status": "DEFERRED",
+                    "reason": "net: no transport"}
+        M.assay_entity = _assay
+        _deliberately_failing(M.calibrate)
+        with open(cr, encoding="utf-8") as f:
+            out = json.load(f)
+        return called == [M.BENCHMARKS[0][0]] and not out.get("complete") and "at" not in out
+    finally:
+        for k, v in saved.items():
+            setattr(M, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_6c3f5f7df5f2():
+    # retry_synthesis --only naming nothing pending must exit non-zero, and a clean run with no
+    # --only must still exit 0. Nothing is read or written: every source of work is stubbed.
+    import contextlib
+    import io
+    import retry_synthesis as R
+
+    names = ("_assert_not_halted", "failed_sources", "stranded_sources", "load_side")
+    saved = {k: getattr(R, k) for k in names}
+    saved_pl = (R.PL.cfg, R.PL.records)
+    saved_argv = sys.argv
+    try:
+        R._assert_not_halted = lambda what: True
+        R.failed_sources = lambda: []
+        R.stranded_sources = lambda: []
+        R.load_side = lambda: {}
+        R.PL.cfg = lambda: {}
+        R.PL.records = lambda: []
+        rcs = []
+        for argv in (["retry_synthesis.py", "--only", "Nope Typo"], ["retry_synthesis.py"]):
+            sys.argv = argv
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                rcs.append(_deliberately_failing(R.main))
+        return rcs == [1, 0]
+    finally:
+        sys.argv = saved_argv
+        R.PL.cfg, R.PL.records = saved_pl
+        for k, v in saved.items():
+            setattr(R, k, v)
+
+
+def _net_6d800a399592():
+    # The three hand-run cataloguers must ask the halt before a WRITING run and must not ask on
+    # --dry-run. assert_clear is replaced with a recorder that refuses; nothing is written
+    # because the refusal fires before the first read of live data.
+    import contextlib
+    import io
+    import escalation as E
+    import catalogue_aurora as A
+    import catalogue_codex as C
+    import catalogue_web as W
+
+    tmp = tempfile.mkdtemp(prefix="net_6d80_")
+    calls = []
+
+    def refuse(who="?"):
+        calls.append(who)
+        raise SystemExit("halted (net)")
+
+    saved_clear = E.assert_clear
+    saved = {(m, k): getattr(m, k) for m, ks in (
+        (A, ("ROLL", "FOLDER_SOURCE")), (C, ("ROLL", "parse_codex", "load_register_index")),
+        (W, ("ROLL",))) for k in ks}
+    saved_argv = sys.argv
+    try:
+        rollf = os.path.join(tmp, "roll.json")
+        with open(rollf, "w", encoding="utf-8") as f:
+            json.dump([], f)
+        A.ROLL, A.FOLDER_SOURCE = rollf, {}
+        C.ROLL, C.parse_codex, C.load_register_index = rollf, (lambda: {}), (lambda: {})
+        W.ROLL = rollf
+        E.assert_clear = refuse
+        for mod, name in ((A, "catalogue_aurora.py"), (C, "catalogue_codex.py"),
+                          (W, "catalogue_web.py")):
+            del calls[:]
+            sys.argv = [name]
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    mod.main()
+                return False                 # a write run proceeded under a halt
+            except SystemExit:
+                pass
+            if len(calls) != 1:
+                return False
+            del calls[:]
+            sys.argv = [name, "--dry-run"]
+            with contextlib.redirect_stdout(io.StringIO()):
+                _deliberately_failing(mod.main)
+            if calls:
+                return False                 # a dry run is a measurement and must not ask
+        return True
+    finally:
+        sys.argv = saved_argv
+        E.assert_clear = saved_clear
+        for (m, k), v in saved.items():
+            setattr(m, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_76598c5d0cdc():
+    """A slot record with a non-numeric heartbeat is reclaimed, not raised out of `lane()`."""
+    import gpu_lane
+    try:
+        for bad in ("soon", [1], {"a": 1}):
+            if gpu_lane._expired({"pid": os.getpid(), "heartbeat": bad}, 900) is not True:
+                return False
+    except Exception:
+        return False
+    # a fresh numeric heartbeat from a live pid is still held
+    return gpu_lane._expired({"pid": os.getpid(), "heartbeat": gpu_lane._now()}, 900) is False
+
+
+def _net_882065c6b19d():
+    import wiki_source as WS
+    keep = WS._api
+    try:
+        def _down(*a, **k):
+            raise OSError("network down")
+        WS._api = _down
+        try:
+            _deliberately_failing(lambda: WS.page_text("x", "T"))
+            return False            # all three sections raised: must not read as "no prose"
+        except WS.PageFetchFailed:
+            pass
+        failed = []
+        out = _deliberately_failing(lambda: WS.page_texts("x", ["T"], failed=failed))
+        if out or failed != ["T"]:
+            return False
+        # A wiki that ANSWERS with no prose is still just "", not a failure.
+        WS._api = lambda *a, **k: {"parse": {"text": {"*": ""}}}
+        return WS.page_text("x", "T") == ""
+    finally:
+        WS._api = keep
+
+
+def _net_888b8b52467a():
+    """feats.evidence_for and resolve_hosts land through silence.write_json (pid/thread temp)."""
+    import feats
+    import silence
+    tmpd = tempfile.mkdtemp()
+    calls = []
+    real = silence.write_json
+    saved = (feats.HERE, feats.CACHE, feats.HOSTS, feats._HOSTS_DENIED)
+
+    def spy(path, obj, **kw):
+        calls.append(os.path.abspath(path))
+        return real(path, obj, **kw)
+
+    try:
+        os.makedirs(os.path.join(tmpd, "data", "docs", "zz"))
+        with open(os.path.join(tmpd, "data", "docs", "zz", "pages.json"), "w",
+                  encoding="utf-8") as f:
+            json.dump({"P": "Goku lifted 5 tons of rock with one hand."}, f)
+        feats.HERE = tmpd
+        feats.CACHE = os.path.join(tmpd, "cache")
+        feats.HOSTS = os.path.join(tmpd, "data", "WIKI_HOSTS.json")
+        silence.write_json = spy
+        feats.evidence_for("doc:zz", "Goku", cache=False)
+        n_evidence = len(calls)
+        with open(os.devnull, "w") as dn:
+            import contextlib
+            with contextlib.redirect_stdout(dn):
+                feats.resolve_hosts([], verify=False)
+        hosts_landed = os.path.abspath(feats.HOSTS) in calls
+        stray = [n for dp, _d, fs in os.walk(tmpd) for n in fs if n.endswith(".tmp")]
+        return n_evidence == 1 and hosts_landed and not stray
+    finally:
+        silence.write_json = real
+        feats.HERE, feats.CACHE, feats.HOSTS, feats._HOSTS_DENIED = saved
+        shutil.rmtree(tmpd, ignore_errors=True)
+
+
+def _net_9034467cae85():
+    import cascade_bridge as CB
+    tmp = tempfile.mkdtemp()
+    keep = CB.UNRECOGNISED
+    try:
+        CB.UNRECOGNISED = os.path.join(tmp, "POOL_UNRECOGNISED.json")
+        # Corrupt ledger: must be left exactly as it was.
+        with open(CB.UNRECOGNISED, "w", encoding="utf-8") as f:
+            f.write("{not json")
+        _deliberately_failing(lambda: CB.record_unrecognised("b:m", "odd failure"))
+        with open(CB.UNRECOGNISED, encoding="utf-8") as f:
+            if f.read() != "{not json":
+                return False
+        # Wrong shape: same.
+        with open(CB.UNRECOGNISED, "w", encoding="utf-8") as f:
+            f.write("[1, 2]")
+        _deliberately_failing(lambda: CB.record_unrecognised("b:m", "odd failure"))
+        with open(CB.UNRECOGNISED, encoding="utf-8") as f:
+            if f.read() != "[1, 2]":
+                return False
+        # A missing file is the ordinary empty ledger and still gets its row.
+        os.remove(CB.UNRECOGNISED)
+        CB.record_unrecognised("b:m", "odd failure")
+        with open(CB.UNRECOGNISED, encoding="utf-8") as f:
+            rows = json.load(f)
+        return len(rows) == 1
+    finally:
+        CB.UNRECOGNISED = keep
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_926b5f0f997b():
+    """An unclosed template keeps its last characters; a closed one still drops its closer."""
+    import feats
+    unclosed = feats._unwrap_templates("{{Infobox|power=Goku lifted 5 tons")
+    param = feats._unwrap_templates("{{{1|Goku lifted 5 tons")
+    closed = feats._unwrap_templates("{{Infobox|power=Goku lifted 5 tons}} end")
+    return ("5 tons" in unclosed and "5 tons" in param
+            and "5 tons" in closed and "}" not in closed and "end" in closed)
+
+
+def _net_92b6168fdd74():
+    """corpus_db.rebuild: a source declared by two records keeps source.entries == COUNT(entry)."""
+    import sqlite3
+    import corpus_db as _CD
+    tmp = tempfile.mkdtemp()
+    real_here, real_db = _CD.HERE, _CD.DB
+    try:
+        rd = os.path.join(tmp, "data", "records")
+        os.makedirs(rd)
+        for fn, n in (("a.json", 2), ("b.json", 3)):
+            with open(os.path.join(rd, fn), "w", encoding="utf-8") as f:
+                json.dump({"source": "Dup", "entries": [
+                    {"name": "%s%d" % (fn, i), "category": "Person"} for i in range(n)]}, f)
+        _CD.HERE = tmp
+        _CD.DB = os.path.join(tmp, "state", "corpus.db")
+        got = _deliberately_failing(lambda: _CD.rebuild(include_evidence=False))
+        con = sqlite3.connect(_CD.DB)
+        try:
+            declared = con.execute("SELECT entries FROM source WHERE name='Dup'").fetchone()[0]
+            actual = con.execute("SELECT COUNT(*) FROM entry WHERE source='Dup'").fetchone()[0]
+        finally:
+            con.close()
+        return (declared == actual == 5 and got["sources"] == 1
+                and any("duplicate" in u for u in got["unreadable_records"]))
+    finally:
+        _CD.HERE, _CD.DB = real_here, real_db
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_9310fefed227():
+    """_take_slot must not delete a slot another process re-created after the expiry read."""
+    import gpu_lane
+    tmpd = tempfile.mkdtemp()
+    saved = (gpu_lane.LANE, gpu_lane.MAX_SLOTS, gpu_lane._read)
+    real_read = gpu_lane._read
+    try:
+        gpu_lane.LANE = tmpd
+        gpu_lane.MAX_SLOTS = 1
+        path = os.path.join(tmpd, "slot.0.json")
+        stale = {"pid": 0, "label": "old", "heartbeat": 1.0}
+        fresh = {"pid": os.getpid(), "label": "new", "heartbeat": gpu_lane._now()}
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(stale, f)
+        reads = []
+
+        def racing_read(p):
+            # First read sees the expired holder; a rival then reclaims and re-creates the slot.
+            reads.append(p)
+            if len(reads) == 1:
+                out = real_read(p)
+                with open(p, "w", encoding="utf-8") as f:
+                    json.dump(fresh, f)
+                return out
+            return real_read(p)
+
+        gpu_lane._read = racing_read
+        got = gpu_lane._take_slot("net")
+        with open(path, encoding="utf-8") as f:
+            survivor = json.load(f)
+        return got is False and survivor == fresh
+    finally:
+        gpu_lane.LANE, gpu_lane.MAX_SLOTS, gpu_lane._read = saved
+        shutil.rmtree(tmpd, ignore_errors=True)
+
+
+def _net_939cb74c818a():
+    """unknown_claims survives a shard readable in pass 1 and unreadable in pass 2."""
+    import sweep_plan as _SP
+    tmp = tempfile.mkdtemp()
+    real_shards, real_json = _SP.SHARDS, _SP.json
+    real_load = real_json.load
+
+    class _Shim(object):
+        seen = 0
+
+        def load(self, f):
+            _Shim.seen += 1
+            if _Shim.seen == 1:
+                return real_load(f)
+            raise ValueError("torn between passes")
+
+        def __getattr__(self, k):
+            return getattr(real_json, k)
+    try:
+        with open(os.path.join(tmp, "s1.json"), "w", encoding="utf-8") as f:
+            json.dump({"run": "1", "batch": "1", "unknown": []}, f)
+        _SP.SHARDS = tmp
+        _SP.json = _Shim()
+        try:
+            out = _deliberately_failing(_SP.unknown_claims)
+        except UnboundLocalError:
+            return False
+        return out == [] and _Shim.seen >= 2
+    finally:
+        _SP.SHARDS, _SP.json = real_shards, real_json
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_969ebdbbda98():
+    # A malformed T1/T2 must show up as an unresolvable row (so DANGLING=0 cannot pass over a
+    # corrupt graph), or raise ThreadGraphUnreadable -- never be skipped, never AttributeError.
+    import thread_integrity as T
+
+    tmp = tempfile.mkdtemp(prefix="net969e_")
+    p = os.path.join(tmp, "THREADS.json")
+
+    def _load(row_a):
+        doc = {"sources": {"Alpha": dict({"code": "ZZ.NET.1"}, **row_a),
+                           "Beta": {"code": "ZZ.NET.2"}}}
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump(doc, f)
+        return T.load_thread_graph(p)
+
+    def _probe():
+        # T1 that is a bare string, even one that names a real address
+        _rec, unres, _m = _load({"T1": "ZZ.NET.2"})
+        if [(s, c) for s, c, _t in unres] != [("Alpha", "T1")]:
+            return False
+        # T2 entries that are strings
+        _rec, unres, _m = _load({"T2": {"k": ["ZZ.NET.2", 7]}})
+        if [(s, c) for s, c, _t in unres] != [("Alpha", "T2"), ("Alpha", "T2")]:
+            return False
+        # T2 as a list, and T2 value that is not a list: both refuse, as ThreadGraphUnreadable
+        for bad in ({"T2": ["x"]}, {"T2": {"k": "ZZ.NET.2"}}):
+            try:
+                _load(bad)
+            except T.ThreadGraphUnreadable:
+                continue
+            except Exception:
+                return False
+            return False
+        # A well-formed graph is untouched: one resolving T1 -> one edge, nothing unresolvable.
+        rec, unres, _m = _load({"T1": {"to": "ZZ.NET.2"}, "T2": {"k": [{"to": "ZZ.NET.2"}]}})
+        return ("Alpha", "Beta") in rec and unres == []
+
+    try:
+        return _deliberately_failing(_probe)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_98650e9d31d7():
+    # silence.swallow must tolerate an Exception but let KeyboardInterrupt / SystemExit /
+    # GeneratorExit through.
+    import silence as S
+
+    def _probe():
+        with S.swallow("net98650", "eats-exception"):
+            raise ValueError("tolerated")
+        for exc in (KeyboardInterrupt, SystemExit, GeneratorExit):
+            try:
+                with S.swallow("net98650", "must-propagate"):
+                    raise exc()
+            except exc:
+                continue
+            return False
+        return True
+
+    return _deliberately_failing(_probe)
+
+
+def _net_9bd9d77d5e0d():
+    """completeness.land refuses to overwrite when the prior file cannot be READ (not merely absent)."""
+    import io
+    import completeness as _C
+    tmp = tempfile.mkdtemp()
+    real_out = _C.OUT
+    real_err = sys.stderr
+    try:
+        out = os.path.join(tmp, "COMPLETENESS.json")
+        prior = [{"source": "s%d" % i} for i in range(10)]
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump(prior, f)
+        _C.OUT = out
+        sys.stderr = io.StringIO()
+
+        # unreadable (PermissionError) prior + tiny run: must refuse and leave the file alone
+        def _deny(path, *a, **k):
+            if os.path.abspath(str(path)) == os.path.abspath(out) and "w" not in (a[0] if a else k.get("mode", "r")):
+                raise PermissionError("held by a reader")
+            return open(path, *a, **k)
+        # setattr, not `_C.open =`: completeness defines no `open` of its own, so there is
+        # no real signature for verify_math's stand-in scan to compare this shim against.
+        setattr(_C, "open", _deny)
+        try:
+            r1 = _deliberately_failing(lambda: _C.land([{"source": "only"}]))
+        finally:
+            del _C.open
+        with open(out, encoding="utf-8") as f:
+            still = json.load(f) == prior
+        # absent prior: the first state is legitimate and lands
+        os.remove(out)
+        r2 = _deliberately_failing(lambda: _C.land([{"source": "only"}]))
+        return r1 is False and still and r2 is True
+    finally:
+        _C.OUT = real_out
+        sys.stderr = real_err
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_9cc87ededee1():
+    """ingest_doc.extract refuses an image-only PDF and reports textless pages of a mixed one."""
+    import contextlib
+    import io
+    import ingest_doc as _ID
+    tmp = tempfile.mkdtemp()
+    real_docs = _ID.DOCS
+    real_fitz = sys.modules.get("fitz")
+
+    class _Page(object):
+        def __init__(self, t):
+            self.t = t
+
+        def get_text(self):
+            return self.t
+
+    class _Fitz(object):
+        pages = []
+
+        @staticmethod
+        def open(path):
+            return list(_Fitz.pages)
+    try:
+        _ID.DOCS = tmp
+        sys.modules["fitz"] = _Fitz
+        pj = os.path.join(tmp, _ID.slug("Book"), "pages.json")
+        os.makedirs(os.path.dirname(pj))
+        with open(pj, "w", encoding="utf-8") as f:
+            json.dump({"p. 0001": "prior corpus"}, f)
+        # image-only: refused, prior corpus untouched
+        _Fitz.pages = [_Page(""), _Page("  ")]
+        refused = False
+        try:
+            _deliberately_failing(lambda: _ID.extract("x.pdf", "Book"))
+        except OSError:
+            refused = True
+        with open(pj, encoding="utf-8") as f:
+            intact = json.load(f) == {"p. 0001": "prior corpus"}
+        # mixed: lands, and says how many pages had no text
+        _Fitz.pages = [_Page("some text"), _Page("")]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            out = _deliberately_failing(lambda: _ID.extract("x.pdf", "Book"))
+        return refused and intact and len(out) == 1 and "1 of 2" in buf.getvalue()
+    finally:
+        _ID.DOCS = real_docs
+        if real_fitz is None:
+            sys.modules.pop("fitz", None)
+        else:
+            sys.modules["fitz"] = real_fitz
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_9e59609b76b2():
+    """find_symbol must not claim `unique` while a src file it could not parse went unsearched."""
+    import local_agent
+    tmpd = tempfile.mkdtemp()
+    saved = local_agent.HERE
+    try:
+        src = os.path.join(tmpd, "src")
+        os.makedirs(src)
+        with open(os.path.join(src, "good.py"), "w", encoding="utf-8") as f:
+            f.write("def zz_net_symbol():\n    return 1\n")
+        with open(os.path.join(src, "broken.py"), "w", encoding="utf-8") as f:
+            f.write("def zz_net_symbol(:\n")
+        local_agent.HERE = tmpd
+        broken = local_agent.t_find_symbol("zz_net_symbol")
+        os.remove(os.path.join(src, "broken.py"))
+        clean = local_agent.t_find_symbol("zz_net_symbol")
+        return (broken["count"] == 1 and broken["unique"] is False
+                and broken["skipped_files"] == ["src/broken.py"] and bool(broken["warning"])
+                and clean["unique"] is True and clean["skipped_files"] == [])
+    finally:
+        local_agent.HERE = saved
+        shutil.rmtree(tmpd, ignore_errors=True)
+
+
+def _net_ad6d78d6d545():
+    import threading
+    import assay as A
+    out = {}
+
+    def _run():
+        out["r"] = A.interval_from_hands({"AVAR": 0.0, "QUILL": 0.0, "MOTH": 1e17})
+        out["s"] = A.interval_from_hands({"AVAR": 0.0, "QUILL": 0.0, "MOTH": 9.0})
+    t = threading.Thread(target=_run, daemon=True)
+    t.start()
+    t.join(20)
+    if t.is_alive() or "s" not in out:
+        return False        # the widening loop never returned
+    # The ordinary case is unchanged: centre 3.0, worst deviation 6.0, so the bar is 6.0.
+    return out["s"]["interval"] == 6.0 and out["r"]["covers_all_signatures"] is True
+
+
+def _net_c4d79f533471():
+    # navtree must compare its SEVENFOLD world set against the live worldseed build: a built
+    # world with no place in SEVENFOLD, and a duplicated designation, are audit problems (so
+    # --write refuses), not a silently smaller tree.
+    import address_space as AS
+    import burgs as BG
+    import worldseed as WS
+    import navtree as NT
+
+    tmp = tempfile.mkdtemp(prefix="netc4d7_")
+    saved = [(NT, "HERE", NT.HERE), (WS, "build_all", WS.build_all),
+             (AS, "map_seed", AS.map_seed), (BG, "largest_city", BG.largest_city),
+             (BG, "burg_count", BG.burg_count)]
+    try:
+        os.makedirs(os.path.join(tmp, "data"))
+        tiers = {t: 0 for t in NT.TIERS}
+        with open(os.path.join(tmp, "data", "SEVENFOLD.json"), "w", encoding="utf-8") as f:
+            json.dump({"sources": {}, "worlds": {"Src::Alpha": tiers}}, f)
+        w = lambda d: {"designation": d, "features": {}, "seed": 1}
+        NT.HERE = tmp
+        WS.build_all = lambda *a, **k: [w("Src::Alpha"), w("Src::Beta"), w("Src::Beta")]
+        AS.map_seed = lambda s: 1
+        BG.largest_city = lambda *a, **k: 1
+        BG.burg_count = lambda *a, **k: 1
+        data = _deliberately_failing(NT.build)
+        probs = NT.audit(data)
+        return (any("Src::Beta" in p and "SEVENFOLD" in p for p in probs)
+                and any("Src::Beta" in p and "built 2 times" in p for p in probs)
+                and not any("Src::Alpha" in p for p in probs))
+    finally:
+        for mod, k, v in saved:
+            setattr(mod, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_c9c29a2305f1():
+    # A NEW world sorting earlier in a collision group must not coin an EXISTING world's
+    # standing designation; the existing world keeps it and the new one walks.
+    import onomast as O
+
+    tmp = tempfile.mkdtemp(prefix="netc9c2_")
+    saved = {k: getattr(O, k) for k in ("OUT", "coin_well_formed_stamped")}
+    try:
+        O.OUT = os.path.join(tmp, "ONOMASTICON.json")
+        with open(O.OUT, "w", encoding="utf-8") as f:
+            json.dump({"cid_b": {"catalogue_name": "Alpha", "endonym": "Earth",
+                                 "continuity_group": "g2", "attestations": []}}, f)
+
+        def _coin(base, register, taken, max_tries=400):
+            # A forced collision: every world's walk starts at the same name.
+            nm = next(n for n in ("Alpha", "Beta", "Gamma") if n.lower() not in taken)
+            return nm, "ordinary"
+        O.coin_well_formed_stamped = _coin
+        v = lambda g: {"canonical_name": "Earth", "key": "earth", "continuity_group": g,
+                       "attestations": []}
+        out = _deliberately_failing(lambda: O.name_worlds({"cid_a": v("g1"), "cid_b": v("g2")}))
+        return (out["cid_b"]["catalogue_name"] == "Alpha"
+                and out["cid_a"]["catalogue_name"] == "Beta")
+    finally:
+        for k, val in saved.items():
+            setattr(O, k, val)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_ec824ade998f():
+    # A --limit pass must say so in CHAIN.json: the limit and the harvested total ride in the
+    # `unanswered` block. extract() and write_result() run against stubs and a temp OUT.
+    import types
+    import chain as CH
+
+    tmp = tempfile.mkdtemp(prefix="net_ec82_")
+    saved = {k: getattr(CH, k) for k in ("_ask", "entity_index", "OUT", "_LAST_EXTRACT")}
+    saved_tuning = sys.modules.get("tuning")
+    try:
+        sys.modules["tuning"] = types.SimpleNamespace(
+            profile=lambda force=False: {"regime": "net", "why": "net"}, workers=lambda n: 1)
+        CH._ask = lambda system, prompt, schema: {"outcomes": []}
+        CH.entity_index = lambda: {}
+        CH.OUT = os.path.join(tmp, "CHAIN.json")
+        rows = [{"entity": "E", "sentence": "s%d" % i} for i in range(5)]
+        _deliberately_failing(lambda: CH.extract(rows, limit=2, workers=1))
+        doc = _deliberately_failing(lambda: CH.write_result({}, {"error": "net"}))
+        with open(CH.OUT, encoding="utf-8") as f:
+            on_disk = json.load(f)
+        un = on_disk.get("unanswered") or {}
+        if not (doc and un.get("limit") == 2 and un.get("rows_harvested") == 5):
+            return False
+        _deliberately_failing(lambda: CH.extract(rows, workers=1))
+        return (CH._LAST_EXTRACT.get("limit") is None
+                and CH._LAST_EXTRACT.get("rows_harvested") == 5)
+    finally:
+        if saved_tuning is None:
+            sys.modules.pop("tuning", None)
+        else:
+            sys.modules["tuning"] = saved_tuning
+        for k, v in saved.items():
+            setattr(CH, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_ed5f75ec19fe():
+    # An unparseable Aurora XML file must be NAMED and must fail the exit code, not vanish into
+    # a clean total. Dry run: no write, so the only verdict left is the refusal.
+    import contextlib
+    import io
+    import catalogue_aurora as A
+
+    tmp = tempfile.mkdtemp(prefix="net_ed5f_")
+    saved = {k: getattr(A, k) for k in ("CUSTOM", "ROLL", "FOLDER_SOURCE")}
+    saved_argv = sys.argv
+    try:
+        os.makedirs(os.path.join(tmp, "fold"))
+        with open(os.path.join(tmp, "fold", "good.xml"), "w", encoding="utf-8") as f:
+            f.write('<elements><element name="Alpha" type="Item" source="s">'
+                    '<description>text</description></element></elements>')
+        with open(os.path.join(tmp, "fold", "bad.xml"), "w", encoding="utf-8") as f:
+            f.write("<elements><element")
+        roll = os.path.join(tmp, "roll.json")
+        with open(roll, "w", encoding="utf-8") as f:
+            json.dump([{"name": "Src", "entry_count": 0, "status": "pending"}], f)
+        A.CUSTOM, A.ROLL, A.FOLDER_SOURCE = tmp, roll, {"fold": "Src"}
+        unparsed = []
+        entries = _deliberately_failing(lambda: A.parse_folder("fold", [], unparsed))
+        if len(entries) != 1 or [os.path.basename(p) for p in unparsed] != ["bad.xml"]:
+            return False
+        sys.argv = ["catalogue_aurora.py", "--dry-run"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = _deliberately_failing(A.main)
+        return rc == 1 and "bad.xml" in buf.getvalue()
+    finally:
+        sys.argv = saved_argv
+        for k, v in saved.items():
+            setattr(A, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_ee9365750ddf():
+    """coverage.measure refuses when a record that parses with entries was dropped by records()."""
+    import coverage as _CV
+    tmp = tempfile.mkdtemp()
+    P, F = _CV.P, _CV.F
+    real = (P.RECORDS, P.records, F.HOSTS, _CV.state_of, _CV._so_load, _CV._so_save, _CV._time
+            if hasattr(_CV, "_time") else None)
+    real_records_fn = P.records
+    try:
+        rd = os.path.join(tmp, "records")
+        os.makedirs(rd)
+        for name in ("a", "b"):
+            with open(os.path.join(rd, name + ".json"), "w", encoding="utf-8") as f:
+                json.dump({"source": name, "entries": [{"name": "x"}]}, f)
+        hp = os.path.join(tmp, "hosts.json")
+        with open(hp, "w", encoding="utf-8") as f:
+            json.dump({"a": "h", "b": "h"}, f)
+        P.RECORDS, F.HOSTS = rd, hp
+        _CV.state_of = lambda host, name: ("CITED", 1, 1)
+        _CV._so_load = lambda: None
+        _CV._so_save = lambda: None
+        # healthy: both records measured
+        ok = len(_deliberately_failing(_CV.measure)) == 2
+
+        # a writer's replace made one record unreadable at that instant, on every attempt
+        def _lossy():
+            return [(p, r) for p, r in real_records_fn() if not p.endswith("b.json")]
+        _CV.P.records = _lossy
+        refused = False
+        try:
+            _deliberately_failing(_CV.measure)
+        except SystemExit:
+            refused = True
+        return ok and refused
+    finally:
+        P.RECORDS, P.records, F.HOSTS = real[0], real_records_fn, real[2]
+        _CV.state_of, _CV._so_load, _CV._so_save = real[3], real[4], real[5]
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_efbfead57cb5():
+    # A non-ProbeUnread failure reading a host's scope must not be cached as "no ceiling" for
+    # the rest of the process.
+    import types
+    import magnitude as M
+
+    tmp = tempfile.mkdtemp(prefix="netefbf_")
+    saved = {k: getattr(M, k) for k in ("HERE", "SCOPE")}
+    host = "net-efbfead57cb5.test"
+
+    def _boom(h):
+        raise KeyError("net: scope_for exploded")
+    try:
+        M.HERE = tmp                       # no data/SCOPE.json here -> falls to the live read
+        M.SCOPE = types.SimpleNamespace(scope_for=_boom,
+                                        ProbeUnread=saved["SCOPE"].ProbeUnread)
+        got = _deliberately_failing(lambda: M.host_ceiling(host))
+        return got is None and host not in M._SCOPE_CACHE
+    finally:
+        M._SCOPE_CACHE.pop(host, None)
+        for k, v in saved.items():
+            setattr(M, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_f5176479c60a():
+    import entity_match as EM
+    if EM.best("Adventure Time (2025) Issue 1", ["Adventure Time (2025) Issue 11"])[0] is not None:
+        return False
+    if EM.best("Series (2025) Extra Long Title", ["Series (2012) Extra Long Title"])[0] is not None:
+        return False
+    # Identical numbers still match near-miss spellings.
+    m = EM.best("Adventure Time (2025) Issue 1", ["Adventure Time (2025) Issue 1"])[0]
+    m2 = EM.best("Kratos of Sparta 2", ["Kratos of Sparta  2"])[0]
+    return m is not None and m2 is not None
+
+
+def _net_073752d048bc():
+    # RUN_STATUS's "ceiling nominated" row counts only records whose synthesis names a
+    # ceiling_entity, not every record carrying a synthesis block.
+    import pipeline as PL
+    d = tempfile.mkdtemp()
+    saved = (PL.HERE, PL.HANDOFF, PL.records, PL.log, PL._HANDOFF_CACHE["counts"],
+             PL._HANDOFF_CACHE["at"])
+    try:
+        os.makedirs(os.path.join(d, "data"))
+        with open(os.path.join(d, "data", "SWEEP_ROLL.json"), "w", encoding="utf-8") as f:
+            json.dump([{"entry_count": 1}], f)
+        PL.HERE = d
+        PL.HANDOFF = os.path.join(d, "RUN_STATUS.md")
+        PL.log = lambda *a, **k: None
+        PL._HANDOFF_CACHE["counts"] = None
+        PL.records = lambda: [
+            ("a", {"entries": [], "synthesis": {"ceiling_entity": "Zeus"}}),
+            ("b", {"entries": [], "synthesis": {"ceiling_entity": ""}}),
+            ("c", {"entries": []})]
+        _deliberately_failing(lambda: PL.update_handoff({"phase": 1}))
+        with open(PL.HANDOFF, encoding="utf-8") as f:
+            md = f.read()
+        return "| Sources with a ceiling nominated (phase 1) | 1/3 |" in md
+    finally:
+        (PL.HERE, PL.HANDOFF, PL.records, PL.log, PL._HANDOFF_CACHE["counts"],
+         PL._HANDOFF_CACHE["at"]) = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_0c789022ef15():
+    # Silent-e plurals must not be mangled by _singular; real sibilant plurals still are.
+    import catalogue_web as W
+    want = {"Prizes": "Prize", "Mazes": "Maze", "Caches": "Cache", "Niches": "Niche",
+            "Bosses": "Boss", "Boxes": "Box", "Wishes": "Wish", "Characters": "Character"}
+    return all(W._singular(k) == v for k, v in want.items())
+
+
+def _net_0ceb29ffae61():
+    """ledger_guard's truncation refusal names the sealed copy's real (flattened) path."""
+    import ledger_guard as LG
+    saved = (LG._read_snapshot, LG._read)
+    try:
+        name = "handoff/HANDOFF.md"
+        LG._read_snapshot = lambda n: "\n".join("entry %d" % i for i in range(40))
+        LG._read = lambda n: "entry 0\nentry 1"
+        ok, why = LG.check_since_snapshot(name)
+        return (not ok) and LG._snapshot_path(name) in why
+    finally:
+        LG._read_snapshot, LG._read = saved
+
+
+def _net_17719ce65b75():
+    # A model finding with actual=null or a non-string symbol must not crash _fingerprint, and
+    # review() must refuse it rather than pass it on.
+    import overwatch as O
+    try:
+        fp = O._fingerprint("m", {"symbol": "foo", "actual": None})
+    except Exception:
+        return False
+    if not isinstance(fp, str):
+        return False
+    tmp = tempfile.mkdtemp()
+    old_src, old_ask = O.SRC, O._ask
+    try:
+        O.SRC = tmp
+        with open(os.path.join(tmp, "m.py"), "w", encoding="utf-8") as fh:
+            fh.write("def foo():\n    return 1\n")
+        good = {"symbol": "foo", "actual": "x", "claim": "y", "severity": "high"}
+        bad1 = {"symbol": "foo", "actual": None, "claim": "y", "severity": "high"}
+        bad2 = {"symbol": 5, "actual": "x", "claim": "y", "severity": "high"}
+        O._ask = lambda *a, **k: {"findings": [bad1, bad2, good]}
+        kept, _ = _deliberately_failing(lambda: O.review("m", local=True))
+        return len(kept) >= 1 and all(isinstance(k.get("actual"), str)
+                                      and isinstance(k.get("symbol"), str) for k in kept)
+    finally:
+        O.SRC, O._ask = old_src, old_ask
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_1d85d7c0c608():
+    # A write that fails mid-blob must not leave its uniquely-named temp behind, and must re-raise.
+    import compress_store as CS
+    tmpdir = tempfile.mkdtemp()
+    had_open = "open" in CS.__dict__
+
+    class _Boom:
+        def __init__(self, f):
+            self._f = f
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            self._f.close()
+            return False
+
+        def write(self, b):
+            raise OSError("simulated ENOSPC")
+
+    def _fake_open(path, mode="r", *a, **k):
+        return _Boom(open(path, mode, *a, **k)) if "b" in mode and str(path).endswith(".tmp") \
+            else open(path, mode, *a, **k)
+
+    raised = False
+    try:
+        setattr(CS, "open", _fake_open)   # module has no `open` to compare against
+        try:
+            _deliberately_failing(lambda: CS.store("net text 1d85d7c0c608", tmpdir))
+        except OSError:
+            raised = True
+    finally:
+        if not had_open:
+            del CS.open
+    try:
+        left = [n for n in os.listdir(tmpdir) if n.endswith(".tmp")]
+        return raised and left == []
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+def _net_21c78921ec89():
+    # A label with a slash / dot-dot must stay INSIDE the snapshot ROOT, and be listed.
+    import snapshot as S
+    tmp = tempfile.mkdtemp()
+    old_root, old_here = S.ROOT, S.HERE
+    try:
+        S.HERE = tmp
+        S.ROOT = os.path.join(tmp, "state", "snapshots")
+        with open(os.path.join(tmp, "f.txt"), "w") as fh:
+            fh.write("x")
+        sid = _deliberately_failing(lambda: S.before("../x/y", ["f.txt"]))
+        dest = os.path.abspath(os.path.join(S.ROOT, sid))
+        inside = os.path.dirname(dest) == os.path.abspath(S.ROOT)
+        listed = any(m.get("id") == sid and not m.get("broken") for m in S.listing())
+        return bool(inside and listed and ".." not in sid and "/" not in sid)
+    finally:
+        S.ROOT, S.HERE = old_root, old_here
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_2a91c40e9442():
+    """mutate's live-tree refusal catches a differently-cased spelling of HERE (Windows)."""
+    import mutate as MU
+    # base=None: were the guard to miss, the very next refusal is "no baseline", a DIFFERENT
+    # RuntimeError, before anything is written. Only the LIVE-tree message counts as holding.
+    for spelling in (MU.HERE.upper(), MU.HERE.lower(), MU.HERE + os.sep + "."):
+        try:
+            MU._run_mutation("x.py", root=spelling, base=None)
+        except RuntimeError as e:
+            if "LIVE tree" not in str(e):
+                return False
+        else:
+            return False
+    return True
+
+
+def _net_33ec3804e2df():
+    """hostcheck.sweep(only=...) must not overwrite the whole-corpus HOST_FITNESS.json."""
+    import contextlib
+    import io
+    import feats as F
+    import hostcheck as H
+    tmp = tempfile.mkdtemp()
+    saved = (F.HOSTS, H.OUT, H.entities_by_source, H.score)
+    try:
+        hosts = os.path.join(tmp, "hosts.json")
+        with open(hosts, "w", encoding="utf-8") as f:
+            json.dump({"Alpha": "a.example", "Beta": "b.example"}, f)
+        out = os.path.join(tmp, "fitness.json")
+        sentinel = '{"whole": "corpus"}'
+        with open(out, "w", encoding="utf-8") as f:
+            f.write(sentinel)
+        F.HOSTS, H.OUT = hosts, out
+        H.entities_by_source = lambda: {"Alpha": ["x"], "Beta": ["y"]}
+        H.score = lambda host, names, src, by=None: {
+            "source": src, "host": host, "verdict": "holds", "rate": 1.0, "lift": 0.5,
+            "hits": 1, "probed": 1}
+        with contextlib.redirect_stdout(io.StringIO()):
+            res = H.sweep(only="alpha")
+        with open(out, encoding="utf-8") as f:
+            kept = f.read()
+        return kept == sentinel and list(res) == ["Alpha"]
+    finally:
+        F.HOSTS, H.OUT, H.entities_by_source, H.score = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_3953d4d6177b():
+    # A typo'd --canned must exit 2 and name the choices, not return 0 as "no query given".
+    import io
+    import contextlib
+    import corpus_db as C
+    old_argv = sys.argv
+    buf = io.StringIO()
+    try:
+        sys.argv = ["corpus_db.py", "--canned", "definitely_not_a_canned_query"]
+        with contextlib.redirect_stdout(buf):
+            rc = _deliberately_failing(lambda: C.main())
+    finally:
+        sys.argv = old_argv
+    return rc == 2 and "unknown canned query" in buf.getvalue()
+
+
+def _net_87add9d671b5():
+    # weave.filtered_index judges EVERY hit: rules text in a later hit is dropped, and an entity
+    # in a later hit keeps its key alive when the first hit is a mechanic.
+    import weave as W
+    rules = "You gain a +1 bonus to attack rolls. As an action, make a Dexterity saving throw."
+    idx = {
+        "k1": [{"source": "A", "name": "Blade", "description": "A famous sword of the north."},
+               {"source": "B", "name": "Blade", "description": rules}],
+        "k2": [{"source": "A", "name": "Wraith", "description": rules},
+               {"source": "B", "name": "Wraith", "description": "A ghost haunting the moor."}],
+    }
+    out, dropped = W.filtered_index(idx)
+    return (dropped == 0 and [h["source"] for h in out.get("k1", [])] == ["A"]
+            and [h["source"] for h in out.get("k2", [])] == ["B"])
+
+
+def _net_89a3c760aeb0():
+    """magnitude.run_batch: 'already assayed' counts settled records only, and a cut queue says so."""
+    import contextlib
+    import io
+    import types
+    import magnitude as M
+    tmp = tempfile.mkdtemp()
+    names = ("OUT", "queue", "assay_entity", "host_ceiling", "config", "pool_ready")
+    saved = {n: getattr(M, n) for n in names}
+    saved_tuning = sys.modules.get("tuning")
+    try:
+        out = os.path.join(tmp, "ASSAYS.json")
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump({"h|a": {"result": {"decimal": 3.2}},
+                       "h|b": {"result": None, "status": "DEFERRED"}}, f)
+        M.OUT = out
+        M.queue = lambda host=None, limit=None: [("h", "a", 9), ("h", "b", 8)]
+        M.assay_entity = lambda *a, **k: {"result": None, "reason": "no axis cleared its gate"}
+        M.host_ceiling = lambda h: None
+        M.config = lambda: {}
+        M.pool_ready = lambda: False
+        sys.modules["tuning"] = types.ModuleType("tuning")   # no profile(): caught + noted
+        buf = io.StringIO()
+
+        def _go():
+            with contextlib.redirect_stdout(buf):
+                M.run_batch(limit=2, workers=1)
+        _deliberately_failing(_go)
+        line = [ln for ln in buf.getvalue().splitlines() if ln.startswith("queue:")]
+        return (len(line) == 1 and "1 already assayed" in line[0] and "1 to do" in line[0]
+                and "--limit 2" in line[0])
+    finally:
+        for n, v in saved.items():
+            setattr(M, n, v)
+        if saved_tuning is None:
+            sys.modules.pop("tuning", None)
+        else:
+            sys.modules["tuning"] = saved_tuning
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_913f31fb9c10():
+    # workorders.file_order's LOCAL door NOTES a failure to decide instead of passing silently,
+    # and still files the order as addressed.
+    import workorders as WO
+    import silence as SI
+    d = tempfile.mkdtemp()
+    sites = []
+    real_note = SI.note
+
+    def boom(*a, **k):
+        raise RuntimeError("door cannot decide")
+
+    saved = (WO.OPEN_FILE, WO.CLOSED_LOG, WO.local_door_targets)
+    try:
+        WO.OPEN_FILE = os.path.join(d, "workorders.json")
+        WO.CLOSED_LOG = os.path.join(d, "workorders_closed.jsonl")
+        WO.local_door_targets = boom
+        SI.note = lambda site, *a, **k: sites.append(site)
+        rec = WO.file_order("__DRILL_DOOR_PROBE__", "probe", "LOCAL", severity="INFO",
+                            where="src/__drill_door__.py", found_by="drill")
+        return (isinstance(rec, dict) and rec.get("handler") == "LOCAL"
+                and "workorders.py:file-order-door" in sites)
+    finally:
+        SI.note = real_note
+        WO.OPEN_FILE, WO.CLOSED_LOG, WO.local_door_targets = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_98eae835e14e():
+    # phase_write names EVERY source refused as thin (under WRITE_SETTLED_MIN), uncapped.
+    import pipeline as PL
+    d = tempfile.mkdtemp()
+    lines = []
+    saved = (PL.HERE, PL.log, PL.save_state)
+    try:
+        os.makedirs(os.path.join(d, "data"))
+        rows = [{"source": "Thin%02d" % i, "entries": 10, "cited": 0, "read": 1}
+                for i in range(12)]
+        with open(os.path.join(d, "data", "COVERAGE.json"), "w", encoding="utf-8") as f:
+            json.dump(rows, f)
+        PL.HERE = d
+        PL.log = lambda m, *a, **k: lines.append(str(m))
+        PL.save_state = lambda st: True
+        st = {"done": {}, "failed": {}, "units_done": 0}
+        _deliberately_failing(lambda: PL.phase_write({}, st))
+        text = "\n".join(lines)
+        return all(r["source"] in text for r in rows)
+    finally:
+        PL.HERE, PL.log, PL.save_state = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_9addfa9acbc2():
+    # 'phases implemented' does not read MET when the phases list is absent, and a malformed
+    # row does not raise.
+    import standards as S
+    absent = S.phases_standard({})
+    if absent["holds"] or "UNMEASURED" not in str(absent["observed"]):
+        return False
+    try:
+        bad = S.phases_standard({"phases": [{"name": "harvest"}, "junk"]})
+    except Exception:
+        return False
+    good = S.phases_standard({"phases": [{"name": "harvest", "built": True}]})
+    return (not bad["holds"]) and good["holds"]
+
+
+def _net_a8fa52a33445():
+    # land_json leaves no .tmp behind when its dump RAISES or its rename is DENIED.
+    import pipeline as PL
+    import silence as SI
+    d = tempfile.mkdtemp()
+    real_rr, real_log = SI.replace_retry, PL.log
+    try:
+        PL.log = lambda *a, **k: None
+        p = os.path.join(d, "x.json")
+        try:
+            _deliberately_failing(lambda: PL.land_json(p, {"bad": object()}))
+            return False            # an unserialisable value must still raise
+        except TypeError:
+            pass
+        if [f for f in os.listdir(d) if f.endswith(".tmp")]:
+            return False
+        SI.replace_retry = lambda tmp, dst, attempts=5: False
+        if _deliberately_failing(lambda: PL.land_json(p, {"ok": 1})) is not False:
+            return False
+        return not [f for f in os.listdir(d) if f.endswith(".tmp")]
+    finally:
+        SI.replace_retry, PL.log = real_rr, real_log
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_ac4d00993598():
+    # 'shelfmarks are unique' counts printed-shelfmark clashes, and an empty file is UNMEASURED.
+    import standards as S
+    clash = S.shelfmarks_standard({"a": {"address": 1, "shelfmark": "X"},
+                                   "b": {"address": 2, "shelfmark": "X"}})
+    empty = S.shelfmarks_standard({})
+    ok = S.shelfmarks_standard({"a": {"address": 1, "shelfmark": "X"},
+                                "b": {"address": 2, "shelfmark": "Y"}})
+    return (not clash["holds"]) and (not empty["holds"]) and ok["holds"]
+
+
+def _net_ba367da8f3ba():
+    # A bold span over 80 chars must be refused WITH a recorded reason, not silently unmatched.
+    import events as E
+    span = " ".join(["word"] * 30)
+    text = "## E-NET-ONE heading\n\nprose **" + span + "** more prose **Azor** end\n"
+    doc = _deliberately_failing(lambda: E.parse(text))
+    refused = [r["span"] for r in doc["candidates_refused"]]
+    named = [n for ev in doc["events"] for n in ev["named"]]
+    return len(span) > 80 and span in refused and "Azor" in named
+
+
+def _net_bc0815a6bd21():
+    # A mistyped --host must be reported as unmatched even when another --host matches.
+    import binding_health as BH
+    kept, missed = _deliberately_failing(
+        lambda: BH._filter_hosts(["a.example", "b.example"], ["a.example", "typo.example"]))
+    return kept == ["a.example"] and missed == ["typo.example"]
+
+
+def _net_bcf499b464be():
+    """magnitude._is_score refuses NaN and Infinity, still accepts finite numbers, refuses bool."""
+    import magnitude as M
+    if not (M._is_score(3) and M._is_score(4.5) and M._is_score(0.0)):
+        return False
+    if M._is_score(True) or M._is_score("3") or M._is_score(None):
+        return False
+    return not (M._is_score(float("nan")) or M._is_score(float("inf"))
+                or M._is_score(float("-inf")))
+
+
+def _net_d00e843b1765():
+    # secondopinion.mine_says counts only SILENT handlers, not every row silence.audit returns.
+    import secondopinion as S
+    import liveness
+    import publish
+    old = (S.silence.audit, liveness.scan, publish.scan_for_secrets)
+    try:
+        S.silence.audit = lambda r=None: [{"silent": True}, {"silent": False}, {"silent": False}]
+        liveness.scan = lambda: {}
+        publish.scan_for_secrets = lambda r, **kw_: []
+        got = _deliberately_failing(lambda: S.mine_says(["a", "b"]))
+        return got.get("silence") == 2
+    finally:
+        S.silence.audit, liveness.scan, publish.scan_for_secrets = old
+
+
+def _net_d39cbbe8759d():
+    """hostcheck.adopt() reports an all-UNREACHABLE source as unmeasured, not 'genuinely without'."""
+    import contextlib
+    import io
+    import feats as F
+    import weave_index as WI
+    import hostcheck as H
+    tmp = tempfile.mkdtemp()
+    saved = (F.HOSTS, WI.load_records, H.candidates, H.score)
+    try:
+        hosts = os.path.join(tmp, "hosts.json")
+        with open(hosts, "w", encoding="utf-8") as f:
+            json.dump({}, f)
+        F.HOSTS = hosts
+        WI.load_records = lambda: [
+            {"source": "Silent", "entries": [{"name": "a"}]},
+            {"source": "Homebrew", "entries": [{"name": "b"}]}]
+        H.candidates = lambda src, cur, by=None, hosts=None: ["h.example"]
+        H.score = lambda host, names, src, by=None: (
+            {"verdict": "UNREACHABLE", "lift": None, "rate": None} if names == ["a"]
+            else {"verdict": "WRONG FICTION", "lift": -0.1, "rate": 0.0})
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            found = H.adopt(dry=True, workers=1)
+        text = buf.getvalue()
+        return (found == {} and "no candidate answered" in text
+                and "1 genuinely without a wiki, 1 unmeasured" in text)
+    finally:
+        F.HOSTS, WI.load_records, H.candidates, H.score = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_d3dddc44ef08():
+    # manifest_builder --only with a name matching no buildable source refuses (rc 1), names
+    # it, and writes NO manifest over the standing one.
+    import io
+    import contextlib
+    import manifest_builder as MB
+    d = tempfile.mkdtemp()
+    saved = (MB.HERE, MB.load_config, MB.load_roll, sys.argv)
+    try:
+        MB.HERE = d
+        MB.load_config = lambda: {"paths": {"manifest": "m/manifest.json",
+                                            "pilot_manifest": "m/pilot.json",
+                                            "data_records": "records"}}
+        MB.load_roll = lambda cfg: [{"name": "Real Source", "entry_count": 5,
+                                     "category": "Games"}]
+        sys.argv = ["manifest_builder.py", "--only", "No Such Source"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = _deliberately_failing(MB.main)
+        return (rc == 1 and "No Such Source" in buf.getvalue()
+                and not os.path.exists(os.path.join(d, "m", "manifest.json")))
+    finally:
+        MB.HERE, MB.load_config, MB.load_roll, sys.argv = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_e6cd86d4172e():
+    # Every outside-tool subprocess.run in secondopinion decodes as utf-8 with errors=replace, so a
+    # non-cp1252 byte in tool output is not turned into ERRORED / "tool absent".
+    import secondopinion as S
+    seen = []
+
+    class _R:
+        returncode = 0
+        stdout = "[]"
+        stderr = ""
+
+    def fake(cmd, *a, **kw):
+        seen.append(kw)
+        return _R()
+
+    old_run, old_exe = S.subprocess.run, S._exe
+    try:
+        S.subprocess.run = fake
+        S._exe = lambda name: (name, None)
+        for fn in (S._ruff, S._vulture, S._detect_secrets):
+            try:  # the stub's canned stdout may not parse for every tool; only the kwargs matter
+                _deliberately_failing(lambda fn=fn: fn(["x"]))
+            except Exception:
+                pass
+    finally:
+        S.subprocess.run, S._exe = old_run, old_exe
+    return len(seen) == 3 and all(
+        kw.get("encoding") == "utf-8" and kw.get("errors") == "replace" for kw in seen)
+
+
+def _net_f6a751c55c84():
+    # phase_entrypass survives malformed cloud result items: a non-dict item is skipped, a bool
+    # index addresses nothing, a bool category is refused (recorded), non-str fields do not raise.
+    import pipeline as PL
+    names = ("records", "ask_pool_first", "write_record", "save_state", "log", "update_handoff")
+    saved = {k: getattr(PL, k) for k in names}
+    cat = PL.CATEGORIES[2]
+    entries = [{"name": "A", "description": "a", "category": cat},
+               {"name": "B", "description": "b", "category": cat}]
+    rec = {"source": "S", "entries": entries}
+    got = {"results": ["junk", None,
+                       {"index": True, "category": 1, "scale_note": "x", "topic": "Persons"},
+                       {"index": 0, "category": True, "scale_note": 42, "topic": 5,
+                        "subroom": [1]}]}
+
+    def pool(*a, accept=None, **k):
+        return got if (accept is None or accept(got)) else None
+
+    try:
+        PL.records = lambda: [("S.json", rec)]
+        PL.ask_pool_first = pool
+        PL.write_record = lambda path, r, *a, **k: True
+        PL.save_state = lambda st: True
+        PL.log = lambda *a, **k: None
+        PL.update_handoff = lambda st: None
+        st = {"done": {}, "failed": {}, "units_done": 0}
+        try:
+            _deliberately_failing(lambda: PL.phase_entrypass({}, st))
+        except Exception:
+            return False
+        a, b = entries
+        return (a.get("category") == cat and a.get("category_rejected") == "True"
+                and a.get("catalogued") is True and a.get("topic") == "unclassified"
+                and a.get("topic_rejected") == "5"
+                and b.get("category") == cat and not b.get("catalogued"))
+    finally:
+        for k, v in saved.items():
+            setattr(PL, k, v)
+
+
+def _net_f7082f032948():
+    # A denied replace (and a failed write) must not leave config.yaml.<pid>.<tid>.tmp behind.
+    import pick_model as P
+    import silence
+    tmp = tempfile.mkdtemp()
+    old_here, old_rr = P.HERE, silence.replace_retry
+    try:
+        P.HERE = tmp
+        cp = os.path.join(tmp, "config.yaml")
+        with open(cp, "w", encoding="utf-8") as fh:
+            fh.write('model: "old"\n')
+        silence.replace_retry = lambda a, b, *x, **k: False
+        ok = _deliberately_failing(lambda: P.save_config({"model": "new"}))
+        left = [n for n in os.listdir(tmp) if n.endswith(".tmp")]
+        return ok is False and left == []
+    finally:
+        P.HERE, silence.replace_retry = old_here, old_rr
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_fd2d04fa0aea():
+    # standards.main() runs check() ONCE per invocation on every path, and its rc comes from
+    # the same rows it printed.
+    import io
+    import types
+    import contextlib
+    import standards as S
+    calls = []
+    row = {"standard": "probe", "group": "g", "holds": False, "observed": 0, "floor": 0,
+           "order": "o", "severity": "low"}
+
+    def fake_check(state=None):
+        calls.append(1)
+        return [dict(row)]
+
+    fake_dash = types.ModuleType("dashboard")
+    fake_dash.state = lambda: {}
+    saved = (S.check, sys.argv, sys.modules.get("dashboard"))
+    try:
+        S.check = fake_check
+        sys.modules["dashboard"] = fake_dash
+        for argv in ([], ["--json"], ["--orders"]):
+            calls.clear()
+            sys.argv = ["standards.py"] + argv
+            with contextlib.redirect_stdout(io.StringIO()):
+                rc = S.main()
+            if len(calls) != 1 or rc != 1:
+                return False
+        return True
+    finally:
+        S.check, sys.argv = saved[0], saved[1]
+        if saved[2] is None:
+            sys.modules.pop("dashboard", None)
+        else:
+            sys.modules["dashboard"] = saved[2]
+
+
+def _net_28868e940226():
+    # worldseed --limit N --write must refuse (return 2) before building a partial roster.
+    import worldseed as WS
+    tmp = tempfile.mkdtemp()
+    saved = (WS.HERE, WS.build_all, sys.argv)
+
+    class _Built(Exception):
+        pass
+
+    def _boom(limit=None):
+        raise _Built()
+
+    try:
+        WS.HERE = tmp
+        WS.build_all = _boom
+        sys.argv = ["worldseed.py", "--limit", "5", "--write"]
+        try:
+            rc = _deliberately_failing(WS.main)
+        except _Built:
+            return False
+        return rc == 2 and not os.path.exists(os.path.join(tmp, "data", "WORLDSEEDS.json"))
+    finally:
+        WS.HERE, WS.build_all, sys.argv = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_2c226602695b():
+    # A search error's text reaches errors[] whole, not cut at 60 characters.
+    import rosetta as R
+    msg = "boom-" + "x" * 200 + "-END"
+    old = R.F.api
+
+    def bad(host, params):
+        raise RuntimeError(msg)
+
+    try:
+        R.F.api = bad
+        errs = []
+        _deliberately_failing(lambda: R.scales_for("example.invalid", errors=errs))
+        return bool(errs) and all(msg in e for e in errs)
+    finally:
+        R.F.api = old
+
+
+def _net_554adb29161e():
+    # cloud_success_rate() must read the scratch db read-only: an absent db must stay absent.
+    import tuning as TU
+    import cascade_bridge as CB
+    tmp = tempfile.mkdtemp()
+    saved = CB.SCRATCH_DB
+    try:
+        CB.SCRATCH_DB = os.path.join(tmp, "cascade_scratch.db")
+        got = _deliberately_failing(TU.cloud_success_rate)
+        if got != (None, 0) or os.path.exists(CB.SCRATCH_DB):
+            return False
+        # A real db with rows still measures.
+        import sqlite3
+        con = sqlite3.connect(CB.SCRATCH_DB)
+        try:
+            con.execute("create table usage (ts real, outcome text)")
+            import time as _t
+            con.execute("insert into usage values (?, 'ok')", (_t.time(),))
+            con.execute("insert into usage values (?, 'err')", (_t.time(),))
+            con.commit()
+        finally:
+            con.close()
+        return _deliberately_failing(TU.cloud_success_rate) == (0.5, 2)
+    finally:
+        CB.SCRATCH_DB = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_5c24b8e36cfe():
+    # annex_codes()/law_codes() promise an EMPTY set for an unreadable file; a well-formed JSON of
+    # the wrong shape (top-level list, string rows) must not raise AttributeError.
+    import threads as T
+    tmp = tempfile.mkdtemp()
+    saved = (T.ANNEX_CANONS, T.LAWS)
+    try:
+        shapes = ["[1, 2]", '"text"', '{"canons": ["x"], "laws": ["y"]}']
+        for body in shapes:
+            p = os.path.join(tmp, "f.json")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write(body)
+            T.ANNEX_CANONS = T.LAWS = p
+            try:
+                a = _deliberately_failing(T.annex_codes)
+                b = _deliberately_failing(T.law_codes)
+            except Exception:
+                return False
+            if a != set() or b != set():
+                return False
+        # And a well-formed file still yields its codes.
+        p = os.path.join(tmp, "ok.json")
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump({"canons": [{"code": "A.1"}], "laws": [{"code": "X.1"}]}, f)
+        T.ANNEX_CANONS = T.LAWS = p
+        return (_deliberately_failing(T.annex_codes) == {"A.1"}
+                and _deliberately_failing(T.law_codes) == {"X.1"})
+    finally:
+        T.ANNEX_CANONS, T.LAWS = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_a5dfa403f8ac():
+    # 'stands as a testament' / 'stands the test of time' need a leading word boundary.
+    import tells as TL
+    for text in ("She understands as a reminder of home.", "He understands the test of time."):
+        if any("stands" in k for k in TL.scan(text)):
+            return False
+    a = TL.scan("The keep stands as a testament to its builders.")
+    b = TL.scan("The keep stands the test of time.")
+    return "stands as a testament" in a and "stands the test of time" in b
+
+
+def _net_a713b2598ed5():
+    # An all-tied scale (zero variance) is labelled "tied", not mislabelled as too few names.
+    import rosetta as R
+    ros = {"h": {"tiedscale": {"kind": "numeric", "values": {"a": 1, "b": 2, "c": 3, "d": 4}},
+                 "fewscale": {"kind": "numeric", "values": {"a": 1, "b": 2}}}}
+    assays = {"a": 5.0, "b": 5.0, "c": 5.0, "d": 5.0}
+    rows = _deliberately_failing(lambda: R.check(ros, assays))
+    by = {r["scale"]: r for r in rows}
+    return (by["tiedscale"]["rho"] is None and by["tiedscale"].get("rho_reason") == "tied"
+            and by["fewscale"].get("rho_reason") == "too few")
+
+
+def _net_bca2ca48e316():
+    # queue() prunes the queue memo to keys ending in the CURRENT row rule; older
+    # path+SEP+name keys (also containing the separator) are dropped, not re-serialised.
+    import read as R
+    import feats as FF
+    tmp = tempfile.mkdtemp()
+    old = (R.QCACHE, FF.HOSTS, R.P.records)
+    try:
+        R.QCACHE = os.path.join(tmp, "q.json")
+        FF.HOSTS = os.path.join(tmp, "hosts.json")
+        with open(FF.HOSTS, "w", encoding="utf-8") as fh:
+            json.dump({"src": "example.invalid"}, fh)
+        sep = R._QK
+        cur = "p1" + sep + "Name" + sep + R._QROW_RULE
+        stale = "p1" + sep + "Name" + sep + "norm_q-own-page-v1"
+        with open(R.QCACHE, "w", encoding="utf-8") as fh:
+            json.dump({cur: {"mtime": 1, "size": 1}, stale: {"mtime": 1, "size": 1}}, fh)
+        R.P.records = lambda: []
+        _deliberately_failing(lambda: R.queue())
+        with open(R.QCACHE, encoding="utf-8") as fh:
+            left = json.load(fh)
+        return list(left) == [cur]
+    finally:
+        R.QCACHE, FF.HOSTS, R.P.records = old
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_d8ad47ebf10d():
+    # script_of must return None for attached -m<mod> / -c<code> spellings, not the next .py.
+    import whoruns as W
+    if W.script_of(["python", "-mpyflakes", "src/mutate.py"]) is not None:
+        return False
+    if W.script_of(["python", "-cprint(1)", "src/mutate.py"]) is not None:
+        return False
+    if W.script_of(["python", "-m", "pyflakes", "src/mutate.py"]) is not None:
+        return False
+    # Real interpreter flags are still skipped.
+    return (W.script_of(["python", "-u", "src/mutate.py"]) == "src/mutate.py"
+            and W.script_of(["python", "-X", "utf8", "src/mutate.py"]) == "src/mutate.py"
+            and W.script_of(["python", "-Xutf8", "src/mutate.py"]) == "src/mutate.py")
+
+
+def _net_dccbc1cddd13():
+    # Overlapping listed phrases count once; inflected stems are seen.
+    import tells as TL
+    hits = TL.scan("A tapestry of myriad of things.")
+    if sum(hits.values()) != 2:
+        return False
+    if sum(TL.scan("The order was shrouded in mystery.").values()) != 1:
+        return False
+    for text, key in (("It unlocked the door.", "word: unlock"),
+                      ("They are fostering growth.", "word: foster"),
+                      ("He leveraged it.", "word: leverage"),
+                      ("She embarks today.", "word: embark"),
+                      ("They cultivated rice.", "word: cultivate"),
+                      ("We harnessed wind.", "word: harness")):
+        if key not in TL.scan(text):
+            return False
+    # The generated prompt section is untouched by any of this.
+    return "tapestry of" in TL.prompt_section()
+
+
+def _the_root_is_always_seven():
+    """sevenfold.shelve keeps exactly SPAN roots even when a root window has no weak seam.
+
+    Run #67, 2026-09-28: a rebuilt ENTITY_INDEX moved every seam in one root window above the
+    block median, the weaker-half rule left that window uncut, and the declared seven hyperverses
+    became six (verify_math "exactly seven hyperverses": got 6). Driven against the real
+    `shelve` with `affinity_order` pinned to the given order so the seams are exactly the ones
+    staged: 14 members, the first four seams strong, the rest weak. The root must still split
+    seven ways, and a LOWER tier must still be allowed to decline a cut (its rule is unchanged).
+    """
+    import sevenfold as SF
+    keep = SF.affinity_order
+    members = ["m%02d" % i for i in range(14)]
+    weights = {}
+    for i in range(13):
+        weights[(members[i], members[i + 1])] = 1000.0 if i < 4 else 1.0
+    try:
+        SF.affinity_order = lambda ms, ws: list(ms)
+        coords = SF.shelve(members, weights, span=SF.SPAN, depth=2)
+    finally:
+        SF.affinity_order = keep
+    roots = {c["hyperverse"] for c in coords.values()}
+    return len(roots) == SF.SPAN
+
+
 def drill_followup0928():
     """Three follow-ups to the 2026-09-28 session (owner: "do everything", group FOLLOWUP).
 
@@ -26227,6 +29035,36 @@ def drill_followup0928():
         status_names_an_active_pause,
         "FOLLOWUP 1a: a status that says 'running' while a pause stands sends the next run "
         "straight onto the GPU")
+
+    def the_import_tier_never_runs_a_main_that_ignores_help():
+        """Sweep67 batch 12, F1: a module with `__main__` and no argparse did its real work
+        when the IMPORT tier handed it `--help` (TIERS/SHELFMARKS/ONOMASTICON rewritten nightly).
+        Driven against the real `check_import` on two scratch modules: one whose main() writes
+        a marker file, one that cannot import. The first must be graded ok with NO marker, the
+        second must still be graded broken."""
+        import allsweep as AS
+        d = tempfile.mkdtemp(prefix="drill_import_tier_")
+        marker = os.path.join(d, "main_ran.txt")
+        keep = AS.SRC
+        try:
+            with open(os.path.join(d, "quiet_worker.py"), "w", encoding="utf-8") as f:
+                f.write("\n".join(["import os", "X = 1", "", "def main():",
+                                   "    open(%r, 'w').write('ran')" % marker, "",
+                                   "if __name__ == '__main__':", "    main()", ""]))
+            with open(os.path.join(d, "cannot_import.py"), "w", encoding="utf-8") as f:
+                f.write("import no_such_module_anywhere_drill\n")
+            AS.SRC = d
+            good = AS.check_import("quiet_worker")
+            bad = AS.check_import("cannot_import")
+            return (good.get("ok") is True and not os.path.exists(marker)
+                    and bad.get("ok") is False)
+        finally:
+            AS.SRC = keep
+            shutil.rmtree(d, ignore_errors=True)
+    net(a, "the IMPORT tier never runs a main() that ignores --help, and still sees a bad import",
+        the_import_tier_never_runs_a_main_that_ignores_help,
+        "sweep67 F1: the 'read-only' sweep rewrote three data files every night through "
+        "thirteen modules that treat --help as 'go'")
 
     def a_paused_sweep_skips_its_gpu_rows_and_never_passes_them():
         import subprocess as _real_sp
@@ -26273,6 +29111,295 @@ def drill_followup0928():
         a_stale_row_is_not_queued_for_a_chapter,
         "FOLLOWUP 2: the catalogue merge keeps a reworded entity's old row, and queueing it "
         "writes the entity twice")
+
+    def the_feats_chapter_sees_only_the_live_cast():
+        import manifest_builder as MB
+        seen = []
+        keep = MB.feats_index.feats_for_source
+
+        def spy(source_name, record, binding=None):
+            seen.extend(e.get("name") for e in record.get("entries") or [])
+            return []
+        cat = "Persons (named individual characters, real or fictional)"
+        rec = {"mode": "web", "entries": [
+            {"name": "Live One", "category": cat, "description": "a hero"},
+            {"name": "Struck One", "category": cat, "description": "nav", "excluded": True},
+            {"name": "Stale One", "category": cat, "description": "old",
+             "stale_since": "2026-09-28T00:00:00Z"}]}
+        try:
+            MB.feats_index.feats_for_source = spy
+            MB.build_jobs_for_source({"max_entries_per_call": 30},
+                                     {"name": "Drill Source"}, rec, "Z.9")
+        finally:
+            MB.feats_index.feats_for_source = keep
+        return seen == ["Live One"]
+    net(a, "a record write loses no concurrent edit: compare-and-swap, and no stale-field revert",
+        _a_record_write_loses_no_concurrent_edit,
+        "sweep67 F1/F2: a write landing mid-merge was overwritten whole, and an unchanged field "
+        "from the caller's load-time copy reverted another writer's edit")
+    net(a, "catalogue_web dedup registers a title only once its fetch returned text",
+        _net_0173de67d95a,
+        "order 0173de67d95a: a same-key twin of a textless title is dropped as a duplicate and the entity has no entry")
+    net(a, "mutate _lock_acquire never deletes a fresh lock it mistook for the stale one",
+        _net_0620969b742d,
+        "order 0620969b742d: two starters can both believe they hold the mutation lock")
+    net(a, "catalogue_codex skips an out-of-scope roll row even with entry_count 0",
+        _net_081f6c79b882,
+        "order 081f6c79b882: the codex cataloguer re-catalogues an owner-excluded source and reverts its exclusion")
+    net(a, "assay.axis_score scores NaN as unmeasurable",
+        _net_0be9eabfe057,
+        "order 0be9eabfe057: NaN scored as the maximum band again")
+    net(a, "allsweep.check_import survives a timeout or spawn failure",
+        _net_1011c56d52a8,
+        "order 1011c56d52a8: one module hang kills the whole sweep before ALLSWEEP.json is written")
+    net(a, "resonance.hodge_decompose is scale invariant",
+        _net_1301ccb8fc44,
+        "order 1301ccb8fc44: eta depends on flow units again")
+    net(a, "mutate rulings registry keeps both rulings under a concurrent write",
+        _net_1e2e6aad5fca,
+        "order 1e2e6aad5fca: rule_equivalent/unrule_equivalent lose a ruling to a concurrent CLI call, or leave a .tmp behind")
+    net(a, "an instrument reading must bear on its axis before it overrides a model score",
+        _net_21ce9170f4d4,
+        "order 21ce9170f4d4: a height becomes a Reach reading and a mass in tons becomes Ruin, overwriting verified model scores")
+    net(a, "sweep.sweep refuses an absent/empty WIKI_HOSTS.json",
+        _net_273bd193d454,
+        "order 273bd193d454: sweep() writes an all-unreachable CHARACTER_SWEEP that downstream reads as fact")
+    net(a, "sweep_plan --batches N --check-briefs FILE runs the diff",
+        _net_2a0dd1d54ff6,
+        "order 2a0dd1d54ff6: the documented brief diff prints the plan and exits 0 without comparing")
+    net(a, "foreman restart_reader and kill_stalled_job spare another tree's process",
+        _net_2a5344d24132,
+        "order 2a5344d24132: the live keeper SIGTERMs a sandbox copy of read.py --run from another tree")
+    net(a, "rigor.bradley_terry refuses self-contests and bad counts",
+        _net_2b1e87355d3e,
+        "order 2b1e87355d3e: a self-contest inflates a strength again")
+    net(a, "suppressions _load fails closed on wrong-shaped rows",
+        _net_2beb0a7fa5b3,
+        "order 2beb0a7fa5b3: active()/suppressed()/problems() raise on a malformed row instead of failing closed")
+    net(a, "scout: an all-transport-failure verify pass reports reached=False, not a clean negative",
+        _net_2f9c45993f46,
+        "order 2f9c45993f46: a network outage writes clean negatives and burns scout rotation slots")
+    net(a, "cascade_bridge: only an output-token size refusal teaches an output ceiling",
+        _net_477be064b969,
+        "order 477be064b969: an input TPM refusal is learned as an output cap and is never recorded as unrecognised")
+    net(a, "profile encode notes fallbacks and decode refuses unknown codes",
+        _net_49e01317e5e0,
+        "order 49e01317e5e0: an unknown genre/register decodes to a plausible value again")
+    net(a, "worldseed: short-word stems no longer attest on word prefixes (Warden, Ashford, Search)",
+        _net_4c7cf744461d,
+        "order 4c7cf744461d: prefix hits are tagged as attested world features instead of seeded")
+    net(a, "backfill keys names by NFKD alphanumerics, never empty",
+        _net_5032684974ff,
+        "order 5032684974ff: non-Latin wiki pages count as held and are never fetched")
+    net(a, "catalogue_web skips an out-of-scope roll row, by default and under --recatalogue",
+        _net_56a4ed35c11e,
+        "order 56a4ed35c11e: the wiki cataloguer attempts an owner-excluded source and reverts its exclusion")
+    net(a, "overwatch stamps the pre-review digest into seen and new findings",
+        _net_599bfad87a6b,
+        "order 599bfad87a6b: an edit made mid-review is recorded as seen, so the module is never re-queued and stale findings never retire")
+    net(a, "mutate _run_mutation removes its sandbox when the live target is unreadable",
+        _net_59b534837fb2,
+        "order 59b534837fb2: a FileNotFoundError on the live target leaks a sandbox until reap_orphans")
+    net(a, "scout: 429 and control-less 403 are not recorded as declines-readers in SCOUT_BLOCKED",
+        _net_5a0545df6d2a,
+        "order 5a0545df6d2a: invented or rate-limited URLs land in FOR_OWNER.md as blocked material")
+    net(a, "a quantity-only entity with no candidate feat is the no-gate finding, never a model call",
+        _net_5a2b91bf1b5d,
+        "order 5a2b91bf1b5d: the model anchors a quantity-only entity over an empty evidence list, from memory, and that anchor is published")
+    net(a, "mutate _session files no work orders for a target whose verdicts were voided",
+        _net_6093d3475efc,
+        "order 6093d3475efc: survivors from a stale sandbox copy are filed as MAJOR RUN orders with no void caveat")
+    net(a, "calibrate re-runs DEFERRED benchmarks and never stamps a pass holding one complete",
+        _net_6c2ee32b1465,
+        "order 6c2ee32b1465: a transport-failed benchmark is carried forward unretried inside a pass stamped complete")
+    net(a, "retry_synthesis --only naming nothing pending exits 1",
+        _net_6c3f5f7df5f2,
+        "order 6c3f5f7df5f2: a mistyped --only name prints '0 to do now' and exits 0 as if nothing were outstanding")
+    net(a, "hand-run cataloguers (codex, web, aurora) ask the halt before a write run, not on dry-run",
+        _net_6d800a399592,
+        "order 6d800a399592: a hand-run cataloguer writes data/records and SWEEP_ROLL.json under a plant-wide halt")
+    net(a, "gpu_lane._expired treats a non-numeric heartbeat as expired",
+        _net_76598c5d0cdc,
+        "order 76598c5d0cdc: a corrupt slot heartbeat raises ValueError out of with lane(), breaking fail-open")
+    net(a, "wiki_source: page_text raises when all three section fetches fail; page_texts reports them",
+        _net_882065c6b19d,
+        "order 882065c6b19d: an outage or IP ban reads as pages with no prose and is never re-asked")
+    net(a, "feats evidence_for and resolve_hosts write through silence.write_json",
+        _net_888b8b52467a,
+        "order 888b8b52467a: two writers share one fixed .tmp and can land a partial evidence or host file")
+    net(a, "cascade_bridge: a corrupt or wrong-shape POOL_UNRECOGNISED.json is not overwritten by record_unrecognised",
+        _net_9034467cae85,
+        "order 9034467cae85: one failure replaces the whole unrecognised ledger with a single row")
+    net(a, "feats._unwrap_templates keeps the tail of an unclosed template",
+        _net_926b5f0f997b,
+        "order 926b5f0f997b: an unclosed template loses its last 2-3 characters (units cut) into stored text")
+    net(a, "corpus_db rebuild keeps source.entries == COUNT(entry) for a duplicated source",
+        _net_92b6168fdd74,
+        "order 92b6168fdd74: worst_cited divides by the wrong denominator for a source declared twice")
+    net(a, "gpu_lane._take_slot removes an expired slot only if unchanged",
+        _net_9310fefed227,
+        "order 9310fefed227: a reclaim race deletes the new holder's slot and two callers share it")
+    net(a, "sweep_plan.unknown_claims survives a shard that goes unreadable in pass 2",
+        _net_939cb74c818a,
+        "order 939cb74c818a: UnboundLocalError from a function-local import silence")
+    net(a, "thread_integrity load_thread_graph reports malformed T1/T2 as unresolvable or unreadable",
+        _net_969ebdbbda98,
+        "order 969ebdbbda98: DANGLING=0 passes over a corrupt thread graph, or AttributeError skips the OWNER escalation")
+    net(a, "silence.swallow lets KeyboardInterrupt/SystemExit/GeneratorExit through",
+        _net_98650e9d31d7,
+        "order 98650e9d31d7: with swallow(...) eats an operator's Ctrl-C")
+    net(a, "completeness.land refuses when the prior file is unreadable",
+        _net_9bd9d77d5e0d,
+        "order 9bd9d77d5e0d: a read fault disarms SHRINK_FLOOR and a tiny run lands over the real measurement")
+    net(a, "ingest_doc.extract refuses an image-only PDF, reports textless pages",
+        _net_9cc87ededee1,
+        "order 9cc87ededee1: an image-only PDF replaces the corpus with {} and reports ingest complete rc 0")
+    net(a, "local_agent.t_find_symbol reports unparsed files and drops unique",
+        _net_9e59609b76b2,
+        "order 9e59609b76b2: find_symbol claims a name is unique from a subset when a src file did not parse")
+    net(a, "assay.interval_from_hands widening terminates on huge readings",
+        _net_ad6d78d6d545,
+        "order ad6d78d6d545: the coverage loop hangs on a 1e17 reading")
+    net(a, "navtree audits its SEVENFOLD world set against the live worldseed build",
+        _net_c4d79f533471,
+        "order c4d79f533471: a stale SEVENFOLD.json silently omits built worlds from the tree and --write lands it with 0 problems")
+    net(a, "a new world cannot coin an existing world's standing designation",
+        _net_c9c29a2305f1,
+        "order c9c29a2305f1: a new world sorting earlier in a collision group takes an existing world's published name and renames it")
+    net(a, "chain.extract records the --limit and harvested total for CHAIN.json",
+        _net_ec824ade998f,
+        "order ec824ade998f: a hand-run --limit pass is indistinguishable on disk from a full pass")
+    net(a, "catalogue_aurora dry-run: unparseable Aurora XML is named and fails the exit code",
+        _net_ed5f75ec19fe,
+        "order ed5f75ec19fe: an unparseable homebrew XML file is dropped from the total with a clean exit 0 again")
+    net(a, "coverage.measure refuses when a readable record was dropped by records()",
+        _net_ee9365750ddf,
+        "order ee9365750ddf: COVERAGE.json lands with a source missing and shrunk totals, unmarked")
+    net(a, "host_ceiling does not cache an unread scope as 'no ceiling'",
+        _net_efbfead57cb5,
+        "order efbfead57cb5: one KeyError/TypeError from scope_for removes the ceiling clamp for that host for the rest of the process")
+    net(a, "entity_match gates on equal digit runs",
+        _net_f5176479c60a,
+        "order f5176479c60a: Issue 1 vs Issue 11 scores STRONG again")
+    net(a, "RUN_STATUS ceiling row counts only nominated ceilings",
+        _net_073752d048bc,
+        "order 073752d048bc: the owner's status file overstates sources with a ceiling nominated")
+    net(a, "catalogue_web _singular keeps silent-e plurals whole",
+        _net_0c789022ef15,
+        "order 0c789022ef15: Prizes/Mazes/Caches/Niches are mangled to Priz/Maz/Cach/Nich in stored types")
+    net(a, "ledger_guard truncation refusal names the real sealed copy",
+        _net_0ceb29ffae61,
+        "order 0ceb29ffae61: the refusal points at a path that does not exist (unflattened SNAPSHOT_DIR/name)")
+    net(a, "overwatch survives a model finding with null actual or non-string symbol",
+        _net_17719ce65b75,
+        "order 17719ce65b75: one null field in a model answer crashes _fingerprint outside any try and kills the round")
+    net(a, "compress_store sweeps its temp when the blob write fails",
+        _net_1d85d7c0c608,
+        "order 1d85d7c0c608: an ENOSPC/AV-locked write leaves a torn uniquely-named .tmp that accumulates")
+    net(a, "snapshot.before sanitises the label so the snapshot stays under ROOT",
+        _net_21c78921ec89,
+        "order 21c78921ec89: a label containing a slash or dot-dot lands a snapshot outside state/snapshots that listing() never sees")
+    net(a, "mutate live-tree refusal is case- and junction-insensitive",
+        _net_2a91c40e9442,
+        "order 2a91c40e9442: a lower-cased spelling of the live tree passes the guard and mutants could be written into real src/")
+    net(a, "hostcheck.sweep(only=...) does not overwrite HOST_FITNESS.json",
+        _net_33ec3804e2df,
+        "order 33ec3804e2df: a --only spot check replaces the whole-corpus fitness report with a fragment")
+    net(a, "corpus_db refuses an unknown --canned name with rc 2",
+        _net_3953d4d6177b,
+        "order 3953d4d6177b: a typo'd --canned returns rc 0 with no rows")
+    net(a, "weave.filtered_index judges every hit, not only hits[0]",
+        _net_87add9d671b5,
+        "order 87add9d671b5: the first source decides for all: entities dropped wholesale, later rules text kept")
+    net(a, "magnitude.run_batch banner counts settled records and flags a cut queue",
+        _net_89a3c760aeb0,
+        "order 89a3c760aeb0: 'already assayed' counts DEFERRED records again")
+    net(a, "workorders LOCAL door notes a failure to decide",
+        _net_913f31fb9c10,
+        "order 913f31fb9c10: the door silently files at LOCAL with nothing counting how often it could not decide")
+    net(a, "phase_write names every thin source uncapped",
+        _net_98eae835e14e,
+        "order 98eae835e14e: sources refused as under-read vanish without being named (Hard Rule 0)")
+    net(a, "'phases implemented' is UNMEASURED, not MET, when phases are absent",
+        _net_9addfa9acbc2,
+        "order 9addfa9acbc2: the standard reads green when the dashboard could not list phases")
+    net(a, "pipeline land_json leaves no tmp on a raising dump or a denied rename",
+        _net_a8fa52a33445,
+        "order a8fa52a33445: record/artifact writes orphan pid-named .tmp files beside their targets")
+    net(a, "'shelfmarks are unique' counts printed-shelfmark clashes; empty is UNMEASURED",
+        _net_ac4d00993598,
+        "order ac4d00993598: two worlds with one printed shelfmark, or an empty SHELFMARKS.json, read MET")
+    net(a, "events refuses an over-80-char bold span with a recorded reason",
+        _net_ba367da8f3ba,
+        "order ba367da8f3ba: a long bold span is neither taken nor listed in candidates_refused (silent drop)")
+    net(a, "binding_health --host filter reports unmatched names",
+        _net_bc0815a6bd21,
+        "order bc0815a6bd21: a mistyped --host is silently discarded when another --host matches")
+    net(a, "magnitude._is_score refuses NaN and Infinity",
+        _net_bcf499b464be,
+        "order bcf499b464be: a non-finite model score is accepted as numeric and clamped to 0.0 or 9.9 with no rejection")
+    net(a, "secondopinion.mine_says counts only silent handlers",
+        _net_d00e843b1765,
+        "order d00e843b1765: the report's house silence figure counts every audited handler (about 4x too high) beside ruff's counts")
+    net(a, "hostcheck.adopt separates unmeasured from genuinely-without-a-wiki",
+        _net_d39cbbe8759d,
+        "order d39cbbe8759d: an all-UNREACHABLE source prints 'none' and is counted as genuinely without a wiki")
+    net(a, "manifest_builder --only refuses unmatched names and writes nothing",
+        _net_d3dddc44ef08,
+        "order d3dddc44ef08: a typo in --only overwrites the standing manifest with zero jobs, rc 0")
+    net(a, "secondopinion outside-tool spawns decode utf-8 with errors=replace",
+        _net_e6cd86d4172e,
+        "order e6cd86d4172e: a non-cp1252 byte in ruff/vulture/detect-secrets output raises UnicodeDecodeError and the tool is reported absent")
+    net(a, "phase_entrypass refuses malformed cloud result items",
+        _net_f6a751c55c84,
+        "order f6a751c55c84: a non-dict item or non-str field crashes entrypass, or JSON true files an entry under category 1")
+    net(a, "pick_model.save_config removes its temp file when the replace is denied",
+        _net_f7082f032948,
+        "order f7082f032948: a denied config.yaml replace leaves a config.yaml.<pid>.<tid>.tmp in the repo root")
+    net(a, "standards.main runs check() once per invocation",
+        _net_fd2d04fa0aea,
+        "order fd2d04fa0aea: live probes run twice and rc can come from a different pass than the printed table")
+    net(a, "worldseed refuses --write with --limit",
+        _net_28868e940226,
+        "order 28868e940226: a partial roster overwrites data/WORLDSEEDS.json in the shape of the full one")
+    net(a, "rosetta.scales_for records search exception text whole",
+        _net_2c226602695b,
+        "order 2c226602695b: exception text in the mined-wiki failure record is cut at 60 characters with no marker")
+    net(a, "tuning.cloud_success_rate opens the scratch db read-only",
+        _net_554adb29161e,
+        "order 554adb29161e: the probe creates an empty state/cascade_scratch.db when absent, reddening the mutate baseline")
+    net(a, "threads annex_codes/law_codes return an empty set for wrong-shape JSON",
+        _net_5c24b8e36cfe,
+        "order 5c24b8e36cfe: a top-level list or string rows raise AttributeError out of build()/verify() instead of failing closed")
+    net(a, "tells STRUCTURAL testament/test-of-time patterns need a word boundary",
+        _net_a5dfa403f8ac,
+        "order a5dfa403f8ac: scan() flags 'understands as a reminder' as a machine tell")
+    net(a, "rosetta.check separates an all-tied scale from a too-few-names scale",
+        _net_a713b2598ed5,
+        "order a713b2598ed5: a zero-variance scale is reported as needing 4 overlapping names, a coverage gap it is not")
+    net(a, "read.queue prunes queue-memo keys from superseded row rules",
+        _net_bca2ca48e316,
+        "order bca2ca48e316: old path+name keys from before the row rule was appended are re-serialised whole every pass (about half the 152 MB index)")
+    net(a, "whoruns.script_of refuses attached -m<mod>/-c<code> spellings",
+        _net_d8ad47ebf10d,
+        "order d8ad47ebf10d: a linter run (-mpyflakes src/x.py) is reported as x.py running")
+    net(a, "tells scan counts overlapping phrases once and sees inflected stems",
+        _net_dccbc1cddd13,
+        "order dccbc1cddd13: 'tapestry of' scores twice and 'unlocked/fostering' go unseen")
+    net(a, "the sevenfold root is always seven, even when a root window has no weak seam",
+        _the_root_is_always_seven,
+        "run #67: a rebuilt index left one root window uncut and seven hyperverses became six")
+    net(a, "a record pass that could not read a file is neither cached nor written as the index",
+        _a_short_record_pass_is_neither_cached_nor_written,
+        "sweep67 F3: a torn record was skipped, the short list cached under a valid signature, "
+        "and --write landed an index missing that source")
+    net(a, "STATUS.md never prints a failed coverage snapshot as a measured zero",
+        _a_failed_snapshot_is_not_a_measured_zero,
+        "sweep67 F1: a crashed snapshot rendered as 'cited 0, change -1,000' on the published "
+        "status page")
+    net(a, "the Feats chapter is matched against the live cast, not the raw record",
+        the_feats_chapter_sees_only_the_live_cast,
+        "sweep67 F2: struck and stale entities were held out of every chapter except Feats")
 
     def a_type_normalisation_lands_only_as_a_cas():
         import pipeline as PL

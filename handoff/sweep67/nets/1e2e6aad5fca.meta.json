@@ -1,0 +1,5 @@
+{
+ "name": "mutate rulings registry keeps both rulings under a concurrent write",
+ "expected": "rule_equivalent/unrule_equivalent lose a ruling to a concurrent CLI call, or leave a .tmp behind",
+ "area": "drill_followup0928"
+}

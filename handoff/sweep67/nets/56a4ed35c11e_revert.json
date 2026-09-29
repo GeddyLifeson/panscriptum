@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_web.py",
+  "old": "    todo = [r for r in todo if _roll_scope.in_scope(r[\"name\"], roll)]\n",
+  "new": ""
+ }
+]

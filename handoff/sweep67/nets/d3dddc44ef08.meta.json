@@ -1,0 +1,5 @@
+{
+ "name": "manifest_builder --only refuses unmatched names and writes nothing",
+ "expected": "a typo in --only overwrites the standing manifest with zero jobs, rc 0",
+ "area": "drill_followup0928"
+}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "        # 2 RELEVANCE -- asked BEFORE the reading can overwrite a model score in assay_entity\n        # (order 21ce9170f4d4). \"Goku stands 2 meters tall\" is not Reach and \"the suit weighs 90\n        # tons\" is not Ruin. The override itself is deliberate and stays.\n        bare = _QTY_UNIT_WORDS.sub(\" \", sentence)\n        bears = AXIS_RE[axis].search(bare) or (axis == \"ruin\" and _EXPLOSIVE.search(bare))\n        if not bears or (unit in _MASS_TONS and not _EXPLOSIVE.search(sentence)):\n            rejects.append((axis, \"instrument reading does not bear on \" + axis + \": \"\n                            + sentence))\n            continue\n",
+  "new": ""
+ }
+]

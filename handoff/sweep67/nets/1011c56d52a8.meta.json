@@ -1,0 +1,5 @@
+{
+ "name": "allsweep.check_import survives a timeout or spawn failure",
+ "expected": "one module hang kills the whole sweep before ALLSWEEP.json is written",
+ "area": "drill_followup0928"
+}

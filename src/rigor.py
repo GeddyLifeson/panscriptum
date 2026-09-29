@@ -478,6 +478,17 @@ def bradley_terry(wins, iters=500, tol=1e-12, prior=0.0):
 
     Returns `components`, and comparisons are only meaningful WITHIN one.
     """
+    # THE KEYS AND COUNTS ARE JUDGED BEFORE THEY ARE SUMMED (order 2b1e87355d3e, sweep67 batch05,
+    # run #67). A self-contest (a, a) adds to total_wins[a] but never to N, inflating a's
+    # strength; a negative or non-finite count corrupts the sums. Refused, as the AHP doors do.
+    for (a, b), c in wins.items():
+        if a == b:
+            raise RigorIntegrityError("bradley_terry: %r is contested against itself; a "
+                                      "self-contest is not a contest." % (a,))
+        if not (isinstance(c, (int, float, np.integer, np.floating)) and math.isfinite(c)
+                and c >= 0):
+            raise RigorIntegrityError("bradley_terry: the count for (%r, %r) is %r; a count of "
+                                      "wins must be a finite number >= 0." % (a, b, c))
     names = sorted({n for pair in wins for n in pair})
     idx = {n: i for i, n in enumerate(names)}
     n = len(names)

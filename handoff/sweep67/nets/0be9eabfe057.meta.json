@@ -1,0 +1,5 @@
+{
+ "name": "assay.axis_score scores NaN as unmeasurable",
+ "expected": "NaN scored as the maximum band again",
+ "area": "drill_followup0928"
+}

@@ -1,0 +1,5 @@
+{
+ "name": "retry_synthesis --only naming nothing pending exits 1",
+ "expected": "a mistyped --only name prints '0 to do now' and exits 0 as if nothing were outstanding",
+ "area": "drill_followup0928"
+}

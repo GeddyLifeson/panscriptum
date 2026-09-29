@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scout.py",
+  "old": "    blocked = [c for c in checked if c.get(\"code\") in (401, 403) and _control_404(c[\"url\"])]",
+  "new": "    blocked = [c for c in checked if c.get(\"code\") in (401, 403, 429)]"
+ }
+]

@@ -257,7 +257,15 @@ def _expired(rec, lease):
     """A record nobody is maintaining any more."""
     if not isinstance(rec, dict):
         return True                      # unreadable/corrupt: reclaim rather than strand
-    if _now() - float(rec.get("heartbeat") or 0) > lease:
+    # A NON-NUMERIC HEARTBEAT IS A CORRUPT RECORD, RECLAIMED LIKE ONE (sweep67 batch 11, run #67;
+    # order 76598c5d0cdc). The bare float() raised ValueError out of `_take_slot` and so out of
+    # `with lane()`, against this module's header ("FAIL OPEN, ALWAYS"). Same answer as a
+    # missing heartbeat, which `or 0` already reads as stale.
+    try:
+        beat = float(rec.get("heartbeat") or 0)
+    except (TypeError, ValueError):
+        return True
+    if _now() - beat > lease:
         return True
     return not _alive(rec.get("pid"))
 
@@ -450,7 +458,15 @@ def _take_slot(label):
         elif _expired(rec, SLOT_LEASE_SECONDS):
             # the holder is gone; the lease returns to the pool (m55: retried, because a
             # denial here silently leaves the slot claimed by a process that no longer exists)
-            _remove_retry(path)
+            #
+            # ONLY IF IT IS STILL THE RECORD WE JUDGED (sweep67 batch 11, run #67; order
+            # 9310fefed227). Between the read above and this remove another process can reclaim
+            # the slot and O_EXCL-create a fresh one; an unconditional remove deleted THAT
+            # holder's live slot and let both callers in. A changed record is left alone, and the
+            # O_EXCL create below then reports the slot held. (Narrows the window to one re-read;
+            # there is no atomic compare-and-remove on a file here.)
+            if _read(path) == rec:
+                _remove_retry(path)
         try:
             fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
         except FileExistsError:

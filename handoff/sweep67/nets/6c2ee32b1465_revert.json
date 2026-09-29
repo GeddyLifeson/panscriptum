@@ -1,0 +1,12 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "                # A DEFERRED or SCOPE_UNMEASURED row is a transport failure, not a result, and\n                # is re-run rather than carried (order 6c2ee32b1465, sweep67) -- `settled()`'s\n                # own distinction. Carried, it was never retried and sat inside a pass stamped\n                # complete.\n                if (isinstance(r, dict) and r.get(\"entity\")\n                        and r.get(\"status\") not in _CAL_UNFINISHED):\n                    prior[r[\"entity\"]] = r",
+  "new": "                if isinstance(r, dict) and r.get(\"entity\"):\n                    prior[r[\"entity\"]] = r"
+ },
+ {
+  "module": "magnitude.py",
+  "old": "    # Complete only when every benchmark has a row that is a RESULT (order 6c2ee32b1465).\n    _land(rows, len(rows) == len(BENCHMARKS)\n          and not any(r.get(\"status\") in _CAL_UNFINISHED for r in rows))",
+  "new": "    _land(rows, len(rows) == len(BENCHMARKS))"
+ }
+]

@@ -1,0 +1,5 @@
+{
+ "name": "foreman restart_reader and kill_stalled_job spare another tree's process",
+ "expected": "the live keeper SIGTERMs a sandbox copy of read.py --run from another tree",
+ "area": "drill_followup0928"
+}

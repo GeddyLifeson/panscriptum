@@ -250,10 +250,25 @@ def _lock_acquire(targets, token):
     if rec is not None:
         # Not held, but a file is on disk -- a stale record from a dead holder. Clear it, or
         # the O_EXCL create below would refuse forever and a dead run would block every push.
+        #
+        # ONLY IF IT IS STILL THAT RECORD (sweep67 batch04, order 0620969b742d, run #67). Two
+        # starters that both saw the stale record: A removed it and created its own lock, then B
+        # removed A's FRESH lock and created another, and both believed they held it. The file
+        # is re-read here and removed only if it still says what `active()` just showed us; a
+        # different record means somebody else already claimed it, and O_EXCL below refuses.
+        # ponytail: a microsecond read-then-remove window remains; no atomic compare-and-delete.
         try:
-            os.remove(LOCK)
+            with open(LOCK, encoding="utf-8") as f:
+                now_rec = json.load(f)
         except FileNotFoundError:
-            pass
+            now_rec = None
+        except Exception:
+            now_rec = rec
+        if now_rec is not None and now_rec == {k: v for k, v in rec.items() if k != "stale"}:
+            try:
+                os.remove(LOCK)
+            except FileNotFoundError:
+                pass
     try:
         fd = os.open(LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     except FileExistsError:
@@ -1052,7 +1067,14 @@ def ruling_mismatch(entry, target, s):
             for k, v in want if entry.get(k) != v]
 
 
-def _write_rulings(entries, path=RULED_EQUIVALENT):
+_UNSET = object()
+
+
+class _RulingsLost(RuntimeError):
+    """The registry changed under this writer, or the rename was denied."""
+
+
+def _write_rulings(entries, path=RULED_EQUIVALENT, expected=_UNSET):
     """Replace the registry on disk with `entries`. -> path. Raises on failure.
 
     Written through a temporary file and `os.replace` so a crash mid-write cannot leave a half
@@ -1060,13 +1082,57 @@ def _write_rulings(entries, path=RULED_EQUIVALENT):
     TRUNCATED one that still parses would silently drop rulings, which is worse. This is only
     ever called from the two human-driven CLI flags, never from inside a mutation run.
     """
+    # LANDED THROUGH A COMPARE-AND-SWAP, UNDER A PER-PROCESS TMP NAME (sweep67 batch04, order
+    # 1e2e6aad5fca, run #67). This wrote a fixed `path + ".tmp"` and `os.replace`d it blind: two
+    # concurrent CLI calls collided on the tmp and the second dropped the first's ruling, and a
+    # denied replace raised with the tmp left behind. `expected` is the digest taken BEFORE the
+    # read (`_edit_rulings` passes it); the default reads it here, which is only as good as the
+    # old behaviour and is kept for a caller that holds no digest.
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump({"version": 1, "entries": entries}, f, ensure_ascii=False, indent=1,
-                  sort_keys=True)
-    os.replace(tmp, path)
+    tmp = "%s.%d.tmp" % (path, os.getpid())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump({"version": 1, "entries": entries}, f, ensure_ascii=False, indent=1,
+                      sort_keys=True)
+        ok, why = silence.replace_if_unchanged(
+            tmp, path, silence.digest_of(path) if expected is _UNSET else expected)
+    except BaseException:
+        _drop_tmp_ruling(tmp)
+        raise
+    if not ok:
+        _drop_tmp_ruling(tmp)
+        raise _RulingsLost(why)
     return path
+
+
+def _drop_tmp_ruling(tmp):
+    try:
+        os.remove(tmp)
+    except OSError:
+        pass
+
+
+def _edit_rulings(apply, path, attempts=8):
+    """Read the registry, `apply(entries)` (edits in place, returns the result), land it, and
+    RE-APPLY to the winner's copy on a lost race. -> apply's result.
+
+    The digest is taken BEFORE the read, so a writer landing in between makes the swap refuse
+    and the edit is redone on the winner's copy, keeping both rulings. A refusal while the file
+    stood still is a denial, not a race, and raises at once.
+    """
+    why = "not attempted"
+    for _ in range(max(1, attempts)):
+        seen = silence.digest_of(path)
+        entries = dict(ruled_equivalent(path))
+        result = apply(entries)
+        try:
+            _write_rulings(entries, path, expected=seen)
+            return result
+        except _RulingsLost as e:
+            why = str(e)
+            if silence.digest_of(path) == seen:
+                break
+    raise RuntimeError("the ruling could not be recorded in %s: %s" % (path, why))
 
 
 def _site(spec):
@@ -1110,9 +1176,7 @@ def rule_equivalent(target, line, ruling, ruled_by="", path=RULED_EQUIVALENT):
     entry = {"id": oid, "code": code, "where": where, "target": target, "line": line,
              "mutation": s.get("mutation"), "was": s.get("was"), "became": s.get("became"),
              "ruling": ruling, "ruled_by": str(ruled_by or ""), "ruled_at": time.time()}
-    entries = dict(ruled_equivalent(path))
-    entries[oid] = entry
-    _write_rulings(entries, path)
+    _edit_rulings(lambda entries: entries.__setitem__(oid, entry), path)
     return entry
 
 
@@ -1126,13 +1190,13 @@ def unrule_equivalent(target, line, path=RULED_EQUIVALENT):
     ruling was applied is still in the journal (`suppressed_on_record`).
     """
     oid, _code, _where = _order_identity(target, line)
-    entries = dict(ruled_equivalent(path))
-    if oid not in entries:
-        raise SystemExit("no standing ruling for %s:%d (order id %s) in %s"
-                         % (target, line, oid, path))
-    gone = entries.pop(oid)
-    _write_rulings(entries, path)
-    return gone
+    def _apply(entries):
+        if oid not in entries:
+            raise SystemExit("no standing ruling for %s:%d (order id %s) in %s"
+                             % (target, line, oid, path))
+        return entries.pop(oid)
+
+    return _edit_rulings(_apply, path)
 
 
 SANDBOX_PREFIX = "panscriptum_mutate_"
@@ -1182,10 +1246,10 @@ def _owner_pid(sandbox_root):
     replaced is not a fix.
 
     So the claim carries the time it was made, and it stops being believed after
-    `OWNERSHIP_CEILING_SECONDS`. That is comfortably longer than the longest plausible mutation
-    run (hours) and comfortably shorter than forever, so a live owner is protected for as long
-    as it could possibly still be working, and a recycled pid can strand a directory for at most
-    one day instead of for good.
+    `OWNERSHIP_CEILING_SECONDS` (72 hours). That is comfortably longer than the longest
+    plausible mutation run (a full pass takes about 30 hours) and comfortably shorter than
+    forever, so a live owner is protected for as long as it could possibly still be working, and
+    a recycled pid can strand a directory for at most 72 hours instead of for good.
 
     A claim with no `started` -- one written by the first version of this code -- is treated as
     expired rather than as eternal, for the same reason: unknown provenance must not buy more
@@ -1703,7 +1767,8 @@ def sandbox():
                 os.makedirs(_dest, exist_ok=True)
                 shutil.copy2(os.path.join(_dirpath, f), os.path.join(_dest, f))
             except OSError:
-                pass
+                # NOTED, LIKE EVERY SIBLING COPY (sweep67 batch04, order 59b534837fb2, run #67).
+                silence.note("mutate.py:sandbox-state-copy")
     # AND THE SIX LOGS THE DASHBOARD ACTUALLY READS, which the blanket `.log` exclusion took
     # with the other 109 MB. `dashboard._read_row` tails `state/read_auto.log` for the `dropped`
     # count -- the model sentences the verbatim check rejected -- and `standards.check` turns
@@ -2185,8 +2250,12 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
     # "the live tree is never opened for writing", which was a property of the callers rather
     # than of the code. Refused loudly, in the same shape as the missing-baseline refusal below.
     if root is not None:
-        _abs = os.path.abspath(root)
-        if _abs == os.path.abspath(HERE) or os.path.abspath(os.path.join(_abs, "src")) == SRC:
+        # sweep67 batch04, F2, run #67 (order 2a91c40e9442): compare case-folded real paths, so a
+        # lower-cased or junction spelling of the live tree cannot pass on Windows.
+        def _canon(p):
+            return os.path.normcase(os.path.realpath(p))
+        _abs = _canon(root)
+        if _abs == _canon(HERE) or _canon(os.path.join(_abs, "src")) == _canon(SRC):
             raise RuntimeError(
                 "refusing to mutate %s with root=%s: that is the LIVE tree. Mutation writes "
                 "deliberately broken source once per mutant; in the live tree every other "
@@ -2249,9 +2318,12 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
     root = root or sandbox()
     path = os.path.join(root, "src", target)
     live = os.path.join(SRC, target)
-    live_before = _digest(_read(live))
 
     try:
+        # INSIDE THE TRY (sweep67 batch04, order 59b534837fb2, run #67). `sandbox()` has already
+        # been built above, so a FileNotFoundError reading the live target from outside the try
+        # leaked the sandbox until `reap_orphans`.
+        live_before = _digest(_read(live))
         original = _read(path)
         if not verify_restore(path):
             raise RuntimeError("restore is not byte-exact for %s; refusing to mutate it" % target)
@@ -3244,7 +3316,11 @@ def _session(a, targets):
             if r["survivors"] and not confirm:
                 print("  --no-confirm was used: these passed the FAST gates only. They are"
                       " candidates, not findings, and must not be filed as findings.")
-            if a.file_orders and r["survivors"] and confirm:
+            # A VOIDED TARGET FILES NOTHING (sweep67 batch04, order 6093d3475efc, run #67). When
+            # the restore or the live-file check tripped above, `stopped_at == i` and this
+            # target's verdicts were declared VOID, yet its survivors were still filed as MAJOR
+            # RUN orders with no void caveat -- from a sandbox copy that may be stale.
+            if a.file_orders and r["survivors"] and confirm and stopped_at != i:
                 # SUPPRESSIONS ARE PRINTED, NOT MERELY COUNTED (order 35ba53586e6f). A survivor
                 # kept out of the queue by a standing ruling is still a survivor and it is still
                 # listed above; what changes is only that it does not become a new work order.

@@ -1,0 +1,22 @@
+[
+ {
+  "module": "profile.py",
+  "old": "if gr not in GENRE_FROM or rg not in REG_FROM:",
+  "new": "if False:"
+ },
+ {
+  "module": "profile.py",
+  "old": "\"genre\": GENRE_FROM[gr],",
+  "new": "\"genre\": GENRE_FROM.get(gr, \"unclassified\"),"
+ },
+ {
+  "module": "profile.py",
+  "old": "\"register\": REG_FROM[rg],",
+  "new": "\"register\": REG_FROM.get(rg, \"classical\"),"
+ },
+ {
+  "module": "profile.py",
+  "old": "    if genre not in GENRE_CODE:",
+  "new": "    if False:"
+ }
+]

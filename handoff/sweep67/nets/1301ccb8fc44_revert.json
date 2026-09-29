@@ -1,0 +1,7 @@
+[
+ {
+  "module": "resonance.py",
+  "old": "_tol = tol * (max(abs(f) for f in edges.values()) or 1.0)",
+  "new": "_tol = tol"
+ }
+]

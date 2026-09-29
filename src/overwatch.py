@@ -284,7 +284,9 @@ def save(d):
 
 
 def _fingerprint(module, f):
-    key = f"{module}|{f.get('symbol','')}|{f.get('actual','')[:80]}".lower()
+    # STRINGIFIED (sweep67 batch06, order 17719ce65b75, run #67): a model answer with
+    # actual=null made `.get('actual','')[:80]` raise outside any try and killed the round.
+    key = f"{module}|{f.get('symbol') or ''}|{str(f.get('actual') or '')[:80]}".lower()
     return hashlib.sha256(key.encode("utf-8")).hexdigest()[:16]
 
 
@@ -340,8 +342,9 @@ def _finished_at(f):
     decided between them -- and RETIRED therefore beat CLOSED every time, regardless of which
     actually happened last. The comparison was not measuring time at all.
 
-    IT SURVIVED READING BECAUSE THE INTENT IS VISIBLE AND CORRECT. The comment at :341 says
-    `last_run` values are "zero-padded 'YYYY-MM-DD HH:MM', so that is time order" -- true of one
+    IT SURVIVED READING BECAUSE THE INTENT IS VISIBLE AND CORRECT. The `_merge_ledgers`
+    docstring (order ecff61c18fe9 replaced a stale line cite here) says `last_run` values are
+    "zero-padded 'YYYY-MM-DD HH:MM', so that is time order" -- true of one
     `last_run` against another, and untrue the moment the same slot can also hold `time.time()`.
 
     WHAT IT COST. `_merge_ledgers` exists because two writers touch this ledger and its own
@@ -625,7 +628,14 @@ def review(module, local=True):
         if got is None:
             complete = False
         for f_ in (got or {}).get("findings", []):
+            if not isinstance(f_, dict):
+                continue
             if (f_.get("severity") or "medium").lower() not in ("high", "medium"):
+                continue
+            # NON-STRING FIELDS REFUSED (order 17719ce65b75, run #67): `_anchored`, `_fingerprint`
+            # and the WATCH.md render assume text; `pipeline._pool_answer_usable` checks
+            # top-level keys only. Checked BEFORE `_anchored`, which calls `.strip()` on symbol.
+            if not isinstance(f_.get("actual"), str) or not isinstance(f_.get("symbol"), str):
                 continue
             if not _anchored(f_, src):
                 continue
@@ -866,7 +876,7 @@ def write_report(led, struct):
             # NOT to be confused with `_fingerprint`'s actual[:80], which is a dedupe KEY --
             # changing that would re-key every finding in the ledger. (order 80519f08d9ac)
             lines.append(f"- **{f['module']}.py** `{f.get('symbol','')}` — [{sev}] "
-                         f"{f.get('actual','')}")
+                         f"{str(f.get('actual') or '')}")
             lines.append(f"  - says: {f.get('claim','')}")
     lines += ["", "---", "",
               "Written by `src/overwatch.py`. Structure is checked every round; the model reads "
@@ -988,13 +998,19 @@ def round_once(limit=6, local=True, skip_model=False, watch_code=False):
         print(f"model reads {len(todo)} module(s): {', '.join(todo)}", flush=True)
         for m in todo:
             t = time.time()
+            # DIGESTED BEFORE THE READ, NOT AFTER (sweep67 batch06, order 599bfad87a6b, run
+            # #67). A review takes minutes to hours of model calls; a digest taken after it
+            # stamped an edit made mid-review into `seen` and into every new finding, so
+            # `rotation()` never queued the edited module and the retire loop never retired
+            # findings anchored to the old lines. The pre-read digest is the file the model
+            # was actually shown (or older), so a later edit always differs from it.
+            d = _digest(os.path.join(SRC, m + ".py"))
             try:
                 found, complete = review(m, local=local)
             except Exception as e:
                 silence.note("overwatch.py:review")
                 print(f"   {m}: review failed ({type(e).__name__})", flush=True)
                 continue
-            d = _digest(os.path.join(SRC, m + ".py"))
             # ONLY A COMPLETE READ COUNTS AS SEEN. A slice skipped because the GPU was busy and
             # the round's cloud budget was spent (see `review`'s docstring) looks exactly like a
             # slice read and found clean -- both contribute zero findings -- so stamping `seen`

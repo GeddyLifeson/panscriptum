@@ -1,0 +1,5 @@
+{
+ "name": "secondopinion.mine_says counts only silent handlers",
+ "expected": "the report's house silence figure counts every audited handler (about 4x too high) beside ruff's counts",
+ "area": "drill_followup0928"
+}

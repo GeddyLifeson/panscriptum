@@ -1487,19 +1487,30 @@ def write_status(cycle, history):
     silently stopped updating is a status page that lies by standing still.
     """
     p = os.path.join(HERE, "STATUS.md")
-    cur = history[-1] if history else {}
-    first = history[0] if history else {}
+    # MEASURED ROWS ONLY (sweep67 batch 11, F1, run #67). A crashed snapshot carries only an
+    # "error" key, and `.get(k, 0)` below rendered it as a measured zero -- in STATUS.md, which
+    # publish copies to the public repo -- and a failed FIRST cycle inflated every later change.
+    good = [h for h in history if not h.get("error")]
+    cur = good[-1] if good else {}
+    first = good[0] if good else {}
     out = []
     out.append("# Overnight run\n\n")
     out.append(f"Last update: {datetime.datetime.now():%Y-%m-%d %H:%M:%S}  ")
     out.append(f"(cycle {cycle})\n\n")
     out.append("## Citation coverage\n\n")
-    out.append("| | now | at start | change |\n|---|---:|---:|---:|\n")
-    for k, label in (("cited", "entries cited"), ("read", "read, no feat"),
-                     ("feats", "feats on record"),
-                     ("cited_pct", "cited %"), ("settled_pct", "settled %")):
-        a, b = cur.get(k, 0), first.get(k, 0)
-        out.append(f"| {label} | {a:,} | {b:,} | {a - b:+,} |\n")
+    if history and history[-1].get("error"):
+        out.append(f"**This cycle's coverage snapshot FAILED** ({history[-1]['error']}); "
+                   f"'now' below is the last cycle that measured"
+                   f"{' (cycle %s)' % cur.get('cycle') if cur else ''}.\n\n")
+    if not good:
+        out.append("No cycle has measured coverage yet this run.\n")
+    else:
+        out.append("| | now | at start | change |\n|---|---:|---:|---:|\n")
+        for k, label in (("cited", "entries cited"), ("read", "read, no feat"),
+                         ("feats", "feats on record"),
+                         ("cited_pct", "cited %"), ("settled_pct", "settled %")):
+            a, b = cur.get(k, 0), first.get(k, 0)
+            out.append(f"| {label} | {a:,} | {b:,} | {a - b:+,} |\n")
     # AND THE WINDOW SAYS IT IS A WINDOW. `history[-12:]` printed the last twelve rows under a
     # heading that read as the whole run, which is Hard Rule 0's shape -- a smaller universe
     # wearing the same shape as the real one. `coverage.report()` is the model: announce the
@@ -1514,6 +1525,9 @@ def write_status(cycle, history):
     out.append("| cycle | time | cited | settled % | feats |\n")
     out.append("|---|---|---:|---:|---:|\n")
     for h in shown:
+        if h.get("error"):
+            out.append(f"| {h.get('cycle','')} | {h.get('at','')} | snapshot failed | | |\n")
+            continue
         out.append(f"| {h.get('cycle','')} | {h.get('at','')} | {h.get('cited',0):,} | "
                    f"{h.get('settled_pct',0)} | {h.get('feats',0):,} |\n")
     out.append("\n## Logs\n\n`state/overnight.log` is the supervisor. Per-stage logs are\n")
@@ -1598,8 +1612,9 @@ def main():
     # THE KEEPER RELATIONSHIP rc=17 REQUIRES EXISTS HERE, which is what makes this safe and is
     # why this file is the one gap of the six the order names that can be closed today. It is
     # NOT overnight's own 300-second keeper thread -- that dies with this process -- it is
-    # `autostart.py --watch`, which polls `supervisor_alive()` (called at autostart.py:435) and
-    # calls `start_supervisor()` (called at autostart.py:463) whenever no supervisor is up.
+    # `autostart.py --watch`, which polls its `supervisor_alive()` and calls its
+    # `start_supervisor()` whenever no supervisor is up. (Named, not line-numbered: the cited
+    # call sites had moved; order 7fb8805a1501.)
     # Two budgets now bound that loop and
     # neither is changed here: `codewatch.BUDGET_PER_HOUR` refuses the rc=17 exit itself, and
     # `autostart.MAX_STARTS_PER_HOUR` (3) caps how many times the watchdog will restart a

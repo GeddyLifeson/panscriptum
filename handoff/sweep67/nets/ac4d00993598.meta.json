@@ -1,0 +1,5 @@
+{
+ "name": "'shelfmarks are unique' counts printed-shelfmark clashes; empty is UNMEASURED",
+ "expected": "two worlds with one printed shelfmark, or an empty SHELFMARKS.json, read MET",
+ "area": "drill_followup0928"
+}

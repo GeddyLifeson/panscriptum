@@ -1,0 +1,5 @@
+{
+ "name": "feats._unwrap_templates keeps the tail of an unclosed template",
+ "expected": "an unclosed template loses its last 2-3 characters (units cut) into stored text",
+ "area": "drill_followup0928"
+}

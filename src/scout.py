@@ -325,12 +325,18 @@ def verify(url, names):
             body = r.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as e:
         silence.note("scout.py:verify-http")
-        kind = "exists but declines readers" if e.code in (401, 403, 429) else f"HTTP {e.code}"
+        # 429 IS A RATE LIMIT, NOT A WALL (order 5a0545df6d2a): it says nothing about whether the
+        # page exists. 401/403 are only "declines readers" once scout() has shown a control
+        # invented path on the same host 404s; a WAF 403s invented paths too.
+        kind = "exists but declines readers" if e.code in (401, 403) else f"HTTP {e.code}"
         return {"url": url, "ok": False, "why": kind, "code": e.code}
     except Exception as e:
         silence.note("scout.py:verify")
-        return {"url": url, "ok": False, "why": "no such host or no route",
-                "code": type(e).__name__}
+        # TRANSPORT FAILURE, NOT AN INVENTED URL (order 2f9c45993f46): DNS, timeout, reset and
+        # TLS interception say nothing about whether the page exists. `transport` lets scout()
+        # tell an outage from a real negative.
+        return {"url": url, "ok": False, "why": "transport failure (%s): no answer from the host"
+                % type(e).__name__, "code": type(e).__name__, "transport": True}
     text = EP.html_text(body)
     if len(text) < 400:
         return {"url": url, "ok": False, "why": "page has almost no text (script-rendered?)"}
@@ -351,6 +357,29 @@ def verify(url, names):
     return {"url": url, "ok": hits >= needed, "hits": hits, "needed": needed,
             "chars": len(text),
             "why": f"{hits} catalogued name(s) present, {needed} needed"}
+
+
+def _control_404(url):
+    """True only when an INVENTED path on this URL's host answers 404 (order 5a0545df6d2a).
+
+    A 403 on the real URL means "the page exists and declines us" only if the host answers an
+    invented path differently; a WAF that 403s everything proves nothing. Any other outcome,
+    including a transport failure, is "unknown" and returns False.
+    """
+    import urllib.error
+    import urllib.parse
+    import urllib.request
+    p = urllib.parse.urlsplit(url)
+    ctl = "%s://%s/scout-control-%d" % (p.scheme, p.netloc, int(time.time()))
+    try:
+        req = urllib.request.Request(ctl, headers={"User-Agent": _UA})
+        with urllib.request.urlopen(req, timeout=40):
+            return False
+    except urllib.error.HTTPError as e:
+        return e.code == 404
+    except Exception:
+        silence.note("scout.py:control")
+        return False
 
 
 def scout(source, names, register=True):
@@ -414,6 +443,13 @@ def scout(source, names, register=True):
         checked.append(r)
         if r["ok"]:
             kept.append(u)
+    if all(c.get("transport") for c in checked):
+        # EVERY CHECK FAILED BY TRANSPORT (order 2f9c45993f46): an outage, not a verdict on the
+        # model's answer. Report it as never reached so sweep() gives the rotation slot back
+        # instead of writing a clean negative.
+        return {"source": source, "proposed": len(urls), "kept": [], "checked": checked,
+                "reached": False,
+                "note": "every proposed URL failed by transport, so nothing was verified"}
     # THREE STATES, LIKE `reached` (order 7f2cbf26a60e; order a17efd461050 for this field).
     # `True` everywhere else in this module means "the registry took them" -- using it as the
     # INITIAL value made "nobody tried" indistinguishable from "it worked", which is exactly
@@ -482,12 +518,19 @@ def scout(source, names, register=True):
         # instead of defaulting to "registered".
         reg_note = "%d page(s) verified (--dry: not registered)" % len(kept)
     # Pages that exist and decline us are a finding for the owner, not a retry target.
-    blocked = [c for c in checked if c.get("code") in (401, 403, 429)]
-    if blocked:
+    # 401/403 ONLY, AND ONLY WITH A CONTROL (order 5a0545df6d2a): 429 is a rate limit, and a 403
+    # is not proof of existence unless an invented path on the host 404s.
+    blocked = [c for c in checked if c.get("code") in (401, 403) and _control_404(c["url"])]
+    # A source that registered pages is no longer a "declines readers" finding; prune its entry.
+    prune = bool(kept) and registered is True
+    if blocked or prune:
         try:
             urls_blocked = {c["url"] for c in blocked}
 
             def _add_blocked(prev):
+                if prune:
+                    prev.pop(source, None)
+                    return
                 prev[source] = sorted(urls_blocked | set(prev.get(source) or []))
 
             landed, _ = _mutate(BLOCKED, _add_blocked)

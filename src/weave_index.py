@@ -345,19 +345,31 @@ def load_records():
     cache, which is what it was always for."""
     files, sig = _records_sig()
     if sig is not None and sig == _REC_CACHE["sig"]:
+        LAST_UNREADABLE[:] = []
         return _REC_CACHE["out"]
-    out = []
+    out, unreadable = [], []
     for p in files:
         try:
             with open(p, encoding="utf-8") as f:
                 r = json.load(f)
         except Exception:
             silence.note("weave_index.py:load_records-unreadable")
+            unreadable.append(os.path.basename(p))
             continue
         if r.get("entries"):
             out.append(r)
-    _REC_CACHE.update({"sig": sig, "out": out})
+    # A SHORT PASS IS NEITHER CACHED NOR SILENT (sweep67 batch 07, F3, run #67). A record torn
+    # mid-write was skipped and the short list cached under a VALID signature, so every later
+    # call -- including `main --write` -- saw a corpus missing that source and landed a short
+    # ENTITY_INDEX.json over the full one. The list is still returned (readers get what IS
+    # readable); `LAST_UNREADABLE` says what is missing and the cache is not poisoned by it.
+    LAST_UNREADABLE[:] = unreadable
+    if not unreadable:
+        _REC_CACHE.update({"sig": sig, "out": out})
     return out
+
+
+LAST_UNREADABLE = []      # record files the most recent load_records() pass could not parse
 
 
 # The shortest normalised key that is evidence of anything in CROSS-SOURCE MATCHING. "X" and
@@ -773,6 +785,11 @@ def main():
               f"attested in {floor} sources or fewer — the full set is WEAVE_CANDIDATES.json "
               f"(written with --write)")
 
+    if args.write and LAST_UNREADABLE:
+        print(f"\nNOT WRITTEN: {len(LAST_UNREADABLE)} record file(s) could not be read this pass "
+              f"({', '.join(LAST_UNREADABLE)}), so this index is missing their sources. The "
+              f"standing ENTITY_INDEX.json and WEAVE_CANDIDATES.json are kept; re-run to retry.")
+        return 1
     if args.write:
         # ATOMIC: cosmology_graph, thread_integrity and weave all read these concurrently.
         #

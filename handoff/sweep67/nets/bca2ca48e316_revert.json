@@ -1,0 +1,7 @@
+[
+ {
+  "module": "read.py",
+  "old": "    qcache = {k: v for k, v in qcache.items() if k.endswith(_QK + _QROW_RULE)}",
+  "new": "    qcache = {k: v for k, v in qcache.items() if _QK in k}"
+ }
+]

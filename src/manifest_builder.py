@@ -263,6 +263,13 @@ def stale_held_out(record):
                if isinstance(e, dict) and e.get("stale_since") and not e.get("excluded"))
 
 
+def _live_entries(record):
+    """The entries a chapter may be written from: not struck (`excluded`), not `stale_since`.
+    One definition for every chapter kind, so the Feats chapter cannot drift from the rest."""
+    return [e for e in (record.get("entries") or [])
+            if not (isinstance(e, dict) and (e.get("excluded") or e.get("stale_since")))]
+
+
 def build_jobs_for_source(cfg, roll_entry, record, spine):
     jobs = []
     source_name = roll_entry["name"]
@@ -280,8 +287,7 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
     # `stale_since`; that row is usually the OLD WORDING of an entity the fresh cast carries
     # under its new name, so queueing both writes the entity twice. It stays on disk, visible,
     # and main() counts it in the build summary.
-    entries = [e for e in (record.get("entries") or [])
-               if not (isinstance(e, dict) and (e.get("excluded") or e.get("stale_since")))]
+    entries = _live_entries(record)
     if not entries:
         return jobs
 
@@ -398,7 +404,11 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
     # doctrine calls furniture, so the print is gated on `unbound` alone.
     _binding = {}
     try:
-        feat_rows = feats_index.feats_for_source(source_name, record, binding=_binding)
+        # THE SAME LIVE CAST, NOT THE RAW RECORD (sweep67 batch 14, F2, run #67). The filter
+        # above only reached the catalogue chapters; feats_for_source matched the unfiltered
+        # entries, so a struck or stale entity still got a Feats paragraph written about it.
+        feat_rows = feats_index.feats_for_source(
+            source_name, dict(record, entries=entries), binding=_binding)
         if not feat_rows and _binding.get("kind") == "unbound":
             print("WARNING: %s is bound to NO wiki host, so no feats could be mined for it -- "
                   "this volume will carry no Feats chapter, which is NOT the same finding as a "
@@ -491,7 +501,9 @@ def main():
             print("   %-44s %s" % (_n or "?", _why))
     roll = [r for r in roll if r.get("name") not in _excluded]
 
-    populated = [r for r in roll if r.get("entry_count", 0) > 0]
+    # `or 0`: a null entry_count (recover_folder_records writes them) raised TypeError here,
+    # after the manifest had already been written (sweep67, order 9d50fd3906e7).
+    populated = [r for r in roll if (r.get("entry_count") or 0) > 0]
     skipped_empty = [r["name"] for r in roll if r.get("entry_count", 0) == 0]
 
     assigned, unassigned = [], []
@@ -509,8 +521,18 @@ def main():
     numbering_pool = assigned + unassigned
 
     if args.only:
-        wanted = set(n.strip() for n in args.only.split(","))
+        wanted = set(n.strip() for n in args.only.split(",")) - {""}
         build_pool = [r for r in build_pool if r["name"] in wanted]
+        # AN UNMATCHED --only NAME IS REFUSED, NOT DROPPED (order d3dddc44ef08, run #67). With
+        # no match this wrote {"jobs": []} over the standing manifest and said "Wrote 0 jobs",
+        # rc 0. Every missing name is printed, uncapped, and nothing is written.
+        _missing = sorted(wanted - {r["name"] for r in build_pool})
+        if _missing or not build_pool:
+            print("--only: %d name(s) match no buildable source (unknown, excluded, empty, or "
+                  "unassigned without --include-unassigned); nothing written:" % len(_missing))
+            for _n in _missing:
+                print("   " + _n)
+            return 1
     elif args.pilot:
         build_pool = sorted(build_pool, key=lambda r: r.get("entry_count", 0))[:args.pilot]
 
@@ -667,8 +689,8 @@ def main():
         f.write("# Sources with no spine code yet\n\n")
         f.write(header)
         # Uncapped, per Hard Rule 0: this is the outstanding curatorial work, in full.
-        for r in sorted(unassigned, key=lambda r: r["category"]):
-            f.write(f"- **{r['name']}** ({r['category']}, {r.get('entry_count', 0)} entries)"
+        for r in sorted(unassigned, key=lambda r: r.get("category") or "Uncategorized"):
+            f.write(f"- **{r['name']}** ({r.get('category') or 'Uncategorized'}, {r.get('entry_count') or 0} entries)"
                     # THE CODE THE BUILD USED, not a recomputation of it (sweep64 batch09, run
                     # #64). `provisional_spine(r)` depends on the category alone, so two
                     # unassigned sources in one category were both printed as `...PROVISIONAL`

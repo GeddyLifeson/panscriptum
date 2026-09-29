@@ -1563,7 +1563,7 @@ def render_page():
     # page before a single byte of the replacement lands, and unlike state.json this file is
     # rewritten from a value held in memory each cycle only implicitly -- it is regenerated from
     # `dashboard.PAGE` next cycle, so a truncated file here is repaired eventually, but only
-    # after `git add -A` (publish.py:1214-ish) has already staged and pushed the broken page to
+    # after `git add -A` (in `push()`; cited by symbol, order 200dd0c070b0) has already staged and pushed the broken page to
     # the PUBLIC repo. Gate on the verdict rather than swallowing it, same as `write()`.
     if not _write_text_atomic(PAGE, html):
         silence.note("publish.py:index-html-denied")

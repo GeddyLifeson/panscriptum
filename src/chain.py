@@ -669,6 +669,10 @@ def extract(rows, batch=8, limit=None, workers=8):
     except Exception:
         silence.note("chain.py:tuning")
     idx = entity_index()
+    # A LIMIT LEAVES A MARK (sweep67 batch11, F, run #67, order ec824ade998f). rows[:limit] over
+    # path-sorted rows landed a truncated CHAIN.json indistinguishable from a full pass; the
+    # limit and the harvested total now ride into `unanswered` beside the transport tally.
+    rows_harvested = len(rows)
     rows = rows[:limit] if limit else rows
     edges = collections.Counter()
     prov = collections.defaultdict(list)
@@ -807,7 +811,8 @@ def extract(rows, batch=8, limit=None, workers=8):
     global _LAST_EXTRACT
     _LAST_EXTRACT = {"chunks": len(chunks), "sentences": done["n"],
                      "chunks_unanswered": done["unanswered_chunks"],
-                     "sentences_unanswered": done["unanswered_rows"]}
+                     "sentences_unanswered": done["unanswered_rows"],
+                     "limit": limit or None, "rows_harvested": rows_harvested}
     if done["unanswered_chunks"]:
         # Loud, and on the way out rather than only in CHAIN.json: this is the difference between
         # "the corpus records this many contests" and "this is what we managed to read today".

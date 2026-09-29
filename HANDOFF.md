@@ -27,6 +27,105 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-29 — DAILY MAINTENANCE RUN #67: SWEEP67 FOUND 141 DEFECTS, ALL WORKED (A FEW LEFT AS QUESTIONS); 126 ORDERS CLOSED, QUEUE AT BOTS/OWNER ONLY
+
+**FOR THE OWNER, FIRST (nothing here is urgent; no halt, no pause, no secrets):**
+
+* **One OWNER order stands: `cd77e492b26b`.** `data/HANDBUILT_ASSAYS.json` (your sheets) calls
+  Getter Emperor "the highest sustain in the library"; `handbuilt.compute()` shows sustain 9.5 is a
+  three-way tie (with The Black Winter and one other entry). The Thor and Undertaker superlatives were not
+  re-measured. The wording is yours to change.
+* **navtree now refuses `--write`, and its read-only run exits 1, until `data/SEVENFOLD.json` is
+  rebuilt** (order c4d79f533471, MAJOR, fixed in code). SEVENFOLD.json is dated 2026-08-20: it
+  places 1,569 worlds while `worldseed.build_all()` builds 14,592 -- 13,025 unplaced, 82 no longer
+  built, 74 duplicate designations. The audit used to compare the tree only against itself and
+  said 0 problems. Rebuilding SEVENFOLD.json is a data act this run did not take. **Question:**
+  rebuild it (`python src/sevenfold.py --write`), or keep the refusal?
+* **Four orphan `.tmp` files (~75 MB) sit in `data/records/`** from the old record-writer leak.
+  The leak is closed (a8fa52a33445, 5033d5c52be3); deleting the leftovers is yours.
+* **Open design questions the fixers declined to decide** (each in its `handoff/sweep67/FIX_*.md`):
+  `manifest_builder --only` still writes the main manifest path (should it write its own?);
+  `entity_match` mid-name parentheticals (digit runs are now gated, words are not);
+  `magnitude` does not record when an instrument reading replaces a higher model score;
+  `cascade_bridge` does not bench a bucket that keeps size-refusing on INPUT tokens;
+  `catalogue_web._singular` turns "Witches" into "Witche", as the old `rstrip` did.
+* **The local model could not carry the LOCAL rung tonight.** One trivial docstring order
+  (303757a4c704) took 25 minutes of `local_agent` to run one grep and give up, with prose holding
+  the GPU. The 47 LOCAL orders were therefore worked by Claude agents (Sonnet). Measured, not
+  assumed; the standing instruction to prefer the local model still stands for nights it can.
+
+**THE SHIFT.** Opened clear, predecessor (the owner-directed session) closed; guard claimed with
+a token; corpus index rebuilt (closed a gap of 31). Queue at open: 2 LOCAL (codewatch restart
+notices, both daemons had bounced: closed) and 10 BOTS (fandom throttle quarantines expiring
+~19:20 tomorrow; the chain re-fit waiting on pipeline phase 4). Battery green at open
+(verify_math 1343/0, drill 715/715/0, preflight pass, pyflakes clean, 0 secrets).
+
+**THE SWEEP.** 16 agents, all 119 modules, `sweep_plan.missing('run67') == []`. 141 findings.
+Every finding was then VERIFIED AGAINST SOURCE by a second set of 8 agents before it became an
+order (`handoff/sweep67/VERIFY_batch*.md`): 0 refuted, a handful partial (narrowed in the order).
+The batch-06 claim that nothing closes HOST_QUARANTINED orders was REFUTED (workorders.py resolves
+them when the quarantine lapses; 68 closed that way already).
+
+**WHAT WAS FIXED, by weight** (BUGS.md "Resolved by run #67" has root causes):
+* **The two record writers are now a compare-and-swap, and the fold no longer reverts a field
+  the caller never changed** (M131). This is the old two-writer hazard in its last form.
+* **The "read-only" sweep was rewriting TIERS/SHELFMARKS/ONOMASTICON every night** through 13
+  modules that treat `--help` as "go" (M132; seen at 22:06 tonight). Those files were rewritten
+  by their own generators from unchanged inputs; they are not in the public repo, so there is no
+  published baseline to diff against.
+* A halt file saying `"cleared": "false"` read as lifted (M133). "Every module imports" could
+  not fail (M134). A 200 carrying a MediaWiki error body read as success in feats/hostcheck/
+  completeness/backfill (M135). Purge deleted a shared host's cache; a canary crash quarantined
+  the host (M136). Foreman's three killers keyed by script name (M137). Short passes landed as
+  whole ones: weave_index, address_space, cascade `truncated`, rosetta/scope first-page-only
+  (M138, the last two Hard Rule 0). The sevenfold root fell to six after the 23:14 ENTITY_INDEX
+  rebuild (M139, data drift not a code regression -- bisected; fixed at the root only, and a
+  first version that split kin was caught by the kin rows and replaced).
+* The three cataloguers (codex, web, aurora) now ask the halt and are on `_INTERLOCKED`.
+* ~110 smaller findings: one order each, closed with resolution text.
+
+**NETS.** 106 new or changed drill nets, each watched RED under a revert file
+(`handoff/sweep67/revert_*.json`, `handoff/sweep67/nets/*_revert.json`) and HELD on the fix;
+agents' nets live in `drill_followup0928`. The drill went 715 -> 819 nets.
+
+**BATTERY AT CLOSE (final tree):** verify_math 1346 passed, 0 FAILED · drill 819/819/0 BREACHED ·
+allsweep 0 bad (its verify row included) · preflight all pass · liveness 44 findings, 0
+tautology · pyflakes clean · secondopinion: ruff/vulture/detect-secrets all RAN, 0 secrets from
+both scanners · axis_correlation n_entities 45 (unchanged, no --write). **silence rose 312 -> 352
+SILENT:** +32 in drill.py (the 12 probe-cleanup notes converted to declared escapes, which the
+counter still counts, plus `except` arms inside new nets) and +9 across allsweep, coverage,
+feats, gpu_lane, mutate, pick_model -- each read: they report through a return value or are
+documented fail-open fallbacks, none turns a failure into a plausible negative.
+
+**A REGRESSION CAUGHT AND FIXED IN-SHIFT.** The first full battery after the agents' fixes read
+verify_math 4 FAILED / drill 5 BREACHED (a net leaking a CAS note into the ledger, a missing
+eaten-escape guard on snapshot.py, a loop variable in coverage.py shadowing liveness's founding
+example `coverage._p`, the binding filter reporting an all-miss twice, three stubs narrower than
+their subjects, a tautology in a new net, the sevenfold root). No halt was raised because a
+mutation pass was active -- the hazard in the kit's notes. All fixed and re-proved before close.
+
+**IN EFFECT.** foreman, pipeline, overwatch and read were terminated by hand once src/ settled
+and the keeper restarted all four on the current code; the dashboard spent its restart budget
+(order eb4801a30501) and was bounced the same way, and the new colour classes were checked in
+the browser. The crawl (`feats.py --roll`) is exempt and picks up the feats.api fixes on its next
+lap.
+
+**MUTATION PASS.** The 20:19 pass (`state/mutate_20260928b.log`) ran on fingerprint 5f55...,
+which predates tonight's edits to two of its three targets (escalation.py, assay.py). It was
+stopped and relaunched detached on the final tree: `state/mutate_20260929.log`, pid 27520,
+fingerprint a0cd7c90..., baseline verify_math 1346/0 and drill 819/819/0 in the sandbox. It runs
+through the day; **its survivors are not in yet -- read them next run.**
+
+**CHECKED, NOT CHANGED.** Publish daemon pushed (state/publish.log `pushed`). Prose is writing
+(II.L.7.4 Persons 171-180 read: in-world, no meta). The WatchdogKeeper task ran (last result 0).
+The contaminated feats dirs have not returned. fandom answers 200; 22 throttle quarantines are
+the per-host backoff working (a burst at ~97 entities/s from the crawl's cached tail).
+
+**QUEUE AT CLOSE:** BOTS 23 (22 fandom throttle quarantines on their own timers; 058fa19d4e65
+waits on pipeline phase 4) and OWNER 1 (cd77e492b26b). Nothing at LOCAL, RUN or SESSION.
+
+---
+
 ## 2026-09-28 evening — OWNER-DIRECTED FOLLOW-UP ("DO EVERYTHING"): PROSE WAS LOSING THE GPU TO A LANE BUG
 
 * **THE REAL REASON PROSE RAN AT ~14 MIN/JOB.** `gpu_lane.lane(priority=True)` refreshed prose's

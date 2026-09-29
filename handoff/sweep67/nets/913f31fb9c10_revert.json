@@ -1,0 +1,7 @@
+[
+ {
+  "module": "workorders.py",
+  "old": "            # NOTED, like every other except here (order 913f31fb9c10, run #67), so how often\n            # the door could not decide is counted rather than invisible.\n            silence.note(\"workorders.py:file-order-door\")\n",
+  "new": "            pass\n"
+ }
+]

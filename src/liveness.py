@@ -4,7 +4,7 @@ THE STANDING LESSON THIS AUTOMATES. "A check that cannot fail looks exactly like
 passed" is the most-repeated finding in this project's ledger, and every instance has been found
 by a person reading the file. Instances already caught by hand:
 
-  * `profile.py`'s round trip -- FIXED, now at `profile.py:196-208`: it used to compare a decoded
+  * `profile.py`'s round trip -- FIXED, in `profile.py`'s round-trip check: it used to compare a decoded
     field against the input it was handed, so `d["profile"] != r["profile"]` was tautologically
     False, green for ever. It now re-encodes what `decode()` extracted and compares THAT.
   * `cleanup.py`'s `_ruby_question_mark` -- FIXED: the guard whose condition named a regex that
@@ -466,7 +466,7 @@ def scan():
     # `used` set was one flat, scope-blind, module-blind bag of every identifier anywhere in
     # `src/`. So a LOCAL LOOP VARIABLE named `_p` -- `for _p in ...` in cleanup.py and tells.py
     # -- marked every module-level `_p()` in the project as called, and `coverage._p()`, which
-    # has zero callers and is named at liveness.py:10 as the reason this module exists, was
+    # has zero callers and is named in this module's docstring as the reason this module exists, was
     # absent from its own report. A detector that cannot see its own worked example is reporting
     # a floor and calling it a total, and `drill.LIVENESS_CEILING` was ratcheting that floor.
     #
@@ -775,7 +775,7 @@ def scan():
 # too large, land the smallest honest version and say what it does not yet cover"):
 #
 #   * ONE RUNNER -- `verify_math.py`, the one check this project's own house rules let an
-#     agent outside the drill's own shift actually run. `drill.py`'s 57 nets are NOT included:
+#     agent outside the drill's own shift actually run. `drill.py`'s nets are NOT included:
 #     running them is restricted to the agent that owns the drill, and this must not become a
 #     second, informal way to invoke it. A line reached only through drill.py will show here as
 #     unreached even though the battery AS A WHOLE does reach it -- a real gap in THIS PASS, not

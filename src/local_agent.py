@@ -341,7 +341,7 @@ def t_find_symbol(name, **_):
     want = (name or "").strip()
     if not want:
         return {"error": "no name given"}
-    hits = []
+    hits, skipped = [], []
     for root, dirs, files in os.walk(os.path.join(HERE, "src")):
         dirs[:] = [d for d in dirs if d not in ("__pycache__", "deprecated")]
         for fn in sorted(files):
@@ -352,6 +352,10 @@ def t_find_symbol(name, **_):
                 with open(full, encoding="utf-8") as f:
                     tree = ast.parse(f.read())
             except Exception:
+                # A FILE THAT CANNOT BE READ OR PARSED IS NAMED, NOT PASSED OVER (sweep67 batch
+                # 16, run #67; order 9e59609b76b2): it may hold the second definition, so
+                # "unique" below cannot be claimed from the files that did parse.
+                skipped.append(os.path.relpath(full, HERE).replace("\\", "/"))
                 continue
             rel = os.path.relpath(full, HERE).replace("\\", "/")
 
@@ -366,11 +370,16 @@ def t_find_symbol(name, **_):
                     else:
                         walk(child, cls)
             walk(tree)
+    warning = (None if len(hits) <= 1 else
+               f"{len(hits)} definitions share this name -- say which file you mean "
+               f"and quote enough surrounding text that `find` matches only one")
+    if skipped:
+        warning = ((warning + "; ") if warning else "") + (
+            f"{len(skipped)} file(s) could not be read or parsed and were NOT searched, so "
+            f"uniqueness is unknown: {', '.join(skipped)}")
     return {"name": want, "count": len(hits), "definitions": hits,
-            "unique": len(hits) == 1,
-            "warning": (None if len(hits) <= 1 else
-                        f"{len(hits)} definitions share this name -- say which file you mean "
-                        f"and quote enough surrounding text that `find` matches only one")}
+            "unique": len(hits) == 1 and not skipped,
+            "skipped_files": skipped, "warning": warning}
 
 
 # The ONLY commands the model may cause to run. An allowlist of fixed argument vectors, not a
@@ -1570,7 +1579,10 @@ def run(task, model=None, apply=True, quiet=False):
                     res = impl[fn](**args)
                 else:
                     res = {"error": "no such tool: " + str(fn)}
-            except TypeError as e:
+            except (TypeError, ValueError) as e:
+                # ValueError TOO (sweep67 batch 16, F2, run #67): a model passing offset="abc"
+                # made int() raise ValueError, which escaped run() and lost the patch list and
+                # any revert alarm with it. A bad argument is the model's mistake to be told.
                 res = {"error": "bad arguments for %s: %s" % (fn, str(e)[:160])}
             if isinstance(res, dict) and (res.get("chars_after_slice") or 0) > 0:
                 unpaged = {"path": res.get("path"), "offset": res.get("offset") or 0,

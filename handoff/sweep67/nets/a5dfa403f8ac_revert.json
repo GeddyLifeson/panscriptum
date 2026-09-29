@@ -1,0 +1,12 @@
+[
+ {
+  "module": "tells.py",
+  "old": "\"stands as a testament\": r\"\\bstands? as a",
+  "new": "\"stands as a testament\": r\"stands? as a"
+ },
+ {
+  "module": "tells.py",
+  "old": "\"stands the test of time\": r\"\\bstands? the",
+  "new": "\"stands the test of time\": r\"stands? the"
+ }
+]

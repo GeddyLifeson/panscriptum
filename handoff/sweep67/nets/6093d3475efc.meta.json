@@ -1,0 +1,5 @@
+{
+ "name": "mutate _session files no work orders for a target whose verdicts were voided",
+ "expected": "survivors from a stale sandbox copy are filed as MAJOR RUN orders with no void caveat",
+ "area": "drill_followup0928"
+}

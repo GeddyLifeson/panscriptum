@@ -1,0 +1,5 @@
+{
+ "name": "catalogue_codex skips an out-of-scope roll row even with entry_count 0",
+ "expected": "the codex cataloguer re-catalogues an owner-excluded source and reverts its exclusion",
+ "area": "drill_followup0928"
+}

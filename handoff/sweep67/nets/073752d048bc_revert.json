@@ -1,0 +1,1 @@
+[{"module": "pipeline.py", "old": "            with_syn = sum(1 for _, r in recs\n                           if (r.get(\"synthesis\") or {}).get(\"ceiling_entity\"))\n", "new": "            with_syn = sum(1 for _, r in recs if r.get(\"synthesis\"))\n"}]

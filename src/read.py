@@ -71,7 +71,7 @@ AXES = list(A.WEIGHTS)
 # CHUNK against the CONFIG value directly, it does not check this comment.
 #
 # NOTHING IS BROKEN BY THE STALE NUMBER -- CHUNK stays well under either ceiling either way -- but
-# CHUNK's actual justification is the RECALL measurement a few lines down (:88-96 below), not this
+# CHUNK's actual justification is the RECALL measurement a few lines down (the comment above `CLOUD_CHUNK` below), not this
 # arithmetic: sending more text per call does not error, it just finds fewer feats per character
 # sent, which is what actually rules out raising CHUNK to use the wider window.
 #
@@ -581,7 +581,7 @@ def _ask_ungated(c, system, prompt, schema):
             return None
     # THE GPU GETS THE SAME TEXT, IN PIECES IT CAN HOLD.
     #
-    # CLOUD_CHUNK == CHUNK now (:94-96) -- there is no longer a cloud/local size difference for
+    # CLOUD_CHUNK == CHUNK now (see its comment above) -- there is no longer a cloud/local size difference for
     # this to compensate for. What is left is header overhead: read_entity's prompt is
     # "ENTITY: <name>\nPAGE: <title>\n\n" plus a full-size chunk, so a prompt can run a little
     # over CHUNK before it ever reaches here. Ollama does not refuse an overlong prompt -- it
@@ -884,9 +884,9 @@ def read_entity(c, host, name, cap_chunks=None):
     keys = [w.lower() for w in re.split(r"[^A-Za-z0-9]+", name) if len(w) > 3] or [name.lower()]
     # COLLAPSED TO CHUNK (order d9fbd60efd0f). This read `CLOUD_CHUNK if _CASCADE_OK else CHUNK`,
     # which looked like a live transport policy switch but was not one: CLOUD_CHUNK == CHUNK
-    # (:111, see the recall measurement at :88-96 for why) since the cloud/local size split was
+    # (see the recall measurement above `CLOUD_CHUNK` for why) since the cloud/local size split was
     # retired, so both arms of that conditional always evaluated to the same number and
-    # `_CASCADE_OK` decided nothing here. CLOUD_CHUNK is kept defined, not deleted -- :88-96 is
+    # `_CASCADE_OK` decided nothing here. CLOUD_CHUNK is kept defined, not deleted -- that comment is
     # the record of the measurement that set it, and its name is where the next person will look
     # before widening it again.
     size = CHUNK
@@ -1359,7 +1359,10 @@ def queue(all_entries=True):
     # keys nothing can ever hit again would double it forever. Nothing is lost: every entry here
     # is a memo of four numbers that are still on disk. The cost is one slow pass that re-reads
     # each evidence file once, which is what this memo cost to build in the first place.
-    qcache = {k: v for k, v in qcache.items() if _QK in k}
+    # ONLY KEYS ENDING IN THE CURRENT ROW RULE SURVIVE (sweep67 batch16, order bca2ca48e316,
+    # run #67): `_QK in k` also kept the older path+SEP+name keys from before `_QROW_RULE` was
+    # appended. They can never be hit and were re-serialised whole every pass.
+    qcache = {k: v for k, v in qcache.items() if k.endswith(_QK + _QROW_RULE)}
     rows = []
     for _, r in recs:
         h = hosts.get(r["source"])
@@ -1566,9 +1569,9 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
     # 05294ca33e1f). This used to print feats/fabrications/skipped and stop there -- the counter
     # was maintained (above) and shown on the progress line, but never on the summary a run
     # actually leaves behind. This module's own history is why that matters: 4,755 of 6,706
-    # chunks in one pass hit a benched GPU, returned None, and were counted as read (:872-875
-    # nearby); 1,168 of 1,235 chunks handed to the GPU in another were UNANSWERED and not cached
-    # (:530-540-area docstring) -- and a run in exactly that state still ended on a line reading
+    # chunks in one pass hit a benched GPU, returned None, and were counted as read (see `read_entity`'s
+    # "marks this entity done forever" comment); 1,168 of 1,235 chunks handed to the GPU in another
+    # were UNANSWERED and not cached (see `_local`'s docstring) -- and a run in exactly that state still ended on a line reading
     # "0 feats kept, 0 fabrications dropped, N chunks skipped" with no sign anything went wrong.
     # Non-zero gets a plain statement of what it means: those passages were NOT cached, their
     # entities' feats were not written, and the next pass is what retries them.

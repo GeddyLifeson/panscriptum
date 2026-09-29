@@ -711,6 +711,47 @@ def _s(name, holds, observed, floor, order, severity="medium", group="general"):
             "floor": floor, "order": order, "severity": severity}
 
 
+def phases_standard(lib):
+    """`phases implemented`, from the dashboard's library block. Pulled out of check() so a net
+    can attack it without check()'s live probes (order 9addfa9acbc2, run #67).
+
+    ABSENT IS NOT 0/0 MET: when dashboard.library() cannot import pipeline it omits `phases`,
+    and an empty list read as nothing missing. A malformed row is counted as missing rather
+    than raising KeyError out of check()."""
+    ph = [p for p in (lib.get("phases") or []) if isinstance(p, dict)]
+    missing = [str(p.get("name", "?")) for p in ph if not p.get("built")]
+    return _s(
+        "phases implemented", bool(ph) and len(missing) <= MAX_PHASES_MISSING,
+        (f"{len(ph) - len(missing)}/{len(ph)}" if ph else
+         "UNMEASURED -- the dashboard state carries no library.phases list (pipeline would not "
+         "import there?), so no phase was counted."),
+        f"at least {len(ph) - MAX_PHASES_MISSING}",
+        "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and "
+        "everything after it never runs. Missing: " + (", ".join(missing) or "none"),
+        "low", "code")
+
+
+def shelfmarks_standard(marks):
+    """`shelfmarks are unique`, from parsed SHELFMARKS.json. Pulled out of check() for the same
+    reason as phases_standard (order ac4d00993598, run #67).
+
+    THE PRINTED SHELFMARK IS COUNTED TOO, AND EMPTY IS UNMEASURED: address_space.shelfmark() is
+    not injective, so a printed-name clash was invisible to an address-only count, and an empty
+    file read 0 collisions, MET."""
+    addrs = [v.get("address") for v in marks.values() if isinstance(v, dict)]
+    marks_ = [v.get("shelfmark") for v in marks.values() if isinstance(v, dict)]
+    collisions = (len(addrs) - len(set(addrs))) + (len(marks_) - len(set(marks_)))
+    return _s(
+        "shelfmarks are unique", bool(addrs) and collisions <= MAX_SHELFMARK_COLLISIONS,
+        collisions if addrs else "UNMEASURED -- SHELFMARKS.json holds no designations, so "
+        "nothing was compared. Zero compared is not zero collisions.",
+        MAX_SHELFMARK_COLLISIONS,
+        "Two worlds sharing an address means the Ladder cannot tell them apart, and every "
+        "citation to either is ambiguous. The address space has 115,000x headroom, so a "
+        "collision is a bug in assignment rather than exhaustion.",
+        "high", "evidence")
+
+
 CHARTER_REGRESSION_MAX_AGE_H = 26
 
 
@@ -1192,14 +1233,7 @@ def check(state=None):
         w.get("high", 0), MAX_HIGH_FINDINGS,
         "The standing sweep believes some code does something other than what it says. Read "
         "WATCH.md, confirm or refute each, then fix or retire it.", "medium", "code"))
-    ph = lib.get("phases") or []
-    missing = [p["name"] for p in ph if not p["built"]]
-    out.append(_s(
-        "phases implemented", len(missing) <= MAX_PHASES_MISSING,
-        f"{len(ph) - len(missing)}/{len(ph)}", f"at least {len(ph) - MAX_PHASES_MISSING}",
-        "A phase the runner names but nobody wrote stops the pipeline cleanly at that point and "
-        "everything after it never runs. Missing: " + (", ".join(missing) or "none"),
-        "low", "code"))
+    out.append(phases_standard(lib))
     # THE ONE-FILE CLAIM, MADE TO RUN (order a08557925d87). tells.py says the banned-phrase list
     # governs two things at once -- the instruction given to the writing model and the audit that
     # checks what it wrote -- and that the prompt section is GENERATED from the list so the two
@@ -1469,15 +1503,7 @@ def check(state=None):
     try:
         with open(os.path.join(HERE, "data", "SHELFMARKS.json"), encoding="utf-8") as f:
             marks = json.load(f)
-        addrs = [v.get("address") for v in marks.values() if isinstance(v, dict)]
-        collisions = len(addrs) - len(set(addrs))
-        out.append(_s(
-            "shelfmarks are unique", collisions <= MAX_SHELFMARK_COLLISIONS, collisions,
-            MAX_SHELFMARK_COLLISIONS,
-            "Two worlds sharing an address means the Ladder cannot tell them apart, and every "
-            "citation to either is ambiguous. The address space has 115,000x headroom, so a "
-            "collision is a bug in assignment rather than exhaustion.",
-            "high", "evidence"))
+        out.append(shelfmarks_standard(marks))
     except Exception:
         silence.note("standards.py:shelfmarks")
         _dropped.append("shelfmarks")
@@ -2480,10 +2506,11 @@ def check(state=None):
     return out
 
 
-def work_orders(state=None):
-    """Only the breaches, worst first — the thing a person or a model is meant to act on."""
+def work_orders(state=None, rows=None):
+    """Only the breaches, worst first — the thing a person or a model is meant to act on.
+    `rows`: an already-computed check() (order fd2d04fa0aea, run #67)."""
     rank = {"high": 0, "medium": 1, "low": 2}
-    return sorted((v for v in check(state) if not v["holds"]),
+    return sorted((v for v in (check(state) if rows is None else rows) if not v["holds"]),
                   key=lambda v: rank.get(v["severity"], 3))
 
 
@@ -2500,8 +2527,10 @@ def _wrap(text, width):
     return out
 
 
-def report(state=None):
-    rows = check(state)
+def report(state=None, rows=None):
+    # `rows`: an already-computed check(), so main() prints and gates on ONE pass
+    # (order fd2d04fa0aea, run #67).
+    rows = check(state) if rows is None else rows
     bad = [r for r in rows if not r["holds"]]
     lines = [f"{len(rows) - len(bad)}/{len(rows)} standards met"]
     group = None
@@ -2547,11 +2576,14 @@ def main():
         # ONE STATE, for the reason spelled out below: `check()` and `work_orders()` each build
         # their own `dashboard.state()` when handed None, so asking both without one would run
         # every live probe twice and let the two passes disagree.
+        # ONE PASS, NOT ONE STATE (order fd2d04fa0aea, run #67): a shared state still ran
+        # check() twice -- every file read and probe inside it -- and the rc could come from a
+        # different pass than the table printed. Rows once; everything derives from them.
         import dashboard as D
-        state = D.state()
-        bad = work_orders(state)
+        rows = check(D.state())
+        bad = work_orders(rows=rows)
         if a.json:
-            print(json.dumps(check(state), indent=1))
+            print(json.dumps(rows, indent=1))
         else:
             for r in bad:
                 print(f"[{r['severity'].upper()}] {r['standard']}: {r['observed']} "
@@ -2568,9 +2600,9 @@ def main():
     # docstring already promises: every standard reads "the same state dict the instrument
     # panel reads" so nothing can disagree with it.
     import dashboard as D
-    state = D.state()
-    print(report(state))
-    return 1 if work_orders(state) else 0
+    rows = check(D.state())
+    print(report(rows=rows))
+    return 1 if work_orders(rows=rows) else 0
 
 
 if __name__ == "__main__":

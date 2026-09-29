@@ -220,7 +220,7 @@ def snapshot(stamp=None):
     # `dst + '.writing'` -- a FIXED name, eight lines after the comment above forbidding exactly
     # that for the zip beside it. Two snapshots overlapping would write one scratch manifest and
     # the loser's bytes would land beside the winner's archive, and a crossed manifest is worse
-    # than an absent one: `verify()` fails CLOSED with no manifest (:312-320) but a present one
+    # than an absent one: `verify()` fails CLOSED with no manifest (see `verify`) but a present one
     # parses, `recorded` is non-empty, and it reports "archive intact, N members" having
     # compared this archive against another one's digests. `write_json` carries pid and thread
     # in the temp, discards the temp on a denied replace, and returns the verdict this line
@@ -493,7 +493,7 @@ def restore(rel, path=None, dest=None):
         with z.open(rel) as fh, open(tmp, "wb") as out:
             for block in iter(lambda: fh.read(1 << 20), b""):
                 out.write(block)
-    # THROUGH `replace_retry`, LIKE LINE 188 AND UNLIKE ITSELF (sweep43-batch10). This was a
+    # THROUGH `replace_retry`, LIKE THE `replace_retry` CALL IN THE SNAPSHOT WRITER AND UNLIKE ITSELF (sweep43-batch10). This was a
     # bare `os.replace`, the only one left in a module whose own comment four lines up says
     # "every other writer in this module lands atomically". On this machine a rename is DENIED
     # while any reader holds the target open -- the documented Windows behaviour this project

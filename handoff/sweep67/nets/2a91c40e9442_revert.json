@@ -1,0 +1,7 @@
+[
+ {
+  "module": "mutate.py",
+  "old": "        def _canon(p):\n            return os.path.normcase(os.path.realpath(p))\n        _abs = _canon(root)\n        if _abs == _canon(HERE) or _canon(os.path.join(_abs, \"src\")) == _canon(SRC):",
+  "new": "        _abs = os.path.abspath(root)\n        if _abs == os.path.abspath(HERE) or os.path.abspath(os.path.join(_abs, \"src\")) == SRC:"
+ }
+]

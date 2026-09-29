@@ -1,0 +1,7 @@
+[
+ {
+  "module": "worldseed.py",
+  "old": "    (\"wartorn\",  r\"\\b(?:(?:battle|siege|invasion|conflict|occupied|embattled)\\w*\"\n                 r\"|war(?:s|ring|fare|time|like|torn|lords?|riors?)?|fronts?|frontlines?)\\b\"),",
+  "new": "    (\"wartorn\",  r\"\\b(war|battle|siege|invasion|conflict|occupied|embattled|front)\\w*\\b\"),"
+ }
+]

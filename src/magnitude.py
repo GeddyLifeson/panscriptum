@@ -60,6 +60,7 @@ the band "where evidence permits" and prints the band alone where it does not.
 """
 import argparse
 import json
+import math
 import os
 import re
 import sys
@@ -461,6 +462,14 @@ _TO_METRES = {
     "light-years": 9.461e15, "lightyears": 9.461e15, "light years": 9.461e15,
     "parsec": 3.086e16, "parsecs": 3.086e16,
 }
+# GUARD 2 FOR INSTRUMENT READINGS (order 21ce9170f4d4, sweep67). The unit words below are
+# themselves in AXIS_LEXICON ("tons?", "joules?", "kilomet", "light-year"), so a sentence
+# carrying a measurement would vouch for its own relevance; they are blanked before the
+# lexicon is asked. And a bare ton/tonne is a MASS unless the sentence says it is a yield.
+_QTY_UNIT_WORDS = re.compile(r"\b(?:(?:kilo|mega|giga)?tons?|tonnes?|joules?|"
+                             r"kilomet(?:er|re)s?|light[- ]?years?)\b", re.I)
+_MASS_TONS = {"ton", "tons", "tonne", "tonnes"}
+_EXPLOSIVE = re.compile(r"\bTNT\b|explo|blast|detonat|yield|bomb|nuclear|warhead", re.I)
 
 
 def quantity_scores(ev, anchor, entity=None):
@@ -506,6 +515,15 @@ def quantity_scores(ev, anchor, entity=None):
         # 3 SUBJECT -- an instrument reading is still somebody's act, and it has to be this
         # entity's. Read against the whole mined sentence, as `verify` and `_split_gate` do.
         sentence = q.get("sentence") or ""
+        # 2 RELEVANCE -- asked BEFORE the reading can overwrite a model score in assay_entity
+        # (order 21ce9170f4d4). "Goku stands 2 meters tall" is not Reach and "the suit weighs 90
+        # tons" is not Ruin. The override itself is deliberate and stays.
+        bare = _QTY_UNIT_WORDS.sub(" ", sentence)
+        bears = AXIS_RE[axis].search(bare) or (axis == "ruin" and _EXPLOSIVE.search(bare))
+        if not bears or (unit in _MASS_TONS and not _EXPLOSIVE.search(sentence)):
+            rejects.append((axis, "instrument reading does not bear on " + axis + ": "
+                            + sentence))
+            continue
         why = subject_refusal(entity, sentence, axis)
         if why:
             # NO SLICE (order a3c5d3bfe312): `rejections` is stored on the record and a refused
@@ -776,7 +794,7 @@ def _status_score(raw):
     """The model's status word -> the sentinel it means. THE ONLY place this mapping lives.
 
     The three sentinels are not interchangeable and `assay()` reads them differently: NONE earns
-    FULL coverage credit (assay.py:174), INAPPLICABLE leaves the coverage denominator entirely
+    FULL coverage credit (the NONE tally in `assay.assay`), INAPPLICABLE leaves the coverage denominator entirely
     (the `applicable` filter inside assay.assay), and UNESTIMABLE stays in the denominator
     because it IS ignorance. So
     flattening a status to UNESTIMABLE does not merely widen the bar -- it moves the published
@@ -811,7 +829,12 @@ def _is_score(x):
     Excluded explicitly rather than by reordering the checks, because the correct behaviour is
     the same at all six sites and a rule that lives in one place cannot drift between them.
     """
-    return isinstance(x, (int, float)) and not isinstance(x, bool)
+    # NON-FINITE SCORES ARE REFUSED TOO (sweep67 batch12, F5, run #67, order bcf499b464be).
+    # `json.loads` yields NaN and Infinity from the bare tokens; verify's clamp then turned NaN
+    # into 0.0 and Infinity into 9.9 on a cited axis with no rejection on record. Refused here,
+    # every site shares one rule and a non-finite value takes the not-a-score (UNESTIMABLE) path.
+    return (isinstance(x, (int, float)) and not isinstance(x, bool)
+            and math.isfinite(x))
 
 
 def verify(entity, got, ev):
@@ -1228,7 +1251,13 @@ def _split_gate(got, cand, entity=None):
 def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling=None):
     ev = F.evidence_for(host, entity)
     cand = candidates(ev)
-    if not sum(len(v) for v in cand.values()) and not ev["quantities"]:
+    # QUANTITIES ALONE NO LONGER LET AN ENTITY THROUGH (order 5a2b91bf1b5d, sweep67). This read
+    # `... and not ev["quantities"]`, but compose() never puts quantities in the prompt, so a
+    # quantity-only entity sent the model an EMPTY evidence list and it anchored from memory --
+    # contrary to SYSTEM -- and that anchor was published and was the band quantity_scores
+    # scored against. band_for_quantity is documented as NOT the anchor, so there is no honest
+    # band to give; this is the same finding as no evidence at all.
+    if not sum(len(v) for v in cand.values()):
         # THE HOST TRAVELS WITH THE RECORD (order 2ec51780ad94). Every other return in this
         # function carries `"host": host`; this one and the saturation refusal below did not --
         # and those two are precisely the returns `settled()` calls a FINDING, so they are the
@@ -1275,7 +1304,7 @@ def assay_entity(c, entity, host, attestation="Transcribed", epoch=None, ceiling
             got = None
 
     if got is None and used != "split":
-        # HARD RULE 0. The local window is 6,144 tokens and Goku's evidence is 58,099
+        # HARD RULE 0. The local window is 12,288 tokens (since 2026-08-24) and Goku's evidence is 58,099
         # characters, so the obvious fallback is to trim the evidence until it fits. That is
         # forbidden, and rightly: "a cap on an ordered listing is not a sample, it is a
         # TRUNCATION, and it silently decides that everything past the cutoff does not exist."
@@ -1501,6 +1530,9 @@ def config():
             "seed": 47, "num_ctx": cfg.get("num_ctx", 6144)}
 
 
+_CAL_UNFINISHED = ("DEFERRED", "SCOPE_UNMEASURED")
+
+
 def calibrate():
     """Run the charter's published assays through the WHOLE automation and persist the verdict.
 
@@ -1549,7 +1581,12 @@ def calibrate():
                 and (now - float(old.get("started") or 0)) < 26 * 3600):
             started = float(old.get("started") or now)
             for r in (old.get("results") or []):
-                if isinstance(r, dict) and r.get("entity"):
+                # A DEFERRED or SCOPE_UNMEASURED row is a transport failure, not a result, and
+                # is re-run rather than carried (order 6c2ee32b1465, sweep67) -- `settled()`'s
+                # own distinction. Carried, it was never retried and sat inside a pass stamped
+                # complete.
+                if (isinstance(r, dict) and r.get("entity")
+                        and r.get("status") not in _CAL_UNFINISHED):
                     prior[r["entity"]] = r
     except FileNotFoundError:
         pass
@@ -1558,7 +1595,7 @@ def calibrate():
 
     def _land(rows, complete):
         """Checkpoint. `at` appears only on a complete pass -- see the docstring."""
-        done = {r.get("entity") for r in rows}
+        done = {r.get("entity") for r in rows if r.get("status") not in _CAL_UNFINISHED}
         out = {"started": started, "model": c["model"], "results": rows,
                "complete": bool(complete),
                "pending": [b[0] for b in BENCHMARKS if b[0] not in done]}
@@ -1671,7 +1708,9 @@ def calibrate():
               f"{time.time() - t:.0f}s")
     print("-" * 96)
     print(f"anchor band reproduced on {band_hits}/{len(BENCHMARKS)} published assays")
-    _land(rows, len(rows) == len(BENCHMARKS))
+    # Complete only when every benchmark has a row that is a RESULT (order 6c2ee32b1465).
+    _land(rows, len(rows) == len(BENCHMARKS)
+          and not any(r.get("status") in _CAL_UNFINISHED for r in rows))
     # THE VERDICT, NOT A COUNT -- AND ASKED OF THE ONE FUNCTION THAT DEFINES IT
     # (orders f4171126348f and b68c9523874e, the second found independently by the run40 sweep).
     #
@@ -1797,6 +1836,10 @@ def host_ceiling(host):
             raise
         except Exception:
             silence.note("magnitude.py:host_ceiling-live")
+            # NOT CACHED EITHER (order efbfead57cb5, sweep67). Falling through cached this
+            # unread None as "no ceiling" for the rest of the process -- the permanence the
+            # ProbeUnread arm above exists to prevent, reached by any other exception.
+            return None
     _SCOPE_CACHE[host] = cl
     return cl
 
@@ -1863,8 +1906,12 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
     all_q = queue(host, limit)                 # 13MB sweep parsed ONCE, not twice
     todo = [(h, n, ch) for h, n, ch in all_q
             if not settled(done.get(h + "|" + n))]
-    print("queue: %d entities, %d already assayed, %d to do"
-          % (len(all_q), len(done), len(todo)))
+    # SWEEP67 batch12, F6, run #67 (order 89a3c760aeb0): `queue()` cuts the richest-first list at
+    # `limit`, and `done` also holds DEFERRED records, which are not assayed. Say both.
+    cut = (" (at --limit %d, longer queue is cut)" % limit) if limit and len(all_q) >= limit else ""
+    print("queue: %d entities%s, %d already assayed, %d to do"
+          % (len(all_q), cut,
+             sum(1 for h, n, _c in all_q if settled(done.get(h + "|" + n))), len(todo)))
     lock = threading.Lock()
     # THREE OUTCOMES, NOT TWO (order b3c6838c33ed). This tally was binary -- scored, or
     # `band_only` for everything else -- and the closing line printed the remainder as

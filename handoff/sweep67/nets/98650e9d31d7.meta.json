@@ -1,0 +1,5 @@
+{
+ "name": "silence.swallow lets KeyboardInterrupt/SystemExit/GeneratorExit through",
+ "expected": "with swallow(...) eats an operator's Ctrl-C",
+ "area": "drill_followup0928"
+}

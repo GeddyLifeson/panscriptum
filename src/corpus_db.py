@@ -224,6 +224,7 @@ def rebuild(include_evidence=True, evidence_limit=None):
     # because a truncated list would silently declare the names past the cut to be deletions.
     record_files = sorted(os.path.basename(p) for p in
                           glob.glob(os.path.join(HERE, "data", "records", "*.json")))
+    seen_src = set()
     for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json"))):
         try:
             with open(p, encoding="utf-8") as f:
@@ -275,13 +276,25 @@ def rebuild(include_evidence=True, evidence_limit=None):
         # would put every source at the head of the worst-cited work list at 0.0%, which is a
         # louder lie than the NULL. So a COVERAGE.json read failure is carried in `meta` and in
         # the banner over every result instead; see the meta rows and `_freshness_banner()`.
-        con.execute(
-            "INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?,?)",
-            (src, HOST_LOOKUP_FAILED if hosts_failed else hosts.get(src),
-             code, len(rec.get("entries") or []),
-             c.get("cited"), c.get("read"), c.get("no_page"),
-             c.get("not_attempted"), c.get("no_host"), c.get("unreachable")))
-        n_src += 1
+        if src in seen_src:
+            # Sweep67 batch13, run #67 (order 92b6168fdd74): a source declared by two records used
+            # to have its row REPLACED (entries = the last file's count) while `entry` received
+            # rows from every file, so source.entries disagreed with COUNT(*) FROM entry and
+            # worst_cited divided by the wrong denominator. Sum the counts and name the duplicate
+            # in the same list/meta row that unreadable records use.
+            silence.note("corpus_db.py:duplicate-source")
+            unreadable_records.append("%s (duplicate source %s)" % (os.path.basename(p), src))
+            con.execute("UPDATE source SET entries = entries + ? WHERE name = ?",
+                        (len(rec.get("entries") or []), src))
+        else:
+            seen_src.add(src)
+            con.execute(
+                "INSERT OR REPLACE INTO source VALUES (?,?,?,?,?,?,?,?,?,?)",
+                (src, HOST_LOOKUP_FAILED if hosts_failed else hosts.get(src),
+                 code, len(rec.get("entries") or []),
+                 c.get("cited"), c.get("read"), c.get("no_page"),
+                 c.get("not_attempted"), c.get("no_host"), c.get("unreachable")))
+            n_src += 1
         rows = []
         for e in (rec.get("entries") or []):
             if not isinstance(e, dict):
@@ -1008,6 +1021,13 @@ def main():
         print("\n  then open http://127.0.0.1:8801/ — every page is also JSON with .json")
         return 0
 
+    if a.canned and not a.sql and a.canned not in CANNED:
+        # A TYPO'D --canned IS REFUSED, NOT READ AS "NO QUERY" (sweep67 batch13, run #67, order
+        # 3953d4d6177b). It fell into the no-query branch below and returned 0 with no rows, so
+        # a script saw success on a query that never ran.
+        print("unknown canned query %r -- choose one of: %s"
+              % (a.canned, ", ".join(sorted(CANNED))))
+        return 2
     sql = a.sql or CANNED.get(a.canned or "")
     if not sql:
         # ABSENT AND UNREADABLE ARE DIFFERENT DATABASES. `age_seconds()` answers None for three

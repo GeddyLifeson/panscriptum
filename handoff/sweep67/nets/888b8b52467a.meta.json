@@ -1,0 +1,5 @@
+{
+ "name": "feats evidence_for and resolve_hosts write through silence.write_json",
+ "expected": "two writers share one fixed .tmp and can land a partial evidence or host file",
+ "area": "drill_followup0928"
+}

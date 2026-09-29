@@ -1,0 +1,5 @@
+{
+ "name": "catalogue_web _singular keeps silent-e plurals whole",
+ "expected": "Prizes/Mazes/Caches/Niches are mangled to Priz/Maz/Cach/Nich in stored types",
+ "area": "drill_followup0928"
+}

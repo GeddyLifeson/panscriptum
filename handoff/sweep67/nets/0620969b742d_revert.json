@@ -1,0 +1,7 @@
+[
+ {
+  "module": "mutate.py",
+  "old": "        # ONLY IF IT IS STILL THAT RECORD (sweep67 batch04, order 0620969b742d, run #67). Two\n        # starters that both saw the stale record: A removed it and created its own lock, then B\n        # removed A's FRESH lock and created another, and both believed they held it. The file\n        # is re-read here and removed only if it still says what `active()` just showed us; a\n        # different record means somebody else already claimed it, and O_EXCL below refuses.\n        # ponytail: a microsecond read-then-remove window remains; no atomic compare-and-delete.\n        try:\n            with open(LOCK, encoding=\"utf-8\") as f:\n                now_rec = json.load(f)\n        except FileNotFoundError:\n            now_rec = None\n        except Exception:\n            now_rec = rec\n        if now_rec is not None and now_rec == {k: v for k, v in rec.items() if k != \"stale\"}:\n            try:\n                os.remove(LOCK)\n            except FileNotFoundError:\n                pass\n",
+  "new": "        try:\n            os.remove(LOCK)\n        except FileNotFoundError:\n            pass\n"
+ }
+]

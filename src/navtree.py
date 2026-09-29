@@ -45,12 +45,14 @@ def build():
         tree = json.load(f)
     sources, worlds = tree["sources"], tree["worlds"]
 
-    seeds = {}
+    seeds, dupes = {}, {}
     for w in WS.build_all():
         era = w["features"].get("tech", "medieval")
         cond = w["features"].get("condition", "settled")
         s = AS.map_seed(w["seed"])
         p1 = BG.largest_city(s, era, cond)
+        if w["designation"] in seeds:
+            dupes[w["designation"]] = dupes.get(w["designation"], 1) + 1
         seeds[w["designation"]] = {
             "s": s, "f": w["features"], "a": w.get("attested_axes", 0),
             "b": p1, "nb": BG.burg_count(s, era, cond, p1),
@@ -211,7 +213,19 @@ def build():
         out[k] = e
 
     roots = sorted((k for k in out if "." not in k), key=int)
-    return {"roots": roots, "nodes": out}
+    data = {"roots": roots, "nodes": out}
+    # THE WORLD SET COMES FROM data/SEVENFOLD.json, THE SEEDS FROM THE LIVE worldseed BUILD, AND
+    # NOTHING COMPARED THEM (order c4d79f533471, sweep67). Measured: 14,592 built worlds against
+    # 1,569 in SEVENFOLD, so ~13,000 worlds had no node while audit() -- which only checks the
+    # tree against itself -- reported 0 problems. A stale SEVENFOLD now reaches audit() as
+    # problems, so --write refuses rather than landing a tree that silently omits worlds.
+    # Carried only when non-empty, so a clean tree's NAVTREE.json keeps its shape.
+    drift = {"unplaced": sorted(set(seeds) - set(worlds)),
+             "unseeded": sorted(set(worlds) - set(seeds)),
+             "duplicate": sorted(dupes.items())}
+    if any(drift.values()):
+        data["drift"] = drift
+    return data
 
 
 def audit(data):
@@ -230,6 +244,15 @@ def audit(data):
         for c in v["k"]:
             if c not in nodes:
                 problems.append(f"{k}: child {c} has no node")
+    # The tree against its SOURCE, not only against itself (order c4d79f533471). Every item,
+    # uncapped (Hard Rule 0).
+    drift = data.get("drift") or {}
+    for d in drift.get("unplaced", []):
+        problems.append(f"world {d} is built by worldseed but has no place in SEVENFOLD.json")
+    for d in drift.get("unseeded", []):
+        problems.append(f"world {d} is in SEVENFOLD.json but worldseed no longer builds it")
+    for d, n in drift.get("duplicate", []):
+        problems.append(f"designation {d} is built {n} times; the tree keeps one")
     return problems
 
 

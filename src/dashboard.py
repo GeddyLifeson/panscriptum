@@ -362,6 +362,20 @@ def _watch():
                            for f in openf]     # ALL open findings -- a monitoring cap ruled a truncation, 2026-08-24
     except Exception:
         silence.note("dashboard.py:watch")
+    # `broken` IS FILLED FROM ALLSWEEP'S IMPORT TIER (sweep67 batch 07, F1, run #67). It was
+    # initialised to [] above and written nowhere, so standards' "every module imports" read
+    # len([]) and could never fail. An unreadable ALLSWEEP.json is NOT zero broken modules: it
+    # reports one sentinel row so the standard fails closed until the sweep is readable again.
+    try:
+        with open(os.path.join(DATA, "ALLSWEEP.json"), encoding="utf-8") as fh:
+            imports = json.load(fh).get("imports")
+        if not isinstance(imports, list) or not imports:
+            raise ValueError("ALLSWEEP.json carries no import rows")
+        out["broken"] = [r.get("module") for r in imports
+                         if not (isinstance(r, dict) and r.get("ok") is True)]
+    except Exception:
+        silence.note("dashboard.py:watch-imports")
+        out["broken"] = ["(ALLSWEEP.json unreadable -- import health unmeasured)"]
     try:
         f = json.load(open(os.path.join(STATE, "failures.json"), encoding="utf-8"))
         # ALL of them, ranked -- the identical cap on `findings` five lines above this was ruled
@@ -797,6 +811,7 @@ h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;
 .label{font-family:var(--mono);font-size:12px;color:var(--ink)}
 .value{font-family:var(--mono);font-size:12px;color:var(--ink-dim);
   font-variant-numeric:tabular-nums;white-space:nowrap}
+.value.ok{color:var(--good)} .value.warn{color:var(--warn)} .value.bad{color:var(--bad);font-weight:600}
 .bar{height:7px;background:var(--panel-2);border:1px solid var(--rule);overflow:hidden}
 .bar>i{display:block;height:100%;background:var(--brass);transition:width .5s ease}
 .bar>i.good{background:var(--good)} .bar>i.warn{background:var(--warn)} .bar>i.bad{background:var(--bad)}

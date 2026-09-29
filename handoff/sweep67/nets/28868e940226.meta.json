@@ -1,0 +1,5 @@
+{
+ "name": "worldseed refuses --write with --limit",
+ "expected": "a partial roster overwrites data/WORLDSEEDS.json in the shape of the full one",
+ "area": "drill_followup0928"
+}

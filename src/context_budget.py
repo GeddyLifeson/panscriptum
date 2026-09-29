@@ -25,7 +25,8 @@ THREE CHANGES, AND THE ORDER MATTERS
 
   2. Feats jobs stop carrying the chapter-only half of the system prompt. `system_style.txt` is
      two documents in one file: lines 1-102 are ground rules and voice (6,964 chars, true of
-     every job), lines 103-245 are THE ENTRY TEMPLATE (11,147 chars) -- the per-entry shape,
+     every job), lines 103-245 are THE ENTRY TEMPLATE (11,147 chars) (both as measured
+     2026-08-24; the file has since grown, and the template heading is located by text) -- the per-entry shape,
      the Four Hands marginalia, and The Instrument. A feats chapter writes none of those, and
      `prompts/feats_prompt.txt` explicitly FORBIDS the scoring The Instrument describes. Eleven
      thousand characters of instruction telling the model to do something the user prompt then
@@ -83,7 +84,7 @@ CHARS_PER_TOKEN = 3.0
 #     prompts/system_style.txt, template half   5,000 chars -> 1,080 tokens -> 4.63 chars/token
 #
 # 4.0 is set BELOW both measurements, keeping the pessimism the header argues for while ending
-# the phantom overhead: charging the 18,112-char system prompt at 3.0 books it as 6,038 tokens
+# the phantom overhead: charging the 18,112-char system prompt (as measured 2026-08-24) at 3.0 books it as 6,038 tokens
 # when it really costs ~4,323 -- about 1,700 tokens, 28% of a 6144 window, spent on nothing.
 # That error alone is most of the reason a chapter job could not fit its own scaffolding.
 #

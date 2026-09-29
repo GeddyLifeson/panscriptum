@@ -1,0 +1,17 @@
+[
+ {
+  "module": "catalogue_codex.py",
+  "old": "    if not args.dry_run:\n        _assert_not_halted(\"(writes data/records and SWEEP_ROLL.json)\")\n",
+  "new": ""
+ },
+ {
+  "module": "catalogue_web.py",
+  "old": "    if not args.dry_run:\n        _assert_not_halted(\"(writes data/records and SWEEP_ROLL.json)\")\n",
+  "new": ""
+ },
+ {
+  "module": "catalogue_aurora.py",
+  "old": "    if not args.dry_run:\n        _assert_not_halted(\"(writes data/records and SWEEP_ROLL.json)\")\n",
+  "new": ""
+ }
+]

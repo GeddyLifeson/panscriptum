@@ -1,0 +1,7 @@
+[
+ {
+  "module": "secondopinion.py",
+  "old": "        out[\"silence\"] = sum(1 for r in roots for row in (silence.audit(r) or [])\n                             if row.get(\"silent\"))",
+  "new": "        out[\"silence\"] = sum(len(silence.audit(r) or []) for r in roots)"
+ }
+]

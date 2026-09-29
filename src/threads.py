@@ -115,8 +115,9 @@ import silence                  # noqa: E402
 
 OUT = os.path.join(HERE, "data", "THREADS.json")
 
-# The classes this module is permitted to derive. T4 is a later phase; T5 is owner-authored only
-# and is not in this tuple BY RULING, not by oversight -- see `edge()`.
+# The classes this module is permitted to derive: T1-T4 (see DERIVABLE below); T5 is
+# owner-authored only and is not in this tuple BY RULING, not by oversight -- see `edge()`.
+# (Order cc82eb5e8c61: this used to call T4 "a later phase" after T4 was admitted.)
 #
 # T3 ADMITTED 2026-09-09 UNDER STEP4_PLAN §7G, which authorised Phase 4.3 on 2026-09-08 in the
 # owner's own words ("get 4.3 started too") and scopes it to exactly one thing: T3, the Chronicle
@@ -258,7 +259,12 @@ def annex_codes():
     except Exception:
         silence.note("threads.py:annex-unreadable")
         return set()
-    out = {str(c.get("code")) for c in (doc.get("canons") or []) if c.get("code")}
+    # SWEEP67 ORDER 5c24b8e36cfe, run #67: a well-formed JSON of the WRONG SHAPE (a top-level
+    # list, string rows) raised AttributeError out of build(); the docstring promises EMPTY.
+    if not isinstance(doc, dict):
+        silence.note("threads.py:annex-unreadable")
+        return set()
+    out = {str(c.get("code")) for c in (doc.get("canons") or []) if isinstance(c, dict) and c.get("code")}
     # THE FILE DECLARES ITS OWN POPULATION, SO CHECK IT. A truncated table would silently make
     # some Canons unaddressable and refuse exactly the T3s that pointed at them, which is a
     # smaller universe and this project's oldest failure shape.
@@ -282,7 +288,11 @@ def law_codes():
     except Exception:
         silence.note("threads.py:laws-unreadable")
         return set()
-    out = {str(c.get("code")) for c in (doc.get("laws") or []) if c.get("code")}
+    # Order 5c24b8e36cfe, run #67: same wrong-shape guard as `annex_codes`.
+    if not isinstance(doc, dict):
+        silence.note("threads.py:laws-unreadable")
+        return set()
+    out = {str(c.get("code")) for c in (doc.get("laws") or []) if isinstance(c, dict) and c.get("code")}
     declared = ((doc.get("declared") or {}).get("volumes"))
     if declared and len(out) != declared:
         silence.note("threads.py:laws-short")
@@ -935,7 +945,7 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass        # an older stdout without reconfigure is not a reason to refuse to run
-    ap = argparse.ArgumentParser(description="Step 4 Phase 4.1 - derive the T1/T2 thread graph")
+    ap = argparse.ArgumentParser(description="Step 4 Phases 4.1-4.4 - derive the T1-T4 thread graph (T5 is owner-authored)")
     ap.add_argument("--dry-run", action="store_true",
                     help="derive and report, write nothing (does not need the ratification)")
     a = ap.parse_args()
@@ -966,7 +976,8 @@ def main():
     n_src = len(graph["sources"])
     c = graph["counts"]
 
-    print("THREADS — Step 4, Phases 4.1 and 4.3 (T1 home + T2 cohort + T3 Chronicle join)")
+    print("THREADS — Step 4, Phases 4.1-4.4 (T1 home + T2 cohort + T3 Chronicle join + T4 Law; "
+          "T5 is owner-authored)")
     print("=" * 78)
     if SUBROOM_FALLBACK_REASON:
         # ON THE CONSOLE, ABOVE THE COUNTS IT EXPLAINS (order 04c6360636bf). The counts below

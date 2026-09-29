@@ -1,0 +1,5 @@
+{
+ "name": "chain.extract records the --limit and harvested total for CHAIN.json",
+ "expected": "a hand-run --limit pass is indistinguishable on disk from a full pass",
+ "area": "drill_followup0928"
+}

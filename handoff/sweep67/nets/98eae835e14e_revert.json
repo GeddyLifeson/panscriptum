@@ -1,0 +1,1 @@
+[{"module": "pipeline.py", "old": "    # THE THIN ROSTER IS NAMED, UNCAPPED (order 98eae835e14e, run #67, Hard Rule 0): it was\n    # built and never read, while its siblings `refused` and `empty` are named in full below.\n    if thin:\n        log(\"  below the line (%d): %s\" % (len(thin), \", \".join(sorted(str(s) for _, s in thin))))\n", "new": ""}]

@@ -577,7 +577,10 @@ def _halt_file_records(rec):
 def _land_halt(rec, expected):
     """One compare-and-swapped attempt at the halt file. -> (landed, why)."""
     cur = _read_halt_raw()
-    if isinstance(cur, dict) and not cur.get("cleared", False):
+    # `is not True`, NOT falsiness (sweep67 batch 15, F4): `"cleared": "false"` is a string
+    # and truthy, so a hand-edited or mis-typed halt file read as lifted. Only the literal
+    # True that `_land_clear` writes lifts a halt; anything else is a standing one.
+    if isinstance(cur, dict) and cur.get("cleared") is not True:
         cur.setdefault("also", []).append(brief(rec, OWNER))
         payload = cur
     else:
@@ -672,7 +675,7 @@ def status():
     rec = _read_halt_raw()
     if rec is None:
         return False, None
-    return (not rec.get("cleared", False)), rec
+    return (rec.get("cleared") is not True), rec   # fail closed: see _land_halt (sweep67 F4)
 
 
 # --------------------------------------------------------------------------- the pause
@@ -1447,7 +1450,7 @@ def _halt_file_cleared():
     """Does the halt file on disk actually say `cleared` now? -> bool. The readback that makes
     the lift's verdict evidence rather than an assumption."""
     cur = _read_halt_raw()
-    return isinstance(cur, dict) and bool(cur.get("cleared", False))
+    return isinstance(cur, dict) and cur.get("cleared") is True
 
 
 def _land_clear(rec, expected):

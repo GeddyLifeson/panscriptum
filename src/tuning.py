@@ -190,7 +190,11 @@ def cloud_success_rate(minutes=15):
     import cascade_bridge as CB
     path = CB.SCRATCH_DB
     try:
-        conn = sqlite3.connect(path, timeout=2.0)
+        # READ-ONLY (sweep67, order 554adb29161e, run #67): a plain connect CREATES an empty
+        # scratch db when absent and then fails on "from usage" -- mutate.py documents that as
+        # a cause of a red baseline. `mode=ro` raises instead, which the handler below notes.
+        conn = sqlite3.connect("file:%s?mode=ro" % urllib.request.pathname2url(path),
+                               uri=True, timeout=2.0)
         try:
             row = conn.execute(
                 "select count(*), sum(outcome='ok') from usage where ts > ?",

@@ -1,0 +1,17 @@
+[
+ {
+  "module": "feats.py",
+  "old": "    return j, not stack\n",
+  "new": "    return j\n"
+ },
+ {
+  "module": "feats.py",
+  "old": "            j, closed = _brace_end(c, i + 3, n, 3)\n            _, _, dflt = c[i + 3:j - 3 if closed else j].partition(\"|\")\n",
+  "new": "            j = _brace_end(c, i + 3, n, 3)\n            _, _, dflt = c[i + 3:j - 3].partition(\"|\")\n"
+ },
+ {
+  "module": "feats.py",
+  "old": "            j, closed = _brace_end(c, i + 2, n, 2)\n            inner = c[i + 2:j - 2 if closed else j]\n",
+  "new": "            j = _brace_end(c, i + 2, n, 2)\n            inner = c[i + 2:j - 2]\n"
+ }
+]

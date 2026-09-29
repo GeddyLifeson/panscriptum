@@ -1,0 +1,5 @@
+{
+ "name": "mutate live-tree refusal is case- and junction-insensitive",
+ "expected": "a lower-cased spelling of the live tree passes the guard and mutants could be written into real src/",
+ "area": "drill_followup0928"
+}

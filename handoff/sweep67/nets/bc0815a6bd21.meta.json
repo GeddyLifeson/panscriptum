@@ -1,0 +1,5 @@
+{
+ "name": "binding_health --host filter reports unmatched names",
+ "expected": "a mistyped --host is silently discarded when another --host matches",
+ "area": "drill_followup0928"
+}

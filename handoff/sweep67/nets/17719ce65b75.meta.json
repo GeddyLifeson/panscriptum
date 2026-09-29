@@ -1,0 +1,5 @@
+{
+ "name": "overwatch survives a model finding with null actual or non-string symbol",
+ "expected": "one null field in a model answer crashes _fingerprint outside any try and kills the round",
+ "area": "drill_followup0928"
+}

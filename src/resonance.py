@@ -165,6 +165,10 @@ def hodge_decompose(edges, sweeps=SWEEP_BUDGET, tol=SWEEP_TOL):
     # theta_a = mean over neighbours of (theta_b + F_ab), UPDATED IN PLACE so the rest of this
     # sweep sees the refreshed value -- that in-place read is the whole difference between
     # Gauss-Seidel and the Jacobi sweep that never converged on a bipartite component.
+    # TOLERANCE RELATIVE TO THE FLOW SCALE (order 1301ccb8fc44, sweep67 batch12, run #67). An
+    # absolute 1e-9 made eta depend on the units of the flows: the same ladder at scale 1e-10
+    # "converged" after one sweep with eta 0.9753 instead of 1.0. All-zero flow keeps `tol`.
+    _tol = tol * (max(abs(f) for f in edges.values()) or 1.0)
     converged = False
     used = 0
     for used in range(1, sweeps + 1):
@@ -178,7 +182,7 @@ def hodge_decompose(edges, sweeps=SWEEP_BUDGET, tol=SWEEP_TOL):
         # swinging behind a hundred that have settled, and one unsettled node is an unsettled
         # theta. Measured against the gauge-fixed values, so the fix itself cannot register as
         # movement.
-        if max(abs(theta[n] - prev[n]) for n in nodes) < tol:
+        if max(abs(theta[n] - prev[n]) for n in nodes) < _tol:
             converged = True
             break
     if not converged:

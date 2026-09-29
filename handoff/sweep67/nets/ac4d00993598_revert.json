@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "    marks_ = [v.get(\"shelfmark\") for v in marks.values() if isinstance(v, dict)]\n    collisions = (len(addrs) - len(set(addrs))) + (len(marks_) - len(set(marks_)))\n    return _s(\n        \"shelfmarks are unique\", bool(addrs) and collisions <= MAX_SHELFMARK_COLLISIONS,\n        collisions if addrs else \"UNMEASURED -- SHELFMARKS.json holds no designations, so \"\n        \"nothing was compared. Zero compared is not zero collisions.\",\n",
+  "new": "    collisions = len(addrs) - len(set(addrs))\n    return _s(\n        \"shelfmarks are unique\", collisions <= MAX_SHELFMARK_COLLISIONS, collisions,\n"
+ }
+]

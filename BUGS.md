@@ -1542,6 +1542,65 @@ remaining item is either an outage, a decision, or a watched state.***
 
 ## Resolved (paper trail)
 
+### Resolved by run #67 (2026-09-28/29 daily maintenance; sweep67)
+
+*Found by sweep67 (16 batches, all 119 modules, every module recorded) and fixed in the same
+shift, so none of these sat in `## Open`. Every finding was verified against source by a second
+agent before it became an order (`handoff/sweep67/VERIFY_batch*.md`; 0 refuted, a handful
+partial). 126 orders were closed, each with its resolution in `state/workorders_closed.jsonl`.
+Every behaviour change carries a drill net that was watched going RED under a revert file in
+`handoff/sweep67/` or `handoff/sweep67/nets/` and HELD on the live tree (106 new or changed nets proved this run).
+Export commit: the run #67 push (see HANDOFF.md's run #67 entry).*
+
+- **[M131 — RESOLVED 2026-09-29, run #67] THE TWO RECORD WRITERS WERE NOT A COMPARE-AND-SWAP, AND
+  THE FOLD REVERTED FIELDS THE CALLER NEVER CHANGED.** `pipeline.write_record` and
+  `write_record_catalogue` read, merged, dumped and renamed; a write landing between the read and
+  the rename was overwritten whole and the call returned True. Separately the per-entry fold wrote
+  every `MERGED_ENTRY_FIELDS` value from the caller's load-time copy, so a `magnitude` or `topic`
+  another writer set on disk mid-phase was put back. **Root cause:** the merge was designed against
+  staleness of the ENTRY LIST, never of the individual fields or of the file between read and
+  rename. **Fix:** digest before read, land through `silence.replace_if_unchanged`
+  (`_landed_cas`), re-read and re-merge on a lost race (3 retries); the `description` watermark
+  (`_DESC_SNAPSHOT`) widened to every merged field -- a value the caller still holds as loaded
+  yields to disk. Net "a record write loses no concurrent edit" RED under either revert.
+- **[M132 — RESOLVED, run #67] THE "READ-ONLY" SWEEP REWROTE THREE DATA FILES EVERY NIGHT.**
+  `allsweep`'s IMPORT tier passed `--help` to 13 modules that have a `__main__` and no argparse, so
+  their real `main()` ran: TIERS.json, SHELFMARKS.json and ONOMASTICON.json were rewritten inside
+  the sweep's own window (observed 22:06-22:07). **Fix:** modules without an ArgumentParser are
+  imported under a non-`__main__` name. Net RED/HELD.
+- **[M133 — RESOLVED, run #67] A HALT FILE SAYING `"cleared": "false"` READ AS LIFTED.** All three
+  readers in `escalation.py` tested truthiness. **Fix:** only the literal True lifts. Net RED/HELD.
+- **[M134 — RESOLVED, run #67] "EVERY MODULE IMPORTS" COULD NOT FAIL.** `dashboard._watch()`
+  initialised `broken` to `[]` and nothing filled it. **Fix:** filled from ALLSWEEP's import tier,
+  fail-closed when unreadable. Net RED/HELD.
+- **[M135 — RESOLVED, run #67] A 200 CARRYING A MEDIAWIKI `{"error": ...}` BODY WAS A SUCCESS** in
+  `feats.api` (a `ratelimited` body RESET the backoff it asked for), `hostcheck.probe` (scored 0 of
+  N, graded WRONG FICTION -- the warhammer40k unassignment by another door), `completeness`
+  (cached "no such category" for 12h) and, through `feats.api`, `backfill.roster`. Nets RED/HELD.
+- **[M136 — RESOLVED, run #67] HOST-LEVEL DESTRUCTION AND QUARANTINE ON OUR OWN FAULTS.**
+  `hostcheck purge --go` deleted a host cache still bound to other sources (forgottenrealms carries
+  thirty); `binding_health` quarantined a host when OUR `canary()` raised. Nets RED/HELD.
+- **[M137 — RESOLVED, run #67] FOREMAN'S KILLERS KEYED A JOB BY SCRIPT NAME.** A hand-run
+  `read.py --status`, or a mutation sandbox's `pipeline.py`, counted as a duplicate of the live
+  daemon. **Fix:** same tree and same arguments required, one `_foreign_tree` helper for all three
+  killers. Nets RED/HELD.
+- **[M138 — RESOLVED, run #67] SHORT PASSES LANDED AS WHOLE ONES.** `weave_index` cached a record
+  pass that skipped a torn file and `--write` published the short index; `address_space` published
+  placeholder shelfmarks when TIERS.json was unreadable; `cascade_bridge` accepted a reply the
+  engine marked `truncated`; `rosetta`/`scope` searches stopped at the first page (Hard Rule 0).
+  Nets RED/HELD (address_space: flag-guarded refusal, no net).
+- **[M139 — RESOLVED, run #67] THE SEVENFOLD ROOT FELL TO SIX.** After the 23:14 ENTITY_INDEX
+  rebuild one root window had no seam below the block median, the weaker-half rule left it uncut,
+  and verify_math's "exactly seven hyperverses" read 6. Not a code regression -- bisected against
+  the pre-run sources of weave, worldseed, weave_index and onomast, all 6. **Fix:** at the ROOT
+  only, an uncut window takes the nearest weak seam elsewhere (a first version cut the window's
+  strong seam and split kin -- caught by the kin rows, reverted). Net RED/HELD.
+- **[m-sweep67 — RESOLVED, run #67] ~110 further findings** (stale citations, unguarded temp files,
+  silent partial writes, missing halt interlocks on the three cataloguers, scope exclusions not
+  consulted, NaN/Infinity accepted as scores, a probe-cleanup note class that could halt the
+  library at OWNER, and more): one work order each, closed with its resolution and net.
+  `handoff/sweep67/FIX_*.md` lists every one.
+
 ### Resolved by run #66 (2026-09-27 daily maintenance; sweep66)
 
 *Found by the run and by sweep66 (16 batches, all 119 modules, `sweep_plan.missing('run66') ==

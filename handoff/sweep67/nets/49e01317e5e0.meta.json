@@ -1,0 +1,5 @@
+{
+ "name": "profile encode notes fallbacks and decode refuses unknown codes",
+ "expected": "an unknown genre/register decodes to a plausible value again",
+ "area": "drill_followup0928"
+}

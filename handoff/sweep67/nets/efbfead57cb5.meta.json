@@ -1,0 +1,5 @@
+{
+ "name": "host_ceiling does not cache an unread scope as 'no ceiling'",
+ "expected": "one KeyError/TypeError from scope_for removes the ceiling clamp for that host for the rest of the process",
+ "area": "drill_followup0928"
+}

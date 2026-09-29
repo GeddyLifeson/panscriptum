@@ -103,6 +103,18 @@ def _load():
         if not isinstance(d, list):
             silence.note("suppressions.py:load-wrong-shape")
             return [], False
+        # A WRONG-SHAPED ROW IS THE SAME CORRUPTION ONE LEVEL DOWN (sweep67 batch04, order
+        # 2beb0a7fa5b3, run #67). Only the top level was checked, so a non-dict row, a
+        # non-numeric expires_at or a non-string detector/path passed as ok=True and then made
+        # active(), suppressed() and problems() raise instead of failing closed as active()
+        # promises. An ABSENT key is still tolerated -- every reader defaults it.
+        for r in d:
+            if (not isinstance(r, dict)
+                    or not all(isinstance(r.get(k, ""), str) for k in ("detector", "path"))
+                    or isinstance(r.get("expires_at"), bool)
+                    or not isinstance(r.get("expires_at") or 0, (int, float))):
+                silence.note("suppressions.py:load-wrong-row-shape")
+                return [], False
         return d, True
     except FileNotFoundError:
         return [], True

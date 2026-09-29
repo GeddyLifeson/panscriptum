@@ -1,0 +1,5 @@
+{
+ "name": "thread_integrity load_thread_graph reports malformed T1/T2 as unresolvable or unreadable",
+ "expected": "DANGLING=0 passes over a corrupt thread graph, or AttributeError skips the OWNER escalation",
+ "area": "drill_followup0928"
+}

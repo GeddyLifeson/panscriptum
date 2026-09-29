@@ -287,7 +287,8 @@ def _ruff(paths):
         return ("NOT INSTALLED" if reason == "no such file" else "UNASKABLE (%s)" % reason), []
     r = subprocess.run([exe, "check", "--output-format", "json",
                         "--select", RUFF_RULES, "--ignore", RUFF_IGNORE, *list(paths)],
-                       capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
+                       capture_output=True, creationflags=_NO_WIN, text=True,
+                       encoding="utf-8", errors="replace", timeout=300)
     # ruff's own contract: 0 = no violations, 1 = violations found (real answer, keep going).
     # Anything else is ruff refusing to run at all -- the CLI itself was misused -- and its
     # explanation went to stderr while stdout stayed empty.
@@ -319,7 +320,8 @@ def _vulture(paths, min_confidence=90):
     if not exe:
         return ("NOT INSTALLED" if reason == "no such file" else "UNASKABLE (%s)" % reason), []
     r = subprocess.run([exe, *list(paths), "--min-confidence", str(min_confidence)],
-                       capture_output=True, creationflags=_NO_WIN, text=True, timeout=300)
+                       capture_output=True, creationflags=_NO_WIN, text=True,
+                       encoding="utf-8", errors="replace", timeout=300)
     # SPLIT ON `:<digits>:`, NOT ON THE FIRST COLON (sweep43-batch05). `line.split(":", 2)` reads
     # a WINDOWS DRIVE LETTER as the filename: `C:\...\foo.py:123: msg` yields parts[0]="C",
     # parts[1]="\...\foo.py", `int(parts[1])` raises, and the `continue` DROPS THE FINDING IN
@@ -380,7 +382,8 @@ def _detect_secrets(paths):
     if not exe:
         return ("NOT INSTALLED" if reason == "no such file" else "UNASKABLE (%s)" % reason), []
     r = subprocess.run([exe, "scan", *list(paths)],
-                       capture_output=True, creationflags=_NO_WIN, text=True, timeout=600)
+                       capture_output=True, creationflags=_NO_WIN, text=True,
+                       encoding="utf-8", errors="replace", timeout=600)
     # `scan` prints its JSON report on success and nothing at all on a CLI-usage error (a bad
     # flag, a bad subcommand), with the reason on stderr and rc=2 -- the same shape ruff's own
     # error path has, and `json.loads(r.stdout or "{}")` would parse the placeholder as "zero
@@ -469,7 +472,11 @@ def mine_says(paths=None):
         silence.note("secondopinion.py:mine-liveness")
         out["liveness"] = None
     try:
-        out["silence"] = sum(len(silence.audit(r) or []) for r in roots)
+        # ONLY THE SILENT ROWS (sweep67 batch12, order d00e843b1765, run #67): `silence.audit`
+        # returns a row for EVERY handler with a `silent` flag, so len() counted all of them
+        # (1308 against 312 silent) and overstated the house detector about 4x beside ruff's counts.
+        out["silence"] = sum(1 for r in roots for row in (silence.audit(r) or [])
+                             if row.get("silent"))
     except Exception:
         silence.note("secondopinion.py:mine-silence")
         out["silence"] = None

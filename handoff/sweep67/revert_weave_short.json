@@ -1,0 +1,1 @@
+[{"module": "weave_index.py", "old": "    LAST_UNREADABLE[:] = unreadable\n    if not unreadable:\n        _REC_CACHE.update({\"sig\": sig, \"out\": out})\n", "new": "    LAST_UNREADABLE[:] = unreadable\n    _REC_CACHE.update({\"sig\": sig, \"out\": out})\n"}]

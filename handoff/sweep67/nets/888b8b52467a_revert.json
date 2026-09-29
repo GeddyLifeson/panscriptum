@@ -1,0 +1,12 @@
+[
+ {
+  "module": "feats.py",
+  "old": "    _HOSTS_DENIED = not silence.write_json(HOSTS, known, ensure_ascii=False, sort_keys=True)\n",
+  "new": "    tmp = HOSTS + \".tmp\"\n    with open(tmp, \"w\", encoding=\"utf-8\") as f:\n        json.dump(known, f, indent=1, ensure_ascii=False, sort_keys=True)\n    _HOSTS_DENIED = not silence.replace_retry(tmp, HOSTS)\n"
+ },
+ {
+  "module": "feats.py",
+  "old": "    if not silence.write_json(path, out, ensure_ascii=False):\n",
+  "new": "    tmp = path + \".tmp\"\n    with open(tmp, \"w\", encoding=\"utf-8\") as f:\n        json.dump(out, f, indent=1, ensure_ascii=False)\n    if not silence.replace_retry(tmp, path):\n"
+ }
+]

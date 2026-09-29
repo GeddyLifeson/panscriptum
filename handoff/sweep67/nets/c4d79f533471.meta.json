@@ -1,0 +1,5 @@
+{
+ "name": "navtree audits its SEVENFOLD world set against the live worldseed build",
+ "expected": "a stale SEVENFOLD.json silently omits built worlds from the tree and --write lands it with 0 problems",
+ "area": "drill_followup0928"
+}

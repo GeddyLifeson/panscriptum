@@ -297,27 +297,36 @@ def scales_for(host, verbose=False, errors=None):
     """
     seen, found = set(), {}
     for q in SCALE_QUERIES:
-        # srlimit=50, matching feats.py's discover() -- audited (m82) not to truncate. 5 was
-        # below the API's OWN default of 10, and this call is the acquisition step for the
-        # library's only large-N external ground truth (see the One Piece Bounty/List loss noted
-        # above): a relevance-ranked page beyond the cutoff is a page this pass never sees.
-        try:
-            d = F.api(host, {"action": "query", "list": "search",
-                             "srlimit": "50", "srsearch": q})
-        except Exception as e:
-            # PER QUERY, like binding_health.run and chain.harvest guard per item: one search
-            # raising must not cost this wiki its other thirty.
-            silence.note("rosetta.py:scales_for-api")
-            if errors is not None:
-                errors.append("search: %s: %s (%s)" % (q, type(e).__name__, str(e)[:60]))
-            continue
-        if d is None and errors is not None:
-            errors.append("search: %s: no response" % q)
-        for row in (d or {}).get("query", {}).get("search", []):
-            t = row["title"]
-            if t in seen or not _SCALE_TITLE.search(t) or row.get("size", 0) < 1500:
-                continue
-            seen.add(t)
+        # EVERY PAGE OF RESULTS, NOT THE FIRST FIFTY (sweep67 batch 10, F3, run #67; Hard Rule
+        # 0). This asked for srlimit=50 and never followed `continue`, so a relevance-ranked
+        # scale page past rank 50 was a page this pass never saw -- ranking, then truncating --
+        # on the acquisition step for the library's only large-N external ground truth (see the
+        # One Piece Bounty/List loss noted above). Now 500 per call and `sroffset` followed to
+        # the end of the result set.
+        params = {"action": "query", "list": "search", "srlimit": "500", "srsearch": q}
+        while True:
+            try:
+                d = F.api(host, params)
+            except Exception as e:
+                # PER QUERY, like binding_health.run and chain.harvest guard per item: one search
+                # raising must not cost this wiki its other thirty.
+                silence.note("rosetta.py:scales_for-api")
+                if errors is not None:
+                    # WHOLE EXCEPTION TEXT (sweep67 batch10, order 2c226602695b, run #67; Hard
+                    # Rule 0): the only record of why a wiki yielded nothing, printed as the reason.
+                    errors.append("search: %s: %s (%s)" % (q, type(e).__name__, str(e)))
+                break
+            if d is None and errors is not None:
+                errors.append("search: %s: no response" % q)
+            for row in (d or {}).get("query", {}).get("search", []):
+                t = row["title"]
+                if t in seen or not _SCALE_TITLE.search(t) or row.get("size", 0) < 1500:
+                    continue
+                seen.add(t)
+            cont = (d or {}).get("continue")
+            if not isinstance(cont, dict) or "sroffset" not in cont:
+                break
+            params = dict(params, **cont)
 
     if not seen:
         return {}
@@ -327,7 +336,7 @@ def scales_for(host, verbose=False, errors=None):
         silence.note("rosetta.py:scales_for-fetch")
         if errors is not None:
             errors.append("fetch: %d page(s): %s (%s)"
-                          % (len(seen), type(e).__name__, str(e)[:60]))
+                          % (len(seen), type(e).__name__, str(e)))  # whole text, order 2c226602695b
         return {}
     for title, wt in pages.items():
         rows = numeric_rows(wt)
@@ -479,8 +488,14 @@ def check(rosetta, assays, by_host=None):
                     unmatched += 1
                     continue
                 pairs.append((val, got))
+            _rho = spearman(pairs)
             report.append({"host": host, "scale": title, "kind": sc["kind"],
-                           "overlap": len(pairs), "rho": spearman(pairs),
+                           "overlap": len(pairs), "rho": _rho,
+                           # WHY UNSCORED (sweep67 batch10, order a713b2598ed5, run #67):
+                           # `spearman` returns None both below four pairs and on zero variance,
+                           # and main() called both "needs 4 overlapping names".
+                           "rho_reason": (None if _rho is not None
+                                          else "too few" if len(pairs) < 4 else "tied"),
                            "unmatched": unmatched,
                            "ambiguous_assay_names": len(collided)})
     # rho None (unscorable) sorts last rather than crashing the comparison, and the scorable
@@ -659,7 +674,7 @@ def main():
                 sc = scales_for(h, errors=errs)
             except Exception as e:
                 silence.note("rosetta.py:mine-host")
-                failed[h] = "%s: %s" % (type(e).__name__, str(e)[:70])
+                failed[h] = "%s: %s" % (type(e).__name__, str(e))  # whole text, order 2c226602695b
                 print(f"  {i:>3}/{len(uniq)}  {h:<38}FAILED -- {failed[h]}", flush=True)
                 continue
             if errs:
@@ -815,7 +830,9 @@ def main():
                 # mid-name with no marker on the line an operator actually reads to decide which
                 # scale needs attention; ragged column, whole name.
                 print(f"  rho     --  n={r['overlap']:>4}  {r['scale']:<40}"
-                      f"{r['kind']}  UNSCORED (needs 4 overlapping names)"
+                      f"{r['kind']}  UNSCORED ("
+                      + ("every overlapping value is tied, so there is no ranking to compare"
+                         if r.get("rho_reason") == "tied" else "needs 4 overlapping names") + ")"
                       f"{'  [%d row(s) carry no assay from this wiki]' % r['unmatched'] if r['unmatched'] else ''}")
                 continue
             disagrees = r["rho"] < 0.3
@@ -824,8 +841,11 @@ def main():
             print(f"  rho {r['rho']:>6}  n={r['overlap']:>4}  {r['scale']:<40}"
                   f"{r['kind']}{'  DISAGREES' if disagrees else ''}")
         if unscored:
+            # "or every overlapping value is tied": `rho_reason` (order a713b2598ed5) separates a
+            # coverage gap from a zero-variance scale.
             print(f"\n{len(unscored)} of {len(rows)} scale(s) could NOT be scored (fewer than "
-                  f"four names overlap the Assay). That is not agreement; it is no measurement.")
+                  f"four names overlap the Assay, or every overlapping value is tied). That is "
+                  f"not agreement; it is no measurement.")
         # THE EXIT CODE HAS TO CARRY THE VERDICT, not just the printout. This used to
         # `return 0` unconditionally, so nothing that gates on rc (a shell, allsweep's
         # VERIFIERS, a scheduler) could ever learn a franchise's own published ordering

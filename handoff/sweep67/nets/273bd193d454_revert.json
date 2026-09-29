@@ -1,0 +1,7 @@
+[
+ {
+  "module": "sweep.py",
+  "old": "    # Sweep67 batch16, F1, run #67 (order 273bd193d454): an absent or empty WIKI_HOSTS.json used\n    # to read as {}, so every row got host None and a coherent all-negative CHARACTER_SWEEP.json\n    # landed that magnitude, standards, foreman and hostcheck read as fact. Refuse instead. A\n    # missing NAVTREE or ROSETTA is flagged on stderr, since the sweep is still useful without them.\n    if not os.path.exists(F.HOSTS):\n        raise SystemExit(\"sweep: \" + F.HOSTS + \" is absent; refusing to write an all-unreachable sweep\")\n    hosts = json.load(open(F.HOSTS, encoding=\"utf-8\"))\n    if not hosts:\n        raise SystemExit(\"sweep: \" + F.HOSTS + \" is empty; refusing to write an all-unreachable sweep\")\n    ros = rosetta_index()\n    where, names = navtree_names()\n    for _nm, _have in ((\"ROSETTA.json\", ros), (\"NAVTREE.json\", where)):\n        if not _have:\n            print(\"sweep: WARNING \" + _nm + \" is absent or empty; native ranks / shelfmarks are blank\",\n                  file=sys.stderr)\n",
+  "new": "    hosts = json.load(open(F.HOSTS, encoding=\"utf-8\")) if os.path.exists(F.HOSTS) else {}\n    ros = rosetta_index()\n    where, names = navtree_names()\n"
+ }
+]

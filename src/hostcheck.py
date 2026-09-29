@@ -441,6 +441,16 @@ def probe(host, names):
                 # WHOLE, not cut at 60 with no marker (sweep59-batch16, Hard Rule 0): this lands
                 # in data/HOST_FITNESS.json and is the only record of WHY a probe failed.
                 "error": f"{type(e).__name__} {e}"}
+    # AN API ERROR BODY IS THE SAME NON-ANSWER (sweep67 batch 15, F1, run #67). A 200 whose JSON
+    # is `{"error": ...}` (ratelimited, maxlag, a DB error) has no `query`, so it scored 0 of N,
+    # was graded WRONG FICTION, was cached as the host's null rate, and `--repair` could unassign
+    # the host on it -- the warhammer40k failure above arriving by a different door.
+    if not isinstance(d, dict) or isinstance(d.get("error"), dict) or "query" not in d:
+        silence.note("hostcheck.py:probe-error-body")
+        err = d.get("error") if isinstance(d, dict) else None
+        return {"host": host, "probed": len(names), "hits": 0, "rate": None,
+                "error": "API answered without a query: %s"
+                         % (json.dumps(err) if err is not None else type(d).__name__)}
     query = d.get("query") or {}
     pages = query.get("pages") or {}
     live = [p for p in pages.values() if "missing" not in p and int(p.get("pageid", 0)) > 0]
@@ -1245,7 +1255,15 @@ def sweep(only=None, repair=False, workers=8):
     # printed either way, so a denied replace reported this pass's fitness report over the
     # previous one. Nothing is lost -- the pass can be re-run -- but an operator acting on a
     # stale report they believe is today's is the expensive half of that.
-    if _land(OUT, results):
+    #
+    # A `--only` PASS IS A SPOT CHECK AND MUST NOT LAND (sweep67 batch15, F3, run #67, order
+    # 33ec3804e2df): `results` then holds only the matching sources, and writing it here replaced
+    # the whole-corpus HOST_FITNESS.json with that fragment. `completeness.land()` refuses the
+    # same thing (SKIPPED_ONLY).
+    if only:
+        print(f"{OUT} NOT updated: --only is a spot check, and the report on disk covers the "
+              f"whole corpus")
+    elif _land(OUT, results):
         print(f"-> {OUT}")
     else:
         print(f"{OUT} NOT updated (denied replace); the fitness report on disk is the previous "
@@ -1433,13 +1451,20 @@ def purge(dry=True, only=None):
         # docstring says drift, in a module that already imports cachekey for `load()` above. If
         # HOST_CAP or the sanitiser regex ever moves, a hand-spelled copy here keeps the OLD
         # answer and this purge silently deletes nothing from the actual cache directories.
+        # A SHARED HOST'S CACHE IS NOT THIS SOURCE'S TO DELETE (sweep67 batch 15, F2, run #67).
+        # The cache is keyed by HOST, and a host can carry many sources -- forgottenrealms.fandom
+        # .com carries thirty -- so purging one wrong-fiction source used to delete the pages
+        # every other source bound there was mined from. When any source outside this purge is
+        # still bound to the host, the entries go and the cache stays, and the log says why.
+        purging = {t[0] for t in targets}
+        shared = sorted(s for s, h in hosts.items() if h == mined and s not in purging)
         for base in ("feats", "readfeats"):
             d = os.path.join(HERE, "data", base, cachekey.host_dir(mined))
             if not os.path.isdir(d):
                 continue
             for fp in glob.glob(os.path.join(d, "*.json")):
                 n_files += 1
-                if dry or not landed:
+                if dry or not landed or shared:
                     continue
                 try:
                     os.remove(fp)
@@ -1455,7 +1480,11 @@ def purge(dry=True, only=None):
         # to tell "not attempted" from "attempted and refused" -- the distinction this order was
         # filed about. `removed` is what actually left the disk; `files` is what was found.
         log[src] = {"mined_from": mined, "now": now, "entries": n_entries, "files": n_files,
-                    "removed": n_removed, "landed": None if dry else landed}
+                    "removed": n_removed, "landed": None if dry else landed,
+                    "cache_kept_shared_with": shared}
+        if shared:
+            print(f"  cache KEPT for {mined}: still bound to {len(shared)} other source(s) "
+                  f"({', '.join(shared)})")
         if dry:
             print(f"  would remove: {src}  <- {mined}   {n_entries} entries, "
                   f"{n_files} cache files")
@@ -1657,6 +1686,7 @@ def adopt(dry=True, workers=4):
         # version stored the RATE there and then compared other candidates' lift against it,
         # so the units changed between iterations and a worse-lift host could win.
         best = (0.0, 0.0, None, "")
+        judged_any = False     # as sweep() does: did ANY candidate answer at all? (batch15, F4)
         # The WHOLE candidate list, not its head. Wikipedia is deliberately ranked last -- it
         # answers for almost anything and must not win on names alone -- so a head-only scan
         # never reached it, and every pantheon and astrology source came back "no wiki" while
@@ -1664,6 +1694,7 @@ def adopt(dry=True, workers=4):
         # it must not decide membership.
         for h in candidates(src, None, by=by, hosts=hosts):
             r = score(h, by[src], src, by=by)
+            judged_any = judged_any or not r["verdict"].startswith("UNREACHABLE")
             # No encyclopedia special-case any more. `score` now measures LIFT above each
             # host's own baseline for foreign names, so Wikipedia's generosity is subtracted
             # rather than compensated for by a rule about its hostname. A hand-written exemption
@@ -1673,23 +1704,28 @@ def adopt(dry=True, workers=4):
                 best = (r["lift"], r["rate"] or 0.0, h, r["verdict"])
             if best[0] >= GOOD_LIFT:
                 break
-        return src, best
+        return src, best, judged_any
 
     found = {}
+    unmeasured = 0
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        for src, (lift, rate, host, verdict) in ex.map(one, hostless):
+        for src, (lift, rate, host, verdict), judged_any in ex.map(one, hostless):
             if host:
                 found[src] = host
                 # UNCUT, BOTH BRANCHES (Hard Rule 0, sweep42-batch14). `src[:40]` cut the source
                 # name in the two lines that report what --adopt did and did not adopt.
                 print("   {:>+5.0%} lift  {:<9}{:<34}{}".format(lift, verdict, host, src),
                       flush=True)
+            elif not judged_any:
+                # Every candidate was unreachable: unmeasured, not "genuinely without a wiki".
+                unmeasured += 1
+                print("      -   no candidate answered  {:<9}{}".format("", src), flush=True)
             else:
                 print("      -   none      {:<34}{}".format("", src), flush=True)
 
     print("")
-    print("{} adopted, {} genuinely without a wiki".format(
-        len(found), len(hostless) - len(found)))
+    print("{} adopted, {} genuinely without a wiki, {} unmeasured (no candidate answered)".format(
+        len(found), len(hostless) - len(found) - unmeasured, unmeasured))
     if found and not dry:
         # THE MERGE, NOT THE MAP. `hosts` was read before the threaded probe above, which runs for
         # as long as the hostless list takes -- the widest read-to-write window in this module.

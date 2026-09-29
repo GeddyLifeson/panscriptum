@@ -1,0 +1,5 @@
+{
+ "name": "coverage.measure refuses when a readable record was dropped by records()",
+ "expected": "COVERAGE.json lands with a source missing and shrunk totals, unmarked",
+ "area": "drill_followup0928"
+}

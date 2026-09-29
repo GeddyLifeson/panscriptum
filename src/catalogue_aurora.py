@@ -126,7 +126,7 @@ def text_of(el):
     return re.sub(r"\s+", " ", "".join(d.itertext())).strip()
 
 
-def parse_folder(folder, dropped=None):
+def parse_folder(folder, dropped=None, unparsed=None):
     """Every element in the folder, minus EXACT re-statements of one already taken.
 
     THE SILENT CAP THIS FIXES (run #36 sweep). The dedup key used to be
@@ -159,6 +159,11 @@ def parse_folder(folder, dropped=None):
             # was missed. The label has no entry in state/failures.json, so nothing is orphaned
             # by renaming it.
             silence.note("catalogue_aurora.py:folder-xml-unparseable")
+            # NAMED TO THE CALLER TOO (sweep67 batch05, F, run #67, order ed5f75ec19fe): every
+            # element in this file is lost, and the run used to print a clean total over the
+            # smaller universe; main() prints these and refuses the exit code.
+            if unparsed is not None:
+                unparsed.append(os.path.relpath(path, CUSTOM).replace("\\", "/"))
             continue  # a malformed homebrew file should not abort the whole source
         for el in root.iter("element"):
             etype = (el.get("type") or "").strip()
@@ -187,6 +192,22 @@ def parse_folder(folder, dropped=None):
     return entries
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Order 6d800a399592 (sweep67 batch06, F, run #67), owner ruling 2026-09-28: hand-run corpus
+    writers refuse while the library is HALTED -- the pattern of `retry_synthesis`. Called on the
+    WRITING path only (not --dry-run). FAIL CLOSED ON THE IMPORT (Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -194,6 +215,8 @@ def main():
                     help="rewrite even if the source already has entries (use to replace "
                          "codex-derived records)")
     args = ap.parse_args()
+    if not args.dry_run:
+        _assert_not_halted("(writes data/records and SWEEP_ROLL.json)")
 
     with open(ROLL, encoding="utf-8") as f:
         roll = json.load(f)
@@ -222,7 +245,13 @@ def main():
         if r.get("entry_count", 0) > 0 and not args.force:
             continue
         dropped = []
-        entries = parse_folder(folder, dropped)
+        unparsed = []
+        entries = parse_folder(folder, dropped, unparsed)
+        if unparsed:
+            print(f"  ! {folder}: {len(unparsed)} XML file(s) UNPARSEABLE, their elements are "
+                  f"NOT in the total: " + "; ".join(unparsed))
+            refused.append(f"{source_name}: unparseable XML in custom/{folder}/: "
+                           + ", ".join(unparsed))
         if dropped:
             # Say so. A collapse that leaves no count is indistinguishable from a cap.
             print(f"  . {folder}: {len(dropped)} verbatim-duplicate elements collapsed")

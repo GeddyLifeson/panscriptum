@@ -155,6 +155,18 @@ def extract(pdf_path, source):
         t = _clean(doc[i].get_text())
         if t:
             out["p. %04d" % (i + 1)] = t
+    # Sweep67 batch13, run #67 (order 9cc87ededee1): pages with no text layer (a scanned book) were
+    # dropped without a count, and an image-only PDF wrote pages.json {} over any prior corpus,
+    # registered doc:<slug> and mined "0 new entries" with rc 0. Say how many were textless, and
+    # refuse (the existing OSError path) when nothing was extracted, BEFORE anything is replaced.
+    textless = len(doc) - len(out)
+    if textless:
+        print("ingest_doc: %d of %d page(s) of %s have no text layer (scanned or image-only) and "
+              "were NOT extracted" % (textless, len(doc), source))
+    if not out:
+        silence.note("ingest_doc.py:no-text-extracted")
+        raise OSError("%s yielded no text from any of its %d page(s) (image-only PDF; OCR it "
+                      "first) -- nothing was written, registered or mined." % (source, len(doc)))
     d = os.path.join(DOCS, slug(source))
     os.makedirs(d, exist_ok=True)
     # ATOMIC: pages.json is the only machine copy of a book the library cannot re-fetch, read

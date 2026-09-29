@@ -1,0 +1,5 @@
+{
+ "name": "gpu_lane._take_slot removes an expired slot only if unchanged",
+ "expected": "a reclaim race deletes the new holder's slot and two callers share it",
+ "area": "drill_followup0928"
+}

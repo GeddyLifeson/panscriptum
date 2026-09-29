@@ -1,0 +1,5 @@
+{
+ "name": "hand-run cataloguers (codex, web, aurora) ask the halt before a write run, not on dry-run",
+ "expected": "a hand-run cataloguer writes data/records and SWEEP_ROLL.json under a plant-wide halt",
+ "area": "drill_followup0928"
+}

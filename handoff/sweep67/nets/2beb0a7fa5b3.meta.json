@@ -1,0 +1,5 @@
+{
+ "name": "suppressions _load fails closed on wrong-shaped rows",
+ "expected": "active()/suppressed()/problems() raise on a malformed row instead of failing closed",
+ "area": "drill_followup0928"
+}

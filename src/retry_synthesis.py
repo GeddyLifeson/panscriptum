@@ -364,6 +364,16 @@ def main():
             if r["source"] in want and r["source"] not in side and not r.get("synthesis")]
     if args.only:
         todo = [(p, r) for p, r in todo if r["source"] in set(args.only)]
+    # NAME EVERY --only VALUE THAT MATCHED NOTHING (sweep67 batch06, F, run #67, order
+    # 6c3f5f7df5f2). A mistyped or wrongly-cased name left todo=[], printed "0 to do now" and
+    # exited 0 with nothing outstanding; do_merge names its `unmerged` and roll.exclude() raises
+    # on the same typo. Unmatched names now fail the exit code; matched ones still run.
+    matched_only = {r["source"] for _p, r in todo}
+    unmatched_only = [n for n in (args.only or []) if n not in matched_only]
+    if unmatched_only:
+        print("--only matched NO pending failed/stranded source: %s (check spelling and case; "
+              "a source already retried or with a synthesis is not pending)"
+              % ", ".join(repr(n) for n in unmatched_only), file=sys.stderr)
     if args.smallest:
         # A PILOT ORDER, not a cap: `--smallest N` is for proving the transport end to end on
         # cheap sources before committing to Marvel's 59,170 entries. The full run is the
@@ -416,7 +426,7 @@ def main():
         for s_ in still_failing:
             print(f"  {s_}", file=sys.stderr)
     print("merge with:  python src/retry_synthesis.py --merge   (pipeline must be stopped)")
-    return 0 if (landed and not still_failing) else 1
+    return 0 if (landed and not still_failing and not unmatched_only) else 1
 
 
 if __name__ == "__main__":

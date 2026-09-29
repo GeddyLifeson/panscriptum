@@ -1,0 +1,5 @@
+{
+ "name": "phase_entrypass refuses malformed cloud result items",
+ "expected": "a non-dict item or non-str field crashes entrypass, or JSON true files an entry under category 1",
+ "area": "drill_followup0928"
+}

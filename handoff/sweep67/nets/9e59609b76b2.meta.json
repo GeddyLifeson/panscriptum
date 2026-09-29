@@ -1,0 +1,5 @@
+{
+ "name": "local_agent.t_find_symbol reports unparsed files and drops unique",
+ "expected": "find_symbol claims a name is unique from a subset when a src file did not parse",
+ "area": "drill_followup0928"
+}

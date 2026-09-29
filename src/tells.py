@@ -92,7 +92,7 @@ STRUCTURAL = {
     "X is not Y; it is Z": r"\bis not (?:a |an |the )?\w+[;,] (?:it|which) is\b",
     "not only ... but also": r"\bnot only\b.{0,60}\bbut also\b",
     "more than just": r"\bmore than (?:just|merely|simply)\b",
-    "stands as a testament": r"stands? as a (?:testament|monument|reminder)",
+    "stands as a testament": r"\bstands? as a (?:testament|monument|reminder)",
     "serves as a": r"\bserves? as a\b",
     "plays a X role": r"\bplays? a (?:crucial|vital|pivotal|key|significant|central) role\b",
     "at its core / heart": r"\bat (?:its|the) (?:core|heart)\b",
@@ -125,7 +125,7 @@ STRUCTURAL = {
     "sheds light": r"\bshed(?:s|ding)? light on\b",
     "paints a picture": r"\bpaints? a .{0,12}picture\b",
     "weaves together": r"\bweav(?:es|ing) together\b",
-    "stands the test of time": r"stands? the test of time\b",
+    "stands the test of time": r"\bstands? the test of time\b",
     "against the backdrop": r"against the backdrop\b",
     "in stark contrast": r"in stark contrast\b",
     "a far cry from": r"\ba far cry from\b",
@@ -189,7 +189,17 @@ for _n, _p in DISCOURSE.items():
 
 
 _COMPILED = {k: re.compile(_anchor(v), re.I | re.M) for k, v in ALL_PATTERNS.items()}
-_LEX = {w: re.compile(r"\b" + re.escape(w) + r"\b", re.I) for w in LEXICAL + LEXICAL_FICTION}
+# INFLECTED FORMS OF THE BARE STEMS (order dccbc1cddd13, sweep67 batch15, run #67). A bare "unlock"
+# never matched "unlocks/unlocked/unlocking", so the commonest spellings of six listed tells were
+# invisible. The LISTS are untouched (prompt_section() prints them and prompts/system_style.txt
+# must keep matching); only the compiled regex for these stems widens.
+_INFLECT = {
+    "unlock": r"unlock(?:s|ed|ing)?", "leverage": r"leverag(?:e|es|ed|ing)",
+    "foster": r"foster(?:s|ed|ing)?", "embark": r"embark(?:s|ed|ing)?",
+    "cultivate": r"cultivat(?:e|es|ed|ing)", "harness": r"harness(?:es|ed|ing)?",
+}
+_LEX = {w: re.compile(r"\b" + _INFLECT.get(w, re.escape(w)) + r"\b", re.I)
+        for w in LEXICAL + LEXICAL_FICTION}
 
 # The escape-mangling guard: a pattern that arrives with a control character matches nothing and
 # reports clean, which is the worst failure a checker can have.
@@ -205,10 +215,15 @@ def scan(text):
         c = len(pat.findall(text))
         if c:
             hits[name] = c
-    for word, pat in _LEX.items():
-        c = len(pat.findall(text))
-        if c:
-            hits[f"word: {word}"] = c
+    # A LISTED PHRASE INSIDE A LONGER LISTED PHRASE IS ONE TELL, NOT TWO (order dccbc1cddd13):
+    # "tapestry of" also contains "tapestry", "myriad of" contains "myriad", "shrouded in mystery"
+    # contains "shrouded in", and each used to score twice. Suppressed at scan time, not by
+    # dropping list entries, so the generated prompt section is unchanged.
+    spans = [(w, m.start(), m.end()) for w, pat in _LEX.items() for m in pat.finditer(text)]
+    for w, a, b in spans:
+        if any(a >= a2 and b <= b2 and (b2 - a2) > (b - a) for _w, a2, b2 in spans):
+            continue
+        hits[f"word: {w}"] = hits.get(f"word: {w}", 0) + 1
     return hits
 
 

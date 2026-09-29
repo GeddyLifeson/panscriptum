@@ -1,0 +1,5 @@
+{
+ "name": "scout: 429 and control-less 403 are not recorded as declines-readers in SCOUT_BLOCKED",
+ "expected": "invented or rate-limited URLs land in FOR_OWNER.md as blocked material",
+ "area": "drill_followup0928"
+}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "mutate.py",
+  "old": "        ok, why = silence.replace_if_unchanged(\n            tmp, path, silence.digest_of(path) if expected is _UNSET else expected)\n",
+  "new": "        os.replace(tmp, path)\n        ok, why = True, \"\"\n"
+ }
+]

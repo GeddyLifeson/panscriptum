@@ -688,6 +688,12 @@ def size_refusal_limit(err):
     """The provider's stated per-request limit if `err` is a proven size refusal, else None."""
     if not _size_refusal_permanent(err):
         return None
+    # ONLY AN OUTPUT LIMIT IS LEARNED AS AN OUTPUT CEILING (order 477be064b969). Groq's INPUT
+    # refusal ("... on tokens per minute (TPM): Limit N, Requested M") has the same Limit/
+    # Requested shape, but max_tokens cannot shrink a prompt, so learning it would cap replies
+    # for nothing. Not naming output tokens -> None, which sends it to the unrecognised ledger.
+    if not re.search(r"\boutput tokens\b|\botpm\b", err or "", re.IGNORECASE):
+        return None
     m = _SIZE_REFUSAL.search(err or "")
     try:
         return int(m.group(1)) if m else None
@@ -772,7 +778,12 @@ def length_stopped(done, capped):
     """
     if not isinstance(done, dict):
         return bool(capped)
-    if done.get("length_stopped"):
+    # THE ENGINE'S OWN VERDICT FIRST (sweep67 batch 08, F3, run #67). cascade/engine.py sets
+    # `truncated: True` (with `truncated_reason`) on a stream that ended early, timed out, or
+    # never sent a completion marker -- cases whose finish_reason may be empty or "stop". This
+    # read only finish_reason, so a dropped stream parsed by `_extract_json` came back as a
+    # smaller complete answer. The engine saying "truncated" is sufficient on its own.
+    if done.get("length_stopped") or done.get("truncated") is True:
         return True
     reason = str(done.get("finish_reason") or "").strip().lower()
     if reason in _LENGTH_STOP_REASONS:
@@ -1245,13 +1256,20 @@ def record_unrecognised(bucket, err):
                 # The digest is taken BEFORE the read, so anything landing between the two makes
                 # the swap fail closed rather than pass on a copy that is already behind.
                 digest = silence.digest_of(UNRECOGNISED)
+                # ONLY A MISSING FILE IS AN EMPTY LEDGER (order 9034467cae85). An unreadable or
+                # wrong-shape one used to become {} and the CAS write then replaced the whole
+                # ledger with one row. Note it and write nothing; the next failure retries.
                 try:
                     with open(UNRECOGNISED, encoding="utf-8") as f:
                         rows = json.load(f)
+                except FileNotFoundError:
+                    rows = {}
                 except Exception:
-                    rows = {}
+                    silence.note("cascade_bridge.py:record-unrecognised-unreadable")
+                    return
                 if not isinstance(rows, dict):
-                    rows = {}
+                    silence.note("cascade_bridge.py:record-unrecognised-wrong-shape")
+                    return
                 # RE-DERIVED FROM THE COPY JUST READ, on every attempt. `count` and `first_seen`
                 # must come from the fresh dict, never be captured once from the first read --
                 # that is the whole reason this re-applies the change rather than merely

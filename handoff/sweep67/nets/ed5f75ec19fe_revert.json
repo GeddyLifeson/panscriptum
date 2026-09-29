@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_aurora.py",
+  "old": "        if unparsed:\n            print(f\"  ! {folder}: {len(unparsed)} XML file(s) UNPARSEABLE, their elements are \"\n                  f\"NOT in the total: \" + \"; \".join(unparsed))\n            refused.append(f\"{source_name}: unparseable XML in custom/{folder}/: \"\n                           + \", \".join(unparsed))\n",
+  "new": ""
+ }
+]

@@ -31,6 +31,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -183,6 +184,15 @@ def audit(records, hosts):
     return sorted(rows, key=lambda x: x["share"])
 
 
+def _name_key(name):
+    """Comparison key for a name (order 5032684974ff, sweep67 batch09, run #67). It was
+    `[^a-z0-9]+` stripped: an all-non-Latin title keyed to '' so one such entry made every
+    non-Latin wiki page look already held (never fetched), and accented spellings keyed apart
+    from ASCII ones and became duplicates. NFKD then alphanumerics keeps CJK and folds accents.
+    '' means no key: the caller must never treat it as held."""
+    return "".join(c for c in unicodedata.normalize("NFKD", name.lower()) if c.isalnum())
+
+
 def backfill_source(source, records, hosts, cap=None, dry=False):
     # DEFAULTED, NOT A BARE StopIteration (order 929622118156). The `--all` path wraps every
     # call to this function in try/except (Hard Rule -1: a source is its own area of the park),
@@ -198,9 +208,9 @@ def backfill_source(source, records, hosts, cap=None, dry=False):
     host = hosts.get(source)
     if not host:
         return {"source": source, "error": "no wiki host"}
-    have = {re.sub(r"[^a-z0-9]+", "", e["name"].lower()) for e in r["entries"]}
+    have = {_name_key(e["name"]) for e in r["entries"]} - {""}
     names = roster(host)
-    missing = [t for t in names if re.sub(r"[^a-z0-9]+", "", t.lower()) not in have]
+    missing = [t for t in names if not _name_key(t) or _name_key(t) not in have]
     # Ranked by article size, never alphabetically. A category listing comes back A-first, so a
     # cap applied to it takes Abo, Abura and Ackman and leaves Goku out — which is precisely the
     # failure this file exists to repair. Article length is the wiki's own vote on who matters:

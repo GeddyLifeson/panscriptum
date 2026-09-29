@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_web.py",
+  "old": "if s.endswith((\"sses\", \"xes\", \"shes\")):",
+  "new": "if s.endswith((\"sses\", \"xes\", \"zes\", \"ches\", \"shes\")):"
+ }
+]

@@ -1,0 +1,5 @@
+{
+ "name": "magnitude._is_score refuses NaN and Infinity",
+ "expected": "a non-finite model score is accepted as numeric and clamped to 0.0 or 9.9 with no rejection",
+ "area": "drill_followup0928"
+}

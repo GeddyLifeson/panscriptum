@@ -1,0 +1,5 @@
+{
+ "name": "cascade_bridge: only an output-token size refusal teaches an output ceiling",
+ "expected": "an input TPM refusal is learned as an output cap and is never recorded as unrecognised",
+ "area": "drill_followup0928"
+}

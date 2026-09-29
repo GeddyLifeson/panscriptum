@@ -1,0 +1,5 @@
+{
+ "name": "a new world cannot coin an existing world's standing designation",
+ "expected": "a new world sorting earlier in a collision group takes an existing world's published name and renames it",
+ "area": "drill_followup0928"
+}

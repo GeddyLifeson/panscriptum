@@ -1,0 +1,5 @@
+{
+ "name": "calibrate re-runs DEFERRED benchmarks and never stamps a pass holding one complete",
+ "expected": "a transport-failed benchmark is carried forward unretried inside a pass stamped complete",
+ "area": "drill_followup0928"
+}

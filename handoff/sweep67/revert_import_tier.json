@@ -1,0 +1,1 @@
+[{"module": "allsweep.py", "old": "    argv = ([PY, path, \"--help\"] if has_parser\n            else [PY, \"-c\", _IMPORT_ONLY, path, SRC])\n", "new": "    argv = [PY, path, \"--help\"]\n"}]
