@@ -143,7 +143,7 @@ def lead(wikitext, chars=420):
     for block in re.split(r"\n{2,}", t):
         block = re.sub(r"\s+", " ", block).strip()
         # A lead sentence has length and terminal punctuation. Template residue has neither.
-        if "." not in block:
+        if len(block) < 80 or "." not in block:
             continue
         if not re.search(r"[a-z]{3}\s+[a-z]{3}", block):   # needs actual words, not a title row
             continue
