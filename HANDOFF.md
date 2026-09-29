@@ -27,6 +27,36 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-28 evening — OWNER-DIRECTED FOLLOW-UP ("DO EVERYTHING"): PROSE WAS LOSING THE GPU TO A LANE BUG
+
+* **THE REAL REASON PROSE RAN AT ~14 MIN/JOB.** `gpu_lane.lane(priority=True)` refreshed prose's
+  foreground claim only after it had taken a slot. Queued behind a pipeline call, the claim
+  expired at CLAIM_LEASE_SECONDS (300), background swept it and stopped yielding, and every prose
+  call waited out SLOT_LEASE_SECONDS (900) before running unmetered. py-spy (installed into
+  miniconda from a hash-checked PyPI wheel, as a diagnostic) showed prose parked in the slot loop
+  with no `fg.*` file on disk; a two-minute lane sample showed `pipeline:ask` holding the slot in
+  60 of 60 samples. Fixed: the heartbeat starts as soon as the claim is written. After the fix,
+  `generate` held the slot in 45 of 45 samples, and the first job took 8 minutes. New net "a
+  foreground call queued for the GPU keeps its claim alive while it waits" is HELD, and RED with
+  `handoff/owner0928/revert_coord_fgbeat.json`.
+* **Prose was restarted by hand** (pythonw, hidden, detached; overnight's `start()` leaves a
+  running copy alone) at 19:53 on the fixed code: 658 jobs pending.
+* **The watchdog was restarted onto the pause-aware code.** It was stopped at 19:50, and the new
+  `Panscriptum\WatchdogKeeper` task brought it back at 19:59:04, which is the first observed
+  proof that the keeper task works.
+* **Follow-ups done:**
+  - allsweep skips its GPU row while paused.
+  - The nightly task's SKILL.md launches no GPU job while paused.
+  - `stale_since` entries are held out of chapter jobs.
+  - 31 Arcanum `type` fields are normalised, with the old value kept in `type_original`.
+    `write_record` now carries a `type` change as a compare-and-swap.
+  - Each has a net proved RED and HELD.
+* **Battery on the final code:** verify_math 1343/0 · drill 715/715/0 · liveness 0 tautology ·
+  silence 312 · pyflakes clean. The mutation pass (`state/mutate_20260928.log`) is still running
+  on its 16:45 snapshot.
+
+---
+
 ## 2026-09-28 afternoon — OWNER-DIRECTED SESSION: "FIX EVERYTHING". THE OWNER RUNG WENT FROM 55 TO 0.
 
 **FOR THE OWNER, AT THE TOP:**
