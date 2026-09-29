@@ -1,14 +1,14 @@
 # PANSCRIPTUM — AUTONOMOUS RUN STATUS
 
 *Rewritten automatically by `src/pipeline.py` after every completed unit.*
-*Last update: 2026-09-29 08:38:06*
+*Last update: 2026-09-29 10:57:51*
 
 ## Where the run is
 
 | | |
 |---|---|
-| Current phase | **2 — entrypass** |
-| Units completed this run | 16,618 |
+| Current phase | **4 — chain** |
+| Units completed this run | 16,683 |
 | Failures logged | 1 |
 
 ## Corpus
@@ -19,7 +19,7 @@
 | Records with entries | 210 |
 | Total entries | **282,853** |
 | Sources with a ceiling nominated (phase 1) | 165/210 |
-| Entries through the judgment pass (phase 2) | 281,858/282,853 |
+| Entries through the judgment pass (phase 2) | 282,835/282,853 |
 
 ## Phase ladder
 
