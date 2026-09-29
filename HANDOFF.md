@@ -121,6 +121,8 @@ through the day; **its survivors are not in yet -- read them next run.**
 The contaminated feats dirs have not returned. fandom answers 200; 22 throttle quarantines are
 the per-host backoff working (a burst at ~97 entities/s from the crawl's cached tail).
 
+**PUSHED:** export commit `b8c8db55` (sync 2026-09-29 01:19, 77 code files, 242 data/site files).
+
 **QUEUE AT CLOSE:** BOTS 23 (22 fandom throttle quarantines on their own timers; 058fa19d4e65
 waits on pipeline phase 4) and OWNER 1 (cd77e492b26b). Nothing at LOCAL, RUN or SESSION.
 
