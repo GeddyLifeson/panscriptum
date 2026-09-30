@@ -81,6 +81,8 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 6. **I fixed four drill findings myself:** orphaned probe junctions reaped, `_esc_sandbox` resolves before it redirects, an area that dies gets the three-read re-ask, and my own run-68 nets were tightened. Also in verify_math: the spawn scan now reads flag values and sees getoutput/os.spawn*, and the `check()` self-probe restores in a `finally`.
 7. **Mutation pass:** relaunched at the end on the final tree as `state/mutate_20260930c.log`. Its baseline is clean (verify_math 1367/0, drill 1025/1025/0). It was still running at the end of the shift, so there is no survivor count yet: the next run reads it. The earlier 09-30 relaunch was stopped because its baseline was red (a concurrency flake, since fixed, and a gpu_lane timing net under load).
 
+**Export commit: `c04d1890`** (pushed 03:35; 552 files synced, secret scan clean).
+
 ### BATTERY (final, live)
 drill **1025/1025/0 BREACHED** · verify_math **1367 passed, 0 FAILED** · allsweep 0 bad, 0 unreadable · health all pass · pyflakes clean · secondopinion ruff/vulture/detect-secrets RAN (0 secrets) · liveness 0 tautology · axis_correlation re-measured and WRITTEN: n_entities 45 → 44 (batch 07 F5: Son Goku was counted twice), mean r 0.3193 → 0.3239.
 
