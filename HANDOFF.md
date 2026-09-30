@@ -70,7 +70,14 @@ Character-typed entries (10.1%) had been judged into Places & Locations by phase
   diff is exactly those four strings.
 * onomast's docstring counts re-measured after the 10:57 RESOLVED_ENTITIES rebuild (21/16/16).
 
-**Battery (final tree):** verify_math 1346/0 · drill 824/824/0 · allsweep 0 bad · pyflakes clean
+**First v6 chapter, checked the same way** (II_L_7_MechanicalContent_1_10): 0 eyewitness notes,
+0 template leaks, 3 HIGH findings (all in one entry) against 5-25 per chapter before. What
+remains is qwen3:8b paraphrase-embellishment, which no pattern can catch; the next lever is a
+stronger writing model or a grounding check per sentence. It also printed 'Class: Archetype
+Feature' on 8 entries: the contract's type map now covers feature/spell/feat types, and
+`restore_supplied_fields` re-derives an off-list Class from the crawl type. Prose restarted.
+
+**Battery (final tree):** verify_math 1346/0 · drill 825/825/0 · allsweep 0 bad · pyflakes clean
 · tells prompt in sync. Daemons bounced by hand onto current code at 18:58; prose restarted on
 prompt v6 at ~19:05.
 

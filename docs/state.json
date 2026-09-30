@@ -1,5 +1,5 @@
 {
- "at": "2026-09-29 19:24:18",
+ "at": "2026-09-29 19:25:30",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -347,12 +347,6 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "tpm",
-     "left": 10708,
-     "cap": 15000,
-     "frac": 0.7139
-    },
-    {
      "name": "rpd",
      "left": 13393,
      "cap": 14400,
@@ -360,12 +354,18 @@
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 15000,
+     "cap": 15000,
+     "frac": 1.0
     }
    ],
-   "worst": 0.7139
+   "worst": 0.9301
   },
   {
    "bucket": "gemini:models/gemma-4-31b-it",
@@ -527,16 +527,16 @@
      "frac": 0.818
     },
     {
-     "name": "tpm",
-     "left": 7220,
-     "cap": 8000,
-     "frac": 0.9025
+     "name": "rpm",
+     "left": 30,
+     "cap": 30,
+     "frac": 1.0
     },
     {
-     "name": "rpm",
-     "left": 29,
-     "cap": 30,
-     "frac": 0.9667
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
    "worst": 0.0
@@ -988,7 +988,7 @@
    "read": 218311,
    "settled": 245669,
    "feats": 166324,
-   "age_h": 0.5
+   "age_h": 0.6
   },
   "phases": [
    {
@@ -1521,16 +1521,16 @@
    "why": "prose_enabled: true"
   },
   "drill": {
-   "nets": 824,
-   "held": 824,
+   "nets": 825,
+   "held": 825,
    "breached": [],
    "liveness": 44,
    "liveness_ceiling": 52,
-   "age_min": 35.6
+   "age_min": 0.5
   },
   "escalation_recent": {
-   "SUPERVISOR": 19,
    "JANITOR": 32,
+   "SUPERVISOR": 18,
    "MANAGER": 79
   },
   "step4_gate": {
@@ -1563,7 +1563,6 @@
     "mtg.fandom.com": "throttled 3 times consecutively; backoff at 8x",
     "naruto.fandom.com": "throttled 3 times consecutively; backoff at 8x",
     "onepiece.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "sakamoto.fandom.com": "throttled 4 times consecutively; backoff at 16x",
     "vampyrgame.fandom.com": "throttled 3 times consecutively; backoff at 8x",
     "warhammerfantasy.fandom.com": "throttled 3 times consecutively; backoff at 8x",
     "yakuzagame.fandom.com": "throttled 3 times consecutively; backoff at 8x"
@@ -1656,7 +1655,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": true,
-   "observed": "6.3%, 26397 chunks, quiet 1 min",
+   "observed": "6.3%, 26397 chunks, quiet 3 min",
    "floor": "moving, or under 15 min quiet",
    "order": "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at all -- check that read.py printed its transport banner and that the queue is not empty. If it is stuck at a non-zero count, the reader is up and wedged: look at the pool standards above and at the failure ledger before restarting it, because a restart re-queues the chunk it is stuck on.",
    "severity": "high"
@@ -1674,7 +1673,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "0.5h",
+   "observed": "0.6h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1863,7 +1862,7 @@
    "standard": "every running job is advancing",
    "group": "machine",
    "holds": false,
-   "observed": "read_auto (16 min, 10821323 bytes; output quiet 17 min)",
+   "observed": "read_auto (18 min, 10821323 bytes; output quiet 18 min)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1934,8 +1933,8 @@
   {
    "standard": "one instance of each job",
    "group": "machine",
-   "holds": true,
-   "observed": "one each",
+   "holds": false,
+   "observed": "publish.py x2",
    "floor": "one each",
    "order": "Two copies of the same job race on one cache and split one quota. The supervisor excludes by process basename before launching, so a duplicate means one was started outside it -- find and stop the older.",
    "severity": "high"
@@ -2020,12 +2019,12 @@
   },
   {
    "metric": "standards met",
-   "now": 36,
+   "now": 35,
    "delta": 2,
    "minutes": 30,
    "reset": false,
    "stalled": false
   }
  ],
- "generated": "2026-09-29T19:24:30"
+ "generated": "2026-09-29T19:25:44"
 }
