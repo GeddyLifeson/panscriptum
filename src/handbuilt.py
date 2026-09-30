@@ -269,7 +269,7 @@ ROSTER = {
                 "course", "wiki"),
    volition=(9.5, "He hangs himself on the World Tree and gives up an eye for knowledge, then "
                   "spends the resulting life to kill the authors of his people's suffering. The "
-                  "highest volition in the library, and it is not close", "canon"),
+                  "highest volition in the library", "canon"),
    acumen=(8.5, "Odin's wisdom plus the runes: he identifies WHO has been farming Asgard's "
                 "deaths across all of history, which nobody had managed in any prior cycle",
            "wiki"),
@@ -375,7 +375,7 @@ ROSTER = {
    transgression=(8.0, "Getter Rays are the evolutionary principle of that cosmos rather than an "
                        "energy source; the Emperor is that principle wearing a body", "canon"),
    sustain=(9.5, "'Continually absorbs matter' -- it has no clock, no lapse and no upper bound. "
-                 "The highest sustain in the library", "wiki"),
+                 "Tied for the highest sustain in the library", "wiki"),
    vector=(7.5, "Moves through space at a scale where galaxies are waypoints", "canon"),
    volition=(4.0, "'Depicted as neither a malevolent or benevolent force' -- it wants nothing "
                   "the record can name, which is a low score and not a criticism", "wiki"),

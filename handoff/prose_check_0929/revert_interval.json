@@ -1,0 +1,1 @@
+[{"module": "assay.py", "old": "        interval = _next if _next > interval else _max_dev\n", "new": "        interval = _next if _next <= interval else _max_dev\n"}]

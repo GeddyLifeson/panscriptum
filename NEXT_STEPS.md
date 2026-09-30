@@ -14,6 +14,19 @@ fixes: the two record writers are now a compare-and-swap with a per-field waterm
 "read-only" allsweep no longer runs thirteen modules' real `main()`; a halt file can no longer be
 lifted by a truthy string. Read the 2026-09-29 entry at the top of HANDOFF.md.
 
+## 0b. SINCE THEN (2026-09-29 evening session)
+
+Prose was inventing facts (every checked chapter) and 13,395 people were filed as places. Fixed
+at the cause and repaired -- HANDOFF.md's 2026-09-29 evening entry. prompt_version is v6, so all
+old chapters regenerate. Two things to check tonight:
+* **Read two or three v6 chapters against their jobs** the way `handoff/prose_check_0929/` did
+  (BRIEF.md is reusable): the Record should not outgrow its description, and no Hand should
+  claim to have been anywhere. `prose_auto.log` now prints "dropped N invented margin note(s)" --
+  a high rate means the prompt change is not landing with qwen3:8b.
+* **cmd.exe crashes on start machine-wide** since 2026-09-29 18:11. Junctions no longer need it;
+  anything else that shells through cmd will fail silently. If it persists, a reboot is the next
+  step (not ours to take).
+
 ## 1. READ THE MUTATION PASS FIRST
 
 `state/mutate_20260929.log`, launched ~00:55 on fingerprint `a0cd7c9032709fb1` (the final tree

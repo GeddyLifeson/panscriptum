@@ -27,6 +27,58 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-29 evening — SESSION: THE PROSE WAS INVENTING FACTS; FIXED AT THE CAUSE, 13,395 MISFILED PEOPLE REPAIRED
+
+**What was wrong.** Ten recent chapters were each checked by a `continuity-checker` agent against
+the exact manifest job the writer was given (`handoff/prose_check_0929/`). All ten broke Hard
+Rule 1. Coverage, shelfmarks, "unassayed" and Threads-pending all held; what failed was the prose:
+one-line descriptions expanded into invented domains, contents and roles, and QUILL claiming a
+first-hand event in ~87 of ~100 entries. The cause was in the style contract itself: QUILL was
+described as "enthusiastic, first-person, clearly *went there*". Separately, 13,395 of 133,118
+Character-typed entries (10.1%) had been judged into Places & Locations by phase_entrypass
+(Marvel 7,684, DC 1,462, ...), so people were written up as places.
+
+**What changed** (each with a drill net proved RED under a revert and HELD):
+* `prompts/system_style.txt`: the "went there" line is gone; Ground Rule 5 now says THE
+  MARGINALIA ADD NO FACTS; Rule 1 has a per-sentence test (every sentence rests on words in the
+  entry's own data); Class follows the supplied `type`, not the chapter; the Instrument's
+  bracketed "[places/things/events]" is three concrete lines. Rule 7 regenerated from tells.py.
+* `config.yaml` prompt_version v5 -> v6: every chapter written under the old contract is stale
+  and regenerates. Nothing was withdrawn by hand; the recipe hash does it.
+* `prose_gate.marginal_inventions` / `drop_invented_marginalia` (1,467 of 12,689 existing notes
+  match) feed generate's corrective retry and drop what survives it.
+  `generate.repair_template_leaks` and `generate.restore_supplied_fields` repair copied template
+  text and drifted Shelfmark/Attestation from the job's own entry.
+* `pipeline.category_contradicts_type`: entrypass can no longer file a Character/Person as a
+  place. The 13,395 were set to Persons through write_record (CAS); undo log
+  `handoff/prose_check_0929/repair_characters_as_places.log.json`. Manifest rebuilt over the same
+  205 sources (30,636 jobs; 0 Characters left in Places chapters).
+* `tells.py`: 20 patterns from the avoid-ai-writing detect pass (clear-problem list only).
+* **All 384 chapters written under prompt v5 were withdrawn** with `withdraw_chapters.py` into
+  `output/withdrawn_2026-09-29-promptv5/` (moved, not deleted; snapshot verified first). The
+  sample said nearly every one carries invented facts, and only 207 of them were queued to
+  regenerate -- the rest belong to sources below the evidence floor and would otherwise have
+  stood indefinitely. The catalog now holds only v6 output; the 832 pending jobs rebuild it.
+* **cmd.exe crashes on start machine-wide since 18:11 today** (0xC0000005 in ntdll, even with an
+  empty environment; files unchanged since 9/8; no reboot pending). Every sandbox junction went
+  through `cmd /c mklink` and failed. `mutate.make_junction` now uses `_winapi.CreateJunction`
+  with cmd only as fallback; mutate.py and both drill probes route through it.
+* Mutation survivors from the 09-29 pass: assay.py:1889 killed by a new net; :827 and :910
+  ruled equivalent (zip over two lists built from the same `order`).
+* handbuilt.py superlatives measured: Getter Emperor's sustain is a three-way tie ("Tied for");
+  Thor's "and it is not close" dropped (Undertaker 9.0 vs 9.5). HANDBUILT_ASSAYS.json regenerated;
+  diff is exactly those four strings.
+* onomast's docstring counts re-measured after the 10:57 RESOLVED_ENTITIES rebuild (21/16/16).
+
+**Battery (final tree):** verify_math 1346/0 · drill 824/824/0 · allsweep 0 bad · pyflakes clean
+· tells prompt in sync. Daemons bounced by hand onto current code at 18:58; prose restarted on
+prompt v6 at ~19:05.
+
+**Queue:** BOTS only (fandom throttle quarantines on their own timers; the chain re-fit waiting on
+pipeline phase 4). Nothing at LOCAL, RUN or OWNER.
+
+---
+
 ## 2026-09-29 — DAILY MAINTENANCE RUN #67: SWEEP67 FOUND 141 DEFECTS, ALL WORKED (A FEW LEFT AS QUESTIONS); 126 ORDERS CLOSED, QUEUE AT BOTS/OWNER ONLY
 
 **FOR THE OWNER, FIRST (nothing here is urgent; no halt, no pause, no secrets):**
