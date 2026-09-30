@@ -29141,10 +29141,20 @@ def _supplied_header_values_are_restored():
     out, n = G.restore_supplied_fields(text, entries)
     first, rest = out.split("◈ Kept Right")
     second, third = rest.split("◈ Not In The Job")
+    # A Class outside the ten words is re-derived from the crawl type (first v6 chapter,
+    # 2026-09-29: "Class: Archetype Feature" on 8 of 10 entries); one of the ten is left alone.
+    feat = [{"name": "Chaos Versus Law", "type": "Archetype Feature", "shelfmark": shelf}]
+    fout, fn_ = G.restore_supplied_fields(
+        "◈ Chaos Versus Law\nShelfmark: " + shelf + "\nClass: Archetype Feature\n"
+        "Attestation: Transcribed\nA feature.\n", feat)
+    kept, kn = G.restore_supplied_fields(
+        "◈ Chaos Versus Law\nShelfmark: " + shelf + "\nClass: Relic\n"
+        "Attestation: Transcribed\nA feature.\n", feat)
     return (n == 3 and ("Shelfmark: " + shelf) in first and "Attestation: Transcribed" in first
             and "uninstrumented -- no faculties on file." in first
             and second == text.split("◈ Kept Right")[1].split("◈ Not In The Job")[0]
-            and "Shelfmark: whatever" in third and "Attest, Witnessed" in third)
+            and "Shelfmark: whatever" in third and "Attest, Witnessed" in third
+            and fn_ == 1 and "Class: Praxis" in fout and kn == 0 and "Class: Relic" in kept)
 
 
 def _the_covering_interval_steps_to_a_hundredth():

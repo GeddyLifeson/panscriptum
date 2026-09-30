@@ -644,6 +644,17 @@ def repair_template_leaks(text):
     return "".join(out), repaired
 
 
+_CLASS_WORDS = ("world", "polity", "person", "god", "beast", "relic", "vessel", "praxis",
+                "event", "substance")
+# The crawl's `type` -> the Class it maps to, used ONLY when the printed Class is none of the ten
+# (2026-09-29: "Class: Archetype Feature" on 8 of 10 entries in the first v6 chapter).
+_TYPE_TO_CLASS = {"character": "Person", "person": "Person", "location": "World",
+                  "place": "World", "item": "Relic", "weapon": "Relic", "vehicle": "Vessel",
+                  "ability": "Praxis", "technique": "Praxis", "power": "Praxis",
+                  "spell": "Praxis", "feat": "Praxis", "archetype": "Praxis",
+                  "archetype feature": "Praxis", "class feature": "Praxis", "event": "Event",
+                  "organization": "Polity", "faction": "Polity"}
+_CLASS_FIELD = re.compile(r"(?im)^([\s*_>-]*Class[\s*_]*:[\s*_]*)(.*?)(\s*)$")
 _SHELF_LINE = re.compile(r"(?im)^([\s*_>-]*Shelfmark[\s*_]*:[\s*_]*)(.*?)(\s*)$")
 _ATTEST_LINE = re.compile(r"(?im)^([\s*_>-]*Attest\w*[\s*_]*[:,][\s*_]*)(.*?)(\s*)$")
 _ENTRY_HEAD = re.compile(r"^◈\s*[*_]*\s*(.*?)\s*[*_]*\s*$")
@@ -681,6 +692,14 @@ def restore_supplied_fields(text, entries):
         being = any(c in cls for c in _PG.INSTRUMENT_CLASSES)
         unassayed = str(e.get("magnitude") or "unassayed").strip().lower() == "unassayed"
         for n, ln in enumerate(lines):
+            m = _CLASS_FIELD.match(ln)
+            if m:
+                printed = m.group(2).strip().strip("*_ ").lower()
+                mapped = _TYPE_TO_CLASS.get(str(e.get("type") or "").strip().lower())
+                if printed not in _CLASS_WORDS and mapped:
+                    lines[n] = "Class: %s" % mapped
+                    restored += 1
+                continue
             m = _SHELF_LINE.match(ln)
             if m and e.get("shelfmark") and m.group(2).strip() != str(e["shelfmark"]).strip():
                 lines[n] = "Shelfmark: %s" % str(e["shelfmark"]).strip()

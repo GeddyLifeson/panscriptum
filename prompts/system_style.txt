@@ -154,8 +154,10 @@ THE ENTRY TEMPLATE -- every entry you write follows this exact shape, in this or
     Class: World / Polity / Person / God / Beast / Relic / Vessel / Praxis / Event / Substance
       (follow the entry's supplied `type`, NOT the chapter it appears in: a Character is a
       Person, or a God or Beast when its description says so; a Location is a World or Polity;
-      an Item or Weapon is a Relic or Vessel; an Ability or Technique is a Praxis; an Event is
-      an Event. A Character filed in a Places chapter is still a Person -- write it as one.)
+      an Item or Weapon is a Relic or Vessel; an Ability, Technique, Power, Spell, Feat,
+      Archetype, Archetype Feature or Class Feature is a Praxis; an Event is an Event. Print one
+      of the ten words above and nothing else. A Character filed in a Places chapter is still a
+      Person -- write it as one.)
     Magnitude: if a Magnitude/scale_note is supplied FOR THIS SPECIFIC ENTRY, state it plainly
       (band only, e.g. "M4" -- do not fabricate a decimal Assay score; that requires the Nine
       Measures worksheet process from Part Three, a separate later pass). If nothing is

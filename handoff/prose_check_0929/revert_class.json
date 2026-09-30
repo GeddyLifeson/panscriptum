@@ -1,0 +1,1 @@
+[{"module": "generate.py", "old": "                if printed not in _CLASS_WORDS and mapped:\n", "new": "                if False and mapped:\n"}]
