@@ -1,6 +1,6 @@
 # Overnight run
 
-Last update: 2026-09-30 08:40:59  (cycle 26)
+Last update: 2026-09-30 08:55:57  (cycle 27)
 
 ## Citation coverage
 
@@ -14,11 +14,10 @@ Last update: 2026-09-30 08:40:59  (cycle 26)
 
 ## Cycles
 
-Showing the last 12 of 26 cycles this run; the 14 earlier ones are in `state/overnight.log`.
+Showing the last 12 of 27 cycles this run; the 15 earlier ones are in `state/overnight.log`.
 
 | cycle | time | cited | settled % | feats |
 |---|---|---:|---:|---:|
-| 15 | 05:58 | 27,442 | 86.86 | 167,662 |
 | 16 | 06:12 | 27,452 | 86.86 | 167,821 |
 | 17 | 06:27 | 27,454 | 86.86 | 167,841 |
 | 18 | 06:42 | 27,456 | 86.86 | 167,876 |
@@ -30,6 +29,7 @@ Showing the last 12 of 26 cycles this run; the 14 earlier ones are in `state/ove
 | 24 | 08:11 | 27,466 | 86.86 | 167,930 |
 | 25 | 08:26 | 27,466 | 86.86 | 167,930 |
 | 26 | 08:40 | 27,466 | 86.86 | 167,930 |
+| 27 | 08:55 | 27,466 | 86.86 | 167,930 |
 
 ## Logs
 
