@@ -1,0 +1,72 @@
+[
+ {
+  "id": "Q1",
+  "file": "src/dashboard.py",
+  "verdict": "changed",
+  "decision": "panelStandards now reads standards_unavailable and draws a bad-coloured 'DID NOT RUN' row with the kept error.",
+  "how": "For: the key existed only so a later reader could tell 'did not run' from 'ran clean', and nothing read it, so the distinction was lost on the one page a person looks at. Against: it is a JS-only change I can only check as text in PAGE (no node here), and a rename of the key would silently un-wire it. Rendering wins: the data is already there and dropping it would discard the only surviving copy of the error.",
+  "net": "b10_q_standards_unavailable",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "src/dashboard.py",
+  "verdict": "changed",
+  "decision": "Job rows carry age_s (log mtime) and the page prints 'log last written N ago'.",
+  "how": "For: a dead reader's last line rendered as a live row. Against: mtime is a proxy (a log can be touched without a progress line), and a hard 'stale' threshold would be an invented cap. So it shows the age and decides nothing; unknown age is left unsaid.",
+  "net": "b10_q_log_age",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/sevenfold.py",
+  "verdict": "changed",
+  "decision": "--write now refuses (rc 1, nothing written) when any source's worlds are UNSHELVED.",
+  "how": "For: landing SEVENFOLD.json minus those worlds is a silent truncation (Hard Rule 0), rc 0 included. Against: one source outside the resonance graph blocks the whole shelving until fixed. But those worlds have no shelfmark either way, and the set is empty today so the refusal costs nothing now. Read-only/dry runs are unaffected; the write is what is gated.",
+  "net": "b10_q_sevenfold_unshelved",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3b",
+  "file": "src/cosmology_graph.py",
+  "verdict": "changed",
+  "decision": "--write refuses a graph with fewer pairs than the one on disk unless --allow-shrink is passed.",
+  "how": "For: a partial WEAVE_CANDIDATES.json otherwise replaces a complete graph that propagation and resonance read live. Against: a ratio floor would be an arbitrary number and a legitimate shrink (withdrawn source) needs a way through. Chose no ratio: any shrink stops, one explicit flag is the way through. An absent or unreadable prior file does not block (the write repairs it). New flag is additive; main() signature unchanged. The halt interlock from F3 stands; that module is already on the coordinator's roster list.",
+  "net": "b10_q_cosgraph_shrink",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "src/anchors.py",
+  "verdict": "changed",
+  "decision": "The monotone check is strict: equal readings on adjacent ladder rungs are a violation.",
+  "how": "For: the owner ruling says the sword sits BELOW the skate guy and both are M0, so a tie means the instrument stopped separating them. Against: an exact float tie almost never happens, so this rarely fires. Kept anyway because a check that cannot fail is the project's named failure. Verified real anchors.run() still HOLDS (0.10 vs 0.22); net injects a tie and needs VIOLATED.",
+  "net": "b10_q_anchors_strict",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "src/autostart.py",
+  "verdict": "kept",
+  "decision": "An unreadable halt still lets the watchdog start a supervisor and spend one start.",
+  "how": "For changing (hold back like an unreadable pause): if the chain cannot be read, starting is pointless. Against: the supervisor asks the halt first and refuses on its own, so the extra start is harmless, whereas holding back on a transient read defect would keep the fleet down; escalation.status() already fails closed to halted=True on an unreadable HALT.json, so None means an import/defect case, not a torn file. An existing drill net pins this exact behaviour deliberately ('unreadable halt: supervisor decides'), and changing it needs a drill.py edit I may not make. Keep.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6",
+  "file": "src/gpu_lane.py",
+  "verdict": "changed",
+  "decision": "The yield ceiling and the slot deadline now each leave a silence.note; behaviour is unchanged.",
+  "how": "For: the module's own argument that a degraded round must be distinguishable, and the sibling exits already note. Against: swallowed-failure counts rise. It is one counter per tag rather than a row per round, and a card that is routinely unarbitrated should show up. Notes are only on the two 'go anyway' timeouts.",
+  "net": "b10_q_gpulane_ceiling_note",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

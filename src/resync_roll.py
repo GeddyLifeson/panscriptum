@@ -143,6 +143,15 @@ def main():
             silence.note("resync_roll.py:record-not-an-object")
             unreadable.append(fn)
             continue
+        # A RECORD WHOSE `entries` IS NOT A LIST IS UNREADABLE TOO (sweep68 b08 F8). `null` (or
+        # any non-list) made `len(rec.get("entries", []))` below raise TypeError and took the
+        # whole resync down, every other row's repair with it -- the third shape of the fault the
+        # two guards above close for the record itself. Same fold into `unreadable`; a missing
+        # key still reads as an empty record, as before.
+        if not isinstance(rec.get("entries", []), list):
+            silence.note("resync_roll.py:entries-not-a-list")
+            unreadable.append(fn)
+            continue
         src = rec.get("source")
         if src:
             key = norm(src)
@@ -184,6 +193,16 @@ def main():
         if not r.get("name"):
             silence.note("resync_roll.py:row-without-name")
             unnamed_rows += 1
+            continue
+        # A SOURCE DECLARED BY TWO RECORD FILES IS NOT REPAIRED (sweep68 b08 Q7, answered under
+        # the 2026-09-30 ruling). The last file alphabetically won whatever its size, so a
+        # stub sorting last set the row to the stub's count -- 0 reads as "uncatalogued" and
+        # queues a re-catalogue of a source that is fine. Picking by entry count instead can
+        # crown a stale fuller copy over a deliberately purged one, so neither guess is made:
+        # the row is left as it was, counted as unchecked, and both files are named below for
+        # a person to reconcile. The cost is one row not refreshed until then.
+        if norm(r["name"]) in dupes:
+            unmatched_rows.append(r["name"])
             continue
         hit = by_source.get(norm(r["name"]))
         if not hit:
@@ -321,7 +340,8 @@ def main():
 
     if dupes:
         print(f"\n{len(dupes)} source(s) declared by more than one record file "
-              f"(winner is the last name alphabetically; the rest are NOT reflected above):")
+              f"(their roll rows were LEFT AS THEY WERE and are counted as unchecked; "
+              f"reconcile the files):")
         for key, files in sorted(dupes.items()):
             print(f"  {' == '.join(files)}")
 

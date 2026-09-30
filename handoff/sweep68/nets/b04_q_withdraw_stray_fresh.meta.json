@@ -1,0 +1,4 @@
+{
+  "name": "withdraw_chapters leaves a file modified after the catalog read in place instead of archiving it as a stray",
+  "expected": "sweep68 b04 Q6: a chapter generate.py lands mid-run looks unclaimed and is archived while its catalog row is kept"
+}

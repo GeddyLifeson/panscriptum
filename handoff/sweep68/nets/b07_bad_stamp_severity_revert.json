@@ -1,0 +1,12 @@
+[
+ {
+  "module": "workorders.py",
+  "old": "        _pat = _stamp(preflight.get(\"at\"))\n        age = float(\"inf\") if _pat is None else now - _pat  # sweep68 b07 F2: bad stamp = stale",
+  "new": "        age = now - float(preflight.get(\"at\") or 0)"
+ },
+ {
+  "module": "workorders.py",
+  "old": "(SEVERITY.index(r[\"severity\"]) if r.get(\"severity\") in SEVERITY\n                               else len(SEVERITY))",
+  "new": "SEVERITY.index(r.get(\"severity\", \"INFO\"))"
+ }
+]

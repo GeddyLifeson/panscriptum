@@ -1,0 +1,4 @@
+{
+ "name": "cosmology_graph --write asks the halt before building or writing",
+ "expected": "sweep68 b10 F3: a hand-run cosmology_graph.py --write rewrites SHARED_STAGE_GRAPH.json (read live by propagation and resonance) while the library is HALTED"
+}

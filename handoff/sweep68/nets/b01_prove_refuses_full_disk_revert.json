@@ -1,0 +1,7 @@
+[
+ {
+  "module": "drill.py",
+  "old": "        if _free is not None and _free < PROVE_MIN_FREE_BYTES:\n",
+  "new": "        if False:\n"
+ }
+]

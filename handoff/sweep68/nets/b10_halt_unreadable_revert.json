@@ -1,0 +1,7 @@
+[
+ {
+  "module": "dashboard.py",
+  "old": "out[\"halt_unreadable\"] = True",
+  "new": "pass"
+ }
+]

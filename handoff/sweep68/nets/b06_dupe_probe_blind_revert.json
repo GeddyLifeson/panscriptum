@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "    if r.returncode != 0 or not lines:",
+  "new": "    if False:"
+ }
+]

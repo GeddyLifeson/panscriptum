@@ -1,0 +1,4 @@
+{
+ "name": "a stray ** cannot silently swallow real bold names",
+ "expected": "sweep68 b07 F4: one stray ** inverts the bold pairing and real names vanish with no candidates_refused row"
+}

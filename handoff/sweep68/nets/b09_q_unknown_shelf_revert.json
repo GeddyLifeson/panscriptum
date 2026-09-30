@@ -1,0 +1,7 @@
+[
+ {
+  "module": "tempus.py",
+  "old": "    if unknown:",
+  "new": "    if False:"
+ }
+]

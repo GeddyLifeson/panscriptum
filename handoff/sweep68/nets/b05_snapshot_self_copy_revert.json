@@ -1,0 +1,7 @@
+[
+ {
+  "module": "snapshot.py",
+  "old": "        if os.path.isdir(_src) and (_root == _src or _root.startswith(_src.rstrip(os.sep) + os.sep)):",
+  "new": "        if False:"
+ }
+]

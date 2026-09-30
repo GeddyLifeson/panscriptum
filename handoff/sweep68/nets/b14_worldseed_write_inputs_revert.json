@@ -1,0 +1,7 @@
+[
+ {
+  "module": "worldseed.py",
+  "old": "if LAST_BUILD[\"onomasticon\"] != \"ok\" or LAST_BUILD[\"continuity_groups\"] != \"ok\" or unread:",
+  "new": "if unread:"
+ }
+]

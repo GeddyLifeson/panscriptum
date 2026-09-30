@@ -1,0 +1,4 @@
+{
+ "name": "publish _is_skipped matches .pre* backups of any shape and case-folded scratch suffixes",
+ "expected": "sweep68 b10 F7: x.py.pre-sweep / x.BAK are copied into the export tree and read by scan_for_secrets, halting the library for a file never published"
+}

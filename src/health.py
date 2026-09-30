@@ -82,7 +82,7 @@ LEDGER_PATH = os.path.join(HERE, "state", "failures.json")
 # The counts land in a ledger of their own, and `main(--failures)` prints them under their own
 # heading rather than hiding them.
 #
-# THE PATTERN IS THE ONE workorders.py ALREADY PROVED OUT (`SELFTEST_SUBJECT`, workorders.py:81)
+# THE PATTERN IS THE ONE workorders.py ALREADY PROVED OUT (`SELFTEST_SUBJECT` in workorders.py)
 # and it reads a convention drill.py already keeps. It is `search`, not `match`: what arrives
 # here is a composed key like `escalation:MANAGER:SUBSYSTEM_STOPPED:__drill_rung4__ stopped:
 # ...`, with the synthetic subject embedded rather than standing alone.
@@ -91,7 +91,7 @@ LEDGER_PATH = os.path.join(HERE, "state", "failures.json")
 # the escalation's `source` field, never in the text this function is handed:
 # `escalation:SUPERVISOR:DRILL_AREA:drill: one area closing` (source `__drill__`). No amount of
 # reading the key catches that one -- the caller has to say. `subject=` below is that door, and
-# it is the half proposed to `escalation.py:248`.
+# it is the door escalation.py now passes `subject=rec.get("source")` through.
 SELFTEST_LEDGER_PATH = os.path.join(HERE, "state", "failures_selftest.json")
 _SELFTEST = collections.Counter()
 SELFTEST_SUBJECT = re.compile(r"__drill[A-Za-z0-9_]*__")
@@ -141,6 +141,22 @@ def is_selftest(key, subject=None):
                 or SELFTEST_SUBJECT.search(str(subject or "")))
 
 
+def _wreck_path(path):
+    """Where a torn ledger is set aside. `<path>.corrupt` if free; else `<path>.<epoch>.corrupt`.
+
+    sweep68 b13 F6: the rename is `os.replace`, so a SECOND tear silently destroyed the first
+    wreck, and the comments here call each wreck "the only copy of whatever tore it". Both names
+    still end in `.corrupt`, which is what estate.KEPT_DAMAGED_EXT recognises.
+    """
+    dest = path + ".corrupt"
+    n = 0
+    while os.path.exists(dest):
+        stamp = int(time.time())
+        dest = "%s.%d%s.corrupt" % (path, stamp, "" if n == 0 else "." + str(n))
+        n += 1
+    return dest
+
+
 SAMPLES_PATH = os.path.join(HERE, "state", "failure_samples.json")
 _SAMPLES = {}
 SAMPLES_KEEP = 3
@@ -160,8 +176,12 @@ def record(kind, detail="", sample=None, subject=None):
     """
     with _LOCK:
         key = f"{kind}:{detail}" if detail else kind
-        (_SELFTEST if is_selftest(key, subject) else LEDGER)[key] += 1
-        if sample:
+        _rehearsal = is_selftest(key, subject)
+        (_SELFTEST if _rehearsal else LEDGER)[key] += 1
+        # sweep68 b13 F9: a rehearsal's COUNT goes to the rehearsal ledger, but its sample ring
+        # was keyed into the same `_SAMPLES` and flushed to state/failure_samples.json -- the
+        # evidence bag a person reads for real faults. Same partition as the counts.
+        if sample and not _rehearsal:
             ring = _SAMPLES.setdefault(key, [])
             # FULL repr, NOT A PRODUCER-SIDE CUT (order 7d85937fc436). This ring is "the evidence
             # bag" the docstring above names -- a repr cut at a fixed width can lose exactly the
@@ -347,8 +367,9 @@ def _flush_ledger(taken, path=None, ledger=None):
                 # aside, this flush writes NOTHING: overwriting an unreadable ledger we could not
                 # first preserve would destroy the only copy of whatever tore it. LEDGER is left
                 # intact so the counts are still in memory for the next flush attempt.
-                _wreck = os.path.basename(path) + ".corrupt"
-                if not silence.replace_retry(path, path + ".corrupt"):
+                _wreck_full = _wreck_path(path)
+                _wreck = os.path.basename(_wreck_full)
+                if not silence.replace_retry(path, _wreck_full):
                     print(f"health: ledger unreadable ({type(e).__name__}) AND could not be set "
                           f"aside as {_wreck} (rename refused) -- refusing to write "
                           f"over it; counts kept in memory for the next flush", file=sys.stderr)
@@ -465,7 +486,7 @@ def _flush_samples(taken_s):
                     # ledger's identical branch does, and returns with the samples still in
                     # `_SAMPLES` for the next flush. stderr, not `silence.note`: the recorder
                     # cannot record against itself.
-                    if not silence.replace_retry(SAMPLES_PATH, SAMPLES_PATH + ".corrupt"):
+                    if not silence.replace_retry(SAMPLES_PATH, _wreck_path(SAMPLES_PATH)):
                         print(f"health: failure samples unreadable ({type(e).__name__}) AND "
                               f"could not be set aside as {os.path.basename(SAMPLES_PATH)}"
                               f".corrupt (rename refused) -- refusing to write over it; "
@@ -534,7 +555,7 @@ def summary():
 
     THE TWO EXTERNAL READERS, NAMED BY THEIR silence TAG RATHER THAN BY A LINE NUMBER (order
     f467390925c5). This used to cite "dashboard.py:331-339, standards.py:797-800". Both had
-    drifted: standards.py:790-805 is the reader's-gate standard (GATE_CLOUD_N / tuning.regime
+    drifted: standards.py's lines 790-805 were then the reader's-gate standard (GATE_CLOUD_N / tuning.regime
     prose) and holds no read of failures.json at all -- the guarded one is about two hundred
     lines below, and the dashboard's had moved too. A reader checking the premise of this
     docstring landed on unrelated code and could not confirm it. Line numbers in another file
@@ -1050,10 +1071,17 @@ def check_state():
         print("  info  entries awaiting re-judgement (queued, NOT lost): %d (%s)"
               % (queued, where))
     stale = 0
-    for src in st.get("failed", {}).get("synthesis", {}):
-        rec = next((r for _, r in P.records() if r["source"] == src), None)
-        if rec and (rec.get("synthesis") or {}).get("ceiling_entity"):
-            stale += 1
+    # sweep68 b13 F9: ONE pass over the corpus for all failed sources. This called `P.records()`
+    # (which reads every record file) once PER failed source, at the head of every supervisor
+    # cycle. Membership test on a set, not a dict of records, so memory stays flat.
+    _failed = set(st.get("failed", {}).get("synthesis", {}))
+    if _failed:
+        _seen = set()
+        for _, r in P.records():
+            if r["source"] in _failed and r["source"] not in _seen:
+                _seen.add(r["source"])
+                if (r.get("synthesis") or {}).get("ceiling_entity"):
+                    stale += 1
     if stale:
         out.append(("failures recorded that already succeeded", str(stale)))
     return out

@@ -1,0 +1,7 @@
+[
+  {
+    "module": "ledger.py",
+    "old": "    if not (0 <= ruin_score <= 10):",
+    "new": "    if False:"
+  }
+]

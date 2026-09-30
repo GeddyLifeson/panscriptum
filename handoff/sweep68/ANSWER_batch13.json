@@ -1,0 +1,72 @@
+[
+ {
+  "id": "F2b",
+  "file": "tiers.py",
+  "verdict": "changed",
+  "decision": "tiers.main refuses to publish a chart with fewer than half the standing TIERS.json's grounded shelves.",
+  "how": "FOR: an empty table is now refused, but a non-empty mostly-wrong table (grounding.py writes whatever it holds, no floor) still re-charted address_space at import; completeness.land() already uses a 0.5 SHRINK_FLOOR for the same shape. AGAINST: a floor is a magic number and a legitimate regrounding could lower the count. It cannot plausibly halve it (168 of 208 grounded today), and a refusal costs one rerun while a silent publish costs the top of the Ladder. Tightening, so decided. New _grounded/_grounding_shrink/TIERS_SHRINK_FLOOR; absent or unreadable standing file does not refuse (bootstrap). rc 2, same as the other refusals. Not run against the live tree.",
+  "net": "b13_q_tiers_grounded_shrink",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "render.py",
+  "verdict": "changed",
+  "decision": "write_views now draws every distinct node of every drawn tier into output/views/<tier>/, not one sample world's node per tier.",
+  "how": "Hard Rule 0 names a sample standing in for a listing: hyperverse.svg read as THE hyperverse diagram while 5 of 6 hyperverses and 349 of 350 universes were never drawn (measured: 6/16/37/214/350 nodes per tier, 623 files). AGAINST: nothing consumes output/views (not published) and a specimen shows the shape; but the file name claims completeness, the tree already says which nodes exist, and the cost is 623 small SVGs. New nodes_of() enumerates from the same pools children_of reads; file name = readable id + short hash of the exact coordinate; identical content is not rewritten (runs every publish cycle). write_views lost its `sample` parameter (only main called it with one; publish calls it bare). Old <tier>.svg files are left in place, not deleted. main's build_all(limit=1) is KEPT: it only seeds the demonstration URLs of the four fetched tiers with fixed ids, writes and publishes nothing; commented. Console rows now say how many nodes --write draws.",
+  "net": "b13_q_render_every_node",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "liveness.py",
+  "verdict": "changed",
+  "decision": "--reachability now exits 1 when the measurement did not happen (whole report error or any gate module NOT MEASURED); the default scan and undeclared unreached lines stay rc 0.",
+  "how": "FOR: rc 0 made measured-clean and not-measured indistinguishable to a script, the project's own 'check that cannot fail' shape. AGAINST making findings red: 41 default-scan findings and any undeclared lines are ratcheted by drill.py (LIVENESS_CEILING) and ruled on by owners, so a red default would be permanently failing and get ignored. So only the fault case (no measurement) is non-zero. Tightening. Nothing in src/ calls this main, so no caller changes.",
+  "net": "b13_q_liveness_notmeasured_rc",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "liveness.py",
+  "verdict": "kept",
+  "decision": "Hand-run modules stay in the dead_module finding count; EXEMPT_MODULES stays empty.",
+  "how": "FOR exempting: module_index is run by hand and a finding for it is noise. AGAINST: the scan now reports 4 dead modules (halo, pantheon, scale_theories, zfighters; module_index and descending_ladder are no longer in it), and a hand-run tool that nothing names is indistinguishable from an orphan by this detector; exempting one lowers the count below drill.LIVENESS_CEILING (52), which is a ratchet I may not edit, leaving slack for a NEW finding to hide behind the exemption. That is loosening a detector, and which of those four are tools and which are orphans is the owner's knowledge, not something the code can prove. Keep; the four rows are the accurate answer.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "estate.py",
+  "verdict": "changed",
+  "decision": "estate.terminal() now reads the HTML pages too: any under 64 bytes or unreadable is bad, and PANSCRIPTUM_TERMINAL.html without a closing </html> is graded TRUNCATED.",
+  "how": "FOR: only .js was opened, so a cut-off entry page (2.6 MB, generated) reported 'N page(s)'; an interrupted write is the likelier failure and shows as a blank page. AGAINST: artifacts() already catches zero bytes. The closing-tag rule applies to the entry point only because part1.html (ends inside its data array) and part2.html (no opening <html>) are deliberate fragments, so a directory-wide rule would be red for ever. Live registry_terminal/ still grades clean. Tightening.",
+  "net": "b13_q_estate_truncated_terminal",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "tiers.py / genre.py / render.py",
+  "verdict": "changed",
+  "decision": "Added the halt interlock (_assert_not_halted, fail closed on the escalation import) to tiers.main's write, genre --write, and render.main --write.",
+  "how": "In scope by the brief (tightening a derived-data writer). Asked on the WRITING path only, after arguments are parsed and after the refusals, so measurements and dry runs still work under a halt. render.write_views itself is NOT gated: it is the publish cycle's function and publish.render_views catches Exception, not SystemExit, so a halt raised inside it would kill the cycle rather than skip a cosmetic redraw; the hand-run main --write is the path that never sees the supervisor's gates. Coordinator: add tiers.py, genre.py, render.py to verify_math's _INTERLOCKED roster and the drill 'every hand-run corpus writer asks the halt' net's list.",
+  "net": "b13_q_halt_interlock",
+  "red_green_checked": true,
+  "new_interlock": "tiers.py, genre.py, render.py"
+ },
+ {
+  "id": "Q6",
+  "file": "genre.py",
+  "verdict": "changed",
+  "decision": "The cue stems hell, ration and fun now carry negative lookaheads (hell(?!o|en), ration(?!al), fun(?!c|d|g|e|k)); real inflections still match.",
+  "how": "FOR: they matched hello/Hellenic, rational/rationale, function/fundamental/fungus. AGAINST: corpus-scale text dilutes stray matches and the change moves numbers already on disk. Measured read-only on the 197 records under 3 MB (the 13 larger ones, 3-60 MB, are dominated by volume; a whole-corpus run was abandoned as it stalled): 0 genre changes, 1 source (Digimon) moves 0.447 -> 0.451 across the 0.45 mixed flag. Small, one-directional, three lookaheads. GENRES.json is untouched until a person runs --write; the other over-matching short stems (war, hero, city, sweet) were not changed, each is a plausible prefix cue and a wider rewrite is unmeasured.",
+  "net": "b13_q_genre_stem_overmatch",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

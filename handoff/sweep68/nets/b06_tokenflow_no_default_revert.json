@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "        if not _model or _nctx is None:\n            raise KeyError(\"model/num_ctx\")\n",
+  "new": "        _nctx = 6144 if _nctx is None else _nctx\n        if not _model:\n            raise KeyError(\"model\")\n"
+ }
+]

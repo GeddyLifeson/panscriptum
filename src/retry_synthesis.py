@@ -344,6 +344,15 @@ def main():
                     help="pilot: do the N smallest pending sources first, to prove the "
                          "transport before committing to the largest")
     args = ap.parse_args()
+    # SWEEP68 b14 F8: REFUSE A SELECTOR THAT SELECTS NOTHING, BEFORE ANYTHING IS ASKED. `--only`
+    # with no names parses to [], which `if args.only:` read as "no filter" -- the run then
+    # retried EVERY failed and stranded source (Marvel and DC, hours of model calls) for an
+    # operator who passed an empty shell variable. `--smallest 0` was falsy the same way (ran
+    # everything), and `--smallest -3` sliced `[:-3]` and dropped the three LARGEST sources.
+    if (args.only is not None and not args.only) or (args.smallest is not None and args.smallest <= 0):
+        print("retry_synthesis: --only needs at least one source name, and --smallest needs a "
+              "positive N; refusing rather than guessing a wider population.", file=sys.stderr)
+        return 2
     # THE HALT (owner ruling 2026-09-28, order 1e6f99e54b25): this invocation writes, so it asks first.
     # Both modes write: --merge folds into data/records, the run lands
     # data/SYNTHESIS_RETRY.json. Neither has a read-only form.
@@ -362,7 +371,7 @@ def main():
 
     todo = [(p, r) for p, r in PL.records()
             if r["source"] in want and r["source"] not in side and not r.get("synthesis")]
-    if args.only:
+    if args.only is not None:
         todo = [(p, r) for p, r in todo if r["source"] in set(args.only)]
     # NAME EVERY --only VALUE THAT MATCHED NOTHING (sweep67 batch06, F, run #67, order
     # 6c3f5f7df5f2). A mistyped or wrongly-cased name left todo=[], printed "0 to do now" and
@@ -374,7 +383,7 @@ def main():
         print("--only matched NO pending failed/stranded source: %s (check spelling and case; "
               "a source already retried or with a synthesis is not pending)"
               % ", ".join(repr(n) for n in unmatched_only), file=sys.stderr)
-    if args.smallest:
+    if args.smallest is not None:
         # A PILOT ORDER, not a cap: `--smallest N` is for proving the transport end to end on
         # cheap sources before committing to Marvel's 59,170 entries. The full run is the
         # default and takes no argument, so nobody reaches for a truncation by accident.

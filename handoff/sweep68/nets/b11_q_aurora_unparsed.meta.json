@@ -1,0 +1,1 @@
+{"name": "catalogue_aurora refuses to write a folder with an unparseable XML file", "expected": "sweep68 b11 Q2: a partial record is written and the roll row marked catalogued, so the source is never re-read once the XML is repaired"}

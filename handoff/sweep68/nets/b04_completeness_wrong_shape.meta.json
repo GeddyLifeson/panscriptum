@@ -1,0 +1,4 @@
+{
+  "name": "completeness survives a list-shaped category cache and reports a null prior instead of skipping the floor",
+  "expected": "sweep68 b04 F7: a wrong-shaped state file crashes the audit (AttributeError) or silently disarms the COMPLETENESS.json shrink floor"
+}

@@ -1,0 +1,4 @@
+{
+ "name": "a string timestamp or unknown severity does not raise in the queue",
+ "expected": "sweep68 b07 F2: one malformed field raises out of battery_faults/open_orders and takes down a whole read"
+}

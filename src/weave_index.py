@@ -153,7 +153,10 @@ def designations(records=None):
     out = {k for k, v in seen.items() if len(v) >= DESIGNATION_MIN_NAMES}
     out |= _SEED
     out |= {k for k in seen if _EARTH.match(k)}
-    if cacheable and sig is not None:
+    # NOT FROM A SHORT PASS (sweep68 batch 03, N6): a record unreadable at this instant drops
+    # its parentheticals, and caching that under the valid signature served it until the
+    # directory moved. `load_records` ran just above, so LAST_UNREADABLE describes this pass.
+    if cacheable and sig is not None and not LAST_UNREADABLE:
         _DESIGNATIONS = (sig, out)
     return out
 
@@ -392,7 +395,12 @@ def build():
     # Hoisted: one corpus-wide answer for the whole pass, over the same record list this loop
     # already froze on the line above. Asking per entry was 197,334 directory reads for an
     # answer that cannot change while `recs` is held.
-    known = designations()
+    #
+    # AND OVER `recs` ITSELF (sweep68 batch 03, N3). `designations()` with no argument ran a
+    # SECOND load when the first pass was short (a short pass is not cached), and that second
+    # pass overwrote LAST_UNREADABLE -- so a record torn in pass 1 and healed by pass 2 left
+    # `main --write` landing an index without it at rc 0. An explicit list is never cached.
+    known = designations(recs)
     index = collections.defaultdict(list)     # norm-key -> [attestation dicts]
     total = 0
     # WHAT DID NOT MAKE IT IN, BY REASON. Nothing counted these before, so `entries` and

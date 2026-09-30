@@ -1,0 +1,1 @@
+{"name": "corpus_db drift and rebuild agree on entries and survive odd evidence fields", "expected": "sweep68 b14 F9: drift() gap is permanently non-zero over a stray non-dict entry, and one odd feats field aborts the whole rebuild"}

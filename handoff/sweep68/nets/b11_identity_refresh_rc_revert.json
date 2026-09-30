@@ -1,0 +1,7 @@
+[
+ {
+  "module": "identity.py",
+  "old": "if a.refresh and not _REFRESH_LANDED:",
+  "new": "if False:"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "canon_backup.py",
+  "old": "    for rel in CANON_OPTIONAL:",
+  "new": "    for rel in ():"
+ }
+]

@@ -1,0 +1,4 @@
+{
+ "name": "magnitude guard 3 does not take a shared title word as the entity's identity",
+ "expected": "sweep68 b12 F7: 'Captain Marvel destroyed ...' is credited on Captain America's sheet (Iron Fist / Doctor Doom / Ant-Man likewise)"
+}

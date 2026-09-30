@@ -297,6 +297,11 @@ def category_contradicts_type(etype, category):
     return any(str(category or "").startswith(b) for b in banned)
 
 
+# The topic that means the same claim as a forbidden category, so the one test above serves the
+# topic axis too (sweep68 b03 N5). Only the measured contradiction, as for _TYPE_FORBIDS.
+_TOPIC_AS_CATEGORY = {"Places": "Places & Locations"}
+
+
 # --------------------------------------------------------------------------- infrastructure
 
 def log(msg):
@@ -789,6 +794,20 @@ def ask(c, system, prompt, schema, retries=2, timeout=None, num_ctx=None, tag=""
             time.sleep(5 + attempt * 10)
 
 
+# A LISTING THAT WILL NEVER BE WRITTEN BACK MUST NOT MOVE A WRITER'S WATERMARK (sweep68 batch
+# 03, N1). The watermark below is ONE slot per path and describes the copy a WRITER holds.
+# `update_handoff` recounts through `records()` every 120 s in the middle of phases 1 and 2,
+# discarded the list, and still moved every path's watermark onto the fresh disk copy -- while
+# the phase kept writing its load-time `rec`. From then on the phase's stale values no longer
+# matched the watermark, read as authored, and reverted another writer's description repair,
+# band and synthesis while `write_record` returned True. Reproduced under %TEMP%. A read-only
+# caller sets `_LISTING.only` around its call; a flag rather than a parameter because the drill
+# stubs `records` with zero-argument lambdas, and thread-local because a loader on another
+# thread must still get its watermark. Every loader that writes back (the phases here,
+# cleanup, repass_bands, retry_synthesis, backfill) is unchanged.
+_LISTING = threading.local()
+
+
 def records():
     out = []
     for p in sorted(glob.glob(os.path.join(RECORDS, "*.json"))):
@@ -800,7 +819,8 @@ def records():
             continue
         if r.get("entries"):
             out.append((p, r))
-            _remember_top_keys(p, r)
+            if not getattr(_LISTING, "only", False):
+                _remember_top_keys(p, r)
     return out
 
 
@@ -834,6 +854,16 @@ _TOP_SNAPSHOT_EXEMPT = ("_writer",)
 
 
 def _fp_one(val):
+    # A STRING OR None IS ITS OWN FINGERPRINT (sweep68 b03 N10, answered under the 2026-09-30
+    # ruling). Widening the watermark to every merged field made it json.dumps + sha1 thirteen
+    # values per entry: 8.4 s for a marvel-sized record, after every landed batch write. Nearly
+    # every merged field is a str or absent, and an immutable value held by reference cannot
+    # drift from what the caller loaded, so it needs no hash; equality means exactly what the
+    # digest meant. Anything mutable (a dict, a list) or other-typed is still hashed, so no
+    # watermark can follow an in-place edit. Watermarks never leave the process, so nothing on
+    # disk depends on the representation.
+    if val is None or type(val) is str:
+        return val
     import hashlib
     try:
         blob = json.dumps(val, sort_keys=True, ensure_ascii=False, default=str)
@@ -1616,8 +1646,16 @@ def write_record(path, rec, _tries=0):
             # The two companion clears; see ENTRY_REJECTION_COMPANIONS for why these and only
             # these. Guarded on the qualified field being present so a caller that never
             # touched `topic` at all cannot delete a rejection it knows nothing about.
+            #
+            # AND ONLY WHEN THE ABSENCE IS THIS CALLER'S OWN (sweep68 batch 03, N2). The pop ran
+            # for every paired entry, so a stale holder that loaded the entry with no rejection
+            # deleted one another writer set since -- repass_bands' `scale_note_rejected`, the
+            # note it clears `scale_note` to preserve. With a watermark, the absence is authored
+            # only if the rejection was there when the caller loaded it; with none, as before.
             for fld, rej in ENTRY_REJECTION_COMPANIONS.items():
                 if fld in se and rej not in se:
+                    if rej in mark and mark[rej] == _fp_one(None):
+                        continue
                     de.pop(rej, None)
             # A TYPE NORMALISATION MOVES ONLY AS A COMPARE-AND-SWAP (owner 2026-09-28, "do
             # everything", FOLLOWUP 3). `type` is not in MERGED_ENTRY_FIELDS -- a loader's stale
@@ -1772,7 +1810,7 @@ HARD RULES:
    power, say so and use "unassayed".
 0. BE TERSE. `rationale` is ONE short sentence, never a paragraph. Long rationales cost
    generation time and add nothing a reader of `evidence` does not already have.
-2. BAND ONLY. Output M0-M10, never a decimal. Decimal Assay scores require a nine-measure
+2. BAND ONLY. Output M0-M10, never a decimal. Decimal Assay scores require a per-measure
    worksheet against cited feats and are a separate process. Emitting "M4.31" is a fabrication.
 3. If no entry shows a demonstrated feat, set ceiling_entity to "" and magnitude "unassayed".
    That is a correct, expected answer for many sources.
@@ -2094,7 +2132,9 @@ def phase_synthesis(c, st):
             # NO FEAT, NO BAND -- at phase 1 as well as phase 2. 70 of 211 sources once
             # carried a ceiling whose evidence field was the EMPTY STRING; an unevidenced
             # source ceiling does not misplace one entity, it tilts a whole shelf.
-            _ev = (g.get("evidence") or "").strip()
+            # _res_text: a cloud answer is unchecked here too (sweep68 b03 N7) -- a list
+            # `evidence` raised at .strip() and crashed the phase
+            _ev = _res_text(g.get("evidence"))
             if b != "unassayed" and not valid_scale_note(_ev):
                 b = "unassayed"
             r_ = int(b[1:]) if b != "unassayed" else -1
@@ -2106,14 +2146,17 @@ def phase_synthesis(c, st):
             continue
         got, band = best[1], best[2]
 
-        _ceiling = (got.get("ceiling_entity") or "").strip()
+        _ceiling = _res_text(got.get("ceiling_entity"))
         rec["synthesis"] = {
             "ceiling_entity": _ceiling,
             "provisional_magnitude": band,
-            "evidence": _stored_cut((got.get("evidence") or "").strip(), 600),
-            "rationale": _stored_cut((got.get("rationale") or "").strip(), 900),
+            "evidence": _stored_cut(_res_text(got.get("evidence")), 600),
+            "rationale": _stored_cut(_res_text(got.get("rationale")), 900),
+            # "per-measure", not a count (sweep68 b03 Q6, answered under the 2026-09-30 ruling):
+            # this said "nine-measure" while assay.WEIGHTS carries eleven, and the sentence is
+            # persisted into every block. SYNTH_SYSTEM's rule 2 says the same, for the same reason.
             "method": ("Band-only nomination by local model over the source's own catalogued "
-                       "text. NOT a Custodial Assay: no nine-measure worksheet, no decimal, "
+                       "text. NOT a Custodial Assay: no per-measure worksheet, no decimal, "
                        "no confidence interval. Treat as a provisional shelving hint that a "
                        "real Assay pass must confirm."),
             "assessed_at": datetime.datetime.now().isoformat(timespec="seconds"),
@@ -2680,7 +2723,26 @@ def phase_entrypass(c, st):
                 # entry was silently excluded from both, permanently, with nothing anywhere
                 # saying so. A sentinel can be counted; an absent key cannot. (BUGS m14.)
                 topic = _res_text(res.get("topic"))
-                if topic in TOPICS:
+                if topic in TOPICS and category_contradicts_type(
+                        batch[i].get("type"), _TOPIC_AS_CATEGORY.get(topic, "")):
+                    # THE SAME PERSON-IS-NOT-A-PLACE TEST, ON THE AXIS WORLDSEED ACTUALLY READS
+                    # (sweep68 b03 N5, answered under the 2026-09-30 ruling). order be5d399f163c
+                    # guarded `category` only, while `worldseed` builds worlds from
+                    # `topic == "Places"`: 2,209 Character/Person entries carried that topic
+                    # and were built into worlds. Against: at least 207 of them are real
+                    # places the crawl mistyped (Lindblum, Elacca), and this refuses their
+                    # correct answer. For, and decided: the category guard already refuses
+                    # those same entries, so passing the topic leaves one entry claiming
+                    # Persons on one axis and Places on the other; a world invented from a
+                    # person is the costlier error; and the refusal is kept beside the old
+                    # topic, so a later fix to the crawl's `type` can re-judge it.
+                    batch[i]["topic_rejected"] = _stored_cut(
+                        "%s (contradicts type %s)" % (topic, batch[i].get("type")), 120)
+                    _old = batch[i].get("topic")
+                    if not _old or category_contradicts_type(
+                            batch[i].get("type"), _TOPIC_AS_CATEGORY.get(_old, "")):
+                        batch[i]["topic"] = "unclassified"
+                elif topic in TOPICS:
                     batch[i]["topic"] = topic
                     batch[i].pop("topic_rejected", None)
                 else:
@@ -2776,7 +2838,12 @@ def update_handoff(st):
         if _HANDOFF_CACHE["counts"] and _t.time() - _HANDOFF_CACHE["at"] < HANDOFF_RECOUNT_S:
             total, with_syn, catted, n_recs = _HANDOFF_CACHE["counts"]
         else:
-            recs = records()
+            # A count, never written back: see `_LISTING` (sweep68 b03 N1)
+            _LISTING.only = True
+            try:
+                recs = records()
+            finally:
+                _LISTING.only = False
             total = sum(len(r["entries"]) for _, r in recs)
             # A SYNTHESIS BLOCK IS NOT A NOMINATION (order 073752d048bc, run #67): unassayable
             # blocks carry an empty ceiling_entity, and counting them overstated the row below.
@@ -2809,7 +2876,8 @@ def update_handoff(st):
         # description that carries no number cannot go stale. Deriving them would mean running
         # verify_math from here, which is unsafe concurrently with the pipeline (order
         # c349a51ee2c5). The other transcribed figures in that table were re-checked the same
-        # day and hold: tells 60+31+15+32 = 138, and `custodes.CUSTODES` is ten.
+        # day and held then; the tells count did not (138 then, 158 by run #68), so it is no
+        # longer transcribed either (sweep68 b09 F9). `custodes.CUSTODES` is ten.
         md = f"""# PANSCRIPTUM — AUTONOMOUS RUN STATUS
 
 *Rewritten automatically by `src/pipeline.py` after every completed unit.*
@@ -2857,7 +2925,7 @@ These run standalone and do not block the sweep.
 | `worldseed.py` `burgs.py` | map parameters and settlements by the rank-size rule |
 | `navtree.py` `build_terminal.py` | the Registry Terminal (`output/registry_terminal.html`) |
 | `audit.py` `cleanup.py` | the backscan and its repairs |
-| `tells.py` `style_audit.py` | 138 machine-writing tells; Rule 7 is generated from the list |
+| `tells.py` `style_audit.py` | every machine-writing tell in the list; Rule 7 is generated from it |
 
 ## Files
 
@@ -3479,12 +3547,37 @@ def phase_write(c, st):
     # arguments, in that order. Calling it with two produced "117 sources would not build",
     # which reads as a property of the sources and was a property of the call.
     cfg = MB.load_config()
-    roll = {r.get("source") or r.get("name"): r for r in (MB.load_roll(cfg) or [])}
-    jobs, refused, empty = [], [], []
+    roll_rows = MB.load_roll(cfg) or []
+    roll = {r.get("source") or r.get("name"): r for r in roll_rows}
+    # THE ADDRESS COMES FROM `MB.volume_codes`, THE SAME NUMBERING `manifest_builder` USES (run
+    # #68). This called `MB.spine_code_for(src)` -- the Series code with no Volume step -- so every
+    # source sharing a Series shared every job id: 1,251 duplicates on 2026-09-29, all 54 D&D
+    # sources at bare `II.L.7`, overwriting each other's chapters in generate.py. It also filed
+    # an unassigned source under the literal address "UNASSIGNED" (a truthy string, so the
+    # `or provisional_spine(...)` never ran), and never read the owner's out-of-scope rulings.
+    import roll as _ROLL
+    codes = MB.volume_codes(roll_rows)
+    excluded = _ROLL.out_of_scope(roll_rows)
+    jobs, refused, empty, held = [], [], [], []
     for src in names:
+        # Owner-excluded, or unassigned (Hard Rule 2: manifest_builder builds those only under
+        # --include-unassigned, so this phase does not invent their address either). Both are
+        # correct refusals, named below, and neither holds the phase open.
+        if src in excluded:
+            held.append("%s (excluded by owner ruling)" % src)
+            continue
+        if src in roll and (roll[src].get("entry_count") or 0) <= 0:
+            empty.append(src)
+            continue
+        if src not in codes:
+            refused.append("%s (not on the roll)" % src)
+            continue
+        if MB.spine_code_for(src) == "UNASSIGNED":
+            held.append("%s (unassigned spine code, Hard Rule 2)" % src)
+            continue
         try:
             rec = MB.load_record(cfg, src)
-            spine = MB.spine_code_for(src) or MB.provisional_spine(src)
+            spine = codes[src]
             made = MB.build_jobs_for_source(cfg, roll.get(src) or {"source": src},
                                             rec, spine) or []
         except Exception as e:
@@ -3512,6 +3605,24 @@ def phase_write(c, st):
     # to name which sources. (run #33)
     for r in refused:
         log("    refused: %s" % r)
+    for r in held:
+        log("    held out: %s" % r)
+    # SHARED ADDRESSES ARE NAMED HERE, NOT ONLY IN generate.py (sweep68 batch 03, N4). A
+    # Set-level source numbered `II.A.1` collides with the real Series `II.A.1`, and
+    # `generate.hold_shared_addresses` then holds BOTH sides whole -- correctly, nothing is
+    # overwritten -- but this phase closed saying only "N job(s)", so ~30 ready sources sat
+    # unwritten with nothing in the phase log. The addressing itself is the owner's ruling
+    # (order 3976a097f975, Hard Rule 2) and is not changed here; this only says it, uncapped.
+    srcs_at = {}
+    for j in jobs:
+        srcs_at.setdefault(j.get("address"), set()).add(j.get("source_name"))
+    clash = collections.Counter(tuple(sorted(map(str, s)))
+                                for s in srcs_at.values() if len(s) > 1)
+    if clash:
+        log("  %d group(s) of ready sources share job addresses; generate.py will hold every "
+            "one of them whole until the owner rules on order 3976a097f975:" % len(clash))
+        for group, n in sorted(clash.items()):
+            log("    shared address (%d job id(s)): %s" % (n, " / ".join(group)))
     if empty:
         log("  %d ready source(s) built no job at all -- COVERAGE.json calls them settled enough "
             "to write about and their record holds no entries. Phase 8 still closes on this (a "
@@ -3907,8 +4018,8 @@ if __name__ == "__main__":
     # `None` regardless -- so the OS process exit code was 0 whether the run crashed, was
     # interrupted mid-phase, or finished a mid-ladder stall left open. `overnight.py:run()`
     # launches this exact invocation as a subprocess and reads `p.returncode` directly into its
-    # own health summary (overnight.py:602-660), so a crashed or stalled cycle was reporting
-    # "ok" -- indistinguishable, at the one place a supervisor actually checks, from a cycle that
+    # own health summary (its returncode fold; cited by symbol, sweep68 b03 N9), so a crashed
+    # or stalled cycle was reporting "ok" -- indistinguishable, at the one place a supervisor actually checks, from a cycle that
     # did all its work. Every other narrow guard in this function already used `raise SystemExit`
     # (the bad-control-char self-check, the missing-escalation-chain guard, the --phase
     # out-of-range guard, the pointer-past-end-with-open-phases guard) and those still work

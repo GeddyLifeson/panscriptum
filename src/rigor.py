@@ -136,7 +136,7 @@ def measure_bit_value(band):
     -- the CUMULATIVE quantity this function deliberately stopped using, because cumulative
     content makes every M0 axis point worth zero bits (the note below, and the docstring of
     `tempus.band_resolution`, which split that function out for exactly this reason -- cited by
-    SYMBOL, because `tempus.py:182-186` named the closing paragraph of `rung_description_length`
+    SYMBOL, because `tempus.py` lines 182-186 named the closing paragraph of `rung_description_length`
     instead, which is the function the split moved AWAY from). The code was corrected then;
     this worked example was not, so the file's own docstring went on quoting the pre-fix figure.
     Same failure class as everything else in this project: one fact, two copies, one of them
@@ -684,14 +684,35 @@ def adjudication_beta(n_laws_touched, n_regimes, n_parameters=0, param_precision
     # adjudication that bends no law is not an exception and has no description length to floor;
     # neither "charge one" nor "charge zero" is a true answer to it, so the caller is told. Every
     # caller in the tree passes >= 1 (rigor.main's _AUDIT_ROWS and verify_math's rows), so no
-    # live figure changes. The upper clamp to M is unchanged.
+    # live figure changes. (The upper clamp to M is now a refusal too: see Q7 below.)
     if not isinstance(n_laws_touched, int) or isinstance(n_laws_touched, bool) \
             or n_laws_touched < 1:
         raise ValueError("adjudication_beta: n_laws_touched must be a whole number >= 1, got %r "
                          "-- an adjudication that excepts no law is not an exception"
                          % (n_laws_touched,))
-    k = min(n_laws_touched, M)
-    n_regimes = max(1, n_regimes)
+    # MORE LAWS THAN THE CATALOGUE HOLDS IS REFUSED, NOT CLAMPED (sweep68 b06 Q7, answered under
+    # the 2026-09-30 ruling). The clamp priced "excepts 13 of a 12-law catalogue" as "excepts all
+    # 12", i.e. log2 C(12,12) = 0 bits -- the CHEAPEST possible answer to the one input that
+    # cannot be true, the same "charge something for nothing" the zero-laws refusal above closed.
+    # Against: the old order kept the upper clamp deliberately. But that was written when the
+    # only reading was "at most M"; an over-count means the caller's catalogue is smaller than
+    # its own model of the law set, and pricing that at 0 bits hides it. Every live caller passes
+    # 1-3 against 12, so no figure moves.
+    if n_laws_touched > M:
+        raise RigorIntegrityError(
+            "adjudication_beta: n_laws_touched=%d exceeds the %d-law catalogue -- an adjudication "
+            "cannot except more laws than exist" % (n_laws_touched, M))
+    k = n_laws_touched
+    # sweep68 b06 F8: the other three inputs were unchecked. `n_regimes <= 0` was clamped to 1 (the
+    # same "charge one for nothing" this function stopped doing for laws), and a negative
+    # `n_parameters` or precision gave a NEGATIVE description length (`(1, 0, -3)` -> -20.42 bits),
+    # a floor no declared price could fail. `not x >= y` so NaN is refused too.
+    if not n_regimes >= 1:
+        raise RigorIntegrityError("adjudication_beta: n_regimes must be >= 1, got %r" % (n_regimes,))
+    if not n_parameters >= 0 or not param_precision_bits >= 0:
+        raise RigorIntegrityError(
+            "adjudication_beta: n_parameters and param_precision_bits must be >= 0, got %r and %r"
+            % (n_parameters, param_precision_bits))
 
     # `if k < M else 0.0` deleted (order d021f0c7f821): _log2_choose already returns 0.0 for
     # k >= n, and k is clamped to min(n_laws_touched, M) two lines up, so the ternary's else-arm
@@ -728,9 +749,28 @@ def lognormal_product(factors, correlations=None):
     var = sum(f[2] ** 2 for f in factors)
     if correlations:
         pos = {n: i for i, n in enumerate(names)}
+        _seen_pairs = set()
         for (a, b), rho in correlations.items():
             if a in pos and b in pos and a != b:
+                # sweep68 b06 F8. A correlation outside [-1, 1] is not a correlation, and listing
+                # both (a, b) and (b, a) counted the same covariance twice (sd 2.0 vs 1.73).
+                if not -1.0 <= rho <= 1.0:
+                    raise RigorIntegrityError(
+                        "lognormal_product: correlation %r for (%r, %r) is outside [-1, 1]"
+                        % (rho, a, b))
+                if frozenset((a, b)) in _seen_pairs:
+                    raise RigorIntegrityError(
+                        "lognormal_product: (%r, %r) is listed in both orders -- one covariance, "
+                        "counted twice" % (a, b))
+                _seen_pairs.add(frozenset((a, b)))
                 var += 2 * rho * factors[pos[a]][2] * factors[pos[b]][2]
+    # A NEGATIVE VARIANCE IS AN IMPOSSIBLE SET OF CORRELATIONS, NOT A ZERO-WIDTH INTERVAL. The
+    # `max(var, 0.0)` below collapsed it to sd 0.0 -- the opposite of what this function exists to
+    # report. The tolerance covers float dust on a genuinely singular case (sweep68 b06 F8).
+    if var < -1e-9:
+        raise RigorIntegrityError(
+            "lognormal_product: the correlations imply a negative variance (%.3g) -- they cannot "
+            "all hold at once" % var)
     sd = math.sqrt(max(var, 0.0))
     return {
         "median": 10 ** mu,
@@ -811,8 +851,12 @@ def ceiling_confidence(n_entries, n_scored):
     emits BAND ONLY and never a decimal -- a band is wide enough to survive this ignorance, and a
     decimal is not.
     """
-    if n_entries <= 0:
+    if not n_entries > 0:
         return None
+    # sweep68 b06 F8: a negative or NaN `n_scored` gave a negative probability (`(10, -5)` ->
+    # -0.5). Refused like the other malformed inputs; `not x >= 0` so NaN is caught.
+    if not n_scored >= 0:
+        raise RigorIntegrityError("ceiling_confidence: n_scored must be >= 0, got %r" % (n_scored,))
     p = min(1.0, n_scored / n_entries)
     complete = n_scored >= n_entries
     # The string used to be a constant ("14 longest descriptions") no matter what n_scored was
@@ -1148,7 +1192,13 @@ def main():
               f"the full ranking is mathematical_resonance()['load_bearing'], never truncated)")
     print()
     print("=" * 96)
-    return 0
+    # THE EXIT CODE CARRIES THE FINDINGS (sweep68 b06 F13). This ended `return 0` whatever it had
+    # printed, and allsweep's IMPORT tier reads the rc and nothing else, so a BELOW FLOOR
+    # adjudication, an unaudited seventh one or an inconsistent theorem-1 check could not turn
+    # anything red -- only an exception could. Measured clean today (all five rows above floor,
+    # no unaccounted key, both_say_consistent True), so this returns 0 now and 1 on the first real
+    # finding.
+    return 1 if (_underpriced or _unaccounted or not t["both_say_consistent"]) else 0
 
 
 if __name__ == "__main__":

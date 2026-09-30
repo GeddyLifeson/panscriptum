@@ -1,0 +1,7 @@
+[
+ {
+  "module": "build_terminal.py",
+  "old": "    _ESC.assert_clear(\"build_terminal.py (writes output/registry_terminal.html)\")",
+  "new": "    pass"
+ }
+]

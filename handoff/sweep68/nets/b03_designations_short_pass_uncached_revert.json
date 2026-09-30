@@ -1,0 +1,7 @@
+[
+  {
+    "module": "weave_index.py",
+    "old": "    if cacheable and sig is not None and not LAST_UNREADABLE:\n",
+    "new": "    if cacheable and sig is not None:\n"
+  }
+]

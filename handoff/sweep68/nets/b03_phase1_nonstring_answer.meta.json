@@ -1,0 +1,4 @@
+{
+  "name": "phase_synthesis coerces a non-string cloud answer instead of crashing",
+  "expected": "sweep68 b03 N7: a cloud answer with a list evidence field crashes phase 1 (PHASE CRASHED, rc 1, ladder stalled)"
+}

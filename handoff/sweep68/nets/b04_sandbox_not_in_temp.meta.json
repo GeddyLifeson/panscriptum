@@ -1,0 +1,4 @@
+{
+ "name": "mutation and proof sandboxes live outside every temp directory",
+ "expected": "run #68: Storage Sense swept %TEMP%, followed a sandbox junction into the live data/ and deleted ~12,400 chunk-cache files"
+}

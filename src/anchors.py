@@ -366,7 +366,13 @@ def run():
         mono_evaluated = True
         mono, prev = True, None
         for n in order:
-            if prev is not None and vals[n] < vals[prev]:
+            # STRICT (sweep68 b10 Q4, answered under the 2026-09-30 ruling). The owner ruling
+            # above says `A Sword` sits BELOW `The Skate Guy`, and those two share the M0 band,
+            # so an instrument that assays them to the SAME decimal has stopped separating an
+            # inert blade from a person: that is a violation, not a pass. Against: an exact
+            # float tie is a coincidence nobody engineers, so this almost never fires -- but
+            # that is the point of a check that can fail. Today's readings (0.10 vs 0.22) hold.
+            if prev is not None and vals[n] <= vals[prev]:
                 mono = False
             prev = n
         mono_detail = "  ".join("%s %.2f" % (n, vals[n]) for n in order)

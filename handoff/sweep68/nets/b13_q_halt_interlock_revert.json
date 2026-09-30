@@ -1,0 +1,17 @@
+[
+ {
+  "module": "tiers.py",
+  "old": "    _assert_not_halted(\"(writes data/TIERS.json)\")",
+  "new": "    pass"
+ },
+ {
+  "module": "genre.py",
+  "old": "        _assert_not_halted(\"--write (writes data/GENRES.json)\")",
+  "new": "        pass"
+ },
+ {
+  "module": "render.py",
+  "old": "        _assert_not_halted(\"--write (writes output/views/)\")",
+  "new": "        pass"
+ }
+]

@@ -557,6 +557,22 @@ def main():
     args = ap.parse_args()
 
     ents, names = load_entities()
+    # AN UNREADABLE RECORD IS NOT A VANISHED SOURCE (sweep68 b06 F3). `load_records()` returns the
+    # readable subset and names what it skipped in `LAST_UNREADABLE`; a record torn mid-write or
+    # held by the AV was therefore absent from `ents`, `classify()` read every shared key of every
+    # pair touching that source as gone, and `_escalate_dangling` then refused BOTH ENDS of each
+    # such pair at SUPERVISOR -- healthy sources closed for a read fault in their neighbour, and
+    # "escalating everything is the same failure as escalating nothing". Refuse the pass instead:
+    # nothing is measured against a short corpus, nothing is escalated on it, and the exit code
+    # is red. (JANITOR-level record via silence.note; the fault is a read, not a source.)
+    import weave_index as _WI
+    if _WI.LAST_UNREADABLE:
+        silence.note("thread_integrity.py:records-unreadable")
+        print("THREAD INTEGRITY NOT MEASURED: %d record file(s) could not be read this pass (%s), "
+              "so their sources are absent from the corpus and every pair touching them would "
+              "read as DANGLING. Nothing was classified or escalated."
+              % (len(_WI.LAST_UNREADABLE), ", ".join(_WI.LAST_UNREADABLE)))
+        return 1
     print(f"sources with catalogued entities : {len(ents)}")
     print(f"distinct entity keys             : {len(names):,}")
 

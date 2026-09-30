@@ -168,7 +168,14 @@ def _save():
             landed, why = silence.replace_if_unchanged(tmp, CACHE, digest)
             if landed:
                 with _LOCK:
-                    _DIRTY.difference_update(mine)
+                    # ONLY THE HOSTS WHOSE VERDICT IS STILL THE ONE THAT WAS SAVED (sweep68 b06 F9).
+                    # `_DIRTY.add(h)` is a no-op for a host that was already a member, so a fresher
+                    # probe of the SAME host that finished while this save was in flight left `h`
+                    # in `_DIRTY` under a set that was then emptied wholesale here, and the
+                    # fold-back below overwrote the fresher verdict with the older one just
+                    # written: a host just found live read DEAD for the 24 h TTL. A host whose
+                    # `_MEM` entry is no longer the object saved stays dirty for the next save.
+                    _DIRTY.difference_update([h for h, v in mine.items() if _MEM.get(h) is v])
                     # The merged file is now the truth, and it holds the OTHER writers' hosts
                     # too. Folding it back into `_MEM` is what stops this cache being a
                     # read-once snapshot that grows staler for the life of the process --
@@ -263,6 +270,19 @@ def detect(host, force=False):
     if found["mode"] == MODE_DEAD:
         import time as _t
         found["at"] = _t.time()
+        # A FORCED PROBE MAY NOT DEMOTE A LIVE VERDICT (sweep68 b06 Q2, answered under the
+        # 2026-09-30 ruling). The comment above DEAD_TTL states the asymmetry: a host that once
+        # answered keeps answering (MediaWiki paths do not move) while "dead" is a claim about
+        # one afternoon's network. `force=True` skipped the cache read and then wrote whatever
+        # the probe found, so a re-check run during an outage branded a live host DEAD for 24 h.
+        # The CALLER still gets the truth (DEAD, this probe) so a person running `--force` sees
+        # the failure; only the cache is protected. Against: a host whose API really moved now
+        # keeps its stale live verdict until someone rewrites it -- but that fails loudly at
+        # fetch time, whereas a false DEAD silently unreads a whole source for a day.
+        prior = mem.get(host)
+        if force and isinstance(prior, dict) and prior.get("mode") in (MODE_API, MODE_RAW):
+            silence.note("endpoint.py:force-dead-kept-live")
+            return found
     # Under the cache's own lock: the write was accidentally-safe GIL behaviour, not design.
     # `_DIRTY` is what makes `_save()` a merge rather than an overwrite -- it is the record of
     # what THIS process actually earned, as opposed to what it happened to read at startup.
@@ -380,6 +400,22 @@ def fetch_raw(host, titles, workers=2):
     return texts
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES data/ENDPOINTS.json. -> True, or raises.
+
+    sweep68 b06 Q5, answered under the 2026-09-30 ruling. A forced or first probe writes the shared probe cache; the read-only --list path is unaffected. register() is left alone: its caller scout.py is already interlocked, and raising inside a library function daemons call would crash them.
+    Tightening only: the measuring half still runs under a halt, only the write is refused.
+    Same shape as thread_integrity._assert_not_halted, and FAIL CLOSED ON THE IMPORT -- never
+    `except ImportError: pass` (Hard Rule -1's own incident)."""
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description="how to read a wiki that is not Fandom")
     ap.add_argument("hosts", nargs="*", help="hosts to probe")
@@ -416,6 +452,7 @@ def main():
                 print(f"   {h:<40}{path or ''}")
         return 0
 
+    _assert_not_halted("(probes hosts and writes data/ENDPOINTS.json)")
     for h in a.hosts:
         d = detect(h, force=a.force)
         print(f"   {h:<40}{d['mode']:<6}{d['path'] or ''}")

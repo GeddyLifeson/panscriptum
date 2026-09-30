@@ -80,8 +80,10 @@ LANDFORM = [
     ("isles",       r"\b(island|isle|isles)\b"),
     ("shattered",   r"\b(shattered|broken|sundered|fractured|floating (?:islands?|rocks?))\b"),
     ("pangaea",     r"\b(single (?:super)?continent|one landmass|pangaea|supercontinent)\b"),
-    ("highland",    r"\b(mountain|peaks?|highland|alpine|crag)\w*\b"),
-    ("continents",  r"\b(continent|landmass|realm|kingdom|empire|nation)\w*\b"),
+    # `crag\w*` tagged "Cragmaw" (a place name) as an ATTESTED landform (sweep68 b14 F5), so
+    # `crag` is listed with its suffixes like the short stems in CLIMATE below.
+    ("highland",    r"\b(?:(?:mountain|peaks?|highland|alpine)\w*|crag(?:s|gy)?)\b"),
+    ("continents",  r"\b(?:(?:continent|landmass|realm|kingdom|empire)\w*|nation(?:s|al)?)\b"),
 ]
 CLIMATE = [
     # SHORT WORDS (ice, dust, sea, ash, plain, war, dead, front, space, fleet, warp, keep, lord)
@@ -103,12 +105,15 @@ CONDITION = [
                  r"|dead)\b"),
     ("wartorn",  r"\b(?:(?:battle|siege|invasion|conflict|occupied|embattled)\w*"
                  r"|war(?:s|ring|fare|time|like|torn|lords?|riors?)?|fronts?|frontlines?)\b"),
-    ("thriving", r"\b(prosper|thriv|flourish|bustling|capital|jewel|golden)\w*\b"),
+    # sweep68 b14 F5: `capital|jewel|golden` are whole words, not stems -- "Capitalist Bloc"
+    # and "Goldenrod" were tagged thriving as ATTESTED.
+    ("thriving", r"\b(?:(?:prosper|thriv|flourish|bustling)\w*|capitals?|jewels?|golden)\b"),
 ]
 TECH = [
     ("spacefaring", r"\b(?:(?:starship|orbital|colon(?:y|ised|ized)|interstellar)\w*"
                     r"|space(?:s|ships?|faring|craft|ports?|stations?)?|fleets?|warp(?:s|ed|drive)?)\b"),
-    ("industrial",  r"\b(factor(?:y|ies)|industrial|steam|machine|foundr|railway|engine)\w*\b"),
+    # `engine\w*` tagged "Engineer Guild" as ATTESTED industrial (sweep68 b14 F5).
+    ("industrial",  r"\b(?:(?:factor(?:y|ies)|industrial|steam|machine|foundr|railway)\w*|engines?)\b"),
     ("magical",     r"\b(magic|arcane|spell|wizard|sorcer|enchant|rune)\w*\b"),
     ("medieval",    r"\b(?:(?:castle|knight|kingdom|feudal|village)\w*|keeps?|lord(?:s|ships?)?)\b"),
 ]
@@ -440,6 +445,26 @@ def build_all(limit=None):
     return out
 
 
+def _assert_not_halted(what):
+    """The plant-wide halt interlock, asked before this module WRITES `data/WORLDSEEDS.json`.
+
+    sweep68 b14 Q1, answered under the 2026-09-30 ruling: WORLDSEEDS.json is the roster six modules (burgs, navtree,
+    profile, render, sevenfold, verify_math) build on, so `--write` during a halt hands them a roster
+    derived from state the halt says is untrustworthy. Tightening only: a preview (no --write) is a
+    measurement and is not gated.
+    Only the writing path asks (measurements stay retakeable during a halt). FAIL CLOSED on the
+    import, never `except ImportError: pass` -- that spelling is the original incident, a deleted
+    escalation.py switching the halt off in eight jobs at once (CLAUDE.md, Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit("REFUSING TO START: the escalation chain (src/escalation.py) could not "
+                         "be imported (%s), so the halt cannot be read. Hard Rule -1."
+                         % _esc_gone) from _esc_gone
+    _ESC.assert_clear("worldseed.py %s" % what)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=None)
@@ -456,6 +481,8 @@ def main():
               "Drop --limit to write, or drop --write to preview.")
         return 2
 
+    if args.write:
+        _assert_not_halted("--write (writes data/WORLDSEEDS.json)")
     worlds = build_all(args.limit)
     print("=" * 100)
     print("WORLDSEED — one short address per inhabited world")
@@ -505,6 +532,20 @@ def main():
         print("     " + to_fmg_query(worlds[0]))
 
     if args.write:
+        # SWEEP68 b14 F2 / F3: REFUSE TO LAND A ROSTER BUILT FROM INPUTS THAT WERE NOT READ. A torn
+        # ONOMASTICON / CONTINUITY_GROUPS puts every world on the `classical` fallback and
+        # `culture_set: antique` library-wide, and an unreadable record is silently absent from
+        # `pipeline.records()`; either way the write below replaced the good WORLDSEEDS.json with
+        # a degenerate or shorter one and returned 0. The notice printed above is not a stop.
+        # Nothing else reads LAST_BUILD, so the six build_all consumers could not have known.
+        import corpus_db
+        unread = corpus_db.unreadable_records()
+        if LAST_BUILD["onomasticon"] != "ok" or LAST_BUILD["continuity_groups"] != "ok" or unread:
+            print("worldseed.py: refusing --write; NOTHING WAS WRITTEN. ONOMASTICON=%s, "
+                  "CONTINUITY_GROUPS=%s, unreadable record(s): %s. Fix the input and re-run."
+                  % (LAST_BUILD["onomasticon"], LAST_BUILD["continuity_groups"],
+                     ", ".join(unread) or "none"), file=sys.stderr)
+            return 1
         # ATOMIC. This was a bare `open(path, "w")` + `json.dump`, which is not a write but a
         # TRUNCATE-THEN-FILL: a reader arriving in the gap sees an empty or half-written file,
         # and a kill in the gap leaves it that way permanently. The 2026-08-25 sweep found

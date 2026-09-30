@@ -1,0 +1,4 @@
+{
+ "name": "sevenfold --write refuses (rc 1, nothing written) while worlds are UNSHELVED",
+ "expected": "sweep68 b10 Q3: --write lands SEVENFOLD.json with unshelved worlds silently absent and exits 0"
+}

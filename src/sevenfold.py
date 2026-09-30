@@ -457,6 +457,21 @@ def main():
     for d in _wsample[:8]:
         print(f"   {d:<44}{shelfmark(worlds[d])}")
 
+    if args.write and UNSHELVED:
+        # sweep68 b10 Q3, answered under the 2026-09-30 ruling: `--write` landed SEVENFOLD.json
+        # with the UNSHELVED worlds silently absent (stderr only, rc 0) -- a smaller universe
+        # wearing the same shape as the real one, which Hard Rule 0 calls a truncation. It now
+        # REFUSES to write and exits 1, naming them. Against: one rules-heavy source outside the
+        # resonance graph blocks the whole shelving until it is resolved. But that source's
+        # worlds have no shelfmark either way, and the block is what makes someone resolve it;
+        # the list is empty today, so the refusal costs nothing until the day it matters.
+        silence.note("sevenfold.py:main-unshelved-refused")
+        print("\nREFUSING TO WRITE data/SEVENFOLD.json: %d source(s) produced worlds absent from "
+              "the resonance graph, so %d world(s) would be missing from the file: %s. Put them "
+              "in the graph (or withdraw them) and rerun."
+              % (len(UNSHELVED), sum(UNSHELVED.values()),
+                 ", ".join("%s (%d)" % (s, n) for s, n in sorted(UNSHELVED.items()))))
+        return 1
     if args.write:
         p = os.path.join(HERE, "data", "SEVENFOLD.json")
         # ATOMIC -- the m100 tail, 2026-08-25.

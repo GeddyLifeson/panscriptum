@@ -1,0 +1,7 @@
+[
+ {
+  "module": "suppressions.py",
+  "old": "        if not math.isfinite(exp) or exp - start > MAX_TTL_DAYS * 86400 + 1:\n",
+  "new": "        if False:\n"
+ }
+]

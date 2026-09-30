@@ -1,0 +1,4 @@
+{
+ "name": "endpoint._save keeps a fresher verdict that landed for an already-dirty host mid-save",
+ "expected": "sweep68 b06 F9: a host just found live is overwritten by its older DEAD verdict for the 24 h TTL"
+}

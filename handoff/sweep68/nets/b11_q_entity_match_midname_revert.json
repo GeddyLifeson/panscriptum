@@ -1,0 +1,7 @@
+[
+ {
+  "module": "entity_match.py",
+  "old": "if ma == mb:",
+  "new": "if True:"
+ }
+]

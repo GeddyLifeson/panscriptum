@@ -1,0 +1,7 @@
+[
+ {
+  "module": "local_agent.py",
+  "old": "            except Exception as e:\n                # ValueError TOO (sweep67",
+  "new": "            except (TypeError, ValueError) as e:\n                # ValueError TOO (sweep67"
+ }
+]

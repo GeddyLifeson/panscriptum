@@ -1,0 +1,4 @@
+{
+ "name": "propagation: unknown shelf name is not reported DISCONNECTED",
+ "expected": "sweep68 b13 F4: a misspelt shelf is reported as a finding that the library is disconnected"
+}

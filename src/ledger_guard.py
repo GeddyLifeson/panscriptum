@@ -859,8 +859,19 @@ ACKNOWLEDGED = os.path.join(HERE, "state", "ledger_chain_acknowledged.json")
 _ACK_REASON_MIN = 40
 
 
-def _load_acknowledgements():
+def _load_acknowledgements(n_links=None):
     """-> [well-formed acknowledgement records]. Malformed entries are dropped AND noted.
+
+    `n_links`, when given, is the chain's current length, and an entry whose `hi` lies BEYOND the
+    last existing link (index n_links - 1) is refused. sweep68 b07 Q2, answered under the
+    2026-09-30 ruling: `[0, 999999]` passed the two-ints test and so also waived every FUTURE
+    shrink of the named ledger until the chain reached link 999999 -- a standing blanket, which the
+    ruling on be33a61be79f said an acknowledgement is not. An honest acknowledgement is written
+    AFTER the shrink it rules on, so its `hi` is a link that already exists; the opposing view,
+    that the file is person-written and the owner may mean a wide range, loses because the header
+    calls it "a closed link range" and a range reaching links that do not exist yet is open. The
+    live entry ([947, 949] of a 2700-link chain) is unaffected. Refusal only tightens: the shrink
+    it would have covered fails, which is the direction this module fails.
 
     Fails closed in the only direction that is safe: an entry this cannot read acknowledges
     nothing, so the shrink it would have covered still fails. Nothing here can widen a waiver.
@@ -887,6 +898,8 @@ def _load_acknowledgements():
               and isinstance(rec.get("reason"), str) and len(rec["reason"].strip()) >= _ACK_REASON_MIN
               and isinstance(rec.get("order"), str) and rec["order"].strip()
               and isinstance(rec.get("by"), str) and rec["by"].strip())
+        if ok and n_links is not None and rec["links"][1] > n_links - 1:
+            ok = False
         if ok:
             out.append(rec)
         else:
@@ -929,7 +942,7 @@ def verify_chain(with_acknowledged=False):
     links, unparseable = _read_chain_lines()
     problems = []
     acknowledged = []
-    acks = _load_acknowledgements()
+    acks = _load_acknowledgements(len(links))
     for lineno in unparseable:
         problems.append(
             "chain line %d will not parse -- the link it held is missing from every check "

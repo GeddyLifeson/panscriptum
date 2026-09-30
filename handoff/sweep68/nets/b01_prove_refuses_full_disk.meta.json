@@ -1,0 +1,4 @@
+{
+ "name": "prove_net refuses to build a scratch tree on a nearly full disk",
+ "expected": "run #68: concurrent proofs filled C: (Errno 28) and returned false no-verdicts while every live writer shared the disk"
+}

@@ -300,7 +300,16 @@ def _load_groundings():
     """
     try:
         with open(os.path.join(HERE, "data", "GROUNDINGS.json"), encoding="utf-8") as f:
-            return json.load(f), True
+            _doc = json.load(f)
+        # sweep68 b13 F2: PARSEABLE IS NOT READABLE. `{}` (or `[]`, or any non-dict) parses, so it
+        # used to come back ok=True, pass both refusals in main(), and publish every shelf as
+        # `hyperverse: 5 / 'ungrounded'` over a good TIERS.json. grounding.py writes whatever
+        # `out` holds with no shrink floor, so an empty file is a reachable state, and an empty
+        # groundings table is a measurement that did not happen, not a finding.
+        if not isinstance(_doc, dict) or not _doc:
+            silence.note("tiers.py:groundings-empty")
+            return {}, False
+        return _doc, True
     except Exception:
         # Tagged by SYMBOL, not by line number: this key used to be a bare `tiers.py:NNN` tag,
         # which is a citation that rots the moment anything above it moves and then points the
@@ -385,6 +394,58 @@ def deliberate_joins(w, shared):
     """
     return sorted(((v, a, b, shared.get((a, b), []))
                    for (a, b), v in w.items() if v >= DELIBERATE_JOIN), reverse=True)
+
+
+# sweep68 b13 F2 (second half), answered under the 2026-09-30 ruling. `_load_groundings` now
+# refuses an empty groundings table, but a table that is non-empty and mostly wrong (grounding.py
+# writes whatever it holds with no shrink floor) would still publish a TIERS.json in which most
+# shelves lost their `hyperverse_type`. Same guard, same number, as `completeness.land()`'s
+# SHRINK_FLOOR: refuse when the new file has fewer than half the GROUNDED shelves of the standing
+# one. Argued the other way: a floor is a magic number and a legitimate regrounding could shrink
+# the count. It can, but not by half in one pass (166 grounded of 208 today), and a refusal is
+# cheap to rerun after looking while a silent publish re-charts address_space at import.
+TIERS_SHRINK_FLOOR = 0.5
+
+
+def _grounded(rows):
+    return sum(1 for v in rows.values()
+               if isinstance(v, dict) and v.get("hyperverse_type") not in (None, "ungrounded"))
+
+
+def _grounding_shrink(charted, path):
+    """(new, old) grounded counts when the new chart lost too much of the standing one, else None.
+
+    An unreadable or absent standing file has nothing to shrink from, so it does not refuse.
+    """
+    try:
+        with open(path, encoding="utf-8") as f:
+            standing = json.load(f)
+        old = _grounded(standing)
+    except Exception:
+        return None
+    new = _grounded(charted)
+    if new < old * TIERS_SHRINK_FLOOR:
+        return new, old
+    return None
+
+
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Added under sweep68 b13 Q5, answered under the 2026-09-30 ruling (the class question 67/12
+    Q7): a derived-data writer that a person can run by hand never sees the supervisor's gates,
+    and a halt means a library-wide invariant is broken and nothing may proceed on uncertain
+    ground. Tightening, so decided here. DELIBERATELY NARROW: asked on the WRITING path only,
+    after the arguments are parsed, so measurements and dry runs keep working under a halt.
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` (Hard Rule -1's own incident).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
 
 
 def main():
@@ -504,7 +565,7 @@ def main():
         if s in charted:
             c = charted[s]
             # `_cut`, not a bare slice (order 215f9e7b86ff). This file has carried its own
-            # marking helper at :143 since before this line was written, and named in
+            # marking helper at `_cut` since before this line was written, and named in
             # sweep45/AUDIT_batch16 and unfixed since: a source name cut at 26 with no marker
             # reads as the whole name, and these are the names a reader uses to look the row up.
             print(f"   {_cut(s, 26):<28}H{c['hyperverse']} › X{c['xenoverse']} › "
@@ -539,6 +600,14 @@ def main():
               "not describe a nesting and must not be published over one that did.")
         print("  Nothing written; the existing TIERS.json stands.")
         return 2
+    _shrunk = _grounding_shrink(charted, out)
+    if _shrunk:
+        print(f"\nREFUSING TO WRITE {out}: only {_shrunk[0]} shelf(s) are grounded here against "
+              f"{_shrunk[1]} in the standing file (floor {TIERS_SHRINK_FLOOR:.0%}).")
+        print("  A run that lost most of its groundings is a measurement that did not happen, "
+              "not a finding. Nothing written; the existing TIERS.json stands.")
+        return 2
+    _assert_not_halted("(writes data/TIERS.json)")
     ok = silence.write_json(out, charted, indent=2, ensure_ascii=False)
     if ok:
         print(f"\nwrote {out}")

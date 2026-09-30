@@ -180,14 +180,21 @@ EXPORT_OWN_FILES = ()
 # nobody thought of is permitted" -- so the family is now matched by its SHAPE (`_is_skipped`
 # below), and SKIP_SUFFIX goes back to holding only the suffixes that are not part of that family.
 SKIP_SUFFIX = (".pyc", ".bak", ".tmp", ".orig")
-_PRE_BACKUP = re.compile(r"\.pre[a-z0-9]*$", re.I)
+# sweep68 batch 10, F7: the class was `[a-z0-9]*`, so `x.py.pre-sweep` and `x.py.pre_edit` walked past
+# the copier into the export tree. `git add -A` never committed them (`*.pre*` is in the derived
+# .gitignore), but `scan_for_secrets(SITE)` reads the filesystem, so a credential-bearing backup
+# the copier should have refused halted the library (SECRET_IN_EXPORT, an OWNER escalation) for a
+# file that was never going to be published. Any non-separator character may follow `.pre`.
+_PRE_BACKUP = re.compile(r"\.pre[^./\\]*$", re.I)
 
 
 def _is_skipped(name):
     """True for a file `sync_tree` must never publish: a scratch suffix in `SKIP_SUFFIX`, or
     anything in the `.pre*` session-backup family, matched by shape rather than by name so a
     suffix nobody has written yet is still caught the first time."""
-    return name.endswith(SKIP_SUFFIX) or _PRE_BACKUP.search(name) is not None
+    # LOWER-CASED for the suffix test (sweep68 batch 10, F7): `x.BAK` / `x.PYC` are the same
+    # scratch files, and git on Windows ignores case in the glob that mirrors this tuple.
+    return name.lower().endswith(SKIP_SUFFIX) or _PRE_BACKUP.search(name) is not None
 
 
 # THE DIRECTORIES THAT TAKE THE RECORD BUT NOT THE TOOLS THAT MADE IT (order a66423722e45).

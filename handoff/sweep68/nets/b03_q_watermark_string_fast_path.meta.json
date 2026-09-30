@@ -1,0 +1,4 @@
+{
+  "name": "the record watermark takes strings by reference and still hashes mutable values",
+  "expected": "sweep68 b03 N10: every landed write re-hashes 13 fields of every entry (8.4 s on a marvel-sized record), or a watermark follows an in-place edit"
+}

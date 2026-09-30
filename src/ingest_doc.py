@@ -174,6 +174,18 @@ def extract(pdf_path, source):
     # was a truncate-then-fill; a re-extract that died mid-dump would have destroyed the corpus
     # it was re-extracting, with nothing left to recover from.
     #
+    # SWEEP68 b14 F4: WHAT THE CORPUS WAS BEFORE THIS EXTRACT. `ingest_state.json` (the resume
+    # cursor) lives beside pages.json and survives a re-extract, so re-supplying a better PDF
+    # (OCR'd, corrected) and running --mine resumed at the OLD book's `next`: past the end of the
+    # new one it printed "ingest complete: 0 new entries" and returned True with zero model
+    # calls; inside it, every chunk before the cursor was skipped. A cursor is only a position in
+    # THE CORPUS IT WAS WRITTEN AGAINST, so when the bytes change it is set aside below.
+    import hashlib
+    try:
+        with open(os.path.join(d, "pages.json"), "rb") as f:
+            before = hashlib.sha256(f.read()).hexdigest()
+    except FileNotFoundError:
+        before = None
     # GATED: the sentence above is about a crash; a DENIED replace is the quiet version of the
     # same loss, and `write_json` reports it by returning False instead of raising.
     # The call is written out inline rather than through a `pages_p` local because
@@ -185,6 +197,17 @@ def extract(pdf_path, source):
                       "holding %s open) -- the extracted corpus did NOT land, so nothing may "
                       "be registered or mined against it."
                       % (source, os.path.join(d, "pages.json")))
+    with open(os.path.join(d, "pages.json"), "rb") as f:
+        after = hashlib.sha256(f.read()).hexdigest()
+    cursor = os.path.join(d, "ingest_state.json")
+    if before is not None and before != after and os.path.exists(cursor):
+        # Archived, not deleted: it is the only record of how far the previous book got. If it
+        # cannot be moved, the OSError refuses the run (main() prints it) rather than letting
+        # --mine resume a new book from an old book's position.
+        aside = "%s.superseded-%d" % (cursor, int(time.time()))
+        os.replace(cursor, aside)
+        print("ingest_doc: the corpus for %s changed, so its old resume cursor was set aside as "
+              "%s; --mine will start from chunk 0 of the new text" % (source, os.path.basename(aside)))
     return out
 
 
@@ -201,21 +224,35 @@ def register(source):
     # from anything else on disk. Asked BEFORE the read, so a halt refuses before this decides
     # anything from state the halt says is untrustworthy. (order acea8b00848e)
     _assert_not_halted("register")
-    with open(HOSTS, encoding="utf-8") as f:
-        hosts = json.load(f)
-    cur = hosts.get(source)
-    if cur and not cur.startswith("doc:"):
-        return cur                       # a live wiki outranks a static text; keep it
-    hosts[source] = "doc:" + slug(source)
-    # ATOMIC: feats.resolve_hosts and standards both read WIKI_HOSTS on their own clocks.
-    # And BECAUSE they do, the replace can be denied at any moment -- which is exactly why the
-    # verdict is returned rather than dropped. WIKI_HOSTS has lost a write silently once
-    # already (silence.replace_if_unchanged's docstring, m42); the corpus is useless to the
-    # evidence pipeline until this file names it.
-    if not silence.write_json(HOSTS, hosts, indent=1, ensure_ascii=False, sort_keys=True):
-        silence.note("ingest_doc.py:hosts-write-denied")
-        return None
-    return hosts[source]
+    # sweep68 b14 Q2, answered under the 2026-09-30 ruling: READ-MODIFY-WRITE UNDER A COMPARE-AND-
+    # SWAP, as hostcheck._land_hosts does for the same file. Against: register is hand-run and
+    # the read-to-write window is microseconds. For: WIKI_HOSTS.json is the one file this project
+    # cannot rebuild, hostcheck and scout write it on their own clocks, and a lost update there
+    # is silent and unrecoverable; the loop is fifteen lines. Not routed THROUGH _land_hosts
+    # because that writes `feats.HOSTS` and this module's `HOSTS` is what its nets redirect.
+    # The digest is taken BEFORE the read; a refused swap re-reads and re-decides.
+    import threading
+    for _attempt in range(5):
+        digest = silence.digest_of(HOSTS)
+        with open(HOSTS, encoding="utf-8") as f:
+            hosts = json.load(f)
+        cur = hosts.get(source)
+        if cur and not cur.startswith("doc:"):
+            return cur                   # a live wiki outranks a static text; keep it
+        hosts[source] = "doc:" + slug(source)
+        tmp = "%s.%d.%d.tmp" % (HOSTS, os.getpid(), threading.get_ident())
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(hosts, f, indent=1, ensure_ascii=False, sort_keys=True)
+        landed, _why = silence.replace_if_unchanged(tmp, HOSTS, digest)
+        if landed:
+            return hosts[source]
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("ingest_doc.py:hosts-tmp-cleanup")
+        time.sleep(0.05 * (_attempt + 1))
+    silence.note("ingest_doc.py:hosts-write-denied")
+    return None
 
 
 def _slug_words_contain(hay, needle):

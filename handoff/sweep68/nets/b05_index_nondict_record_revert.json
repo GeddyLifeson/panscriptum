@@ -1,0 +1,7 @@
+[
+ {
+  "module": "feats_index.py",
+  "old": "                if not isinstance(rec, dict):",
+  "new": "                if False:"
+ }
+]

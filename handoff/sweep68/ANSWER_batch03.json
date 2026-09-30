@@ -1,0 +1,122 @@
+[
+ {
+  "id": "N4",
+  "file": "src/manifest_builder.py (volume_codes), src/pipeline.py phase_write",
+  "verdict": "reserved",
+  "decision": "Which Volume code a Set-level source gets is Hard Rule 2 addressing, OWNER order 3976a097f975; not decided here.",
+  "how": "Already done in FIX: phase_write names every shared-address group, uncapped. Options for the owner: (a) a Volume delimiter that cannot collide with the Series level (e.g. II.A.v1); (b) volume_codes skips integers already owned by a real Series in the same Set; (c) keep the codes and hold phase 8 open while any ready source is held. Recommendation: (b) -- it keeps the charter's numeric form, changes only the colliding Set-level sources (15 codes, about 30 sources), and every existing Series address stays put.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "N5",
+  "file": "src/pipeline.py",
+  "verdict": "changed",
+  "decision": "phase_entrypass now applies the person-is-not-a-place test to `topic` as well as `category`: a Character/Person entry answered topic Places keeps a refused-answer trail and never takes Places.",
+  "how": "For: worldseed builds worlds from topic == Places, and 2,209 Character/Person entries carried it; the category guard (order be5d399f163c) already refuses these same entries, so passing the topic left one entry saying Persons on one axis and Places on the other; a world invented from a person is the costlier error; the refusal is recorded (`topic_rejected: 'Places (contradicts type ...)'`) so it is auditable and re-judgeable. Against: the crawl's type is wrong for at least 207 of them (real places typed Character), and this refuses their correct answer. Decided for, because the noise is in the type label and belongs to a crawl-type repair, not to letting one axis contradict the other. A prior topic is kept unless it is itself the contradicting one (then 'unclassified'). The 2,209 already on disk are settled entries and are not re-judged by this; a repair pass over data/records is outside these modules and is left to the coordinator. Net drives the real phase_entrypass.",
+  "net": "b03_q_topic_places_contradicts_type",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "N10",
+  "file": "src/pipeline.py",
+  "verdict": "changed",
+  "decision": "_fp_one returns a str or None as its own fingerprint; everything mutable or other-typed is still hashed.",
+  "how": "Measured on a synthetic 59,170-entry record: the per-entry watermark took 8.4 s (100 MB traced) before, 1.3 s (38 MB) after; it runs after every landed write_record. Safe because a str is immutable and held by reference, so it cannot drift from what the caller loaded, and equality means what the digest meant; dicts/lists are still hashed, so a watermark can never follow an in-place edit. Watermarks never leave the process. Against: it changes the representation the two-writer contract compares; checked by re-running every existing watermark/CAS/entrypass drill net green plus the new net. N1 already removed the recount's share.",
+  "net": "b03_q_watermark_string_fast_path",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "data/SWEEP_ROLL.json",
+  "verdict": "kept",
+  "decision": "phase_write refusing Bone (Jeff Smith) as 'not on the roll' is correct and stays; the missing roll row is a data fix outside these modules.",
+  "how": "The record exists (86 entries) and COVERAGE lists it, but the roll is canonical and not derivable (roll.py's own rule), so the phase must not invent a row. Remedy for the coordinator: add a roll row through roll.mutate (status as for any new source); it will then be held as UNASSIGNED until a spine code exists, which is the owner's Hard Rule 2 call.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "src/pipeline.py",
+  "verdict": "kept",
+  "decision": "Phase 8 keeps closing when only some ready sources are refused; each refusal stays named in the log.",
+  "how": "For holding open: a refused source is then not forgotten. Against, and decided: Hard Rule -1 says every source is its own area -- one source raising ContextOverflow must not stop phase 8 for the other 137, and holding the phase open would do exactly that on every run until the one source is fixed. The total-failure case (every source refused) already holds the phase open, and a partial refusal re-enters on the next ladder pass because phase 8 rebuilds the whole manifest each time.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/pipeline.py phase_write / src/generate.py",
+  "verdict": "kept",
+  "decision": "No change in phase_write; the stale-manifest window belongs to generate.py filtering on roll.out_of_scope.",
+  "how": "For changing phase_write (land an empty manifest when nothing builds): the manifest would always describe this run. Against, and decided: the drill net _write_phase_stays_open_when_everything_refuses drives phase_write without redirecting HERE or stubbing land_json, so an empty-manifest write there would overwrite the LIVE output/index/manifest.json on every battery run; and any manifest that does build already drops excluded sources. The window is also behind the owner-held prose gate. Recommended for generate.py's owner: re-read roll.out_of_scope and hold any job whose source is excluded.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "src/halo.py, src/reference.py",
+  "verdict": "changed",
+  "decision": "halo.py now asks the halt (wh40k's fail-closed _assert_not_halted) before writing HALO_ASSAYS.json; reference.py is deliberately left ungated for now.",
+  "how": "For: a halt means nothing starts until a person rules, standards.py grades from these files, and twins with different gates are hard to reason about. Against: the files are computed from module constants, so a write under a halt cannot import a fault. Decided for (it tightens). reference.py NOT gated: verify_math section 20aa calls reference.main() for real without redirecting escalation.HALT_FILE, and the live library is halted right now (DRILL_BREACH), so gating it would crash the battery at module level. To finish it: redirect HALT_FILE in verify_math 20aa, then add the same helper and call to reference.main. The coordinator must add halo.py to verify_math _INTERLOCKED and drill _HALT_WRITERS, or the roster check goes red.",
+  "net": "b03_q_assay_twins_ask_the_halt",
+  "red_green_checked": true,
+  "new_interlock": "halo.py"
+ },
+ {
+  "id": "Q5",
+  "file": "src/navtree.py",
+  "verdict": "kept",
+  "decision": "navtree stays as is: --write refusing on 13,614 audit problems is the gate working, and every run already rewrites state/NAVTREE_AUDIT.json.",
+  "how": "The audit record is stale only because nothing runs navtree; nothing in src/ reads NAVTREE_AUDIT.json, so its stale count 0 misleads no code, and its mtime (Aug 29) dates it. The real fix is scheduling sevenfold.py (regenerate SEVENFOLD.json) and then a read-only navtree run in overnight's stage list, both outside these modules; recommended to the coordinator.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6a",
+  "file": "src/pipeline.py",
+  "verdict": "changed",
+  "decision": "SYNTH_SYSTEM rule 2 and the persisted synthesis `method` now say 'per-measure worksheet' instead of 'nine-measure'.",
+  "how": "assay.WEIGHTS carries eleven measures; the method sentence is written into every new synthesis block, so it was persisting a false count. Count-free rather than 'eleven' so it cannot go stale again (CLAUDE.md's counts-in-doctrine lesson). No prompt cache keys on SYNTH_SYSTEM. Existing blocks are left as written.",
+  "net": "b03_q_synthesis_method_no_stale_count",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6b",
+  "file": "src/halo.py",
+  "verdict": "reserved",
+  "decision": "halo.py's 'M3 (Halo 2-3)' epoch wording sits inside an assay sheet (Hard Rule 3/4 curatorial wording).",
+  "how": "Options: (a) keep it; (b) reword the epoch to name the games without a band ('Halo 2-3'); (c) state the band it means explicitly. Recommendation: (b), since an 'M3' inside an epoch string reads as a Magnitude band on an M6 sheet.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6c",
+  "file": "src/pipeline.py",
+  "verdict": "kept",
+  "decision": "`--phase N` keeps setting the resume pointer to N and advancing it to N+1 on success.",
+  "how": "For changing: a one-off rerun of a later phase walks the pointer past open earlier work. Against, and decided: `--phase N` is the documented recovery lever ('a person decides which phase to resume from, then runs with --phase'), so it must move the pointer; and a pointer walked past open phases is caught at the end of the ladder, where main raises SystemExit(3) naming every phase with no completion marker.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6d",
+  "file": "src/pipeline.py",
+  "verdict": "kept",
+  "decision": "_META_TERMS / meta_violations stay after the __main__ block.",
+  "how": "Every caller (generate.py, audit.py) reaches them by import, where they are defined; nothing in script-mode main() uses them, so 'unreachable as a script' never bites. Moving about 40 lines buys nothing and makes the diff noisy.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ }
+]

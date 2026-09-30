@@ -1,0 +1,1 @@
+{"name": "cascade_bridge permanent_refusal ignores a bare 401/402 that is not a status", "expected": "sweep68 b08 F5: a token count or retry-after of 401/402 benches a live bucket for four hours as a dead key"}

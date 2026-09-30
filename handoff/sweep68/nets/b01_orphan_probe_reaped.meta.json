@@ -1,0 +1,4 @@
+{
+ "name": "a killed drill's orphaned probe junction and file are reaped by the next run",
+ "expected": "sweep68 b01 F1: an orphan src/ junction to state/ survives and publish's os.walk stages state/ into the public export"
+}

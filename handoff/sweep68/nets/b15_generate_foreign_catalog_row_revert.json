@@ -1,0 +1,7 @@
+[
+ {
+  "module": "generate.py",
+  "old": "owner is not None and owner != job.get(\"source_name\")",
+  "new": "False"
+ }
+]

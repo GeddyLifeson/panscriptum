@@ -1,0 +1,7 @@
+[
+ {
+  "module": "coverage.py",
+  "old": "if got != _classifier_stamp():",
+  "new": "if got != _CLASSIFIER_VERSION:"
+ }
+]

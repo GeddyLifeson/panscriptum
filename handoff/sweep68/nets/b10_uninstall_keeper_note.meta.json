@@ -1,0 +1,4 @@
+{
+ "name": "autostart --uninstall says the keeper task still stands",
+ "expected": "sweep68 b10 F5: --uninstall removes only the launcher and prints nothing about the keeper task that restarts the watchdog every 10 minutes"
+}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "wiki_source.py",
+  "old": "        d = _api(subdomain, {\"action\": \"query\", \"list\": \"categorymembers\",\n                             \"cmtitle\": f\"Category:{cand}\", \"cmlimit\": 3,\n                             \"cmnamespace\": 0})\n",
+  "new": "        try:\n            d = _api(subdomain, {\"action\": \"query\", \"list\": \"categorymembers\",\n                                 \"cmtitle\": f\"Category:{cand}\", \"cmlimit\": 3,\n                                 \"cmnamespace\": 0})\n        except Exception:\n            continue\n"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "hostcheck.py",
+  "old": "if dry or not landed or shared or no_record:",
+  "new": "if dry or not landed or shared:"
+ }
+]

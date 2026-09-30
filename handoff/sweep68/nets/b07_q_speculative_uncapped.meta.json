@@ -1,0 +1,4 @@
+{
+ "name": "hosts.discover probes every speculative candidate by default",
+ "expected": "sweep68 b07 Q5: guesses past the 24th are never probed, so a real second wiki there reads as absent (Hard Rule 0)"
+}

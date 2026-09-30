@@ -1,0 +1,4 @@
+{
+ "name": "secondopinion torn-tree fingerprint covers non-.py files",
+ "expected": "sweep68 b16 F10: a .txt under a scanned root caught mid-write is never called torn, so a torn-read finding is presented as a verdict"
+}

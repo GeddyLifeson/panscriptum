@@ -1,0 +1,4 @@
+{
+  "name": "mutate restores the sandbox state/ between gates and mutants, not only HALT.json",
+  "expected": "sweep68 b04 F4: state a mutant's gates leave in the sandbox (STOPPED.json, logs, records) judges every later gate and mutant, and a baseline refresh adopts it -- false kills"
+}

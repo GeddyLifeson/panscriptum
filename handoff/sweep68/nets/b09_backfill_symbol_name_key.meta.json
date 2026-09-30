@@ -1,0 +1,4 @@
+{
+ "name": "backfill keys punctuation-only names instead of re-adding them every run",
+ "expected": "sweep68 b09 F8: a member named only with symbols keys to '' and is appended again on every backfill"
+}

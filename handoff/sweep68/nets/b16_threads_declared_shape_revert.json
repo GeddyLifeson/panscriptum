@@ -1,0 +1,12 @@
+[
+ {
+  "module": "threads.py",
+  "old": "declared = _declared(doc, \"canons\")",
+  "new": "declared = ((doc.get(\"declared\") or {}).get(\"canons\"))"
+ },
+ {
+  "module": "threads.py",
+  "old": "declared = _declared(doc, \"volumes\")",
+  "new": "declared = ((doc.get(\"declared\") or {}).get(\"volumes\"))"
+ }
+]

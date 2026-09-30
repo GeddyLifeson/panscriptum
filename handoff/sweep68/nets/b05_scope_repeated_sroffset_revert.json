@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scope.py",
+  "old": "if str(cont[\"sroffset\"]) in seen_offsets:",
+  "new": "if False:"
+ }
+]

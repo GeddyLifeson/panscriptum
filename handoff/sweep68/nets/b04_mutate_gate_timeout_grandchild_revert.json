@@ -1,0 +1,7 @@
+[
+  {
+    "module": "mutate.py",
+    "old": "            _kill_gate_tree(proc)",
+    "new": "            proc.kill(); proc.communicate()"
+  }
+]

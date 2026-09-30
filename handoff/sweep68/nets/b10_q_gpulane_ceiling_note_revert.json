@@ -1,0 +1,12 @@
+[
+ {
+  "module": "gpu_lane.py",
+  "old": "silence.note(\"gpu_lane.py:yield-ceiling\")",
+  "new": "pass"
+ },
+ {
+  "module": "gpu_lane.py",
+  "old": "silence.note(\"gpu_lane.py:slot-deadline\")",
+  "new": "pass"
+ }
+]

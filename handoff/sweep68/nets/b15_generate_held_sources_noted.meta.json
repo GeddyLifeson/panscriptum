@@ -1,0 +1,4 @@
+{
+ "name": "sources held at a shared address reach the silence ledger, not only stdout",
+ "expected": "sweep68 b15 F10: 38 held sources are recorded on the console only, so a clean-looking pass hides them from the janitor rung"
+}

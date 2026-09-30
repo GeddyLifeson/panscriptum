@@ -1,0 +1,7 @@
+[
+ {
+  "module": "silence.py",
+  "old": "with open(path + \".presilence\", \"x\", encoding=\"utf-8\")",
+  "new": "with open(path + \".presilence\", \"w\", encoding=\"utf-8\")"
+ }
+]

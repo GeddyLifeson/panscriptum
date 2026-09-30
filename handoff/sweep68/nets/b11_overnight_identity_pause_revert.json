@@ -1,0 +1,12 @@
+[
+ {
+  "module": "overnight.py",
+  "old": "_esc.assert_clear(\"overnight.py identity refresh\")",
+  "new": "pass"
+ },
+ {
+  "module": "overnight.py",
+  "old": "_paused, _pwhy = library_paused()",
+  "new": "_paused, _pwhy = False, \"\""
+ }
+]

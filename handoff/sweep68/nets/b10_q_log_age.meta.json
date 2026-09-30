@@ -1,0 +1,4 @@
+{
+ "name": "dashboard job rows carry the age of the log their line came from",
+ "expected": "sweep68 b10 Q2: a reader that died last week still renders a live-looking corpus read row with no age"
+}

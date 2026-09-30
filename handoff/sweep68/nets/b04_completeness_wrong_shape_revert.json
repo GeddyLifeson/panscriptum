@@ -1,0 +1,12 @@
+[
+  {
+    "module": "completeness.py",
+    "old": "    if not isinstance(prior, list):",
+    "new": "    if False:"
+  },
+  {
+    "module": "completeness.py",
+    "old": "                if isinstance(_loaded, dict):",
+    "new": "                if True:"
+  }
+]

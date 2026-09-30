@@ -1054,6 +1054,16 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
                          "in a protected region, and the local model may not write through it"
                          % (rel, "could not be stat'd" if _nlink is None
                             else "has %d hard links" % _nlink)})
+    # SWEEP68 b16 Q6, answered under the 2026-09-30 ruling: the file's own BYTES are kept for the
+    # revert, and its own line ending is used for the write. Text-mode I/O turned every LF file
+    # into CRLF on write (Windows), so a gate-failed patch to an LF file under prompts/ or
+    # handoff/ came back "reverted" but not byte-exact, and even a good patch rewrote every line
+    # ending in the file. Matching is still done on the decoded text, so `find` behaves as
+    # before. The alternative -- newline="" for reading too -- was rejected: it would stop a
+    # multi-line `find` copied from read_file (LF) from matching any CRLF file.
+    with open(full, "rb") as _fb:
+        _raw = _fb.read()
+    _nl = "\r\n" if b"\r\n" in _raw else "\n"
     original = open(full, encoding="utf-8").read()
     # AN EMPTY FIND IS NOT A LOCATION (order f29382aa7911). `str.count("")` returns `len(s) + 1`,
     # which is 1 for the empty string alone -- so against a ZERO-BYTE target the uniqueness test
@@ -1107,13 +1117,13 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
             # blast cap's alarm should not be the quiet one. Found sweep34 batch 15.
             silence.note("local_agent.py:blast-cap-escalate")
         return _settle({"applied": False, "error": _why})
-    backup = original
+    backup = _raw
     try:
-        with open(full, "w", encoding="utf-8") as f:
-            f.write(original.replace(find, replace, 1))
+        with open(full, "w", encoding="utf-8", newline="") as f:
+            f.write(original.replace(find, replace, 1).replace("\n", _nl))
         fail = _gates(full, modname)
         if fail:
-            with open(full, "w", encoding="utf-8") as f:
+            with open(full, "wb") as f:
                 f.write(backup)
             return _settle({"applied": False, "reverted": True, "gate": fail})
         # `(why or "")[:200]`, NOT `why[:200]` (order e8622cf0d047). `run()` dispatches this
@@ -1136,7 +1146,7 @@ def t_propose_patch(path, find, replace, why="", apply=True, log=None, **_):
         # that promise and then said it hadn't.
         reverted = True
         try:
-            with open(full, "w", encoding="utf-8") as f:
+            with open(full, "wb") as f:
                 f.write(backup)
         except Exception:
             silence.note("local_agent.py:revert")
@@ -1579,10 +1589,13 @@ def run(task, model=None, apply=True, quiet=False):
                     res = impl[fn](**args)
                 else:
                     res = {"error": "no such tool: " + str(fn)}
-            except (TypeError, ValueError) as e:
+            except Exception as e:
                 # ValueError TOO (sweep67 batch 16, F2, run #67): a model passing offset="abc"
                 # made int() raise ValueError, which escaped run() and lost the patch list and
                 # any revert alarm with it. A bad argument is the model's mistake to be told.
+                # EVERY Exception (sweep68 b16 F4): `name=5` / `check=5` raised AttributeError
+                # (`(x or "").strip()`) and `offset=1e999` raised OverflowError; both still
+                # escaped, and with a failed revert earlier in the run that lost `unreverted`.
                 res = {"error": "bad arguments for %s: %s" % (fn, str(e)[:160])}
             if isinstance(res, dict) and (res.get("chars_after_slice") or 0) > 0:
                 unpaged = {"path": res.get("path"), "offset": res.get("offset") or 0,

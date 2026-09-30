@@ -1,0 +1,4 @@
+{
+ "name": "custodes.convene refuses an eta outside [0, 1] or non-finite",
+ "expected": "sweep68 b12 F12: a NaN eta reads as a measured, non-vetoing curl; 1.7 publishes a negative curl fraction"
+}

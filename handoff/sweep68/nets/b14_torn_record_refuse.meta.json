@@ -1,0 +1,1 @@
+{"name": "sweep.py and worldseed --write refuse to land a library file when a record is unreadable", "expected": "sweep68 b14 F3: an unreadable record is silently absent from CHARACTER_SWEEP.json / WORLDSEEDS.json which land with rc 0 as a smaller universe"}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "generate.py",
+  "old": "        # left its names in `missing` and the chapter was refused for an omission the kept text\n        # no longer has. Judge the entries against the text that is actually being filed.\n        lacking = [e for e in g if not _covered(e.get(\"name\", \"\"), text)]\n",
+  "new": ""
+ }
+]

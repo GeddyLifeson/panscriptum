@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cascade_bridge.py",
+  "old": "        if _ls_bucket:",
+  "new": "        if False:"
+ }
+]

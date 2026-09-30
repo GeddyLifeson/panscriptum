@@ -1,0 +1,4 @@
+{
+ "name": "hosts --discover exits nonzero when hosts were lost or sources unprobed",
+ "expected": "sweep68 b07 F7: a discover walk that lost its product to a denied write exits 0"
+}

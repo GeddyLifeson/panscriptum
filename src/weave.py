@@ -180,6 +180,27 @@ _RULES_VOICE = _re.compile(
     r"|as (?:an|a) (?:action|bonus action|reaction))", _re.I)
 
 
+# sweep68 b04 F1: the voice pattern alone dropped 8,377 real hits (Marvel ~2,000, DC ~600) because
+# "you know", "you can", "you have" are ordinary English in quoted speech and in the wiki stub line
+# "You can help out by providing additional information". Measured against the live ENTITY_INDEX.
+# So a voice match counts as rules text only when it sits with a second rules signal: two
+# DISTINCT voice phrases, or a voice phrase beside a mechanical term (a bonus, a roll, a save,
+# a die, hit points). The stub sentence is removed first. Rules text nearly always has both, and
+# dialogue almost never does.
+_STUB_LINE = _re.compile(r"you can help out by providing[^.]*\.?", _re.I)
+_RULES_TERM = _re.compile(
+    r"([+-]\d+ (?:bonus|penalty)|\d+d\d+|\bDC \d+|attack rolls?|saving throws?|ability (?:check|score)s?"
+    r"|hit points?|proficien\w+|advantage on|disadvantage on|spell slots?|bonus action|short or long rest|attack action|attack twice)",
+    _re.I)
+
+
+def _rules_voice(desc):
+    """True when `desc` is written in second-person rules voice WITH a rules signal (see above)."""
+    text = _STUB_LINE.sub(" ", desc)
+    found = {m.group(0).lower() for m in _RULES_VOICE.finditer(text)}
+    return len(found) >= 2 or (bool(found) and _RULES_TERM.search(text) is not None)
+
+
 def name_surprisal(index):
     """How unlikely is it that two universes coincidentally share this NAME?
 
@@ -294,7 +315,7 @@ def filtered_index(index):
         desc = h.get("description") or ""
         return bool(_MECHANIC.match(nm)
                     or (_STATBLOCK is not None and _STATBLOCK.search(desc))
-                    or _RULES_VOICE.search(desc))
+                    or _rules_voice(desc))
     out, dropped = {}, 0
     for k, hits in index.items():
         kept = [h for h in hits if not _mechanic(h)]
@@ -305,12 +326,24 @@ def filtered_index(index):
     return out, dropped
 
 
-def surprisal_pair_weights(occ, sur, min_sources=2, max_sources=60):
-    """Pair evidence weighted by NAME surprisal rather than source-idf."""
+def surprisal_pair_weights(occ, sur, min_sources=2, max_sources=None):
+    """Pair evidence weighted by NAME surprisal rather than source-idf.
+
+    NO UPPER BOUND ON SOURCES BY DEFAULT (sweep68 b04 Q3, answered under the 2026-09-30 ruling).
+    `max_sources=60` dropped every entity in more than 60 sources -- no pair evidence, no `shared`
+    row -- and its comment called that a common noun. It is a band cut on a ranked quantity, which
+    Hard Rule 0 forbids, and the weighting it stood in for already exists: name surprisal is a
+    property of the name's tokens, so a common word scores low whatever its source count, and a
+    distinctive multi-token name in 61 sources is real evidence that the cut discarded. Measured
+    on the live index: the widest key spans 36 of 209 sources, so the cut removes nothing today
+    and only ever decided things silently in the future. The opposite argument was tractability;
+    the pair loop is bounded by N*(N-1)/2 = 21,736 increments per key. `max_sources` stays as an
+    explicit argument for a caller that wants a bound and says so.
+    """
     w = collections.defaultdict(float)
     shared = collections.defaultdict(list)
     for k, srcs in occ.items():
-        if not (min_sources <= len(srcs) <= max_sources):
+        if len(srcs) < min_sources or (max_sources is not None and len(srcs) > max_sources):
             continue
         s = sur.get(k, 0.0)
         for i in range(len(srcs)):
@@ -355,7 +388,9 @@ def null_threshold_surprisal(occ, sur, sources, trials=20, pct=99.9, seed=202608
             "trials.")
     rng = random.Random(seed)
     out = []
-    keys = [(k, len(v)) for k, v in occ.items() if 2 <= len(v) <= 60]
+    # sweep68 b04 Q3: the same upper bound is gone here as in `surprisal_pair_weights`, or the null
+    # would simulate a smaller universe than the weights it is a threshold for.
+    keys = [(k, len(v)) for k, v in occ.items() if len(v) >= 2]
     for _ in range(trials):
         w = collections.defaultdict(float)
         for k, n in keys:
@@ -371,7 +406,7 @@ def null_threshold_surprisal(occ, sur, sources, trials=20, pct=99.9, seed=202608
     if not out:
         raise NullThresholdUnmeasured(
             "null_threshold_surprisal: no trial produced a single pair weight -- `keys` is "
-            "empty (no entity occurs in 2..60 sources). The corpus is too small, too fresh, or "
+            "empty (no entity occurs in 2 or more sources). The corpus is too small, too fresh, or "
             "was emptied by filtering; there is nothing to measure a null threshold from.")
     return out[len(out) // 2]
 
@@ -609,6 +644,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--trials", type=int, default=20)
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--allow-stale", action="store_true",
+                    help="let --write land from an ENTITY_INDEX.json older than data/records/")
     args = ap.parse_args()
     if args.write:
         # THE HALT (owner ruling 2026-09-28, order 3099138a82bd): this invocation writes, so it asks first.
@@ -621,9 +658,35 @@ def main():
         ap.error(f"--trials must be >= 1 (got {args.trials}); a permutation null needs at "
                  "least one trial to measure anything")
 
+    if args.write and not args.allow_stale:
+        # sweep68 b04 Q2, answered under the 2026-09-30 ruling. `load_index` only WARNS about a
+        # stale index, and --write then landed three artifacts that weave_index, resonance and
+        # cosmology_graph read together, computed from a snapshot of a partial corpus. Refusing is
+        # the fail-closed answer. Against it: the crawl keeps records changing, so the index is
+        # nearly always behind and the refusal will bite -- which is the point; the remedy is one
+        # `weave_index.py --write` first, and --allow-stale is the explicit acknowledgement for
+        # someone who wants the older snapshot on purpose. Read-only runs are unaffected.
+        _fresh = index_staleness()
+        if _fresh["stale"]:
+            print("REFUSING --write: " + _fresh["reason"] + ". Rebuild the index with "
+                  "`weave_index.py --write` first, or pass --allow-stale to land this "
+                  "snapshot knowingly.", file=sys.stderr)
+            silence.note("weave.py:write-refused-stale-index")
+            return 2
+
     raw = load_index()
     index, dropped = filtered_index(raw)
     print(f"entity keys {len(raw):,}  ({dropped} mechanics dropped -> {len(index):,})")
+    # sweep68 b04 F1: the key count above hides how many HITS a source lost; print that per source
+    # so a voice/statblock pattern that starts eating a franchise's real entities is visible.
+    lost = collections.Counter()
+    for k, hits in raw.items():
+        lost.update(h["source"] for h in hits)
+    for k, hits in index.items():
+        lost.subtract(h["source"] for h in hits)
+    for src, n in sorted(lost.items(), key=lambda kv: -kv[1]):
+        if n > 0:
+            print(f"  hits dropped as mechanics  {src}: {n:,}")
 
     # `idf` and `N` are unpacked and never read again here -- `occ` and `sources` are the parts
     # of `idf_table()`'s output this run still needs (surprisal replaced idf for weighting, see

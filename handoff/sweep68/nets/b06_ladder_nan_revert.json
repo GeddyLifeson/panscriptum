@@ -1,0 +1,12 @@
+[
+ {
+  "module": "descending_ladder.py",
+  "old": "    if not metres > 0:\n        return None, None",
+  "new": "    if metres <= 0:\n        return None, None"
+ },
+ {
+  "module": "descending_ladder.py",
+  "old": "    if not (to_m > 0 and mass_kg > 0):\n        return {",
+  "new": "    if to_m <= 0 or mass_kg <= 0:\n        return {"
+ }
+]

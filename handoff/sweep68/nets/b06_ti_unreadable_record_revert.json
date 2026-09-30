@@ -1,0 +1,7 @@
+[
+ {
+  "module": "thread_integrity.py",
+  "old": "    if _WI.LAST_UNREADABLE:",
+  "new": "    if False:"
+ }
+]

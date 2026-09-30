@@ -1,0 +1,7 @@
+[
+ {
+  "module": "whoruns.py",
+  "old": "os.path.basename(script).lower() == want.lower()",
+  "new": "os.path.basename(script) == want"
+ }
+]

@@ -1357,6 +1357,9 @@ print("=" * 96)
 
 import custodes as CU       # noqa: E402
 import pipeline as PLmod    # noqa: E402
+# The battery's write_record probes log through `pipeline.log`; keep those lines out of the live
+# `state/pipeline.log` (run #68 -- see the same redirect at the top of drill.py).
+PLmod.LOG = os.path.join(_tf_lane_vm.gettempdir(), "panscriptum_battery_pipeline.log")
 
 _ks = dict(ruin=0.6, continuity=4.8, celerity=6.5, reach=1.2,
            transgression=8.7, sustain=7.4, vector=0.8, volition=9.6)
@@ -6040,7 +6043,12 @@ print("25. §20e  NO CONSOLE WINDOWS, EVER — every child spawn must suppress i
 # and forgets the flag must fail the suite, not be discovered by the owner.
 import ast as _ast20e
 
-_SPAWNERS20e = {"run", "Popen", "call", "check_output", "check_call"}
+_SPAWNERS20e = {"run", "Popen", "call", "check_output", "check_call",
+                # sweep68 b02 F1: both run a shell, and neither was visible to this scan.
+                "getoutput", "getstatusoutput"}
+# sweep68 b02 F1: the os.spawn* family opens a process the same way os.system does.
+_OS_SPAWNERS20e = {"system", "popen", "startfile", "spawnl", "spawnle", "spawnlp", "spawnlpe",
+                   "spawnv", "spawnve", "spawnvp", "spawnvpe"}
 _unguarded20e = []
 _guarded20e = 0
 _osspawn20e = []
@@ -6099,16 +6107,23 @@ def _spawn_scan20e(_t20e, _name20e):
             _mod20e, _fn20e = _direct20e.get(_f20e.id, (None, None))
         if not _mod20e:
             continue
-        _kw20e = {k.arg for k in _n20e.keywords if k.arg}
         _where20e = f"{_name20e}:{_n20e.lineno}"
-        if _mod20e == "os" and _fn20e in {"system", "popen", "startfile"}:
+        if _mod20e == "os" and _fn20e in _OS_SPAWNERS20e:
             _found20e["osspawn"].append(_where20e)
         elif _mod20e == "subprocess" and _fn20e in _SPAWNERS20e:
             # RECOGNISED, guarded or not: the reconciliation below asks whether the SCAN can
             # still see this module's spawns at all, which is a different question from whether
             # they carry the flag. An unguarded site is already reported by name one row down.
             _found20e["recognised"] += 1
-            if "creationflags" in _kw20e or "startupinfo" in _kw20e:
+            # THE VALUE IS READ, NOT ONLY THE NAME (sweep68 b02 F1). `creationflags=0` and
+            # `creationflags=None` suppress nothing and were counted as guarded, so the one
+            # enforcement of "no command window may ever pop" passed a spawn that pops one. A
+            # literal 0 / None / False is not a guard; a name or expression still counts (the
+            # tree builds its flag from `getattr(subprocess, "CREATE_NO_WINDOW", 0)`).
+            if any(k.arg in ("creationflags", "startupinfo")
+                   and not (isinstance(k.value, _ast20e.Constant)
+                            and k.value.value in (0, None, False))
+                   for k in _n20e.keywords):
                 _found20e["guarded"] += 1
             else:
                 _found20e["unguarded"].append(_where20e)
@@ -6642,15 +6657,19 @@ _savedP20i, _savedF20i = list(PASS), list(FAIL)
 PASS.clear()
 FAIL.clear()
 _raised20i = False
+_recorded20i = (None, None)
 try:
     check("probe: a non-numeric got against a float want", None, 1.0)
 except TypeError:
     _raised20i = True
-_recorded20i = (len(FAIL), len(PASS))
-PASS.clear()
-FAIL.clear()
-PASS.extend(_savedP20i)
-FAIL.extend(_savedF20i)
+finally:
+    # RESTORED EVEN IF check() RAISES SOMETHING ELSE (sweep68 b02 F6): the lists were already
+    # cleared, so an escaping exception dropped every earlier FAILED row from the RESULT dump.
+    _recorded20i = (len(FAIL), len(PASS))
+    PASS.clear()
+    FAIL.clear()
+    PASS.extend(_savedP20i)
+    FAIL.extend(_savedF20i)
 check("a non-numeric got is recorded as a failed check, never raised",
       (_raised20i, _recorded20i), (False, (1, 0)),
       note="the probe above is deliberately failing and is scrubbed from the tally; what is "
@@ -6830,6 +6849,9 @@ _FIX20j = {
                                  "_x.Popen(['a'], creationflags=0x08000000)\n"),
     "a different module's Popen": "import other as _x\n_x.Popen(['a'])\n",
     "aliased from-import, no flag": "from subprocess import Popen as _P\n_P(['a'])\n",
+    "flag present but zero": "import subprocess\nsubprocess.run(['a'], creationflags=0)\n",
+    "flag present but None": "import subprocess\nsubprocess.run(['a'], creationflags=None)\n",
+    "getoutput, no flag": "import subprocess\nsubprocess.getoutput('dir')\n",
     "plain from-import, no flag": "from subprocess import run\nrun(['a'])\n",
 }
 _got20j = {_k20j: _spawn_scan20e(_ast20e.parse(_v20j), "fixture.py")["unguarded"]
@@ -6842,6 +6864,12 @@ check("the spawn scan resolves import ALIASES, not just the literal module name"
            "whose entire job was to find it; matching the plain spelling is not a guard. Red in "
            "the first slot: the alias is not resolved. Red in the second: the flag is not read. "
            "Red in the third: the scan flags any `.Popen` whatever module it belongs to")
+check("the spawn scan reads the flag's VALUE: 0 and None are not guards; getoutput is a spawn",
+      (_got20j["flag present but zero"], _got20j["flag present but None"],
+       _got20j["getoutput, no flag"]),
+      (["fixture.py:2"], ["fixture.py:2"], ["fixture.py:2"]),
+      note="sweep68 b02 F1: the scan read only the keyword NAME, so creationflags=0 passed as "
+           "guarded, and subprocess.getoutput was invisible to it")
 check("the spawn scan also resolves `from subprocess import ...` call names",
       (_got20j["aliased from-import, no flag"], _got20j["plain from-import, no flag"]),
       (["fixture.py:2"], ["fixture.py:2"]),
@@ -7759,12 +7787,21 @@ def _src20p(name):
 _INTERLOCKED = ("axis_correlation.py", "backfill.py", "binding_health.py", "burgs.py",
                 # the three cataloguers, interlocked by sweep67 order 6d800a399592
                 "catalogue_aurora.py", "catalogue_codex.py", "catalogue_web.py", "chain.py",
+                # sweep68 b10 F3: cosmology_graph --write gained its halt check
+                "cosmology_graph.py",
                 "dashboard.py", "feats.py", "foreman.py", "generate.py", "handbuilt.py",
                 "health.py", "hostcheck.py", "ingest_doc.py", "local_agent.py", "navtree.py",
                 "overnight.py", "overwatch.py", "pipeline.py", "policy.py", "publish.py",
                 "read.py", "repass_bands.py", "resync_roll.py", "retry_synthesis.py", "roll.py",
                 "rosetta.py", "sevenfold.py", "thread_integrity.py", "threads.py", "weave.py",
-                "weave_index.py", "wh40k.py", "withdraw_chapters.py")
+                "weave_index.py", "wh40k.py", "withdraw_chapters.py",
+                # sweep68: b04 (cleanup --apply, recover_folder_records) and b11 (scout) gained
+                # their halt checks
+                "cleanup.py", "recover_folder_records.py", "scout.py",
+                # sweep68 answers (2026-09-30 ruling): derived-data writers given halt checks
+                "address_space.py", "build_terminal.py", "catalogue_models.py", "endpoint.py",
+                "events.py", "genre.py", "halo.py", "hosts.py", "onomast.py", "pantheon.py",
+                "render.py", "scope.py", "sweep.py", "tiers.py", "worldseed.py", "zfighters.py")
 
 # AND THE ROSTER CAN NO LONGER FALL BEHIND THE TREE. A hand-kept tuple is a count in doctrine, and
 # CLAUDE.md records what that costs: "A count in doctrine goes stale weekly and then gets reasoned

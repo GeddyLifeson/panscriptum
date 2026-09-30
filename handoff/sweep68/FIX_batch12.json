@@ -1,0 +1,222 @@
+[
+ {
+  "id": "F1",
+  "file": "src/magnitude.py",
+  "line": 1909,
+  "severity": "HIGH",
+  "verdict": "fixed",
+  "what": "run_batch read an unreadable ASSAYS.json as {} and the first result overwrote every settled record.",
+  "how": "Reproduced with a torn file. The resume read now retries 5 x 0.4 s (outwaits a reader or AV lock), then raises SystemExit naming the file and the error if it is still unreadable or not a dict. The file is never written. --fresh stays the only way to start from nothing. The running --calibrate process is untouched: calibrate() has its own reader, and run_batch changes only for batches started after this.",
+  "net": "b12_assays_unreadable_refuses",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "src/allsweep.py",
+  "line": 1035,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "allsweep --quick lands ALLSWEEP.json with empty verifiers/estate, and consumers read it as a green full battery.",
+  "how": "Confirmed at 910-1041. Not fixed: the full fix spans workorders.battery_faults and standards.py (not mine), and whether --quick may replace the battery artifact is audit Q2. Options: (a) --quick does not land ALLSWEEP.json and says so, which fails closed because the file then ages out; (b) stamp quick:true/tiers and have battery_faults/standards treat VERIFY/ESTATE as uncovered; (c) carry the previous full sweep's verifier/estate rows forward with their own timestamps.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F3",
+  "file": "src/grounding.py",
+  "line": 91,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "The emanation cue `the One` matched ordinary 'the one who/that' under re.I.",
+  "how": "The intent is clear from the code: it is the only capitalised cue, next to lowercase siblings, so it means the Plotinian One. It is now `(?-i:the One)`. Measured read-only on all records, old vs new: 12 sources move. Marvel emanation 1485 -> ex_nihilo 735, DC 830 -> ex_nihilo 506, Dragon Ball Z -> ex_nihilo, Soul Calibur -> eternal_cycle, Gears of War -> immanent, Who Framed Roger Rabbit -> immanent (15-15 tie). These go to ungrounded: all the Fate series, Ghost Recon, One Piece, Rosario + Vampire, StarCraft, the Lovecraftian mythos. Contested count goes 14 -> 8. data/GROUNDINGS.json was not rewritten; it changes only on the next `grounding.py --write`. Residual: capitalised 'the One Ring' / 'the One Above All' still count. The same-shape cues `the force`/`the weave`/`the current` are not measured and are left alone.",
+  "net": "b12_grounding_the_one_case",
+  "red_green_checked": true
+ },
+ {
+  "id": "F4",
+  "file": "src/magnitude.py",
+  "line": 214,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "Guard 2's AXIS_LEXICON disagrees with feats.AXIS_ACT (28% of 'does not bear on' rejections are the generator's own candidates), and some stems are unanchored.",
+  "how": "Not fixed (Hard Rule 3). Unifying the tables accepts more. Adding word boundaries is also not stricter overall: AXIS_RE is also guard 3(d)'s deed locator (subject_refusal: no match means the rival check is skipped) and quantity_scores' relevance test for the instrument override. So a narrower lexicon loosens guard 3. Options: (a) one table taken from feats._AXIS_ACT_RE, with an owner ruling on the accepted coverage gain; (b) word-anchor the stems only for guard 2 at verify:911, and keep the current AXIS_RE for subject_refusal and quantity_scores; (c) leave it, and document the split-vs-one-shot asymmetry.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F5",
+  "file": "src/magnitude.py",
+  "line": 1837,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "host_ceiling returns None (read by callers as 'no ceiling, no clamp') on any non-ProbeUnread exception.",
+  "how": "Verified. Not fixed: drill.py's existing net _net_efbfead57cb5 asserts `host_ceiling(...) is None` on exactly this path (the sweep67 ruling chose uncached None). Re-raising would BREACH that net, and I may not edit drill.py. Options: (a) re-raise like the ProbeUnread arm; run_batch.work already records the entity as a non-settled failure, so it is requeued. The coordinator updates that net to expect a raise; (b) return a sentinel that assay_entity refuses.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F6",
+  "file": "src/magnitude.py",
+  "line": 787,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "_resolve_citation resolved a long fabricated citation onto a short mined line it merely contained ('Speed', 'Ki' in 'killed').",
+  "how": "Reproduced. In the numbered path, a pool whose single hit is not _substantial is now refused with a reason. Strictly stricter: exact equality still admits a short line quoted whole, and pools with two or more distinct lines were already refused. The split path (numbered=False) is unchanged.",
+  "net": "b12_cite_short_line_contained",
+  "red_green_checked": true
+ },
+ {
+  "id": "F7",
+  "file": "src/magnitude.py",
+  "line": 363,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "_is_entity takes any span sharing one name token (Captain Marvel on Captain America's sheet) as the entity, so guard 3(d) misses the rival.",
+  "how": "Verified. The audit's fix is stricter, but it over-refuses: _PROPER joins sentence-initial capitalised words, so 'Son Goku', 'Kid Goku', 'Super Saiyan Goku' and 'Enraged Goku ...' would all become rivals on Goku's own sheet, and coverage drops library-wide. That is a curatorial trade. Options: (a) the audit rule (every capitalised token in the span must be a form); (b) a rival only when the non-entity token is itself a catalogued name on the same host; (c) a title-word list (Captain/Doctor/Iron/Lord/...) that does not count as identity on its own.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F8",
+  "file": "src/magnitude.py",
+  "line": 1094,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "The split path shows the anchor call raw model citations before any guard has checked them.",
+  "how": "Code confirmed. Not run, because it needs a model. Reordering (gate first, then anchor over only the surviving citations) changes the anchor band both up and down, so it is not strictly stricter (Hard Rule 3). Options: (a) gate first and anchor on survivors; (b) keep the order and re-run the anchor when the gate drops any citation.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F9",
+  "file": "src/grounding.py",
+  "line": 325,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "An exact two-way top tie (confidence 0.5) was classified by dict order and left off the contested list.",
+  "how": "The contested test is now `<= 0.5`. The change is diagnostic only (the main() printout); no stored value changes.",
+  "net": "b12_grounding_tie_contested",
+  "red_green_checked": true
+ },
+ {
+  "id": "F10",
+  "file": "src/silence.py",
+  "line": 261,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "_handler_is_observed credited a handler through a later `except ... as e` that rebinds the same name.",
+  "how": "One-line change inside _block_reaches_sink's Try arm: each handler body is walked with its own bound name removed from the taint set. Signature unchanged. Measured with audit(), old vs new: 1405 sites, SILENT 364 -> 366; exactly drill.py:2325 and drill.py:22838 move to SILENT. No ratchet on the SILENT count was found.",
+  "net": "b12_silence_rebound_handler_name",
+  "red_green_checked": true
+ },
+ {
+  "id": "F11",
+  "file": "src/suppressions.py",
+  "line": 403,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "problems() did not re-check TTL bounds or breadth on rows already in the file.",
+  "how": "problems() now reports UNBOUNDED (non-finite, or expiring more than MAX_TTL_DAYS after added_at, or after now when added_at is missing) and BLANKET (a pattern made only of wildcards and slashes). Live SUPPRESSIONS.json still reports [].",
+  "net": "b12_suppressions_unbounded_blanket",
+  "red_green_checked": true
+ },
+ {
+  "id": "F12",
+  "file": "src/custodes.py",
+  "line": 480,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "convene accepted a NaN or out-of-range eta as a measured, non-vetoing curl.",
+  "how": "convene now raises ValueError unless eta is None or a finite number in [0, 1]; None still abstains. The only callers pass 0.70 and 0.99, and anchors.py passes none. Added `import math`.",
+  "net": "b12_custodes_eta_nonfinite",
+  "red_green_checked": true
+ },
+ {
+  "id": "F13",
+  "file": "src/custodes.py",
+  "line": 194,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Stale comments.",
+  "how": "Rewrote custodes :189-193 and :725-727 to say drill.py and verify_math.py now consult table_faults(). Added a note to context_budget.window() that generate.call_ollama still sends 8192 (the safe direction). magnitude :122 is left as is: it narrates the module's past ('This module called ...'). magnitude :210 'deliberately narrow' belongs to the F4 question. Comments only, so there is no net.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F14",
+  "file": "src/address.py",
+  "line": 258,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "spine_code_for resolved a target contained in several index names at equal evidence by file order.",
+  "how": "An equal-evidence tie between different codes now returns UNASSIGNED (Hard Rule 2). Checked old vs new on all 215 live roll names: 0 changes. 'Dragon' and 'Angels' now return UNASSIGNED.",
+  "net": "b12_address_tie_unassigned",
+  "red_green_checked": true
+ },
+ {
+  "id": "F15",
+  "file": "src/grounding.py",
+  "line": 288,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "grounding.main --write would land {} over GROUNDINGS.json when no record could be read.",
+  "how": "main() now returns 1 and writes nothing when `out` is empty. Residual: a PARTIAL unreadable set still lands short. Counting record files cannot tell 'unreadable' from 'no entries' (6 live files have no entries); fixing that needs pipeline.records to report skips, which is not mine.",
+  "net": "b12_grounding_empty_write_refused",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q1",
+  "file": "src/magnitude.py",
+  "line": 1870,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "settled() makes 'no axis cleared its gate' and 'sheet saturated' permanent, although both depend on the scorer's behaviour that day.",
+  "how": "Owner ruling needed. Options: (a) keep them permanent; (b) stamp model and date and requeue when the model changes; (c) requeue after N days.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/allsweep.py",
+  "line": 1035,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Is --quick meant to replace ALLSWEEP.json?",
+  "how": "See F2.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/silence.py",
+  "line": 1318,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "instrument() writes the source and .presilence with bare open('w'), and a second run overwrites the pristine backup.",
+  "how": "Unchanged, since silence.py changes are to stay tiny. Options: (a) refuse when .presilence exists; (b) route both writes through replace_retry; (c) accept it as a one-shot tool.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/magnitude.py",
+  "line": 1073,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_one_axis keeps the highest slice score, an upward-biased estimator (sweep67 Q1).",
+  "how": "Changing it moves published decimals (Hard Rule 3). Options: median, or the score of the slice holding the cited feat.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "src/allsweep.py",
+  "line": 471,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "run_verifier/check_import grade 'refused' when the halt sentence appears anywhere in the output, without checking that a halt stands.",
+  "how": "UNVERIFIED that any verifier prints the sentence outside a refusal. Option: also require escalation to report an active halt at grading time.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

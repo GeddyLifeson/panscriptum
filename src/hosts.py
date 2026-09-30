@@ -44,6 +44,11 @@ EXTRA = os.path.join(HERE, "data", "SOURCE_HOSTS.json")
 # A source whose candidate generation RAISED. Distinct from `None`, which `discover()` uses for
 # "roster too thin to score", so the two cannot be confused by the consumer.
 _PROBE_FAILED = object()
+# sweep68 b07 F7: what the last `discover()` walk LOST. `discover()` returns `(added, rows)` to
+# every caller (drill nets unpack exactly two), so its two bad outcomes -- hosts found and then
+# lost to a denied write, sources whose probe raised -- were said on stderr and returned to no one,
+# and `main()` exited 0 over a walk that lost its product. Kept here, read by `main()` for its rc.
+LAST_DISCOVER = {"lost": [], "probe_failed": []}
 
 
 def _load(path, default):
@@ -198,7 +203,17 @@ MIN_HITS_SECONDARY = 3
 MIN_ABOUT_SECONDARY = 0.6
 
 
-def discover(only=None, workers=6, per_source=24):
+# HARD RULE 0, APPLIED TO THE GUESSES (sweep68 b07 Q5, answered under the 2026-09-30 ruling).
+# `per_source` defaulted to 24 and sliced the SPECULATIVE candidates after that, so a source whose
+# real second wiki sat at guess 25 of 75 was never probed and looked exactly like a source with no
+# second wiki: a truncation of an ordered candidate list, which CLAUDE.md's no-caps rule forbids in
+# those words ("ranking then truncating is not" allowed). The case for keeping it was cost -- each
+# invented subdomain is a network round trip that mostly learns it does not exist -- and that is
+# real but is the exact "genuinely too slow" case the rule answers: more workers or more time, never
+# a smaller universe (the longest live list is 75 probes for one source, measured 2026-08-29).
+# Grounded hosts were never bounded. The parameter stays for a caller that WANTS a bound and says
+# so; the default is now none, and any bound a caller passes is still reported below.
+def discover(only=None, workers=6, per_source=None):
     """Find every ADDITIONAL host each source can be read from, and keep all that hold.
 
     `hostcheck.adopt()` already does the hard part -- propose candidates, probe each against the
@@ -220,6 +235,7 @@ def discover(only=None, workers=6, per_source=24):
     todo = [s for s in prim
             if (not wanted or any(w in s.lower() for w in wanted)) and by.get(s)]
     added, rows, lost = 0, [], []
+    LAST_DISCOVER["lost"], LAST_DISCOVER["probe_failed"] = lost, []
 
     def work(source):
         # NO `[:40]`. This roster is the evidence a candidate host is SCORED against, so capping
@@ -303,7 +319,7 @@ def discover(only=None, workers=6, per_source=24):
     # is how a smaller universe gets mistaken for the whole one, so the total is reported.
     withheld_total = 0
     not_probed = []
-    probe_failed = []
+    probe_failed = LAST_DISCOVER["probe_failed"]
     with ThreadPoolExecutor(max_workers=workers) as ex:
         for res in ex.map(work, todo):
             if not res:
@@ -380,6 +396,29 @@ def coverage():
             "with_more_than_one": multi, "extra_hosts_recorded": sum(len(v) for v in ex.values())}
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Added sweep68 b07 Q3, answered under the 2026-09-30 ruling: `axis_correlation.py --write`
+    already asked the halt (orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, the owner's
+    2026-09-28 ruling that every hand-run tool writing derived data/ or the library's output
+    refuses while the library is HALTED), and this module's writer did not. The opposing view --
+    a derived file is regenerable, so a halt need not stop it -- loses because a halt means a
+    library-wide invariant is broken and a hand-run is the path the supervisor's own gates never
+    see; refusing only tightens. Called on the WRITING path only, so read-only invocations keep
+    working under a halt.
+
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` (Hard Rule -1's own incident).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description="the multi-host registry")
     ap.add_argument("--show", metavar="SOURCE", help="list every host for one source")
@@ -391,6 +430,7 @@ def main():
     a = ap.parse_args()
 
     if a.discover:
+        _assert_not_halted("--discover (writes data/SOURCE_HOSTS.json)")
         before = coverage()
         added, rows = discover(only=a.only, workers=a.workers)
         after = coverage()
@@ -403,7 +443,8 @@ def main():
         print("hosts added: %d" % added)
         print("sources with more than one host: %d -> %d"
               % (before["with_more_than_one"], after["with_more_than_one"]))
-        return 0
+        # sweep68 b07 F7: a walk that lost hosts or could not probe sources did NOT succeed.
+        return 1 if (LAST_DISCOVER["lost"] or LAST_DISCOVER["probe_failed"]) else 0
     if a.show:
         prim = _load(PRIMARY, {})
         match = [s for s in prim if a.show.lower() in s.lower()]

@@ -340,9 +340,20 @@ def assert_block_complete(text, expected_entries, label=""):
 # and the model emits bold headers constantly, because the template asks for them. A guard that
 # only recognises the unobfuscated spelling is green on purpose, for ever (standing lesson 12).
 # Leading decoration is now skipped explicitly rather than assumed absent.
+#
+# AND FIVE MORE SPELLINGS OF THE SAME UNEARNED NUMBER (sweep68 batch 11, N5; STRICTER ONLY). The
+# second version still needed label, decoration, a COLON, decoration, digits, so `Wisdom: ~28`,
+# `Wisdom: about 28`, `Wisdom (Perception): 28`, `Wisdom - 28`, a `| Wisdom | 28 |` table row and
+# a full-width colon all passed 4b on an uncited entity -- exactly the deviations a model makes
+# when it paraphrases a template. Measured with `unearned_instrument(text, set())`. The label may
+# now carry a parenthetical, the separator may be a colon (either width), `=`, `|` or a spaced
+# dash, and ANY run of non-digits on the same line may stand before the number. The old spelling
+# is a strict subset of this one (the `[\s*_]+` arm keeps a number on the NEXT line, which the old
+# `[\s*_]*` reached through `\s`), so nothing that was refused before is let through now. A line
+# that says `Wisdom: --` and carries no digit is still the template being obeyed.
 _AXIS_RE = re.compile(
-    r"(?im)^[\s*_#>-]*(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)"
-    r"[\s*_]*:[\s*_]*(\d+)")
+    r"(?im)^[\s*_#>|-]*(Strength|Dexterity|Constitution|Intelligence|Wisdom|Charisma)"
+    r"[\s*_]*(?:\([^)\n]*\)[\s*_]*)?(?:[:\uff1a=|]|[-\u2013\u2014](?=\s))(?:[^\n\d]*|[\s*_]+)\d")
 
 
 def cited_names_for(source, names):
@@ -444,7 +455,14 @@ INSTRUMENT_CLASSES = ("person", "god", "beast")
 
 # The section's own marker, its spelled-out heading, and the two honest bodies the template
 # allows. Any ONE of these is the section being present.
-_INSTRUMENT_MARK = re.compile(r"(?im)^[\s*_#>-]*(?:▣\s*)?(?:The\s+)?Instrument\b|▣")
+# THE GLYPH ALONE MUST OPEN A LINE (sweep68 b11 Q5, answered under the 2026-09-30 ruling; STRICTER
+# ONLY). The last alternative was a bare glyph, so one anywhere in the block -- mid-sentence in the
+# Record, or trailing a margin note -- satisfied the marker for a being that had no Instrument
+# section at all, given any axis label or 'uninstrumented' elsewhere. The template prints the
+# marker at the start of its line (the Instrument heading, and the glued Threads shape the 4c note
+# measures also opens its line), so requiring that position refuses only text that is not the
+# section; everything the old pattern matched at a line start still matches.
+_INSTRUMENT_MARK = re.compile(r"(?im)^[\s*_#>-]*(?:▣\s*)?(?:The\s+)?Instrument\b|^[\s*_#>-]*▣")
 _INSTRUMENT_NOT_APPLICABLE = re.compile(r"(?i)\bnot applicable\b")
 _INSTRUMENT_UNINSTRUMENTED = re.compile(r"(?i)\buninstrumented\b")
 _CLASS_LINE = re.compile(r"(?im)^[\s*_#>-]*Class[\s*_]*:[\s*_]*([A-Za-z /]+)")

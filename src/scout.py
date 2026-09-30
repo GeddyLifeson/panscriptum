@@ -428,7 +428,24 @@ def scout(source, names, register=True):
     # well-documented author is precisely the case where a ninth URL exists -- and the cap sat
     # BEFORE verification, so the dropped candidates were never even tested. Verification is one
     # cheap fetch each. Uncapped 2026-08-24 (Hard Rule 0).
-    urls = [u for u in ((got or {}).get("urls") or []) if str(u).startswith("http")]
+    #
+    # THE ANSWER'S TYPE IS CHECKED (sweep68 batch 11, N10). This read `(got or {}).get("urls")`,
+    # so a model that answered with a bare JSON list raised AttributeError past every handler in
+    # this function -- `sweep()` then never wrote SCOUT.json or the archive and never unstamped,
+    # while the attempt stamps written before the work stood (the failure order d57377577891
+    # describes for a raising `register`). And `{"urls": "https://x"}` iterated CHARACTERS, none
+    # of which start with "http", so a real proposal was logged as the clean negative "model
+    # proposed nothing". A lone string is one URL and a bare list is the list; the fetch still
+    # disposes of each. Anything else is an answer nobody can use, said so, not a negative.
+    raw_urls = got.get("urls") if isinstance(got, dict) else got
+    if isinstance(raw_urls, str):
+        raw_urls = [raw_urls]
+    if raw_urls is not None and not isinstance(raw_urls, list):
+        silence.note("scout.py:answer-not-usable")
+        return {"source": source, "proposed": 0, "kept": [], "checked": [], "reached": True,
+                "note": "model answer was not usable (%s), so nothing was proposed or verified"
+                        % type(raw_urls).__name__}
+    urls = [u for u in (raw_urls or []) if str(u).startswith("http")]
     if not urls:
         # A REAL negative: the model answered and named nowhere. `reached` says so, so this is
         # not confused with the branch above.
@@ -497,11 +514,27 @@ def scout(source, names, register=True):
             try:
                 import feats as F
 
+                # NEVER OVERWRITE A REAL HOST (sweep68 batch 11, N2). `--source X` deliberately
+                # scouts a source that is NOT hostless, and `feats` reads a `pages:` value as
+                # "only SOURCE_PAGES.json", so the unconditional assignment silently stopped the
+                # source's real wiki being read. `sweep()` only reaches hostless sources, but
+                # `hostcheck --adopt` can land a host between `hostless()` and this write. A real
+                # host stays; the pages are in the registry and the note says they are unread.
                 def _adopt(hosts):
+                    cur = hosts.get(source)
+                    if cur and not str(cur).startswith("pages:"):
+                        return cur
                     hosts[source] = "pages:" + source
+                    return None
 
-                landed, _ = _mutate(F.HOSTS, _adopt)
-                if not landed:
+                landed, _held = _mutate(F.HOSTS, _adopt)
+                if landed and _held:
+                    silence.note("scout.py:host-already-real")
+                    registered = False
+                    reg_note = ("%d page(s) registered but %r already has a wiki host (%s), which "
+                                "was left in place -- those pages will not be read until the "
+                                "host map says so" % (len(kept), source, _held))
+                elif not landed:
                     silence.note("scout.py:register-host")
                     registered = False
                     reg_note = ("%d page(s) registered but the host map could not be updated"
@@ -542,7 +575,11 @@ def scout(source, names, register=True):
     # unregistered and move on. The model's own note is kept: the registration failure is
     # PREPENDED rather than substituted, because both are findings and the second one does not
     # stop being true because the first happened.
-    _note = (got or {}).get("note", "")
+    # sweep68 b11 N10: `got` may be a bare list (its URLs were taken above) and `note` need not be
+    # text; either would raise here, after every fetch was spent.
+    _note = got.get("note", "") if isinstance(got, dict) else ""
+    if not isinstance(_note, str):
+        _note = ""
     if reg_note:
         _note = reg_note + ("; " + _note if _note else "")
     return {"source": source, "proposed": len(urls), "kept": kept, "checked": checked,
@@ -847,6 +884,21 @@ def sweep(limit=None, register=True):
     return results
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool does anything. -> True, or raises.
+
+    Same shape as `chain._assert_not_halted`. FAIL CLOSED ON THE IMPORT, never
+    `except ImportError: pass` -- a deleted `escalation.py` must not switch the halt off.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description="find where a source's material lives")
     ap.add_argument("--limit", type=int, default=None,
@@ -855,6 +907,12 @@ def main():
     ap.add_argument("--dry", action="store_true", help="verify but do not register")
     ap.add_argument("--source", help="one source by exact name")
     a = ap.parse_args()
+    # THE HALT (sweep68 batch 11, N3; Hard Rule -1). Every mode of this hand-run tool writes --
+    # WIKI_HOSTS.json and SOURCE_PAGES.json when registering, and SCOUT_ATTEMPTS.json / SCOUT.json
+    # / SCOUT_BLOCKED.json even under --dry -- and spends model calls, so it asks BEFORE any of
+    # it. The roster check is one-directional (a module that calls `assert_clear` must be on
+    # verify_math's `_INTERLOCKED`), so a writer that never asked was invisible to it.
+    _assert_not_halted("(writes WIKI_HOSTS.json, SOURCE_PAGES.json and the scout ledgers)")
     if a.source:
         todo = hostless()
         names = todo.get(a.source)

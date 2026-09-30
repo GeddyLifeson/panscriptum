@@ -209,6 +209,14 @@ def assay_to_standards(magnitude_band, ruin_score=5.0):
     from assay import BAND_EDGES, LADDER
     if magnitude_band not in BAND_EDGES:
         return None
+    # sweep68 b04 F8: the docstring prices "a band", and the interpolation below is only inside
+    # the band for 0 <= ruin_score <= 10. `("M3", 15)` returned 1.57e28 Standards, above M4's own
+    # floor, and a negative score priced below M3's -- an entity in a different band, silently.
+    # RAISES rather than clamps: a clamp would return a confident price for a score that was
+    # never in range. (Held module, no production caller; this is for whoever wires it.)
+    if not (0 <= ruin_score <= 10):
+        raise ValueError("ruin_score must be within [0, 10] to stay inside its band; got %r"
+                         % (ruin_score,))
     i = LADDER.index(magnitude_band)
     lo = BAND_EDGES[magnitude_band]["ruin"]
     # M10 HAS NO BAND ABOVE IT TO SUPPLY A CEILING. `LADDER[min(i+1, len(LADDER)-1)]` clamped

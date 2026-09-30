@@ -1,0 +1,4 @@
+{
+ "name": "two sources given one Series/Volume code are named at build time",
+ "expected": "sweep68 b15 F2: two sources get the same address (19 Series, 580 addresses) and the manifest build prints only 'Wrote N jobs', so nobody is told where the code is decided"
+}

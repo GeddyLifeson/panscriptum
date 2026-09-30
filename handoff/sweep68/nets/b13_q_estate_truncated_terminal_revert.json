@@ -1,0 +1,7 @@
+[
+ {
+  "module": "estate.py",
+  "old": "elif f == \"PANSCRIPTUM_TERMINAL.html\" and \"</html>\" not in body[-2048:].lower():",
+  "new": "elif False:"
+ }
+]

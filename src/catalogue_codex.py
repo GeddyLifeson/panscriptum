@@ -88,6 +88,11 @@ def norm(s):
     return "".join(c for c in (s or "").lower() if c.isalnum())
 
 
+# Shortest normalised name the SUBSTRING arm of the source-to-section bind will accept (sweep68
+# b08 F4). Not a cap on anything: an exact match binds at any length.
+SUBSTRING_MIN_NORM = 8
+
+
 # DEFERRED IMPORT, NOT A FOURTH COPY. catalogue_aurora imports THIS module at its own top level
 # (`from catalogue_codex import TYPE_CATEGORY, THINGS`), so a module-level import of it here is a
 # genuine circular import: importing catalogue_codex first would re-enter this file's body before
@@ -302,7 +307,16 @@ def main():
             # case where guessing is worse than doing nothing -- so all candidates are collected
             # and more than one is a refusal that gets reported, not a coin flip that gets
             # attested.
-            cands = sorted({t for k, t in sec_by_norm.items() if n in k or k in n})
+            #
+            # AND A SHORT NAME BINDS NOTHING BY SUBSTRING (sweep68 b08 F4). `norm()` strips
+            # spaces, so "DC" (`dc`) is a substring of "Sword Coast Adventurer's Guide"
+            # (`swor-dc-oast...`), the only candidate, and would have bound -- the moment its
+            # 55,560 entries were purged -- SCAG's 176 homebrew entries into DC's record under
+            # "Transcribed". Measured on the live roll: every legitimate non-exact bind has a
+            # shorter side of 9+ normalised characters (`sexworker`), so the floor sits at 8.
+            # An exact match still wins above, whatever its length.
+            cands = sorted({t for k, t in sec_by_norm.items()
+                            if min(len(n), len(k)) >= SUBSTRING_MIN_NORM and (n in k or k in n)})
             if len(cands) == 1:
                 title = cands[0]
             elif len(cands) > 1:

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "render.py",
+  "old": "    return dict(sorted(out.items()))",
+  "new": "    return dict(list(sorted(out.items()))[:1])"
+ }
+]

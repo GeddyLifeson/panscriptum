@@ -1,0 +1,1 @@
+[{"module": "worldseed.py", "old": "(?:(?:mountain|peaks?|highland|alpine)\\w*|crag(?:s|gy)?)", "new": "(mountain|peaks?|highland|alpine|crag)\\w*"}]

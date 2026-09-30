@@ -1,0 +1,4 @@
+{
+ "name": "an entity in two sources with an identical vector is counted once",
+ "expected": "sweep68 b07 F5: Son Goku counted twice, so n_entities and every pair's r/n are off by one entity"
+}

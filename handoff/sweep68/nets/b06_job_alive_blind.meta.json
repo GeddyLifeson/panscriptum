@@ -1,0 +1,4 @@
+{
+ "name": "a blind process table is not a finished job in the advancing standard",
+ "expected": "sweep68 b06 F1: `every running job is advancing` holds over zero jobs when the process table is unreadable"
+}

@@ -1,0 +1,1 @@
+{"name": "corpus_db built_at is stamped when the rebuild starts, not when it ends", "expected": "sweep68 b14 F1: freshness() reports a record rewritten mid-rebuild as not stale, so the index banner understates staleness"}

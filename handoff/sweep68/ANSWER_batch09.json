@@ -1,0 +1,92 @@
+[
+ {
+  "id": "F6",
+  "file": "src/burgs.py",
+  "verdict": "changed",
+  "decision": "burg_count is capped at the rank-size rule's own end, min(n, n*factor): ruined and wartorn keep their shorter tail, and thriving no longer adds ranks past n.",
+  "how": "FOR KEEPING 1.15: the factor could be a deliberate 'thriving worlds have more burgs' effect, so only the docstring would need changing. AGAINST: every rank past n = P_1/P_min comes back from rank_population pinned at HAMLET_FLOOR. That is the floor-valued fabrication burgs_for's own comment refuses for `limit` (13% of a thriving medieval world were exact-40 burgs). Thriving is already modelled where the law puts it, in largest_city's 1.6 on P_1, which lengthens n honestly, and derivation.py publishes burg_count as 'n = P_1 / P_min'. Cutting (ruined 0.3, wartorn 0.8) is the stated 'loses the living tail' effect and invents nothing, so it stays. Not reserved: this is modelled world data, not a spine code, shelfmark or assay figure. navtree's `nb` for thriving worlds shrinks at the next navtree rebuild. verify_math's floor check still holds.",
+  "net": "b09_q_burg_count_rule_end",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "F7",
+  "file": "src/tempus.py",
+  "verdict": "changed",
+  "decision": "apparent_lag_years now answers a shelf absent from the propagation graph with note 'unknown shelf: <name> ...', keeping the same four-key shape.",
+  "how": "FOR KEEPING: no production consumer distinguishes the cases. pipeline phase 6 reads only lag_years, which is None either way. AGAINST: the note is the only thing that says what the None means, and it asserted a physical finding ('relation is mediated or absent') about a typo. The fix changes one note string, keeps the return shape (order e3a52d3f20b5), leaves every caller unchanged and matches the existing drill net 'propagation: unknown shelf name is not reported DISCONNECTED' one layer down.",
+  "net": "b09_q_unknown_shelf",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "F10-residue",
+  "file": "src/foreman.py",
+  "verdict": "changed",
+  "decision": "triage_swallowed no longer writes {} blind after archiving. The new _clear_archived subtracts exactly the archived counts under compare-and-swap (silence.digest_of + silence.replace_if_unchanged, the primitives health's own CAS uses), so a concurrent health.flush lands and is kept.",
+  "how": "It first looked like a health.py change (a shared lock), but health already guards its side with a digest-before-read CAS. The lost update was entirely in foreman's blind clear, which is in this batch. On every CAS refusal the clear re-reads and re-subtracts. After 5 refusals it returns False and leaves the ledger intact, so the batch archives again next round: the existing over-count-never-lose direction. Also stopped the F10 merge from rebinding `d`, so the subtraction uses the batch that was actually read.",
+  "net": "b09_q_clear_keeps_concurrent_flush",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "src/foreman.py",
+  "verdict": "kept",
+  "decision": "Fragment uniqueness stays checked against foreman's own gap.",
+  "how": "catalogue_web is dispatched with --recatalogue --shortfall 1, so its todo is roll ∩ in_scope ∩ {COMPLETENESS rows, not unreliable, missing >= 1}. Foreman's gap uses the same test (missing > 0, not unreliable). The dispatched selection is therefore always a SUBSET of the set foreman checked uniqueness against, and any filter catalogue_web adds (in_scope already did) can only narrow it. A fragment unique in a superset is unique in every subset, so the feared widening cannot happen. It could only happen if catalogue_web dropped its gap filter, which would break the dispatch in many other ways too. Building foreman's gap from catalogue_web's selection function would add coupling and buy nothing.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2a",
+  "file": "src/foreman.py",
+  "verdict": "kept",
+  "decision": "scout_hostless keeps SC.sweep(limit=4).",
+  "how": "It is a rotating RATE, not a truncation. scout.sweep orders last-attempted-first, so every hostless source reaches the front by waiting. What is deferred is printed, and each unit costs a model call plus URL verification. Hard Rule 0 allows ranking, and a per-round budget that rotates through the whole universe decides no source's existence. Raising it would only spend more model calls per 30-second round.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2b",
+  "file": "src/foreman.py",
+  "verdict": "kept",
+  "decision": "attempt_patch keeps its in-place write and copy2 revert.",
+  "how": "FOR ATOMIC: a hard kill during open(path,'w') could leave torn live source. AGAINST: every in-process failure (exception, failed checks) is already restored from the backup taken first, and a failed restore is reported loudly, not as 'reverted' (run #26). The remaining window is a hard kill during one small write, and the backup survives even then. An atomic write would not close the larger hazard next to it (below). No cheap net can show a hard-kill red. SEPARATE HAZARD FOUND WHILE ANSWERING (not fixed, needs its own order): the patched file sits in live src/ while _checks_pass runs verify_math (timeout 1200s) and allsweep --quick (900s). codewatch's settle window is STABLE_SECONDS=180, so standing daemons can restart onto the model's UNVERIFIED patch before the checks decide, then restart again on the revert. Fix direction: run the checks against a staged copy, or pause codewatch restarts while a patch is pending.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2c",
+  "file": "src/backfill.py",
+  "verdict": "changed",
+  "decision": "backfill.roster now walks Category:Characters and EVERY subcategory level breadth-first, with a visited set against category cycles.",
+  "how": "FOR ONE LEVEL: deeper trees may drift off-topic, and every level costs API calls. AGAINST: stopping at depth 1 is the same Hard Rule 0 cap one step deeper, and the file's own comment already records the '< 40' and '< 12' versions of it. A page two levels down under Characters is still filed there by the wiki's editors, _NOT_A_CHARACTER still screens each title, and cmtype=page never returns files or subcategories. Cost is more time, which is Hard Rule 0's stated answer. BFS keeps shallow (broad-cast) categories first. The visited set makes cycles terminate. The docstring was updated.",
+  "net": "b09_q_roster_every_level",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2d",
+  "file": "src/build_terminal.py",
+  "verdict": "changed",
+  "decision": "build_terminal.main now calls escalation.assert_clear after argparse and before reading or writing, failing closed on a missing escalation module (burgs._assert_not_halted's shape).",
+  "how": "FOR NO INTERLOCK: the page is a pure, cheap render of NAVTREE.json, and a harmless render is not worth refusing. AGAINST, and decisive: the 2026-09-28 ruling made every hand-run writer of library output refuse under a halt, and a halt can be about the navtree or the records under it. This hand-run path is one the supervisor's gates never see. It tightens, so it is ours. --help still works because it exits inside parse_args. COORDINATOR: add build_terminal to the interlock rosters (drill's 'every hand-run corpus writer asks the halt' net and verify_math's _INTERLOCKED). ALSO re-splice b09_navtree_parsed: the net file now points ESC.HALT_FILE at scratch, but the copy already in drill.py (~line 31061) does not, and it would breach under a standing live halt.",
+  "net": "b09_q_terminal_halt",
+  "red_green_checked": true,
+  "new_interlock": "build_terminal"
+ },
+ {
+  "id": "Q3",
+  "file": "src/tempus.py",
+  "verdict": "kept",
+  "decision": "The tempus comments are left as they are; they do not contradict each other.",
+  "how": "The concordance_now header says every other public symbol is read 'by the battery or the pipeline'. That is true: apparent_lag_years has a production caller (pipeline.py phase 6, TP.apparent_lag_years), and the rest are read by verify_math, the battery. The retained-symbol markers say contemporaneous and is_present_at have only 'test harness' callers, which is the same battery. Both statements hold at once, and the owner ruling of 2026-09-08 ('mark and keep, one line each') already governs these markers. An edit would churn ruled text for no behavioural change.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ }
+]

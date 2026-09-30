@@ -1,0 +1,7 @@
+[
+ {
+  "module": "descending_ladder.py",
+  "old": "    return (pc * pc) / (math.hypot(pc, mc2) + mc2)",
+  "new": "    p = pc / C_LIGHT\n    return (p * p) / (2.0 * mass_kg)"
+ }
+]

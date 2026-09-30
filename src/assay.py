@@ -223,7 +223,7 @@ REFERENCE_JOULES = {
 
 # --------------------------------------------- the six Measures that are NOT on the energy ladder
 #
-# HOISTED HERE FROM anchors.py:41 UNDER ORDER 9b3e59aeeb19. BAND_EDGES carries floors for five
+# HOISTED HERE FROM the BAND_EDGES table in anchors.py UNDER ORDER 9b3e59aeeb19. BAND_EDGES carries floors for five
 # axes (ruin, reach, celerity, sustain, continuity). The other six Measures in WEIGHTS have none
 # and never will, because they are not energetic quantities -- they are on OTHER existing scales.
 # `axis_score` answered all six with a bare None, which is the SAME None it answers for "no
@@ -1128,7 +1128,7 @@ def _rho_source():
 
     DEGRADED IS NAMED HERE TOO, NOT JUST MEASURED-VS-FALLBACK (order 0922effae314).
     `axis_correlation.write()` stamps `doc["degraded"]` on the JSON whenever the matrix was
-    built from a PARTIAL read of SOURCES; `load()` (axis_correlation.py:284-292) returns that
+    built from a PARTIAL read of SOURCES; `axis_correlation.load()` returns that
     dict UNCHANGED, so the key survives into `_rho_doc()`'s cache with nothing needed to change
     in axis_correlation.py itself. Before this, a matrix built from 1 of 8 sources produced the
     identical "measured: data/AXIS_CORRELATION.json" string as one built from all 8 -- a
@@ -1437,6 +1437,11 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
         else:
             _demote = True           # below its own band's floor: belongs one rung down, on review
         _dec = 0.0
+    # sweep68 b13 F1: ONE ROUNDING FOR ONE NUMBER. `decimal` was round(_dec, 2) and the printed
+    # Moth Number was round(_dec * 100), and those disagree on a tie (0.25 -> 0.03 vs M0.02; 283 of
+    # 33,033 single-axis sweeps). The printed string now derives from the stored decimal. No live
+    # row changes: 0 of 244 stored ASSAYS rows disagreed.
+    _pct = round(round(_dec, 2) * 100)
     return {
         "magnitude": anchor,
         "decimal": round(_dec, 2),
@@ -1446,7 +1451,7 @@ def assay(anchor, scores, attestation="Transcribed", epoch=None, worksheet=None,
         # and a reader that only knows about the ceiling behaves exactly as it did.
         "at_ladder_floor": _floor,
         "demotion_due": _demote,
-        "moth_number": f"𝔄 {anchor}.{round(_dec * 100):02d} ± {interval:.2f}"
+        "moth_number": f"𝔄 {anchor}.{_pct:02d} ± {interval:.2f}"
                        + (" [ceiling]" if _ceiling else "")
                        + (" [promotion due]" if _promote else "")
                        + (" [floor]" if _floor else "")
@@ -1570,7 +1575,7 @@ def instrument(anchor, axis_scores, worksheet=None):
     # legitimately maxed reading. A gate on one of two doors is not a gate, it is a preference.
     #
     # Validated against the FULL WEIGHTS table rather than only the axes FACULTY_READS consumes,
-    # deliberately: callers hand this the whole numeric score dict (anchors.py:186 does), so
+    # deliberately: callers hand this the whole numeric score dict (anchors.instrument() does), so
     # judging it against the six-or-seven read axes would refuse `reach` and `transgression` as
     # nonexistent Measures. The invariant that matters is the same one assay() enforces -- every
     # score is on the scale and on an axis that exists -- and it is now enforced at both doors.
@@ -1895,7 +1900,7 @@ def interval_from_hands(readings, attestation="Transcribed"):
         "spread": round(max(vals) - min(vals), 2),
         "prior_divergence_share": round((half_spread ** 2) / (half_spread ** 2 + floor ** 2), 2),
         # A GUARANTEE BEING PUBLISHED, NOT A CHECK BEING RUN -- and it must not be mistaken for
-        # verification (orders e4c8355cc7a0, 623ac39b4d61; custodes.py:539-551 already declares
+        # verification (orders e4c8355cc7a0, 623ac39b4d61; custodes.py's GUARANTEE text already declares
         # the identical shape in exactly these words, so the project has ruled on how to present
         # it). The `while` loop twelve lines above terminates precisely when this expression is
         # true, over the same `vals`, `centre` and `interval`, so this field CANNOT be False.

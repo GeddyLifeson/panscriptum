@@ -1,0 +1,7 @@
+[
+  {
+    "module": "recover_folder_records.py",
+    "old": "        _assert_not_halted(\"(writes data/records and the roll)\")",
+    "new": "        pass"
+  }
+]

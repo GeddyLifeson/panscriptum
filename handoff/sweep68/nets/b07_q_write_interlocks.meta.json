@@ -1,0 +1,4 @@
+{
+ "name": "onomast, events --write and hosts --discover refuse while the library is halted",
+ "expected": "sweep68 b07 Q3: a derived-data writer runs and lands its file under a library HALT"
+}

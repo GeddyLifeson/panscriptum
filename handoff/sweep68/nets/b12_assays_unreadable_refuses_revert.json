@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "        if err is not None or not isinstance(done, dict):\n",
+  "new": "        if False:\n"
+ }
+]

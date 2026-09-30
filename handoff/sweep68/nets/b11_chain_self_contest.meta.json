@@ -1,0 +1,1 @@
+{"name": "chain.extract skips an edge whose two names resolve to one catalogued entity", "expected": "sweep68 b11 N1: a self-edge reaches rigor.bradley_terry, which raises RigorIntegrityError and aborts chain.fit / phase_chain, leaving the previous CHAIN.json standing as current"}

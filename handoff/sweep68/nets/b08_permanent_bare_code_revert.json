@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cascade_bridge.py",
+  "old": "    return bool(_PERMANENT_CODES.search(e)) or any(w in e for w in _PERMANENT_WORDS)",
+  "new": "    return bool(re.search(r\"\\b(401|402)\\b\", e)) or any(w in e for w in _PERMANENT_WORDS)"
+ }
+]

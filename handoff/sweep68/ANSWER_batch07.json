@@ -1,0 +1,42 @@
+[
+ {
+  "id": "Q1",
+  "file": "workorders.py",
+  "verdict": "changed",
+  "decision": "HOST_QUARANTINED and the unclassified BINDING_SUSPECT order are now filed at RUN, not BOTS.",
+  "how": "For BOTS: foreman already shells out to hostcheck --adopt, so a bot touches this area. Against: adopt only adopts hosts; a quarantine is released solely by `binding_health --run` (an operator/run job) and the binding remedy is `hostcheck --repair`, which no bot runs. That is the reasoning that moved BINDING_HEALTH_STALE to RUN on 2026-09-26 after an order sat 50 hours at a rung with nobody on it. Routing only, no gate loosened; the sweep still closes the order itself on release. file_order re-routes existing orders on refresh.",
+  "net": "b07_q_binding_orders_at_run",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "ledger_guard.py",
+  "verdict": "changed",
+  "decision": "A SHRANK acknowledgement whose hi is beyond the last existing link is now refused.",
+  "how": "For leaving it: the file is person-written and a wide range is the owner's prerogative. Against: an acknowledgement is written after the shrink it rules on, so hi is always an existing link; [0, 999999] also waives every future shrink of that ledger, a blanket the be33a61be79f ruling said it is not, and the header calls it a closed range. Tightening only: the shrink then fails. `_load_acknowledgements(n_links)` takes the chain length from verify_chain; the live entry [947, 949] of 2721 links still loads (verify_chain ok, 3 carried). The deleted-snapshot re-baseline half of the old question was not changed: it is a reset of history, and deleting the snapshot dir is an owner act the module cannot see; kept as is.",
+  "net": "b07_q_ack_hi_beyond_chain",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "onomast.py",
+  "verdict": "changed",
+  "decision": "Added the halt interlock to the three derived-data writers that lacked it: onomast main, hosts --discover, events --write.",
+  "how": "Against: the files are regenerable derived data. For: the 2026-09-28 ruling covers every hand-run tool that writes derived data or library output, a halt means an invariant is broken, and a hand-run is the path the supervisor gates never see; adding it only tightens. Each module gets `_assert_not_halted` (copy of axis_correlation's, fail-closed on the import) called on the writing path only, so read-only runs still work under a halt. pipeline.py's own call to onomast.land_onomasticon is untouched. COORDINATOR: add onomast.py, hosts.py, events.py to the interlock rosters (drill's every-writer net and verify_math _INTERLOCKED).",
+  "net": "b07_q_write_interlocks",
+  "red_green_checked": true,
+  "new_interlock": "onomast.py, hosts.py, events.py"
+ },
+ {
+  "id": "Q5",
+  "file": "hosts.py",
+  "verdict": "changed",
+  "decision": "discover() no longer bounds speculative candidates by default (per_source=None).",
+  "how": "For keeping 24: each guessed subdomain is a network round trip that usually learns it does not exist, and grounded hosts were never bounded. Against, and it wins: the slice truncated an ordered candidate list, so a real second wiki at guess 25 of 75 was never probed and read as absent, which is precisely what Hard Rule 0 forbids; its own answer to slowness is more workers or time, never a smaller universe. Worst measured list is 75 probes for one source. The parameter stays (signature compatible) for a caller that asks for a bound; a passed bound is still reported.",
+  "net": "b07_q_speculative_uncapped",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

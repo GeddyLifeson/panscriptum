@@ -1,0 +1,7 @@
+[
+ {
+  "module": "drill.py",
+  "old": "    _ATTACKS[(row[\"area\"], row[\"net\"])] = attack\n",
+  "new": "\n"
+ }
+]

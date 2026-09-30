@@ -1,0 +1,4 @@
+{
+ "name": "NaN sizes and masses are refused by the descending ladder, not read as lawful",
+ "expected": "sweep68 b06 F7: NaN passes every `<= 0` guard and reads as a lawful, free, Continental trajectory"
+}

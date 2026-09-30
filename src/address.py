@@ -244,7 +244,7 @@ def spine_code_for(source_name: str) -> str:
 
     w_target = _worded(source_name)
     if w_target.strip():
-        best_code, best_evidence = None, 0
+        best_code, best_evidence, tied = None, 0, False
         for name, code in codes.items():
             w_name = _worded(name)
             if w_name in w_target and not _index_name_is_placed_like_a_title(w_name, w_target):
@@ -252,7 +252,15 @@ def spine_code_for(source_name: str) -> str:
             if w_target in w_name or w_name in w_target:
                 evidence = min(len(w_target), len(w_name))
                 if evidence > best_evidence:
-                    best_code, best_evidence = code, evidence
+                    best_code, best_evidence, tied = code, evidence, False
+                elif evidence == best_evidence and code != best_code:
+                    tied = True
+        # A TIE BETWEEN TWO CODES IS AMBIGUOUS, NOT FIRST-IN-FILE (sweep68 batch12, F14). A
+        # one-word target inside several index names ("Dragon" in II.A.1 and II.L.7 entries)
+        # took whichever the file listed first. Hard Rule 2: an ambiguous placement is
+        # UNASSIGNED. Verified: no live roll entry resolves by such a tie.
+        if tied:
+            return "UNASSIGNED"
         if best_code is not None:
             return best_code
 

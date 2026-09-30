@@ -1,0 +1,62 @@
+[
+ {
+  "id": "Q1",
+  "file": "src/scope.py",
+  "verdict": "changed",
+  "decision": "Interlock added to scope.mutate for the live data/SCOPE.json only; sweep_plan.record and snapshot.before stay uninterlocked.",
+  "how": "For: SCOPE.json becomes published Magnitude ceilings via magnitude.host_ceiling and was writable during a halt; refusing only means probe results are not landed and the next build re-probes (fail closed). Against gating record/before: coverage proof and the pre-destruction backup are protective records, and refusing them during a halt removes evidence and the copy a recovery needs. Only the live path is gated (fixed at import as _LIVE_OUT) so sandboxed nets are unaffected. Fail-closed import like cosmology_graph.",
+  "net": "b05_q_scope_halt_interlock",
+  "red_green_checked": true,
+  "new_interlock": "scope"
+ },
+ {
+  "id": "Q2",
+  "file": "src/feats.py",
+  "verdict": "kept",
+  "decision": "Left as is; the 400+ char unit drop is already governed by owner order eacc5444288c.",
+  "how": "No new evidence this sweep; changing a length filter that decides what evidence exists is the owner's standing order, not a bug fix, and it would alter every cached record's provenance.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/scope.py",
+  "verdict": "changed",
+  "decision": "PROBE_VERSION bumped 2 to 3 and records now store text_chars; MIN_MENTIONS stays absolute.",
+  "how": "For scaling the floor: the F7 walk made text volume far larger and 'universal' matches 'universally', so 10 hits is a weaker signal on huge wikis. Against: there is no re-probed corpus to calibrate a per-size floor against, and picking one blind is a guess about Part Three's meaning. So the contract is bumped per its own comment (nothing re-probes until build runs; stored rows are unstamped and owed one anyway) and text_chars is stored so a per-size floor can be derived offline later. I did not trigger the re-probe.",
+  "net": "b05_q_scope_probe_version",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "src/derivation.py",
+  "verdict": "kept",
+  "decision": "Left the seven childless MEASURED roots and the DERIVED rows' parent lists alone.",
+  "how": "For changing: math_resonance's orphan rate reads lower coverage than the physics really has. Against: call-time inputs (a mass, a radius) are not ledger rows, and inventing parents or rows to lower the rate would make the number look better without new evidence, the opposite of what the graph check is for. A childless constant is honest information (nothing depends on it yet).",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "src/feats.py",
+  "verdict": "changed",
+  "decision": "--roll now exits nonzero when more than half the entities raised (was: all of them).",
+  "how": "For keeping all-or-nothing: a nonzero exit reaches the keeper's restart budget, and one unreadable registry can fail a whole class of entities while the rest mine fine. For a majority rule: a roll that lost most of its entities is not a healthy crawl, the restart is budgeted per job per hour, and the failure line names the counts. Majority chosen over any-error so ordinary few raises do not fail a crawl.",
+  "net": "b05_q_roll_error_majority",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6",
+  "file": "src/derivation.py",
+  "verdict": "kept",
+  "decision": "Parentless OWNER rows stay allowed as documented roots; only blank citations are flagged (already fixed as L6).",
+  "how": "For requiring an anchor: the header says an OWNER declaration must state what it is anchored to. Against: eight rows are genuine roots (constants the owner sets), a parents requirement would force fake parents or a marker that nothing checks, and the citation text already carries the anchor in prose. Tightening the citation check was the enforceable part.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ }
+]

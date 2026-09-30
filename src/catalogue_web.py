@@ -26,7 +26,6 @@ Usage:
 import argparse
 import json
 import os
-import re
 import sys
 import time
 
@@ -173,7 +172,14 @@ def _dedup_fetch(titles, seen, deduped, fetch):
     (one per round), and only a twin whose key-holder really has text lands in `deduped`.
     """
     def _key(t):
-        return re.sub(r"[^a-z0-9]", "", t.lower())
+        # NFKD THEN ALPHANUMERICS, AS backfill._name_key (sweep68 batch 09, F2, run #68). This
+        # was `[^a-z0-9]` stripped, so a CJK or Cyrillic title keyed to "" and was skipped by the
+        # `continue` below before any counter or provenance line saw it -- a smaller universe
+        # reported as ok -- and `Okami` with a macron keyed to `kami`, a different page. A title
+        # with no alphanumerics at all is keyed on its own case-folded text rather than dropped.
+        import unicodedata
+        k = "".join(c for c in unicodedata.normalize("NFKD", t.lower()) if c.isalnum())
+        return k or t.strip().casefold()
     twins, rnd = {}, []
     for title in titles:
         key = _key(title)
@@ -722,7 +728,9 @@ def main():
               % (len(todo), args.shortfall))
 
     if args.only:
-        wanted = [n.strip().lower() for n in args.only.split(",")]
+        # EMPTY TERMS DROPPED (sweep68 batch 09, F11): `--only "Bleach,"` gave "", and `"" in
+        # name` is True for every source, so a trailing comma widened the run to the whole roll.
+        wanted = [n.strip().lower() for n in args.only.split(",") if n.strip()]
         todo = [r for r in todo if any(w in r["name"].lower() for w in wanted)]
     # `is not None`, not truthiness (order 4ed4041c3b78): `--limit 0` is a value the operator
     # gave, and `if args.limit:` read it as "no limit given" -- the same falsy-zero slip fixed

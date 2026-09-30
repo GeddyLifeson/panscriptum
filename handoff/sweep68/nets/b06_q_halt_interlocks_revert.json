@@ -1,0 +1,17 @@
+[
+ {
+  "module": "zfighters.py",
+  "old": "    _assert_not_halted(\"(writes data/Z_FIGHTERS.json)\")\n",
+  "new": ""
+ },
+ {
+  "module": "catalogue_models.py",
+  "old": "    _assert_not_halted(\"(writes data/PROVIDER_MODELS.json)\")\n",
+  "new": ""
+ },
+ {
+  "module": "endpoint.py",
+  "old": "    _assert_not_halted(\"(probes hosts and writes data/ENDPOINTS.json)\")\n",
+  "new": ""
+ }
+]

@@ -1,0 +1,1 @@
+{"name": "resync_roll leaves a duplicate-declared source's roll row alone", "expected": "sweep68 b08 Q7: the alphabetically last of two record files sets the roll count, so a stub sorting last zeroes a healthy source"}

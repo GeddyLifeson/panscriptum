@@ -1,0 +1,4 @@
+{
+ "name": "tempus names an unknown shelf instead of reporting no shared furniture",
+ "expected": "sweep68 b09 F7: a typo'd or renamed shelf reads as the physical finding 'relation is mediated or absent'"
+}

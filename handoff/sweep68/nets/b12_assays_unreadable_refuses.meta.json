@@ -1,0 +1,4 @@
+{
+ "name": "magnitude.run_batch refuses an unreadable ASSAYS.json instead of overwriting it",
+ "expected": "sweep68 b12 F1: an unreadable ASSAYS.json is resumed as {} and the first result overwrites every settled assay"
+}

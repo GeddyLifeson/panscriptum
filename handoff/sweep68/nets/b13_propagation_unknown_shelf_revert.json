@@ -1,0 +1,7 @@
+[
+ {
+  "module": "propagation.py",
+  "old": "if _unknown:",
+  "new": "if False:"
+ }
+]

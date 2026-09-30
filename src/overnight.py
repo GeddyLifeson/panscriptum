@@ -576,6 +576,23 @@ def identity_refresh_cycle():
             age_h = (time.time() - os.path.getmtime(cache)) / 3600.0
             if age_h < IDENTITY_REFRESH_EVERY_HOURS:
                 return
+        # A HALT OR A PAUSE RAISED DURING THE LAP STOPS THIS TOO (sweep68 batch 11, N13). Both
+        # are asked at the top of a lap and a lap is hours, while this child is a sixteen-minute
+        # mine of a file identity.py does not interlock itself; a pause issued mid-lap ("the
+        # owner wants the machine") was not honoured by it. FAIL CLOSED: an unreadable halt or
+        # pause skips the mine, and the 24h rate limit above simply asks again next lap.
+        try:
+            import escalation as _esc
+            _esc.assert_clear("overnight.py identity refresh")
+            _paused, _pwhy = library_paused()
+        except Exception as _e:
+            log(f"  identity refresh: NOT started -- the library is halted or the halt could not "
+                f"be read ({type(_e).__name__})")
+            silence.note("overnight.py:identity-refresh-halted")
+            return
+        if _paused:
+            log(f"  identity refresh: NOT started -- the library is PAUSED ({_pwhy})")
+            return
         t0 = time.time()
         r = subprocess.run([PY, os.path.join(SRC, "identity.py"), "--refresh"], cwd=HERE,
                            capture_output=True, text=True, timeout=3600,

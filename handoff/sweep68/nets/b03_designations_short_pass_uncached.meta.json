@@ -1,0 +1,4 @@
+{
+  "name": "weave_index.designations does not cache an answer from a short pass",
+  "expected": "sweep68 b03 N6: a designation set missing an unreadable record's markers is served until the records dir changes, folding e.g. Optimus (Bayverse) onto G1 Optimus"
+}

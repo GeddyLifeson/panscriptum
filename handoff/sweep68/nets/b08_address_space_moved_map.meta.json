@@ -1,0 +1,1 @@
+{"name": "address_space main refuses to overwrite SHELFMARKS.json when a standing address moves", "expected": "sweep68 b08 F3: a TIERS re-chart crossing a power of two silently re-addresses every published world and its map seed"}

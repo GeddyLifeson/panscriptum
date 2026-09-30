@@ -113,7 +113,17 @@ function panelStandards(d){const s=el('section','wide');
   const S=d.standards||[];
   const bad=S.filter(x=>!x.holds);
   s.appendChild(el('h2',null,'Standards — where things stand against spec'));
-  if(!S.length){s.appendChild(el('div','empty','Standards not readable.'));return s}
+  if(!S.length){
+    // sweep68 b10 Q1, answered under the 2026-09-30 ruling: `standards_unavailable` was written
+    // on a failed check and read by nothing, so "the check did not run" drew the same neutral
+    // line as an empty list. It now says so, in the bad colour, with the error that was kept.
+    const u=d.standards_unavailable;
+    if(u){const b=el('div','row');b.appendChild(el('span','label','standards check'));
+      b.appendChild(el('span','value bad','DID NOT RUN — '+(u.error||'?')+': '+(u.detail||'')));
+      s.appendChild(b);
+      s.appendChild(el('div','empty',u.note||'this is NOT a clean standards pass'))}
+    else{s.appendChild(el('div','empty','Standards not readable.'))}
+    return s}
   const r=el('div','row');r.appendChild(el('span','label','met'));
   r.appendChild(el('span','value',(S.length-bad.length)+' of '+S.length));
   s.appendChild(r);s.appendChild(bar((S.length-bad.length)/S.length,''));
@@ -147,7 +157,10 @@ function panelJobs(d){const s=el('section','wide');s.appendChild(el('h2',null,'W
       j.done.toLocaleString()+' / '+j.total.toLocaleString()+' '+j.unit+
       '  ·  '+pct(f)+'  ·  eta '+j.eta_h.toFixed(1)+'h'));
     s.appendChild(r);s.appendChild(bar(f,''));
-    const sub=el('div','sub',j.detail);s.appendChild(sub);
+    // sweep68 b10 Q2: the row is the last matching line whatever its age; say how old the log is.
+    const sub=el('div','sub',j.detail+(j.age_s==null?'':'  ·  log last written '+
+      (j.age_s<120?Math.round(j.age_s)+' s':j.age_s<7200?Math.round(j.age_s/60)+' min':
+       (j.age_s/3600).toFixed(1)+' h')+' ago'));s.appendChild(sub);
     if(j.warn){const w=el('div','note',j.warn);s.appendChild(w)}});
   return s}
 
@@ -227,6 +240,9 @@ function panelSafety(d){const s=el('section','wide');
     if(h.also){s.appendChild(el('div','empty',h.also+' further fault(s) recorded while halted'))}
     s.appendChild(el('div','empty',
       'Only a person may lift it:  python src/escalation.py --clear --ruling "…"'));
+  }else if(sf.halt_unreadable||sf.halted===null||sf.halted===undefined){
+    const b=el('div','row');b.appendChild(el('span','label','library'));
+    b.appendChild(el('span','value bad','halt state UNREADABLE — cannot say the library is running'));s.appendChild(b);
   }else{
     const b=el('div','row');b.appendChild(el('span','label','library'));
     b.appendChild(el('span','value ok','running — no halt standing'));s.appendChild(b);

@@ -1,0 +1,4 @@
+{
+ "name": "the coverage memo is discarded when CLEAN_NEGATIVES changes",
+ "expected": "sweep68 b15 Q4: a changed clean-negative set leaves memoised NO PAGE/UNREACHABLE verdicts on the old boundary and the published number describes code nobody runs"
+}

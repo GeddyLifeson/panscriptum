@@ -1,0 +1,7 @@
+[
+ {
+  "module": "canon_backup.py",
+  "old": "            sources[rel] = hashlib.sha256(data).hexdigest()\n",
+  "new": ""
+ }
+]

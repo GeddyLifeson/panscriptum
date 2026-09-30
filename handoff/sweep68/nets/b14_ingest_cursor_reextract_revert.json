@@ -1,0 +1,1 @@
+[{"module": "ingest_doc.py", "old": "if before is not None and before != after and os.path.exists(cursor):", "new": "if False:"}]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "read.py",
+  "old": "time.time() - _FALLBACK_FAILED_AT[0] < _FALLBACK_RETRY_S",
+  "new": "True"
+ }
+]

@@ -1,0 +1,4 @@
+{
+ "name": "health: check_state reads the corpus once, not once per failed source",
+ "expected": "sweep68 b13 F9a: check_state re-reads every record file once per failed-synthesis source at the head of each supervisor cycle"
+}

@@ -1,0 +1,1 @@
+{"name": "feats_index counts a non-object record as unreadable", "expected": "sweep68 b05 L4: one [] or null feats record kills the whole index build with AttributeError"}

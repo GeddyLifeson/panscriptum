@@ -1,0 +1,7 @@
+[
+ {
+  "module": "backfill.py",
+  "old": "    return k or name.strip().casefold()",
+  "new": "    return k"
+ }
+]

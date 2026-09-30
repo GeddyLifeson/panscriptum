@@ -305,6 +305,14 @@ def staleness_banner(inv=None, root=None):
 # problem it is trying to report is the DISK copy, which re-mining again cannot fix.
 _STALE_REMINED = False
 
+# Whether the LAST whole-tree `load(refresh=True)` in this process put its inventory on disk
+# (sweep68 batch 11, N11). `load` returns the inventory on three paths that leave the disk copy
+# unchanged -- an absent feats root, the refusal to land an empty mine over a populated cache, and
+# a denied replace -- and `main()` printed a banner off the returned inventory and exited 0, so
+# the supervisor logged "re-mined whole" for a refresh that changed nothing. Module state, not a
+# changed return value: `load`'s callers all expect the inventory. Reset on every whole mine.
+_REFRESH_LANDED = False
+
 
 def load(refresh=False, refresh_if_stale=True):
     """The designator inventory, re-mined when the cache demonstrably predates the corpus.
@@ -333,7 +341,8 @@ def load(refresh=False, refresh_if_stale=True):
     `refresh_if_stale=False` is for a caller that explicitly wants the frozen copy -- the
     staleness report itself, and anything measuring the cache rather than using it.
     """
-    global _STALE_REMINED
+    global _STALE_REMINED, _REFRESH_LANDED
+    _REFRESH_LANDED = False
     if not refresh and os.path.exists(CACHE):
         try:
             with open(CACHE, encoding="utf-8") as f:
@@ -431,6 +440,8 @@ def load(refresh=False, refresh_if_stale=True):
         print("identity: %s NOT updated (replace denied) -- this process has the fresh "
               "inventory, but every other reader still sees the previous one. Rerun to retry."
               % CACHE, file=sys.stderr)
+    else:
+        _REFRESH_LANDED = True
     return inv
 
 
@@ -564,6 +575,13 @@ def _json(raw):
     """The transport already returns a parsed object when the schema holds; tolerate a string."""
     if isinstance(raw, dict):
         return raw
+    # ONLY A STRING IS SEARCHED (sweep68 batch 11, N12). A model that answered with a JSON list
+    # reached `re.search` and raised TypeError out of `epoch_of(strict=True)`, past the one
+    # `except ID.ProbeUnavailable` in chain.adjudicate_mutuals, and ended the whole chain pass.
+    # `{}` is what `epoch_of` already turns into ProbeUnavailable.
+    if not isinstance(raw, str):
+        silence.note("identity.py:_json-not-text")
+        return {}
     m = re.search("[{].*[}]", raw or "", re.S)
     if not m:
         return {}
@@ -709,6 +727,14 @@ def main():
     a = ap.parse_args()
 
     inv = load(refresh=a.refresh)
+    if a.refresh and not _REFRESH_LANDED:
+        # sweep68 batch 11, N11: a refresh that refused or could not write did NOT move the disk
+        # copy, and exiting 0 told `overnight.identity_refresh_cycle` (which tests only the rc)
+        # to log "re-mined whole". Say so and exit 1; the reason is already on stderr above.
+        silence.note("identity.py:refresh-not-landed")
+        print("identity: --refresh did NOT update %s (see the message above); exiting 1 so the "
+              "caller does not report a re-mine that did not happen." % CACHE, file=sys.stderr)
+        return 1
     # THE BANNER FIRST, ON EVERY PATH. CLAUDE.md mandates it for every derived index in this
     # tree ("Every result is therefore printed under a banner saying how far behind the index
     # is ... Treat stale counts as a FLOOR"), and this index had none at all -- which is how it

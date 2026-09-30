@@ -1,0 +1,7 @@
+[
+ {
+  "module": "chain.py",
+  "old": "if wk in idx and lk in idx and idx[wk] == idx[lk]:",
+  "new": "if False and wk in idx and lk in idx and idx[wk] == idx[lk]:"
+ }
+]

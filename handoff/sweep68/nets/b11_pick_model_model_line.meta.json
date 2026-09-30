@@ -1,0 +1,1 @@
+{"name": "pick_model.save_config rewrites only the model: line and keeps CRLF", "expected": "sweep68 b11 Q4: a bare model: line lets \\s* swallow the next config.yaml line, and a CRLF file gets a bare-LF model line"}

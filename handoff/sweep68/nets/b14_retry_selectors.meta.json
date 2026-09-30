@@ -1,0 +1,1 @@
+{"name": "retry_synthesis refuses an empty --only and a non-positive --smallest", "expected": "sweep68 b14 F8: an empty --only or --smallest 0 retries every failed source and --smallest -3 drops the three largest"}

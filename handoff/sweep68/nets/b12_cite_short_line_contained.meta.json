@@ -1,0 +1,4 @@
+{
+ "name": "magnitude._resolve_citation does not resolve a long citation onto a short contained line",
+ "expected": "sweep68 b12 F6: a fabricated citation that merely contains a short mined heading passes guard 1 as that heading"
+}

@@ -400,7 +400,23 @@ def problems():
             out.append("EXPIRED: %s on %s (%s) -- re-justify it or delete it"
                        % (r.get("detector"), r.get("path"), _preview(r.get("reason"), 60)))
             continue
+        # THE BOUNDS ARE RE-ASKED OF THE FILE, NOT ONLY AT THE `add()` DOOR (sweep68 batch12,
+        # F11). A hand-edited row with `"expires_at": Infinity` (json accepts it), or one years
+        # out, was active for ever with no problem reported; and a pattern of nothing but
+        # wildcards ("*", "**", "*/*") turns a detector OFF, which the header says a suppression
+        # never does.
+        exp, added = r.get("expires_at") or 0, r.get("added_at")
+        start = (added if isinstance(added, (int, float)) and not isinstance(added, bool)
+                 and math.isfinite(added) else now)
+        if not math.isfinite(exp) or exp - start > MAX_TTL_DAYS * 86400 + 1:
+            out.append("UNBOUNDED: %s on %s expires beyond the %d-day review window -- "
+                       "re-add it through add()" % (r.get("detector"), r.get("path"),
+                                                   MAX_TTL_DAYS))
         pat = r.get("path", "")
+        if not pat.replace("*", "").replace("?", "").replace("/", "").strip():
+            out.append("BLANKET: %s on %r names no path at all -- a suppression narrows a "
+                       "detector, it never turns one off" % (r.get("detector"), pat))
+            continue
         if any(ch in pat for ch in "*?["):
             if listing is None:
                 listing = _repo_listing()

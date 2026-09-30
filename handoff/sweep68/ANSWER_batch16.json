@@ -1,0 +1,82 @@
+[
+ {
+  "id": "F3",
+  "file": "src/handbuilt.py",
+  "verdict": "reserved",
+  "decision": "Reserved: curatorial wording inside assay sheets (Hard Rule 4 class; OWNER order cd77e492b26b).",
+  "how": "Restated with options. (a) Re-derive each why_missed from the live records when compute() runs, so the persisted reason cannot contradict the catalogue; (b) date-stamp each reason ('as of 2026-08-xx'); (c) owner rewrites the five stale strings (Mister Mxyzptlk, Zalama, Molecule Man, The Black Winter, Getter Emperor category) and the header. RECOMMENDATION: (a), because a hand-maintained reason rots the same way the catalogue grows; the owner should also rule whether a machine assay and a hand-built assay for the same entity may coexist.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "F10-sweep67",
+  "file": "src/handbuilt.py",
+  "verdict": "reserved",
+  "decision": "Reserved: superlative wording in an assay sheet (OWNER order cd77e492b26b).",
+  "how": "The Undertaker suasion line calls 9.9 'THE HIGHEST-EARNED SCORE IN THIS LIBRARY' while his continuity score is also 9.9. Options: 'Tied for the highest' (as the Getter Emperor line now reads), or drop the superlative. RECOMMENDATION: the 'Tied for' form.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "src/read.py",
+  "verdict": "kept",
+  "decision": "Keep: a failed tuning.regime() leaves the last regime (initially cloud).",
+  "how": "For changing: fail-narrow would honour 'I do not know means stop'. Against: this gate is a concurrency width, not a safety gate. The local leg already takes _GATE_LOCAL unconditionally (see _local's comment), so a wrong 'cloud' label cannot stack requests on the card; the only cost of the wide gate is more workers waiting on cloud buckets. Narrowing on a tuning error would throttle a healthy cloud run to 2 permits for as long as tuning stays broken, and the failure is already noted every recheck. Sticky last-known value is the better default. Not a loosening either: nothing gets through that the card gate would refuse.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "src/read.py",
+  "verdict": "kept",
+  "decision": "Keep: --loop continues after a pass whose run() returned not-ok.",
+  "how": "For changing: exiting non-zero surfaces a systemic fault to the keeper. Against: run() is already loud on that path (ERRORED counter plus a silence note per failed entity), the one-shot path already propagates rc, and an exit turns a persistent data fault into a restart storm that the keeper's per-hour restart budget then has to absorb, with the standing reader down between bounces. A retry after --loop minutes is the right response to the transient causes (rate windows, torn record). No net: nothing changed.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/read.py",
+  "verdict": "changed",
+  "decision": "A failed /api/tags probe is remembered for 300 s (_FALLBACK_RETRY_S) and then re-probed; a success is still cached.",
+  "how": "Old behaviour pinned the 18.6 GB configured model for the process life after one Ollama blip, so every GPU fallback ran at the 56/44 CPU/GPU split and hit the timeout. Opposite side: never cache a failure. Rejected, because _local calls fallback_model on every GPU fallback and each failed probe costs a 20 s timeout, so an outage would charge every worker 20 s per chunk. A short TTL bounds both costs. verify_math's stubs set _FALLBACK_MODEL[0] directly with _FALLBACK_FAILED_AT None, which still short-circuits, so they fit. Proved by executing the reverted source in memory (no scratch tree): net False on revert, True on the fix.",
+  "net": "b16_q_fallback_retry",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "src/citecheck.py",
+  "verdict": "changed",
+  "decision": "Deleted _self_citation_ok and the branch that called it.",
+  "how": "The hook returned a constant False, so `target_name == base and False` could never skip anything; grep shows no other reference in src/ (drill/verify_math included). Opposite side: keep a named seam for a future exemption. Rejected: that is the liveness-shaped guard that cannot fire, and adding an exemption later is a fresh, deliberate decision that would need its own net. Behaviour is identical, so no behavioural net can go red; pyflakes is clean and the existing citation nets exercise the surrounding loop.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "src/citecheck.py",
+  "verdict": "kept",
+  "decision": "Keep the QUOTED_TAG exemption.",
+  "how": "For removing: a genuine pointer written inside matching quotes is set aside and could rot unseen. Against: it was measured before it was written (21 of 21 quoted tokens in src/ were silence.note tags or synthetic drill fixtures, none a pointer), it is narrow (the quote must sit immediately either side of the whole token), and its removal made the detector flag its own proof-of-removal probes as stale citations. The mention kind is counted in `skipped` and reported by kind, drill carries the dressed-as-a-mention attack, and an exemption that is counted and attacked is not a hiding place. Revisit if a quoted token ever turns out to be a pointer.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6",
+  "file": "src/local_agent.py",
+  "verdict": "changed",
+  "decision": "t_propose_patch now keeps the file's original bytes for the revert and writes patches with the file's own line ending.",
+  "how": "Text-mode I/O rewrote every LF file as CRLF on Windows, so a gate-failed patch was 'reverted' but not byte-exact, and even a passing patch changed every line ending. Opposite side: read with newline='' so nothing is translated. Rejected: `find` strings copied from read_file (LF) would then never match a CRLF file's multi-line text. So matching stays on decoded text, the revert writes the raw bytes ('wb'), and the patch write uses newline='' with '\\n' mapped to the file's own ending (CRLF if it contains one, else LF). This tightens the gate (a revert is now exact) and loosens nothing. Proved by executing the reverted source in memory: net False on revert, True on the fix.",
+  "net": "b16_q_agent_revert_bytes",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

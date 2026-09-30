@@ -1,0 +1,7 @@
+[
+ {
+  "module": "generate.py",
+  "old": "silence.note(\"generate.py:address-held\")",
+  "new": "pass"
+ }
+]

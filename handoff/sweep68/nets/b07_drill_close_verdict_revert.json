@@ -1,0 +1,7 @@
+[
+ {
+  "module": "workorders.py",
+  "old": "if drill_verdict_clean(last):",
+  "new": "if last is not None and not (last.get(\"breached\") or []):"
+ }
+]

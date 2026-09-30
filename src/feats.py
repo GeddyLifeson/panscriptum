@@ -452,6 +452,9 @@ _STALE_GATE = {}
 # is the same entity being fetched again on the next roll. Against a host that has IP-banned
 # this machine once, "fetched again" is not free. (run #37 sweep.)
 _UNCACHED = {}
+# sweep68 b05 L8: how many evidence files DID land. `--roll` exits nonzero when some were denied
+# and NONE landed -- a roll that mined the corpus, wrote nothing and told the supervisor rc 0.
+_LANDED = [0]
 
 # WHAT THE LENGTH FILTER TOOK, per gate, so its rate is auditable (order eacc5444288c).
 #
@@ -751,6 +754,16 @@ def mined_under_failed_transport(doc, host):
         if "failed_dirty" in tr:
             return bool(tr.get("failed_dirty")) or why not in CLEAN_NEGATIVES
         return bool(tr.get("failed")) or why not in CLEAN_NEGATIVES
+    # sweep68 b05 M1: THE LEGACY ARM'S "CANNOT LOOP" HOLDS ONLY WHERE A RE-MINE CAN WRITE A STAMP.
+    # `fetch()` fills `transport` for wiki hosts; a registered `pages:` host or a `doc:` host
+    # never touches it, so `dict({}) or None` stores `transport: None` on every record and the
+    # record can never acquire the stamp that ends the re-mine. An honestly empty record of such
+    # a host (no registered page mentions the entity -- the correct answer) was therefore
+    # re-mined, rewritten identically and counted as "gated by the superseded check" on every
+    # load, for ever (~1,600 records on the four anomalous `pages:` hosts). A corpus that is not
+    # wikitext has no transport to fail, so this arm has nothing to say about it.
+    if not reads_as_wiki(host):
+        return False
     hosts, measured = anomalous_empty_hosts()
     return bool(measured and host in hosts)
 
@@ -2376,6 +2389,9 @@ def evidence_for(host, name, cache=True):
     if not silence.write_json(path, out, ensure_ascii=False):
         with _COUNTS_LOCK:
             _UNCACHED[host] = _UNCACHED.get(host, 0) + 1
+    else:
+        with _COUNTS_LOCK:
+            _LANDED[0] += 1
     return out
 
 
@@ -2956,12 +2972,26 @@ def main():
         _bad = []
         if _HOSTS_DENIED:
             _bad.append("the WIKI_HOSTS.json write was denied")
+        # sweep68 b05 L8: `roll()` prints "if this number is large the roll bought nothing" for
+        # `_UNCACHED`, but the rc never saw it, so a roll where a reader held EVERY evidence file
+        # open mined the corpus, wrote nothing and exited 0. Evidence denied with none landed.
+        if _UNCACHED and not _LANDED[0]:
+            _bad.append("every evidence write was denied (%d entities mined, none reached disk)"
+                        % sum(_UNCACHED.values()))
         if not _n:
             _bad.append("the roll had NOTHING to do -- 0 entities were walked, which usually "
                         "means an empty or unresolved host map rather than a finished crawl")
-        elif _err >= _n:
-            _bad.append("every one of the %d entities walked raised in evidence_for(), so "
-                        "nothing was mined" % _n)
+        elif _err * 2 > _n:
+            # sweep68 b05 Q5, answered under the 2026-09-30 ruling. This was `_err >= _n`, so a
+            # roll where 90% of the entities raised exited 0 and the supervisor saw a healthy
+            # crawl. Against it: a nonzero exit reaches the keeper's restart budget, and one
+            # unreadable registry can make a whole class of entities raise while the rest mine
+            # fine. But a roll that lost MORE THAN HALF its entities is not a roll that mostly
+            # worked, the restart is budgeted per job per hour, and the line printed below names
+            # the count, so the false-alarm cost is one visible line. Majority, not any error:
+            # a few raising entities are ordinary and must not fail a crawl.
+            _bad.append("%d of the %d entities walked raised in evidence_for() -- more than half, "
+                        "so most of the roll mined nothing" % (_err, _n))
         if _bad:
             print("\nROLL FAILED, exiting nonzero so the supervisor can see it: "
                   + "; ".join(_bad))

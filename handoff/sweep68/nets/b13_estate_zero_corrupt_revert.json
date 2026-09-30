@@ -1,0 +1,7 @@
+[
+ {
+  "module": "estate.py",
+  "old": "in TRANSIENT_EXT + KEPT_DAMAGED_EXT:",
+  "new": "in TRANSIENT_EXT:"
+ }
+]

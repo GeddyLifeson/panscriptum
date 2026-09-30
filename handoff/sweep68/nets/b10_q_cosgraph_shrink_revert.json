@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cosmology_graph.py",
+  "old": "and len(ranked) < _prior and not args.allow_shrink):",
+  "new": "and False):"
+ }
+]

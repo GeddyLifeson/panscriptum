@@ -1,0 +1,1 @@
+{"name": "worldseed --write refuses when ONOMASTICON or CONTINUITY_GROUPS was not read", "expected": "sweep68 b14 F2: --write lands a library-wide degenerate roster (all antique) over the good one and exits 0"}

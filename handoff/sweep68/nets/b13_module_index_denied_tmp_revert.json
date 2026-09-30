@@ -1,0 +1,7 @@
+[
+ {
+  "module": "module_index.py",
+  "old": "os.remove(tmp)",
+  "new": "pass"
+ }
+]

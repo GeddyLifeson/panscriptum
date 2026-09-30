@@ -1,0 +1,4 @@
+{
+ "name": "silence._handler_is_observed does not credit a later handler's rebound `e`",
+ "expected": "sweep68 b12 F10: a silent handler is classed observed through a later `except ... as e` of the same name"
+}

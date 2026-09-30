@@ -1,0 +1,222 @@
+[
+ {
+  "id": "N1",
+  "file": "src/chain.py",
+  "line": 761,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "A self-edge (two names resolving to one catalogued entity) reaches rigor.bradley_terry and aborts chain.fit.",
+  "how": "Reproduced. extract() now skips and notes an outcome whose idx[wk] == idx[lk], before the edge is built.",
+  "net": "b11_chain_self_contest",
+  "red_green_checked": true
+ },
+ {
+  "id": "N2",
+  "file": "src/scout.py",
+  "line": 500,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "scout() overwrote a source's real wiki host with pages:<source>.",
+  "how": "Reproduced. _adopt now refuses when the current host is non-empty and not a pages: value; the result reports registered False with a note that the pages are registered but unread.",
+  "net": "b11_scout_keeps_real_host",
+  "red_green_checked": true
+ },
+ {
+  "id": "N3",
+  "file": "src/scout.py",
+  "line": 850,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "Hand-run scout.py had no halt interlock.",
+  "how": "Added a fail-closed _assert_not_halted (chain.py's shape) called at the top of main() for every mode, since --dry still stamps attempts, writes SCOUT.json/BLOCKED and spends model calls. COORDINATOR SPLICE REQUIRED: add \"scout.py\" to verify_math._INTERLOCKED (its roster check 7819 fails for any assert_clear caller not on it) and (\"scout.py\", \"main\", (\"sweep\", \"scout\")) to drill._HALT_WRITERS.",
+  "net": "b11_scout_halt_interlock",
+  "red_green_checked": true
+ },
+ {
+  "id": "N4",
+  "file": "src/pick_model.py",
+  "line": 466,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "--write installed an unenforced pick when nvidia-smi could not be read.",
+  "how": "Reproduced by driving main(). --write now prints REFUSING and exits 1 when VRAM was not measured; the report is still printed, a measured card still writes.",
+  "net": "b11_pick_model_unmeasured_write",
+  "red_green_checked": true
+ },
+ {
+  "id": "N5",
+  "file": "src/prose_gate.py",
+  "line": 343,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "Layer 4b only recognised Axis: <digit>; Wisdom: ~28, about 28, (Perception): 28, - 28, a table row and a full-width colon passed on an uncited entity.",
+  "how": "Reproduced. _AXIS_RE widened (label + optional parenthetical, separator : full-width colon = | or spaced dash, any non-digits on the line, then a digit). Strict superset of the old pattern (verified: the next-line number still matches); Wisdom: -- still passes. STRICTER ONLY.",
+  "net": "b11_prose_gate_axis_spellings",
+  "red_green_checked": true
+ },
+ {
+  "id": "N6",
+  "file": "src/entity_match.py",
+  "line": 94,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "A non-trailing continuity parenthetical is fuzzy-scored, so best() can return STRONG across (Ultimate) vs (Prime).",
+  "how": "Not changed: the module deliberately treats mid-name parentheses as part of the name (split_qualifier docstring) and similarity() says whether a differing mid-name parenthetical is an identity difference is left as a question. No production caller. Options: (a) gate every parenthetical group in order (stricter, changes qualifier_compatible semantics for names like Agent (Ret.) Coulson), (b) leave until best() gets a caller.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "N7",
+  "file": "src/prose_gate.py",
+  "line": 266,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "The body strip has no colon, so a Record paragraph starting Classical/Threads of/Magnitude of is deleted and the block refused as only N characters of prose.",
+  "how": "Reproduced (4 characters of prose). Not changed because the fix (match the label WITH its colon, like the presence test at 257) lets blocks through that are refused today, and the brief allows only stricter changes to prose_gate. Options: owner rules it a safe loosening and the colon is added; or leave the over-refusal (fail-closed direction, the model is retried).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "N8",
+  "file": "src/prose_gate.py",
+  "line": 583,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_EYEWITNESS verbs (held, stood, lived, watched, met, faced) drop ordinary reactions such as I held my breath reading this Record.",
+  "how": "Reproduced (dropped 1). Not changed: narrowing the verb list lets more first-person margin notes through the invented-marginalia gate, i.e. looser. Options: owner rules which verbs are reactions; or add a per-chapter dropped-note record so the loss is at least visible (generate.py not read).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "N9",
+  "file": "src/chain.py",
+  "line": 717,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Wrong-TYPED model answers (bare list, outcomes null, numeric winner) raised out of extract() and ended the pass.",
+  "how": "Reproduced. A non-dict answer counts as unanswered (like None), a non-list outcomes is treated as empty, and non-string winner/loser are skipped, each with a silence.note.",
+  "net": "b11_chain_wrong_types",
+  "red_green_checked": true
+ },
+ {
+  "id": "N10",
+  "file": "src/scout.py",
+  "line": 431,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A non-object model answer raised past scout()'s handlers; a string urls value was logged as model proposed nothing.",
+  "how": "Reproduced (and found a second (got or {}).get(note) later in scout()). A lone string is one URL, a bare list is the URL list, any other shape returns reached True with a model answer was not usable note; the trailing note read is type-guarded.",
+  "net": "b11_scout_answer_types",
+  "red_green_checked": true
+ },
+ {
+  "id": "N11",
+  "file": "src/identity.py",
+  "line": 705,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "identity.py --refresh exited 0 when it refused or could not write, so the supervisor logged re-mined whole.",
+  "how": "Reproduced. load() records module state _REFRESH_LANDED (True only when write_json landed); main() returns 1 with a message when --refresh did not land. overnight.identity_refresh_cycle already logs DID NOT COMPLETE on rc != 0, so overnight needed no change for this.",
+  "net": "b11_identity_refresh_rc",
+  "red_green_checked": true
+ },
+ {
+  "id": "N12",
+  "file": "src/identity.py",
+  "line": 563,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A JSON-list model answer raised TypeError out of epoch_of(strict=True).",
+  "how": "Reproduced. _json returns {} for anything that is neither a dict nor a string, which epoch_of already turns into ProbeUnavailable.",
+  "net": "b11_identity_json_list",
+  "red_green_checked": true
+ },
+ {
+  "id": "N13",
+  "file": "src/overnight.py",
+  "line": 2035,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "In-lap maintenance subprocesses do not re-ask halt or pause.",
+  "how": "Fixed for the one that matters: identity_refresh_cycle (16-minute mine, no interlock in identity.py) now asks escalation.assert_clear and library_paused() just before launching and skips (fail closed, logged) on either. canon_backup (seconds), weave_index (own gate) and coverage_snapshot (fast, read-only) left as they were.",
+  "net": "b11_overnight_identity_pause",
+  "red_green_checked": true
+ },
+ {
+  "id": "N14",
+  "file": "src/identity.py",
+  "line": 154,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "identity.mine() never reads data/readfeats although chain.harvest identifies readfeats hosts.",
+  "how": "Confirmed latent: data/readfeats has 99 host dirs, disney_fandom_com has no feats counterpart and holds 0 files, so impact is zero today. Not changed: mining readfeats too (or including it in stale_hosts) changes the scope and cost of the 16-minute whole-tree mine. Options: mine both roots, or make chain.harvest fail loudly for a host absent from the inventory.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "N15",
+  "file": "src/chain.py",
+  "line": 391,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "The ID.load() fallback in harvest() defers the failure instead of degrading.",
+  "how": "Partly true: with _inv None, identify() reloads and raises at the first UNCACHED file, but a fully cached harvest never calls identify and does degrade. Not changed. Options: drop the try/except so a broken inventory fails at the top with the real error, or keep it and reword the misleading handler.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q1",
+  "file": "src/scout.py",
+  "line": 356,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "verify() still needs 2 name hits while probeable grew to every catalogued name (681 on The Elements Beyond).",
+  "how": "Unverified (no page fetched) and a threshold judgement. Options: scale required hits with the pool, or require hits on the longest names; owner call.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/catalogue_aurora.py",
+  "line": 245,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "A source with an unparseable XML file is still marked catalogued with a partial entry_count, so it is never re-read once the file is fixed.",
+  "how": "Deliberate-looking design (rc 1 and the refusal are named). Options: leave the roll row at 0 until the XML parses, or keep partial-but-done; owner call.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/chain.py",
+  "line": 1075,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_singleton_active treats a live pid as held with no creation-time check, so a recycled pid blocks chain.py until it exits.",
+  "how": "Documented as the safe direction. Options: adopt runguard's process-signature check, or keep.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/pick_model.py",
+  "line": 128,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "re.subn(r'^model:\\s*.*$') let \\s* cross a newline and dropped a CRLF carriage return.",
+  "how": "Reproduced by net (a bare model: line swallowed the next config.yaml line). Now [ \\t]* and [^\\r\\n]*, which matches strictly less. The trailing-comment part was left (config.yaml has none).",
+  "net": "b11_pick_model_model_line",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q5",
+  "file": "src/prose_gate.py",
+  "line": 447,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_INSTRUMENT_MARK ends with |▣, so a ▣ anywhere in the block satisfies the marker.",
+  "how": "Same family as b11 Q3 (whole-block search in layer 4c). Tightening would be stricter, but it changes an owner-ruled layer (2026-09-08 / 2026-09-28) and needs a fixture with the real template shape; not changed. Option: anchor the glyph to a line start.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

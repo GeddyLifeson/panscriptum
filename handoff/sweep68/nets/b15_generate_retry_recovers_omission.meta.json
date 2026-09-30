@@ -1,0 +1,4 @@
+{
+ "name": "a corrective retry that restores an omitted entry is not refused for the omission",
+ "expected": "sweep68 b15 F1: a chapter whose corrective retry named every entry is still refused 'entries not written after retry', burning three model calls per block and never converging"
+}

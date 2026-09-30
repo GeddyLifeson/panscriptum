@@ -717,11 +717,15 @@ def covered_by(run):
         except Exception:
             pass
         paths = []
+    torn = False
     for p in paths:
         try:
             with open(p, encoding="utf-8") as f:
                 rec = json.load(f)
+            if not isinstance(rec, dict):
+                raise ValueError("shard is not an object")
         except Exception:
+            torn = True
             try:
                 import silence
                 silence.note("sweep_plan.py:shard-unreadable")
@@ -732,6 +736,15 @@ def covered_by(run):
             for m in (rec.get("modules") or []):
                 out.add(m)
     # The aggregate file is a fallback for a coverage record written before shards existed.
+    # sweep68 b05 L3: BUT NOT WHEN A SHARD WILL NOT PARSE. `record()` folds the current shards
+    # into the aggregate on every call, so the aggregate is a COPY of the shards, and crediting
+    # it here let a torn or hand-edited shard keep proving a batch nobody can now verify --
+    # against `_read_shards`' own rule that "a shard that will not parse is a batch whose
+    # coverage we cannot prove". With an unreadable shard present the aggregate is not
+    # consulted, so `missing()` shows the gap (the fail-safe direction) instead of a complete
+    # sweep.
+    if torn:
+        return out
     try:
         with open(COVERAGE, encoding="utf-8") as f:
             old = json.load(f)

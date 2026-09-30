@@ -1,0 +1,145 @@
+[
+ {
+  "id": "F1",
+  "file": "workorders.py",
+  "line": 1827,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "The DRILL_BREACH closer closed the OWNER order on an empty, undated, zero-net or 40-day-old drill_last.json.",
+  "how": "Verified by reading the closer (it tested only `breached`). Added pure `drill_verdict_clean(last, now)` requiring a finite numeric `at` not in the future and within ALLSWEEP_MAX_AGE, `nets` a positive int, `held == nets`, `breached` an empty list; `sweep_detectors` now closes only through it, anything else leaves the order standing (fail closed).",
+  "net": "b07_drill_close_verdict",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "workorders.py",
+  "line": 917,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A string timestamp or an unknown severity on one row raised out of battery_faults / open_orders and took down the whole read.",
+  "how": "Added `_stamp()` (finite float or None); an unparseable preflight/allsweep `at` is now stale/no-timestamp so the specific STALE order files. `open_orders` ranks an unknown severity as worst instead of raising ValueError, and a non-numeric first_seen as 0.",
+  "net": "b07_bad_stamp_severity",
+  "red_green_checked": true
+ },
+ {
+  "id": "F3",
+  "file": "runguard.py",
+  "line": 298,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "An Infinity or future heartbeat read as a live holder for ever, and the CLI printed a torn guard as free.",
+  "how": "Added `_sane_heartbeat` (finite, not bool, not beyond now+60s). `holder_is_live` treats an insane heartbeat as not live (same fail-open arm the owner ruled on, order 70f66fbd98aa) and `read_verdict` now names it as a fault so `claim()` escalates at SAFETY. `main()` uses read_verdict(GUARD) and prints the fault. Tested only against temp paths; the live guard was never written.",
+  "net": "b07_future_heartbeat",
+  "red_green_checked": true
+ },
+ {
+  "id": "F4",
+  "file": "events.py",
+  "line": 69,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "The widened BOLD regex let one stray ** invert the pairing so real names (Gamma, Delta) vanished with no candidates_refused row.",
+  "how": "Reproduced with a synthetic Chronicle. BOLD no longer crosses a newline, and a body with an odd number of ** markers is recorded in candidates_refused (whole-body row naming the ambiguity). Live Chronicle output unchanged (2 refused, 11 named).",
+  "net": "b07_events_stray_bold",
+  "red_green_checked": true
+ },
+ {
+  "id": "F5",
+  "file": "axis_correlation.py",
+  "line": 242,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Son Goku (in Z_FIGHTERS and REFERENCE_ASSAYS_PRESENCE, identical vector) was counted twice, so n_entities 45 was 44 entities.",
+  "how": "observations() now keeps an identical (name, score vector) once, leaves same-name different-vector rows and unnamed rows alone, and reports the dropped names in status['duplicates_dropped'] (also on measure()). Signature and 2-tuple return unchanged. Live: n_entities 44, mean_r 0.3239. --write NOT run, so data/AXIS_CORRELATION.json still holds the 45-entity matrix (44/45 clears SHRINK_FLOOR).",
+  "net": "b07_axis_dedupe",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6",
+  "file": "onomast.py",
+  "line": 450,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A comment said hosts.py is not wired; feats.py imports it and calls hosts_for.",
+  "how": "Verified feats.py `import hosts as HS`. Rewrote the sentence to say it WAS unwired on 2026-09-08 and no longer is. The same stale sentence in descending_ladder.py and scale_theories.py is outside this batch and untouched.",
+  "net": "b07_onomast_hosts_wired",
+  "red_green_checked": true
+ },
+ {
+  "id": "F7",
+  "file": "hosts.py",
+  "line": 393,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "`--discover` exited 0 when discovered hosts were lost to a denied write or sources could not be probed.",
+  "how": "discover() keeps its (added, rows) return (drill nets unpack two); the two lists are published in module-level LAST_DISCOVER and main() returns 1 when either is non-empty.",
+  "net": "b07_hosts_discover_rc",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q1",
+  "file": "workorders.py",
+  "line": 1560,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "HOST_QUARANTINED and BINDING_SUSPECT are filed at BOTS though no bot closes them.",
+  "how": "Options: (a) move both to RUN as BINDING_HEALTH_STALE was; (b) keep at BOTS and add a bot that closes them; (c) leave, since the sweep closes them itself when the host leaves BH.quarantined(). Owner routing call.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "ledger_guard.py",
+  "line": 880,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "A SHRANK acknowledgement [lo, hi] is not bounded by the current chain length, so [0, 999999] also covers every future shrink; deleting state/ledger_snapshot/ re-baselines both checks.",
+  "how": "The file is person-written and the range is documented as closed. Options: cap hi at len(chain)-1 when the entry is written or read; or leave as an owner-controlled override. Not changed (changes acknowledgement semantics).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "onomast.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "onomast main(), hosts discover()/add() and events --write have no _assert_not_halted while axis_correlation --write does.",
+  "how": "Needs a ruling on whether the 2026-09-28 halt interlock reaches derived data/ files. If yes, the same fail-closed import-guarded assert copied from axis_correlation goes on each write entry point. Not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "workorders.py",
+  "line": 1569,
+  "severity": "LOW",
+  "verdict": "refuted",
+  "what": "HOST_QUARANTINED closure relies on BH.quarantined() being strict.",
+  "how": "Auditor's own note says it is safe as read: an unreadable file raises and the section turns that into DETECTOR_FAILED. No defect.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "hosts.py",
+  "line": 275,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "per_source=24 still bounds speculative subdomain probes, against Hard Rule 0.",
+  "how": "Disclosed, reported, and candidates_split keeps grounded hosts out of it. Options: accept as an exception for guesses, time-box instead of count-box, or make per_source=None the default. Not changed (behaviour and cost change).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "axis_correlation.py",
+  "line": 496,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "`--top -3` printed all but three rows and skipped the more-not-shown line.",
+  "how": "Negative --top is now refused via ap.error (rc 2) before any measuring or halt check.",
+  "net": "b07_axis_negative_top",
+  "red_green_checked": true
+ }
+]

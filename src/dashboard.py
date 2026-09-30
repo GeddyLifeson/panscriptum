@@ -239,10 +239,24 @@ def jobs():
     return out
 
 
+def _log_age(path):
+    """Seconds since `path` was last written, or None if that cannot be read.
+
+    sweep68 b10 Q2, answered under the 2026-09-30 ruling: `_tail_match` returns the most recent
+    matching line whatever its age, so a reader that died last week rendered a live-looking
+    "corpus read" row with its old chunks and eta. The age travels on the row (`age_s`) and the
+    page prints it; None means unknown, which the page leaves unsaid rather than inventing."""
+    try:
+        return max(0.0, time.time() - os.path.getmtime(path))
+    except OSError:
+        return None
+
+
 def _read_row(out, LN):
     r = _tail_match(os.path.join(STATE, LN.READ), RE_READ, hint="chunks/s")
     if r:
         out.append({
+            "age_s": _log_age(os.path.join(STATE, LN.READ)),
             "name": "corpus read", "unit": "chunks",
             "done": _num(r["chunks"]), "total": _num(r["budget"]),
             "detail": (f"{_num(r['done']):,}/{_num(r['total']):,} entities  ·  "
@@ -270,6 +284,7 @@ def _roll_row(out, LN):
     roll = _tail_match(os.path.join(STATE, LN.ROLL), RE_ROLL, hint="M chars")
     if roll:
         out.append({
+            "age_s": _log_age(os.path.join(STATE, LN.ROLL)),
             "name": "page roll", "unit": "entities",
             "done": _num(roll["done"]), "total": _num(roll["total"]),
             "detail": (f"{_num(roll['pages']):,} pages  ·  {roll['chars']}M characters  ·  "
@@ -345,8 +360,30 @@ def watch():
 def _watch():
     """The standing sweep's verdict, so the dashboard says when the code itself is suspect."""
     out = {"open": 0, "high": 0, "rounds": 0, "findings": [], "broken": []}
+    # AN UNREADABLE OVERWATCH.json IS NOT "0 OPEN, 0 HIGH" (sweep68 batch 10, F1). The seed above
+    # is zeros, the except only noted, and standards' "no high-severity findings open" graded
+    # that seed as HOLDING -- a poll landing inside overwatch.save's os.replace (PermissionError,
+    # the documented Windows case) turned a ledger with HIGH findings into a green row and
+    # deleted its work order from the page. The read is retried (the replace window is
+    # milliseconds), and if it still cannot be read the reading fails CLOSED the way `broken`
+    # below does: one sentinel HIGH row, so the standard fails and the panel names the cause.
+    ow = None
+    for _try in range(3):
+        try:
+            with open(os.path.join(DATA, "OVERWATCH.json"), encoding="utf-8") as fh:
+                ow = json.load(fh)
+            if not isinstance(ow, dict):
+                raise ValueError("OVERWATCH.json is not an object")
+            break
+        except Exception:
+            ow = None
+            if _try < 2:
+                time.sleep(0.2)
+    if ow is None:
+        silence.note("dashboard.py:watch")
+        out["unreadable"] = True
     try:
-        d = json.load(open(os.path.join(DATA, "OVERWATCH.json"), encoding="utf-8"))
+        d = ow if ow is not None else {}
         out["rounds"] = d.get("rounds", 0)
         openf = [v for v in (d.get("findings") or {}).values() if v.get("state") == "open"]
         out["open"] = len(openf)
@@ -362,6 +399,13 @@ def _watch():
                            for f in openf]     # ALL open findings -- a monitoring cap ruled a truncation, 2026-08-24
     except Exception:
         silence.note("dashboard.py:watch")
+        out["unreadable"] = True
+    if out.get("unreadable"):
+        out["open"], out["high"] = 1, 1
+        out["findings"] = [{"module": "OVERWATCH", "symbol": "",
+                            "actual": "OVERWATCH.json unreadable -- the sweep ledger is unmeasured, "
+                                      "not empty",
+                            "severity": "high"}]
     # `broken` IS FILLED FROM ALLSWEEP'S IMPORT TIER (sweep67 batch 07, F1, run #67). It was
     # initialised to [] above and written nowhere, so standards' "every module imports" read
     # len([]) and could never fail. An unreadable ALLSWEEP.json is NOT zero broken modules: it
@@ -664,6 +708,9 @@ def safety():
                 "cleared_by": rec.get("cleared_by")}
     except Exception:
         silence.note("dashboard.py:safety-halt")
+        # sweep68 batch 10, F2: a failed halt read left `halted` None and the page rendered that
+        # as "running -- no halt standing" in the OK colour. Absent is not "no halt".
+        out["halt_unreadable"] = True
     try:
         import prose_gate as PG
         ok, why = PG.gate_open()
@@ -893,7 +940,17 @@ function panelStandards(d){const s=el('section','wide');
   const S=d.standards||[];
   const bad=S.filter(x=>!x.holds);
   s.appendChild(el('h2',null,'Standards — where things stand against spec'));
-  if(!S.length){s.appendChild(el('div','empty','Standards not readable.'));return s}
+  if(!S.length){
+    // sweep68 b10 Q1, answered under the 2026-09-30 ruling: `standards_unavailable` was written
+    // on a failed check and read by nothing, so "the check did not run" drew the same neutral
+    // line as an empty list. It now says so, in the bad colour, with the error that was kept.
+    const u=d.standards_unavailable;
+    if(u){const b=el('div','row');b.appendChild(el('span','label','standards check'));
+      b.appendChild(el('span','value bad','DID NOT RUN — '+(u.error||'?')+': '+(u.detail||'')));
+      s.appendChild(b);
+      s.appendChild(el('div','empty',u.note||'this is NOT a clean standards pass'))}
+    else{s.appendChild(el('div','empty','Standards not readable.'))}
+    return s}
   const r=el('div','row');r.appendChild(el('span','label','met'));
   r.appendChild(el('span','value',(S.length-bad.length)+' of '+S.length));
   s.appendChild(r);s.appendChild(bar((S.length-bad.length)/S.length,''));
@@ -927,7 +984,10 @@ function panelJobs(d){const s=el('section','wide');s.appendChild(el('h2',null,'W
       j.done.toLocaleString()+' / '+j.total.toLocaleString()+' '+j.unit+
       '  ·  '+pct(f)+'  ·  eta '+j.eta_h.toFixed(1)+'h'));
     s.appendChild(r);s.appendChild(bar(f,''));
-    const sub=el('div','sub',j.detail);s.appendChild(sub);
+    // sweep68 b10 Q2: the row is the last matching line whatever its age; say how old the log is.
+    const sub=el('div','sub',j.detail+(j.age_s==null?'':'  ·  log last written '+
+      (j.age_s<120?Math.round(j.age_s)+' s':j.age_s<7200?Math.round(j.age_s/60)+' min':
+       (j.age_s/3600).toFixed(1)+' h')+' ago'));s.appendChild(sub);
     if(j.warn){const w=el('div','note',j.warn);s.appendChild(w)}});
   return s}
 
@@ -1007,6 +1067,9 @@ function panelSafety(d){const s=el('section','wide');
     if(h.also){s.appendChild(el('div','empty',h.also+' further fault(s) recorded while halted'))}
     s.appendChild(el('div','empty',
       'Only a person may lift it:  python src/escalation.py --clear --ruling "…"'));
+  }else if(sf.halt_unreadable||sf.halted===null||sf.halted===undefined){
+    const b=el('div','row');b.appendChild(el('span','label','library'));
+    b.appendChild(el('span','value bad','halt state UNREADABLE — cannot say the library is running'));s.appendChild(b);
   }else{
     const b=el('div','row');b.appendChild(el('span','label','library'));
     b.appendChild(el('span','value ok','running — no halt standing'));s.appendChild(b);
@@ -1205,7 +1268,9 @@ def main():
     # remedy this instrument offered a person was to go and read `escalation.py --status`.
     #
     # THE CRITERION, NOT AN EXEMPTION FOR CONVENIENCE. This process writes `state/failures.json`
-    # (silence.note) and `state/CODEWATCH.json` (codewatch.stamp) and nothing else anywhere:
+    # (silence.note), `state/CODEWATCH.json` (codewatch.stamp), `state/dashboard_history.json`
+    # (`movement`, on every /api/state) and `state/read_progress.json` (through `ST.check`) and
+    # nothing else anywhere (sweep68 batch 10, F8: the list used to omit the last two):
     # every field on the page is READ from a file, which `state()`'s own docstring makes a
     # standing property. It moves nothing, publishes nothing and mines nothing, so there is no
     # act here for a halt to stand in front of. A future edit that makes this daemon write

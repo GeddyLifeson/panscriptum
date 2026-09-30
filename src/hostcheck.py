@@ -148,7 +148,7 @@ def _land(path, obj, sort_keys=True, ensure_ascii=True):
 HOST_MERGE_ATTEMPTS = 8
 
 
-def _land_hosts(merge, label):
+def _land_hosts(merge, label, expect=None):
     """Fold `merge` into WIKI_HOSTS.json under a COMPARE-AND-SWAP. -> (landed, reason).
 
     `_land` above closes the TORN-FILE and shared-scratch-file hazards. It has nothing to say
@@ -165,6 +165,13 @@ def _land_hosts(merge, label):
     and not the pass's work: the other writer's hosts survive and ours are set beside them. A
     value of None means "remove this source's host", which is how `sweep(--repair)` records a
     host it has judged unfit.
+
+    `expect` (sweep68 b15 F9) is {source: the value the caller DECIDED FROM} (None = absent). The
+    swap protects against a torn read but the merge used to be unconditional: `adopt` decided
+    "this source is hostless" minutes ago, `scout.py` registered a host for it meanwhile, and
+    `hosts[k] = v` replaced it; `sweep(--repair)`'s None likewise removed a host another writer
+    had just repointed. A key whose FRESH value is no longer the expected one is skipped and
+    named on stderr, never applied. Omitted, the merge is unconditional as before.
 
     -> (False, why) after HOST_MERGE_ATTEMPTS refusals. The caller must report that; this is the
     file where a write that quietly did not happen is the whole hazard.
@@ -245,6 +252,12 @@ def _land_hosts(merge, label):
             silence.note("hostcheck.py:hosts-nondict")
             return False, "WIKI_HOSTS.json is not an object; refusing to overwrite it"
         for k, v in merge.items():
+            if expect is not None and k in expect and hosts.get(k) != expect[k]:
+                silence.note("hostcheck.py:hosts-changed-under-merge")
+                print("hostcheck: %s: %r is no longer %r in WIKI_HOSTS.json (now %r), so this "
+                      "pass's change to it was NOT applied" % (label, k, expect[k], hosts.get(k)),
+                      file=sys.stderr)
+                continue
             if v is None:
                 hosts.pop(k, None)
             else:
@@ -1159,6 +1172,7 @@ def sweep(only=None, repair=False, workers=8):
                                 # unassignment wants to know.
                                 "about": results[k].get("about"),
                                 "about_n": results[k].get("about_n")}
+            _was = {k: hosts.get(k) for k in fixed}     # sweep68 b15 F9: what it was decided from
             hosts.update({k: v for k, v in fixed.items() if v})
             for k, v in fixed.items():
                 if v is None:
@@ -1179,7 +1193,7 @@ def sweep(only=None, repair=False, workers=8):
             # for a repointed source, None for one judged unfit -- and that is what gets applied,
             # to a fresh read, under a compare-and-swap. The local `hosts` above stays updated
             # only so the report below and any later reader in this call see the same picture.
-            landed, why = _land_hosts(fixed, "the host-fitness repair pass")
+            landed, why = _land_hosts(fixed, "the host-fitness repair pass", expect=_was)
             # THE REJECTIONS FILE HAS A VERDICT TOO, AND IT WAS BEING THROWN AWAY (order
             # 1b15acd3f7b2). `_land_hosts` on the line above has ALREADY dropped every unfit
             # source from WIKI_HOSTS.json by the time this runs, and `_land` ->
@@ -1390,6 +1404,7 @@ def purge(dry=True, only=None):
     log = {}
     for src, mined, now in targets:
         n_entries = n_files = n_removed = 0
+        matched = 0
         # THE RECORD WRITE'S VERDICT NOW DECIDES WHETHER THE CACHE MAY BE DELETED (order
         # 1b15acd3f7b2), and this is the one discarded verdict in this module that was
         # DESTRUCTIVE. `_land` -> `silence.write_json` returns False and NEVER RAISES on a denied
@@ -1416,6 +1431,7 @@ def purge(dry=True, only=None):
                 continue
             if r.get("source") != src:
                 continue
+            matched += 1
             # ACCUMULATED ACROSS THE SOURCE'S RECORD FILES, NOT OVERWRITTEN BY THE LAST ONE
             # (order ae5276abc7f8). This was `n_entries = len(...)` inside a loop over EVERY
             # record file, with `n_entries` initialised once at the top -- so if a source ever
@@ -1457,14 +1473,29 @@ def purge(dry=True, only=None):
         # every other source bound there was mined from. When any source outside this purge is
         # still bound to the host, the entries go and the cache stays, and the log says why.
         purging = {t[0] for t in targets}
-        shared = sorted(s for s, h in hosts.items() if h == mined and s not in purging)
+        # sweep68 b15 F8(b): bound NOW is not the same as mined FROM. A source repointed away
+        # from `mined` still has its evidence in this directory (`roster_audit`: repointing a
+        # bad host does not move the cache it already wrote), so the audit's own record of which
+        # host each source was mined from counts too.
+        shared = sorted({s for s, h in hosts.items() if h == mined and s not in purging}
+                        | {s for s, ar in audit.items()
+                           if isinstance(ar, dict) and ar.get("host") == mined
+                           and s not in purging})
+        # sweep68 b15 F8(a): no record file carried this source, so no entry was emptied and no
+        # purge note written -- deleting the caches then is "entries stayed, evidence gone", the
+        # state the order-1b15acd3f7b2 comment above exists to prevent. Keep them, and say so.
+        no_record = not matched and not dry
+        if no_record:
+            silence.note("hostcheck.py:purge-no-record")
+            print(f"  no record file carries source {src!r}: nothing was emptied, so its cache "
+                  f"under {mined} is KEPT", file=sys.stderr)
         for base in ("feats", "readfeats"):
             d = os.path.join(HERE, "data", base, cachekey.host_dir(mined))
             if not os.path.isdir(d):
                 continue
             for fp in glob.glob(os.path.join(d, "*.json")):
                 n_files += 1
-                if dry or not landed or shared:
+                if dry or not landed or shared or no_record:
                     continue
                 try:
                     os.remove(fp)
@@ -1481,7 +1512,7 @@ def purge(dry=True, only=None):
         # filed about. `removed` is what actually left the disk; `files` is what was found.
         log[src] = {"mined_from": mined, "now": now, "entries": n_entries, "files": n_files,
                     "removed": n_removed, "landed": None if dry else landed,
-                    "cache_kept_shared_with": shared}
+                    "cache_kept_shared_with": shared, "cache_kept_no_record": no_record}
         if shared:
             print(f"  cache KEPT for {mined}: still bound to {len(shared)} other source(s) "
                   f"({', '.join(shared)})")
@@ -1732,8 +1763,9 @@ def adopt(dry=True, workers=4):
         # Writing that snapshot back whole reverts every host `sweep(--repair)` or `scout.py`
         # registered while this pass was probing, on the one file this project cannot rebuild.
         # (order 1f79b49a4df7, run #36)
+        _was = {k: hosts.get(k) for k in found}         # sweep68 b15 F9: hostless when decided
         hosts.update(found)
-        landed, why = _land_hosts(found, "the adopt pass")
+        landed, why = _land_hosts(found, "the adopt pass", expect=_was)
         if landed:
             print("-> " + F.HOSTS)
         else:

@@ -1,0 +1,4 @@
+{
+ "name": "module_index: denied replace removes its temp file",
+ "expected": "sweep68 b13 F7: each denied MODULE_INDEX write leaves another pid-named .tmp file in handoff/"
+}

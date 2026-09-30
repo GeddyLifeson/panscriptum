@@ -1,0 +1,4 @@
+{
+ "name": "purge --go keeps a cache when no record was emptied or a repointed source still uses it",
+ "expected": "sweep68 b15 F8: purge deletes host caches with no entry emptied, or evidence a repointed source was mined from"
+}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "rigor.py",
+  "old": "    if n_laws_touched > M:",
+  "new": "    if False:"
+ }
+]

@@ -238,6 +238,11 @@ def load_index(root=READFEATS):
             try:
                 with open(os.path.join(p, fn), encoding="utf-8") as f:
                     rec = json.load(f)
+                # sweep68 b05 L4: valid JSON that is not an object (`[]`, `null`) parsed, then
+                # `rec.get` below raised AttributeError and killed the whole index build over one
+                # file this module already has a counter for. It is unreadable as a record.
+                if not isinstance(rec, dict):
+                    raise ValueError("record is not an object")
             except Exception:
                 silence.note("feats_index.load_index")
                 faults["unreadable"] += 1

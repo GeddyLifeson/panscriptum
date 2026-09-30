@@ -1,0 +1,12 @@
+[
+ {
+  "module": "profile.py",
+  "old": "    if n < 0:\n        raise ValueError(f\"address must be a non-negative integer, got {n!r}\")",
+  "new": "    if False:\n        raise ValueError(f\"address must be a non-negative integer, got {n!r}\")"
+ },
+ {
+  "module": "profile.py",
+  "old": "raise RuntimeError(\"REFUSING TO PROFILE:",
+  "new": "_unused = (\"REFUSING TO PROFILE:"
+ }
+]

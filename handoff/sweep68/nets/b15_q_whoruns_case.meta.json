@@ -1,0 +1,4 @@
+{
+ "name": "whoruns matches the script basename case-insensitively",
+ "expected": "sweep68 b15 Q6: a job started as Mutate.py reads as NOT running, a confident false negative"
+}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "    cites = gated or cites\n",
+  "new": "    cites = cites or gated\n"
+ }
+]

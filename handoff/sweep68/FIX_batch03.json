@@ -1,0 +1,178 @@
+[
+ {
+  "id": "N1",
+  "file": "src/pipeline.py",
+  "line": 2805,
+  "severity": "HIGH",
+  "verdict": "fixed",
+  "what": "update_handoff's 120 s status recount went through records(), which reset every record's write watermark to the fresh disk copy, so a later write_record from the phase's load-time rec read its stale values as authored and reverted other writers' description repairs, bands, exclusions and synthesis while returning True.",
+  "how": "Reproduced in scratch (load -> other writer edits -> update_handoff recount -> stale batch write: description, magnitude and synthesis all reverted, landed True). Root fix in records(): a thread-local _LISTING.only flag makes a read-only listing skip _remember_top_keys; update_handoff sets it around its recount (a flag rather than a parameter because drill stubs records with zero-arg lambdas, e.g. _net_073752d048bc; thread-local so a loader on another thread keeps its watermark). Loaders that write back are unchanged. Side effect: the recount no longer pays the fingerprint pass (N10). Existing watermark, CAS, handoff, phase 1/2/8 drill nets re-run green against the fixed code.",
+  "net": "b03_recount_keeps_writer_watermark",
+  "red_green_checked": true
+ },
+ {
+  "id": "N2",
+  "file": "src/pipeline.py",
+  "line": 1642,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "write_record's companion clear popped a disk rejection (scale_note_rejected etc.) for every paired entry whenever the stale in-memory entry lacked it, deleting the rejection repass_bands had just preserved.",
+  "how": "Reproduced. The pop now needs an authored absence: with a watermark it is skipped when the rejection was already absent when the caller loaded the entry; a rejection the caller loaded and then popped still clears on disk; no watermark keeps the old behaviour. The net covers both the preserved and the deliberate-clear case.",
+  "net": "b03_companion_clear_needs_authored_absence",
+  "red_green_checked": true
+ },
+ {
+  "id": "N3",
+  "file": "src/weave_index.py",
+  "line": 403,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "build() read the corpus and then designations() read it again, overwriting LAST_UNREADABLE, so a record torn in pass 1 and healed by pass 2 let main --write land a short index at rc 0.",
+  "how": "Reproduced. build() now calls designations(recs) over the list it already holds (an explicit list is never cached), so LAST_UNREADABLE describes the pass the index was built from.",
+  "net": "b03_weave_index_one_pass",
+  "red_green_checked": true
+ },
+ {
+  "id": "N4",
+  "file": "src/pipeline.py",
+  "line": 3583,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "Set-level sources numbered II.X.1 collide with real Series codes; 15 shared codes among ready sources, generate.hold_shared_addresses holds about 30 sources whole, and phase 8 said nothing.",
+  "how": "Addressing untouched (OWNER order 3976a097f975, Hard Rule 2); run #68's volume_codes change kept. Done: phase_write now logs every shared-address group of ready sources by name, uncapped, with its job-id count (net b03_phase_write_names_shared_addresses, red/green checked). Owner options: (a) a Volume delimiter that cannot collide with the Series level, (b) skip integers already owned by a real Series in that Set inside volume_codes, (c) hold phase 8 open while any ready source is held.",
+  "net": "b03_phase_write_names_shared_addresses",
+  "red_green_checked": true
+ },
+ {
+  "id": "N5",
+  "file": "src/pipeline.py",
+  "line": 0,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "The type-vs-category guard does not cover topic (2,209 Character/Person entries carry topic Places and worldseed builds them into worlds), and the crawl's type label is itself wrong for at least 207 real places.",
+  "how": "Not changed: which signal wins is curatorial. Options: (a) apply category_contradicts_type to topic too, (b) key the test on the description lead instead of the per-wiki type, (c) let the lead decide when type and answer disagree; plus a repair pass over the 2,209 either way.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "N6",
+  "file": "src/weave_index.py",
+  "line": 159,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "designations() cached an answer computed from a short pass under the valid signature.",
+  "how": "The cache write now also requires an empty LAST_UNREADABLE (load_records ran just above in the cacheable branch and clears it on a cache hit). The caller still gets this pass's answer.",
+  "net": "b03_designations_short_pass_uncached",
+  "red_green_checked": true
+ },
+ {
+  "id": "N7",
+  "file": "src/pipeline.py",
+  "line": 2122,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Phase 1 called .strip() on raw cloud answer fields, so a list evidence crashed phase_synthesis.",
+  "how": "evidence (both reads), ceiling_entity and rationale now go through the _res_text coercion phase 2 already uses. The net drives phase_synthesis with a stubbed pool answer.",
+  "net": "b03_phase1_nonstring_answer",
+  "red_green_checked": true
+ },
+ {
+  "id": "N8",
+  "file": "src/roll.py",
+  "line": 151,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "roll.mutate left its staged pid/tid temp file behind when the dump raised.",
+  "how": "The handler now removes tmp (and notes a failed removal), matching pipeline._dump_tmp/_landed.",
+  "net": "b03_roll_mutate_no_tmp_left",
+  "red_green_checked": true
+ },
+ {
+  "id": "N9",
+  "file": "src/pipeline.py",
+  "line": 3983,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Stale line citation overnight.py:602-660 in the __main__ comment.",
+  "how": "Replaced with a by-symbol citation (overnight.run's returncode fold). Comment only, so no net.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "N10",
+  "file": "src/pipeline.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "The widened per-entry watermark sha1s 13 fields of every entry: about 35 s and +521 MB over the corpus, after every landed write_record and every records() load.",
+  "how": "Partly relieved by N1 (the 120 s status recount no longer fingerprints). The per-write cost stays. Options: (a) one hash of a repr tuple per entry, (b) re-fingerprint only the entries of the batch just written, (c) keep load-time values by reference. Throughput only, and it touches the watermark the two-writer contract rests on, so left for a deliberate change.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q1",
+  "file": "data/records",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Bone (Jeff Smith) has a record and a COVERAGE row but no roll row; phase_write refuses it as not on the roll.",
+  "how": "Owner: renamed row, deleted row, or an unrostered source?",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/pipeline.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Phase 8 closes when only some ready sources are refused; the names are logged but the phase is marked done.",
+  "how": "Deliberate per existing nets for the all-empty case; owner decides whether a partial refusal should hold the phase open.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/pipeline.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "generate.py does not re-read roll.out_of_scope; if phase 8 lands no manifest, an older manifest holding a since-excluded source can still run.",
+  "how": "generate.py is not in this batch. Options: generate filters on out_of_scope, or phase 8 replaces a stale manifest when it builds nothing.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/halo.py",
+  "line": 207,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "halo.py and reference.py write HALO_ASSAYS.json / REFERENCE_ASSAYS.json with no halt check while their twin wh40k.py is on the _INTERLOCKED roster.",
+  "how": "The interlock roster lives outside these modules; owner decides whether these corpus writers must honour the halt.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "src/navtree.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "navtree --write is refused for good (13,614 audit problems against an Aug 20 SEVENFOLD.json) and state/NAVTREE_AUDIT.json is stale at count 0.",
+  "how": "The refusal is the gate working; someone has to schedule sevenfold.py and the audit.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "src/pipeline.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Carried from sweep67: 'nine-measure worksheet' vs eleven axes (SYNTH_SYSTEM and the persisted method string), halo.py 'M3 (Halo 2-3)', --phase N moving the pointer to N+1, _META_TERMS after sys.exit(main()).",
+  "how": "Unchanged; each needs an owner wording or behaviour ruling.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

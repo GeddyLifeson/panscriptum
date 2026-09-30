@@ -241,6 +241,17 @@ def cohort_family(code):
     return ".".join(parts[:2]) if len(parts) >= 2 else None
 
 
+def _declared(doc, key):
+    """`doc["declared"][key]`, or None when `declared` is absent OR not an object.
+
+    SWEEP68 b16 F8: the sweep67 wrong-shape guard covered the top level and the rows but not this
+    field, so `{"declared": [1]}` raised AttributeError out of build()/verify()/threads_for and
+    `main()` printed a traceback instead of REFUSING. Not an object = nothing declared.
+    """
+    d = doc.get("declared")
+    return d.get(key) if isinstance(d, dict) else None
+
+
 def annex_codes():
     """The Chronica Annex's Canon codes. -> set of 'VIII.n', or an EMPTY set if unreadable.
 
@@ -268,7 +279,7 @@ def annex_codes():
     # THE FILE DECLARES ITS OWN POPULATION, SO CHECK IT. A truncated table would silently make
     # some Canons unaddressable and refuse exactly the T3s that pointed at them, which is a
     # smaller universe and this project's oldest failure shape.
-    declared = ((doc.get("declared") or {}).get("canons"))
+    declared = _declared(doc, "canons")
     if declared and len(out) != declared:
         silence.note("threads.py:annex-short")
         return set()
@@ -293,7 +304,7 @@ def law_codes():
         silence.note("threads.py:laws-unreadable")
         return set()
     out = {str(c.get("code")) for c in (doc.get("laws") or []) if isinstance(c, dict) and c.get("code")}
-    declared = ((doc.get("declared") or {}).get("volumes"))
+    declared = _declared(doc, "volumes")
     if declared and len(out) != declared:
         silence.note("threads.py:laws-short")
         return set()
@@ -536,6 +547,16 @@ def survey(records=None):
     if records is None:
         import weave_index as WI
         records = WI.load_records()
+        # SWEEP68 b16 F2: `load_records` skips a record it cannot parse (torn mid-write) and
+        # says so only in `LAST_UNREADABLE`, which `weave_index.main` honours and this module
+        # never read. That source was then absent from `graph["sources"]` AND from `unaddressed`,
+        # `verify()` passed (it checks only what is present) and `main()` wrote a short
+        # THREADS.json. A whole-corpus build over a short read is REFUSED, as weave_index does.
+        if WI.LAST_UNREADABLE:
+            raise ThreadRefused(
+                "%d record file(s) could not be read this pass (%s), so this graph would be "
+                "missing their sources with nothing naming them. Re-run when the records are "
+                "whole." % (len(WI.LAST_UNREADABLE), ", ".join(WI.LAST_UNREADABLE)))
     code_of, cats_of, n_of = {}, {}, {}
     for rec in records:
         src = (rec or {}).get("source")

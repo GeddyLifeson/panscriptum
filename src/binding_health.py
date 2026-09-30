@@ -1331,6 +1331,13 @@ def known_present_titles(host, hosts_map=None, records_dir=None, want=None, avai
                 silence.note("binding_health.py:candidate-record")
                 continue
             for e in (rec.get("entries") or []):
+                # sweep68 b14 Q4, answered under the 2026-09-30 ruling: a STRUCK entry (excluded)
+                # was struck because it is not a real thing, so its title is the one most likely
+                # to be absent from the wiki. Probing it as "believed present" reads a healthy
+                # host as failing and can quarantine it. Tightens the canary's own inputs; a dead
+                # host still fails on every title.
+                if (e or {}).get("excluded"):
+                    continue
                 for t in _title_variants((e or {}).get("name")):
                     if len(t) > 3 and t not in seen:
                         seen.add(t)
@@ -1366,7 +1373,7 @@ def known_present_title(host, hosts_map=None, records_dir=None):
         if rec.get("source") in want:
             for e in (rec.get("entries") or []):
                 n = (e or {}).get("name")
-                if n and len(n) > 3:
+                if n and len(n) > 3 and not (e or {}).get("excluded"):   # sweep68 b14 Q4
                     return n
     return None
 

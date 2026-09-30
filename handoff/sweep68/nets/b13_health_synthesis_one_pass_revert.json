@@ -1,0 +1,7 @@
+[
+ {
+  "module": "health.py",
+  "old": "    _failed = set(st.get(\"failed\", {}).get(\"synthesis\", {}))\n    if _failed:\n        _seen = set()\n        for _, r in P.records():\n            if r[\"source\"] in _failed and r[\"source\"] not in _seen:\n                _seen.add(r[\"source\"])\n                if (r.get(\"synthesis\") or {}).get(\"ceiling_entity\"):\n                    stale += 1\n",
+  "new": "    for src in st.get(\"failed\", {}).get(\"synthesis\", {}):\n        rec = next((r for _, r in P.records() if r[\"source\"] == src), None)\n        if rec and (rec.get(\"synthesis\") or {}).get(\"ceiling_entity\"):\n            stale += 1\n"
+ }
+]

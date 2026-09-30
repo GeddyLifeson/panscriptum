@@ -6,6 +6,10 @@ deletion. Maintained by the maintenance pass; humans welcome to add.*
 
 ## Open
 
+* **[run #68, order `8707ebf9ce01`, MAJOR] foreman writes the model's UNVERIFIED patch into live src/**
+  and checks it for up to about 20 minutes. codewatch acts after 180 s, so standing daemons can restart onto unverified code. foreman runs with `--patch` live. The fix is to verify in a sandbox copy first. Found by sweep68 b09.
+* **[run #68, order `36c4134de171`] 2,209 Character entries carry topic Places.** The guard now stops new ones; the existing ones need a CAS repair through `write_record`, checking each against its description. Found by sweep68 b03 N5.
+
 > **MOVED 2026-09-08 (owner ruling 18a, order `ca0a93856e2a`). The Open section had rotted from
 > 108/56 on 2026-08-30 to 141 labelled entries of which 82 said RESOLVED in their own label — 58%,
 > 2,302 lines of a 5,143-line file. The one-at-a-time policy was losing to accretion, so the owner
@@ -1541,6 +1545,29 @@ remaining item is either an outage, a decision, or a watched state.***
   when the pool window rolls.
 
 ## Resolved (paper trail)
+
+### Resolved by run #68 (2026-09-30 daily maintenance; sweep68)
+
+*Found by sweep68 (16 audits, all 119 modules) and by the run itself, and fixed in the same shift.
+132 findings were fixed and 93 open questions were answered under the owner's 2026-09-30 ruling (61
+changed, 32 kept, each with its reasoning). Every behaviour change carries a drill net proved RED
+under its revert and HELD, and the drill went from 829 to 1025 nets. The resolutions are in
+`state/workorders_closed.jsonl` (codes `SWEEP68_*`) and `handoff/sweep68/FIX_*.json` /
+`ANSWER_*.json`. The export commit is in HANDOFF.md.*
+
+* **Mutation sandbox kept a mutant's halt:** a halt raised inside the sandbox was never removed, so the 09-29 pass ran for 20 hours with drill and verify_math disabled. Root cause: the sandbox state was cleaned only at build. Fix: `mutate._scrub_sandbox_halt`.
+* **Phase 8 wrote colliding job ids:** 1,251 duplicates, and generate overwrote one source's chapters with another's. Root cause: `pipeline.phase_write` used `spine_code_for` and skipped Volume numbering. Fix: `manifest_builder.volume_codes` is the single numbering, and `generate.hold_shared_addresses` refuses a shared address.
+* **Storage Sense deleted about 12,400 live `data/chunkfeats` files.** Root cause: sandboxes with junctions into live data lived in `%TEMP%`, and concurrent proofs filled the disk. Fix: `mutate.scratch_home()` (outside every temp directory), and `prove_net` refuses under 20 GB free.
+* **Battery probes logged into the live `state/pipeline.log`.** Fix: both harnesses redirect `pipeline.LOG`.
+* **HIGHs from sweep68:**
+  * `foreman._SCRIPT_RE` made restart_reader, kill_stalled_job and kill_duplicate_jobs no-ops on every standing job.
+  * `pipeline.records()` reset writers' watermarks, which was the two-writer revert again.
+  * `magnitude.run_batch` overwrote an unreadable `ASSAYS.json`.
+* **Drill:**
+  * orphaned pid-named probe junctions are now reaped;
+  * `_esc_sandbox` resolves before it redirects;
+  * an area that dies is re-asked before it can halt.
+* **Owner requests:** `foreman.reap_ollama_orphans` (orphaned runners and duplicate daemons, every round).
 
 ### Resolved by run #67 (2026-09-28/29 daily maintenance; sweep67)
 

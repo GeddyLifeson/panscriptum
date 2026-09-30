@@ -1,0 +1,12 @@
+[
+ {
+  "module": "workorders.py",
+  "old": "\"RUN\", \"MINOR\", where=host, found_by=\"binding_health\"))",
+  "new": "\"BOTS\", \"MINOR\", where=host, found_by=\"binding_health\"))"
+ },
+ {
+  "module": "workorders.py",
+  "old": "\"RUN\", \"MINOR\", where=host, evidence=h.get(\"reason\"),",
+  "new": "\"BOTS\", \"MINOR\", where=host, evidence=h.get(\"reason\"),"
+ }
+]

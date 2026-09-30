@@ -129,6 +129,13 @@ def audit_invariants(recs):
         for e in rec["entries"]:
             if not e.get("catalogued"):
                 continue
+            # sweep68 b15 F6: a struck (`excluded`) or `stale_since` entry is already out of the
+            # library (manifest_builder._live_entries), so flagging it here made the backscan
+            # count unable to reach zero by cleanup and mixed handled rows in with the ones an
+            # operator still has to act on. Counted apart, never judged.
+            if e.get("excluded") or e.get("stale_since"):
+                stats["entries_struck"] += 1
+                continue
             stats["entries_catalogued"] += 1
             nm = (e.get("name") or "").strip()
             band = e.get("magnitude")
@@ -201,6 +208,7 @@ def main():
     fails, stats = audit_invariants(recs)
     print(f"\nsources {len(recs)} | with synthesis {stats['sources_with_synthesis']} | "
           f"entries catalogued {stats['entries_catalogued']:,}")
+    print(f"struck or stale entries not judged: {stats['entries_struck']:,}")
     print(f"entries banded {stats['entries_banded']:,} | "
           f"with a scale note {stats['entries_with_scale_note']:,} | "
           f"flagged for rephrase {stats['scale_notes_flagged_for_rephrase']:,}")
@@ -244,7 +252,8 @@ def main():
 
     # ---------------------------------------------------------------- readable sample
     rng = random.Random(args.seed)
-    pool = [(rec["source"], e) for _, rec in recs for e in rec["entries"] if e.get("catalogued")]
+    pool = [(rec["source"], e) for _, rec in recs for e in rec["entries"]
+            if e.get("catalogued") and not (e.get("excluded") or e.get("stale_since"))]
     print("\n" + "=" * 96)
     print(f"RANDOM SAMPLE ({args.sample} of {len(pool):,} catalogued entries, seed {args.seed})")
     print("=" * 96)

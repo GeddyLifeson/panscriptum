@@ -198,6 +198,14 @@ def main():
     print()
 
     if args.src and args.dst:
+        # sweep68 b13 F4: `shortest` answers (inf, []) for "no path" AND for "name not in the
+        # graph", and the DISCONNECTED line below is a finding about the library. A misspelt
+        # shelf (or one of the roll's sources that has no edges) must be named as unknown.
+        _unknown = [n for n in (args.src, args.dst) if n not in adj]
+        if _unknown:
+            print(f"NOT IN GRAPH: {', '.join(_unknown)} -- no such shelf here, so no path was "
+                  f"searched")
+            return 1
         d, path = shortest(adj, args.src, args.dst)
         if not path:
             print(f"{args.src} -> {args.dst}: DISCONNECTED (no shared furniture at any remove)")

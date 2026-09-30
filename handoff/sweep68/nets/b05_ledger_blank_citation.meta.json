@@ -1,0 +1,1 @@
+{"name": "check_graph flags a blank citation on every kind", "expected": "sweep68 b05 L6: a MEASURED/CHARTER quantity or whitespace-only OWNER source with no citation passes the graph check"}

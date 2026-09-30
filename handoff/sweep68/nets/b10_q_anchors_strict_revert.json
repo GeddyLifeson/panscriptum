@@ -1,0 +1,7 @@
+[
+ {
+  "module": "anchors.py",
+  "old": "vals[n] <= vals[prev]",
+  "new": "vals[n] < vals[prev]"
+ }
+]

@@ -570,7 +570,36 @@ def _tree_fingerprint(roots):
         if one is None:
             return None
         parts.append(one)
+        # SWEEP68 b16 F10: `codewatch.fingerprint` hashes `.py` files ONLY, so `report(['src',
+        # 'prompts'])` fingerprinted `prompts/` as the constant empty digest and a `.txt` caught
+        # mid-write there was never called torn -- while detect-secrets and
+        # `scan_for_secrets` do read it. Every OTHER file under the root is hashed here too.
+        other = _other_files_digest(r)
+        if other is None:
+            return None
+        parts.append(other)
     return tuple(parts)
+
+
+def _other_files_digest(root):
+    """-> a digest of every non-.py file under `root`, or None if one cannot be read."""
+    import hashlib
+    h = hashlib.sha256()
+    if os.path.isfile(root):
+        return "file"            # a single file root is a .py or is covered by its own scan
+    try:
+        for dirpath, dirs, files in os.walk(root):
+            dirs[:] = sorted(d for d in dirs if d not in ("__pycache__", ".git"))
+            for f in sorted(files):
+                if f.endswith(".py"):
+                    continue
+                p = os.path.join(dirpath, f)
+                with open(p, "rb") as fh:
+                    h.update(os.path.relpath(p, root).encode("utf-8"))
+                    h.update(fh.read())
+    except OSError:
+        return None              # unreadable right now, very likely being written right now
+    return h.hexdigest()[:16]
 
 
 def report(paths=None):

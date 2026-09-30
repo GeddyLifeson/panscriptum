@@ -1,0 +1,12 @@
+[
+  {
+    "module": "weave.py",
+    "old": "if len(srcs) < min_sources or (max_sources is not None and len(srcs) > max_sources):",
+    "new": "if len(srcs) < min_sources or len(srcs) > 60:"
+  },
+  {
+    "module": "weave.py",
+    "old": "    keys = [(k, len(v)) for k, v in occ.items() if len(v) >= 2]",
+    "new": "    keys = [(k, len(v)) for k, v in occ.items() if 2 <= len(v) <= 60]"
+  }
+]

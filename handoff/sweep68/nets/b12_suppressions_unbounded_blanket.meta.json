@@ -1,0 +1,4 @@
+{
+ "name": "suppressions.problems reports never-expiring and blanket rows",
+ "expected": "sweep68 b12 F11: a hand-edited Infinity/over-365-day or all-wildcard suppression is active for ever with no problem reported"
+}

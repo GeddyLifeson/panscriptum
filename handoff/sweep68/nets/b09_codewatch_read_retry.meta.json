@@ -1,0 +1,4 @@
+{
+ "name": "a restart-ledger read that fails once is retried, one that never reads is refused",
+ "expected": "run #68 order 3c047095d829: a transient Windows replace window cost a restart slot (19/20 in the concurrency check)"
+}

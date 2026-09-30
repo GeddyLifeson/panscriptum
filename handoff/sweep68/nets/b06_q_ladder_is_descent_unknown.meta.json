@@ -1,0 +1,4 @@
+{
+ "name": "shrink_report reports is_descent None when the starting size is unknown",
+ "expected": "sweep68 b06 Q4: an unknown start is reported as 'not a descent' (False) instead of unassessed (None)"
+}

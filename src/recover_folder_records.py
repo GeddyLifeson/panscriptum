@@ -91,10 +91,30 @@ def load(path):
         return json.load(f)
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    sweep68 b04 F2. This tool writes new data/records/<slug>.json files and lands roll rows, and
+    consulted no halt (sweep67 batch06 finding 5 named it absent). Same interlock as
+    `retry_synthesis._assert_not_halted` (orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd),
+    called on the WRITING path only: `--dry-run` is a measurement and keeps working under a
+    halt. FAIL CLOSED on the import, never `except ImportError: pass` (Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+    if not args.dry_run:
+        _assert_not_halted("(writes data/records and the roll)")
 
     register = load(REGISTER)
     source_map = load(SOURCE_MAP)
@@ -216,13 +236,23 @@ def main():
         # An unreadable file counts as populated: not knowing what is there is not evidence
         # that nothing is, and this direction is the recoverable one.
         already = False
+        _on_disk = 0
         if os.path.exists(path):
             try:
-                already = bool(load(path).get("entries"))
+                _on_disk = len(load(path).get("entries") or [])
+                already = bool(_on_disk)
             except Exception:
                 already = True
         if already:
             skipped_populated.append(name)
+            # sweep68 b04 F3: a run whose roll write was DENIED prints "re-run to update the
+            # roll" and exits 1, but the re-run lands here (the record now exists), and this
+            # branch changed nothing -- the roll stayed at entry_count 0 with a clean rc, so a
+            # wrapper that reruns on rc 1 stopped. The roll row is 0 by selection (`empty`), the
+            # record on disk is populated, so the row is the stale half: fix it through the
+            # same CAS below. An unreadable record has no count to write, so it is left alone.
+            if _on_disk:
+                roll_changes[name] = {"entry_count": _on_disk, "status": "catalogued"}
             continue
 
         roll_entry = roll_by_name[name]
@@ -314,7 +344,7 @@ def main():
     # never the property this needed: this tool reads the roll at startup, walks the register,
     # and used to write its own startup-time copy of every other writer's rows back over them.
     # `roll.update_rows` merges only the rows recovered here into a freshly-read roll.
-    if not args.dry_run and written:
+    if not args.dry_run and roll_changes:
         import roll as _roll
         roll_landed, roll_why = _roll.update_rows(roll_changes, path=ROLL)
         if not roll_landed:

@@ -35,6 +35,7 @@ import json
 import os
 import shutil
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import silence  # noqa: E402
@@ -178,6 +179,27 @@ def _land_merged(path, merge, attempts=8):
     return False, why, obj, current
 
 
+def _set_aside_unparseable(path):
+    """Copy an unparseable manifest to `<path>.corrupt.<ns>` before it is replaced. -> the copy, or None.
+
+    sweep68 b04 Q5, answered under the 2026-09-30 ruling. The merge used to print "not merging"
+    and land a manifest holding only this run's withdrawals OVER the unreadable one, so whatever
+    earlier record the file still carried (a torn write keeps a readable prefix) was destroyed in
+    the tool whose one job is preserving the record of what was withdrawn. Refusing was the other
+    option and is worse here: this runs after the chapter files have moved, so a refusal leaves an
+    archive with no manifest at all. Setting the bytes aside is restorable and costs one file.
+    A copy that cannot be made is said aloud and the write still proceeds, for the same reason.
+    """
+    aside = "%s.corrupt.%d" % (path, time.time_ns())
+    try:
+        shutil.copy2(path, aside)
+    except OSError:
+        silence.note("withdraw_chapters.py:manifest-set-aside-failed")
+        print("  COULD NOT set the unparseable manifest aside; its bytes are about to be replaced.")
+        return None
+    return aside
+
+
 def _drop_tmp(tmp):
     """Remove a staged temp, and never let the removal become the failure."""
     try:
@@ -254,6 +276,7 @@ def main():
     arch = os.path.join(HERE, "output", "withdrawn_" + a.label)
     with open(CATALOG, encoding="utf-8") as f:
         cat = json.load(f)
+    _read_at = time.time()
     filtered = bool(a.source or a.addr)
     sel = select(cat, a.source, a.addr)
     print("catalog entries: %d" % len(cat))
@@ -425,6 +448,22 @@ def main():
             if f in claimed_raw:
                 skipped_claimed += 1
                 continue
+            # sweep68 b04 Q6, answered under the 2026-09-30 ruling. `claimed_raw` is the catalog as
+            # it stood at startup, so a chapter generate.py landed since (file written, catalog row
+            # added after the read) looked unclaimed and was archived while `_catalog_merge` kept
+            # its row. The tool is meant to run with the library stood down, but nothing enforced
+            # it and a wrong guess moves the only copy of a chapter. A file modified after the
+            # catalog was read is not a stray this run can vouch for: it is left in place and
+            # named. (Re-reading the catalog per stray would only narrow the window; the mtime
+            # closes it, at the cost of leaving a genuinely new stray for the next run.)
+            try:
+                _fresh = os.path.getmtime(src) >= _read_at
+            except OSError:
+                _fresh = True
+            if _fresh:
+                print("  stray left in place, modified since the catalog was read: %s" % src)
+                stray_stuck.append(f)
+                continue
             if a.go:
                 dst = os.path.join(arch, "raw", f)
                 # SAME COLLISION GUARD AS THE CATALOGUED MOVES (order 8d14f0adda1b). A stray
@@ -482,8 +521,10 @@ def main():
         # re-read and kept, rather than overwritten by a union computed before it existed.
         def _manifest_merge(current, state):
             if state == "unparseable":
+                _aside = _set_aside_unparseable(record_path)
                 print("  existing manifest at %s could not be parsed -- not merging; the new "
-                      "manifest will hold only this run's withdrawals." % record_path)
+                      "manifest will hold only this run's withdrawals.%s"
+                      % (record_path, " The old bytes are kept at %s." % _aside if _aside else ""))
             merged = dict(current or {})
             merged.update(withdrawn)
             return merged
@@ -591,7 +632,8 @@ def main():
     # not. The same for a missing archive manifest (a re-run cannot reproduce it), and for
     # chapters that are still in the library or whose absence was never established.
     #
-    # THE SIBLING IN THIS SAME TREE ALREADY ARGUED IT OUT. `address_space.py:467-480` hits the
+    # THE SIBLING IN THIS SAME TREE ALREADY ARGUED IT OUT. `address_space.main()` (the `silence.write_json`
+    # of SHELFMARKS.json, commented "Nothing here can retry the rename") hits the
     # identical condition -- a denied `silence.write_json` on a file other modules read -- and
     # returns 1: "Nothing here can retry the rename, so the honest act is to say so and exit
     # nonzero ... a shelfmark read as fresh while it is stale is not recoverable by anything

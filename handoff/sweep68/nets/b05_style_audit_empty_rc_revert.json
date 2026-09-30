@@ -1,0 +1,7 @@
+[
+ {
+  "module": "style_audit.py",
+  "old": "    if not a[\"entries\"]:",
+  "new": "    if False:"
+ }
+]

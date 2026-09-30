@@ -1,0 +1,7 @@
+[
+  {
+    "module": "withdraw_chapters.py",
+    "old": "        shutil.copy2(path, aside)",
+    "new": "        pass"
+  }
+]

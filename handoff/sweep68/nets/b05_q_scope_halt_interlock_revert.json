@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scope.py",
+  "old": "        _ESC.assert_clear(\"scope.py mutate (writes data/SCOPE.json)\")",
+  "new": "        pass"
+ }
+]

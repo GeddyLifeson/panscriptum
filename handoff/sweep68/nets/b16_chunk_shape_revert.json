@@ -1,0 +1,12 @@
+[
+ {
+  "module": "read.py",
+  "old": "            if got is not None and not _feats_ok(got):",
+  "new": "            if False:"
+ },
+ {
+  "module": "read.py",
+  "old": "    if not _feats_ok(got):\n        silence.note(\"read.py:chunk_get_malformed\")   # poisoned by an earlier run: a miss\n        return None\n    return got",
+  "new": "    return got"
+ }
+]

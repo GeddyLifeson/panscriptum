@@ -1,0 +1,4 @@
+{
+ "name": "_land_hosts skips a key whose host changed since the caller decided",
+ "expected": "sweep68 b15 F9: adopt/repair overwrite or remove a host another writer registered after the decision"
+}

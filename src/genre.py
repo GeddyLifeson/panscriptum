@@ -35,6 +35,7 @@ comes with it.
 """
 import argparse
 import collections
+import json
 import os
 import re
 import sys
@@ -58,6 +59,17 @@ import silence                                                           # noqa:
 # TECH/CONDITION tables cannot produce either value on any path. The vocabulary is kept on both
 # sides so a future matcher does not have to reinvent it; the mismatch is marked here and at
 # worldseed.py's `size` table rather than silently tidied away on one side.
+# THREE CUE STEMS WERE OVER-MATCHING (sweep68 b13 Q6, carried from 67/03 Q3, answered under the
+# 2026-09-30 ruling). Every cue is `\b(stem|stem)\w*`, a deliberate PREFIX match ("prophec",
+# "sorcer", "inquisit" must catch their inflections), but three stems are also the first letters
+# of common unrelated words: `hell` -> hello/Hellenic, `ration` -> rational/rationale, `fun` ->
+# function/fundamental/fungus. Each now carries a negative lookahead for exactly those words and
+# keeps its real inflections (hellfire, rations, funny). The other side, argued: a corpus-scale
+# text dilutes a stray match, and the change moves numbers the corpus already carries. Measured
+# on the 197 records under 3 MB (the other 13 are 3-60 MB, where a handful of stray words is
+# noise): 0 sources change genre and 1 (Digimon, cyberpunk) moves 0.447 -> 0.451 across the
+# 0.45 mixed-source flag. That is the size of the error, small but real and one-directional, and
+# the fix costs three lookaheads. `data/GENRES.json` is unchanged until a person runs --write.
 GENRES = {
     "mythology": dict(
         register="classical", cues={
@@ -77,7 +89,7 @@ GENRES = {
         register="guttural", cues={
             r"\b(daemon|heresy|xenos|grimdark|warp|inquisit|chaos god|blood god|"
             r"skull|corpse|damnation|abyss|torment)\w*": 4,
-            r"\b(demon|hell|undead|necro|plague|curse|dread)\w*": 2},
+            r"\b(demon|hell(?!o|en)|undead|necro|plague|curse|dread)\w*": 2},
         priors=dict(landform="highland", climate="volcanic", condition="wartorn",
                     tech="medieval")),
     "cosmic_horror": dict(
@@ -105,7 +117,7 @@ GENRES = {
         register="guttural", cues={
             r"\b(wasteland|fallout|apocalyp|survivor|scaveng|irradiat|vault|"
             r"ruins? of|collapse|last of|remnant)\w*": 4,
-            r"\b(mutant|raider|shelter|ration|infected)\w*": 2},
+            r"\b(mutant|raider|shelter|ration(?!al)|infected)\w*": 2},
         priors=dict(landform="continents", climate="arid", condition="ruined",
                     tech="industrial")),
     "military_modern": dict(
@@ -133,7 +145,7 @@ GENRES = {
         register="liquid", cues={
             r"\b(candy|whimsic|silly|cartoon|talking animal|adventure buddy|"
             r"nonsense|goofy|slapstick)\w*": 4,
-            r"\b(friend|fun|colorful|sweet|magic land)\w*": 1},
+            r"\b(friend|fun(?!c|d|g|e|k)|colorful|sweet|magic land)\w*": 1},
         priors=dict(landform="isles", climate="tropical", condition="thriving",
                     tech="magical")),
 }
@@ -318,6 +330,25 @@ def _cut(s, width):
     return s if len(s) <= width else s[:width - 1] + chr(8230)
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Added under sweep68 b13 Q5, answered under the 2026-09-30 ruling (the class question 67/12
+    Q7): a derived-data writer that a person can run by hand never sees the supervisor's gates,
+    and a halt means a library-wide invariant is broken and nothing may proceed on uncertain
+    ground. Tightening, so decided here. DELIBERATELY NARROW: asked on the WRITING path only,
+    after the arguments are parsed, so measurements and dry runs keep working under a halt.
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` (Hard Rule -1's own incident).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
@@ -359,7 +390,30 @@ def main():
                   f"(conf {v['confidence']:.2f})")
 
     if args.write:
+        _assert_not_halted("--write (writes data/GENRES.json)")
         p = os.path.join(HERE, "data", "GENRES.json")
+        # sweep68 b13 F3: A SMALLER FILE IS NOT PUBLISHED SILENTLY. `PL.records()` skips an
+        # unreadable record and any record with no entries, and this then wrote whatever came
+        # back with rc 0: an all-skipped run wrote `{}`, and a skipped record vanished from
+        # GENRES.json, where profile/navtree read an absent source as `classical` -- the same
+        # answer a genuine zero-signal source gets. Every source the standing file classified
+        # and this run did not is named (uncapped), and the write is refused; nothing is
+        # refused about a source that was never classified (the empty-entries records today).
+        try:
+            with open(p, encoding="utf-8") as f:
+                _prior = json.load(f)
+            _prior = set(_prior) if isinstance(_prior, dict) else set()
+        except Exception:
+            _prior = set()          # no readable standing file: nothing to shrink from
+        _dropped = sorted(_prior - set(out))
+        if not out or _dropped:
+            print(f"\nREFUSING TO WRITE {p}: this run classified {len(out)} source(s) and "
+                  f"the standing file has {len(_prior)}; {len(_dropped)} would vanish:")
+            for _s in _dropped:
+                print(f"   {_s}")
+            print("  Nothing written; the existing GENRES.json stands. A record that will not "
+                  "load is the usual cause (see silence notes).")
+            return 1
         # ATOMIC. `GENRES.json` is read by `navtree.py` and `profile.py`; a truncate-then-fill
         # leaves it empty for the length of the write, and `profile.build_all`'s GENRES.json load
         # turns a failed

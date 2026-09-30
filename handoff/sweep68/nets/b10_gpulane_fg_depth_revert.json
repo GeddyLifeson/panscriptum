@@ -1,0 +1,12 @@
+[
+ {
+  "module": "gpu_lane.py",
+  "old": "depth = _FG_DEPTH",
+  "new": "depth = int((_read(path) or {}).get(\"depth\") or 0) + 1"
+ },
+ {
+  "module": "gpu_lane.py",
+  "old": "d = _FG_DEPTH",
+  "new": "d = int((_read(path) or {}).get(\"depth\") or 1) - 1"
+ }
+]

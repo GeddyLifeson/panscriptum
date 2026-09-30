@@ -1,0 +1,4 @@
+{
+ "name": "an area that died once is re-asked on the settled tree before it can halt",
+ "expected": "sweep68 b01 F3: a half-written module kills an area and halts the library on one reading, with no settle wait and no re-read"
+}

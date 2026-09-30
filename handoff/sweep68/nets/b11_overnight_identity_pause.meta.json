@@ -1,0 +1,1 @@
+{"name": "supervisor does not start the identity re-mine while paused or halted", "expected": "sweep68 b11 N13: a pause or halt raised mid-lap is ignored by the sixteen-minute identity mine, which identity.py does not interlock itself"}

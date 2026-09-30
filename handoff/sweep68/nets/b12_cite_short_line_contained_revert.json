@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "        if numbered and not _substantial(norm[pool[0]]):\n",
+  "new": "        if False:\n"
+ }
+]

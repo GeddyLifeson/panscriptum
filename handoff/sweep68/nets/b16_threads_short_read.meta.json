@@ -1,0 +1,4 @@
+{
+ "name": "threads.survey refuses a whole-corpus read with unreadable records",
+ "expected": "sweep68 b16 F2: a torn record leaves its source out of THREADS.json with nothing naming it and main() writes the short graph"
+}

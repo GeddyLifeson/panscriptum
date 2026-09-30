@@ -125,7 +125,12 @@ def save_config(cfg):
     with open(p, encoding="utf-8") as f:
         raw = f.read()
     # targeted replace of the model: line so we don't clobber comments/formatting elsewhere
-    new_raw, n = re.subn(r'^model:\s*.*$', f'model: "{cfg["model"]}"', raw, count=1, flags=re.M)
+    # `[ \t]*` and `[^\r\n]*`, NOT `\s*.*` (sweep68 batch 11, Q4): `\s*` crosses a newline, so a
+    # `model:` line with nothing after it (a mapping, or a value on the next line) swallowed the
+    # NEXT line of config.yaml, and `.*` took a CRLF file's carriage return with it and left the
+    # rewritten line with a bare LF. Matches strictly less than before; nothing new is replaced.
+    new_raw, n = re.subn(r'^model:[ \t]*[^\r\n]*', f'model: "{cfg["model"]}"', raw, count=1,
+                         flags=re.M)
     if n == 0:
         print("pick_model: config.yaml has no top-level 'model:' line to replace; "
               "nothing was written.", file=sys.stderr)
@@ -463,6 +468,17 @@ def main():
         sys.exit(1)
 
     print(f"\nBest available: {best['name']}")
+    if args.write and not vram_measured:
+        # NEVER WRITE A PICK THE RULING WAS NOT ENFORCED ON (sweep68 batch 11, N4). With VRAM
+        # unmeasured the residency gate above is skipped and the scoring favours the biggest
+        # model -- the very 30B MoE the 2026-08-24 GPU-only ruling refuses on a 10.74GB card --
+        # and `--write` then installed it in config.yaml, which nine modules re-read. The WARNING
+        # said "re-run before trusting this pick" and the write trusted it anyway. The report
+        # above is still printed; only the write is refused. Fail closed: no measurement, no write.
+        print("REFUSING --write: nvidia-smi could not be read, so the GPU-only residency ruling "
+              "was NOT enforced on this pick. config.yaml is unchanged; fix nvidia-smi and "
+              "re-run.")
+        sys.exit(1)
     if args.write:
         cfg["model"] = best["name"]
         if save_config(cfg):

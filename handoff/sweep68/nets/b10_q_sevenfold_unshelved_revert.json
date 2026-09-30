@@ -1,0 +1,7 @@
+[
+ {
+  "module": "sevenfold.py",
+  "old": "if args.write and UNSHELVED:",
+  "new": "if False and UNSHELVED:"
+ }
+]

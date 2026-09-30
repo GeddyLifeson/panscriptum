@@ -1,0 +1,1 @@
+{"name": "rosetta --refine refuses to write an empty result over ROSETTA.json", "expected": "sweep68 b08 F7: a short records/hosts join wipes data/ROSETTA.json to {} with no floor"}

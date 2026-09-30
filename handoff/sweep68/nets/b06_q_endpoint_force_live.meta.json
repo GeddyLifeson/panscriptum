@@ -1,0 +1,4 @@
+{
+ "name": "a forced re-probe that finds DEAD does not demote a cached live verdict",
+ "expected": "sweep68 b06 Q2: a --force re-check during an outage brands a live host DEAD in the cache for 24 h"
+}

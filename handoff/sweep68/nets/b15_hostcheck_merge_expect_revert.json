@@ -1,0 +1,7 @@
+[
+ {
+  "module": "hostcheck.py",
+  "old": "if expect is not None and k in expect and hosts.get(k) != expect[k]:",
+  "new": "if False:"
+ }
+]

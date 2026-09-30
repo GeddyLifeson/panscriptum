@@ -1,0 +1,7 @@
+[
+ {
+  "module": "gpu_lane.py",
+  "old": "age = None                   # unknown, not old: JSON has no infinity",
+  "new": "raise"
+ }
+]

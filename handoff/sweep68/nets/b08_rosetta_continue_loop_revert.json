@@ -1,0 +1,7 @@
+[
+ {
+  "module": "rosetta.py",
+  "old": "            if cont[\"sroffset\"] in _offsets:",
+  "new": "            if False:"
+ }
+]

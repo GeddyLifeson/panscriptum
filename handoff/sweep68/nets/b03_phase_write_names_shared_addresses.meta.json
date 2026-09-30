@@ -1,0 +1,4 @@
+{
+  "name": "phase_write names ready sources whose jobs share an address",
+  "expected": "sweep68 b03 N4: phase 8 closes silently while generate.py holds every source in a shared-address group (about 30 ready sources today, owner order 3976a097f975)"
+}

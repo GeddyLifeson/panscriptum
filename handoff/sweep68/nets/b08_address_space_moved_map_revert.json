@@ -1,0 +1,7 @@
+[
+ {
+  "module": "address_space.py",
+  "old": "        if _moved and \"--readdress\" not in sys.argv:",
+  "new": "        if False:"
+ }
+]

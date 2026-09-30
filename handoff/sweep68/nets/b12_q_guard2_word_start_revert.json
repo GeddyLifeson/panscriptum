@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "        if not AXIS_GUARD_RE[ax].search(text):\n",
+  "new": "        if not AXIS_RE[ax].search(text):\n"
+ }
+]

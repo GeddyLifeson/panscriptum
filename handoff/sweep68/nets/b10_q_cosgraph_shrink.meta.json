@@ -1,0 +1,4 @@
+{
+ "name": "cosmology_graph --write refuses a graph shorter than the one on disk unless --allow-shrink",
+ "expected": "sweep68 b10 Q3b: a partial WEAVE_CANDIDATES.json lands a short SHARED_STAGE_GRAPH.json over a complete one that resonance reads live"
+}

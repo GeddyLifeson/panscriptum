@@ -1,0 +1,7 @@
+[
+ {
+  "module": "tiers.py",
+  "old": "if not isinstance(_doc, dict) or not _doc:",
+  "new": "if False:"
+ }
+]

@@ -252,6 +252,15 @@ def main():
                   f"NOT in the total: " + "; ".join(unparsed))
             refused.append(f"{source_name}: unparseable XML in custom/{folder}/: "
                            + ", ".join(unparsed))
+            # sweep68 b11 Q2, answered under the 2026-09-30 ruling: A PARTIAL CATALOGUE IS NOT
+            # WRITTEN. This used to write the surviving elements and mark the roll row
+            # `catalogued` with their count, and the default selection is `entry_count == 0`, so
+            # fixing the XML never got the source re-read -- a smaller universe wearing the shape
+            # of the whole one (Hard Rule 0). Refusing costs nothing that lasts: nothing lands,
+            # the roll row stays at its old count, rc is 1 and names the files, and the next run
+            # re-parses the folder by itself once the XML is repaired. An existing record is
+            # left exactly as it was.
+            continue
         if dropped:
             # Say so. A collapse that leaves no count is indistinguishable from a cap.
             print(f"  . {folder}: {len(dropped)} verbatim-duplicate elements collapsed")

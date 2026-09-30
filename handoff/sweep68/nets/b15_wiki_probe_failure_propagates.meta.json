@@ -1,0 +1,4 @@
+{
+ "name": "a failed canonical-category probe raises instead of reading as no such category",
+ "expected": "sweep68 b15 F5: a throttled probe turns a real canonical category into 'this wiki has none' and catalogue_web silently skips the whole class"
+}

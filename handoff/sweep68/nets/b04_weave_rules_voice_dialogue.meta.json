@@ -1,0 +1,4 @@
+{
+  "name": "weave.filtered_index keeps dialogue and stub-line entities, drops real rules text",
+  "expected": "sweep68 b04 F1: the bare second-person voice test drops thousands of real Marvel/DC/etc. entities (quoted speech, the 'You can help out' stub) from the weave index"
+}

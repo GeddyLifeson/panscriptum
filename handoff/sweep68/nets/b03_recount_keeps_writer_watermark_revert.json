@@ -1,0 +1,7 @@
+[
+  {
+    "module": "pipeline.py",
+    "old": "            _LISTING.only = True\n",
+    "new": ""
+  }
+]

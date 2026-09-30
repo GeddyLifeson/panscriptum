@@ -1,0 +1,178 @@
+[
+ {
+  "id": "F1",
+  "file": "src/dashboard.py",
+  "line": 349,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "Unreadable/absent OVERWATCH.json read as 0 open / 0 high, which standards grades HOLDING.",
+  "how": "Reproduced by reading. _watch now retries the read 3x (0.2 s apart), and on failure sets unreadable=True plus one sentinel HIGH row (open=1, high=1), the same fail-closed pattern as `broken` beside it, so the existing standard fails without touching standards.py (not mine). Optional follow-up for the owner of standards.py: read w['unreadable'] explicitly.",
+  "net": "b10_watch_unreadable",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "src/dashboard.py",
+  "line": 646,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A failed halt read rendered 'running -- no halt standing' in the OK colour.",
+  "how": "safety() now sets halt_unreadable=True in its except; panelSafety draws a 'value bad' 'halt state UNREADABLE' row when it (or a null halted) is seen.",
+  "net": "b10_halt_unreadable",
+  "red_green_checked": true
+ },
+ {
+  "id": "F3",
+  "file": "src/cosmology_graph.py",
+  "line": 206,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "--write had no halt interlock (and no shrink guard).",
+  "how": "Added the standard fail-closed _assert_not_halted (copy of sevenfold's) called on the --write path before build. COORDINATOR: add cosmology_graph.py to verify_math._INTERLOCKED or the roster check will fail. The shrink guard (refuse when fewer pairs than prior) is NOT added: the floor ratio is a judgment call and a real shrink can be legitimate; see Q-F3.",
+  "net": "b10_cosgraph_halt",
+  "red_green_checked": true
+ },
+ {
+  "id": "F4",
+  "file": "src/autostart.py",
+  "line": 640,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "ensure() could raise out of the windowless keeper with no log line.",
+  "how": "start_watchdog() wrapped: logs type and message to autostart.log, silence.note, returns 'start-failed'.",
+  "net": "b10_ensure_start_failed",
+  "red_green_checked": true
+ },
+ {
+  "id": "F5",
+  "file": "src/autostart.py",
+  "line": 783,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "--uninstall left the keeper task standing without saying so.",
+  "how": "Chose the non-destructive option: --uninstall prints that the keeper task still stands and to run --uninstall-task. Did not call uninstall_task() (changes what the command does to the machine).",
+  "net": "b10_uninstall_keeper_note",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6",
+  "file": "src/gpu_lane.py",
+  "line": 333,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "(a) non-integer depth raised out of foreground(); (b) a bad heartbeat aborted status() listing; (c) a crashed same-PID claim inflated depth and survived exit.",
+  "how": "(a)+(c): the nesting depth is now an in-process counter (_FG_DEPTH under _DEPTH_LOCK); the claim file only publishes it, never read back. (b): per-row try in status(); bad heartbeat gives age_s None. (d) not changed, see question.",
+  "net": "b10_gpulane_fg_depth",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6b",
+  "file": "src/gpu_lane.py",
+  "line": 742,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "status() lost every row after one bad heartbeat.",
+  "how": "See F6(b).",
+  "net": "b10_gpulane_status_badbeat",
+  "red_green_checked": true
+ },
+ {
+  "id": "F7",
+  "file": "src/publish.py",
+  "line": 186,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "_is_skipped narrower than the .gitignore glob: x.py.pre-sweep, x.py.pre_edit, x.BAK, x.PYC were copied and secret-scanned.",
+  "how": "_PRE_BACKUP now r'\\.pre[^./\\]*$' and the SKIP_SUFFIX test is lower-cased. x.pre.old (a mid-name .pre) is still not matched; the glob's wider reach there stays deliberate per gitignore_lines' docstring.",
+  "net": "b10_publish_skip_shape",
+  "red_green_checked": true
+ },
+ {
+  "id": "F8",
+  "file": "src/dashboard.py",
+  "line": 1207,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Stale comment listing what the dashboard process writes.",
+  "how": "Comment now names dashboard_history.json and read_progress.json too. No net (comment only).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q1",
+  "file": "src/publish.py",
+  "line": 722,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "standards_unavailable is written and read by nothing.",
+  "how": "Options: (a) render it in panelStandards ('standards UNAVAILABLE'), (b) drop the key. Touches publish snapshot schema, so left to owner.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/dashboard.py",
+  "line": 242,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_read_row/_roll_row show a dead reader's last line with no age.",
+  "how": "Option: add log mtime/age to the row. Display design choice.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/sevenfold.py",
+  "line": 376,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "--write omits UNSHELVED worlds and exits 0.",
+  "how": "Options: keep (documented drop), or return nonzero when UNSHELVED is non-empty. Curatorial.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3b",
+  "file": "src/cosmology_graph.py",
+  "line": 206,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "No shrink guard on the graph write (F3 second half).",
+  "how": "Option: refuse to land when pair_count < prior * floor; needs owner to choose the floor and whether a legitimate shrink needs a flag.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/anchors.py",
+  "line": 369,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Monotone check is non-strict.",
+  "how": "Confirm 'non-decreasing' is the intended claim; strict would fail two equal assays.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "src/autostart.py",
+  "line": 474,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "An unreadable halt still spends the hourly start budget.",
+  "how": "Documented behaviour; options: do not charge the budget when halted is None, or accept.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "src/gpu_lane.py",
+  "line": 655,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "F6d: 240 s yield ceiling and 900 s slot deadline go 'anyway' with no silence.note.",
+  "how": "A note on every timeout could spike swallowed counts (standards MAX_SWALLOWED_NEW=2000); owner to choose a separate counter or accept a note.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

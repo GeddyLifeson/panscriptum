@@ -1,0 +1,4 @@
+{
+ "name": "profile._b32 refuses negatives and build_all refuses an unreadable TIERS.json",
+ "expected": "sweep68 b16 F6/F7: _b32(-1) loops forever; an unreadable TIERS.json gives every world a wrong-but-valid address that round-trips cleanly"
+}

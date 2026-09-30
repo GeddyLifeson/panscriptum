@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scout.py",
+  "old": "raw_urls = got.get(\"urls\") if isinstance(got, dict) else got",
+  "new": "raw_urls = (got or {}).get(\"urls\")"
+ }
+]

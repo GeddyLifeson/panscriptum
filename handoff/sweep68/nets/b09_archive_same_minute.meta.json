@@ -1,0 +1,4 @@
+{
+ "name": "two triage archives in the same minute keep both batches' counts",
+ "expected": "sweep68 b09 F10: the second archive in a minute overwrites the first, whose counts were already cleared from the live failures ledger"
+}

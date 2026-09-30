@@ -392,6 +392,12 @@ def harvest():
         _inv = ID.load()
     except Exception:
         silence.note("chain.py:inv-load")
+        # KEPT, AND SAID PLAINLY (sweep68 b11 N15, answered under the 2026-09-30 ruling). This is
+        # NOT a degradation to "no continuities": with `_inv` None, identify() re-runs load() and
+        # raises the same error, at the first file that has to be RE-READ. A fully cached pass
+        # never calls identify and completes on its cached, correctly-derived rows; an uncached
+        # one fails loudly there. Failing here instead would kill the cached pass for a fault it
+        # does not touch, and nothing silently merges continuities on either path.
         _inv = None
     # Seeded at 1, not 0, when the recipe itself just changed above: that write belongs in this
     # cycle's land even on an empty corpus (no file loop iteration would otherwise set `changed`),
@@ -699,7 +705,23 @@ def extract(rows, batch=8, limit=None, workers=8):
         # the pass that HTTP 503 dropped from 64 edges to 25. `adjudicate_mutuals` guards this
         # exact shape one function down for the epoch probe, over a handful of pairs; this is the
         # path that touches thousands of sentences. (order 6d35eacf252d)
-        unanswered = got is None
+        #
+        # A NON-OBJECT ANSWER IS NOT AN ANSWER (sweep68 batch 11, N9). Run #60 taught the outcome
+        # loop to skip a wrong-TYPED outcome, and stopped there: `{"outcomes": null}` raised
+        # TypeError, `winner: 5` raised AttributeError on `.strip`, and a bare JSON list as the
+        # whole answer raised AttributeError on `.get` -- each out through `ex.map` and ended the
+        # pass, with CHAIN.json still holding the old fit. A dict is the only shape that can
+        # carry outcomes, so anything else counts as UNREAD like a `None`, and a non-list
+        # `outcomes` is an answer with nothing usable in it.
+        unanswered = not isinstance(got, dict)
+        if unanswered and got is not None:
+            silence.note("chain.py:extract-answer-not-an-object")
+        got = got if isinstance(got, dict) else {}
+        outs = got.get("outcomes")
+        if not isinstance(outs, list):
+            if outs is not None:
+                silence.note("chain.py:extract-outcomes-not-a-list")
+            outs = []
         local = []
         # TALLIED LOCALLY, MERGED UNDER THE LOCK, for the same reason `local` exists.
         #
@@ -714,7 +736,7 @@ def extract(rows, batch=8, limit=None, workers=8):
         # the names most worth chasing (the commonest ones collide most). Found by the run #33
         # sweep (batch 12).
         local_unmatched = collections.Counter()
-        for o in (got or {}).get("outcomes", []):
+        for o in outs:
             # THE SENTENCE IS NAMED BY THE MODEL, NOT GUESSED FROM POSITION.
             #
             # This read `chunk[min(i, len(chunk) - 1)]` -- outcome number i belongs to sentence
@@ -757,13 +779,28 @@ def extract(rows, batch=8, limit=None, workers=8):
             if not (0 <= pos < len(chunk)):
                 continue
             src = chunk[pos]
-            w, loser = (o.get("winner") or "").strip(), (o.get("loser") or "").strip()
+            w, loser = o.get("winner") or "", o.get("loser") or ""
+            if not isinstance(w, str) or not isinstance(loser, str):
+                silence.note("chain.py:extract-name-not-a-string")     # sweep68 b11 N9
+                continue
+            w, loser = w.strip(), loser.strip()
             if not w or not loser or w.lower() == loser.lower():
                 continue
             wk, lk = WI.norm(w), WI.norm(loser)
             # BOTH sides must be things the library catalogues. An edge to a name that exists
             # only in this sentence cannot be ranked against anything and would inflate the
             # graph with singletons that break Ford's condition for everyone attached to them.
+            if wk in idx and lk in idx and idx[wk] == idx[lk]:
+                # A SELF-CONTEST IS NOT AN EDGE (sweep68 batch 11, N1). The test above compares
+                # the raw strings, but `WI.norm` drops parentheticals and titles and a partial
+                # name resolves to its full one, so "Goku (Super Saiyan)" / "Goku" -- or "Ichigo"
+                # / "Ichigo Kurosaki" -- arrive here as two names for ONE catalogued entity.
+                # `edges[(x, x)]` then aborts `rigor.bradley_terry` with RigorIntegrityError,
+                # which ends `chain.fit` and `phase_chain` with CHAIN.json left on the previous
+                # fit looking current -- one sentence in thirty thousand takes the whole pass.
+                # Skipped and noted, like every other malformation in this loop.
+                silence.note("chain.py:extract-self-contest")
+                continue
             if wk in idx and lk in idx:
                 # A contest happens inside one branch. The branch is known for the page the
                 # sentence came from, and both parties inherit it -- an Earth-616 page does not
@@ -788,7 +825,7 @@ def extract(rows, batch=8, limit=None, workers=8):
         with lock:
             unmatched.update(local_unmatched)
             done["n"] += len(chunk)
-            done["pairs"] += len((got or {}).get("outcomes", []))
+            done["pairs"] += len(outs)
             if unanswered:
                 done["unanswered_chunks"] += 1
                 done["unanswered_rows"] += len(chunk)

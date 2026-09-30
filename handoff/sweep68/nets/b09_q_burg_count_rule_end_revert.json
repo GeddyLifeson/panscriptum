@@ -1,0 +1,7 @@
+[
+ {
+  "module": "burgs.py",
+  "old": "    return max(3, min(n, int(n * factor)))",
+  "new": "    return max(3, int(n * factor))"
+ }
+]

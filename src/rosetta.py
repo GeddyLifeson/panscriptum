@@ -304,6 +304,7 @@ def scales_for(host, verbose=False, errors=None):
         # One Piece Bounty/List loss noted above). Now 500 per call and `sroffset` followed to
         # the end of the result set.
         params = {"action": "query", "list": "search", "srlimit": "500", "srsearch": q}
+        _offsets = set()
         while True:
             try:
                 d = F.api(host, params)
@@ -326,6 +327,13 @@ def scales_for(host, verbose=False, errors=None):
             cont = (d or {}).get("continue")
             if not isinstance(cont, dict) or "sroffset" not in cont:
                 break
+            # A CONTINUE THAT NEVER ADVANCES ENDS THE QUERY (sweep68 b08 Q3). `sroffset` was
+            # followed with no bound, so a wiki answering the same `continue` for ever spun
+            # this one query for ever. No page cap (Hard Rule 0): only an offset already
+            # requested stops it, so a result set of any length is still read to its end.
+            if cont["sroffset"] in _offsets:
+                break
+            _offsets.add(cont["sroffset"])
             params = dict(params, **cont)
 
     if not seen:
@@ -772,6 +780,17 @@ def main():
         recs = P.records()
         before = sum(v["n"] for sc in rosetta.values() for v in sc.values())
         out, kept, dropped = refine(rosetta, recs, hosts)
+        # A REFINE THAT KEEPS NOTHING IS A BROKEN JOIN, NOT A REFINEMENT (sweep68 b08 F7).
+        # `P.records()` skips unreadable records and any with empty `entries`, and `F.HOSTS` can
+        # miss keys; either leaves every scale under the four-row floor, and `{}` was then
+        # written over ROSETTA.json. This mode reads OUT, not the raw copy, so a second run
+        # could not recover it either. Zero survivors from a non-empty mine refuses and writes
+        # nothing (the raw copy still exists for a real re-refine).
+        if before and not kept:
+            print("REFUSING TO WRITE: --refine would keep 0 of %s rows -- the records/hosts join "
+                  "matched nothing (records read: %d). Nothing on disk was touched."
+                  % (f"{before:,}", len(recs)), file=sys.stderr)
+            return 1
         # `--refine` is the destructive mode: a torn write here loses the mine AND the refinement.
         if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
             print("rosetta: %s could not be replaced; it still holds the PRE-refine rows."
@@ -855,6 +874,15 @@ def main():
         if bad:
             print(f"\n{len(bad)} of {len(rows)} scale(s) DISAGREE (rho < 0.3) -- our Assay "
                   f"orders these characters against what the fiction itself publishes.")
+            return 1
+        # A CHECK THAT SCORED NOTHING HAS NOT PASSED (sweep68 b08 F2). Every row unscored (an
+        # empty assay map, a host rename that made every scoped lookup miss) printed the
+        # "could NOT be scored" line and then fell through to `return 0`, so allsweep's
+        # "franchise rank agreement" verifier graded a measurement of nothing as clean --
+        # the failure check()'s docstring says was fixed for the printout but not the rc.
+        if len(unscored) >= len(rows):
+            print("\nNOTHING WAS SCORED -- rc 1: no scale produced a rank correlation, so there "
+                  "is no agreement to report.", file=sys.stderr)
             return 1
         return 0
 

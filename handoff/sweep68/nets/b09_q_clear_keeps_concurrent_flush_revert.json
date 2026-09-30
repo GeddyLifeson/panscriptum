@@ -1,0 +1,7 @@
+[
+ {
+  "module": "foreman.py",
+  "old": "        if not _clear_archived(path, d):",
+  "new": "        if not silence.write_json(path, {}, indent=1):"
+ }
+]

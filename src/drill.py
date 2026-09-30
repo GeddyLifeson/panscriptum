@@ -43,6 +43,15 @@ import assay as ASSAY          # noqa: E402
 import escalation as ESC       # noqa: E402
 import health as _H            # noqa: E402
 import prose_gate as PG        # noqa: E402
+import pipeline as _PL_LOGSINK  # noqa: E402
+
+# THE BATTERY'S pipeline.log LINES STAY OUT OF THE LIVE ONE (run #68). Probes drive
+# `pipeline.write_record` in-process, and its log lines -- `rec.json keeping 1 disk per-entry
+# value(s)`, `torn_write_record.json could not be read for merge` -- were landing in
+# `state/pipeline.log` among the real pipeline's, where a run checking whether the CAS writer
+# is yielding under load reads a rehearsal as the real thing. Nets that assert on a log line
+# stub `PL.log` themselves; this only moves where the unstubbed ones write.
+_PL_LOGSINK.LOG = os.path.join(tempfile.gettempdir(), "panscriptum_battery_pipeline.log")
 
 RESULTS = []
 
@@ -790,6 +799,8 @@ def scratch_tree():
     return M.sandbox()
 
 
+PROVE_MIN_FREE_BYTES = 20 * 10 ** 9   # a scratch tree plus headroom for the live library (run #68)
+
 def prove_net(area, net_name, revert=None, root=None, keep=False, timeout=1800):
     """Run ONE net in a throwaway copy of the tree and report HELD/RED. -> dict.
 
@@ -813,6 +824,21 @@ def prove_net(area, net_name, revert=None, root=None, keep=False, timeout=1800):
     """
     import subprocess
     own = root is None
+    # A FULL DISK IS NOT A VERDICT (run #68). Twelve concurrent proofs filled C: with scratch
+    # trees on 2026-09-30: 27 proofs came back with no verdict (Errno 28), and every live writer in
+    # the library shared that disk. So a new tree is refused while free space is under the floor,
+    # and the answer says why -- `held: None`, "not asked" -- rather than a guess.
+    if own:
+        try:
+            _free = shutil.disk_usage(tempfile.gettempdir()).free
+        except OSError:
+            _free = None
+        if _free is not None and _free < PROVE_MIN_FREE_BYTES:
+            return {"held": None, "found": 0, "area_error": None, "root": None, "rc": None,
+                    "expected": None,
+                    "error": "refused: %.1f GB free in %s, under the %.0f GB a scratch tree needs "
+                             "with room to spare -- nothing was asked"
+                             % (_free / 1e9, tempfile.gettempdir(), PROVE_MIN_FREE_BYTES / 1e9)}
     root = root or scratch_tree()
     try:
         if revert is not None:
@@ -6944,7 +6970,16 @@ def _write_phase_stays_open_when_everything_refuses():
     import pipeline as PL
     keep_pl = (PL.log, PL.save_state, PL.silence, PL.WRITE_SETTLED_MIN)
     keep_mb = (MB.load_config, MB.load_roll, MB.load_record, MB.spine_code_for,
-               MB.build_jobs_for_source)
+               MB.build_jobs_for_source, MB.volume_codes)
+
+    class _EverySource(dict):
+        # run #68: phase 8 now takes its addresses from `MB.volume_codes`; every ready source
+        # is on this stand-in roll, at the stand-in code, so the build step is what is tested.
+        def __contains__(self, k):
+            return True
+
+        def __missing__(self, k):
+            return "XX"
 
     def refuses(*a, **k):
         raise RuntimeError("drill: this source will not build")
@@ -6957,6 +6992,7 @@ def _write_phase_stays_open_when_everything_refuses():
         MB.load_roll = lambda cfg: []
         MB.load_record = lambda cfg, source_name: {"source": source_name, "entries": []}
         MB.spine_code_for = lambda source: "XX"
+        MB.volume_codes = lambda roll: _EverySource()
         MB.build_jobs_for_source = refuses
         st = {"done": {}, "units_done": 0}
         PL.phase_write({}, st)
@@ -6970,7 +7006,7 @@ def _write_phase_stays_open_when_everything_refuses():
     finally:
         PL.log, PL.save_state, PL.silence, PL.WRITE_SETTLED_MIN = keep_pl
         (MB.load_config, MB.load_roll, MB.load_record, MB.spine_code_for,
-         MB.build_jobs_for_source) = keep_mb
+         MB.build_jobs_for_source, MB.volume_codes) = keep_mb
 
 
 def _a_denied_batch_write_stays_on_the_failed_list():
@@ -15922,15 +15958,26 @@ def _esc_sandbox():
     import importlib
     _install_live_witness()
     d = tempfile.mkdtemp(prefix="drill_escbehav_")
-    saved = {}
+    saved, plan = {}, []
     for modname, attr, rel in _SANDBOX_REDIRECTS:
         try:
             mod = ESC if modname == "escalation" else importlib.import_module(modname)
         except Exception:
             _ = "silence-exempt: an unimportable module writes nothing; the audit hook still watches"
             continue                      # see the docstring: an unimportable module writes nothing
-        saved[(mod, attr)] = getattr(mod, attr)
-        setattr(mod, attr, os.path.join(d, rel) if rel else d)
+        # EVERY getattr BEFORE THE FIRST setattr (sweep68 b01 F2). A renamed constant raised
+        # AttributeError half-way through this loop with `escalation.HALT_FILE` already pointed
+        # at scratch and nothing to restore it -- so the drill's own DRILL_BREACH halt then
+        # landed in a directory nothing reads. Resolving first means a bad row refuses with
+        # nothing yet redirected.
+        try:
+            saved[(mod, attr)] = getattr(mod, attr)
+        except AttributeError:
+            shutil.rmtree(d, ignore_errors=True)
+            raise
+        plan.append((mod, attr, os.path.join(d, rel) if rel else d))
+    for mod, attr, value in plan:
+        setattr(mod, attr, value)
     # CHECKED BEFORE ANY PROBE RUNS, the `_ledger_redirected` discipline: every redirected value
     # must now sit under the sandbox, so a row added to the table with a wrong path refuses here
     # rather than writing somewhere a person has to find later.
@@ -21128,8 +21175,12 @@ def drill_recorders_and_lane():
             unarbitrable = time.time() - t0
             GL._take_slot = lambda label: False           # genuinely busy
             t0 = time.time()
-            with GL.lane("drill"):
-                pass
+
+            def _busy():
+                # the deadline IS the rehearsal here, so its note must not reach the live ledger
+                with GL.lane("drill"):
+                    pass
+            _deliberately_failing(_busy)
             busy = time.time() - t0
             return unarbitrable < 0.5 <= busy
         finally:
@@ -22817,8 +22868,17 @@ def drill_mutation():
             real_zip = _zip.ZipFile
 
             class _LyingZip(_zip.ZipFile):
+                # BOTH doors lie (run #68): sweep68 b15 Q3 made snapshot() archive the exact bytes
+                # it hashed through `writestr`, so a `write`-only liar stopped corrupting anything
+                # and this net read a correct snapshot as a verification that failed to refuse.
                 def write(self, filename, arcname=None, *a_, **k_):
                     return self.writestr(arcname or filename, "{}")
+
+                def writestr(self, zinfo_or_arcname, data, *a_, **k_):
+                    name = str(getattr(zinfo_or_arcname, "filename", zinfo_or_arcname))
+                    if name.replace(os.sep, "/").endswith("records/a.json"):
+                        data = "{}"
+                    return super().writestr(zinfo_or_arcname, data, *a_, **k_)
 
             try:
                 _zip.ZipFile = _LyingZip
@@ -23108,6 +23168,54 @@ def drill_mutation():
         "confirmed FALSE KILL, and the refresh that fixes it updated the disabled-detector "
         "caveat IN PLACE on every survivor row already written -- so an early survivor's caveat "
         "described a reading taken hours after it was scored, in the text of a permanent order")
+
+    def a_halt_one_mutant_raised_does_not_judge_the_next():
+        """Run #68. The 2026-09-29 pass went halted in its SANDBOX 40 minutes in: a mutant's gate
+        wrote `root/state/HALT.json`, nothing removed it, and drill and verify_math read
+        `SystemHalted` for the next twenty hours -- red at every baseline, so disabled as
+        detectors for every later mutant and target. `_scrub_sandbox_halt` now runs before each
+        mutant. DRIVEN with a real gate: it reports red while a halt stands, and writes one
+        whenever the target differs from pristine. Mutant 1 survives and leaves a halt; mutant 2
+        must be judged on its own code, not on mutant 1's halt.
+        """
+        import mutate as M
+        root = tempfile.mkdtemp(prefix="drill_halt_leak_")
+        saved_journal = M.JOURNAL
+        try:
+            os.makedirs(os.path.join(root, "src"))
+            os.makedirs(os.path.join(root, "state"))
+            M.JOURNAL = os.path.join(root, "state", "MUTANTS_SURVIVED.jsonl")
+            target = "compress_store.py"
+            shutil.copy2(os.path.join(_srcdir(), target), os.path.join(root, "src", target))
+            shutil.copy2(os.path.join(_srcdir(), target), os.path.join(root, "pristine.py"))
+            gate = os.path.join(root, "gate.py")
+            with open(gate, "w", encoding="utf-8") as fh:
+                fh.write(
+                    "import os, sys\n"
+                    "h = os.path.join('state', 'HALT.json')\n"
+                    "halted = os.path.isfile(h)\n"
+                    "if open('src/%s', 'rb').read() != open('pristine.py', 'rb').read():\n"
+                    "    open(h, 'w').write('{}')\n"
+                    "if halted:\n"
+                    "    print('  FAILED SystemHalted: THE LIBRARY IS HALTED')\n"
+                    "    print('RESULT: 1 passed, 1 FAILED')\n"
+                    "    sys.exit(1)\n"
+                    "print('RESULT: 2 passed, 0 FAILED')\n"
+                    "sys.exit(0)\n" % target)
+            gates = (("gatecheck", [sys.executable, gate]),)
+            base = M.baseline(root, gates=gates)
+            res = M._run_mutation(target, limit=2, gates=gates, confirm=(), root=root,
+                                  base=base)
+        finally:
+            M.JOURNAL = saved_journal
+            shutil.rmtree(root, ignore_errors=True)
+        return (res["survived"] == 2 and res["killed"] == 0
+                and not (res.get("baseline_drifts") or []))
+    net(a, "a halt one mutant raised in the sandbox does not judge the next mutant",
+        a_halt_one_mutant_raised_does_not_judge_the_next,
+        "run #68: a sandbox halt written by one mutant's gates persisted, so every later "
+        "mutant, refresh and target ran against a halted sandbox -- drill and verify_math red "
+        "at baseline and switched off as detectors for twenty hours")
 
     net(a, "a gate that went red for a MISSING DOCUMENT is named down to the failing row",
         a_sandbox_missing_a_gate_document_names_the_rows_it_lost,
@@ -25674,6 +25782,8 @@ def _an_inherited_cwd_is_recorded_wherever_the_drill_was_launched():
 _WITNESS_ROSTER_EXEMPT = {
     "_esc_probe": "the sandbox itself, not a probe",
     "_esc_sandbox": "the sandbox itself, not a probe",
+    "_net_b01_esc_sandbox_resolves_first":
+        "opens the sandbox only to watch it REFUSE before any redirect lands (sweep68 b01 F2)",
     "_no_sandboxed_probe_reaches_live_state": "the witness; it cannot drive itself",
     "_an_inherited_cwd_is_recorded_wherever_the_drill_was_launched":
         "a control whose whole purpose is a recorded escape, the same shape as the witness's "
@@ -26248,6 +26358,81 @@ def _wait_for_a_settled_tree(budget=SETTLE_BUDGET_SECONDS, poll=SETTLE_POLL_SECO
 REREAD_TIMES = 3
 
 
+_ORPHAN_PROBE_RE = re.compile(
+    r"^__drill_(?:blast_probe|unlisted_probe|empty_find|junction_probe|surface_probe)_(\d+)__")
+
+
+def _reap_orphan_probes(here=None):
+    """Remove probe files and junctions a KILLED drill left behind. -> [removed names].
+
+    sweep68 b01 F1. The probe names carry the pid (order 7a487cfab844), so a drill killed
+    between `make_junction` and `unstage()` left `src/__drill_junction_probe_<pid>__` -> state/
+    (or the surface probe -> data/) that no later run revisited -- and `publish.sync_tree`'s
+    `os.walk` descends a junction, so the next push would stage state/ into the public export.
+    Only names matching the probe shapes, only pids that are no longer alive, never this run's.
+    A junction or link is unlinked (the target is untouched); a real directory is left alone.
+    """
+    here = here or HERE
+    removed = []
+    try:
+        import psutil as _ps
+        alive = _ps.pid_exists
+    except Exception:
+        return removed                    # cannot tell a live drill's probe from an orphan: keep
+    for d in (here, os.path.join(here, "src"), os.path.join(here, "handoff"),
+              os.path.join(here, "data")):
+        try:
+            names = os.listdir(d)
+        except OSError:
+            continue
+        for name in names:
+            m = _ORPHAN_PROBE_RE.match(name)
+            if not m or int(m.group(1)) == os.getpid() or alive(int(m.group(1))):
+                continue
+            p = os.path.join(d, name)
+            try:
+                if os.path.islink(p) or getattr(os.path, "isjunction", lambda _p: False)(p):
+                    os.rmdir(p) if os.path.isdir(p) else os.unlink(p)
+                elif os.path.isfile(p):
+                    os.remove(p)
+                else:
+                    continue
+                removed.append(os.path.relpath(p, here))
+            except OSError:
+                _ = "silence-exempt: an orphan that will not go is retried at the next run"
+    return removed
+
+
+def _record_area_death(fn, e):
+    """Record an area that raised outside any net, AND make it re-askable (sweep68 b01 F3).
+
+    The row was appended with nothing in `_ATTACKS`, so `_reread_the_breaches` reported it
+    "cannot be re-asked" and halted at OWNER on ONE reading -- the exact photograph-of-a-file-
+    mid-write the three-read rule (order 71ae3fa7e55e) exists to tell from a defect. Many areas
+    start with a bare `import <module>`, so an agent's half-applied edit killed the area and
+    halted the library with no settle wait. The re-ask re-runs the WHOLE area on the settled tree
+    and holds only if it completes and every net it records holds; its rows are discarded so the
+    reported verdict is still this first reading. Fail closed: a raise, or any breach, reproduces.
+    """
+    row = {"area": "AREA DID NOT RUN — %s" % fn.__name__,
+           "net": "%s completed" % fn.__name__, "held": False,
+           "expected": "an area that cannot run has proved nothing, and its nets must not be "
+                       "counted as held",
+           "error": "%s: %s" % (type(e).__name__, e)}
+    RESULTS.append(row)
+
+    def attack():
+        mark = len(RESULTS)
+        try:
+            fn()
+            rows = RESULTS[mark:]
+            return bool(rows) and all(r.get("held") for r in rows)
+        finally:
+            del RESULTS[mark:]
+    _ATTACKS[(row["area"], row["net"])] = attack
+    return row
+
+
 def _reread_the_breaches(breached):
     """Ask each breached net again, on a tree that has stopped moving.
     -> (reproduced, recovered, note).
@@ -26553,6 +26738,11 @@ _HALT_WRITERS = (
     ("axis_correlation.py", "main", ("write",)),
     ("roll.py", "exclude", ("mutate",)),
     ("backfill.py", "main", ("backfill_source",)),
+    # sweep68 b04 / b10 / b11: halt checks added to these writers this run.
+    ("cleanup.py", "main", ("write_record",)),
+    ("recover_folder_records.py", "main", ("write_json",)),
+    ("cosmology_graph.py", "main", ("write_json",)),
+    ("scout.py", "main", ("sweep", "scout")),
 )
 
 
@@ -28488,6 +28678,88 @@ def _net_913f31fb9c10():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def _net_run68_phase8_volume_codes():
+    # Run #68: phase 8 wrote the manifest with the bare Series code, so two sources sharing a
+    # Series shared every job id (1,251 duplicates, all 54 D&D sources at `II.L.7`) and
+    # generate.py overwrote one's chapters with the other's. It must number them as
+    # manifest_builder does, hold an owner exclusion out, and never file under "UNASSIGNED".
+    import manifest_builder as MB
+    import pipeline as PL
+    d = tempfile.mkdtemp()
+    landed = []
+    keep_pl = (PL.HERE, PL.log, PL.save_state, PL.land_json)
+    keep_mb = (MB.load_config, MB.load_roll, MB.load_record, MB.spine_code_for,
+               MB.build_jobs_for_source)
+    names = ("Alpha Book", "Beta Book", "Gamma Out", "Delta Loose")
+    logged = []
+    try:
+        os.makedirs(os.path.join(d, "data"))
+        with open(os.path.join(d, "data", "COVERAGE.json"), "w", encoding="utf-8") as f:
+            json.dump([{"source": n, "entries": 4, "cited": 4, "read": 0} for n in names], f)
+        PL.HERE = d
+        PL.log = lambda m, *a, **k: logged.append(str(m))
+        PL.save_state = lambda st: True
+        PL.land_json = lambda path, obj, **k: landed.extend(obj) or True
+        MB.load_config = lambda: {}
+        MB.load_roll = lambda cfg: [
+            {"name": "Alpha Book", "entry_count": 4}, {"name": "Beta Book", "entry_count": 4},
+            {"name": "Gamma Out", "entry_count": 4, "status": "out-of-scope", "note": "drill"},
+            {"name": "Delta Loose", "entry_count": 4}]
+        MB.load_record = lambda cfg, source_name: {"entries": [{"name": "x"}]}
+        MB.spine_code_for = lambda s: "UNASSIGNED" if s == "Delta Loose" else "II.Z.9"
+        MB.build_jobs_for_source = lambda cfg, r, rec, spine: [
+            {"job_id": spine + "/Persons", "address": spine + "/Persons"}]
+        _deliberately_failing(lambda: PL.phase_write({}, {"done": {}, "failed": {},
+                                                          "units_done": 0}))
+    finally:
+        PL.HERE, PL.log, PL.save_state, PL.land_json = keep_pl
+        (MB.load_config, MB.load_roll, MB.load_record, MB.spine_code_for,
+         MB.build_jobs_for_source) = keep_mb
+        shutil.rmtree(d, ignore_errors=True)
+    text = "\n".join(logged)
+    # The exclusion and the unassigned hold are each NAMED as held (sweep68 b01: the job list
+    # alone could not tell the exclusion arm from a refusal).
+    return (sorted(j["job_id"] for j in landed) == ["II.Z.9.1/Persons", "II.Z.9.2/Persons"]
+            and "held out: Gamma Out (excluded by owner ruling)" in text
+            and "held out: Delta Loose (unassigned" in text)
+
+
+def _net_run68_generate_holds_shared_address():
+    # Run #68: generate keys catalog, failures and output/raw on the address, so an address two
+    # sources share must be held whole, never written twice over itself.
+    import generate as G
+    jobs = [{"address": "II.X/Persons", "source_name": "A"},
+            {"address": "II.X/Persons", "source_name": "B"},
+            {"address": "II.X.1/Persons", "source_name": "A"},
+            {"address": "II.Y/Places", "source_name": "C"},
+            {"address": "II.Y/Places", "source_name": "C"}]
+    kept, shared, held = G.hold_shared_addresses(jobs)
+    helper_ok = ([j["address"] for j in kept] == ["II.X.1/Persons", "II.Y/Places", "II.Y/Places"]
+                 and shared == {"II.X/Persons"} and held == {"A": 1, "B": 1})
+    # AND THE WIRING (sweep68 b01 F4): a correct helper main() does not call, or calls and then
+    # ignores, is a comment. main() must rebind `jobs` from element 0 of the helper's answer.
+    import ast as _ast
+    with open(os.path.join(_srcdir(), "generate.py"), encoding="utf-8") as fh:
+        tree = _ast.parse(fh.read())
+    main = next(n for n in tree.body if isinstance(n, _ast.FunctionDef) and n.name == "main")
+    wired = any(
+        isinstance(n, _ast.Assign) and isinstance(n.value, _ast.Call)
+        and getattr(n.value.func, "id", None) == "hold_shared_addresses"
+        and [getattr(a, "id", None) for a in n.value.args] == ["jobs"]
+        and isinstance(n.targets[0], _ast.Tuple)
+        and getattr(n.targets[0].elts[0], "id", None) == "jobs"
+        for n in _ast.walk(main))
+    return helper_ok and wired
+
+
+def _net_run68_battery_pipeline_log_is_not_live():
+    # Run #68: in-process write_record probes logged into the LIVE state/pipeline.log, where
+    # their `keeping N disk per-entry value(s)` lines read as the real CAS writer under load.
+    import pipeline as PL
+    live = os.path.normcase(os.path.abspath(os.path.join(HERE, "state", "pipeline.log")))
+    return os.path.normcase(os.path.abspath(PL.LOG)) != live
+
+
 def _net_98eae835e14e():
     # phase_write names EVERY source refused as thin (under WRITE_SETTLED_MIN), uncapped.
     import pipeline as PL
@@ -29175,6 +29447,6029 @@ def _the_covering_interval_steps_to_a_hundredth():
     return covers and hundredth and iv == 3.08
 
 
+def _net_b01_area_death_reasked():
+    # sweep68 b01 F3: an area that died once (a half-written module on import) must be re-asked
+    # on the settled tree and recover if it now runs clean -- not halt on one reading.
+    g = globals()
+    keep_wait = g["_wait_for_a_settled_tree"]
+    calls = []
+
+    def flaky_area():
+        calls.append(1)
+        if len(calls) == 1:
+            raise SyntaxError("half-written module (drill fixture)")
+        net("drill fixture area 68", "fixture net", lambda: True, "fixture")
+
+    mark = len(RESULTS)
+    try:
+        g["_wait_for_a_settled_tree"] = lambda *a, **k: (999.0, True)
+        try:
+            flaky_area()
+        except Exception as e:
+            row = _record_area_death(flaky_area, e)
+        reproduced, recovered, _note = _reread_the_breaches([row])
+        return recovered == [row] and reproduced == [] and len(RESULTS) == mark + 1
+    finally:
+        g["_wait_for_a_settled_tree"] = keep_wait
+        del RESULTS[mark:]
+        for k in [k for k in _ATTACKS if "drill fixture area 68" in k[0]
+                  or "flaky_area" in k[0]]:
+            _ATTACKS.pop(k, None)
+
+
+def _net_b01_esc_sandbox_resolves_first():
+    # sweep68 b01 F2: a redirect row naming a constant that no longer exists must refuse with
+    # NOTHING redirected -- never leave escalation.HALT_FILE pointing at scratch.
+    g = globals()
+    keep_rows, keep_halt = g["_SANDBOX_REDIRECTS"], ESC.HALT_FILE
+    g["_SANDBOX_REDIRECTS"] = tuple(keep_rows) + (("escalation", "NO_SUCH_CONSTANT_68", None),)
+    raised = False
+    try:
+        try:
+            _esc_sandbox()
+        except AttributeError:
+            raised = True
+        return raised and ESC.HALT_FILE == keep_halt
+    finally:
+        g["_SANDBOX_REDIRECTS"] = keep_rows
+        ESC.HALT_FILE = keep_halt
+
+
+def _net_b01_orphan_probe_reaped():
+    # sweep68 b01 F1: a killed drill's pid-named probe junction (src/ -> state/) and probe file
+    # must be removed by the next run, the junction's TARGET left intact, a live pid's untouched.
+    import mutate as M
+    root = tempfile.mkdtemp(prefix="drill_orphan_")
+    try:
+        for sub in ("src", "handoff", "target"):
+            os.makedirs(os.path.join(root, sub))
+        with open(os.path.join(root, "target", "keep.json"), "w", encoding="utf-8") as f:
+            f.write("{}")
+        dead = 2 ** 31 - 3
+        link = os.path.join(root, "src", "__drill_junction_probe_%d__" % dead)
+        if not M.make_junction(link, os.path.join(root, "target")):
+            raise RuntimeError("could not stage a junction here, so nothing was measured")
+        orphan = os.path.join(root, "handoff", "__drill_blast_probe_%d__.md" % dead)
+        mine = os.path.join(root, "handoff", "__drill_blast_probe_%d__.md" % os.getpid())
+        for p in (orphan, mine):
+            with open(p, "w", encoding="utf-8") as f:
+                f.write("probe")
+        gone = _reap_orphan_probes(root)
+        return (not os.path.lexists(link) and not os.path.exists(orphan)
+                and os.path.exists(mine) and len(gone) == 2
+                and os.path.exists(os.path.join(root, "target", "keep.json")))
+    finally:
+        link = os.path.join(root, "src", "__drill_junction_probe_%d__" % (2 ** 31 - 3))
+        if os.path.lexists(link):
+            try:
+                os.rmdir(link)
+            except OSError:
+                pass
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b03_companion_clear_needs_authored_absence():
+    # sweep68 b03 N2. A stale holder loaded entry A with a scale_note and no rejection; another
+    # writer (repass_bands) then cleared the note into `scale_note_rejected`. A batch judging
+    # only entry B must not delete that rejection. And the deliberate clear still lands: C was
+    # loaded WITH a topic_rejected, the holder fixed the topic and popped it.
+    import pipeline as PL
+    d = tempfile.mkdtemp(prefix="net_b03_n2_")
+    path = os.path.join(d, "x.json")
+    base = {"source": "X", "entries": [
+        {"name": "A", "scale_note": "old note"},
+        {"name": "B", "scale_note": "b"},
+        {"name": "C", "topic": "Bogus", "topic_rejected": "Bogus"}]}
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(base, f)
+    real_log = PL.log
+    PL.log = lambda *a, **k: None
+    key = os.path.abspath(path)
+    try:
+        held = json.loads(json.dumps(base))
+        PL._remember_top_keys(path, held)                   # the watermark records() takes
+        other = json.loads(json.dumps(base))
+        other["entries"][0]["scale_note"] = ""
+        other["entries"][0]["scale_note_rejected"] = "old note"
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(other, f)
+        held["entries"][1]["magnitude"] = "M2"
+        held["entries"][2]["topic"] = "Persons"
+        held["entries"][2].pop("topic_rejected")
+        ok = _deliberately_failing(lambda: PL.write_record(path, held))
+        with open(path, encoding="utf-8") as f:
+            a, b, c = json.load(f)["entries"]
+        return (ok is True and a.get("scale_note_rejected") == "old note"
+                and a.get("scale_note") == "" and b.get("magnitude") == "M2"
+                and c.get("topic") == "Persons" and "topic_rejected" not in c)
+    finally:
+        PL.log = real_log
+        PL._TOP_SNAPSHOT.pop(key, None)
+        PL._DESC_SNAPSHOT.pop(key, None)
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b03_designations_short_pass_uncached():
+    # sweep68 b03 N6. designations() cached an answer computed from a pass that could not read
+    # a record, under the valid directory signature, and served it until the directory moved.
+    # A short pass must return its answer to the caller and cache nothing.
+    import weave_index as WI
+    d = tempfile.mkdtemp(prefix="net_b03_n6_")
+    with open(os.path.join(d, "a.json"), "w", encoding="utf-8") as f:
+        json.dump({"source": "a", "entries": [{"name": "Optimus (Bayverse)"}]}, f)
+    with open(os.path.join(d, "b.json"), "w", encoding="utf-8") as f:
+        f.write('{"source": "b", "entr')                    # torn mid-write
+    saved = (WI.RECORDS, dict(WI._REC_CACHE), dict(WI._SIG_MEMO), WI._DESIGNATIONS,
+             list(WI.LAST_UNREADABLE))
+    try:
+        WI.RECORDS = d
+        WI._REC_CACHE.update(sig=None, out=None)
+        WI._SIG_MEMO.update(at=None, val=None)
+        WI._DESIGNATIONS = None
+        got = _deliberately_failing(WI.designations)
+        return isinstance(got, set) and "xeno" in got and WI._DESIGNATIONS is None
+    finally:
+        WI.RECORDS = saved[0]
+        WI._REC_CACHE.clear()
+        WI._REC_CACHE.update(saved[1])
+        WI._SIG_MEMO.clear()
+        WI._SIG_MEMO.update(saved[2])
+        WI._DESIGNATIONS = saved[3]
+        WI.LAST_UNREADABLE[:] = saved[4]
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b03_phase1_nonstring_answer():
+    # sweep68 b03 N7. A cloud answer with a list `evidence`, a list `ceiling_entity` and a
+    # numeric `rationale` crashed phase_synthesis at .strip() ("PHASE CRASHED", rc 1). It must
+    # instead coerce, write the block as text, and finish.
+    import pipeline as PL
+    d = tempfile.mkdtemp(prefix="net_b03_n7_")
+    path = os.path.join(d, "x.json")
+    rec = {"source": "X", "entries": [{"name": "A", "description": "a"}]}
+    names = ("records", "ask_pool_first", "synthesis_blocks", "synthesis_prompt",
+             "save_state", "update_handoff", "write_record", "log")
+    saved = {n: getattr(PL, n) for n in names}
+    wrote = []
+    try:
+        PL.records = lambda *a, **k: [(path, rec)]
+        PL.ask_pool_first = lambda *a, **k: {"magnitude": "M3", "evidence": ["a", "b"],
+                                             "ceiling_entity": ["Zed"], "rationale": 5}
+        PL.synthesis_blocks = lambda r: ([[r["entries"][0]]], {})
+        PL.synthesis_prompt = lambda *a, **k: "p"
+        PL.save_state = lambda st: None
+        PL.update_handoff = lambda st: None
+        PL.write_record = lambda p, r, *a, **k: wrote.append(r) or True
+        PL.log = lambda *a, **k: None
+        st = {"done": {}, "failed": {}, "units_done": 0}
+        try:
+            ok = PL.phase_synthesis(None, st)
+        except Exception:
+            return False
+        s = rec.get("synthesis") or {}
+        return (ok is True and len(wrote) == 1
+                and all(isinstance(s.get(k), str) for k in
+                        ("ceiling_entity", "evidence", "rationale")))
+    finally:
+        for n, v in saved.items():
+            setattr(PL, n, v)
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b03_phase_write_names_shared_addresses():
+    # sweep68 b03 N4 (logging only; the addressing is OWNER order 3976a097f975). Two ready
+    # sources whose jobs take the same address are held whole by generate.py; phase 8 must say
+    # so in its own log, naming both, instead of closing on "N job(s)" alone.
+    import pipeline as PL
+    import manifest_builder as MB
+    d = tempfile.mkdtemp(prefix="net_b03_n4_")
+    os.makedirs(os.path.join(d, "data"))
+    with open(os.path.join(d, "data", "COVERAGE.json"), "w", encoding="utf-8") as f:
+        json.dump([{"source": s, "entries": 10, "cited": 10, "read": 0}
+                   for s in ("Setlevel", "Seriesreal", "Loner")], f)
+    roll = [{"name": s, "entry_count": 10} for s in ("Setlevel", "Seriesreal", "Loner")]
+    codes = {"Setlevel": "II.Z.1", "Seriesreal": "II.Z.1", "Loner": "II.Z.2"}
+    mb_names = ("load_config", "load_roll", "volume_codes", "spine_code_for", "load_record",
+                "build_jobs_for_source")
+    mb_saved = {n: getattr(MB, n) for n in mb_names}
+    pl_saved = (PL.HERE, PL.log, PL.save_state)
+    lines = []
+    try:
+        MB.load_config = lambda: {}
+        MB.load_roll = lambda cfg: roll
+        MB.volume_codes = lambda rows: dict(codes)
+        MB.spine_code_for = lambda s: codes.get(s, "UNASSIGNED")
+        MB.load_record = lambda cfg, s: {"source": s, "entries": [{"name": "a"}]}
+        MB.build_jobs_for_source = lambda cfg, row, rec, spine: [
+            {"address": spine + "/Persons#1-1", "source_name": row.get("name")}]
+        PL.HERE = d
+        PL.log = lambda m, *a, **k: lines.append(str(m))
+        PL.save_state = lambda st: None
+        st = {"done": {}, "units_done": 0}
+        _deliberately_failing(lambda: PL.phase_write(None, st))
+        named = [ln for ln in lines if "shared address" in ln]
+        return (len(named) == 1 and "Setlevel" in named[0] and "Seriesreal" in named[0]
+                and "Loner" not in named[0])
+    finally:
+        for n, v in mb_saved.items():
+            setattr(MB, n, v)
+        PL.HERE, PL.log, PL.save_state = pl_saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b03_recount_keeps_writer_watermark():
+    # sweep68 b03 N1. The real sequence: a writer loads through records(), another writer edits
+    # disk, update_handoff recounts through records() (the 120 s status recount phases 1 and 2
+    # run after every unit), and THEN the stale holder writes a batch judging only entry B.
+    # The other writer's description repair, band and synthesis must all survive.
+    import pipeline as PL
+    d = tempfile.mkdtemp(prefix="net_b03_n1_")
+    recdir = os.path.join(d, "data", "records")
+    os.makedirs(recdir)
+    with open(os.path.join(d, "data", "SWEEP_ROLL.json"), "w", encoding="utf-8") as f:
+        json.dump([], f)
+    path = os.path.join(recdir, "x.json")
+    base = {"source": "X", "synthesis": {"ceiling_entity": "old"}, "entries": [
+        {"name": "A", "description": "raw [[wiki]] markup", "magnitude": "unassayed"},
+        {"name": "B", "description": "b", "magnitude": "unassayed"}]}
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(base, f)
+    saved = (PL.RECORDS, PL.HERE, PL.HANDOFF, PL.log, dict(PL._HANDOFF_CACHE))
+    PL.RECORDS, PL.HERE = recdir, d
+    PL.HANDOFF = os.path.join(d, "handoff", "RUN_STATUS.md")
+    PL.log = lambda *a, **k: None
+    key = os.path.abspath(path)
+    try:
+        def run():
+            held = dict(PL.records())[path]                 # the phase's load-for-write
+            other = json.loads(json.dumps(base))            # another writer lands
+            other["entries"][0]["description"] = "raw wiki markup"
+            other["entries"][0]["magnitude"] = "M3"
+            other["synthesis"] = {"ceiling_entity": "NEW"}
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(other, f)
+            PL._HANDOFF_CACHE.update(at=0.0, counts=None)   # force the recount
+            PL.update_handoff({"phase": 2, "done": {}, "units_done": 0})
+            held["entries"][1]["magnitude"] = "M2"          # judge B only
+            return PL.write_record(path, held)
+        ok = _deliberately_failing(run)
+        with open(path, encoding="utf-8") as f:
+            got = json.load(f)
+        a, b = got["entries"][0], got["entries"][1]
+        return (ok is True and a["description"] == "raw wiki markup"
+                and a["magnitude"] == "M3" and b["magnitude"] == "M2"
+                and got["synthesis"] == {"ceiling_entity": "NEW"})
+    finally:
+        PL.RECORDS, PL.HERE, PL.HANDOFF, PL.log = saved[:4]
+        PL._HANDOFF_CACHE.clear()
+        PL._HANDOFF_CACHE.update(saved[4])
+        PL._TOP_SNAPSHOT.pop(key, None)
+        PL._DESC_SNAPSHOT.pop(key, None)
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b03_roll_mutate_no_tmp_left():
+    # sweep68 b03 N8. roll.mutate returned False when staging the new roll raised, but left the
+    # half-written `<roll>.<pid>.<tid>.0.tmp` beside the canonical file for good.
+    import roll as R
+    d = tempfile.mkdtemp(prefix="net_b03_n8_")
+    path = os.path.join(d, "SWEEP_ROLL.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump([{"name": "a"}], f)
+    try:
+        # a set is not JSON: the dump raises part-way through the staged file
+        landed, _why = _deliberately_failing(
+            lambda: R.mutate(lambda rows: rows + [{"name": "b", "bad": {1, 2}}], path=path))
+        left = [n for n in os.listdir(d) if n.endswith(".tmp")]
+        with open(path, encoding="utf-8") as f:
+            same = json.load(f) == [{"name": "a"}]
+        return landed is False and left == [] and same
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b03_weave_index_one_pass():
+    # sweep68 b03 N3. build() read the corpus, then designations() read it AGAIN and overwrote
+    # LAST_UNREADABLE. A record torn in the first pass and healed before the second left the
+    # index without it while `main --write`'s guard saw an empty LAST_UNREADABLE (rc 0). The
+    # list that describes the index must be the pass the index was built from.
+    import silence
+    import weave_index as WI
+    d = tempfile.mkdtemp(prefix="net_b03_n3_")
+    good = {"source": "a", "entries": [{"name": "Alpha", "description": "x"}]}
+    healed = {"source": "b", "entries": [{"name": "Beta", "description": "y"}]}
+    with open(os.path.join(d, "a.json"), "w", encoding="utf-8") as f:
+        json.dump(good, f)
+    with open(os.path.join(d, "b.json"), "w", encoding="utf-8") as f:
+        f.write('{"source": "b", "entr')                    # torn mid-write
+    saved = (WI.RECORDS, dict(WI._REC_CACHE), dict(WI._SIG_MEMO), WI._DESIGNATIONS,
+             list(WI.LAST_UNREADABLE), silence.note)
+
+    def heal_on_note(site, *a, **k):
+        if "load_records-unreadable" in str(site):
+            with open(os.path.join(d, "b.json"), "w", encoding="utf-8") as f:
+                json.dump(healed, f)
+    try:
+        WI.RECORDS = d
+        WI._REC_CACHE.update(sig=None, out=None)
+        WI._SIG_MEMO.update(at=None, val=None)
+        WI._DESIGNATIONS = None
+        silence.note = heal_on_note
+        recs = WI.build()[0]
+        return ([r["source"] for r in recs] == ["a"]
+                and list(WI.LAST_UNREADABLE) == ["b.json"])
+    finally:
+        silence.note = saved[5]
+        WI.RECORDS = saved[0]
+        WI._REC_CACHE.clear()
+        WI._REC_CACHE.update(saved[1])
+        WI._SIG_MEMO.clear()
+        WI._SIG_MEMO.update(saved[2])
+        WI._DESIGNATIONS = saved[3]
+        WI.LAST_UNREADABLE[:] = saved[4]
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b04_cleanup_halt_interlock():
+    # cleanup.py --apply rewrites the whole corpus: it must REFUSE under a standing halt, while the
+    # dry run (a measurement) keeps working.
+    import contextlib
+    import io
+    import cleanup as C
+    import escalation as E
+    saved = (E.status, C.PL.records, C.PL.write_record, sys.argv)
+    wrote = []
+    try:
+        E.status = lambda: (True, {"code": "NET", "what": "b04 net", "by": "net", "source": "net"})
+        C.PL.records = lambda: iter(())
+        C.PL.write_record = lambda *a, **k: wrote.append(a) or True
+        sys.argv = ["cleanup.py", "--apply"]
+        refused = False
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                C.main()
+        except E.SystemHalted:
+            refused = True
+        sys.argv = ["cleanup.py"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            dry_rc = C.main()
+        return refused and dry_rc == 0 and not wrote
+    finally:
+        E.status, C.PL.records, C.PL.write_record, sys.argv = saved
+
+
+def _net_b04_completeness_wrong_shape():
+    # A hand-edited / wrong-shaped state file must not crash the audit (category-size cache that is
+    # a list) or quietly disarm the shrink floor (prior COMPLETENESS.json that parses to null).
+    import contextlib
+    import io
+    import completeness as C
+    td = tempfile.mkdtemp(prefix="net_b04_comp_")
+    saved = (C.OUT, C._CS_CACHE_P, dict(C._CS_CACHE), C.ws._api)
+    try:
+        # (b) the cache parses to a list
+        C._CS_CACHE_P = os.path.join(td, "category_sizes.json")
+        with open(C._CS_CACHE_P, "w", encoding="utf-8") as f:
+            f.write("[1, 2, 3]")
+        C._CS_CACHE.update({"loaded": False, "d": {}})
+
+        def _no_network(*a, **k):
+            raise RuntimeError("no network in a net")
+        C.ws._api = _no_network
+        try:
+            n, err = _deliberately_failing(lambda: C.category_size_probe("sub", "Cat"))
+        except AttributeError:
+            return False
+        probe_ok = n is None and err == "RuntimeError"
+        # (a) the prior parses to null: the floor cannot apply, and the write must say so
+        C.OUT = os.path.join(td, "COMPLETENESS.json")
+        with open(C.OUT, "w", encoding="utf-8") as f:
+            f.write("null")
+        err_io = io.StringIO()
+        with contextlib.redirect_stderr(err_io):
+            landed = _deliberately_failing(lambda: C.land([{"source": "A", "cov": 1.0}]))
+        return probe_ok and landed is True and "not a list of rows" in err_io.getvalue()
+    finally:
+        C.OUT, C._CS_CACHE_P, cache_state, C.ws._api = saved
+        C._CS_CACHE.clear()
+        C._CS_CACHE.update(cache_state)
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b04_ledger_ruin_score_range():
+    # assay_to_standards prices a BAND: a ruin_score outside [0, 10] must be refused, not
+    # extrapolated into another band's price range; in-band scores still price.
+    import ledger as L
+    for bad in (15, -3, float("nan")):
+        try:
+            L.assay_to_standards("M3", bad)
+            return False
+        except ValueError:
+            pass
+    lo = L.assay_to_standards("M3", 0)["joules"]
+    hi = L.assay_to_standards("M3", 10)["joules"]
+    nxt = L.assay_to_standards("M4", 0)["joules"]
+    return lo < L.assay_to_standards("M3")["joules"] < hi <= nxt * (1 + 1e-9)
+
+
+def _net_b04_mutate_gate_timeout_grandchild():
+    # A gate that hangs while holding a live grandchild must still be cut off at its timeout: the
+    # old subprocess.run waited for the grandchild's inherited pipes, so the bound was not a bound.
+    import mutate as M
+    td = tempfile.mkdtemp(prefix="net_b04_gate_")
+    try:
+        script = os.path.join(td, "gate.py")
+        with open(script, "w", encoding="utf-8") as fh:
+            fh.write(
+                "import subprocess, sys, time\n"
+                "subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(15)'])\n"
+                "time.sleep(60)\n")
+        t0 = time.time()
+        sig, _why = M._gate_result("hangs", [sys.executable, script], timeout=2, cwd=td)
+        took = time.time() - t0
+        return sig.startswith("TIMEOUT|") and took < 10
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b04_mutate_negative_rebaseline():
+    # mutate.py --rebaseline-every -1 must be refused at the parser, before anything is built.
+    import contextlib
+    import io
+    import mutate as M
+    saved = sys.argv
+    try:
+        sys.argv = ["mutate.py", "--list", "--target", "prose_gate.py", "--rebaseline-every", "-1"]
+        err = io.StringIO()
+        code = None
+        try:
+            with contextlib.redirect_stderr(err), contextlib.redirect_stdout(io.StringIO()):
+                M.main()
+        except SystemExit as e:
+            code = e.code
+        return code == 2 and "rebaseline-every" in err.getvalue()
+    finally:
+        sys.argv = saved
+
+
+def _net_b04_mutate_sandbox_state_restored():
+    # Whatever ONE gate leaves in the sandbox's state/ (here a STOPPED.json, not the halt file the
+    # old scrub named) must not judge the next gate or the next mutant: both mutants survive.
+    import mutate as M
+    root = tempfile.mkdtemp(prefix="net_b04_state_")
+    saved_journal = M.JOURNAL
+    try:
+        os.makedirs(os.path.join(root, "src"))
+        os.makedirs(os.path.join(root, "state"))
+        with open(os.path.join(root, "state", "keep.json"), "w", encoding="utf-8") as fh:
+            fh.write('{"built": 1}')
+        M.JOURNAL = os.path.join(root, "state", "MUTANTS_SURVIVED.jsonl")
+        target = "compress_store.py"
+        shutil.copy2(os.path.join(_srcdir(), target), os.path.join(root, "src", target))
+        shutil.copy2(os.path.join(_srcdir(), target), os.path.join(root, "pristine.py"))
+        leaver = os.path.join(root, "leaver.py")
+        with open(leaver, "w", encoding="utf-8") as fh:
+            fh.write(
+                "import os, sys\n"
+                "if open('src/%s', 'rb').read() != open('pristine.py', 'rb').read():\n"
+                "    open(os.path.join('state', 'STOPPED.json'), 'w').write('{}')\n"
+                "print('RESULT: 2 passed, 0 FAILED')\n"
+                "sys.exit(0)\n" % target)
+        reader = os.path.join(root, "reader.py")
+        with open(reader, "w", encoding="utf-8") as fh:
+            fh.write(
+                "import os, sys\n"
+                "if os.path.isfile(os.path.join('state', 'STOPPED.json')):\n"
+                "    print('  FAILED a subsystem is stopped')\n"
+                "    print('RESULT: 1 passed, 1 FAILED')\n"
+                "    sys.exit(1)\n"
+                "print('RESULT: 2 passed, 0 FAILED')\n"
+                "sys.exit(0)\n")
+        gates = (("leaver", [sys.executable, leaver]),)
+        confirm = (("reader", [sys.executable, reader]),)
+        M._snapshot_sandbox_state(root)
+        base = M.baseline(root, gates=gates + confirm)
+        res = M._run_mutation(target, limit=2, gates=gates, confirm=confirm, root=root, base=base)
+    finally:
+        M.JOURNAL = saved_journal
+        shutil.rmtree(root, ignore_errors=True)
+    return res["survived"] == 2 and res["killed"] == 0
+
+
+def _net_b04_recover_halt_interlock():
+    # recover_folder_records writes records and roll rows: it must REFUSE under a standing halt
+    # (before writing anything) while --dry-run keeps working.
+    import contextlib
+    import io
+    import recover_folder_records as R
+    import escalation as E
+    td = tempfile.mkdtemp(prefix="net_b04_rfr_")
+    saved = (E.status, R.REGISTER, R.SOURCE_MAP, R.ROLL, R.RECORDS, sys.argv)
+    try:
+        os.makedirs(os.path.join(td, "records"))
+        for fn, doc in (("reg.json", [{"source": "R", "name": "n1", "desc": "d1"}]),
+                        ("map.json", {"Src": [["R", 1]]}),
+                        ("roll.json", [{"name": "Src", "category": "c", "entry_count": 0}])):
+            with open(os.path.join(td, fn), "w", encoding="utf-8") as f:
+                json.dump(doc, f)
+        R.REGISTER, R.SOURCE_MAP = os.path.join(td, "reg.json"), os.path.join(td, "map.json")
+        R.ROLL, R.RECORDS = os.path.join(td, "roll.json"), os.path.join(td, "records")
+        E.status = lambda: (True, {"code": "NET", "what": "b04 net", "by": "net", "source": "net"})
+        sys.argv = ["recover_folder_records.py"]
+        refused = False
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                R.main()
+        except E.SystemHalted:
+            refused = True
+        sys.argv = ["recover_folder_records.py", "--dry-run"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            dry_rc = R.main()
+        return refused and dry_rc == 0 and os.listdir(R.RECORDS) == []
+    finally:
+        E.status, R.REGISTER, R.SOURCE_MAP, R.ROLL, R.RECORDS, sys.argv = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b04_recover_roll_retry():
+    # A run whose roll write was denied says "re-run to update the roll": the re-run must actually
+    # update it (the record already exists on disk by then) and exit clean.
+    import contextlib
+    import io
+    import recover_folder_records as R
+    import roll as ROLL_MOD
+    td = tempfile.mkdtemp(prefix="net_b04_rfr2_")
+    saved = (R.REGISTER, R.SOURCE_MAP, R.ROLL, R.RECORDS, ROLL_MOD.update_rows, sys.argv)
+    try:
+        os.makedirs(os.path.join(td, "records"))
+        for fn, doc in (("reg.json", [{"source": "R", "name": "n1", "desc": "d1"}]),
+                        ("map.json", {"Src": [["R", 1]]}),
+                        ("roll.json", [{"name": "Src", "category": "c", "entry_count": 0}])):
+            with open(os.path.join(td, fn), "w", encoding="utf-8") as f:
+                json.dump(doc, f)
+        R.REGISTER, R.SOURCE_MAP = os.path.join(td, "reg.json"), os.path.join(td, "map.json")
+        R.ROLL, R.RECORDS = os.path.join(td, "roll.json"), os.path.join(td, "records")
+        real_update = ROLL_MOD.update_rows
+        sys.argv = ["recover_folder_records.py"]
+        ROLL_MOD.update_rows = lambda changes, attempts=8, path=None: (False, "denied by net")
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc1 = R.main()
+        ROLL_MOD.update_rows = real_update
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc2 = R.main()
+        with open(R.ROLL, encoding="utf-8") as f:
+            row = json.load(f)[0]
+        return rc1 == 1 and rc2 == 0 and row.get("entry_count") == 1
+    finally:
+        (R.REGISTER, R.SOURCE_MAP, R.ROLL, R.RECORDS, ROLL_MOD.update_rows, sys.argv) = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b04_weave_rules_voice_dialogue():
+    # weave.filtered_index must keep entities whose description merely contains ordinary
+    # second-person English (quoted speech, the wiki stub line) and still drop real rules text.
+    import weave as W
+    keep = {
+        "castillo": [{"source": "Marvel", "name": "Doctor Castillo (Earth-616)",
+                      "description": "You know, I just never get tired of having my credentials "
+                                     "questioned. Doctor Castillo works as a medical doctor."}],
+        "alva": [{"source": "DC", "name": "Edwin Alva (Dakotaverse)",
+                  "description": "Edwin Alva is a corrupt businessman. You can help out by "
+                                 "providing additional information."}],
+        "xcommand": [{"source": "Marvel", "name": "X-Command (Earth-19647)",
+                      "description": "You have earned your place among us. We honor your service."}],
+    }
+    rules = {
+        "extra": [{"source": "Homebrew", "name": "Extra Attack",
+                   "description": "You can attack twice, instead of once, whenever you take the "
+                                  "Attack action on your turn."}],
+        "asi": [{"source": "Homebrew", "name": "Improvement",
+                 "description": "When you reach 4th level, you can increase one ability score by 2."}],
+    }
+    idx = {}
+    idx.update(keep)
+    idx.update(rules)
+    out, dropped = W.filtered_index(idx)
+    return set(out) == set(keep) and dropped == len(rules)
+
+
+def _net_b05_coverage_torn_shard():
+    # A shard that will not parse must not be vouched for by the aggregate copy of itself.
+    import glob
+    import sweep_plan as S
+    tmp = tempfile.mkdtemp()
+    real = (S.SHARDS, S.COVERAGE)
+    try:
+        S.SHARDS = os.path.join(tmp, "shards")
+        S.COVERAGE = os.path.join(tmp, "COV.json")
+        _deliberately_failing(lambda: S.record("rTorn", ["cachekey.py"], batch=1))
+        if "cachekey.py" not in _deliberately_failing(lambda: S.covered_by("rTorn")):
+            return False  # the intact case must still prove coverage
+        for p in glob.glob(os.path.join(S.SHARDS, "*.json")):
+            with open(p, "w", encoding="utf-8") as f:
+                f.write("{torn")
+        return "cachekey.py" not in _deliberately_failing(lambda: S.covered_by("rTorn"))
+    finally:
+        S.SHARDS, S.COVERAGE = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b05_index_nondict_record():
+    # A feats record that is valid JSON but not an object is counted unreadable, not a crash.
+    import feats_index as FI
+    root = tempfile.mkdtemp()
+    try:
+        d = os.path.join(root, "x_fandom_com")
+        os.makedirs(d)
+        with open(os.path.join(d, "A.json"), "w", encoding="utf-8") as f:
+            json.dump({"entity": "A", "host": "x.fandom.com", "feats": []}, f)
+        with open(os.path.join(d, "B.json"), "w", encoding="utf-8") as f:
+            f.write("[]")
+        try:
+            idx = _deliberately_failing(lambda: FI.load_index(root))
+        except Exception:
+            return False
+        return len(idx) == 1 and _deliberately_failing(lambda: FI.index_faults(root))["unreadable"] == 1
+    finally:
+        FI._CACHE["index"].pop(root, None)
+        FI._CACHE["index_faults"].pop(root, None)
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b05_ledger_blank_citation():
+    # check_graph must flag a blank citation on ANY kind, not only a literally empty OWNER one.
+    import derivation as D
+    saved = dict(D.LEDGER)
+    try:
+        if _deliberately_failing(D.check_graph):
+            return False  # the live ledger must stay clean
+        D.LEDGER["zz_owner"] = D.Q(D.OWNER, "   ")
+        D.LEDGER["zz_meas"] = D.Q(D.MEASURED, "")
+        D.LEDGER["zz_char"] = D.Q(D.CHARTER, " ")
+        probs = _deliberately_failing(D.check_graph)
+        return all(any(n in p for p in probs) for n in ("zz_owner", "zz_meas", "zz_char"))
+    finally:
+        D.LEDGER.clear()
+        D.LEDGER.update(saved)
+
+
+def _net_b05_nonwiki_legacy_remine():
+    # An honestly-empty, unstamped record of a `doc:` or registered `pages:` host must NOT be
+    # re-mined by the legacy anomalous-host arm (its transport can never be stamped); a wiki host
+    # on the anomalous list still is.
+    import feats as F
+    import endpoint as EP
+    real = (F.anomalous_empty_hosts, EP.source_pages)
+    try:
+        F.anomalous_empty_hosts = lambda path=None: ({"doc:book", "pages:Reg", "x.fandom.com"}, True)
+        EP.source_pages = lambda title: ["https://example.invalid/p"]
+        empty = {"pages_read": [], "pages_refused": {}, "mined_under": {"transport": None}}
+        doc_ok = _deliberately_failing(lambda: F.mined_under_failed_transport(empty, "doc:book")) is False
+        pg_ok = _deliberately_failing(lambda: F.mined_under_failed_transport(empty, "pages:Reg")) is False
+        wiki_ok = _deliberately_failing(lambda: F.mined_under_failed_transport(empty, "x.fandom.com")) is True
+        return doc_ok and pg_ok and wiki_ok
+    finally:
+        F.anomalous_empty_hosts, EP.source_pages = real
+
+
+def _net_b05_roll_all_writes_denied_rc():
+    # feats --roll must exit nonzero when evidence writes were denied and none landed; a roll
+    # where some landed stays rc 0.
+    import io
+    import contextlib
+    import feats as F
+    real = (F.P.records, F.resolve_hosts, F.roll, dict(F._UNCACHED), list(F._LANDED)
+            if hasattr(F, "_LANDED") else None, sys.argv)
+    try:
+        F.P.records = lambda: []
+        F.resolve_hosts = lambda recs, verify=True: {"S": "x.fandom.com"}
+        F.roll = lambda *a, **k: {"n": 5, "errored": 0}
+        sys.argv = ["feats.py", "--roll"]
+
+        def run():
+            with contextlib.redirect_stdout(io.StringIO()):
+                return _deliberately_failing(F.main)
+        F._UNCACHED.clear()
+        F._UNCACHED["x.fandom.com"] = 5
+        if hasattr(F, "_LANDED"):
+            F._LANDED[0] = 0
+        denied_rc = run()
+        if hasattr(F, "_LANDED"):
+            F._LANDED[0] = 3
+        partial_rc = run()
+        return denied_rc != 0 and partial_rc == 0
+    finally:
+        F.P.records, F.resolve_hosts, F.roll = real[0], real[1], real[2]
+        F._UNCACHED.clear()
+        F._UNCACHED.update(real[3])
+        if real[4] is not None:
+            F._LANDED[:] = real[4]
+        sys.argv = real[5]
+
+
+def _net_b05_scope_repeated_sroffset():
+    # A search backend that answers the same sroffset for ever must end in ProbeUnread, not hang.
+    import scope as S
+    real = S.F.api
+    n = [0]
+    try:
+        def stuck(host, params, outcome=None, **kw):
+            n[0] += 1
+            if n[0] > 40:
+                raise RuntimeError("scope_for looped on a repeated sroffset")
+            if outcome is not None:
+                outcome.update({"ok": True, "why": "ok"})
+            return {"query": {"search": []}, "continue": {"sroffset": 500}}
+        S.F.api = stuck
+        try:
+            S.scope_for("x.fandom.com")
+        except S.ProbeUnread:
+            return True
+        except Exception:
+            return False
+        return False
+    finally:
+        S.F.api = real
+
+
+def _net_b05_scope_sentinel_hosts():
+    # scope.build() must not live-probe `pages:`/`doc:` sentinels, and must still probe a real host.
+    import scope as S
+    tmp = tempfile.mkdtemp()
+    real = (S.OUT, S.scope_for)
+    calls = []
+    try:
+        S.OUT = os.path.join(tmp, "SCOPE.json")
+
+        def fake(h, verbose=False):
+            calls.append(h)
+            return None
+        S.scope_for = fake
+        _deliberately_failing(lambda: S.build({"A": "pages:all Creeper World", "B": "doc:some-book",
+                                               "C": "real-zzz.fandom.com"}, force=True))
+        return calls == ["real-zzz.fandom.com"]
+    finally:
+        S.OUT, S.scope_for = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b05_snapshot_self_copy():
+    # before() on a directory that contains the snapshot store must refuse up front and leave
+    # nothing behind, not copy the store into itself until RecursionError.
+    import snapshot as SN
+    base = tempfile.mkdtemp()
+    real = (SN.HERE, SN.ROOT)
+    try:
+        repo = os.path.join(base, "repo")
+        os.makedirs(os.path.join(repo, "state"))
+        with open(os.path.join(repo, "state", "a.json"), "w", encoding="utf-8") as f:
+            f.write("{}")
+        SN.HERE = repo
+        SN.ROOT = os.path.join(repo, "state", "snapshots")
+        try:
+            _deliberately_failing(lambda: SN.before("x", ["state"]))
+            return False
+        except SN.SnapshotFailed as e:
+            refused = "contains the snapshot store" in str(e)
+        left = os.listdir(SN.ROOT) if os.path.isdir(SN.ROOT) else []
+        # and a sibling directory is still snapshotted normally
+        os.makedirs(os.path.join(repo, "data"))
+        with open(os.path.join(repo, "data", "b.json"), "w", encoding="utf-8") as f:
+            f.write("{}")
+        sid = _deliberately_failing(lambda: SN.before("ok", ["data"]))
+        return refused and not left and bool(sid)
+    finally:
+        SN.HERE, SN.ROOT = real
+        shutil.rmtree(base, ignore_errors=True)
+
+
+def _net_b05_style_audit_empty_rc():
+    # style_audit's CLI must exit nonzero when it read no files, or files with no entries.
+    import io
+    import contextlib
+    import style_audit as SA
+    tmp = tempfile.mkdtemp()
+    real = sys.argv
+    try:
+        def run(path):
+            sys.argv = ["style_audit.py", "--path", path]
+            with contextlib.redirect_stdout(io.StringIO()):
+                return SA.main()
+        empty_rc = run(tmp)
+        with open(os.path.join(tmp, "c.md"), "w", encoding="utf-8") as f:
+            f.write("plain text with no entry marker at all\n")
+        noentry_rc = run(tmp)
+        with open(os.path.join(tmp, "c.md"), "w", encoding="utf-8") as f:
+            f.write("◈ ALPHA\nThe Record. Alpha is a city.\n")
+        good_rc = run(tmp)
+        return empty_rc != 0 and noentry_rc != 0 and good_rc == 0
+    finally:
+        sys.argv = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b06_allsweep_blocks_absent():
+    import standards as S
+
+    def refuses(d):
+        try:
+            S.allsweep_blocks(d)
+        except (KeyError, TypeError):
+            return True
+        return False
+    full = {"estate": {"artifacts": {"bad": ["x.json"]}}, "verifiers": [{"crashed": False}]}
+    return (S.allsweep_blocks(full) == (["x.json"], [{"crashed": False}])
+            and refuses({}) and refuses({"estate": {"artifacts": {"bad": []}}})
+            and refuses({"verifiers": []}) and refuses({"estate": {}, "verifiers": []}))
+
+
+def _net_b06_dupe_probe_blind():
+    import subprocess
+    import standards as S
+
+    class _R:
+        def __init__(self, rc, out):
+            self.returncode, self.stdout = rc, out
+    real = subprocess.run
+    try:
+        def blind(rc, out):
+            subprocess.run = lambda *a, **k: _R(rc, out)
+            try:
+                S._proc_cmdlines()
+            except RuntimeError:
+                return True
+            return False
+        subprocess.run = lambda *a, **k: _R(0, "python read.py --run\r\npython overnight.py\r\n")
+        good = S._proc_cmdlines() == ["python read.py --run", "python overnight.py"]
+        return good and blind(1, "python x.py") and blind(0, "") and blind(0, "  \r\n")
+    finally:
+        subprocess.run = real
+
+
+def _net_b06_endpoint_save_dirty():
+    import endpoint as EP
+    import silence
+    root = tempfile.mkdtemp()
+    old = {"mode": "dead", "at": 1.0}
+    new = {"mode": "api", "path": "/api.php"}
+    saved = (EP.CACHE, EP._MEM, set(EP._DIRTY), silence.replace_if_unchanged)
+    real = silence.replace_if_unchanged
+    fired = []
+
+    def racing(tmp, dst, digest, *a, **k):
+        if not fired:
+            fired.append(1)
+            with EP._LOCK:
+                EP._MEM["h.example"] = new
+                EP._DIRTY.add("h.example")
+        return real(tmp, dst, digest, *a, **k)
+    try:
+        EP.CACHE = os.path.join(root, "ENDPOINTS.json")
+        EP._MEM = {"h.example": old}
+        EP._DIRTY.clear()
+        EP._DIRTY.add("h.example")
+        silence.replace_if_unchanged = racing
+        _deliberately_failing(EP._save)
+        return bool(fired) and EP._MEM["h.example"] is new and "h.example" in EP._DIRTY
+    finally:
+        EP.CACHE, EP._MEM = saved[0], saved[1]
+        EP._DIRTY.clear()
+        EP._DIRTY.update(saved[2])
+        silence.replace_if_unchanged = saved[3]
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b06_job_alive_blind():
+    import inspect
+    import standards as S
+
+    class _On:
+        def __init__(self, v):
+            self.v = v
+
+        def running(self, owner):
+            return self.v
+    tri = (S.job_alive_state(_On(None), "read.py") is None
+           and S.job_alive_state(_On(False), "read.py") is False
+           and S.job_alive_state(_On([123]), "read.py") is True)
+    src = inspect.getsource(S.check)
+    return tri and "job_alive_state(_ON, owner)" in src and "process table unreadable" in src
+
+
+def _net_b06_job_watch_heal():
+    import standards as S
+    root = tempfile.mkdtemp()
+    try:
+        torn, nondict, good, absent = (os.path.join(root, n) for n in ("t", "n", "g", "a"))
+        with open(torn, "w", encoding="utf-8") as f:
+            f.write('{"read.py": {"size": 4')
+        with open(nondict, "w", encoding="utf-8") as f:
+            f.write("[1, 2]")
+        with open(good, "w", encoding="utf-8") as f:
+            json.dump({"read.py": {"size": 4, "at": 1.0}}, f)
+        try:
+            got = _deliberately_failing(lambda: (S.read_job_watch(torn), S.read_job_watch(nondict),
+                                                 S.read_job_watch(good), S.read_job_watch(absent)))
+        except Exception:
+            return False
+        return got == ({}, {}, {"read.py": {"size": 4, "at": 1.0}}, {})
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b06_ladder_nan():
+    import descending_ladder as DL
+    n = float("nan")
+    rep_a, rep_b = DL.shrink_report(70.0, 1.7, n), DL.shrink_report(n, 1.7, 1e-10)
+    return (DL.rung_for_length(n) == (None, None)
+            and rep_a["mass_conserved_is_lawful"] is None and rep_a["input_error"]
+            and rep_b["mass_conserved_is_lawful"] is None and rep_b["input_error"]
+            and DL.transgression_bits(n, 1e-10) is None and DL.transgression_bits(70.0, n) is None
+            and DL.compton_confinement_energy(n, 70.0) is None
+            and DL.compton_confinement_energy(1e-10, n) is None
+            and DL.rung_for_length(1.0)[0] is not None)
+
+
+def _net_b06_ladder_relativistic():
+    import descending_ladder as DL
+    proton = 1.67262192e-27
+    e = DL.compton_confinement_energy(DL.PLANCK_LENGTH, proton)
+    rep = DL.shrink_report(proton, 1e-15, DL.PLANCK_LENGTH)
+    newton = DL.HBAR ** 2 / (8.0 * 70.0 * (1e-10) ** 2)
+    e2 = DL.compton_confinement_energy(1e-10, 70.0)
+    return (e is not None and 0.4 * DL.PLANCK_ENERGY < e < 0.6 * DL.PLANCK_ENERGY
+            and not any("Planck energy" in o for o in rep["objections"])
+            and abs(e2 - newton) / newton < 1e-9)
+
+
+def _net_b06_records_empty_fresh():
+    import standards as S
+    root = tempfile.mkdtemp()
+    try:
+        try:
+            S.newest_record_mtime(root)
+            return False
+        except FileNotFoundError:
+            pass
+        p = os.path.join(root, "A.json")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write("{}")
+        return S.newest_record_mtime(root) == os.path.getmtime(p)
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b06_rigor_bad_inputs():
+    import rigor as R
+
+    def refuses(fn):
+        try:
+            fn()
+        except ValueError:
+            return True
+        return False
+    facs = [("a", 1e3, 0.5), ("b", 1e2, 0.8)]
+    ok = (R.adjudication_beta(1, 2, 0)["beta_floor_bits"] > 0
+          and abs(R.lognormal_product(facs, {("a", "b"): 0.5})["sigma_dex"]
+                  - (0.25 + 0.64 + 2 * 0.5 * 0.5 * 0.8) ** 0.5) < 1e-9
+          and R.ceiling_confidence(10, 5)["p_true_max_seen_if_random"] == 0.5)
+    return (ok
+            and refuses(lambda: R.adjudication_beta(1, 0, -3))
+            and refuses(lambda: R.adjudication_beta(1, 0))
+            and refuses(lambda: R.adjudication_beta(1, 2, 1, -8))
+            and refuses(lambda: R.lognormal_product(facs, {("a", "b"): -1.5}))
+            and refuses(lambda: R.lognormal_product(facs, {("a", "b"): 0.5, ("b", "a"): 0.5}))
+            and refuses(lambda: R.ceiling_confidence(10, -5))
+            and refuses(lambda: R.ceiling_confidence(10, float("nan"))))
+
+
+def _net_b06_rigor_main_rc():
+    import contextlib
+    import io
+    import chord_field as CF
+    import rigor as R
+
+    def run():
+        with contextlib.redirect_stdout(io.StringIO()):
+            return _deliberately_failing(R.main)
+    base = run()
+    CF.ADJUDICATIONS["A9_SWEEP68_NET"] = {"beta_bits": 1}
+    try:
+        seventh = run()
+    finally:
+        CF.ADJUDICATIONS.pop("A9_SWEEP68_NET", None)
+    return base == 0 and seventh == 1
+
+
+def _net_b06_ti_unreadable_record():
+    import contextlib
+    import io
+    import escalation as E
+    import propagation as P
+    import thread_integrity as TI
+    import weave_index as WI
+    calls = []
+    saved = (TI.load_entities, TI.implied_threads, TI.load_thread_graph, E.escalate,
+             P.load_graph, sys.argv, list(WI.LAST_UNREADABLE))
+    try:
+        TI.load_entities = lambda: ({"A": {"k"}, "C": {"k"}}, {"k": "K"})
+        TI.implied_threads = lambda *a, **k: {("A", "B"): {"k"}, ("B", "A"): {"k"}}
+        TI.load_thread_graph = lambda *a, **k: None
+        P.load_graph = lambda *a, **k: {}
+        E.escalate = lambda *a, **k: calls.append((a, k))
+        WI.LAST_UNREADABLE[:] = ["B.json"]
+        sys.argv = ["thread_integrity.py"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = _deliberately_failing(TI.main)
+        return rc == 1 and not calls and "NOT MEASURED" in buf.getvalue()
+    finally:
+        (TI.load_entities, TI.implied_threads, TI.load_thread_graph, E.escalate,
+         P.load_graph, sys.argv) = saved[:6]
+        WI.LAST_UNREADABLE[:] = saved[6]
+
+
+def _net_b06_tokenflow_no_default():
+    import contextlib
+    import urllib.request as ur
+    import gpu_lane as GL
+    import standards as S
+    root = tempfile.mkdtemp()
+    sent = []
+    saved = (S.HERE, dict(S._TOKENFLOW), ur.urlopen, GL.lane)
+    try:
+        with open(os.path.join(root, "config.yaml"), "w", encoding="utf-8") as f:
+            f.write('model: "qwen3:8b"\nollama_host: "http://localhost:1"\n')
+        S.HERE = root
+        S._TOKENFLOW.update({"at": 0.0, "ok": None, "s": None})
+        ur.urlopen = lambda *a, **k: sent.append(a) or (_ for _ in ()).throw(OSError("net stub"))
+        GL.lane = lambda *a, **k: contextlib.nullcontext()
+        got = _deliberately_failing(lambda: S.ollama_token_flow(ttl=0.0, timeout=1))
+        return got == (None, None) and not sent
+    finally:
+        S.HERE = saved[0]
+        S._TOKENFLOW.clear()
+        S._TOKENFLOW.update(saved[1])
+        ur.urlopen, GL.lane = saved[2], saved[3]
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b07_axis_dedupe():
+    # sweep68 b07 F5: one entity carried by two SOURCES with an identical vector is counted once
+    # (and the drop is reported); a same-name different-vector row is a different measurement.
+    sys.path.insert(0, _srcdir())
+    import axis_correlation as AC
+    d = tempfile.mkdtemp()
+    real_here, real_src = AC.HERE, AC.SOURCES
+    try:
+        def ent(a, b):
+            return {"axes": {"x": {"score": a}, "y": {"score": b}}}
+        os.makedirs(os.path.join(d, "data"))
+        for fn, doc in (("one.json", {"Goku": ent(1, 2), "Naruto": ent(2, 3), "Vegeta": ent(1, 1)}),
+                        ("two.json", {"Goku": ent(1, 2), "Luffy": ent(3, 4), "Vegeta": ent(5, 6)})):
+            with open(os.path.join(d, "data", fn), "w", encoding="utf-8") as f:
+                json.dump(doc, f)
+        AC.HERE, AC.SOURCES = d, ("data/one.json", "data/two.json")
+        rows, st = _deliberately_failing(AC.observations)
+        return len(rows) == 5 and st.get("duplicates_dropped") == ["Goku"]
+    except Exception:
+        return False
+    finally:
+        AC.HERE, AC.SOURCES = real_here, real_src
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b07_axis_negative_top():
+    # sweep68 b07 Q6: a negative --top must be refused (rc 2), not print all-but-N rows with no
+    # "more not shown" line.
+    import subprocess
+    p = subprocess.run([sys.executable, os.path.join(_srcdir(), "axis_correlation.py"),
+                        "--top", "-3"], capture_output=True, text=True, timeout=120,
+                       creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+    return p.returncode == 2
+
+
+def _net_b07_bad_stamp_severity():
+    # sweep68 b07 F2: a string timestamp must file PREFLIGHT_STALE/BATTERY_STALE (not raise), and
+    # a row with an unknown severity must not take down open_orders().
+    sys.path.insert(0, _srcdir())
+    import workorders as WO
+    real_load = WO._load
+    try:
+        now = 1_800_000_000.0
+        f = WO.battery_faults(preflight={"at": "yesterday", "rows": []},
+                              allsweep={"at": "noon", "imports": []}, now=now)
+        if not (f.get("PREFLIGHT_STALE") and f.get("BATTERY_STALE")):
+            return False
+        WO._load = lambda *a, **k: {
+            "a": {"severity": "major", "first_seen": 1},
+            "b": {"severity": "BLOCKING", "first_seen": 2},
+            "c": {"severity": "MINOR", "first_seen": "x"}}
+        rows = WO.open_orders()
+        return len(rows) == 3 and rows[0]["severity"] == "major"
+    except Exception:
+        return False
+    finally:
+        WO._load = real_load
+
+
+def _net_b07_drill_close_verdict():
+    # sweep68 b07 F1: the DRILL_BREACH closer must not close on an empty, undated, stale,
+    # zero-net or future-stamped drill_last.json -- only on a fresh, complete, clean verdict.
+    sys.path.insert(0, _srcdir())
+    import workorders as WO
+    try:
+        now = 1_800_000_000.0
+        fresh = {"at": now - 60, "nets": 475, "held": 475, "breached": []}
+        if not hasattr(WO, "drill_verdict_clean"):
+            return False
+        ok = (WO.drill_verdict_clean(fresh, now) is True
+              and WO.drill_verdict_clean({}, now) is False
+              and WO.drill_verdict_clean({"nets": 0, "held": 0, "breached": []}, now) is False
+              and WO.drill_verdict_clean(dict(fresh, at=now - 40 * 86400), now) is False
+              and WO.drill_verdict_clean(dict(fresh, at="yesterday"), now) is False
+              and WO.drill_verdict_clean(dict(fresh, at=now + 86400), now) is False
+              and WO.drill_verdict_clean(dict(fresh, held=474), now) is False
+              and WO.drill_verdict_clean(dict(fresh, breached=["x"]), now) is False
+              and WO.drill_verdict_clean(dict(fresh, breached=None), now) is False
+              and WO.drill_verdict_clean([], now) is False)
+        # and the sweep really routes its close through it
+        with open(os.path.join(_srcdir(), "workorders.py"), encoding="utf-8") as f:
+            src = f.read()
+        return ok and "if drill_verdict_clean(last):" in src
+    except Exception:
+        return False
+
+
+def _net_b07_events_stray_bold():
+    # sweep68 b07 F4: a stray ** must not invert the pairing silently -- a bold span never crosses
+    # a line break, and a body with an odd number of ** markers is recorded in candidates_refused.
+    sys.path.insert(0, _srcdir())
+    import events as E
+    text = ("## E-NET-STRAY heading\n\nsome prose ** stray marker\n"
+            "**Gamma** took part, **Delta** too\n")
+    doc = _deliberately_failing(lambda: E.parse(text))
+    named = [n for ev in doc["events"] for n in ev["named"]]
+    odd = [r for r in doc["candidates_refused"] if "odd number" in r["rule"]]
+    return named == ["Gamma", "Delta"] and len(odd) == 1 and odd[0]["event"] == "E-NET-STRAY"
+
+
+def _net_b07_future_heartbeat():
+    # sweep68 b07 F3: an Infinity or future heartbeat must not read as a live holder for ever, and
+    # the CLI must print a torn guard's fault instead of "no readable record". Temp path only.
+    import io
+    import contextlib
+    sys.path.insert(0, _srcdir())
+    import runguard as RG
+    d = tempfile.mkdtemp()
+    real_guard, real_argv = RG.GUARD, sys.argv
+    try:
+        now = time.time()
+        live = {"agent": "a", "done": False, "heartbeat": now - 10}
+        if RG.holder_is_live(live, now) is not True:
+            return False
+        for bad in (float("inf"), now + 10 * 365 * 86400, now + 3600):
+            rec = {"agent": "a", "done": False, "heartbeat": bad}
+            if RG.holder_is_live(rec, now) is not False:
+                return False
+            p = os.path.join(d, "g.json")
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(rec, f)
+            _r, fault = _deliberately_failing(lambda: RG.read_verdict(p))
+            if not fault:
+                return False
+        # CLI: a torn guard is a fault, not "free"
+        p = os.path.join(d, "torn.json")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write("{not json")
+        RG.GUARD, sys.argv = p, ["runguard.py"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            _deliberately_failing(RG.main)
+        return "GUARD FAULT" in buf.getvalue()
+    except Exception:
+        return False
+    finally:
+        RG.GUARD, sys.argv = real_guard, real_argv
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b07_hosts_discover_rc():
+    # sweep68 b07 F7: `hosts.py --discover` exits nonzero when a discovered host was lost to a
+    # denied write or a source could not be probed. Temp host maps, stubbed probes, no network.
+    import io
+    import contextlib
+    sys.path.insert(0, _srcdir())
+    import hosts as HS
+    import hostcheck as HC
+    d = tempfile.mkdtemp()
+    saved = (HS.PRIMARY, HS.EXTRA, HC.entities_by_source, HC.candidates_split, HC.score,
+             HS.add, sys.argv)
+    try:
+        prim = os.path.join(d, "WIKI_HOSTS.json")
+        with open(prim, "w", encoding="utf-8") as f:
+            json.dump({"S": "main.example"}, f)
+        HS.PRIMARY, HS.EXTRA = prim, os.path.join(d, "SOURCE_HOSTS.json")
+        HC.entities_by_source = lambda *a, **k: {"S": ["a", "b", "c", "d"]}
+        sys.argv = ["hosts.py", "--discover"]
+
+        def run():
+            out, err = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+                return _deliberately_failing(HS.main)
+
+        def boom(*a, **k):
+            raise RuntimeError("probe")
+        HC.candidates_split = boom
+        rc_probe = run()
+        HC.candidates_split = lambda *a, **k: (["h.example"], [])
+        HC.score = lambda *a, **k: {"verdict": "holds", "lift": 1, "rate": 0.5,
+                                    "about": 1.0, "hits": 9}
+        HS.add = lambda *a, **k: None          # the write was denied
+        rc_lost = run()
+        HS.add = lambda *a, **k: True
+        rc_clean = run()
+        return rc_probe == 1 and rc_lost == 1 and rc_clean == 0
+    except Exception:
+        return False
+    finally:
+        (HS.PRIMARY, HS.EXTRA, HC.entities_by_source, HC.candidates_split, HC.score,
+         HS.add, sys.argv) = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b07_onomast_hosts_wired():
+    # sweep68 b07 F6: onomast.py must not say hosts.py is not wired while feats.py imports it.
+    sd = _srcdir()
+    with open(os.path.join(sd, "feats.py"), encoding="utf-8") as f:
+        wired = re.search(r"^\s*import hosts\b", f.read(), re.M) is not None
+    with open(os.path.join(sd, "onomast.py"), encoding="utf-8") as f:
+        says_unwired = re.search(r"hosts\.py`\s+WAS NOT,", f.read()) is not None
+    return wired and not says_unwired
+
+
+def _net_b08_address_space_moved_map():
+    # main() must refuse to overwrite SHELFMARKS.json when a standing address would move.
+    import io
+    import contextlib
+    import escalation as ESC
+    import address_space as AS
+    td = tempfile.mkdtemp(prefix="net_b08_as_")
+    real = (AS.HERE, ESC.assert_clear, sys.argv)
+    try:
+        os.makedirs(os.path.join(td, "data"))
+        with open(os.path.join(td, "data", "WORLDSEEDS.json"), "w", encoding="utf-8") as f:
+            json.dump({"Src::World": {"seed": 1}}, f)
+        with open(os.path.join(td, "data", "TIERS.json"), "w", encoding="utf-8") as f:
+            json.dump({"Src": {"multiverse": 1, "metaverse": 0, "xenoverse": 0,
+                               "hyperverse": 0}}, f)
+        AS.HERE = td
+        ESC.assert_clear = lambda who="?": True   # this net is about the moved map, not the halt
+        sys.argv = ["address_space.py"]
+        sm = os.path.join(td, "data", "SHELFMARKS.json")
+
+        def run():
+            with contextlib.redirect_stdout(io.StringIO()):
+                return _deliberately_failing(AS.main)
+        if run() != 0 or not os.path.exists(sm):
+            return False                      # a fresh map must still be written
+        with open(sm, encoding="utf-8") as f:
+            m = json.load(f)
+        m["Src::World"]["address"] += 1       # a re-chart moved this world
+        with open(sm, "w", encoding="utf-8") as f:
+            json.dump(m, f)
+        rc = run()
+        with open(sm, encoding="utf-8") as f:
+            after = json.load(f)
+        return rc == 1 and after == m
+    finally:
+        AS.HERE, ESC.assert_clear, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b08_codex_short_substring_bind():
+    # A two-letter roll name ("DC") must not bind, by substring, to a section whose normalised
+    # title merely contains it; a genuine longer substring bind must still work.
+    import io
+    import contextlib
+    import catalogue_codex as CC
+    td = tempfile.mkdtemp(prefix="net_b08_cc_")
+    real = (CC.ROLL, CC.parse_codex, CC.load_register_index, sys.argv)
+    try:
+        rp = os.path.join(td, "SWEEP_ROLL.json")
+        with open(rp, "w", encoding="utf-8") as f:
+            json.dump([{"name": "DC", "entry_count": 0, "status": "uncatalogued", "category": "x"},
+                       {"name": "Mirt's Guide", "entry_count": 0, "status": "uncatalogued",
+                        "category": "x"}], f)
+        CC.ROLL = rp
+        CC.parse_codex = lambda: {
+            "Sword Coast Adventurer's Guide": {"blurb": "", "contents": [("Item", "Alpha")]},
+            "Mirt's Guide to Undermountain Survival": {"blurb": "", "contents": [("Item", "Beta")]}}
+        CC.load_register_index = lambda: {}
+        sys.argv = ["catalogue_codex.py", "--dry-run"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            _deliberately_failing(CC.main)
+        out = buf.getvalue()
+        lines = [ln for ln in out.splitlines() if "entries (" in ln]
+        return (len(lines) == 1 and lines[0].rstrip().endswith("Mirt's Guide")
+                and not any(ln.rstrip().endswith("DC") for ln in lines))
+    finally:
+        CC.ROLL, CC.parse_codex, CC.load_register_index, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b08_extract_json_truncated():
+    # A cut-off reply must not parse as the first complete object nested inside it.
+    import cascade_bridge as CB
+    cut = '{"feats":[{"sentence":"a","axis":"x"},{"sen'
+    cut2 = '{"feats":[{"sentence":"a","axis":"x"},'
+    ok_prose = 'Sure. Use {curly} braces. {"feats":[1,2]} done'
+    ok_fence = '```json\n{"a": {"b": 1}}\n```'
+    return (_deliberately_failing(lambda: CB._extract_json(cut)) is None
+            and _deliberately_failing(lambda: CB._extract_json(cut2)) is None
+            and _deliberately_failing(lambda: CB._extract_json(ok_prose)) == {"feats": [1, 2]}
+            and _deliberately_failing(lambda: CB._extract_json(ok_fence)) == {"a": {"b": 1}})
+
+
+def _net_b08_overwatch_retired_rereport():
+    # A finding retired because its file was edited must be re-filed when the model reports the
+    # same defect again, not skipped because the retired row holds the fingerprint.
+    import overwatch as O
+    import allsweep as A
+    td = tempfile.mkdtemp(prefix="net_b08_ow_")
+    real = (O.LEDGER, O.REPORT, O.SRC, O.structure, O.verify_open, O.review, A.modules)
+    try:
+        src = os.path.join(td, "src")
+        os.makedirs(src)
+        mod = os.path.join(src, "zz_mod.py")
+        with open(mod, "w", encoding="utf-8") as f:
+            f.write("def foo():\n    return 1\n")
+        O.LEDGER = os.path.join(td, "OVERWATCH.json")
+        O.REPORT = os.path.join(td, "WATCH.md")
+        O.SRC = src
+        O.structure = lambda deep=True: {}
+        O.verify_open = lambda *a, **k: (0, 0)
+        A.modules = lambda: ["zz_mod"]
+        find = {"symbol": "foo", "claim": "c", "actual": "returns a constant",
+                "severity": "high", "lines": [1, 2]}
+        O.review = lambda m, local=True: ([dict(find, module=m)], True)
+
+        def rnd():
+            import io
+            import contextlib
+            with contextlib.redirect_stdout(io.StringIO()):
+                _deliberately_failing(lambda: O.round_once(limit=1))
+            with open(O.LEDGER, encoding="utf-8") as f:
+                return json.load(f)["findings"]
+
+        first = rnd()
+        with open(mod, "a", encoding="utf-8") as f:
+            f.write("\n# unrelated edit\n")
+        second = rnd()
+        states = sorted(v.get("state") for v in second.values())
+        return (len(first) == 1 and list(first.values())[0]["state"] == "open"
+                and "open" in states and "retired" in states)
+    finally:
+        O.LEDGER, O.REPORT, O.SRC, O.structure, O.verify_open, O.review, A.modules = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b08_permanent_bare_code():
+    # A bare 401/402 inside a token count or a retry hint is not a dead key; real status wordings are.
+    import cascade_bridge as CB
+
+    def pr(s):
+        return _deliberately_failing(lambda: CB.permanent_refusal(s))
+    return (not pr("Limit 200000, Used 199599, Requested 401. try again in 6m51s")
+            and not pr("HTTP 429 too many requests, retry after 402")
+            and pr("HTTP 401 invalid api key")
+            and pr("HTTP 402 payment required")
+            and pr("401 Unauthorized")
+            and not pr("HTTP 429 rate limit reached"))
+
+
+def _net_b08_resync_entries_null():
+    # One record file with `"entries": null` must be counted unreadable, not crash the resync.
+    import io
+    import contextlib
+    import resync_roll as RR
+    td = tempfile.mkdtemp(prefix="net_b08_rr_")
+    real = (RR.ROLL, RR.RECORDS, sys.argv)
+    try:
+        recs = os.path.join(td, "records")
+        os.makedirs(recs)
+        rp = os.path.join(td, "SWEEP_ROLL.json")
+        with open(rp, "w", encoding="utf-8") as f:
+            json.dump([{"name": "Alpha", "entry_count": 0, "status": "uncatalogued"},
+                       {"name": "Bravo", "entry_count": 0, "status": "uncatalogued"}], f)
+        with open(os.path.join(recs, "alpha.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Alpha", "entries": None}, f)
+        with open(os.path.join(recs, "bravo.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Bravo", "entries": [{"name": "x"}]}, f)
+        RR.ROLL, RR.RECORDS = rp, recs
+        sys.argv = ["resync_roll.py", "--dry-run"]
+        buf = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(io.StringIO()):
+                _deliberately_failing(RR.main)
+        except TypeError:
+            return False
+        out = buf.getvalue()
+        return "alpha.json" in out and "Bravo" in out
+    finally:
+        RR.ROLL, RR.RECORDS, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b08_rosetta_check_none_scored():
+    # --check must exit nonzero when it scored no scale at all (an assay map matching nothing).
+    import io
+    import contextlib
+    import rosetta as R
+    td = tempfile.mkdtemp(prefix="net_b08_ro_")
+    real = (R.OUT, R.HERE, sys.argv)
+    try:
+        os.makedirs(os.path.join(td, "data"))
+        rp = os.path.join(td, "ROSETTA.json")
+        with open(rp, "w", encoding="utf-8") as f:
+            json.dump({"test-wiki": {"Scale": {"kind": "numeric", "values": {
+                "Alpha": 1, "Bravo": 2, "Charlie": 3, "Delta": 4, "Echo": 5}}}}, f)
+        with open(os.path.join(td, "data", "ASSAYS.json"), "w", encoding="utf-8") as f:
+            json.dump({"other-wiki|Zulu": {"result": {"decimal": 3.0}}}, f)
+        R.OUT, R.HERE = rp, td
+        sys.argv = ["rosetta.py", "--check"]
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc = R.main()
+        return rc == 1
+    finally:
+        R.OUT, R.HERE, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b08_rosetta_continue_loop():
+    # A wiki that answers the same `continue` for ever must not spin one query for ever.
+    import rosetta as R
+    calls = {}
+    real = R.F.api
+
+    def fake(host, params):
+        q = params["srsearch"]
+        calls[q] = calls.get(q, 0) + 1
+        if calls[q] > 20:
+            raise RuntimeError("net guard: runaway continue")
+        return {"query": {"search": []}, "continue": {"sroffset": 500, "continue": "-||"}}
+    try:
+        R.F.api = fake
+        errs = []
+        _deliberately_failing(lambda: R.scales_for("w.example", errors=errs))
+        return bool(calls) and max(calls.values()) <= 3 and not errs
+    finally:
+        R.F.api = real
+
+
+def _net_b08_rosetta_refine_empty():
+    # --refine must refuse, and leave ROSETTA.json alone, when the join keeps no row at all.
+    import io
+    import contextlib
+    import rosetta as R
+    td = tempfile.mkdtemp(prefix="net_b08_rf_")
+    real = (R.OUT, R.F.HOSTS, R.P.records, R._assert_not_halted, sys.argv)
+    try:
+        rp = os.path.join(td, "ROSETTA.json")
+        hp = os.path.join(td, "HOSTS.json")
+        body = {"w": {"Scale": {"kind": "numeric", "n": 4,
+                                "values": {"A": 1, "B": 10, "C": 100, "D": 1000}}}}
+        with open(rp, "w", encoding="utf-8") as f:
+            json.dump(body, f)
+        with open(hp, "w", encoding="utf-8") as f:
+            json.dump({"Src": "w"}, f)
+        R.OUT, R.F.HOSTS = rp, hp
+        R.P.records = lambda: []
+        R._assert_not_halted = lambda what: None
+        sys.argv = ["rosetta.py", "--refine"]
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc = R.main()
+        with open(rp, encoding="utf-8") as f:
+            still = json.load(f)
+        return rc == 1 and still == body
+    finally:
+        R.OUT, R.F.HOSTS, R.P.records, R._assert_not_halted, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b09_archive_same_minute():
+    """sweep68 batch 09, F10. Two triage archives in one minute keep both batches' counts.
+
+    `triage_swallowed` filed the archive under a minute key and wrote over it, so the second
+    archive in a minute erased the first batch, which had already been cleared from the live
+    ledger. foreman.HERE points at a scratch dir. The clock is NOT stubbed (run #68: a stdlib
+    stand-in is a site verify_math cannot resolve); a run that straddles a minute is retried.
+    """
+    import foreman as F
+    saved = F.HERE
+    for _attempt in range(3):
+        d = tempfile.mkdtemp(prefix="net_b09_archive_")
+        try:
+            os.makedirs(os.path.join(d, "state"))
+            F.HERE = d
+            minute = time.strftime("%Y-%m-%d %H:%M")
+            live = os.path.join(d, "state", "failures.json")
+            for batch in ({"a": 2}, {"a": 3, "b": 1}):
+                with open(live, "w", encoding="utf-8") as f:
+                    json.dump(batch, f)
+                ok, _why = F.triage_swallowed()
+                if not ok:
+                    return False
+            if time.strftime("%Y-%m-%d %H:%M") != minute:
+                continue
+            with open(os.path.join(d, "state", "failures_archive.json"), encoding="utf-8") as f:
+                arch = json.load(f)
+            return arch == {minute: {"a": 5, "b": 1}}
+        finally:
+            F.HERE = saved
+            shutil.rmtree(d, ignore_errors=True)
+    return False
+
+
+def _net_b09_backfill_symbol_name_key():
+    """sweep68 batch 09, F8. A punctuation-only name has a key, so backfill can see it is held.
+
+    `backfill._name_key` returned "" for a name with no alphanumerics; "" never enters `have`,
+    so such a member was "missing" and appended again on every backfill. Only a blank name may
+    be keyless. Pure function; nothing written.
+    """
+    import backfill as BF
+    k1, k2 = BF._name_key("?!"), BF._name_key("!?")
+    have = {BF._name_key(n) for n in ("?!", "Goku")} - {""}
+    missing = [t for t in ("?!", "Goku", "!?")
+               if not BF._name_key(t) or BF._name_key(t) not in have]
+    return (bool(k1) and k1 != k2 and BF._name_key("  ") == ""
+            and BF._name_key("東京") != "" and missing == ["!?"])
+
+
+def _net_b09_function_source_slice():
+    """sweep68 batch 09, F4. `_function_source` returns exactly the span `attempt_patch` replaces.
+
+    It sliced with `str.splitlines`, which also breaks on U+2028 (and U+0085, U+001C-U+001E, form
+    feed, vertical tab); `ast` and the writer's `f.readlines()` do not. A U+2028 inside a string
+    above the target shifted the slice, so the model was shown one body while another was
+    overwritten. Reads a scratch file only.
+    """
+    import foreman as F
+    d = tempfile.mkdtemp(prefix="net_b09_fsrc_")
+    try:
+        path = os.path.join(d, "m.py")
+        with open(path, "w", encoding="utf-8", newline="\n") as f:
+            f.write('X = "a b\x85c"\n\n\ndef f():\n    return 1\n\n\ndef g():\n    return 2\n')
+        body, start, end = F._function_source(path, "f")
+        if body is None:
+            return False
+        with open(path, encoding="utf-8") as f:
+            on_disk = "".join(f.readlines()[start:end])
+        return body == on_disk and body.startswith("def f():") and "return 1" in body
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b09_ledger_unreadable_refuses():
+    """sweep68 batch 09, F3. An unreadable restart ledger refuses the claim; only ABSENCE is empty.
+
+    `codewatch._read_ledger` answered {} on any exception, so a torn or transiently locked
+    CODEWATCH.json gave a job at its hourly budget a fresh restart AND the write-back erased every
+    other job's history. Ledger and lock are redirected to a scratch dir; restored in finally.
+    """
+    import codewatch as CW
+    d = tempfile.mkdtemp(prefix="net_b09_ledger_")
+    saved = (CW.LEDGER, CW.LEDGER_LOCK)
+    try:
+        CW.LEDGER = os.path.join(d, "CODEWATCH.json")
+        CW.LEDGER_LOCK = os.path.join(d, "CODEWATCH.lock")
+        # Absent is empty: the first restart is granted.
+        if CW._claim_restart_slot("__net_b09_absent__") != (True, 0):
+            return False
+        now = time.time()
+        full = {"__net_b09__": [now - 60 * i for i in range(1, CW.BUDGET_PER_HOUR + 1)],
+                "__net_b09_other__": [now - 30]}
+        torn = json.dumps(full)[:25]
+        with open(CW.LEDGER, "w", encoding="utf-8") as f:
+            f.write(torn)
+        granted, _used = _deliberately_failing(lambda: CW._claim_restart_slot("__net_b09__"))
+        if granted:
+            return False
+        with open(CW.LEDGER, encoding="utf-8") as f:
+            if f.read() != torn:          # nobody may rewrite a ledger it could not read
+                return False
+        # And a readable full ledger still refuses on budget, untouched otherwise.
+        with open(CW.LEDGER, "w", encoding="utf-8") as f:
+            json.dump(full, f)
+        granted, used = CW._claim_restart_slot("__net_b09__")
+        return (not granted) and used == CW.BUDGET_PER_HOUR
+    finally:
+        CW.LEDGER, CW.LEDGER_LOCK = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b09_navtree_parsed():
+    """sweep68 batch 09, F5. build_terminal refuses a NAVTREE it cannot parse, and says so.
+
+    The text was spliced into the page unread: an empty or torn NAVTREE.json wrote
+    `const DATA = ;`, replaced the last good terminal with a page that throws at load, and
+    exited 0. DATA and OUT are redirected to a scratch dir; argv and both paths restored.
+    """
+    import contextlib
+    import io
+    import build_terminal as BT
+    import escalation as ESC
+    d = tempfile.mkdtemp(prefix="net_b09_navtree_")
+    saved = (BT.DATA, BT.OUT, list(sys.argv), ESC.HALT_FILE)
+    try:
+        # HALT-INDEPENDENT: build_terminal asks the halt before it writes (sweep68 b09 Q2), so a
+        # standing live halt must not turn this parse net into a halt probe.
+        ESC.HALT_FILE = os.path.join(d, "no-halt-here.json")
+        BT.DATA = os.path.join(d, "NAVTREE.json")
+        BT.OUT = os.path.join(d, "out", "registry_terminal.html")
+        os.makedirs(os.path.dirname(BT.OUT))
+        sys.argv[:] = ["build_terminal.py"]
+        good = {"roots": ["0"], "nodes": {"0": {"k": "c", "na": "Root"}}}
+
+        def build(text):
+            with open(BT.DATA, "w", encoding="utf-8") as f:
+                f.write(text)
+            with contextlib.redirect_stdout(io.StringIO()):
+                return BT.main()
+
+        with open(BT.OUT, "w", encoding="utf-8") as f:
+            f.write("PREVIOUS GOOD PAGE")
+        for bad in ("", json.dumps(good)[:20], "<html>oops", "{}", '{"roots": [], "nodes": {}}'):
+            if _deliberately_failing(lambda: build(bad)) != 1:
+                return False
+            with open(BT.OUT, encoding="utf-8") as f:
+                if f.read() != "PREVIOUS GOOD PAGE":
+                    return False
+        if build(json.dumps(good)) != 0:
+            return False
+        with open(BT.OUT, encoding="utf-8") as f:
+            return '"roots"' in f.read()
+    finally:
+        BT.DATA, BT.OUT, sys.argv[:], ESC.HALT_FILE = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b09_only_empty_term():
+    """sweep68 batch 09, F11. `catalogue_web --only "Bleach,"` selects Bleach, not the whole roll.
+
+    The empty term after the trailing comma matched every name (`"" in name` is True). Driven
+    through `main --dry-run` with the roll, the scope test and the wiki resolver stood in for;
+    nothing is fetched or written. All restored.
+    """
+    import contextlib
+    import io
+    import catalogue_web as W
+    import roll as _R
+    resolved = []
+
+    def _resolve(name):
+        resolved.append(name)
+        return None, None
+
+    saved = (W.load_roll, _R.in_scope, W.ws.resolve_wiki, list(sys.argv))
+    try:
+        W.load_roll = lambda: [{"name": "Bleach", "entry_count": 0},
+                               {"name": "Naruto", "entry_count": 0},
+                               {"name": "One Piece", "entry_count": 0}]
+        _R.in_scope = lambda name, roll=None: True
+        W.ws.resolve_wiki = _resolve
+        sys.argv[:] = ["catalogue_web.py", "--dry-run", "--only", "Bleach,"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc = W.main()
+        return rc == 0 and resolved == ["Bleach"]
+    finally:
+        W.load_roll, _R.in_scope, W.ws.resolve_wiki, sys.argv[:] = saved
+
+
+def _net_b09_standing_jobs_are_ours():
+    """sweep68 batch 09, F1. The keeper's REAL command lines are this tree's processes.
+
+    `foreman._SCRIPT_RE` let the unquoted script prefix start at the INTERPRETER's drive letter
+    and run across the spaces to `src\\`, so every STANDING job -- launched as
+    `[PY, "-u", os.path.join(SRC, x)]` and listed by `_python_processes` through `list2cmdline`,
+    which quotes nothing without a space -- read as another tree's process. restart_reader,
+    kill_stalled_job and kill_duplicate_jobs then never matched a live job. The old net scripted
+    `"py" "<script>"` rows, a shape list2cmdline never produces here, so it could not go red.
+
+    The rows below are built from `overnight.STANDING` exactly as the keeper launches it, through
+    `list2cmdline`, under two interpreters (a space-free pythonw path, the live shape, and one
+    whose path has a space, so it is quoted). A copy of each job in a sandbox tree, with and
+    without a space in its path, must still be refused. `os.kill` is captured; nothing on the
+    machine is touched.
+    """
+    from subprocess import list2cmdline
+    import foreman as F
+    import overnight as O
+    import lognames as LN
+    interpreters = [os.path.join("C:" + os.sep, "Users", "someone", "miniconda3", "pythonw.exe"),
+                    os.path.join("C:" + os.sep, "Program Files", "Python312", "pythonw.exe")]
+    elsewhere = [os.path.join(tempfile.gettempdir(), "panscriptum_mutate_drill", "src"),
+                 os.path.join("C:" + os.sep, "Other Kit", "src")]
+    ours, foreign = [], []
+    for py in interpreters:
+        for name, args, _log in O.STANDING:
+            ours.append((name, list2cmdline([py, "-u"] + list(args))))
+            for tree in elsewhere:
+                moved = [os.path.join(tree, os.path.basename(args[0]))] + list(args[1:])
+                foreign.append((name, list2cmdline([py, "-u"] + moved)))
+    if not ours or any(F._foreign_tree(line) for _n, line in ours):
+        return False
+    if not all(F._foreign_tree(line) for _n, line in foreign):
+        return False
+
+    read_frag = LN.OWNER[LN.READ]
+    our_read = [line for _n, line in ours if read_frag in line]
+    their_read = [line for _n, line in foreign if read_frag in line]
+    if not our_read or not their_read:
+        return False
+
+    ended = []
+    saved = (F._python_processes, F.os.kill)
+    try:
+        F.os.kill = lambda pid, sig: ended.append(pid)
+        # restart_reader bounces OUR reader and leaves the sandbox's alone.
+        F._python_processes = lambda: [(201, our_read[0], "20260928010000"),
+                                       (202, their_read[0], "20260928000000")]
+        did, _why = F.restart_reader()
+        if not did or ended != [201]:
+            return False
+        # kill_duplicate_jobs: every dedupable STANDING job gets a newer twin from this tree and
+        # an OLDER copy in a sandbox tree. Only the twins may be ended.
+        del ended[:]
+        rows, twins, pid = [], [], 1000
+        for name, line in ours[:len(O.STANDING)]:
+            stem = F._SCRIPT_RE.search(line).group(2)
+            if stem in F.NEVER_DEDUPED:
+                continue
+            rows.append((pid, line, "20260928010000"))
+            rows.append((pid + 1, line, "20260928020000"))
+            twins.append(pid + 1)
+            other = next(fl for fn, fl in foreign if fn == name)
+            rows.append((pid + 2, other, "20260928000000"))
+            pid += 10
+        if not twins:
+            return False
+        F._python_processes = lambda: list(rows)
+        did, _why = F.kill_duplicate_jobs()
+        return bool(did) and sorted(ended) == sorted(twins)
+    finally:
+        F._python_processes, F.os.kill = saved
+
+
+def _net_b09_web_key_nonlatin():
+    """sweep68 batch 09, F2. `catalogue_web._dedup_fetch` fetches non-Latin titles, not drops them.
+
+    The dedup key stripped everything outside [a-z0-9], so a CJK or Cyrillic title keyed to ""
+    and was skipped before any counter saw it, and a macron folded `Okami` onto `Kami`. Fetch is
+    a stand-in; no network.
+    """
+    import catalogue_web as W
+    titles = ["東京", "ゴクウ", "Гоку", "Goku",
+              "Kami", "Ōkami", "?!", "Goku!"]
+    seen, deduped = {}, []
+    fetched, texts = W._dedup_fetch(titles, seen, deduped,
+                                    lambda ts: {t: "text of " + t for t in ts})
+    want = set(titles) - {"Goku!"}
+    return set(fetched) == want and deduped == [("Goku!", "Goku")] and set(texts) == want
+
+
+def _net_b10_cosgraph_halt():
+    # `cosmology_graph.py --write` must ask the halt before building or writing.
+    import cosmology_graph as CG
+    import escalation as ESC
+    saved = (ESC.assert_clear, CG.build_graph, sys.argv)
+    reached = []
+
+    def halted(who="?"):
+        raise ESC.SystemHalted("net: standing halt")
+
+    def build_reached(*a, **k):
+        reached.append(1)
+        raise RuntimeError("net: build_graph reached under a halt")
+    try:
+        ESC.assert_clear = halted
+        CG.build_graph = build_reached
+        sys.argv = ["cosmology_graph.py", "--write"]
+        try:
+            CG.main()
+        except ESC.SystemHalted:
+            return not reached
+        except BaseException:
+            return False
+        return False
+    finally:
+        ESC.assert_clear, CG.build_graph, sys.argv = saved
+
+
+def _net_b10_ensure_start_failed():
+    # A watchdog start that raises must be logged and returned, not raised out of the pythonw
+    # keeper with no trace.
+    import autostart as AU
+    td = tempfile.mkdtemp(prefix="net_b10_ens_")
+    saved = (AU.watchdog_up, AU.start_watchdog, AU.LOGDIR)
+
+    def boom():
+        raise FileNotFoundError("net: no interpreter")
+    try:
+        AU.LOGDIR = td
+        AU.watchdog_up = lambda: False
+        AU.start_watchdog = boom
+        try:
+            action = _deliberately_failing(lambda: AU.ensure())
+        except Exception:
+            return False
+        with open(os.path.join(td, "autostart.log"), encoding="utf-8") as f:
+            log = f.read()
+        return action != "start" and "COULD NOT" in log and "FileNotFoundError" in log
+    finally:
+        AU.watchdog_up, AU.start_watchdog, AU.LOGDIR = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b10_gpulane_fg_depth():
+    # foreground() nesting depth is this process's own fact: a stale/corrupt claim file for our
+    # PID must neither raise nor inflate the depth nor survive the exit.
+    import gpu_lane as GL
+    td = tempfile.mkdtemp(prefix="net_b10_gl_")
+    saved = GL.LANE
+    try:
+        GL.LANE = td
+        path = GL._claim_path()
+
+        def seed(depth):
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump({"pid": os.getpid(), "depth": depth, "label": "crashed",
+                           "heartbeat": 0}, f)
+
+        def run():
+            seed("abc")                       # corrupt depth from a previous incarnation
+            with GL.foreground("net"):
+                d1 = GL._read(path)["depth"]
+            gone1 = not os.path.exists(path)
+            seed(1)                           # stale claim of a crashed holder of this PID
+            with GL.foreground("net"):
+                d2 = GL._read(path)["depth"]
+            gone2 = not os.path.exists(path)
+            with GL.foreground("outer"):      # real nesting still refcounts
+                with GL.foreground("inner"):
+                    d3 = GL._read(path)["depth"]
+                d4 = GL._read(path)["depth"]
+            gone3 = not os.path.exists(path)
+            return d1 == 1 and gone1 and d2 == 1 and gone2 and d3 == 2 and d4 == 1 and gone3
+        try:
+            return bool(_deliberately_failing(run))
+        except Exception:
+            return False
+    finally:
+        GL.LANE = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b10_gpulane_status_badbeat():
+    # One slot file with a non-numeric heartbeat must cost its own age, not every later row.
+    import gpu_lane as GL
+    td = tempfile.mkdtemp(prefix="net_b10_gls_")
+    saved = GL.LANE
+    try:
+        GL.LANE = td
+        for n, beat in (("a", time.time()), ("b", "abc"), ("c", time.time())):
+            with open(os.path.join(td, "slot.%s.json" % n), "w", encoding="utf-8") as f:
+                json.dump({"pid": os.getpid(), "label": n, "heartbeat": beat}, f)
+        st = _deliberately_failing(lambda: GL.status())
+        return (sorted(r["label"] for r in st["slots"]) == ["a", "b", "c"]
+                and st["partial"] is False)
+    finally:
+        GL.LANE = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b10_halt_unreadable():
+    # A failed halt read must be reported as unreadable, not left None (which the page drew as
+    # "running -- no halt standing" in the OK colour).
+    import dashboard as D
+    import escalation as ESC
+    saved = ESC.status
+
+    def boom():
+        raise RuntimeError("net: escalation.status defect")
+    try:
+        ESC.status = boom
+        out = _deliberately_failing(lambda: D.safety())
+    finally:
+        ESC.status = saved
+    return (out.get("halted") is None and out.get("halt_unreadable") is True
+            and "halt_unreadable" in D.PAGE)
+
+
+def _net_b10_publish_skip_shape():
+    # The copier's skip must cover the backup shapes the commit's glob and the secret scan see.
+    import publish as P
+    must = ("x.py.pre-sweep", "x.py.pre_edit", "x.py.pre123", "x.BAK", "x.PYC", "x.py.Pre")
+    leave = ("x.py", "notes.md", "premise.md")
+    return all(P._is_skipped(n) for n in must) and not any(P._is_skipped(n) for n in leave)
+
+
+def _net_b10_uninstall_keeper_note():
+    # `--uninstall` removes only the launcher; it must say the keeper task still stands.
+    import io
+    import contextlib
+    import autostart as AU
+    saved = (AU.uninstall, sys.argv)
+    buf = io.StringIO()
+    try:
+        AU.uninstall = lambda: "removed"
+        sys.argv = ["autostart.py", "--uninstall"]
+        with contextlib.redirect_stdout(buf):
+            rc = _deliberately_failing(lambda: AU.main())
+    finally:
+        AU.uninstall, sys.argv = saved
+    out = buf.getvalue()
+    return rc == 0 and "--uninstall-task" in out
+
+
+def _net_b10_watch_unreadable():
+    # An unreadable OVERWATCH.json must not read as "0 open, 0 high" (which standards grades as
+    # HOLDING). A readable empty ledger must still read as zero.
+    import dashboard as D
+    td = tempfile.mkdtemp(prefix="net_b10_watch_")
+    saved = (D.DATA, D.STATE)
+    try:
+        D.DATA = td
+        D.STATE = td
+        p = os.path.join(td, "OVERWATCH.json")
+        absent = _deliberately_failing(lambda: D._watch())
+        with open(p, "w", encoding="utf-8") as f:
+            f.write('{"rounds": 3, "findings": {"a": {"state": "open", "severity": "high"')
+        torn = _deliberately_failing(lambda: D._watch())
+        with open(p, "w", encoding="utf-8") as f:
+            json.dump({"rounds": 3, "findings": {}}, f)
+        clean = _deliberately_failing(lambda: D._watch())
+        return (torn["high"] >= 1 and torn.get("unreadable") is True
+                and absent["high"] >= 1 and absent.get("unreadable") is True
+                and clean["high"] == 0 and clean["open"] == 0 and not clean.get("unreadable"))
+    finally:
+        D.DATA, D.STATE = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b11_chain_self_contest():
+    # chain.extract must not turn two names for ONE catalogued entity into a self-edge
+    # (rigor.bradley_terry aborts the whole fit on a == b). A real edge beside it must survive.
+    import types
+    import chain as CH
+    real = (CH._ask, CH.entity_index, sys.modules.get("tuning"))
+    try:
+        CH.entity_index = lambda: {CH.WI.norm("Ichigo"): "Ichigo Kurosaki",
+                                   CH.WI.norm("Ichigo Kurosaki"): "Ichigo Kurosaki",
+                                   CH.WI.norm("Renji"): "Renji"}
+        CH._ask = lambda system, prompt, schema: {"outcomes": [
+            {"index": 1, "winner": "Ichigo", "loser": "Ichigo Kurosaki"},
+            {"index": 2, "winner": "Ichigo Kurosaki", "loser": "Renji"}]}
+        fake = types.ModuleType("tuning")
+        fake.profile = lambda force=False: {"regime": "net", "why": "net"}
+        fake.workers = lambda n: 1
+        sys.modules["tuning"] = fake
+        rows = [{"entity": "E", "sentence": "s1", "page": "p", "host": "h", "continuity": None},
+                {"entity": "E", "sentence": "s2", "page": "p", "host": "h", "continuity": None}]
+        edges, _um, _pv = _deliberately_failing(lambda: CH.extract(rows, batch=2, workers=1))
+        return (not any(a == b for (a, b) in edges)) and len(edges) == 1
+    except Exception:
+        return False
+    finally:
+        CH._ask, CH.entity_index = real[0], real[1]
+        if real[2] is None:
+            sys.modules.pop("tuning", None)
+        else:
+            sys.modules["tuning"] = real[2]
+
+
+def _net_b11_chain_wrong_types():
+    # A model answer of the wrong TYPE (bare list, outcomes null, winner a number) must be skipped
+    # like every other malformation, not raised out of extract() and end the pass; the good chunk
+    # beside them must still land its edge.
+    import types
+    import chain as CH
+    real = (CH._ask, CH.entity_index, sys.modules.get("tuning"))
+    try:
+        CH.entity_index = lambda: {CH.WI.norm("Goku"): "Goku", CH.WI.norm("Vegeta"): "Vegeta"}
+        good = {"outcomes": [{"index": 1, "winner": "Goku", "loser": "Vegeta"}]}
+
+        def ask(system, prompt, schema):
+            if "s-list" in prompt:
+                return ["Goku beat Vegeta"]
+            if "s-null" in prompt:
+                return {"outcomes": None}
+            if "s-int" in prompt:
+                return {"outcomes": [{"index": 1, "winner": 5, "loser": "Vegeta"}]}
+            return good
+        CH._ask = ask
+        fake = types.ModuleType("tuning")
+        fake.profile = lambda force=False: {"regime": "net", "why": "net"}
+        fake.workers = lambda n: 1
+        sys.modules["tuning"] = fake
+        rows = [{"entity": "E", "sentence": s, "page": "p", "host": "h", "continuity": None}
+                for s in ("s-list", "s-null", "s-int", "s-good")]
+        edges, _um, _pv = _deliberately_failing(lambda: CH.extract(rows, batch=1, workers=1))
+        return len(edges) == 1 and sum(edges.values()) == 1
+    except Exception:
+        return False
+    finally:
+        CH._ask, CH.entity_index = real[0], real[1]
+        if real[2] is None:
+            sys.modules.pop("tuning", None)
+        else:
+            sys.modules["tuning"] = real[2]
+
+
+def _net_b11_identity_json_list():
+    # A model answer that is a JSON list (not text, not an object) must surface from
+    # epoch_of(strict=True) as ProbeUnavailable -- the one exception chain.adjudicate_mutuals
+    # catches -- not as a TypeError out of re.search that ends the whole chain pass.
+    import identity as ID
+    real = ID._ask
+    try:
+        ID._ask = lambda sentence, *a, **k: ["not", "an", "object"]
+        try:
+            _deliberately_failing(lambda: ID.epoch_of("Goku fought Vegeta in Age 762.", strict=True))
+        except ID.ProbeUnavailable:
+            return True
+        return False
+    except Exception:
+        return False
+    finally:
+        ID._ask = real
+
+
+def _net_b11_identity_refresh_rc():
+    # identity.py --refresh must exit nonzero when it refused or could not write (the supervisor
+    # tests only the rc), and zero when the whole-tree inventory really landed.
+    import identity as ID
+    import contextlib
+    import io
+    tmp = tempfile.mkdtemp()
+    real = (ID.CACHE, ID._feats_root, ID.mine, sys.argv)
+    try:
+        root = os.path.join(tmp, "feats")
+        os.makedirs(root)
+        ID.CACHE = os.path.join(tmp, "DESIGNATORS.json")
+        ID._feats_root = lambda r=None: root
+        sys.argv = ["identity.py", "--refresh"]
+
+        def run():
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                return _deliberately_failing(ID.main)
+        # (a) an empty mine over a populated cache is REFUSED: the disk copy does not move.
+        with open(ID.CACHE, "w", encoding="utf-8") as f:
+            json.dump({"h": {}}, f)
+        ID.mine = lambda root=None, hosts=None: {}
+        refused = run()
+        with open(ID.CACHE, encoding="utf-8") as f:
+            unchanged = json.load(f) == {"h": {}}
+        # (b) a real mine lands.
+        ID.mine = lambda root=None, hosts=None: {"h2": {}}
+        landed = run()
+        with open(ID.CACHE, encoding="utf-8") as f:
+            moved = json.load(f) == {"h2": {}}
+        return refused == 1 and unchanged and landed == 0 and moved
+    except Exception:
+        return False
+    finally:
+        ID.CACHE, ID._feats_root, ID.mine, sys.argv = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b11_overnight_identity_pause():
+    # The sixteen-minute identity re-mine must not start while the library is paused or halted
+    # (both are asked at the top of a lap, and a lap is hours); on a clear library it does start.
+    import overnight as ON
+    import identity as ID
+    import escalation as ESC
+    tmp = tempfile.mkdtemp()
+    real = (ID.CACHE, ESC.HALT_FILE, ON.library_paused, ON.subprocess.run, ON.log)
+    ran = []
+    try:
+        ID.CACHE = os.path.join(tmp, "DESIGNATORS_absent.json")    # absent: the age check passes
+        ESC.HALT_FILE = os.path.join(tmp, "HALT.json")
+        ON.log = lambda msg: None
+
+        class _R:
+            returncode = 0
+            stderr = ""
+        ON.subprocess.run = lambda *a, **k: ran.append(1) or _R()
+        ON.library_paused = lambda: (False, "")
+        _deliberately_failing(ON.identity_refresh_cycle)
+        clear_ran = len(ran)                                        # control: it does start
+        del ran[:]
+        ON.library_paused = lambda: (True, "the owner wants the machine")
+        _deliberately_failing(ON.identity_refresh_cycle)
+        paused_ran = len(ran)
+        ON.library_paused = lambda: (False, "")
+        with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+            json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                       "cleared": False}, f)
+        _deliberately_failing(ON.identity_refresh_cycle)
+        halted_ran = len(ran) - paused_ran
+        return clear_ran == 1 and paused_ran == 0 and halted_ran == 0
+    except Exception:
+        return False
+    finally:
+        ID.CACHE, ESC.HALT_FILE, ON.library_paused, ON.subprocess.run, ON.log = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b11_pick_model_model_line():
+    # save_config must replace ONLY the model: line -- a bare `model:` line must not swallow the
+    # next line of config.yaml (\s* crossed the newline), and CRLF line endings must survive.
+    import pick_model as PM
+    tmp = tempfile.mkdtemp()
+    real = PM.HERE
+    try:
+        PM.HERE = tmp
+        p = os.path.join(tmp, "config.yaml")
+        with open(p, "w", encoding="utf-8", newline="") as f:
+            f.write("model:\r\nembed_model: keepme\r\nother: 1\r\n")
+        ok = _deliberately_failing(lambda: PM.save_config({"model": "qwen3:8b"}))
+        with open(p, encoding="utf-8", newline="") as f:
+            got = f.read()
+        return ok is True and got == 'model: "qwen3:8b"\r\nembed_model: keepme\r\nother: 1\r\n'
+    except Exception:
+        return False
+    finally:
+        PM.HERE = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b11_pick_model_unmeasured_write():
+    # pick_model --write must NOT install a pick when VRAM is unmeasured (the GPU-only residency
+    # ruling was not enforced on it); with a measured card it still writes.
+    import pick_model as PM
+    import contextlib
+    import io
+    real = (PM.load_config, PM.list_installed_models, PM.total_vram_gb, PM.free_vram_gb,
+            PM.save_config, sys.argv)
+    saved = []
+    try:
+        PM.load_config = lambda: {"ollama_host": "http://x", "model": "old"}
+        PM.list_installed_models = lambda host: [
+            {"name": "qwen3:8b", "size": 5.2e9, "details": {"parameter_size": "8B"}},
+            {"name": "qwen3:30b-a3b-instruct-2507-q4_K_M", "size": 18.6e9,
+             "details": {"parameter_size": "30.5B"}}]
+        PM.free_vram_gb = lambda: None
+        PM.save_config = lambda cfg: saved.append(cfg["model"]) or True
+        sys.argv = ["pick_model.py", "--write"]
+
+        def run(total):
+            PM.total_vram_gb = lambda: total
+            del saved[:]
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                try:
+                    _deliberately_failing(PM.main)
+                except SystemExit:
+                    _ = "silence-exempt: probe: main() exits 1 on a refusal, which is the answer under test"
+            return list(saved)
+        unmeasured = run(None)
+        measured = run(10.74)
+        return unmeasured == [] and measured == ["qwen3:8b"]
+    except Exception:
+        return False
+    finally:
+        (PM.load_config, PM.list_installed_models, PM.total_vram_gb, PM.free_vram_gb,
+         PM.save_config, sys.argv) = real
+
+
+def _net_b11_prose_gate_axis_spellings():
+    # Layer 4b must refuse an axis score on an UNCITED entity whatever punctuation it is dressed
+    # in, and must still accept the honest "--" template line.
+    import prose_gate as PG
+
+    def block(line):
+        return ("◈ Uncited Person\n"
+                "Shelfmark: Omega > ? > ?\n"
+                "Class: Person\n"
+                "Magnitude: unassayed\n"
+                + line + "\n"
+                "Threads: pending\n")
+    scored = ["Wisdom: 28 (Transcendent, Grade III)", "**Wisdom:** 28", "Wisdom: ~28",
+              "Wisdom: about 28", "Wisdom (Perception): 28", "Wisdom - 28", "| Wisdom | 28 |",
+              "Wisdom： 28", "Strength = 24"]
+    try:
+        for line in scored:
+            if PG.unearned_instrument(block(line), set()) != ["Uncited Person"]:
+                print("   axis score not refused: %r" % line)
+                return False
+        # control: the template's honest ungrounded line has no number and must not be refused
+        if PG.unearned_instrument(block("Wisdom: --"), set()) != []:
+            return False
+        return True
+    except Exception:
+        return False
+
+
+def _net_b11_scout_answer_types():
+    # A model answer that is not the expected object must not raise out of scout() (a bare list),
+    # and a lone-string urls value is a real proposal that must be verified, not logged as
+    # "model proposed nothing".
+    import scout as SC
+    tmp = tempfile.mkdtemp()
+    real = (SC.BLOCKED, SC._ask, SC.verify)
+    seen = []
+    try:
+        SC.BLOCKED = os.path.join(tmp, "SCOUT_BLOCKED.json")
+        SC.verify = lambda url, names: seen.append(url) or {"ok": False, "url": url, "why": "stub"}
+        SC._ask = lambda prompt: (["https://example.org/a"], None)
+        r_list = _deliberately_failing(lambda: SC.scout("S", ["Alpha One", "Beta Two"], True))
+        SC._ask = lambda prompt: ({"urls": "https://example.org/b"}, None)
+        r_str = _deliberately_failing(lambda: SC.scout("S", ["Alpha One", "Beta Two"], True))
+        SC._ask = lambda prompt: ({"urls": 7}, None)
+        r_junk = _deliberately_failing(lambda: SC.scout("S", ["Alpha One", "Beta Two"], True))
+        return (seen == ["https://example.org/a", "https://example.org/b"]
+                and r_list.get("proposed") == 1 and r_str.get("proposed") == 1
+                and "not usable" in (r_junk.get("note") or ""))
+    except Exception:
+        return False
+    finally:
+        SC.BLOCKED, SC._ask, SC.verify = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b11_scout_halt_interlock():
+    # A hand-run scout.py must refuse under a standing halt BEFORE it scouts, stamps or writes
+    # anything; and must still run on a clear library.
+    import scout as SC
+    import escalation as ESC
+    tmp = tempfile.mkdtemp()
+    real = (ESC.HALT_FILE, SC.sweep, SC.scout, SC.hostless, sys.argv)
+    calls = []
+    try:
+        ESC.HALT_FILE = os.path.join(tmp, "HALT.json")
+        SC.sweep = lambda **k: calls.append("sweep")
+        SC.scout = lambda *a, **k: calls.append("scout") or {}
+        SC.hostless = lambda: calls.append("hostless") or {}
+        sys.argv = ["scout.py", "--dry"]
+        SC.main()                                   # clear library: it runs
+        if calls != ["sweep"]:
+            return False
+        del calls[:]
+        with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+            json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                       "cleared": False}, f)
+        if not ESC.status()[0]:
+            return False
+        try:
+            SC.main()
+        except ESC.SystemHalted:
+            return calls == []
+        return False
+    except Exception:
+        return False
+    finally:
+        ESC.HALT_FILE, SC.sweep, SC.scout, SC.hostless, sys.argv = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b11_scout_keeps_real_host():
+    # scout(register=True) on a source that already has a real wiki host must leave that host
+    # alone (feats reads a pages: value as "SOURCE_PAGES.json only"); a hostless source still
+    # adopts pages:<source>.
+    import scout as SC
+    import feats as F
+    import endpoint as EP
+    tmp = tempfile.mkdtemp()
+    real = (F.HOSTS, SC.BLOCKED, SC._ask, SC.verify, EP.register)
+    try:
+        F.HOSTS = os.path.join(tmp, "WIKI_HOSTS.json")
+        SC.BLOCKED = os.path.join(tmp, "SCOUT_BLOCKED.json")
+        with open(F.HOSTS, "w", encoding="utf-8") as f:
+            json.dump({"Has Wiki": "somewiki.fandom.com", "Hostless": ""}, f)
+        SC._ask = lambda prompt: ({"urls": ["https://example.org/p"]}, None)
+        SC.verify = lambda url, names: {"ok": True, "url": url, "code": 200, "why": "stub"}
+        EP.register = lambda source, urls: None
+        r1 = _deliberately_failing(lambda: SC.scout("Has Wiki", ["Alpha One", "Beta Two"], True))
+        r2 = _deliberately_failing(lambda: SC.scout("Hostless", ["Alpha One", "Beta Two"], True))
+        with open(F.HOSTS, encoding="utf-8") as f:
+            hosts = json.load(f)
+        return (hosts.get("Has Wiki") == "somewiki.fandom.com"
+                and r1.get("registered") is not True
+                and hosts.get("Hostless") == "pages:Hostless"
+                and r2.get("registered") is True)
+    except Exception:
+        return False
+    finally:
+        F.HOSTS, SC.BLOCKED, SC._ask, SC.verify, EP.register = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b12_address_tie_unassigned():
+    # address.spine_code_for: a target contained in two index names with DIFFERENT codes at equal
+    # evidence is ambiguous -> UNASSIGNED, not whichever the file listed first.
+    import address as A
+    real = A._load_spine_codes
+    try:
+        A._load_spine_codes = lambda: {"Dragon Ball": "II.A.1", "Dragon Age": "II.L.7",
+                                       "Halo": "II.F.4"}
+        return (A.spine_code_for("Dragon") == "UNASSIGNED"
+                and A.spine_code_for("Dragon Ball") == "II.A.1"
+                and A.spine_code_for("Halo") == "II.F.4")
+    finally:
+        A._load_spine_codes = real
+
+
+def _net_b12_assays_unreadable_refuses():
+    # magnitude.run_batch: an ASSAYS.json that exists but cannot be read must REFUSE the batch,
+    # never resume from {} and overwrite the settled records with this run's results.
+    import contextlib
+    import io
+    import types
+    import magnitude as M
+    tmp = tempfile.mkdtemp()
+    names = ("OUT", "queue", "assay_entity", "host_ceiling", "config", "pool_ready")
+    saved = {n: getattr(M, n) for n in names}
+    saved_tuning = sys.modules.get("tuning")
+    try:
+        out = os.path.join(tmp, "ASSAYS.json")
+        torn = '{"h|a": {"result": {"decimal": 3.2}}, "h|b": {"resu'
+        with open(out, "w", encoding="utf-8") as f:
+            f.write(torn)
+        M.OUT = out
+        M.queue = lambda host=None, limit=None: [("h", "c", 9)]
+        M.assay_entity = lambda *a, **k: {"result": {"decimal": 1.0}}
+        M.host_ceiling = lambda h: None
+        M.config = lambda: {}
+        M.pool_ready = lambda: False
+        sys.modules["tuning"] = types.ModuleType("tuning")
+        refused = False
+
+        def _go():
+            with contextlib.redirect_stdout(io.StringIO()):
+                M.run_batch(workers=1)
+        try:
+            _deliberately_failing(_go)
+        except SystemExit:
+            refused = True
+        with open(out, encoding="utf-8") as f:
+            intact = f.read() == torn
+        return refused and intact
+    finally:
+        for n, v in saved.items():
+            setattr(M, n, v)
+        if saved_tuning is None:
+            sys.modules.pop("tuning", None)
+        else:
+            sys.modules["tuning"] = saved_tuning
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b12_cite_short_line_contained():
+    # magnitude._resolve_citation: a long fabricated citation that merely CONTAINS a short mined
+    # heading must not resolve to it; the heading quoted whole still does.
+    import magnitude as M
+    mined = {1: "Speed", 2: "Goku destroyed a mountain range with a single blast of ki"}
+    hit, _why = M._resolve_citation(
+        "Goku moves at unbelievable speed across whole galaxies in seconds", mined)
+    ki, _why2 = M._resolve_citation(
+        "Goku killed everything in the whole universe instantly", {1: "Ki", 2: mined[2]})
+    exact, _why3 = M._resolve_citation("Speed", mined)
+    real, _why4 = M._resolve_citation(mined[2], mined)
+    return hit is None and ki is None and exact == 1 and real == 2
+
+
+def _net_b12_custodes_eta_nonfinite():
+    # custodes.convene: an eta that is not a finite fraction in [0, 1] is refused, never read as
+    # a measured, non-vetoing curl.
+    import custodes as CU
+    ks = dict(ruin=0.6, continuity=4.8, celerity=6.5, reach=1.2,
+              transgression=8.7, sustain=7.4, vector=0.8, volition=9.6)
+    for bad in (float("nan"), float("inf"), 1.7, -0.2):
+        try:
+            _deliberately_failing(lambda b=bad: CU.convene(
+                "M3", ks, attestation="Witnessed", worksheet="net", eta=b))
+            return False
+        except ValueError:
+            pass
+    ok = _deliberately_failing(lambda: CU.convene(
+        "M3", ks, attestation="Witnessed", worksheet="net", eta=0.99))
+    return ok.get("comparability_measured") is True
+
+
+def _net_b12_grounding_empty_write_refused():
+    # grounding.main --write: no readable record must refuse, never land {} over GROUNDINGS.json.
+    import contextlib
+    import io
+    import grounding as G
+    import pipeline as PL
+    import silence
+    tmp = tempfile.mkdtemp()
+    real = (PL.records, sys.argv, G.HERE, silence.write_json)
+    writes = []
+    try:
+        PL.records = lambda *a, **k: []
+        sys.argv = ["grounding.py", "--write"]
+        G.HERE = tmp
+        silence.write_json = lambda path, obj, **kw: writes.append(path) or True
+        with contextlib.redirect_stdout(io.StringIO()), \
+                contextlib.redirect_stderr(io.StringIO()):
+            rc = G.main()
+        return rc == 1 and writes == []
+    finally:
+        PL.records, sys.argv, G.HERE, silence.write_json = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b12_grounding_the_one_case():
+    # grounding: the emanation cue `the One` is the capitalised ground, not the pronoun "the one".
+    import grounding as G
+    prose = dict(G.classify_text("origin: it was the one who did it. the one that stayed."))
+    plotinus = dict(G.classify_text("origin: all things flowed out of the One in turn."))
+    return prose.get("emanation", 0) == 0 and plotinus.get("emanation", 0) >= 5
+
+
+def _net_b12_grounding_tie_contested():
+    # grounding.main: an exact two-way tie at the top (confidence 0.5) is listed as contested.
+    import contextlib
+    import io
+    import grounding as G
+    import pipeline as PL
+    real_records, real_argv = PL.records, sys.argv
+    rec = {"source": "Net Tie Source",
+           "entries": [{"name": "origin", "description":
+                        "origin outpouring outpouring and the weave and the weave"}]}
+    try:
+        PL.records = lambda *a, **k: [("x.json", rec)]
+        sys.argv = ["grounding.py"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = G.main()
+        text = buf.getvalue()
+        head, _sep, tail = text.partition("contested cosmogonies")
+        return (rc == 0 and G.classify_source(rec)["confidence"] == 0.5
+                and "Net Tie Source" in tail)
+    finally:
+        PL.records, sys.argv = real_records, real_argv
+
+
+def _net_b12_silence_rebound_handler_name():
+    # silence._handler_is_observed: a LATER `except ... as e:` rebinds `e`; its sink is not the
+    # first handler's observation.
+    import ast
+    import silence as S
+    src = (
+        "def f():\n"
+        "    try:\n"
+        "        a()\n"
+        "    except ValueError as e:\n"
+        "        if 'x' not in str(e):\n"
+        "            return False\n"
+        "    try:\n"
+        "        b()\n"
+        "    except KeyError as e:\n"
+        "        return str(e)\n"
+        "\n"
+        "def g():\n"
+        "    try:\n"
+        "        a()\n"
+        "    except ValueError as e:\n"
+        "        why = str(e)\n"
+        "    try:\n"
+        "        b()\n"
+        "    except KeyError:\n"
+        "        return why\n"
+    )
+    tree = ast.parse(src)
+    parents = S.build_parent_map(tree)
+    hs = [n for n in ast.walk(tree) if isinstance(n, ast.ExceptHandler)
+          and isinstance(n.type, ast.Name) and n.type.id == "ValueError"]
+    hs.sort(key=lambda n: n.lineno)
+    return (len(hs) == 2 and S._handler_is_observed(hs[0], parents) is False
+            and S._handler_is_observed(hs[1], parents) is True)
+
+
+def _net_b12_suppressions_unbounded_blanket():
+    # suppressions.problems: a hand-edited row that never expires, or a pattern that names no
+    # path, is reported -- the bounds are not enforced only at add().
+    import suppressions as S
+    tmp = tempfile.mkdtemp()
+    real = S.FILE
+    now = time.time()
+    try:
+        S.FILE = os.path.join(tmp, "SUPPRESSIONS.json")
+        rows = [{"detector": "net_a", "path": "src/suppressions.py", "reason": "net",
+                 "added_at": now, "expires_at": float("inf")},
+                {"detector": "net_b", "path": "src/suppressions.py", "reason": "net",
+                 "added_at": now, "expires_at": now + 4000 * 86400},
+                {"detector": "net_c", "path": "*", "reason": "net",
+                 "added_at": now, "expires_at": now + 10 * 86400},
+                {"detector": "net_d", "path": "src/suppressions.py", "reason": "net",
+                 "added_at": now, "expires_at": now + 10 * 86400}]
+        with open(S.FILE, "w", encoding="utf-8") as f:
+            json.dump(rows, f)
+        got = S.problems()
+        return (any(p.startswith("UNBOUNDED") and "net_a" in p for p in got)
+                and any(p.startswith("UNBOUNDED") and "net_b" in p for p in got)
+                and any(p.startswith("BLANKET") and "net_c" in p for p in got)
+                and not any("net_d" in p for p in got))
+    finally:
+        S.FILE = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b13_estate_zero_corrupt():
+    # A zero-byte `.corrupt` file is the tree's own kept-evidence name (health.py preserves a torn
+    # ledger there, and an interrupted flush leaves 0 bytes); it must not be graded a fault.
+    import estate as E
+    td = tempfile.mkdtemp(prefix="net_b13_es_")
+    try:
+        p = os.path.join(td, "failures.json.corrupt")
+        open(p, "w").close()
+        q = os.path.join(td, "failures.json")
+        open(q, "w").close()
+        # a plain zero-byte .json is still a fault: the exemption is only for the kept copy
+        return not E.inspect(p).get("error") and E.inspect(q).get("error") == "zero bytes"
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_genre_shrink_refused():
+    # genre.py --write must refuse (rc 1, file untouched) when a source the standing GENRES.json
+    # classified is missing from this run (a skipped/unreadable record), instead of publishing a
+    # smaller file with rc 0.
+    import io
+    import contextlib
+    import genre as G
+    td = tempfile.mkdtemp(prefix="net_b13_gn_")
+    real = (G.HERE, G._project_pipeline, sys.argv, G._assert_not_halted)
+    try:
+        os.makedirs(os.path.join(td, "data"))
+        gp = os.path.join(td, "data", "GENRES.json")
+        prior = {"Gone": {"genre": "classical"}, "AlsoGone": {"genre": "classical"}}
+        with open(gp, "w", encoding="utf-8") as f:
+            json.dump(prior, f)
+
+        class _PL:
+            @staticmethod
+            def records():
+                return iter(())
+        G.HERE = td
+        G._project_pipeline = lambda: _PL
+        G._assert_not_halted = lambda what: True    # a standing halt must not mask this net
+        sys.argv = ["genre.py", "--write"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(io.StringIO()):
+            rc = _deliberately_failing(G.main)
+        with open(gp, encoding="utf-8") as f:
+            after = json.load(f)
+        said = buf.getvalue()
+        return rc == 1 and after == prior and "Gone" in said and "AlsoGone" in said
+    finally:
+        G.HERE, G._project_pipeline, sys.argv, G._assert_not_halted = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_health_drill_sample():
+    # A rehearsal key's COUNT goes to the rehearsal ledger; its SAMPLE must not land in the
+    # evidence ring that is flushed to state/failure_samples.json (where real faults are read).
+    import health as H
+    key = "__drill_net_b13__"
+    real_s = {k: list(v) for k, v in H._SAMPLES.items()}
+    real_self = dict(H._SELFTEST)
+    try:
+        _REAL_RECORD(key, sample="rehearsal sample")
+        _REAL_RECORD("net_b13_real", sample="real sample")
+        ok = key not in H._SAMPLES and "net_b13_real" in H._SAMPLES
+        return ok and H._SELFTEST.get(key) == real_self.get(key, 0) + 1
+    finally:
+        H._SAMPLES.clear()
+        H._SAMPLES.update(real_s)
+        H._SELFTEST.clear()
+        H._SELFTEST.update(real_self)
+        for _k in ("net_b13_real", key):
+            H.LEDGER.pop(_k, None)
+
+
+def _net_b13_health_second_wreck():
+    # A second torn ledger must not destroy the first `.corrupt`: the wreck is "the only copy of
+    # whatever tore it". Drives the real flush path twice against a scratch ledger.
+    import health as H
+    td = tempfile.mkdtemp(prefix="net_b13_hw_")
+    real = (H.LEDGER_PATH, dict(H.LEDGER))
+    try:
+        path = os.path.join(td, "failures.json")
+        H.LEDGER_PATH = path
+        H.LEDGER.clear()
+        for torn in ("{torn-one", "{torn-two"):
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(torn)
+            H.LEDGER["net_b13:x"] += 1
+            _deliberately_failing(_REAL_FLUSH)   # the ledger path is scratch; bypass the witness spy
+        bodies = []
+        for name in os.listdir(td):
+            if name.endswith(".corrupt"):
+                with open(os.path.join(td, name), encoding="utf-8") as f:
+                    bodies.append(f.read())
+        return sorted(bodies) == ["{torn-one", "{torn-two"]
+    finally:
+        H.LEDGER_PATH = real[0]
+        H.LEDGER.clear()
+        H.LEDGER.update(real[1])
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_health_synthesis_one_pass():
+    # check_state() must not re-read the whole corpus once per failed-synthesis source: the number
+    # of P.records() passes must not grow with the number of failed sources (K), and the stale
+    # count must still be right.
+    import health as H
+    import pipeline as P
+    td = tempfile.mkdtemp(prefix="net_b13_hs_")
+    real = (H.HERE, P.records)
+    calls = [0]
+
+    def _records():
+        calls[0] += 1
+        return iter([("f", {"source": "A", "entries": [], "synthesis": {"ceiling_entity": "x"}}),
+                     ("f", {"source": "B", "entries": [], "synthesis": {}}),
+                     ("f", {"source": "C", "entries": []})])
+    try:
+        os.makedirs(os.path.join(td, "state"))
+        H.HERE = td
+        P.records = _records
+
+        def _run(failed):
+            with open(os.path.join(td, "state", "PIPELINE_STATE.json"), "w", encoding="utf-8") as f:
+                json.dump({"failed": {"synthesis": {s: 1 for s in failed}}}, f)
+            calls[0] = 0
+            out = _deliberately_failing(H.check_state)
+            return calls[0], out
+        n1, out1 = _run(["A"])
+        n3, out3 = _run(["A", "B", "C"])
+        stale = [v for k, v in out3 if k == "failures recorded that already succeeded"]
+        return n1 == n3 and stale == ["1"]
+    finally:
+        H.HERE, P.records = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_module_index_denied_tmp():
+    # A denied replace must not leave its pid+thread-named temp file behind (each denied run
+    # added another to handoff/).
+    import io
+    import contextlib
+    import module_index as MI
+    import silence
+    td = tempfile.mkdtemp(prefix="net_b13_mi_")
+    real = (MI.OUT, silence.replace_retry, sys.argv)
+    try:
+        MI.OUT = os.path.join(td, "MODULE_INDEX.md")
+        silence.replace_retry = lambda *a, **k: False
+        sys.argv = ["module_index.py"]
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc = _deliberately_failing(MI.main)
+        return rc == 1 and os.listdir(td) == []
+    finally:
+        MI.OUT, silence.replace_retry, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_moth_decimal_agree():
+    # The stored `decimal` and the printed Moth Number must be the SAME number. They were rounded
+    # by two rules (round(x, 2) vs round(x * 100)) and disagreed on ties, e.g. ruin=0.25 -> 0.03
+    # stored but "M0.02" printed.
+    import assay as A
+    bad = 0
+    n = 0
+    for anchor in ("M0", "M3", "M5"):
+        for r in (0.05, 0.25, 0.35, 0.45, 1.15, 2.15, 2.25, 4.05, 6.35, 8.65):
+            a = A.assay(anchor, {"ruin": r}, worksheet="net_b13")
+            n += 1
+            want = "%s.%02d" % (a["magnitude"], round(a["decimal"] * 100))
+            if want not in a["moth_number"]:
+                bad += 1
+    return n > 0 and bad == 0
+
+
+def _net_b13_propagation_unknown_shelf():
+    # --from/--to with a name that is not in the graph must say NOT IN GRAPH, not report the
+    # library as DISCONNECTED (a finding about the library from a typo).
+    import io
+    import contextlib
+    import propagation as PR
+    real = (PR.load_graph, sys.argv)
+    try:
+        PR.load_graph = lambda: {"A": {"B": 1.0}, "B": {"A": 1.0}}
+        sys.argv = ["propagation.py", "--from", "Marvle", "--to", "A"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = PR.main()
+        out = buf.getvalue()
+        return rc == 1 and "NOT IN GRAPH" in out and "Marvle" in out and "DISCONNECTED" not in out
+    finally:
+        PR.load_graph, sys.argv = real
+
+
+def _net_b13_tiers_empty_groundings():
+    # A parseable-but-empty GROUNDINGS.json must read as NOT readable, so tiers.main() refuses to
+    # publish an all-'ungrounded' TIERS.json over a good one.
+    import tiers as T
+    td = tempfile.mkdtemp(prefix="net_b13_tg_")
+    real = T.HERE
+    try:
+        os.makedirs(os.path.join(td, "data"))
+        gp = os.path.join(td, "data", "GROUNDINGS.json")
+        T.HERE = td
+        results = []
+        for body in ("{}", "[]", "null"):
+            with open(gp, "w", encoding="utf-8") as f:
+                f.write(body)
+            doc, ok = _deliberately_failing(T._load_groundings)
+            results.append(ok is False)
+        with open(gp, "w", encoding="utf-8") as f:
+            json.dump({"Src": {"hyperverse": 1}}, f)
+        doc, ok = T._load_groundings()
+        return all(results) and ok is True and "Src" in doc
+    finally:
+        T.HERE = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b14_built_at_start():
+    # A record rewritten AFTER rebuild() read it must make freshness() say stale.
+    import corpus_db as C
+    import address as A
+    tmp = tempfile.mkdtemp()
+    real = (C.HERE, C.DB, A.spine_code_for)
+    try:
+        os.makedirs(os.path.join(tmp, "data", "records"))
+        rp = os.path.join(tmp, "data", "records", "a.json")
+        with open(rp, "w", encoding="utf-8") as f:
+            json.dump({"source": "Alpha", "entries": [{"name": "x", "category": "Persons"}]}, f)
+        old = time.time() - 3600
+        os.utime(rp, (old, old))
+        C.HERE = tmp
+        C.DB = os.path.join(tmp, "state", "corpus.db")
+
+        def hook(src):
+            # the record changes while the rebuild is still running, after it was read
+            time.sleep(0.05)
+            with open(rp, "w", encoding="utf-8") as f:
+                json.dump({"source": "Alpha", "entries": [{"name": "x"}, {"name": "y"}]}, f)
+            return "UNASSIGNED"
+        A.spine_code_for = hook
+        _deliberately_failing(lambda: C.rebuild(include_evidence=False))
+        time.sleep(0.05)
+        fr = _deliberately_failing(C.freshness)
+        return fr.get("stale") is True and fr.get("newer_records", 0) >= 1
+    finally:
+        C.HERE, C.DB, A.spine_code_for = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_corpus_entry_shape():
+    # drift() must count only dict entries as rebuild() does, and rebuild() must survive an odd
+    # evidence field by naming the file rather than aborting.
+    import corpus_db as C
+    tmp = tempfile.mkdtemp()
+    real = (C.HERE, C.DB)
+    try:
+        os.makedirs(os.path.join(tmp, "data", "records"))
+        os.makedirs(os.path.join(tmp, "data", "feats", "Alpha"))
+        with open(os.path.join(tmp, "data", "records", "a.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Alpha", "entries": [{"name": "x"}, "stray", None]}, f)
+        with open(os.path.join(tmp, "data", "feats", "Alpha", "bad.json"), "w", encoding="utf-8") as f:
+            json.dump({"entity": "x", "chars_read": "12.5", "provenance": ["a"]}, f)
+        C.HERE = tmp
+        C.DB = os.path.join(tmp, "state", "corpus.db")
+        try:
+            _deliberately_failing(lambda: C.rebuild())
+        except Exception:
+            return False
+        idx, rl, gap, unread = _deliberately_failing(C.drift)
+        return idx == 1 and rl == 1 and gap == 0
+    finally:
+        C.HERE, C.DB = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_halt_unreadable_preserved():
+    # Landing a second halt over a persistently CORRUPT HALT.json must not destroy the original.
+    import escalation as ESC
+    tmp = tempfile.mkdtemp()
+    real = ESC.HALT_FILE
+    try:
+        ESC.HALT_FILE = os.path.join(tmp, "HALT.json")
+        torn = '{"code": "LEDGER_CORRUPT", "what": "ledger torn", "raised_at": 1.5, "cle'
+        with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+            f.write(torn)
+        import silence
+        rec = {"code": "SECOND_FAULT", "what": "another fault", "at": time.time()}
+        landed, why = _deliberately_failing(
+            lambda: ESC._land_halt(rec, silence.digest_of(ESC.HALT_FILE)))
+        if not landed:
+            return False
+        kept = [n for n in os.listdir(tmp) if ".unreadable-" in n]
+        if len(kept) != 1:
+            return False
+        with open(os.path.join(tmp, kept[0]), encoding="utf-8") as f:
+            if f.read() != torn:
+                return False
+        halted, cur = ESC.status()
+        return (halted and any(x.get("code") == "SECOND_FAULT" for x in cur.get("also", []))
+                and cur.get("preserved_as") == kept[0] and "unreadable" not in cur)
+    finally:
+        ESC.HALT_FILE = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_ingest_cursor_reextract():
+    # Re-extracting a DIFFERENT text must set the old resume cursor aside; the same text keeps it.
+    import contextlib
+    import io
+    import ingest_doc as ID
+    tmp = tempfile.mkdtemp()
+    real_docs = ID.DOCS
+    real_fitz = sys.modules.get("fitz")
+
+    class _Page(object):
+        def __init__(self, t):
+            self.t = t
+
+        def get_text(self):
+            return self.t
+
+    class _Fitz(object):
+        pages = []
+
+        @staticmethod
+        def open(path):
+            return list(_Fitz.pages)
+    try:
+        ID.DOCS = tmp
+        sys.modules["fitz"] = _Fitz
+        d = os.path.join(tmp, ID.slug("Book"))
+        cur = os.path.join(d, "ingest_state.json")
+        _Fitz.pages = [_Page("first edition text")]
+        with contextlib.redirect_stdout(io.StringIO()):
+            _deliberately_failing(lambda: ID.extract("x.pdf", "Book"))
+        with open(cur, "w", encoding="utf-8") as f:
+            json.dump({"next": 20, "found": 5}, f)
+        # the same text again: the cursor still applies
+        with contextlib.redirect_stdout(io.StringIO()):
+            _deliberately_failing(lambda: ID.extract("x.pdf", "Book"))
+        kept = os.path.exists(cur)
+        # a corrected edition: the cursor belongs to the old book
+        _Fitz.pages = [_Page("second edition text, longer")]
+        with contextlib.redirect_stdout(io.StringIO()):
+            _deliberately_failing(lambda: ID.extract("x.pdf", "Book"))
+        aside = [n for n in os.listdir(d) if n.startswith("ingest_state.json.superseded-")]
+        return kept and not os.path.exists(cur) and len(aside) == 1
+    finally:
+        ID.DOCS = real_docs
+        if real_fitz is None:
+            sys.modules.pop("fitz", None)
+        else:
+            sys.modules["fitz"] = real_fitz
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_pause_hours():
+    # pause() must refuse zero, negative and non-finite hours instead of writing a pause that is
+    # indefinite (0) or already expired (negative).
+    import escalation as ESC
+    tmp = tempfile.mkdtemp()
+    real = (ESC.PAUSE_FILE, ESC.escalate)
+    try:
+        ESC.PAUSE_FILE = os.path.join(tmp, "PAUSED.json")
+        ESC.escalate = lambda *a, **k: None
+        for bad in (0, -2, float("nan"), float("inf")):
+            try:
+                _deliberately_failing(lambda: ESC.pause("net", hours=bad, by="net"))
+                return False
+            except ValueError:
+                pass
+            if os.path.exists(ESC.PAUSE_FILE):
+                return False
+        landed, rec = _deliberately_failing(lambda: ESC.pause("net", hours=1.5, by="net"))
+        if not (landed and rec["until"] and 5300 < rec["until"] - time.time() < 5500):
+            return False
+        landed, rec = _deliberately_failing(lambda: ESC.pause("net", by="net"))
+        return landed and rec["until"] is None
+    finally:
+        ESC.PAUSE_FILE, ESC.escalate = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_retry_selectors():
+    # `--only` with no names and `--smallest` <= 0 must be refused (rc 2), not widen to everything.
+    import io
+    import contextlib
+    import retry_synthesis as RS
+    real = (RS._assert_not_halted, list(sys.argv))
+
+    def reached(what):
+        raise RuntimeError("run started")
+    try:
+        RS._assert_not_halted = reached
+        rcs = []
+        for argv in (["--only"], ["--smallest", "0"], ["--smallest", "-3"]):
+            sys.argv = ["retry_synthesis.py"] + argv
+            try:
+                with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                    rcs.append(_deliberately_failing(RS.main))
+            except RuntimeError:
+                rcs.append("ran")
+        return rcs == [2, 2, 2]
+    finally:
+        RS._assert_not_halted, sys.argv[:] = real
+
+
+def _net_b14_stopped_row_shape():
+    # A present-but-malformed STOPPED.json row must read STOPPED for every shape, and an absent
+    # subsystem must still read not stopped.
+    import escalation as ESC
+    tmp = tempfile.mkdtemp()
+    real = ESC.STOPPED
+    try:
+        ESC.STOPPED = os.path.join(tmp, "STOPPED.json")
+        with open(ESC.STOPPED, "w", encoding="utf-8") as f:
+            json.dump({"a": None, "b": "", "c": {}, "d": False, "e": [], "f": "x",
+                       "g": {"reason": "why", "by": "me"}}, f)
+        def ask(n):
+            try:
+                return _deliberately_failing(lambda: ESC.subsystem_stopped(n))[0]
+            except Exception:
+                return None
+        held = {n: ask(n) for n in "abcdefgz"}
+        return (all(held[n] is True for n in "abcdefg") and held["z"] is False)
+    finally:
+        ESC.STOPPED = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_torn_record_refuse():
+    # sweep.py main and worldseed --write must refuse when a record cannot be read, instead of
+    # landing a whole-library file that silently lacks that source.
+    import io
+    import contextlib
+    import worldseed as WS
+    import sweep as S
+    import corpus_db as C
+    tmp = tempfile.mkdtemp()
+    real = (WS.HERE, WS.build_all, C.HERE, S.sweep, S.report, S.OUT, list(sys.argv),
+            S._assert_not_halted, WS._assert_not_halted)
+    try:
+        os.makedirs(os.path.join(tmp, "data", "records"))
+        with open(os.path.join(tmp, "data", "records", "good.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Good", "entries": [{"name": "a"}]}, f)
+        with open(os.path.join(tmp, "data", "records", "marvel.json"), "w", encoding="utf-8") as f:
+            f.write('{"source": "Marvel", "entries": [{"na')
+        WS.HERE = tmp
+        C.HERE = tmp
+        S._assert_not_halted = WS._assert_not_halted = lambda what: None    # the halt is another net's
+        WS.build_all = lambda limit=None: []
+        S.sweep = lambda: []
+        S.report = lambda *a, **k: None
+        S.OUT = os.path.join(tmp, "data", "CHARACTER_SWEEP.json")
+        wdest = os.path.join(tmp, "data", "WORLDSEEDS.json")
+        quiet = (contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()))
+        sys.argv = ["worldseed.py", "--write"]
+        with quiet[0], quiet[1]:
+            rc_w = _deliberately_failing(WS.main)
+        sys.argv = ["sweep.py"]
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc_s = _deliberately_failing(S.main)
+        if rc_w != 1 or rc_s != 1 or os.path.exists(wdest) or os.path.exists(S.OUT):
+            return False
+        os.remove(os.path.join(tmp, "data", "records", "marvel.json"))
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc_s = _deliberately_failing(S.main)
+        return rc_s == 0 and os.path.exists(S.OUT)
+    finally:
+        (WS.HERE, WS.build_all, C.HERE, S.sweep, S.report, S.OUT, sys.argv[:],
+         S._assert_not_halted, WS._assert_not_halted) = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_worldseed_stems():
+    # Whole words must not be tagged ATTESTED by a stem match; genuine words still are.
+    import worldseed as WS
+
+    def attested(name, desc, axis):
+        return WS.features(name, desc, 1)["_provenance"][axis] == "attested"
+    if attested("Cragmaw Hideout", "", "landform"):
+        return False
+    if attested("Goldenrod", "", "condition") or attested("Capitalist Bloc", "", "condition"):
+        return False
+    if attested("Engineer Guild", "", "tech"):
+        return False
+    return (attested("Mount Vale", "a range of mountains", "landform")
+            and attested("Vale", "the capital city", "condition")
+            and attested("Vale", "an engine works", "tech"))
+
+
+def _net_b14_worldseed_write_inputs():
+    # `worldseed --write` must not replace a good roster when its inputs were not read.
+    import io
+    import contextlib
+    import worldseed as WS
+    import corpus_db as C
+    tmp = tempfile.mkdtemp()
+    real = (WS.HERE, WS.build_all, C.HERE, list(sys.argv), WS._assert_not_halted)
+    dest = os.path.join(tmp, "data", "WORLDSEEDS.json")
+    try:
+        os.makedirs(os.path.join(tmp, "data", "records"))
+        WS.HERE = tmp
+        C.HERE = tmp
+        WS._assert_not_halted = lambda what: None
+        with open(dest, "w", encoding="utf-8") as f:
+            f.write('{"prior": 1}')
+
+        def fake(limit=None):
+            WS.LAST_BUILD.update({"onomasticon": "unread", "continuity_groups": "unread"})
+            return []
+        WS.build_all = fake
+        sys.argv = ["worldseed.py", "--write"]
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc = _deliberately_failing(WS.main)
+        with open(dest, encoding="utf-8") as f:
+            kept = f.read() == '{"prior": 1}'
+        if rc != 1 or not kept:
+            return False
+
+        def fine(limit=None):
+            WS.LAST_BUILD.update({"onomasticon": "ok", "continuity_groups": "ok"})
+            return []
+        WS.build_all = fine
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            rc = _deliberately_failing(WS.main)
+        return rc == 0
+    finally:
+        WS.HERE, WS.build_all, C.HERE, sys.argv[:], WS._assert_not_halted = real
+        WS.LAST_BUILD.update({"onomasticon": "ok", "continuity_groups": "ok"})
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b15_audit_struck_entries():
+    # An entry the cleanup pass already struck (`excluded` / `stale_since`) is out of the
+    # library and must not be counted by the invariants backscan; a live one still is.
+    import audit as AU
+    struck_junk = {"name": "Category:Foo", "catalogued": True, "excluded": "junk",
+                   "description": ""}
+    stale_empty = {"name": "Real Name", "catalogued": True, "stale_since": "2026-09-01",
+                   "description": ""}
+    live_empty = {"name": "Other Name", "catalogued": True, "description": ""}
+    recs = [("x.json", {"source": "S", "entries": [struck_junk, stale_empty, live_empty]})]
+    fails, stats = AU.audit_invariants(recs)
+    empties = fails.get("entry: empty description", [])
+    return (empties == ["S/Other Name"]
+            and not fails.get("entry: wiki navigation artefact, not an entity")
+            and stats["entries_catalogued"] == 1)
+
+
+def _net_b15_coverage_unreadable_file():
+    # An evidence file that EXISTS but cannot be parsed is a defect of ours (UNREACHABLE), not
+    # "nothing has ever fetched this" (NOT ATTEMPTED); and a non-object transport stamp must not
+    # abort measure().
+    import coverage as CV
+    d = tempfile.mkdtemp(prefix="drill_cov_unreadable_")
+    try:
+        fp = os.path.join(d, "torn.json")
+        with open(fp, "w", encoding="utf-8") as f:
+            f.write("{torn")
+        cache = {}
+        got = _deliberately_failing(lambda: CV._state_of_file(fp, "Some Name", cache))
+        if not got or got[0] != "UNREACHABLE" or cache:
+            return False                              # and never memoised
+        return CV._empty_state({"mined_under": {"transport": "timeout"}}) == "UNREACHABLE"
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b15_generate_foreign_catalog_row():
+    # A catalog row written for another source must not be overwritten by a job at the same
+    # address, whichever manifest brought it, and main() must ask the question.
+    import generate as G
+    def _main_src(mod):
+        import ast
+        text = open(os.path.join(_srcdir(), mod + ".py"), encoding="utf-8").read()
+        for n in ast.parse(text).body:
+            if isinstance(n, ast.FunctionDef) and n.name == "main":
+                return ast.get_source_segment(text, n) or ""
+        return ""
+
+    fn = getattr(G, "claimed_by_other_source", None)
+    if fn is None:
+        return False
+    job = {"source_name": "B", "address": "II.P.1/Persons"}
+    if not fn({"source_name": "A", "recipe_hash": "x"}, job):
+        return False                                   # another source's row: held
+    if fn({"source_name": "B", "recipe_hash": "x"}, job) or fn({}, job) or fn(None, job):
+        return False                                   # own row, no row: not held
+    if fn({"recipe_hash": "x"}, job):
+        return False                                   # an old row with no owner claims nothing
+    return "claimed_by_other_source(" in _main_src("generate")
+
+
+def _net_b15_generate_held_sources_noted():
+    # Sources held at a shared address were recorded on stdout only. The hold must reach the
+    # silence ledger too: a note inside the `if shared_addr:` block of main().
+    def _main_src(mod):
+        import ast
+        text = open(os.path.join(_srcdir(), mod + ".py"), encoding="utf-8").read()
+        for n in ast.parse(text).body:
+            if isinstance(n, ast.FunctionDef) and n.name == "main":
+                return ast.get_source_segment(text, n) or ""
+        return ""
+
+    src = _main_src("generate")
+    i = src.find("if shared_addr:")
+    j = src.find("catalog = load_json(", i)
+    if i < 0 or j < 0:
+        return False
+    return "generate.py:address-held" in src[i:j] and "silence.note(" in src[i:j]
+
+
+def _net_b15_generate_retry_recovers_omission():
+    # A corrective retry that restores an omitted entry must not leave the chapter refused for
+    # that omission: `lacking` has to be judged against the text that is kept.
+    import generate as G
+
+    def block(name):
+        return ("◈ %s\nShelfmark: Ω › ? › ? › UNCHARTED\nClass: World\nMagnitude: unassayed\n"
+                "Attestation: Transcribed\n\nRecord. %s is a place written of at length by the "
+                "chroniclers of the age, who set down its roads, its walls, its markets and the "
+                "long disputes over its keeping, in plain and careful words.\n" % (name, name))
+
+    full = block("Alpha Prime") + "\n" + block("Beta Second")
+    half = block("Alpha Prime")
+    calls = []
+
+    def fake(cfg, system, user, job_type="chapter"):
+        calls.append(1)
+        # first attempt and the missing-names retry omit Beta; the corrective retry writes both
+        return half if len(calls) <= 2 else full
+
+    job = {"type": "chapter", "source_name": "Zzz Test Source", "spine_code": "X.1",
+           "chapter_label": "Places", "address": "X.1/Places", "page_range": None,
+           "entries": [{"name": "Alpha Prime", "category": "Places", "description": "d"},
+                       {"name": "Beta Second", "category": "Places", "description": "d"}],
+           "source_context": {}}
+    tpl = "{source_name}{spine_code}{chapter_label}{address}{source_context}{entries_json}"
+    saved = G.call_ollama
+    try:
+        G.call_ollama = fake
+        try:
+            out = _deliberately_failing(lambda: G.generate_job({}, "sys", job, tpl, "{source_name}"))
+        except Exception:
+            return False
+        return "Beta Second" in out and len(calls) >= 3
+    finally:
+        G.call_ollama = saved
+
+
+def _net_b15_hostcheck_merge_expect():
+    # `_land_hosts` must not overwrite a host another writer registered after the caller decided
+    # "this source is hostless" (adopt) or remove one it just repointed (repair's None).
+    import hostcheck as HC
+    import feats as FE
+    d = tempfile.mkdtemp(prefix="drill_hosts_expect_")
+    saved = (FE.HOSTS, HC._assert_not_halted)
+    try:
+        FE.HOSTS = os.path.join(d, "WIKI_HOSTS.json")
+        HC._assert_not_halted = lambda what: None
+
+        def land(before, merge, expect):
+            with open(FE.HOSTS, "w", encoding="utf-8") as f:
+                json.dump(before, f)
+            _deliberately_failing(lambda: HC._land_hosts(merge, "drill", expect=expect))
+            with open(FE.HOSTS, encoding="utf-8") as f:
+                return json.load(f)
+
+        # adopt decided from "absent"; scout has since registered a real host
+        a = land({"s": "scout.example"}, {"s": "adopt.example"}, {"s": None})
+        # repair decided from "old"; a writer has since repointed it, and repair wants it removed
+        b = land({"s": "newer.example"}, {"s": None}, {"s": "old.example"})
+        # still what the caller decided from: applies
+        c = land({"s": "old.example", "t": "keep"}, {"s": "fixed.example"}, {"s": "old.example"})
+        # no expectation: unconditional as before
+        e = land({"s": "x"}, {"s": "y"}, None)
+        return (a == {"s": "scout.example"} and b == {"s": "newer.example"}
+                and c == {"s": "fixed.example", "t": "keep"} and e == {"s": "y"})
+    finally:
+        FE.HOSTS, HC._assert_not_halted = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b15_hostcheck_purge_no_record():
+    # purge --go must not delete a host cache when (a) no record file carried the source, so no
+    # entry was emptied, or (b) a source the audit says was mined from that host, though no
+    # longer bound to it, still has its evidence there.
+    import cachekey
+    import feats as F
+    import hostcheck as HC
+    import weave_index as WI
+    d = tempfile.mkdtemp(prefix="drill_purge_norec_")
+    saved = (HC.HERE, HC.ROSTERS, HC.PURGED, F.HOSTS, WI.RECORDS, HC._assert_not_halted)
+    try:
+        h1, h2 = "norecord.example.invalid", "repointed.example.invalid"
+        hosts = {"A": h1, "B": h2, "C": "elsewhere.example.invalid"}   # C was repointed away
+        with open(os.path.join(d, "hosts.json"), "w", encoding="utf-8") as f:
+            json.dump(hosts, f)
+        with open(os.path.join(d, "rosters.json"), "w", encoding="utf-8") as f:
+            json.dump({"A": {"host": h1, "rate": 0.0}, "B": {"host": h2, "rate": 0.0},
+                       "C": {"host": h2, "rate": 0.0}}, f)
+        rec_dir = os.path.join(d, "records")
+        os.makedirs(rec_dir)
+        for src in ("B", "C"):            # A has NO record file
+            with open(os.path.join(rec_dir, src + ".json"), "w", encoding="utf-8") as f:
+                json.dump({"source": src, "entries": [{"name": src + " one"}]}, f)
+        caches = {}
+        for h in (h1, h2):
+            cdir = os.path.join(d, "data", "feats", cachekey.host_dir(h))
+            os.makedirs(cdir)
+            caches[h] = os.path.join(cdir, "page.json")
+            with open(caches[h], "w", encoding="utf-8") as f:
+                f.write("{}")
+        HC.HERE, HC.ROSTERS = d, os.path.join(d, "rosters.json")
+        HC.PURGED = os.path.join(d, "ROSTER_PURGES.json")
+        F.HOSTS, WI.RECORDS = os.path.join(d, "hosts.json"), rec_dir
+        HC._assert_not_halted = lambda what: None
+        _deliberately_failing(lambda: HC.purge(dry=False, only=["A", "B"]))
+        return os.path.exists(caches[h1]) and os.path.exists(caches[h2])
+    finally:
+        (HC.HERE, HC.ROSTERS, HC.PURGED, F.HOSTS, WI.RECORDS, HC._assert_not_halted) = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b15_manifest_code_collisions():
+    # Two sources handed one Series/Volume code must be NAMED where the code is decided, and
+    # main() must ask. Drives the real volume_codes with the spine lookup stubbed so a Set-level
+    # source numbered `S.1` lands on the real Series code `S.1` of another source.
+    import manifest_builder as MB
+    def _main_src(mod):
+        import ast
+        text = open(os.path.join(_srcdir(), mod + ".py"), encoding="utf-8").read()
+        for n in ast.parse(text).body:
+            if isinstance(n, ast.FunctionDef) and n.name == "main":
+                return ast.get_source_segment(text, n) or ""
+        return ""
+
+    fn = getattr(MB, "code_collisions", None)
+    if fn is None:
+        return False
+    codes = {"A": "S", "B": "S", "C": "S.1"}          # A,B share Series S; C IS the code S.1
+    saved = MB.spine_code_for
+    try:
+        MB.spine_code_for = lambda name: {"A": "S", "B": "S", "C": "S.1"}[name]
+        got = MB.volume_codes([{"name": n, "entry_count": 5} for n in codes])
+    finally:
+        MB.spine_code_for = saved
+    if fn(got) != {"S.1": ["A", "C"]}:
+        return False
+    if fn({"A": "S", "B": "T"}):
+        return False                                   # distinct codes report nothing
+    return "code_collisions(" in _main_src("manifest_builder")
+
+
+def _net_b15_manifest_null_entry_count():
+    # `skipped_empty` must read a null entry_count the way `populated` does, or a source with
+    # `entry_count: null` is in neither list and the "Skipped N" line understates.
+    def _main_src(mod):
+        import ast
+        text = open(os.path.join(_srcdir(), mod + ".py"), encoding="utf-8").read()
+        for n in ast.parse(text).body:
+            if isinstance(n, ast.FunctionDef) and n.name == "main":
+                return ast.get_source_segment(text, n) or ""
+        return ""
+
+    src = _main_src("manifest_builder")
+    line = [l for l in src.splitlines() if l.strip().startswith("skipped_empty =")]
+    if len(line) != 1:
+        return False
+    ns = {}
+    exec("r0 = {'name': 'n', 'entry_count': None}\n" + "roll = [r0]\n" + line[0].strip(), ns)
+    populated = [r for r in ns["roll"] if (r.get("entry_count") or 0) > 0]
+    return ns["skipped_empty"] == ["n"] and not populated
+
+
+def _net_b15_wiki_banner_real_lead():
+    # A real lead sentence that merely begins "This character needs ..." is not furniture, while
+    # the template wordings still are (generate holds a job whose description trips this).
+    import wiki_source as WS
+    real = "This character needs no introduction to fans of the series. He rules the north."
+    if WS.strip_banner_prefix(real) != real:
+        return False
+    return (WS.strip_banner_prefix("This article needs to be cleaned up. He rules.") == "He rules."
+            and WS.strip_banner_prefix("This page needs more information. He rules.") == "He rules."
+            and WS.strip_banner_prefix("This biography seems to be empty. He rules.") == "He rules.")
+
+
+def _net_b15_wiki_probe_failure_propagates():
+    # A transport failure on a canonical-category probe must raise, not read as "this wiki has
+    # no such category" (catalogue_web skips the whole class on an empty result).
+    import wiki_source as WS
+    canon = "Persons (named individual characters, real or fictional)"
+    saved = WS._api
+
+    def fake_api(sub, params, timeout=25):
+        if params.get("list") == "allcategories":
+            return {"query": {"allcategories": []}}
+        if params["cmtitle"] == "Category:Characters":
+            raise TimeoutError("throttled")
+        return {"query": {"categorymembers": []}}
+
+    try:
+        WS._api = fake_api
+        try:
+            _deliberately_failing(lambda: WS.find_categories("tiny", canon))
+        except TimeoutError:
+            return True
+        return False
+    finally:
+        WS._api = saved
+
+
+def _net_b16_agent_dispatch_any():
+    # sweep68 b16 F4: the tool dispatch caught only (TypeError, ValueError), so a model passing
+    # `name=5` (AttributeError on `.strip()`) ended `run()` with a traceback and lost the patch
+    # list / unreverted alarms. Any tool exception must come back as an {"error": ...} message.
+    import local_agent as L
+    import escalation
+    seq = [{"role": "assistant", "content": "",
+            "tool_calls": [{"function": {"name": "find_symbol", "arguments": {"name": 5}}}]}]
+    saved = (L._chat, L._lane_reset, escalation.assert_clear)
+    try:
+        L._chat = lambda *a, **k: (seq.pop(0) if seq
+                                   else {"role": "assistant", "content": "done"})
+        L._lane_reset = lambda: None
+        escalation.assert_clear = lambda *a, **k: None
+        try:
+            out = _deliberately_failing(lambda: L.run("x", model="m", apply=False, quiet=True))
+        except Exception:
+            return False
+        return isinstance(out, dict)
+    finally:
+        L._chat, L._lane_reset, escalation.assert_clear = saved
+
+
+def _net_b16_chunk_shape():
+    # sweep68 b16 F1: a pool answer whose `feats` is null / a string / a list of strings passed
+    # `_pool_answer_usable` (key present), was cached by `_chunk_put`, and crashed `read_entity`
+    # on this pass and every later one. It must now count as UNANSWERED (not cached, no raise)
+    # and be re-asked on the next pass; a poisoned cached body must read as a miss.
+    import read as R
+    tmp = tempfile.mkdtemp(prefix="net_b16_chunk_")
+    saved = (R.CHUNK_CACHE, R.cachekey.load, R.cachekey.write_path, R.F.evidence_for, R._ask)
+    try:
+        R.CHUNK_CACHE = os.path.join(tmp, "chunkfeats")
+        R.cachekey.load = lambda *a, **k: (None, None)
+        R.cachekey.write_path = lambda *a, **k: os.path.join(tmp, "out.json")
+        page = ("Goku destroyed the planet with a single punch. He also survived the blast "
+                "and defeated Frieza. ") * 3
+        R.F.evidence_for = lambda host, name: {"text": {"Goku": page}}
+        for answer in ({"feats": None}, {"feats": "abc"},
+                       {"feats": ["Goku destroyed the planet with a single punch."]}):
+            calls = []
+
+            def fake_ask(c, s, p, sch, **_kw):
+                calls.append(1)
+                return answer
+            R._ask = fake_ask
+            for _ in (1, 2):
+                try:
+                    out = _deliberately_failing(lambda: R.read_entity({}, "h.example", "Goku"))
+                except Exception:
+                    return False
+                if not out.get("chunks_unanswered"):
+                    return False
+            if len(calls) < 2:            # cached instead of re-asked
+                return False
+            shutil.rmtree(R.CHUNK_CACHE, ignore_errors=True)
+        # a body poisoned by an earlier run is a miss, not an answer
+        R._chunk_put("h.example", "some chunk", "Goku", None)
+        if _deliberately_failing(lambda: R._chunk_get("h.example", "some chunk", "Goku")) is not None:
+            return False
+        R._chunk_put("h.example", "other chunk", "Goku", [{"sentence": "s", "axis": "power"}])
+        return R._chunk_get("h.example", "other chunk", "Goku") is not None
+    finally:
+        R.CHUNK_CACHE, R.cachekey.load, R.cachekey.write_path, R.F.evidence_for, R._ask = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b16_citecheck_lines():
+    # sweep68 b16 F9: `str.splitlines()` splits on NEL, U+2028, FF ... so one such character in a
+    # cited file shifted every later line by one, turning a good citation into BLANK_LINE. Lines
+    # are numbered the way an editor and `ast` number them (CR, LF, CRLF only).
+    import citecheck as CC
+    tmp = tempfile.mkdtemp(prefix="net_b16_cite_")
+    try:
+        with open(os.path.join(tmp, "tgt.py"), "w", encoding="utf-8", newline="") as f:
+            f.write("one\ntwo\x85\nthree\n")            # three editor lines
+        found = CC.citations_in_text("see tgt.py:3 here\nsee tgt.py:4 there\n", src_dir=tmp)
+        by_line = {x["line"]: x["reason"] for x in found}
+        return by_line == {2: CC.PAST_EOF}
+    finally:
+        CC._lines.__defaults__[0].pop(os.path.join(tmp, "tgt.py"), None)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b16_profile_negative():
+    # sweep68 b16 F6/F7: `_b32(-1)` looped forever (arithmetic shift never reaches 0), and an
+    # unreadable TIERS.json gave every world a wrong-but-valid address. Both must now refuse.
+    # The infinite loop is probed in a child process with a timeout so a regression cannot hang
+    # the drill.
+    import subprocess
+    code = ("import sys\n"
+            "sys.path.insert(0, sys.argv[1])\n"
+            "import profile as PR\n"
+            "try:\n"
+            "    PR._b32(-1)\n"
+            "except ValueError:\n"
+            "    sys.exit(0)\n"
+            "sys.exit(1)\n")
+    try:
+        r = subprocess.run([sys.executable, "-c", code, _srcdir()], timeout=15,
+                           creationflags=0x08000000, capture_output=True)
+    except subprocess.TimeoutExpired:
+        return False
+    if r.returncode != 0:
+        return False
+    import profile as PR
+    tmp = tempfile.mkdtemp(prefix="net_b16_prof_")
+    saved = PR.HERE
+    try:
+        os.makedirs(os.path.join(tmp, "data"))
+        with open(os.path.join(tmp, "data", "GENRES.json"), "w", encoding="utf-8") as f:
+            f.write("{}")
+        with open(os.path.join(tmp, "data", "TIERS.json"), "w", encoding="utf-8") as f:
+            f.write("{ not json")
+        PR.HERE = tmp
+        try:
+            _deliberately_failing(lambda: PR.build_all(limit=3))
+        except RuntimeError:
+            return True
+        except Exception:
+            return False
+        return False
+    finally:
+        PR.HERE = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b16_secondopinion_fingerprint():
+    # sweep68 b16 F10: the torn-tree fingerprint hashed `.py` files only, so a `.txt` under a
+    # scanned root (prompts/) caught mid-write was never called torn. Its bytes must move it.
+    import secondopinion as SO
+    tmp = tempfile.mkdtemp(prefix="net_b16_so_")
+    try:
+        with open(os.path.join(tmp, "a.py"), "w", encoding="utf-8") as f:
+            f.write("x = 1\n")
+        p = os.path.join(tmp, "prompt.txt")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write("first\n")
+        one = SO._tree_fingerprint([tmp])
+        with open(p, "w", encoding="utf-8") as f:
+            f.write("second\n")
+        two = SO._tree_fingerprint([tmp])
+        return one is not None and two is not None and one != two
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b16_threads_declared_shape():
+    # sweep68 b16 F8: `annex_codes` / `law_codes` promise an EMPTY set on any unreadable shape,
+    # but a `declared` that is not an object raised AttributeError out of build().
+    import threads as TH
+    tmp = tempfile.mkdtemp(prefix="net_b16_decl_")
+    saved = (TH.ANNEX_CANONS, TH.LAWS)
+    try:
+        a, b = os.path.join(tmp, "annex.json"), os.path.join(tmp, "laws.json")
+        with open(a, "w", encoding="utf-8") as f:
+            json.dump({"canons": [{"code": "VIII.1"}], "declared": [1]}, f)
+        with open(b, "w", encoding="utf-8") as f:
+            json.dump({"laws": [{"code": "X.1"}], "declared": "three"}, f)
+        TH.ANNEX_CANONS, TH.LAWS = a, b
+        try:
+            got_a = _deliberately_failing(TH.annex_codes)
+            got_b = _deliberately_failing(TH.law_codes)
+        except Exception:
+            return False
+        # nothing declared -> nothing to contradict, rows stand
+        return got_a == {"VIII.1"} and got_b == {"X.1"}
+    finally:
+        TH.ANNEX_CANONS, TH.LAWS = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b16_threads_short_read():
+    # sweep68 b16 F2: `survey(None)` read `weave_index.load_records()` and ignored
+    # `LAST_UNREADABLE`, so a record torn mid-write left its source out of the graph with nothing
+    # naming it. A whole-corpus survey over a short read must REFUSE; a clean read must not.
+    import threads as TH
+    import weave_index as WI
+    saved = (WI.load_records, list(WI.LAST_UNREADABLE))
+    try:
+        WI.load_records = lambda: [{"source": "NetSrc", "entries": [{"name": "a"}]}]
+        WI.LAST_UNREADABLE[:] = ["torn.json"]
+        try:
+            TH.survey(None)
+            return False
+        except TH.ThreadRefused:
+            pass
+        WI.LAST_UNREADABLE[:] = []
+        code_of, _cats, n_of = TH.survey(None)
+        return n_of == {"NetSrc": 1}
+    finally:
+        WI.load_records = saved[0]
+        WI.LAST_UNREADABLE[:] = saved[1]
+
+
+def _net_b16_transport_reprobe():
+    # sweep68 b16 F5: `ensure_transport` cached a False from one transient `CB.engine()` failure
+    # for the life of a `--loop` process. `run()` now asks with reprobe=True once per pass, so a
+    # cached False is re-decided; a cached True and the hot path (no reprobe) are untouched.
+    import read as R
+    import types
+    state = {"ok": False, "calls": 0}
+    stub = types.ModuleType("cascade_bridge")
+
+    def engine():
+        state["calls"] += 1
+        if not state["ok"]:
+            raise RuntimeError("transient")
+        return True
+    stub.engine = engine
+    saved = (R._CASCADE_OK, R._TRANSPORT, sys.modules.get("cascade_bridge"))
+    try:
+        sys.modules["cascade_bridge"] = stub
+        R._CASCADE_OK, R._TRANSPORT = None, "auto"
+        if _deliberately_failing(lambda: R.ensure_transport(verbose=False)) is not False:
+            return False
+        state["ok"] = True
+        if R.ensure_transport(verbose=False) is not False:      # hot path stays cached
+            return False
+        try:
+            got = R.ensure_transport(verbose=False, reprobe=True)
+        except TypeError:
+            return False
+        if got is not True:
+            return False
+        n = state["calls"]
+        R.ensure_transport(verbose=False, reprobe=True)          # a True is never re-probed
+        return state["calls"] == n
+    finally:
+        R._CASCADE_OK, R._TRANSPORT = saved[0], saved[1]
+        if saved[2] is None:
+            sys.modules.pop("cascade_bridge", None)
+        else:
+            sys.modules["cascade_bridge"] = saved[2]
+
+
+def _net_b09_foreman_reap_ollama():
+    # Run #68 (owner request): orphaned Ollama runners pin VRAM for ever. The reaper must end
+    # orphans, recycled-pid runners and a duplicate daemon with its runner -- and never the live
+    # daemon or its runner; with the port owner unknown it must not judge duplicates at all.
+    import foreman as F
+    table = [
+        {"pid": 100, "ppid": 1, "name": "ollama.exe", "cmdline": "ollama.exe serve", "created": 10},
+        {"pid": 101, "ppid": 100, "name": "llama-server.exe", "cmdline": "", "created": 20},
+        {"pid": 102, "ppid": 999, "name": "llama-server.exe", "cmdline": "", "created": 20},
+        {"pid": 103, "ppid": 104, "name": "ollama.exe", "cmdline": "ollama.exe runner --model x",
+         "created": 30},
+        {"pid": 105, "ppid": 1, "name": "ollama.exe", "cmdline": "ollama.exe serve", "created": 15},
+        {"pid": 106, "ppid": 105, "name": "llama-server.exe", "cmdline": "", "created": 40},
+    ]
+    starts = {1: 1, 100: 10, 104: 50, 105: 15}
+
+    def run(owner):
+        killed = []
+        F.reap_ollama_orphans(table=table, port_owner=owner, created=starts.get,
+                              kill=lambda pid: killed.append(pid) or True)
+        return sorted(killed)
+    return run(100) == [102, 103, 105, 106] and run(0) == [102, 103]
+
+
+def _net_b01_prove_refuses_full_disk():
+    # Run #68: 12 concurrent proofs filled C: and returned 27 false no-verdicts while every live
+    # writer shared the disk. Under the free-space floor prove_net must refuse, build nothing,
+    # and say why.
+    keep = shutil.disk_usage
+    built = []
+    keep_tree = globals()["scratch_tree"]
+    try:
+        shutil.disk_usage = lambda p: type("U", (), {"free": 10 ** 9, "total": 0, "used": 0})()
+        globals()["scratch_tree"] = lambda *a, **k: built.append(1) or tempfile.mkdtemp()
+        r = prove_net("drill_sweep68", "no such net")
+        return (r.get("held") is None and not built
+                and "refused" in str(r.get("error") or ""))
+    finally:
+        shutil.disk_usage = keep
+        globals()["scratch_tree"] = keep_tree
+
+
+def _net_b04_sandbox_not_in_temp():
+    # Run #68: a mutation sandbox junctions the LIVE data/ and output/; kept in %TEMP%, Windows
+    # Storage Sense followed those junctions on a low-disk sweep and deleted ~12,400 live
+    # data/chunkfeats files. The default sandbox home must be outside every temp directory.
+    import mutate as M
+    keep = tempfile.tempdir
+    try:
+        tempfile.tempdir = None
+        temp = os.path.normcase(os.path.abspath(tempfile.gettempdir()))
+        tempfile.tempdir = None
+        home = os.path.normcase(os.path.abspath(M.scratch_home()))
+        envs = {os.path.normcase(os.path.abspath(os.environ[v]))
+                for v in ("TEMP", "TMP") if os.environ.get(v)} | {temp}
+        return not any(home == t or home.startswith(t + os.sep) for t in envs)
+    finally:
+        tempfile.tempdir = keep
+
+
+def _net_b03_q_assay_twins_ask_the_halt():
+    # sweep68 b03 Q4 (answered 2026-09-30). halo.py wrote HALO_ASSAYS.json with no halt check
+    # while its twin wh40k.py refuses. Under a synthetic halt it must refuse and leave its
+    # output unwritten; with the library clear it must still write (a gate that refuses a clear
+    # library is broken too). reference.py is deliberately NOT gated yet: see ANSWER_batch03 Q4.
+    import contextlib
+    import io
+    import escalation as ESC
+    import halo as H
+    d = tempfile.mkdtemp(prefix="net_b03_q4_")
+    saved = (ESC.HALT_FILE, H.OUT, list(sys.argv))
+    try:
+        ESC.HALT_FILE = os.path.join(d, "HALT.json")
+        H.OUT = os.path.join(d, "halo.json")
+        sys.argv = ["halo.py"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            clear = _deliberately_failing(H.main)
+            wrote = os.path.exists(H.OUT)
+            if wrote:
+                os.remove(H.OUT)
+            with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+                json.dump({"code": "DRILL", "what": "a synthetic halt", "by": "drill",
+                           "cleared": False}, f)
+            refused = False
+            try:
+                _deliberately_failing(H.main)
+            except (ESC.SystemHalted, SystemExit):
+                refused = True
+        return wrote and clear == 0 and refused and not os.path.exists(H.OUT)
+    finally:
+        ESC.HALT_FILE, H.OUT = saved[:2]
+        sys.argv[:] = saved[2]
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b03_q_synthesis_method_no_stale_count():
+    # sweep68 b03 Q6 (answered 2026-09-30). Phase 1 persisted "no nine-measure worksheet" into
+    # every synthesis block, and its prompt said the same, while assay.WEIGHTS carries eleven.
+    # Both now name no count. Driven against the real phase with the pool stubbed.
+    import assay as A
+    import pipeline as PL
+    rec = {"source": "X", "entries": [{"name": "A", "description": "a"}]}
+    names = ("records", "ask_pool_first", "synthesis_blocks", "synthesis_prompt",
+             "save_state", "update_handoff", "write_record", "log")
+    saved = {n: getattr(PL, n) for n in names}
+    try:
+        PL.records = lambda *a, **k: [("/nonexistent/x.json", rec)]
+        PL.ask_pool_first = lambda *a, **k: {"magnitude": "unassayed", "evidence": "",
+                                             "ceiling_entity": "", "rationale": "none"}
+        PL.synthesis_blocks = lambda r: ([[r["entries"][0]]], {})
+        PL.synthesis_prompt = lambda *a, **k: "p"
+        PL.save_state = lambda st: None
+        PL.update_handoff = lambda st: None
+        PL.write_record = lambda p, r, *a, **k: True
+        PL.log = lambda *a, **k: None
+        PL.phase_synthesis(None, {"done": {}, "failed": {}, "units_done": 0})
+    finally:
+        for n, v in saved.items():
+            setattr(PL, n, v)
+    method = (rec.get("synthesis") or {}).get("method", "")
+    stale = ("nine-measure", "eight-measure")
+    return (bool(method) and len(A.WEIGHTS) >= 1
+            and not any(w in method for w in stale)
+            and not any(w in PL.SYNTH_SYSTEM for w in stale))
+
+
+def _net_b03_q_topic_places_contradicts_type():
+    # sweep68 b03 N5 (answered 2026-09-30). The person-is-not-a-place guard covered `category`
+    # only, while worldseed builds worlds from `topic == "Places"`. Driven against the real
+    # phase_entrypass with the model answering topic Places for a Character that already
+    # carries topic Places, and for a Location: the Character's topic is refused (recorded,
+    # reset to unclassified); the Location still takes Places.
+    import pipeline as PL
+    r = {"source": "S", "entries": [
+        {"name": "Wrex", "type": "Character", "description": "a warlord",
+         "category": PL.CATEGORIES[0], "topic": "Places"},
+        {"name": "Tuchanka", "type": "Location", "description": "a homeworld",
+         "category": PL.CATEGORIES[1]}]}
+    written = []
+    saved = {k: getattr(PL, k) for k in ("records", "ask_pool_first", "save_state",
+                                         "update_handoff", "log", "write_record")}
+    ans = {"results": [
+        {"index": i, "category": c, "scale_note": "", "magnitude": "unassayed",
+         "topic": "Places", "subroom": "none", "physiology": ""} for i, c in ((0, 1), (1, 2))]}
+    try:
+        PL.records = lambda *a, **k: [("/nonexistent/s.json", r)]
+        PL.ask_pool_first = lambda *a, **k: ans
+        PL.write_record = lambda p, rec, **kw_: written.append(json.loads(json.dumps(rec))) or True
+        PL.save_state = lambda st: True
+        PL.update_handoff = lambda st: None
+        PL.log = lambda *a, **k: None
+        _deliberately_failing(lambda: PL.phase_entrypass({}, {"done": {}, "failed": {},
+                                                             "units_done": 0}))
+    finally:
+        for k, v in saved.items():
+            setattr(PL, k, v)
+    if not written:
+        return False
+    e = written[-1]["entries"]
+    return (e[0].get("topic") == "unclassified"
+            and "contradicts type" in str(e[0].get("topic_rejected"))
+            and e[1].get("topic") == "Places" and "topic_rejected" not in e[1])
+
+
+def _net_b03_q_watermark_string_fast_path():
+    # sweep68 b03 N10 (answered 2026-09-30). The per-entry watermark hashed every merged field,
+    # 8.4 s for a marvel-sized record after every landed batch write. A str or None is now its
+    # own fingerprint (immutable, held by reference); anything mutable is still hashed, so a
+    # watermark can never follow an in-place edit. Both halves are checked, plus the equality
+    # the writer relies on.
+    import pipeline as PL
+    s = "".join(["a description", " held by reference"])
+    d = {"k": ["v"]}
+    fd = PL._fp_one(d)
+    d["k"].append("edited in place")
+    return (PL._fp_one(s) is s and PL._fp_one(None) is None
+            and isinstance(fd, str) and fd != PL._fp_one(d)
+            and PL._fp_one(True) != PL._fp_one("true")
+            and PL._fp_one("x") == PL._fp_one("".join(["x"])))
+
+
+def _net_b04_q_mutate_data_copy_not_link():
+    # A sandboxed gate that APPENDS to (or truncates) a small top-level data/ file must not reach
+    # the live inode: small files are copied; only files at/over the threshold are hardlinked.
+    import mutate as M
+    td = tempfile.mkdtemp(prefix="net_b04_link_")
+    saved = M.DATA_LINK_MIN_BYTES
+    try:
+        live_ledger = os.path.join(td, "LIVE_ARCHIVE.jsonl")
+        with open(live_ledger, "w", encoding="utf-8") as f:
+            f.write('{"a": 1}\n')
+        sandboxed = os.path.join(td, "SB_ARCHIVE.jsonl")
+        M._place_data_file(live_ledger, sandboxed)
+        with open(sandboxed, "a", encoding="utf-8") as f:
+            f.write('{"from": "mutant"}\n')
+        with open(live_ledger, encoding="utf-8") as f:
+            if f.read() != '{"a": 1}\n':
+                return False
+        # the link is still used above the threshold (the saving the sandbox was built on)
+        big, big_sb = os.path.join(td, "BIG.json"), os.path.join(td, "SB_BIG.json")
+        with open(big, "w", encoding="utf-8") as f:
+            f.write("{}" * 10)
+        M.DATA_LINK_MIN_BYTES = 4
+        M._place_data_file(big, big_sb)
+        return os.path.samefile(big, big_sb)
+    finally:
+        M.DATA_LINK_MIN_BYTES = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b04_q_weave_no_source_ceiling():
+    # An entity spread over more than 60 sources must still contribute pair evidence, and the
+    # permutation null must count it, or the null simulates a smaller universe than the weights.
+    import weave as W
+    srcs = ["s%d" % i for i in range(61)]
+    occ = {"wide": srcs}
+    w, shared = W.surprisal_pair_weights(occ, {"wide": 5.0})
+    if len(shared) != 61 * 60 // 2 or len(w) != len(shared):
+        return False
+    try:
+        return isinstance(W.null_threshold_surprisal(occ, {"wide": 5.0}, srcs, trials=2), float)
+    except W.NullThresholdUnmeasured:
+        return False
+
+
+def _net_b04_q_weave_stale_write_refused():
+    # weave.py --write must refuse to land from a stale ENTITY_INDEX.json (unless --allow-stale);
+    # the refusal comes before the index is even loaded.
+    import contextlib
+    import io
+    import weave as W
+    saved = (W.index_staleness, W.load_index, W._assert_not_halted, sys.argv)
+    loaded = []
+    try:
+        W.index_staleness = lambda *a, **k: {"stale": True, "reason": "net: 3 records newer"}
+        W.load_index = lambda: loaded.append(1) or (_ for _ in ()).throw(RuntimeError("net stop"))
+        W._assert_not_halted = lambda what: True
+        sys.argv = ["weave.py", "--write"]
+        with contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()):
+            rc = _deliberately_failing(lambda: W.main())
+        return rc == 2 and not loaded
+    except RuntimeError:
+        return False
+    finally:
+        W.index_staleness, W.load_index, W._assert_not_halted, sys.argv = saved
+
+
+def _net_b04_q_withdraw_manifest_set_aside():
+    # An unparseable archive manifest is copied aside (bytes intact) before it can be replaced.
+    import withdraw_chapters as WC
+    td = tempfile.mkdtemp(prefix="net_b04_wm_")
+    try:
+        p = os.path.join(td, "catalog.withdrawn.json")
+        with open(p, "wb") as f:
+            f.write(b'{"II.A.1/Persons": {"raw_path": "x"')
+        aside = _deliberately_failing(lambda: WC._set_aside_unparseable(p))
+        if not aside or not os.path.isfile(aside):
+            return False
+        with open(aside, "rb") as f:
+            return f.read() == b'{"II.A.1/Persons": {"raw_path": "x"'
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b04_q_withdraw_stray_fresh():
+    # The stray sweep must not archive a file modified after the catalog was read (a chapter
+    # generate.py landed mid-run); an old genuine stray is still moved.
+    import contextlib
+    import io
+    import withdraw_chapters as WC
+    import escalation as E
+    import snapshot as SN
+    td = tempfile.mkdtemp(prefix="net_b04_wd_")
+    saved = (WC.HERE, WC.CATALOG, E.status, sys.argv, SN.before, SN.verify)
+    try:
+        os.makedirs(os.path.join(td, "output", "index"))
+        raw = os.path.join(td, "output", "raw")
+        os.makedirs(raw)
+        with open(os.path.join(td, "output", "index", "catalog.json"), "w", encoding="utf-8") as f:
+            f.write("{}")
+        old, new = os.path.join(raw, "old_stray.md"), os.path.join(raw, "new_landing.md")
+        for p in (old, new):
+            with open(p, "w", encoding="utf-8") as f:
+                f.write("x")
+        os.utime(old, (time.time() - 3600, time.time() - 3600))
+        os.utime(new, (time.time() + 3600, time.time() + 3600))
+        WC.HERE = td
+        WC.CATALOG = os.path.join(td, "output", "index", "catalog.json")
+        E.status = lambda: (False, None)
+        SN.before = lambda *a, **k: "net"     # the real one writes under the live state/
+        SN.verify = lambda sid: (True, "net")
+        sys.argv = ["withdraw_chapters.py", "--go", "--label", "net"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            _deliberately_failing(lambda: WC.main())
+        return os.path.exists(new) and not os.path.exists(old)
+    finally:
+        WC.HERE, WC.CATALOG, E.status, sys.argv, SN.before, SN.verify = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b05_q_roll_error_majority():
+    # feats --roll exits nonzero when MORE THAN HALF the entities raised; a few raising stays rc 0.
+    import io
+    import contextlib
+    import feats as F
+    real = (F.P.records, F.resolve_hosts, F.roll, sys.argv, dict(F._UNCACHED))
+    try:
+        F.P.records = lambda: []
+        F.resolve_hosts = lambda recs, verify=True: {"S": "x.fandom.com"}
+        sys.argv = ["feats.py", "--roll"]
+        F._UNCACHED.clear()
+
+        def rc(n, err):
+            F.roll = lambda *a, **k: {"n": n, "errored": err}
+            with contextlib.redirect_stdout(io.StringIO()):
+                return _deliberately_failing(F.main)
+        return rc(10, 9) != 0 and rc(10, 6) != 0 and rc(10, 1) == 0 and rc(10, 5) == 0
+    finally:
+        F.P.records, F.resolve_hosts, F.roll, sys.argv = real[0], real[1], real[2], real[3]
+        F._UNCACHED.clear()
+        F._UNCACHED.update(real[4])
+
+
+def _net_b05_q_scope_halt_interlock():
+    # A standing halt must refuse a write to the LIVE data/SCOPE.json, and leave it untouched;
+    # a sandbox path is still writable.
+    import scope as S
+    import escalation as E
+    real = E.status
+    tmp = tempfile.mkdtemp()
+    try:
+        E.status = lambda *a, **k: (True, {"code": "T", "what": "net", "by": "net", "source": "net"})
+        before = None
+        if os.path.exists(S._LIVE_OUT):
+            with open(S._LIVE_OUT, "rb") as f:
+                before = f.read()
+        refused = False
+        try:
+            S.mutate(lambda c: c.update({"zz-net.example": {"scope": None}}), path=S._LIVE_OUT)
+        except E.SystemHalted:
+            refused = True
+        after = None
+        if os.path.exists(S._LIVE_OUT):
+            with open(S._LIVE_OUT, "rb") as f:
+                after = f.read()
+        sandbox = os.path.join(tmp, "SCOPE.json")
+        landed, _why = _deliberately_failing(lambda: S.mutate(lambda c: c.update({"a": 1}), path=sandbox))
+        return refused and before == after and bool(landed)
+    finally:
+        E.status = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b05_q_scope_probe_version():
+    # The probe contract was bumped when the sroffset walk changed what a probe sees, and a
+    # scored record now carries text_chars so a per-size floor can be re-derived offline.
+    import scope as S
+    real = (S.F.api, S.F.fetch)
+    try:
+        def api(host, params, outcome=None, **kw):
+            if outcome is not None:
+                outcome.update({"ok": True, "why": "ok"})
+            return {"query": {"search": [{"title": "T", "size": 5000}]}}
+        S.F.api = api
+        S.F.fetch = lambda host, titles: {"T": "the multiverse is vast. " * 30}
+        rec = _deliberately_failing(lambda: S.scope_for("x.fandom.com"))
+        return (S.PROBE_VERSION >= 3 and isinstance(rec, dict)
+                and rec.get("probe_version") == S.PROBE_VERSION
+                and rec.get("text_chars", 0) > 0)
+    finally:
+        S.F.api, S.F.fetch = real
+
+
+def _net_b06_q_beta_laws_over_catalogue():
+    import rigor as R
+    m = len(R.LAW_CATALOGUE)
+    try:
+        R.adjudication_beta(m + 1, 2)
+        return False
+    except ValueError:
+        pass
+    full = R.adjudication_beta(m, 2)
+    return full["laws_excepted"] == m and R.adjudication_beta(3, 4)["laws_excepted"] == 3
+
+
+def _net_b06_q_endpoint_force_live():
+    import urllib.error
+    import endpoint as EP
+    root = tempfile.mkdtemp()
+    live = {"mode": EP.MODE_API, "path": "/api.php"}
+    saved = (EP._get, EP.CACHE, EP._MEM, set(EP._DIRTY))
+
+    def boom(url, timeout=25):
+        raise urllib.error.URLError("net stub -- no request was made")
+    try:
+        EP._get = boom
+        EP.CACHE = os.path.join(root, "ENDPOINTS.json")
+        EP._MEM = {"h.example": live}
+        EP._DIRTY.clear()
+        got = _deliberately_failing(lambda: EP.detect("h.example", force=True))
+        kept = EP._MEM["h.example"] is live and "h.example" not in EP._DIRTY
+        EP._MEM = {}
+        fresh = _deliberately_failing(lambda: EP.detect("g.example", force=True))
+        return got.get("mode") == EP.MODE_DEAD and kept and fresh.get("mode") == EP.MODE_DEAD \
+            and EP._MEM.get("g.example", {}).get("mode") == EP.MODE_DEAD
+    finally:
+        EP._get, EP.CACHE, EP._MEM = saved[0], saved[1], saved[2]
+        EP._DIRTY.clear()
+        EP._DIRTY.update(saved[3])
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b06_q_halt_interlocks():
+    import contextlib
+    import io
+    import escalation as E
+    import catalogue_models as CM
+    import endpoint as EP
+    import zfighters as ZF
+
+    class _Halt(Exception):
+        pass
+
+    def halted(what):
+        raise _Halt(what)
+    root = tempfile.mkdtemp()
+    calls = []
+    saved = (E.assert_clear, ZF.OUT, CM.sweep, EP.detect, sys.argv)
+
+    def refuses(fn, argv):
+        sys.argv = argv
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                _deliberately_failing(fn)
+        except _Halt:
+            return True
+        except Exception:
+            return False
+        return False
+    try:
+        E.assert_clear = halted
+        ZF.OUT = os.path.join(root, "Z_FIGHTERS.json")
+        CM.sweep = lambda *a, **k: calls.append("sweep")
+        EP.detect = lambda *a, **k: calls.append("detect") or {"mode": "dead", "path": None}
+        z = refuses(ZF.main, ["zfighters.py"]) and not os.path.exists(ZF.OUT)
+        c = refuses(CM.main, ["catalogue_models.py"]) and "sweep" not in calls
+        e = refuses(EP.main, ["endpoint.py", "h.example"]) and "detect" not in calls
+        return z and c and e
+    finally:
+        E.assert_clear, ZF.OUT, CM.sweep, EP.detect, sys.argv = saved
+        shutil.rmtree(root, ignore_errors=True)
+
+
+def _net_b06_q_ladder_is_descent_unknown():
+    import descending_ladder as DL
+    return (DL.shrink_report(70.0, None, 1e-10)["is_descent"] is None
+            and DL.shrink_report(70.0, float("nan"), 1e-10)["is_descent"] is None
+            and DL.shrink_report(70.0, 1.7, 1e-10)["is_descent"] is True
+            and DL.shrink_report(70.0, 1e-12, 1e-10)["is_descent"] is False)
+
+
+def _net_b07_q_ack_hi_beyond_chain():
+    # sweep68 b07 Q2: a shrink acknowledgement whose hi lies beyond the last existing link is
+    # refused (it would also waive every FUTURE shrink); an in-range one, and the no-length call,
+    # still load. Temp acknowledgement file only.
+    sys.path.insert(0, _srcdir())
+    import ledger_guard as LG
+    d = tempfile.mkdtemp()
+    real = LG.ACKNOWLEDGED
+    try:
+        LG.ACKNOWLEDGED = os.path.join(d, "ack.json")
+
+        def ack(lo, hi):
+            with open(LG.ACKNOWLEDGED, "w", encoding="utf-8") as f:
+                json.dump([{"links": [lo, hi], "ledgers": ["HANDOFF.md"], "order": "x",
+                            "by": "drill", "reason": "r" * 60}], f)
+
+        def load(n):
+            return _deliberately_failing(lambda: LG._load_acknowledgements(n))
+        ack(0, 999999)
+        wide = load(5)
+        ack(1, 4)
+        inside = load(5)
+        ack(1, 5)
+        one_past = load(5)
+        ack(0, 999999)
+        unbounded_call = load(None)
+        return (wide == [] and len(inside) == 1 and one_past == []
+                and len(unbounded_call) == 1)
+    except Exception:
+        return False
+    finally:
+        LG.ACKNOWLEDGED = real
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b07_q_binding_orders_at_run():
+    # sweep68 b07 Q1: HOST_QUARANTINED and the unclassified BINDING_SUSPECT order are filed at
+    # RUN (nothing but a run releases a quarantine or re-probes a binding), not at BOTS where no
+    # bot owns them.
+    import ast
+    with open(os.path.join(_srcdir(), "workorders.py"), encoding="utf-8") as f:
+        tree = ast.parse(f.read())
+    seen = {}
+    for n in ast.walk(tree):
+        if (isinstance(n, ast.Call) and getattr(n.func, "id", None) == "file_order"
+                and n.args and isinstance(n.args[0], ast.Constant)
+                and n.args[0].value in ("HOST_QUARANTINED", "BINDING_SUSPECT")
+                and len(n.args) >= 3 and isinstance(n.args[2], ast.Constant)):
+            seen.setdefault(n.args[0].value, []).append(n.args[2].value)
+    # BINDING_SUSPECT is also filed at OWNER (identity-settled arms); only the BOTS arm matters.
+    return (seen.get("HOST_QUARANTINED") == ["RUN"]
+            and "BOTS" not in seen.get("BINDING_SUSPECT", [])
+            and "RUN" in seen.get("BINDING_SUSPECT", []))
+
+
+def _net_b07_q_speculative_uncapped():
+    # sweep68 b07 Q5 (Hard Rule 0): discover() probes EVERY speculative candidate by default; the
+    # old per_source=24 slice never probed guess 25 onward. Temp host map, stubbed probe, no network.
+    import io
+    import contextlib
+    sys.path.insert(0, _srcdir())
+    import hosts as HS
+    import hostcheck as HC
+    d = tempfile.mkdtemp()
+    saved = (HS.PRIMARY, HS.EXTRA, HC.entities_by_source, HC.candidates_split, HC.score, HS.add)
+    try:
+        prim = os.path.join(d, "WIKI_HOSTS.json")
+        with open(prim, "w", encoding="utf-8") as f:
+            json.dump({"S": "main.example"}, f)
+        HS.PRIMARY, HS.EXTRA = prim, os.path.join(d, "SOURCE_HOSTS.json")
+        HC.entities_by_source = lambda *a, **k: {"S": ["a", "b", "c", "d"]}
+        guesses = ["g%d.example" % i for i in range(60)]
+        HC.candidates_split = lambda *a, **k: (["known.example"], list(guesses))
+        probed = []
+
+        def score(h, *a, **k):
+            probed.append(h)
+            return {"verdict": "none", "lift": 0, "about": None, "hits": 0}
+        HC.score = score
+        HS.add = lambda *a, **k: True
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            _deliberately_failing(lambda: HS.discover(workers=1))
+        return len(probed) == 61 and "g59.example" in probed
+    except Exception:
+        return False
+    finally:
+        (HS.PRIMARY, HS.EXTRA, HC.entities_by_source, HC.candidates_split, HC.score, HS.add) = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b07_q_write_interlocks():
+    # sweep68 b07 Q3: onomast.main(), events.main(--write) and hosts.main(--discover) refuse while
+    # the library is HALTED (escalation.assert_clear raising), before any write. Every write path
+    # is redirected into a temp dir so a missing interlock cannot touch live data.
+    import io
+    import contextlib
+    sys.path.insert(0, _srcdir())
+    import escalation as ESC
+    import onomast as ON
+    import events as EV
+    import hosts as HS
+    d = tempfile.mkdtemp()
+    saved = (ESC.assert_clear, ON.RESOLVED, ON.OUT, EV.OUT, HS.discover, HS.coverage, sys.argv)
+
+    class _Halted(Exception):
+        pass
+
+    def halted(*a, **k):
+        raise _Halted()
+
+    def refuses(fn):
+        out = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(io.StringIO()):
+                _deliberately_failing(fn)
+        except _Halted:
+            return True
+        except BaseException:
+            return False
+        return False
+
+    try:
+        ESC.assert_clear = halted
+        res = os.path.join(d, "RESOLVED.json")
+        with open(res, "w", encoding="utf-8") as f:
+            json.dump({}, f)
+        ON.RESOLVED, ON.OUT = res, os.path.join(d, "ONOMASTICON.json")
+        EV.OUT = os.path.join(d, "EVENTS.json")
+        HS.discover = lambda **k: (0, [])
+        HS.coverage = lambda: {"with_more_than_one": 0}
+        sys.argv = ["onomast.py"]
+        a = refuses(ON.main)
+        sys.argv = ["events.py", "--write"]
+        b = refuses(EV.main)
+        sys.argv = ["hosts.py", "--discover"]
+        c = refuses(HS.main)
+        # read-only invocations must keep working under a halt
+        sys.argv = ["hosts.py", "--stats"]
+        out = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(out):
+                _deliberately_failing(HS.main)
+            d_ok = True
+        except BaseException:
+            d_ok = False
+        return a and b and c and d_ok
+    except Exception:
+        return False
+    finally:
+        (ESC.assert_clear, ON.RESOLVED, ON.OUT, EV.OUT, HS.discover, HS.coverage, sys.argv) = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b08_q_clear_served_bucket():
+    # A call pinned to bucket A but served by bucket B after failover must clear B's strikes,
+    # not A's.
+    import cascade_bridge as CB
+    cleared = []
+
+    class _A:
+        id, label, bucket = "drill:a", "Drill A", "drill-bucket-a"
+
+    class _B:
+        id, label, bucket = "drill:b", "Drill B", "drill-bucket-b"
+
+    class _Router:
+        models = [_A, _B]
+
+        def claim(self, pool, n):
+            return [_A]
+
+        def reserve(self, model):
+            return None
+
+        def release(self, model):
+            return None
+
+    class _Engine:
+        def stream_chat(self, messages, **stream_kw):
+            yield {"type": "model", "label": _B.label, "model_id": _B.id}
+            yield {"type": "delta", "text": '{"drill": "served by the neighbour"}'}
+
+    keep = (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+            CB.record_unrecognised, CB._bury)
+    try:
+        CB.thread_engine = lambda: _Engine()
+        CB._ROUTER = _Router()
+        CB._alive = lambda bucket: True
+        CB._tried_add = lambda bucket: None
+        CB._pace = lambda bucket: None
+        CB._clear = lambda bucket: cleared.append(bucket)
+        CB.record_unrecognised = lambda bucket, err: None
+        CB._bury = lambda bucket, seconds=None: None
+        got = _deliberately_failing(lambda: CB._ask_call("drill system", "drill prompt"))
+        return isinstance(got, dict) and cleared == ["drill-bucket-b"]
+    finally:
+        (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+         CB.record_unrecognised, CB._bury) = keep
+
+
+def _net_b08_q_halt_address_space():
+    # address_space.main must refuse to write data/SHELFMARKS.json while the library is halted.
+    import io
+    import contextlib
+    import escalation as ESC
+    import address_space as AS
+    td = tempfile.mkdtemp(prefix="net_b08_ash_")
+    real = (AS.HERE, ESC.assert_clear, sys.argv)
+    try:
+        os.makedirs(os.path.join(td, "data"))
+        with open(os.path.join(td, "data", "WORLDSEEDS.json"), "w", encoding="utf-8") as f:
+            json.dump({"Src::World": {"seed": 1}}, f)
+        with open(os.path.join(td, "data", "TIERS.json"), "w", encoding="utf-8") as f:
+            json.dump({"Src": {"multiverse": 1, "metaverse": 0, "xenoverse": 0,
+                               "hyperverse": 0}}, f)
+        AS.HERE = td
+
+        def halted(who="?"):
+            raise SystemExit("HALTED (net stand-in)")
+        ESC.assert_clear = halted
+        sys.argv = ["address_space.py"]
+        refused = False
+        try:
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                _deliberately_failing(AS.main)
+        except SystemExit:
+            refused = True
+        return refused and not os.path.exists(os.path.join(td, "data", "SHELFMARKS.json"))
+    finally:
+        AS.HERE, ESC.assert_clear, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b08_q_halt_pantheon():
+    # pantheon.main must refuse to write data/PANTHEON.json while the library is halted.
+    import io
+    import contextlib
+    import escalation as ESC
+    import pantheon as PT
+    td = tempfile.mkdtemp(prefix="net_b08_pt_")
+    real = (PT.OUT, ESC.assert_clear, sys.argv)
+    try:
+        PT.OUT = os.path.join(td, "PANTHEON.json")
+
+        def halted(who="?"):
+            raise SystemExit("HALTED (net stand-in)")
+        ESC.assert_clear = halted
+        sys.argv = ["pantheon.py", "--gods-only"]
+        refused = False
+        try:
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                _deliberately_failing(PT.main)
+        except SystemExit:
+            refused = True
+        return refused and not os.path.exists(PT.OUT)
+    finally:
+        PT.OUT, ESC.assert_clear, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b08_q_length_stopped_bench():
+    # A bucket whose replies keep being cut off by the output cap is benched at the strike
+    # threshold, not re-claimed for ever.
+    import cascade_bridge as CB
+    buried = []
+
+    class _M:
+        id, label, bucket = "drill:m", "Drill M", "drill-bucket-ls"
+
+    class _Router:
+        models = [_M]
+
+        def claim(self, pool, n):
+            return [_M]
+
+        def reserve(self, model):
+            return None
+
+        def release(self, model):
+            return None
+
+    class _Engine:
+        def stream_chat(self, messages, **stream_kw):
+            yield {"type": "model", "label": _M.label, "model_id": _M.id}
+            yield {"type": "delta", "text": '{"cut": "off'}
+            yield {"type": "done", "finish_reason": "length"}
+
+    keep = (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+            CB.record_unrecognised, CB._bury)
+    try:
+        CB.thread_engine = lambda: _Engine()
+        CB._ROUTER = _Router()
+        CB._alive = lambda bucket: True
+        CB._tried_add = lambda bucket: None
+        CB._pace = lambda bucket: None
+        CB._clear = lambda bucket: None
+        CB.record_unrecognised = lambda bucket, err: None
+        CB._bury = lambda bucket, seconds=None: buried.append(bucket)
+        with CB._DEAD_LOCK:
+            CB._UNPARSEABLE.clear()
+        n = CB.UNPARSEABLE_STRIKES_BEFORE_BENCH
+        for _ in range(n - 1):
+            _deliberately_failing(lambda: CB._ask_call("drill system", "drill prompt"))
+        if buried:
+            return False                      # benched before the threshold
+        _deliberately_failing(lambda: CB._ask_call("drill system", "drill prompt"))
+        with CB._DEAD_LOCK:
+            CB._UNPARSEABLE.clear()
+        return buried == ["drill-bucket-ls"]
+    finally:
+        (CB.thread_engine, CB._ROUTER, CB._alive, CB._tried_add, CB._pace, CB._clear,
+         CB.record_unrecognised, CB._bury) = keep
+
+
+def _net_b08_q_resync_duplicate_source():
+    # A source declared by two record files must not have its roll row rewritten from either.
+    import io
+    import contextlib
+    import resync_roll as RR
+    td = tempfile.mkdtemp(prefix="net_b08_rd_")
+    real = (RR.ROLL, RR.RECORDS, sys.argv)
+    try:
+        recs = os.path.join(td, "records")
+        os.makedirs(recs)
+        rp = os.path.join(td, "SWEEP_ROLL.json")
+        with open(rp, "w", encoding="utf-8") as f:
+            json.dump([{"name": "Alpha", "entry_count": 7, "status": "catalogued"}], f)
+        with open(os.path.join(recs, "alpha.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Alpha", "entries": [{"name": "x"}] * 7}, f)
+        with open(os.path.join(recs, "zz-alpha-stub.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "Alpha", "entries": []}, f)
+        RR.ROLL, RR.RECORDS = rp, recs
+        sys.argv = ["resync_roll.py", "--dry-run"]
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(io.StringIO()):
+            _deliberately_failing(RR.main)
+        out = buf.getvalue()
+        # the stub sorts last; the old code planned a 7 -> 0 repair, i.e. 'Would fix 1'
+        return "Would fix 0 roll entries" in out and "LEFT AS THEY WERE" in out
+    finally:
+        RR.ROLL, RR.RECORDS, sys.argv = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b09_q_burg_count_rule_end():
+    """sweep68 b09 F6 (answered under the 2026-09-30 ruling). No burg count runs past n = P_1/P_min.
+
+    The thriving factor 1.15 ran `burg_count` past the rank-size rule's own end, and every rank
+    beyond it comes back from `rank_population` pinned at HAMLET_FLOOR -- fabricated floor-valued
+    settlements, the thing `burgs_for` refuses for `limit`. Pure arithmetic over seeds; no writes.
+    """
+    import burgs as BG
+    for seed in range(1, 4000, 37):
+        for era in ("medieval", "magical", "industrial"):
+            for cond in ("ruined", "wartorn", "settled", "thriving"):
+                p1 = BG.largest_city(seed, era, cond)
+                n = BG.burg_count(seed, era, cond, p1)
+                if int(p1 / (n ** BG.ZIPF_Q)) < BG.HAMLET_FLOOR:
+                    return False
+    return True
+
+
+def _net_b09_q_clear_keeps_concurrent_flush():
+    """sweep68 b09 F10 residue (answered under the 2026-09-30 ruling). Clearing after an archive
+    keeps counts a concurrent `health.flush` landed in between.
+
+    `triage_swallowed` read the ledger, archived it, then wrote {} blind, so a flush landing
+    between the read and the clear was erased. The flush is simulated by landing a count when the
+    archive is written. foreman.HERE and `silence.write_json` are redirected; both restored.
+    """
+    import foreman as F
+    import silence as S
+    d = tempfile.mkdtemp(prefix="net_b09_clear_")
+    saved = (F.HERE, S.write_json)
+    live = os.path.join(d, "state", "failures.json")
+    arch = os.path.join(d, "state", "failures_archive.json")
+    real_write = S.write_json
+
+    def racing_write(path, obj, **kw):
+        ok = real_write(path, obj, **kw)
+        if os.path.normcase(path) == os.path.normcase(arch):
+            with open(live, encoding="utf-8") as f:
+                cur = json.load(f)
+            cur["b"] = cur.get("b", 0) + 7
+            cur["a"] = cur.get("a", 0) + 1
+            real_write(live, cur, indent=1)
+        return ok
+
+    try:
+        os.makedirs(os.path.join(d, "state"))
+        F.HERE = d
+        with open(live, "w", encoding="utf-8") as f:
+            json.dump({"a": 2}, f)
+        S.write_json = racing_write
+        ok, _why = F.triage_swallowed()
+        S.write_json = saved[1]
+        with open(live, encoding="utf-8") as f:
+            after = json.load(f)
+        with open(arch, encoding="utf-8") as f:
+            archived = list(json.load(f).values())
+        return ok and after == {"a": 1, "b": 7} and archived == [{"a": 2}]
+    finally:
+        F.HERE, S.write_json = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b09_q_roster_every_level():
+    """sweep68 b09 Q2 (answered under the 2026-09-30 ruling). backfill.roster walks every level.
+
+    It walked Category:Characters and one level of subcategory, so a page filed two levels down
+    ("Villains" -> "Villains by arc") was left out of a roster that still read as complete. The
+    wiki API is stood in for with a three-level tree that contains a cycle; restored in finally.
+    """
+    import backfill as BF
+    tree = {
+        "Category:Characters": (["Goku"], ["Category:Villains"]),
+        "Category:Villains": (["Frieza"], ["Category:Villains by arc"]),
+        "Category:Villains by arc": (["Cell", "List of villains"], ["Category:Characters"]),
+    }
+    calls = []
+
+    def fake_api(host, q):
+        calls.append(q["cmtitle"])
+        pages, subs = tree.get(q["cmtitle"], ([], []))
+        rows = subs if q.get("cmtype") == "subcat" else pages
+        return {"query": {"categorymembers": [{"title": t} for t in rows]}}
+
+    saved = BF.F.api
+    try:
+        BF.F.api = fake_api
+        got = BF.roster("drill.example")
+    finally:
+        BF.F.api = saved
+    return sorted(got) == ["Cell", "Frieza", "Goku"] and len(calls) < 20
+
+
+def _net_b09_q_terminal_halt():
+    """sweep68 b09 Q2 (answered under the 2026-09-30 ruling). build_terminal refuses under a halt.
+
+    It was the one hand-run writer of library output left outside the 2026-09-28 interlock. The
+    halt file, DATA, OUT and argv are pointed at a scratch dir; all restored. A standing scratch
+    halt must refuse and leave the old page; no halt must build.
+    """
+    import contextlib
+    import io
+    import build_terminal as BT
+    import escalation as ESC
+    d = tempfile.mkdtemp(prefix="net_b09_thalt_")
+    saved = (BT.DATA, BT.OUT, list(sys.argv), ESC.HALT_FILE)
+    try:
+        BT.DATA = os.path.join(d, "NAVTREE.json")
+        BT.OUT = os.path.join(d, "registry_terminal.html")
+        sys.argv[:] = ["build_terminal.py"]
+        with open(BT.DATA, "w", encoding="utf-8") as f:
+            json.dump({"roots": ["0"], "nodes": {"0": {"k": "c", "na": "Root"}}}, f)
+        with open(BT.OUT, "w", encoding="utf-8") as f:
+            f.write("PREVIOUS GOOD PAGE")
+        ESC.HALT_FILE = os.path.join(d, "HALT.json")
+        with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+            json.dump({"code": "NET_B09", "what": "scratch halt for a drill net", "by": "drill"}, f)
+        refused = False
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                BT.main()
+        except (ESC.SystemHalted, SystemExit):
+            refused = True
+        with open(BT.OUT, encoding="utf-8") as f:
+            if not refused or f.read() != "PREVIOUS GOOD PAGE":
+                return False
+        os.remove(ESC.HALT_FILE)
+        with contextlib.redirect_stdout(io.StringIO()):
+            return BT.main() == 0
+    finally:
+        BT.DATA, BT.OUT, sys.argv[:], ESC.HALT_FILE = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b09_q_unknown_shelf():
+    """sweep68 b09 F7 (answered under the 2026-09-30 ruling). An unknown shelf is not a finding.
+
+    `tempus.apparent_lag_years` answered a name absent from the propagation graph with the same
+    "no shared furniture; relation is mediated or absent" note as two real, disconnected shelves,
+    so a typo read as a physical result. The graph is stood in for; restored in finally.
+    """
+    import collections
+    import propagation as P
+    import tempus as TP
+    adj = collections.defaultdict(dict)
+    adj["A"]["B"] = adj["B"]["A"] = 1.0
+    adj["C"]["D"] = adj["D"]["C"] = 1.0
+    saved = P.load_graph
+    try:
+        P.load_graph = lambda: adj
+        apart = TP.apparent_lag_years("A", "C")
+        typo = TP.apparent_lag_years("A", "Not A Real Shelf")
+        near = TP.apparent_lag_years("A", "B")
+    finally:
+        P.load_graph = saved
+    shape = {"distance", "lag_years", "path", "note"}
+    return (set(apart) == set(typo) == set(near) == shape
+            and apart["lag_years"] is None and typo["lag_years"] is None
+            and "no shared furniture" in apart["note"]
+            and "unknown shelf" in typo["note"] and "Not A Real Shelf" in typo["note"]
+            and near["path"] == ["A", "B"])
+
+
+def _net_b10_q_anchors_strict():
+    # Two anchors on the declared ladder that assay to the SAME reading must VIOLATE the
+    # monotone check (the ruling is that the sword sits BELOW the skate guy).
+    import io
+    import contextlib
+    import anchors as AN
+    import assay as A
+    real = A.assay
+
+    def tied(band, scores, **k):
+        res = dict(real(band, scores, **k))
+        if band == "M0":
+            res["decimal"] = 0.5
+        return res
+    try:
+        A.assay = tied
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            _deliberately_failing(lambda: AN.run())
+    finally:
+        A.assay = real
+    return any(ln.strip().startswith("VIOLATED") and "monotone floor" in ln
+               for ln in buf.getvalue().splitlines())
+
+
+def _net_b10_q_cosgraph_shrink():
+    # --write must not land a graph with fewer pairs than the one on disk unless --allow-shrink.
+    import io
+    import contextlib
+    import cosmology_graph as CG
+    import silence
+    td = tempfile.mkdtemp(prefix="net_b10_cg_")
+    saved = (CG.OUT, CG.build_graph, CG._assert_not_halted, silence.write_json, sys.argv)
+    wrote = []
+    try:
+        CG.OUT = os.path.join(td, "SHARED_STAGE_GRAPH.json")
+        with open(CG.OUT, "w", encoding="utf-8") as f:
+            json.dump({"pair_count": 100}, f)
+        pw = {("a", "b"): 1.0, ("a", "c"): 2.0, ("b", "c"): 3.0}
+        CG.build_graph = lambda: (dict(pw), {k: [] for k in pw}, {"a": 1, "b": 1, "c": 1})
+        CG._assert_not_halted = lambda what: True
+        silence.write_json = lambda *a, **k: wrote.append(a) or True
+
+        def run(*flags):
+            sys.argv = ["cosmology_graph.py", "--write"] + list(flags)
+            with contextlib.redirect_stdout(io.StringIO()):
+                return _deliberately_failing(lambda: CG.main())
+        rc_refused = run()
+        refused = rc_refused == 1 and not wrote
+        rc_allowed = run("--allow-shrink")
+        allowed = rc_allowed == 0 and len(wrote) == 1
+        with open(CG.OUT, "w", encoding="utf-8") as f:
+            json.dump({"pair_count": 2}, f)
+        rc_grow = run()
+        return refused and allowed and rc_grow == 0 and len(wrote) == 2
+    finally:
+        CG.OUT, CG.build_graph, CG._assert_not_halted, silence.write_json, sys.argv = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b10_q_gpulane_ceiling_note():
+    # A round that goes unarbitrated because a ceiling ran out must leave a ledger note.
+    import gpu_lane as GL
+    import silence
+    td = tempfile.mkdtemp(prefix="net_b10_glc_")
+    saved = (GL.LANE, GL.MAX_YIELD_SECONDS, GL._POLL, GL.SLOT_LEASE_SECONDS,
+             GL.foreground_active, GL._take_slot, silence.note)
+    notes = []
+    try:
+        GL.LANE = td
+        GL._POLL = 0.01
+        silence.note = lambda tag, *a, **k: notes.append(tag)
+        GL.MAX_YIELD_SECONDS = 0.05
+        GL.foreground_active = lambda ignore_pid=None: True
+        with GL.lane("net"):
+            pass
+        yielded = "gpu_lane.py:yield-ceiling" in notes
+        GL.foreground_active = lambda ignore_pid=None: False
+        GL.SLOT_LEASE_SECONDS = 0.05
+        GL._take_slot = lambda label: False
+        with GL.lane("net"):
+            pass
+        return yielded and "gpu_lane.py:slot-deadline" in notes
+    finally:
+        (GL.LANE, GL.MAX_YIELD_SECONDS, GL._POLL, GL.SLOT_LEASE_SECONDS,
+         GL.foreground_active, GL._take_slot, silence.note) = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b10_q_log_age():
+    # A job row must carry the age of the log its line came from, so a dead reader's last line
+    # is not drawn as a live one.
+    import types
+    import dashboard as D
+    td = tempfile.mkdtemp(prefix="net_b10_age_")
+    saved = (D.STATE, D._tail_match)
+    try:
+        D.STATE = td
+        for n in ("r.log", "p.log"):
+            with open(os.path.join(td, n), "w", encoding="utf-8") as f:
+                f.write("x\n")
+            old = time.time() - 7200
+            os.utime(os.path.join(td, n), (old, old))
+        LN = types.SimpleNamespace(READ="r.log", ROLL="p.log")
+        fake = {"chunks": "1", "budget": "2", "done": "1", "total": "2", "feats": "1",
+                "rate": "1", "unans": "0", "dropped": "0", "eta": "1", "pages": "1",
+                "chars": "1"}
+        D._tail_match = lambda *a, **k: dict(fake)
+        rows = []
+        _deliberately_failing(lambda: (D._read_row(rows, LN), D._roll_row(rows, LN)))
+        return (len(rows) == 2 and all(isinstance(r.get("age_s"), float)
+                                       and 7100 < r["age_s"] < 7400 for r in rows)
+                and D._log_age(os.path.join(td, "nope.log")) is None)
+    finally:
+        D.STATE, D._tail_match = saved
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b10_q_sevenfold_unshelved():
+    # --write must refuse (rc 1, nothing written) when worlds are UNSHELVED, and must still
+    # write when none are.
+    import io
+    import contextlib
+    import sevenfold as SV
+    import silence
+    saved = (SV.build, SV._assert_not_halted, silence.write_json, sys.argv, dict(SV.UNSHELVED))
+    wrote = []
+    unshelved = {"Some Source": 2}
+
+    def build():
+        SV.UNSHELVED.clear()
+        SV.UNSHELVED.update(unshelved)
+        return [], {}, {}, {}
+    try:
+        SV.build = build
+        SV._assert_not_halted = lambda what: True
+        silence.write_json = lambda *a, **k: wrote.append(a) or True
+        sys.argv = ["sevenfold.py", "--write"]
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc_bad = _deliberately_failing(lambda: SV.main())
+        blocked = rc_bad == 1 and not wrote
+        unshelved.clear()
+        with contextlib.redirect_stdout(io.StringIO()):
+            rc_ok = _deliberately_failing(lambda: SV.main())
+        return blocked and rc_ok == 0 and len(wrote) == 1
+    finally:
+        SV.build, SV._assert_not_halted, silence.write_json, sys.argv = saved[:4]
+        SV.UNSHELVED.clear()
+        SV.UNSHELVED.update(saved[4])
+
+
+def _net_b10_q_standards_unavailable():
+    # The page must READ standards_unavailable and say the check did not run; before, the key
+    # was written by publish.snapshot and drawn by nothing.
+    import dashboard as D
+    return "d.standards_unavailable" in D.PAGE and "DID NOT RUN" in D.PAGE
+
+
+def _net_b11_q_aurora_unparsed():
+    # A folder with an unparseable XML file must NOT be written and marked catalogued (the default
+    # selection is entry_count == 0, so a partial record would never be re-read); a clean folder
+    # still lands and updates the roll.
+    import catalogue_aurora as CA
+    import escalation as ESC
+    import pipeline as P
+    import contextlib
+    import io
+    tmp = tempfile.mkdtemp()
+    real = (CA.FOLDER_SOURCE, CA.ROLL, CA.parse_folder, CA.record_path,
+            P.write_record_catalogue, ESC.HALT_FILE, sys.argv)
+    wrote = []
+    try:
+        ESC.HALT_FILE = os.path.join(tmp, "HALT.json")
+        CA.FOLDER_SOURCE = {"f": "Src"}
+        CA.ROLL = os.path.join(tmp, "SWEEP_ROLL.json")
+        CA.record_path = lambda name, records_dir=None: os.path.join(tmp, "rec.json")
+        P.write_record_catalogue = lambda path, rec, *a, **k: wrote.append(rec["source"]) or True
+        sys.argv = ["catalogue_aurora.py"]
+
+        def parse(bad):
+            def fn(folder, dropped=None, unparsed=None):
+                if bad:
+                    unparsed.append("bad.xml")
+                return [{"name": "A", "description": "d", "type": "t"}]
+            return fn
+
+        def run(bad):
+            with open(CA.ROLL, "w", encoding="utf-8") as f:
+                json.dump([{"name": "Src", "category": "c", "entry_count": 0}], f)
+            del wrote[:]
+            CA.parse_folder = parse(bad)
+            with contextlib.redirect_stdout(io.StringIO()):
+                rc = _deliberately_failing(CA.main)
+            with open(CA.ROLL, encoding="utf-8") as f:
+                count = json.load(f)[0]["entry_count"]
+            return rc, list(wrote), count
+        bad = run(True)
+        good = run(False)
+        return bad == (1, [], 0) and good == (0, ["Src"], 1)
+    except Exception:
+        return False
+    finally:
+        (CA.FOLDER_SOURCE, CA.ROLL, CA.parse_folder, CA.record_path,
+         P.write_record_catalogue, ESC.HALT_FILE, sys.argv) = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b11_q_entity_match_midname():
+    # entity_match must gate EVERY parenthetical group, not only the trailing one: a differing
+    # continuity marker in front of a shared trailing qualifier may not be fuzzy-scored to STRONG.
+    import entity_match as EM
+    try:
+        a = "Doctor Stephen Vincent Strange of the Sanctum Sanctorum (Ultimate) (Sorcerer)"
+        b = "Doctor Stephen Vincent Strange of the Sanctum Sanctorum (Prime) (Sorcerer)"
+        if EM.qualifier_compatible(a, b)[0] is not False:
+            return False
+        if EM.best(a, [b])[0] is not None:
+            return False
+        # controls: agreeing groups (case/punctuation folded) and group-free names still pass
+        if EM.qualifier_compatible("X Y (Prime) (Sorcerer)", "x y (PRIME) (sorcerer)")[0] is not True:
+            return False
+        if EM.qualifier_compatible("Plain Name", "Plain Name")[0] is not True:
+            return False
+        return EM.qualifier_compatible("A (x)", "A (y)")[1] == EM.MatchReason.QUALIFIER_CONFLICT
+    except Exception:
+        return False
+
+
+def _net_b11_q_instrument_mark_anywhere():
+    # Layer 4c: the Instrument marker glyph must open a line. One tucked mid-sentence in the Record
+    # must not satisfy the marker for a being that has no Instrument section.
+    import prose_gate as PG
+    glyph = chr(0x25a3)
+
+    def block(record, section):
+        return ("◈ Some Person\n".replace("◈", chr(0x25c8))
+                + "Shelfmark: Omega > ? > ?\nClass: Person\nMagnitude: M1\n"
+                + record + "\n" + section + "Threads: pending\n")
+    try:
+        stray = block("The Record notes a mark " + glyph + " that is only decoration.\n",
+                      "Wisdom: --\n")
+        if PG.instrument_shortfall(stray)[0] != 0:
+            return False
+        real = block("A plain Record.\n", glyph + " The Instrument.\nWisdom: --\n")
+        return PG.instrument_shortfall(real) == (1, 1, [])
+    except Exception:
+        return False
+
+
+def _net_b12_q_anchor_gated_cites():
+    # magnitude._split_assay: the ANCHOR call sees only citations that pass _split_gate, never a
+    # fabricated one the gate refuses.
+    import magnitude as M
+    real = M._ask
+    real_feat = "Goku destroyed the whole mountain range with one blast"
+    fake_feat = "Goku moved faster than light across the entire galaxy in an instant"
+    cand = {"ruin": [{"feat": real_feat}],
+            "celerity": [{"feat": "Goku reacted quickly to the attack of the enemy soldiers"}]}
+    seen = []
+
+    def fake(c, system, prompt, schema, timeout=420):
+        if schema is M.ANCHOR_SCHEMA:
+            seen.append(prompt)
+            return {"anchor": "M3", "presence_evidence": "", "epoch": "unstamped"}
+        if "AXIS UNDER ASSAY: RUIN" in prompt:
+            return {"score": 7, "feat": real_feat}
+        if "AXIS UNDER ASSAY: CELERITY" in prompt:
+            return {"score": 9, "feat": fake_feat}
+        return {"score": "unestimable", "feat": ""}
+    try:
+        M._ask = fake
+        out = M._split_assay({}, "Goku", cand, None)
+        return (out is not None and len(seen) == 1 and real_feat in seen[0]
+                and fake_feat not in seen[0])
+    finally:
+        M._ask = real
+
+
+def _net_b12_q_ceiling_unread_refuses():
+    # magnitude.ceiling_for_assay: a scope read that FAILED (any exception, not only ProbeUnread)
+    # refuses the assay instead of handing assay_entity None ("no ceiling, no clamp").
+    import types
+    import magnitude as M
+    tmp = tempfile.mkdtemp(prefix="netb12q_")
+    saved = {k: getattr(M, k) for k in ("HERE", "SCOPE")}
+    host = "net-b12-q-ceiling.test"
+
+    def _boom(h):
+        raise KeyError("net: garbled scope row")
+    try:
+        M.HERE = tmp                       # no data/SCOPE.json -> the live read is asked
+        M.SCOPE = types.SimpleNamespace(scope_for=_boom, ProbeUnread=saved["SCOPE"].ProbeUnread)
+        refused = False
+        try:
+            _deliberately_failing(lambda: M.ceiling_for_assay(host))
+        except RuntimeError:
+            refused = True
+        M.SCOPE = types.SimpleNamespace(scope_for=lambda h: {},
+                                        ProbeUnread=saved["SCOPE"].ProbeUnread)
+        honest_none = _deliberately_failing(lambda: M.ceiling_for_assay(host)) is None
+        return refused and honest_none
+    finally:
+        M._SCOPE_CACHE.pop(host, None)
+        M._CEILING_UNREAD.discard(host)
+        for k, v in saved.items():
+            setattr(M, k, v)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b12_q_guard2_word_start():
+    # magnitude.verify guard 2: an axis stem inside another word ("range" in "Strange") is not
+    # evidence for that axis; a real word-start match still scores.
+    import magnitude as M
+    ev = {"feats": [
+        {"feat": "Stephen Strange stood silently beside the old portal for a while", "page": "p"},
+        {"feat": "Stephen Strange cast his spell across the entire distance of the city",
+         "page": "p"}]}
+    bad, _s1, _r1 = M.verify("Stephen Strange", {"axes": {"reach": {"score": 5, "feat": "[1]"}}}, ev)
+    good, _s2, _r2 = M.verify("Stephen Strange", {"axes": {"reach": {"score": 5, "feat": "[2]"}}}, ev)
+    return bad.get("reach") == M.A.UNESTIMABLE and good.get("reach") == 5.0
+
+
+def _net_b12_q_halt_sentence_needs_halt():
+    # allsweep.run_verifier: a verifier that exits nonzero while merely PRINTING the halt sentence
+    # is failed unless a halt actually stands; under a standing halt it is still "refused".
+    import allsweep as AS
+    tmp = tempfile.mkdtemp()
+    real_src, real_status = AS.SRC, AS._esc.status
+    try:
+        with open(os.path.join(tmp, "net_echo.py"), "w", encoding="utf-8") as f:
+            f.write("import sys\nprint(%r + ' (quoted by a probe)')\nsys.exit(1)\n"
+                    % AS._HALT_REFUSAL)
+        AS.SRC = tmp
+        item = ("net b12 halt echo", ["net_echo.py"], AS.RC_BROKEN)
+        AS._esc.status = lambda: (False, None)
+        clear = AS.run_verifier(item)
+        AS._esc.status = lambda: (True, {"code": "NET"})
+        halted = AS.run_verifier(item)
+        return (clear.get("failed") is True and not clear.get("refused")
+                and halted.get("failed") is False and halted.get("refused") is True)
+    finally:
+        AS.SRC, AS._esc.status = real_src, real_status
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b12_q_presilence_pristine():
+    # silence.instrument: a second run over a module with NEW silent handlers must keep the
+    # first, pristine .presilence backup rather than overwrite it with the instrumented file.
+    import contextlib
+    import io
+    import silence as S
+    tmp = tempfile.mkdtemp()
+    try:
+        p = os.path.join(tmp, "netmod.py")
+        pristine = ("def f():\n    try:\n        x()\n    except ValueError:\n"
+                    "        return None\n")
+        with open(p, "w", encoding="utf-8") as fh:
+            fh.write(pristine)
+        with contextlib.redirect_stdout(io.StringIO()):
+            S.instrument(root=tmp)
+            with open(p, "a", encoding="utf-8") as fh:
+                fh.write("\n\ndef g():\n    try:\n        y()\n    except KeyError:\n"
+                         "        return None\n")
+            S.instrument(root=tmp)
+        with open(p + ".presilence", encoding="utf-8") as fh:
+            backup = fh.read()
+        with open(p, encoding="utf-8") as fh:
+            now = fh.read()
+        return backup == pristine and now.count("silence.note(") == 2
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b12_q_quick_not_landed():
+    # allsweep.land_report: a --quick sweep (no VERIFY, no ESTATE) must not replace ALLSWEEP.json;
+    # a full sweep still lands it.
+    import contextlib
+    import io
+    import allsweep as AS
+    tmp = tempfile.mkdtemp()
+    real = AS.OUT
+    try:
+        AS.OUT = os.path.join(tmp, "ALLSWEEP.json")
+        with contextlib.redirect_stdout(io.StringIO()):
+            quick = AS.land_report({"at": 1.0, "verifiers": [], "estate": {}}, quick=True)
+        skipped = not os.path.exists(AS.OUT)
+        full = AS.land_report({"at": 2.0, "verifiers": [], "estate": {}}, quick=False)
+        return quick is True and skipped and full is True and os.path.exists(AS.OUT)
+    finally:
+        AS.OUT = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b12_q_title_not_identity():
+    # magnitude guard 3: a rival sharing only a title word (Captain, Iron, Doctor, Man) is a
+    # rival; the entity's own name variants are still the entity.
+    import magnitude as M
+    rivals = [("Captain America", "Captain Marvel destroyed the alien ship with a blast."),
+              ("Iron Man (Tony Stark)", "Iron Fist destroyed the wall."),
+              ("Doctor Strange", "Doctor Doom destroyed the city."),
+              ("Iron Man", "Ant-Man destroyed the city.")]
+    own = [("Captain America", "Captain America destroyed the alien ship with a blast."),
+           ("Goku", "Son Goku destroyed the planet with one blast."),
+           ("Iron Man (Tony Stark)", "Tony Stark destroyed the wall."),
+           ("Goku Black", "Though Black destroyed the timeline with a single strike.")]
+    return (all(M.subject_refusal(e, t, "ruin") for e, t in rivals)
+            and not any(M.subject_refusal(e, t, "ruin") for e, t in own))
+
+
+def _net_b13_q_estate_truncated_terminal():
+    # estate.terminal() must flag a truncated (non-empty) PANSCRIPTUM_TERMINAL.html, must not
+    # flag the deliberate fragments part1/part2, and must pass a complete entry point.
+    import estate as E
+    td = tempfile.mkdtemp(prefix="net_b13_et_")
+    real = E.HERE
+    try:
+        root = os.path.join(td, "registry_terminal")
+        os.makedirs(root)
+        E.HERE = td
+        page = os.path.join(root, "PANSCRIPTUM_TERMINAL.html")
+        with open(os.path.join(root, "part1.html"), "w", encoding="utf-8") as f:
+            f.write("<html><body><script>const VOLS=[" + "x" * 200)
+        with open(os.path.join(root, "d0.js"), "w", encoding="utf-8") as f:
+            f.write("var D=[" + "1," * 60 + "];")
+        with open(page, "w", encoding="utf-8") as f:
+            f.write("<html><body>" + "x" * 500)
+        cut = [r for r in E.terminal() if r["bad"]]
+        with open(page, "w", encoding="utf-8") as f:
+            f.write("<html><body>" + "x" * 500 + "</body></html>\n")
+        whole = [r for r in E.terminal() if r["bad"]]
+        return (len(cut) == 1 and "TRUNCATED" in cut[0]["finding"] and whole == [])
+    finally:
+        E.HERE = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_q_genre_stem_overmatch():
+    # The genre cue stems `hell`, `ration` and `fun` must not fire on hello/Hellenic,
+    # rational/rationale, function/fundamental/fungus, and must still fire on their real
+    # inflections (hellfire, rations, funny).
+    import genre as G
+
+    def score(text, genre):
+        return dict(G.classify_text(text)).get(genre, 0)
+    stray = (score("hello Hellenic hellenistic", "grimdark") == 0
+             and score("rational rationale", "post_apocalyptic") == 0
+             and score("function fundamental fungus funeral", "whimsy") == 0)
+    real = (score("hellfire", "grimdark") > 0
+            and score("rations", "post_apocalyptic") > 0
+            and score("funny", "whimsy") > 0)
+    return stray and real
+
+
+def _net_b13_q_halt_interlock():
+    # The three derived-data writers (genre --write, tiers.main, render.main --write) must ask
+    # the halt before they write. genre is driven for real; tiers and render are heavy, so their
+    # writing path is checked by source order: the interlock call must precede the write.
+    import inspect
+    import io
+    import contextlib
+    import escalation as ESC
+    import genre as G
+    import tiers as T
+    import render as R
+    td = tempfile.mkdtemp(prefix="net_b13_hi_")
+    real = (G.HERE, G._project_pipeline, sys.argv, ESC.assert_clear)
+    try:
+        os.makedirs(os.path.join(td, "data"))
+        gp = os.path.join(td, "data", "GENRES.json")
+
+        class _Halted(Exception):
+            pass
+
+        def _halt(who="?"):
+            raise _Halted(who)
+
+        class _PL:
+            @staticmethod
+            def records():
+                return iter(())
+        G.HERE = td
+        G._project_pipeline = lambda: _PL
+        ESC.assert_clear = _halt
+        sys.argv = ["genre.py", "--write"]
+        raised = False
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            try:
+                _deliberately_failing(G.main)
+            except _Halted:
+                raised = True
+        untouched = not os.path.exists(gp)
+        ts = inspect.getsource(T.main)
+        rs = inspect.getsource(R.main)
+        t_ok = 0 <= ts.find("_assert_not_halted(") < ts.find("silence.write_json(")
+        r_ok = 0 <= rs.find("_assert_not_halted(") < rs.find("write_views(tree=tree)")
+        return raised and untouched and t_ok and r_ok
+    finally:
+        G.HERE, G._project_pipeline, sys.argv, ESC.assert_clear = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_q_liveness_notmeasured_rc():
+    # `liveness.py --reachability` must exit non-zero when the measurement did not happen (whole
+    # report errored, or any gate module unmeasured), and still 0 for a measured report.
+    import io
+    import contextlib
+    import liveness as L
+    real = (L.reachability, sys.argv)
+    try:
+        sys.argv = ["liveness.py", "--reachability"]
+        rcs = []
+        for rep in ({"error": "coverage missing"},
+                    {"modules": {"m.py": {"error": "unreadable"}}},
+                    {"modules": {"m.py": {"executable_lines": 1, "unreached": [],
+                                          "unreached_undeclared": [],
+                                          "declared_unreachable_functions": []}}}):
+            L.reachability = lambda *a, rep=rep, **k: rep
+            with contextlib.redirect_stdout(io.StringIO()):
+                rcs.append(L.main())
+        return rcs == [1, 1, 0]
+    finally:
+        L.reachability, sys.argv = real
+
+
+def _net_b13_q_render_every_node():
+    # write_views must draw EVERY node of every drawn tier (Hard Rule 0), not one sample world's
+    # node per tier under a file name that claims to be the tier's diagram.
+    import render as R
+    td = tempfile.mkdtemp(prefix="net_b13_rv_")
+    real = R.HERE
+    try:
+        R.HERE = td
+        tree = {"sources": {},
+                "worlds": {"W1": {"hyperverse": 1, "xenoverse": 1, "metaverse": 1,
+                                  "multiverse": 1, "universe": 0},
+                           "W2": {"hyperverse": 2, "xenoverse": 1, "metaverse": 1,
+                                  "multiverse": 1, "universe": 0},
+                           "W3": {"hyperverse": 2, "xenoverse": 1, "metaverse": 1,
+                                  "multiverse": 1, "universe": 1}}}
+        landed, denied = _deliberately_failing(lambda: R.write_views(tree=tree))
+        base = os.path.join(td, "output", "views")
+        counts = {t: len(os.listdir(os.path.join(base, t))) for t in R.DRAWN}
+        return (not denied and counts["hyperverse"] == 2 and counts["xenoverse"] == 2
+                and counts["universe"] == 3 and landed == sum(counts.values()))
+    finally:
+        R.HERE = real
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b13_q_tiers_grounded_shrink():
+    # tiers must refuse to publish a chart that lost most of the standing file's grounded shelves
+    # (completeness.land()'s SHRINK_FLOOR pattern), and must not refuse when nothing is standing.
+    import tiers as T
+    td = tempfile.mkdtemp(prefix="net_b13_ts_")
+    try:
+        standing = os.path.join(td, "TIERS.json")
+        with open(standing, "w", encoding="utf-8") as f:
+            json.dump({("S%d" % i): {"hyperverse_type": "emanation"} for i in range(10)}, f)
+        few = {("S%d" % i): {"hyperverse_type": "ungrounded"} for i in range(10)}
+        few["S0"] = {"hyperverse_type": "emanation"}
+        most = {("S%d" % i): {"hyperverse_type": "emanation"} for i in range(9)}
+        return (T._grounding_shrink(few, standing) == (1, 10)
+                and T._grounding_shrink(most, standing) is None
+                and T._grounding_shrink(few, os.path.join(td, "absent.json")) is None)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def _net_b14_q_canary_struck():
+    # Canary titles must not be drawn from struck (excluded) entries.
+    import binding_health as BH
+    tmp = tempfile.mkdtemp()
+    try:
+        with open(os.path.join(tmp, "s.json"), "w", encoding="utf-8") as f:
+            json.dump({"source": "S", "entries": [
+                {"name": "Struck Phantom", "excluded": True},
+                {"name": "Living Entry"}]}, f)
+        hosts = {"S": "h.example"}
+        titles = _deliberately_failing(lambda: BH.known_present_titles("h.example", hosts, tmp))
+        one = _deliberately_failing(lambda: BH.known_present_title("h.example", hosts, tmp))
+        return titles == ["Living Entry"] and one == "Living Entry"
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_q_derived_interlock():
+    # sweep.py main and worldseed --write must ask the halt before writing their derived files.
+    import io
+    import contextlib
+    import escalation as ESC
+    import worldseed as WS
+    import sweep as S
+    import corpus_db as C
+    tmp = tempfile.mkdtemp()
+    real = (ESC.HALT_FILE, WS.HERE, WS.build_all, C.HERE, S.sweep, S.report, S.OUT, list(sys.argv))
+    try:
+        os.makedirs(os.path.join(tmp, "data", "records"))
+        ESC.HALT_FILE = os.path.join(tmp, "HALT.json")
+        with open(ESC.HALT_FILE, "w", encoding="utf-8") as f:
+            json.dump({"cleared": False, "code": "NET", "what": "net halt", "by": "net"}, f)
+        WS.HERE = tmp
+        C.HERE = tmp
+        WS.build_all = lambda limit=None: []
+        S.sweep = lambda: []
+        S.report = lambda *a, **k: None
+        S.OUT = os.path.join(tmp, "data", "CHARACTER_SWEEP.json")
+        wdest = os.path.join(tmp, "data", "WORLDSEEDS.json")
+        halted = []
+        for mod, argv in ((WS, ["worldseed.py", "--write"]), (S, ["sweep.py"])):
+            sys.argv = argv
+            try:
+                with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                    _deliberately_failing(mod.main)
+                halted.append(False)
+            except ESC.SystemHalted:
+                halted.append(True)
+        if halted != [True, True] or os.path.exists(wdest) or os.path.exists(S.OUT):
+            return False
+        # a preview (no --write) is a measurement and still runs under a halt
+        sys.argv = ["worldseed.py"]
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            return _deliberately_failing(WS.main) == 0
+    finally:
+        (ESC.HALT_FILE, WS.HERE, WS.build_all, C.HERE, S.sweep, S.report, S.OUT, sys.argv[:]) = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b14_q_hosts_cas():
+    # register() must not overwrite a WIKI_HOSTS.json entry another writer lands mid-read-modify-write.
+    import ingest_doc as ID
+    import silence
+    tmp = tempfile.mkdtemp()
+    real = (ID.HOSTS, ID._assert_not_halted, silence.replace_if_unchanged, silence.write_json)
+    fired = []
+    try:
+        ID.HOSTS = os.path.join(tmp, "WIKI_HOSTS.json")
+        ID._assert_not_halted = lambda what: None
+        with open(ID.HOSTS, "w", encoding="utf-8") as f:
+            json.dump({"A": "wiki.example"}, f)
+
+        def rival():
+            if not fired:
+                fired.append(1)
+                with open(ID.HOSTS, "w", encoding="utf-8") as f:
+                    json.dump({"A": "wiki.example", "B": "rival.example"}, f)
+
+        def rep(tmp_, dst, digest, *a, **k):
+            rival()
+            return real[2](tmp_, dst, digest, *a, **k)
+
+        def wj(path, obj, *a, **k):
+            rival()
+            return real[3](path, obj, *a, **k)
+        silence.replace_if_unchanged, silence.write_json = rep, wj
+        got = _deliberately_failing(lambda: ID.register("Book One"))
+        with open(ID.HOSTS, encoding="utf-8") as f:
+            final = json.load(f)
+        return (got == "doc:book-one" and final.get("B") == "rival.example"
+                and final.get("Book One") == "doc:book-one")
+    finally:
+        ID.HOSTS, ID._assert_not_halted, silence.replace_if_unchanged, silence.write_json = real
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b15_q_canon_optional():
+    # Hand-made findings that exist only once a repair/purge has run are archived when present
+    # and are NOT a refusal when absent.
+    import canon_backup as CB
+    d = tempfile.mkdtemp(prefix="drill_canon_opt_")
+    saved = (CB.HERE, CB.CANON_FILES, CB.CANON_DIRS, getattr(CB, "CANON_OPTIONAL", None))
+    try:
+        os.makedirs(os.path.join(d, "data", "records"))
+        for rel in ("data/a.json", "data/records/r.json", "data/opt.json"):
+            with open(os.path.join(d, rel), "w", encoding="utf-8") as f:
+                f.write("{}")
+        CB.HERE, CB.CANON_FILES, CB.CANON_DIRS = d, ("data/a.json",), ("data/records",)
+        CB.CANON_OPTIONAL = ("data/opt.json", "data/never_written.json")
+        rels = [r for r, _ in CB.members()]                # absent optional must not raise
+        return "data/opt.json" in rels and "data/never_written.json" not in rels
+    finally:
+        CB.HERE, CB.CANON_FILES, CB.CANON_DIRS, CB.CANON_OPTIONAL = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b15_q_coverage_memo_key():
+    # The classifier memo must be discarded when feats.CLEAN_NEGATIVES changes (what
+    # `_empty_state` reads), and must survive when nothing changed.
+    import feats as F
+    import coverage as CV
+    d = tempfile.mkdtemp(prefix="drill_cov_memo_")
+    saved = (CV._SO_CACHE_P, dict(CV._SO), F.CLEAN_NEGATIVES)
+    try:
+        path = os.path.join(d, "coverage_cache.json")
+        CV._SO_CACHE_P = path
+
+        def load():
+            CV._SO.update({"loaded": False, "d": {}, "dirty": 0})
+            return _deliberately_failing(lambda: CV._so_load())
+
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({CV._CLASSIFIER_KEY: CV._classifier_stamp(),
+                       "p|n": [1.0, "NO PAGE", 0, 0]}, f)
+        if "p|n" not in load():
+            return False                                  # unchanged tuple: memo kept
+        F.CLEAN_NEGATIVES = tuple(F.CLEAN_NEGATIVES) + ("a-new-clean-reason",)
+        return "p|n" not in load()                        # changed tuple: memo discarded
+    finally:
+        CV._SO_CACHE_P = saved[0]
+        CV._SO.clear()
+        CV._SO.update(saved[1])
+        F.CLEAN_NEGATIVES = saved[2]
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b15_q_snapshot_rewrite_race():
+    # A record rewritten between the pre-hash and the zip must not fail the snapshot: the digest
+    # recorded is that of the bytes archived, so the read-back still proves the archive.
+    import hashlib
+    import zipfile
+    import canon_backup as CB
+    d = tempfile.mkdtemp(prefix="drill_canon_race_")
+    saved = (CB.HERE, CB.ROOT, CB.CANON_FILES, CB.CANON_DIRS, CB.digest)
+    try:
+        os.makedirs(os.path.join(d, "data", "records"))
+        rec = os.path.join(d, "data", "records", "r.json")
+        with open(os.path.join(d, "data", "a.json"), "w", encoding="utf-8") as f:
+            f.write("{}")
+        with open(rec, "w", encoding="utf-8") as f:
+            f.write('{"v": 1}')
+        CB.HERE, CB.ROOT = d, os.path.join(d, "backups")
+        CB.CANON_FILES, CB.CANON_DIRS = ("data/a.json",), ("data/records",)
+        real = CB.digest
+
+        def racing(path):
+            h = real(path)
+            if path == rec:                         # the crawl rewrites it after it was hashed
+                with open(rec, "w", encoding="utf-8") as f:
+                    f.write('{"v": 2, "more": "bytes"}')
+            return h
+
+        CB.digest = racing
+        try:
+            final, manifest = _deliberately_failing(lambda: CB.snapshot())
+        except RuntimeError:
+            return False
+        with zipfile.ZipFile(final) as z:
+            body = z.read("data/records/r.json")
+        return manifest["digests"]["data/records/r.json"] == hashlib.sha256(body).hexdigest()
+    finally:
+        (CB.HERE, CB.ROOT, CB.CANON_FILES, CB.CANON_DIRS, CB.digest) = saved
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _net_b15_q_whoruns_case():
+    # NTFS names are case-insensitive: `Mutate.py` is the same script as `mutate.py`.
+    import whoruns as WR
+    import overnight as ON                     # the module whoruns reads the table through
+    assert ON is WR.ON
+    saved = (ON._proc_lines, ON._in_this_tree)
+    try:
+        ON._proc_lines = lambda *a, **k: "4242|python.exe C:/x/src/Mutate.py --go\n4243|python.exe C:/x/other.py"
+        ON._in_this_tree = lambda pid, cmd: True
+        got = WR.running("mutate.py", exclude_self=False)
+        return got is not None and [p for p, _ in got] == [4242]
+    finally:
+        ON._proc_lines, ON._in_this_tree = saved
+
+
+def _net_b16_q_agent_revert_bytes():
+    # sweep68 b16 Q6 (answered 2026-09-30): a gate-failed patch to an LF file was "reverted" through
+    # text-mode I/O, which rewrote it CRLF on Windows -- not byte-exact -- and even a passing patch
+    # rewrote every line ending. Revert must restore the original bytes; a patch keeps the file's
+    # own line ending.
+    import local_agent as L
+    tmp = tempfile.mkdtemp(prefix="net_b16_agent_")
+    saved = (L.HERE, L._gates, L._blast_ok)
+    try:
+        os.makedirs(os.path.join(tmp, "prompts"))
+        p = os.path.join(tmp, "prompts", "x.txt")
+        with open(p, "wb") as f:
+            f.write(b"alpha\nbeta\n")
+        L.HERE = tmp
+        L._blast_ok = lambda full: (True, "")
+        L._gates = lambda full, mod: "forced-failure"
+        res = _deliberately_failing(
+            lambda: L.t_propose_patch("prompts/x.txt", "alpha", "ALPHA", why="net", apply=True))
+        with open(p, "rb") as f:
+            after_revert = f.read()
+        if not (res.get("reverted") and after_revert == b"alpha\nbeta\n"):
+            return False
+        L._gates = lambda full, mod: None
+        _deliberately_failing(
+            lambda: L.t_propose_patch("prompts/x.txt", "alpha", "ALPHA", why="net", apply=True))
+        with open(p, "rb") as f:
+            return f.read() == b"ALPHA\nbeta\n"
+    finally:
+        L.HERE, L._gates, L._blast_ok = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _net_b16_q_fallback_retry():
+    # sweep68 b16 Q3 (answered 2026-09-30): a FAILED /api/tags probe used to be cached for the
+    # process life, pinning the 18.6 GB configured model in a long --loop reader. A failure is
+    # now remembered only for `_FALLBACK_RETRY_S`, then re-probed; a success stays cached.
+    import read as R
+    import urllib.request
+
+    class _Resp:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return json.dumps({"models": [{"name": "small-fit", "size": 1}]}).encode("utf-8")
+
+    state = {"fail": True, "calls": 0}
+
+    def fake_urlopen(*a, **k):
+        state["calls"] += 1
+        if state["fail"]:
+            raise OSError("ollama down")
+        return _Resp()
+
+    failed = getattr(R, "_FALLBACK_FAILED_AT", None)
+    saved = (R._FALLBACK_MODEL[0], failed[0] if failed else None, urllib.request.urlopen,
+             getattr(R, "_FALLBACK_RETRY_S", None))
+    try:
+        R._FALLBACK_MODEL[0] = None
+        if failed:
+            failed[0] = None
+        urllib.request.urlopen = fake_urlopen
+        cfg = {"model": "configured-big"}
+        if _deliberately_failing(lambda: R.fallback_model(cfg)) != "configured-big":
+            return False
+        if saved[3] is not None:
+            R._FALLBACK_RETRY_S = 0          # the failure has aged out
+        state["fail"] = False
+        if R.fallback_model(cfg) != "small-fit":
+            return False
+        n = state["calls"]
+        R.fallback_model(cfg)                # a success is cached, not re-probed
+        return state["calls"] == n
+    finally:
+        R._FALLBACK_MODEL[0] = saved[0]
+        if failed:
+            failed[0] = saved[1]
+        urllib.request.urlopen = saved[2]
+        if saved[3] is not None:
+            R._FALLBACK_RETRY_S = saved[3]
+
+
+def _net_b09_codewatch_read_retry():
+    # Run #68 (order 3c047095d829): a restart-ledger read that fails ONCE (a Windows replace
+    # window) must be retried, not refused -- while one that never reads still refuses.
+    import codewatch as CW
+    d = tempfile.mkdtemp(prefix="net_cw_retry_")
+    keep = (CW.LEDGER, CW._read_ledger)
+    try:
+        CW.LEDGER = os.path.join(d, "codewatch.json")
+        calls = []
+
+        def flaky(strict=False):
+            calls.append(1)
+            if len(calls) == 1:
+                raise PermissionError("replace in progress (drill fixture)")
+            return {}
+        CW._read_ledger = flaky
+        granted, _used = _deliberately_failing(lambda: CW._take_locked("drill_retry", enforce=True))
+
+        def dead(strict=False):
+            raise PermissionError("never readable (drill fixture)")
+        CW._read_ledger = dead
+        refused, _u2 = _deliberately_failing(lambda: CW._take_locked("drill_retry", enforce=True))
+        return granted is True and refused is False
+    finally:
+        CW.LEDGER, CW._read_ledger = keep
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def drill_sweep68():
+    """Maintenance run #68 sweep: one net per verified-and-fixed finding (handoff/sweep68)."""
+    a = "SWEEP68 — the fixes of maintenance run #68, each proved RED under its revert"
+    net(a, 'an area that died once is re-asked on the settled tree before it can halt',
+        _net_b01_area_death_reasked,
+        'sweep68 b01 F3: a half-written module kills an area and halts the library on one reading, with no settle wait and no re-read')
+    net(a, '_esc_sandbox refuses a bad redirect row with nothing yet redirected',
+        _net_b01_esc_sandbox_resolves_first,
+        "sweep68 b01 F2: a renamed constant leaves escalation.HALT_FILE pointed at scratch and the drill's own halt lands where nothing reads it")
+    net(a, "a killed drill's orphaned probe junction and file are reaped by the next run",
+        _net_b01_orphan_probe_reaped,
+        "sweep68 b01 F1: an orphan src/ junction to state/ survives and publish's os.walk stages state/ into the public export")
+    net(a, "write_record clears a rejection companion only when the caller's absence is authored",
+        _net_b03_companion_clear_needs_authored_absence,
+        "sweep68 b03 N2: a stale holder's batch deletes the scale_note_rejected / topic_rejected another writer (repass_bands) just preserved")
+    net(a, 'weave_index.designations does not cache an answer from a short pass',
+        _net_b03_designations_short_pass_uncached,
+        "sweep68 b03 N6: a designation set missing an unreadable record's markers is served until the records dir changes, folding e.g. Optimus (Bayverse) onto G1 Optimus")
+    net(a, 'phase_synthesis coerces a non-string cloud answer instead of crashing',
+        _net_b03_phase1_nonstring_answer,
+        'sweep68 b03 N7: a cloud answer with a list evidence field crashes phase 1 (PHASE CRASHED, rc 1, ladder stalled)')
+    net(a, 'phase_write names ready sources whose jobs share an address',
+        _net_b03_phase_write_names_shared_addresses,
+        'sweep68 b03 N4: phase 8 closes silently while generate.py holds every source in a shared-address group (about 30 ready sources today, owner order 3976a097f975)')
+    net(a, "pipeline.update_handoff's status recount does not move a writer's record watermark",
+        _net_b03_recount_keeps_writer_watermark,
+        "sweep68 b03 N1: after the 120 s recount, every phase-2 batch write reverts other writers' description repairs, bands, exclusions and synthesis while write_record returns True")
+    net(a, 'roll.mutate removes its staged temp file when the dump raises',
+        _net_b03_roll_mutate_no_tmp_left,
+        'sweep68 b03 N8: a failed roll staging leaves SWEEP_ROLL.json.<pid>.<tid>.0.tmp beside the canonical roll forever')
+    net(a, 'weave_index.build reports the unreadable list of the pass it built from',
+        _net_b03_weave_index_one_pass,
+        "sweep68 b03 N3: a record torn in build's pass and healed before designations' second pass lets main --write land a short ENTITY_INDEX.json at rc 0")
+    net(a, 'cleanup.py --apply refuses under a standing halt; the dry run still works',
+        _net_b04_cleanup_halt_interlock,
+        'sweep68 b04 F2: cleanup.py --apply rewrites the whole corpus under an OWNER halt')
+    net(a, 'completeness survives a list-shaped category cache and reports a null prior instead of skipping the floor',
+        _net_b04_completeness_wrong_shape,
+        'sweep68 b04 F7: a wrong-shaped state file crashes the audit (AttributeError) or silently disarms the COMPLETENESS.json shrink floor')
+    net(a, 'ledger.assay_to_standards refuses a ruin_score outside [0, 10]',
+        _net_b04_ledger_ruin_score_range,
+        'sweep68 b04 F8: an out-of-range ruin_score is extrapolated past its band and prices the entity in a different band')
+    net(a, 'mutate._gate_result cuts a hung gate off at its timeout even with a live grandchild',
+        _net_b04_mutate_gate_timeout_grandchild,
+        'sweep68 b04 F5: a gate holding a live grandchild blocks _gate_result far past its timeout, so the TIMEOUT verdict never happens and the pass stalls at that mutant')
+    net(a, 'mutate.py refuses a negative --rebaseline-every',
+        _net_b04_mutate_negative_rebaseline,
+        'sweep68 b04 F7c: a negative rebaseline interval is truthy and re-photographs every gate before every mutant')
+    net(a, 'mutate restores the sandbox state/ between gates and mutants, not only HALT.json',
+        _net_b04_mutate_sandbox_state_restored,
+        "sweep68 b04 F4: state a mutant's gates leave in the sandbox (STOPPED.json, logs, records) judges every later gate and mutant, and a baseline refresh adopts it -- false kills")
+    net(a, 'recover_folder_records refuses to write under a standing halt; --dry-run still works',
+        _net_b04_recover_halt_interlock,
+        'sweep68 b04 F2: recover_folder_records writes records and roll rows under an OWNER halt')
+    net(a, 'recover_folder_records re-run after a denied roll write updates the roll',
+        _net_b04_recover_roll_retry,
+        "sweep68 b04 F3: the 're-run to update the roll' instruction is false; the roll stays at entry_count 0 and the re-run exits 0")
+    net(a, 'weave.filtered_index keeps dialogue and stub-line entities, drops real rules text',
+        _net_b04_weave_rules_voice_dialogue,
+        "sweep68 b04 F1: the bare second-person voice test drops thousands of real Marvel/DC/etc. entities (quoted speech, the 'You can help out' stub) from the weave index")
+    net(a, 'covered_by does not credit the aggregate over a torn shard',
+        _net_b05_coverage_torn_shard,
+        'sweep68 b05 L3: a corrupt shard keeps proving a batch via the aggregate copy, so missing() reports a complete sweep')
+    net(a, 'feats_index counts a non-object record as unreadable',
+        _net_b05_index_nondict_record,
+        'sweep68 b05 L4: one [] or null feats record kills the whole index build with AttributeError')
+    net(a, 'check_graph flags a blank citation on every kind',
+        _net_b05_ledger_blank_citation,
+        'sweep68 b05 L6: a MEASURED/CHARTER quantity or whitespace-only OWNER source with no citation passes the graph check')
+    net(a, 'feats mined_under_failed_transport legacy arm skips non-wiki hosts',
+        _net_b05_nonwiki_legacy_remine,
+        'sweep68 b05 M1: an empty pages:/doc: record is re-mined on every load for ever (transport can never be stamped)')
+    net(a, 'feats --roll exits nonzero when every evidence write was denied',
+        _net_b05_roll_all_writes_denied_rc,
+        'sweep68 b05 L8: a roll that mined the corpus and wrote nothing exits 0 to the supervisor')
+    net(a, 'scope_for stops on a repeated sroffset',
+        _net_b05_scope_repeated_sroffset,
+        'sweep68 b05 L2: a stuck search backend hangs the whole scope probe for ever')
+    net(a, 'scope.build never live-probes pages:/doc: sentinels',
+        _net_b05_scope_sentinel_hosts,
+        "sweep68 b05 L1: build() probes 'https://pages:...' every run, prints NOT READ and pollutes the endpoint cache")
+    net(a, 'snapshot.before refuses a source containing the snapshot store',
+        _net_b05_snapshot_self_copy,
+        "sweep68 b05 L5: before(['state']) or ['.'] copies the store into itself until RecursionError and leaves a partial dest")
+    net(a, 'style_audit exits nonzero when it parsed no entries',
+        _net_b05_style_audit_empty_rc,
+        'sweep68 b05 L7: an audit that read zero entries exits 0 and reads as a clean prose-quality result')
+    net(a, 'an ALLSWEEP.json missing its estate or verifier block is not a clean sweep',
+        _net_b06_allsweep_blocks_absent,
+        'sweep68 b06 F6: `files that parse` and `verifiers all run` read MET when the blocks they grade are absent')
+    net(a, 'the duplicate-job probe refuses a non-zero rc or an empty listing',
+        _net_b06_dupe_probe_blind,
+        'sweep68 b06 F2: `one instance of each job` holds with `one each` when the process probe was blind')
+    net(a, 'endpoint._save keeps a fresher verdict that landed for an already-dirty host mid-save',
+        _net_b06_endpoint_save_dirty,
+        'sweep68 b06 F9: a host just found live is overwritten by its older DEAD verdict for the 24 h TTL')
+    net(a, 'a blind process table is not a finished job in the advancing standard',
+        _net_b06_job_alive_blind,
+        'sweep68 b06 F1: `every running job is advancing` holds over zero jobs when the process table is unreadable')
+    net(a, 'a torn job_progress.json reads as no previous stamps, not as a dropped standard',
+        _net_b06_job_watch_heal,
+        'sweep68 b06 F4: a corrupt job_progress.json is never healed and the advancing standard is dropped on every check')
+    net(a, 'NaN sizes and masses are refused by the descending ladder, not read as lawful',
+        _net_b06_ladder_nan,
+        'sweep68 b06 F7: NaN passes every `<= 0` guard and reads as a lawful, free, Continental trajectory')
+    net(a, 'confinement energy is relativistic where p exceeds mc, Newtonian otherwise',
+        _net_b06_ladder_relativistic,
+        'sweep68 b06 F12: p^2/2m overstates a Planck-confined proton by 18 orders and reports a false Planck-energy objection')
+    net(a, 'an empty records directory is not a fresh catalogue',
+        _net_b06_records_empty_fresh,
+        'sweep68 b06 F5: a missing or empty data/records reads `the character sweep is newer than the catalogue` as fresh')
+    net(a, "rigor's beta, product and ceiling functions refuse malformed inputs",
+        _net_b06_rigor_bad_inputs,
+        'sweep68 b06 F8: negative parameter counts, out-of-range or doubled correlations and negative n_scored yield a plausible wrong number')
+    net(a, 'rigor.main returns non-zero when it finds an unaccounted adjudication',
+        _net_b06_rigor_main_rc,
+        'sweep68 b06 F13: rigor.main prints FINDING/WARNING lines and returns 0, so nothing consuming the exit code can turn red')
+    net(a, 'an unreadable record file refuses the thread-integrity pass instead of escalating healthy sources',
+        _net_b06_ti_unreadable_record,
+        'sweep68 b06 F3: one torn record makes every pair touching it DANGLING and refuses both ends at SUPERVISOR')
+    net(a, 'the token-flow probe sends nothing when config.yaml has no num_ctx',
+        _net_b06_tokenflow_no_default,
+        'sweep68 b06 F11: a config with no num_ctx sends a 6144 window with keep_alive -1, the runner rebuild-and-pin failure')
+    net(a, 'an entity in two sources with an identical vector is counted once',
+        _net_b07_axis_dedupe,
+        "sweep68 b07 F5: Son Goku counted twice, so n_entities and every pair's r/n are off by one entity")
+    net(a, 'axis_correlation --top refuses a negative value',
+        _net_b07_axis_negative_top,
+        'sweep68 b07 Q6: --top -3 prints all but three rows and skips the more-not-shown line')
+    net(a, 'a string timestamp or unknown severity does not raise in the queue',
+        _net_b07_bad_stamp_severity,
+        'sweep68 b07 F2: one malformed field raises out of battery_faults/open_orders and takes down a whole read')
+    net(a, 'DRILL_BREACH closes only on a fresh complete clean drill verdict',
+        _net_b07_drill_close_verdict,
+        'sweep68 b07 F1: an empty, undated, zero-net or 40-day-old drill_last.json closes the OWNER DRILL_BREACH order')
+    net(a, 'a stray ** cannot silently swallow real bold names',
+        _net_b07_events_stray_bold,
+        'sweep68 b07 F4: one stray ** inverts the bold pairing and real names vanish with no candidates_refused row')
+    net(a, 'an Infinity or future heartbeat is not live, and the CLI names a torn guard',
+        _net_b07_future_heartbeat,
+        'sweep68 b07 F3: a future/Infinity heartbeat blocks every claim for ever and the CLI reports a torn guard as free')
+    net(a, 'hosts --discover exits nonzero when hosts were lost or sources unprobed',
+        _net_b07_hosts_discover_rc,
+        'sweep68 b07 F7: a discover walk that lost its product to a denied write exits 0')
+    net(a, 'onomast does not claim hosts.py is unwired while feats imports it',
+        _net_b07_onomast_hosts_wired,
+        "sweep68 b07 F6: a stale 'not wired' comment lies to whoever audits wiring")
+    net(a, 'address_space main refuses to overwrite SHELFMARKS.json when a standing address moves',
+        _net_b08_address_space_moved_map,
+        'sweep68 b08 F3: a TIERS re-chart crossing a power of two silently re-addresses every published world and its map seed')
+    net(a, 'catalogue_codex short roll name does not substring-bind to an unrelated section',
+        _net_b08_codex_short_substring_bind,
+        "sweep68 b08 F4: a roll row named DC binds to Sword Coast Adventurer's Guide and is attested Transcribed from the wrong section")
+    net(a, 'cascade_bridge _extract_json returns None for a cut-off object',
+        _net_b08_extract_json_truncated,
+        'sweep68 b08 F6: a truncated reply parses as the first complete inner object, a smaller answer of the wrong shape')
+    net(a, 'overwatch re-files a finding whose retired row holds its fingerprint',
+        _net_b08_overwatch_retired_rereport,
+        "sweep68 b08 F1: a defect re-reported after an unrelated edit to its file stays retired, so WATCH.md says 'Nothing open' about a live bug")
+    net(a, 'cascade_bridge permanent_refusal ignores a bare 401/402 that is not a status',
+        _net_b08_permanent_bare_code,
+        'sweep68 b08 F5: a token count or retry-after of 401/402 benches a live bucket for four hours as a dead key')
+    net(a, 'resync_roll counts a record with entries null as unreadable',
+        _net_b08_resync_entries_null,
+        'sweep68 b08 F8: one record file with entries:null raises TypeError and aborts the whole roll resync')
+    net(a, 'rosetta --check exits 1 when no scale scored',
+        _net_b08_rosetta_check_none_scored,
+        'sweep68 b08 F2: --check measuring nothing exits 0 and allsweep grades the rank-agreement verifier clean')
+    net(a, 'rosetta scales_for stops on a repeated sroffset',
+        _net_b08_rosetta_continue_loop,
+        'sweep68 b08 Q3: a wiki answering the same continue for ever spins one search query for ever')
+    net(a, 'rosetta --refine refuses to write an empty result over ROSETTA.json',
+        _net_b08_rosetta_refine_empty,
+        'sweep68 b08 F7: a short records/hosts join wipes data/ROSETTA.json to {} with no floor')
+    net(a, "two triage archives in the same minute keep both batches' counts",
+        _net_b09_archive_same_minute,
+        'sweep68 b09 F10: the second archive in a minute overwrites the first, whose counts were already cleared from the live failures ledger')
+    net(a, 'backfill keys punctuation-only names instead of re-adding them every run',
+        _net_b09_backfill_symbol_name_key,
+        "sweep68 b09 F8: a member named only with symbols keys to '' and is appended again on every backfill")
+    net(a, 'foreman._function_source slices exactly the span attempt_patch replaces',
+        _net_b09_function_source_slice,
+        'sweep68 b09 F4: a U+2028 above the target shifts the slice, so the model patches a body other than the one overwritten on disk')
+    net(a, 'an unreadable codewatch restart ledger refuses the claim instead of reading as empty',
+        _net_b09_ledger_unreadable_refuses,
+        "sweep68 b09 F3: a torn or locked CODEWATCH.json grants a restart over budget and the write-back erases every other job's restart history")
+    net(a, 'build_terminal refuses an unparseable NAVTREE and keeps the last good page',
+        _net_b09_navtree_parsed,
+        'sweep68 b09 F5: an empty or torn NAVTREE.json replaces the registry terminal with a page that throws at load, and the build exits 0')
+    net(a, 'catalogue_web --only ignores empty terms',
+        _net_b09_only_empty_term,
+        'sweep68 b09 F11: a trailing comma in --only widens the run to every source in the selection')
+    net(a, "foreman recognises the keeper's real STANDING command lines as this tree's processes",
+        _net_b09_standing_jobs_are_ours,
+        "sweep68 b09 F1: every absolutely-pathed STANDING job reads as another tree's, so restart_reader, kill_stalled_job and kill_duplicate_jobs are silent no-ops against the live jobs")
+    net(a, 'catalogue_web fetches non-Latin titles instead of dropping them unrecorded',
+        _net_b09_web_key_nonlatin,
+        "sweep68 b09 F2: CJK/Cyrillic titles key to '' and vanish before any counter or provenance line, and accent folding drops a distinct page")
+    net(a, 'cosmology_graph --write asks the halt before building or writing',
+        _net_b10_cosgraph_halt,
+        'sweep68 b10 F3: a hand-run cosmology_graph.py --write rewrites SHARED_STAGE_GRAPH.json (read live by propagation and resonance) while the library is HALTED')
+    net(a, 'autostart ensure(): a failed watchdog start is logged and returned',
+        _net_b10_ensure_start_failed,
+        "sweep68 b10 F4: the scheduled keeper's Popen failure raises out of a windowless pythonw task with no log line and no ledger note")
+    net(a, 'gpu_lane foreground() depth is process-local; stale or corrupt claim files cannot break it',
+        _net_b10_gpulane_fg_depth,
+        'sweep68 b10 F6a/F6c: a corrupt depth raises ValueError out of with lane(), and a crashed same-PID claim inflates depth so the claim survives the exit and background yields to nobody')
+    net(a, 'gpu_lane status() keeps every holder when one slot file has a bad heartbeat',
+        _net_b10_gpulane_status_badbeat,
+        'sweep68 b10 F6b: one slot file with a non-numeric heartbeat aborts the listing and hides every later holder of the card')
+    net(a, "dashboard: a failed halt read is reported unreadable, not 'running'",
+        _net_b10_halt_unreadable,
+        "sweep68 b10 F2: a failed escalation.status() read leaves halted None and the page draws 'running -- no halt standing' in the OK colour")
+    net(a, 'publish _is_skipped matches .pre* backups of any shape and case-folded scratch suffixes',
+        _net_b10_publish_skip_shape,
+        'sweep68 b10 F7: x.py.pre-sweep / x.BAK are copied into the export tree and read by scan_for_secrets, halting the library for a file never published')
+    net(a, 'autostart --uninstall says the keeper task still stands',
+        _net_b10_uninstall_keeper_note,
+        'sweep68 b10 F5: --uninstall removes only the launcher and prints nothing about the keeper task that restarts the watchdog every 10 minutes')
+    net(a, 'dashboard: an unreadable/absent OVERWATCH.json fails closed, not 0 open / 0 high',
+        _net_b10_watch_unreadable,
+        'sweep68 b10 F1: a torn or absent sweep ledger reads as zero high findings, standards grades HOLDING and the HIGH work order vanishes from the page')
+    net(a, 'chain.extract skips an edge whose two names resolve to one catalogued entity',
+        _net_b11_chain_self_contest,
+        'sweep68 b11 N1: a self-edge reaches rigor.bradley_terry, which raises RigorIntegrityError and aborts chain.fit / phase_chain, leaving the previous CHAIN.json standing as current')
+    net(a, 'chain.extract skips a model answer of the wrong type instead of raising',
+        _net_b11_chain_wrong_types,
+        'sweep68 b11 N9: a list answer, outcomes:null or a numeric winner raises out of extract() and ends the whole chain pass with CHAIN.json still the old fit')
+    net(a, 'identity._json turns a non-text, non-object answer into an unprobed epoch',
+        _net_b11_identity_json_list,
+        "sweep68 b11 N12: a JSON-list model answer raises TypeError out of epoch_of(strict=True), past adjudicate_mutuals' only handler, ending the chain pass")
+    net(a, 'identity.py --refresh exits 1 when the disk copy was not updated',
+        _net_b11_identity_refresh_rc,
+        'sweep68 b11 N11: a refused or denied refresh exits 0 and the supervisor logs designator inventory re-mined whole for a refresh that changed nothing')
+    net(a, 'supervisor does not start the identity re-mine while paused or halted',
+        _net_b11_overnight_identity_pause,
+        'sweep68 b11 N13: a pause or halt raised mid-lap is ignored by the sixteen-minute identity mine, which identity.py does not interlock itself')
+    net(a, 'pick_model.save_config rewrites only the model: line and keeps CRLF',
+        _net_b11_pick_model_model_line,
+        'sweep68 b11 Q4: a bare model: line lets \\s* swallow the next config.yaml line, and a CRLF file gets a bare-LF model line')
+    net(a, 'pick_model --write refuses when VRAM is unmeasured',
+        _net_b11_pick_model_unmeasured_write,
+        'sweep68 b11 N4: with nvidia-smi unreadable the residency gate is skipped and --write installs the biggest model (the 30B MoE the GPU-only ruling refuses) into config.yaml')
+    net(a, 'prose gate 4b refuses an unearned axis score in every punctuation spelling',
+        _net_b11_prose_gate_axis_spellings,
+        'sweep68 b11 N5: Wisdom: ~28, about 28, (Perception): 28, - 28, a table row and a full-width colon pass layer 4b, so an uncited entity carries an invented Assay number into the library')
+    net(a, 'scout copes with a non-object model answer and a string urls value',
+        _net_b11_scout_answer_types,
+        'sweep68 b11 N10: a list answer raises out of scout() past every handler (sweep never logs or unstamps); a string urls value is logged as model proposed nothing')
+    net(a, 'hand-run scout.py refuses to start under a standing halt',
+        _net_b11_scout_halt_interlock,
+        'sweep68 b11 N3: scout.py main() stamps attempts, spends model calls and rewrites WIKI_HOSTS.json / SOURCE_PAGES.json while the library is HALTED')
+    net(a, "scout does not overwrite a source's real wiki host with pages:<source>",
+        _net_b11_scout_keeps_real_host,
+        'sweep68 b11 N2: scout --source on a source that has a wiki host rewrites WIKI_HOSTS.json to pages:<source>, so feats stops reading the real wiki')
+    net(a, 'address.spine_code_for returns UNASSIGNED on an equal-evidence tie between codes',
+        _net_b12_address_tie_unassigned,
+        'sweep68 b12 F14: an ambiguous target is shelved under whichever index entry the file lists first')
+    net(a, 'magnitude.run_batch refuses an unreadable ASSAYS.json instead of overwriting it',
+        _net_b12_assays_unreadable_refuses,
+        'sweep68 b12 F1: an unreadable ASSAYS.json is resumed as {} and the first result overwrites every settled assay')
+    net(a, 'magnitude._resolve_citation does not resolve a long citation onto a short contained line',
+        _net_b12_cite_short_line_contained,
+        'sweep68 b12 F6: a fabricated citation that merely contains a short mined heading passes guard 1 as that heading')
+    net(a, 'custodes.convene refuses an eta outside [0, 1] or non-finite',
+        _net_b12_custodes_eta_nonfinite,
+        'sweep68 b12 F12: a NaN eta reads as a measured, non-vetoing curl; 1.7 publishes a negative curl fraction')
+    net(a, 'grounding.main --write refuses when no record was read',
+        _net_b12_grounding_empty_write_refused,
+        'sweep68 b12 F15: an empty or unreadable data/records lands {} over GROUNDINGS.json with rc 0')
+    net(a, "grounding's `the One` emanation cue is case-sensitive",
+        _net_b12_grounding_the_one_case,
+        "sweep68 b12 F3: ordinary prose 'the one who/that' scores emanation and decides sources' groundings")
+    net(a, 'grounding.main lists an exact top tie (confidence 0.5) as contested',
+        _net_b12_grounding_tie_contested,
+        'sweep68 b12 F9: a two-way tie is classified by dict order and left off the contested list')
+    net(a, "silence._handler_is_observed does not credit a later handler's rebound `e`",
+        _net_b12_silence_rebound_handler_name,
+        'sweep68 b12 F10: a silent handler is classed observed through a later `except ... as e` of the same name')
+    net(a, 'suppressions.problems reports never-expiring and blanket rows',
+        _net_b12_suppressions_unbounded_blanket,
+        'sweep68 b12 F11: a hand-edited Infinity/over-365-day or all-wildcard suppression is active for ever with no problem reported')
+    net(a, 'estate: zero-byte .corrupt evidence file is not a fault',
+        _net_b13_estate_zero_corrupt,
+        'sweep68 b13 F5: a zero-byte kept-evidence .corrupt file is graded a permanent red row')
+    net(a, 'genre: --write refuses to publish a smaller GENRES.json',
+        _net_b13_genre_shrink_refused,
+        'sweep68 b13 F3: a skipped/unreadable record silently vanishes from GENRES.json (or the file becomes {}) with rc 0')
+    net(a, 'health: rehearsal keys keep no sample in the live evidence ring',
+        _net_b13_health_drill_sample,
+        "sweep68 b13 F9b: a self-test key's sample lands in state/failure_samples.json beside real faults")
+    net(a, 'health: a second torn ledger keeps the first .corrupt',
+        _net_b13_health_second_wreck,
+        'sweep68 b13 F6: a second tear overwrites the first .corrupt wreck, destroying the only copy of what tore it')
+    net(a, 'health: check_state reads the corpus once, not once per failed source',
+        _net_b13_health_synthesis_one_pass,
+        'sweep68 b13 F9a: check_state re-reads every record file once per failed-synthesis source at the head of each supervisor cycle')
+    net(a, 'module_index: denied replace removes its temp file',
+        _net_b13_module_index_denied_tmp,
+        'sweep68 b13 F7: each denied MODULE_INDEX write leaves another pid-named .tmp file in handoff/')
+    net(a, 'assay: printed Moth Number and stored decimal agree',
+        _net_b13_moth_decimal_agree,
+        'sweep68 b13 F1: the printed Moth Number is rounded by a different rule than the stored decimal and disagrees by 0.01 on ties')
+    net(a, 'propagation: unknown shelf name is not reported DISCONNECTED',
+        _net_b13_propagation_unknown_shelf,
+        'sweep68 b13 F4: a misspelt shelf is reported as a finding that the library is disconnected')
+    net(a, "tiers: empty GROUNDINGS.json is not 'readable'",
+        _net_b13_tiers_empty_groundings,
+        'sweep68 b13 F2: a parseable-but-empty GROUNDINGS.json passes both refusals and an all-ungrounded TIERS.json is published over a good one')
+    net(a, 'corpus_db built_at is stamped when the rebuild starts, not when it ends',
+        _net_b14_built_at_start,
+        'sweep68 b14 F1: freshness() reports a record rewritten mid-rebuild as not stale, so the index banner understates staleness')
+    net(a, 'corpus_db drift and rebuild agree on entries and survive odd evidence fields',
+        _net_b14_corpus_entry_shape,
+        'sweep68 b14 F9: drift() gap is permanently non-zero over a stray non-dict entry, and one odd feats field aborts the whole rebuild')
+    net(a, 'a second halt landed over a corrupt HALT.json preserves the unreadable original',
+        _net_b14_halt_unreadable_preserved,
+        "sweep68 b14 F6: the original halt's code, what and raised_at are overwritten by the stand-in and survive only in escalation.log")
+    net(a, 'ingest_doc re-extract sets aside the resume cursor of a replaced corpus',
+        _net_b14_ingest_cursor_reextract,
+        "sweep68 b14 F4: --mine resumes a new book at the old book's cursor, reporting ingest complete with 0 entries and no model calls")
+    net(a, 'escalation.pause refuses a non-positive or non-finite duration',
+        _net_b14_pause_hours,
+        'sweep68 b14 F7: --hours 0 writes an indefinite pause and --hours -2 writes an already-expired one that reports landed')
+    net(a, 'retry_synthesis refuses an empty --only and a non-positive --smallest',
+        _net_b14_retry_selectors,
+        'sweep68 b14 F8: an empty --only or --smallest 0 retries every failed source and --smallest -3 drops the three largest')
+    net(a, 'escalation.subsystem_stopped treats a malformed present row as stopped',
+        _net_b14_stopped_row_shape,
+        'sweep68 b14 F10: falsy malformed STOPPED.json rows read not stopped while truthy ones raise, so the two shapes disagree')
+    net(a, 'sweep.py and worldseed --write refuse to land a library file when a record is unreadable',
+        _net_b14_torn_record_refuse,
+        'sweep68 b14 F3: an unreadable record is silently absent from CHARACTER_SWEEP.json / WORLDSEEDS.json which land with rc 0 as a smaller universe')
+    net(a, 'worldseed stem tables do not tag whole words as attested features',
+        _net_b14_worldseed_stems,
+        'sweep68 b14 F5: Cragmaw, Goldenrod, Capitalist and Engineer are tagged attested landform/condition/tech and read as facts the source stated')
+    net(a, 'worldseed --write refuses when ONOMASTICON or CONTINUITY_GROUPS was not read',
+        _net_b14_worldseed_write_inputs,
+        'sweep68 b14 F2: --write lands a library-wide degenerate roster (all antique) over the good one and exits 0')
+    net(a, 'the invariants backscan does not judge struck or stale entries',
+        _net_b15_audit_struck_entries,
+        'sweep68 b15 F6: struck entries are counted as violations, so the backscan cannot reach zero by cleanup and handled rows hide the ones an operator must act on')
+    net(a, 'an unparseable evidence file reads UNREACHABLE, not NOT ATTEMPTED',
+        _net_b15_coverage_unreadable_file,
+        'sweep68 b15 F11: an entity whose evidence file exists but could not be read is published as NOT ATTEMPTED (never fetched) and a string transport stamp aborts measure()')
+    net(a, 'a catalog row written for another source is never overwritten by a job at its address',
+        _net_b15_generate_foreign_catalog_row,
+        "sweep68 b15 F3: a pilot/--only manifest or a shifted Volume number regenerates over another source's chapter and catalog row, filed as an ordinary success")
+    net(a, 'sources held at a shared address reach the silence ledger, not only stdout',
+        _net_b15_generate_held_sources_noted,
+        'sweep68 b15 F10: 38 held sources are recorded on the console only, so a clean-looking pass hides them from the janitor rung')
+    net(a, 'a corrective retry that restores an omitted entry is not refused for the omission',
+        _net_b15_generate_retry_recovers_omission,
+        "sweep68 b15 F1: a chapter whose corrective retry named every entry is still refused 'entries not written after retry', burning three model calls per block and never converging")
+    net(a, '_land_hosts skips a key whose host changed since the caller decided',
+        _net_b15_hostcheck_merge_expect,
+        'sweep68 b15 F9: adopt/repair overwrite or remove a host another writer registered after the decision')
+    net(a, 'purge --go keeps a cache when no record was emptied or a repointed source still uses it',
+        _net_b15_hostcheck_purge_no_record,
+        'sweep68 b15 F8: purge deletes host caches with no entry emptied, or evidence a repointed source was mined from')
+    net(a, 'two sources given one Series/Volume code are named at build time',
+        _net_b15_manifest_code_collisions,
+        "sweep68 b15 F2: two sources get the same address (19 Series, 580 addresses) and the manifest build prints only 'Wrote N jobs', so nobody is told where the code is decided")
+    net(a, 'a null entry_count is counted in skipped_empty like populated does',
+        _net_b15_manifest_null_entry_count,
+        "sweep68 b15 F7: a source with entry_count null is in neither populated nor skipped_empty and the 'Skipped N' line understates")
+    net(a, "a real lead starting 'This character needs no introduction' is not stripped as a banner",
+        _net_b15_wiki_banner_real_lead,
+        'sweep68 b15 F12: a real first sentence is cut as wiki furniture (and a future job holding such a description is wrongly held)')
+    net(a, 'a failed canonical-category probe raises instead of reading as no such category',
+        _net_b15_wiki_probe_failure_propagates,
+        "sweep68 b15 F5: a throttled probe turns a real canonical category into 'this wiki has none' and catalogue_web silently skips the whole class")
+    net(a, 'local_agent dispatch turns any tool exception into an error dict',
+        _net_b16_agent_dispatch_any,
+        'sweep68 b16 F4: a non-string tool argument (AttributeError/OverflowError) ends run() with a traceback and loses the patch list and unreverted alarms')
+    net(a, 'read.py malformed pool feats is unanswered, never cached or served',
+        _net_b16_chunk_shape,
+        'sweep68 b16 F1: a pool answer with feats null/str/list-of-str is cached and crashes read_entity on every later pass, so the entity is never read')
+    net(a, 'citecheck numbers lines like an editor, not str.splitlines',
+        _net_b16_citecheck_lines,
+        'sweep68 b16 F9: NEL/U+2028/FF in a cited file shifts every later line by one, turning a good citation into BLANK_LINE and hiding a bad one')
+    net(a, 'profile._b32 refuses negatives and build_all refuses an unreadable TIERS.json',
+        _net_b16_profile_negative,
+        'sweep68 b16 F6/F7: _b32(-1) loops forever; an unreadable TIERS.json gives every world a wrong-but-valid address that round-trips cleanly')
+    net(a, 'secondopinion torn-tree fingerprint covers non-.py files',
+        _net_b16_secondopinion_fingerprint,
+        'sweep68 b16 F10: a .txt under a scanned root caught mid-write is never called torn, so a torn-read finding is presented as a verdict')
+    net(a, 'threads annex_codes/law_codes tolerate a non-object declared',
+        _net_b16_threads_declared_shape,
+        'sweep68 b16 F8: a non-object `declared` raises AttributeError out of build()/verify(), a traceback instead of the promised empty-set refusal')
+    net(a, 'threads.survey refuses a whole-corpus read with unreadable records',
+        _net_b16_threads_short_read,
+        'sweep68 b16 F2: a torn record leaves its source out of THREADS.json with nothing naming it and main() writes the short graph')
+    net(a, 'read.ensure_transport re-probes a cached False when asked',
+        _net_b16_transport_reprobe,
+        'sweep68 b16 F5: a transient CB.engine() failure pins local Ollama and 2 workers for the life of a --loop reader')
+    net(a, 'foreman reaps orphaned Ollama runners and duplicate daemons, never the live one',
+        _net_b09_foreman_reap_ollama,
+        'run #68 (owner request): orphaned llama-server/runner processes keep ~8 GB of VRAM pinned and push every later model onto the CPU')
+    net(a, 'prove_net refuses to build a scratch tree on a nearly full disk',
+        _net_b01_prove_refuses_full_disk,
+        'run #68: concurrent proofs filled C: (Errno 28) and returned false no-verdicts while every live writer shared the disk')
+    net(a, 'mutation and proof sandboxes live outside every temp directory',
+        _net_b04_sandbox_not_in_temp,
+        'run #68: Storage Sense swept %TEMP%, followed a sandbox junction into the live data/ and deleted ~12,400 chunk-cache files')
+    net(a, 'halo.py refuses to write HALO_ASSAYS.json under a halt',
+        _net_b03_q_assay_twins_ask_the_halt,
+        'sweep68 b03 Q4: HALO_ASSAYS.json is rewritten through a standing OWNER halt while its twin wh40k.py refuses')
+    net(a, "phase 1's synthesis method and prompt carry no stale measure count",
+        _net_b03_q_synthesis_method_no_stale_count,
+        "sweep68 b03 Q6: every new synthesis block persists 'nine-measure worksheet' while the assay has eleven measures")
+    net(a, 'phase_entrypass refuses topic Places for a Character/Person-typed entry',
+        _net_b03_q_topic_places_contradicts_type,
+        'sweep68 b03 N5: a person the model tags topic Places is built into a world by worldseed while its category guard already refused Places')
+    net(a, 'the record watermark takes strings by reference and still hashes mutable values',
+        _net_b03_q_watermark_string_fast_path,
+        'sweep68 b03 N10: every landed write re-hashes 13 fields of every entry (8.4 s on a marvel-sized record), or a watermark follows an in-place edit')
+    net(a, 'mutate sandbox copies small data/ files and jsonl ledgers instead of hardlinking them',
+        _net_b04_q_mutate_data_copy_not_link,
+        'sweep68 b04 Q4: a hardlinked data/ file shares the live inode, so an in-place append or truncate from a sandboxed gate lands in the live file')
+    net(a, 'weave surprisal weights and null keep entities spread over more than 60 sources',
+        _net_b04_q_weave_no_source_ceiling,
+        'sweep68 b04 Q3: entities in more than 60 sources are silently dropped from the pair evidence (a band cut, Hard Rule 0)')
+    net(a, 'weave.py --write refuses a stale ENTITY_INDEX.json unless --allow-stale',
+        _net_b04_q_weave_stale_write_refused,
+        'sweep68 b04 Q2: --write lands three joined artifacts from an index the code itself calls stale')
+    net(a, 'withdraw_chapters sets an unparseable manifest aside before replacing it',
+        _net_b04_q_withdraw_manifest_set_aside,
+        'sweep68 b04 Q5: an unparseable catalog.withdrawn.json is overwritten with no copy kept')
+    net(a, 'withdraw_chapters leaves a file modified after the catalog read in place instead of archiving it as a stray',
+        _net_b04_q_withdraw_stray_fresh,
+        'sweep68 b04 Q6: a chapter generate.py lands mid-run looks unclaimed and is archived while its catalog row is kept')
+    net(a, 'feats --roll exits nonzero when most entities raised',
+        _net_b05_q_roll_error_majority,
+        'sweep68 b05 Q5: a roll where 60-90% of entities raised exits 0 and the supervisor sees a healthy crawl')
+    net(a, 'scope.mutate refuses to write the live SCOPE.json while halted',
+        _net_b05_q_scope_halt_interlock,
+        'sweep68 b05 Q1: SCOPE.json (published Magnitude ceilings) is rewritten during a standing plant-wide halt')
+    net(a, 'scope probe contract is v3 and records carry text_chars',
+        _net_b05_q_scope_probe_version,
+        'sweep68 b05 Q3: records built under the sroffset walk are indistinguishable from the old capped probe, so the owed re-probe skips them')
+    net(a, 'adjudication_beta refuses more laws than the catalogue holds instead of pricing it at 0 bits',
+        _net_b06_q_beta_laws_over_catalogue,
+        'sweep68 b06 Q7: excepting 13 laws of a 12-law catalogue is priced as excepting all 12, i.e. 0 bits')
+    net(a, 'a forced re-probe that finds DEAD does not demote a cached live verdict',
+        _net_b06_q_endpoint_force_live,
+        'sweep68 b06 Q2: a --force re-check during an outage brands a live host DEAD in the cache for 24 h')
+    net(a, 'zfighters, catalogue_models and endpoint main refuse to write under a halt',
+        _net_b06_q_halt_interlocks,
+        'sweep68 b06 Q5: three hand-run derived-data writers keep writing while the library is HALTED')
+    net(a, 'shrink_report reports is_descent None when the starting size is unknown',
+        _net_b06_q_ladder_is_descent_unknown,
+        "sweep68 b06 Q4: an unknown start is reported as 'not a descent' (False) instead of unassessed (None)")
+    net(a, 'a shrink acknowledgement reaching past the last existing link is refused',
+        _net_b07_q_ack_hi_beyond_chain,
+        'sweep68 b07 Q2: an acknowledgement with hi beyond the chain also waives every future shrink of the ledger')
+    net(a, 'HOST_QUARANTINED and unclassified BINDING_SUSPECT orders are filed at RUN',
+        _net_b07_q_binding_orders_at_run,
+        'sweep68 b07 Q1: the two orders sit at the BOTS rung with no bot able to close them')
+    net(a, 'hosts.discover probes every speculative candidate by default',
+        _net_b07_q_speculative_uncapped,
+        'sweep68 b07 Q5: guesses past the 24th are never probed, so a real second wiki there reads as absent (Hard Rule 0)')
+    net(a, 'onomast, events --write and hosts --discover refuse while the library is halted',
+        _net_b07_q_write_interlocks,
+        'sweep68 b07 Q3: a derived-data writer runs and lands its file under a library HALT')
+    net(a, 'cascade_bridge clears the bucket that answered, not the pinned one',
+        _net_b08_q_clear_served_bucket,
+        "sweep68 b08 Q2: a failover success wipes the pinned bucket's deadline strikes, so an alternating bucket never climbs past the first bench")
+    net(a, 'address_space main refuses to write SHELFMARKS.json while the library is halted',
+        _net_b08_q_halt_address_space,
+        'sweep68 b08 Q6: address_space.main republishes SHELFMARKS.json during a halt')
+    net(a, 'pantheon main refuses to write while the library is halted',
+        _net_b08_q_halt_pantheon,
+        'sweep68 b08 Q6: pantheon.main rebuilds data/PANTHEON.json during a halt')
+    net(a, 'cascade_bridge benches a bucket whose replies keep hitting the output cap',
+        _net_b08_q_length_stopped_bench,
+        'sweep68 b08 Q1: a bucket that length-stops every reply is re-claimed for ever, never benched')
+    net(a, "resync_roll leaves a duplicate-declared source's roll row alone",
+        _net_b08_q_resync_duplicate_source,
+        'sweep68 b08 Q7: the alphabetically last of two record files sets the roll count, so a stub sorting last zeroes a healthy source')
+    net(a, "no burg count runs past the rank-size rule's own end",
+        _net_b09_q_burg_count_rule_end,
+        'sweep68 b09 F6: thriving worlds fabricate floor-pinned 40-person burgs past n = P_1/P_min')
+    net(a, "triage_swallowed's clear keeps counts a concurrent flush landed",
+        _net_b09_q_clear_keeps_concurrent_flush,
+        'sweep68 b09 F10 residue: failure counts health.flush lands between the triage read and clear are erased')
+    net(a, 'backfill.roster walks every subcategory level, cycles included',
+        _net_b09_q_roster_every_level,
+        'sweep68 b09 Q2: character pages filed two or more category levels down are missing from a roster that reads as complete')
+    net(a, 'build_terminal refuses to write while the library is halted',
+        _net_b09_q_terminal_halt,
+        'sweep68 b09 Q2: the one hand-run writer of library output outside the halt interlock writes during a halt')
+    net(a, 'tempus names an unknown shelf instead of reporting no shared furniture',
+        _net_b09_q_unknown_shelf,
+        "sweep68 b09 F7: a typo'd or renamed shelf reads as the physical finding 'relation is mediated or absent'")
+    net(a, 'anchors monotone check is strict: equal readings for the sword and the skate guy VIOLATE',
+        _net_b10_q_anchors_strict,
+        'sweep68 b10 Q4: an instrument that assays the inert blade and the person to the same decimal still passes the floor-to-ceiling check')
+    net(a, 'cosmology_graph --write refuses a graph shorter than the one on disk unless --allow-shrink',
+        _net_b10_q_cosgraph_shrink,
+        'sweep68 b10 Q3b: a partial WEAVE_CANDIDATES.json lands a short SHARED_STAGE_GRAPH.json over a complete one that resonance reads live')
+    net(a, 'gpu_lane notes a round that went unarbitrated at the yield ceiling or the slot deadline',
+        _net_b10_q_gpulane_ceiling_note,
+        'sweep68 b10 Q6: a timed-out unmetered round is indistinguishable afterwards from one that waited its turn')
+    net(a, 'dashboard job rows carry the age of the log their line came from',
+        _net_b10_q_log_age,
+        'sweep68 b10 Q2: a reader that died last week still renders a live-looking corpus read row with no age')
+    net(a, 'sevenfold --write refuses (rc 1, nothing written) while worlds are UNSHELVED',
+        _net_b10_q_sevenfold_unshelved,
+        'sweep68 b10 Q3: --write lands SEVENFOLD.json with unshelved worlds silently absent and exits 0')
+    net(a, 'dashboard page reads standards_unavailable and says the standards check did not run',
+        _net_b10_q_standards_unavailable,
+        "sweep68 b10 Q1: a failed standards.check is written as standards_unavailable and drawn by nothing, so 'did not run' looks like an empty list")
+    net(a, 'catalogue_aurora refuses to write a folder with an unparseable XML file',
+        _net_b11_q_aurora_unparsed,
+        'sweep68 b11 Q2: a partial record is written and the roll row marked catalogued, so the source is never re-read once the XML is repaired')
+    net(a, 'entity_match gates every parenthetical group, not only the trailing one',
+        _net_b11_q_entity_match_midname,
+        'sweep68 b11 N6: a differing mid-name continuity marker in front of a shared trailing qualifier is fuzzy-scored and best() returns STRONG, merging two continuities')
+    net(a, 'prose gate 4c requires the Instrument glyph to open a line',
+        _net_b11_q_instrument_mark_anywhere,
+        'sweep68 b11 Q5: a stray glyph mid-sentence satisfies the Instrument marker for a being with no Instrument section')
+    net(a, 'magnitude split-path anchor sees only gate-passing citations',
+        _net_b12_q_anchor_gated_cites,
+        'sweep68 b12 F8: a fabricated or bystander citation the gate later refuses has already set the anchor band')
+    net(a, "magnitude refuses to assay when the host's scope read failed",
+        _net_b12_q_ceiling_unread_refuses,
+        'sweep68 b12 F5: a non-ProbeUnread scope failure hands assay_entity None and the entity is scored unclamped')
+    net(a, 'magnitude guard 2 matches axis stems only at a word start',
+        _net_b12_q_guard2_word_start,
+        "sweep68 b12 F4: 'range' inside 'Strange' (and tons/Newtons, kill/skill, time/sometimes) passes guard 2 as axis evidence")
+    net(a, "allsweep grades 'refused' only while a halt actually stands",
+        _net_b12_q_halt_sentence_needs_halt,
+        'sweep68 b12 Q5: a verifier that fails while merely printing the halt sentence is graded as obeying the interlock')
+    net(a, 'silence.instrument keeps the first, pristine .presilence backup',
+        _net_b12_q_presilence_pristine,
+        'sweep68 b12 Q3: a second --instrument run overwrites the pristine backup with an already-instrumented file')
+    net(a, 'allsweep --quick does not replace ALLSWEEP.json',
+        _net_b12_q_quick_not_landed,
+        'sweep68 b12 F2/Q2: a --quick sweep with no VERIFY/ESTATE tier overwrites the full battery report and reads green')
+    net(a, "magnitude guard 3 does not take a shared title word as the entity's identity",
+        _net_b12_q_title_not_identity,
+        "sweep68 b12 F7: 'Captain Marvel destroyed ...' is credited on Captain America's sheet (Iron Fist / Doctor Doom / Ant-Man likewise)")
+    net(a, 'estate: a truncated registry terminal entry page is graded bad',
+        _net_b13_q_estate_truncated_terminal,
+        'sweep68 b13 Q4: a truncated non-empty PANSCRIPTUM_TERMINAL.html passes the estate terminal check')
+    net(a, 'genre: hell/ration/fun cue stems do not match hello/rational/function',
+        _net_b13_q_genre_stem_overmatch,
+        'sweep68 b13 Q6: three genre cue stems over-match unrelated words (hello, rational, function) and skew confidence across the 0.45 mixed flag')
+    net(a, 'tiers/genre/render: hand-run derived-data writers ask the halt before writing',
+        _net_b13_q_halt_interlock,
+        'sweep68 b13 Q5: tiers.main, genre --write and render --write publish derived data while the library is HALTED')
+    net(a, 'liveness: --reachability exits non-zero when NOT MEASURED',
+        _net_b13_q_liveness_notmeasured_rc,
+        'sweep68 b13 Q2: --reachability returns 0 even when the measurement did not happen, so a script cannot tell measured-clean from not-measured')
+    net(a, 'render: write_views draws every node of every drawn tier',
+        _net_b13_q_render_every_node,
+        "sweep68 b13 Q1: only the first world's node per tier is drawn under <tier>.svg, so 5 of 6 hyperverses and 349 of 350 universes are never drawn (Hard Rule 0 sample-as-listing)")
+    net(a, 'tiers: refuse to publish a chart that lost most of the grounded shelves',
+        _net_b13_q_tiers_grounded_shrink,
+        'sweep68 b13 F2b: a non-empty but mostly-wrong groundings table publishes a TIERS.json whose shelves lost their hyperverse_type')
+    net(a, 'binding_health canary titles skip struck entries',
+        _net_b14_q_canary_struck,
+        'sweep68 b14 Q4: a struck (nonexistent) entry is probed as believed-present, so a healthy host reads as failing and can be quarantined')
+    net(a, 'sweep.py and worldseed --write ask the halt before writing their derived files',
+        _net_b14_q_derived_interlock,
+        'sweep68 b14 Q1: CHARACTER_SWEEP.json and WORLDSEEDS.json, read as fact by other modules, are written while an OWNER halt stands')
+    net(a, 'ingest_doc.register lands WIKI_HOSTS.json under a compare-and-swap',
+        _net_b14_q_hosts_cas,
+        'sweep68 b14 Q2: register overwrites a host binding another writer landed between its read and write, in the file that cannot be rebuilt')
+    net(a, 'HOST_UNFIT.json / ROSTER_PURGES.json are archived when present',
+        _net_b15_q_canon_optional,
+        'sweep68 b15 Q3: hand-made unfit/purge findings that cannot be re-derived are outside the canonical backup')
+    net(a, 'the coverage memo is discarded when CLEAN_NEGATIVES changes',
+        _net_b15_q_coverage_memo_key,
+        'sweep68 b15 Q4: a changed clean-negative set leaves memoised NO PAGE/UNREACHABLE verdicts on the old boundary and the published number describes code nobody runs')
+    net(a, 'a record rewritten mid-snapshot does not fail the snapshot',
+        _net_b15_q_snapshot_rewrite_race,
+        'sweep68 b15 Q3: a busy crawl makes the digest-then-zip read-back mismatch, the archive is deleted and canon_backup_cycle is starved')
+    net(a, 'whoruns matches the script basename case-insensitively',
+        _net_b15_q_whoruns_case,
+        'sweep68 b15 Q6: a job started as Mutate.py reads as NOT running, a confident false negative')
+    net(a, 'local_agent revert of a gate-failed patch is byte-exact',
+        _net_b16_q_agent_revert_bytes,
+        'sweep68 b16 Q6: a reverted patch to an LF file comes back CRLF (text-mode write), so the revert is not the original bytes')
+    net(a, 'Fallback probe failure is retried after a TTL instead of pinned forever',
+        _net_b16_q_fallback_retry,
+        'sweep68 b16 Q3: a single failed Ollama probe pins the 18.6 GB configured model as the GPU fallback for the life of a --loop reader')
+    net(a, 'a restart-ledger read that fails once is retried, one that never reads is refused',
+        _net_b09_codewatch_read_retry,
+        'run #68 order 3c047095d829: a transient Windows replace window cost a restart slot (19/20 in the concurrency check)')
+
+
 def drill_followup0928():
     """Three follow-ups to the 2026-09-28 session (owner: "do everything", group FOLLOWUP).
 
@@ -29493,6 +35788,17 @@ def drill_followup0928():
     net(a, "phase_write names every thin source uncapped",
         _net_98eae835e14e,
         "order 98eae835e14e: sources refused as under-read vanish without being named (Hard Rule 0)")
+    net(a, "phase_write numbers sources sharing a Series, as manifest_builder does",
+        _net_run68_phase8_volume_codes,
+        "run #68: phase 8 wrote every source in a Series at the bare Series code -- 1,251 "
+        "duplicate job ids, and generate.py overwrote one source's chapters with another's")
+    net(a, "generate holds an address two sources share instead of writing it twice",
+        _net_run68_generate_holds_shared_address,
+        "run #68: two sources at one address overwrite each other's chapters and mark each "
+        "other stale for ever")
+    net(a, "the battery's pipeline.log lines do not land in the live state/pipeline.log",
+        _net_run68_battery_pipeline_log_is_not_live,
+        "run #68: write_record probes wrote rehearsal lines into the live pipeline log")
     net(a, "'phases implemented' is UNMEASURED, not MET, when phases are absent",
         _net_9addfa9acbc2,
         "order 9addfa9acbc2: the standard reads green when the dashboard could not list phases")
@@ -29806,6 +36112,12 @@ def main(areas=None):
         # non-zero exit would teach a wrapper to treat "the guard works" as a failure.
         return 0
 
+    # A killed earlier run's probes go first, before any area can trip over them or a push can
+    # carry them (sweep68 b01 F1). Only the production battery reaps; a driven `areas=` run does not.
+    if areas is None:
+        for _gone in _reap_orphan_probes():
+            print("drill: removed an orphaned probe left by a killed run: %s" % _gone)
+
     for fn in (areas if areas is not None else
               (drill_queue, drill_dispatch, drill_train, drill_assay, drill_assay_engine,
                drill_no_caps, drill_cache, drill_local_agent, drill_publish, drill_ledgers, drill_two_writer,
@@ -29837,6 +36149,8 @@ def main(areas=None):
                drill_hand_run_halt,
                # 2026-09-28, owner-directed follow-ups, group FOLLOWUP.
                drill_followup0928,
+               # 2026-09-30, maintenance run #68, sweep68.
+               drill_sweep68,
                # LAST, AND THE POSITION IS THE COVERAGE (order 895a99602bf0). The ledger
                # witness sees only what happened BEFORE it: an area appended after this one
                # is an area whose probes it cannot watch, which is the shape a net quietly
@@ -29864,11 +36178,7 @@ def main(areas=None):
         try:
             fn()
         except Exception as e:
-            RESULTS.append({"area": "AREA DID NOT RUN — %s" % fn.__name__,
-                            "net": "%s completed" % fn.__name__, "held": False,
-                            "expected": "an area that cannot run has proved nothing, and its "
-                                        "nets must not be counted as held",
-                            "error": "%s: %s" % (type(e).__name__, e)})
+            _record_area_death(fn, e)
 
     area = None
     for r in RESULTS:

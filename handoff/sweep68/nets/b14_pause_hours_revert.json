@@ -1,0 +1,2 @@
+[{"module": "escalation.py", "old": "if not (math.isfinite(float(hours)) and float(hours) > 0):", "new": "if False:"},
+ {"module": "escalation.py", "old": "if hours is not None else None}", "new": "if hours else None}"}]

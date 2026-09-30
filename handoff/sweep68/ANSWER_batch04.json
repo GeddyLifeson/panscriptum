@@ -1,0 +1,62 @@
+[
+  {
+    "id": "Q1",
+    "file": "src/mutate.py",
+    "verdict": "reserved",
+    "decision": "Restated for the owner: keep --list refused under a halt (recommended) or exempt it.",
+    "how": "Exempting --list removes a halt check from an invocation, which the ruling reserves to the owner even though --list only counts mutants and writes nothing. For exempting: it is a pure measurement, and the three registry commands (--list-ruled, --rule-equivalent, --unrule) already run under a halt, so the current split looks arbitrary. Against: a halted library gains nothing from a mutant count, the refusal costs one command later, and consistency with 'nothing starts under a halt' is simpler to hold. Recommendation: keep it refused, and if the owner wants consistency, refuse the registry commands' writers instead.",
+    "net": null,
+    "red_green_checked": false,
+    "new_interlock": null
+  },
+  {
+    "id": "Q2",
+    "file": "src/weave.py",
+    "verdict": "changed",
+    "decision": "weave.py --write now refuses (rc 2) when ENTITY_INDEX.json is older than data/records/, unless --allow-stale is passed.",
+    "how": "For keeping the warning: the crawl keeps records changing, so the index is nearly always behind and the refusal will bite often. For refusing: --write lands three files that weave_index, resonance and cosmology_graph read together, computed from a partial-corpus snapshot; the remedy is one weave_index.py --write, and --allow-stale is the explicit acknowledgement. The tool is hand-run (no src caller), read-only runs are unaffected, and this tightens. Refused before the index is loaded.",
+    "net": "b04_q_weave_stale_write_refused",
+    "red_green_checked": true,
+    "new_interlock": null
+  },
+  {
+    "id": "Q3",
+    "file": "src/weave.py",
+    "verdict": "changed",
+    "decision": "Removed the 60-source ceiling from surprisal_pair_weights (default max_sources=None) and from the permutation null's key set.",
+    "how": "For the cut: an entity in most sources is a common noun and the pair loop stays cheap. Against: it is a band cut on a ranked quantity (Hard Rule 0), name surprisal already down-weights common words per token so the cut duplicated a weight with a hard threshold, and a distinctive name in 61+ sources is real evidence it would discard. Measured on the live index: the widest key spans 36 of 209 sources, so nothing changes today, and the loop is bounded at 21,736 increments per key. Null and weights use the same bound so the null does not simulate a smaller universe. The dead pair_weights (already marked superseded) still has its own 60 and was left alone.",
+    "net": "b04_q_weave_no_source_ceiling",
+    "red_green_checked": true,
+    "new_interlock": null
+  },
+  {
+    "id": "Q4",
+    "file": "src/mutate.py",
+    "verdict": "changed",
+    "decision": "sandbox() now COPIES every top-level data/ file under 16 MB and every .jsonl, and hardlinks only the four very large write_json-only files.",
+    "how": "The hardlink argument ('every writer atomically replaces') holds for silence.write_json and for nothing else: append_line, open(path,'a') and a truncating open(path,'w') all write through the shared inode into the LIVE file from a sandboxed gate. SCOUT_ARCHIVE.jsonl is the known case; the same applies to any top-level file an in-place writer touches. For keeping links: 356 MB of top-level data would be copied per sandbox. But 329 MB of that is five files, all written only by write_json; the other 68 files total about 27 MB, a trivial copy. So the saving is kept where it is real and dropped where it is only a risk. Sandboxes now live in panscriptum-scratch (scratch_home, kept untouched); junctions to data/<dir> subdirectories are unchanged and remain live portals by design. Verified by a net on the placement helper only; I did not build a sandbox.",
+    "net": "b04_q_mutate_data_copy_not_link",
+    "red_green_checked": true,
+    "new_interlock": null
+  },
+  {
+    "id": "Q5",
+    "file": "src/withdraw_chapters.py",
+    "verdict": "changed",
+    "decision": "An unparseable catalog.withdrawn.json is copied to <path>.corrupt.<ns> before the merge replaces it.",
+    "how": "Refusing was the alternative, but this runs after the chapter files have moved, so a refusal leaves an archive with no manifest at all; replacing it silently destroyed whatever readable prefix the torn file held. Setting the bytes aside is restorable and costs one file, which the ruling permits. If the copy itself fails it is said aloud and the write still proceeds, for the same reason.",
+    "net": "b04_q_withdraw_manifest_set_aside",
+    "red_green_checked": true,
+    "new_interlock": null
+  },
+  {
+    "id": "Q6",
+    "file": "src/withdraw_chapters.py",
+    "verdict": "changed",
+    "decision": "The stray sweep leaves in place, and names, any output/raw file modified after the catalog was read.",
+    "how": "Assuming the library is stood down is the documented practice but nothing enforced it, and a wrong guess moves the only copy of a chapter. Re-reading the catalog per stray only narrows the window; the mtime test closes it. The price: a genuinely new stray written during the run waits for the next run, and it shows in stray_stuck so the rc is nonzero. That is the fail-closed direction.",
+    "net": "b04_q_withdraw_stray_fresh",
+    "red_green_checked": true,
+    "new_interlock": null
+  }
+]

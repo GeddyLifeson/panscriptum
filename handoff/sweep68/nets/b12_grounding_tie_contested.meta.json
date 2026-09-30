@@ -1,0 +1,4 @@
+{
+ "name": "grounding.main lists an exact top tie (confidence 0.5) as contested",
+ "expected": "sweep68 b12 F9: a two-way tie is classified by dict order and left off the contested list"
+}

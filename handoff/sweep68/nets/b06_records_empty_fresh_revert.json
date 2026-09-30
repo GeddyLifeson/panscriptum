@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "        raise FileNotFoundError(\"no record files under %s\" % records_dir)",
+  "new": "        return 0.0"
+ }
+]

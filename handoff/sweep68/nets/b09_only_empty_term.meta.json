@@ -1,0 +1,4 @@
+{
+ "name": "catalogue_web --only ignores empty terms",
+ "expected": "sweep68 b09 F11: a trailing comma in --only widens the run to every source in the selection"
+}

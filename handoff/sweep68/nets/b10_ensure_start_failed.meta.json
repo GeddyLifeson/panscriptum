@@ -1,0 +1,4 @@
+{
+ "name": "autostart ensure(): a failed watchdog start is logged and returned",
+ "expected": "sweep68 b10 F4: the scheduled keeper's Popen failure raises out of a windowless pythonw task with no log line and no ledger note"
+}

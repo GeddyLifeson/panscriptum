@@ -1,0 +1,7 @@
+[
+ {
+  "module": "descending_ladder.py",
+  "old": "\"is_descent\": ((from_m is not None and to_m < from_m)\n                       if from_m is not None and from_m > 0 else None),",
+  "new": "\"is_descent\": bool(from_m is not None and to_m < from_m),"
+ }
+]

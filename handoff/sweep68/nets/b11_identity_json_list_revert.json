@@ -1,0 +1,7 @@
+[
+ {
+  "module": "identity.py",
+  "old": "if not isinstance(raw, str):",
+  "new": "if False:"
+ }
+]

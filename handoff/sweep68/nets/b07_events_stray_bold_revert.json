@@ -1,0 +1,12 @@
+[
+ {
+  "module": "events.py",
+  "old": "BOLD = re.compile(r\"\\*\\*([^*\\n]{2,})\\*\\*\")",
+  "new": "BOLD = re.compile(r\"\\*\\*([^*]{2,})\\*\\*\")"
+ },
+ {
+  "module": "events.py",
+  "old": "if ev[\"body\"].count(\"**\") % 2:",
+  "new": "if False:"
+ }
+]

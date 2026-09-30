@@ -1,0 +1,1 @@
+{"name": "hand-run scout.py refuses to start under a standing halt", "expected": "sweep68 b11 N3: scout.py main() stamps attempts, spends model calls and rewrites WIKI_HOSTS.json / SOURCE_PAGES.json while the library is HALTED"}

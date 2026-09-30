@@ -1,0 +1,7 @@
+[
+  {
+    "module": "pipeline.py",
+    "old": "    if val is None or type(val) is str:\n        return val\n",
+    "new": ""
+  }
+]

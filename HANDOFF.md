@@ -27,6 +27,66 @@ repo (`PANSCRIPTUM_EXPORT`), so "commit hash" below means an export-repo hash.*
 
 ---
 
+## 2026-09-30 — DAILY MAINTENANCE RUN #68: SWEEP68 (132 FIXES + 93 QUESTIONS ANSWERED), TWO SELF-CAUSED HALTS RAISED AND LIFTED, A STORAGE-SENSE DATA LOSS STOPPED AND DESIGNED OUT
+
+### FOR THE OWNER — READ FIRST
+
+* **I RAISED AND LIFTED TWO HALTS TONIGHT, BOTH CAUSED BY THIS RUN.**
+  * **01:17:20 (DRILL_BREACH):** two nets I had spliced leaked rehearsal rows into the live failure ledger.
+  * **01:55:41 (DRILL_BREACH):** overnight's cycle drill read this run's in-progress edits. There were three causes: a stale splice refresh re-inserted the leaking nets, batch 15's `canon_backup` change left the snapshot net's fake zip corrupting nothing, and two new silence notes reached the ledger.
+  * Both times I fixed every cause, then ran the full drill and verify_math in a halt-free sandbox of the current tree. Both came back green, and only then did I lift. The signed rulings are in `state/work_scripts/ruling68.txt` and `ruling68b.txt`. The live battery was green after each lift.
+* **DATA LOSS: about 12,400 `data/chunkfeats` files were deleted permanently.**
+  * **How:** I ran 12 `drill.py --prove` scratch trees in parallel and filled C:. Windows **Storage Sense** is ON here with "delete temporary files" set to run on low disk. It swept `%TEMP%`, followed the running mutation sandbox's junction into the live `data/`, and deleted every chunk-cache file older than a day, in bucket order, until I unlinked the junctions.
+  * **What was not affected:** `data/records` is untouched (corpus_db drift gap 0, 282,853 = 282,853). `feats/`, `readfeats/`, `prompts/`, `reference/` and `output/` were checked and are intact.
+  * **Impact:** `chunkfeats` is a memo of model answers, so each loss is a cache miss that re-asks the model. It costs calls, not correctness.
+  * **Prevention:** sandboxes now live in `C:\Users\imarl\panscriptum-scratch` (`mutate.scratch_home()`), outside every temp directory. `prove_net` refuses under 20 GB free, and the routine caps proofs at 2 in parallel.
+  * **Storage Sense itself is your call** (a system setting). It's in the reserved bundle below.
+* **ONE OWNER ORDER for everything reserved: `e2e5189c8da3`** (`handoff/sweep68/RESERVED.md`). It holds 11 sweep68 items plus the Storage Sense question, each with options and a recommendation:
+  * the prose-gate loosenings N7/N8;
+  * magnitude F4b, which would accept more;
+  * addressing N4/F4 and order `3976a097f975`;
+  * curatorial wording: Tien, Khorne, the Halo epoch, the handbuilt `why_missed` text, the Undertaker;
+  * the `mutate --list` halt exemption.
+* **OWNER order `3976a097f975` stands.** 580 addresses (1,160 jobs, 38 sources) are claimed by two sources, because a Set-level source's Volume number lands on a real Series code. `generate.hold_shared_addresses` holds them by name until you rule. The recommendation from two agents: number Set-level Volumes past the Series codes already used in the Set, from an append-only `data/VOLUME_NUMBERS.json`.
+* **Open RUN orders left for next run:**
+  * `8707ebf9ce01` (foreman writes the model's unverified patch into live `src/` during checks). Real and MAJOR, since foreman runs `--patch` live. The fix is to verify in a sandbox first.
+  * `36c4134de171` (2,209 Character entries with topic Places need a CAS repair pass).
+  * Three HOST_QUARANTINED rows, which close as the crawl's backoff decays.
+* **Your two requests this session are in:**
+  * Foreman now reaps orphaned Ollama runners and duplicate daemons every round (`foreman --reap-ollama` runs it by hand).
+  * The routine gained §0, "spend as few Claude tokens as possible", and "ANSWER THE QUESTIONS YOURSELF". Both are also saved as memory.
+* **No committed secrets:** detect-secrets and `publish.scan_for_secrets` both report 0.
+
+### WHAT HAPPENED
+
+1. **Opened the shift:** clear, guard claimed, index rebuilt (216 sources, 282,853 entries). Closed `eb4801a30501` (the dashboard restart budget, spent during the evening session's edits) and `3dc2832846bc` (the stalled calibrate had ended).
+2. **The 09-29 mutation pass was VOID.** Its sandbox went halted 40 minutes in (01:36) because a mutant raised a halt inside the sandbox and nothing removed it. From then on drill and verify_math were red at every baseline, for about 20 hours. I stopped it. `mutate._scrub_sandbox_halt` now runs before every mutant, every refresh and every hang re-run.
+3. **Prose was overwriting itself.** The 18:20 manifest held 1,251 duplicate job ids: `pipeline.phase_write` used the bare Series code and skipped manifest_builder's Volume numbering. All 54 D&D sources were at `II.L.7`, so each chapter overwrote another source's. I made these changes:
+   * `manifest_builder.volume_codes()` is now the one numbering both writers use.
+   * `phase_write` holds excluded and unassigned sources out by name.
+   * The live manifest was re-addressed in place (1,251 → 580 duplicate ids).
+   * The 16 chapters written at colliding addresses were withdrawn to `output/withdrawn_2026-09-30-address-collision/`.
+   * `generate.hold_shared_addresses` refuses any address two sources share.
+
+   The three v6 chapters I had checked turned out to belong to other sources for exactly this reason. That was a canon mix-up, not the prose inventing things.
+4. **The battery's `write_record` probes were logging into the live `state/pipeline.log`.** Both harnesses now point `pipeline.LOG` at a temp file.
+5. **Sweep68:** 16 audits (Sonnet) covered all 119 modules (`sweep_plan.missing()` is empty), then 14 fix agents (Sonnet, Opus for the three HIGHs), then the 2026-09-30 ruling had the same agents answer their own questions.
+   * **132 findings fixed.** The HIGHs:
+     * `foreman._SCRIPT_RE` had made restart_reader, kill_stalled_job and kill_duplicate_jobs no-ops on every standing job.
+     * `pipeline.records()` reset writers' watermarks, which is the two-writer revert again.
+     * `magnitude.run_batch` would overwrite an unreadable ASSAYS.json.
+   * **93 questions answered:** 61 changed and 32 kept, each with its reasoning in the closed `SWEEP68_*_Q_*` orders. 11 are reserved.
+   * **Coverage:** every fix and changed answer has a drill net proved RED under its revert and HELD: drill went from 829 to 1025 nets. 225 orders filed and closed, plus 10 of this run's own.
+   * **New halt interlocks:** cleanup, recover_folder_records, scout, cosmology_graph, address_space, build_terminal, catalogue_models, endpoint, events, genre, halo, hosts, onomast, pantheon, render, scope, sweep, tiers, worldseed, zfighters. All are on `verify_math._INTERLOCKED`.
+6. **I fixed four drill findings myself:** orphaned probe junctions reaped, `_esc_sandbox` resolves before it redirects, an area that dies gets the three-read re-ask, and my own run-68 nets were tightened. Also in verify_math: the spawn scan now reads flag values and sees getoutput/os.spawn*, and the `check()` self-probe restores in a `finally`.
+7. **Mutation pass:** relaunched at the end on the final tree as `state/mutate_20260930c.log`. Its baseline is clean (verify_math 1367/0, drill 1025/1025/0). It was still running at the end of the shift, so there is no survivor count yet: the next run reads it. The earlier 09-30 relaunch was stopped because its baseline was red (a concurrency flake, since fixed, and a gpu_lane timing net under load).
+
+### BATTERY (final, live)
+drill **1025/1025/0 BREACHED** · verify_math **1367 passed, 0 FAILED** · allsweep 0 bad, 0 unreadable · health all pass · pyflakes clean · secondopinion ruff/vulture/detect-secrets RAN (0 secrets) · liveness 0 tautology · axis_correlation re-measured and WRITTEN: n_entities 45 → 44 (batch 07 F5: Son Goku was counted twice), mean r 0.3193 → 0.3239.
+
+### WHERE THE TOKENS WENT (routine §0)
+Almost all of the bulk work ran outside my own context: 16 audits and 14 fixers (Sonnet), several hundred proves by a script, and order filing, splicing and re-addressing as one-shot scripts. The costly items were the two halts and the chunkfeats incident. Both came from running too much at once, and both are now guarded in code and in the routine.
+
 ## 2026-09-29 evening — SESSION: THE PROSE WAS INVENTING FACTS; FIXED AT THE CAUSE, 13,395 MISFILED PEOPLE REPAIRED
 
 **What was wrong.** Ten recent chapters were each checked by a `continuity-checker` agent against

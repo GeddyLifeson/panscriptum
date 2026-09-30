@@ -148,6 +148,12 @@ def mutate(apply, attempts=8, path=None):
                 json.dump(out, f, indent=2, ensure_ascii=False)
         except Exception:
             silence.note("roll.py:mutate-tmp")
+            # THE HALF-STAGED FILE GOES TOO (sweep68 batch 03, N8): its pid+thread name means no
+            # later call ever overwrites it, so it sat beside the canonical roll for good.
+            try:
+                os.remove(tmp)
+            except OSError:
+                silence.note("roll.py:mutate-tmp-cleanup")
             return False, "could not stage the new roll next to %s" % os.path.basename(path)
         landed, why = silence.replace_if_unchanged(tmp, path, digest)
         if landed:

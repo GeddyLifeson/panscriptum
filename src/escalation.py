@@ -581,6 +581,23 @@ def _land_halt(rec, expected):
     # and truthy, so a hand-edited or mis-typed halt file read as lifted. Only the literal
     # True that `_land_clear` writes lifts a halt; anything else is a standing one.
     if isinstance(cur, dict) and cur.get("cleared") is not True:
+        if cur.pop("unreadable", None) is True:
+            # SWEEP68 b14 F6: `cur` is the fail-closed STAND-IN for a HALT.json that would not
+            # parse (a hand edit, a foreign writer). Building on it and landing it over the file
+            # replaced the ORIGINAL halt -- its code, what and raised_at -- with
+            # HALT_FILE_UNREADABLE, so a second OWNER fault destroyed the only record of the
+            # first outside state/escalation.log. The unreadable file is copied aside first and
+            # named in the new halt. If it cannot be preserved the attempt is refused: the
+            # corrupt file keeps the library halted (fail closed), and the caller reports the
+            # halt as not landed rather than us overwriting evidence.
+            import shutil
+            aside = "%s.unreadable-%d" % (HALT_FILE, time.time_ns())
+            try:
+                shutil.copyfile(HALT_FILE, aside)
+            except Exception:
+                silence.note("escalation.py:unreadable-halt-preserve")
+                return False, "the unreadable HALT.json could not be preserved before replacing it"
+            cur["preserved_as"] = os.path.basename(aside)
         cur.setdefault("also", []).append(brief(rec, OWNER))
         payload = cur
     else:
@@ -766,9 +783,17 @@ def pause(reason, hours=None, by="?"):
     """
     if not str(reason or "").strip():
         raise ValueError("a pause needs a reason -- the next reader of this marker was not here")
+    # SWEEP68 b14 F7: `hours` is tested against None, not truthiness, and must be a positive
+    # finite number. `--hours 0` used to be falsy and wrote an INDEFINITE pause (the opposite of
+    # what "0 hours" says), and a negative value wrote an `until` already in the past, which
+    # landed=True and stood nothing down. A pause that cannot pause is refused, not recorded.
+    if hours is not None:
+        import math
+        if not (math.isfinite(float(hours)) and float(hours) > 0):
+            raise ValueError("a pause needs a positive number of hours, got %r" % (hours,))
     now = time.time()
     rec = {"paused_at": now, "reason": str(reason), "by": str(by or "?"),
-           "until": (now + float(hours) * 3600.0) if hours else None}
+           "until": (now + float(hours) * 3600.0) if hours is not None else None}
     os.makedirs(os.path.dirname(PAUSE_FILE), exist_ok=True)
     landed = bool(silence.write_json(PAUSE_FILE, rec, indent=1, ensure_ascii=False))
     try:
@@ -1025,9 +1050,15 @@ def subsystem_stopped(name):
     doc = _read_stopped()
     if "__unreadable__" in doc:
         return True, doc["__unreadable__"]["reason"]
-    hit = doc.get(str(name))
-    if not hit:
+    if str(name) not in doc:
         return False, ""
+    hit = doc[str(name)]
+    if not isinstance(hit, dict):
+        # SWEEP68 b14 F10: a row that is present but not a stop record (`""`, `false`, `[]`,
+        # `"x"`) used to be tested for truthiness -- falsy ones read "not stopped" while truthy
+        # non-dicts raised AttributeError, so two malformed shapes of one file disagreed. The
+        # ledger only says what must not run: a row that exists and cannot be read is STOPPED.
+        return True, "STOPPED.json row for %s is %s, not a stop record" % (name, type(hit).__name__)
     return True, "%s (by %s)" % (hit.get("reason", "no reason recorded"), hit.get("by", "?"))
 
 

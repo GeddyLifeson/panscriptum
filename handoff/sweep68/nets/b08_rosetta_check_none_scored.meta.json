@@ -1,0 +1,1 @@
+{"name": "rosetta --check exits 1 when no scale scored", "expected": "sweep68 b08 F2: --check measuring nothing exits 0 and allsweep grades the rank-agreement verifier clean"}

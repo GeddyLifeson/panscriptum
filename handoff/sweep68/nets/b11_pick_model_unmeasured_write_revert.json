@@ -1,0 +1,7 @@
+[
+ {
+  "module": "pick_model.py",
+  "old": "if args.write and not vram_measured:",
+  "new": "if False:"
+ }
+]

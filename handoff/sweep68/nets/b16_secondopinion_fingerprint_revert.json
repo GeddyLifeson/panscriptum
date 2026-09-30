@@ -1,0 +1,7 @@
+[
+ {
+  "module": "secondopinion.py",
+  "old": "other = _other_files_digest(r)",
+  "new": "other = \"x\""
+ }
+]

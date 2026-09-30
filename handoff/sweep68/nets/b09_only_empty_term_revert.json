@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_web.py",
+  "old": "        wanted = [n.strip().lower() for n in args.only.split(\",\") if n.strip()]",
+  "new": "        wanted = [n.strip().lower() for n in args.only.split(\",\")]"
+ }
+]

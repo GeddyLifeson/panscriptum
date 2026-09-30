@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "    return None if r is None else bool(r)",
+  "new": "    return bool(r)"
+ }
+]

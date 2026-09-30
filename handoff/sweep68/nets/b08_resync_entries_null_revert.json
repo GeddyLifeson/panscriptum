@@ -1,0 +1,7 @@
+[
+ {
+  "module": "resync_roll.py",
+  "old": "        if not isinstance(rec.get(\"entries\", []), list):",
+  "new": "        if False:"
+ }
+]

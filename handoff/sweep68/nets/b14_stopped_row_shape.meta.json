@@ -1,0 +1,1 @@
+{"name": "escalation.subsystem_stopped treats a malformed present row as stopped", "expected": "sweep68 b14 F10: falsy malformed STOPPED.json rows read not stopped while truthy ones raise, so the two shapes disagree"}

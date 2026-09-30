@@ -1,0 +1,1 @@
+{"name": "a second halt landed over a corrupt HALT.json preserves the unreadable original", "expected": "sweep68 b14 F6: the original halt's code, what and raised_at are overwritten by the stand-in and survive only in escalation.log"}

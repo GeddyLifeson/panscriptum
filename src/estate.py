@@ -223,7 +223,11 @@ def inspect(path):
         # ignore" habit that let four broken modules sit unnoticed. `.applock` sidecars belong
         # here for a stronger reason than the others: they are not merely ALLOWED to be zero
         # bytes, they can never legitimately be anything else (see TRANSIENT_EXT above).
-        if os.path.splitext(path)[1].lower() in TRANSIENT_EXT:
+        # sweep68 b13 F5: the kept-damaged copy is exempt here too. KEPT_DAMAGED_EXT's own
+        # comment says a `.corrupt` file is "sized, never opened" and must never be a permanently
+        # red row, and health.py's comment names the zero-byte case (an interrupted flush leaves
+        # 0 bytes) -- but only TRANSIENT_EXT was exempted, so a 0-byte wreck was graded a fault.
+        if os.path.splitext(path)[1].lower() in TRANSIENT_EXT + KEPT_DAMAGED_EXT:
             return rec
         rec["error"] = "zero bytes"
         return rec
@@ -616,6 +620,28 @@ def terminal():
             # A husk is the exact fault this tier was written to find: a data file that loads
             # and says nothing, which every consumer reads as "no data" rather than "no file".
             note(f + " is effectively empty", f"{len(body)} bytes", bad=True)
+    # sweep68 b13 Q4, answered under the 2026-09-30 ruling: THE HTML ENTRY POINT GETS THE SAME
+    # TEST THE DATA FILES DO, plus a truncation test. Only `.js` was opened, so a
+    # PANSCRIPTUM_TERMINAL.html cut off at any size above zero (artifacts() catches only zero
+    # bytes) still reported "N page(s)". Argued the other way: artifacts() already covers empties
+    # and the page is 2.6 MB of generated markup. But a truncated page is the more likely failure
+    # (an interrupted write), and it loads in a browser as a blank screen. The closing-tag test is
+    # applied to the entry point ONLY: part1.html and part2.html are deliberate fragments (part1
+    # ends inside its data array, part2 has no opening <html>), so a whole-directory rule would
+    # be red for ever on files that are meant to be that shape.
+    for f in html:
+        p = os.path.join(root, f)
+        try:
+            with open(p, encoding="utf-8", errors="replace") as fh:
+                body = fh.read()
+        except Exception as e:
+            note(f + " UNREADABLE", _brief(e, 70), bad=True)
+            continue
+        if len(body) < 64:
+            note(f + " is effectively empty", f"{len(body)} bytes", bad=True)
+        elif f == "PANSCRIPTUM_TERMINAL.html" and "</html>" not in body[-2048:].lower():
+            note(f + " looks TRUNCATED", "no closing </html> at the end of the entry point",
+                 bad=True)
     return out
 
 

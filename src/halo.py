@@ -167,6 +167,27 @@ def compute():
     return out
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    ADDED sweep68 b03 Q4, answered under the 2026-09-30 ruling: this module and its twins
+    (`wh40k.py`, on the `_INTERLOCKED` roster since 2026-09-28) write the same kind of derived
+    assay file, and only the twin asked about the halt. Against: the file is computed from
+    constants in this module, so a write under a halt cannot import a fault. For, and decided:
+    a halt means nothing starts until a person rules, `standards.py` grades from these files,
+    and a gate that differs between two twins is the one nobody can reason about. Same shape as
+    wh40k's: writing path only, and FAIL CLOSED on the import -- never `except ImportError:
+    pass`, which is Hard Rule -1's own incident.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--full", action="store_true")
@@ -204,6 +225,7 @@ def main():
     # reader holds the target open, so the run announced a refreshed assay file, exited clean,
     # and left the previous one on disk for its readers. Same shape and same fix as `wh40k.py`
     # and `zfighters.py`, which are this file's twins. Run #36 discarded-verdict sweep.
+    _assert_not_halted("(writes data/HALO_ASSAYS.json)")
     if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
         silence.note("halo.py:main-write-denied")
         print("")

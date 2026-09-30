@@ -425,6 +425,22 @@ def value(rec):
     return A.LADDER.index(r["magnitude"]) + r["decimal"]
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES data/Z_FIGHTERS.json. -> True, or raises.
+
+    sweep68 b06 Q5, answered under the 2026-09-30 ruling. The file is derived and regenerable, but pantheon.py reads it, and every other hand-run writer of the corpus or its outputs already refuses under a halt; a halt means the library is on uncertain ground.
+    Tightening only: the measuring half still runs under a halt, only the write is refused.
+    Same shape as thread_integrity._assert_not_halted, and FAIL CLOSED ON THE IMPORT -- never
+    `except ImportError: pass` (Hard Rule -1's own incident)."""
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description="hand-built Z Fighter assays")
     ap.add_argument("--full", action="store_true", help="print every worksheet line")
@@ -521,6 +537,7 @@ def main():
     # printed "-> {OUT}" and returned 0 -- so `pantheon.py` reading a stale Z_FIGHTERS.json looked
     # exactly like `pantheon.py` reading a fresh one. Note the paragraph above already records a
     # day when this file "never got refreshed" and nothing said so. Run #36 sweep.
+    _assert_not_halted("(writes data/Z_FIGHTERS.json)")
     if not silence.write_json(OUT, out, indent=1, ensure_ascii=False):
         silence.note("zfighters.py:main-write-denied")
         print("")

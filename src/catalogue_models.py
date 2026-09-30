@@ -395,10 +395,27 @@ def sweep(config_path=None, workers=6):
     return payload
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES data/PROVIDER_MODELS.json. -> True, or raises.
+
+    sweep68 b06 Q5, answered under the 2026-09-30 ruling. The file is a regenerable snapshot, but the sweep asks every provider over the network and foreman reads the snapshot; a halt means nothing should refresh derived data on uncertain ground.
+    Tightening only: the measuring half still runs under a halt, only the write is refused.
+    Same shape as thread_integrity._assert_not_halted, and FAIL CLOSED ON THE IMPORT -- never
+    `except ImportError: pass` (Hard Rule -1's own incident)."""
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description="ask each provider what it actually serves")
     ap.add_argument("--config", help="path to cascade config.json")
     a = ap.parse_args()
+    _assert_not_halted("(writes data/PROVIDER_MODELS.json)")
     sweep(config_path=a.config)
     # A sweep whose snapshot did not reach disk is not a refresh, and `foreman.recatalogue_models`
     # distinguishes the two only by this status.

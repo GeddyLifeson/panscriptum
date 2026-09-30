@@ -1,0 +1,4 @@
+{
+ "name": "rigor.main returns non-zero when it finds an unaccounted adjudication",
+ "expected": "sweep68 b06 F13: rigor.main prints FINDING/WARNING lines and returns 0, so nothing consuming the exit code can turn red"
+}

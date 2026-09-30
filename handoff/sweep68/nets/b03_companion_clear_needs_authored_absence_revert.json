@@ -1,0 +1,7 @@
+[
+  {
+    "module": "pipeline.py",
+    "old": "                    if rej in mark and mark[rej] == _fp_one(None):\n                        continue\n",
+    "new": ""
+  }
+]

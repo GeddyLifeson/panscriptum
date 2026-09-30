@@ -1,0 +1,82 @@
+[
+ {
+  "id": "F10",
+  "file": "src/standards.py",
+  "verdict": "kept",
+  "decision": "Keep the absent-reader entry routed to _dropped (aggregate red); only the stale 'legitimately DOWN between laps' comments were corrected.",
+  "how": "For: the reader is STANDING (overnight.py:1181), so an absent entry is now abnormal and deserves a loud row. Against: foreman.restart_reader explicitly defers to the supervisor when the reader is down-and-absent, so a red `corpus read is progressing` would carry a remedy that acts on nothing, and _dropped already turns the every-standard-could-read-its-input aggregate red (fail closed). Reasoning in the comments at the two sites was updated; behaviour unchanged.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "src/standards.py",
+  "verdict": "kept",
+  "decision": "Same as F10: an absent `corpus read` entry stays a named _dropped standard, not a red restart_reader row.",
+  "how": "See F10. Both sides recorded there; a red row would dispatch a no-op remedy while the aggregate already fails closed.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "src/endpoint.py",
+  "verdict": "changed",
+  "decision": "A forced re-probe that finds DEAD no longer overwrites a cached live verdict; the caller still receives the DEAD result.",
+  "how": "For keeping the old behaviour: --force is a manual 'tell me the truth' tool, and a host whose API really moved would otherwise be corrected. Against: DEAD_TTL's own comment states the asymmetry (live is forever, dead is one afternoon's network); a force during an outage branded a live host DEAD for 24 h, silently unreading a source, while a moved host fails loudly at fetch time. Chose protecting the cache and returning the truth to the person. New silence class endpoint.py:force-dead-kept-live is network-state noise: coordinator may add it to verify_math's live-state grant.",
+  "net": "b06_q_endpoint_force_live",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/zfighters.py",
+  "verdict": "reserved",
+  "decision": "Reserved: Tien's `continuity` [wiki] quote is curatorial wording in an assay sheet.",
+  "how": "Options: re-source the line from Tien's own article in the mined cache, or re-mark it [canon]. Recommendation: re-source from the cache if Tien's line exists there verbatim, otherwise mark [canon]; owner to rule.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "src/descending_ladder.py",
+  "verdict": "changed",
+  "decision": "shrink_report now reports is_descent None (not False) when from_m is None or not a positive size.",
+  "how": "For False: callers only truth-test it and None is equally falsy. Against: False asserts 'not a descent' of a trajectory whose start nobody gave, and the invalid-to_m branch already uses None for 'not assessed'. No reader outside the held module.",
+  "net": "b06_q_ladder_is_descent_unknown",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "src/zfighters.py",
+  "verdict": "changed",
+  "decision": "Added the plant-wide halt interlock (assert_clear via _assert_not_halted) before the write in zfighters.main, catalogue_models.main and endpoint.main (probing path; --list still reads freely).",
+  "how": "Against: these are regenerable derived files, and halting them costs little value. For: every other hand-run writer already refuses, a halt means uncertain ground, and the change only tightens; measuring still runs under a halt. endpoint.register was deliberately NOT gated: its caller scout.py is interlocked and a raise inside a library function daemons call would crash them. COORDINATOR: add zfighters.py, catalogue_models.py, endpoint.py to verify_math _INTERLOCKED.",
+  "net": "b06_q_halt_interlocks",
+  "red_green_checked": true,
+  "new_interlock": "zfighters.py, catalogue_models.py, endpoint.py"
+ },
+ {
+  "id": "Q6",
+  "file": "src/standards.py",
+  "verdict": "kept",
+  "decision": "Keep: an unstattable log turns the advancing standard red before the liveness test.",
+  "how": "For changing (test liveness first, skip a not-running job): a job that legitimately never logged would not be red. Against: that would LOOSEN a stall detector (fewer reds), the log for a RUNNING job missing is a genuine instrument fault, all six LN.OWNER logs exist today so nothing is red, and 'every managed job is running' already covers a job that is down. Cost exceeds benefit.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q7",
+  "file": "src/rigor.py",
+  "verdict": "changed",
+  "decision": "adjudication_beta now refuses n_laws_touched above the catalogue size instead of clamping it to M (0 bits).",
+  "how": "For the clamp: an earlier order kept it on purpose and it reads 'at most M'. Against: excepting more laws than exist is impossible input, and the clamp priced it at the cheapest possible answer (log2 C(M,M)=0), the same 'charge nothing for nonsense' the zero-laws refusal closed. Live callers pass 1-3 against 12, so no figure moves.",
+  "net": "b06_q_beta_laws_over_catalogue",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

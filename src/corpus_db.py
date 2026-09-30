@@ -348,12 +348,21 @@ def rebuild(include_evidence=True, evidence_limit=None):
                 # where a feats file should be is a corrupt file that happens to parse.
                 unreadable_evidence.append("%s (not a dict)" % os.path.basename(p))
                 continue
-            batch.append((d.get("entity"), d.get("host"),
-                          len(d.get("feats") or []),
-                          len(d.get("pages_read") or d.get("pages") or []),
-                          int(d.get("chars_read") or 0),
-                          len(d.get("pages_refused") or {}),
-                          (d.get("provenance") or {}).get("roll")))
+            try:
+                row = (d.get("entity"), d.get("host"),
+                       len(d.get("feats") or []),
+                       len(d.get("pages_read") or d.get("pages") or []),
+                       int(d.get("chars_read") or 0),
+                       len(d.get("pages_refused") or {}),
+                       (d.get("provenance") or {}).get("roll"))
+            except Exception as e:
+                # SWEEP68 b14 F9: `chars_read: "12.5"` or a list `provenance` used to abort the
+                # whole rebuild with a traceback and leave the tmp database behind. It is a
+                # corrupt evidence file like the two arms above: named, counted, not indexed.
+                silence.note("corpus_db.py:evidence-shape")
+                unreadable_evidence.append("%s (%s)" % (os.path.basename(p), type(e).__name__))
+                continue
+            batch.append(row)
             if len(batch) >= 5000:
                 con.executemany("INSERT INTO evidence VALUES (?,?,?,?,?,?,?)", batch)
                 n_ev += len(batch)
@@ -362,7 +371,13 @@ def rebuild(include_evidence=True, evidence_limit=None):
             con.executemany("INSERT INTO evidence VALUES (?,?,?,?,?,?,?)", batch)
             n_ev += len(batch)
 
-    con.execute("INSERT OR REPLACE INTO meta VALUES ('built_at', ?)", (str(time.time()),))
+    # SWEEP68 b14 F1: STAMPED AT THE START, NOT THE END. `built_at` used to be `time.time()` here,
+    # after the record loop and the long evidence scan, so a record rewritten AFTER rebuild read it
+    # but BEFORE this line had mtime < built_at, and freshness() said "no record has changed since
+    # the index was built" over rows holding the old copy -- the one window where the banner
+    # understated staleness. `t0` was taken before the first read, so anything written after it
+    # compares as newer.
+    con.execute("INSERT OR REPLACE INTO meta VALUES ('built_at', ?)", (str(t0),))
     con.execute("INSERT OR REPLACE INTO meta VALUES ('sources', ?)", (str(n_src),))
     con.execute("INSERT OR REPLACE INTO meta VALUES ('entries', ?)", (str(n_entry),))
     con.execute("INSERT OR REPLACE INTO meta VALUES ('evidence', ?)", (str(n_ev),))
@@ -642,7 +657,9 @@ def drift():
     for p in glob.glob(os.path.join(HERE, "data", "records", "*.json")):
         try:
             with open(p, encoding="utf-8") as f:
-                real += len(json.load(f).get("entries") or [])
+                # SWEEP68 b14 F9: count dict entries only, as rebuild() does -- a stray non-dict
+                # row made the gap permanently non-zero over a current index.
+                real += sum(1 for e in (json.load(f).get("entries") or []) if isinstance(e, dict))
         except Exception as e:
             silence.note("corpus_db.py:drift-record")
             # Same shape as `rebuild()`'s `unreadable_records.append(...)` -- basename plus the
@@ -650,6 +667,29 @@ def drift():
             unreadable.append("%s (%s)" % (os.path.basename(p), type(e).__name__))
     gap = None if indexed is None else real - indexed
     return indexed, real, gap, unreadable
+
+
+def unreadable_records():
+    """Names of data/records/*.json that do not parse to an object. -> list, empty when all read.
+
+    SWEEP68 b14 F3. `pipeline.records()` skips a record it cannot read (`silence.note` and
+    `continue`), which is the right call for a reader but wrong for a WRITER of a whole-library
+    file: sweep.py and worldseed.py --write landed CHARACTER_SWEEP.json / WORLDSEEDS.json built
+    from whatever parsed at that instant, so a torn or AV-locked marvel.json became a library
+    with no Marvel, rc 0, in the shape of the real one. Those writers ask this first and refuse.
+    Same naming as rebuild()'s unreadable list; uncapped.
+    """
+    bad = []
+    for p in sorted(glob.glob(os.path.join(HERE, "data", "records", "*.json"))):
+        try:
+            with open(p, encoding="utf-8") as f:
+                ok = isinstance(json.load(f), dict)
+            if not ok:
+                bad.append("%s (not an object)" % os.path.basename(p))
+        except Exception as e:
+            silence.note("corpus_db.py:unreadable-records")
+            bad.append("%s (%s)" % (os.path.basename(p), type(e).__name__))
+    return bad
 
 
 def _freshness_banner():

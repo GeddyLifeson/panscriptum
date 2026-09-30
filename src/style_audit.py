@@ -328,13 +328,22 @@ def main():
     if not files:
         print(f"no generated output under {args.path}")
         print("Run this on the pilot before scaling, and again every few hundred chapters.")
-        return 0
+        # sweep68 b05 L7: NOTHING WAS AUDITED, and exit 0 reads as a clean prose-quality result
+        # ("0 entries", "none" for machine tells). An audit that read no corpus proved nothing,
+        # so it is a refusal, not a pass.
+        return 1
     texts = []
     for f in files:
         with open(f, encoding="utf-8", errors="replace") as fh:
             texts.append(fh.read())
     print(f"read {len(files)} files")
-    report(audit(texts))
+    a = audit(texts)
+    report(a)
+    if not a["entries"]:
+        # Files existed but none held a `◈` entry marker (the chapter format changed, or the
+        # files are not chapters): same zero-read, same refusal.
+        print("NO ENTRIES PARSED from these files -- the audit read nothing and proves nothing.")
+        return 1
     return 0
 
 

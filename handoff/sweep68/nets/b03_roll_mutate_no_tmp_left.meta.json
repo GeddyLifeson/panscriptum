@@ -1,0 +1,4 @@
+{
+  "name": "roll.mutate removes its staged temp file when the dump raises",
+  "expected": "sweep68 b03 N8: a failed roll staging leaves SWEEP_ROLL.json.<pid>.<tid>.0.tmp beside the canonical roll forever"
+}

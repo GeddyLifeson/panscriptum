@@ -1,0 +1,1 @@
+{"name": "scope_for stops on a repeated sroffset", "expected": "sweep68 b05 L2: a stuck search backend hangs the whole scope probe for ever"}

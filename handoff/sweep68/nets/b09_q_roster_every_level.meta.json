@@ -1,0 +1,4 @@
+{
+ "name": "backfill.roster walks every subcategory level, cycles included",
+ "expected": "sweep68 b09 Q2: character pages filed two or more category levels down are missing from a roster that reads as complete"
+}

@@ -1,0 +1,1 @@
+{"name": "identity.py --refresh exits 1 when the disk copy was not updated", "expected": "sweep68 b11 N11: a refused or denied refresh exits 0 and the supervisor logs designator inventory re-mined whole for a refresh that changed nothing"}

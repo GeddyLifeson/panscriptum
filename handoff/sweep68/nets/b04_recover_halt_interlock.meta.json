@@ -1,0 +1,4 @@
+{
+  "name": "recover_folder_records refuses to write under a standing halt; --dry-run still works",
+  "expected": "sweep68 b04 F2: recover_folder_records writes records and roll rows under an OWNER halt"
+}

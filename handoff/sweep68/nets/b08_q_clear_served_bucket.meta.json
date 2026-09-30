@@ -1,0 +1,1 @@
+{"name": "cascade_bridge clears the bucket that answered, not the pinned one", "expected": "sweep68 b08 Q2: a failover success wipes the pinned bucket's deadline strikes, so an alternating bucket never climbs past the first bench"}

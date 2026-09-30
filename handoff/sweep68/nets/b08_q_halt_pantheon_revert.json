@@ -1,0 +1,7 @@
+[
+ {
+  "module": "pantheon.py",
+  "old": "    _assert_not_halted(\"(writes data/PANTHEON.json)\")",
+  "new": "    pass"
+ }
+]

@@ -1,0 +1,4 @@
+{
+  "name": "withdraw_chapters sets an unparseable manifest aside before replacing it",
+  "expected": "sweep68 b04 Q5: an unparseable catalog.withdrawn.json is overwritten with no copy kept"
+}

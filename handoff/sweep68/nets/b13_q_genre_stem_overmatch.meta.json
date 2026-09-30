@@ -1,0 +1,4 @@
+{
+ "name": "genre: hell/ration/fun cue stems do not match hello/rational/function",
+ "expected": "sweep68 b13 Q6: three genre cue stems over-match unrelated words (hello, rational, function) and skew confidence across the 0.45 mixed flag"
+}

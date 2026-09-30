@@ -1,0 +1,4 @@
+{
+ "name": "foreman._function_source slices exactly the span attempt_patch replaces",
+ "expected": "sweep68 b09 F4: a U+2028 above the target shifts the slice, so the model patches a body other than the one overwritten on disk"
+}

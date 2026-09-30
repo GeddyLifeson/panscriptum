@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cascade_bridge.py",
+  "old": "        _served_b = _bucket_of(box[\"answered_id\"] or box[\"answered\"])",
+  "new": "        _served_b = \"\""
+ }
+]

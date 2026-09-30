@@ -1,0 +1,7 @@
+[
+ {
+  "module": "ingest_doc.py",
+  "old": "landed, _why = silence.replace_if_unchanged(tmp, HOSTS, digest)",
+  "new": "landed, _why = silence.write_json(HOSTS, hosts, indent=1, ensure_ascii=False, sort_keys=True), \"\""
+ }
+]

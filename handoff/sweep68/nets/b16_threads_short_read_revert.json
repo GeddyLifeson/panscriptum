@@ -1,0 +1,7 @@
+[
+ {
+  "module": "threads.py",
+  "old": "if WI.LAST_UNREADABLE:",
+  "new": "if False:"
+ }
+]

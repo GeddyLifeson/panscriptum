@@ -402,7 +402,7 @@ def check_import(name):
         # this tier reported "8 subsystem(s) in a bad state" while those eight subsystems were
         # doing exactly what they are built to do. Found run #31, by running the battery under a
         # live halt. Deliberate refusal is its own verdict, and it is not red.
-        if _HALT_REFUSAL in blob:
+        if _HALT_REFUSAL in blob and _halt_standing():
             ok, err = True, "refused: the library is halted (obeying the interlock)"
         elif "Traceback" not in blob:
             # AND THE SAME TEST IN THE OTHER DIRECTION. Absence of a traceback used to mean
@@ -468,7 +468,7 @@ def run_verifier(item):
         # tier already honours: with the plant-wide halt standing every verifier refuses and
         # exits nonzero, and grading that as ten broken subsystems is the run-#31 mistake in a
         # new tier. A child that printed the halt refusal obeyed the interlock.
-        refused = _HALT_REFUSAL in out
+        refused = _HALT_REFUSAL in out and _halt_standing()
         failed = bool(crashed or (r.returncode != 0 and rc_means == RC_BROKEN and not refused))
         lines = [ln for ln in out.strip().splitlines() if ln.strip()]
         # THE WHOLE OUTPUT IS KEPT WHEN IT IS EVIDENCE (order 2da56d4307ea). `tail` was
@@ -786,6 +786,46 @@ def _row_is_fault(row):
     return bool(row.get("bad", True)) if isinstance(row, dict) else True
 
 
+def _halt_standing():
+    """Is a halt standing right now? -> bool. Fail closed the way `escalation.status` does.
+
+    THE SENTENCE IS NOT THE HALT (sweep68 b12 Q5, answered under the 2026-09-30 ruling). Both
+    tiers graded a child "refused" whenever the halt sentence appeared ANYWHERE in its output --
+    and the verifiers that print it most are the ones that TEST the interlock (drill.py and
+    verify_math.py drive `assert_clear` on purpose). A drill that failed rc=1 while one of its
+    probes echoed the sentence was graded "obeying the interlock", not failed. So a refusal is
+    only credited while a halt actually stands. Other side, considered: a halt cleared between
+    the child's refusal and this grading now grades that child failed -- a red row for a
+    transient, which is the fail-closed direction and costs one re-run.
+    """
+    try:
+        return bool(_esc.status()[0])
+    except Exception:
+        silence.note("allsweep.py:halt-status")
+        return True
+
+
+def land_report(report, quick=False):
+    """Land the sweep's report at OUT. -> True if it landed, or if a --quick run rightly did not.
+
+    A QUICK SWEEP IS NOT THE BATTERY'S ANSWER (sweep68 b12 F2/Q2, answered under the 2026-09-30
+    ruling). `--quick` skips VERIFY and ESTATE, and it used to land `"verifiers": []`,
+    `"estate": {}` with a fresh `at` anyway. `workorders.battery_faults` and `standards.py` read
+    this file as the battery's verdict and iterate only what is present, so a foreman patch check
+    replaced a red full sweep (verify_math FAILED, estate faults) with a green one for up to
+    ALLSWEEP_MAX_AGE. The quick run's verdict still reaches its caller as the exit code, which is
+    all `foreman._checks_pass` reads. The file keeps the last FULL sweep and ages honestly.
+    Other side, considered: landing a `"quick": true` stamp would keep the imports/lint rows
+    fresh, but every consumer would have to learn the flag, and a consumer that does not is the
+    same hole again. Not landing fails closed with no consumer changes.
+    """
+    if quick:
+        print("\n--quick: VERIFY and ESTATE did not run, so %s is NOT replaced -- it still holds "
+              "the last full sweep. This run's verdict is its exit code." % OUT)
+        return True
+    return silence.write_json(OUT, report, indent=1)
+
+
 def estate_faults(est):
     """-> the list of graded FAULT rows across CHARTER/WRITTEN/TERMINAL/EXTERNAL.
 
@@ -1032,12 +1072,12 @@ def main():
     # fresh-looking console beside it. Counted as a fault rather than raised, because the tiers
     # above it really did run and their findings are still worth printing; the file just cannot
     # be claimed. (run #37 sweep.)
-    landed = silence.write_json(OUT, {"at": time.time(),
-                                      "imports": imports, "verifiers": verifiers,
-                                      "lint": lint_bad,
-                                      "reconcile": findings, "estate": est,
-                                      "estate_faults": est_faults,
-                                      "seconds": round(time.time() - t0, 1)}, indent=1)
+    landed = land_report({"at": time.time(),
+                          "imports": imports, "verifiers": verifiers,
+                          "lint": lint_bad,
+                          "reconcile": findings, "estate": est,
+                          "estate_faults": est_faults,
+                          "seconds": round(time.time() - t0, 1)}, quick=a.quick)
     if not landed:
         silence.note("allsweep.py:report-write-denied")
     # THE LINT TIER NOW COUNTS. Run #26: this sweep ran four tiers and graded two. `lint_bad` was

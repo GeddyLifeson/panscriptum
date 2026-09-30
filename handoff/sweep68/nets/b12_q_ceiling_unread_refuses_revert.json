@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "    if host in _CEILING_UNREAD:\n        raise RuntimeError(",
+  "new": "    if False:\n        raise RuntimeError("
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "hosts.py",
+  "old": "def discover(only=None, workers=6, per_source=None):",
+  "new": "def discover(only=None, workers=6, per_source=24):"
+ }
+]

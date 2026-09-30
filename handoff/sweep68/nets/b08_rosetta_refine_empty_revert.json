@@ -1,0 +1,7 @@
+[
+ {
+  "module": "rosetta.py",
+  "old": "        if before and not kept:",
+  "new": "        if False:"
+ }
+]

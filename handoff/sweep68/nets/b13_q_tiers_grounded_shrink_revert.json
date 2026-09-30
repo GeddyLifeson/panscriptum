@@ -1,0 +1,7 @@
+[
+ {
+  "module": "tiers.py",
+  "old": "    if new < old * TIERS_SHRINK_FLOOR:",
+  "new": "    if False:"
+ }
+]

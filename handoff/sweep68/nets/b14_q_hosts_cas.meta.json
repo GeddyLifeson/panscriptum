@@ -1,0 +1,1 @@
+{"name": "ingest_doc.register lands WIKI_HOSTS.json under a compare-and-swap", "expected": "sweep68 b14 Q2: register overwrites a host binding another writer landed between its read and write, in the file that cannot be rebuilt"}

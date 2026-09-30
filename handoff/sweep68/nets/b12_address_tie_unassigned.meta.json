@@ -1,0 +1,4 @@
+{
+ "name": "address.spine_code_for returns UNASSIGNED on an equal-evidence tie between codes",
+ "expected": "sweep68 b12 F14: an ambiguous target is shelved under whichever index entry the file lists first"
+}

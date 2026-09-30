@@ -1,0 +1,4 @@
+{
+ "name": "adjudication_beta refuses more laws than the catalogue holds instead of pricing it at 0 bits",
+ "expected": "sweep68 b06 Q7: excepting 13 laws of a 12-law catalogue is priced as excepting all 12, i.e. 0 bits"
+}

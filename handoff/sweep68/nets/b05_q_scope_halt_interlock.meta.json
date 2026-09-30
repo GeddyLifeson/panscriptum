@@ -1,0 +1,1 @@
+{"name": "scope.mutate refuses to write the live SCOPE.json while halted", "expected": "sweep68 b05 Q1: SCOPE.json (published Magnitude ceilings) is rewritten during a standing plant-wide halt"}

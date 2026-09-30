@@ -1,0 +1,92 @@
+[
+ {
+  "id": "N6",
+  "file": "src/entity_match.py",
+  "verdict": "changed",
+  "decision": "qualifier_compatible now gates every parenthetical group, in order, not only the trailing one.",
+  "how": "FOR: the module header's rule is that a similarity score may never overrule a continuity marker, and position is irrelevant to that; the audit reproduced best() returning STRONG 0.9358 across (Ultimate)/(Prime). AGAINST: split_qualifier's docstring says mid-name parentheses are part of the name and treating them as disambiguators could fold or split distinct names. Weighed: the change only ever REFUSES more (names with no mid-name group behave exactly as before, verify_math's rows are trailing-only and still hold), and a wrongly refused pair lands as a reviewable qualifier-conflict rather than a silent merge, which is the cheap direction for an identity matcher. No production caller today, so nothing else moves.",
+  "net": "b11_q_entity_match_midname",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "N7",
+  "file": "src/prose_gate.py",
+  "verdict": "reserved",
+  "decision": "Reserved: restated, not decided (it would loosen a prose gate).",
+  "how": "Problem: the body strip in section_shortfall has no colon, so a Record paragraph opening Classical / Threads of / Magnitude of is deleted and the block refused as only N characters of prose. Options: (a) match the label WITH its colon, exactly as the presence test does (blocks like this pass); (b) leave it (fail-closed over-refusal, the model is retried). RECOMMENDATION: (a) is safe in practice, because a real label line still carries its colon and is still stripped and a stub still fails the 120-character floor, but it is the owner's call because it lets through blocks refused today.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "N8",
+  "file": "src/prose_gate.py",
+  "verdict": "reserved",
+  "decision": "Reserved: restated, not decided (narrowing the verbs would loosen the invented-marginalia gate).",
+  "how": "Problem: _EYEWITNESS includes held, stood, lived, watched, met, faced, so reactions such as I held my breath reading this Record are dropped whole. Options: (a) remove the ambiguous verbs so more first-person notes survive; (b) keep the list and have generate.py log the dropped note text per chapter so the loss is visible; (c) both. RECOMMENDATION: (b) first (pure visibility, loosens nothing), then (a) only for held/stood/lived/watched/faced once a sample of dropped notes shows they are mostly reactions.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "N14",
+  "file": "src/identity.py",
+  "verdict": "kept",
+  "decision": "identity.mine() stays feats-only; no change.",
+  "how": "FOR changing (mine readfeats too): chain.harvest calls identify() on readfeats hosts and a host missing from the inventory reads as no-continuity, the wrong-merge direction. AGAINST: measured today, data/readfeats has 99 host dirs, 98 also exist under data/feats, and the one exception (disney_fandom_com) holds 0 files, so no title can be mis-identified; mining a second root also doubles the 16-minute whole-tree mine, and stale_hosts would then need the same second root or it would report permanent staleness and re-mine every load. Cost exceeds benefit while the gap is empty. Trigger to revisit: a readfeats-only host with files.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "N15",
+  "file": "src/chain.py",
+  "verdict": "kept",
+  "decision": "The ID.load() fallback stays; a comment now states what it really does.",
+  "how": "FOR removing the try/except (fail at the top with the real error): the audit is right that it is not a degradation to no continuities. AGAINST: with the fallback a fully cached harvest never calls identify() and completes correctly on cached rows, while removal would kill that pass for a fault it does not touch; an uncached file fails loudly at the first identify() either way, and nothing merges silently on either path. Behaviour unchanged, comment added at the handler (documentation-only change, no net).",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "src/scout.py",
+  "verdict": "kept",
+  "decision": "verify() keeps MIN_NAME_HITS = 2 over the whole probeable pool.",
+  "how": "FOR scaling the bar (a fraction of the pool): a generic page has a better chance of carrying two of 681 common-word names than two of 25. AGAINST: no page was ever fetched to show a false accept, so the direction is unmeasured; a fraction (about 7 hits at 681) would reject a genuine single-class page that names two or three items, silently leaving a real source hostless; and a false accept is bounded, because the registered page is only mined for feats on catalogued names actually present on it, so a wrong page yields nothing rather than wrong facts. Not enough evidence to move a threshold that can also cause false negatives. Revisit with a measured false-accept.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "src/catalogue_aurora.py",
+  "verdict": "changed",
+  "decision": "A folder with any unparseable XML file is now refused whole: nothing is written and the roll row is left untouched.",
+  "how": "FOR the old behaviour: the surviving elements are real and cataloguing them beats nothing. AGAINST: the default selection is entry_count == 0, so a source marked catalogued on a partial count is never re-read after the XML is fixed, and the record wears the shape of the whole one, which is Hard Rule 0's failure. Nothing is lost by refusing: rc stays 1 and names the files, an existing record is untouched, and the next run re-parses on its own once the XML parses.",
+  "net": "b11_q_aurora_unparsed",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/chain.py",
+  "verdict": "kept",
+  "decision": "_singleton_active keeps treating a live pid as held, with no creation-time check.",
+  "how": "FOR a signature check (as runguard._process_signature): a recycled pid blocks chain.py until it exits. AGAINST: chain.py is a hand-run tool, the wrong answer in the current direction costs one refused start whose message names the pid and start time, while the wrong answer in the other direction (a false not-running) lets two chains write CHAIN.json and the harvest index at once. The claim file is also cleared by a normal exit. The safe direction is documented and cheap; the check adds a code path that can itself err toward not-running.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "src/prose_gate.py",
+  "verdict": "changed",
+  "decision": "_INSTRUMENT_MARK's bare glyph alternative must now open a line (tightened).",
+  "how": "FOR leaving it: the marker is deliberately loose so the honest template passes. AGAINST: a glyph mid-sentence in the Record satisfied the marker for a being with no Instrument section whenever any axis label or 'uninstrumented' appeared elsewhere. The template prints the glyph at line start (heading, and the glued Threads shape 4c already measures), so anchoring refuses only text that is not the section. Strict subset of the old pattern; the axis-label and Not-applicable branches are untouched.",
+  "net": "b11_q_instrument_mark_anywhere",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

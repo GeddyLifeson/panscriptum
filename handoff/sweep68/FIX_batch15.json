@@ -1,0 +1,200 @@
+[
+ {
+  "id": "F1",
+  "file": "src/generate.py",
+  "line": 1154,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "A corrective retry that restores an omitted entry is discarded: `lacking` is never recomputed and the chapter is refused anyway.",
+  "how": "Recompute `lacking` against the kept text just before `parts.append`, so `missing` reflects what is actually filed. Reproduced with a stubbed call_ollama (raised ChapterRefused before, returns text after).",
+  "net": "b15_generate_retry_recovers_omission",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "src/manifest_builder.py",
+  "line": 475,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "volume_codes gives two sources the same code (19 Series, 580 addresses) and the build says nothing.",
+  "how": "Report only, addresses untouched: new `code_collisions(codes)` and `main` prints every colliding code with its sources (uncapped) and notes the ledger. volume_codes signature and numbering unchanged. pipeline.phase_write (not mine) can call code_collisions the same way; assignment stays the owner's order 3976a097f975.",
+  "net": "b15_manifest_code_collisions",
+  "red_green_checked": true
+ },
+ {
+  "id": "F3",
+  "file": "src/generate.py",
+  "line": 1385,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "Nothing compares a catalog row's source_name with the job's, so a pilot/--only manifest or a shifted number regenerates over another source's chapter.",
+  "how": "New `claimed_by_other_source(cached, job)`; the pending loop holds such a job (not written, not counted stale) and prints every one under ADDRESS CLAIMED plus a ledger note. A row with no source_name claims nothing.",
+  "net": "b15_generate_foreign_catalog_row",
+  "red_green_checked": true
+ },
+ {
+  "id": "F4",
+  "file": "src/manifest_builder.py",
+  "line": 493,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "The .N in a job address shifts whenever the populated, in-scope set of a Series changes (26 D&D sources move if Lost Mines becomes populated).",
+  "how": "Not changed: this is address stability, covered by owner order 3976a097f975. Options: (a) append-only data/VOLUME_NUMBERS.json, source -> code, new sources take the next free number and an exclusion never renumbers; (b) key the catalog on source name + chapter; (c) number by a stable property such as roll order. F3's guard now stops the silent overwrite that a shift would otherwise cause.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F5",
+  "file": "src/wiki_source.py",
+  "line": 544,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "find_categories swallows a failed canonical-category probe and catalogue_web reads the empty result as 'wiki has no such class'.",
+  "how": "Removed the try/except so the transport error propagates, as all_categories/category_members already do (MediaWiki answers a missing category with an empty list, so an exception is always the transport). Reproduced with a stubbed _api.",
+  "net": "b15_wiki_probe_failure_propagates",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6",
+  "file": "src/audit.py",
+  "line": 129,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "The invariants pass and the sample pool count entries the cleanup pass already struck.",
+  "how": "Skip `excluded`/`stale_since` entries in the entry loop and the sample pool (manifest_builder._live_entries is the same definition); count them under stats['entries_struck'] and print the number.",
+  "net": "b15_audit_struck_entries",
+  "red_green_checked": true
+ },
+ {
+  "id": "F7",
+  "file": "src/manifest_builder.py",
+  "line": 542,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "skipped_empty uses `entry_count, 0 == 0`, so a null count is in neither list.",
+  "how": "Changed to `not (r.get(\"entry_count\") or 0)`, matching populated.",
+  "net": "b15_manifest_null_entry_count",
+  "red_green_checked": true
+ },
+ {
+  "id": "F8",
+  "file": "src/hostcheck.py",
+  "line": 1417,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "purge --go deletes host caches when no record matched the source, and counts shared only by current binding.",
+  "how": "Track `matched` record files; with none, the caches are kept and the log carries cache_kept_no_record. `shared` now also includes sources the ROSTER_AUDIT says were mined from that host. Both reproduced in a scratch tree (the audit marked it UNVERIFIED with no live instance; verified as reachable by construction).",
+  "net": "b15_hostcheck_purge_no_record",
+  "red_green_checked": true
+ },
+ {
+  "id": "F9",
+  "file": "src/hostcheck.py",
+  "line": 247,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "_land_hosts applies the merge to a fresh read without checking the values it was decided from.",
+  "how": "New optional `expect={source: value decided from}`; a key whose fresh value differs is skipped and named on stderr. `adopt` and `sweep --repair` pass it (captured before their local hosts.update). Omitted, behaviour is unchanged, so drill's existing calls still fit.",
+  "net": "b15_hostcheck_merge_expect",
+  "red_green_checked": true
+ },
+ {
+  "id": "F10",
+  "file": "src/generate.py",
+  "line": 1273,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Held sources are recorded only on stdout.",
+  "how": "One silence.note('generate.py:address-held') per held source. The exit code is deliberately left alone, see Q1.",
+  "net": "b15_generate_held_sources_noted",
+  "red_green_checked": true
+ },
+ {
+  "id": "F11",
+  "file": "src/coverage.py",
+  "line": 245,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "An unreadable cache file reads as NOT ATTEMPTED, and a string mined_under.transport aborts measure().",
+  "how": "_state_of_file retries once, then returns UNREACHABLE (not memoised, so no classifier bump); a non-object transport stamp is UNREACHABLE rather than an AttributeError.",
+  "net": "b15_coverage_unreadable_file",
+  "red_green_checked": true
+ },
+ {
+  "id": "F12",
+  "file": "src/wiki_source.py",
+  "line": 705,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "strip_banner_prefix strips a real first sentence that starts 'This character needs ...'.",
+  "how": "Bare `needs\\b` replaced by the template wordings (needs to be / more / improvement / cleanup / expan* / work / attention / citations / references / sources / rewriting). Real banners still stripped.",
+  "net": "b15_wiki_banner_real_lead",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q1",
+  "file": "src/generate.py",
+  "line": 1664,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "generate exits 0 when every job failed, when the prose gate is closed, and now when every job was held at a shared address.",
+  "how": "Not changed: a non-zero rc from a pass that ran 29,476 jobs could read to the keeper as a crash and back it off. Options: keep rc 0 (the ledger note and console list now carry the hold), or return a distinct rc the keeper's name_rc knows as deliberate, as with rc=17.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/hostcheck.py",
+  "line": 298,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Host fitness is measured from the head of a rank-ordered roster (first 40 names, 12 API / 8 RAW bodies).",
+  "how": "Not changed: a host measurement, not a roster, so Hard Rule 0 may not apply. Options: keep the head sample, or stride like null_rate.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/canon_backup.py",
+  "line": 52,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Digest is taken before the zip, so a crawl rewriting a record between the two fails the snapshot; HOST_UNFIT.json, ROSTER_PURGES.json and output/ chapters are outside CANON_FILES/DIRS.",
+  "how": "Not changed: hashing while writing changes the archive format; adding paths is a curatorial call on what is rebuildable. Options: hash the bytes actually written, and add the two JSONs (cheap) and/or output/raw + catalog.json.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/coverage.py",
+  "line": 85,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_CLASSIFIER_VERSION does not track feats.CLEAN_NEGATIVES.",
+  "how": "Not changed: options are folding the tuple into the memo key, or bumping the version by hand when it changes. Adding a dependency edge to the memo key is the owner's call.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "src/wh40k.py",
+  "line": 93,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Khorne's ruin and Slaanesh's ruin are both 9.5 while the Khorne text says 'the highest ruin in the setting'.",
+  "how": "Cosmetic wording in shipped prose; left for a curatorial ruling.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "src/whoruns.py",
+  "line": 58,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "script_of returns None unless tokens[0] contains 'python', so a wrapper-launched job reads as not running.",
+  "how": "Not changed: same blind spot as the process sensor (_proc_lines lists python.exe/pythonw.exe only). Options: leave, or match the script basename anywhere in the command line.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

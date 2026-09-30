@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "    bad = sweep[\"estate\"][\"artifacts\"][\"bad\"]\n    verifiers = sweep[\"verifiers\"]",
+  "new": "    bad = ((sweep.get(\"estate\") or {}).get(\"artifacts\") or {}).get(\"bad\") or []\n    verifiers = sweep.get(\"verifiers\") or []"
+ }
+]

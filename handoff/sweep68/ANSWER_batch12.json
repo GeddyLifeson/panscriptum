@@ -1,0 +1,112 @@
+[
+ {
+  "id": "F2",
+  "file": "src/allsweep.py",
+  "verdict": "changed",
+  "decision": "A --quick sweep no longer replaces data/ALLSWEEP.json; its verdict is only its exit code.",
+  "how": "New land_report(report, quick): when quick is set it prints that the file still holds the last full sweep and returns True, so a skipped write is not graded as a denied write. For: foreman._checks_pass reads only the rc of `allsweep --quick`, and nothing reads a quick report as such (grep: no 'quick' in workorders/standards/dashboard). Not landing fails closed with no consumer change. With only quick runs, the file ages past ALLSWEEP_MAX_AGE and reads stale, which is true. Against: imports/lint rows in the file go stale between full sweeps, and the dashboard's import-health view lags until the next full sweep. Stamping quick:true instead would keep them fresh, but every consumer would have to learn the flag, and any consumer that didn't would reopen the hole. The drill net drives land_report with OUT redirected; allsweep main() was never run.",
+  "net": "b12_q_quick_not_landed",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "src/allsweep.py",
+  "verdict": "changed",
+  "decision": "No: --quick is a patch check, not the battery's answer, so it does not land ALLSWEEP.json.",
+  "how": "Same change as F2.",
+  "net": "b12_q_quick_not_landed",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "F4",
+  "file": "src/magnitude.py",
+  "verdict": "changed",
+  "decision": "Guard 2 (verify) now matches the axis lexicon only at a word start, via a separate AXIS_GUARD_RE.",
+  "how": "Tightening only. 'range' in 'Strange', 'tons' in 'Newtons', 'kill' in 'skill', 'time' in 'sometimes', 'predict' in 'unpredictable' and 'cross the' in 'across the' (vector) no longer pass guard 2. AXIS_RE itself is unchanged on purpose: it is also guard 3(d)'s deed locator in subject_refusal and quantity_scores' relevance test, so narrowing it there would skip guard 3 and accept more. Measured read-only on data/ASSAYS.json: 66 of 974 published worksheet lines matched only mid-word. The samples read as spurious ('Ki Bars ... Awoken Skill' as Ruin, 'across the city' as Vector). Settled records are not recomputed, so nothing published moves until a re-assay. Against: a prefixed inflection ('overkill') now reads as unestimable. That is the cheap direction under the charter's cost asymmetry.",
+  "net": "b12_q_guard2_word_start",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "F4b",
+  "file": "src/magnitude.py",
+  "verdict": "reserved",
+  "decision": "Unifying guard 2's lexicon with feats.AXIS_ACT (so the generator's own candidates cannot fail their axis) would ACCEPT more and is left for the owner.",
+  "how": "Options: (a) guard 2 uses feats._AXIS_ACT_RE, which recovers about 28% of 'does not bear on' rejections (169 of 607 measured) and makes one-shot agree with the split path; (b) keep two tables and document the asymmetry; (c) leave as is. Recommendation: (a), taking the word-anchored form of the generator's regexes, with a re-assay of the affected entities, because the split path already accepts this evidence and the same input should not get a different verdict depending on transport.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "F5",
+  "file": "src/magnitude.py",
+  "verdict": "changed",
+  "decision": "Both assaying callers (run_batch, --one) now go through ceiling_for_assay(), which raises when the host's live scope read failed. host_ceiling() keeps its uncached-None contract.",
+  "how": "The generic arm of host_ceiling now records the host in _CEILING_UNREAD (cleared on a successful read). ceiling_for_assay raises RuntimeError for such a host. run_batch.work already records that as a non-settled reason, so the entity is requeued, never scored unclamped. Why not re-raise inside host_ceiling: the standing drill net _net_efbfead57cb5 asserts `host_ceiling(...) is None` on exactly this path. Breaking a live net mid-sweep would halt the library, and the refusal gained is identical. Checked: _net_efbfead57cb5, _net_89a3c760aeb0 and _a_scope_refusal_is_never_cached_as_no_ceiling all still return True. Against: a transient scope failure now defers the entity instead of scoring it. That is the fail-closed direction, and it costs one requeue.",
+  "net": "b12_q_ceiling_unread_refuses",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "F7",
+  "file": "src/magnitude.py",
+  "verdict": "changed",
+  "decision": "In _is_entity, a shared title word (_TITLE_WORDS: captain, doctor, iron, lord, man, black, ...) no longer establishes identity on its own. Own-name variants still count.",
+  "how": "A span is the entity if it equals a form, if its non-stop tokens joined equal a form ('Though Black' on Goku Black), or if it shares a non-title name token ('Son Goku', 'Tony Stark', 'Captain Rogers'). The result is only ever True->False, so guard 3 refuses more. Now refused: Captain Marvel on Captain America, Iron Fist on Iron Man, Doctor Doom on Doctor Strange, Ant-Man on Iron Man. Considered and rejected, the audit's rule (every token must be a form): it refuses 'Son Goku' and 'Kid Goku', and any sentence-initial capital that _PROPER joins to the name, which are the entity's own variants the ruling protects. Measured on all 1,457 published worksheet lines, old vs new subject_refusal: 0 change after the stop-word rule (the first draft refused Goku Black's own 'Though Black'; fixed before landing).",
+  "net": "b12_q_title_not_identity",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "F8",
+  "file": "src/magnitude.py",
+  "verdict": "changed",
+  "decision": "The split path's ANCHOR call now sees only citations that pass _split_gate (verbatim + subject). If none pass, the raw list is still sent, because that sheet is refused whole downstream anyway.",
+  "how": "For: the anchor band scales every decimal. A fabricated citation, or a bystander's deed ('Beerus erased the universe' on Goku), could set it even though the same gate threw it out one step later. _split_gate is pure, so running it early costs nothing and adds no evidence. Against: removing a refused grandiose citation can lower a band, and removing a refused weak one can raise it, so this is not monotone in the decimal. It is still not 'accepting more'. It only stops the assay's own rejected evidence from steering the scale, and the ceiling clamp still bounds the band. Returning None when nothing survives was rejected, because the caller would file a genuine refusal as a transport failure. Verified with a mocked _ask (the drill net); no model was called.",
+  "net": "b12_q_anchor_gated_cites",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "src/magnitude.py",
+  "verdict": "kept",
+  "decision": "settled() keeps 'no axis cleared its gate' and 'sheet saturated' as permanent findings.",
+  "how": "For requeueing: both refusals depend on the scorer's behaviour that day, and a model change could turn one into a score. Against, and decisive: requeueing refusals until a run passes is shopping for acceptance, which in effect loosens the assay (reserved class 5). The refusals are produced by the guards checking cited evidence, not by transport; transport failures are already DEFERRED and requeued. The records carry no model stamp, so 'requeue on model change' would first need one. That is a feature for calibrate's model-change pass, not a fix. If the owner wants scorer-drift re-runs, the fail-closed shape is: stamp model on each record, then requeue only on a model change.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/silence.py",
+  "verdict": "changed",
+  "decision": "instrument() keeps the first .presilence backup (opened with 'x'), and lands the rewritten module through a tmp + replace_retry instead of a bare truncating open.",
+  "how": "For: a second --instrument run over a module with new silent handlers destroyed the only pristine copy, and a crash mid-write could tear a src/ module. Against: it is a rarely run manual tool, and silence.py is imported everywhere. But the change is inside instrument() only, uses the module's own replace_retry/_discard_tmp, and changes no signature. The FileExistsError arm carries the documented silence-exempt marker.",
+  "net": "b12_q_presilence_pristine",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "src/magnitude.py",
+  "verdict": "kept",
+  "decision": "_one_axis keeps the highest-scoring slice.",
+  "how": "For changing it: max over noisy slice scores is biased upward. Against, and decisive: the question each slice answers is 'score from the single strongest feat', and the strongest feat in the whole list lives in exactly one slice. That slice should score highest, so max is the estimator that matches the charter's 'score against the best cited feat'. A median would score the entity from a slice that did not hold its strongest evidence. The upward noise is bounded by what happens after: the winning slice's citation must pass the verbatim and subject gates, then saturation, then the ceiling clamp. Changing the estimator would also move every published decimal (reserved, Hard Rule 3). Keep.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "src/allsweep.py",
+  "verdict": "changed",
+  "decision": "A child is graded 'refused' (obeying the interlock) only when it printed the halt sentence AND a halt actually stands (_halt_standing via escalation.status, fail closed).",
+  "how": "For: the verifiers most likely to print the sentence are drill.py and verify_math.py, which drive assert_clear on purpose. A drill failing rc=1 while one probe echoed the sentence was graded not-failed. The same rule now applies in the import tier. Against: a halt cleared between a child's refusal and this grading now grades that child failed. That is a red row for a transient, in the fail-closed direction, and costs one re-run. If escalation.status itself raises, the handler notes it and treats the halt as standing, matching status()'s own fail-closed reading of an unreadable halt file.",
+  "net": "b12_q_halt_sentence_needs_halt",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

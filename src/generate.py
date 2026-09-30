@@ -1150,6 +1150,11 @@ def generate_job(cfg, system_prompt, job, chapter_tpl, front_tpl):
                    if len(_unearned) > 5 else ""),
                 unearned=_unearned)
 
+        # sweep68 b15 F1: `lacking` was measured on the FIRST response and never again, so a
+        # corrective retry that restored the omitted entry (kept above, every gate passed) still
+        # left its names in `missing` and the chapter was refused for an omission the kept text
+        # no longer has. Judge the entries against the text that is actually being filed.
+        lacking = [e for e in g if not _covered(e.get("name", ""), text)]
         parts.append(text.strip())
         missing.extend(e.get("name", "?") for e in lacking)
     if missing:
@@ -1192,6 +1197,36 @@ def _assert_not_halted(what):
             "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
             "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
     return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
+def hold_shared_addresses(jobs):
+    """-> (jobs to run, {address claimed by more than one source}, {source: jobs held}).
+
+    See the call in `main()`: everything generate writes is keyed on the address, so an address
+    two sources share is held whole rather than written twice over itself.
+    """
+    srcs_at = {}
+    for job in jobs:
+        srcs_at.setdefault(job.get("address"), set()).add(job.get("source_name"))
+    shared = {a for a, s in srcs_at.items() if len(s) > 1}
+    held = {}
+    for job in jobs:
+        if job.get("address") in shared:
+            held[job.get("source_name")] = held.get(job.get("source_name"), 0) + 1
+    return [j for j in jobs if j.get("address") not in shared], shared, held
+
+
+def claimed_by_other_source(cached, job):
+    """True when the catalog row at this job's address was written for a DIFFERENT source.
+
+    sweep68 b15 F3. `hold_shared_addresses` judges only the jobs in the manifest it is handed, so
+    a `--pilot`/`--only` manifest (which never holds the colliding partner) or a rebuild that
+    shifted a Volume number (F4) walked past it: the pending test compared the recipe hash and
+    nothing else, saw "stale", and regenerated OVER the other source's chapter and catalog row,
+    filed as an ordinary success. A row with no `source_name` (an older catalog) claims nothing.
+    """
+    owner = (cached or {}).get("source_name")
+    return owner is not None and owner != job.get("source_name")
 
 
 def main():
@@ -1245,6 +1280,25 @@ def main():
         jobs = manifest
     else:
         jobs = manifest.get("jobs") or []
+
+    # AN ADDRESS TWO SOURCES SHARE IS NOT WRITTEN AT ALL (run #68). Everything below -- the
+    # catalog, failures.json, the file under output/raw -- is keyed on `job["address"]`, so two
+    # sources at one address overwrite each other's chapters and each marks the other stale for
+    # ever. The 2026-09-29 manifest carried 1,251 such ids; the Volume numbering leaves 580,
+    # where a Set-level source numbered `II.P.1` lands on the real Series `II.P.1`. Which source
+    # is called what is the owner's ruling (Hard Rule 2), so neither is written until then --
+    # held and NAMED, uncapped, never silently dropped.
+    jobs, shared_addr, _held = hold_shared_addresses(jobs)
+    if shared_addr:
+        print("ADDRESS COLLISION — %d address(es) are claimed by more than one source; their "
+              "%d job(s) are held until the addresses are distinct:"
+              % (len(shared_addr), sum(_held.values())))
+        for _s in sorted(_held, key=str):
+            print("   %-60s %d job(s)" % (_s, _held[_s]))
+        # sweep68 b15 F10: the console was the only record of 38 sources writing nothing. One
+        # ledger note per held source, so the janitor rung has it.
+        for _s in _held:
+            silence.note("generate.py:address-held")
 
     # `catalog` is read ONCE, to decide what is pending. It is never landed whole: rows this run
     # writes go into `catalog_own` too, and only those are merged into the file as it stands at
@@ -1328,6 +1382,7 @@ def main():
               % (type(e).__name__, e))
         return 1
     refused_furniture = {}
+    held_foreign = {}
 
     pending = []
     stale_count = 0
@@ -1343,6 +1398,10 @@ def main():
         cached = catalog.get(job["address"], {})
         if cached.get("recipe_hash") == rh:
             continue  # already generated from this exact source data, model, seed, and prompt
+        if claimed_by_other_source(cached, job):
+            # sweep68 b15 F3: not written, not marked stale, named below.
+            held_foreign[job["address"]] = (cached.get("source_name"), src)
+            continue
         _furn = [str((e or {}).get("name")) for e in (job.get("entries") or [])
                  if isinstance(e, dict) and _furniture(e.get("description"))]
         if _furn:
@@ -1365,6 +1424,17 @@ def main():
         for s, w in sorted(refused_src.items(), key=lambda kv: str(kv[0])):
             print("   %s" % w)
         print("   These are NOT failures. They are sources the reader has not finished.\n")
+
+    if held_foreign:
+        # sweep68 b15 F3, uncapped. Which source owns the address is the owner's ruling
+        # (Hard Rule 2, order 3976a097f975); nothing is overwritten until then.
+        silence.note("generate.py:address-claimed-by-other-source")
+        print("\nADDRESS CLAIMED — %d job(s) held back: catalog.json already holds a chapter at "
+              "that address written for a DIFFERENT source, and writing this one would "
+              "overwrite it:" % len(held_foreign))
+        for addr, (was, now) in sorted(held_foreign.items()):
+            print("   %s: catalogued for %s, job is for %s" % (addr, was, now))
+        print()
 
     if refused_furniture:
         # Every one, uncut (Hard Rule 0): this is the list an operator rebuilds the manifest for.

@@ -165,6 +165,13 @@ def main():
                          "reader is holding it). The page on disk is the PREVIOUS one -- "
                          "re-run when the readers are quiet.%s"
                          % (len(mods), os.path.relpath(OUT, HERE), chr(10)))
+        # sweep68 b13 F7: the temp name is pid+thread unique, so a denied run's file is never
+        # overwritten by the next one -- each denial left another behind. render.write_views
+        # already removes its own on this arm.
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("module_index.py:tmp-remove")
         return 1
     print(f"{len(mods)} modules -> {os.path.relpath(OUT, HERE)} "
           f"({len(rest)} outside the named groups)")

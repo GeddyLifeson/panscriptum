@@ -1,0 +1,12 @@
+[
+ {
+  "module": "sweep.py",
+  "old": "_assert_not_halted(\"main (writes data/CHARACTER_SWEEP.json)\")",
+  "new": "pass"
+ },
+ {
+  "module": "worldseed.py",
+  "old": "_assert_not_halted(\"--write (writes data/WORLDSEEDS.json)\")",
+  "new": "pass"
+ }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "module": "cleanup.py",
+    "old": "        _assert_not_halted(\"--apply (rewrites data/records)\")",
+    "new": "        pass"
+  }
+]

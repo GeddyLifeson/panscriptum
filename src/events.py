@@ -66,7 +66,13 @@ CODE = re.compile(r"\bE-[A-Z0-9]+(?:-[A-Z0-9]+)*\b")
 # span over 80 characters, so it was neither taken nor listed in `candidates_refused` -- a silent
 # drop (one live span of 93 chars). Length is now judged by _looks_like_a_sentence, which refuses
 # an over-long span with a recorded reason.
-BOLD = re.compile(r"\*\*([^*]{2,})\*\*")
+#
+# sweep68 b07 F4: unbounded was not free. One stray `**` inverts the pairing for the rest of the
+# body, so `**Gamma**` and `**Delta**` after it were never spans at all and only the prose between
+# the markers was offered -- with no `candidates_refused` row. A span no longer crosses a line
+# break (a bold name is one line), and a body with an ODD number of `**` is recorded in
+# `candidates_refused` below, because its pairing cannot be trusted.
+BOLD = re.compile(r"\*\*([^*\n]{2,})\*\*")
 
 # CANDIDATE SHAPE RULES, and every one of them is a REFUSAL rather than a repair. A span that
 # fails any of these is recorded as a candidate that was NOT taken, with the rule that stopped it,
@@ -234,6 +240,10 @@ def parse(text=None):
     refused, splits = [], []
     for ev in events:
         named, seen_here = [], set()
+        if ev["body"].count("**") % 2:
+            refused.append({"event": ev["code"], "span": "(whole body)",
+                            "rule": "odd number of ** markers: the bold pairing is ambiguous, "
+                                    "so names in this body may be missing or mis-taken"})
         for span in BOLD.findall(ev["body"]):
             s = span.strip()
             bad, why = _looks_like_a_sentence(s)
@@ -294,6 +304,29 @@ def build(write=False):
     return doc
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Added sweep68 b07 Q3, answered under the 2026-09-30 ruling: `axis_correlation.py --write`
+    already asked the halt (orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, the owner's
+    2026-09-28 ruling that every hand-run tool writing derived data/ or the library's output
+    refuses while the library is HALTED), and this module's writer did not. The opposing view --
+    a derived file is regenerable, so a halt need not stop it -- loses because a halt means a
+    library-wide invariant is broken and a hand-run is the path the supervisor's own gates never
+    see; refusing only tightens. Called on the WRITING path only, so read-only invocations keep
+    working under a halt.
+
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` (Hard Rule -1's own incident).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     # THIS CLI COULD NOT PRINT ITS OWN CONTENT (2026-09-09 sweep, batch 04). `E-CONV`'s heading
     # carries a Unicode minus sign, so `print` raised UnicodeEncodeError on a bare Windows
@@ -311,6 +344,8 @@ def main():
     ap.add_argument("--refused", action="store_true",
                     help="print every bolded span NOT offered to the join, with the rule")
     a = ap.parse_args()
+    if a.write:
+        _assert_not_halted("--write (writes data/EVENTS.json)")
     doc = build(write=a.write)
     c = doc["counts"]
     print("THE EVENT SPINE — %s" % doc["source"])

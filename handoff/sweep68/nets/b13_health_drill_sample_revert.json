@@ -1,0 +1,7 @@
+[
+ {
+  "module": "health.py",
+  "old": "if sample and not _rehearsal:",
+  "new": "if sample:"
+ }
+]

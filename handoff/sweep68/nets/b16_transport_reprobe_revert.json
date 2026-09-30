@@ -1,0 +1,7 @@
+[
+ {
+  "module": "read.py",
+  "old": "reprobe and _CASCADE_OK is False and _TRANSPORT != \"ollama\"",
+  "new": "False"
+ }
+]

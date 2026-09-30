@@ -142,6 +142,14 @@ _LAST_TAKE = threading.local()
 # safety comes from the claim file being named for the PID; this is the in-process half that
 # was missing. See `foreground()`.
 _DEPTH_LOCK = threading.Lock()
+# THIS PROCESS'S OWN NESTING DEPTH, kept in memory (sweep68 batch 10, F6a/F6c). `foreground()` used
+# to read the depth back off the claim file. That file is named for the PID, so a claim left by a
+# crashed process whose PID this one now holds made the entry depth 2 and the exit rewrote depth 1
+# instead of removing the file (background jobs then yielded to a claim nobody held, up to
+# MAX_YIELD_SECONDS), and a non-integer depth on disk raised ValueError out of `with lane()`
+# against the header's "FAIL OPEN, ALWAYS". The refcount is a fact about this process, so the
+# process holds it; the file only publishes it. Guarded by `_DEPTH_LOCK`.
+_FG_DEPTH = 0
 
 
 def _now():
@@ -327,10 +335,11 @@ def foreground(label="foreground"):
     It is held across the file write and released before the `yield`, never over it -- holding
     it over the body would serialise exactly the nesting the refcount exists to allow.
     """
+    global _FG_DEPTH
     path = _claim_path()
     with _DEPTH_LOCK:
-        rec = _read(path) or {}
-        depth = int(rec.get("depth") or 0) + 1
+        _FG_DEPTH += 1
+        depth = _FG_DEPTH
         # THE ENTRY CLAIM IS THE ONE THAT MATTERS, so its verdict is checked (order
         # e7b6dcc8d630). If this write did not land there is no claim file, `foreground_active`
         # answers False for this process, and every background caller in the other eight
@@ -345,8 +354,8 @@ def foreground(label="foreground"):
         yield
     finally:
         with _DEPTH_LOCK:
-            cur = _read(path) or {}
-            d = int(cur.get("depth") or 1) - 1
+            _FG_DEPTH -= 1
+            d = _FG_DEPTH
             if d <= 0:
                 _remove_retry(path)      # m55
             else:
@@ -655,6 +664,15 @@ def lane(label="background", priority=False):
             while foreground_active(ignore_pid=os.getpid()) and waited < MAX_YIELD_SECONDS:
                 time.sleep(_POLL)
                 waited += _POLL
+            # sweep68 b10 Q6, answered under the 2026-09-30 ruling: the yield ceiling ends in "go
+            # anyway" and said nothing, so a round that ran unarbitrated because foreground work
+            # held the card past MAX_YIELD_SECONDS was indistinguishable afterwards from one
+            # that simply waited its turn (the permission-denied and claim-write-denied exits
+            # already note). Behaviour is unchanged. Against: a note per timed-out round adds to
+            # the swallowed-failures count -- but it is one counter per tag, not a row per
+            # round, and a card that is routinely unarbitrated is precisely what should show.
+            if waited >= MAX_YIELD_SECONDS:
+                silence.note("gpu_lane.py:yield-ceiling")
 
         # QUEUE FOR A SLOT. The ceiling here is the slot lease rather than the yield ceiling:
         # waiting for a genuinely busy card is the correct behaviour, and a dead holder's slot
@@ -686,6 +704,8 @@ def lane(label="background", priority=False):
                 # one. (order d316c46b67bd)
                 break
             time.sleep(_POLL)
+        if slot is False and _now() >= deadline:
+            silence.note("gpu_lane.py:slot-deadline")     # sweep68 b10 Q6: as the yield ceiling
         # HOLD EVERY LEASE FOR AS LONG AS THE CALL ACTUALLY RUNS (m54, completed 2026-08-24).
         # Without this a lease ages out mid-call and a competitor reclaims it while the holder
         # is still working. BOTH leases are kept: the slot, and -- for a foreground call -- the
@@ -739,9 +759,15 @@ def status():
             rec = _read(os.path.join(LANE, name))
             if not isinstance(rec, dict):
                 continue
-            age = _now() - float(rec.get("heartbeat") or 0)
+            # sweep68 batch 10, F6b: one slot file with a non-numeric heartbeat used to raise here,
+            # abort the whole listing and hide every later holder (`partial` was set, but the
+            # rows after it were gone). A bad heartbeat costs its own row's age, not the rest.
+            try:
+                age = _now() - float(rec.get("heartbeat") or 0)
+            except (TypeError, ValueError):
+                age = None                   # unknown, not old: JSON has no infinity
             row = {"pid": rec.get("pid"), "label": rec.get("label"),
-                   "age_s": round(age, 1), "alive": _alive(rec.get("pid"))}
+                   "age_s": None if age is None else round(age, 1), "alive": _alive(rec.get("pid"))}
             if name.startswith("slot."):
                 out["slots"].append(row)
             elif name.startswith("fg."):

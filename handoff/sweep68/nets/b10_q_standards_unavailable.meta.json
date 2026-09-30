@@ -1,0 +1,4 @@
+{
+ "name": "dashboard page reads standards_unavailable and says the standards check did not run",
+ "expected": "sweep68 b10 Q1: a failed standards.check is written as standards_unavailable and drawn by nothing, so 'did not run' looks like an empty list"
+}

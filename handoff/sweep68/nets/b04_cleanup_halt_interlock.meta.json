@@ -1,0 +1,4 @@
+{
+  "name": "cleanup.py --apply refuses under a standing halt; the dry run still works",
+  "expected": "sweep68 b04 F2: cleanup.py --apply rewrites the whole corpus under an OWNER halt"
+}

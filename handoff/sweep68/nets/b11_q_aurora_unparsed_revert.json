@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_aurora.py",
+  "old": "entries = parse_folder(folder, dropped, unparsed)",
+  "new": "entries = parse_folder(folder, dropped, unparsed); unparsed = []"
+ }
+]

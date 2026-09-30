@@ -1,0 +1,4 @@
+{
+ "name": "the token-flow probe sends nothing when config.yaml has no num_ctx",
+ "expected": "sweep68 b06 F11: a config with no num_ctx sends a 6144 window with keep_alive -1, the runner rebuild-and-pin failure"
+}

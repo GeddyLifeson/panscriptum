@@ -1,0 +1,156 @@
+[
+ {
+  "id": "F1",
+  "file": "src/foreman.py",
+  "line": 621,
+  "severity": "HIGH",
+  "verdict": "fixed",
+  "what": "_SCRIPT_RE's unquoted prefix crossed from the interpreter's drive letter over the spaces to src\\, so every absolutely-pathed STANDING job read as a foreign tree and restart_reader / kill_stalled_job / kill_duplicate_jobs were no-ops.",
+  "how": "Prefix alternation: a quoted path must open right after its quote ((?<=\")...[^\"]*?), an unquoted one may not contain whitespace ([^\"\\s]*?); groups 1/2/3 unchanged so _foreign_tree and kill_duplicate_jobs read it as before. Net builds rows from overnight.STANDING via list2cmdline([pythonw, '-u', *args]) under a space-free and a spaced interpreter, plus sandbox copies (with and without spaces) that must stay foreign; drives restart_reader and kill_duplicate_jobs with os.kill captured. Old drill nets _dedupe_ends_only_a_true_twin and _no_unrestartable_kill still HELD.",
+  "net": "b09_standing_jobs_are_ours",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "src/catalogue_web.py",
+  "line": 174,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "_dedup_fetch._key stripped everything outside [a-z0-9], so non-Latin titles keyed to '' and were dropped before any counter, and macron folding mapped Okami onto Kami.",
+  "how": "_key is now NFKD + isalnum (backfill._name_key semantics), falling back to the stripped case-folded title when it has no alphanumerics; only a blank title is skipped. Removed the now-unused `import re`. Existing drill net _net_0173de67d95a still HELD.",
+  "net": "b09_web_key_nonlatin",
+  "red_green_checked": true
+ },
+ {
+  "id": "F3",
+  "file": "src/codewatch.py",
+  "line": 673,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "An unreadable restart ledger read as {}, granting a restart over budget and the write-back erasing every other job's history.",
+  "how": "_read_ledger(strict=False) gains a strict mode that returns {} only for FileNotFoundError (and rejects a non-object doc); _take_locked reads strict and refuses (False, 0) on anything else, which exit_if_stale escalates as CODEWATCH_LEDGER_DENIED (message now says 'could not be read, or the atomic replace was denied'). main()'s display read is unchanged. All 16 drill_codewatch nets still HELD.",
+  "net": "b09_ledger_unreadable_refuses",
+  "red_green_checked": true
+ },
+ {
+  "id": "F4",
+  "file": "src/foreman.py",
+  "line": 1700,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "_function_source sliced with str.splitlines (breaks on U+2028, U+0085, etc.) while ast and attempt_patch's readlines do not, so the model could be shown a different body from the span replaced.",
+  "how": "Lines computed once as io.StringIO(src).readlines(), matching the writer; both branch-local splitlines calls removed.",
+  "net": "b09_function_source_slice",
+  "red_green_checked": true
+ },
+ {
+  "id": "F5",
+  "file": "src/build_terminal.py",
+  "line": 630,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "NAVTREE.json text was spliced into the page unparsed, so an empty/torn file replaced the terminal with a broken page and exited 0.",
+  "how": "json.loads the text and require non-empty `roots` list and `nodes` dict before writing; otherwise note, print REFUSED, leave the old page and return 1.",
+  "net": "b09_navtree_parsed",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6",
+  "file": "src/burgs.py",
+  "line": 106,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "burg_count's docstring says n = P_1/P_min, but condition factors (thriving 1.15) move n off that line, so thriving worlds fabricate floor-pinned 40-person burgs and ruined/wartorn undershoot.",
+  "how": "Curatorial/model ruling needed. Options: (a) the factor is a deliberate condition effect -> correct the docstring to say so; (b) clamp the count factor to <= 1.0 so the tail never passes the rule's end (changes nb for ~4,311 thriving worlds in NAVTREE); (c) apply the factor to P_1 instead of n so the law stays n = P_1/P_min.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F7",
+  "file": "src/tempus.py",
+  "line": 93,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "apparent_lag_years answers an unknown shelf name with the same 'no shared furniture' note as a real no-path case (carries b16 Q4).",
+  "how": "Still no production consumer of the distinction. Options: raise/return an 'unknown shelf' note for names absent from the shelf table, or keep as ruled placeholder. Needs owner ruling on the public return shape.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F8",
+  "file": "src/backfill.py",
+  "line": 198,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A member name with no alphanumerics keyed to '' and was re-added on every backfill.",
+  "how": "_name_key falls back to the stripped case-folded name when no alphanumerics remain; only a blank name is keyless, so `- {\"\"}` and the `not _name_key(t)` guard keep their meaning.",
+  "net": "b09_backfill_symbol_name_key",
+  "red_green_checked": true
+ },
+ {
+  "id": "F9",
+  "file": "src/pipeline.py",
+  "line": 2890,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "pipeline.py doctrine row still says '138 machine-writing tells'; tells.py now holds 158.",
+  "how": "Not in this batch's modules (pipeline.py), so not edited. Suggested wording for its owner: 'every machine-writing tell; Rule 7 is generated from the list' (no number).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F10",
+  "file": "src/foreman.py",
+  "line": 389,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "triage_swallowed filed its archive under a minute key and overwrote it, erasing a same-minute batch already cleared from the live ledger.",
+  "how": "Counts are merged into an existing same-minute slot instead of replacing it (key format unchanged; no reader of failures_archive.json exists). The residual read/clear race with health.flush (counts landing between the read and the clear) is NOT fixed: it needs a lock shared with health.py, which is outside this batch -- question for health's owner.",
+  "net": "b09_archive_same_minute",
+  "red_green_checked": true
+ },
+ {
+  "id": "F11",
+  "file": "src/catalogue_web.py",
+  "line": 733,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "An empty --only term (trailing comma) matched every source.",
+  "how": "Empty terms dropped from `wanted`; an all-empty --only selects nothing (fails closed).",
+  "net": "b09_only_empty_term",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q1",
+  "file": "src/foreman.py",
+  "line": 1113,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Fragment uniqueness is checked against foreman's `gap` only; if catalogue_web's selection gains a filter foreman lacks, a fragment could name a source foreman did not count.",
+  "how": "No live effect today (0 short sources). Options: have foreman build its gap from catalogue_web's own selection function, or leave as is and note the coupling.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/foreman.py",
+  "line": 2016,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Prior open questions carried: scout SC.sweep(limit=4), attempt_patch bare open(path,'w') + copy2 revert, backfill one subcategory level, build_terminal no halt interlock.",
+  "how": "Unchanged; each still needs an owner ruling (cap vs Hard Rule 0; atomic write for patches; recursive category walk; halt check on a pure-render build).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/tempus.py",
+  "line": 144,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "tempus comments disagree about who reads the public symbols (header says battery/pipeline; per-function notes say test harnesses only).",
+  "how": "Documentation only; one line stating 'battery = verify_math test harness' would reconcile them. Left for the owner since no behaviour is affected.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

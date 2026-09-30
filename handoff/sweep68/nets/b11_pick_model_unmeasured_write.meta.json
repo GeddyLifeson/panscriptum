@@ -1,0 +1,1 @@
+{"name": "pick_model --write refuses when VRAM is unmeasured", "expected": "sweep68 b11 N4: with nvidia-smi unreadable the residency gate is skipped and --write installs the biggest model (the 30B MoE the GPU-only ruling refuses) into config.yaml"}

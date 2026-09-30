@@ -1,0 +1,4 @@
+{
+ "name": "magnitude guard 2 matches axis stems only at a word start",
+ "expected": "sweep68 b12 F4: 'range' inside 'Strange' (and tons/Newtons, kill/skill, time/sometimes) passes guard 2 as axis evidence"
+}

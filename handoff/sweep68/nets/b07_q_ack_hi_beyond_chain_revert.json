@@ -1,0 +1,7 @@
+[
+ {
+  "module": "ledger_guard.py",
+  "old": "if ok and n_links is not None and rec[\"links\"][1] > n_links - 1:",
+  "new": "if False:"
+ }
+]

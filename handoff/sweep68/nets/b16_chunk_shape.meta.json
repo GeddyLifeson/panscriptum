@@ -1,0 +1,4 @@
+{
+ "name": "read.py malformed pool feats is unanswered, never cached or served",
+ "expected": "sweep68 b16 F1: a pool answer with feats null/str/list-of-str is cached and crashes read_entity on every later pass, so the entity is never read"
+}

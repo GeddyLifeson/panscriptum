@@ -1,0 +1,4 @@
+{
+ "name": "local_agent revert of a gate-failed patch is byte-exact",
+ "expected": "sweep68 b16 Q6: a reverted patch to an LF file comes back CRLF (text-mode write), so the revert is not the original bytes"
+}

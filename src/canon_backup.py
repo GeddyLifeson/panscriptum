@@ -57,6 +57,15 @@ CANON_FILES = (
 CANON_DIRS = (
     "data/records",
 )
+# sweep68 b15 Q3: hand-made findings that cannot be re-derived (which hosts were judged unfit,
+# which rosters were purged and why) but only exist once a repair/purge has run, so a fresh
+# checkout legitimately lacks them. Unlike CANON_FILES a missing one is NOT a refusal; a present
+# one is archived. output/ chapters and catalog.json are left out deliberately: the catalog is
+# empty today, and `withdraw_chapters` moves chapters aside rather than deleting them.
+CANON_OPTIONAL = (
+    "data/HOST_UNFIT.json",
+    "data/ROSTER_PURGES.json",
+)
 
 
 def digest(path):
@@ -108,6 +117,10 @@ def members(strict=True):
             out.append((rel, p))
         else:
             absent.append(rel)
+    for rel in CANON_OPTIONAL:
+        p = os.path.join(HERE, rel.replace("/", os.sep))
+        if os.path.isfile(p):
+            out.append((rel, p))
     for rel in CANON_DIRS:
         d = os.path.join(HERE, rel.replace("/", os.sep))
         if not os.path.isdir(d):
@@ -180,7 +193,20 @@ def snapshot(stamp=None):
                        % (stamp, os.getpid(), threading.get_ident()))
     with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         for rel, p in items:
-            z.write(p, arcname=rel)
+            # sweep68 b15 Q3, answered under the 2026-09-30 ruling. The digest above was taken
+            # BEFORE the zip read the file, so a record the crawl rewrote in between made the
+            # read-back below mismatch, the archive was deleted and the snapshot raised -- for
+            # a reason that is not corruption, starving `canon_backup_cycle` on a busy crawl
+            # (the two newest snapshots were twelve hours apart). The file is now read ONCE,
+            # hashed and archived from the same bytes, and that hash is what is recorded, so
+            # the read-back still proves the archive holds exactly what was hashed. The
+            # pre-pass above stays: it is what names an unreadable file before any writing.
+            with open(p, "rb") as fh:
+                data = fh.read()
+            sources[rel] = hashlib.sha256(data).hexdigest()
+            zi = zipfile.ZipInfo.from_file(p, arcname=rel)
+            zi.compress_type = zipfile.ZIP_DEFLATED
+            z.writestr(zi, data, compresslevel=6)
 
     # READ IT BACK. Not a formality: this is the only step that distinguishes a backup from an
     # assertion that a backup happened.

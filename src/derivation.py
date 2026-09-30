@@ -503,8 +503,15 @@ def check_graph():
                 problems.append(f"DANGLING  {name} -> {p} (parent not on the ledger)")
         if q["kind"] == DERIVED and not q["parents"]:
             problems.append(f"ROOTLESS  {name} is DERIVED but names no parents")
-        if q["kind"] == OWNER and not q["source"]:
-            problems.append(f"UNSIGNED  {name} is an owner declaration with no citation")
+        # sweep68 b05 L6: THE CITATION RULE IS FOR EVERY KIND, AND BLANK IS EMPTY. The header
+        # requires a MEASURED value to carry "a real citation" and a CHARTER one its clause, but
+        # only an OWNER row with a literally empty string was flagged, so `Q(MEASURED, "")` and
+        # `Q(OWNER, "   ")` passed clean -- a number with no stated provenance, which is the one
+        # shape this checker exists to find. Whether an OWNER row must also name an anchor
+        # (parents) is a ruling, not a bug: eight parentless OWNER rows are documented roots.
+        if not str(q["source"] or "").strip():
+            what = "an owner declaration" if q["kind"] == OWNER else "a %s quantity" % q["kind"]
+            problems.append(f"UNSIGNED  {name} is {what} with no citation")
 
     state = {}
 

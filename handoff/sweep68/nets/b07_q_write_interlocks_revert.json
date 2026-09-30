@@ -1,0 +1,17 @@
+[
+ {
+  "module": "onomast.py",
+  "old": "_assert_not_halted(\"(writes data/ONOMASTICON.json)\")",
+  "new": "pass"
+ },
+ {
+  "module": "events.py",
+  "old": "_assert_not_halted(\"--write (writes data/EVENTS.json)\")",
+  "new": "pass"
+ },
+ {
+  "module": "hosts.py",
+  "old": "_assert_not_halted(\"--discover (writes data/SOURCE_HOSTS.json)\")",
+  "new": "pass"
+ }
+]

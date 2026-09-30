@@ -1,0 +1,4 @@
+{
+ "name": "tiers: empty GROUNDINGS.json is not 'readable'",
+ "expected": "sweep68 b13 F2: a parseable-but-empty GROUNDINGS.json passes both refusals and an all-ungrounded TIERS.json is published over a good one"
+}

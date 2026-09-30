@@ -1,0 +1,4 @@
+{
+ "name": "Fallback probe failure is retried after a TTL instead of pinned forever",
+ "expected": "sweep68 b16 Q3: a single failed Ollama probe pins the 18.6 GB configured model as the GPU fallback for the life of a --loop reader"
+}

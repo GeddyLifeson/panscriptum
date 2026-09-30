@@ -267,10 +267,31 @@ def clean_ceiling(ce, entry_names):
     return ce, "unresolved"
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    sweep68 b04 F2. `--apply` rewrites data/records/*.json across the whole corpus (measured dry:
+    184,565 of 282,835 descriptions, 327 entries struck) and consulted no halt, on a path the
+    supervisor's own gates never see. Same interlock as `retry_synthesis._assert_not_halted`
+    (orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd). Called on the WRITING path only; the
+    dry run is a measurement and keeps working under a halt. FAIL CLOSED on the import: never
+    `except ImportError: pass`, which is Hard Rule -1's own incident.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
     args = ap.parse_args()
+    if args.apply:
+        _assert_not_halted("--apply (rewrites data/records)")
 
     # SEPARATE LISTS FOR SEPARATE FINDINGS (orders c3eb0a80bb8a, ed6e66c0c12d). `nav` used to
     # carry two different exclusions -- wiki navigation and empty rules mechanics -- under one

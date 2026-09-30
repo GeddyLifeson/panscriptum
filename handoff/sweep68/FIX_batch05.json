@@ -1,0 +1,167 @@
+[
+ {
+  "id": "M1",
+  "file": "src/feats.py",
+  "line": 754,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "Legacy arm of mined_under_failed_transport re-mined honestly empty pages:/doc: records on every load because their transport can never be stamped.",
+  "how": "Verified in source (evidence_for never stamps transport for pages:/doc:). Added `if not reads_as_wiki(host): return False` before the anomalous-host lookup; wiki hosts unchanged, stamped arm unchanged.",
+  "net": "b05_nonwiki_legacy_remine",
+  "red_green_checked": true
+ },
+ {
+  "id": "L1",
+  "file": "src/scope.py",
+  "line": 256,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "build() selected pages:/doc: sentinel hosts for a live probe every build.",
+  "how": "Excluded hosts starting with pages: or doc: from `todo`.",
+  "net": "b05_scope_sentinel_hosts",
+  "red_green_checked": true
+ },
+ {
+  "id": "L2",
+  "file": "src/scope.py",
+  "line": 139,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "sroffset continuation walk had no repeated-token guard.",
+  "how": "Track seen sroffsets per query; a repeat raises ProbeUnread (unread tail, not cached as a verdict).",
+  "net": "b05_scope_repeated_sroffset",
+  "red_green_checked": true
+ },
+ {
+  "id": "L3",
+  "file": "src/sweep_plan.py",
+  "line": 734,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "covered_by credited the aggregate copy over an unparseable shard.",
+  "how": "Track an unreadable shard (also non-dict); when one exists the aggregate fallback is not consulted, so missing() shows the gap. A deleted shard with a surviving aggregate still counts (the pre-shard case).",
+  "net": "b05_coverage_torn_shard",
+  "red_green_checked": true
+ },
+ {
+  "id": "L4",
+  "file": "src/feats_index.py",
+  "line": 246,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "load_index raised AttributeError on a record that is valid JSON but not an object.",
+  "how": "isinstance(rec, dict) check inside the try, so it lands in faults['unreadable'].",
+  "net": "b05_index_nondict_record",
+  "red_green_checked": true
+ },
+ {
+  "id": "L5",
+  "file": "src/snapshot.py",
+  "line": 152,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "before() on a directory containing state/snapshots copied the store into itself.",
+  "how": "Up-front realpath check refuses (SnapshotFailed) any directory source that equals or contains ROOT, before dest is created, so nothing is left behind.",
+  "net": "b05_snapshot_self_copy",
+  "red_green_checked": true
+ },
+ {
+  "id": "L6",
+  "file": "src/derivation.py",
+  "line": 506,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "check_graph only flagged an OWNER row with a literally empty source.",
+  "how": "Blank/whitespace citation now flagged for every kind (UNSIGNED). Live ledger still closes. The 'anchored to' requirement for parentless OWNER rows is left as a question (Q6).",
+  "net": "b05_ledger_blank_citation",
+  "red_green_checked": true
+ },
+ {
+  "id": "L7",
+  "file": "src/style_audit.py",
+  "line": 328,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "style_audit exited 0 over an empty or unparseable corpus.",
+  "how": "Returns 1 when no files are found or when zero entries parse; message printed.",
+  "net": "b05_style_audit_empty_rc",
+  "red_green_checked": true
+ },
+ {
+  "id": "L8",
+  "file": "src/feats.py",
+  "line": 2969,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "feats --roll exited 0 when every evidence write was denied.",
+  "how": "Added a _LANDED counter beside _UNCACHED; rc is nonzero when writes were denied and none landed. The cosmetic _roll_jobs hostless-before-only count is not changed (display only).",
+  "net": "b05_roll_all_writes_denied_rc",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q1",
+  "file": "src/scope.py",
+  "line": 331,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "scope.py, sweep_plan.record and snapshot.before write state with no escalation.assert_clear.",
+  "how": "Options: (a) add assert_clear to scope.mutate only (SCOPE.json feeds published Magnitude ceilings); (b) add to all three; (c) leave, since none is a chapter-writing path. Needs the owner to say which writers the halt interlock list covers.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/feats.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_units still drops every unit of 400+ characters (order eacc5444288c).",
+  "how": "Already under an owner order; not re-filed and not touched.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/scope.py",
+  "line": 180,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "MIN_MENTIONS=10 is absolute while the F7 fix made probe text volume far larger; PROBE_VERSION not bumped.",
+  "how": "Options: scale the floor by corpus size (mentions per 100k chars), keep it absolute, or bump PROBE_VERSION to 3 now. Changing the constant changes every published ceiling and forces a live re-probe of ~155 hosts, so it is a curatorial and cost decision.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/derivation.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Seven MEASURED roots have no child and DERIVED physics rows name only constants, not call-time inputs.",
+  "how": "Options: leave (call-time inputs are not ledger rows), or add the inputs as rows so math_resonance's orphan rate counts them. Changes the reported rate; owner ruling.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "src/feats.py",
+  "line": 2969,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "--roll fails only when errored >= n; a 90% error roll exits 0.",
+  "how": "Options: keep the all-or-nothing threshold, or trip on a rate (e.g. errored > half). The threshold is a policy number; the roll is a live crawl and a false nonzero restarts it.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "src/derivation.py",
+  "line": 506,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Eight parentless OWNER rows have no enforced 'anchored to'.",
+  "how": "Options: require a non-empty parents list or an explicit ROOT marker for OWNER rows, or document parentless OWNER rows as allowed roots. Needs a ruling on which rows are legitimately unanchored.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

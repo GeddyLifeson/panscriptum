@@ -1,0 +1,7 @@
+[
+ {
+  "module": "rosetta.py",
+  "old": "        if len(unscored) >= len(rows):",
+  "new": "        if False:"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "genre.py",
+  "old": "if not out or _dropped:",
+  "new": "if False:"
+ }
+]

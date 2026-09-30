@@ -1,0 +1,4 @@
+{
+  "name": "write_record clears a rejection companion only when the caller's absence is authored",
+  "expected": "sweep68 b03 N2: a stale holder's batch deletes the scale_note_rejected / topic_rejected another writer (repass_bands) just preserved"
+}

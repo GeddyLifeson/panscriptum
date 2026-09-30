@@ -1,0 +1,7 @@
+[
+ {
+  "module": "grounding.py",
+  "old": "v[\"confidence\"] <= 0.5]",
+  "new": "v[\"confidence\"] < 0.5]"
+ }
+]

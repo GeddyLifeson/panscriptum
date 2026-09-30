@@ -1,0 +1,4 @@
+{
+ "name": "dashboard: an unreadable/absent OVERWATCH.json fails closed, not 0 open / 0 high",
+ "expected": "sweep68 b10 F1: a torn or absent sweep ledger reads as zero high findings, standards grades HOLDING and the HIGH work order vanishes from the page"
+}

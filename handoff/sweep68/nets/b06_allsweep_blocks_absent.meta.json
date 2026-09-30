@@ -1,0 +1,4 @@
+{
+ "name": "an ALLSWEEP.json missing its estate or verifier block is not a clean sweep",
+ "expected": "sweep68 b06 F6: `files that parse` and `verifiers all run` read MET when the blocks they grade are absent"
+}

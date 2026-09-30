@@ -1,0 +1,4 @@
+{
+ "name": "a null entry_count is counted in skipped_empty like populated does",
+ "expected": "sweep68 b15 F7: a source with entry_count null is in neither populated nor skipped_empty and the 'Skipped N' line understates"
+}

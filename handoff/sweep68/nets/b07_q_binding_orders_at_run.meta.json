@@ -1,0 +1,4 @@
+{
+ "name": "HOST_QUARANTINED and unclassified BINDING_SUSPECT orders are filed at RUN",
+ "expected": "sweep68 b07 Q1: the two orders sit at the BOTS rung with no bot able to close them"
+}

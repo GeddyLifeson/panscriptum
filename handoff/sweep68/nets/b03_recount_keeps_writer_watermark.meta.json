@@ -1,0 +1,4 @@
+{
+  "name": "pipeline.update_handoff's status recount does not move a writer's record watermark",
+  "expected": "sweep68 b03 N1: after the 120 s recount, every phase-2 batch write reverts other writers' description repairs, bands, exclusions and synthesis while write_record returns True"
+}

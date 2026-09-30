@@ -120,15 +120,24 @@ def qualifier_compatible(a, b):
     the three Wally West continuities are why §19o exists, and a similarity score cannot be
     allowed to overrule a continuity marker no matter how high it is.
     """
-    _, qa = split_qualifier(a)
-    _, qb = split_qualifier(b)
-    if qa is None and qb is None:
-        return True, None
+    ba, qa = split_qualifier(a)
+    bb, qb = split_qualifier(b)
     if qa is not None and qb is not None:
-        if feats_index._norm(qa) == feats_index._norm(qb):
-            return True, None
-        return False, MatchReason.QUALIFIER_CONFLICT
-    return False, MatchReason.QUALIFIER_MISSING
+        if feats_index._norm(qa) != feats_index._norm(qb):
+            return False, MatchReason.QUALIFIER_CONFLICT
+    elif qa is not None or qb is not None:
+        return False, MatchReason.QUALIFIER_MISSING
+    # EVERY PARENTHETICAL GROUP IS GATED, IN ORDER (sweep68 b11 N6, answered under the 2026-09-30
+    # ruling). Only the trailing group used to be, so "X (Ultimate) (Sorcerer)" against
+    # "X (Prime) (Sorcerer)" compared equal on the trailing "(Sorcerer)" and the continuity marker
+    # in front of it was fuzzy-scored into a STRONG merge. The header's own rule -- a similarity
+    # score may never overrule a continuity marker -- does not care which position the marker
+    # sits in. Stricter only: names with no mid-name parenthetical behave exactly as before.
+    ma = [feats_index._norm(g) for g in re.findall(r"\(([^()]*)\)", ba)]
+    mb = [feats_index._norm(g) for g in re.findall(r"\(([^()]*)\)", bb)]
+    if ma == mb:
+        return True, None
+    return False, (MatchReason.QUALIFIER_CONFLICT if ma and mb else MatchReason.QUALIFIER_MISSING)
 
 
 # --------------------------------------------------------------------------- similarity

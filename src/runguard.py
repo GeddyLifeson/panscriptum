@@ -35,6 +35,7 @@ refusal as a value the caller must act on.
 import hashlib
 import hmac
 import json
+import math
 import os
 import secrets
 import sys
@@ -50,6 +51,18 @@ GUARD = os.path.join(HERE, "state", "MAINTENANCE_RUN.json")
 # MAINTENANCE.md's threshold. A predecessor is live only if it is both unfinished AND recently
 # heard from; a stale heartbeat means a crashed run, which must not block its successor forever.
 STALE_AFTER_S = 15 * 60
+# sweep68 b07 F3: how far past `now` a heartbeat may sit before it is not a heartbeat at all.
+FUTURE_SLACK_S = 60
+
+
+def _sane_heartbeat(hb, now):
+    """A finite number that is not in the future. sweep68 b07 F3: `holder_is_live` tested only
+    `(now - hb) < STALE_AFTER_S`, so `Infinity` or a heartbeat left ahead of the clock (a clock
+    that jumped forward and back) read as live for ever and every claim stood down -- the wedge
+    this module fears more than overlap. Such a record is UNKNOWN liveness: not live, and named
+    by `read_verdict` so `claim()` escalates it, exactly as a missing heartbeat already is."""
+    return (isinstance(hb, (int, float)) and not isinstance(hb, bool)
+            and math.isfinite(hb) and hb <= now + FUTURE_SLACK_S)
 
 # THE FIELD NAME FOR THE PER-CLAIM TOKEN'S DIGEST (order 12d4e1b00c2f). Named once, here, so
 # every reader and writer of it (this module, and `publish.py`'s one-shot `--push` check) agrees
@@ -125,8 +138,9 @@ def read_verdict(path=GUARD):
         silence.note("runguard.read")
         return None, ("%s parsed as %s, not an object, so it cannot say whether a predecessor "
                       "is live" % (path, type(rec).__name__))
-    if not rec.get("done") and not isinstance(rec.get("heartbeat"), (int, float)):
-        return rec, ("%s holds an UNFINISHED record for %r with no numeric heartbeat, so "
+    if not rec.get("done") and not _sane_heartbeat(rec.get("heartbeat"), time.time()):
+        return rec, ("%s holds an UNFINISHED record for %r with no usable (numeric, finite, "
+                     "not-future) heartbeat, so "
                      "liveness cannot be established from it either way"
                      % (path, rec.get("agent", "?")))
     return rec, None
@@ -293,7 +307,7 @@ def holder_is_live(rec, now=None):
         return False
     now = time.time() if now is None else now
     hb = rec.get("heartbeat")
-    if not isinstance(hb, (int, float)):
+    if not _sane_heartbeat(hb, now):
         return False
     if (now - hb) < STALE_AFTER_S:
         return True
@@ -634,12 +648,16 @@ def main():
             return 0 if beat(args.agent) else 1
         return 0 if release(args.agent) else 1
 
-    rec = read()
+    rec, fault = read_verdict(GUARD)
     print("=" * 100)
     print("RUN GUARD — state/MAINTENANCE_RUN.json")
     print("=" * 100)
+    if fault:
+        # sweep68 b07 F3: a torn guard was printed as "no readable record", i.e. free.
+        print("\nGUARD FAULT: %s" % fault)
     if rec is None:
-        print("\nno readable record — a run may proceed")
+        print("\nno readable record — a run may proceed" if not fault else
+              "\nliveness unknown — claim() will escalate this at SAFETY before proceeding")
         return 0
     live = holder_is_live(rec)
     hb = rec.get("heartbeat")

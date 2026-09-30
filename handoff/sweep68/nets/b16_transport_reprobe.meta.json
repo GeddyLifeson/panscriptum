@@ -1,0 +1,4 @@
+{
+ "name": "read.ensure_transport re-probes a cached False when asked",
+ "expected": "sweep68 b16 F5: a transient CB.engine() failure pins local Ollama and 2 workers for the life of a --loop reader"
+}

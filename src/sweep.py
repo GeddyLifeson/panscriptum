@@ -362,10 +362,39 @@ def report(rows, top=18):
     return f
 
 
+def _assert_not_halted(what):
+    """The plant-wide halt interlock, asked before this module WRITES `data/CHARACTER_SWEEP.json`.
+
+    sweep68 b14 Q1, answered under the 2026-09-30 ruling: CHARACTER_SWEEP.json is read "as fact" by magnitude,
+    standards, foreman and hostcheck, so a sweep landed while a halt stands feeds four modules from
+    state the halt says is untrustworthy. It is derived, but derived-and-trusted is not derived-and-ignorable.
+    Only the writing path asks (measurements stay retakeable during a halt). FAIL CLOSED on the
+    import, never `except ImportError: pass` -- that spelling is the original incident, a deleted
+    escalation.py switching the halt off in eight jobs at once (CLAUDE.md, Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit("REFUSING TO START: the escalation chain (src/escalation.py) could not "
+                         "be imported (%s), so the halt cannot be read. Hard Rule -1."
+                         % _esc_gone) from _esc_gone
+    _ESC.assert_clear("sweep.py %s" % what)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--top", type=int, default=18)
     a = ap.parse_args()
+    _assert_not_halted("main (writes data/CHARACTER_SWEEP.json)")
+    # SWEEP68 b14 F3: `P.records()` drops a record it cannot read, and CHARACTER_SWEEP.json is read
+    # "as fact" by magnitude, standards, foreman and hostcheck with no shrink floor -- a torn
+    # marvel.json would land as a library without Marvel and rc 0. Refuse before sweeping.
+    import corpus_db
+    unread = corpus_db.unreadable_records()
+    if unread:
+        print("sweep: refusing to sweep; unreadable record(s) would be silently absent from "
+              "CHARACTER_SWEEP.json: " + ", ".join(unread), file=sys.stderr)
+        return 1
     rows = sweep()
     report(rows, top=a.top)
     # LANDED, NOT TRUNCATED-THEN-FILLED. CHARACTER_SWEEP.json is read LIVE and unguarded by

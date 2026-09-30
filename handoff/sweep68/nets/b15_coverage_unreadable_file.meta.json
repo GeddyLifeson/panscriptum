@@ -1,0 +1,4 @@
+{
+ "name": "an unparseable evidence file reads UNREACHABLE, not NOT ATTEMPTED",
+ "expected": "sweep68 b15 F11: an entity whose evidence file exists but could not be read is published as NOT ATTEMPTED (never fetched) and a string transport stamp aborts measure()"
+}

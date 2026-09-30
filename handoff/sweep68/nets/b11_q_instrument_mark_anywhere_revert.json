@@ -1,0 +1,7 @@
+[
+ {
+  "module": "prose_gate.py",
+  "old": "Instrument\\b|^[\\s*_#>-]*\u25a3\")",
+  "new": "Instrument\\b|\u25a3\")"
+ }
+]

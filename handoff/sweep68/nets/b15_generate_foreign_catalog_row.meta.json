@@ -1,0 +1,4 @@
+{
+ "name": "a catalog row written for another source is never overwritten by a job at its address",
+ "expected": "sweep68 b15 F3: a pilot/--only manifest or a shifted Volume number regenerates over another source's chapter and catalog row, filed as an ordinary success"
+}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "endpoint.py",
+  "old": "_DIRTY.difference_update([h for h, v in mine.items() if _MEM.get(h) is v])",
+  "new": "_DIRTY.difference_update(mine)"
+ }
+]

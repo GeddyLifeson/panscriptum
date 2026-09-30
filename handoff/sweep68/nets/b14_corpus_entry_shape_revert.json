@@ -1,0 +1,12 @@
+[
+ {
+  "module": "corpus_db.py",
+  "old": "real += sum(1 for e in (json.load(f).get(\"entries\") or []) if isinstance(e, dict))",
+  "new": "real += len(json.load(f).get(\"entries\") or [])"
+ },
+ {
+  "module": "corpus_db.py",
+  "old": "silence.note(\"corpus_db.py:evidence-shape\")",
+  "new": "raise"
+ }
+]

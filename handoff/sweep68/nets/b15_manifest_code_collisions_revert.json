@@ -1,0 +1,7 @@
+[
+ {
+  "module": "manifest_builder.py",
+  "old": "return {c: sorted(n) for c, n in by.items() if len(n) > 1}",
+  "new": "return {}"
+ }
+]

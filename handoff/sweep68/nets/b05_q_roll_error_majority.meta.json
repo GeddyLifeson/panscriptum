@@ -1,0 +1,1 @@
+{"name": "feats --roll exits nonzero when most entities raised", "expected": "sweep68 b05 Q5: a roll where 60-90% of entities raised exits 0 and the supervisor sees a healthy crawl"}

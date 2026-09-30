@@ -1,0 +1,7 @@
+[
+ {
+  "module": "coverage.py",
+  "old": "    if not isinstance(d, dict):\n        return \"UNREACHABLE\", 0, 0\n",
+  "new": "    if not isinstance(d, dict):\n        return None\n"
+ }
+]

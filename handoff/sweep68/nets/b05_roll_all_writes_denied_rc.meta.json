@@ -1,0 +1,1 @@
+{"name": "feats --roll exits nonzero when every evidence write was denied", "expected": "sweep68 b05 L8: a roll that mined the corpus and wrote nothing exits 0 to the supervisor"}

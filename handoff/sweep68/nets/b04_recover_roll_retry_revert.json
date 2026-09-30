@@ -1,0 +1,7 @@
+[
+  {
+    "module": "recover_folder_records.py",
+    "old": "            if _on_disk:\n",
+    "new": "            if False:\n"
+  }
+]

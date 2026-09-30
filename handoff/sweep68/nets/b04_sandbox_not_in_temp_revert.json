@@ -1,0 +1,7 @@
+[
+ {
+  "module": "mutate.py",
+  "old": "    if (tempfile.tempdir\n            and os.path.normcase(os.path.abspath(tempfile.tempdir)) not in _sys_temps):\n",
+  "new": "    if True:\n"
+ }
+]

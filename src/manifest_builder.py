@@ -472,6 +472,58 @@ def build_jobs_for_source(cfg, roll_entry, record, spine):
     return jobs
 
 
+def volume_codes(roll):
+    """{source name: Series[.Volume] code} for every buildable source on `roll`. -> dict.
+
+    THE ONE PLACE A SOURCE'S ADDRESS IS DECIDED, because there were two (run #68).
+    `pipeline.phase_write` also writes `output/index/manifest.json`, and it called
+    `spine_code_for` directly, so it never took the Volume step: on 2026-09-29 it rebuilt the
+    manifest with 1,251 duplicate job ids -- all 54 D&D sources at bare `II.L.7` -- and
+    generate.py, which keys its catalog and filenames on the address, went back to overwriting
+    one source's chapters with another's. The failure the numbering block in `main` exists to
+    prevent, arriving through the writer that block was not standing in.
+
+    `roll` is filtered here exactly as `main` builds `numbering_pool` -- owner exclusions out,
+    empty sources out, assigned and unassigned alike -- so any caller gets the same answer for
+    the same roll. Filtering an already-filtered roll changes nothing.
+    """
+    import roll as _roll
+    excluded = _roll.out_of_scope(roll)
+    series_members = {}
+    for r in roll:
+        if r.get("name") in excluded or (r.get("entry_count") or 0) <= 0:
+            continue
+        code = spine_code_for(r["name"])
+        if code == "UNASSIGNED":
+            code = provisional_spine(r)
+        series_members.setdefault(code, []).append(r["name"])
+    out = {}
+    for code, names in series_members.items():
+        if len(names) == 1:
+            out[names[0]] = code
+        else:
+            for i, name in enumerate(sorted(names), start=1):
+                out[name] = f"{code}.{i}"
+    return out
+
+
+def code_collisions(codes):
+    """{code: [source names]} for every code `volume_codes` gave to more than one source. -> dict.
+
+    sweep68 b15 F2. `volume_codes` numbers the members of a multi-source Series `code.1 .. .N`
+    without asking whether `code.N` is already the real charter code of another source, and
+    the live roll had 19 such pairs (`II.P.1` for ARMS and Fortnite, `II.A.1` for Baki and
+    Dragon Ball Z, ...): 580 addresses. `generate.hold_shared_addresses` refuses them, but only
+    for the jobs in the manifest it is handed, and this build wrote the manifest and printed
+    only "Wrote N jobs". Which source keeps which code is the owner's ruling (Hard Rule 2,
+    order 3976a097f975), so this REPORTS and does not renumber. Uncapped.
+    """
+    by = {}
+    for name, code in codes.items():
+        by.setdefault(code, []).append(name)
+    return {c: sorted(n) for c, n in by.items() if len(n) > 1}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pilot", type=int, default=0)
@@ -504,7 +556,8 @@ def main():
     # `or 0`: a null entry_count (recover_folder_records writes them) raised TypeError here,
     # after the manifest had already been written (sweep67, order 9d50fd3906e7).
     populated = [r for r in roll if (r.get("entry_count") or 0) > 0]
-    skipped_empty = [r["name"] for r in roll if r.get("entry_count", 0) == 0]
+    # sweep68 b15 F7: same `or 0` as `populated` above, so a null count is in one list or the other.
+    skipped_empty = [r["name"] for r in roll if not (r.get("entry_count") or 0)]
 
     assigned, unassigned = [], []
     for r in populated:
@@ -573,20 +626,16 @@ def main():
     # The claim two paragraphs up -- "the address of a given book is stable across rebuilds" --
     # was therefore false for 139 of 205 sources, and is true again now. The filter chooses what
     # gets BUILT; it may not be allowed to choose what anything is CALLED. (order 372168774ee7)
-    series_members = {}
-    for r in numbering_pool:
-        code = spine_code_for(r["name"])
-        if code == "UNASSIGNED":
-            code = provisional_spine(r)
-        series_members.setdefault(code, []).append(r["name"])
-
-    volume_code = {}
-    for code, names in series_members.items():
-        if len(names) == 1:
-            volume_code[names[0]] = code
-        else:
-            for i, name in enumerate(sorted(names), start=1):
-                volume_code[name] = f"{code}.{i}"
+    volume_code = volume_codes(numbering_pool)
+    _clash = code_collisions(volume_code)
+    if _clash:
+        # sweep68 b15 F2: loud where the code is decided, every one named (Hard Rule 0).
+        silence.note("manifest_builder.py:volume-code-collision")
+        print("ADDRESS COLLISION -- %d Series/Volume code(s) are held by more than one source; "
+              "generate.py will hold their jobs until the owner rules (order 3976a097f975):"
+              % len(_clash))
+        for _c in sorted(_clash):
+            print("   %-16s %s" % (_c, "; ".join(_clash[_c])))
 
     all_jobs = []
     missing_records = []

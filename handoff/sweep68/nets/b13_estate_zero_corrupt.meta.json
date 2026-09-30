@@ -1,0 +1,4 @@
+{
+ "name": "estate: zero-byte .corrupt evidence file is not a fault",
+ "expected": "sweep68 b13 F5: a zero-byte kept-evidence .corrupt file is graded a permanent red row"
+}

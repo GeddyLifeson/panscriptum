@@ -1,0 +1,4 @@
+{
+ "name": "build_terminal refuses an unparseable NAVTREE and keeps the last good page",
+ "expected": "sweep68 b09 F5: an empty or torn NAVTREE.json replaces the registry terminal with a page that throws at load, and the build exits 0"
+}

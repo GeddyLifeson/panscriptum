@@ -1,0 +1,4 @@
+{
+  "name": "mutate._gate_result cuts a hung gate off at its timeout even with a live grandchild",
+  "expected": "sweep68 b04 F5: a gate holding a live grandchild blocks _gate_result far past its timeout, so the TIMEOUT verdict never happens and the pass stalls at that mutant"
+}

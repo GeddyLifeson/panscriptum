@@ -203,7 +203,9 @@ def rung_for_length(metres):
     <= 0` with `(None, None)`; the top of the range now uses the same convention, so a number
     outside this ladder is refused rather than rounded into it.
     """
-    if metres <= 0:
+    # `not metres > 0`, NOT `metres <= 0` (sweep68 b06 F7): NaN fails every comparison, so the
+    # `<=` form let NaN through both ends of the domain check and labelled it Continental, rung 0.
+    if not metres > 0:
         return None, None
     if metres < PLANCK_LENGTH:
         # FOLD_GLYPH USED HERE (order 8dae7cda3e2e) -- previously defined and read nowhere; this
@@ -232,15 +234,23 @@ def compton_confinement_energy(size_m, mass_kg):
     reason a shrink that PRESERVES mass is a Transgression (it patches the uncertainty relation)
     while a shrink that SHEDS mass is merely engineering.
     """
-    if size_m <= 0 or mass_kg <= 0:
+    # NaN-safe guard (sweep68 b06 F7; same fix physics.py took, order 7909342fefa4).
+    if not (size_m > 0 and mass_kg > 0):
         return None
-    p = HBAR / (2.0 * size_m)
-    return (p * p) / (2.0 * mass_kg)
+    # RELATIVISTIC, NOT p^2/2m (sweep68 b06 F12). The Newtonian form is only valid for p << mc. A
+    # proton confined to the Planck length came back as 3.18e27 J and was reported as exceeding
+    # the Planck energy, when the real kinetic energy (about p*c, 9.8e8 J) is half of it: a wrong
+    # objection sets `mass_conserved_is_lawful` False, which is reserved for laws that had to be
+    # patched. T = pc^2 / (E + mc^2) with E = hypot(pc, mc^2) is the stable form -- the plain
+    # `sqrt(...) - mc^2` cancels to zero for everyday masses -- and it equals p^2/2m for p << mc.
+    pc = HBAR * C_LIGHT / (2.0 * size_m)
+    mc2 = mass_kg * C_LIGHT ** 2
+    return (pc * pc) / (math.hypot(pc, mc2) + mc2)
 
 
 def density_at_scale(mass_kg, size_m):
     """kg/m^3 if mass is conserved through the shrink. Compare: water 1e3, neutron star 1e17."""
-    if size_m <= 0:
+    if not size_m > 0:
         return None
     return mass_kg / ((4.0 / 3.0) * math.pi * size_m ** 3)
 
@@ -281,7 +291,8 @@ def shrink_report(mass_kg, from_m, to_m):
     positive `to_m` falls below -- so `mass_conserved_is_lawful` came back `True`, a confident,
     real-looking lawful verdict for a trajectory that never made a physics claim at all.
     """
-    if to_m <= 0 or mass_kg <= 0:
+    # NaN-safe (sweep68 b06 F7): `<= 0` let a NaN size or mass through as a lawful, free shrink.
+    if not (to_m > 0 and mass_kg > 0):
         return {
             "from_m": from_m, "to_m": to_m, "is_descent": None,
             "target_rung": None, "target_rung_name": None,
@@ -306,7 +317,13 @@ def shrink_report(mass_kg, from_m, to_m):
         verdict.append(f"confinement energy {conf:.2e} J exceeds the Planck energy")
     return {
         "from_m": from_m, "to_m": to_m,
-        "is_descent": bool(from_m is not None and to_m < from_m),
+        # None, NOT False, when the start is unknown or not a size (sweep68 b06 Q4, answered
+        # under the 2026-09-30 ruling): False says "this is not a descent", which was asserted
+        # of a trajectory whose start nobody gave. The invalid-`to_m` branch above already
+        # answers None for "not assessed"; this is the same convention. Callers only truth-test
+        # the field (grep: no reader outside this module), and None is falsy like False was.
+        "is_descent": ((from_m is not None and to_m < from_m)
+                       if from_m is not None and from_m > 0 else None),
         "target_rung": rung, "target_rung_name": name,
         "density_kg_m3": rho, "confinement_energy_J": conf,
         "schwarzschild_radius_m": r_s,
@@ -345,7 +362,7 @@ def transgression_bits(mass_kg, to_m):
     `schwarzschild_radius(0) = 0.0`, which no positive `to_m` is below, so `beta = 0.0` again by a
     second route.
     """
-    if to_m <= 0 or mass_kg <= 0:
+    if not (to_m > 0 and mass_kg > 0):     # NaN-safe, sweep68 b06 F7
         return None
     rho = density_at_scale(mass_kg, to_m)
     if rho is None:

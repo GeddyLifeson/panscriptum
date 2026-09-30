@@ -107,6 +107,15 @@ def apparent_lag_years(shelf_a, shelf_b):
     import propagation as P
     adj = P.load_graph()
     d, path = P.shortest(adj, shelf_a, shelf_b)
+    # AN UNKNOWN SHELF IS NOT A FINDING (sweep68 b09 F7, answered under the 2026-09-30 ruling).
+    # `shortest` returns no path both for two real shelves with no shared furniture and for a
+    # name the graph has never heard of, and both got the physical note, so a typo or a renamed
+    # shelf read as "relation is mediated or absent". Same return shape (pipeline's phase 6 reads
+    # only `lag_years`, None either way); the note says which case it is.
+    unknown = [s for s in (shelf_a, shelf_b) if s not in adj]
+    if unknown:
+        return {"distance": None, "lag_years": None, "path": [],
+                "note": "unknown shelf: %s is not in the propagation graph" % ", ".join(unknown)}
     if not path:
         return {"distance": None, "lag_years": None, "path": [],
                 "note": "no shared furniture; relation is mediated or absent"}

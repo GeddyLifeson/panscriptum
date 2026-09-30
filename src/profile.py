@@ -111,6 +111,10 @@ BANDS = ["M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "M10"]
 
 
 def _b32(n):
+    # SWEEP68 b16 F6: `n >>= 5` on a negative int converges to -1, never 0, so `while n` looped
+    # forever growing a list. An address is a non-negative packed integer; refuse anything else.
+    if n < 0:
+        raise ValueError(f"address must be a non-negative integer, got {n!r}")
     if n == 0:
         return "0"
     out = []
@@ -269,7 +273,12 @@ def build_all(limit=None):
         tiers = json.load(open(os.path.join(HERE, "data", "TIERS.json"), encoding="utf-8"))
     except Exception:
         silence.note("profile.py:tiers-unreadable")
-        tiers = {}
+        # SWEEP68 b16 F7: `tiers = {}` made `AS.assign` turn EVERY source's missing tier into a
+        # charted 0 -- a whole world set with wrong-but-valid addresses that then round-tripped
+        # cleanly (encode re-encodes what decode read). No TIERS, no addresses: refuse, as
+        # `main()` already does for a library with no worlds.
+        raise RuntimeError("REFUSING TO PROFILE: data/TIERS.json is unreadable, so every world's "
+                           "address would be drawn from an empty tier stack and look valid.")
 
     out = []
     for w in WS.build_all(limit):

@@ -1,0 +1,156 @@
+[
+  {
+    "id": "F1",
+    "file": "src/weave.py",
+    "line": 297,
+    "severity": "MEDIUM",
+    "verdict": "fixed",
+    "what": "The bare rules-voice regex dropped thousands of real entities (quoted speech, the wiki stub line) from the weave index.",
+    "how": "Verified against live ENTITY_INDEX (8,390 hits matched the voice pattern alone; Doctor Castillo, Edwin Alva, X-Command reproduced). New _rules_voice(): strips the 'You can help out by providing...' stub, then counts a voice match only with a second DISTINCT voice phrase or a mechanical term (bonus/roll/save/die/hit points/attack action...). Live count of voice-flagged hits falls 8,390 -> 4,261, and the remainder sampled are real D&D-homebrew rules text (Extra Attack, Ability Score Improvement, Close Quarters Shooter still dropped). main() now prints hits dropped per source. filtered_index signature unchanged.",
+    "net": "b04_weave_rules_voice_dialogue",
+    "red_green_checked": true
+  },
+  {
+    "id": "F2",
+    "file": "src/cleanup.py; src/recover_folder_records.py",
+    "line": 270,
+    "severity": "MEDIUM",
+    "verdict": "fixed",
+    "what": "Two hand-run corpus writers had no halt interlock.",
+    "how": "Added a fail-closed _assert_not_halted (same shape as retry_synthesis) called after argparse on the writing path only: cleanup.py --apply, recover_folder_records without --dry-run. Dry runs still work under a halt. COORDINATOR MUST SPLICE: add 'cleanup.py' and 'recover_folder_records.py' to verify_math._INTERLOCKED (its roster check goes red until then, because both now call assert_clear) and rows for them to drill._HALT_WRITERS (cleanup.py main -> write_record; recover_folder_records.py main -> write_json, update_rows).",
+    "net": "b04_cleanup_halt_interlock, b04_recover_halt_interlock",
+    "red_green_checked": true
+  },
+  {
+    "id": "F3",
+    "file": "src/recover_folder_records.py",
+    "line": 321,
+    "severity": "LOW",
+    "verdict": "fixed",
+    "what": "'re-run to update the roll' was false: the second run never retried the roll and exited 0.",
+    "how": "In the already-populated branch, a readable record with entries now records roll_changes[name] = {entry_count, status}, and the roll CAS runs on roll_changes rather than only on records written this run. An unreadable record has no count and is still left alone. Reproduced in a temp tree with a denied first roll write.",
+    "net": "b04_recover_roll_retry",
+    "red_green_checked": true
+  },
+  {
+    "id": "F4",
+    "file": "src/mutate.py",
+    "line": 2539,
+    "severity": "MEDIUM",
+    "verdict": "fixed",
+    "what": "Only HALT.json was scrubbed from the sandbox; other gate leftovers judged later gates/mutants and refreshes adopted them.",
+    "how": "Mechanism reproduced with a STOPPED.json-leaving gate (old code false-kills, new survives). sandbox() now snapshots state/ to <root>/.state_built (on disk, so drill's bare rmtree of many sandboxes leaks nothing); _scrub_sandbox_halt now also restores state/ (changed files rewritten, deleted recreated, new removed); it runs before each gate in baseline() and in the mutant loop, and already ran per mutant, in the refresh and in hang_confirms_a_kill. Roots without .state_built (drill's fake roots) are untouched. The poisoning of real verdicts (item 2, PAUSED.json copied from live and baselined consistently) stays UNVERIFIED; the junction write-through (item 4) is documented design, not changed.",
+    "net": "b04_mutate_sandbox_state_restored",
+    "red_green_checked": true
+  },
+  {
+    "id": "F5",
+    "file": "src/mutate.py",
+    "line": 831,
+    "severity": "MEDIUM",
+    "verdict": "fixed",
+    "what": "The gate timeout was not a bound when the gate had a live grandchild.",
+    "how": "Reproduced (net: 2 s timeout, 15 s grandchild). _gate_result now uses Popen + communicate(timeout) and on expiry _kill_gate_tree runs taskkill /T /F, then drains the pipes with a bounded wait. Fixed runs in ~2.5 s, the old behaviour ~17 s.",
+    "net": "b04_mutate_gate_timeout_grandchild",
+    "red_green_checked": true
+  },
+  {
+    "id": "F6",
+    "file": "src/withdraw_chapters.py",
+    "line": 594,
+    "severity": "LOW",
+    "verdict": "fixed",
+    "what": "Stale line citation for address_space.py.",
+    "how": "Cited by symbol (address_space.main, the SHELFMARKS.json write) instead of by line. Comment only.",
+    "net": null,
+    "red_green_checked": false
+  },
+  {
+    "id": "F7",
+    "file": "src/completeness.py; src/mutate.py",
+    "line": 812,
+    "severity": "LOW",
+    "verdict": "fixed",
+    "what": "Wrong-shaped state files disarmed the shrink floor (null/0 prior), crashed the audit (list category cache), and a negative --rebaseline-every re-photographed every gate.",
+    "how": "(a) land() notes and says so when the prior is not a list; (b) _cs_load rejects a non-dict cache and both probes require a dict hit; (c) mutate.main ap.error on a negative interval. Note (a) treats a non-list prior like the torn-file case (floor not applied, said loudly) rather than refusing the write.",
+    "net": "b04_completeness_wrong_shape, b04_mutate_negative_rebaseline",
+    "red_green_checked": true
+  },
+  {
+    "id": "F8",
+    "file": "src/ledger.py",
+    "line": 198,
+    "severity": "LOW",
+    "verdict": "fixed",
+    "what": "assay_to_standards extrapolated a ruin_score outside [0, 10] past its band.",
+    "how": "Raises ValueError outside [0, 10] (NaN included) rather than clamping. verify_math callers use the default 5.0, so they are unaffected.",
+    "net": "b04_ledger_ruin_score_range",
+    "red_green_checked": true
+  },
+  {
+    "id": "Q1",
+    "file": "src/mutate.py",
+    "line": 2971,
+    "severity": "LOW",
+    "verdict": "question",
+    "what": "--list is refused under a halt while --list-ruled/--rule-equivalent/--unrule are exempt (carried).",
+    "how": "Options: exempt --list (it only counts mutants, reads no writer) or leave it. Owner ruling on which reads are halt-exempt.",
+    "net": null,
+    "red_green_checked": false
+  },
+  {
+    "id": "Q2",
+    "file": "src/weave.py",
+    "line": 138,
+    "severity": "MEDIUM",
+    "verdict": "question",
+    "what": "--write lands CONTINUITY_GROUPS/RESOLVED_ENTITIES/SHARED_STAGE_GRAPH_IDF from an index the code itself calls stale (carried).",
+    "how": "Options: refuse --write on a stale ENTITY_INDEX (fail closed, needs a --force-stale flag) or keep the warning. Behaviour change for a hand-run writer, so not taken here.",
+    "net": null,
+    "red_green_checked": false
+  },
+  {
+    "id": "Q3",
+    "file": "src/weave.py",
+    "line": 225,
+    "severity": "LOW",
+    "verdict": "question",
+    "what": "Entities in more than 60 sources contribute no pair evidence and no shared row; the last band cut in the weave.",
+    "how": "Options: keep it as a weight-not-roster decision under Hard Rule 0 and list the excluded keys in the output, or replace the cut with an idf weight. Curatorial ruling.",
+    "net": null,
+    "red_green_checked": false
+  },
+  {
+    "id": "Q4",
+    "file": "src/mutate.py",
+    "line": 1736,
+    "severity": "LOW",
+    "verdict": "question",
+    "what": "sandbox() hardlinks top-level data/ files on the argument that writers replace; silence.append_line appends in place (scout's SCOUT_ARCHIVE.jsonl) and would land in the LIVE inode.",
+    "how": "Nothing in drill/verify_math runs scout today. Options: copy (not link) the known append-only top-level files, or state in the sandbox docstring that appenders are out of scope. Left as is.",
+    "net": null,
+    "red_green_checked": false
+  },
+  {
+    "id": "Q5",
+    "file": "src/withdraw_chapters.py",
+    "line": 483,
+    "severity": "MEDIUM",
+    "verdict": "question",
+    "what": "An unparseable existing catalog.withdrawn.json is replaced by only this run's withdrawals (carried).",
+    "how": "Options: set the corrupt manifest aside as *.corrupt.<ts> before merging (my preference), or refuse. Changes what --go does to prior withdrawal history, so an owner call.",
+    "net": null,
+    "red_green_checked": false
+  },
+  {
+    "id": "Q6",
+    "file": "src/withdraw_chapters.py",
+    "line": 414,
+    "severity": "LOW",
+    "verdict": "question",
+    "what": "The stray sweep uses the catalog read at startup, so a chapter generate.py lands mid-run looks unclaimed and is archived.",
+    "how": "Options: re-read the catalog under the same CAS before moving strays, or document that the tool runs with the library stood down. Whole-catalog --go only.",
+    "net": null,
+    "red_green_checked": false
+  }
+]

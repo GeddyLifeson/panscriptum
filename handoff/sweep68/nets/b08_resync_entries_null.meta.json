@@ -1,0 +1,1 @@
+{"name": "resync_roll counts a record with entries null as unreadable", "expected": "sweep68 b08 F8: one record file with entries:null raises TypeError and aborts the whole roll resync"}

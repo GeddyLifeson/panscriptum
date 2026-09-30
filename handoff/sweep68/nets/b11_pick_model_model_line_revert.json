@@ -1,0 +1,7 @@
+[
+ {
+  "module": "pick_model.py",
+  "old": "r'^model:[ \\t]*[^\\r\\n]*'",
+  "new": "r'^model:\\s*.*$'"
+ }
+]

@@ -1,0 +1,1 @@
+{"name": "cascade_bridge _extract_json returns None for a cut-off object", "expected": "sweep68 b08 F6: a truncated reply parses as the first complete inner object, a smaller answer of the wrong shape"}

@@ -136,6 +136,19 @@ def before(label, paths, note="", allow_missing=False):
     sid = "%s-%d-%d" % (_lab, time.time_ns(), os.getpid())
     dest = os.path.join(ROOT, sid)
     took, requested, skipped = [], [], []
+    # sweep68 b05 L5: REFUSE A SOURCE THAT CONTAINS THE SNAPSHOT STORE, before anything is made.
+    # `_rel` guards the source being inside the repo, not the destination being inside the source:
+    # `before("x", ["state"])` or `["."]` copytree'd state/snapshots into itself until
+    # RecursionError, after copying gigabytes of data/ on the live tree, and left a partial
+    # self-nesting `dest` behind. Checked up front so nothing is created or copied.
+    _root = os.path.realpath(ROOT)
+    for p in paths or ():
+        _src = os.path.realpath(p if os.path.isabs(p) else os.path.join(HERE, p))
+        if os.path.isdir(_src) and (_root == _src or _root.startswith(_src.rstrip(os.sep) + os.sep)):
+            raise SnapshotFailed(
+                "snapshot %r asked for %s, which contains the snapshot store %s. Copying it would "
+                "copy the snapshot into itself. Name the subdirectories that need a copy."
+                % (label, p, ROOT))
     try:
         os.makedirs(ROOT, exist_ok=True)
         os.makedirs(dest, exist_ok=False)

@@ -1,0 +1,1 @@
+{"name": "ingest_doc re-extract sets aside the resume cursor of a replaced corpus", "expected": "sweep68 b14 F4: --mine resumes a new book at the old book's cursor, reporting ingest complete with 0 entries and no model calls"}

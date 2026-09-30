@@ -1,0 +1,7 @@
+[
+ {
+  "module": "audit.py",
+  "old": "if e.get(\"excluded\") or e.get(\"stale_since\"):",
+  "new": "if False:"
+ }
+]

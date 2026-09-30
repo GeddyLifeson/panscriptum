@@ -1,0 +1,7 @@
+[
+ {
+  "module": "sweep_plan.py",
+  "old": "    if torn:",
+  "new": "    if False:"
+ }
+]

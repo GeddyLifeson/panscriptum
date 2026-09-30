@@ -1,0 +1,4 @@
+{
+ "name": "an unreadable codewatch restart ledger refuses the claim instead of reading as empty",
+ "expected": "sweep68 b09 F3: a torn or locked CODEWATCH.json grants a restart over budget and the write-back erases every other job's restart history"
+}

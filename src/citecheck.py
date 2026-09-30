@@ -153,6 +153,19 @@ BLANK_LINE = "BLANK_LINE"
 BARE_BRACKET = "BARE_BRACKET"
 
 
+def _split_lines(text):
+    """Split on CRLF, CR and LF ONLY, the way an editor and `ast` number lines.
+
+    SWEEP68 b16 F9: `str.splitlines()` also breaks on VT, FF, FS/GS/RS, NEL and U+2028/9,
+    so one such character in a source file shifted every later citation target by one line and
+    could turn a good citation into BLANK_LINE and hide a bad one. Latent (0 files today).
+    """
+    parts = re.split(r"\r\n|\r|\n", text)
+    if parts and parts[-1] == "":
+        parts.pop()          # a trailing newline ends the last line; it does not start one
+    return parts
+
+
 def _lines(path, _cache={}):
     """-> the file's lines, read once per process. Returns None when the file is unreadable.
 
@@ -172,7 +185,7 @@ def _lines(path, _cache={}):
         return _cache[path]
     try:
         with open(path, "r", encoding="utf-8") as fh:
-            _cache[path] = fh.read().splitlines()
+            _cache[path] = _split_lines(fh.read())
     except (OSError, UnicodeDecodeError):
         try:
             import silence
@@ -210,17 +223,6 @@ def _classify(target_name, lineno, src_dir=None):
     if _BARE_BRACKET.match(text):
         return BARE_BRACKET
     return None
-
-
-def _self_citation_ok(citing_file, target_name, lineno):
-    """-> True when a citation inside a file may point at itself at that line.
-
-    A module citing its OWN line numbers is the commonest rot in this library, because an edit
-    anywhere above the comment moves both the comment and its target. It is checked exactly like
-    any other citation; this hook exists only to keep that decision in one named place rather
-    than buried in a condition, and it currently grants no exemption at all.
-    """
-    return False
 
 
 def _in_tree_lead(line, start):
@@ -271,7 +273,7 @@ def citations_in_text(text, src_dir=None, include_unresolved=False, skipped=None
     """
     root = src_dir or SRC
     found = []
-    for i, raw in enumerate(str(text or "").splitlines()):
+    for i, raw in enumerate(_split_lines(str(text or ""))):
         for m in CITATION.finditer(raw):
             target_name, num = m.group(1), int(m.group(2))
             if target_name in _PLACEHOLDERS:
@@ -356,8 +358,10 @@ def stale_citations(paths=None, include_unresolved=False, src_dir=None, skipped=
                                         "cited_line": num, "text": raw.strip(),
                                         "why": mention})
                     continue
-                if target_name == base and _self_citation_ok(base, target_name, num):
-                    continue
+                # sweep68 b16 Q4, answered under the 2026-09-30 ruling: a `_self_citation_ok` hook
+                # stood here returning a constant False, so a module citing its own lines is
+                # checked like any other citation (the commonest rot in the library). A guard
+                # that cannot fire is the shape liveness.py hunts; deleted, behaviour identical.
                 reason = _classify(target_name, num, src_dir=root)
                 if reason is None:
                     continue

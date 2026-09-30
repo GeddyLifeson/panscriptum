@@ -1,0 +1,7 @@
+[
+ {
+  "module": "autostart.py",
+  "old": "print(\"note: the watchdog keeper task",
+  "new": "_ = (\"note: the watchdog keeper task"
+ }
+]

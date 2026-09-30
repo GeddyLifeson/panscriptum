@@ -1,0 +1,7 @@
+[
+  {
+    "module": "weave.py",
+    "old": "    if args.write and not args.allow_stale:",
+    "new": "    if False:"
+  }
+]

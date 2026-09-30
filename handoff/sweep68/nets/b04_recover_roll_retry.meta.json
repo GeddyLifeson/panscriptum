@@ -1,0 +1,4 @@
+{
+  "name": "recover_folder_records re-run after a denied roll write updates the roll",
+  "expected": "sweep68 b04 F3: the 're-run to update the roll' instruction is false; the roll stays at entry_count 0 and the re-run exits 0"
+}

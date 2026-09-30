@@ -51,6 +51,7 @@ dict of attestation grades plus a coverage penalty -- a declared constant wearin
 clothes. After it, the ± is a MEASURED DISPERSION of ten independent readings, and its split into
 reducible and irreducible parts is computed rather than asserted.
 """
+import math
 import os
 import statistics
 import sys
@@ -188,8 +189,9 @@ CUSTODES = {
         # Nothing numeric moves: 0.0 * 0.10 and 0.0 * 0.0 were always the same reading.
         # NOTE the coupling itself survives: any future Custos with tilt 0.0 and a non-zero
         # sensitivity would be inert in the same silent way. `table_faults()` now refuses that
-        # pairing (main() returns 1 on a fault), but it is not yet part of the battery
-        # (sweep67 batch10, run #67, order 64582589f887).
+        # pairing (main() returns 1 on a fault), and the battery now consults it: drill.py's
+        # `custodes_table_faults_is_empty` net and verify_math's table_faults row (sweep67
+        # batch10, order 64582589f887; corrected sweep68 batch12, F13).
         tilt=0.0, evidence_sensitivity=0.0,
         axis_emphasis={},
         refuses="to force a scalar through an incomparable pair",
@@ -475,6 +477,15 @@ def convene(anchor, scores, attestation="Transcribed", worksheet="convened", eta
     production to derive `eta` from. Defaulting it from in here would be inventing the
     measurement, which is the failure this file exists to refuse.
     """
+    # AN `eta` THAT IS NOT A FRACTION IS REFUSED, NOT READ (sweep68 batch12, F12). eta is the
+    # gradient share of a Hodge decomposition, so it lives in [0, 1]. NaN made `(1 - eta) >=
+    # CURL_VETO_THRESHOLD` False -- no veto, and `comparability_measured: True` -- and 1.7 was
+    # published as "measured ... curl fraction -0.7000": an absent measurement read as a pass,
+    # the shape this module's abstention machinery exists to prevent. `None` still abstains.
+    if eta is not None and (isinstance(eta, bool) or not isinstance(eta, (int, float))
+                            or not math.isfinite(eta) or not 0.0 <= eta <= 1.0):
+        raise ValueError("custodes.convene: eta must be a finite fraction in [0, 1] "
+                         "(resonance.hodge_decompose's gradient share), got %r" % (eta,))
     # THE ATTENDANCE IS A FACT ABOUT THE ARGUMENTS, so it is settled before the readings are
     # counted (order ded8418c75a6). These flags used to be computed halfway down the body, past
     # the `len(readings) < 2` early return, so a band-only result carried {decimal, reason} and
@@ -722,9 +733,9 @@ def main():
     # notice the line, and nothing that runs this file can act on it. Zero faults today (both
     # zero-tilt Custodes declare 0.0 with written reasons), so this changes no current run; it
     # means the next occurrence is a red exit rather than a paragraph in a report. It does NOT
-    # replace the battery hook `table_faults`' own docstring asks for -- nothing invokes this
-    # module as a subprocess yet, so the rc has no reader until a row exists to read it. That
-    # row is order 00a85c511b53, still open.
+    # replace the battery hook `table_faults`' own docstring asks for. That hook now exists
+    # in-process -- drill.py and verify_math.py both call `table_faults()` (order 00a85c511b53)
+    # -- so this rc is a second reader, not the only one (corrected sweep68 batch12, F13).
     return 1 if _faults else 0
 
 

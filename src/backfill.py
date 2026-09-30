@@ -66,7 +66,7 @@ _NOT_A_CHARACTER = re.compile(
 
 
 def roster(host, limit=None):
-    """Every character page on a wiki, from Category:Characters and one level of subcategory.
+    """Every character page on a wiki, from Category:Characters and every subcategory under it.
 
     UNLIMITED BY DEFAULT (order 5c8c8b99e655 corrects this docstring to say so -- it used to
     describe a design this function no longer has). `limit` exists only for a caller who
@@ -113,13 +113,29 @@ def roster(host, limit=None):
     # `seen` already de-duplicates, so walking the subcategories of a wiki that also lists its
     # cast at the top costs API calls and changes no result. Per Hard Rule 0 the answer to slow
     # is more time, never a smaller universe.
-    for sub in members("Category:Characters", "subcat"):
+    #
+    # AND EVERY LEVEL, NOT ONE (sweep68 b09 Q2, answered under the 2026-09-30 ruling). One level
+    # down was the same cap one step deeper: "Villains" -> "Villains by arc" -> the pages left
+    # every page two levels down out of a roster that still read as complete. The argument for
+    # stopping at one level was that deeper trees drift off-topic; it lost because everything
+    # under Category:Characters is still filed there by the wiki's own editors, `_NOT_A_CHARACTER`
+    # still screens each page, and cmtype=page never returns files or subcategories. Walked
+    # breadth-first (shallow categories first, so an interrupted run has the broad cast), with a
+    # visited set because wiki category graphs do contain cycles.
+    walked = {"Category:Characters"}
+    queue = list(members("Category:Characters", "subcat"))
+    while queue:
+        sub = queue.pop(0)
+        if sub in walked:
+            continue
+        walked.add(sub)
         for t in members(sub):
             if t not in seen and not _NOT_A_CHARACTER.match(t):
                 seen.add(t)
                 out.append(t)
         if limit and len(out) >= limit:
             break
+        queue += members(sub, "subcat")
     # NO CAP. DC's Category:Characters runs past 6,000 and a cap took an alphabetical sliver --
     # Abin Sur, Ace, Adolf Hitler -- while Superman, Wally West and Wonder Woman sat outside the
     # window entirely. A cap on an alphabetically-ordered listing is not a sample, it is a
@@ -189,8 +205,13 @@ def _name_key(name):
     `[^a-z0-9]+` stripped: an all-non-Latin title keyed to '' so one such entry made every
     non-Latin wiki page look already held (never fetched), and accented spellings keyed apart
     from ASCII ones and became duplicates. NFKD then alphanumerics keeps CJK and folds accents.
-    '' means no key: the caller must never treat it as held."""
-    return "".join(c for c in unicodedata.normalize("NFKD", name.lower()) if c.isalnum())
+    '' means no key: the caller must never treat it as held.
+
+    A NAME WITH NO ALPHANUMERICS KEYS ON ITSELF (sweep68 batch 09, F8, run #68). It keyed to '',
+    and '' can never enter `have`, so a punctuation-only member was "missing" and re-added on every
+    backfill. It now keys on its own case-folded text; only a blank name is keyless."""
+    k = "".join(c for c in unicodedata.normalize("NFKD", name.lower()) if c.isalnum())
+    return k or name.strip().casefold()
 
 
 def backfill_source(source, records, hosts, cap=None, dry=False):

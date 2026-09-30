@@ -1,0 +1,4 @@
+{
+ "name": "axis_correlation --top refuses a negative value",
+ "expected": "sweep68 b07 Q6: --top -3 prints all but three rows and skips the more-not-shown line"
+}

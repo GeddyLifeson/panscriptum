@@ -1,0 +1,7 @@
+[
+ {
+  "module": "overwatch.py",
+  "old": "                    if (led[\"findings\"][fid].get(\"state\") != \"retired\" or not d\n                            or fid + \"#\" + d in led[\"findings\"]):\n                        continue\n                    fid = fid + \"#\" + d",
+  "new": "                    continue"
+ }
+]

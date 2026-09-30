@@ -450,15 +450,17 @@ def register_for(group_id, genre_register=None, features=None):
     HELD, MARKED, AND NOT WIRED (order `ae25c89f0179` / twin `5d8533bc1ed6`; owner ruling
     2026-09-08, "whole modules built and never wired in": **wire what closes a measured gap;
     hold the rest, marked.** `render.py` was wired under that ruling (`publish.py`, `import render
-    as R`); `hosts.py` WAS NOT, and this sentence used to say it was. Measured 2026-09-08 during
-    run #46b: `import hosts`, `from hosts import`, `hosts_for(` and `SOURCE_HOSTS` all return zero
-    hits anywhere in src/ outside `hosts.py` itself, and order `3fb312a72435` is still open for it.
-    This correction was made by a DRILL NET rather than by hand -- the same false sentence stood in
-    `descending_ladder.py` and `scale_theories.py`, both were corrected by hand, and this third
-    copy was missed until `_a_module_claimed_wired_is_actually_imported` was written and found it
-    within a minute. That is the argument for netting a class instead of fixing its instances,
-    made by the class itself. This genre+feature blend is HELD, and the reason is on the record
-    here rather than left for the next sweep to re-derive.
+    as R`); `hosts.py` WAS NOT at the time, and this sentence used to say it was. Measured 2026-09-08
+    during run #46b: no `import hosts` anywhere in src/ outside `hosts.py` itself. THAT IS NO
+    LONGER TRUE (sweep68 b07 F6): `feats.py` now does `import hosts as HS` and calls
+    `hosts_for(..., include_primary=False)`, so hosts.py is wired and the sentence stating
+    otherwise was lying to whoever audits wiring. The 2026-09-08 correction was made by a DRILL
+    NET rather than by hand -- the same false sentence stood in `descending_ladder.py` and
+    `scale_theories.py`, both were corrected by hand, and this third copy was missed until
+    `_a_module_claimed_wired_is_actually_imported` was written and found it within a minute.
+    That is the argument for netting a class instead of fixing its instances, made by the class
+    itself. This genre+feature blend is HELD, and the reason is on the record here rather than
+    left for the next sweep to re-derive.
 
     The weighted-voting logic below (`FEATURE_SHIFT`/`GENRE_WEIGHT`/`FEATURE_WEIGHT`) is correct
     and reachable from a direct call, but `name_worlds()` -- the only production caller -- still
@@ -760,7 +762,31 @@ def land_onomasticon(resolved, attempts=5):
     return named, False, why
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Added sweep68 b07 Q3, answered under the 2026-09-30 ruling: `axis_correlation.py --write`
+    already asked the halt (orders 1e6f99e54b25 / 21c075e5e2d6 / 3099138a82bd, the owner's
+    2026-09-28 ruling that every hand-run tool writing derived data/ or the library's output
+    refuses while the library is HALTED), and this module's writer did not. The opposing view --
+    a derived file is regenerable, so a halt need not stop it -- loses because a halt means a
+    library-wide invariant is broken and a hand-run is the path the supervisor's own gates never
+    see; refusing only tightens. Called on the WRITING path only, so read-only invocations keep
+    working under a halt.
+
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` (Hard Rule -1's own incident).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
+    _assert_not_halted("(writes data/ONOMASTICON.json)")
     with open(RESOLVED, encoding="utf-8") as f:
         resolved = json.load(f)
     try:

@@ -1,0 +1,4 @@
+{
+ "name": "HOST_UNFIT.json / ROSTER_PURGES.json are archived when present",
+ "expected": "sweep68 b15 Q3: hand-made unfit/purge findings that cannot be re-derived are outside the canonical backup"
+}

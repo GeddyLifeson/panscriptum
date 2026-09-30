@@ -192,7 +192,9 @@ def window(cfg):
     # `health.check_context_budget` both fall back to 6144, and this file's header is written
     # against that same measured window; 8192 here was a third window nobody measured, and a
     # cfg missing `num_ctx` would have been told it had 2,048 tokens of room that do not exist
-    # -- the overflow-and-silent-truncation direction this module refuses.
+    # -- the overflow-and-silent-truncation direction this module refuses. (sweep68 batch12,
+    # F13: `generate.call_ollama` still SENDS `cfg.get("num_ctx", 8192)`. The budget here is the
+    # smaller window, so a cfg without num_ctx is under-budgeted, never overflowed.)
     return int((cfg or {}).get("num_ctx", 6144))
 
 

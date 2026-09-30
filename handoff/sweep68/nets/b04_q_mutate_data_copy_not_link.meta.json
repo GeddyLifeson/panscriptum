@@ -1,0 +1,4 @@
+{
+  "name": "mutate sandbox copies small data/ files and jsonl ledgers instead of hardlinking them",
+  "expected": "sweep68 b04 Q4: a hardlinked data/ file shares the live inode, so an in-place append or truncate from a sandboxed gate lands in the live file"
+}

@@ -1,0 +1,7 @@
+[
+  {
+    "module": "mutate.py",
+    "old": "    if a.rebaseline_every < 0:",
+    "new": "    if False:"
+  }
+]

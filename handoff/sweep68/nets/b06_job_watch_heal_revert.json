@@ -1,0 +1,7 @@
+[
+ {
+  "module": "standards.py",
+  "old": "        silence.note(\"standards.py:job-watch-unreadable\")\n        return {}\n    if not isinstance",
+  "new": "        raise\n    if not isinstance"
+ }
+]

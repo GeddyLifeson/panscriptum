@@ -1,0 +1,7 @@
+[
+ {
+  "module": "allsweep.py",
+  "old": "    if quick:\n",
+  "new": "    if False:\n"
+ }
+]

@@ -251,11 +251,32 @@ def value(rec):
     return A.LADDER.index(r["magnitude"]) + r["decimal"]
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    Added under sweep68 b08 Q6, answered under the owner's 2026-09-30 ruling: `main` wrote
+    data/PANTHEON.json with no halt check while every corpus writer refuses under a halt (owner
+    ruling 2026-09-28). Derived data is regenerable, but a halt means a library-wide invariant is
+    broken, and a ranking rebuilt on uncertain ground is read as current by whoever opens it;
+    against that, refusing costs one re-run after the halt is lifted. Asked on the WRITING path
+    only -- `main` always writes, so that is straight after argument parsing. FAIL CLOSED ON
+    THE IMPORT, never `except ImportError: pass` (Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser(description="the divine tier, and the whole ladder with it")
     ap.add_argument("--full", action="store_true")
     ap.add_argument("--gods-only", action="store_true")
     a = ap.parse_args()
+    _assert_not_halted("(writes data/PANTHEON.json)")
 
     out = compute(GODS)
     # ATOMIC -- the m100 tail, 2026-08-25.

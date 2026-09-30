@@ -1,0 +1,7 @@
+[
+ {
+  "module": "hosts.py",
+  "old": "return 1 if (LAST_DISCOVER[\"lost\"] or LAST_DISCOVER[\"probe_failed\"]) else 0",
+  "new": "return 0"
+ }
+]

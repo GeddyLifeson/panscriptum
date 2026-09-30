@@ -88,6 +88,19 @@ _CLASSIFIER_KEY = "__classifier_version__"      # no "|", so it can never collid
 _SO = {"loaded": False, "d": {}, "dirty": 0}
 
 
+def _classifier_stamp():
+    """The memo's version marker: the hand-bumped number AND what `_empty_state` reads.
+
+    sweep68 b15 Q4, answered under the 2026-09-30 ruling. `_empty_state` decides NO PAGE vs
+    UNREACHABLE from `feats.CLEAN_NEGATIVES`, which the version number did not track, so adding a
+    clean-negative reason to feats left every memoised verdict on the old boundary and the
+    published number describing code nobody runs -- the failure the comment above is about. The
+    cost of tracking it is one reparse when the tuple changes, which is when one is due; the
+    opposite side (a hand-bumped number is enough) is what already failed once.
+    """
+    return "%d:%s" % (_CLASSIFIER_VERSION, ",".join(sorted(str(x) for x in F.CLEAN_NEGATIVES)))
+
+
 def _so_load():
     if not _SO["loaded"]:
         try:
@@ -113,17 +126,17 @@ def _so_load():
         # the same way. A pre-versioning cache has no marker at all and is therefore discarded,
         # which is correct: it was written by classifier 1.
         got = _SO["d"].get(_CLASSIFIER_KEY) if isinstance(_SO["d"], dict) else None
-        if got != _CLASSIFIER_VERSION:
+        if got != _classifier_stamp():
             if _SO["d"]:
                 # COUNT THE ROWS, not the keys minus one: an unversioned cache carries no
                 # marker to subtract, so the blanket `- 1` under-reported it by exactly one.
                 # A number in a message about discarding work should be the true number.
                 n_rows = sum(1 for k in _SO["d"] if k != _CLASSIFIER_KEY)
                 print("coverage: DISCARDING %d cached verdicts -- they were written by classifier "
-                      "%s and this is classifier %d. Re-reading the evidence corpus."
+                      "%s and this is classifier %s. Re-reading the evidence corpus."
                       % (n_rows, got if got is not None else "1 (unversioned)",
-                         _CLASSIFIER_VERSION))
-            _SO["d"] = {_CLASSIFIER_KEY: _CLASSIFIER_VERSION}
+                         _classifier_stamp()))
+            _SO["d"] = {_CLASSIFIER_KEY: _classifier_stamp()}
             _SO["dirty"] += 1
         _SO["loaded"] = True
     return _SO["d"]
@@ -236,6 +249,10 @@ def _empty_state(d):
     tr = ((d.get("mined_under") or {}).get("transport")) or None
     if not tr:
         return "NO PAGE"
+    if not isinstance(tr, dict):
+        # sweep68 b15 F11: `tr.get` on a string raised AttributeError and aborted measure().
+        # A transport stamp we cannot read is a defect of ours, not the wiki's answer.
+        return "UNREACHABLE"
     why = str(tr.get("why") or "unknown")
     if why in F.CLEAN_NEGATIVES:
         return "NO PAGE"
@@ -261,12 +278,26 @@ def _state_of_file(fp, name, cache):
         if hit[1] == "NOT_MINE":
             return None
         return hit[1], hit[2], hit[3]
-    try:
-        with open(fp, encoding="utf-8") as f:
-            d = json.load(f)
-    except Exception:
-        silence.note("coverage.py:state_of_file-read")
-        return None
+    # sweep68 b15 F11: this used to `return None` on a read failure, and `state_of` reads None as
+    # "no file here", so an entity whose evidence file EXISTS but could not be parsed (a reader
+    # racing a writer's replace, a torn file) was published as NOT ATTEMPTED -- "nothing has ever
+    # fetched this", the 30,102-Marvel-entry lie -- when we did fetch. One retry for a lock, then
+    # UNREACHABLE (a defect of ours, the state written for exactly that). Not memoised: the file
+    # may read fine next pass, and the memo must only hold verdicts drawn from a parsed file.
+    d = None
+    for _try in range(2):
+        try:
+            with open(fp, encoding="utf-8") as f:
+                d = json.load(f)
+            break
+        except Exception:
+            silence.note("coverage.py:state_of_file-read")
+            d = None
+            if _try == 0:
+                import time as _t
+                _t.sleep(0.2)
+    if not isinstance(d, dict):
+        return "UNREACHABLE", 0, 0
     if not cachekey.owns(d, name):
         # Someone else's evidence sitting at our path. NOT this entity's citation.
         cache[rel] = [mt, "NOT_MINE", 0, 0]

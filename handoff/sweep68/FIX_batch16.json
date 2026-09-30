@@ -1,0 +1,200 @@
+[
+ {
+  "id": "F1",
+  "file": "src/read.py",
+  "line": 978,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "A pool answer with feats null/str/list-of-str was cached and then crashed read_entity on every later pass.",
+  "how": "Added _feats_ok (list of dict rows with str/None sentence and axis); read_entity treats a malformed answer as unanswered and never caches it; _chunk_get treats a malformed cached body as a miss.",
+  "net": "b16_chunk_shape",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "src/threads.py",
+  "line": 538,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "survey(None) ignored weave_index.LAST_UNREADABLE so a torn record dropped a source from THREADS.json silently.",
+  "how": "survey() raises ThreadRefused when a whole-corpus load left unreadable records; main() already prints ThreadRefused as a REFUSING line. Injected-records callers (drill fixtures) are unaffected.",
+  "net": "b16_threads_short_read",
+  "red_green_checked": true
+ },
+ {
+  "id": "F3",
+  "file": "src/handbuilt.py",
+  "line": 173,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "why_missed text in data/HANDBUILT_ASSAYS.json now contradicts the live records for five sheets.",
+  "how": "Assay prose / curatorial wording, not code (open OWNER order cd77e492b26b covers handbuilt wording). Options: re-derive each reason from live records at compute() time; date-stamp each reason; or owner rewrites the five strings and the header. Also unverified: machine assay and hand-built assay may now coexist for the same entity, needs a reconciliation ruling.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F4",
+  "file": "src/local_agent.py",
+  "line": 1582,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Dispatch caught only (TypeError, ValueError), so a non-string argument ended run() and lost patches/unreverted alarms.",
+  "how": "Dispatch now catches Exception and returns the same {error: ...} dict.",
+  "net": "b16_agent_dispatch_any",
+  "red_green_checked": true
+ },
+ {
+  "id": "F5",
+  "file": "src/read.py",
+  "line": 361,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "ensure_transport pinned False for the life of a --loop process after one transient CB.engine() failure.",
+  "how": "New keyword reprobe=False (signature-compatible); run() calls ensure_transport(reprobe=True) once per pass, re-deciding a cached False before workers start. Hot path and cached True unchanged.",
+  "net": "b16_transport_reprobe",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6",
+  "file": "src/profile.py",
+  "line": 113,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "_b32 looped forever on a negative address.",
+  "how": "_b32 raises ValueError for n < 0 (root cause, covers encode and any other caller).",
+  "net": "b16_profile_negative",
+  "red_green_checked": true
+ },
+ {
+  "id": "F7",
+  "file": "src/profile.py",
+  "line": 264,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Unreadable TIERS.json gave every world a wrong-but-valid address, noted only.",
+  "how": "build_all raises RuntimeError (REFUSING TO PROFILE) when TIERS.json is unreadable, after the note. Per-source missing rows (charted-gap case) unchanged. Only callers: main() and verify_math import-time build_all(limit=400), which read a live readable TIERS.json.",
+  "net": "b16_profile_negative",
+  "red_green_checked": true
+ },
+ {
+  "id": "F8",
+  "file": "src/threads.py",
+  "line": 271,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "annex_codes/law_codes raised AttributeError when `declared` was not an object.",
+  "how": "New _declared(doc,key) helper returns None for a non-dict declared; both functions use it.",
+  "net": "b16_threads_declared_shape",
+  "red_green_checked": true
+ },
+ {
+  "id": "F9",
+  "file": "src/citecheck.py",
+  "line": 175,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "splitlines() numbered lines differently from editors/ast (NEL, U+2028, FF, ...), latent shift of citation resolution.",
+  "how": "New _split_lines splits on CRLF/CR/LF only and drops the trailing empty element; used by _lines and citations_in_text.",
+  "net": "b16_citecheck_lines",
+  "red_green_checked": true
+ },
+ {
+  "id": "F10",
+  "file": "src/secondopinion.py",
+  "line": 554,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Torn-tree fingerprint hashed .py only, so prompts/ was never fingerprinted.",
+  "how": "_tree_fingerprint now also digests every non-.py file under each root (skipping __pycache__/.git; None on OSError). codewatch.fingerprint still used for .py.",
+  "net": "b16_secondopinion_fingerprint",
+  "red_green_checked": true
+ },
+ {
+  "id": "F11",
+  "file": "src/read.py",
+  "line": 1358,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Stale '61 MB' figure in comment (file is ~80 MB); handbuilt.py:284 comment also stale.",
+  "how": "read.py comment now says 'tens of MB' (no figure to rot). handbuilt.py:284 left: it sits in the same curatorial text as F3 and belongs with the owner's handbuilt wording ruling.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F10-sweep67",
+  "file": "src/handbuilt.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Undertaker suasion cited text still says 'THE HIGHEST-EARNED SCORE IN THIS LIBRARY' for 9.9, tied with his continuity 9.9.",
+  "how": "Superlative wording in assay prose: covered by open OWNER order cd77e492b26b; not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q1",
+  "file": "src/read.py",
+  "line": 436,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_gate keeps the wide 'cloud' regime if tuning.regime() raises.",
+  "how": "Likely deliberate fail-open for throughput, but it should be fail-narrow. Options: default to the narrow local gate on exception, or keep and escalate the note. Not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/read.py",
+  "line": 1706,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "--loop ignores run()'s ok (carried from sweep67).",
+  "how": "Options: stop the loop on not ok, or back off and re-loop. Behavior/policy choice.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/read.py",
+  "line": 624,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "A failed /api/tags probe caches the 18.6 GB configured model for the process life (carried).",
+  "how": "Options: do not cache a failed-probe fallback, or cache with a short TTL.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/citecheck.py",
+  "line": 215,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "_self_citation_ok is constant False so the branch at :359 cannot fire.",
+  "how": "Options: delete the hook and branch (deletion, so left for a ruling) or implement the exemption. Not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "src/citecheck.py",
+  "line": 137,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "QUOTED_TAG exemption lets a genuine pointer written in quotes hide a rotted citation.",
+  "how": "Options: keep (measured 21 of 21 mentions), or check quoted pointers that resolve to a real file. Design decision.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "src/local_agent.py",
+  "line": 1110,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Text-mode rewrite of an LF file under prompts/ or handoff/ would come back CRLF on revert (carried).",
+  "how": "Options: read/write bytes in text mode, or refuse text-mode for revert. Changes write semantics of the gate, so left for a ruling.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

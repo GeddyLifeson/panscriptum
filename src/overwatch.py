@@ -1024,7 +1024,18 @@ def round_once(limit=6, local=True, skip_model=False, watch_code=False):
             for f in found:
                 fid = _fingerprint(m, f)
                 if fid in led["findings"]:
-                    continue
+                    # A RETIRED ROW MUST NOT SILENCE A RE-REPORT (sweep68 b08 F1). The retire
+                    # loop above retires every open finding of a module whose file changed by
+                    # ANY byte, and the fingerprint has no line or digest in it, so the same
+                    # defect re-read from the edited file hit the retired row here, was
+                    # skipped, and WATCH.md said "Nothing open" about a bug the model had just
+                    # found again. The re-report is filed under a digest-suffixed key rather
+                    # than by flipping the old row open: `_merge_ledgers` ranks retired above
+                    # open, so a re-opened row would lose to any stale co-writer's copy.
+                    if (led["findings"][fid].get("state") != "retired" or not d
+                            or fid + "#" + d in led["findings"]):
+                        continue
+                    fid = fid + "#" + d
                 f.update({"state": "open", "first_seen": time.time(), "digest": d})
                 led["findings"][fid] = f
                 fresh += 1

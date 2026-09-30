@@ -1,0 +1,1 @@
+{"name": "cascade_bridge benches a bucket whose replies keep hitting the output cap", "expected": "sweep68 b08 Q1: a bucket that length-stops every reply is re-claimed for ever, never benched"}

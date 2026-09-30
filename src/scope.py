@@ -45,6 +45,7 @@ if any(c in open(os.path.abspath(__file__), encoding="utf-8").read() for c in _B
     raise SystemExit(__file__ + ": a regex escape was eaten in transit.")
 
 OUT = os.path.join(HERE, "data", "SCOPE.json")
+_LIVE_OUT = OUT   # sweep68 b05 Q1: the real file, fixed at import, so a test repointing OUT is not gated
 
 # Ordered low to high. The band is the CEILING a fiction of this scope can support, taken from
 # Part Three's own table of what each rung can threaten.
@@ -96,7 +97,17 @@ QUERIES = ["cosmology universe world setting", "multiverse", "universe", "world"
 # stamped older, so the next truncation fix heals itself instead of needing another audit to
 # notice. Version 1 was the pre-repair contract (srlimit=3, first 8 titles only); records written
 # before stamping existed carry no stamp at all and read as 0, so they are all re-probed once.
-PROBE_VERSION = 2
+# sweep68 b05 Q3, answered under the 2026-09-30 ruling: BUMPED 2 -> 3. The F7 change (sweep67
+# b05) made `scope_for` walk every `sroffset` page instead of eight titles, so what a probe SEES
+# changed by up to two orders of magnitude and this comment's own rule applies. Nothing is
+# re-probed by this edit (`build()` only acts when run); the 155 stored rows are unstamped and were
+# owed a re-probe anyway. MIN_MENTIONS stays ABSOLUTE: scaling it needs calibration against the
+# re-probed corpus sizes, which do not exist yet -- so records now store `text_chars` beside
+# `counts`, and a per-size floor can be re-derived OFFLINE from disk when they do, with no second
+# crawl. Against keeping it absolute: `universal` also matches `universally`, so on a very large
+# wiki 10 stray hits are likelier. That only lowers ceilings less than it should, and the floor is
+# the owner's Part Three statement, so it is not loosened or retuned blind.
+PROBE_VERSION = 3
 
 
 class ProbeUnread(Exception):
@@ -136,6 +147,11 @@ def scope_for(host, verbose=False):
         # AND THE `continue` KEY IS NOW FOLLOWED, not merely noted (sweep67 batch 05, F7, run
         # #67): noting it recorded the truncation and kept it. `sroffset` is walked to the end.
         params = {"action": "query", "list": "search", "srlimit": "500", "srsearch": q}
+        # sweep68 b05 L2: a backend that re-answers the same `sroffset` (a stuck or capped shard)
+        # would loop here for ever, and `build()` has no timeout, so one host hung the whole probe.
+        # `feats._api_list_all` stops on a repeated token; so does this. Repeating means the host
+        # will not advance, which is an unread tail, not a finished search -> ProbeUnread.
+        seen_offsets = set()
         while True:
             oc = {}
             d = F.api(host, params, outcome=oc)
@@ -152,6 +168,10 @@ def scope_for(host, verbose=False):
             cont = (d or {}).get("continue")
             if not isinstance(cont, dict) or "sroffset" not in cont:
                 break
+            if str(cont["sroffset"]) in seen_offsets:
+                raise ProbeUnread("%s: query %r repeated continuation sroffset=%s"
+                                  % (host, q, cont["sroffset"]))
+            seen_offsets.add(str(cont["sroffset"]))
             params = dict(params, **cont)
     if not titles:
         return None
@@ -203,7 +223,7 @@ def scope_for(host, verbose=False):
         return None
     if verbose:
         print(f"   {host:<32}{counts}")
-    return {"scope": best[0], "ceiling": best[1], "counts": counts,
+    return {"scope": best[0], "ceiling": best[1], "counts": counts, "text_chars": len(text),
             "pages": sorted(pages), "probe_version": PROBE_VERSION}
 
 
@@ -253,8 +273,13 @@ def build(hosts, force=False):
     # --force or --host to get past it. See PROBE_VERSION above for what that cost. `force`
     # ignores the stamp entirely, for the case where the operator knows the wikis themselves have
     # moved rather than the code.
+    # sweep68 b05 L1: `pages:<title>` and `doc:<slug>` are sentinels for owner-supplied material,
+    # not hostnames. Probing one made `endpoint.detect` try `https://pages:all Creeper World/api.php`,
+    # print NOT READ every build, never stamp, and leave a junk key in the endpoint cache. They
+    # are not wikis and cannot have a scope (same exclusion as `feats.reads_as_wiki`).
     todo = sorted({h for s, h in hosts.items()
                    if h and not F.is_wikipedia(h)
+                   and not str(h).startswith(("pages:", "doc:"))
                    and (force or _stamp(out.get(h)) < PROBE_VERSION)})
     for i, h in enumerate(todo, 1):
         try:
@@ -351,6 +376,23 @@ def mutate(apply, attempts=8, path=None):
     import threading
     import time
     path = OUT if path is None else path
+    # sweep68 b05 Q1, answered under the 2026-09-30 ruling: THE PLANT-WIDE INTERLOCK, on the ONE
+    # landing every SCOPE.json writer routes through. SCOPE.json becomes published Magnitude
+    # ceilings via `magnitude.host_ceiling`, so it is a derived-data writer that clamps output and
+    # it ran during a standing halt. Against: a re-probe is a slow crawl a halt would waste; but
+    # the probe results are not lost -- they simply are not landed, and the next build re-probes
+    # unstamped hosts, which is the fail-closed direction. Only the live file is gated (a path
+    # the caller supplies, or a test's repointed OUT, is a sandbox). `sweep_plan.record` and
+    # `snapshot.before` are deliberately NOT interlocked: coverage proof and the pre-destruction
+    # backup are protective records, and refusing them during a halt removes evidence and the
+    # copy a recovery needs. Same fail-closed import as cosmology_graph._assert_not_halted.
+    if os.path.abspath(path) == os.path.abspath(_LIVE_OUT):
+        try:
+            import escalation as _ESC
+        except ImportError as _esc_gone:
+            raise SystemExit("REFUSING TO WRITE data/SCOPE.json: the escalation chain could not be "
+                             "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+        _ESC.assert_clear("scope.py mutate (writes data/SCOPE.json)")
     last_why = "not attempted"
     for attempt in range(attempts):
         # The digest is taken BEFORE the read, so anything landing between the two fails the swap

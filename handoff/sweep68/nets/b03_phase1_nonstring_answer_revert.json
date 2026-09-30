@@ -1,0 +1,7 @@
+[
+  {
+    "module": "pipeline.py",
+    "old": "            _ev = _res_text(g.get(\"evidence\"))\n",
+    "new": "            _ev = (g.get(\"evidence\") or \"\").strip()\n"
+  }
+]

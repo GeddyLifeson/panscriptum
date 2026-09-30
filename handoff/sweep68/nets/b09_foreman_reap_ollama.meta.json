@@ -1,0 +1,4 @@
+{
+ "name": "foreman reaps orphaned Ollama runners and duplicate daemons, never the live one",
+ "expected": "run #68 (owner request): orphaned llama-server/runner processes keep ~8 GB of VRAM pinned and push every later model onto the CPU"
+}

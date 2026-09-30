@@ -109,7 +109,14 @@ def _cs_load():
         if not _CS_CACHE["loaded"]:
             try:
                 with open(_CS_CACHE_P, encoding="utf-8") as f:
-                    _CS_CACHE["d"] = json.load(f)
+                    _loaded = json.load(f)
+                # sweep68 b04 F7b: a cache that parses to a list or a string is not a cache, and
+                # `d.get(k)` on it raised AttributeError outside the probes' `try`, taking the
+                # whole audit down. Treated as no cache yet, and said so.
+                if isinstance(_loaded, dict):
+                    _CS_CACHE["d"] = _loaded
+                else:
+                    silence.note("completeness.py:cs-cache-shape")
             except Exception:
                 _ = "silence-exempt: no cache yet is the normal first state"
             _CS_CACHE["loaded"] = True
@@ -188,7 +195,7 @@ def category_size_probe(sub, category):
     d = _cs_load()
     k = sub + "|" + category
     hit = d.get(k)
-    if hit and time.time() - hit.get("at", 0) < _CS_TTL:
+    if isinstance(hit, dict) and time.time() - hit.get("at", 0) < _CS_TTL:
         return hit.get("n"), None
     try:
         d = ws._api(sub, {"action": "query", "titles": "Category:" + category,
@@ -278,7 +285,7 @@ def category_size_probe_host(host, category):
     d = _cs_load()
     k = host + "|" + category
     hit = d.get(k)
-    if hit and time.time() - hit.get("at", 0) < _CS_TTL:
+    if isinstance(hit, dict) and time.time() - hit.get("at", 0) < _CS_TTL:
         return hit.get("n"), None
     base = api_base(host)
     if not base:
@@ -840,6 +847,14 @@ def land(rows, only=None):
     #
     # A real corpus does not lose half its sources between two rounds. Sources do leave the roll,
     # so this is a floor and not an equality, and it is loud rather than silent when it trips.
+    # sweep68 b04 F7a: a prior that parsed to `null`, `0` or a dict is not a list of rows, and being
+    # falsy it skipped this floor without a word (the ValueError arm above says so; this shape
+    # did not). Same answer as the torn file: nothing readable to protect, said out loud.
+    if not isinstance(prior, list):
+        silence.note("completeness.py:land-prior-shape")
+        sys.stderr.write("completeness: the prior COMPLETENESS.json is not a list of rows; the "
+                         "shrink floor was NOT applied to this write.\n")
+        prior = []
     if prior and len(rows) < len(prior) * SHRINK_FLOOR:
         sys.stderr.write("completeness: measured %d row(s) against %d already on disk (below the "
                          "%.0f%% floor); REFUSING to overwrite. A run that lost most of the "

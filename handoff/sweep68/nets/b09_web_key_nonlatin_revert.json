@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_web.py",
+  "old": "        return k or t.strip().casefold()",
+  "new": "        return \"\".join(c for c in t.lower() if c in \"abcdefghijklmnopqrstuvwxyz0123456789\")"
+ }
+]

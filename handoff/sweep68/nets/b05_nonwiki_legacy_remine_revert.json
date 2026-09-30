@@ -1,0 +1,7 @@
+[
+ {
+  "module": "feats.py",
+  "old": "    if not reads_as_wiki(host):",
+  "new": "    if False:"
+ }
+]

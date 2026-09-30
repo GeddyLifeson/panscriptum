@@ -1,0 +1,4 @@
+{
+ "name": "zfighters, catalogue_models and endpoint main refuse to write under a halt",
+ "expected": "sweep68 b06 Q5: three hand-run derived-data writers keep writing while the library is HALTED"
+}

@@ -1,0 +1,7 @@
+[
+  {
+    "module": "pipeline.py",
+    "old": "                if topic in TOPICS and category_contradicts_type(\n",
+    "new": "                if False and category_contradicts_type(\n"
+  }
+]

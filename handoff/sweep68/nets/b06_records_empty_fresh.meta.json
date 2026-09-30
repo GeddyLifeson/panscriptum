@@ -1,0 +1,4 @@
+{
+ "name": "an empty records directory is not a fresh catalogue",
+ "expected": "sweep68 b06 F5: a missing or empty data/records reads `the character sweep is newer than the catalogue` as fresh"
+}

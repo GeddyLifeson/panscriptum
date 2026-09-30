@@ -1,0 +1,7 @@
+[
+ {
+  "module": "publish.py",
+  "old": "_PRE_BACKUP = re.compile(r\"\\.pre[^./\\\\]*$\", re.I)",
+  "new": "_PRE_BACKUP = re.compile(r\"\\.pre[a-z0-9]*$\", re.I)"
+ }
+]

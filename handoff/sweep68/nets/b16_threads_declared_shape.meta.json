@@ -1,0 +1,4 @@
+{
+ "name": "threads annex_codes/law_codes tolerate a non-object declared",
+ "expected": "sweep68 b16 F8: a non-object `declared` raises AttributeError out of build()/verify(), a traceback instead of the promised empty-set refusal"
+}

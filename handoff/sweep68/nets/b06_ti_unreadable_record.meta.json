@@ -1,0 +1,4 @@
+{
+ "name": "an unreadable record file refuses the thread-integrity pass instead of escalating healthy sources",
+ "expected": "sweep68 b06 F3: one torn record makes every pair touching it DANGLING and refuses both ends at SUPERVISOR"
+}

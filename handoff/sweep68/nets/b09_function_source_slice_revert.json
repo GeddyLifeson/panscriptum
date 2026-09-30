@@ -1,0 +1,7 @@
+[
+ {
+  "module": "foreman.py",
+  "old": "    lines = _io.StringIO(src).readlines()",
+  "new": "    lines = src.splitlines(keepends=True)"
+ }
+]

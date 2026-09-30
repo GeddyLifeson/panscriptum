@@ -347,7 +347,7 @@ def set_transport(mode):
     _TRANSPORT = mode
 
 
-def ensure_transport(verbose=True):
+def ensure_transport(verbose=True, reprobe=False):
     """Decide the transport ONCE, before any worker starts, and say which one won.
 
     This was a lazy `if _CASCADE_OK is None` inside the hot path, and with ten workers all ten
@@ -360,7 +360,14 @@ def ensure_transport(verbose=True):
     """
     global _CASCADE_OK
     with _TRANSPORT_LOCK:
-        if _CASCADE_OK is not None:
+        # REPROBE (sweep68 b16 F5): the verdict is cached for the process life, and `--loop` is a
+        # STANDING job that lives for days, so one transient `CB.engine()` failure on the first
+        # pass pinned local Ollama (and 2 workers) until src/ changed. `run()` passes reprobe=True
+        # once per pass so a cached False is re-decided BEFORE its workers start (the race the
+        # docstring names is unchanged); the hot path never passes it, so a True is never
+        # re-probed and a False costs one probe per pass, not one per call.
+        if _CASCADE_OK is not None and not (
+                reprobe and _CASCADE_OK is False and _TRANSPORT != "ollama"):
             return _CASCADE_OK
         if _TRANSPORT == "ollama":
             _CASCADE_OK = False
@@ -613,6 +620,8 @@ def _ask_ungated(c, system, prompt, schema):
 
 
 _FALLBACK_MODEL = [None]
+_FALLBACK_FAILED_AT = [None]     # when the last probe FAILED (None = it succeeded); see Q3 below
+_FALLBACK_RETRY_S = 300
 # The card is 10GB. A model needs room for weights AND context, so the budget is deliberately
 # under that -- a model that "fits" at 9.9GB does not fit once a 2,700-token prompt arrives.
 # 8.5GB on a 10GB card. Nine leaves barely a gigabyte for the context window, and a
@@ -637,7 +646,16 @@ def fallback_model(c):
     bigger model's quality is worth the wait, which is exactly what a fallback is not.
     """
     if _FALLBACK_MODEL[0] is not None:
-        return _FALLBACK_MODEL[0]
+        # SWEEP68 b16 Q3, answered under the 2026-09-30 ruling: a FAILED probe is remembered only
+        # for `_FALLBACK_RETRY_S`. It used to be cached for the process life, so one Ollama blip
+        # at the first GPU fallback pinned the 18.6 GB configured model (the 56/44 CPU/GPU split
+        # this docstring names, every call past the timeout) for days in a --loop reader. The
+        # other side, "just do not cache a failure", was rejected: `_local` calls this on every
+        # GPU fallback and each failed probe costs a 20 s timeout, so an Ollama outage would
+        # charge every worker 20 s per chunk. A short TTL bounds both costs.
+        if (_FALLBACK_FAILED_AT[0] is None
+                or time.time() - _FALLBACK_FAILED_AT[0] < _FALLBACK_RETRY_S):
+            return _FALLBACK_MODEL[0]
     try:
         import urllib.request
         host = c.get("ollama_host", "http://localhost:11434")
@@ -655,9 +673,11 @@ def fallback_model(c):
                 continue
             fits.append((size, name))
         _FALLBACK_MODEL[0] = max(fits)[1] if fits else c.get("model")
+        _FALLBACK_FAILED_AT[0] = None
     except Exception:
         silence.note("read.py:fallback_model")
         _FALLBACK_MODEL[0] = c.get("model")
+        _FALLBACK_FAILED_AT[0] = time.time()
     return _FALLBACK_MODEL[0]
 
 
@@ -792,6 +812,23 @@ def _chunk_key(host, ch, entity):
     return h[:2], h[2:18]
 
 
+def _feats_ok(got):
+    """True only for `{"feats": [ {..}, ... ]}` whose rows the verifier loop can read.
+
+    SWEEP68 b16 F1: `P._pool_answer_usable` checks that the key `feats` is PRESENT, never its
+    type. A cloud model answering `{"feats": null}`, `"abc"` or `["a sentence"]` was cached by
+    `_chunk_put` and then crashed `read_entity` (`for f in None`, `str.get`) on this pass and
+    every later one, because `_chunk_get` served the same body and no model was ever asked
+    again. A malformed body is now neither cached nor served: it is a miss, so it is re-asked.
+    """
+    if not isinstance(got, dict) or not isinstance(got.get("feats"), list):
+        return False
+    return all(isinstance(f, dict)
+               and isinstance(f.get("sentence"), (str, type(None)))
+               and isinstance(f.get("axis"), (str, type(None)))
+               for f in got["feats"])
+
+
 def _chunk_get(host, ch, entity):
     d, name = _chunk_key(host, ch, entity)
     p = os.path.join(CHUNK_CACHE, d, name + ".json")
@@ -799,10 +836,14 @@ def _chunk_get(host, ch, entity):
         return None
     try:
         with open(p, encoding="utf-8") as f:
-            return json.load(f)
+            got = json.load(f)
     except Exception:
         silence.note("read.py:chunk_get")
         return None
+    if not _feats_ok(got):
+        silence.note("read.py:chunk_get_malformed")   # poisoned by an earlier run: a miss
+        return None
+    return got
 
 
 def _chunk_put(host, ch, entity, feats):
@@ -974,8 +1015,13 @@ def read_entity(c, host, name, cap_chunks=None):
         else:
             got = _ask(c, SYSTEM, "ENTITY: " + name + "\nPAGE: " + title + "\n\n" + ch,
                        SCHEMA)
+            if got is not None and not _feats_ok(got):
+                # sweep68 b16 F1: an answer that is not a list of feat objects is NOBODY
+                # HAVING READ IT: unanswered, not cached, not iterated.
+                silence.note("read.py:malformed_pool_answer")
+                got = None
             if got is not None:
-                _chunk_put(host, ch, name, (got or {}).get("feats", []))
+                _chunk_put(host, ch, name, got["feats"])
         if got is None:
             # NOBODY ANSWERED. Not "this passage holds no feats" -- nobody read it. Every
             # transport declined: the pool was exhausted or erroring and the GPU was benched.
@@ -1355,7 +1401,7 @@ def queue(all_entries=True):
     # THE MEMO KEY GAINED THE ENTITY (orders c812e8db852f / 8c3d5e9aac87), so every entry written
     # under the old path-only key is unreachable. They are DROPPED rather than left in place --
     # `_chunk_key`'s migration could leave its stale entries alone because each is its own small
-    # file, whereas this cache is one 61 MB object rewritten whole on every pass, and keeping
+    # file, whereas this cache is one large (tens of MB) object rewritten whole on every pass, and keeping
     # keys nothing can ever hit again would double it forever. Nothing is lost: every entry here
     # is a memo of four numbers that are still on disk. The cost is one slow pass that re-reads
     # each evidence file once, which is what this memo cost to build in the first place.
@@ -1492,7 +1538,7 @@ def run(limit=None, workers=2, cap_chunks=None, all_entries=True):
     # reader died on its own status line for ten supervisor cycles while the log recorded
     # "finished". A crash on the banner is the cheapest possible version of this project's
     # signature bug, and it still cost an hour.
-    ensure_transport()
+    ensure_transport(reprobe=True)
     # The honest denominator: every chunk the queue can produce at the size this run will use.
     # An upper bound -- the mention and action filters remove some -- so the estimate is
     # pessimistic rather than flattering, which is the right direction for a number anyone is

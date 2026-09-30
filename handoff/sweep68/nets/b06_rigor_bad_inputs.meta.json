@@ -1,0 +1,4 @@
+{
+ "name": "rigor's beta, product and ceiling functions refuse malformed inputs",
+ "expected": "sweep68 b06 F8: negative parameter counts, out-of-range or doubled correlations and negative n_scored yield a plausible wrong number"
+}

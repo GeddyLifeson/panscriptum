@@ -1,0 +1,4 @@
+{
+ "name": "a torn job_progress.json reads as no previous stamps, not as a dropped standard",
+ "expected": "sweep68 b06 F4: a corrupt job_progress.json is never healed and the advancing standard is dropped on every check"
+}

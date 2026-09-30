@@ -1,0 +1,7 @@
+[
+ {
+  "module": "build_terminal.py",
+  "old": "    if not usable:",
+  "new": "    if False:"
+ }
+]

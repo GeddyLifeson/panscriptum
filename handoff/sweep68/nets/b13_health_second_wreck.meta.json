@@ -1,0 +1,4 @@
+{
+ "name": "health: a second torn ledger keeps the first .corrupt",
+ "expected": "sweep68 b13 F6: a second tear overwrites the first .corrupt wreck, destroying the only copy of what tore it"
+}

@@ -1,0 +1,7 @@
+[
+  {
+    "module": "mutate.py",
+    "old": "    if size >= DATA_LINK_MIN_BYTES and not src.endswith(\".jsonl\"):",
+    "new": "    if True:"
+  }
+]

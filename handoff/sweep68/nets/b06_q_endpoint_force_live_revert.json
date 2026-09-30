@@ -1,0 +1,7 @@
+[
+ {
+  "module": "endpoint.py",
+  "old": "        if force and isinstance(prior, dict) and prior.get(\"mode\") in (MODE_API, MODE_RAW):",
+  "new": "        if False:"
+ }
+]

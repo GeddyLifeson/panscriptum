@@ -541,13 +541,16 @@ def find_categories(subdomain, canonical_category, limit=None, discover=True,
     """
     found = []
     for cand in CATEGORY_PROBES[canonical_category]:
-        try:
-            d = _api(subdomain, {"action": "query", "list": "categorymembers",
-                                 "cmtitle": f"Category:{cand}", "cmlimit": 3,
-                                 "cmnamespace": 0})
-        except Exception:
-            silence.note("wiki_source-category-probe")   # see the hosts-read note above: this
-            continue                                     # site used to share that one's label
+        # sweep68 b15 F5: a failed probe used to be `continue`d, so a throttled call turned a
+        # real canonical category (under the 40-page discover floor, so `discover` cannot
+        # rescue it) into a category the wiki "does not have", and `catalogue_web` then skipped
+        # the whole class with nothing to tell it from a true absence. The MediaWiki API
+        # answers a category that does not exist with an EMPTY list, not an error, so an
+        # exception here is always the transport -- it propagates, exactly as `all_categories`
+        # and `category_members` do (Hard Rule 0: a smaller universe must not look complete).
+        d = _api(subdomain, {"action": "query", "list": "categorymembers",
+                             "cmtitle": f"Category:{cand}", "cmlimit": 3,
+                             "cmnamespace": 0})
         if d.get("query", {}).get("categorymembers"):
             found.append(cand)
 
@@ -704,7 +707,11 @@ def _furniture_spans(html):
 # stored copies are repaired by re-fetching the page, never by guessing a boundary.
 _BANNER_SENTENCES = [re.compile(p, re.I) for p in (
     r"This (?:article|page|section|list|biography|character|entry)\b[^.]{0,60}?"
-    r"\b(?:is a stub|needs\b|seems to be empty|is missing information|requires cleanup)"
+    # sweep68 b15 F12: bare `needs\b` also matched a real lead ("This character needs no
+    # introduction to fans...") and cut its first sentence; only the template's own wordings.
+    r"\b(?:is a stub|needs (?:to be|more|improvement|clean-?up|expan\w+|work|attention|"
+    r"citations|references|sources|rewriting|a rewrite)\b|seems to be empty|"
+    r"is missing information|requires cleanup)"
     r"[^.]*\.",
     r"You can help\b[^.]{0,160}?\bby (?:expanding|uploading|correcting|adding|improving)"
     r"[^.]*\.",

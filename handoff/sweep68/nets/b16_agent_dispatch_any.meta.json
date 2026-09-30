@@ -1,0 +1,4 @@
+{
+ "name": "local_agent dispatch turns any tool exception into an error dict",
+ "expected": "sweep68 b16 F4: a non-string tool argument (AttributeError/OverflowError) ends run() with a traceback and loses the patch list and unreverted alarms"
+}

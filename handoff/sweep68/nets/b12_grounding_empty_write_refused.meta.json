@@ -1,0 +1,4 @@
+{
+ "name": "grounding.main --write refuses when no record was read",
+ "expected": "sweep68 b12 F15: an empty or unreadable data/records lands {} over GROUNDINGS.json with rc 0"
+}

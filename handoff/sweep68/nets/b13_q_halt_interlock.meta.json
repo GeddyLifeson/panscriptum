@@ -1,0 +1,4 @@
+{
+ "name": "tiers/genre/render: hand-run derived-data writers ask the halt before writing",
+ "expected": "sweep68 b13 Q5: tiers.main, genre --write and render --write publish derived data while the library is HALTED"
+}

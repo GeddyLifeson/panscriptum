@@ -1,0 +1,4 @@
+{
+  "name": "weave surprisal weights and null keep entities spread over more than 60 sources",
+  "expected": "sweep68 b04 Q3: entities in more than 60 sources are silently dropped from the pair evidence (a band cut, Hard Rule 0)"
+}

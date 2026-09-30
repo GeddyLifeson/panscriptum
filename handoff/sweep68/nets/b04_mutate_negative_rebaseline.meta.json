@@ -1,0 +1,4 @@
+{
+  "name": "mutate.py refuses a negative --rebaseline-every",
+  "expected": "sweep68 b04 F7c: a negative rebaseline interval is truthy and re-photographs every gate before every mutant"
+}

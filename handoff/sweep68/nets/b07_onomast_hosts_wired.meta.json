@@ -1,0 +1,4 @@
+{
+ "name": "onomast does not claim hosts.py is unwired while feats imports it",
+ "expected": "sweep68 b07 F6: a stale 'not wired' comment lies to whoever audits wiring"
+}

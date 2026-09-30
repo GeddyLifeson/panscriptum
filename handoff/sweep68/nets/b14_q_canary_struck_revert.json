@@ -1,0 +1,12 @@
+[
+ {
+  "module": "binding_health.py",
+  "old": "if (e or {}).get(\"excluded\"):",
+  "new": "if False:"
+ },
+ {
+  "module": "binding_health.py",
+  "old": "and not (e or {}).get(\"excluded\"):   # sweep68 b14 Q4",
+  "new": ":"
+ }
+]

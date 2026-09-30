@@ -1,0 +1,4 @@
+{
+ "name": "assay: printed Moth Number and stored decimal agree",
+ "expected": "sweep68 b13 F1: the printed Moth Number is rounded by a different rule than the stored decimal and disagrees by 0.01 on ties"
+}

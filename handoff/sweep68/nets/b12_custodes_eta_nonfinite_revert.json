@@ -1,0 +1,7 @@
+[
+ {
+  "module": "custodes.py",
+  "old": "    if eta is not None and (isinstance(eta, bool)",
+  "new": "    if False and (isinstance(eta, bool)"
+ }
+]

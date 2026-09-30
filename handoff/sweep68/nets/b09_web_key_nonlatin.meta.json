@@ -1,0 +1,4 @@
+{
+ "name": "catalogue_web fetches non-Latin titles instead of dropping them unrecorded",
+ "expected": "sweep68 b09 F2: CJK/Cyrillic titles key to '' and vanish before any counter or provenance line, and accent folding drops a distinct page"
+}

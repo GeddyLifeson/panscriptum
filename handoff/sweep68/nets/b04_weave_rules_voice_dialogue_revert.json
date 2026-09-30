@@ -1,0 +1,7 @@
+[
+  {
+    "module": "weave.py",
+    "old": "or _rules_voice(desc))",
+    "new": "or _RULES_VOICE.search(desc))"
+  }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scout.py",
+  "old": "if cur and not str(cur).startswith(\"pages:\"):",
+  "new": "if False:"
+ }
+]

@@ -1,0 +1,4 @@
+{
+ "name": "a record rewritten mid-snapshot does not fail the snapshot",
+ "expected": "sweep68 b15 Q3: a busy crawl makes the digest-then-zip read-back mismatch, the archive is deleted and canon_backup_cycle is starved"
+}

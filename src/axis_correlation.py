@@ -222,6 +222,13 @@ def observations():
     and a sentence carrying a number nobody re-counts drifts the moment the tuple grows.)
     """
     rows, read, absent = [], [], []
+    # sweep68 b07 F5: one entity carried by two SOURCES (Son Goku sits in Z_FIGHTERS and in
+    # REFERENCE_ASSAYS_PRESENCE with an identical vector) was counted twice, so `n_entities`
+    # read 45 for 44 entities and every pair's r/n leaned on the repeat. Identical (name, score
+    # vector) is the same measurement of the same entity and is kept once; the same name with a
+    # DIFFERENT vector is a different measurement and stays, and a row with no name is never
+    # collapsed on its vector alone (two entities can share one). The count dropped is reported.
+    seen, dropped = set(), []
     for rel in SOURCES:
         p = os.path.join(HERE, rel)
         if not os.path.exists(p):
@@ -239,13 +246,20 @@ def observations():
             absent.append(rel)
             continue
         read.append(rel)
-        for v in (d.values() if isinstance(d, dict) else d):
+        for k, v in (d.items() if isinstance(d, dict) else ((None, x) for x in d)):
             if not isinstance(v, dict):
                 continue
             s = _scores_of(v)
             if len(s) >= 2:
+                name = k if isinstance(k, str) else v.get("name")
+                if isinstance(name, str):
+                    key = (name, tuple(sorted(s.items())))
+                    if key in seen:
+                        dropped.append(name)
+                        continue
+                    seen.add(key)
                 rows.append(s)
-    return rows, {"read": read, "missing": absent}
+    return rows, {"read": read, "missing": absent, "duplicates_dropped": dropped}
 
 
 def _pearson(xs, ys):
@@ -270,7 +284,7 @@ def measure(rows=None):
     if rows is None:
         rows, src_status = observations()
     else:
-        src_status = {"read": None, "missing": None}
+        src_status = {"read": None, "missing": None, "duplicates_dropped": None}
     axes = sorted({k for r in rows for k in r})
     pairs, vals = {}, []
     for a, b in itertools.combinations(axes, 2):
@@ -284,7 +298,8 @@ def measure(rows=None):
     return {"pairs": pairs, "axes": axes, "n_entities": len(rows),
             "mean_r": round(sum(vals) / len(vals), 4) if vals else None,
             "measured_pairs": len(pairs),
-            "sources_read": src_status["read"], "sources_missing": src_status["missing"]}
+            "sources_read": src_status["read"], "sources_missing": src_status["missing"],
+            "duplicates_dropped": src_status.get("duplicates_dropped")}
 
 
 def write(doc=None, force=False):
@@ -476,6 +491,10 @@ def main():
                     help="with --write: replace the standing matrix even when the new one falls "
                          "below SHRINK_FLOOR of it (order 34ec8a90c42f)")
     a = ap.parse_args()
+    if a.top is not None and a.top < 0:
+        # sweep68 b07 Q6: `ranked[:-3]` printed all but three rows and skipped the "N more not
+        # shown" line, which is a silent truncation of the wrong end.
+        ap.error("--top must be >= 0")
     if a.write:
         # THE HALT (owner ruling 2026-09-28, order 3099138a82bd): this invocation writes, so it asks first.
         _assert_not_halted("--write (writes data/AXIS_CORRELATION.json)")

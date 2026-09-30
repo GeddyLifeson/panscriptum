@@ -1,0 +1,7 @@
+[
+ {
+  "module": "wiki_source.py",
+  "old": "    r\"\\b(?:is a stub|needs (?:to be|more|improvement|clean-?up|expan\\w+|work|attention|\"\n    r\"citations|references|sources|rewriting|a rewrite)\\b|seems to be empty|\"\n    r\"is missing information|requires cleanup)\"",
+  "new": "    r\"\\b(?:is a stub|needs\\b|seems to be empty|is missing information|requires cleanup)\""
+ }
+]

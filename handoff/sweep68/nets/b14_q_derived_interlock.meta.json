@@ -1,0 +1,1 @@
+{"name": "sweep.py and worldseed --write ask the halt before writing their derived files", "expected": "sweep68 b14 Q1: CHARACTER_SWEEP.json and WORLDSEEDS.json, read as fact by other modules, are written while an OWNER halt stands"}

@@ -258,7 +258,9 @@ def _block_reaches_sink(stmts, tainted):
             if _block_reaches_sink(stmt.body, tainted):
                 observed = True
             for h in stmt.handlers:
-                if _block_reaches_sink(h.body, tainted):
+                # `except ... as e:` REBINDS `e` (sweep68 batch12, F10): a sink in a LATER
+                # handler that uses its own `e` is not this handler's observation.
+                if _block_reaches_sink(h.body, tainted - {h.name} if h.name else tainted):
                     observed = True
             if _block_reaches_sink(stmt.orelse, tainted):
                 observed = True
@@ -1315,10 +1317,25 @@ def instrument(root=None, dry=False):
             print(f"  !! {label}: rewrite would not parse ({e}); left alone")
             continue
         if not dry:
-            with open(path + ".presilence", "w", encoding="utf-8") as f:
-                f.write(original)
-            with open(path, "w", encoding="utf-8") as f:
+            # THE FIRST BACKUP IS THE PRISTINE ONE (sweep68 b12 Q3, answered under the 2026-09-30
+            # ruling). A second --instrument run over a module with new silent handlers stored
+            # the ALREADY-instrumented file as `.presilence`, destroying the only pristine copy;
+            # "x" keeps the first. And the module itself is landed through a tmp + replace_retry
+            # rather than a bare truncating open, so a crash mid-write cannot leave src/ torn.
+            # Other side, considered: this is a rarely-run manual tool -- but it rewrites src/,
+            # and the two guards are four lines.
+            try:
+                with open(path + ".presilence", "x", encoding="utf-8") as f:
+                    f.write(original)
+            except FileExistsError:
+                _ = "silence-exempt: an existing .presilence is the older, pristine backup; keep it"
+            tmp = "%s.%d.tmp" % (path, os.getpid())
+            with open(tmp, "w", encoding="utf-8") as f:
                 f.write(src)
+            if not replace_retry(tmp, path):
+                _discard_tmp(tmp)
+                print(f"  !! {label}: rewrite could not land; left alone")
+                continue
         changed.append((label, len(sites)))
     return changed
 

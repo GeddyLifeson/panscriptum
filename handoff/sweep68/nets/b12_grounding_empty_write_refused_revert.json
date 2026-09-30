@@ -1,0 +1,7 @@
+[
+ {
+  "module": "grounding.py",
+  "old": "    if not out:\n        print(\"grounding.py: no readable",
+  "new": "    if False:\n        print(\"grounding.py: no readable"
+ }
+]

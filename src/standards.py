@@ -288,11 +288,18 @@ def ollama_token_flow(ttl=300.0, timeout=300):
         cfg = _yaml.safe_load(open(os.path.join(HERE, "config.yaml"), encoding="utf-8"))
         # num_ctx FROM CONFIG, never a literal -- see the docstring. A foreign window turns
         # this probe into a runner rebuild, which is the one call shape that cannot finish.
-        body = json.dumps({"model": cfg.get("model"), "prompt": "say ok", "stream": False,
+        # NO DEFAULTS, AND A MISSING KEY IS "UNSENT" (sweep68 b06 F11). `cfg.get("num_ctx", 6144)`
+        # restated the very literal the docstring above forbids: a config with no `num_ctx` sent a
+        # 6144 window with `keep_alive: -1`, the runner-rebuild-and-pin failure described there,
+        # and `cfg.get("model")` sent `null`. `cfg[...]` raises into the "unsent" arm instead.
+        _model, _nctx = cfg["model"], cfg.get("num_ctx")
+        if not _model or _nctx is None:
+            raise KeyError("model/num_ctx")
+        body = json.dumps({"model": _model, "prompt": "say ok", "stream": False,
                            "keep_alive": -1,
-                           "options": {"num_ctx": int(cfg.get("num_ctx", 6144)),
+                           "options": {"num_ctx": int(_nctx),
                                        "num_predict": 8}}).encode()
-        req = _ur.Request(str(cfg.get("ollama_host", "http://localhost:11434")).rstrip("/")
+        req = _ur.Request(str(cfg["ollama_host"]).rstrip("/")
                           + "/api/generate", data=body,
                           headers={"Content-Type": "application/json"})
     except Exception:
@@ -444,6 +451,89 @@ def _fandom_probe(host, timeout, _sk):
             except OSError:
                 silence.note("standards.py:fandom-v4-close")
     return False, detail
+
+
+def job_alive_state(on, owner):
+    """-> True (running), False (not running), None (the process table could not be read).
+
+    sweep68 batch 06 F1. `overnight.running()` has returned None, since order 1d556b6ef535, when
+    `_proc_lines()` could not read the process table. The caller did `bool(running(...))`, and
+    `bool(None)` is False, so a blind probe took the `if not alive: continue` path of a job that
+    had legitimately FINISHED: every job skipped, `watched == 0`, and `every running job is
+    advancing` held over zero jobs -- the stall detector silent in the one state where it cannot
+    see. None is kept apart here so the caller can name the job unmeasurable instead."""
+    r = on.running(owner)
+    return None if r is None else bool(r)
+
+
+def _proc_cmdlines():
+    """The command line of every python process, or RAISE if the probe was blind.
+
+    sweep68 batch 06 F2. Only an exception (the 60 s timeout) used to reach the caller's
+    `_dropped` arm. A Get-CimInstance that exited non-zero, or returned nothing, gave `[]`, so
+    `one instance of each job` HELD with `one each`. The caller is itself a python process
+    matching `%python%`, so a working probe can never come back empty: an empty listing is proof
+    the probe was blind (overnight.py names the same state, "AN EMPTY LISTING IS ALSO UNKNOWN")."""
+    import subprocess as _sp
+    r = _sp.run(["powershell", "-NoProfile", "-Command",
+                 "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
+                 "ForEach-Object { $_.CommandLine }"],
+                capture_output=True, text=True, timeout=60,
+                encoding="utf-8", errors="replace",
+                creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0))
+    lines = [x for x in (r.stdout or "").splitlines() if x.strip()]
+    if r.returncode != 0 or not lines:
+        raise RuntimeError("process listing unreadable (rc=%s, %d lines)" % (r.returncode, len(lines)))
+    return lines
+
+
+def read_job_watch(path):
+    """The previous job-progress stamps, or {} when the file is absent OR UNREADABLE.
+
+    sweep68 batch 06 F4. The load sat inside the advancing standard's single `try`, so a torn or
+    non-dict job_progress.json raised, the block jumped to `_dropped`, and the only rewrite of the
+    file is after the raise: it was never healed and the standard was dropped on every later
+    check until a person deleted the file. Unreadable is UNKNOWN, so re-stamp from scratch
+    (READ_WATCH, above, does the same) -- that can only delay a stall verdict, never invent one."""
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            prev = json.load(f)
+    except Exception:
+        silence.note("standards.py:job-watch-unreadable")
+        return {}
+    if not isinstance(prev, dict):
+        silence.note("standards.py:job-watch-unreadable")
+        return {}
+    return prev
+
+
+def newest_record_mtime(records_dir):
+    """mtime of the newest record file; RAISES when there is none.
+
+    sweep68 batch 06 F5. `max(..., default=0.0)` made an absent or empty data/records read as a
+    newest record from 1970, so `lag_h` was hugely negative and `the character sweep is newer than
+    the catalogue` read `fresh`. Every sibling that reads the records store raises on a missing
+    directory; an empty catalogue is not a fresh one."""
+    import glob as _g
+    ms = [os.path.getmtime(f) for f in _g.glob(os.path.join(records_dir, "*.json"))]
+    if not ms:
+        raise FileNotFoundError("no record files under %s" % records_dir)
+    return max(ms)
+
+
+def allsweep_blocks(sweep):
+    """-> (corrupt-file list, verifier rows) from an ALLSWEEP.json dict; RAISES on absent blocks.
+
+    sweep68 batch 06 F6. `(x or {}).get(...) or []` read a file that parsed but lacked the estate
+    or verifier blocks as 0 corrupt files and 0 crashed verifiers, MET. A missing block is a
+    measurement that was not taken, not a clean one (the same class as sweep67 F1/F2)."""
+    bad = sweep["estate"]["artifacts"]["bad"]
+    verifiers = sweep["verifiers"]
+    if not isinstance(bad, list) or not isinstance(verifiers, list):
+        raise TypeError("ALLSWEEP estate/verifier blocks are not lists")
+    return bad, verifiers
 
 
 def job_stamp(prev_entry, size, now):
@@ -650,6 +740,22 @@ def cfg_num_ctx():
             return int(_y.safe_load(f).get("num_ctx"))
     except Exception:
         silence.note("standards.py:cfg-num-ctx")
+        return None
+
+
+def cfg_ollama_host():
+    """-> the Ollama base URL config.yaml names, or None if it cannot be read.
+
+    Same contract as `cfg_num_ctx()`: no invented default (sweep68 b06 F11). The /api/ps read
+    used a literal `http://localhost:11434` while the token-flow probe used the configured host,
+    so a config pointing elsewhere had the resident-runner standards judge a daemon the library
+    does not use."""
+    try:
+        import yaml as _y
+        with open(os.path.join(HERE, "config.yaml"), encoding="utf-8") as f:
+            return str(_y.safe_load(f)["ollama_host"]).rstrip("/") or None
+    except Exception:
+        silence.note("standards.py:cfg-ollama-host")
         return None
 
 
@@ -1147,10 +1253,17 @@ def check(state=None):
         # be measured" and is named by the aggregate standard at the bottom of check().
         #
         # `_dropped` rather than four holds=False rows, and the difference is deliberate: the
-        # reader is a main-lap job that is legitimately DOWN between supervisor laps, and
-        # `corpus read is progressing` carries `restart_reader` in foreman.REMEDIES. Emitting it
-        # red on an absent job would dispatch a restart against a job nothing is wrong with,
-        # which is the false-alarm half of the same fault. The two LIBRARY blocks below are
+        # reader's ENTRY may be absent from the dashboard's job table without the job being down,
+        # and `corpus read is progressing` carries `restart_reader` in foreman.REMEDIES. Emitting
+        # it red on an absent entry would dispatch a bounce that cannot help, which is the
+        # false-alarm half of the same fault.
+        # sweep68 b06 F10/Q1, answered under the 2026-09-30 ruling: KEPT as `_dropped`. This
+        # comment used to call the reader "a main-lap job legitimately DOWN between supervisor
+        # laps"; it has been in overnight.STANDING since 2026-09-08 and the keeper restarts it
+        # within 300 s, so that reason is gone. The decision survives on the other reason:
+        # foreman.restart_reader defers to the supervisor when the reader is down-and-absent, so
+        # a red row here would carry a remedy that acts on nothing, while `_dropped` already
+        # turns the aggregate red (fail closed) and names the standard. The two LIBRARY blocks below are
         # emitted instead, because their inputs are files rather than a process -- see there.
         _dropped.append("corpus-read-standards")
 
@@ -1414,7 +1527,7 @@ def check(state=None):
     #
     # The last three are genuine instrument faults and stay RED, unchanged. The first was going
     # HIGH into the owner's decision file every supervisor round for a NORMAL state -- `read.py`
-    # is a main-lap job that is legitimately down between laps -- and, because "sentences that
+    # is a job whose dashboard entry can be absent (STANDING since 2026-09-08, sweep68 b06 F10) -- and, because "sentences that
     # survive the verbatim check" has no entry in `foreman.REMEDIES`, that red row could not
     # dispatch a cure. It could only occupy the page, which is the alarm-that-always-sounds this
     # file's own MAX_JOB_SILENCE_MIN comment exists to refuse.
@@ -1656,14 +1769,15 @@ def check(state=None):
     try:
         with open(os.path.join(HERE, "data", "ALLSWEEP.json"), encoding="utf-8") as f:
             sweep = json.load(f)
-        bad_files = len(((sweep.get("estate") or {}).get("artifacts") or {}).get("bad") or [])
+        _bad_list, _verifier_rows = allsweep_blocks(sweep)
+        bad_files = len(_bad_list)
         out.append(_s(
             "files that parse", bad_files <= MAX_CORRUPT_FILES, bad_files, MAX_CORRUPT_FILES,
             "A record that will not load is skipped in silence by every stage that reads it, so "
             "a corrupt cache is indistinguishable from an empty one -- and empty is a legitimate "
             "finding here. `allsweep.py` names the files.", "high", "instrument"))
 
-        crashed = [v for v in (sweep.get("verifiers") or [])
+        crashed = [v for v in _verifier_rows
                    if v.get("crashed") or v.get("timeout")]
         out.append(_s(
             "verifiers all run", not crashed, len(crashed), 0,
@@ -1762,12 +1876,9 @@ def check(state=None):
     # derived data is this project's defect with a lineage: each stage is individually honest
     # about inputs that are collectively out of date.
     try:
-        import glob as _g
         sweep_p = os.path.join(HERE, "data", "CHARACTER_SWEEP.json")
         sweep_m = os.path.getmtime(sweep_p)
-        newest_rec = max((os.path.getmtime(f) for f in
-                          _g.glob(os.path.join(HERE, "data", "records", "*.json"))),
-                         default=0.0)
+        newest_rec = newest_record_mtime(os.path.join(HERE, "data", "records"))
         lag_h = (newest_rec - sweep_m) / 3600.0
         out.append(_s(
             "the character sweep is newer than the catalogue", lag_h <= 1.0,
@@ -1789,10 +1900,7 @@ def check(state=None):
     # here prints progress, so a log that has not grown is a job that has not progressed.
     try:
         import overnight as _ON
-        prev = {}
-        if os.path.exists(JOB_WATCH):
-            with open(JOB_WATCH, encoding="utf-8") as f:
-                prev = json.load(f)
+        prev = read_job_watch(JOB_WATCH)
 
         import lognames as LN
         now = time.time()
@@ -1845,7 +1953,7 @@ def check(state=None):
             # completed run -- which is how a standards system gets ignored.
             alive = False
             try:
-                alive = bool(_ON.running(owner))
+                alive = job_alive_state(_ON, owner)
             except Exception:
                 silence.note("standards.py:job-alive")
                 # A PROBE THAT THREW IS NOT A JOB THAT IS DOWN. Leaving `alive` False here sent
@@ -1853,6 +1961,10 @@ def check(state=None):
                 # that has legitimately finished, so an unanswerable liveness probe read exactly
                 # like a healthy completed run. Named instead. (order 1def9a6ce0d5)
                 unmeasurable.append("%s (its liveness probe threw)" % job)
+                continue
+            if alive is None:
+                # sweep68 b06 F1: a BLIND process table is not a finished job. See job_alive_state.
+                unmeasurable.append("%s (process table unreadable)" % job)
                 continue
             if not alive:
                 continue
@@ -2082,7 +2194,10 @@ def check(state=None):
         import urllib.request as _ur
         resident, resident_raw = None, []
         try:
-            with _ur.urlopen("http://localhost:11434/api/ps", timeout=8) as r:
+            _host = cfg_ollama_host()
+            if not _host:
+                raise RuntimeError("ollama_host unreadable from config.yaml")
+            with _ur.urlopen(_host + "/api/ps", timeout=8) as r:
                 resident_raw = json.load(r).get("models") or []
                 resident = [m.get("name") for m in resident_raw]
         except Exception:
@@ -2295,18 +2410,13 @@ def check(state=None):
     # basename before launching. A second instance is not twice the work -- it is two processes
     # racing on the same caches and dividing the same provider quota.
     try:
-        import subprocess as _sp
         # NOT `out` -- that is the results list this whole function is building, and assigning
         # the subprocess output to it silently replaced thirty standards with a string. The
         # traceback said `'str' object has no attribute 'append'` three lines later, which is a
         # long way from the cause.
-        procs = _sp.run(["powershell", "-NoProfile", "-Command",
-                         "Get-CimInstance Win32_Process -Filter \"Name like '%python%'\" | "
-                         "ForEach-Object { $_.CommandLine }"],
-                        capture_output=True, text=True, timeout=60,
-                        encoding="utf-8", errors="replace",
-                        creationflags=getattr(_sp, "CREATE_NO_WINDOW", 0)).stdout or ""
-        lines = [x for x in procs.splitlines() if x.strip()]
+        # `_proc_cmdlines` RAISES on a blind probe (sweep68 b06 F2), so an empty listing lands in
+        # the `_dropped` arm below instead of reading as `one each`.
+        lines = _proc_cmdlines()
         dupes = []
         for job in ("read.py --run", "feats.py --roll", "overnight.py", "foreman.py",
                     "overwatch.py", "dashboard.py", "publish.py"):

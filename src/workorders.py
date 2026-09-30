@@ -41,6 +41,7 @@ import collections
 import hashlib
 import json
 import re
+import math
 import os
 import sys
 import time
@@ -184,6 +185,44 @@ BATTERY_WHERE = {
 BATTERY_CODES = tuple(BATTERY_WHERE)
 
 
+def _stamp(v):
+    """-> a finite float timestamp, or None when `v` is absent, non-numeric, bool, NaN or inf.
+
+    sweep68 b07 F2: `float(preflight.get("at") or 0)` raised on a string stamp, and inside
+    `sweep_detectors` that became one DETECTOR_FAILED for the whole battery instead of the
+    specific PREFLIGHT_STALE order. An unparseable stamp is "no timestamp", which every caller
+    already treats as stale.
+    """
+    if isinstance(v, bool):
+        return None
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return f if math.isfinite(f) else None
+
+
+def drill_verdict_clean(last, now=None):
+    """-> True only when `state/drill_last.json` is a FRESH, COMPLETE, CLEAN verdict.
+
+    sweep68 b07 F1: the DRILL_BREACH closer tested only `not last.get("breached")`, so `{}`, a
+    zero-net record, or a 40-day-old clean file closed the OWNER order -- e.g. a breach whose
+    verdict write did not land leaves an older clean file standing "as current" (drill.py's own
+    comment), and the next sweep deleted the freshly filed order. Every doubt keeps it open:
+    the stamp must be numeric and not in the future or past `ALLSWEEP_MAX_AGE`, `nets` must be
+    a positive int, `held` must equal it, and `breached` must be a list and empty.
+    """
+    now = time.time() if now is None else now
+    if not isinstance(last, dict):
+        return False
+    at, nets, held = _stamp(last.get("at")), last.get("nets"), last.get("held")
+    if at is None or at > now + 60 or now - at > ALLSWEEP_MAX_AGE:
+        return False
+    if isinstance(nets, bool) or not isinstance(nets, int) or nets <= 0 or held != nets:
+        return False
+    return isinstance(last.get("breached"), list) and not last["breached"]
+
+
 def battery_faults(preflight=None, allsweep=None, now=None):
     """PURE. Given the battery's two artifacts, -> {code: fault-dict or None}.
 
@@ -209,7 +248,8 @@ def battery_faults(preflight=None, allsweep=None, now=None):
                     "missing or unreadable, so nothing knows whether the checks pass",
             "handler": "BOTS", "severity": "MAJOR"}
     else:
-        age = now - float(preflight.get("at") or 0)
+        _pat = _stamp(preflight.get("at"))
+        age = float("inf") if _pat is None else now - _pat  # sweep68 b07 F2: bad stamp = stale
         if age > PREFLIGHT_MAX_AGE:
             out["PREFLIGHT_STALE"] = {
                 "what": "the preflight result is %.1f hours old (ceiling %.0fh) -- stale is not "
@@ -262,7 +302,8 @@ def battery_faults(preflight=None, allsweep=None, now=None):
             # allsweep does not stamp a time inside the file; fall back to the caller's, and if
             # the caller could not supply one, say so rather than assuming freshness.
             at = allsweep.get("_mtime")
-        age = None if at is None else now - float(at)
+        at = _stamp(at)  # sweep68 b07 F2: an unparseable stamp is "no timestamp", not a raise
+        age = None if at is None else now - at
         if age is None or age > ALLSWEEP_MAX_AGE:
             out["BATTERY_STALE"] = {
                 "what": ("allsweep's result carries no timestamp" if age is None else
@@ -914,14 +955,17 @@ def open_orders(handler=None, severity=None):
         rows = [r for r in rows if r.get("handler") == str(handler).upper()]
     if severity:
         rows = [r for r in rows if r.get("severity") == str(severity).upper()]
-    rows.sort(key=lambda r: (-SEVERITY.index(r.get("severity", "INFO")),
-                             r.get("first_seen", 0)))
+    # sweep68 b07 F2: an unknown severity on a hand-edited row raised ValueError and took down
+    # every reader (`for_ladder`, `twins`, `--handler`); rank it as the WORST so it is seen.
+    rows.sort(key=lambda r: (-(SEVERITY.index(r["severity"]) if r.get("severity") in SEVERITY
+                               else len(SEVERITY)),
+                             r.get("first_seen") if isinstance(r.get("first_seen"), (int, float)) else 0))
     return rows
 
 
 # A `where` NAMES A FILE, AND SOMETIMES A LINE. Same shape as the module regex the misrouted-
 # LOCAL detector already uses, widened by an optional `:line` and by an optional directory
-# prefix, so `src/workorders.py:405-419`, `workorders.py:resolve,main` and
+# prefix, so `src/example.py:405-419`, `example.py:resolve,main` and
 # `deprecated/catalogue_local.py:12` all parse.
 #
 # THE RANGE END IS CAPTURED TOO (order abc943bb6464). This read `(?::(\d+))?` alone, so
@@ -1556,8 +1600,14 @@ def sweep_detectors():
         import binding_health as BH
         q = BH.quarantined()
         for host, rec in sorted(q.items()):
+            # RUN, NOT BOTS (sweep68 b07 Q1, answered under the 2026-09-30 ruling). A quarantine
+            # is released only by `binding_health --run` (the canary), which an operator runs by
+            # hand -- the exact reasoning that moved BINDING_HEALTH_STALE to RUN on 2026-09-26:
+            # filed at BOTS the order waits at a rung with no bot on it. The other side, that
+            # foreman already shells out to `hostcheck --adopt`, does not help: it adopts hosts,
+            # it never releases a quarantine. The sweep still closes the order itself on release.
             filed.append(file_order("HOST_QUARANTINED", "%s: %s" % (host, rec.get("reason", "")),
-                                    "BOTS", "MINOR", where=host, found_by="binding_health"))
+                                    "RUN", "MINOR", where=host, found_by="binding_health"))
         # AND CLOSE THE ONES THAT RECOVERED. The comment above promised "each closes on its own
         # recovery" and nothing ever did it: `filed.extend([])` was a no-op standing where the
         # close pass should have been, so a released host kept its order for ever. Run #33 made
@@ -1576,7 +1626,7 @@ def sweep_detectors():
     # 3b. HOSTS THAT ARE UP BUT WHOSE TITLES DO NOT RESOLVE. Not a quarantine -- the host is
     #     serving -- so nothing above would ever file it, and until run #33 nothing did: the
     #     canary had no verdict for "the binding is wrong" and reported it as a dead host.
-    #     Filed at BOTS because `hostcheck.py --repair` is the tool that re-probes a binding.
+    #     Filed at RUN (was BOTS; sweep68 b07 Q1): `hostcheck.py --repair` re-probes a binding and no bot runs it.
     try:
         import binding_health as BH2
         rec = {}
@@ -1708,7 +1758,9 @@ def sweep_detectors():
                     "the wrong wiki, or its entry names may not be article titles there. "
                     "Mining continues; this is not a quarantine."
                     % (host, b.get("detail") or "no identity probe on this record"),
-                    "BOTS", "MINOR", where=host, evidence=h.get("reason"),
+                    # RUN, NOT BOTS (sweep68 b07 Q1): the remedy is `hostcheck.py --repair`,
+                    # which no bot runs (foreman runs --adopt only), so at BOTS nobody owns it.
+                    "RUN", "MINOR", where=host, evidence=h.get("reason"),
                     found_by="binding_health.canary"))
         # Close the ones that have recovered, so this cannot become a queue that only grows.
         for h in (rec.get("hosts") or []):
@@ -1824,7 +1876,9 @@ def sweep_detectors():
             # and it is kept distinct from a detector fault on purpose: a fresh clone must not
             # file a MAJOR order against an absence that is only the starting state.
             last = None
-        if last is not None and not (last.get("breached") or []):
+        # sweep68 b07 F1: closes only on a fresh, complete, clean verdict (`drill_verdict_clean`);
+        # an empty/undated/stale record leaves the OWNER order standing.
+        if drill_verdict_clean(last):
             if resolve_code("DRILL_BREACH", "drill re-runs clean: %s/%s nets held"
                             % (last.get("held"), last.get("nets")), by="workorders.sweep"):
                 closed.append("DRILL_BREACH")

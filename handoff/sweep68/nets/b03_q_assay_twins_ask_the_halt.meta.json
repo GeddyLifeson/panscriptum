@@ -1,0 +1,4 @@
+{
+  "name": "halo.py refuses to write HALO_ASSAYS.json under a halt",
+  "expected": "sweep68 b03 Q4: HALO_ASSAYS.json is rewritten through a standing OWNER halt while its twin wh40k.py refuses"
+}

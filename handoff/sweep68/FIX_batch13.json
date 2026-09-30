@@ -1,0 +1,178 @@
+[
+ {
+  "id": "F1",
+  "file": "assay.py",
+  "line": 1442,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "decimal (round(x,2)) and printed Moth Number (round(x*100)) disagree by 0.01 on ties.",
+  "how": "Verified (ruin=0.25 gave 0.03 vs M0.02). The printed string now derives from the stored rounded decimal (_pct = round(round(_dec,2)*100)); this only makes two already-intended paths agree, the stored decimal and every score are untouched, and the audit's scan of all 244 live ASSAYS rows found 0 mismatches so no live row changes (Hard Rule 3: not a scoring change).",
+  "net": "b13_moth_decimal_agree",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "tiers.py",
+  "line": 283,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "Parseable-but-empty GROUNDINGS.json ({} / [] / null) read as ok and was published as all-ungrounded.",
+  "how": "Verified. _load_groundings now returns ({}, False) unless the document is a non-empty dict, so both existing refusals in main() (rc 2) fire. Did NOT add the audit's second half (count-of-grounded compare against the standing TIERS.json, SHRINK_FLOOR style): a threshold is a curatorial number, so it is left as an option for the owner. Bootstrap (missing file) behaviour unchanged.",
+  "net": "b13_tiers_empty_groundings",
+  "red_green_checked": true
+ },
+ {
+  "id": "F3",
+  "file": "genre.py",
+  "line": 361,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "--write publishes a smaller GENRES.json (or {}) with rc 0 when records are skipped.",
+  "how": "Verified. Before writing, main() compares against the standing GENRES.json: if this run classified nothing, or any source the standing file has is missing, it names every dropped source (uncapped), refuses to write and returns 1. Sources never classified (the 6 empty-entries records) are not refused. Not run against live tree. Side effect: a source legitimately removed from the roll now needs its GENRES.json row removed by the owner before --write lands.",
+  "net": "b13_genre_shrink_refused",
+  "red_green_checked": true
+ },
+ {
+  "id": "F4",
+  "file": "propagation.py",
+  "line": 201,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Misspelt / absent shelf name reported as DISCONNECTED.",
+  "how": "Verified. main() checks --from/--to against the graph first, prints 'NOT IN GRAPH: <names>' and returns 1 without searching.",
+  "net": "b13_propagation_unknown_shelf",
+  "red_green_checked": true
+ },
+ {
+  "id": "F5",
+  "file": "estate.py",
+  "line": 226,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Zero-byte .corrupt file graded 'zero bytes' though KEPT_DAMAGED_EXT says it must never be a red row.",
+  "how": "Verified. Zero-bytes exemption now covers TRANSIENT_EXT + KEPT_DAMAGED_EXT; plain zero-byte .json still a fault.",
+  "net": "b13_estate_zero_corrupt",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6",
+  "file": "health.py",
+  "line": 351,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A second torn ledger/samples file overwrote the first .corrupt.",
+  "how": "Verified. New _wreck_path(path): <path>.corrupt if free, else <path>.<epoch>[.n].corrupt (still ends .corrupt so estate recognises it); used by both the ledger and samples preservation branches. The fresh-ledger 'ledger:unreadable: 1' count is unchanged.",
+  "net": "b13_health_second_wreck",
+  "red_green_checked": true
+ },
+ {
+  "id": "F7",
+  "file": "module_index.py",
+  "line": 156,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Denied replace leaves the pid+thread temp file behind.",
+  "how": "Verified. The denial arm now os.remove(tmp)s (noting on failure) before returning 1, as render.write_views does.",
+  "net": "b13_module_index_denied_tmp",
+  "red_green_checked": true
+ },
+ {
+  "id": "F8",
+  "file": "assay.py",
+  "line": 226,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Stale line-number citations (assay.py x4, health.py x2, tiers.py x1).",
+  "how": "Verified all. Re-cited by symbol in comments only (no code change): assay.py 226/1131/1578/1903, health.py 85 and 94 (the 'proposed to escalation.py:248' wording now says subject= is passed through), tiers.py :143 -> `_cut`.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F9a",
+  "file": "health.py",
+  "line": 1053,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "check_state calls P.records() once per failed-synthesis source (whole-corpus read each time).",
+  "how": "Verified by reading. Now one pass over P.records() against a set of failed sources (first record per source, same semantics as the old next()); memory stays flat. Timing not measured; net asserts the pass count no longer grows with the number of failed sources.",
+  "net": "b13_health_synthesis_one_pass",
+  "red_green_checked": true
+ },
+ {
+  "id": "F9b",
+  "file": "health.py",
+  "line": 163,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A self-test key's sample ring landed in _SAMPLES and state/failure_samples.json.",
+  "how": "Verified. record() keeps the sample only when the key is not a rehearsal (same partition as the counts). No caller in src/ or drill.py reads _SAMPLES for drill keys.",
+  "net": "b13_health_drill_sample",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q1",
+  "file": "render.py",
+  "line": 0,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "write_views draws one sample node per tier and main uses WS.build_all(limit=1); is that the intended product under Hard Rule 0?",
+  "how": "Options: (a) keep as a deliberate specimen page and rename/label it so; (b) render every node per tier (large output, needs a size/paging design). Owner ruling; carried from 67/16 Q3 (order 5bb12b398783). Not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "liveness.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Default scan and --reachability return 0 whatever they find, including NOT MEASURED and UNDECLARED unreached lines.",
+  "how": "Options: keep rc 0 (drill ratchets the count and is the enforcer) or return non-zero for NOT MEASURED. Changing rc alters what the supervisor/allsweep treat as a failure, so owner call.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "liveness.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "dead_module reports 6 modules nothing names (descending_ladder, halo, module_index, pantheon, scale_theories, zfighters); module_index.py is documented as hand-run.",
+  "how": "Options: put hand-run tools in EXEMPT_MODULES (empty today) with a written reason each, or leave them in the finding count. A curatorial decision about which modules are intentionally unreferenced.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "estate.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "terminal() husk test (len(body) < 64) covers .js only; a truncated non-empty PANSCRIPTUM_TERMINAL.html passes.",
+  "how": "Options: add a closing-tag / minimum-size check for the .html, or accept since artifacts() catches zero-byte files. Needs a decision on what a valid terminal page must contain.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "tiers.py/genre.py/render.py",
+  "line": 0,
+  "severity": "MEDIUM",
+  "verdict": "question",
+  "what": "No halt interlock in tiers.main, genre --write, render.write_views (standing owner-routed class question 67/12 Q7).",
+  "how": "Unchanged and not re-filed as a fix: options are to import health._assert_not_halted-style fail-closed interlocks in each writer, or rule them exempt. Owner ruling.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "genre.py",
+  "line": 0,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Genre cue stems over-match (hell/hello, ration/rational); carried from 67/03 Q3.",
+  "how": "Still a curatorial question (word-boundary vs stem matching changes classifications). Not touched.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

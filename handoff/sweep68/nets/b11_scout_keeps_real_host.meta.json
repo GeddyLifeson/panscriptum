@@ -1,0 +1,1 @@
+{"name": "scout does not overwrite a source's real wiki host with pages:<source>", "expected": "sweep68 b11 N2: scout --source on a source that has a wiki host rewrites WIKI_HOSTS.json to pages:<source>, so feats stops reading the real wiki"}

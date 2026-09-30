@@ -1,0 +1,1 @@
+{"name": "binding_health canary titles skip struck entries", "expected": "sweep68 b14 Q4: a struck (nonexistent) entry is probed as believed-present, so a healthy host reads as failing and can be quarantined"}

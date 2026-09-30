@@ -164,16 +164,40 @@ def components(pair_w, threshold):
     return sorted(comps, key=len, reverse=True)
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    sweep68 batch 10, F3: `--write` replaces data/SHARED_STAGE_GRAPH.json, which propagation.py
+    and resonance.py read live, and it never asked the halt -- the one hand-run writer of that
+    class the 2026-09-28 "fix everything" ruling (orders 1e6f99e54b25 / 21c075e5e2d6 /
+    3099138a82bd) had not reached, invisible to the roster check because that only enumerates
+    modules that already call `assert_clear`. Same shape as sevenfold._assert_not_halted: on the
+    WRITING path only, fail closed on the import (never `except ImportError: pass`, Hard Rule -1).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--threshold", type=float, default=3.0,
                     help="weight floor for CLUSTERING only. It has never filtered the pair "
                          "list and now says so in the artifact it writes.")
+    ap.add_argument("--allow-shrink", action="store_true",
+                    help="let --write land a graph with FEWER pairs than the one on disk "
+                         "(sweep68 b10 Q3b: refused by default)")
     ap.add_argument("--show", type=int, default=16,
                     help="how many ranked rows to print on screen (0 = all). Console framing "
                          "only -- --write always emits every pair.")
     args = ap.parse_args()
+    if args.write:
+        _assert_not_halted("--write (writes data/SHARED_STAGE_GRAPH.json)")
 
     pair_w, pair_shared, src_entities = build_graph()
     ranked = sorted(pair_w.items(), key=lambda kv: -kv[1])
@@ -221,6 +245,31 @@ def main():
         # is exactly the concurrency the ATOMIC note above is about) reported a precise, itemised
         # write of a file that had not changed. Run #36 discarded-verdict sweep.
         import silence
+        # A SHORTER GRAPH DOES NOT LAND OVER A LONGER ONE WITHOUT SAYING SO (sweep68 b10 Q3b,
+        # answered under the 2026-09-30 ruling). This rebuilds wholly from WEAVE_CANDIDATES.json
+        # and used to land whatever it built; a short or partial candidates file (the
+        # partial-load shape sweep67 b07 found in weave_index) then replaced a complete graph
+        # that propagation.py and resonance.py read live. The comparison is against the prior
+        # `pair_count`, with no ratio: any shrink stops and asks, and `--allow-shrink` is the
+        # deliberate way through (a withdrawn source really does remove pairs). Against: one
+        # flag on a rare legitimate shrink, versus a silently smaller universe. An absent or
+        # unreadable prior file is not a reason to refuse -- the write is what repairs it.
+        _prior = None
+        try:
+            with open(OUT, encoding="utf-8") as _fh:
+                _prior = json.load(_fh).get("pair_count")
+        except FileNotFoundError:
+            _ = "silence-exempt: no prior graph on disk is the first write, not a fault"
+        except Exception:
+            silence.note("cosmology_graph.py:main-prior-unreadable")
+        if (isinstance(_prior, int) and not isinstance(_prior, bool)
+                and len(ranked) < _prior and not args.allow_shrink):
+            silence.note("cosmology_graph.py:main-shrink-refused")
+            print(f"\nREFUSING TO WRITE {OUT}: the graph built here has {len(ranked):,} pairs and "
+                  f"the one on disk has {_prior:,}. A shorter graph over a longer one usually "
+                  f"means a partial WEAVE_CANDIDATES.json. Nothing was written. If the shrink is "
+                  f"real, rerun with --allow-shrink.")
+            return 1
         landed = silence.write_json(OUT, {
             "pairs": [{"a": a, "b": b, "weight": round(w, 3),
                        "shared_sample": pair_shared[(a, b)]}

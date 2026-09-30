@@ -641,7 +641,17 @@ def ensure():
     """One scheduled-task tick: start a watchdog if, and only if, none is running. -> action."""
     action = _ensure_decision(watchdog_up())
     if action == "start":
-        p = start_watchdog()
+        # A FAILED START LEAVES A TRACE (sweep68 batch 10, F4). This runs under pythonw with no
+        # console, and `start_watchdog` only catches the first (breakaway) OSError: the fallback
+        # Popen raised straight out of here, so the layer the header says survives everything
+        # else dying could die with nothing in autostart.log and nothing in the ledger.
+        try:
+            p = start_watchdog()
+        except Exception as e:
+            _log("SCHEDULED KEEPER TRIED TO START A WATCHDOG AND COULD NOT: %s: %s; the next run "
+                 "asks again in %d min" % (type(e).__name__, e, TASK_EVERY_MINUTES))
+            silence.note("autostart.py:ensure-start")
+            return "start-failed"
         _log("WATCHDOG WAS NOT RUNNING -- the scheduled keeper (%s) started one, pid %s. "
              "Nothing else in the kit could have: this is the process the whole restart chain "
              "hangs from. (order 4c2101d54c10)" % (TASK_NAME, getattr(p, "pid", "?")))
@@ -786,6 +796,12 @@ def main():
         # as a clean uninstall.
         why = uninstall()
         print(why)
+        # sweep68 batch 10, F5: `--install` puts down BOTH the launcher and the keeper task, but
+        # this removes one. The keeper starts the watchdog (and through it the supervisor) again
+        # within TASK_EVERY_MINUTES, so say that it stands rather than let the operator believe
+        # the automation is off. (The sanctioned way to stop the machine is the pause marker.)
+        print("note: the watchdog keeper task (%s) still stands and restarts the watchdog every "
+              "%d min; run --uninstall-task to remove it too" % (TASK_NAME, TASK_EVERY_MINUTES))
         return 0 if why in ("removed", "nothing installed") else 1
     if a.install:
         path, why = install()

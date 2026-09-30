@@ -88,7 +88,13 @@ GROUNDINGS = {
         regress=dict(has_a_before=False, has_a_stage=False, embedded_in_a_state_space=False,
                      claims_to_be_the_ground=True),
         gloss="the world flows from a ground that does not act; time emanates with it",
-        cues={r"\b(emanat|flowed? (?:from|forth)|proceeds? from|outpouring|the One\b|"
+        # `the One` IS THE PLOTINIAN ONE, CAPITALISED ON PURPOSE (sweep68 batch12, F3). It sits
+        # beside lowercase siblings (`the (?:one|source|divine)`) and was the only capitalised cue
+        # in the table, but classify_text scores with re.I, so ordinary "the one who ..." and "the
+        # one that ..." counted 5 each: Marvel scored emanation 1,485 largely on pronoun use and
+        # 12 sources' groundings were decided by it. `(?-i:...)` holds this cue to its spelling;
+        # lowercase "the" too, because a sentence-initial "The One Piece" is a treasure, not a ground.
+        cues={r"\b(emanat|flowed? (?:from|forth)|proceeds? from|outpouring|(?-i:the One)\b|"
               r"aspects? of the|fragments? of the (?:one|source|divine))\w*": 5,
               r"\b(descend(?:ed|s) from the source|lesser reflections?|hypostas)\w*": 4}),
     "eternal_cycle": dict(
@@ -279,6 +285,13 @@ def main():
     out = {}
     for _, rec in PL.records():
         out[rec["source"]] = classify_source(rec)
+    # NOTHING READ IS NOT "NO SOURCES" (sweep68 batch12, F15). `PL.records()` skips a record it
+    # cannot open, so an empty or wholly unreadable data/records made `out` {} and `--write`
+    # landed {} over GROUNDINGS.json with rc 0, emptying what navtree/pipeline/tiers read.
+    if not out:
+        print("grounding.py: no readable record with entries under data/records -- REFUSED; "
+              "nothing classified, nothing written", file=sys.stderr)
+        return 1
 
     print("=" * 100)
     print("THE HYPERVERSE — grounding type: which answer to the First Argument")
@@ -309,8 +322,11 @@ def main():
             v = out[s]
             print(f"   {s[:26]:<28}{v['grounding']:<15}{v['verdict']:<20}conf {v['confidence']:.2f}")
 
+    # `<=`, NOT `<` (sweep68 batch12, F9). An exact two-way tie at the top scores exactly 0.5 and
+    # the winner is then whichever grounding comes first in GROUNDINGS' dict order; `< 0.5` left
+    # that coin toss off the contested list (Who Framed Roger Rabbit, emanation 15 vs immanent 15).
     low = [(s, v) for s, v in out.items()
-           if v["grounding"] != UNGROUNDED and v["confidence"] < 0.5]
+           if v["grounding"] != UNGROUNDED and v["confidence"] <= 0.5]
     # NOTHING IS CAPPED HERE. This is a diagnostic: the whole point of the contested list is that
     # a person reads it and rules on each entry, and `low[:5]` printed the first five in dict
     # order -- not the five most contested, just the five that happened to be catalogued first --

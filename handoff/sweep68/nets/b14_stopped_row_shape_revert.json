@@ -1,0 +1,1 @@
+[{"module": "escalation.py", "old": "if not isinstance(hit, dict):", "new": "if not hit:\n        return False, \"\"\n    if False:"}]

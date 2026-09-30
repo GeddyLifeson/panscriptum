@@ -219,10 +219,22 @@ def _extract_json(text):
     while start != -1:
         try:
             obj, _end = dec.raw_decode(text, start)
-        except ValueError:
+        except ValueError as _e:
             # Not the start of a complete object -- a `{` inside prose, or a truncated reply.
             # Try the next one, exactly as the brace counter did, rather than giving up here.
             silence.note("cascade_bridge.py:extract_json-brace")
+            # A CUT-OFF OBJECT IS NOT AN OBJECT TO SCAN INSIDE (sweep68 b08 F6). A reply the
+            # engine did not flag as truncated -- or one seen by a caller on an older engine --
+            # such as `{"feats":[{"sentence":"a","axis":"x"},{"sen` failed at the outer `{`, and
+            # the scan then returned the first INNER object that happened to be complete: a
+            # smaller answer of the wrong shape, with only the caller's `accept` between it and
+            # a result. The decoder says when it ran out of text instead of hitting a wrong
+            # character (an unterminated string, or an error at the very end), and that is
+            # a truncation, so it answers None. A stray `{` in prose fails early and still
+            # moves on to the next one.
+            if isinstance(_e, json.JSONDecodeError) and (
+                    _e.msg.startswith("Unterminated") or _e.pos >= len(text.rstrip())):
+                return None
         else:
             return obj
         start = text.find("{", start + 1)
@@ -1055,7 +1067,18 @@ _PERMANENT_WORDS = (
 #
 # So a BARE 403 is no longer permanent; it needs corroborating words. The thing a 403 most often
 # means here is fixable on this side, and benching hides that for four hours.
-_PERMANENT_CODES = re.compile(r"\b(401|402)\b")
+# A BARE NUMBER IS NOT A STATUS CODE (sweep68 b08 F5). `\b(401|402)\b` alone read the 401 in
+# "Limit 200000, Used 199599, Requested 401. try again in 6m51s" and in "HTTP 429 too many
+# requests, retry after 401" as a dead key, and the penalty is four hours' bench on a live
+# bucket. The code now has to be introduced as a status (`HTTP 401`, `status: 402`, `Error
+# code: 401`, `returned 401`), be followed by the status phrase (`401 Unauthorized`), or open
+# the string. Word boundaries still stop `req_4403abc`.
+_PERMANENT_CODES = re.compile(
+    r"(?:\b(?:http|https|status|status_code|statuscode|code|error|err|returned|response|"
+    r"received|got)\b[\s:=\"'\[\]]{0,6}(?:401|402)\b)"
+    r"|(?:^\s*(?:401|402)\b)"
+    r"|(?:\b(?:401|402)\s+(?:unauthorized|payment|client error|invalid|authentication|"
+    r"forbidden|incorrect|insufficient)\b)")
 # A WAF turning the client away. Never an account fault, whatever status code it wears.
 #
 # `cloudflare` WAS A BARE ALTERNATIVE HERE, AND IT IS ALSO THE NAME OF A CONFIGURED PROVIDER
@@ -2155,7 +2178,20 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                     _why = "; ".join(box["reasons"])
                 served["error"] = (_why or "")[:300]
             return None
-        if pinned:
+        # CLEAR THE BUCKET THAT ANSWERED, NOT THE ONE THAT WAS PINNED (sweep68 b08 Q2, answered
+        # under the 2026-09-30 ruling). `_clear`'s own docstring is "a bucket that just answered
+        # is not down", but this cleared `pinned` on ANY success -- including one where the
+        # pinned bucket 429ed or 401ed and a neighbour served the call. A bucket that alternates
+        # deadline misses with failover successes then had its strikes wiped every other call
+        # and never climbed past the first 60 s bench. Against it: a failover off a bucket is
+        # not a deadline miss, so no strike was earned for it here; but the strike count is
+        # exactly the evidence the pinned bucket did NOT answer, and erasing it on somebody
+        # else's success is the wrong bucket paying. When the served bucket cannot be told
+        # (empty), the old behaviour stands.
+        _served_b = _bucket_of(box["answered_id"] or box["answered"])
+        if _served_b:
+            _clear(_served_b)
+        elif pinned:
             _clear(pinned.bucket)
         answered = box["answered"]
         if served is not None:
@@ -2182,6 +2218,24 @@ def _ask_call(system, prompt, schema=None, pool="coding", temperature=0.1, timeo
                                "cut off (or a capped call gave no stop reason), so it is not "
                                "accepted as complete" % (_d.get("finish_reason"),
                                                          _stream_kw.get("max_tokens")))
+        # A BUCKET THAT KEEPS HITTING THE CAP IS BENCHED LIKE ONE THAT KEEPS FAILING TO PARSE
+        # (sweep68 b08 Q1, answered under the 2026-09-30 ruling). The unparseable branch below
+        # names "an output cap it keeps hitting" as exactly the reliably-unusable bucket the
+        # three-strike bench is for, yet this refusal returned with no strike, so a bucket whose
+        # every reply is cut off was re-claimed on every call for ever. It shares the
+        # consecutive-failure counter (any parseable reply resets it, so a bucket that only
+        # sometimes overruns never reaches three) and the same short exponential bench. Against
+        # it: the cut may be this caller's cap rather than the bucket's; the reset on any good
+        # reply and the 60 s first bench bound that cost. Input-size refusals (Groq TPM) are left
+        # alone: they already teach the router a ceiling via `learn_output_ceiling`/`size_refused`.
+        _ls_bucket = _bucket_of(box["answered_id"] or box["answered"]) if answered else ""
+        if _ls_bucket:
+            with _DEAD_LOCK:
+                _ls_n = _UNPARSEABLE.get(_ls_bucket, 0) + 1
+                _UNPARSEABLE[_ls_bucket] = _ls_n
+            if _ls_n >= UNPARSEABLE_STRIKES_BEFORE_BENCH:
+                _bury(_ls_bucket)
+                silence.note("cascade_bridge.py:length-stopped-bench")
         return None
     got = _extract_json(_reply)
     if got is None:

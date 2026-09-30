@@ -1,0 +1,7 @@
+[
+ {
+  "module": "magnitude.py",
+  "old": "    return any(t in forms and t not in _TITLE_WORDS for t in toks)\n",
+  "new": "    return any(t in forms for t in toks)\n"
+ }
+]

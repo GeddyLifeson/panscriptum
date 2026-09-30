@@ -1,0 +1,7 @@
+[
+ {
+  "module": "chain.py",
+  "old": "got = got if isinstance(got, dict) else {}",
+  "new": "got = got or {}"
+ }
+]

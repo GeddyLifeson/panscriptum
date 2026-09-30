@@ -1,0 +1,31 @@
+{
+ "job_id": "II.L.7/Factions",
+ "type": "chapter",
+ "source_name": "Xanathar's Guide to Everything",
+ "spine_code": "II.L.7",
+ "chapter_label": "Factions & Organizations (groups, nations, guilds, companies, orders)",
+ "address": "II.L.7/Factions",
+ "page_range": null,
+ "entries": [
+  {
+   "name": "Xanathar's Thieves' Guild / Skullport",
+   "type": "Organization / Location",
+   "description": "The criminal organization Xanathar leads, and the underdark trading port beneath Waterdeep where his lair is located; referenced as scene-setting for the narrator framing device rather than mechanically detailed in this book.",
+   "scale_note": "",
+   "category": "Factions & Organizations (groups, nations, guilds, companies, orders)",
+   "attestation": "Transcribed",
+   "magnitude": "unassayed",
+   "topic": "Factions",
+   "catalogued": true,
+   "subroom": "none",
+   "shelfmark": "Ω › ? › ? › ? › ? › ? › ? › Xanathar's Guide to Everything [UNCHARTED -- Ladder-of-Being pass not yet done]"
+  }
+ ],
+ "source_context": {
+  "mode": "folder-mechanical",
+  "ceiling_entity": "Xanathar (Zushaxx)",
+  "provisional_magnitude": "unassayed",
+  "total_entries_in_source": 9
+ },
+ "content_hash": "e8ccfd91f3fc3655"
+}

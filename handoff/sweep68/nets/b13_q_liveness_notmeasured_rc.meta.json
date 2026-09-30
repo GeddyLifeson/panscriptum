@@ -1,0 +1,4 @@
+{
+ "name": "liveness: --reachability exits non-zero when NOT MEASURED",
+ "expected": "sweep68 b13 Q2: --reachability returns 0 even when the measurement did not happen, so a script cannot tell measured-clean from not-measured"
+}

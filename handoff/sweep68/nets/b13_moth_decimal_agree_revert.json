@@ -1,0 +1,7 @@
+[
+ {
+  "module": "assay.py",
+  "old": "{_pct:02d}",
+  "new": "{round(_dec * 100):02d}"
+ }
+]

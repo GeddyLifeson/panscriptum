@@ -1,0 +1,1 @@
+{"name": "scope probe contract is v3 and records carry text_chars", "expected": "sweep68 b05 Q3: records built under the sroffset walk are indistinguishable from the old capped probe, so the owed re-probe skips them"}

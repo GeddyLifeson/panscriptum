@@ -1,0 +1,7 @@
+[
+ {
+  "module": "foreman.py",
+  "old": "        if isinstance(slot, dict):",
+  "new": "        if False:"
+ }
+]

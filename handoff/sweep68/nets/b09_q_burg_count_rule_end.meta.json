@@ -1,0 +1,4 @@
+{
+ "name": "no burg count runs past the rank-size rule's own end",
+ "expected": "sweep68 b09 F6: thriving worlds fabricate floor-pinned 40-person burgs past n = P_1/P_min"
+}

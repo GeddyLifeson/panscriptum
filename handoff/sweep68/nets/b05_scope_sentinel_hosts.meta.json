@@ -1,0 +1,1 @@
+{"name": "scope.build never live-probes pages:/doc: sentinels", "expected": "sweep68 b05 L1: build() probes 'https://pages:...' every run, prints NOT READ and pollutes the endpoint cache"}

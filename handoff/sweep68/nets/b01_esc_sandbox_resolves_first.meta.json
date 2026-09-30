@@ -1,0 +1,4 @@
+{
+ "name": "_esc_sandbox refuses a bad redirect row with nothing yet redirected",
+ "expected": "sweep68 b01 F2: a renamed constant leaves escalation.HALT_FILE pointed at scratch and the drill's own halt lands where nothing reads it"
+}

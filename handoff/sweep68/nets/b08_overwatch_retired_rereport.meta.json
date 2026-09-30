@@ -1,0 +1,1 @@
+{"name": "overwatch re-files a finding whose retired row holds its fingerprint", "expected": "sweep68 b08 F1: a defect re-reported after an unrelated edit to its file stays retired, so WATCH.md says 'Nothing open' about a live bug"}

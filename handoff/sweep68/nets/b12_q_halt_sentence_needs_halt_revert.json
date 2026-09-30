@@ -1,0 +1,7 @@
+[
+ {
+  "module": "allsweep.py",
+  "old": "        refused = _HALT_REFUSAL in out and _halt_standing()\n",
+  "new": "        refused = _HALT_REFUSAL in out\n"
+ }
+]

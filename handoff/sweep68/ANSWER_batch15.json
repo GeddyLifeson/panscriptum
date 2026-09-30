@@ -1,0 +1,72 @@
+[
+ {
+  "id": "F4",
+  "file": "src/manifest_builder.py",
+  "verdict": "reserved",
+  "decision": "Reserved (owner order 3976a097f975): address stability of the .N Volume numbers.",
+  "how": "Options: (a) append-only data/VOLUME_NUMBERS.json, source -> code, new sources take the next free number and an exclusion never renumbers; (b) key the catalog on source name + chapter; (c) number by roll order. Recommendation: (a), since the address is a shelving fact under Hard Rule 2 and must not move when a neighbour is added or struck. Until ruled, F3's guard in generate refuses to overwrite another source's catalogued chapter.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q1",
+  "file": "src/generate.py",
+  "verdict": "kept",
+  "decision": "Keep rc 0 for a pass that held jobs at shared addresses (and for all-failed / gate-closed).",
+  "how": "For a non-zero rc: a scheduler or dashboard reading rc 0 sees a clean pass while 38 sources write nothing. Against: rc is what the keeper reads as crash-vs-deliberate, and only overnight.name_rc (not my module) can name a new code as deliberate; an unnamed non-zero rc from a pass that ran 29,476 jobs is exactly the 'watcher reads deliberate exits as crashes' outage the doctrine records, and it would trigger restart budgeting on a job that is behaving. The hold is already recorded where the janitor rung reads it (F10: one ledger note per held source, plus the full console list), and failures.json is not the place for a hold that is not a failure. Kept; if the coordinator wants an rc, it must first teach name_rc a distinct code.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q2",
+  "file": "src/hostcheck.py",
+  "verdict": "kept",
+  "decision": "Keep the head sample for host fitness.",
+  "how": "For a stride (as null_rate does): a head sample biased to the best-known names could flatter a host, and Hard Rule 0 dislikes head cuts. Against: this measures a HOST, not a roster, and the subject list is rank-ordered on purpose so the head is the entities a correct wiki must know; a stride adds tail names that legitimately lack articles and would falsely reject right hosts, which sweep --repair then removes from WIKI_HOSTS.json, the file the project cannot rebuild. The control (foreign names) is already strided, and lift is measured against it, so the head bias is what the score is built to subtract. Nothing is discarded from any roster by this probe, and the change cannot be validated without the network, so the cost exceeds the gain.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q3",
+  "file": "src/canon_backup.py",
+  "verdict": "changed",
+  "decision": "Snapshot hashes and archives the same bytes, and HOST_UNFIT.json / ROSTER_PURGES.json are now archived when present.",
+  "how": "Race: the digest was taken before the zip read the file, so a record rewritten between the two failed the read-back and deleted the archive; the file is now read once, hashed and written from those bytes and that hash is recorded (the pre-pass remains to name unreadable files early). Against: reading each file into memory (largest record is small) and a tiny ZipInfo change; accepted. Scope: the two hand-made JSONs are added under a new CANON_OPTIONAL tuple, present -> archived, absent -> no refusal, because a fresh checkout legitimately lacks them and a refusal would end the backup. output/ chapters and catalog.json are kept OUT on purpose: the catalog has 0 rows today and withdraw_chapters moves chapters aside rather than deleting them; revisit when the first chapters land. Both nets proved False under the revert and True on the fix.",
+  "net": "b15_q_snapshot_rewrite_race + b15_q_canon_optional",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q4",
+  "file": "src/coverage.py",
+  "verdict": "changed",
+  "decision": "The memo's version marker now carries feats.CLEAN_NEGATIVES via _classifier_stamp().",
+  "how": "For keeping the hand-bumped number: no cost, and CLEAN_NEGATIVES changes rarely. Against: the module's own comment records a correct fix that was invisible for exactly this reason, and 'remember to bump' is the failure. Cost of the change is one full reparse when the tuple changes, which is when one is due. NOTE FOR THE COORDINATOR: the live state/coverage_cache.json holds the old integer marker, so the first measure() after this lands discards it once and reparses the evidence corpus (announced by the existing DISCARDING line); foreman's 600s remedy timeout could be hit that once. Net proved False under the revert and True on the fix.",
+  "net": "b15_q_coverage_memo_key",
+  "red_green_checked": true,
+  "new_interlock": null
+ },
+ {
+  "id": "Q5",
+  "file": "src/wh40k.py",
+  "verdict": "reserved",
+  "decision": "Reserved (curatorial wording inside shipped prose): Khorne's ruin called 'the highest ruin in the setting' while Slaanesh's is also 9.5.",
+  "how": "Options: 'among the highest' / 'joint highest' for Khorne, or drop the superlative; recommendation: 'joint highest ruin in the setting', which is true of both and needs no data change.",
+  "net": null,
+  "red_green_checked": false,
+  "new_interlock": null
+ },
+ {
+  "id": "Q6",
+  "file": "src/whoruns.py",
+  "verdict": "changed",
+  "decision": "The script basename comparison is now case-insensitive; wrapper launches need no change.",
+  "how": "For leaving it: the sensor only ever enumerated python.exe rows, so it is not a new blind spot. Against: NTFS is case-insensitive, so Mutate.py and mutate.py are one file and reading it as NOT running is a confident false negative, which is the failure the module exists to stop; the fix only adds detections (tightens). A wrapper (cmd /c, .bat) leaves its python child as its own process-table row, which is matched, so no change is needed for that half. Net proved False under the revert and True on the fix.",
+  "net": "b15_q_whoruns_case",
+  "red_green_checked": true,
+  "new_interlock": null
+ }
+]

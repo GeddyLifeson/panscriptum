@@ -1,0 +1,7 @@
+[
+  {
+    "module": "withdraw_chapters.py",
+    "old": "            if _fresh:",
+    "new": "            if False:"
+  }
+]

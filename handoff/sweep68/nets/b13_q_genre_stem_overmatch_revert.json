@@ -1,0 +1,17 @@
+[
+ {
+  "module": "genre.py",
+  "old": "|hell(?!o|en)|",
+  "new": "|hell|"
+ },
+ {
+  "module": "genre.py",
+  "old": "|ration(?!al)|",
+  "new": "|ration|"
+ },
+ {
+  "module": "genre.py",
+  "old": "|fun(?!c|d|g|e|k)|",
+  "new": "|fun|"
+ }
+]

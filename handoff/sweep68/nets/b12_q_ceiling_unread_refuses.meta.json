@@ -1,0 +1,4 @@
+{
+ "name": "magnitude refuses to assay when the host's scope read failed",
+ "expected": "sweep68 b12 F5: a non-ProbeUnread scope failure hands assay_entity None and the entity is scored unclamped"
+}

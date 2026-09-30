@@ -1,0 +1,4 @@
+{
+ "name": "an Infinity or future heartbeat is not live, and the CLI names a torn guard",
+ "expected": "sweep68 b07 F3: a future/Infinity heartbeat blocks every claim for ever and the CLI reports a torn guard as free"
+}

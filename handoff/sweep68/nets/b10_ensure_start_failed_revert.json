@@ -1,0 +1,7 @@
+[
+ {
+  "module": "autostart.py",
+  "old": "return \"start-failed\"",
+  "new": "raise"
+ }
+]

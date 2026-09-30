@@ -1,0 +1,4 @@
+{
+ "name": "allsweep --quick does not replace ALLSWEEP.json",
+ "expected": "sweep68 b12 F2/Q2: a --quick sweep with no VERIFY/ESTATE tier overwrites the full battery report and reads green"
+}

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "silence.py",
+  "old": "tainted - {h.name} if h.name else tainted)",
+  "new": "tainted)"
+ }
+]

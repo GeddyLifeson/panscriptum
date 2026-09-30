@@ -1,0 +1,4 @@
+{
+ "name": "genre: --write refuses to publish a smaller GENRES.json",
+ "expected": "sweep68 b13 F3: a skipped/unreadable record silently vanishes from GENRES.json (or the file becomes {}) with rc 0"
+}

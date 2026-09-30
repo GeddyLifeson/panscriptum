@@ -1,0 +1,7 @@
+[
+ {
+  "module": "grounding.py",
+  "old": "|(?-i:the One)\\b|",
+  "new": "|the One\\b|"
+ }
+]

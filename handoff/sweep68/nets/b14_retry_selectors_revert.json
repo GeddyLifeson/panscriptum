@@ -1,0 +1,1 @@
+[{"module": "retry_synthesis.py", "old": "if (args.only is not None and not args.only) or (args.smallest is not None and args.smallest <= 0):", "new": "if False:"}]

@@ -1,0 +1,4 @@
+{
+  "name": "weave.py --write refuses a stale ENTITY_INDEX.json unless --allow-stale",
+  "expected": "sweep68 b04 Q2: --write lands three joined artifacts from an index the code itself calls stale"
+}

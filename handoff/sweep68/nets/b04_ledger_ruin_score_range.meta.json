@@ -1,0 +1,4 @@
+{
+  "name": "ledger.assay_to_standards refuses a ruin_score outside [0, 10]",
+  "expected": "sweep68 b04 F8: an out-of-range ruin_score is extrapolated past its band and prices the entity in a different band"
+}

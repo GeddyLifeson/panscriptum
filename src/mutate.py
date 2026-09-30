@@ -62,6 +62,7 @@ failure was killing every mutant at the same gate for a reason unrelated to any 
 import argparse
 import ast
 import contextlib
+import filecmp
 import hashlib
 import json
 import os
@@ -782,6 +783,26 @@ def _row_ids(out):
 HANG_MARGIN = 3.0
 
 
+def _kill_gate_tree(proc):
+    """Kill a timed-out gate AND everything it started, then drain its pipes. -> None."""
+    if os.name == "nt":
+        try:
+            subprocess.run(["taskkill", "/T", "/F", "/PID", str(proc.pid)], capture_output=True,
+                           creationflags=_NO_WIN, timeout=30)
+        except Exception:
+            silence.note("mutate.py:gate-taskkill")
+    try:
+        proc.kill()
+    except OSError:
+        _ = "silence-exempt: the child had already exited, which is the outcome being asked for"
+    try:
+        proc.communicate(timeout=30)
+    except Exception:
+        # A pipe still held by something outside the tree: give up on the output rather than
+        # block the pass, and say so.
+        silence.note("mutate.py:gate-pipes-held")
+
+
 def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None, times_out=None):
     """Run one gate and return a SIGNATURE of what it said. -> (signature, detail).
 
@@ -828,9 +849,22 @@ def _gate_result(name, cmd, timeout=1200, env=None, cwd=None, rows_out=None, tim
         # decoding their output in the console codepage raises on bytes cp1252 leaves undefined
         # (0x81 0x8D 0x8F 0x90 0x9D -- "ō" is C5 8D). allsweep made the same change for the same
         # two programs; a decode error here scores a mutant INDETERMINATE for no reason of its own.
-        r = subprocess.run(cmd, cwd=(cwd or HERE), capture_output=True, text=True,
-                           encoding="utf-8", errors="replace",
-                           creationflags=_NO_WIN, timeout=timeout, env=env)
+        # POPEN, NOT subprocess.run (sweep68 b04 F5): on expiry `run` kills only the DIRECT child
+        # and then waits for the stdout/stderr pipes to close, which a grandchild that inherited
+        # them holds open. Measured: a gate that spawned a 25 s grandchild and slept 60 s, with
+        # timeout=3, returned after 29.7 s -- and drill.py has 27 subprocess call sites, so a
+        # mutant that hangs one of them stalled the pass at that mutant with no TIMEOUT verdict,
+        # and the orphan went on writing the sandbox under the next mutant. The whole tree is
+        # killed before the pipes are read again.
+        proc = subprocess.Popen(cmd, cwd=(cwd or HERE), stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, text=True, encoding="utf-8",
+                                errors="replace", creationflags=_NO_WIN, env=env)
+        try:
+            _stdout, _stderr = proc.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            _kill_gate_tree(proc)
+            raise
+        r = subprocess.CompletedProcess(cmd, proc.returncode, _stdout, _stderr)
     except subprocess.TimeoutExpired:
         # The `|name` suffix rides behind the existing prefixes on purpose: `could_not_judge`
         # matches on the PREFIX, so a bare 'TIMEOUT' or 'ERROR:OSError' from an older record
@@ -1371,6 +1405,34 @@ def _remove_sandbox(root):
     shutil.rmtree(root, ignore_errors=True)
 
 
+def scratch_home():
+    """Where sandboxes live. -> an existing directory, OUTSIDE %TEMP% by default.
+
+    RUN #68, 2026-09-30: A TEMP CLEANER FOLLOWED A SANDBOX JUNCTION INTO THE LIVE CORPUS. A
+    sandbox junctions `data/chunkfeats`, `data/records`, `output/raw` ... to the LIVE tree, and
+    it lived in %TEMP%. When concurrent proofs filled C:, Windows Storage Sense ("delete
+    temporary files", on low disk) swept %TEMP%, walked through the junction and deleted every
+    live `data/chunkfeats` file older than a day -- about 12,400 cached model answers, gone for
+    good -- until the junctions were unlinked by hand. %TEMP% is a place other software is
+    ENTITLED to empty; a doorway into the live library must not sit there.
+
+    `PANSCRIPTUM_SCRATCH` overrides; otherwise a sibling of the kit on the same volume (hard
+    links need that). A caller that has pointed `tempfile.tempdir` somewhere on purpose -- the
+    drill's reaper nets do -- is honoured, so those tests keep measuring what they measure.
+    """
+    # `gettempdir()` CACHES ITS ANSWER INTO `tempfile.tempdir`, so "tempdir is set" does not mean
+    # "somebody redirected it". Only a value that is NOT the system's own TEMP/TMP is a redirect.
+    _sys_temps = {os.path.normcase(os.path.abspath(os.environ[v]))
+                  for v in ("TEMP", "TMP", "TMPDIR") if os.environ.get(v)}
+    if (tempfile.tempdir
+            and os.path.normcase(os.path.abspath(tempfile.tempdir)) not in _sys_temps):
+        return tempfile.gettempdir()
+    home = os.environ.get("PANSCRIPTUM_SCRATCH") or os.path.join(
+        os.path.dirname(HERE), "panscriptum-scratch")
+    os.makedirs(home, exist_ok=True)
+    return home
+
+
 def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
     """Delete sandboxes abandoned by runs that were killed. -> [paths removed].
 
@@ -1385,13 +1447,19 @@ def reap_orphans(older_than=ORPHAN_AGE_SECONDS):
     plausible run and comfortably shorter than "forever".
     """
     removed = []
-    root = tempfile.gettempdir()
     cutoff = time.time() - older_than
-    try:
-        names = os.listdir(root)
-    except OSError:
-        return removed
-    for name in names:
+    # THE SCRATCH HOME, AND %TEMP% WHERE EVERY SANDBOX BEFORE RUN #68 WAS MADE (see scratch_home).
+    homes = []
+    for _h in (scratch_home(), tempfile.gettempdir()):
+        if _h not in homes:
+            homes.append(_h)
+    entries = []
+    for _h in homes:
+        try:
+            entries += [(_h, n) for n in os.listdir(_h)]
+        except OSError:
+            continue
+    for root, name in entries:
         if not name.startswith(SANDBOX_PREFIX):
             continue
         p = os.path.join(root, name)
@@ -1528,6 +1596,41 @@ def _record_reap(removed, older_than):
         silence.note("mutate.py:reap-ledger-unwritable")
 
 
+# sweep68 b04 Q4, answered under the 2026-09-30 ruling. `sandbox()` hardlinked EVERY top-level
+# data/ file and argued safety from `silence.write_json`'s atomic replace. A hardlink shares the
+# inode, so that argument covers a writer that REPLACES the file and nothing else: any in-place
+# writer -- `silence.append_line` (scout's SCOUT_ARCHIVE.jsonl, the ledgers), a plain
+# `open(path, "a")` or a truncating `open(path, "w")` -- reaches the LIVE file from inside a
+# sandboxed gate. Nothing in drill/verify_math runs scout today, which is why it never fired;
+# a mutant that makes a gate write in place would. The cost the link saved is real only for the
+# few very large files (ENTITY_INDEX.json 178 MB, RESOLVED_ENTITIES 84 MB, CHARACTER_SWEEP 41 MB,
+# SHELVES 26 MB, all written only through write_json), so those stay linked and everything else is
+# COPIED: 68 small files, about 27 MB in all. `.jsonl` files are copied at any size, being append
+# ledgers by nature. This is a size threshold on a build cost, not a cap on any corpus roster.
+DATA_LINK_MIN_BYTES = 16 * 1024 * 1024
+
+
+def _place_data_file(src, dst):
+    """Give the sandbox a frozen view of one top-level data/ file: copy it, or hardlink a huge one."""
+    try:
+        size = os.path.getsize(src)
+    except OSError:
+        size = 0
+    if size >= DATA_LINK_MIN_BYTES and not src.endswith(".jsonl"):
+        try:
+            os.link(src, dst)
+            return
+        except OSError:
+            # Cross-device (not expected), a reserved name, or the file was mid-replace at the
+            # instant of listing: a link's whole advantage is cost, so an actual copy is exactly
+            # as safe and just dearer.
+            silence.note("mutate.py:sandbox-data-link-fallback")
+    try:
+        shutil.copy2(src, dst)
+    except OSError:
+        silence.note("mutate.py:sandbox-data-link-failed:" + os.path.basename(src))
+
+
 def sandbox():
     """Build a throwaway copy of the tree to mutate. -> path.
 
@@ -1631,7 +1734,7 @@ def sandbox():
     # which a reapable name exists without a claim inside it. The second half of the remedy --
     # keeping the root's mtime fresh while a pass is live -- is `_touch_root`, called once per
     # mutant in `_run_mutation`.
-    staging = tempfile.mkdtemp(prefix=BUILDING_PREFIX)
+    staging = tempfile.mkdtemp(prefix=BUILDING_PREFIX, dir=scratch_home())
     _claim_sandbox(staging)
     root = os.path.join(os.path.dirname(staging),
                         SANDBOX_PREFIX + os.path.basename(staging)[len(BUILDING_PREFIX):])
@@ -1645,7 +1748,7 @@ def sandbox():
         # filesystem, a name mkdtemp has just guaranteed is unique).
         silence.note("mutate.py:sandbox-rename")
         shutil.rmtree(staging, ignore_errors=True)
-        root = tempfile.mkdtemp(prefix=SANDBOX_PREFIX)
+        root = tempfile.mkdtemp(prefix=SANDBOX_PREFIX, dir=scratch_home())
         _claim_sandbox(root)
     os.makedirs(os.path.join(root, "src"))
     # THE COPY IS NOT ATOMIC AGAINST A TREE SOMEBODY IS EDITING. `os.listdir` names the modules
@@ -1732,19 +1835,7 @@ def sandbox():
             if os.path.isdir(_s):
                 _junction(_d, _s)
                 continue
-            try:
-                os.link(_s, _d)
-            except OSError:
-                # Cross-device (not expected -- both under HERE's drive), a reserved name, or
-                # the file was mid-replace at the exact instant of listing: rare, and a
-                # hardlink's whole advantage is cost, not correctness, so falling back to an
-                # actual copy is exactly as safe and just not as cheap. Noted so a run of
-                # nothing-but-fallbacks -- which would mean hardlinking silently stopped working
-                # -- stays visible instead of quietly costing the price this fix exists to avoid.
-                try:
-                    shutil.copy2(_s, _d)
-                except OSError:
-                    silence.note("mutate.py:sandbox-data-link-failed:" + _name)
+            _place_data_file(_s, _d)
     # STATE IS COPIED, NOT CREATED EMPTY, and the first attempt got this wrong in a way that
     # was quietly fatal: an empty `state/` made a sandboxed `drill.py` fail on missing files, so
     # the BASELINE was dirty for purely structural reasons and every mutant would have died at
@@ -1960,7 +2051,106 @@ def sandbox():
                                 ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
             except OSError:
                 silence.note("mutate.py:sandbox-copy-dir:" + d)
+    # sweep68 b04 F4: the state the gates START from, so it can be put back between mutants.
+    _snapshot_sandbox_state(root)
     return root
+
+
+def _scrub_sandbox_halt(root):
+    """Remove a halt a MUTANT raised inside the sandbox, before the next gate run. -> None.
+
+    `sandbox()` strips the live halt at build time, and until run #68 that was the only time
+    it was stripped. A mutant whose gates reach `escalate(OWNER, ...)` for real writes
+    `root/state/HALT.json`, and nothing removed it: every later mutant, every baseline refresh
+    and every later TARGET then ran its gates against a halted sandbox. The 2026-09-29 pass
+    went halted 40 minutes in (drift at 01:36, `SystemHalted` in the rows) and ran the next
+    twenty hours with drill and verify_math both red at baseline -- disabled as detectors, the
+    import gate alone deciding every kill and every survivor.
+
+    A halt raised by mutated code is that mutant's effect and is already scored on that
+    mutant. It is not a fact about the next one, nor about the restored code.
+    """
+    p = os.path.join(root, "state", "HALT.json")
+    try:
+        os.remove(p)
+    except FileNotFoundError:
+        pass
+    except OSError:
+        # LOUD, because a halt that could not be scrubbed silently disables two gates again.
+        silence.note("mutate.py:sandbox-halt-not-scrubbed")
+        sys.stderr.write("mutate: could not remove the sandbox's %s -- later verdicts may be "
+                         "judged against a halted sandbox\n" % p)
+    # AND EVERYTHING ELSE A GATE LEFT IN state/ (sweep68 b04 F4): the halt was the one file
+    # scrubbed by name, and it was only the one that had already caused an outage.
+    _restore_sandbox_state(root)
+
+
+# THE SANDBOX'S state/ AS BUILT, kept on disk beside it as `<root>/.state_built` (sweep68 b04 F4).
+# `sandbox()` copies state/ once and the gates write to it (escalation logs, STOPPED.json, health
+# records, work orders), so anything one mutant's gates left behind judged every later mutant, and
+# `_refresh_baseline` adopted whatever moved as the new reference -- which is how one stray
+# HALT.json disabled two gates for twenty hours. Scrubbing files by name only ever covered the one
+# that had already burned us; restoring the whole tree to the built state is the property the
+# scrub was standing in for. ON DISK, NOT IN MEMORY: drill builds many sandboxes and removes them
+# with a bare rmtree, which takes this directory with the root and leaves nothing behind in the
+# process. Measured: 14 MB of json/jsonl plus the 4 MB of copied logs, against gates that take
+# minutes. A root without the directory (any tree not built by `sandbox()`) is left alone.
+STATE_BUILT = ".state_built"
+
+
+def _snapshot_sandbox_state(root):
+    """Copy `root/state` to `root/.state_built`, as it is right now. -> None."""
+    snap = os.path.join(root, STATE_BUILT)
+    shutil.rmtree(snap, ignore_errors=True)
+    try:
+        shutil.copytree(os.path.join(root, "state"), snap)
+    except OSError:
+        silence.note("mutate.py:sandbox-state-snapshot")
+
+
+def _restore_sandbox_state(root):
+    """Put `root/state` back to what `_snapshot_sandbox_state` recorded. -> files changed.
+
+    A file the gates changed is rewritten, a file they deleted is recreated and a file they added
+    is removed. Failures are LOUD, like the halt scrub: a state that could not be restored means
+    the next verdict is judged against something a mutant did.
+    """
+    snap = os.path.join(root, STATE_BUILT)
+    if not os.path.isdir(snap):
+        return 0
+    live = os.path.join(root, "state")
+    changed = 0
+    for dirpath, _dirs, files in os.walk(live):
+        for f in files:
+            full = os.path.join(dirpath, f)
+            rel = os.path.relpath(full, live)
+            built = os.path.join(snap, rel)
+            try:
+                if not os.path.isfile(built):
+                    os.remove(full)
+                    changed += 1
+                elif not filecmp.cmp(built, full, shallow=False):
+                    shutil.copy2(built, full)
+                    changed += 1
+            except OSError:
+                silence.note("mutate.py:sandbox-state-not-restored")
+                sys.stderr.write("mutate: could not restore the sandbox's state/%s -- later "
+                                 "verdicts may be judged against what a mutant left\n" % rel)
+    for dirpath, _dirs, files in os.walk(snap):
+        for f in files:
+            built = os.path.join(dirpath, f)
+            rel = os.path.relpath(built, snap)
+            full = os.path.join(live, rel)
+            if os.path.isfile(full):
+                continue
+            try:
+                os.makedirs(os.path.dirname(full), exist_ok=True)
+                shutil.copy2(built, full)
+                changed += 1
+            except OSError:
+                silence.note("mutate.py:sandbox-state-not-restored")
+                sys.stderr.write("mutate: could not recreate the sandbox's state/%s\n" % rel)
+    return changed
 
 
 def baseline(root, gates=GATES, rows_out=None, times_out=None):
@@ -1987,6 +2177,10 @@ def baseline(root, gates=GATES, rows_out=None, times_out=None):
     """
     out = {}
     for name, cmd in gates:
+        # sweep68 b04 F4: every gate starts from the state the sandbox was built with -- here and
+        # in the mutant loop -- so a mutant is compared with a baseline taken under the SAME
+        # conditions, and one gate's leftovers (a halt, a stopped subsystem) judge no other.
+        _scrub_sandbox_halt(root)
         out[name] = _gate_result(name, cmd, cwd=root, rows_out=rows_out, times_out=times_out)[0]
     return out
 
@@ -2042,6 +2236,7 @@ def hang_confirms_a_kill(gname, cmd, root, path, original, base, base_times):
                        % (gname, was, limit, HANG_MARGIN))
     fresh_times = {}
     _write(path, original)
+    _scrub_sandbox_halt(root)
     sig, _why = _gate_result(gname, cmd, cwd=root, times_out=fresh_times)
     now = fresh_times.get(gname) or {}
     if not now.get("completed"):
@@ -2409,6 +2604,7 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
         def _refresh_baseline():
             """Re-photograph the gates on RESTORED code. -> True if anything moved."""
             _write(path, original)
+            _scrub_sandbox_halt(root)
             # THE TIMINGS ARE RE-TAKEN WITH THE SIGNATURES, not left at their launch values. The
             # hang test compares a mutant's timeout against how much room the pristine code had,
             # and on a sixteen-hour run the load at hour fourteen is not the load at hour zero --
@@ -2509,6 +2705,7 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                 # -- `drill.py` calls `M.sandbox()`, which reaps at the default age -- can delete
                 # the tree this loop is mutating. Two `--target all` passes died exactly there.
                 _touch_root(root)
+                _scrub_sandbox_halt(root)
                 mutated = list(lines)
                 mutated[lineno - 1] = new_line
                 _write(path, "".join(mutated).encode("utf-8"))
@@ -2519,6 +2716,7 @@ def _run_mutation(target, limit=None, gates=FAST_GATES, root=None, keep=False, b
                     # gate is reached only by falling off the end of the fast ones -- the loops
                     # were merged so that the TIMEOUT/ERROR check below could not be added to one
                     # of them and forgotten on the other, which is how this defect got in.
+                    _scrub_sandbox_halt(root)      # sweep68 b04 F4: see `baseline`
                     sig, why = _gate_result(gname, cmd, cwd=root)
                     # THE GATE DID NOT REACH A VERDICT. Not a kill: see `could_not_judge`. The
                     # mutant is set aside as INDETERMINATE and counted separately, so `killed`
@@ -2842,6 +3040,11 @@ def main():
     ap.add_argument("--list-ruled", action="store_true",
                     help="print every standing ruling and every occasion one was applied")
     a = ap.parse_args()
+    # sweep68 b04 F7c: `-1` is truthy in `a.rebaseline_every or None`, and `elapsed >= -1` is
+    # always true, so a negative interval re-photographed every gate before every mutant.
+    if a.rebaseline_every < 0:
+        ap.error("--rebaseline-every must be >= 0 (got %d); 0 disables the refresh"
+                 % a.rebaseline_every)
 
     # A TWENTY-HOUR JOB MUST NOT BE A CHILD OF A ONE-HOUR SHIFT (order d2d4ff880570).
     #

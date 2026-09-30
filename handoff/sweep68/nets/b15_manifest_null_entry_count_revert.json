@@ -1,0 +1,7 @@
+[
+ {
+  "module": "manifest_builder.py",
+  "old": "skipped_empty = [r[\"name\"] for r in roll if not (r.get(\"entry_count\") or 0)]",
+  "new": "skipped_empty = [r[\"name\"] for r in roll if r.get(\"entry_count\", 0) == 0]"
+ }
+]

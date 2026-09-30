@@ -1,0 +1,4 @@
+{
+ "name": "the duplicate-job probe refuses a non-zero rc or an empty listing",
+ "expected": "sweep68 b06 F2: `one instance of each job` holds with `one each` when the process probe was blind"
+}

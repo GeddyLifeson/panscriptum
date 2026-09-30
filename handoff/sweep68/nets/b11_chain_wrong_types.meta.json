@@ -1,0 +1,1 @@
+{"name": "chain.extract skips a model answer of the wrong type instead of raising", "expected": "sweep68 b11 N9: a list answer, outcomes:null or a numeric winner raises out of extract() and ends the whole chain pass with CHAIN.json still the old fit"}

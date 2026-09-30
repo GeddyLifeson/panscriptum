@@ -1,0 +1,7 @@
+[
+ {
+  "module": "drill.py",
+  "old": "        plan.append((mod, attr, os.path.join(d, rel) if rel else d))\n",
+  "new": "        setattr(mod, attr, os.path.join(d, rel) if rel else d)\n        plan.append((mod, attr, os.path.join(d, rel) if rel else d))\n"
+ }
+]

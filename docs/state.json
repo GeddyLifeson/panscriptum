@@ -1,5 +1,5 @@
 {
- "at": "2026-09-29 21:59:21",
+ "at": "2026-09-30 03:02:27",
  "quotas": [
   {
    "bucket": "ai21:free",
@@ -228,9 +228,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 140,
+     "left": 84,
      "cap": 500,
-     "frac": 0.28
+     "frac": 0.168
     },
     {
      "name": "rpm",
@@ -239,7 +239,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.28
+   "worst": 0.168
   },
   {
    "bucket": "gemini:models/gemini-3.5-flash",
@@ -288,9 +288,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 7,
+     "left": 0,
      "cap": 20,
-     "frac": 0.35
+     "frac": 0.0
     },
     {
      "name": "rpm",
@@ -299,7 +299,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.35
+   "worst": 0.0
   },
   {
    "bucket": "gemini:models/gemini-3.7-flash",
@@ -328,9 +328,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 12,
+     "left": 13,
      "cap": 20,
-     "frac": 0.6
+     "frac": 0.65
     },
     {
      "name": "rpm",
@@ -339,7 +339,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.6
+   "worst": 0.65
   },
   {
    "bucket": "gemini:models/gemma-4-26b-a4b-it",
@@ -347,25 +347,25 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "tpm",
-     "left": 3910,
-     "cap": 15000,
-     "frac": 0.2607
+     "name": "rpd",
+     "left": 13209,
+     "cap": 14400,
+     "frac": 0.9173
     },
     {
      "name": "rpm",
-     "left": 27,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9
+     "frac": 1.0
     },
     {
-     "name": "rpd",
-     "left": 13319,
-     "cap": 14400,
-     "frac": 0.9249
+     "name": "tpm",
+     "left": 15000,
+     "cap": 15000,
+     "frac": 1.0
     }
    ],
-   "worst": 0.2607
+   "worst": 0.9173
   },
   {
    "bucket": "gemini:models/gemma-4-31b-it",
@@ -400,9 +400,9 @@
    "windows": [
     {
      "name": "rpd",
-     "left": 0,
+     "left": 1,
      "cap": 150,
-     "frac": 0.0
+     "frac": 0.0067
     },
     {
      "name": "rpm",
@@ -411,7 +411,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0067
   },
   {
    "bucket": "groq:groq/compound-mini",
@@ -458,9 +458,9 @@
     },
     {
      "name": "rpd",
-     "left": 857,
+     "left": 837,
      "cap": 1000,
-     "frac": 0.857
+     "frac": 0.837
     },
     {
      "name": "rpm",
@@ -484,15 +484,15 @@
    "windows": [
     {
      "name": "tpd",
-     "left": 59185,
+     "left": 49931,
      "cap": 200000,
-     "frac": 0.2959
+     "frac": 0.2497
     },
     {
      "name": "rpd",
-     "left": 877,
+     "left": 871,
      "cap": 1000,
-     "frac": 0.877
+     "frac": 0.871
     },
     {
      "name": "rpm",
@@ -507,7 +507,7 @@
      "frac": 1.0
     }
    ],
-   "worst": 0.2959
+   "worst": 0.2497
   },
   {
    "bucket": "groq:qwen/qwen3.8-27b",
@@ -516,30 +516,30 @@
    "windows": [
     {
      "name": "tpd",
-     "left": 0,
+     "left": 2448,
      "cap": 200000,
-     "frac": 0.0
+     "frac": 0.0122
     },
     {
      "name": "rpd",
-     "left": 808,
+     "left": 792,
      "cap": 1000,
-     "frac": 0.808
-    },
-    {
-     "name": "tpm",
-     "left": 7153,
-     "cap": 8000,
-     "frac": 0.8941
+     "frac": 0.792
     },
     {
      "name": "rpm",
-     "left": 29,
+     "left": 30,
      "cap": 30,
-     "frac": 0.9667
+     "frac": 1.0
+    },
+    {
+     "name": "tpm",
+     "left": 8000,
+     "cap": 8000,
+     "frac": 1.0
     }
    ],
-   "worst": 0.0
+   "worst": 0.0122
   },
   {
    "bucket": "huggingface:free",
@@ -687,19 +687,19 @@
    "unlimited": false,
    "windows": [
     {
-     "name": "rpd",
-     "left": 990,
-     "cap": 1000,
-     "frac": 0.99
-    },
-    {
      "name": "rpm",
      "left": 40,
      "cap": 40,
      "frac": 1.0
+    },
+    {
+     "name": "rpd",
+     "left": 1000,
+     "cap": 1000,
+     "frac": 1.0
     }
    ],
-   "worst": 0.99
+   "worst": 1.0
   },
   {
    "bucket": "ollama:gemma3:latest",
@@ -933,50 +933,57 @@
  ],
  "throughput": {
   "window_min": 15,
-  "calls": 31,
-  "per_hour": 124,
+  "calls": 36,
+  "per_hour": 144,
   "buckets": [
    {
+    "bucket": "gemini:models/gemma-4-26b-a4b-it",
+    "calls": 13,
+    "ok": 6
+   },
+   {
     "bucket": "groq:openai/gpt-oss-120b",
-    "calls": 11,
+    "calls": 12,
     "ok": 2
    },
    {
-    "bucket": "gemini:models/gemma-4-26b-a4b-it",
-    "calls": 10,
-    "ok": 9
+    "bucket": "gemini:models/gemini-3.1-flash-lite",
+    "calls": 6,
+    "ok": 6
    },
    {
     "bucket": "groq:qwen/qwen3.8-27b",
-    "calls": 7,
+    "calls": 4,
     "ok": 2
    },
    {
-    "bucket": "groq:openai/gpt-oss-20b",
-    "calls": 3,
-    "ok": 0
+    "bucket": "gemini:models/gemini-3.5-flash",
+    "calls": 1,
+    "ok": 1
    }
   ]
  },
  "jobs": [
   {
+   "age_s": 1161.5450329780579,
    "name": "corpus read",
    "unit": "chunks",
-   "done": 26428,
-   "total": 417646,
-   "detail": "4,545/245,243 entities  \u00b7  112,287 feats  \u00b7  0.01 chunks/s",
+   "done": 26625,
+   "total": 417647,
+   "detail": "4,590/245,247 entities  \u00b7  112,708 feats  \u00b7  0.09 chunks/s",
    "warn": "",
-   "dropped": 22941,
-   "eta_h": 19732.3
+   "dropped": 22965,
+   "eta_h": 1177.4
   },
   {
+   "age_s": 734.2369565963745,
    "name": "page roll",
    "unit": "entities",
-   "done": 216200,
+   "done": 230400,
    "total": 292309,
-   "detail": "261,768 pages  \u00b7  3507M characters  \u00b7  43.3/s",
+   "detail": "285,895 pages  \u00b7  3764M characters  \u00b7  10.2/s",
    "warn": "",
-   "eta_h": 0.5
+   "eta_h": 1.7
   }
  ],
  "library": {
@@ -989,11 +996,11 @@
   },
   "coverage": {
    "entries": 282853,
-   "cited": 27362,
-   "read": 218308,
-   "settled": 245670,
-   "feats": 166397,
-   "age_h": 1.6
+   "cited": 27387,
+   "read": 218297,
+   "settled": 245684,
+   "feats": 166839,
+   "age_h": 0.1
   },
   "phases": [
    {
@@ -1029,35 +1036,17 @@
     "built": true
    }
   ],
-  "readfeats": 4441
+  "readfeats": 4486
  },
  "watch": {
-  "open": 9,
-  "high": 4,
-  "rounds": 588,
+  "open": 5,
+  "high": 1,
+  "rounds": 589,
   "findings": [
-   {
-    "module": "allsweep",
-    "symbol": "dangling_count",
-    "actual": "undefined in this slice",
-    "severity": "high"
-   },
-   {
-    "module": "assay",
-    "symbol": "band_for_quantity",
-    "actual": "Checks if the axis exists only in the first band (LADDER[0]) rather than any band, leading to incorrect None returns for valid axes in other bands",
-    "severity": "high"
-   },
    {
     "module": "allsweep",
     "symbol": "est_faults",
     "actual": "est_faults is assigned but not added to the est dictionary",
-    "severity": "medium"
-   },
-   {
-    "module": "assay",
-    "symbol": "_check_hand_readings",
-    "actual": "Converts hand_readings list to a dictionary with string keys before passing to _check_readings, which may not match expected input format",
     "severity": "medium"
    },
    {
@@ -1071,12 +1060,6 @@
     "symbol": "tail",
     "actual": "full exception message is stored",
     "severity": "medium"
-   },
-   {
-    "module": "allsweep",
-    "symbol": "has_parser",
-    "actual": "set to True, assuming the module has a parser",
-    "severity": "high"
    },
    {
     "module": "allsweep",
@@ -1094,343 +1077,91 @@
   "broken": [],
   "swallowed": [
    [
-    "silent:endpoint.py:fetch_raw-absent:HTTPError",
-    4662
-   ],
-   [
     "silent:endpoint.py:detect-raw:HTTPError",
-    851
+    645
    ],
    [
     "silent:endpoint.py:detect-api:HTTPError",
-    842
+    637
+   ],
+   [
+    "silent:endpoint.py:fetch_raw-absent:HTTPError",
+    170
    ],
    [
     "silent:feats.py:api-http-error:HTTPError",
-    344
-   ],
-   [
-    "silent:cascade_bridge.py:deadline:None",
-    251
-   ],
-   [
-    "silent:publish.py:agent-scratch-refused:None",
-    127
-   ],
-   [
-    "silent:hostcheck.py:probe:HTTPError",
-    80
-   ],
-   [
-    "silent:custodes.py:abstained-comparability:None",
     52
    ],
    [
-    "silent:publish.py:credential-probe:FileNotFoundError",
-    31
+    "silent:generate.py:address-held:None",
+    25
    ],
    [
-    "silent:publish.py:push-held:RuntimeError",
-    31
-   ],
-   [
-    "silent:publish.py:main-push-held:PushHeld",
-    30
-   ],
-   [
-    "silent:weave.py:index-stale:None",
+    "silent:cascade_bridge.py:deadline:None",
     20
    ],
    [
-    "silent:cascade_bridge.py:length-stopped:None",
-    19
-   ],
-   [
-    "silent:catalogue_models.py:ask_provider:HTTPError",
-    18
-   ],
-   [
-    "silent:catalogue_models.py:ask_provider:JSONDecodeError",
-    18
-   ],
-   [
-    "silent:cascade_bridge.py:extract_json-brace:JSONDecodeError",
-    16
-   ],
-   [
-    "silent:endpoint.py:fetch_html:HTTPError",
-    16
-   ],
-   [
-    "silent:silence.py:cas-target-changed:HTTPError",
-    14
-   ],
-   [
-    "silent:standards.py:token-flow:TimeoutError",
-    12
-   ],
-   [
-    "silent:custodes.py:abstained-currency:None",
-    10
+    "silent:custodes.py:abstained-comparability:None",
+    13
    ],
    [
     "silent:endpoint.py:detect-api:JSONDecodeError",
-    10
-   ],
-   [
-    "silent:magnitude.py:benchmark-scope-unread:ProbeUnread",
-    9
-   ],
-   [
-    "silent:pipeline.py:vram:TimeoutExpired",
-    9
-   ],
-   [
-    "silent:read.py:ask-quick-pool-unusable-shape:None",
-    9
-   ],
-   [
-    "silent:wiki_source-page_text-section:OSError",
-    9
-   ],
-   [
-    "silent:chain.py:extract-outcome-not-an-object:None",
     8
    ],
    [
-    "silent:generate.py:job-failed:ReadTimeout",
-    6
-   ],
-   [
-    "silent:overnight.py:proc-lines:TimeoutExpired",
-    6
-   ],
-   [
-    "silent:silence.py:cas-target-changed:None",
+    "silent:pipeline.py:vram:TimeoutExpired",
     4
    ],
    [
-    "silent:generate.py:job-failed:ChapterRefused",
+    "silent:cascade_bridge.py:length-stopped:None",
     3
    ],
    [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:gears.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    2
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:mass.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    2
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:mass.fandom.com quarantined: throttled 4 times consecutively; backoff at 16x",
-    2
-   ],
-   [
     "silent:feats.py:api-error-body:None",
+    3
+   ],
+   [
+    "silent:tiers.py:groundings-empty:None",
+    3
+   ],
+   [
+    "silent:gpu_lane.py:slot-deadline:None",
     2
    ],
    [
-    "silent:generate.py:job-failed:ContextOverflow",
+    "silent:hostcheck.py:probe:HTTPError",
     2
    ],
    [
-    "silent:read.py:work-read-entity:AttributeError",
+    "silent:verify_math.py:S36-exec:checks_L4.py:SystemHalted",
     2
    ],
    [
-    "silent:scout.py:verify-http:HTTPError",
-    2
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:dashboard exited to pick up changed source (src/ changed 6041990f56e4ee7d -> 3556fbdd4cee1b88 and held for 181s since src/ was last written)",
+    "escalation:OWNER:DRILL_BREACH:11 safety net(s) did not hold, and did not hold on a second reading either (re-read on a tree that had been still for 368s): two element types sharing a name are two elements; a canonical-corpus snapshot refuses when it cannot verify itself; resync_roll's closing 'roll now' figure is read back from disk; a retry run that rescued nothing exits non-zero; backfill --all exits nonzero when a source raises, and still runs the rest; recover_folder_records re-run after a denied roll write updates the roll; feats --roll exits nonzero when every evidence write was denied; hosts --discover exits nonzero when hosts were lost or sources unprobed; feats --roll exits nonzero when most entities raised; no probe anywhere in this drill writes into the live failure ledger; nothing this drill did reached the ledger by a route the in-process spy cannot see",
     1
    ],
    [
-    "escalation:JANITOR:CODEWATCH_RESTART:dashboard exited to pick up changed source (src/ changed 6041990f56e4ee7d -> 756bce03db44052e and held for 184s since src/ was last written)",
+    "escalation:OWNER:DRILL_BREACH:3 safety net(s) did not hold, and did not hold on a second reading either (re-read on a tree that had been still for 180s): a canonical-corpus snapshot refuses when it cannot verify itself; no probe anywhere in this drill writes into the live failure ledger; nothing this drill did reached the ledger by a route the in-process spy cannot see",
     1
    ],
    [
-    "escalation:JANITOR:CODEWATCH_RESTART:foreman exited to pick up changed source (src/ changed 710eee2f401a609f -> 6b29091c3eea4559 and held for 466s since src/ was last written)",
+    "escalation:SUPERVISOR:HOST_QUARANTINED:aneurism.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
     1
    ],
    [
-    "escalation:JANITOR:CODEWATCH_RESTART:foreman exited to pick up changed source (src/ changed 78ff18674acb53db -> 6041990f56e4ee7d and held for 2686s since src/ was last written)",
+    "escalation:SUPERVISOR:HOST_QUARANTINED:arms.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
     1
    ],
    [
-    "escalation:JANITOR:CODEWATCH_RESTART:foreman exited to pick up changed source (src/ changed affa263353fdfd5d -> a4d334c0eb0454b2 and held for 2935s since src/ was last written)",
+    "escalation:SUPERVISOR:HOST_QUARANTINED:marvel.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
     1
    ],
    [
-    "escalation:JANITOR:CODEWATCH_RESTART:overnight exited to pick up changed source (src/ changed 6041990f56e4ee7d -> a4d334c0eb0454b2 and held for 3750s since src/ was last written)",
+    "silent:custodes.py:abstained-currency:None",
     1
    ],
    [
-    "escalation:JANITOR:CODEWATCH_RESTART:overwatch exited to pick up changed source (src/ changed 6b29091c3eea4559 -> baa4d266cdace1b8 and held for 1376s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:overwatch exited to pick up changed source (src/ changed baa4d266cdace1b8 -> 5f55347516d71785 and held for 3663s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:pipeline exited to pick up changed source (src/ changed 78ff18674acb53db -> 6041990f56e4ee7d and held for 36087s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed 2d39745ea9e24ff7 -> 58390ed10505a2e9 and held for 642s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed 5f55347516d71785 -> 96b230982e6f4af5 and held for 583s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed 6041990f56e4ee7d -> 756bce03db44052e and held for 382s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed 6b29091c3eea4559 -> 73a41a4b73d1a48b and held for 591s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed 710eee2f401a609f -> 6b29091c3eea4559 and held for 728s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed 756bce03db44052e -> 5b2e8b51018e34b0 and held for 783s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed affa263353fdfd5d -> cc5434b28de8afa7 and held for 602s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed baa4d266cdace1b8 -> 5f55347516d71785 and held for 244s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:JANITOR:CODEWATCH_RESTART:publish exited to pick up changed source (src/ changed cc5434b28de8afa7 -> a4d334c0eb0454b2 and held for 701s since src/ was last written)",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:acquisitionsincorporated.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:adventurersleague.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:adventurersleague.fandom.com quarantined: throttled 4 times consecutively; backoff at 16x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:battlestar.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:callofdutyzombies.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:dragonball.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:forgottenrealms.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:galactica.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:gumball.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:gumball.fandom.com quarantined: throttled 4 times consecutively; backoff at 16x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:hokuto.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:marvel.fandom.com quarantined: throttled 3 times consecutively; backoff at 13x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:marvel.fandom.com quarantined: throttled 4 times consecutively; backoff at 26x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:minecraftofficial.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:minecraftwiki.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:mtg.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:naruto.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:onepiece.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:predatorfranchise.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:predatormovie.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:predatorseries.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:sakamoto.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:sakamoto.fandom.com quarantined: throttled 4 times consecutively; backoff at 16x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:vampyrgame.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:warhammerfantasy.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "escalation:SUPERVISOR:HOST_QUARANTINED:yakuzagame.fandom.com quarantined: throttled 3 times consecutively; backoff at 8x",
-    1
-   ],
-   [
-    "silent:axis_correlation.py:shrink-prior-unreadable:JSONDecodeError",
-    1
-   ],
-   [
-    "silent:cascade_bridge.py:extract_json-fence:JSONDecodeError",
-    1
-   ],
-   [
-    "silent:cascade_bridge.py:unparseable-reply:None",
-    1
-   ],
-   [
-    "silent:estate.py:stat-failed-gone:FileNotFoundError",
+    "silent:feats.py:api-network-fault:TimeoutError",
     1
    ],
    [
@@ -1442,80 +1173,64 @@
     1
    ],
    [
-    "silent:foreman.py:remedy-raised:TimeoutExpired",
+    "silent:magnitude.py:host_ceiling-disk:FileNotFoundError",
     1
    ],
    [
-    "silent:generate.py:job-failed:ProseRefused",
+    "silent:mutate.py:sandbox-data-link-failed:ENDPOINTS.json.22452.48920.0.tmp:FileNotFoundError",
     1
    ],
    [
-    "silent:identity.py:cache-predates-corpus:None",
+    "silent:scout.py:verify-http:HTTPError",
     1
    ],
    [
-    "silent:overnight.py:drill:TimeoutExpired",
-    1
-   ],
-   [
-    "silent:scout.py:verify:URLError",
-    1
-   ],
-   [
-    "silent:silence.py:cas-target-unreadable:HTTPError",
-    1
-   ],
-   [
-    "silent:silence.py:digest_of:PermissionError",
-    1
-   ],
-   [
-    "silent:weave_index.py:load_records-unreadable:JSONDecodeError",
+    "silent:secondopinion.py:_exe:TimeoutExpired",
     1
    ]
   ],
-  "swallowed_total": 7589
+  "swallowed_total": 1602
  },
  "metrics": [
   {
    "tag": "cascade:coding",
-   "n": 1149,
-   "p50": 2.9,
-   "p95": 75.3,
-   "ok_pct": 59,
+   "n": 1215,
+   "p50": 3.4,
+   "p95": 75.5,
+   "ok_pct": 60,
    "tps": null
   },
   {
    "tag": "ask",
-   "n": 229,
-   "p50": 863.7,
-   "p95": 1366.0,
+   "n": 162,
+   "p50": 713.0,
+   "p95": 1224.2,
    "ok_pct": null,
-   "tps": 20.7
-  },
-  {
-   "tag": "overwatch",
-   "n": 32,
-   "p50": 580.2,
-   "p95": 1329.7,
-   "ok_pct": null,
-   "tps": 19.6
+   "tps": 21.2
   },
   {
    "tag": "assay-split",
-   "n": 25,
-   "p50": 763.7,
-   "p95": 1373.0,
+   "n": 24,
+   "p50": 746.5,
+   "p95": 1340.9,
    "ok_pct": null,
-   "tps": 20.6
+   "tps": 21.1
+  },
+  {
+   "tag": "overwatch",
+   "n": 22,
+   "p50": 472.4,
+   "p95": 1339.1,
+   "ok_pct": null,
+   "tps": 19.9
   },
   {
    "tag": "assay-local",
-   "n": 3,
-   "p50": 1127.0,
-   "p95": 1351.9,
+   "n": 2,
+   "p50": 1113.3,
+   "p95": 1113.3,
    "ok_pct": null,
-   "tps": 18.9
+   "tps": 18.0
   }
  ],
  "safety": {
@@ -1523,8 +1238,8 @@
    "halted": false,
    "last_cleared": {
     "code": "DRILL_BREACH",
-    "ruling": "OWNER RULING 2026-09-24 (order f25d3d5be9b1, option a; the owner chose Lift and resume fully when asked in session): output/raw/II_L_7_4_Frontmatter.md moved aside to output/aside_f25d3d5be9b1/ unmodified, to be regenerated by the next generate pass. Cause fixed in M112 (catalog lands every chapter). Drill re-run after the move: 633 attacked, 633 held, 0 BREACHED. Owner accepted the low-disk risk (6.1 GB free) and asked for a full resume.",
-    "cleared_by": "maintenance run #63 (Claude), executing the owner's in-session ruling"
+    "ruling": "Maintenance run #68 lifting a SECOND halt it CAUSED (Hard Rule -1, 2026-08-25 ruling). Raised 01:55:41 by drill.py (DRILL_BREACH, 3 nets), the drill reading this run's own in-progress edits; a 02:02 re-read by run #68's battery added the halt's knock-on refusals. Causes, all this run's: (1) a splice refresh re-inserted stale copies of two sweep68 nets that leak rehearsal rows into the live failure ledger (custodes eta, health samples) -- the net files now carry the fixes and the splice writes refreshes; (2) sweep68 b15 Q3 changed canon_backup to archive via writestr, so the drill's canonical-snapshot net's write()-only liar stopped corrupting anything -- the liar now overrides writestr too; (3) gpu_lane's new b10 Q6 deadline note and a b12 magnitude net reached the ledger -- both wrapped in _deliberately_failing. Also fixed: four narrow/unresolvable stand-ins in sweep68 answer nets, a missing creationflags, and descending_ladder's is_descent spelling for the checks_L1 text check. Proof: full drill 1024/1024/0 BREACHED and verify_math 1367/0 FAILED in a halt-free sandbox of the current tree (C:\\Users\\imarl\\panscriptum-scratch). Reported to the owner in session and at the top of HANDOFF.md.",
+    "cleared_by": "maintenance run #68 (Claude), clearing a halt this run caused"
    }
   },
   "prose_gate": {
@@ -1532,17 +1247,18 @@
    "why": "prose_enabled: true"
   },
   "drill": {
-   "nets": 825,
-   "held": 825,
+   "nets": 1025,
+   "held": 1025,
    "breached": [],
-   "liveness": 44,
+   "liveness": 37,
    "liveness_ceiling": 52,
-   "age_min": 88.3
+   "age_min": 2.1
   },
   "escalation_recent": {
-   "JANITOR": 31,
-   "SUPERVISOR": 21,
-   "MANAGER": 149
+   "JANITOR": 43,
+   "SUPERVISOR": 11,
+   "MANAGER": 70,
+   "OWNER": 6
   },
   "step4_gate": {
    "open": true,
@@ -1555,30 +1271,19 @@
    "want_decimal": 0.52,
    "holds": true,
    "sigma": 1.7973,
-   "band_lo": 1.724999999999985,
-   "band_hi": 1.869999999999982,
-   "margin": 0.997
+   "band_lo": 1.7149999999999852,
+   "band_hi": 1.8599999999999821,
+   "margin": 0.865
   },
   "fetch": {
    "backoff": {},
    "quarantined": {
-    "acquisitionsincorporated.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "adventurersleague.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "battlestar.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "callofdutyzombies.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "dragonball.fandom.com": "throttled 3 times consecutively; backoff at 8x",
+    "aneurism.fandom.com": "throttled 3 times consecutively; backoff at 8x",
+    "arms.fandom.com": "throttled 3 times consecutively; backoff at 8x",
     "forgottenrealms.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "galactica.fandom.com": "throttled 3 times consecutively; backoff at 8x",
     "gears.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "hokuto.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "marvel.fandom.com": "throttled 3 times consecutively; backoff at 13x",
-    "mass.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "mtg.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "naruto.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "onepiece.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "vampyrgame.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "warhammerfantasy.fandom.com": "throttled 3 times consecutively; backoff at 8x",
-    "yakuzagame.fandom.com": "throttled 3 times consecutively; backoff at 8x"
+    "marvel.fandom.com": "throttled 3 times consecutively; backoff at 8x",
+    "mass.fandom.com": "throttled 3 times consecutively; backoff at 8x"
    }
   }
  },
@@ -1587,7 +1292,7 @@
    "standard": "model calls per hour",
    "group": "pool",
    "holds": false,
-   "observed": 124,
+   "observed": 144,
    "floor": 900,
    "order": "CHECK `the reader's gate is open` FIRST -- it is below these four and it outranks them. If it is red the reader is throttling itself and the pool is not the cause at all: the ceiling is floor * GATE_LOCAL_N / GATE_CLOUD_N, which on this machine is 900 * 2/16 = 112 an hour, and every standard below can read green while it binds. That is exactly what run #27 measured, after runs #16, #18 and #26 each worked this number from the pool side. Only once the gate is open do the four below apply. Work the four standards below in order -- they split this one number into its causes. If all four hold and throughput is still low there are TWO candidates, and the four standards can only see one of them. Either the reader is not asking (check that read.py resolved its transport to Cascade and that its worker count matches the bucket count), OR it is asking and being REFUSED -- which none of the four below can detect, because they read quota headroom and cap shape, never call disposition. Measure refusal directly: `select outcome,count(*) from usage where ts>strftime('%s','now','-3 hours') group by outcome` in state/cascade_scratch.db, and read bucket_state.last_error for any bucket that is failing -- a bucket out of credit or holding a dead key refuses every call forever while still reporting full headroom.",
    "severity": "high"
@@ -1596,7 +1301,7 @@
    "standard": "buckets with headroom",
    "group": "pool",
    "holds": true,
-   "observed": 41,
+   "observed": 40,
    "floor": 6,
    "order": "The pool has collapsed to a handful of providers. Check the quota panel for keys that started returning 401 or 402, and for providers disabled in Cascade's config.",
    "severity": "high"
@@ -1605,7 +1310,7 @@
    "standard": "buckets not exhausted",
    "group": "pool",
    "holds": true,
-   "observed": "14% dry",
+   "observed": "12% dry",
    "floor": "60%",
    "order": "Most of the pool has spent its daily allowance. This is the one breach with no code remedy: either add providers or wait for the windows to roll. Check WHICH window is zero -- a spent rpd is a real day's worth of work, a zero rpm is not.",
    "severity": "medium"
@@ -1623,7 +1328,7 @@
    "standard": "calls that succeed",
    "group": "pool",
    "holds": false,
-   "observed": "42% ok of 31",
+   "observed": "47% ok of 36",
    "floor": "50%",
    "order": "Half the calls are failing. Look at which buckets: a 413 means the prompt exceeds that provider's token cap, a 401 means a dead key, a 429 means real contention.",
    "severity": "medium"
@@ -1632,7 +1337,7 @@
    "standard": "the reader's gate is open",
    "group": "pool",
    "holds": true,
-   "observed": "cloud, 16 of 16 permits (5 answering; 42% ok over 31 calls)",
+   "observed": "cloud, 16 of 16 permits (6 answering; 38% ok over 29 calls)",
    "floor": "cloud regime, full width",
    "order": "THE READER IS THROTTLING ITSELF, AND THIS OUTRANKS EVERY POOL STANDARD ABOVE WHEN IT IS RED. `read._ask` runs its whole transport ladder -- cloud attempt included -- inside the gate `tuning.regime()` selects. On 'cloud' that gate is GATE_CLOUD_N wide and never binds. On 'local' or 'starved' it is GATE_LOCAL_N, which is the CARD's parallelism (OLLAMA_NUM_PARALLEL, normally 2), so at most two model calls of ANY kind are in flight -- and `tuning.profile()` drops the worker count to match. Multiply it out before blaming the pool: ceiling = floor * GATE_LOCAL_N / GATE_CLOUD_N. The parenthesised text is `regime.why`, which names the exact measurement that chose the regime -- read it, because the usual cause is the cloud success rate losing to CLOUD_MIN_SUCCESS by a point or two, and that is a self-feeding loop: a narrow gate makes few calls, few calls make a small and noisy sample, and a bad sample keeps the gate narrow.",
    "severity": "high"
@@ -1650,7 +1355,7 @@
    "standard": "corpus read finishes inside a day",
    "group": "read",
    "holds": false,
-   "observed": "19732.3h",
+   "observed": "1177.4h",
    "floor": "24h",
    "order": "At this rate the read does not finish overnight. The lever is providers, not code, once the pool standards above all hold.",
    "severity": "medium"
@@ -1659,7 +1364,7 @@
    "standard": "feats per chunk",
    "group": "read",
    "holds": true,
-   "observed": "4.25",
+   "observed": "4.23",
    "floor": 0.5,
    "order": "The reader is running and extracting almost nothing. Either the queue has reached thin entities -- normal late in a pass -- or the model is returning text that fails the verbatim check. Compare against the fabrication standard below.",
    "severity": "medium"
@@ -1668,7 +1373,7 @@
    "standard": "corpus read is progressing",
    "group": "read",
    "holds": false,
-   "observed": "6.3%, stuck at 26428 chunks for 36 min",
+   "observed": "6.4%, stuck at 26625 chunks for 25 min",
    "floor": "moving, or under 15 min quiet",
    "order": "The chunk counter has not moved. If it reads 0.0%%, no chunk has completed at all -- check that read.py printed its transport banner and that the queue is not empty. If it is stuck at a non-zero count, the reader is up and wedged: look at the pool standards above and at the failure ledger before restarting it, because a restart re-queues the chunk it is stuck on.",
    "severity": "high"
@@ -1677,7 +1382,7 @@
    "standard": "page roll complete",
    "group": "read",
    "holds": false,
-   "observed": "74%",
+   "observed": "79%",
    "floor": "95%",
    "order": "Mining has not finished its pass. It is network-bound and unaffected by model quota, so a stall here is a host problem: check the failure ledger for a spike of HTTPError against one host.",
    "severity": "low"
@@ -1686,7 +1391,7 @@
    "standard": "coverage figures are current",
    "group": "library",
    "holds": true,
-   "observed": "1.6h",
+   "observed": "0.1h",
    "floor": "6h",
    "order": "The cited/settled percentages predate whatever has run since. coverage.py runs at the end of each supervisor cycle; if it is stale, cycles are not completing.",
    "severity": "low"
@@ -1722,7 +1427,7 @@
    "standard": "no high-severity findings open",
    "group": "code",
    "holds": false,
-   "observed": 4,
+   "observed": 1,
    "floor": 0,
    "order": "The standing sweep believes some code does something other than what it says. Read WATCH.md, confirm or refute each, then fix or retire it.",
    "severity": "medium"
@@ -1749,7 +1454,7 @@
    "standard": "unexpected swallowed failures",
    "group": "code",
    "holds": true,
-   "observed": "1,125",
+   "observed": "141",
    "floor": "2,000",
    "order": "Excludes the probe classes, where a failed request is the measurement. What remains is something upstream failing and being tolerated. The class names the module and the line; `python src/health.py --failures` lists them. Note the ledger is CUMULATIVE -- the foreman archives it after triage so a fault that was fixed stops counting.",
    "severity": "medium"
@@ -1758,7 +1463,7 @@
    "standard": "probe failures (reported, not judged)",
    "group": "code",
    "holds": true,
-   "observed": "6,464",
+   "observed": "1,463",
    "floor": "no floor",
    "order": "Requests that failed as part of finding something out: endpoint detection trying six paths, the scout trying eight URLs. Volume here is work, not damage.",
    "severity": "low"
@@ -1812,7 +1517,7 @@
    "standard": "the automation reproduces the charter",
    "group": "instrument",
    "holds": false,
-   "observed": "pass IN PROGRESS: 4 of 6 benchmarks done, started 1.8h ago -- pending: Goku, Jace Beleren",
+   "observed": "pass IN PROGRESS: 6 of 7 benchmarks done, started 4.0h ago -- pending: Kenshiro",
    "floor": "every scored reference overlaps its published interval, within 26h",
    "order": "The charter's six published assays re-run end-to-end through the live automation daily -- the same code path a stranger's entity takes. A reference that stops overlapping its published interval means something in the chain drifted (prompt, gate, clamp, transport), and every number published since the drift is suspect.",
    "severity": "high"
@@ -1821,7 +1526,7 @@
    "standard": "the library's counters are moving",
    "group": "throughput",
    "holds": true,
-   "observed": "1/4 moved in 41m",
+   "observed": "not enough history yet (26m of 40)",
    "floor": ">= 1 in 45m",
    "order": "Cited, settled, feats and entities-read are the library's output. All four flat while jobs run means every model call is failing -- log growth cannot see that, only the counters can.",
    "severity": "high"
@@ -1848,7 +1553,7 @@
    "standard": "the full audit is recent",
    "group": "instrument",
    "holds": true,
-   "observed": "2.5h",
+   "observed": "0.4h",
    "floor": "6h",
    "order": "`allsweep` is what notices a module that stopped importing. Stale, it is reporting the health of a system that no longer exists. overwatch runs it every round.",
    "severity": "medium"
@@ -1874,8 +1579,8 @@
   {
    "standard": "every running job is advancing",
    "group": "machine",
-   "holds": true,
-   "observed": "4 running, all advancing",
+   "holds": false,
+   "observed": "roll_auto (26 min, 6948635 bytes; output quiet 17 min)",
    "floor": "no silent job",
    "order": "A process that is UP and producing nothing is the failure this whole library is built to refuse, and until now the only check on it asked whether the process existed. Read the named log's tail: a job repeating one line is looping, a job silent from its first line is wedged on its first unit of work. `dashboard.py` already flags this in its movement panel -- if the panel says stalled and this standard does not, the two are measuring different things and this one is wrong. If the reading names jobs that could NOT be measured, that is this standard refusing to answer for them: a log nothing can stat (a reader holding it, a permissions fault) or a liveness probe that throws is not evidence of a job advancing, and the first move is to find out why the question could not be put.",
    "severity": "high"
@@ -1884,7 +1589,7 @@
    "standard": "every pool failure is recognised",
    "group": "pool",
    "holds": false,
-   "observed": "groq:qwen/qwen3.8-27b: unparseable reply (1 consecutive from this bucket): {\"outcomes\": [] (x1, 4.8h old)",
+   "observed": "groq:qwen/qwen3.8-27b: unparseable reply (1 consecutive from this bucket): {\"outcomes\": [] (x1, 10.2h old)",
    "floor": "no unrecognised refusal",
    "order": "Each row is a provider failing for a reason this code cannot name, so it is neither benched as permanent nor backed off as contention -- it just burns a claim and a deadline, repeatedly. READ THE ERROR TEXT IN THE ROW. If it is a permanent refusal (a dead key, a spent account, a retired model), add its wording to the `permanent` tuple in `cascade_bridge._ask_call` and it will be benched for four hours from then on. If it is a transport or parse fault, it is a bug and belongs in BUGS.md. READ THE AGE ON EACH ROW BEFORE BELIEVING IT IS A FIRE: rows live for 24h, so a fault you fixed an hour ago keeps this red until tomorrow and looks identical to one happening right now. If every row is hours old and none has recurred since the last bounce, the fault is already fixed and this is a fossil field waiting to age out. And READ THE ROWS AS A SET, not one at a time -- fourteen buckets all reporting `All 1 candidates failed` is ONE unnamed wrapper, not fourteen provider faults.",
    "severity": "high"
@@ -1893,7 +1598,7 @@
    "standard": "fandom answers this machine",
    "group": "machine",
    "holds": true,
-   "observed": "reachable over IPv4 at 162.159.142.170",
+   "observed": "reachable over IPv4 at 172.66.2.166",
    "floor": "reachable",
    "order": "DNS resolves but the TCP connect times out on every *.fandom.com host while Wikipedia answers normally: that is an IP block, usually earned by our own request rate. Do NOT keep retrying -- stop fandom-facing jobs (feats --roll, catalogue_web, hostcheck) and let it age out; check wiki_source.MIN_GAP stayed at its polite value. The catalogue remedy is gated on this same probe. NOTE the family: content wikis are A-record-only, so IPv4 is the only path they have, and an IPv6 route that still works does NOT mean fandom answers this machine.",
    "severity": "high"
@@ -1902,7 +1607,7 @@
    "standard": "disk space",
    "group": "machine",
    "holds": true,
-   "observed": "14 GB",
+   "observed": "93 GB",
    "floor": "10 GB",
    "order": "The roll writes hundreds of megabytes an hour. Out of disk, every stage fails at once and most of them fail quietly.",
    "severity": "high"
@@ -1929,7 +1634,7 @@
    "standard": "the local model produces tokens",
    "group": "machine",
    "holds": true,
-   "observed": "probe completed in ledgers",
+   "observed": "probe completed in 2.4s",
    "floor": "one tiny generation completes",
    "order": "Process presence and API reachability are proxies; on 2026-08-24 both read healthy through a two-hour wedge in which zero tokens flowed. Read the detail before acting: a TIMEOUT (order 0b6fadca6d7d, this probe takes no lock) can be a genuinely wedged queue, cured by restarting ollama.exe (the tray app respawns it), OR ordinary contention from another caller's own probe firing at the same time -- check for an overlapping dashboard poll, publish --loop tick, or mutation-sandbox run BEFORE restarting anything, because restarting a daemon that was only busy loses no wedge and costs a warm runner. A daemon that is DOWN or answering an HTTP error needs starting or reading, not restarting. An UNMEASURED reading here means the probe was never sent at all -- read it, it names a fault in this repository rather than in the daemon.",
    "severity": "high"
@@ -1937,8 +1642,8 @@
   {
    "standard": "every managed job is running",
    "group": "machine",
-   "holds": true,
-   "observed": "all up",
+   "holds": false,
+   "observed": "overwatch.py",
    "floor": "all up",
    "order": "The supervisor starts these every cycle, so one that is down means it failed on startup rather than never being launched -- read its log in state/. If the SUPERVISOR is down, the watchdog in autostart.py restarts it within three minutes.",
    "severity": "medium"
@@ -1946,8 +1651,8 @@
   {
    "standard": "one instance of each job",
    "group": "machine",
-   "holds": true,
-   "observed": "one each",
+   "holds": false,
+   "observed": "publish.py x2",
    "floor": "one each",
    "order": "Two copies of the same job race on one cache and split one quota. The supervisor excludes by process basename before launching, so a duplicate means one was started outside it -- find and stop the older.",
    "severity": "high"
@@ -1956,7 +1661,7 @@
    "standard": "the published panel is fresh",
    "group": "machine",
    "holds": true,
-   "observed": "0.0h",
+   "observed": "0.1h",
    "floor": "2h",
    "order": "The public dashboard is a snapshot pushed on a timer. Stale, it shows numbers that were true once and says so only in a timestamp nobody reads.",
    "severity": "low"
@@ -1992,41 +1697,41 @@
  "movement": [
   {
    "metric": "cited",
-   "now": 27362,
-   "delta": 0,
-   "minutes": 30,
+   "now": 27387,
+   "delta": 2,
+   "minutes": 47,
    "reset": false,
-   "stalled": true
+   "stalled": false
   },
   {
    "metric": "settled",
-   "now": 245670,
+   "now": 245684,
    "delta": 0,
-   "minutes": 30,
+   "minutes": 47,
    "reset": false,
    "stalled": true
   },
   {
    "metric": "feats",
-   "now": 166397,
-   "delta": 0,
-   "minutes": 30,
+   "now": 166839,
+   "delta": 22,
+   "minutes": 47,
    "reset": false,
-   "stalled": true
+   "stalled": false
   },
   {
    "metric": "entities read",
-   "now": 4441,
-   "delta": 3,
-   "minutes": 30,
+   "now": 4486,
+   "delta": 1,
+   "minutes": 47,
    "reset": false,
    "stalled": false
   },
   {
    "metric": "chunks",
-   "now": 26428,
+   "now": 26625,
    "delta": 0,
-   "minutes": 30,
+   "minutes": 47,
    "reset": false,
    "stalled": true
   },
@@ -2034,10 +1739,10 @@
    "metric": "standards met",
    "now": 36,
    "delta": null,
-   "minutes": 30,
+   "minutes": 47,
    "reset": true,
    "stalled": false
   }
  ],
- "generated": "2026-09-29T21:59:31"
+ "generated": "2026-09-30T03:34:51"
 }

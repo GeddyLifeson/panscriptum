@@ -1,0 +1,1 @@
+{"name": "covered_by does not credit the aggregate over a torn shard", "expected": "sweep68 b05 L3: a corrupt shard keeps proving a batch via the aggregate copy, so missing() reports a complete sweep"}

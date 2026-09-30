@@ -1,0 +1,4 @@
+{
+ "name": "tiers: refuse to publish a chart that lost most of the grounded shelves",
+ "expected": "sweep68 b13 F2b: a non-empty but mostly-wrong groundings table publishes a TIERS.json whose shelves lost their hyperverse_type"
+}

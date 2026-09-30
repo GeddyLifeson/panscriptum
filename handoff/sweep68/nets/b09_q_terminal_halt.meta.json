@@ -1,0 +1,4 @@
+{
+ "name": "build_terminal refuses to write while the library is halted",
+ "expected": "sweep68 b09 Q2: the one hand-run writer of library output outside the halt interlock writes during a halt"
+}

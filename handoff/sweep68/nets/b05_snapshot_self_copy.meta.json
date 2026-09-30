@@ -1,0 +1,1 @@
+{"name": "snapshot.before refuses a source containing the snapshot store", "expected": "sweep68 b05 L5: before(['state']) or ['.'] copies the store into itself until RecursionError and leaves a partial dest"}

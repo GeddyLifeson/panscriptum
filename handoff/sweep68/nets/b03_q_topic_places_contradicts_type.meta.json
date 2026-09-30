@@ -1,0 +1,4 @@
+{
+  "name": "phase_entrypass refuses topic Places for a Character/Person-typed entry",
+  "expected": "sweep68 b03 N5: a person the model tags topic Places is built into a world by worldseed while its category guard already refused Places"
+}

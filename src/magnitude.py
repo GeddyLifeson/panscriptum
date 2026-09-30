@@ -238,6 +238,19 @@ AXIS_LEXICON = {
                r"reputation|swayed|follower|charisma",
 }
 AXIS_RE = {k: re.compile(v, re.I) for k, v in AXIS_LEXICON.items()}
+# GUARD 2 READS THE LEXICON FROM A WORD START (sweep68 b12 F4, answered under the 2026-09-30
+# ruling). The stems above match mid-word: "range" in "Strange", "tons" in "Newtons", "time" in
+# "sometimes", "kill" in "skill" -- so guard 2 passed a sentence about Doctor Strange standing
+# still as Reach evidence, against the "deliberately narrow" promise above. Anchoring every
+# alternative at a word start only ever REFUSES more. It is a separate table, not a change to
+# AXIS_RE, because AXIS_RE is also guard 3(d)'s deed locator in `subject_refusal` and
+# `quantity_scores`' relevance test: narrowing it there would SKIP guard 3 on the sentences it
+# stopped matching, which loosens the assay. Other side, considered: anchoring rejects honest
+# inflections that carry a prefix ("overkill", "unkillable" still matches continuity by its own
+# stem). That is the cheap direction -- an honest `unestimable` -- and the charter's cost
+# asymmetry is stated above. Unifying this table with feats.AXIS_ACT (F4's other half) would
+# ACCEPT more and is reserved for the owner.
+AXIS_GUARD_RE = {k: re.compile(r"\b(?:" + v + ")", re.I) for k, v in AXIS_LEXICON.items()}
 
 # --------------------------------------------------------------------------- guard 3: subject
 #
@@ -360,6 +373,14 @@ def _leads_a_verb(text, end):
     return bool(m) and m.group(1) not in _NOT_A_VERB
 
 
+_TITLE_WORDS = {
+    "captain", "doctor", "iron", "lord", "lady", "king", "queen", "prince", "princess",
+    "black", "white", "green", "red", "blue", "dark", "mister", "miss", "general", "commander",
+    "professor", "sir", "saint", "master", "super", "great", "grand", "high", "little", "big",
+    "young", "old", "man", "woman", "girl", "boy",
+}
+
+
 def _is_entity(name, forms):
     """True when this capitalised span names the entity rather than somebody else."""
     n = (name or "").strip().lower()
@@ -367,7 +388,23 @@ def _is_entity(name, forms):
         return False
     if n in forms:
         return True
-    return any(t in forms for t in re.findall(r"[a-z][a-z'\-]{2,}", n))
+    # A SHARED TITLE WORD IS NOT A SHARED IDENTITY (sweep68 b12 F7, answered under the
+    # 2026-09-30 ruling). Any one shared token used to make a span "the entity", so on Captain
+    # America's sheet "Captain Marvel destroyed the ship" was read as his own deed, and likewise
+    # Iron Man / Iron Fist, Doctor Strange / Doctor Doom, Iron Man / Ant-Man. A token in
+    # _TITLE_WORDS no longer vouches on its own; a span still counts when it equals a form
+    # ("Captain", "Iron Man") or shares a real name token ("Son Goku", "Tony Stark", "Captain
+    # Rogers"), so an entity's own name variants are never refused. This only ever turns
+    # True into False, i.e. guard 3 refuses more. Other side, considered: requiring EVERY token
+    # to be a form (the audit's rule) also catches "Goku Black" but refuses "Son Goku", "Kid
+    # Goku" and any sentence-initial capital joined to the name by _PROPER -- the entity's own
+    # variants, which the ruling excludes.
+    # The span's stop words come off first, so "Though Black declines" on Goku Black's sheet is
+    # his own name, not a title shared with a stranger.
+    toks = [t for t in re.findall(r"[a-z][a-z'\-]{2,}", n) if t not in _NAME_STOP]
+    if " ".join(toks) in forms:
+        return True
+    return any(t in forms and t not in _TITLE_WORDS for t in toks)
 
 
 def _proper_spans(text, forms):
@@ -786,6 +823,16 @@ def _resolve_citation(cited, mined, numbered=True):
         if len(distinct) > 1:
             return None, ("citation matches " + str(len(distinct)) + " different mined feats "
                           "and identifies none of them")
+        # A SHORT MINED LINE IS NOT IDENTIFIED BY A LONG CITATION THAT CONTAINS IT (sweep68
+        # batch12, F6). The length bar above is asked of the CITATION only, and containment is
+        # character-level, so "Goku moves at unbelievable speed across whole galaxies" resolved
+        # to a mined heading "Speed", and a heading "Ki" resolved from "killed". Guard 1 then
+        # passed a sentence that is in no mined line. Exact equality (above) still admits a short
+        # line quoted whole; a looser match onto one is refused. Numbered path only: the split
+        # path's one-way trim cannot land on a line shorter than the citation.
+        if numbered and not _substantial(norm[pool[0]]):
+            return None, ("citation only contains the short mined line [" + str(pool[0])
+                          + "] " + repr(mined[pool[0]]) + ", which does not identify a feat")
         return pool[0], None
     return None, "citation not in the mined feats"
 
@@ -908,7 +955,7 @@ def verify(entity, got, ev):
         text = mined[hit]
 
         # 2 RELEVANCE -- the feat has to be about this axis.
-        if not AXIS_RE[ax].search(text):
+        if not AXIS_GUARD_RE[ax].search(text):
             # whole sentence, not [:60] -- see order a3c5d3bfe312 at quantity_scores
             rejects.append((ax, f"feat does not bear on {ax}: {text}"))
             scores[ax] = A.UNESTIMABLE
@@ -1094,6 +1141,19 @@ def _split_assay(c, entity, cand, epoch, head_note=None):
     cites = [v["feat"] for v in axes_out.values() if v.get("feat")]
     if not cites:
         return None
+    # THE ANCHOR IS ASKED OVER CITATIONS THAT PASSED THE GATE (sweep68 b12 F8, answered under the
+    # 2026-09-30 ruling). The anchor band scales every decimal, and it was fixed from the raw
+    # `feat` strings before `_split_gate` (run again in assay_entity) had checked any of them --
+    # so a citation guard 1 refuses as fabricated, or guard 3 refuses as a bystander's deed
+    # ("Beerus erased the universe" on Goku's sheet), had already set the band. `_split_gate` is
+    # pure, so running it here as well costs nothing. When NOTHING survives, the raw list is
+    # still sent: that sheet is refused whole downstream ("no axis cleared its gate") and its
+    # anchor is never published, while returning None here would file it as a transport
+    # failure. Other side, considered: this can move a band UP as well as down (a refused
+    # grandiose citation no longer drags it either way). It adds no evidence; it only stops
+    # evidence the assay itself rejects from steering the scale.
+    gated = list(_split_gate({"axes": axes_out}, cand, entity)[1].values())
+    cites = gated or cites
     ap = ("ENTITY: " + entity
           + ((chr(10) + "EPOCH: " + epoch) if epoch else "")
           + ((chr(10) + head_note) if head_note else "")
@@ -1839,8 +1899,31 @@ def host_ceiling(host):
             # NOT CACHED EITHER (order efbfead57cb5, sweep67). Falling through cached this
             # unread None as "no ceiling" for the rest of the process -- the permanence the
             # ProbeUnread arm above exists to prevent, reached by any other exception.
+            _CEILING_UNREAD.add(host)
             return None
+    _CEILING_UNREAD.discard(host)
     _SCOPE_CACHE[host] = cl
+    return cl
+
+
+# A SCOPE THAT COULD NOT BE READ IS NOT "NO CEILING" -- AT THE CALLERS (sweep68 b12 F5, answered
+# under the 2026-09-30 ruling). `host_ceiling`'s generic arm returns an uncached None, and both
+# callers passed that straight to `assay_entity`, which reads None as "this host has no ceiling":
+# a KeyError or TypeError from a garbled scope row meant a Jace-shaped anchor was scored and
+# settled UNCLAMPED, the fault the ProbeUnread arm re-raises to prevent. The None contract is
+# kept (drill's efbfead57cb5 net pins it, and it is honest for a caller that only asks), and the
+# two assaying callers go through this instead, which refuses exactly when that arm fired. Other
+# side, considered: re-raising inside host_ceiling is one line shorter, but breaks a standing net
+# mid-sweep, and the refusal it would buy is the same one this gives.
+_CEILING_UNREAD = set()
+
+
+def ceiling_for_assay(host):
+    """`host_ceiling(host)`, or raise when its live read FAILED rather than found nothing."""
+    cl = host_ceiling(host)
+    if host in _CEILING_UNREAD:
+        raise RuntimeError("the scope for %s could not be read, so its ceiling is unknown; "
+                           "refusing to assay unclamped (requeued next run)" % host)
     return cl
 
 
@@ -1896,12 +1979,31 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
                            else "LOCAL ONLY -- oversized entities are DEFERRED, never truncated"))
     done = {}
     if resume and os.path.exists(OUT):
-        try:
-            with open(OUT, encoding="utf-8") as f:
-                done = json.load(f)
-        except Exception:
-            silence.note("magnitude.py:resume")
-            done = {}
+        # UNREADABLE MUST NOT LOOK LIKE EMPTY (sweep68 batch12, F1). This handler set `done = {}`
+        # and carried on, and the first result then landed `done` -- this run's results ONLY --
+        # over the whole file: an AV lock, a reader holding the file mid-replace or a torn write
+        # turned 500 settled assays into 1, on a run whose operator had asked to RESUME. A short
+        # retry outwaits an honest reader (the same backoff `silence.replace_retry` uses); a file
+        # that still cannot be read, or does not parse to a dict, REFUSES the batch. `--fresh` is
+        # the only path that may start from nothing, and it is the operator's to choose.
+        err = None
+        for _attempt in range(5):
+            try:
+                with open(OUT, encoding="utf-8") as f:
+                    done = json.load(f)
+                err = None
+                break
+            except Exception as e:
+                silence.note("magnitude.py:resume")
+                err = e
+                time.sleep(0.4)
+        if err is not None or not isinstance(done, dict):
+            raise SystemExit(
+                "magnitude.run_batch: %s exists but could not be read as a dict (%s). REFUSED: "
+                "resuming over it would overwrite every settled assay with this run's results. "
+                "Repair or move the file; use --fresh only if discarding it is intended."
+                % (OUT, (type(err).__name__ + ": " + str(err)) if err is not None
+                   else "top level is " + type(done).__name__))
 
     all_q = queue(host, limit)                 # 13MB sweep parsed ONCE, not twice
     todo = [(h, n, ch) for h, n, ch in all_q
@@ -1931,7 +2033,7 @@ def run_batch(host=None, limit=None, workers=8, resume=True):
     def work(item):
         h, n, _ch = item
         try:
-            r = assay_entity(c, n, h, ceiling=host_ceiling(h))
+            r = assay_entity(c, n, h, ceiling=ceiling_for_assay(h))
         except Exception as e:
             silence.note("magnitude.py:run_batch")
             r = {"entity": n, "host": h, "result": None,
@@ -2019,7 +2121,7 @@ def main():
         # off-scale anchor (the M10.77 Jace shape host_ceiling's docstring records) with no sign
         # the clamp had been skipped. host_ceiling reads data/SCOPE.json first, so for the hosts
         # already on disk this costs a file read.
-        r = assay_entity(config(), a.one[1], a.one[0], ceiling=host_ceiling(a.one[0]))
+        r = assay_entity(config(), a.one[1], a.one[0], ceiling=ceiling_for_assay(a.one[0]))
         # UNCAPPED (order bf5be8ac38b3): this is the hand-check path. A [:4000] slice cut ~29% of
         # records mid-string -- unparseable, unpipeable, and the keys it dropped (rejections,
         # transport, candidates) are the ones a person runs this command to see.

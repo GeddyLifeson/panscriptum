@@ -1,0 +1,7 @@
+[
+ {
+  "module": "address_space.py",
+  "old": "        _assert_not_halted(\"(writes data/SHELFMARKS.json)\")",
+  "new": "        pass"
+ }
+]

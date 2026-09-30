@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scope.py",
+  "old": "                   and not str(h).startswith((\"pages:\", \"doc:\"))",
+  "new": ""
+ }
+]

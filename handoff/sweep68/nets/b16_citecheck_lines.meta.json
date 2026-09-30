@@ -1,0 +1,4 @@
+{
+ "name": "citecheck numbers lines like an editor, not str.splitlines",
+ "expected": "sweep68 b16 F9: NEL/U+2028/FF in a cited file shifts every later line by one, turning a good citation into BLANK_LINE and hiding a bad one"
+}

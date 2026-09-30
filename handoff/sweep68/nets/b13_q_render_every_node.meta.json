@@ -1,0 +1,4 @@
+{
+ "name": "render: write_views draws every node of every drawn tier",
+ "expected": "sweep68 b13 Q1: only the first world's node per tier is drawn under <tier>.svg, so 5 of 6 hyperverses and 349 of 350 universes are never drawn (Hard Rule 0 sample-as-listing)"
+}

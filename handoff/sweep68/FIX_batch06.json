@@ -1,0 +1,222 @@
+[
+ {
+  "id": "F1",
+  "file": "src/standards.py",
+  "line": 1848,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "bool(_ON.running(owner)) turns a blind process table (None) into 'not running', so the advancing standard holds over zero jobs.",
+  "how": "Verified (overnight.running returns None at :224). New job_alive_state() keeps the None; the call site appends '<job> (process table unreadable)' to `unmeasurable` and continues. Net drives the helper and asserts check() uses it.",
+  "net": "b06_job_alive_blind",
+  "red_green_checked": true
+ },
+ {
+  "id": "F2",
+  "file": "src/standards.py",
+  "line": 2303,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "The duplicate-job probe never checked rc or an empty listing, so a blind Get-CimInstance read 'one each'.",
+  "how": "Verified by reading. New _proc_cmdlines() raises RuntimeError on rc != 0 or an empty listing (the caller is itself python, so empty proves blindness); check() calls it inside the existing try, landing in the existing _dropped 'duplicates' arm.",
+  "net": "b06_dupe_probe_blind",
+  "red_green_checked": true
+ },
+ {
+  "id": "F3",
+  "file": "src/thread_integrity.py",
+  "line": 322,
+  "severity": "MEDIUM",
+  "verdict": "fixed",
+  "what": "One unreadable record makes every pair touching that source DANGLING and refuses both ends at SUPERVISOR.",
+  "how": "Verified (LAST_UNREADABLE never read by load_entities). main() now checks weave_index.LAST_UNREADABLE right after load_entities: notes it, prints 'THREAD INTEGRITY NOT MEASURED ...', returns 1 before classify/escalate. Nothing escalated on a short corpus.",
+  "net": "b06_ti_unreadable_record",
+  "red_green_checked": true
+ },
+ {
+  "id": "F4",
+  "file": "src/standards.py",
+  "line": 1793,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A corrupt job_progress.json is never healed; the advancing standard is dropped on every later check.",
+  "how": "Verified by control flow. New read_job_watch() returns {} (with silence.note 'standards.py:job-watch-unreadable') for torn or non-dict files, so the check re-stamps and rewrites. COORDINATOR: add 'silent:standards.py:job-watch-unreadable' to verify_math's _LIVE_STATE_VM grant (state file rewritten by check() itself; I may not edit verify_math).",
+  "net": "b06_job_watch_heal",
+  "red_green_checked": true
+ },
+ {
+  "id": "F5",
+  "file": "src/standards.py",
+  "line": 1768,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "A missing or empty data/records reads the character-sweep-vs-catalogue standard as fresh (default=0.0).",
+  "how": "Verified. New newest_record_mtime() raises FileNotFoundError when there are no record files; falls into the existing counters/_dropped handler like its siblings.",
+  "net": "b06_records_empty_fresh",
+  "red_green_checked": true
+ },
+ {
+  "id": "F6",
+  "file": "src/standards.py",
+  "line": 1659,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "'files that parse' and 'verifiers all run' read MET when ALLSWEEP.json lacks the estate/verifier blocks.",
+  "how": "Verified (live file carries both today). New allsweep_blocks() indexes estate.artifacts.bad and verifiers strictly and type-checks them; absence raises into the existing _dropped path.",
+  "net": "b06_allsweep_blocks_absent",
+  "red_green_checked": true
+ },
+ {
+  "id": "F7",
+  "file": "src/descending_ladder.py",
+  "line": 206,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "NaN passes every `<= 0` guard: rung_for_length(nan) is Continental, shrink_report/transgression_bits price NaN as lawful/free.",
+  "how": "Verified. Guards rewritten NaN-safe (`not metres > 0`, `not (to_m > 0 and mass_kg > 0)`) in rung_for_length, compton_confinement_energy, density_at_scale, shrink_report, transgression_bits. Module stays held/unwired.",
+  "net": "b06_ladder_nan",
+  "red_green_checked": true
+ },
+ {
+  "id": "F8",
+  "file": "src/rigor.py",
+  "line": 661,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "adjudication_beta, lognormal_product and ceiling_confidence accept inputs that give a plausible wrong number.",
+  "how": "Verified. adjudication_beta refuses n_regimes < 1 and negative n_parameters/precision; lognormal_product refuses |rho| > 1, a pair listed in both orders, and a negative variance (< -1e-9) instead of max(var,0); ceiling_confidence refuses negative/NaN n_scored. All raise RigorIntegrityError (a ValueError). Live callers pass valid values (drill/verify_math rows unchanged).",
+  "net": "b06_rigor_bad_inputs",
+  "red_green_checked": true
+ },
+ {
+  "id": "F9",
+  "file": "src/endpoint.py",
+  "line": 170,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "_save can erase a fresher in-memory verdict for a host that was already dirty (found live, read DEAD for 24 h).",
+  "how": "Verified by interleaving. _DIRTY is now cleared only for hosts whose _MEM entry is still the object that was saved; a host re-probed mid-save stays dirty and its fresher verdict is not folded back over.",
+  "net": "b06_endpoint_save_dirty",
+  "red_green_checked": true
+ },
+ {
+  "id": "F10",
+  "file": "src/standards.py",
+  "line": 1149,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Comments say read.py is 'legitimately DOWN between supervisor laps' but it has been a STANDING job since 2026-09-08.",
+  "how": "Comment at :1256 confirmed stale against overnight.py:1181. Behaviour (absent reader -> _dropped, aggregate red) is fail-closed. Options: (a) leave, update the comments only; (b) route an absent corpus-read entry to the red 'corpus read is progressing' row so it dispatches restart_reader. (b) changes remedy dispatch: owner call. Not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "F11",
+  "file": "src/standards.py",
+  "line": 293,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Token-flow probe restates num_ctx 6144 / null model, and /api/ps is read from a literal localhost:11434 instead of config.",
+  "how": "Verified. Probe now needs cfg model, num_ctx and ollama_host (missing -> existing 'unsent' arm returns (None, None)); kept the `cfg.get(\"num_ctx\"` spelling because verify_math S19ab greps for it. New cfg_ollama_host() (no default) feeds the /api/ps read; an unreadable host takes the existing resident=None (UNMEASURED) path.",
+  "net": "b06_tokenflow_no_default",
+  "red_green_checked": true
+ },
+ {
+  "id": "F12",
+  "file": "src/descending_ladder.py",
+  "line": 224,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "Non-relativistic p^2/2m is used where p exceeds mc: a Planck-confined proton reports 3.18e27 J and a false 'exceeds Planck energy' objection.",
+  "how": "Verified numerically (relativistic 9.78e8 J is half of PLANCK_ENERGY). compton_confinement_energy now returns pc^2 / (hypot(pc, mc^2) + mc^2): equals p^2/2m to <1e-9 for p << mc and has no cancellation error for everyday masses.",
+  "net": "b06_ladder_relativistic",
+  "red_green_checked": true
+ },
+ {
+  "id": "F13",
+  "file": "src/rigor.py",
+  "line": 944,
+  "severity": "LOW",
+  "verdict": "fixed",
+  "what": "rigor.main returns 0 whatever it found.",
+  "how": "Verified; measured clean today (five rows above floor, no unaccounted key, both_say_consistent True) so rc stays 0. main() now returns 1 on any underpriced adjudication, unaccounted adjudication, or an inconsistent theorem-1 check.",
+  "net": "b06_rigor_main_rc",
+  "red_green_checked": true
+ },
+ {
+  "id": "Q1",
+  "file": "src/standards.py",
+  "line": 1149,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Should an absent `corpus read` entry raise the red row carrying restart_reader now that the reader is STANDING?",
+  "how": "Same as F10; see there. Owner ruling needed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q2",
+  "file": "src/endpoint.py",
+  "line": 223,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Is detect(force=True) meant to be able to replace a live verdict with a 24 h DEAD one during an outage?",
+  "how": "Not changed. Options: keep the last live verdict when a forced re-probe fails and stamp the failure separately; shorten the DEAD TTL for forced probes; or leave as designed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q3",
+  "file": "src/zfighters.py",
+  "line": 324,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Tien's `continuity` cites, as [wiki] verbatim, a line that reads as Chiaotzu's article.",
+  "how": "Curatorial: needs the mined cache checked for Tien's own line. Options: re-source from Tien's article, or re-mark [canon]. Data content, not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q4",
+  "file": "src/descending_ladder.py",
+  "line": 309,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "is_descent is False for from_m=None while the invalid-input branch returns None.",
+  "how": "Module is held and unwired; changing it to None would alter a returned value. Options: return None for from_m=None (unknown), or document False. Not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q5",
+  "file": "src/zfighters.py",
+  "line": 436,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "Do hand-run-writer halt rulings reach derived data files (Z_FIGHTERS.json, PROVIDER_MODELS.json, SOURCE_PAGES.json)?",
+  "how": "Policy call. Options: add escalation.assert_clear-style interlock (as thread_integrity._assert_not_halted) to zfighters, catalogue_models, endpoint.register; or rule that regenerable derived files are exempt. Not changed.",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q6",
+  "file": "src/standards.py",
+  "line": 1816,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "A log that cannot be statted turns 'every running job is advancing' red before the alive test.",
+  "how": "Carried. Options: move the alive test first so a job that is not running with an unstattable log is not red; or keep (fail-closed, no live instance today).",
+  "net": null,
+  "red_green_checked": false
+ },
+ {
+  "id": "Q7",
+  "file": "src/rigor.py",
+  "line": 688,
+  "severity": "LOW",
+  "verdict": "question",
+  "what": "n_laws_touched > catalogue size is clamped to M, pricing 'excepts more laws than exist' as 'all of them' (0 bits).",
+  "how": "Deliberate-looking (docstring: 'The upper clamp to M is unchanged'). Options: keep the clamp, or raise for k > M. Not changed.",
+  "net": null,
+  "red_green_checked": false
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "derivation.py",
+  "old": "if not str(q[\"source\"] or \"\").strip():",
+  "new": "if q[\"kind\"] == OWNER and not q[\"source\"]:"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cosmology_graph.py",
+  "old": "_assert_not_halted(\"--write (writes data/SHARED_STAGE_GRAPH.json)\")",
+  "new": "pass"
+ }
+]

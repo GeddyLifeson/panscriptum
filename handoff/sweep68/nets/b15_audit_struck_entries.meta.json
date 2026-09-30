@@ -1,0 +1,4 @@
+{
+ "name": "the invariants backscan does not judge struck or stale entries",
+ "expected": "sweep68 b15 F6: struck entries are counted as violations, so the backscan cannot reach zero by cleanup and handled rows hide the ones an operator must act on"
+}

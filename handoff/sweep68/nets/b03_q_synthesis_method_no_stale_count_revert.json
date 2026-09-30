@@ -1,0 +1,12 @@
+[
+  {
+    "module": "pipeline.py",
+    "old": "no per-measure worksheet",
+    "new": "no nine-measure worksheet"
+  },
+  {
+    "module": "pipeline.py",
+    "old": "require a per-measure\n",
+    "new": "require a nine-measure\n"
+  }
+]

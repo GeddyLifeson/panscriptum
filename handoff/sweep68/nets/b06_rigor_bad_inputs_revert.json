@@ -1,0 +1,17 @@
+[
+ {
+  "module": "rigor.py",
+  "old": "    if not n_regimes >= 1:",
+  "new": "    if False:"
+ },
+ {
+  "module": "rigor.py",
+  "old": "                if not -1.0 <= rho <= 1.0:",
+  "new": "                if False:"
+ },
+ {
+  "module": "rigor.py",
+  "old": "    if not n_scored >= 0:",
+  "new": "    if False:"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {
+  "module": "citecheck.py",
+  "old": "_cache[path] = _split_lines(fh.read())",
+  "new": "_cache[path] = fh.read().splitlines()"
+ }
+]

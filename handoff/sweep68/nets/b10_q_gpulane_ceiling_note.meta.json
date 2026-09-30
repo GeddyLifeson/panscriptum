@@ -1,0 +1,4 @@
+{
+ "name": "gpu_lane notes a round that went unarbitrated at the yield ceiling or the slot deadline",
+ "expected": "sweep68 b10 Q6: a timed-out unmetered round is indistinguishable afterwards from one that waited its turn"
+}

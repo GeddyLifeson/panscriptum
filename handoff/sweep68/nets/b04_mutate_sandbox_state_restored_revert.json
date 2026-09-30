@@ -1,0 +1,12 @@
+[
+  {
+    "module": "mutate.py",
+    "old": "    _restore_sandbox_state(root)",
+    "new": "    pass"
+  },
+  {
+    "module": "mutate.py",
+    "old": "                    _scrub_sandbox_halt(root)      # sweep68 b04 F4: see `baseline`",
+    "new": "                    pass"
+  }
+]

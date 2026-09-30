@@ -552,7 +552,7 @@ def stamp(who="?"):
     return digest
 
 
-def _read_ledger():
+def _read_ledger(strict=False):
     """The restart ledger as a dict, or {} if it is absent or unreadable.
 
     ONE READER FOR THREE CALLERS. `_budget_left`, `_take_locked` and `main()` each carried their
@@ -561,11 +561,23 @@ def _read_ledger():
     net drives `_budget_left` while `exit_if_stale` goes through `_take_locked`. An unreadable
     ledger is deliberately not recorded: the ordinary case is a job whose ledger has never been
     written, and a note on every first restart would be noise, not observation.
+
+    `strict` RAISES ON EVERYTHING BUT ABSENCE (sweep68 batch 09, F3, run #68). `_take_locked`
+    spends against this read and then writes the whole doc back, so reading a transiently locked
+    or torn ledger as {} granted a restart over budget AND erased every other job's history.
+    Only a missing file means "no restarts yet"; the spender refuses on anything else.
     """
     try:
         with open(LEDGER, encoding="utf-8") as f:
-            return json.load(f)
+            doc = json.load(f)
+        if not isinstance(doc, dict):
+            raise ValueError("restart ledger is not an object")
+        return doc
+    except FileNotFoundError:
+        return {}
     except Exception:
+        if strict:
+            raise
         return {}
 
 
@@ -657,7 +669,21 @@ def _take_locked(who, enforce):
     restart storm was silently absent. A budget whose accounting can fail unnoticed is not a
     budget. If the spend cannot be recorded, it is not authorised.
     """
-    doc = _read_ledger()
+    # Unreadable is not empty (sweep68 F3): refused, and reported as the ledger fault below.
+    # RETRIED BEFORE REFUSED (run #68, order 3c047095d829): on Windows a read can fail for the
+    # instant another process's atomic replace holds the file, and one such transient miss cost
+    # a slot in verify_math's 20-way concurrency check (19/20). A ledger that stays unreadable
+    # across every attempt still refuses exactly as before.
+    doc = None
+    for _attempt in range(10):
+        try:
+            doc = _read_ledger(strict=True)
+            break
+        except Exception:
+            time.sleep(0.05)
+    if doc is None:
+        silence.note("codewatch.py:ledger-unreadable")
+        return False, 0
     recent = _recent_restarts(doc, who)
     if enforce and len(recent) >= BUDGET_PER_HOUR:
         return False, len(recent)
@@ -1065,7 +1091,8 @@ def exit_if_stale(who="?", rc=RC_STALE):
                    "STALE code on purpose, because bouncing is worse than lag. A person should "
                    "look at what keeps rewriting src/." % (who, used))
         else:
-            why = ("%s could not RECORD a restart in %s (the atomic replace was denied), so "
+            why = ("%s could not RECORD a restart in %s (it could not be read, or the atomic "
+                   "replace was denied), so "
                    "the restart was refused and it is running STALE code. The per-hour restart "
                    "budget cannot be enforced while that file is unwritable, and an unenforced "
                    "budget is how a restart storm starts." % (who, LEDGER))

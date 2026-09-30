@@ -1,0 +1,1 @@
+{"name": "scout copes with a non-object model answer and a string urls value", "expected": "sweep68 b11 N10: a list answer raises out of scout() past every handler (sweep never logs or unstamps); a string urls value is logged as model proposed nothing"}

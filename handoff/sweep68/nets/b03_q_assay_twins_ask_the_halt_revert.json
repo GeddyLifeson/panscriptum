@@ -1,0 +1,7 @@
+[
+  {
+    "module": "halo.py",
+    "old": "    _assert_not_halted(\"(writes data/HALO_ASSAYS.json)\")\n",
+    "new": ""
+  }
+]

@@ -1079,7 +1079,17 @@ def main():
                         print("        line %d" % ln)
                 else:
                     print("      no undeclared residue")
-        return 0
+        # sweep68 b13 Q2, answered under the 2026-09-30 ruling: A MEASUREMENT THAT DID NOT HAPPEN
+        # EXITS NON-ZERO. This returned 0 whatever it printed, so a script could not tell
+        # "measured, clean" from "NOT MEASURED" (coverage missing, verify_math subprocess failed,
+        # one gate module unreadable) -- the shape this project calls a check that cannot fail.
+        # Undeclared unreached lines stay rc 0 on purpose: they are findings that drill.py
+        # ratchets and that owners rule on, and making them red would leave an opt-in slow report
+        # permanently failing. The default static scan below also stays rc 0 for the same reason
+        # (41 findings today under a drill-held ceiling); only the not-measured case is a fault.
+        _not_measured = ("error" in rep
+                         or any("error" in i for i in rep.get("modules", {}).values()))
+        return 1 if _not_measured else 0
     r = scan()
     total = sum(len(v) for v in r.values())
     # THE ITEMISATION IS DERIVED FROM THIS TUPLE, and the summary below is derived from the

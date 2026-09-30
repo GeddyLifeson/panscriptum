@@ -613,8 +613,41 @@ def main():
         description="rebuild output/registry_terminal.html from data/NAVTREE.json"
     ).parse_args()
 
+    # THE PLANT-WIDE INTERLOCK (sweep68 b09 Q2, answered under the 2026-09-30 ruling). This is a
+    # hand-run writer of the library's output, and the 2026-09-28 ruling (orders 1e6f99e54b25 /
+    # 21c075e5e2d6 / 3099138a82bd) made every such tool refuse while the library is HALTED; this
+    # one was left out on the argument that the page is a pure render of NAVTREE.json. That is
+    # the argument against: the render is cheap and harmless. It lost because a halt can be ABOUT
+    # the navtree or the records beneath it, and a hand-run is the one path the supervisor's own
+    # gates never see. `--help` exits in parse_args above, so it still works under a halt.
+    # FAIL CLOSED ON THE IMPORT, as burgs.py's `_assert_not_halted` does.
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    _ESC.assert_clear("build_terminal.py (writes output/registry_terminal.html)")
+
     with open(DATA, encoding="utf-8") as f:
         data = f.read()
+
+    # PARSE BEFORE SPLICING (sweep68 batch 09, F5, run #68). The text went into the page unread,
+    # so an empty, torn or non-JSON NAVTREE.json produced `const DATA = ;` (or half an object),
+    # replaced the last good terminal with a page that throws at load, and exited 0. The JS reads
+    # `roots` and `nodes` first, so a file without both is refused and the old page stays.
+    import json
+    try:
+        doc = json.loads(data)
+        usable = (isinstance(doc, dict) and isinstance(doc.get("roots"), list) and doc["roots"]
+                  and isinstance(doc.get("nodes"), dict) and doc["nodes"])
+    except ValueError:
+        usable = False
+    if not usable:
+        silence.note("build_terminal.py:navtree-unusable")
+        print(f"REFUSED: {DATA} is not a parseable navtree with roots and nodes; "
+              f"{OUT} left as it was")
+        return 1
 
     # NEUTRALISE `<` BEFORE SPLICING JSON INTO AN INLINE <script>. The browser looks for the
     # literal characters `</script>` inside the block without any knowledge of JSON strings, so

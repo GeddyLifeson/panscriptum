@@ -1,0 +1,12 @@
+[
+ {
+  "module": "runguard.py",
+  "old": "    if not _sane_heartbeat(hb, now):\n        return False\n    if (now - hb) < STALE_AFTER_S:",
+  "new": "    if not isinstance(hb, (int, float)):\n        return False\n    if (now - hb) < STALE_AFTER_S:"
+ },
+ {
+  "module": "runguard.py",
+  "old": "print(\"\\nGUARD FAULT: %s\" % fault)",
+  "new": "pass"
+ }
+]

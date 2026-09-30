@@ -1,0 +1,7 @@
+[
+  {
+    "module": "pipeline.py",
+    "old": "    if clash:\n",
+    "new": "    if False:\n"
+  }
+]

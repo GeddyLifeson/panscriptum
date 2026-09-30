@@ -1,0 +1,4 @@
+{
+ "name": "health: rehearsal keys keep no sample in the live evidence ring",
+ "expected": "sweep68 b13 F9b: a self-test key's sample lands in state/failure_samples.json beside real faults"
+}

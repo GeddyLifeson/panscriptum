@@ -1,0 +1,4 @@
+{
+ "name": "a shrink acknowledgement reaching past the last existing link is refused",
+ "expected": "sweep68 b07 Q2: an acknowledgement with hi beyond the chain also waives every future shrink of the ledger"
+}

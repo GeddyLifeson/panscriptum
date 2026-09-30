@@ -1,0 +1,4 @@
+{
+ "name": "DRILL_BREACH closes only on a fresh complete clean drill verdict",
+ "expected": "sweep68 b07 F1: an empty, undated, zero-net or 40-day-old drill_last.json closes the OWNER DRILL_BREACH order"
+}

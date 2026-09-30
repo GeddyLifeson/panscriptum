@@ -126,7 +126,14 @@ def burg_count(world_seed, era, condition, p1=None):
     # here is the same unreachable-key marking as largest_city's below (owner ruling 2026-09-08,
     # order 40e98eed6870, recorded in worldseed.py) -- kept as vocabulary, not dead code.
     factor = {"ruined": 0.3, "wartorn": 0.8, "settled": 1.0, "thriving": 1.15}.get(condition, 1.0)
-    return max(3, int(n * factor))
+    # NEVER PAST THE RULE'S OWN END (sweep68 b09 F6, answered under the 2026-09-30 ruling). The
+    # thriving factor 1.15 ran the count past n = P_1/P_min, and every rank beyond n comes back
+    # from `rank_population` pinned at HAMLET_FLOOR -- the floor-valued FABRICATION `burgs_for`
+    # already refuses for `limit` (13% of a thriving medieval world were exact-40 burgs). A
+    # thriving world is already bigger where the law says it should be, through `largest_city`'s
+    # own 1.6 on P_1, which lengthens n honestly. Ruined and wartorn keep their shorter tail:
+    # losing the living tail is the stated condition effect, and it cuts, never invents.
+    return max(3, min(n, int(n * factor)))
 
 
 def largest_city(world_seed, era, condition):

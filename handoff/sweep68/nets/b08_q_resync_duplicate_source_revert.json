@@ -1,0 +1,7 @@
+[
+ {
+  "module": "resync_roll.py",
+  "old": "        if norm(r[\"name\"]) in dupes:",
+  "new": "        if False:"
+ }
+]

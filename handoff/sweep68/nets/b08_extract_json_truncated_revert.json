@@ -1,0 +1,7 @@
+[
+ {
+  "module": "cascade_bridge.py",
+  "old": "            if isinstance(_e, json.JSONDecodeError) and (",
+  "new": "            if False and ("
+ }
+]

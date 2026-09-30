@@ -1,0 +1,7 @@
+[
+ {
+  "module": "codewatch.py",
+  "old": "        doc = _read_ledger(strict=True)",
+  "new": "        doc = _read_ledger()"
+ }
+]

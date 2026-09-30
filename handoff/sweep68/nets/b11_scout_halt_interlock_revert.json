@@ -1,0 +1,7 @@
+[
+ {
+  "module": "scout.py",
+  "old": "_assert_not_halted(\"(writes WIKI_HOSTS.json, SOURCE_PAGES.json and the scout ledgers)\")",
+  "new": "pass"
+ }
+]

@@ -1,0 +1,4 @@
+{
+ "name": "dashboard: a failed halt read is reported unreadable, not 'running'",
+ "expected": "sweep68 b10 F2: a failed escalation.status() read leaves halted None and the page draws 'running -- no halt standing' in the OK colour"
+}

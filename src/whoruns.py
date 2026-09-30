@@ -116,7 +116,11 @@ def running(want, exclude_self=True, this_tree_only=True):
         if exclude_self and pid == me:
             continue                   # never count the asker
         script = script_of(ON._cmd_tokens(cmd))
-        if not (script and os.path.basename(script) == want):
+        # sweep68 b15 Q6, answered under the 2026-09-30 ruling: NTFS names are case-insensitive,
+        # so `Mutate.py` runs the same file as `mutate.py` and reading it as NOT running was a
+        # confident false negative. A wrapper (`cmd /c`, a .bat) needs no change: its python
+        # child is its own row in the process table and is matched here.
+        if not (script and os.path.basename(script).lower() == want.lower()):
             continue
         if this_tree_only and not ON._in_this_tree(pid, cmd):
             continue                   # a same-named script out of a sandbox or another checkout

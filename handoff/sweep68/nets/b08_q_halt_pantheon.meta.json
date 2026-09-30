@@ -1,0 +1,1 @@
+{"name": "pantheon main refuses to write while the library is halted", "expected": "sweep68 b08 Q6: pantheon.main rebuilds data/PANTHEON.json during a halt"}

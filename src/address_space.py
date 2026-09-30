@@ -500,6 +500,39 @@ def assign_and_mark(designation, tiers):
     return addr, shelfmark(addr, uncharted), uncharted
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool WRITES. -> True, or raises.
+
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` -- that spelling is Hard Rule
+    -1's own incident, a deleted `escalation.py` switching the halt off in eight jobs at once.
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
+def moved_addresses(path, addrs):
+    """Designations already in the standing SHELFMARKS.json whose address `addrs` now changes.
+
+    -> sorted list. An absent standing file moves nothing; one that exists but will not
+    parse is not evidence of a match, so it answers as one moved entry naming that fact.
+    """
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, encoding="utf-8") as f:
+            standing = json.load(f)
+    except Exception:
+        silence.note("address_space.py:standing-shelfmarks")
+        return ["<standing %s unreadable>" % os.path.basename(path)]
+    return sorted(d for d, row in standing.items()
+                  if d in addrs and isinstance(row, dict) and row.get("address") != addrs[d])
+
+
 def main():
     print("=" * 96)
     print(f"THE ADDRESS SPACE — every planet in the omniverse, named in {TOTAL_BITS} bits")
@@ -625,6 +658,29 @@ def main():
             print(f"\n   NOT WRITTEN -> {out}: TIERS.json could not be read "
                   f"({'import-time widths are the fallback floor' if _TC_FROM_FALLBACK else 'no tier rows'}), "
                   f"so these addresses are placeholders. The standing map is kept.")
+            return 1
+        # NOT PUBLISHED OVER A MOVED MAP (sweep68 b08 F3). The upper-tier widths above come from
+        # `max(TIERS.json value) + 1`, so a legitimate re-chart that crosses a power of two
+        # changes a width and moves every packed address and `map_seed` while the printed
+        # shelfmark text stays identical -- and this write then landed it on a plain hand-run.
+        # The hash offsets are floored for exactly this reason (a re-addressing needs an owner
+        # ruling) and the widths had no such floor. Compare with the standing file and refuse if
+        # any designation already published changes address; `--readdress` is the deliberate
+        # override, for when that ruling exists.
+        # THE HALT (sweep68 b08 Q6, answered under the owner's 2026-09-30 ruling). This is the
+        # write path of a hand-run derived-data writer that had no interlock while every corpus
+        # writer refuses under a halt (2026-09-28 ruling). The map is regenerable, but it is the
+        # file pipeline.py and standards.py read as current, and a halt means an invariant is
+        # broken; against that, refusing costs one re-run once the halt is lifted. Asked here,
+        # on the writing path, after the placeholder refusal above and before any comparison
+        # or write; the preview above is a measurement and keeps working.
+        _assert_not_halted("(writes data/SHELFMARKS.json)")
+        _moved = moved_addresses(out, addrs)
+        if _moved and "--readdress" not in sys.argv:
+            print(f"\n   NOT WRITTEN -> {out}: {len(_moved):,} standing address(es) would move "
+                  f"(first: {_moved[0]}). A re-chart changed a tier width or a tier value, so "
+                  f"published map seeds would change while the shelfmark text stays the same. "
+                  f"The standing map is kept; pass --readdress once the owner has ruled on it.")
             return 1
         # ATOMIC: pipeline.py and standards.py both read SHELFMARKS.json.
         #

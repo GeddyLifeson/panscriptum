@@ -1,0 +1,4 @@
+{
+ "name": "silence.instrument keeps the first, pristine .presilence backup",
+ "expected": "sweep68 b12 Q3: a second --instrument run overwrites the pristine backup with an already-instrumented file"
+}

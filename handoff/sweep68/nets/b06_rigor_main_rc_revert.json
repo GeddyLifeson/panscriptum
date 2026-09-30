@@ -1,0 +1,7 @@
+[
+ {
+  "module": "rigor.py",
+  "old": "    return 1 if (_underpriced or _unaccounted or not t[\"both_say_consistent\"]) else 0",
+  "new": "    return 0"
+ }
+]

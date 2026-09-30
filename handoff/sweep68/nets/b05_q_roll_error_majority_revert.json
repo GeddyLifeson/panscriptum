@@ -1,0 +1,7 @@
+[
+ {
+  "module": "feats.py",
+  "old": "        elif _err * 2 > _n:",
+  "new": "        elif _err >= _n:"
+ }
+]

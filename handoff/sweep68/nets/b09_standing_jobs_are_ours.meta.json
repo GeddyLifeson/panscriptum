@@ -1,0 +1,4 @@
+{
+ "name": "foreman recognises the keeper's real STANDING command lines as this tree's processes",
+ "expected": "sweep68 b09 F1: every absolutely-pathed STANDING job reads as another tree's, so restart_reader, kill_stalled_job and kill_duplicate_jobs are silent no-ops against the live jobs"
+}

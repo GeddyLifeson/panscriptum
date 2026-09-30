@@ -288,6 +288,25 @@ def _probe(url, timeout=8):
         return "UNREACHABLE (%s: %s)" % (type(e).__name__, e)
 
 
+def _assert_not_halted(what):
+    """THE PLANT-WIDE INTERLOCK, asked before this hand-run tool (main --write; write_views itself is the publish cycle's and is gated there) WRITES. -> True, or raises.
+
+    Added under sweep68 b13 Q5, answered under the 2026-09-30 ruling (the class question 67/12
+    Q7): a derived-data writer that a person can run by hand never sees the supervisor's gates,
+    and a halt means a library-wide invariant is broken and nothing may proceed on uncertain
+    ground. Tightening, so decided here. DELIBERATELY NARROW: asked on the WRITING path only,
+    after the arguments are parsed, so measurements and dry runs keep working under a halt.
+    FAIL CLOSED ON THE IMPORT, never `except ImportError: pass` (Hard Rule -1's own incident).
+    """
+    try:
+        import escalation as _ESC
+    except ImportError as _esc_gone:
+        raise SystemExit(
+            "REFUSING TO WRITE: the escalation chain (src/escalation.py) could not be "
+            "imported (%s), so the halt cannot be read. Hard Rule -1." % _esc_gone) from _esc_gone
+    return _ESC.assert_clear("%s %s" % (os.path.basename(__file__), what))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
@@ -309,6 +328,9 @@ def main():
     # CHECK BEFORE INDEXING (order 9f75ae0b8d96), as `write_views()` below already does. On a
     # fresh tree with no worlds these two lookups raised IndexError / StopIteration instead of
     # saying what was missing.
+    # `limit=1` is deliberate and is NOT a cap on data (sweep68 b13 Q1): it only fetches one world
+    # for the map seed that formats the DEMONSTRATION url of the four fetched tiers below, which
+    # are addressed with fixed ids anyway. Nothing published or written reads it.
     built = WS.build_all(limit=1)
     worlds = tree.get("worlds") or {}
     if not built or not worlds:
@@ -336,7 +358,9 @@ def main():
                 probes[t] = _probe(v["url"])
         else:
             v = view(t, coord=sample, tree=tree)
-            rows.append((t, "svg", f"{v['children']} children, {len(v['svg']):,} bytes"))
+            rows.append((t, "svg", f"{len(nodes_of(t, tree))} nodes drawn by --write; "
+                                   f"sample node: {v['children']} children, "
+                                   f"{len(v['svg']):,} bytes"))
     for t, k, how in rows:
         print(f"{t:<14}{k:<8}{how}")
         if t in probes:
@@ -357,19 +381,51 @@ def main():
               "-- their URLs were formatted, not contacted (pass --probe to check reachability)")
 
     if args.write:
-        landed, denied = write_views(tree=tree, sample=sample)
+        _assert_not_halted("--write (writes output/views/)")
+        landed, denied = write_views(tree=tree)
         if denied:
             # NOT "wrote N diagrams". A discarded write verdict is what makes a file that did not
             # change look exactly like one that did.
-            print("WROTE %d of %d diagrams to output/views/ -- %d did NOT land: %s. The files "
+            print("WROTE %d of %d diagrams to output/views/<tier>/ -- %d did NOT land: %s. The files "
                   "named here are the PREVIOUS run's, or absent."
-                  % (landed, len(DRAWN), len(denied), ", ".join(denied)))
+                  % (landed, landed + len(denied), len(denied), ", ".join(denied)))
             return 1
         print(f"wrote {landed} diagrams to output/views/")
     return 0
 
 
-def write_views(tree=None, sample=None):
+def nodes_of(tier, tree=None):
+    """Every distinct node at a DRAWN tier, each as the whole coordinate that names it.
+
+    sweep68 b13 Q1, answered under the 2026-09-30 ruling: `write_views` drew ONE world's node per
+    tier (`next(iter(worlds.values()))`) into `<tier>.svg`, so `hyperverse.svg` read as THE
+    hyperverse diagram while 5 of the 6 hyperverses (and 349 of 350 universes) were never drawn.
+    That is a sample standing in for a listing, which CLAUDE.md Hard Rule 0 forbids by name. The
+    other side, argued: nothing consumes output/views (it is not published) and a specimen per
+    tier is enough to see the shape. Rejected -- the file NAME claims to be the tier's view, the
+    cost of drawing all of them is small (623 tiny SVGs on the live tree), and the SEVENFOLD tree
+    already says exactly which nodes exist. Same pools `children_of` reads, so a node exists here
+    iff it can be asked for. -> {filename: coord}, deterministic, in sorted order.
+    """
+    tree = tree if tree is not None else _tree()
+    idx = TIER_ORDER.index(tier)
+    prefix = TIER_ORDER[:idx + 1]
+    out = {}
+    pools = {**tree.get("sources", {}), **tree.get("worlds", {})}
+    for c in pools.values():
+        if not isinstance(c, dict) or any(t not in c for t in prefix):
+            continue
+        coord = {t: c[t] for t in prefix}
+        key = json.dumps(coord, sort_keys=True)
+        # readable AND collision-free: the id parts, then a short hash of the exact coordinate
+        # (two coordinates that differ only in punctuation would otherwise share a file name).
+        stem = "-".join(str(coord[t]) for t in prefix)
+        stem = "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in stem)
+        out[f"{stem}.{hashlib.sha256(key.encode()).hexdigest()[:8]}.svg"] = coord
+    return dict(sorted(out.items()))
+
+
+def write_views(tree=None):
     """Draw every DRAWN tier into output/views/. -> (landed, [what did not land]).
 
     A FUNCTION, NOT A BRANCH OF `main()` (order 707fefc17465, owner ruling 9 of 2026-09-08:
@@ -383,15 +439,12 @@ def write_views(tree=None, sample=None):
     `main()` above is now one of its two callers and behaves exactly as before.
     """
     tree = tree if tree is not None else _tree()
-    if sample is None:
-        # THE COORDINATE MUST NAME A NODE, WHOLE. `children_of` refuses a partial coordinate --
-        # see its own guard -- so the sample is taken from the tree's charted worlds rather than
-        # assembled here, and an empty tree is an honest refusal instead of a diagram of
-        # everything pooled together under one label.
-        worlds = tree.get("worlds") or {}
-        if not worlds:
-            return 0, ["SEVENFOLD.json charts no worlds, so no coordinate names a node"]
-        sample = next(iter(worlds.values()))
+    # THE COORDINATE MUST NAME A NODE, WHOLE. `children_of` refuses a partial coordinate, so every
+    # node is enumerated from the tree's own charted coordinates by `nodes_of` rather than
+    # assembled here, and an empty tree is an honest refusal instead of a diagram of everything
+    # pooled together under one label.
+    if not (tree.get("worlds") or {}):
+        return 0, ["SEVENFOLD.json charts no worlds, so no coordinate names a node"]
     # ATOMIC, AND THE VERDICT IS READ (order c738ca184269). This was a bare
     # `open(p, "w") ... f.write(...)` per file -- a truncate-then-fill, with no check that
     # the write succeeded at all. It is the defect class `worldseed.py`'s own --write path
@@ -411,11 +464,25 @@ def write_views(tree=None, sample=None):
     # known concurrent reader" -- is the thing the wiring changed, and the atomic write is what
     # makes the change safe rather than merely tidy.
     out = os.path.join(HERE, "output", "views")
-    os.makedirs(out, exist_ok=True)
     landed, denied = 0, []
+    # Every node of every drawn tier, one file each under output/views/<tier>/ (b13 Q1). The old
+    # `<tier>.svg` files, if present, are the previous single-sample output and are left in place.
+    jobs = []
     for t in DRAWN:
-        v = view(t, coord=sample, tree=tree)
-        p = os.path.join(out, f"{t}.svg")
+        os.makedirs(os.path.join(out, t), exist_ok=True)
+        for fname, coord in nodes_of(t, tree).items():
+            jobs.append((t, os.path.join(out, t, fname), coord))
+    for t, p, coord in jobs:
+        v = view(t, coord=coord, tree=tree)
+        # Unchanged content is not rewritten: this runs every publish cycle over hundreds of
+        # files, and a rewrite of identical bytes buys nothing but fsyncs and a chance to be denied.
+        try:
+            with open(p, encoding="utf-8") as f:
+                if f.read() == v["svg"]:
+                    landed += 1
+                    continue
+        except OSError:
+            pass
         tmp = "%s.%d.%d.tmp" % (p, os.getpid(), threading.get_ident())
         try:
             with open(tmp, "w", encoding="utf-8") as f:
@@ -426,14 +493,14 @@ def write_views(tree=None, sample=None):
             with contextlib.suppress(Exception):
                 os.remove(tmp)
             silence.note("render.py:view-tmp")
-            denied.append("%s.svg (%s)" % (t, type(e).__name__))
+            denied.append("%s/%s (%s)" % (t, os.path.basename(p), type(e).__name__))
             continue
         if silence.replace_retry(tmp, p):
             landed += 1
         else:
             with contextlib.suppress(Exception):
                 os.remove(tmp)
-            denied.append("%s.svg (replace denied)" % t)
+            denied.append("%s/%s (replace denied)" % (t, os.path.basename(p)))
     return landed, denied
 
 

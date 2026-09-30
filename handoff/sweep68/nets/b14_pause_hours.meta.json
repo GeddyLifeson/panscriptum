@@ -1,0 +1,1 @@
+{"name": "escalation.pause refuses a non-positive or non-finite duration", "expected": "sweep68 b14 F7: --hours 0 writes an indefinite pause and --hours -2 writes an already-expired one that reports landed"}

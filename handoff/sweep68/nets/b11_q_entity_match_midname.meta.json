@@ -1,0 +1,1 @@
+{"name": "entity_match gates every parenthetical group, not only the trailing one", "expected": "sweep68 b11 N6: a differing mid-name continuity marker in front of a shared trailing qualifier is fuzzy-scored and best() returns STRONG, merging two continuities"}

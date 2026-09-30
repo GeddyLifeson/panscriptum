@@ -1,0 +1,7 @@
+[
+ {
+  "module": "catalogue_codex.py",
+  "old": "                            if min(len(n), len(k)) >= SUBSTRING_MIN_NORM and (n in k or k in n)})",
+  "new": "                            if n in k or k in n})"
+ }
+]

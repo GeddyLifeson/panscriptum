@@ -1,0 +1,7 @@
+[
+ {
+  "module": "liveness.py",
+  "old": "        return 1 if _not_measured else 0",
+  "new": "        return 0"
+ }
+]

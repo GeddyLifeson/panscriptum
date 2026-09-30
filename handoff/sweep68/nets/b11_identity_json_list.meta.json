@@ -1,0 +1,1 @@
+{"name": "identity._json turns a non-text, non-object answer into an unprobed epoch", "expected": "sweep68 b11 N12: a JSON-list model answer raises TypeError out of epoch_of(strict=True), past adjudicate_mutuals' only handler, ending the chain pass"}

@@ -323,6 +323,42 @@ def rerun_roll():
     return False, "roll is not running -- the supervisor starts it next cycle"
 
 
+def _clear_archived(path, archived, attempts=5):
+    """Subtract `archived` from the live failures ledger under compare-and-swap. -> bool.
+
+    SUBTRACT WHAT WAS ARCHIVED, NEVER WRITE {} (sweep68 b09 F10 residue, answered under the
+    2026-09-30 ruling). `triage_swallowed` read the ledger, archived it, then wrote `{}` blind, so
+    any count `health.flush` landed between the read and the clear was erased with nothing
+    recording it -- the lost update `health._flush_ledger` was rebuilt around (order
+    d770b1896635), reintroduced by the one other writer of the same file. This takes the digest
+    before each read and lands through `silence.replace_if_unchanged`, the primitive health's own
+    CAS uses, so a flush that lands in between refuses this write and is re-read and kept.
+    A refusal on every attempt answers False: the ledger is left intact and the batch archives
+    again next round, which is the existing (over-counting, never losing) failure direction.
+    """
+    import threading as _th
+    for _attempt in range(attempts):
+        digest = silence.digest_of(path)
+        with open(path, encoding="utf-8") as f:
+            cur = json.load(f)
+        if not isinstance(cur, dict):
+            return False
+        rest = {k: v - archived.get(k, 0) for k, v in cur.items() if v - archived.get(k, 0) > 0}
+        tmp = "%s.%d.%d.tmp" % (path, os.getpid(), _th.get_ident())
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(rest, f, indent=1)
+        ok, _why = silence.replace_if_unchanged(tmp, path, digest)
+        if ok:
+            return True
+        try:
+            os.remove(tmp)
+        except OSError:
+            silence.note("foreman.py:clear-archived-tmp")
+        time.sleep(0.05 * (_attempt + 1))
+    silence.note("foreman.py:clear-archived-contended")
+    return False
+
+
 def triage_swallowed():
     """A spike in swallowed failures means something upstream is failing and being tolerated.
 
@@ -380,7 +416,16 @@ def triage_swallowed():
         if os.path.exists(arch):
             with open(arch, encoding="utf-8") as f:
                 prev = json.load(f)
-        prev[time.strftime("%Y-%m-%d %H:%M")] = d
+        # MERGED INTO THE MINUTE, NOT WRITTEN OVER IT (sweep68 batch 09, F10, run #68). Two
+        # archives in the same minute (two foremen are allowed, or a hand-run beside the daemon)
+        # used to overwrite each other, and the first batch's counts had already been cleared
+        # from the live ledger into the key the second one replaced.
+        key = time.strftime("%Y-%m-%d %H:%M")
+        slot = prev.get(key)
+        merged = d
+        if isinstance(slot, dict):
+            merged = dict(slot, **{k: slot.get(k, 0) + v for k, v in d.items()})
+        prev[key] = merged
         # Both atomic. state/failures.json is the highest-traffic shared file in the project --
         # the dashboard polls it, standards reads it, and EVERY process read-modify-writes it
         # through health.flush(). Truncating it with a bare open() is the one write here that
@@ -402,7 +447,7 @@ def triage_swallowed():
         if not silence.write_json(arch, prev, indent=1):
             return False, "failures archive write DENIED; ledger left INTACT rather than " \
                           "cleared into nothing"
-        if not silence.write_json(path, {}, indent=1):
+        if not _clear_archived(path, d):
             return False, f"{total:,} archived, but clearing state/failures.json was DENIED; " \
                           f"the same batch will archive again next round"
     except Exception as e:
@@ -601,7 +646,17 @@ def _python_processes():
     return rows
 
 
-_SCRIPT_RE = _re_mod.compile(r'([A-Za-z]:[\\/][^"]*?[\\/])?src[\\/](\w+)\.py"?(.*)$')
+# THE PREFIX MAY NOT CROSS AN ARGUMENT BOUNDARY (sweep68 batch 09, F1, run #68). The unquoted
+# prefix class was `[^"]*?`, and `list2cmdline` quotes only arguments that contain spaces, so the
+# keeper's real line `C:\...\pythonw.exe -u C:\...\kit\src\publish.py --push` let the prefix start
+# at the INTERPRETER's drive letter and run across the spaces to `src\`. Every STANDING job (each
+# is launched as `[PY, "-u", os.path.join(SRC, ...)]`) then read as another tree's process, and
+# restart_reader, kill_stalled_job and kill_duplicate_jobs became silent no-ops. The drill net
+# could not see it because it scripted its rows as `"py" "<script>"`, a shape list2cmdline never
+# produces here. An unquoted prefix now excludes whitespace; a quoted one (a path with spaces)
+# must open right after its quote. Still group 1 / 2 / 3, so every reader is unchanged.
+_SCRIPT_RE = _re_mod.compile(
+    r'((?<=")[A-Za-z]:[\\/][^"]*?[\\/]|[A-Za-z]:[\\/][^"\s]*?[\\/])?src[\\/](\w+)\.py"?(.*)$')
 
 
 def _foreign_prefix(prefix):
@@ -1415,6 +1470,109 @@ def _stop_ollama():
                    capture_output=True, text=True, timeout=60, creationflags=_NO_WIN)
 
 
+OLLAMA_PORT = 11434
+
+
+def _ollama_table():
+    """-> [{pid, ppid, name, cmdline, created}] for every Ollama process, or None if unreadable."""
+    try:
+        import psutil
+        rows = []
+        for p in psutil.process_iter(["pid", "ppid", "name", "cmdline", "create_time"]):
+            name = (p.info.get("name") or "").lower()
+            if name in OLLAMA_DAEMON_IMAGES:
+                rows.append({"pid": p.info["pid"], "ppid": p.info.get("ppid"), "name": name,
+                             "cmdline": " ".join(p.info.get("cmdline") or []).lower(),
+                             "created": p.info.get("create_time") or 0.0})
+        return rows
+    except Exception:
+        silence.note("foreman.py:ollama-table")
+        return None
+
+
+def _ollama_port_owner():
+    """-> pid LISTENING on 11434, or None when nobody is or it cannot be read."""
+    try:
+        import psutil
+        for c in psutil.net_connections(kind="tcp"):
+            if (c.status == psutil.CONN_LISTEN and c.laddr and c.laddr.port == OLLAMA_PORT
+                    and c.pid):
+                return c.pid
+    except Exception:
+        silence.note("foreman.py:ollama-port-owner")
+    return None
+
+
+def _pid_created(pid):
+    """-> the live process's start time, or None if it is not alive."""
+    try:
+        import psutil
+        return psutil.Process(pid).create_time()
+    except Exception:
+        return None
+
+
+def _kill_pid(pid):
+    try:
+        import psutil
+        psutil.Process(pid).kill()
+        return True
+    except Exception:
+        silence.note("foreman.py:ollama-reap-kill")
+        return False
+
+
+def reap_ollama_orphans(table=None, port_owner=None, created=None, kill=None):
+    """End Ollama runners and daemons nothing will ever use again. -> (did, what).
+
+    ORPHANED RUNNERS PIN VRAM FOR EVER. Ollama spawns one runner per loaded model --
+    `llama-server.exe`, or `ollama.exe runner ...` on newer builds -- and on this machine they
+    routinely outlive the daemon that started them: three were once found holding ~8 GB of a
+    10 GB card with no model loaded, which silently pushed every later model onto the CPU.
+    The only remedy was `restart_ollama`, which kills EVERYTHING including the live runner,
+    and it ran only on a liveness breach. This runs every round and is surgical:
+
+      * a RUNNER whose parent is dead, or whose parent pid now belongs to a younger process
+        (a recycled pid), is an orphan;
+      * a second DAEMON (`ollama serve`) that does not hold port 11434 while another process
+        does is a duplicate, and it and its runners are ended.
+
+    FAIL CLOSED: an unreadable process table reaps nothing, and duplicates are judged only when
+    the port owner is known. The live daemon, its runners and the tray are never touched.
+    The four arguments exist so the drill can drive this against a scripted table.
+    """
+    table = _ollama_table() if table is None else table
+    if table is None:
+        return False, "process table unreadable; reaped nothing"
+    port_owner = _ollama_port_owner() if port_owner is None else port_owner
+    created = created or _pid_created
+    kill = kill or _kill_pid
+
+    def is_daemon(r):
+        return r["name"] == "ollama.exe" and " runner" not in r["cmdline"]
+
+    doomed = {}
+    if port_owner:
+        for r in table:
+            if is_daemon(r) and r["pid"] != port_owner and "serve" in r["cmdline"]:
+                doomed[r["pid"]] = "duplicate daemon (port %d is held by pid %d)" % (
+                    OLLAMA_PORT, port_owner)
+    for r in table:
+        if is_daemon(r):
+            continue
+        parent_start = created(r["ppid"]) if r.get("ppid") else None
+        if parent_start is None or parent_start > r["created"]:
+            doomed[r["pid"]] = "orphaned runner (parent %s is gone)" % r.get("ppid")
+        elif r["ppid"] in doomed:
+            doomed[r["pid"]] = "runner of a duplicate daemon"
+    if not doomed:
+        return False, "no orphaned Ollama runners or duplicate daemons"
+    ended = [pid for pid in doomed if kill(pid)]
+    what = "; ".join("%d %s%s" % (pid, why, "" if pid in ended else " -- KILL FAILED")
+                     for pid, why in sorted(doomed.items()))
+    return bool(ended), "reaped %d of %d: %s" % (len(ended), len(doomed), what)
+
+
 def _ollama_answers(first_wait=12, tries=6, gap=5):
     """Wait for localhost:11434 to answer /api/tags. -> True if it did."""
     import urllib.request as _ur
@@ -1668,9 +1826,18 @@ PATCH_SCHEMA = {
 def _function_source(path, symbol):
     """The source of one top-level function or method, with its line span."""
     import ast as _ast
+    import io as _io
     with open(path, encoding="utf-8") as f:
         src = f.read()
     tree = _ast.parse(src)
+    # SLICED THE WAY `attempt_patch` WRITES (sweep68 batch 09, F4, run #68). This was
+    # `src.splitlines(keepends=True)`, which also breaks on U+2028, U+0085, U+001C-U+001E, form
+    # feed and vertical tab -- none of which `ast` counts as a line end, and none of which the
+    # writer's `f.readlines()` splits on. One such character inside a string above the target
+    # shifted the slice: the model was shown a different body from the span
+    # `lines[start:end] = [new]` replaced on disk. StringIO splits on newline only, exactly as
+    # the writer does.
+    lines = _io.StringIO(src).readlines()
     dotted = symbol.split("(")[0].strip()
     want = dotted.split(".")[-1]
     # HONOUR THE QUALIFIER WHEN THE FILE ACTUALLY HAS ONE. `symbol` may arrive qualified
@@ -1695,13 +1862,11 @@ def _function_source(path, symbol):
         _scopes(tree, [])
         node = qualified.get(dotted)
         if isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef)):
-            lines = src.splitlines(keepends=True)
             start = node.lineno - 1
             end = getattr(node, "end_lineno", node.lineno)
             return "".join(lines[start:end]), start, end
     for node in _ast.walk(tree):
         if isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef)) and node.name == want:
-            lines = src.splitlines(keepends=True)
             start = node.lineno - 1
             end = getattr(node, "end_lineno", node.lineno)
             return "".join(lines[start:end]), start, end
@@ -2189,6 +2354,19 @@ def round_once(dry=True, patch=False):
     import standards as ST
     log = {"at": time.strftime("%Y-%m-%d %H:%M:%S"), "auto": [], "model": [], "owner": []}
 
+    # HOUSEKEEPING EVERY ROUND, not on a breach: an orphaned Ollama runner breaks no standard
+    # until its VRAM has already pushed a model onto the CPU. See `reap_ollama_orphans`.
+    if not dry:
+        try:
+            _did, _what = reap_ollama_orphans()
+        except Exception as e:
+            _did, _what = False, "reaper raised %s: %s" % (type(e).__name__, str(e)[:110])
+            silence.note("foreman.py:reap-ollama-raised")
+        if _did:
+            print(f"   AUTO   housekeeping -> reap_ollama_orphans: {_what}")
+            log["auto"].append({"standard": "housekeeping", "remedy": "reap_ollama_orphans",
+                                "did": True, "what": _what})
+
     orders = ST.work_orders()
     print(f"{len(orders)} work order(s) open")
 
@@ -2337,7 +2515,13 @@ def main():
     ap.add_argument("--patch", action="store_true",
                     help="also let the model attempt code repairs (guarded, auto-reverting)")
     ap.add_argument("--loop", type=float, default=0, help="keep going, minutes apart")
+    ap.add_argument("--reap-ollama", action="store_true",
+                    help="end orphaned Ollama runners and duplicate daemons now, then exit")
     a = ap.parse_args()
+    if a.reap_ollama:
+        did, what = reap_ollama_orphans()
+        print(what)
+        return 0
     import codewatch
     # ONE OF ME. Two `publish.py` daemons were observed running seventeen seconds
     # apart on 2026-08-25 after a restart race, and two writers into one export repo
