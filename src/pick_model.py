@@ -97,7 +97,10 @@ MOE_MARKERS = ["a3b", "a22b", "gpt-oss", "mixtral"]
 # absolute terms. The picker now refuses any model whose weights + context KV cannot sit
 # entirely in the card's VRAM; disqualified models are still LISTED with the reason, never
 # silently hidden. KV_GB budgets ~8k ctx at q8_0 across OLLAMA_NUM_PARALLEL=2.
-RESIDENT_ONLY = True
+# OWNER RULING 2026-10-01 REVERSES THE ABOVE: GPU + RAM SPLIT IS ALLOWED. The standing local
+# model is now gpt-oss:20b (13GB MoE, measured 19 tok/s at 59% GPU / 41% CPU on this card).
+# Refused models were listed, never hidden; with the gate off they are scored like any other.
+RESIDENT_ONLY = False
 KV_GB = 1.2
 VRAM_RESERVE_GB = 1.0          # driver + desktop float; subtracted from the card's total
 
