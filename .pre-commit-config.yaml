@@ -1,0 +1,23 @@
+# One check before every commit; pre-commit.ci also runs it on PRs (free for public repos, no Actions):
+#   pip install pre-commit && pre-commit install      once per clone
+#   .secrets.baseline lists the known fake tokens in tests and audit notes (all checked 2026-10-21).
+repos:
+  - repo: local
+    hooks:
+      - id: no-tokens
+        name: no committed tokens
+        entry: detect-secrets-hook --baseline .secrets.baseline --disable-plugin HexHighEntropyString --disable-plugin Base64HighEntropyString
+        language: python
+        additional_dependencies: [detect-secrets==1.5.0]
+      - id: python-bugs
+        name: python syntax and undefined names
+        entry: ruff check --select E9,F63,F7,F82
+        language: python
+        types: [python]
+        additional_dependencies: [ruff==0.17.1]
+      - id: shell-bugs
+        name: shell errors
+        entry: shellcheck -S error
+        language: python
+        types: [shell]
+        additional_dependencies: [shellcheck-py==0.11.0.1]
