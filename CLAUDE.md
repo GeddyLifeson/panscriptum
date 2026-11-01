@@ -1,3 +1,5 @@
+> **Master rules override this file.** Read `/mnt/project-files/CLAUDE.md` first. Where this file says to use a local Ollama or other local model, that is superseded: Marlon banned local models on the PC and laptop (2026-10-21). Bulk model work goes to ModelRouter and free lanes, then the Claude API job folder, then a Claude session. Everything else below still stands.
+
 # The Panscriptum — Library of Babel Book-Generation Kit
 
 You are Claude Code, running locally with real filesystem and shell access on the owner's
